@@ -1,6 +1,7 @@
 /* File: io_format_writer.c; Copyright and License: see below */
 
 #include "io_format_writer.h"
+#include "util/string/utf8string.h"
 #include "trace.h"
 #include "tslog.h"
 #include <stdio.h>
@@ -23,167 +24,201 @@
 /* IO_FILE_FORMAT_DOCBOOK */
 
 static const char DOCBOOK_ENC[]
-= "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+    = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 static const char DOCBOOK_DOC_START[]
-= "<book xmlns=\"http://docbook.org/ns/docbook\" version=\"5.0\" xml:lang=\"en\">\n";
+    = "<book xmlns=\"http://docbook.org/ns/docbook\" version=\"5.0\" xml:lang=\"en\">\n";
 static const char DOCBOOK_DOC_TITLE_START[]
-= "    <title>";
+    = "    <title>";
 static const char DOCBOOK_DOC_TITLE_END[]
-= "</title>\n";
+    = "</title>\n";
 static const char DOCBOOK_DOC_END[]
-= "</book>\n";
+    = "</book>\n";
 
 static const char DOCBOOK_TOP_DIAGRAM_START[]
-= "    <chapter xml:id=\"";
+    = "    <chapter xml:id=\"";
 static const char DOCBOOK_TOP_DIAGRAM_MIDDLE[]
-= "\">\n";
+    = "\">\n";
 static const char DOCBOOK_TOP_DIAGRAM_END[]
-= "    </chapter>\n";
+    = "    </chapter>\n";
 static const char DOCBOOK_DIAGRAM_START[]
-= "    <section xml:id=\"";
+    = "    <section xml:id=\"";
 static const char DOCBOOK_DIAGRAM_MIDDLE[]
-= "\">\n";
+    = "\">\n";
 static const char DOCBOOK_DIAGRAM_TITLE_START[]
-= "        <title>";
+    = "        <title>";
 static const char DOCBOOK_DIAGRAM_TITLE_END[]
-= "</title>\n";
+    = "</title>\n";
 static const char DOCBOOK_DIAGRAM_IMG_START[]
-= "\n        <para>\n"
-"            <mediaobject>\n"
-"                <imageobject><imagedata fileref=\"";
+    = "\n"
+      "        <para>\n"
+      "            <mediaobject>\n"
+      "                <imageobject><imagedata fileref=\"";
 static const char DOCBOOK_DIAGRAM_IMG_MIDDLE[]
-= ".pdf\" width=\"12cm\"/></imageobject>\n"
-"                <imageobject><imagedata fileref=\"";
+    = ".pdf\" width=\"12cm\"/></imageobject>\n"
+      "                <imageobject><imagedata fileref=\"";
 static const char DOCBOOK_DIAGRAM_IMG_END[]
-= ".png\"/></imageobject>\n"
-"            </mediaobject>\n"
-"        </para>\n";
+    = ".png\"/></imageobject>\n"
+      "            </mediaobject>\n"
+      "        </para>\n";
 static const char DOCBOOK_DIAGRAM_END[]
-= "    </section>\n";
-
-static const char DOCBOOK_ELEMENT_LIST_START[]
-= "        <variablelist>\n";
-static const char DOCBOOK_ELEMENT_START[]
-= "            <varlistentry>\n";
-static const char DOCBOOK_ELEMENT_NAME_START[]
-= "                <term>\n";
-static const char DOCBOOK_ELEMENT_NAME_END[]
-= "\n                </term>\n"
-"                <listitem>\n"
-"                    <para>\n";
-static const char DOCBOOK_ELEMENT_ID_START[]
-= "                <token>";
-static const char DOCBOOK_ELEMENT_ID_END[]
-= "<token>\n";
-static const char DOCBOOK_ELEMENT_END[]
-= "\n                    </para>\n"
-"                </listitem>\n"
-"            </varlistentry>\n";
-static const char DOCBOOK_ELEMENT_LIST_END[]
-= "        </variablelist>\n";
+    = "    </section>\n";
 
 static const char DOCBOOK_DESCRIPTION_START[]
-= "        <para>\n";
-static const char DOCBOOK_DESCRIPTION_MIDDLE[]
-= "\n        </para>\n        <para>\n";
+    = "        <para>\n";
+static const char DOCBOOK_DESCRIPTION_MIDDLE[]  /* optional */
+    = "\n"
+      "        </para>\n"
+      "        <para>\n";
 static const char DOCBOOK_DESCRIPTION_XREF_START[]
-= "<xref linkend=\"";
+    = "<xref linkend=\"";
 static const char DOCBOOK_DESCRIPTION_XREF_MIDDLE[]
-= "\"/>: ";
+    = "\"/>: ";
 static const char DOCBOOK_DESCRIPTION_XREF_END[]
-= "";
+    = "";
 static const char DOCBOOK_DESCRIPTION_END[]
-= "\n        </para>\n";
+    = "\n"
+      "        </para>\n";
+
+static const char DOCBOOK_ELEMENT_LIST_START[]
+    = "        <variablelist>\n";
+static const char DOCBOOK_ELEMENT_START[]
+    = "            <varlistentry>\n";
+static const char DOCBOOK_ELEMENT_NAME_START[]
+    = "                <term>";
+static const char DOCBOOK_ELEMENT_NAME_END[]
+    = "</term>\n";
+static const char DOCBOOK_ELEMENT_ID_START[]
+    = "                <listitem>\n"
+      "                    <para><token>";
+static const char DOCBOOK_ELEMENT_ID_END[]
+    = "</token></para>\n";
+static const char DOCBOOK_ELEMENT_DESCR_START[]  /* optional */
+    = "                    <para>\n";
+static const char DOCBOOK_ELEMENT_DESCR_END[]  /* optional */
+    = "\n"
+      "                    </para>\n";
+static const char DOCBOOK_ELEMENT_END[]
+    = "                </listitem>\n"
+      "            </varlistentry>\n";
+static const char DOCBOOK_ELEMENT_LIST_END[]
+    = "        </variablelist>\n";
 
 
 /* IO_FILE_FORMAT_XHTML */
 
 enum XHTML_DIAGRAM_MAX { XHTML_DIAGRAM_MAX_DEPTH = 6, };
 static const char XHTML_ENC[]
-= "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n";
+    = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n";
 static const char XHTML_DTD[]
-= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n";
+    = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n";
 static const char XHTML_DOC_START[]
-= "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
+    = "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
 static const char XHTML_HEAD_START[]
-= "    <head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />";
+    = "    <head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />";
 static const char XHTML_HEAD_TITLE_START[]
-= "        <title>";
+    = "        <title>";
 static const char XHTML_HEAD_TITLE_END[]
-= "</title>\n";
+    = "</title>\n";
 static const char XHTML_HEAD_CSS_START[]
-= "        <link rel=\"stylesheet\" type=\"text/css\" href=\"";
+    = "        <link rel=\"stylesheet\" type=\"text/css\" href=\"";
 static const char XHTML_HEAD_CSS_END[]
-= ".css\" />\n";
+    = ".css\" />\n";
 static const char XHTML_HEAD_END[]
-= "    </head>\n";
+    = "    </head>\n";
 static const char XHTML_BODY_START[]
-= "    <body>\n";
+    = "    <body>\n";
 static const char XHTML_BODY_END[]
-= "    </body>\n";
+    = "    </body>\n";
 static const char XHTML_DOC_END[]
-= "</html>\n";
+    = "</html>\n";
 static const char XHTML_TOC_SUBLIST_START[]
-= "        <ul class=\"toc\">\n";
+    = "        <ul class=\"toc\">\n";
 static const char *XHTML_TOC_SUBLIST_ENTRY_START[XHTML_DIAGRAM_MAX_DEPTH]
-= {"            <li class=\"toc1\">\n","            <li class=\"toc2\">\n","            <li class=\"toc3\">\n",
-   "            <li class=\"toc4\">\n","            <li class=\"toc5\">\n","            <li class=\"toc6\">\n"};
+    = {
+      "            <li class=\"toc1\">\n",
+      "            <li class=\"toc2\">\n",
+      "            <li class=\"toc3\">\n",
+      "            <li class=\"toc4\">\n",
+      "            <li class=\"toc5\">\n",
+      "            <li class=\"toc6\">\n"
+      };
 static const char XHTML_TOC_SUBLIST_ENTRY_TITLE_START[]
-= "                <a href=\"#";
+    = "                <a href=\"#";
 static const char XHTML_TOC_SUBLIST_ENTRY_TITLE_MIDDLE[]
-= "\">";
+    = "\">";
 static const char XHTML_TOC_SUBLIST_ENTRY_TITLE_END[]
-= "</a>\n";
+    = "</a>\n";
 static const char XHTML_TOC_SUBLIST_ENTRY_END[]
-= "            </li>\n";
+    = "            </li>\n";
 static const char XHTML_TOC_SUBLIST_END[]
-= "        </ul>\n";
+    = "        </ul>\n";
 
 static const char XHTML_DIAGRAM_START[]
-= "        <div class=\"diagram\" id=\"";
+    = "        <div class=\"diagram\" id=\"";
 static const char XHTML_DIAGRAM_MIDDLE[]
-= "\">\n";
+    = "\">\n";
 static const char *XHTML_DIAGRAM_TITLE_START[XHTML_DIAGRAM_MAX_DEPTH]
-= {"            <h1 class=\"title\">","            <h2 class=\"title\">","            <h3 class=\"title\">",
-   "            <h4 class=\"title\">","            <h5 class=\"title\">","            <h6 class=\"title\">"};
+    = {
+      "            <h1 class=\"title\">",
+      "            <h2 class=\"title\">",
+      "            <h3 class=\"title\">",
+      "            <h4 class=\"title\">",
+      "            <h5 class=\"title\">",
+      "            <h6 class=\"title\">"
+      };
 static const char *XHTML_DIAGRAM_TITLE_END[XHTML_DIAGRAM_MAX_DEPTH]
-= {"</h1>\n","</h2>\n","</h3>\n","</h4>\n","</h5>\n","</h6>\n"};
+    = {
+      "</h1>\n",
+      "</h2>\n",
+      "</h3>\n",
+      "</h4>\n",
+      "</h5>\n",
+      "</h6>\n"
+      };
 static const char XHTML_DIAGRAM_IMG_START[]
-= "                <div class=\"mediaobject\"><img src=\"";
+    = "                <div class=\"mediaobject\"><img src=\"";
 static const char XHTML_DIAGRAM_IMG_END[]
-= ".png\" alt=\"\" /></div>\n";
+    = ".png\" alt=\"\" /></div>\n";
 static const char XHTML_DIAGRAM_END[]
-= "        </div>\n";
-
-static const char XHTML_ELEMENT_LIST_START[]
-= "            <div class=\"element\">\n";
-static const char XHTML_ELEMENT_START[]
-= "            <p>\n";
-static const char XHTML_ELEMENT_NAME_START[]
-= "                <strong class=\"elementname\">";
-static const char XHTML_ELEMENT_NAME_END[]
-= "</strong>";
-static const char XHTML_ELEMENT_ID_START[]
-= "                <emphasis class=\"elementid\">";
-static const char XHTML_ELEMENT_ID_END[]
-= "</emphasis>\n";
-static const char XHTML_ELEMENT_END[]
-= "\n            </p>\n";
-static const char XHTML_ELEMENT_LIST_END[]
-= "            </div>\n";
+    = "        </div>\n";
 
 static const char XHTML_DESCRIPTION_START[]
-= "            <div class=\"description\"><p>\n";
-static const char XHTML_DESCRIPTION_MIDDLE[]
-= "\n            <br />\n";
+    = "            <div class=\"description\"><p>\n";
+static const char XHTML_DESCRIPTION_MIDDLE[]  /* optional */
+    = "\n"
+      "            <br />\n";
 static const char XHTML_DESCRIPTION_XREF_START[]
-= "<a href=\"#";
+    = "<a href=\"#";
 static const char XHTML_DESCRIPTION_XREF_MIDDLE[]
-= "\">";
+    = "\">";
 static const char XHTML_DESCRIPTION_XREF_END[]
-= "</a>";
+    = "</a>";
 static const char XHTML_DESCRIPTION_END[]
-= "\n            </p></div>\n";
+    = "\n"
+      "            </p></div>\n";
+
+static const char XHTML_ELEMENT_LIST_START[]
+    = "            <div class=\"element\">\n";
+static const char XHTML_ELEMENT_START[]
+    = "            <p>\n";
+static const char XHTML_ELEMENT_NAME_START[]
+    = "                <strong class=\"elementname\">";
+static const char XHTML_ELEMENT_NAME_END[]
+    = "</strong>\n";
+static const char XHTML_ELEMENT_ID_START[]
+    = "                <em class=\"elementid\">";
+static const char XHTML_ELEMENT_ID_END[]
+    = "</em>\n";
+static const char XHTML_ELEMENT_DESCR_START[]  /* optional */
+    = "\n"
+      "            </p>\n"
+      "            <p class=\"elementdescr\">\n";
+static const char XHTML_ELEMENT_DESCR_END[]  /* optional */
+    = "\n";
+static const char XHTML_ELEMENT_END[]
+    = "            </p>\n";
+static const char XHTML_ELEMENT_LIST_END[]
+    = "            </div>\n";
 
 /* IO_FILE_FORMAT_TXT */
 
@@ -266,6 +301,21 @@ static const char CSS_ALL[]
 "}\n"
 ".elementname {\n"
 "    color:rgb(0,128,80);\n"
+"}\n"
+".elementid::before {\n"
+"    content:\" \\0000a0 \\0000a0 {id=\";\n"
+"}\n"
+".elementid {\n"
+"    color:rgb(160,160,160);\n"
+"}\n"
+".elementid::after {\n"
+"    content:\"}\";\n"
+"}\n"
+".elementdescr {\n"
+"    background-color:rgb(255,255,255);\n"
+"    padding:6px;\n"
+"    margin:2px;\n"
+"    border:1px solid #CCCCCC;\n"
 "}\n"
 "h1 {\n"
 "    counter-reset: cnt-head-two;\n"
@@ -658,7 +708,7 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
         {
             export_err |= txt_writer_write_plain ( &((*this_).txt_writer), diag_name );
             export_err |= txt_writer_write_indent_id( &((*this_).txt_writer),
-                                                      TXT_ID_INDENT_COLUMN - strlen(diag_name),
+                                                      TXT_ID_INDENT_COLUMN - utf8string_get_length(diag_name),
                                                       DATA_TABLE_DIAGRAM,
                                                       diag_id
                                                     );
@@ -728,6 +778,7 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
 
     const char *const classifier_name = data_classifier_get_name_ptr(classifier_ptr);
     const char *const classifier_descr = data_classifier_get_description_ptr(classifier_ptr);
+    const size_t classifier_descr_len = utf8string_get_length(classifier_descr);
     const int64_t classifier_id = data_classifier_get_id(classifier_ptr);
 
     switch ( (*this_).export_type )
@@ -744,7 +795,12 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
                                                      classifier_id
                                                    );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_END );
-            export_err |= md_filter_transform ( &((*this_).md_filter), classifier_descr );
+            if ( 0 != classifier_descr_len )
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_DESCR_START );
+                export_err |= md_filter_transform ( &((*this_).md_filter), classifier_descr );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_DESCR_END );
+            }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_END );
         }
         break;
@@ -754,7 +810,6 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_START );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_NAME_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_START );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
@@ -762,7 +817,12 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
                                                      classifier_id
                                                    );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_END );
-            export_err |= md_filter_transform ( &((*this_).md_filter), classifier_descr );
+            if ( 0 != classifier_descr_len )
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_DESCR_START );
+                export_err |= md_filter_transform ( &((*this_).md_filter), classifier_descr );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_DESCR_END );
+            }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_END );
         }
         break;
@@ -772,7 +832,7 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
             export_err |= txt_writer_write_plain ( &((*this_).txt_writer), TXT_NEWLINE );
             export_err |= txt_writer_write_plain ( &((*this_).txt_writer), classifier_name );
             export_err |= txt_writer_write_indent_id( &((*this_).txt_writer),
-                                                      TXT_ID_INDENT_COLUMN - strlen(classifier_name),
+                                                      TXT_ID_INDENT_COLUMN - utf8string_get_length(classifier_name),
                                                       DATA_TABLE_CLASSIFIER,
                                                       classifier_id
                                                     );
@@ -804,8 +864,9 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
 
     const char *const feature_key = data_feature_get_key_ptr( feature_ptr );
     const char *const feature_value = data_feature_get_value_ptr( feature_ptr );
-    const size_t feature_value_len = strlen(feature_value);
+    const size_t feature_value_len = utf8string_get_length(feature_value);
     const char *const feature_descr = data_feature_get_description_ptr( feature_ptr );
+    const size_t feature_descr_len = utf8string_get_length(feature_descr);
     const int64_t feature_id = data_feature_get_id( feature_ptr );
 
     switch ( (*this_).export_type )
@@ -827,7 +888,12 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
                                                      feature_id
                                                    );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_END );
-            export_err |= md_filter_transform ( &((*this_).md_filter), feature_descr );
+            if ( 0 != feature_descr_len )
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_DESCR_START );
+                export_err |= md_filter_transform ( &((*this_).md_filter), feature_descr );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_DESCR_END );
+            }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_END );
         }
         break;
@@ -848,7 +914,12 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
                                                      feature_id
                                                    );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_END );
-            export_err |= md_filter_transform ( &((*this_).md_filter), feature_descr );
+            if ( 0 != feature_descr_len )
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_DESCR_START );
+                export_err |= md_filter_transform ( &((*this_).md_filter), feature_descr );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_DESCR_END );
+            }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_END );
         }
         break;
@@ -863,9 +934,9 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
                 export_err |= txt_writer_write_plain ( &((*this_).txt_writer), feature_value );
             }
 
-            size_t feature_key_len = strlen(feature_key);
-            int id_indent_width = TXT_ID_INDENT_COLUMN - strlen(TXT_SPACE_INDENT) - feature_key_len
-                - ((feature_value_len==0)?0:feature_value_len+strlen(TXT_COLON_SPACE));
+            size_t feature_key_len = utf8string_get_length(feature_key);
+            int id_indent_width = TXT_ID_INDENT_COLUMN - utf8string_get_length(TXT_SPACE_INDENT) - feature_key_len
+                - ((feature_value_len==0)?0:feature_value_len+utf8string_get_length(TXT_COLON_SPACE));
             export_err |= txt_writer_write_indent_id( &((*this_).txt_writer),
                                                       id_indent_width,
                                                       DATA_TABLE_FEATURE,
@@ -903,6 +974,7 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
     const char *const relation_name = data_relationship_get_name_ptr( relation_ptr );
     const int64_t relation_id = data_relationship_get_id( relation_ptr );
     const char *const relation_descr = data_relationship_get_description_ptr( relation_ptr );
+    const size_t relation_descr_len = utf8string_get_length(relation_descr);
     const char *const dest_classifier_name = data_classifier_get_name_ptr( dest_classifier_ptr );
 
     switch ( (*this_).export_type )
@@ -921,7 +993,12 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
                                                      relation_id
                                                    );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_END );
-            export_err |= md_filter_transform ( &((*this_).md_filter), relation_descr );
+            if ( 0 != relation_descr_len )
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_DESCR_START );
+                export_err |= md_filter_transform ( &((*this_).md_filter), relation_descr );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_DESCR_END );
+            }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_END );
         }
         break;
@@ -938,7 +1015,12 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
                                                      relation_id
                                                    );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_END );
-            export_err |= md_filter_transform ( &((*this_).md_filter), relation_descr );
+            if ( 0 != relation_descr_len )
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_DESCR_START );
+                export_err |= md_filter_transform ( &((*this_).md_filter), relation_descr );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_DESCR_END );
+            }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_END );
         }
         break;
@@ -948,7 +1030,7 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
             export_err |= txt_writer_write_plain ( &((*this_).txt_writer), TXT_SPACE_INDENT );
             export_err |= txt_writer_write_plain ( &((*this_).txt_writer), relation_name );
 
-            size_t relation_name_len = strlen(relation_name);
+            size_t relation_name_len = utf8string_get_length(relation_name);
             /* print arrow */
             if ( relation_name_len == 0 )
             {
@@ -962,9 +1044,9 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
             export_err |= txt_writer_write_plain ( &((*this_).txt_writer), dest_classifier_name );
 
             /* print id */
-            size_t dest_classifier_name_len = strlen( dest_classifier_name );
-            int id_indent_width = TXT_ID_INDENT_COLUMN - strlen(TXT_SPACE_INDENT) - relation_name_len
-                - ((relation_name_len==0)?strlen(TXT_ARROW_SPACE):strlen(TXT_SPACE_ARROW_SPACE))
+            size_t dest_classifier_name_len = utf8string_get_length( dest_classifier_name );
+            int id_indent_width = TXT_ID_INDENT_COLUMN - utf8string_get_length(TXT_SPACE_INDENT) - relation_name_len
+                - ((relation_name_len==0)?utf8string_get_length(TXT_ARROW_SPACE):utf8string_get_length(TXT_SPACE_ARROW_SPACE))
                 - dest_classifier_name_len;
             export_err |= txt_writer_write_indent_id( &((*this_).txt_writer),
                                                       id_indent_width,
