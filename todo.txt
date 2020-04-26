@@ -26,7 +26,6 @@ ideas for future versions:
   @io
   [ ] export formats: extend export formats by latex, doxygen, asciidoc, rtf(?), pdf
   [ ] how to exclude diagrams from export? some are unimportant and exist just for completeness
-  [ ] define how to insert a link to an element in a description text, e.g. ./D0003#id D0003#name
   [ ] allow to insert lists of elements that match a search query, e.g. .?id=C0017#diagramname .?name=start#id
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.

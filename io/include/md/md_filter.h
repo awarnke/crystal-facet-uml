@@ -6,7 +6,10 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief parses some md-like and link features of the input string to an xml writer
+ *  \brief parses some md-like and link features of the input string to an xml writer.
+ *
+ *  This class is a filter in the sense of the pipes-and-filters architecture pattern:
+ *  It modifies and enriches the piped-through data.
  */
 
 #include "xml/xml_writer.h"

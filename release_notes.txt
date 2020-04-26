@@ -1,4 +1,4 @@
-crystal-facet-uml (1.21.1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.22.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * the xhtml export produces a table-of-contents
