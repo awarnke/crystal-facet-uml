@@ -2,6 +2,7 @@
 
 #include "md_filter_test.h"
 #include "md/md_filter.h"
+#include "xml/xml_writer.h"
 #include "ctrl_controller.h"
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
@@ -10,9 +11,13 @@
 #include "test_assert.h"
 #include <stdio.h>
 
+#ifdef __linux__
+
 static void set_up(void);
 static void tear_down(void);
-static void run_filter(void);
+static void test_md_plain_mixed(void);
+static void test_valid_links(void);
+static void test_invalid_links(void);
 
 static int64_t create_root_diag();  /* helper function */
 
@@ -36,11 +41,27 @@ static data_database_reader_t db_reader;
  */
 static ctrl_controller_t controller;
 
+/*!
+ *  \brief md_filter to be tested
+ */
+static md_filter_t md_filter;
+
+#define TAG_BREAK "&LN;"
+#define TAG_LINK1 "<REF TO=\""
+#define TAG_LINK2 "\">"
+#define TAG_LINK3 "</REF>"
+
+static char my_out_buffer[200];
+static FILE *my_out_stream;
+static xml_writer_t xml_writer;
+
 test_suite_t md_filter_test_get_list(void)
 {
     test_suite_t result;
     test_suite_init( &result, "md_filter_test_get_list", &set_up, &tear_down );
-    test_suite_add_test_case( &result, "run_filter", &run_filter );
+    test_suite_add_test_case( &result, "test_md_plain_mixed", &test_md_plain_mixed );
+    test_suite_add_test_case( &result, "test_valid_links", &test_valid_links );
+    test_suite_add_test_case( &result, "test_invalid_links", &test_invalid_links );
     return result;
 }
 
@@ -52,10 +73,24 @@ static void set_up(void)
     data_database_reader_init( &db_reader, &database );
 
     ctrl_controller_init( &controller, &database );
+
+    memset( &my_out_buffer, '\0', sizeof(my_out_buffer) );
+    my_out_stream = fmemopen( &my_out_buffer, sizeof( my_out_buffer ), "w");
+    assert ( NULL != my_out_stream );
+
+    xml_writer_init( &xml_writer, my_out_stream );
+
+    md_filter_init( &md_filter, &db_reader, TAG_BREAK, TAG_LINK1, TAG_LINK2, TAG_LINK3, &xml_writer );
 }
 
 static void tear_down(void)
 {
+    md_filter_destroy( &md_filter );
+
+    xml_writer_destroy( &xml_writer );
+
+    fclose( my_out_stream );
+
     int err;
     ctrl_controller_destroy( &controller );
 
@@ -63,6 +98,7 @@ static void tear_down(void)
 
     data_database_close( &database );
     data_database_destroy( &database );
+
     err = remove( DATABASE_FILENAME );
     TEST_ENVIRONMENT_ASSERT ( 0 == err );
 }
@@ -83,7 +119,7 @@ static int64_t create_root_diag()
                                    DATA_ID_VOID_ID /*=diagram_id is ignored*/,
                                    DATA_ID_VOID_ID /*=parent_diagram_id*/,
                                    DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,
-                                   "the_root_diag",
+                                   "Th& <root> d\"agram",
                                    "diagram_description-root",
                                    10555 /*=list_order*/
                                  );
@@ -103,47 +139,94 @@ static int64_t create_root_diag()
 }
 
 
-static void run_filter(void)
+static void test_md_plain_mixed(void)
+{
+    int err;
+
+    /* plain */
+    err = xml_writer_write_plain ( &xml_writer, "<!DTD><body>" );
+    TEST_ASSERT_EQUAL_INT( 0, err );
+
+    /* xml enc */
+    err = md_filter_transform ( &md_filter, "plain &amp; \"\'<>D3D#name#id" );
+    TEST_ASSERT_EQUAL_INT( 0, err );
+
+    /* md */
+    err = md_filter_transform ( &md_filter, "ln 1a\nln 1b\n\nln 2\n- ln 3\n4\n5 ln 5\n\n\nln 7a\n ln 7b\n> ln8\n" );
+    TEST_ASSERT_EQUAL_INT( 0, err );
+
+    /* plain */
+    err = xml_writer_write_plain ( &xml_writer, "</body>" );
+    TEST_ASSERT_EQUAL_INT( 0, err );
+
+    static const char expected[] = "<!DTD><body>plain &amp;amp; &quot;\'&lt;&gt;D3D#name#id"
+        "ln 1a\nln 1b" TAG_BREAK "\nln 2" TAG_BREAK "- ln 3" TAG_BREAK "4" TAG_BREAK "5 ln 5" TAG_BREAK TAG_BREAK "\nln 7a\n ln 7b" TAG_BREAK "&gt; ln8\n"
+        "</body>";
+    fflush( my_out_stream );
+    //fprintf( stdout, "%s\n", &(expected[0]) );
+    //fprintf( stdout, "%s\n", &(my_out_buffer[0]) );
+    //fflush(stdout);
+    TEST_ENVIRONMENT_ASSERT( sizeof(my_out_buffer) >= sizeof(expected)-1 );
+    TEST_ASSERT( 0 == memcmp( &my_out_buffer, expected, sizeof(expected)-1 ) );
+}
+
+static void test_valid_links(void)
 {
     int64_t root_diag_id = create_root_diag();
+    TEST_ENVIRONMENT_ASSERT( 1 == root_diag_id );  /* otherwise D0001 needs to be adapted (hint: delete old database file) */
+    int err;
 
-    /*
-    json_import_to_database_t importer;
-    json_import_to_database_init ( &importer, &db_reader, &controller );
+    /* 2 valid links, 1 valid but half link */
+    err = md_filter_transform ( &md_filter, ">D3DD0001#name#idD0001#id#nameD0001" );
+    TEST_ASSERT_EQUAL_INT( 0, err );
 
-    data_error_t data_err;
-    io_stat_t total;
-    io_stat_t dropped;
-    uint32_t read_pos;
-    static const char *json_text_p = "{\"data\":[{\"unknown-type\":{}}]}";
-    data_err = json_import_to_database_import_buf_to_db( &importer,
-                                                         json_text_p,
-                                                         root_diag_id,
-                                                         &total,
-                                                         &dropped,
-                                                         &read_pos
-                                                       );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_PARSER_STRUCTURE, data_err );
-    TEST_ASSERT_EQUAL_INT( io_stat_get_sum( &total ), 0 );
-    TEST_ASSERT_EQUAL_INT( io_stat_get_sum( &dropped ), 0 );
-    TEST_ASSERT_EQUAL_INT( read_pos, 9 );
-
-    static const char *json_text_l = "{\"data\":[{\"diagram\":nullnul}]}";
-    data_err = json_import_to_database_import_buf_to_db( &importer,
-                                                         json_text_l,
-                                                         root_diag_id,
-                                                         &total,
-                                                         &dropped,
-                                                         &read_pos
-                                                       );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_PARSER_STRUCTURE, data_err );
-    TEST_ASSERT_EQUAL_INT( io_stat_get_sum( &total ), 0 );
-    TEST_ASSERT_EQUAL_INT( io_stat_get_sum( &dropped ), 0 );
-    TEST_ASSERT_EQUAL_INT( read_pos, 20 );
-
-    json_import_to_database_destroy ( &importer );
-    */
+    static const char expected[] = ">D3D" TAG_LINK1 "D0001" TAG_LINK2 "D0001" TAG_LINK3 "#id"
+        TAG_LINK1 "D0001" TAG_LINK2 "Th&amp; &lt;root&gt; d&quot;agram" TAG_LINK3;
+    fflush( my_out_stream );
+    //fprintf( stdout, "%s\n", &(expected[0]) );
+    //fprintf( stdout, "%s\n", &(my_out_buffer[0]) );
+    //fflush(stdout);
+    TEST_ENVIRONMENT_ASSERT( sizeof(my_out_buffer) >= sizeof(expected)-1 );
+    TEST_ASSERT( 0 == memcmp( &my_out_buffer, expected, sizeof(expected)-1 ) );
 }
+
+static void test_invalid_links(void)
+{
+    int64_t root_diag_id = create_root_diag();
+    TEST_ENVIRONMENT_ASSERT( 1 == root_diag_id );  /* otherwise D0001 needs to be adapted (hint: delete old database file) */
+    int err;
+
+    /* 2 invalid links, 1 valid but non-existig link, 1 valid but half link */
+    err = md_filter_transform ( &md_filter, ">D3DD001#nameC0001#idD0002#id#nameD0001#nam" );
+    TEST_ASSERT_EQUAL_INT( 0, err );
+
+    static const char expected[] = ">D3DD001#nameC0001#idD0002#id#nameD0001#nam";
+    fflush( my_out_stream );
+    //fprintf( stdout, "%s\n", &(expected[0]) );
+    //fprintf( stdout, "%s\n", &(my_out_buffer[0]) );
+    //fflush(stdout);
+    TEST_ENVIRONMENT_ASSERT( sizeof(my_out_buffer) >= sizeof(expected)-1 );
+    TEST_ASSERT( 0 == memcmp( &my_out_buffer, expected, sizeof(expected)-1 ) );
+}
+
+#else  //  __linux __
+
+static void set_up(void)
+{
+}
+
+static void tear_down(void)
+{
+}
+
+test_suite_t md_filter_test_get_list(void)
+{
+    test_suite_t result;
+    test_suite_init( &result, "md_filter_test_get_list", &set_up, &tear_down );
+    return result;
+}
+
+#endif  //  __linux__
 
 
 /*
