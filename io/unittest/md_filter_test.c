@@ -180,8 +180,8 @@ static void test_valid_links(void)
     err = md_filter_transform ( &md_filter, ">D3DD0001#name#idD0001#id#nameD0001" );
     TEST_ASSERT_EQUAL_INT( 0, err );
 
-    static const char expected[] = ">D3D" TAG_LINK1 "D0001" TAG_LINK2 "D0001" TAG_LINK3 "#id"
-        TAG_LINK1 "D0001" TAG_LINK2 "Th&amp; &lt;root&gt; d&quot;agram" TAG_LINK3;
+    static const char expected[] = "&gt;D3D" TAG_LINK1 "D0001" TAG_LINK2 "Th&amp; &lt;root&gt; d&quot;agram" TAG_LINK3 "#id"
+        TAG_LINK1 "D0001" TAG_LINK2 "D0001" TAG_LINK3;
     fflush( my_out_stream );
     //fprintf( stdout, "%s\n", &(expected[0]) );
     //fprintf( stdout, "%s\n", &(my_out_buffer[0]) );
@@ -200,7 +200,7 @@ static void test_invalid_links(void)
     err = md_filter_transform ( &md_filter, ">D3DD001#nameC0001#idD0002#id#nameD0001#nam" );
     TEST_ASSERT_EQUAL_INT( 0, err );
 
-    static const char expected[] = ">D3DD001#nameC0001#idD0002#id#nameD0001#nam";
+    static const char expected[] = "&gt;D3DD001#nameC0001#idD0002#id#nameD0001#nam";
     fflush( my_out_stream );
     //fprintf( stdout, "%s\n", &(expected[0]) );
     //fprintf( stdout, "%s\n", &(my_out_buffer[0]) );

@@ -793,7 +793,7 @@ void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_
             geometry_rectangle_trace( classifier_symbol_box );
             geometry_rectangle_trace( classifier_space );
             geometry_rectangle_trace( &min_inner_space );
-            assert( geometry_rectangle_is_containing( (*this_).diagram_draw_area, &max_outer_bounds ) );
+            //assert( geometry_rectangle_is_containing( (*this_).diagram_draw_area, &max_outer_bounds ) );  // may fail in extreme cases like width=0
             assert( geometry_rectangle_is_containing( &max_outer_bounds, classifier_symbol_box ) );
             //assert( geometry_rectangle_is_containing( classifier_symbol_box, classifier_space ) );  // not true for e.g. decision nodes
             assert( geometry_rectangle_is_containing( classifier_space, &min_inner_space ) );

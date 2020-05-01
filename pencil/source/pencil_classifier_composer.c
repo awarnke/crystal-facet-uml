@@ -105,6 +105,31 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
         }
 
+        /* highlight */
+        if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_EMPHASIS ))
+        {
+            GdkRGBA emph_color = pencil_size_get_emphasized_color( pencil_size );
+            cairo_set_source_rgba( cr, emph_color.red, emph_color.green, emph_color.blue, emph_color.alpha );
+            const geometry_rectangle_t *box = layout_visible_classifier_get_label_box_ptr( layouted_classifier );
+            cairo_rectangle ( cr,
+                              geometry_rectangle_get_left(box),
+                              geometry_rectangle_get_top(box),
+                              geometry_rectangle_get_width(box),
+                              geometry_rectangle_get_height(box)
+                            );
+            cairo_fill (cr);
+            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
+        }
+
+        /* draw label */
+        draw_classifier_label_draw_stereotype_and_name( &((*this_).draw_classifier_label),
+                                             visible_classifier,
+                                             layout_visible_classifier_get_label_box_ptr( layouted_classifier ),
+                                             pencil_size,
+                                             font_layout,
+                                             cr
+                                           );
+
         /* draw rectangle */
         const int border_left = left + gap;
         const int border_top = top + gap;
@@ -339,31 +364,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             }
             break;
         }
-
-        /* highlight */
-        if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_EMPHASIS ))
-        {
-            GdkRGBA emph_color = pencil_size_get_emphasized_color( pencil_size );
-            cairo_set_source_rgba( cr, emph_color.red, emph_color.green, emph_color.blue, emph_color.alpha );
-            const geometry_rectangle_t *box = layout_visible_classifier_get_label_box_ptr( layouted_classifier );
-            cairo_rectangle ( cr,
-                              geometry_rectangle_get_left(box),
-                              geometry_rectangle_get_top(box),
-                              geometry_rectangle_get_width(box),
-                              geometry_rectangle_get_height(box)
-                            );
-            cairo_fill (cr);
-            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
-        }
-
-        /* draw label */
-        draw_classifier_label_draw_stereotype_and_name( &((*this_).draw_classifier_label),
-                                             visible_classifier,
-                                             layout_visible_classifier_get_label_box_ptr( layouted_classifier ),
-                                             pencil_size,
-                                             font_layout,
-                                             cr
-                                           );
 
 #ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
         /* draw the rectangles */

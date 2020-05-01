@@ -33,8 +33,6 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_widget_set_size_request((*this_).window, 800, 400);
     gtk_window_set_default_size(GTK_WINDOW( (*this_).window ), 900, 600);
 
-    (*this_).layout = gtk_grid_new();
-
     /* init the message widgets */
 
     (*this_).message_text_label = gtk_label_new ("");
@@ -198,6 +196,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_widget_set_hexpand ( (*this_).sketcharea, TRUE);
     gtk_widget_set_vexpand ( (*this_).sketcharea, TRUE);
     gtk_widget_set_can_focus( GTK_WIDGET( (*this_).sketcharea ), TRUE );  /* this allows the text entry widgets to lose the focus */
+    gtk_widget_set_size_request ( GTK_WIDGET( (*this_).sketcharea ), 600, 360);  /* set a minimum initial size */
     /*gtk_widget_set_focus_on_click( GTK_WIDGET( (*this_).sketcharea ), TRUE ); not yet existing: since GTK 3.2 */
     gui_sketch_area_init( &((*this_).sketcharea_data),
                           (*this_).sketcharea,
@@ -237,12 +236,15 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).description_text_view = gtk_text_view_new ();
     gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW( (*this_).description_text_view ),
                                   GTK_WRAP_WORD_CHAR );
+    gtk_container_set_border_width ( GTK_CONTAINER( (*this_).description_text_view ), 12 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).description_text_view ), true );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).description_text_view ), false );
     /* need own scroll window container - otherwise the gtk_grid will manage the text view */
     (*this_).description_scroll_win = gtk_scrolled_window_new (NULL, NULL);
     gtk_container_add (GTK_CONTAINER ( (*this_).description_scroll_win ), (*this_).description_text_view );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW( (*this_).description_scroll_win ),
-                                     GTK_SCROLL_MINIMUM,
-                                     GTK_SCROLL_MINIMUM
+                                     GTK_POLICY_AUTOMATIC,
+                                     GTK_POLICY_AUTOMATIC
                                    );
 
     (*this_).stereotype_entry = gtk_entry_new();
@@ -358,44 +360,67 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_redo,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_about,-1);
 
-    /* parameter info: gtk_grid_attach (GtkGrid *grid, GtkWidget *child, gint left, gint top, gint width, gint height); */
-    gtk_grid_set_column_homogeneous ( GTK_GRID((*this_).layout), false );
+    (*this_).layout = gtk_grid_new();
+    gtk_grid_set_column_homogeneous ( GTK_GRID((*this_).layout), false );  /* if true, the window would get resized */
     gtk_grid_set_row_homogeneous ( GTK_GRID((*this_).layout), false );
+    /* parameter info: gtk_grid_attach (GtkGrid *grid, GtkWidget *child, gint left, gint top, gint width, gint height); */
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).toolbar, 0, 0, 4, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).toolbar ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).toolbar ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).search_label, 0, 1, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_label ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).search_label ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).search_entry, 1, 1, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_entry ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).search_entry ), true );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).search_button, 2, 1, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_button ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).search_button ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).sketcharea, 0, 2, 3, 12 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).sketcharea ), true );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).sketcharea ), true );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).attr_section_icon, 3, 2, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).id_label ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).id_label ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).id_label, 3, 3, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).id_label ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).id_label ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_label, 3, 4, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).name_label ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).name_label ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_entry, 3, 5, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).name_entry ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).name_entry ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_label, 3, 6, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).stereotype_label ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).stereotype_label ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_entry, 3, 7, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).stereotype_entry ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).stereotype_entry ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_label, 3, 8, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).type_label ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).type_label ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_combo_box, 3, 9, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).type_combo_box ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).type_combo_box ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_icon_grid, 3, 10, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).type_icon_grid ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).type_icon_grid ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_label, 3, 11, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).description_label ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).description_label ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_scroll_win, 3, 12, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).description_scroll_win ), true );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).description_scroll_win ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).edit_commit_button, 3, 13, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).edit_commit_button ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).edit_commit_button ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_icon_image, 0, 14, 1, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).message_icon_image ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).message_icon_image ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_text_label, 1, 14, 3, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).message_text_label ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).message_text_label ), false );
     gtk_container_add(GTK_CONTAINER((*this_).window), (*this_).layout);
 
     TRACE_INFO("GTK+ Widgets are added to containers.");
