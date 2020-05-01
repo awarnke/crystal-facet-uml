@@ -1,4 +1,15 @@
-crystal-facet-uml (1.21.0-1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.22.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * the xhtml export produces a table-of-contents
+  * the xhtml+db exports generate links to diagrams by D0001#name.
+  * the element configuration area on the right does not take space needed
+    by the drawing area
+  * yellow highlighted names are drawn behind the classifier-contour-line
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 01 May 2020 17:30:00 +0200
+
+ crystal-facet-uml (1.21.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * containers embrace their children keeping wider gaps
