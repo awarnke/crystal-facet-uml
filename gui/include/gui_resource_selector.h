@@ -111,7 +111,7 @@ static inline const GdkPixbuf *gui_resource_selector_get_relationship_icon ( con
  *  \param out_length a memory address where to store the length of the array
  */
 static inline void gui_resource_selector_get_all_diagram_types ( const gui_resource_selector_t *this_,
-                                                                 const gui_type_resource_t ((*(*out_types))[]),
+                                                                 const gui_type_resource_t (**out_types)[],
                                                                  unsigned int *out_length
                                                                );
 
@@ -123,7 +123,7 @@ static inline void gui_resource_selector_get_all_diagram_types ( const gui_resou
  *  \param out_length a memory address where to store the length of the array
  */
 static inline void gui_resource_selector_get_all_classifier_types ( const gui_resource_selector_t *this_,
-                                                                    const gui_type_resource_t ((*(*out_types))[]),
+                                                                    const gui_type_resource_t (**out_types)[],
                                                                     unsigned int *out_length
                                                                   );
 
@@ -135,7 +135,7 @@ static inline void gui_resource_selector_get_all_classifier_types ( const gui_re
  *  \param out_length a memory address where to store the length of the array
  */
 static inline void gui_resource_selector_get_all_feature_types ( const gui_resource_selector_t *this_,
-                                                                 const gui_type_resource_t ((*(*out_types))[]),
+                                                                 const gui_type_resource_t (**out_types)[],
                                                                  unsigned int *out_length
                                                                );
 
@@ -147,7 +147,7 @@ static inline void gui_resource_selector_get_all_feature_types ( const gui_resou
  *  \param out_length a memory address where to store the length of the array
  */
 static inline void gui_resource_selector_get_all_relationship_types ( const gui_resource_selector_t *this_,
-                                                                      const gui_type_resource_t ((*(*out_types))[]),
+                                                                      const gui_type_resource_t (**out_types)[],
                                                                       unsigned int *out_length
                                                                     );
 

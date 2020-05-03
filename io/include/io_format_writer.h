@@ -43,7 +43,7 @@ typedef struct io_format_writer_struct io_format_writer_t;
  *  \param output file object where to write the document to
  */
 void io_format_writer_init( io_format_writer_t *this_,
-                            data_database_reader_t *db_reader,  /*!< pointer to external database reader */
+                            data_database_reader_t *db_reader,
                             io_file_format_t export_type,
                             FILE *output
                           );
