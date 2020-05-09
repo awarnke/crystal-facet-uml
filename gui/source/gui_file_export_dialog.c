@@ -167,8 +167,6 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
                 export_err = -1;
             }
 
-            g_free (folder_path);
-
             char temp_format_buf[64];
             utf8stringbuf_t temp_fileformat = UTF8STRINGBUF( temp_format_buf );
             io_file_format_to_string( selected_format, temp_fileformat );
@@ -177,7 +175,8 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
             {
                 gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                                      GUI_SIMPLE_MESSAGE_TYPE_INFO,
-                                                                     GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED,
+                                                                     GUI_SIMPLE_MESSAGE_CONTENT_L_EXPORT_FINISHED,
+                                                                     GUI_SIMPLE_MESSAGE_PARAM_NATURE_LIST_OF_NAMES,
                                                                      utf8stringbuf_get_string( temp_fileformat )
                                                                    );
             }
@@ -185,10 +184,13 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
             {
                 gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                                      GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                     GUI_SIMPLE_MESSAGE_CONTENT_FILE_EXPORT_FAILED,
-                                                                     utf8stringbuf_get_string( temp_fileformat )
+                                                                     GUI_SIMPLE_MESSAGE_CONTENT_N_FILE_EXPORT_FAILED,
+                                                                     GUI_SIMPLE_MESSAGE_PARAM_NATURE_NAME,
+                                                                     folder_path
                                                                    );
             }
+
+            g_free (folder_path);
         }
         break;
 

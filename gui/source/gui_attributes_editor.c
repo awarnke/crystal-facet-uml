@@ -415,7 +415,7 @@ void gui_attributes_editor_commit_clicked_callback (GtkButton *button, gpointer 
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITE_ERROR
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_DB_FILE_WRITE_ERROR
         );
     }
     else
@@ -430,11 +430,12 @@ void gui_attributes_editor_commit_clicked_callback (GtkButton *button, gpointer 
         fprintf( stdout, "\n\n%s\n", utf8stringbuf_get_string(repair_log) );
         if (( found_errors != 0 ) || ( fixed_errors != 0 ))
         {
-            gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                 GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR,
-                                                                 "ctrl_controller_repair_database() reported inconsistent db!"
-            );
+            gui_simple_message_to_user_show_message_with_int( (*this_).message_to_user,
+                                                              GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                              GUI_SIMPLE_MESSAGE_CONTENT_Q_DB_INCONSISTENT,
+                                                              GUI_SIMPLE_MESSAGE_PARAM_NATURE_QUANTITY,
+                                                              found_errors
+                                                            );
         }
 #endif
     }
@@ -572,17 +573,16 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                 data_error_t db_err;
 
                 data_classifier_destroy( &((*this_).private_classifier_cache) );
-                db_err= data_database_reader_get_classifier_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_classifier_cache) );
+                db_err = data_database_reader_get_classifier_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_classifier_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
                 if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_STRING_BUFFER_EXCEEDED) )
                 {
                     TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a classifier" );
-                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                         GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                                         GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED,
-                                                                         NULL
-                    );
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                           );
                 }
                 if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
                 {
@@ -605,17 +605,16 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                 data_error_t db_err;
 
                 data_feature_destroy( &((*this_).private_feature_cache) );
-                db_err= data_database_reader_get_feature_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_feature_cache) );
+                db_err = data_database_reader_get_feature_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_feature_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
                 if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_STRING_BUFFER_EXCEEDED) )
                 {
                     TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a feature" );
-                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                         GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                                         GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED,
-                                                                         NULL
-                    );
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                           );
                 }
                 if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
                 {
@@ -638,17 +637,16 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                 data_error_t db_err;
 
                 data_relationship_destroy( &((*this_).private_relationship_cache) );
-                db_err= data_database_reader_get_relationship_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_relationship_cache) );
+                db_err = data_database_reader_get_relationship_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_relationship_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
                 if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_STRING_BUFFER_EXCEEDED) )
                 {
                     TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a relationship" );
-                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                         GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                                         GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED,
-                                                                         NULL
-                    );
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                           );
                 }
                 if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
                 {
@@ -682,17 +680,16 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                 data_error_t db_err;
 
                 data_diagram_destroy( &((*this_).private_diagram_cache) );
-                db_err= data_database_reader_get_diagram_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_diagram_cache) );
+                db_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_diagram_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
                 if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_STRING_BUFFER_EXCEEDED) )
                 {
                     TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
-                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                         GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                                         GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED,
-                                                                         NULL
-                    );
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                           );
                 }
                 if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
                 {
@@ -758,16 +755,17 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 {
                     gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                                          GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                         GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
+                                                                         GUI_SIMPLE_MESSAGE_CONTENT_N_NAME_NOT_UNIQUE,
+                                                                         GUI_SIMPLE_MESSAGE_PARAM_NATURE_NAME,
                                                                          text
-                    );
+                                                                       );
                 }
                 else if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-                    );
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                           );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
@@ -791,8 +789,8 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-                    );
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                           );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
@@ -816,8 +814,8 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-                    );
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                           );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
@@ -848,8 +846,8 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-                    );
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                           );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
@@ -904,8 +902,8 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-                    );
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                           );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
@@ -929,8 +927,8 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-                    );
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                           );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
@@ -1116,8 +1114,8 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-                    );
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                           );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
@@ -1141,8 +1139,8 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-                    );
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                           );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
@@ -1166,8 +1164,8 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-                    );
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                           );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
@@ -1198,8 +1196,8 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-                    );
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                           );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {

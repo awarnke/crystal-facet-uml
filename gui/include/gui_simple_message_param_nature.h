@@ -14,10 +14,11 @@
 enum gui_simple_message_param_nature_enum {
     GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID,  /*!< the parameter has no meaning */
     GUI_SIMPLE_MESSAGE_PARAM_NATURE_NAME,  /*!< the parameter is a name of an entity */
+    GUI_SIMPLE_MESSAGE_PARAM_NATURE_LIST_OF_NAMES,  /*!< the parameter is a list of names */
     GUI_SIMPLE_MESSAGE_PARAM_NATURE_ERROR_EXPL,  /*!< the parameter is a english description of an error that occurred */
     GUI_SIMPLE_MESSAGE_PARAM_NATURE_QUANTITY,  /*!< the parameter is a number that states a quantity/count */
     GUI_SIMPLE_MESSAGE_PARAM_NATURE_STREAM_POS,  /*!< the parameter is a number that states a stream or string position */
-    GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS,  /*!< the parameter is a statistic on data elements */
+    GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS,  /*!< the parameter is a set of statistics on data elements */
 };
 
 typedef enum gui_simple_message_param_nature_enum gui_simple_message_param_nature_t;

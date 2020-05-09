@@ -68,7 +68,7 @@ void gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_, const data_sma
         /* error to be shown to the user */
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
                                                );
     }
     TRACE_INFO( utf8stringbuf_get_string( (*this_).clipboard_stringbuf ) );
@@ -108,7 +108,7 @@ void gui_clipboard_clipboard_text_received_callback ( GtkClipboard *clipboard, c
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_INPUT_DATA
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_NO_INPUT_DATA
                                                );
     }
 
@@ -138,7 +138,8 @@ void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const c
     {
         gui_simple_message_to_user_show_message_with_int ( (*this_).message_to_user,
                                                            GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                           GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA,
+                                                           GUI_SIMPLE_MESSAGE_CONTENT_P_INVALID_INPUT_DATA,
+                                                           GUI_SIMPLE_MESSAGE_PARAM_NATURE_STREAM_POS,
                                                            read_err_pos
                                                          );
     }
@@ -172,7 +173,8 @@ void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const c
 
         gui_simple_message_to_user_show_message_with_string ( (*this_).message_to_user,
                                                               GUI_SIMPLE_MESSAGE_TYPE_INFO,
-                                                              GUI_SIMPLE_MESSAGE_CONTENT_PASTE_FROM_CLIPBOARD_STATS,
+                                                              GUI_SIMPLE_MESSAGE_CONTENT_S_PASTE_FROM_CLIPBOARD_STATS,
+                                                              GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS,
                                                               utf8stringbuf_get_string( stat_msg )
                                                             );
     }

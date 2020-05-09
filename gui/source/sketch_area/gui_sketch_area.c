@@ -1006,9 +1006,11 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
 
                         if ( CTRL_ERROR_DUPLICATE_NAME == c_result )
                         {
+                            /* this should not happen: names are auto-generated */
                             gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                                 GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
+                                                                                 GUI_SIMPLE_MESSAGE_CONTENT_N_NAME_NOT_UNIQUE,
+                                                                                 GUI_SIMPLE_MESSAGE_PARAM_NATURE_NAME,
                                                                                  ""
                                                                                );
                         }
@@ -1184,7 +1186,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             /* current diagram is root */
                             gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                                      GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                     GUI_SIMPLE_MESSAGE_CONTENT_ANCESTOR_IS_NOT_DESCENDANT
+                                                                     GUI_SIMPLE_MESSAGE_CONTENT_0_ANCESTOR_IS_NOT_DESCENDANT
                                                                    );
                         }
                     }

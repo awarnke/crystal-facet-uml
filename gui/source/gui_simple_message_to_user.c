@@ -15,7 +15,7 @@ void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_, GtkW
     assert ( res != NULL );
 
     (*this_).type_id = GUI_SIMPLE_MESSAGE_TYPE_NO_MESSAGE;
-    (*this_).content_id = GUI_SIMPLE_MESSAGE_CONTENT_NO_MESSAGE;
+    (*this_).content_id = GUI_SIMPLE_MESSAGE_CONTENT_0_NO_MESSAGE;
     (*this_).param1_nature = GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID;
     (*this_).text_label = text_label;
     (*this_).icon_image = icon_image;
@@ -115,8 +115,9 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
         utf8stringbuf_clear( (*this_).private_temp_str );
         switch ( content_id )
         {
-            case GUI_SIMPLE_MESSAGE_CONTENT_ABOUT:
+            case GUI_SIMPLE_MESSAGE_CONTENT_0_ABOUT:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID );
                 utf8stringbuf_append_str( (*this_).private_temp_str,
                                           "This is " META_INFO_PROGRAM_NAME_STR " version "
                                         );
@@ -131,118 +132,144 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_OPENED:
+            case GUI_SIMPLE_MESSAGE_CONTENT_N_DB_FILE_NOT_OPENED:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_NAME );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "Chosen database file could not be opened/created:\n" );
                 utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR:
+            case GUI_SIMPLE_MESSAGE_CONTENT_N_DB_FILE_OPENED_WITH_ERROR:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_NAME );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "Chosen database file opened/created with warning:\n" );
                 utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_MAX_WINDOWS_ALREADY_OPEN:
+            case GUI_SIMPLE_MESSAGE_CONTENT_Q_DB_INCONSISTENT:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_QUANTITY );
+                utf8stringbuf_append_str( (*this_).private_temp_str, "Current database is inconsistent; errors: " );
+                utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
+            }
+            break;
+
+            case GUI_SIMPLE_MESSAGE_CONTENT_Q_MAX_WINDOWS_ALREADY_OPEN:
+            {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_QUANTITY );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "Maximum number of windows already open: " );
                 utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED:
+            case GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "Maximum string length exceeded." );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED:
+            case GUI_SIMPLE_MESSAGE_CONTENT_E_NOT_YET_IMPLEMENTED:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ERROR_EXPL );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "This feature is not yet implemented: " );
                 utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION:
+            case GUI_SIMPLE_MESSAGE_CONTENT_0_NO_SELECTION:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "Nothing selected." );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_DELETING_NOT_POSSIBLE:
+            case GUI_SIMPLE_MESSAGE_CONTENT_0_DELETING_NOT_POSSIBLE:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "Some objects could not be deleted: They are still referenced/used." );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_NO_MORE_UNDO:
+            case GUI_SIMPLE_MESSAGE_CONTENT_0_NO_MORE_UNDO:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "No more actions to be un-done." );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_UNDO_NOT_POSSIBLE:
+            case GUI_SIMPLE_MESSAGE_CONTENT_0_UNDO_NOT_POSSIBLE:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "No more actions can be un-done: undo list at limit." );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_NO_MORE_REDO:
+            case GUI_SIMPLE_MESSAGE_CONTENT_0_NO_MORE_REDO:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "No more actions to be re-done." );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_NO_INPUT_DATA:
+            case GUI_SIMPLE_MESSAGE_CONTENT_0_NO_INPUT_DATA:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "No input data." );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA:
+            case GUI_SIMPLE_MESSAGE_CONTENT_P_INVALID_INPUT_DATA:
             {
-                utf8stringbuf_append_str( (*this_).private_temp_str, "Invalid input data at character position " );
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_STREAM_POS );
+                utf8stringbuf_append_str( (*this_).private_temp_str, "Invalid input data at position " );
                 utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_FILE_EXPORT_FAILED:
+            case GUI_SIMPLE_MESSAGE_CONTENT_N_FILE_EXPORT_FAILED:
             {
-                utf8stringbuf_append_str( (*this_).private_temp_str, "Export failed, type: " );
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_NAME );
+                utf8stringbuf_append_str( (*this_).private_temp_str, "Export failed, destination path: " );
                 utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE:
+            case GUI_SIMPLE_MESSAGE_CONTENT_N_NAME_NOT_UNIQUE:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_NAME );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "Name already in use (use copy and paste to insert the existing object): " );
                 utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED:
+            case GUI_SIMPLE_MESSAGE_CONTENT_L_EXPORT_FINISHED:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_LIST_OF_NAMES );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "Files exported, format: " );
                 utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_SET_PARTLY_UNSUITABLE:
+            case GUI_SIMPLE_MESSAGE_CONTENT_0_SET_PARTLY_UNSUITABLE:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "Operation cannot be performed on all elements in the set." );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITE_ERROR:
+            case GUI_SIMPLE_MESSAGE_CONTENT_0_DB_FILE_WRITE_ERROR:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "Database could not be written to the database file." );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_ANCESTOR_IS_NOT_DESCENDANT:
+            case GUI_SIMPLE_MESSAGE_CONTENT_0_ANCESTOR_IS_NOT_DESCENDANT:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID );
                 utf8stringbuf_append_str( (*this_).private_temp_str,
                                           "An ancestor (parent/root) diagram cannot move to a descendant (child) location.\n"
                                           "Instead, try to move a descendant out to an ancestor or sibling location"
@@ -250,8 +277,9 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_DEBUG_MODE:
+            case GUI_SIMPLE_MESSAGE_CONTENT_0_DEBUG_MODE:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID );
                 utf8stringbuf_append_str( (*this_).private_temp_str,
                                           "This software was compiled in DEBUG mode.\nIt may be slower than the RELEASE version.\n"
                                           "Confidential information may be printed to syslog."
@@ -259,33 +287,38 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_NO_RELATIONSHIPS:
+            case GUI_SIMPLE_MESSAGE_CONTENT_0_NO_RELATIONSHIPS:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "The current diagram type does not allow to create relationships." );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_NO_FEATURES:
+            case GUI_SIMPLE_MESSAGE_CONTENT_0_NO_FEATURES:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "The current diagram type does not allow to create features." );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_FEATURELESS_CLASSIFIER:
+            case GUI_SIMPLE_MESSAGE_CONTENT_0_FEATURELESS_CLASSIFIER:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "The current classifier type does not allow to create features." );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_IS_ALWAYS_INSTANCE:
+            case GUI_SIMPLE_MESSAGE_CONTENT_0_IS_ALWAYS_INSTANCE:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "The current classifier type does not allow to remove the instance flag." );
             }
             break;
 
             /*
-            case GUI_SIMPLE_MESSAGE_CONTENT_CUT_TO_CLIPBOARD_STATS:
+            case GUI_SIMPLE_MESSAGE_CONTENT_S_CUT_TO_CLIPBOARD_STATS:
             {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "Selection cut to clipboard: " );
                 utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
@@ -293,18 +326,20 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             */
 
             /*
-            case GUI_SIMPLE_MESSAGE_CONTENT_COPY_TO_CLIPBOARD_STATS:
+            case GUI_SIMPLE_MESSAGE_CONTENT_S_COPY_TO_CLIPBOARD_STATS:
             {
-                utf8stringbuf_append_str( (*this_).param1, "Selection copied to clipboard: " );
-                utf8stringbuf_append_str( (*this_).param1, string_param );
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
+                utf8stringbuf_append_str( (*this_).private_temp_str, "Selection copied to clipboard: " );
+                utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
             break;
             */
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_PASTE_FROM_CLIPBOARD_STATS:
+            case GUI_SIMPLE_MESSAGE_CONTENT_S_PASTE_FROM_CLIPBOARD_STATS:
             {
-                utf8stringbuf_append_str( (*this_).param1, "Clipboard pasted: " );
-                utf8stringbuf_append_str( (*this_).param1, string_param );
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
+                utf8stringbuf_append_str( (*this_).private_temp_str, "Clipboard pasted: " );
+                utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
             break;
 
@@ -313,12 +348,12 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
                 TSLOG_ERROR("unexptected gui_simple_message_content_t");
             }
         }
-        gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).param1 ));
+        gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
 
         gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
         gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
 
-        TSLOG_EVENT( utf8stringbuf_get_string( (*this_).param1 ) );
+        TSLOG_EVENT( utf8stringbuf_get_string( (*this_).private_temp_str ) );
     }
 
     TRACE_END();
@@ -329,7 +364,7 @@ void gui_simple_message_to_user_hide ( gui_simple_message_to_user_t *this_ )
     TRACE_BEGIN();
 
     (*this_).type_id = GUI_SIMPLE_MESSAGE_TYPE_NO_MESSAGE;
-    (*this_).content_id = GUI_SIMPLE_MESSAGE_CONTENT_NO_MESSAGE;
+    (*this_).content_id = GUI_SIMPLE_MESSAGE_CONTENT_0_NO_MESSAGE;
     (*this_).param1_nature = GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID;
     gtk_widget_hide( GTK_WIDGET ( (*this_).text_label ) );
     gtk_widget_hide( GTK_WIDGET ( (*this_).icon_image ) );
