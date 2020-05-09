@@ -12,6 +12,7 @@
 #include "gui_simple_message_content.h"
 #include "gui_simple_message_param_nature.h"
 #include "gui_resources.h"
+#include "set/data_stat.h"
 #include "util/string/utf8stringbuf.h"
 #include <gtk/gtk.h>
 

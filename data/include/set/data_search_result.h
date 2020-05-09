@@ -1,7 +1,7 @@
 /* File: data_search_result.h; Copyright and License: see below */
 
-#ifndef DATA_ID_SEARCH_RESULT_H
-#define DATA_ID_SEARCH_RESULT_H
+#ifndef DATA_SEARCH_RESULT_H
+#define DATA_SEARCH_RESULT_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -238,7 +238,7 @@ static inline void data_search_result_trace ( const data_search_result_t *this_ 
 
 #include "set/data_search_result.inl"
 
-#endif  /* DATA_ID_SEARCH_RESULT_H */
+#endif  /* DATA_SEARCH_RESULT_H */
 
 
 /*
