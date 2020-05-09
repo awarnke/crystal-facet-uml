@@ -4,7 +4,7 @@ static inline void gui_simple_message_to_user_show_message ( gui_simple_message_
                                                              gui_simple_message_type_t type_id,
                                                              gui_simple_message_content_t content_id )
 {
-    gui_simple_message_to_user_show_message_with_string ( this_, type_id, content_id, NULL );
+    gui_simple_message_to_user_show_message_with_string ( this_, type_id, content_id, GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID, NULL );
 }
 
 
