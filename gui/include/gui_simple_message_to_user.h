@@ -101,6 +101,22 @@ void gui_simple_message_to_user_show_message_with_int ( gui_simple_message_to_us
                                                       );
 
 /*!
+ *  \brief shows a message
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param type_id type of message to be shown
+ *  \param content_id id of the message to be shown. The id is language-independant and could be translated within this method.
+ *  \param param_nature nature/meaning of the parameter
+ *  \param stat_param statistics on performed actions that is printed with the content-message-string.
+ */
+void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_user_t *this_,
+                                                         gui_simple_message_type_t type_id,
+                                                         gui_simple_message_content_t content_id,
+                                                         gui_simple_message_param_nature_t param_nature,
+                                                         const data_stat_t *stat_param
+                                                       );
+
+/*!
  *  \brief hides whatever is currently shown
  *
  *  \param this_ pointer to own object attributes

@@ -5,6 +5,7 @@
 #include "tslog.h"
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
+#include "util/string/utf8stringbuf.h"
 #include <assert.h>
 
 void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_, GtkWidget *text_label, GtkWidget *icon_image, gui_resources_t *res )
@@ -34,24 +35,6 @@ void gui_simple_message_to_user_destroy ( gui_simple_message_to_user_t *this_ )
     (*this_).text_label = NULL;
     (*this_).icon_image = NULL;
     (*this_).res = NULL;
-
-    TRACE_END();
-}
-
-void gui_simple_message_to_user_show_message_with_int ( gui_simple_message_to_user_t *this_,
-                                                        gui_simple_message_type_t type_id,
-                                                        gui_simple_message_content_t content_id,
-                                                        gui_simple_message_param_nature_t param_nature,
-                                                        int int_param )
-{
-    TRACE_BEGIN();
-
-    char string_of_int_buf[16];
-    utf8stringbuf_t string_of_int = UTF8STRINGBUF( string_of_int_buf );
-    utf8stringbuf_clear( string_of_int );
-    utf8stringbuf_append_int( string_of_int, int_param );
-
-    gui_simple_message_to_user_show_message_with_string( this_, type_id, content_id, param_nature, utf8stringbuf_get_string( string_of_int ));
 
     TRACE_END();
 }
@@ -355,6 +338,45 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
 
         TSLOG_EVENT( utf8stringbuf_get_string( (*this_).private_temp_str ) );
     }
+
+    TRACE_END();
+}
+
+void gui_simple_message_to_user_show_message_with_int ( gui_simple_message_to_user_t *this_,
+                                                        gui_simple_message_type_t type_id,
+                                                        gui_simple_message_content_t content_id,
+                                                        gui_simple_message_param_nature_t param_nature,
+                                                        int int_param )
+{
+    TRACE_BEGIN();
+
+    char string_of_int_buf[16];
+    utf8stringbuf_t string_of_int = UTF8STRINGBUF( string_of_int_buf );
+    utf8stringbuf_clear( string_of_int );
+    utf8stringbuf_append_int( string_of_int, int_param );
+
+    gui_simple_message_to_user_show_message_with_string( this_, type_id, content_id, param_nature, utf8stringbuf_get_string( string_of_int ));
+
+    TRACE_END();
+}
+
+void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_user_t *this_,
+                                                         gui_simple_message_type_t type_id,
+                                                         gui_simple_message_content_t content_id,
+                                                         gui_simple_message_param_nature_t param_nature,
+                                                         const data_stat_t *stat_param
+                                                       )
+{
+    TRACE_BEGIN();
+    assert( stat_param != NULL );
+    data_stat_trace( stat_param );
+
+    char string_of_stat_buf[20];
+    utf8stringbuf_t string_of_stat = UTF8STRINGBUF( string_of_stat_buf );
+    utf8stringbuf_clear( string_of_stat );
+    utf8stringbuf_append_str( string_of_stat, "data_stat_t" );
+
+    gui_simple_message_to_user_show_message_with_string( this_, type_id, content_id, param_nature, utf8stringbuf_get_string( string_of_stat ));
 
     TRACE_END();
 }

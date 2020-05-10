@@ -20,12 +20,13 @@
  *  \brief constants for data series
  */
 enum data_stat_series_enum {
-    DATA_STAT_SERIES_CREATED = 0,
-    DATA_STAT_SERIES_MODIFIED = 1,
-    DATA_STAT_SERIES_DELETED = 2,
-    DATA_STAT_SERIES_WARNINGS = 3,
-    DATA_STAT_SERIES_ERRORS = 4,
-    DATA_STAT_SERIES_MAX = 5
+    DATA_STAT_SERIES_CREATED = 0,  /*!< number of things created */
+    DATA_STAT_SERIES_MODIFIED = 1,  /*!< number of things modified */
+    DATA_STAT_SERIES_DELETED = 2,  /*!< number of things deleted */
+    DATA_STAT_SERIES_IGNORED = 3,  /*!< number of things ignored, maybe because already existing or unmodified */
+    DATA_STAT_SERIES_WARNINGS = 4,  /*!< number of things with possibly unexpected results */
+    DATA_STAT_SERIES_ERRORS = 5,  /*!< number of things not processed as expected */
+    DATA_STAT_SERIES_MAX = 6
 };
 
 typedef enum data_stat_series_enum data_stat_series_t;
