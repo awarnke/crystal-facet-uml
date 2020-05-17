@@ -20,12 +20,12 @@
  *  \brief constants for data series
  */
 enum data_stat_series_enum {
-    DATA_STAT_SERIES_CREATED = 0,  /*!< number of things created */
-    DATA_STAT_SERIES_MODIFIED = 1,  /*!< number of things modified */
-    DATA_STAT_SERIES_DELETED = 2,  /*!< number of things deleted */
+    DATA_STAT_SERIES_CREATED = 0,  /*!< number of things created successfully */
+    DATA_STAT_SERIES_MODIFIED = 1,  /*!< number of things modified successfully */
+    DATA_STAT_SERIES_DELETED = 2,  /*!< number of things deleted successfully */
     DATA_STAT_SERIES_IGNORED = 3,  /*!< number of things ignored, maybe because already existing or unmodified */
-    DATA_STAT_SERIES_WARNINGS = 4,  /*!< number of things with possibly unexpected results */
-    DATA_STAT_SERIES_ERRORS = 5,  /*!< number of things not processed as expected */
+    DATA_STAT_SERIES_WARNING = 4,  /*!< number of things with possibly unexpected results */
+    DATA_STAT_SERIES_ERROR = 5,  /*!< number of things not processed as expected */
     DATA_STAT_SERIES_MAX = 6
 };
 
@@ -38,7 +38,11 @@ enum data_stat_tables_enum {
 /*!
  *  \brief the statistical numbers of all tables and series
  */
-typedef uint_fast32_t data_stat_t[DATA_STAT_TABLES_MAX][DATA_STAT_SERIES_MAX];
+struct data_stat_struct {
+    uint_fast32_t data[DATA_STAT_TABLES_MAX][DATA_STAT_SERIES_MAX];
+};
+
+typedef struct data_stat_struct data_stat_t;
 
 /*!
  *  \brief initializes the data_stat_t struct.
@@ -58,26 +62,56 @@ static inline void data_stat_destroy ( data_stat_t *this_ );
  *  \brief gets the counter of one data entity
  *
  *  \param this_ pointer to own object attributes
- *  \param series the data series to retrieve
  *  \param table the table entry in the data series to retrieve
+ *  \param series the data series to retrieve
  *  \return the count of the data entity
  */
 static inline uint_fast32_t data_stat_get_count ( const data_stat_t *this_,
-                                                  data_stat_series_t series,
-                                                  data_table_t table
+                                                  data_table_t table,
+                                                  data_stat_series_t series
                                                 );
 
 /*!
  *  \brief increases the counter of one data entity
  *
  *  \param this_ pointer to own object attributes
- *  \param series the data series to retrieve
  *  \param table the table entry in the data series to retrieve
+ *  \param series the data series to retrieve
  */
 static inline void data_stat_inc_count ( data_stat_t *this_,
-                                         data_stat_series_t series,
-                                         data_table_t table
+                                         data_table_t table,
+                                         data_stat_series_t series
                                        );
+
+/*!
+ *  \brief gets the sum of all data entities of one series
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param series the data series to retrieve
+ *  \return the sum of all data entities of one series
+ */
+static inline uint_fast32_t data_stat_get_series_count ( const data_stat_t *this_,
+                                                         data_stat_series_t series
+                                                       );
+
+/*!
+ *  \brief gets the sum of all data entities of one table
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param table the table entry in the data series to retrieve
+ *  \return the sum of all data entities of one table
+ */
+static inline uint_fast32_t data_stat_get_table_count ( const data_stat_t *this_,
+                                                        data_table_t table
+                                                      );
+
+/*!
+ *  \brief gets the sum of all data entities
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the sum of all data entities
+ */
+static inline uint_fast32_t data_stat_get_total_count ( const data_stat_t *this_ );
 
 /*!
  *  \brief traces data_stat_t

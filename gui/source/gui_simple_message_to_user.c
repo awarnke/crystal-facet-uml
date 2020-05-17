@@ -6,6 +6,7 @@
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
 #include "util/string/utf8stringbuf.h"
+#include <stdbool.h>
 #include <assert.h>
 
 void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_, GtkWidget *text_label, GtkWidget *icon_image, gui_resources_t *res )
@@ -360,6 +361,11 @@ void gui_simple_message_to_user_show_message_with_int ( gui_simple_message_to_us
     TRACE_END();
 }
 
+const char *const (gui_simple_message_to_user_private_table_name[DATA_STAT_TABLES_MAX])
+    = {"void","class.","feat.","rel.","link2class.","diag."};
+const char *const (gui_simple_message_to_user_private_series_name[DATA_STAT_SERIES_MAX])
+    = {"created","modified","deleted","ignored","warning","error"};
+
 void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_user_t *this_,
                                                          gui_simple_message_type_t type_id,
                                                          gui_simple_message_content_t content_id,
@@ -371,12 +377,48 @@ void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_u
     assert( stat_param != NULL );
     data_stat_trace( stat_param );
 
-    char string_of_stat_buf[20];
-    utf8stringbuf_t string_of_stat = UTF8STRINGBUF( string_of_stat_buf );
-    utf8stringbuf_clear( string_of_stat );
-    utf8stringbuf_append_str( string_of_stat, "data_stat_t" );
+    char stat_buf[256] = "";
+    utf8stringbuf_t stat_str = UTF8STRINGBUF( stat_buf );
+    for ( int series_idx = 0; series_idx < DATA_STAT_SERIES_MAX; series_idx ++ )
+    {
+        if ( 0 != data_stat_get_series_count ( stat_param, series_idx ) )
+        {
+            utf8stringbuf_append_str( stat_str, gui_simple_message_to_user_private_series_name[series_idx] );
+            utf8stringbuf_append_str( stat_str, ": " );
 
-    gui_simple_message_to_user_show_message_with_string( this_, type_id, content_id, param_nature, utf8stringbuf_get_string( string_of_stat ));
+            bool first = true;
+            for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLES_MAX; tables_idx ++ )
+            {
+                if ( DATA_TABLE_VOID != tables_idx )
+                {
+                    uint_fast32_t cnt = data_stat_get_count ( stat_param, tables_idx, series_idx );
+                    if ( 0 != cnt )
+                    {
+                        if ( first )
+                        {
+                            first = false;
+                        }
+                        else
+                        {
+                            utf8stringbuf_append_str( stat_str, ", " );
+                        }
+                        utf8stringbuf_append_str( stat_str, gui_simple_message_to_user_private_table_name[tables_idx] );
+                        utf8stringbuf_append_str( stat_str, ":" );
+                        utf8stringbuf_append_int( stat_str, cnt );
+                    }
+                }
+            }
+
+            utf8stringbuf_append_str( stat_str, "\n" );
+        }
+    }
+    if ( 0 == data_stat_get_total_count ( stat_param ) )
+    {
+        utf8stringbuf_append_str( stat_str, "0" );
+    }
+    TRACE_INFO( utf8stringbuf_get_string( stat_str ) );
+
+    gui_simple_message_to_user_show_message_with_string( this_, type_id, content_id, param_nature, utf8stringbuf_get_string( stat_str ));
 
     TRACE_END();
 }

@@ -8,10 +8,10 @@
  *  \brief Serializes and deserializes a set of objects to/from the clipboard
  */
 
-#include "io_stat.h"
 #include "ctrl_controller.h"
 #include "data_rules.h"
 #include "set/data_visible_set.h"
+#include "set/data_stat.h"
 #include "storage/data_database_reader.h"
 #include "util/string/utf8stringbuf.h"
 
@@ -62,18 +62,19 @@ void json_import_to_database_destroy ( json_import_to_database_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param json_text null-terminated string in json format, not NULL
  *  \param diagram_id id of the diagram to which to attach the imported data
- *  \param out_total total number of data objects received in json_text; undefined in case of an error.
- *  \param out_dropped number of dropped data objects, e.g. due to unsuitable type or already existing or scenario-specific behavior;
- *                     undefined in case of an error.
- *                     Note: the dropped counters are always lower than the total counters. The difference tells the number of created objects.
+ *  \param io_stat undefined in case of an error in the return value,
+ *                 otherwise statistics on DATA_STAT_SERIES_CREATED,
+ *                 DATA_STAT_SERIES_MODIFIED and
+ *                 DATA_STAT_SERIES_IGNORED (e.g. due to unsuitable type
+ *                 or already existing or scenario-specific behavior).
+ *                 Statistics are only added, *io_stat shall be initialized by caller.
  *  \param out_read_pos read position in the stream, in case of an error, this may help finding the cause
  *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
  */
 data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t *this_,
                                                        const char *json_text,
                                                        int64_t diagram_id,
-                                                       io_stat_t *out_total,
-                                                       io_stat_t *out_dropped,
+                                                       data_stat_t *io_stat,
                                                        uint32_t *out_read_pos
                                                      );
 

@@ -41,20 +41,16 @@ void json_import_to_database_destroy ( json_import_to_database_t *this_ )
 data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t *this_,
                                                        const char *json_text,
                                                        int64_t diagram_id,
-                                                       io_stat_t *out_total,
-                                                       io_stat_t *out_dropped,
+                                                       data_stat_t *io_stat,
                                                        uint32_t *out_read_pos )
 {
     TRACE_BEGIN();
     assert( NULL != json_text );
-    assert( NULL != out_total );
-    assert( NULL != out_dropped );
+    assert( NULL != io_stat );
     assert( NULL != out_read_pos );
 
     json_deserializer_t deserializer;
     data_error_t parse_error = DATA_ERROR_NONE;
-    io_stat_init( out_total );
-    io_stat_init( out_dropped );
 
     TRACE_INFO ( json_text );
 
@@ -114,8 +110,6 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                         }
                         else
                         {
-                            io_stat_inc_classifiers( out_total, 1 );
-
                             /* create classifier if not yet existing */
                             int64_t the_classifier_id;
                             {
@@ -140,6 +134,11 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                                                                                 ! is_first,
                                                                                                 &the_classifier_id
                                                                                               );
+                                    data_stat_inc_count ( io_stat,
+                                                          DATA_TABLE_CLASSIFIER,
+                                                          (CTRL_ERROR_NONE==write_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                                        );
+
                                     if ( CTRL_ERROR_NONE == write_error )
                                     {
                                         /* create also the features */
@@ -152,17 +151,22 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                             if ( ! data_rules_feature_is_scenario_cond( &((*this_).data_rules),
                                                                                         data_feature_get_main_type( current_feature ) ) )
                                             {
-                                                io_stat_inc_uncond_features( out_total, 1 );
                                                 write_error |= ctrl_classifier_controller_create_feature ( classifier_ctrl,
                                                                                                            current_feature,
                                                                                                            true, /* = bool add_to_latest_undo_set */
                                                                                                            &new_feature_id
                                                                                                          );
+                                                data_stat_inc_count ( io_stat,
+                                                                      DATA_TABLE_FEATURE,
+                                                                      (CTRL_ERROR_NONE==write_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                                                    );
                                             }
                                             else
                                             {
-                                                io_stat_inc_scenario_features( out_total, 1 );
-                                                io_stat_inc_scenario_features( out_dropped, 1 );
+                                                data_stat_inc_count ( io_stat,
+                                                                      DATA_TABLE_FEATURE,
+                                                                      DATA_STAT_SERIES_IGNORED
+                                                                    );
                                                 TRACE_INFO( "lifeline dropped at json import." );
                                             }
                                         }
@@ -177,20 +181,27 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                 else
                                 {
                                     /* do the statistics */
-                                    io_stat_inc_classifiers( out_dropped, 1 );
+                                    data_stat_inc_count ( io_stat,
+                                                          DATA_TABLE_CLASSIFIER,
+                                                          DATA_STAT_SERIES_IGNORED
+                                                        );
                                     for ( int f_index = 0; f_index < feature_count; f_index ++ )
                                     {
                                         data_feature_t *current_feature = &((*this_).temp_features[f_index]);
                                         if ( ! data_rules_feature_is_scenario_cond( &((*this_).data_rules),
                                                                                     data_feature_get_main_type( current_feature ) ) )
                                         {
-                                            io_stat_inc_uncond_features( out_total, 1 );
-                                            io_stat_inc_uncond_features( out_dropped, 1 );
+                                            data_stat_inc_count ( io_stat,
+                                                                  DATA_TABLE_FEATURE,
+                                                                  DATA_STAT_SERIES_WARNING
+                                                                );
                                         }
-                                        else
+                                        else  /* lifeline */
                                         {
-                                            io_stat_inc_scenario_features( out_total, 1 );
-                                            io_stat_inc_scenario_features( out_dropped, 1 );
+                                            data_stat_inc_count ( io_stat,
+                                                                  DATA_TABLE_FEATURE,
+                                                                  DATA_STAT_SERIES_IGNORED
+                                                                );
                                         }
                                     }
                                     TRACE_INFO( "classifier did already exist, features dropped at json import." );
@@ -201,8 +212,6 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
 
                             if ( ! any_error )  /* no error */
                             {
-                                io_stat_inc_diagramelements( out_total, 1 );
-
                                 /* link the classifier to the current diagram */
                                 ctrl_diagram_controller_t *diag_ctrl;
                                 diag_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
@@ -221,6 +230,10 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                                                                                ! is_first,
                                                                                                &new_element_id
                                                                                              );
+                                data_stat_inc_count ( io_stat,
+                                                      DATA_TABLE_DIAGRAMELEMENT,
+                                                      (CTRL_ERROR_NONE==write_error2)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                                    );
                                 if ( CTRL_ERROR_NONE != write_error2 )
                                 {
                                     TSLOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagramelement" );
@@ -243,8 +256,6 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                         }
                         else
                         {
-                            io_stat_inc_diagrams( out_total, 1 );
-
                             /* create the parsed diagram as child below the current diagram */
                             ctrl_diagram_controller_t *diag_ctrl;
                             diag_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
@@ -257,6 +268,10 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                                                                     ! is_first,
                                                                                     &new_diag_id
                                                                                   );
+                            data_stat_inc_count ( io_stat,
+                                                  DATA_TABLE_DIAGRAM,
+                                                  (CTRL_ERROR_NONE==write_error3)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                                );
                             if ( CTRL_ERROR_NONE != write_error3 )
                             {
                                 TSLOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagram" );
@@ -502,13 +517,17 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                                                             from_feature_type,
                                                                             to_feature_type ) )
                             {
-                                io_stat_inc_scenario_relationships( out_total, 1 );
-                                io_stat_inc_scenario_relationships( out_dropped, dropped ? 1 : 0 );
+                                data_stat_inc_count ( io_stat,
+                                                      DATA_TABLE_RELATIONSHIP,
+                                                      (!dropped)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                                    );
                             }
                             else
                             {
-                                io_stat_inc_uncond_relationships( out_total, 1 );
-                                io_stat_inc_uncond_relationships( out_dropped, dropped ? 1 : 0 );
+                                data_stat_inc_count ( io_stat,
+                                                      DATA_TABLE_RELATIONSHIP,
+                                                      (!dropped)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                                    );
                             }
                         }
                     }
