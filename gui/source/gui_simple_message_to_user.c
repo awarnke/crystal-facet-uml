@@ -299,7 +299,6 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             }
             break;
 
-            /*
             case GUI_SIMPLE_MESSAGE_CONTENT_S_CUT_TO_CLIPBOARD_STATS:
             {
                 assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
@@ -307,9 +306,7 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
                 utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
             break;
-            */
 
-            /*
             case GUI_SIMPLE_MESSAGE_CONTENT_S_COPY_TO_CLIPBOARD_STATS:
             {
                 assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
@@ -317,12 +314,19 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
                 utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
             break;
-            */
 
             case GUI_SIMPLE_MESSAGE_CONTENT_S_PASTE_FROM_CLIPBOARD_STATS:
             {
                 assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "Clipboard pasted: " );
+                utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
+            }
+            break;
+
+            case GUI_SIMPLE_MESSAGE_CONTENT_S_DELETE_STATS:
+            {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
+                utf8stringbuf_append_str( (*this_).private_temp_str, "Selection deleted: " );
                 utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
             break;
@@ -379,14 +383,23 @@ void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_u
 
     char stat_buf[256] = "";
     utf8stringbuf_t stat_str = UTF8STRINGBUF( stat_buf );
+    bool first_series = true;
     for ( int series_idx = 0; series_idx < DATA_STAT_SERIES_MAX; series_idx ++ )
     {
         if ( 0 != data_stat_get_series_count ( stat_param, series_idx ) )
         {
+            if ( first_series )
+            {
+                first_series = false;
+            }
+            else
+            {
+                utf8stringbuf_append_str( stat_str, "\n" );
+            }
             utf8stringbuf_append_str( stat_str, gui_simple_message_to_user_private_series_name[series_idx] );
             utf8stringbuf_append_str( stat_str, ": " );
 
-            bool first = true;
+            bool first_table = true;
             for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLES_MAX; tables_idx ++ )
             {
                 if ( DATA_TABLE_VOID != tables_idx )
@@ -394,9 +407,9 @@ void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_u
                     uint_fast32_t cnt = data_stat_get_count ( stat_param, tables_idx, series_idx );
                     if ( 0 != cnt )
                     {
-                        if ( first )
+                        if ( first_table )
                         {
-                            first = false;
+                            first_table = false;
                         }
                         else
                         {
@@ -408,8 +421,6 @@ void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_u
                     }
                 }
             }
-
-            utf8stringbuf_append_str( stat_str, "\n" );
         }
     }
     if ( 0 == data_stat_get_total_count ( stat_param ) )

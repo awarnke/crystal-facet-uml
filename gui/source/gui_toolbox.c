@@ -177,15 +177,20 @@ void gui_toolbox_cut( gui_toolbox_t *this_ )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
+    data_stat_t stat;
+    data_stat_init(&stat);
+
     const data_small_set_t *const set_to_be_cut = gui_marked_set_get_selected_set_ptr( (*this_).marker );
 
     /* do not check if set is empty; gui_clipboard_copy_set_to_clipboard will do this */
 
-    gui_clipboard_copy_set_to_clipboard( &((*this_).clipboard), set_to_be_cut );
+    gui_clipboard_copy_set_to_clipboard( &((*this_).clipboard), set_to_be_cut, &stat );
 
     gui_toolbox_private_delete_set( this_, set_to_be_cut );
 
     gui_marked_set_clear_selected_set( (*this_).marker );
+
+    data_stat_destroy(&stat);
 
     TRACE_END();
 }
@@ -204,21 +209,49 @@ void gui_toolbox_copy_btn_callback( GtkWidget* button, gpointer data )
 void gui_toolbox_copy( gui_toolbox_t *this_ )
 {
     TRACE_BEGIN();
+    data_error_t data_err;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
+    data_stat_t stat;
+    data_stat_init(&stat);
+
     const data_small_set_t *const set_to_be_copied = gui_marked_set_get_selected_set_ptr( (*this_).marker );
 
-    if ( data_small_set_is_empty( set_to_be_copied ) )
+    /* even in case data_small_set_is_empty( set_to_be_copied ),
+     * it is possible to copy an empty set to the clipboard
+     * --> therefore simply continue... */
+    data_err = gui_clipboard_copy_set_to_clipboard( &((*this_).clipboard), set_to_be_copied, &stat );
+
+    if ( data_err == DATA_ERROR_NONE )
     {
+        if ( 0 == data_stat_get_total_count( &stat ) )
+        {
+            gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                    GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                    GUI_SIMPLE_MESSAGE_CONTENT_0_NO_SELECTION
+                                                );
+        }
+        else
+        {
+            gui_simple_message_to_user_show_message_with_stat ( (*this_).message_to_user,
+                                                                GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                                GUI_SIMPLE_MESSAGE_CONTENT_S_COPY_TO_CLIPBOARD_STATS,
+                                                                GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS,
+                                                                &stat
+                                                              );
+        }
+    }
+    else
+    {
+        /* error to be shown to the user */
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                 GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_NO_SELECTION
+                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
                                                );
-        /* continue nonetheless, it is possible to copy an empty set to the clipboard */
     }
 
-    gui_clipboard_copy_set_to_clipboard( &((*this_).clipboard), set_to_be_copied );
+    data_stat_destroy(&stat);
 
     TRACE_END();
 }
@@ -241,6 +274,8 @@ void gui_toolbox_paste( gui_toolbox_t *this_ )
 
     const int64_t destination_diagram_id = gui_marked_set_get_focused_diagram( (*this_).marker );
     gui_clipboard_request_clipboard_text( &((*this_).clipboard), destination_diagram_id );
+
+    /* Note: (*this_).message_to_user is updated by (*this_).clipboard already - nothing to do here */
 
     TRACE_END();
 }
@@ -278,6 +313,9 @@ void gui_toolbox_private_delete_set( gui_toolbox_t *this_, const data_small_set_
     TRACE_BEGIN();
     ctrl_error_t ctrl_err;
 
+    data_stat_t stat;
+    data_stat_init(&stat);
+
     ctrl_err = ctrl_controller_delete_set ( (*this_).controller, *set_to_be_deleted );
     if ( CTRL_ERROR_INPUT_EMPTY == ctrl_err )
     {
@@ -297,6 +335,8 @@ void gui_toolbox_private_delete_set( gui_toolbox_t *this_, const data_small_set_
     {
         TSLOG_ERROR_HEX( "Error in ctrl_classifier_controller_delete_set_from_diagram", ctrl_err );
     }
+
+    data_stat_destroy(&stat);
 
     TRACE_END();
 }

@@ -193,7 +193,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                         {
                                             data_stat_inc_count ( io_stat,
                                                                   DATA_TABLE_FEATURE,
-                                                                  DATA_STAT_SERIES_WARNING
+                                                                  DATA_STAT_SERIES_IGNORED /*DATA_STAT_SERIES_WARNING*/
                                                                 );
                                         }
                                         else  /* lifeline */

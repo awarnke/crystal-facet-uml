@@ -58,7 +58,10 @@ void gui_clipboard_init ( gui_clipboard_t *this_,
 void gui_clipboard_destroy ( gui_clipboard_t *this_ );
 
 /*!
- *  \brief gets the clipboard contents and calls
+ *  \brief requests the clipboard contents.
+ *
+ *  When the clipboard contents is available, gui_clipboard_clipboard_text_received_callback
+ *  is called automatically.
  *
  *  \param this_ pointer to own object attributes
  *  \param destination_diagram_id diagram to which the deserialized objects shall be added
@@ -66,7 +69,10 @@ void gui_clipboard_destroy ( gui_clipboard_t *this_ );
 void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, int64_t destination_diagram_id );
 
 /*!
- *  \brief callback that informs that the text from the clipboard is now available
+ *  \brief callback that informs that the text from the clipboard is now available.
+ *
+ *  Thi function implicitly assumes that the clipboard text shall be imported and calls
+ *  gui_clipboard_private_copy_clipboard_to_db.
  *
  *  \param clipboard pointer to GtkClipboard
  *  \param text pointer to the clipboard text or NULL if there is no text
@@ -79,8 +85,15 @@ void gui_clipboard_clipboard_text_received_callback ( GtkClipboard *clipboard, c
  *
  *  \param this_ pointer to own object attributes
  *  \param set_to_be_copied ids of the objects to be exported
+ *  \param io_stat undefined in case of an error in the return value,
+ *                 otherwise statistics on copied data.
+ *                 Statistics are only added; *io_stat shall be initialized by caller.
+ *  \return DATA_ERROR_NONE in case of success, a serializer error if set_to_be_copied cannot be serialized
  */
-void gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_, const data_small_set_t *set_to_be_copied );
+data_error_t gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_,
+                                                  const data_small_set_t *set_to_be_copied,
+                                                  data_stat_t *io_stat
+                                                );
 
 /*!
  *  \brief copies the clipboard contents to the database

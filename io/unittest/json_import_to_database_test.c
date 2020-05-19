@@ -440,9 +440,9 @@ static void insert_existing_classifier_to_existing_diagram(void)
         TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ), 1 );
         TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ), 0 );
         /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ), 1 );
         /* DATA_TABLE_FEATURE a feature of an already existing classifier is dropped */
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING ), 1 );
+        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ), 2 );
+        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING ), 0 );
         /* DATA_TABLE_RELATIONSHIP: no names of auto-generated lifelines are mentioned, therefore only unconditional relationships */
         TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ), 0 );
         /* DATA_TABLE_RELATIONSHIP: source does not exist */
@@ -495,9 +495,9 @@ static void insert_existing_classifier_to_new_diagram(void)
         TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ), 1 );
         TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ), 0 );
         /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ), 1 );
         /* DATA_TABLE_FEATURE a feature of an already existing classifier is dropped */
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING ), 1 );
+        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ), 2 );
+        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING ), 0 );
         /* DATA_TABLE_RELATIONSHIP: no names of auto-generated lifelines are mentioned, therefore only unconditional relationships */
         TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ), 0 );
         /* DATA_TABLE_RELATIONSHIP: destination does not exist */
