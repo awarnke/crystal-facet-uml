@@ -381,18 +381,28 @@ static void undo_redo_feature_and_relationship(void)
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* 5. delete the feature and the relationship from the database */
-    data_small_set_t small_set;
-    data_id_t element_id;
-    data_small_set_init( &small_set );
-    data_id_init( &element_id, DATA_TABLE_FEATURE, new_feature_id );
-    data_err = data_small_set_add_obj ( &small_set, element_id );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-    data_id_reinit( &element_id, DATA_TABLE_RELATIONSHIP, new_relationship_id );
-    data_err = data_small_set_add_obj ( &small_set, element_id );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    {
+        data_small_set_t small_set;
+        data_id_t element_id;
+        data_small_set_init( &small_set );
+        data_id_init( &element_id, DATA_TABLE_FEATURE, new_feature_id );
+        data_err = data_small_set_add_obj ( &small_set, element_id );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        data_id_reinit( &element_id, DATA_TABLE_RELATIONSHIP, new_relationship_id );
+        data_err = data_small_set_add_obj ( &small_set, element_id );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-    ctrl_err = ctrl_controller_delete_set ( &controller, small_set );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        {
+            data_stat_t stat;
+            data_stat_init(&stat);
+            ctrl_err = ctrl_controller_delete_set ( &controller, small_set, &stat );
+            TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+            TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
+            TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
+            TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
+            data_stat_destroy(&stat);
+        }
+    }
 
     /* the undo-list is filled now. test undo */
 

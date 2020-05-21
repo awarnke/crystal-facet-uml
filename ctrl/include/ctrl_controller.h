@@ -18,6 +18,7 @@
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
+#include "set/data_stat.h"
 #include "util/string/utf8stringbuf.h"
 
 /*!
@@ -125,10 +126,14 @@ static inline ctrl_error_t ctrl_controller_repair_database ( ctrl_controller_t *
  *
  *  \param this_ pointer to own object attributes
  *  \param objects set of object ids to be deleted
+ *  \param io_stat Statistics on DATA_STAT_SERIES_DELETED and
+ *                 DATA_STAT_SERIES_ERROR (e.g. if a diagram still contains objects).
+ *                 *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return error id in case of an error, e.g. CTRL_ERROR_INPUT_EMPTY in case of empty set, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
-                                          data_small_set_t objects
+                                          data_small_set_t objects,
+                                          data_stat_t *io_stat
                                         );
 
 #include "ctrl_controller.inl"

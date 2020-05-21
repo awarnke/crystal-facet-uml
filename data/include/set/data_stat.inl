@@ -45,6 +45,17 @@ static inline void data_stat_inc_count ( data_stat_t *this_,
     (*this_).data[table][series]++;
 }
 
+static inline void data_stat_add_count ( data_stat_t *this_,
+                                         data_table_t table,
+                                         data_stat_series_t series,
+                                         int_fast32_t increment )
+{
+    assert( DATA_TABLE_VOID != table );
+    assert( (int)table < (int)DATA_STAT_TABLES_MAX );
+    assert( series < DATA_STAT_SERIES_MAX );
+    (*this_).data[table][series] += increment;
+}
+
 static inline uint_fast32_t data_stat_get_series_count ( const data_stat_t *this_,
                                                          data_stat_series_t series )
 {

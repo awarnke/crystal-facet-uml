@@ -11,11 +11,11 @@
 
 #define META_INFO_PROGRAM_NAME_STR "crystal facet uml"
 #define META_INFO_PROGRAM_ID_STR "crystal_facet_uml"
-#define META_INFO_COPYRIGHT_STR /*Copyright*/ "2016-2020 A.Warnke"
+#define META_INFO_COPYRIGHT_STR /*Copyright*/ "2016-2020 Andreas Warnke"
 #ifdef __linux__
-#define META_INFO_LICENSE_STR "Apache-2.0"  /* linked dynamicyally */
+#define META_INFO_LICENSE_STR "Apache-2.0"  /* sqlite3 linked dynamicyally */
 #else  /* __linux__ */
-#define META_INFO_LICENSE_STR "Apache-2.0 (includes sqlite3 which is public domain)"  /* linked statically */
+#define META_INFO_LICENSE_STR "Apache-2.0 (includes sqlite3 which is public domain)"  /* sqlite3 linked statically */
 #endif  /* __linux__ */
 
 #endif  /* META_INFO_H */

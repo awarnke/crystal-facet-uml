@@ -367,8 +367,10 @@ void gui_simple_message_to_user_show_message_with_int ( gui_simple_message_to_us
 
 const char *const (gui_simple_message_to_user_private_table_name[DATA_STAT_TABLES_MAX])
     = {"void","class.","feat.","rel.","link2class.","diag."};
-const char *const (gui_simple_message_to_user_private_series_name[DATA_STAT_SERIES_MAX])
+const char *const (gui_simple_message_to_user_private_series_name4change[DATA_STAT_SERIES_MAX])
     = {"created","modified","deleted","ignored","warning","error"};
+const char *const (gui_simple_message_to_user_private_series_name4other[DATA_STAT_SERIES_MAX])
+    = {"exported","un/selected","deleted","ignored","warning","error"};
 
 void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_user_t *this_,
                                                          gui_simple_message_type_t type_id,
@@ -396,7 +398,12 @@ void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_u
             {
                 utf8stringbuf_append_str( stat_str, "\n" );
             }
-            utf8stringbuf_append_str( stat_str, gui_simple_message_to_user_private_series_name[series_idx] );
+            const char *const series_name
+                = ((content_id == GUI_SIMPLE_MESSAGE_CONTENT_S_CUT_TO_CLIPBOARD_STATS )
+                || (content_id == GUI_SIMPLE_MESSAGE_CONTENT_S_COPY_TO_CLIPBOARD_STATS ))
+                ? gui_simple_message_to_user_private_series_name4other[series_idx]
+                : gui_simple_message_to_user_private_series_name4change[series_idx];
+            utf8stringbuf_append_str( stat_str, series_name );
             utf8stringbuf_append_str( stat_str, ": " );
 
             bool first_table = true;
@@ -415,7 +422,8 @@ void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_u
                         {
                             utf8stringbuf_append_str( stat_str, ", " );
                         }
-                        utf8stringbuf_append_str( stat_str, gui_simple_message_to_user_private_table_name[tables_idx] );
+                        const char *const table_name = gui_simple_message_to_user_private_table_name[tables_idx];
+                        utf8stringbuf_append_str( stat_str, table_name );
                         utf8stringbuf_append_str( stat_str, ":" );
                         utf8stringbuf_append_int( stat_str, cnt );
                     }

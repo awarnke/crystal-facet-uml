@@ -56,7 +56,7 @@ void json_export_from_database_destroy ( json_export_from_database_t *this_ );
  *  \param io_stat undefined in case of an error in the return value,
  *                 otherwise statistics on DATA_STAT_SERIES_CREATED,
  *                 DATA_STAT_SERIES_IGNORED (e.g. at export of t.b.d.) and
- *                 DATA_STAT_SERIES_ERROR (e.g. if t.b.d.)
+ *                 DATA_STAT_SERIES_ERROR (e.g. if t.b.d.).
  *                 Statistics are only added, *io_stat shall be initialized by caller.
  *  \param out_buf string buffer to which to write the json formatted data to
  *  \return DATA_ERROR_NONE in case of success

@@ -174,6 +174,7 @@ void gui_toolbox_cut_btn_callback( GtkWidget* button, gpointer data )
 void gui_toolbox_cut( gui_toolbox_t *this_ )
 {
     TRACE_BEGIN();
+    ctrl_error_t ctrl_err;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
@@ -186,9 +187,37 @@ void gui_toolbox_cut( gui_toolbox_t *this_ )
 
     gui_clipboard_copy_set_to_clipboard( &((*this_).clipboard), set_to_be_cut, &stat );
 
-    gui_toolbox_private_delete_set( this_, set_to_be_cut );
+    ctrl_err = gui_toolbox_private_delete_set( this_, set_to_be_cut, &stat );
 
     gui_marked_set_clear_selected_set( (*this_).marker );
+
+    if ( CTRL_ERROR_INPUT_EMPTY == ctrl_err )
+    {
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_NO_SELECTION
+                                               );
+    }
+    else if ( CTRL_ERROR_NONE != ( ctrl_err & CTRL_ERROR_OBJECT_STILL_REFERENCED ))
+    {
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_DELETING_NOT_POSSIBLE
+                                               );
+    }
+    else if ( CTRL_ERROR_NONE != ctrl_err )
+    {
+        TSLOG_ERROR_HEX( "Error in ctrl_classifier_controller_delete_set_from_diagram", ctrl_err );
+    }
+    else
+    {
+        gui_simple_message_to_user_show_message_with_stat ( (*this_).message_to_user,
+                                                            GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_S_CUT_TO_CLIPBOARD_STATS,
+                                                            GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS,
+                                                            &stat
+                                                          );
+    }
 
     data_stat_destroy(&stat);
 
@@ -294,29 +323,21 @@ void gui_toolbox_delete_btn_callback( GtkWidget* button, gpointer data )
 void gui_toolbox_delete( gui_toolbox_t *this_ )
 {
     TRACE_BEGIN();
+    ctrl_error_t ctrl_err;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
+
+    data_stat_t stat;
+    data_stat_init(&stat);
 
     const data_small_set_t *const set_to_be_deleted = gui_marked_set_get_selected_set_ptr( (*this_).marker );
 
     /* do not check if set is empty; gui_toolbox_private_delete_set will do this */
 
-    gui_toolbox_private_delete_set( this_, set_to_be_deleted );
+    ctrl_err = gui_toolbox_private_delete_set( this_, set_to_be_deleted, &stat );
 
     gui_marked_set_clear_selected_set( (*this_).marker );
 
-    TRACE_END();
-}
-
-void gui_toolbox_private_delete_set( gui_toolbox_t *this_, const data_small_set_t *set_to_be_deleted )
-{
-    TRACE_BEGIN();
-    ctrl_error_t ctrl_err;
-
-    data_stat_t stat;
-    data_stat_init(&stat);
-
-    ctrl_err = ctrl_controller_delete_set ( (*this_).controller, *set_to_be_deleted );
     if ( CTRL_ERROR_INPUT_EMPTY == ctrl_err )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -335,10 +356,34 @@ void gui_toolbox_private_delete_set( gui_toolbox_t *this_, const data_small_set_
     {
         TSLOG_ERROR_HEX( "Error in ctrl_classifier_controller_delete_set_from_diagram", ctrl_err );
     }
+    else
+    {
+        gui_simple_message_to_user_show_message_with_stat ( (*this_).message_to_user,
+                                                            GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_S_DELETE_STATS,
+                                                            GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS,
+                                                            &stat
+                                                          );
+    }
 
     data_stat_destroy(&stat);
 
     TRACE_END();
+}
+
+ctrl_error_t gui_toolbox_private_delete_set( gui_toolbox_t *this_,
+                                             const data_small_set_t *set_to_be_deleted,
+                                             data_stat_t *io_stat )
+{
+    TRACE_BEGIN();
+    assert( NULL != set_to_be_deleted );
+    assert( NULL != io_stat );
+    ctrl_error_t ctrl_err;
+
+    ctrl_err = ctrl_controller_delete_set ( (*this_).controller, *set_to_be_deleted, io_stat );
+
+    TRACE_END_ERR( ctrl_err );
+    return ctrl_err;
 }
 
 void gui_toolbox_highlight_btn_callback( GtkWidget* button, gpointer data )

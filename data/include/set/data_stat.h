@@ -9,7 +9,7 @@
  *  \brief Defines a set of statistics that can be used to analyze the result of a function
  *         that is supposed to do multiple things.
  *
- *  Example functions: import, export, repair db, check db, select all,
+ *  Example functions: import, export, repair db, check db, select none, select all,
  *                     cut, copy, paste, delete, undo, redo, search, mark, instantiate.
  */
 
@@ -20,8 +20,8 @@
  *  \brief constants for data series
  */
 enum data_stat_series_enum {
-    DATA_STAT_SERIES_CREATED = 0,  /*!< number of things created successfully */
-    DATA_STAT_SERIES_MODIFIED = 1,  /*!< number of things modified successfully */
+    DATA_STAT_SERIES_CREATED = 0,  /*!< number of things created/exported successfully */
+    DATA_STAT_SERIES_MODIFIED = 1,  /*!< number of things modified/un-/selected/found successfully */
     DATA_STAT_SERIES_DELETED = 2,  /*!< number of things deleted successfully */
     DATA_STAT_SERIES_IGNORED = 3,  /*!< number of things ignored, maybe because already existing or unmodified */
     DATA_STAT_SERIES_WARNING = 4,  /*!< number of things with possibly unexpected results */
@@ -81,6 +81,20 @@ static inline uint_fast32_t data_stat_get_count ( const data_stat_t *this_,
 static inline void data_stat_inc_count ( data_stat_t *this_,
                                          data_table_t table,
                                          data_stat_series_t series
+                                       );
+
+/*!
+ *  \brief adds increment to the counter of one data entity
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param table the table entry in the data series to retrieve
+ *  \param series the data series to retrieve
+ *  \param increment the value to add to the counter
+ */
+static inline void data_stat_add_count ( data_stat_t *this_,
+                                         data_table_t table,
+                                         data_stat_series_t series,
+                                         int_fast32_t increment
                                        );
 
 /*!

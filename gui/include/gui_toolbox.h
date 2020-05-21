@@ -12,6 +12,7 @@
 #include "gui_marked_set.h"
 #include "gui_simple_message_to_user.h"
 #include "gui_clipboard.h"
+#include "set/data_stat.h"
 #include "ctrl_controller.h"
 #include "util/string/utf8stringbuf.h"
 #include <gtk/gtk.h>
@@ -182,8 +183,20 @@ void gui_toolbox_delete( gui_toolbox_t *this_ );
 
 /*!
  *  \brief deletes a set of objects
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param set_to_be_deleted set of element ids to be deleted
+ *  \param io_stat undefined in case of an error in the return value,
+ *                 otherwise statistics on DATA_STAT_SERIES_DELETED,
+ *                 DATA_STAT_SERIES_IGNORED (e.g. lifelines) and
+ *                 DATA_STAT_SERIES_ERROR (e.g. if t.b.d.).
+ *                 Statistics are only added, *io_stat shall be initialized by caller.
+ *  \return CTRL_ERROR_NONE in case of success
  */
-void gui_toolbox_private_delete_set( gui_toolbox_t *this_, const data_small_set_t *set_to_be_deleted );
+ctrl_error_t gui_toolbox_private_delete_set( gui_toolbox_t *this_,
+                                             const data_small_set_t *set_to_be_deleted,
+                                             data_stat_t *io_stat
+                                           );
 
 /*!
  *  \brief toggles display flags in a set of objects

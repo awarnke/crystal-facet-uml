@@ -71,11 +71,16 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
                 if ( read_error == DATA_ERROR_NONE )
                 {
                     serialize_error |= json_serializer_append_diagram( &serializer, &out_diagram, out_buf);
+                    data_stat_inc_count ( io_stat,
+                                          DATA_TABLE_DIAGRAM,
+                                          (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                        );
                 }
                 else
                 {
                     /* program internal error */
                     TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
+                    data_stat_inc_count ( io_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR );
                 }
             }
             break;
@@ -124,17 +129,28 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
                                                                               out_feature_count,
                                                                               out_buf
                                                                             );
+                        data_stat_inc_count ( io_stat,
+                                              DATA_TABLE_CLASSIFIER,
+                                              (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                            );
+                        data_stat_add_count ( io_stat,
+                                              DATA_TABLE_FEATURE,
+                                              (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR,
+                                              out_feature_count
+                                            );
                     }
                     else
                     {
                         /* program internal error */
                         TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all features of the classifier of the set." );
+                        data_stat_inc_count ( io_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
                     }
                 }
                 else
                 {
                     /* program internal error */
                     TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
+                    data_stat_inc_count ( io_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
                 }
             }
             break;
@@ -177,23 +193,35 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
                                                                                   out_feature_count,
                                                                                   out_buf
                                                                                 );
+                            data_stat_inc_count ( io_stat,
+                                                  DATA_TABLE_CLASSIFIER,
+                                                  (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                                );
+                            data_stat_add_count ( io_stat,
+                                                  DATA_TABLE_FEATURE,
+                                                  (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR,
+                                                  out_feature_count
+                                                );
                         }
                         else
                         {
                             /* program internal error */
                             TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all features of the classifier of the set." );
+                            data_stat_inc_count ( io_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
                         }
                     }
                     else
                     {
                         /* program internal error */
                         TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
+                        data_stat_inc_count ( io_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
                     }
                 }
                 else
                 {
                     /* program internal error */
                     TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
+                    data_stat_inc_count ( io_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
                 }
             }
             break;
@@ -208,6 +236,7 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
             {
                 /* intentionally not supported */
                 TRACE_INFO( "gui_toolbox_private_copy_set_to_clipboard does not copy single features, only complete classifiers." );
+                data_stat_inc_count ( io_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
             }
             break;
 
@@ -303,17 +332,23 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
                                                                                 &((*this_).temp_features[1]),
                                                                                 out_buf
                                                                               );
+                        data_stat_inc_count ( io_stat,
+                                              DATA_TABLE_RELATIONSHIP,
+                                              (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                            );
                     }
                     else
                     {
                         /* program internal error */
                         TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all features of the classifier of the set." );
+                        data_stat_inc_count ( io_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
                     }
                 }
                 else
                 {
                     /* program internal error */
                     TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
+                    data_stat_inc_count ( io_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
                 }
             }
             break;

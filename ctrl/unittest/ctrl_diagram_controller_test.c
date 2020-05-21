@@ -271,8 +271,13 @@ static void create_diagramelements_and_delete(void)
         data_id_init( &element_id, DATA_TABLE_DIAGRAMELEMENT, diag_element_id );
         data_err = data_small_set_add_obj ( &small_set, element_id );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        ctrl_err = ctrl_controller_delete_set ( &controller, small_set );
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_delete_set ( &controller, small_set, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_DELETED ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
+        data_stat_destroy(&stat);
     }
 
     /* get the deleted data_diagramelement_t */
