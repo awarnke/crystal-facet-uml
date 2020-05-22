@@ -12,14 +12,16 @@ static inline ctrl_diagram_controller_t *ctrl_controller_get_diagram_control_ptr
 
 /* ================================ interface for undo redo ================================ */
 
-static inline ctrl_error_t ctrl_controller_undo ( ctrl_controller_t *this_ )
+static inline ctrl_error_t ctrl_controller_undo ( ctrl_controller_t *this_, data_stat_t *io_stat )
 {
-    return ctrl_undo_redo_list_undo( &((*this_).undo_redo_list) );
+    assert ( NULL != io_stat );
+    return ctrl_undo_redo_list_undo( &((*this_).undo_redo_list), io_stat );
 }
 
-static inline ctrl_error_t ctrl_controller_redo ( ctrl_controller_t *this_ )
+static inline ctrl_error_t ctrl_controller_redo ( ctrl_controller_t *this_, data_stat_t *io_stat )
 {
-    return ctrl_undo_redo_list_redo( &((*this_).undo_redo_list) );
+    assert ( NULL != io_stat );
+    return ctrl_undo_redo_list_redo( &((*this_).undo_redo_list), io_stat );
 }
 
 /* ================================ interface for database file ================================ */

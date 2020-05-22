@@ -49,6 +49,8 @@ enum gui_simple_message_content_enum {
     GUI_SIMPLE_MESSAGE_CONTENT_S_COPY_TO_CLIPBOARD_STATS,  /*!< show statistics on copied elements */
     GUI_SIMPLE_MESSAGE_CONTENT_S_PASTE_FROM_CLIPBOARD_STATS,  /*!< show statistics on pasted elements */
     GUI_SIMPLE_MESSAGE_CONTENT_S_DELETE_STATS,  /*!< show statistics on deleted elements */
+    GUI_SIMPLE_MESSAGE_CONTENT_S_UNDO_STATS,  /*!< show statistics on undo actions */
+    GUI_SIMPLE_MESSAGE_CONTENT_S_REDO_STATS,  /*!< show statistics on redo actions */
 
     GUI_SIMPLE_MESSAGE_CONTENT_E_NOT_YET_IMPLEMENTED,  /*!< the feature is not yet implemented */
 };

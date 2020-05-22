@@ -13,6 +13,7 @@
 #include "ctrl_error.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
+#include "set/data_stat.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -97,20 +98,28 @@ ctrl_error_t ctrl_undo_redo_list_remove_boundary_from_end ( ctrl_undo_redo_list_
  *  \brief un-does a set of actions till the last boundary.
  *
  *  \param this_ pointer to own object attributes
+ *  \param io_stat Statistics on DATA_STAT_SERIES_CREATED, DATA_STAT_SERIES_MODIFIED,
+ *                 DATA_STAT_SERIES_DELETED and
+ *                 DATA_STAT_SERIES_ERROR (e.g. if name not unique due to parallel working on same db).
+ *                 *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if there is no more complete set of actions to be un-done due to limits of buffer.
  *          CTRL_ERROR_INVALID_REQUEST if there is no more set of actions to be un-done
  *          CTRL_ERROR_NONE otherwise.
  */
-ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_ );
+ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat );
 
 /*!
  *  \brief re-does a set of actions till the next boundary.
  *
  *  \param this_ pointer to own object attributes
+ *  \param io_stat Statistics on DATA_STAT_SERIES_CREATED, DATA_STAT_SERIES_MODIFIED,
+ *                 DATA_STAT_SERIES_DELETED and
+ *                 DATA_STAT_SERIES_ERROR (e.g. if name not unique due to parallel working on same db).
+ *                 *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return CTRL_ERROR_INVALID_REQUEST if there is no more set of actions to be re-done.
  *          CTRL_ERROR_NONE otherwise.
  */
-ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_ );
+ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat );
 
 /* ================================ DIAGRAM ================================ */
 

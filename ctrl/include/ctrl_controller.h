@@ -73,20 +73,28 @@ static inline ctrl_diagram_controller_t *ctrl_controller_get_diagram_control_ptr
  *  \brief un-does a set of actions.
  *
  *  \param this_ pointer to own object attributes
+ *  \param io_stat Statistics on DATA_STAT_SERIES_CREATED, DATA_STAT_SERIES_MODIFIED,
+ *                 DATA_STAT_SERIES_DELETED and
+ *                 DATA_STAT_SERIES_ERROR (e.g. if name not unique due to parallel working on same db).
+ *                 *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if there is no more complete set of actions to be un-done due to limits of buffer.
  *          CTRL_ERROR_INVALID_REQUEST if there is no more set of actions to be un-done
  *          CTRL_ERROR_NONE otherwise.
  */
-static inline ctrl_error_t ctrl_controller_undo ( ctrl_controller_t *this_ );
+static inline ctrl_error_t ctrl_controller_undo ( ctrl_controller_t *this_, data_stat_t *io_stat );
 
 /*!
  *  \brief re-does a set of actions.
  *
  *  \param this_ pointer to own object attributes
+ *  \param io_stat Statistics on DATA_STAT_SERIES_CREATED, DATA_STAT_SERIES_MODIFIED,
+ *                 DATA_STAT_SERIES_DELETED and
+ *                 DATA_STAT_SERIES_ERROR (e.g. if name not unique due to parallel working on same db).
+ *                 *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return CTRL_ERROR_INVALID_REQUEST if there is no more set of actions to be re-done.
  *          CTRL_ERROR_NONE otherwise.
  */
-static inline ctrl_error_t ctrl_controller_redo ( ctrl_controller_t *this_ );
+static inline ctrl_error_t ctrl_controller_redo ( ctrl_controller_t *this_, data_stat_t *io_stat );
 
 /* ================================ interface for database file ================================ */
 

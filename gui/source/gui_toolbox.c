@@ -579,7 +579,10 @@ void gui_toolbox_undo_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    ctrl_err = ctrl_controller_undo( (*this_).controller );
+    data_stat_t stat;
+    data_stat_init(&stat);
+
+    ctrl_err = ctrl_controller_undo( (*this_).controller, &stat );
     if ( CTRL_ERROR_INVALID_REQUEST == ctrl_err )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -597,7 +600,15 @@ void gui_toolbox_undo_btn_callback( GtkWidget* button, gpointer data )
     else
     {
         /* success */
+        gui_simple_message_to_user_show_message_with_stat ( (*this_).message_to_user,
+                                                            GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_S_UNDO_STATS,
+                                                            GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS,
+                                                            &stat
+                                                          );
     }
+
+    data_stat_destroy(&stat);
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -611,7 +622,10 @@ void gui_toolbox_redo_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    ctrl_err = ctrl_controller_redo( (*this_).controller );
+    data_stat_t stat;
+    data_stat_init(&stat);
+
+    ctrl_err = ctrl_controller_redo( (*this_).controller, &stat );
     if ( CTRL_ERROR_INVALID_REQUEST == ctrl_err )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -622,7 +636,15 @@ void gui_toolbox_redo_btn_callback( GtkWidget* button, gpointer data )
     else
     {
         /* success */
+        gui_simple_message_to_user_show_message_with_stat ( (*this_).message_to_user,
+                                                            GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_S_REDO_STATS,
+                                                            GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS,
+                                                            &stat
+                                                          );
     }
+
+    data_stat_destroy(&stat);
 
     TRACE_TIMESTAMP();
     TRACE_END();

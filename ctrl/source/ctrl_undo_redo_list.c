@@ -61,9 +61,10 @@ ctrl_error_t ctrl_undo_redo_list_remove_boundary_from_end ( ctrl_undo_redo_list_
     return result;
 }
 
-ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_ )
+ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat )
 {
     TRACE_BEGIN();
+    assert ( NULL != io_stat );
 
     ctrl_error_t result = CTRL_ERROR_NONE;
 
@@ -115,9 +116,10 @@ ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_ )
     return result;
 }
 
-ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_ )
+ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat )
 {
     TRACE_BEGIN();
+    assert ( NULL != io_stat );
 
     ctrl_error_t result = CTRL_ERROR_NONE;
 

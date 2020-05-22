@@ -331,6 +331,22 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             }
             break;
 
+            case GUI_SIMPLE_MESSAGE_CONTENT_S_UNDO_STATS:
+            {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
+                utf8stringbuf_append_str( (*this_).private_temp_str, "Undo success: " );
+                utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
+            }
+            break;
+
+            case GUI_SIMPLE_MESSAGE_CONTENT_S_REDO_STATS:
+            {
+                assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
+                utf8stringbuf_append_str( (*this_).private_temp_str, "Redo success: " );
+                utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
+            }
+            break;
+
             default:
             {
                 TSLOG_ERROR("unexptected gui_simple_message_content_t");

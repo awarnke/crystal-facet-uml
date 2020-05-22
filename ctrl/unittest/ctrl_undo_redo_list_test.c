@@ -134,12 +134,27 @@ static void undo_redo_classifier(void)
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* undo classifier update */
-    ctrl_err = ctrl_controller_undo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* undo classifier and diagramelement creation */
-    ctrl_err = ctrl_controller_undo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        //TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
+        //TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED ));
+        //TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
+        data_stat_destroy(&stat);
+    }
+
+    /* check what is in the database */
     {
         uint32_t read_vis_classifiers_count;
         data_visible_classifier_t read_vis_classifiers[1];
@@ -150,8 +165,15 @@ static void undo_redo_classifier(void)
     }
 
     /* undo root diagram creation */
-    ctrl_err = ctrl_controller_undo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
+
+    /* check what is in the database */
     {
         data_diagram_t read_diagram;
         data_err = data_database_reader_get_diagram_by_id ( &db_reader, root_diagram_id, &read_diagram );
@@ -159,8 +181,15 @@ static void undo_redo_classifier(void)
     }
 
     /* redo root diagram creation */
-    ctrl_err = ctrl_controller_redo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
+
+    /* check what is in the database */
     {
         data_diagram_t read_diagram;
         data_err = data_database_reader_get_diagram_by_id ( &db_reader, root_diagram_id, &read_diagram );
@@ -174,12 +203,24 @@ static void undo_redo_classifier(void)
     }
 
     /* redo classifier and diagramelement creation */
-    ctrl_err = ctrl_controller_redo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* redo classifier update */
-    ctrl_err = ctrl_controller_redo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
+
+    /* check what is in the database */
     {
         uint32_t read_vis_classifiers_count;
         data_visible_classifier_t read_vis_classifiers[1];
@@ -227,20 +268,40 @@ static void undo_redo_list_limits(void)
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* undo root diagram creation */
-    ctrl_err = ctrl_controller_undo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* undo at start of list */
-    ctrl_err = ctrl_controller_undo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* redo root diagram creation */
-    ctrl_err = ctrl_controller_redo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* redo at end of list */
-    ctrl_err = ctrl_controller_redo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* fill the list by creating classifiers and diagramelements */
     for ( int32_t pos = 0; pos < (CTRL_UNDO_REDO_LIST_MAX_SIZE-1/*first boundary*/-2/*diagram and boundary*/)/2/*list entries per diagram*/; pos ++ )
@@ -267,17 +328,32 @@ static void undo_redo_list_limits(void)
     /* undo everything that is possible */
     for ( int32_t pos = 0; pos < (CTRL_UNDO_REDO_LIST_MAX_SIZE-0/*first boundary is overwritten*/-2/*diagram and boundary*/)/2/*list entries per diagram*/; pos ++ )
     {
-        ctrl_err = ctrl_controller_undo ( &controller );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        {
+            data_stat_t stat;
+            data_stat_init(&stat);
+            ctrl_err = ctrl_controller_undo ( &controller, &stat );
+            TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+            data_stat_destroy(&stat);
+        }
     }
 
     /* undo one more */
-    ctrl_err = ctrl_controller_undo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_ARRAY_BUFFER_EXCEEDED, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_ARRAY_BUFFER_EXCEEDED, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* redo one */
-    ctrl_err = ctrl_controller_redo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* create a new diagram somewhere in the middle of the list */
     ctrl_err = ctrl_diagram_controller_private_create_child_diagram ( diag_ctrl,
@@ -289,19 +365,41 @@ static void undo_redo_list_limits(void)
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* redo one but already at end of the list */
-    ctrl_err = ctrl_controller_redo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* undo 2 existing and one not existing */
     /* undo one more */
-    ctrl_err = ctrl_controller_undo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
+
     /* undo one more */
-    ctrl_err = ctrl_controller_undo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
+
     /* undo one more */
-    ctrl_err = ctrl_controller_undo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_ARRAY_BUFFER_EXCEEDED, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_ARRAY_BUFFER_EXCEEDED, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 }
 
 static void undo_redo_feature_and_relationship(void)
@@ -407,148 +505,228 @@ static void undo_redo_feature_and_relationship(void)
     /* the undo-list is filled now. test undo */
 
     /* undo step 5 */
-    ctrl_err = ctrl_controller_undo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* check what is in the database */
-    data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( new_feature_id, data_feature_get_id( &check_f ) );
-    TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_OPERATION, data_feature_get_main_type( &check_f ) );
-    TEST_ASSERT_EQUAL_INT( 35000, data_feature_get_classifier_id( &check_f ) );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( "startup_time", data_feature_get_key_ptr( &check_f ) ) );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( "(void)->(uint64_t)", data_feature_get_value_ptr( &check_f ) ) );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( "time in nano seconds to start", data_feature_get_description_ptr( &check_f ) ) );
-    TEST_ASSERT_EQUAL_INT( 5000000, data_feature_get_list_order( &check_f ) );
+    {
+        data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( new_feature_id, data_feature_get_id( &check_f ) );
+        TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_OPERATION, data_feature_get_main_type( &check_f ) );
+        TEST_ASSERT_EQUAL_INT( 35000, data_feature_get_classifier_id( &check_f ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "startup_time", data_feature_get_key_ptr( &check_f ) ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "(void)->(uint64_t)", data_feature_get_value_ptr( &check_f ) ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "time in nano seconds to start", data_feature_get_description_ptr( &check_f ) ) );
+        TEST_ASSERT_EQUAL_INT( 5000000, data_feature_get_list_order( &check_f ) );
 
-    data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( new_relationship_id, data_relationship_get_id( &check_r ) );
-    TEST_ASSERT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, data_relationship_get_main_type( &check_r ) );
-    TEST_ASSERT_EQUAL_INT( 86000, data_relationship_get_from_classifier_id( &check_r ) );
-    TEST_ASSERT_EQUAL_INT( 86001, data_relationship_get_to_classifier_id( &check_r ) );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( "the composition is more", data_relationship_get_name_ptr( &check_r ) ) );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( "good for modularization", data_relationship_get_description_ptr( &check_r ) ) );
-    TEST_ASSERT_EQUAL_INT( -66000, data_relationship_get_list_order( &check_r ) );
-    TEST_ASSERT_EQUAL_INT( DATA_ID_VOID_ID, data_relationship_get_from_feature_id( &check_r ) );
-    TEST_ASSERT_EQUAL_INT( 150160, data_relationship_get_to_feature_id( &check_r ) );
+        data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( new_relationship_id, data_relationship_get_id( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, data_relationship_get_main_type( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( 86000, data_relationship_get_from_classifier_id( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( 86001, data_relationship_get_to_classifier_id( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "the composition is more", data_relationship_get_name_ptr( &check_r ) ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "good for modularization", data_relationship_get_description_ptr( &check_r ) ) );
+        TEST_ASSERT_EQUAL_INT( -66000, data_relationship_get_list_order( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( DATA_ID_VOID_ID, data_relationship_get_from_feature_id( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( 150160, data_relationship_get_to_feature_id( &check_r ) );
+    }
 
     /* undo step 4 */
-    ctrl_err = ctrl_controller_undo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* check what is in the database */
-    data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( "than the sum of its parts", data_relationship_get_description_ptr( &check_r ) ) );
+    {
+        data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "than the sum of its parts", data_relationship_get_description_ptr( &check_r ) ) );
+    }
 
     /* undo step 3 */
-    ctrl_err = ctrl_controller_undo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* check what is in the database */
-    data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( "uint64_t", data_feature_get_value_ptr( &check_f ) ) );
+    {
+        data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "uint64_t", data_feature_get_value_ptr( &check_f ) ) );
 
-    data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+        data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+    }
 
     /* undo step 2 */
-    ctrl_err = ctrl_controller_undo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* check what is in the database */
-    data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_PROPERTY, data_feature_get_main_type( &check_f ) );
+    {
+        data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_PROPERTY, data_feature_get_main_type( &check_f ) );
+    }
 
     /* undo step 1 */
-    ctrl_err = ctrl_controller_undo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* check what is in the database */
-    data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+    {
+        data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
 
-    data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+        data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+    }
 
     /* undo step 0 */
-    ctrl_err = ctrl_controller_undo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* redo step 1 */
-    ctrl_err = ctrl_controller_redo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* check what is in the database */
-    data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_PROPERTY, data_feature_get_main_type( &check_f ) );
+    {
+        data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_PROPERTY, data_feature_get_main_type( &check_f ) );
+    }
 
     /* redo step 2 */
-    ctrl_err = ctrl_controller_redo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* check what is in the database */
-    data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( "uint64_t", data_feature_get_value_ptr( &check_f ) ) );
+    {
+        data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "uint64_t", data_feature_get_value_ptr( &check_f ) ) );
 
-    data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+        data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+    }
 
     /* redo step 3 */
-    ctrl_err = ctrl_controller_redo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* check what is in the database */
-    data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( "than the sum of its parts", data_relationship_get_description_ptr( &check_r ) ) );
+    {
+        data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "than the sum of its parts", data_relationship_get_description_ptr( &check_r ) ) );
+    }
 
     /* redo step 4 */
-    ctrl_err = ctrl_controller_redo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* check what is in the database */
-    data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( new_feature_id, data_feature_get_id( &check_f ) );
-    TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_OPERATION, data_feature_get_main_type( &check_f ) );
-    TEST_ASSERT_EQUAL_INT( 35000, data_feature_get_classifier_id( &check_f ) );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( "startup_time", data_feature_get_key_ptr( &check_f ) ) );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( "(void)->(uint64_t)", data_feature_get_value_ptr( &check_f ) ) );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( "time in nano seconds to start", data_feature_get_description_ptr( &check_f ) ) );
-    TEST_ASSERT_EQUAL_INT( 5000000, data_feature_get_list_order( &check_f ) );
+    {
+        data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( new_feature_id, data_feature_get_id( &check_f ) );
+        TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_OPERATION, data_feature_get_main_type( &check_f ) );
+        TEST_ASSERT_EQUAL_INT( 35000, data_feature_get_classifier_id( &check_f ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "startup_time", data_feature_get_key_ptr( &check_f ) ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "(void)->(uint64_t)", data_feature_get_value_ptr( &check_f ) ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "time in nano seconds to start", data_feature_get_description_ptr( &check_f ) ) );
+        TEST_ASSERT_EQUAL_INT( 5000000, data_feature_get_list_order( &check_f ) );
 
-    data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( new_relationship_id, data_relationship_get_id( &check_r ) );
-    TEST_ASSERT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, data_relationship_get_main_type( &check_r ) );
-    TEST_ASSERT_EQUAL_INT( 86000, data_relationship_get_from_classifier_id( &check_r ) );
-    TEST_ASSERT_EQUAL_INT( 86001, data_relationship_get_to_classifier_id( &check_r ) );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( "the composition is more", data_relationship_get_name_ptr( &check_r ) ) );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( "good for modularization", data_relationship_get_description_ptr( &check_r ) ) );
-    TEST_ASSERT_EQUAL_INT( -66000, data_relationship_get_list_order( &check_r ) );
-    TEST_ASSERT_EQUAL_INT( DATA_ID_VOID_ID, data_relationship_get_from_feature_id( &check_r ) );
-    TEST_ASSERT_EQUAL_INT( 150160, data_relationship_get_to_feature_id( &check_r ) );
+        data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( new_relationship_id, data_relationship_get_id( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, data_relationship_get_main_type( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( 86000, data_relationship_get_from_classifier_id( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( 86001, data_relationship_get_to_classifier_id( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "the composition is more", data_relationship_get_name_ptr( &check_r ) ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "good for modularization", data_relationship_get_description_ptr( &check_r ) ) );
+        TEST_ASSERT_EQUAL_INT( -66000, data_relationship_get_list_order( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( DATA_ID_VOID_ID, data_relationship_get_from_feature_id( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( 150160, data_relationship_get_to_feature_id( &check_r ) );
+    }
 
     /* redo step 5 */
-    ctrl_err = ctrl_controller_redo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* check what is in the database */
-    data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+    {
+        data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
 
-    data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+        data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+    }
 
     /* redo step 6 */
-    ctrl_err = ctrl_controller_redo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 }
 
 static void undo_redo_update_diagram(void)
@@ -619,16 +797,31 @@ static void undo_redo_update_diagram(void)
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* undo step 4b and 4a */
-    ctrl_err = ctrl_controller_undo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* undo step 3b */
-    ctrl_err = ctrl_controller_undo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* undo step 3a */
-    ctrl_err = ctrl_controller_undo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* check the diagram */
     {
@@ -652,16 +845,31 @@ static void undo_redo_update_diagram(void)
     }
 
     /* redo step 3a */
-    ctrl_err = ctrl_controller_redo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* redo step 3b */
-    ctrl_err = ctrl_controller_redo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* redo step 4a and 4b */
-    ctrl_err = ctrl_controller_redo ( &controller );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        data_stat_destroy(&stat);
+    }
 
     /* check the diagram */
     {
