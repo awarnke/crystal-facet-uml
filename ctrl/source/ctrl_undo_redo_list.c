@@ -82,16 +82,17 @@ ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_, data_stat_
     else
     {
         bool finished = false;
-        uint32_t index;
         for ( uint32_t pos = 0; (pos < CTRL_UNDO_REDO_LIST_MAX_SIZE) && (! finished); pos ++ )
         {
             /* move the current pointer back in the list */
             (*this_).current --;
 
             /* check if we are done */
-            index = ((*this_).start + (*this_).current + (CTRL_UNDO_REDO_LIST_MAX_SIZE-1)) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+            const uint32_t index
+                = ((*this_).start + (*this_).current + (CTRL_UNDO_REDO_LIST_MAX_SIZE-1)) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+            ctrl_undo_redo_entry_t *const cur_entry = &((*this_).buffer[index]);
 
-            if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY == ctrl_undo_redo_entry_get_action_type( &((*this_).buffer[index]) ) )
+            if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY == ctrl_undo_redo_entry_get_action_type( cur_entry ) )
             {
                 TRACE_INFO("boundary");
                 finished = true;
@@ -100,7 +101,9 @@ ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_, data_stat_
             {
                 TRACE_INFO("undo");
                 const uint32_t current_before = (*this_).current;
-                result |= ctrl_undo_redo_list_private_do_action( this_, &((*this_).buffer[index]), true );
+                const ctrl_error_t cur_err = ctrl_undo_redo_list_private_do_action( this_, cur_entry, true );
+                ctrl_undo_redo_entry_to_statistics ( cur_entry, true /*=undo*/, (CTRL_ERROR_NONE!=cur_err), io_stat );
+                result |= cur_err;
                 if ( (*this_).current != current_before )
                 {
                      TSLOG_ERROR("ctrl_undo_redo_list_t was modified while performing undo.");
@@ -130,16 +133,18 @@ ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_
     else
     {
         bool finished = false;
-        uint32_t index;
+        ;
         for ( uint32_t pos = 0; (pos < CTRL_UNDO_REDO_LIST_MAX_SIZE) && (! finished); pos ++ )
         {
             /* move the current pointer forward in the list */
             (*this_).current ++;
 
             /* check if we are done */
-            index = ((*this_).start + (*this_).current + (CTRL_UNDO_REDO_LIST_MAX_SIZE-1)) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+            const uint32_t index
+                = ((*this_).start + (*this_).current + (CTRL_UNDO_REDO_LIST_MAX_SIZE-1)) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+            ctrl_undo_redo_entry_t *const cur_entry = &((*this_).buffer[index]);
 
-            if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY == ctrl_undo_redo_entry_get_action_type( &((*this_).buffer[index]) ) )
+            if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY == ctrl_undo_redo_entry_get_action_type( cur_entry ) )
             {
                 TRACE_INFO("boundary");
                 finished = true;
@@ -153,7 +158,9 @@ ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_
             {
                 TRACE_INFO("redo");
                 const uint32_t current_before = (*this_).current;
-                result |= ctrl_undo_redo_list_private_do_action( this_, &((*this_).buffer[index]), false );
+                const ctrl_error_t cur_err = ctrl_undo_redo_list_private_do_action( this_, cur_entry, false );
+                ctrl_undo_redo_entry_to_statistics ( cur_entry, false /*=undo*/, (CTRL_ERROR_NONE!=cur_err), io_stat );
+                result |= cur_err;
                 if ( (*this_).current != current_before )
                 {
                     TSLOG_ERROR("ctrl_undo_redo_list_t was modified while performing redo.");

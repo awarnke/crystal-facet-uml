@@ -16,6 +16,7 @@
 #include "data_diagramelement.h"
 #include "data_relationship.h"
 #include "data_feature.h"
+#include "set/data_stat.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -159,6 +160,19 @@ static inline data_relationship_t *ctrl_undo_redo_entry_get_relationship_after_a
  *  \return pointer to data_feature_t, where the data after the action is stored
  */
 static inline data_feature_t *ctrl_undo_redo_entry_get_feature_after_action_ptr ( ctrl_undo_redo_entry_t *this_ );
+
+/*!
+ *  \brief adds the action of the ctrl_undo_redo_entry_t to the statistics
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param undo true if the action shall be counted as undone, false if it shall be counted as redone
+ *  \param err true if the action shall be counted as error, in this case the undo parameter is ignored.
+ *  \param io_stat Statistics on DATA_STAT_SERIES_CREATED, DATA_STAT_SERIES_MODIFIED,
+ *                 DATA_STAT_SERIES_DELETED and
+ *                 DATA_STAT_SERIES_ERROR (if err).
+ *                 *io_stat shall be initialized by caller, statistics are added to initial values.
+ */
+static inline void ctrl_undo_redo_entry_to_statistics ( ctrl_undo_redo_entry_t *this_, bool undo, bool err, data_stat_t *io_stat );
 
 #include "ctrl_undo_redo_entry.inl"
 
