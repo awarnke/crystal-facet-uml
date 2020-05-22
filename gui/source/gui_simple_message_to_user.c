@@ -302,7 +302,7 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             case GUI_SIMPLE_MESSAGE_CONTENT_S_CUT_TO_CLIPBOARD_STATS:
             {
                 assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
-                utf8stringbuf_append_str( (*this_).private_temp_str, "Selection cut to clipboard: " );
+                utf8stringbuf_append_str( (*this_).private_temp_str, "Selection cut to clipboard: \n" );
                 utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
             break;
@@ -310,7 +310,7 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             case GUI_SIMPLE_MESSAGE_CONTENT_S_COPY_TO_CLIPBOARD_STATS:
             {
                 assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
-                utf8stringbuf_append_str( (*this_).private_temp_str, "Selection copied to clipboard: " );
+                utf8stringbuf_append_str( (*this_).private_temp_str, "Selection copied to clipboard: \n" );
                 utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
             break;
@@ -318,7 +318,7 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             case GUI_SIMPLE_MESSAGE_CONTENT_S_PASTE_FROM_CLIPBOARD_STATS:
             {
                 assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
-                utf8stringbuf_append_str( (*this_).private_temp_str, "Clipboard pasted: " );
+                utf8stringbuf_append_str( (*this_).private_temp_str, "Clipboard pasted: \n" );
                 utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
             break;
@@ -326,7 +326,7 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             case GUI_SIMPLE_MESSAGE_CONTENT_S_DELETE_STATS:
             {
                 assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
-                utf8stringbuf_append_str( (*this_).private_temp_str, "Selection deleted: " );
+                utf8stringbuf_append_str( (*this_).private_temp_str, "Selection deleted: \n" );
                 utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
             break;
@@ -334,7 +334,7 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             case GUI_SIMPLE_MESSAGE_CONTENT_S_UNDO_STATS:
             {
                 assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
-                utf8stringbuf_append_str( (*this_).private_temp_str, "Undo success: " );
+                utf8stringbuf_append_str( (*this_).private_temp_str, "Undo success: \n" );
                 utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
             break;
@@ -342,7 +342,7 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             case GUI_SIMPLE_MESSAGE_CONTENT_S_REDO_STATS:
             {
                 assert( (*this_).param1_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
-                utf8stringbuf_append_str( (*this_).private_temp_str, "Redo success: " );
+                utf8stringbuf_append_str( (*this_).private_temp_str, "Redo success: \n" );
                 utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
             break;
@@ -382,7 +382,7 @@ void gui_simple_message_to_user_show_message_with_int ( gui_simple_message_to_us
 }
 
 const char *const (gui_simple_message_to_user_private_table_name[DATA_STAT_TABLES_MAX])
-    = {"void","class.","feat.","rel.","link2class.","diag."};
+    = {"void","classifiers","features","relations","diagramelements","diagrams"};
 const char *const (gui_simple_message_to_user_private_series_name4change[DATA_STAT_SERIES_MAX])
     = {"created","modified","deleted","ignored","warning","error"};
 const char *const (gui_simple_message_to_user_private_series_name4other[DATA_STAT_SERIES_MAX])
