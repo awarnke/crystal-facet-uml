@@ -21,7 +21,7 @@ static inline void ctrl_undo_redo_entry_destroy ( ctrl_undo_redo_entry_t *this_ 
 {
 }
 
-static inline ctrl_undo_redo_entry_type_t ctrl_undo_redo_entry_get_action_type ( ctrl_undo_redo_entry_t *this_ )
+static inline ctrl_undo_redo_entry_type_t ctrl_undo_redo_entry_get_action_type ( const ctrl_undo_redo_entry_t *this_ )
 {
     return (*this_).action_type;
 }
@@ -76,7 +76,7 @@ static inline data_feature_t *ctrl_undo_redo_entry_get_feature_after_action_ptr 
     return &((*this_).data_after_action.feature);
 }
 
-static inline void ctrl_undo_redo_entry_to_statistics ( ctrl_undo_redo_entry_t *this_, bool undo, bool err, data_stat_t *io_stat )
+static inline void ctrl_undo_redo_entry_to_statistics ( const ctrl_undo_redo_entry_t *this_, bool undo, bool err, data_stat_t *io_stat )
 {
     assert( NULL != io_stat );
 

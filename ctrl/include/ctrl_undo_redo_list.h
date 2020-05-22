@@ -32,10 +32,10 @@ struct ctrl_undo_redo_list_struct {
     data_database_writer_t *db_writer;  /*!< pointer to external database writer */
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
 
-    uint32_t start;  /*!< start position of the ring buffer (valid absolute index in buffer array: 0 <= start < CTRL_UNDO_REDO_LIST_MAX_SIZE) */
-    uint32_t length;  /*!< length of valid entries in the ring buffer (0 <= length <= CTRL_UNDO_REDO_LIST_MAX_SIZE) */
-    uint32_t current;  /*!< current position in the ring buffer (relative to start position: 0 <= current <= length). If length == current, there is no redo action left */
-    bool buffer_incomplete;  /*!< true if the first entry in the list is already overwritten. buffer_complete influences the error code of the undo function */
+    uint32_t start;  /*!< start position of the ring buffer (valid absolute index in buffer array: 0 &lt;= start < CTRL_UNDO_REDO_LIST_MAX_SIZE) */
+    uint32_t length;  /*!< length of valid entries in the ring buffer (0 &lt;= length &lt;= CTRL_UNDO_REDO_LIST_MAX_SIZE) */
+    uint32_t current;  /*!< current position in the ring buffer (relative to start position: 0 &lt;= current &lt;= length). If length == current, there is no redo action left */
+    bool buffer_incomplete;  /*!< true if the first entry in the list is already overwritten. buffer_incomplete influences the error code of the undo function */
     ctrl_undo_redo_entry_t buffer[CTRL_UNDO_REDO_LIST_MAX_SIZE];  /*!< the ring buffer of undo/redo action entries and boundary entries */
 };
 
@@ -120,6 +120,18 @@ ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_, data_stat_
  *          CTRL_ERROR_NONE otherwise.
  */
 ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat );
+
+/*!
+ *  \brief determines the statistics between the current position and the last boundary entry
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param io_stat Statistics on DATA_STAT_SERIES_CREATED, DATA_STAT_SERIES_MODIFIED,
+ *                 DATA_STAT_SERIES_DELETED.
+ *                 *io_stat shall be initialized by caller, statistics are added to initial values.
+ *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if there is no more complete set of actions to be counted,
+ *          CTRL_ERROR_NONE otherwise.
+ */
+static inline ctrl_error_t ctrl_undo_redo_list_get_last_statistics ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat );
 
 /* ================================ DIAGRAM ================================ */
 
@@ -378,8 +390,8 @@ ctrl_undo_redo_entry_t *ctrl_undo_redo_list_private_add_entry_ptr ( ctrl_undo_re
  *   The caller has to check that the search range is within the valid buffer range
  *
  *  \param this_ pointer to own object attributes
- *  \param start_idx index in the buffer where to start the search: 0 <= start_idx < CTRL_UNDO_REDO_LIST_MAX_SIZE
- *  \param search_len length of the area in the buffer where to search: 0 <= search_len <= CTRL_UNDO_REDO_LIST_MAX_SIZE
+ *  \param start_idx index in the buffer where to start the search: 0 &lt;= start_idx &lt; CTRL_UNDO_REDO_LIST_MAX_SIZE
+ *  \param search_len length of the area in the buffer where to search: 0 &lt;= search_len &lt;= CTRL_UNDO_REDO_LIST_MAX_SIZE
  *  \return number of boundary entries within the specifies range
  */
 static inline uint32_t ctrl_undo_redo_list_private_count_boundaries ( ctrl_undo_redo_list_t *this_, uint32_t start_idx, uint32_t search_len );

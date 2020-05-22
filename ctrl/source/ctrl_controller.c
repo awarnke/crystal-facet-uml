@@ -113,31 +113,19 @@ ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
 
                 case DATA_TABLE_FEATURE:
                 {
-                    ctrl_error_t local_err;
-                    local_err = ctrl_classifier_controller_delete_feature ( &((*this_).classifiers),
-                                                                            data_id_get_row_id( &current_id ),
-                                                                            true /* add_to_latest_undo_set */
-                                                                          );
-                    data_stat_inc_count ( io_stat,
-                                          DATA_TABLE_FEATURE,
-                                          (CTRL_ERROR_NONE==local_err)?DATA_STAT_SERIES_DELETED:DATA_STAT_SERIES_ERROR
-                                        );
-                    result |= local_err;
+                    result |= ctrl_classifier_controller_delete_feature ( &((*this_).classifiers),
+                                                                          data_id_get_row_id( &current_id ),
+                                                                          true /* add_to_latest_undo_set */
+                                                                        );
                 }
                 break;
 
                 case DATA_TABLE_RELATIONSHIP:
                 {
-                    ctrl_error_t local_err;
-                    local_err =  ctrl_classifier_controller_delete_relationship ( &((*this_).classifiers),
-                                                                                  data_id_get_row_id( &current_id ),
-                                                                                  true /* add_to_latest_undo_set */
-                                                                                );
-                    data_stat_inc_count ( io_stat,
-                                          DATA_TABLE_RELATIONSHIP,
-                                          (CTRL_ERROR_NONE==local_err)?DATA_STAT_SERIES_DELETED:DATA_STAT_SERIES_ERROR
-                                        );
-                    result |= local_err;
+                    result |= ctrl_classifier_controller_delete_relationship ( &((*this_).classifiers),
+                                                                                data_id_get_row_id( &current_id ),
+                                                                                true /* add_to_latest_undo_set */
+                                                                              );
                 }
                 break;
 
@@ -189,16 +177,10 @@ ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
 
                 case DATA_TABLE_DIAGRAMELEMENT:
                 {
-                    ctrl_error_t local_err;
-                    local_err = ctrl_diagram_controller_delete_diagramelement ( &((*this_).diagrams),
-                                                                                data_id_get_row_id( &current_id ),
-                                                                                true /* add_to_latest_undo_set */
-                                                                              );
-                    data_stat_inc_count ( io_stat,
-                                          DATA_TABLE_DIAGRAMELEMENT,
-                                          (CTRL_ERROR_NONE==local_err)?DATA_STAT_SERIES_DELETED:DATA_STAT_SERIES_ERROR
-                                        );
-                    result |= local_err;
+                    result |= ctrl_diagram_controller_delete_diagramelement ( &((*this_).diagrams),
+                                                                              data_id_get_row_id( &current_id ),
+                                                                              true /* add_to_latest_undo_set */
+                                                                            );
                 }
                 break;
 
@@ -226,16 +208,10 @@ ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
             {
                 case DATA_TABLE_CLASSIFIER:
                 {
-                    ctrl_error_t local_err;
-                    local_err = ctrl_classifier_controller_delete_classifier( &((*this_).classifiers),
-                                                                              data_id_get_row_id( &current_id ),
-                                                                              true /* add_to_latest_undo_set */
-                                                                            );
-                    data_stat_inc_count ( io_stat,
-                                          DATA_TABLE_CLASSIFIER,
-                                          (CTRL_ERROR_NONE==local_err)?DATA_STAT_SERIES_DELETED:DATA_STAT_SERIES_ERROR
-                                        );
-                    result |= local_err;
+                    result |= ctrl_classifier_controller_delete_classifier( &((*this_).classifiers),
+                                                                            data_id_get_row_id( &current_id ),
+                                                                            true /* add_to_latest_undo_set */
+                                                                          );
                 }
                 break;
 
@@ -259,16 +235,10 @@ ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
 
                 case DATA_TABLE_DIAGRAM:
                 {
-                    ctrl_error_t local_err;
-                    local_err = ctrl_diagram_controller_delete_diagram ( &((*this_).diagrams),
-                                                                         data_id_get_row_id( &current_id ),
-                                                                         true /* add_to_latest_undo_set */
-                                                                       );
-                    data_stat_inc_count ( io_stat,
-                                          DATA_TABLE_DIAGRAM,
-                                          (CTRL_ERROR_NONE==local_err)?DATA_STAT_SERIES_DELETED:DATA_STAT_SERIES_ERROR
-                                        );
-                    result |= local_err;
+                    result |= ctrl_diagram_controller_delete_diagram ( &((*this_).diagrams),
+                                                                       data_id_get_row_id( &current_id ),
+                                                                       true /* add_to_latest_undo_set */
+                                                                     );
                 }
                 break;
 
@@ -279,6 +249,9 @@ ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
                 break;
             }
         }
+
+        /* update statistics based on undo redo list (which provides reliable information) */
+        result |= ctrl_undo_redo_list_get_last_statistics ( &((*this_).undo_redo_list), io_stat );
     }
 
     TRACE_END_ERR( result );

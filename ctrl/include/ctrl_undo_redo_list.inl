@@ -65,6 +65,36 @@ static inline ctrl_error_t ctrl_undo_redo_list_add_boundary ( ctrl_undo_redo_lis
     return result;
 }
 
+static inline ctrl_error_t ctrl_undo_redo_list_get_last_statistics ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat )
+{
+    assert( NULL != io_stat );
+    ctrl_error_t result = CTRL_ERROR_NONE;
+
+    bool finished = false;
+    if ( (*this_).current > 0 )
+    {
+        for ( uint32_t pos = (*this_).current-1; (pos!=0)&&(!finished); pos-- )
+        {
+            /* get entry left of pos */
+            const uint32_t index = ((*this_).start + (pos+CTRL_UNDO_REDO_LIST_MAX_SIZE-1)) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+            const ctrl_undo_redo_entry_t *const cur_entry = &((*this_).buffer[index]);
+            if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY == ctrl_undo_redo_entry_get_action_type( cur_entry ) )
+            {
+                finished = true;
+            }
+            else
+            {
+                ctrl_undo_redo_entry_to_statistics ( cur_entry, false /*=undo*/, false /*=err*/, io_stat );
+            }
+        }
+    }
+    if ( ! finished )
+    {
+        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
+    }
+    return result;
+}
+
 /* ================================ DIAGRAM ================================ */
 
 static inline void ctrl_undo_redo_list_add_delete_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *old_value )

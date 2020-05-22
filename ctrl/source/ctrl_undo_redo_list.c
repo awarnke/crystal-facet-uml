@@ -128,6 +128,7 @@ ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_
 
     if ( (*this_).current == (*this_).length )
     {
+        /* current points already to the end of the list - no redo possible */
         result = CTRL_ERROR_INVALID_REQUEST;
     }
     else

@@ -79,7 +79,7 @@ static inline void ctrl_undo_redo_entry_destroy ( ctrl_undo_redo_entry_t *this_ 
  *  \param this_ pointer to own object attributes
  *  \return action type
  */
-static inline ctrl_undo_redo_entry_type_t ctrl_undo_redo_entry_get_action_type ( ctrl_undo_redo_entry_t *this_ );
+static inline ctrl_undo_redo_entry_type_t ctrl_undo_redo_entry_get_action_type ( const ctrl_undo_redo_entry_t *this_ );
 
 /*!
  *  \brief gets the old data before the undo redo action
@@ -172,7 +172,7 @@ static inline data_feature_t *ctrl_undo_redo_entry_get_feature_after_action_ptr 
  *                 DATA_STAT_SERIES_ERROR (if err).
  *                 *io_stat shall be initialized by caller, statistics are added to initial values.
  */
-static inline void ctrl_undo_redo_entry_to_statistics ( ctrl_undo_redo_entry_t *this_, bool undo, bool err, data_stat_t *io_stat );
+static inline void ctrl_undo_redo_entry_to_statistics ( const ctrl_undo_redo_entry_t *this_, bool undo, bool err, data_stat_t *io_stat );
 
 #include "ctrl_undo_redo_entry.inl"
 

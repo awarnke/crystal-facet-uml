@@ -276,7 +276,8 @@ static void create_diagramelements_and_delete(void)
         ctrl_err = ctrl_controller_delete_set ( &controller, small_set, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_DELETED ));
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_DELETED ));
+        TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
