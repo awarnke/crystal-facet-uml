@@ -333,7 +333,7 @@ static void undo_redo_list_limits(void)
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     }
 
-    /* create one more classifier and diagramelement */
+    /* create one more diagram */
     ctrl_err = ctrl_diagram_controller_private_create_child_diagram ( diag_ctrl,
                                                                       root_diagram_id,
                                                                       DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM,
@@ -392,6 +392,7 @@ static void undo_redo_list_limits(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
@@ -402,6 +403,8 @@ static void undo_redo_list_limits(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
@@ -411,6 +414,8 @@ static void undo_redo_list_limits(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
@@ -420,6 +425,7 @@ static void undo_redo_list_limits(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_ARRAY_BUFFER_EXCEEDED, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 }
@@ -532,6 +538,9 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ));
+        TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
@@ -566,6 +575,8 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_MODIFIED ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
@@ -582,6 +593,9 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_MODIFIED ));
+        TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
@@ -601,6 +615,8 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_MODIFIED ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
@@ -617,6 +633,8 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
@@ -635,6 +653,7 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
@@ -644,6 +663,8 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
@@ -660,6 +681,8 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_MODIFIED ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
@@ -679,6 +702,9 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_MODIFIED ));
+        TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
@@ -695,6 +721,8 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_MODIFIED ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
@@ -729,6 +757,9 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
+        TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
@@ -747,6 +778,7 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 }
@@ -824,6 +856,8 @@ static void undo_redo_update_diagram(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED ));
+        TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
@@ -833,6 +867,8 @@ static void undo_redo_update_diagram(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
@@ -842,6 +878,8 @@ static void undo_redo_update_diagram(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
@@ -872,6 +910,8 @@ static void undo_redo_update_diagram(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
@@ -881,6 +921,8 @@ static void undo_redo_update_diagram(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
@@ -890,6 +932,8 @@ static void undo_redo_update_diagram(void)
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED ));
+        TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
 
