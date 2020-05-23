@@ -90,7 +90,7 @@ void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *
             const data_classifier_t *classifier2;
             classifier2 = data_visible_classifier_get_classifier_const( visible_classifier2 );
             const geometry_rectangle_t *const classifier_symbol_box
-                = layout_visible_classifier_get_symbol_box_ptr( classifier_layout );
+                = layout_visible_classifier_get_symbol_box_const( classifier_layout );
 
             const double act_center_x = geometry_rectangle_get_center_x( classifier_symbol_box );
             const double act_center_y = geometry_rectangle_get_center_y( classifier_symbol_box );
@@ -339,19 +339,28 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
     {
         /* declaration of list of options */
         uint32_t solutions_count = 0;
-        static const uint32_t SOLUTIONS_MAX = 5;
-        double solution_move_dx[5];
-        double solution_move_dy[5];
+        static const uint32_t SOLUTIONS_MAX = 6;
+        double solution_move_dx[6];
+        double solution_move_dy[6];
 
         /* propose options */
         pencil_classifier_layouter_private_propose_move_solutions ( this_,
                                                                     &sorted,
                                                                     sort_index,
-                                                                    SOLUTIONS_MAX,
+                                                                    SOLUTIONS_MAX-1,
                                                                     solution_move_dx,
                                                                     solution_move_dy,
                                                                     &solutions_count
                                                                   );
+#ifndef NDEBUG
+        pencil_classifier_layouter_private_propose_anchored_solution ( this_,
+                                                                       &sorted,
+                                                                       sort_index,
+                                                                       &(solution_move_dx[solutions_count]),
+                                                                       &(solution_move_dy[solutions_count])
+                                                                     );
+        solutions_count ++;
+#endif
 
         /* select best option */
         uint32_t index_of_best;
@@ -630,6 +639,49 @@ void pencil_classifier_layouter_private_propose_move_solutions ( pencil_classifi
                 TRACE_INFO_STR( "- overlaps:", data_classifier_get_name_ptr( classifier_p ) );
             }
         }
+    }
+
+    /* trace */
+    const data_visible_classifier_t *visible_classifier;
+    visible_classifier = layout_visible_classifier_get_data_const ( the_classifier );
+    const data_classifier_t *classifier;
+    classifier = data_visible_classifier_get_classifier_const( visible_classifier );
+    TRACE_INFO_STR( "classifier:", data_classifier_get_name_ptr( classifier ) );
+
+    TRACE_END();
+}
+
+void pencil_classifier_layouter_private_propose_anchored_solution ( pencil_classifier_layouter_t *this_,
+                                                                    const universal_array_index_sorter_t *sorted,
+                                                                    uint32_t sort_index,
+                                                                    double * out_solution_move_dx,
+                                                                    double * out_solution_move_dy )
+{
+    TRACE_BEGIN();
+    assert ( NULL != sorted );
+    assert ( universal_array_index_sorter_get_count( sorted ) > sort_index );
+    assert ( NULL != out_solution_move_dx );
+    assert ( NULL != out_solution_move_dy );
+
+    /* get classifier to move */
+    const uint32_t index
+        = universal_array_index_sorter_get_array_index( sorted, sort_index );
+    const layout_visible_classifier_t *const the_classifier
+        = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, index );
+
+    /* determine the user-selected center */
+    const geometry_rectangle_t *const classifier_symbol_box
+        = layout_visible_classifier_get_symbol_box_const( the_classifier );
+    const double center_x = geometry_rectangle_get_center_x( classifier_symbol_box );
+    const double center_y = geometry_rectangle_get_center_y( classifier_symbol_box );
+
+    /* determine the biggest free/unoccupied box containing the center */
+    *out_solution_move_dx = 0.0 + 40.0/*TODO*/;
+    *out_solution_move_dy = 0.0 + 40.0/*TODO*/;
+
+    /* check overlap to already moved classifiers */
+    for ( uint32_t probe_sort_index = 0; probe_sort_index < sort_index; probe_sort_index ++ )
+    {
     }
 
     /* trace */

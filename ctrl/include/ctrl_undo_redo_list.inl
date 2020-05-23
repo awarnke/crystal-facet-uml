@@ -73,6 +73,8 @@ static inline ctrl_error_t ctrl_undo_redo_list_get_last_statistics ( ctrl_undo_r
     bool finished = false;
     if ( (*this_).current > 0 )
     {
+        /* at pos==(*this_).current, there should be a CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY */
+        /* therefore we start 1 left to this */
         for ( uint32_t pos = (*this_).current-1; (pos!=0)&&(!finished); pos-- )
         {
             /* get entry left of pos */

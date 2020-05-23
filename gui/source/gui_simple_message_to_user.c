@@ -382,7 +382,7 @@ void gui_simple_message_to_user_show_message_with_int ( gui_simple_message_to_us
 }
 
 const char *const (gui_simple_message_to_user_private_table_name[DATA_STAT_TABLES_MAX])
-    = {"void","classifiers","features","relations","diagramelements","diagrams"};
+    = {"void","classifiers","features","relations","links2classifier","diagrams"};
 const char *const (gui_simple_message_to_user_private_series_name4change[DATA_STAT_SERIES_MAX])
     = {"created","modified","deleted","ignored","warning","error"};
 const char *const (gui_simple_message_to_user_private_series_name4other[DATA_STAT_SERIES_MAX])

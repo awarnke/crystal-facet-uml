@@ -126,7 +126,7 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
 void pencil_classifier_layouter_private_propose_move_processing_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
 
 /*!
- *  \brief propose multiple solutions to move one classifiers
+ *  \brief propose multiple solutions to move one classifier
  *
  *  \param this_ pointer to own object attributes
  *  \param sorted sorting order by which to move classifiers; must not be NULL.
@@ -144,6 +144,22 @@ void pencil_classifier_layouter_private_propose_move_solutions ( pencil_classifi
                                                                  double out_solution_move_dy[],
                                                                  uint32_t *out_solutions_count
                                                                );
+
+/*!
+ *  \brief propose another solution to move one classifier based on another algorithm
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param sorted sorting order by which to move classifiers; must not be NULL.
+ *  \param sort_index index of the current classifier for which to propose solutions
+ *  \param out_solution_move_dx proposal to move in x direction
+ *  \param out_solution_move_dy proposal to move in y direction
+ */
+void pencil_classifier_layouter_private_propose_anchored_solution ( pencil_classifier_layouter_t *this_,
+                                                                    const universal_array_index_sorter_t *sorted,
+                                                                    uint32_t sort_index,
+                                                                    double * out_solution_move_dx,
+                                                                    double * out_solution_move_dy
+                                                                  );
 
 /*!
  *  \brief selects one solution to move a classifier

@@ -79,7 +79,7 @@ static inline void geometry_rectangle_reinit_empty ( geometry_rectangle_t *this_
 /*!
  *  \brief initializes the geometry_rectangle_t struct by the intersect of a and b
  *
- *  It is valid if this_ and/or rect_a and/or rect_b are identical (same pointer).
+ *  It is valid if parameters this_ and/or rect_a and/or rect_b are identical (same pointer).
  *
  *  \param this_ pointer to own object attributes
  *  \param rect_a rectangle a. Must not be NULL
@@ -92,9 +92,9 @@ static inline int geometry_rectangle_init_by_intersect ( geometry_rectangle_t *t
                                                        );
 
 /*!
- *  \brief initializes the geometry_rectangle_t struct by the minimum bounding box of a and b
+ *  \brief initializes the geometry_rectangle_t struct by the minimum bounding box of a and b (similar to a convex hull)
  *
- *  It is valid if this_ and/or rect_a and/or rect_b are identical (same pointer).
+ *  It is valid if parameters this_ and/or rect_a and/or rect_b are identical (same pointer).
  *
  *  \param this_ pointer to own object attributes
  *  \param rect_a rectangle a. Must not be NULL
@@ -116,6 +116,23 @@ static inline int geometry_rectangle_init_by_bounds ( geometry_rectangle_t *this
  *  \param y2 y coordinate of a corner
  */
 static inline void geometry_rectangle_init_by_corners ( geometry_rectangle_t *this_, double x1, double y1, double x2, double y2 );
+
+/*!
+ *  \brief initializes the geometry_rectangle_t struct by the difference of a minus b.
+ *
+ *  If the difference is not a rectangle, the algorithm chooses the maximum contained rectange.
+ *
+ *  It is valid if parameters this_ and/or rect_a and/or rect_b are identical (same pointer).
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param rect_a rectangle a. Must not be NULL
+ *  \param rect_b rectangle b. Must not be NULL
+ *  \return 0 in case of success (always)
+ */
+static inline int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
+                                                          const geometry_rectangle_t *rect_a,
+                                                          const geometry_rectangle_t *rect_b
+                                                        );
 
 /*!
  *  \brief destroys the geometry_rectangle_t struct

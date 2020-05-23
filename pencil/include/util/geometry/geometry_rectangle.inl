@@ -108,6 +108,395 @@ static inline int geometry_rectangle_init_by_bounds ( geometry_rectangle_t *this
     return result;
 }
 
+static inline int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
+                                                          const geometry_rectangle_t *rect_a,
+                                                          const geometry_rectangle_t *rect_b )
+{
+    assert( NULL != rect_a );
+    assert( NULL != rect_b );
+
+    int result = 0;
+
+    const double a_left = geometry_rectangle_get_left( rect_a );
+    const double a_right = geometry_rectangle_get_right( rect_a );
+    const double a_top = geometry_rectangle_get_top( rect_a );
+    const double a_bottom = geometry_rectangle_get_bottom( rect_a );
+    const double b_left = geometry_rectangle_get_left( rect_b );
+    const double b_right = geometry_rectangle_get_right( rect_b );
+    const double b_top = geometry_rectangle_get_top( rect_b );
+    const double b_bottom = geometry_rectangle_get_bottom( rect_b );
+
+    if ( ( b_right < a_left )
+        || ( b_bottom < a_top )
+        || ( b_left > a_right )
+        || ( b_top > a_bottom ) )
+    {
+        /* no intersection */
+        (*this_) = (*rect_a);
+    }
+    else
+    {
+        const bool check_top = (( b_bottom > a_top )&&( b_bottom < a_bottom ));
+        const bool check_bottom = (( b_top > a_top )&&( b_top < a_bottom ));
+        const bool check_left = (( b_right > a_left )&&( b_right < a_right ));
+        const bool check_right = (( b_left > a_left )&&( b_left < a_right ));
+        bool adapt_top = false;
+        bool adapt_bottom = false;
+        bool adapt_left = false;
+        bool adapt_right = false;
+        if ( check_top )
+        {
+            if ( check_bottom )
+            {
+                if ( check_left )
+                {
+                    if ( check_right )
+                    {
+                        /* 4 possible solutions */
+                        const double area_top = geometry_rectangle_get_width( rect_a ) * ( b_top-a_top );
+                        const double area_bottom = geometry_rectangle_get_width( rect_a ) * ( a_bottom-b_bottom );
+                        const double area_left = ( b_left-a_left ) * geometry_rectangle_get_height( rect_a );
+                        const double area_right = ( a_right-b_right ) * geometry_rectangle_get_height( rect_a );
+                        if (area_top>area_bottom)
+                        {
+                            if (area_top>area_left)
+                            {
+                                if (area_top>area_right)
+                                {
+                                    adapt_top = true;
+                                }
+                                else  /* area_right is bigger */
+                                {
+                                    adapt_right = true;
+                                }
+                            }
+                            else  /* area_left is bigger */
+                            {
+                                if (area_left>area_right)
+                                {
+                                    adapt_left = true;
+                                }
+                                else  /* area_right is bigger */
+                                {
+                                    adapt_right = true;
+                                }
+                            }
+                        }
+                        else  /* area_bottom is bigger */
+                        {
+                            if (area_bottom>area_left)
+                            {
+                                if (area_bottom>area_right)
+                                {
+                                    adapt_bottom = true;
+                                }
+                                else  /* area_right is bigger */
+                                {
+                                    adapt_right = true;
+                                }
+                            }
+                            else  /* area_left is bigger */
+                            {
+                                if (area_left>area_right)
+                                {
+                                    adapt_left = true;
+                                }
+                                else  /* area_right is bigger */
+                                {
+                                    adapt_right = true;
+                                }
+                            }
+                        }
+                    }
+                    else  /* ! check_right */
+                    {
+                        /* 3 possible solutions */
+                        const double area_top = geometry_rectangle_get_width( rect_a ) * ( b_top-a_top );
+                        const double area_bottom = geometry_rectangle_get_width( rect_a ) * ( a_bottom-b_bottom );
+                        const double area_left = ( b_left-a_left ) * geometry_rectangle_get_height( rect_a );
+                        if (area_top>area_bottom)
+                        {
+                            if (area_top>area_left)
+                            {
+                                adapt_top = true;
+                            }
+                            else  /* area_left is bigger */
+                            {
+                                adapt_left = true;
+                            }
+                        }
+                        else  /* area_bottom is bigger */
+                        {
+                            if (area_bottom>area_left)
+                            {
+                                adapt_bottom = true;
+                            }
+                            else  /* area_left is bigger */
+                            {
+                                adapt_left = true;
+                            }
+                        }
+                    }
+                }
+                else  /* ! check_left */
+                {
+                    if ( check_right )
+                    {
+                        /* 3 possible solutions */
+                        const double area_top = geometry_rectangle_get_width( rect_a ) * ( b_top-a_top );
+                        const double area_bottom = geometry_rectangle_get_width( rect_a ) * ( a_bottom-b_bottom );
+                        const double area_right = ( a_right-b_right ) * geometry_rectangle_get_height( rect_a );
+                        if (area_top>area_bottom)
+                        {
+                            if (area_top>area_right)
+                            {
+                                adapt_top = true;
+                            }
+                            else  /* area_right is bigger */
+                            {
+                                adapt_right = true;
+                            }
+                        }
+                        else  /* area_bottom is bigger */
+                        {
+                            if (area_bottom>area_right)
+                            {
+                                adapt_bottom = true;
+                            }
+                            else  /* area_right is bigger */
+                            {
+                                adapt_right = true;
+                            }
+                        }
+                    }
+                    else  /* ! check_right */
+                    {
+                        /* 2 possible solutions */
+                        if (( b_top-a_top )>( a_bottom-b_bottom ))
+                        {
+                            adapt_top = true;
+                        }
+                        else
+                        {
+                            adapt_bottom = true;
+                        }
+                    }
+                }
+            }
+            else  /* ! check_bottom */
+            {
+                if ( check_left )
+                {
+                    if ( check_right )
+                    {
+                        /* 3 possible solutions */
+                        const double area_top = geometry_rectangle_get_width( rect_a ) * ( b_top-a_top );
+                        const double area_left = ( b_left-a_left ) * geometry_rectangle_get_height( rect_a );
+                        const double area_right = ( a_right-b_right ) * geometry_rectangle_get_height( rect_a );
+                        if (area_top>area_left)
+                        {
+                            if (area_top>area_right)
+                            {
+                                adapt_top = true;
+                            }
+                            else  /* area_right is bigger */
+                            {
+                                adapt_right = true;
+                            }
+                        }
+                        else  /* area_left is bigger */
+                        {
+                            if (area_left>area_right)
+                            {
+                                adapt_left = true;
+                            }
+                            else  /* area_right is bigger */
+                            {
+                                adapt_right = true;
+                            }
+                        }
+                    }
+                    else  /* ! check_right */
+                    {
+                        /* 2 possible solutions */
+                        const double area_top = geometry_rectangle_get_width( rect_a ) * ( b_top-a_top );
+                        const double area_left = ( b_left-a_left ) * geometry_rectangle_get_height( rect_a );
+                        if (area_top>area_left)
+                        {
+                            adapt_top = true;
+                        }
+                        else  /* area_left is bigger */
+                        {
+                            adapt_left = true;
+                        }
+                    }
+
+                }
+                else  /* ! check_left */
+                {
+                    if ( check_right )
+                    {
+                        /* 2 possible solutions */
+                        const double area_top = geometry_rectangle_get_width( rect_a ) * ( b_top-a_top );
+                        const double area_right = ( a_right-b_right ) * geometry_rectangle_get_height( rect_a );
+                        if (area_top>area_right)
+                        {
+                            adapt_top = true;
+                        }
+                        else  /* area_right is bigger */
+                        {
+                            adapt_right = true;
+                        }
+                    }
+                    else  /* ! check_right */
+                    {
+                        /* 1 solution */
+                        adapt_top = true;
+                    }
+                }
+            }
+        }
+        else  /* ! check_top */
+        {
+            if ( check_bottom )
+            {
+                if ( check_left )
+                {
+                    if ( check_right )
+                    {
+                        /* 3 possible solutions */
+                        const double area_bottom = geometry_rectangle_get_width( rect_a ) * ( a_bottom-b_bottom );
+                        const double area_left = ( b_left-a_left ) * geometry_rectangle_get_height( rect_a );
+                        const double area_right = ( a_right-b_right ) * geometry_rectangle_get_height( rect_a );
+                        if (area_bottom>area_left)
+                        {
+                            if (area_bottom>area_right)
+                            {
+                                adapt_bottom = true;
+                            }
+                            else  /* area_right is bigger */
+                            {
+                                adapt_right = true;
+                            }
+                        }
+                        else  /* area_left is bigger */
+                        {
+                            if (area_left>area_right)
+                            {
+                                adapt_left = true;
+                            }
+                            else  /* area_right is bigger */
+                            {
+                                adapt_right = true;
+                            }
+                        }
+                    }
+                    else  /* ! check_right */
+                    {
+                        /* 2 possible solutions */
+                        const double area_bottom = geometry_rectangle_get_width( rect_a ) * ( a_bottom-b_bottom );
+                        const double area_left = ( b_left-a_left ) * geometry_rectangle_get_height( rect_a );
+                        if (area_bottom>area_left)
+                        {
+                            adapt_bottom = true;
+                        }
+                        else  /* area_left is bigger */
+                        {
+                            adapt_left = true;
+                        }
+                    }
+
+                }
+                else  /* ! check_left */
+                {
+                    if ( check_right )
+                    {
+                        /* 2 possible solutions */
+                        const double area_bottom = geometry_rectangle_get_width( rect_a ) * ( a_bottom-b_bottom );
+                        const double area_right = ( a_right-b_right ) * geometry_rectangle_get_height( rect_a );
+                        if (area_bottom>area_right)
+                        {
+                            adapt_bottom = true;
+                        }
+                        else  /* area_right is bigger */
+                        {
+                            adapt_right = true;
+                        }
+                    }
+                    else  /* ! check_right */
+                    {
+                        /* 1 solution */
+                        adapt_bottom = true;
+                    }
+                }
+            }
+            else  /* ! check_bottom */
+            {
+                if ( check_left )
+                {
+                    if ( check_right )
+                    {
+                        /* 2 possible solutions */
+                        if (( b_left-a_left )>( a_right-b_right ))
+                        {
+                            adapt_left = true;
+                        }
+                        else
+                        {
+                            adapt_right = true;
+                        }
+                    }
+                    else  /* ! check_right */
+                    {
+                        /* 1 solution */
+                        adapt_left = true;
+                    }
+
+                }
+                else  /* ! check_left */
+                {
+                    if ( check_right )
+                    {
+                        /* 1 solution */
+                        adapt_right = true;
+                    }
+                    else  /* ! check_right */
+                    {
+                        /* rect_b contains rect_a, result is empty */
+                    }
+                }
+            }
+        }
+
+        if ( adapt_top )
+        {
+            assert ( check_top );
+            geometry_rectangle_init ( this_, a_left, b_bottom, geometry_rectangle_get_width( rect_a ), a_bottom-b_bottom );
+        }
+        else if ( adapt_bottom )
+        {
+            assert ( check_bottom );
+            geometry_rectangle_init ( this_, a_left, a_top, geometry_rectangle_get_width( rect_a ), b_top-a_top );
+        }
+        else if ( adapt_left )
+        {
+            assert ( check_left );
+            geometry_rectangle_init ( this_, b_right, a_top, a_right-b_right, geometry_rectangle_get_height( rect_a ) );
+        }
+        else if ( adapt_right )
+        {
+            assert ( check_right );
+            geometry_rectangle_init ( this_, a_left, a_top, b_left-a_left, geometry_rectangle_get_height( rect_a ) );
+        }
+        else
+        {
+            geometry_rectangle_init ( this_, a_left, a_top, 0.0, 0.0 );
+        }
+    }
+
+    return result;
+}
+
 static inline bool geometry_rectangle_is_intersecting ( const geometry_rectangle_t *this_, const geometry_rectangle_t *that )
 {
     assert( NULL != that );
