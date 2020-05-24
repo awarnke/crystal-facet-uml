@@ -25,10 +25,10 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
     const double b_top = geometry_rectangle_get_top( rect_b );
     const double b_bottom = geometry_rectangle_get_bottom( rect_b );
 
-    if ( ( b_right < a_left )
-        || ( b_bottom < a_top )
-        || ( b_left > a_right )
-        || ( b_top > a_bottom ) )
+    if ( ( b_right <= a_left )
+        || ( b_bottom <= a_top )
+        || ( b_left >= a_right )
+        || ( b_top >= a_bottom ) )
     {
         /* no intersection */
         (*this_) = (*rect_a);

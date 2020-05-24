@@ -672,8 +672,6 @@ void pencil_classifier_layouter_private_propose_anchored_solution ( pencil_class
     /* determine the user-selected center */
     const geometry_rectangle_t *const classifier_symbol_box
         = layout_visible_classifier_get_symbol_box_const( the_classifier );
-    //const double center_x = geometry_rectangle_get_center_x( classifier_symbol_box );
-    //const double center_y = geometry_rectangle_get_center_y( classifier_symbol_box );
 
     /* determine the space needed for the solution */
     geometry_rectangle_t classifier_total_bounds;
@@ -721,13 +719,47 @@ void pencil_classifier_layouter_private_propose_anchored_solution ( pencil_class
                                              );
     }
 
-    /* determine the biggest free/unoccupied box containing the center */
-    *out_solution_move_dx
-        = geometry_rectangle_get_center_x( &classifier_solution_area )
-        - geometry_rectangle_get_center_x( &classifier_total_bounds );
-    *out_solution_move_dy
-        = geometry_rectangle_get_center_y( &classifier_solution_area )
-        - geometry_rectangle_get_center_y( &classifier_total_bounds );
+    /* reduce the biggest free/unoccupied box by gap */
+    geometry_rectangle_shift ( &classifier_solution_area, gap, gap );
+    geometry_rectangle_expand ( &classifier_solution_area, -2.0*gap, -2.0*gap );
+
+    /* move - but not to eager - only the minumum distance */
+    const bool is_x_contained
+        = ( geometry_rectangle_get_left( &classifier_solution_area ) < geometry_rectangle_get_left( &classifier_total_bounds ) )
+        && ( geometry_rectangle_get_right( &classifier_total_bounds ) < geometry_rectangle_get_right( &classifier_solution_area ) );
+    const bool is_y_contained
+        = ( geometry_rectangle_get_top( &classifier_solution_area ) < geometry_rectangle_get_top( &classifier_total_bounds ) )
+        && ( geometry_rectangle_get_bottom( &classifier_total_bounds ) < geometry_rectangle_get_bottom( &classifier_solution_area ) );
+    if ( is_x_contained )
+    {
+        *out_solution_move_dx = 0.0;
+    }
+    else 
+    {
+        const double sol_center_x = geometry_rectangle_get_center_x( &classifier_solution_area );
+        const double cur_center_x = geometry_rectangle_get_center_x( &classifier_total_bounds );
+        *out_solution_move_dx = ( sol_center_x < cur_center_x )
+            ? geometry_rectangle_get_right( &classifier_solution_area )
+            - geometry_rectangle_get_right( &classifier_total_bounds )
+            : geometry_rectangle_get_left( &classifier_solution_area )
+            - geometry_rectangle_get_left( &classifier_total_bounds );
+        geometry_rectangle_trace( &classifier_solution_area );
+        geometry_rectangle_trace( &classifier_total_bounds );
+    }
+    if ( is_y_contained )
+    {
+        *out_solution_move_dy = 0.0;
+    }
+    else 
+    {
+        const double sol_center_y = geometry_rectangle_get_center_y( &classifier_solution_area );
+        const double cur_center_y = geometry_rectangle_get_center_y( &classifier_total_bounds );
+        *out_solution_move_dy = ( sol_center_y < cur_center_y )
+            ? geometry_rectangle_get_bottom( &classifier_solution_area )
+            - geometry_rectangle_get_bottom( &classifier_total_bounds )
+            : geometry_rectangle_get_top( &classifier_solution_area )
+            - geometry_rectangle_get_top( &classifier_total_bounds );
+    }
 
     /* trace */
     const data_visible_classifier_t *visible_classifier;
