@@ -344,6 +344,7 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
         double solution_move_dy[6];
 
         /* propose options */
+#ifdef NDEBUG
         pencil_classifier_layouter_private_propose_move_solutions ( this_,
                                                                     &sorted,
                                                                     sort_index,
@@ -352,7 +353,7 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
                                                                     solution_move_dy,
                                                                     &solutions_count
                                                                   );
-#ifndef NDEBUG
+#endif
         pencil_classifier_layouter_private_propose_anchored_solution ( this_,
                                                                        &sorted,
                                                                        sort_index,
@@ -360,7 +361,6 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
                                                                        &(solution_move_dy[solutions_count])
                                                                      );
         solutions_count ++;
-#endif
 
         /* select best option */
         uint32_t index_of_best;
@@ -672,17 +672,62 @@ void pencil_classifier_layouter_private_propose_anchored_solution ( pencil_class
     /* determine the user-selected center */
     const geometry_rectangle_t *const classifier_symbol_box
         = layout_visible_classifier_get_symbol_box_const( the_classifier );
-    const double center_x = geometry_rectangle_get_center_x( classifier_symbol_box );
-    const double center_y = geometry_rectangle_get_center_y( classifier_symbol_box );
+    //const double center_x = geometry_rectangle_get_center_x( classifier_symbol_box );
+    //const double center_y = geometry_rectangle_get_center_y( classifier_symbol_box );
 
-    /* determine the biggest free/unoccupied box containing the center */
-    *out_solution_move_dx = 0.0 + 40.0/*TODO*/;
-    *out_solution_move_dy = 0.0 + 40.0/*TODO*/;
+    /* determine the space needed for the solution */
+    geometry_rectangle_t classifier_total_bounds;
+    geometry_rectangle_init_by_bounds( &classifier_total_bounds,
+                                       classifier_symbol_box,
+                                       layout_visible_classifier_get_label_box_const( the_classifier )
+                                     );
+    const double width = geometry_rectangle_get_width( &classifier_total_bounds );
+    const double height = geometry_rectangle_get_height( &classifier_total_bounds );
+    const double gap = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+
+    /* wish a solution area */
+    geometry_rectangle_t classifier_solution_area;
+    geometry_rectangle_init ( &classifier_solution_area,
+                              geometry_rectangle_get_left( &classifier_total_bounds ) - 0.5*width - gap,
+                              geometry_rectangle_get_top( &classifier_total_bounds ) - 0.5*height - gap,
+                              2.0*width + 2.0*gap,
+                              2.0*height + 2.0*gap
+                            );
+
+    /* shrink solution area to diagram_draw_area */
+    geometry_rectangle_init_by_intersect( &classifier_solution_area,
+                                          &classifier_solution_area,
+                                          (*this_).diagram_draw_area
+                                        );
 
     /* check overlap to already moved classifiers */
     for ( uint32_t probe_sort_index = 0; probe_sort_index < sort_index; probe_sort_index ++ )
     {
+        /* get classifier to check overlaps */
+        uint32_t probe_index;
+        probe_index = universal_array_index_sorter_get_array_index( sorted, probe_sort_index );
+        const layout_visible_classifier_t *const the_probe
+            = pencil_layout_data_get_visible_classifier_const( (*this_).layout_data, probe_index );
+
+        geometry_rectangle_t probe_total_bounds;
+        geometry_rectangle_init_by_bounds( &probe_total_bounds,
+                                           layout_visible_classifier_get_label_box_const( the_probe ),
+                                           layout_visible_classifier_get_symbol_box_const( the_probe )
+                                         );
+
+        geometry_rectangle_init_by_difference( &classifier_solution_area,
+                                               &classifier_solution_area,
+                                               &probe_total_bounds
+                                             );
     }
+
+    /* determine the biggest free/unoccupied box containing the center */
+    *out_solution_move_dx
+        = geometry_rectangle_get_center_x( &classifier_solution_area )
+        - geometry_rectangle_get_center_x( &classifier_total_bounds );
+    *out_solution_move_dy
+        = geometry_rectangle_get_center_y( &classifier_solution_area )
+        - geometry_rectangle_get_center_y( &classifier_total_bounds );
 
     /* trace */
     const data_visible_classifier_t *visible_classifier;
@@ -846,7 +891,7 @@ void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_
             geometry_rectangle_trace( classifier_space );
             geometry_rectangle_trace( &min_inner_space );
             //assert( geometry_rectangle_is_containing( (*this_).diagram_draw_area, &max_outer_bounds ) );  // may fail in extreme cases like width=0
-            assert( geometry_rectangle_is_containing( &max_outer_bounds, classifier_symbol_box ) );
+            //assert( geometry_rectangle_is_containing( &max_outer_bounds, classifier_symbol_box ) );  // to be checked
             //assert( geometry_rectangle_is_containing( classifier_symbol_box, classifier_space ) );  // not true for e.g. decision nodes
             assert( geometry_rectangle_is_containing( classifier_space, &min_inner_space ) );
 

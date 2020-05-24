@@ -129,10 +129,10 @@ static inline void geometry_rectangle_init_by_corners ( geometry_rectangle_t *th
  *  \param rect_b rectangle b. Must not be NULL
  *  \return 0 in case of success (always)
  */
-static inline int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
-                                                          const geometry_rectangle_t *rect_a,
-                                                          const geometry_rectangle_t *rect_b
-                                                        );
+int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
+                                            const geometry_rectangle_t *rect_a,
+                                            const geometry_rectangle_t *rect_b
+                                          );
 
 /*!
  *  \brief destroys the geometry_rectangle_t struct
