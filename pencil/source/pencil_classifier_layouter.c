@@ -344,7 +344,6 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
         double solution_move_dy[6];
 
         /* propose options */
-#ifdef NDEBUG
         pencil_classifier_layouter_private_propose_move_solutions ( this_,
                                                                     &sorted,
                                                                     sort_index,
@@ -353,7 +352,6 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
                                                                     solution_move_dy,
                                                                     &solutions_count
                                                                   );
-#endif
         pencil_classifier_layouter_private_propose_anchored_solution ( this_,
                                                                        &sorted,
                                                                        sort_index,
