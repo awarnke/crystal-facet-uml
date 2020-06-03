@@ -344,6 +344,7 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
         double solution_move_dy[6];
 
         /* propose options */
+/*#if 0*/
         pencil_classifier_layouter_private_propose_move_solutions ( this_,
                                                                     &sorted,
                                                                     sort_index,
@@ -352,6 +353,7 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
                                                                     solution_move_dy,
                                                                     &solutions_count
                                                                   );
+/*#endif*/
         pencil_classifier_layouter_private_propose_anchored_solution ( this_,
                                                                        &sorted,
                                                                        sort_index,
@@ -732,7 +734,7 @@ void pencil_classifier_layouter_private_propose_anchored_solution ( pencil_class
     {
         *out_solution_move_dx = 0.0;
     }
-    else 
+    else
     {
         const double sol_center_x = geometry_rectangle_get_center_x( &classifier_solution_area );
         const double cur_center_x = geometry_rectangle_get_center_x( &classifier_total_bounds );
@@ -748,7 +750,7 @@ void pencil_classifier_layouter_private_propose_anchored_solution ( pencil_class
     {
         *out_solution_move_dy = 0.0;
     }
-    else 
+    else
     {
         const double sol_center_y = geometry_rectangle_get_center_y( &classifier_solution_area );
         const double cur_center_y = geometry_rectangle_get_center_y( &classifier_total_bounds );

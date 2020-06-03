@@ -16,6 +16,7 @@
 #include "util/string/utf8stringbuf.h"
 #include "storage/data_database_reader.h"
 #include "data_diagram.h"
+#include "universal_output_stream_if.h"
 
 /*!
  *  \brief constants for max string sizes
