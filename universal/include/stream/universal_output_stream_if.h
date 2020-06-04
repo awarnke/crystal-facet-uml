@@ -11,7 +11,7 @@
  *  This is an interface only - to be used in a pipes-and-filters architecture
  *  where pipes and filters do not know their predecessor or successor.
  *
- *  A user of this interface needs a) a pointer to a concrete intance of this interface
+ *  A user of this interface needs a) a pointer to a concrete instance of this interface
  *  and b) a pointer to an object that implements the interface (this_).
  */
 
