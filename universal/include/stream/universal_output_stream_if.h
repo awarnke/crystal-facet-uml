@@ -8,8 +8,11 @@
  *  \file
  *  \brief Defines a set of function pointers that allow to implement an output stream.
  *
- *  This is an interface only - to be used in a pipes-and-filters arechitecture
+ *  This is an interface only - to be used in a pipes-and-filters architecture
  *  where pipes and filters do not know their predecessor or successor.
+ *
+ *  A user of this interface needs a) a pointer to a concrete intance of this interface
+ *  and b) a pointer to an object that implements the interface (this_).
  */
 
 #include <stdint.h>
@@ -21,11 +24,11 @@
  *
  */
 struct universal_output_stream_if_struct {
-    int (*open)(void* this_, const void* identifier); /* a function to open an output stream; returns 0 if success, -1 in case of error */
-    ssize_t (*write)(void* this_, const void *buffer, size_t size); /* a function to write data to an output stream; returns number of bytes written if success, -1 in case of error */
-    int (*flush)(void* this_); /* a function to flush data to an output stream; returns 0 if success, -1 in case of error */
-    int (*close)(void* this_); /* a function to close an output stream; returns 0 if success, -1 in case of error */
-    int (*destroy)(void* this_); /* the destructor of the output stream; returns 0 if success, -1 in case of error */
+    int (*open)(void* this_, const char* identifier); /*!< a function to open an output stream; returns 0 if success, -1 in case of error */
+    int (*write)(void* this_, const void *start, size_t length); /*!< a function to write data to an output stream; returns 0 if success, -1 in case of error */
+    int (*flush)(void* this_); /*!< a function to flush data to an output stream; returns 0 if success, -1 in case of error */
+    int (*close)(void* this_); /*!< a function to close an output stream; returns 0 if success, -1 in case of error */
+    int (*destroy)(void* this_); /*!< the destructor of the output stream; returns 0 if success, -1 in case of error */
 };
 
 typedef struct universal_output_stream_if_struct universal_output_stream_if_t;

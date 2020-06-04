@@ -30,14 +30,12 @@ struct xml_writer_struct {
     char temp_output_buffer[XML_WRITER_MAX_STRING_SIZE];  /*!< temporary output buffer to convert strings */
     utf8stringbuf_t temp_output;  /*!< temporary output string buffer to convert strings */
     const char * const * xml_encode_table;  /*!< table for xml encode string replacements */
-    const char * const * fmt_xhtml_encode_table;  /*!< table for formatted xhtml encode string replacements */
-    const char * const * fmt_db_encode_table;  /*!< table for formatted docbook encode string replacements */
 };
 
 typedef struct xml_writer_struct xml_writer_t;
 
 /*!
- *  \brief initializes the document exporter
+ *  \brief initializes the xml writer
  *
  *  \param this_ pointer to own object attributes
  *  \param output file object where to write the document to
@@ -45,7 +43,7 @@ typedef struct xml_writer_struct xml_writer_t;
 void xml_writer_init( xml_writer_t *this_, FILE *output );
 
 /*!
- *  \brief destroys the document exporter
+ *  \brief destroys the xml writer
  *
  *  \param this_ pointer to own object attributes
  */
