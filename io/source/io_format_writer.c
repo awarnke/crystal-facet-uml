@@ -356,17 +356,19 @@ static const char CSS_ALL[]
 void io_format_writer_init ( io_format_writer_t *this_,
                              data_database_reader_t *db_reader,
                              io_file_format_t export_type,
-                             FILE *output )
+                             const universal_output_stream_if_t *output_if,
+                             void* output_impl )
 {
     TRACE_BEGIN();
-    assert( NULL != output );
+    assert( NULL != output_if );
+    assert( NULL != output_impl );
     assert( NULL != db_reader );
 
     (*this_).export_type = export_type;
     (*this_).current_tree_depth = 0;
 
-    txt_writer_init( &((*this_).txt_writer), output );
-    xml_writer_init( &((*this_).xml_writer), output );
+    txt_writer_init( &((*this_).txt_writer), output_if, output_impl );
+    xml_writer_init( &((*this_).xml_writer), output_if, output_impl );
 
     switch ( (*this_).export_type )
     {

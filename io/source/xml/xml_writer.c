@@ -16,12 +16,16 @@ static const char * const XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[] = {
     NULL,  /* end translation table */
 };
 
-void xml_writer_init ( xml_writer_t *this_, FILE *output )
+void xml_writer_init ( xml_writer_t *this_,
+                       const universal_output_stream_if_t *output_if,
+                       void* output_impl )
 {
     TRACE_BEGIN();
-    assert( NULL != output );
+    assert( NULL != output_if );
+    assert( NULL != output_impl );
 
-    (*this_).output = output;
+    (*this_).output_if = output_if;
+    (*this_).output_impl = output_impl;
 
     (*this_).temp_output = utf8stringbuf_init( sizeof( (*this_).temp_output_buffer), (*this_).temp_output_buffer );
     (*this_).xml_encode_table = XML_WRITER_PRIVATE_ENCODE_XML_STRINGS;
@@ -33,7 +37,8 @@ void xml_writer_destroy( xml_writer_t *this_ )
 {
     TRACE_BEGIN();
 
-    (*this_).output = NULL;
+    (*this_).output_if = NULL;
+    (*this_).output_impl = NULL;
 
     TRACE_END();
 }
@@ -43,9 +48,9 @@ int xml_writer_write_plain_id ( xml_writer_t *this_, data_table_t table, int64_t
     TRACE_BEGIN();
     assert( DATA_TABLE_VOID != table );
     assert( DATA_ID_VOID_ID != row_id );
+    assert( NULL != (*this_).output_if );
+    assert( NULL != (*this_).output_impl );
     int result = 0;
-    size_t out_count;  /* checks if the number of written characters matches the expectation */
-    assert( (*this_).output != NULL );
 
     /* print id */
     {
@@ -56,13 +61,8 @@ int xml_writer_write_plain_id ( xml_writer_t *this_, data_table_t table, int64_t
         data_id_init( &the_id, table, row_id );
         data_id_to_utf8stringbuf( &the_id, id_str );
 
-        unsigned int len = utf8stringbuf_get_length(id_str);
-        out_count = fwrite( utf8stringbuf_get_string(id_str), 1, len, (*this_).output );
-        if ( out_count != len )
-        {
-            TSLOG_ERROR_INT( "not all bytes could be written. missing:", len - out_count );
-            result = -1;
-        }
+        const unsigned int len = utf8stringbuf_get_length(id_str);
+        result = (*((*this_).output_if)).write( (*this_).output_impl, utf8stringbuf_get_string(id_str), len );
     }
 
     TRACE_END_ERR( result );

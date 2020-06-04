@@ -20,8 +20,9 @@
 #include <stddef.h>
 
 /*!
- *  \brief function pointers of a universal_output_stream_if_t, similar to a vmt.
+ *  \brief function pointers of a universal_output_stream_if_t.
  *
+ *  This is similar to a vmt but used here only to access an interface without inheritance.
  */
 struct universal_output_stream_if_struct {
     int (*open)(void* this_, const char* identifier); /*!< a function to open an output stream; returns 0 if success, -1 in case of error */

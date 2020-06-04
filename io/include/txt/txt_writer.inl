@@ -5,16 +5,15 @@
 
 static inline int txt_writer_write_plain ( txt_writer_t *this_, const char *text )
 {
-    int export_err = 0;
     assert ( NULL != text );
-    assert ( NULL != (*this_).output );
+    assert ( NULL != (*this_).output_if );
+    assert ( NULL != (*this_).output_impl );
+    int write_err;
 
     const size_t text_len = strlen(text);
-    size_t out_count;
-    out_count = fwrite( text, 1 /* size of char */, text_len, (*this_).output );
-    export_err = (out_count != text_len) ? -1 : 0;
+    write_err = (*((*this_).output_if)).write( (*this_).output_impl, text, text_len );
 
-    return ( export_err );
+    return ( write_err );
 }
 
 

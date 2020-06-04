@@ -14,12 +14,16 @@ enum txt_writer_indent_enum {
 static const char TXT_ID_INDENT_SPACES[TXT_WRITER_INDENT_COLUMN+1] = "                                                ";
 static const char TXT_NEWLINE[] = "\n";
 
-void txt_writer_init ( txt_writer_t *this_, FILE *output )
+void txt_writer_init ( txt_writer_t *this_,
+                       const universal_output_stream_if_t *output_if,
+                       void* output_impl )
 {
     TRACE_BEGIN();
-    assert( NULL != output );
+    assert( NULL != output_if );
+    assert( NULL != output_impl );
 
-    (*this_).output = output;
+    (*this_).output_if = output_if;
+    (*this_).output_impl = output_impl;
 
     TRACE_END();
 }
@@ -28,7 +32,8 @@ void txt_writer_destroy( txt_writer_t *this_ )
 {
     TRACE_BEGIN();
 
-    (*this_).output = NULL;
+    (*this_).output_if = NULL;
+    (*this_).output_impl = NULL;
 
     TRACE_END();
 }
@@ -39,10 +44,10 @@ int txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
 {
     TRACE_BEGIN();
     assert( NULL != indent );
+    assert( NULL != (*this_).output_if );
+    assert( NULL != (*this_).output_impl );
     int result = 0;
-    size_t out_count;  /* checks if the number of written characters matches the expectation */
     const size_t indent_length = strlen( indent );
-    assert( (*this_).output != NULL );
 
     if ( NULL != multiline_string )
     {
@@ -86,28 +91,13 @@ int txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
             if ( end_of_line )
             {
                 /* print indent pattern */
-                out_count = fwrite( indent, 1 /* size of char */, indent_length, (*this_).output );
-                if ( out_count != indent_length )
-                {
-                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", indent_length - out_count );
-                    result = -1;
-                }
+                result |= (*((*this_).output_if)).write( (*this_).output_impl, indent, indent_length );
 
                 /* print next line */
-                out_count = fwrite( line_start, 1 /* size of char */, line_length, (*this_).output );
-                if ( out_count != line_length )
-                {
-                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", line_length - out_count );
-                    result = -1;
-                }
+                result |= (*((*this_).output_if)).write( (*this_).output_impl, line_start, line_length );
 
                 /* print newline */
-                out_count = fwrite( TXT_NEWLINE, 1 /* size of char */, strlen(TXT_NEWLINE), (*this_).output );
-                if ( out_count != strlen(TXT_NEWLINE) )
-                {
-                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", strlen(TXT_NEWLINE) - out_count );
-                    result = -1;
-                }
+                result |= (*((*this_).output_if)).write( (*this_).output_impl, TXT_NEWLINE, strlen(TXT_NEWLINE) );
 
                 /* reset line indices */
                 line_start = &(multiline_string[index+1]);
@@ -128,10 +118,10 @@ int txt_writer_write_indent_id ( txt_writer_t *this_,
     TRACE_BEGIN();
     assert( DATA_TABLE_VOID != table );
     assert( DATA_ID_VOID_ID != row_id );
+    assert( NULL != (*this_).output_if );
+    assert( NULL != (*this_).output_impl );
     assert( sizeof(TXT_ID_INDENT_SPACES) == 1+TXT_WRITER_INDENT_COLUMN );
     int result = 0;
-    size_t out_count;  /* checks if the number of written characters matches the expectation */
-    assert( (*this_).output != NULL );
 
     /* indent */
     if ( indent_width > TXT_WRITER_INDENT_COLUMN )
@@ -141,12 +131,7 @@ int txt_writer_write_indent_id ( txt_writer_t *this_,
     }
     if ( indent_width > 0 )
     {
-        out_count = fwrite( &TXT_ID_INDENT_SPACES, 1, indent_width, (*this_).output );
-        if ( out_count != indent_width )
-        {
-            TSLOG_ERROR_INT( "not all bytes could be written. missing:", indent_width - out_count );
-            result = -1;
-        }
+        result |= (*((*this_).output_if)).write( (*this_).output_impl, &TXT_ID_INDENT_SPACES, indent_width );
     }
 
     /* print id */
@@ -160,13 +145,8 @@ int txt_writer_write_indent_id ( txt_writer_t *this_,
         data_id_to_utf8stringbuf( &the_id, id_str );
         utf8stringbuf_append_str( id_str, "]" );
 
-        unsigned int len = utf8stringbuf_get_length(id_str);
-        out_count = fwrite( utf8stringbuf_get_string(id_str), 1, len, (*this_).output );
-        if ( out_count != len )
-        {
-            TSLOG_ERROR_INT( "not all bytes could be written. missing:", len - out_count );
-            result = -1;
-        }
+        const unsigned int len = utf8stringbuf_get_length(id_str);
+        result |= (*((*this_).output_if)).write( (*this_).output_impl, utf8stringbuf_get_string(id_str), len );
     }
 
     TRACE_END_ERR( result );
@@ -178,9 +158,9 @@ int txt_writer_write_plain_id ( txt_writer_t *this_, data_table_t table, int64_t
     TRACE_BEGIN();
     assert( DATA_TABLE_VOID != table );
     assert( DATA_ID_VOID_ID != row_id );
+    assert( NULL != (*this_).output_if );
+    assert( NULL != (*this_).output_impl );
     int result = 0;
-    size_t out_count;  /* checks if the number of written characters matches the expectation */
-    assert( (*this_).output != NULL );
 
     /* print id */
     {
@@ -191,13 +171,8 @@ int txt_writer_write_plain_id ( txt_writer_t *this_, data_table_t table, int64_t
         data_id_init( &the_id, table, row_id );
         data_id_to_utf8stringbuf( &the_id, id_str );
 
-        unsigned int len = utf8stringbuf_get_length(id_str);
-        out_count = fwrite( utf8stringbuf_get_string(id_str), 1, len, (*this_).output );
-        if ( out_count != len )
-        {
-            TSLOG_ERROR_INT( "not all bytes could be written. missing:", len - out_count );
-            result = -1;
-        }
+        const unsigned int len = utf8stringbuf_get_length(id_str);
+        result |= (*((*this_).output_if)).write( (*this_).output_impl, utf8stringbuf_get_string(id_str), len );
     }
 
     TRACE_END_ERR( result );
