@@ -27,6 +27,8 @@ typedef struct universal_memory_output_stream_struct universal_memory_output_str
  *  \brief initializes the universal_memory_output_stream_t
  *
  *  \param this_ pointer to own object attributes
+ *  \param mem_buf_start address of memory buffer
+ *  \param mem_buf_size size of the memory buffer
  */
 void universal_memory_output_stream_init( universal_memory_output_stream_t *this_,
                                           void* mem_buf_start,

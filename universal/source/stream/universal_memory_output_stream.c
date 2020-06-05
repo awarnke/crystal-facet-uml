@@ -10,11 +10,11 @@
 /* the vmt implementing the interface */
 static const universal_output_stream_if_t universal_memory_output_stream_private_if
     = {
-        /* open:   */ (int (*)(void*, const char*)) universal_memory_output_stream_open,
-        /* write:  */ (int (*)(void*, const void*, size_t)) universal_memory_output_stream_write,
-        /* flush:  */ (int (*)(void*)) universal_memory_output_stream_flush,
-        /* close:  */ (int (*)(void*)) universal_memory_output_stream_close,
-        /* destroy:*/ (int (*)(void*)) universal_memory_output_stream_destroy
+        /* open:   */ (int (*)(void*, const char*)) &universal_memory_output_stream_open,
+        /* write:  */ (int (*)(void*, const void*, size_t)) &universal_memory_output_stream_write,
+        /* flush:  */ (int (*)(void*)) &universal_memory_output_stream_flush,
+        /* close:  */ (int (*)(void*)) &universal_memory_output_stream_close,
+        /* destroy:*/ (int (*)(void*)) &universal_memory_output_stream_destroy
     };
 
 void universal_memory_output_stream_init ( universal_memory_output_stream_t *this_,
@@ -66,14 +66,15 @@ int universal_memory_output_stream_write ( universal_memory_output_stream_t *thi
     int err = 0;
 
     const size_t space_left = ( (*this_).mem_buf_size - (*this_).mem_buf_filled );
+    char *const buf_first_free = &(  (*(  (char(*)[])(*this_).mem_buf_start  ))[(*this_).mem_buf_filled]  );
     if ( length <= space_left )
     {
-        memcpy( ((char*)(*this_).mem_buf_start) + (*this_).mem_buf_filled, start, length );
+        memcpy( buf_first_free, start, length );
         (*this_).mem_buf_filled += length;
     }
     else
     {
-        memcpy( ((char*)(*this_).mem_buf_start) + (*this_).mem_buf_filled, start, space_left );
+        memcpy( buf_first_free, start, space_left );
         (*this_).mem_buf_filled += space_left;
         TSLOG_WARNING_INT( "not all bytes could be written. missing:", length-space_left );
         err = -1;

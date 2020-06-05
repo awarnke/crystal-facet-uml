@@ -61,7 +61,7 @@ static void test_insert_regular(void)
     const char test_1[] = "Hello";
     err = universal_output_stream_write ( my_out_stream, test_1, sizeof(test_1) );
     TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( my_out_buffer, test_1 ) );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), test_1 ) );
 
     /* flush */
     err = universal_output_stream_flush (my_out_stream);
@@ -84,7 +84,7 @@ static void test_insert_regular(void)
     const char test_3[] = "lo!";
     err = universal_output_stream_write ( my_out_stream, test_3, sizeof(test_3) );
     TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( my_out_buffer, "Hello!" ) );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), "Hello!" ) );
 
     /* close */
     err = universal_output_stream_close (my_out_stream);
@@ -108,25 +108,25 @@ static void test_insert_border_cases(void)
     const char test_1[] = "123456";
     err = universal_output_stream_write ( my_out_stream, test_1, strlen(test_1) );
     TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( my_out_buffer, test_1 ) );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), test_1 ) );
 
     /* write */
     const char test_2[] = "7890abc";
     err = universal_output_stream_write ( my_out_stream, test_2, strlen(test_2) );
     TEST_ASSERT_EQUAL_INT( -1, err );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( my_out_buffer, "1234567890", sizeof(my_out_buffer) ) );
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "1234567890", sizeof(my_out_buffer) ) );
 
     /* write */
     const char test_3[] = "lo!";
     err = universal_output_stream_write ( my_out_stream, test_3, sizeof(test_3) );
     TEST_ASSERT_EQUAL_INT( -1, err );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( my_out_buffer, "1234567890", sizeof(my_out_buffer) ) );
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "1234567890", sizeof(my_out_buffer) ) );
 
     /* write */
     const char test_4[] = "";
     err = universal_output_stream_write ( my_out_stream, test_4, 0 );
     TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( my_out_buffer, "1234567890", sizeof(my_out_buffer) ) );
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "1234567890", sizeof(my_out_buffer) ) );
 }
 
 

@@ -10,11 +10,11 @@
 /* the vmt implementing the interface */
 static const universal_output_stream_if_t universal_file_output_stream_private_if
     = {
-        /* open:   */ (int (*)(void*, const char*)) universal_file_output_stream_open,
-        /* write:  */ (int (*)(void*, const void*, size_t)) universal_file_output_stream_write,
-        /* flush:  */ (int (*)(void*)) universal_file_output_stream_flush,
-        /* close:  */ (int (*)(void*)) universal_file_output_stream_close,
-        /* destroy:*/ (int (*)(void*)) universal_file_output_stream_destroy
+        /* open:   */ (int (*)(void*, const char*)) &universal_file_output_stream_open,
+        /* write:  */ (int (*)(void*, const void*, size_t)) &universal_file_output_stream_write,
+        /* flush:  */ (int (*)(void*)) &universal_file_output_stream_flush,
+        /* close:  */ (int (*)(void*)) &universal_file_output_stream_close,
+        /* destroy:*/ (int (*)(void*)) &universal_file_output_stream_destroy
     };
 
 void universal_file_output_stream_init ( universal_file_output_stream_t *this_ )

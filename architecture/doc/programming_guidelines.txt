@@ -86,7 +86,7 @@
  *    \n This constructor shall re-initialize the struct that was already initialized before the copy/move of the provided object.
  *  .
  *
- *  \subsection cfu-lifecycle Responsabilities for creation and destruction
+ *  \subsection cfu-lifecycle Responsabilities for Creation and Destruction
  *
  *  The general guideline is: who creates the object is responsible for destroying it.
  *
@@ -106,12 +106,20 @@
  *    \n Rationale: This avoids segmentation faults in case of not checking for NULL, software gets more robust.
  *  .
  *
+ *  \subsection cfu-interfaces Implementing Abstract Interfaces
+ *
+ *  How to define an abstract interface, implement it and then pass an instance of the abstract interface to clients, see universal_output_stream_t.
+ *  \see universal_output_stream_t
+ *  \see universal_output_stream_if_t
+ *  \see universal_file_output_stream_t
+ *  \see universal_memory_output_stream_t
+ *
  *  \section cfu-error Error Handling
  *
  *  This section explains the detection of faults and anomalies, the propagation from detection to error handler and
  *  how an error handler shall react. Small anomalies shall be logged but need not be handled.
  *
- *  \subsection cfu-error-handling Technical concepts
+ *  \subsection cfu-error-handling Technical Concepts
  *
  *  The following mechanisms shall be used for detection, propagation and handling of errors:
  *  - assert
@@ -122,13 +130,45 @@
  *  - error_codes
  *    \n The return parameter of a function shall be the error code. Futher return values shall be declared as *out_xy parmeter.
  *    \n Exception to his rule are helper and utility functions which do not report errors (only perform asserts).
- *  - error handlig
+ *  - error handling
  *    \n Errors shall be reported to the user: in GUI mode, a message shall be shown in a window, in console mode, it shall be
  *    shown on std_err.
  *    \n If possible, the program shall continue running.
+ *  .
+ *
+ *  \section cfu-types Types (Declarations and Operators)
+ *
+ *  Avoid implicit type conversions. Perform explicit type conversions instead.
+ *
+ *  \subsection cfu-implicit-type-conversions Implicit Type Conversions
+ *
+ *  Especially on arrays, one can get confused easily. While implicit type conversions are helpful as long as things are simple,
+ *  one gets confused when looking at pointer-to-array-of-pointers and array-of-pointers-to-arrays.
+ *
+ *  The term \c ((char*)buf)+len looks simple - but adds value \c len*sizeof(char) to the pointer \c buf and returns a pointer of type \c char*.
+ *  These c-magic pointer-to-array conversions get confusing if types are more complicated than a simple char, e.g. \c ((char(*)[][7])buf)+len .
+ *
+ *  In crystal_facet_uml, the preferred term is \c &((*((char(*)[])buf))[len]) .
+ *  There is no magic: \c buf is cast to pointer-to-array \c char(*)[] . The pointer is dereferenced, the array-element \c len is selected,
+ *  the address of that element is determined.
+ *
+ *  Hints on C-Pitfalls:
+ *  - An array is an array.
+ *    \n to get a pointer onto the first element, call \c &(my_array[0]).
+ *    \n to get a pointer onto the array, call \c &(my_array).
+ *  - A pointer is a pointer.
+ *    \n to get an array, cast the pointer-to-base-type to a pointer-to-array-of-base-type and dereference it: \c *((char(*)[])my_ptr)
+ *    \n to get a function, dereference the pointer: *(my_func_ptr)
+ *    \n avoid the + operator on pointers, dereference the pointer and access the array element instead: \c (*(array_ptr))[n]
+ *  - A function is a function.
+ *    \n to get a pointer to a function, write \c &(my_func).
+ *  - A c-string is a char-array.
+ *    \n to pass a c-string to a function, use a pointer on the array: \c &(my_string) of type \c char(*)[].
  *  .
  *
  *  \section cfu-programming-guidelines-apx Appendix
  *  \author Copyright 2016-2020 Andreas Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
  */
 
+    char *const buf_first_free = &(  (*(  (char(*)[])(*this_).mem_buf_start  ))[(*this_).mem_buf_filled]  );
+    ((char*)buf)+len
