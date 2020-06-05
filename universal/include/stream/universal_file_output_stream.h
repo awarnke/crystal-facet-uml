@@ -9,14 +9,14 @@
  *  \brief implements an universal_output_stream_if and forwards data to a FILE
  */
 
-#include "stream/universal_output_stream_if.h"
+#include "stream/universal_output_stream.h"
 #include <stdio.h>
 
 /*!
  *  \brief attributes of the universal_file_output_stream
  */
 struct universal_file_output_stream_struct {
-    const universal_output_stream_if_t *o_stream_if;  /*!< pointer to own vmt */
+    universal_output_stream_t output_stream;  /*!< instance of implemented interface \c universal_output_stream_t */
     FILE *output;  /*!< output file */
 };
 
@@ -73,11 +73,11 @@ int universal_file_output_stream_flush( universal_file_output_stream_t *this_ );
 int universal_file_output_stream_close( universal_file_output_stream_t *this_ );
 
 /*!
- *  \brief gets the vmt of this universal_file_output_stream_t
+ *  \brief gets the output stream interface of this universal_file_output_stream_t
  *
  *  \param this_ pointer to own object attributes
  */
-const universal_output_stream_if_t* universal_file_output_stream_get_if( universal_file_output_stream_t *this_ );
+universal_output_stream_t* universal_file_output_stream_get_output_stream( universal_file_output_stream_t *this_ );
 
 #endif  /* UNIVERSAL_FILE_OUTPUT_STREAM_H */
 

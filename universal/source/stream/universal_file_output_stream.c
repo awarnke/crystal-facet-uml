@@ -1,6 +1,7 @@
 /* File: universal_file_output_stream.c; Copyright and License: see below */
 
 #include "stream/universal_file_output_stream.h"
+#include "stream/universal_output_stream_if.h"
 #include "trace.h"
 #include "tslog.h"
 #include <stdbool.h>
@@ -21,7 +22,7 @@ void universal_file_output_stream_init ( universal_file_output_stream_t *this_ )
     TRACE_BEGIN();
 
     (*this_).output = NULL;
-    (*this_).o_stream_if = &universal_file_output_stream_private_if;
+    universal_output_stream_init( &((*this_).output_stream), &universal_file_output_stream_private_if, this_ );
 
     TRACE_END();
 }
@@ -36,6 +37,7 @@ int universal_file_output_stream_destroy( universal_file_output_stream_t *this_ 
         err = universal_file_output_stream_close( this_ );
     }
     (*this_).output = NULL;
+    /* do not call universal_output_stream_destroy here - this would be a recursion */
 
     TRACE_END_ERR(err);
     return err;
@@ -122,13 +124,14 @@ int universal_file_output_stream_close( universal_file_output_stream_t *this_ )
     return err;
 }
 
-const universal_output_stream_if_t* universal_file_output_stream_get_if( universal_file_output_stream_t *this_ )
+universal_output_stream_t* universal_file_output_stream_get_output_stream( universal_file_output_stream_t *this_ )
 {
     TRACE_BEGIN();
-    assert( (*this_).o_stream_if != NULL );
+
+    universal_output_stream_t* result = &((*this_).output_stream);
 
     TRACE_END();
-    return (*this_).o_stream_if;
+    return result;
 }
 
 
