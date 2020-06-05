@@ -7,11 +7,9 @@
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
+#include "stream/universal_memory_output_stream.h"
 #include "trace.h"
 #include "test_assert.h"
-#include <stdio.h>
-
-#ifdef __linux__
 
 static void set_up(void);
 static void tear_down(void);
@@ -52,7 +50,7 @@ static md_filter_t md_filter;
 #define TAG_LINK3 "</REF>"
 
 static char my_out_buffer[200];
-static FILE *my_out_stream;
+universal_memory_output_stream_t my_out_stream;
 static xml_writer_t xml_writer;
 
 test_suite_t md_filter_test_get_list(void)
@@ -75,10 +73,8 @@ static void set_up(void)
     ctrl_controller_init( &controller, &database );
 
     memset( &my_out_buffer, '\0', sizeof(my_out_buffer) );
-    my_out_stream = fmemopen( &my_out_buffer, sizeof( my_out_buffer ), "w");
-    assert ( NULL != my_out_stream );
-
-    xml_writer_init( &xml_writer, my_out_stream );
+    universal_memory_output_stream_init( &my_out_stream, &my_out_buffer, sizeof(my_out_buffer) );
+    xml_writer_init( &xml_writer, universal_memory_output_stream_get_output_stream( &my_out_stream ) );
 
     md_filter_init( &md_filter, &db_reader, TAG_BREAK, TAG_LINK1, TAG_LINK2, TAG_LINK3, &xml_writer );
 }
@@ -89,7 +85,7 @@ static void tear_down(void)
 
     xml_writer_destroy( &xml_writer );
 
-    fclose( my_out_stream );
+    universal_memory_output_stream_destroy( &my_out_stream );
 
     int err;
     ctrl_controller_destroy( &controller );
@@ -162,7 +158,6 @@ static void test_md_plain_mixed(void)
     static const char expected[] = "<!DTD><body>plain &amp;amp; &quot;\'&lt;&gt;D3D#name#id"
         "ln 1a\nln 1b" TAG_BREAK "\nln 2" TAG_BREAK "- ln 3" TAG_BREAK "4" TAG_BREAK "5 ln 5" TAG_BREAK TAG_BREAK "\nln 7a\n ln 7b" TAG_BREAK "&gt; ln8\n"
         "</body>";
-    fflush( my_out_stream );
     //fprintf( stdout, "%s\n", &(expected[0]) );
     //fprintf( stdout, "%s\n", &(my_out_buffer[0]) );
     //fflush(stdout);
@@ -182,7 +177,6 @@ static void test_valid_links(void)
 
     static const char expected[] = "&gt;D3D" TAG_LINK1 "D0001" TAG_LINK2 "Th&amp; &lt;root&gt; d&quot;agram" TAG_LINK3 "#id"
         TAG_LINK1 "D0001" TAG_LINK2 "D0001" TAG_LINK3;
-    fflush( my_out_stream );
     //fprintf( stdout, "%s\n", &(expected[0]) );
     //fprintf( stdout, "%s\n", &(my_out_buffer[0]) );
     //fflush(stdout);
@@ -201,32 +195,12 @@ static void test_invalid_links(void)
     TEST_ASSERT_EQUAL_INT( 0, err );
 
     static const char expected[] = "&gt;D3DD001#nameC0001#idD0002#id#nameD0001#nam";
-    fflush( my_out_stream );
     //fprintf( stdout, "%s\n", &(expected[0]) );
     //fprintf( stdout, "%s\n", &(my_out_buffer[0]) );
     //fflush(stdout);
     TEST_ENVIRONMENT_ASSERT( sizeof(my_out_buffer) >= sizeof(expected)-1 );
     TEST_ASSERT( 0 == memcmp( &my_out_buffer, expected, sizeof(expected)-1 ) );
 }
-
-#else  //  __linux __
-
-static void set_up(void)
-{
-}
-
-static void tear_down(void)
-{
-}
-
-test_suite_t md_filter_test_get_list(void)
-{
-    test_suite_t result;
-    test_suite_init( &result, "md_filter_test_get_list", &set_up, &tear_down );
-    return result;
-}
-
-#endif  //  __linux__
 
 
 /*
