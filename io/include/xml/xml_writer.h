@@ -13,7 +13,7 @@
 #include "data_classifier.h"
 #include "data_table.h"
 #include "util/string/utf8stringbuf.h"
-#include "stream/universal_output_stream_if.h"
+#include "stream/universal_output_stream.h"
 
 /*!
  *  \brief constants for max string sizes
@@ -26,8 +26,7 @@ enum xml_writer_max_enum {
  *  \brief attributes of the xml writer
  */
 struct xml_writer_struct {
-    const universal_output_stream_if_t *output_if;  /*!< set of interface functions to write to a file */
-    void* output_impl;  /*!< object that implements writing to a file */
+    universal_output_stream_t *output;  /*!< output stream where to write the generated document to */
 
     char temp_output_buffer[XML_WRITER_MAX_STRING_SIZE];  /*!< temporary output buffer to convert strings */
     utf8stringbuf_t temp_output;  /*!< temporary output string buffer to convert strings */
@@ -40,13 +39,10 @@ typedef struct xml_writer_struct xml_writer_t;
  *  \brief initializes the xml writer
  *
  *  \param this_ pointer to own object attributes
- *  \param output file object where to write the document to
- *  \param output_if set of interface functions to write to a file
- *  \param output_impl object that implements writing to a file
+ *  \param output output stream where to write the generated document to
  */
 void xml_writer_init( xml_writer_t *this_,
-                      const universal_output_stream_if_t *output_if,
-                      void* output_impl
+                      universal_output_stream_t *output
                     );
 
 /*!

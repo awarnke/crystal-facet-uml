@@ -16,15 +16,14 @@
 #include "set/data_visible_set.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/string/utf8stringbuf.h"
-#include "stream/universal_output_stream_if.h"
+#include "stream/universal_output_stream.h"
 #include <gtk/gtk.h>
 
 /*!
  *  \brief attributes of the txt writer
  */
 struct txt_writer_struct {
-    const universal_output_stream_if_t *output_if;  /*!< set of interface functions to write to a file */
-    void* output_impl;  /*!< object that implements writing to a file */
+    universal_output_stream_t *output;  /*!< output stream where to write the generated document to */
 };
 
 typedef struct txt_writer_struct txt_writer_t;
@@ -33,13 +32,10 @@ typedef struct txt_writer_struct txt_writer_t;
  *  \brief initializes the txt writer
  *
  *  \param this_ pointer to own object attributes
- *  \param output file object where to write the document to
- *  \param output_if set of interface functions to write to a file
- *  \param output_impl object that implements writing to a file
+ *  \param output output stream where to write the generated document to
  */
 void txt_writer_init( txt_writer_t *this_,
-                      const universal_output_stream_if_t *output_if,
-                      void* output_impl
+                      universal_output_stream_t *output
                     );
 
 /*!

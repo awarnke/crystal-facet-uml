@@ -10,6 +10,8 @@
  *  and b) a pointer to objectdata that implements the interface.
  */
 
+#include "stream/universal_output_stream_if.h"
+
 /*!
  *  \brief object (vmt+data) of a universal_output_stream_t.
  *
@@ -21,7 +23,6 @@ struct universal_output_stream_struct {
 
 typedef struct universal_output_stream_struct universal_output_stream_t;
 
-
 /*!
  *  \brief initializes the universal_output_stream_t
  *
@@ -29,17 +30,21 @@ typedef struct universal_output_stream_struct universal_output_stream_t;
  *  \param interface set of interface functions to write to a stream
  *  \param objectdata object that implements writing to a stream
  */
-void universal_output_stream_init( universal_output_stream_t *this_,
-                                   const universal_output_stream_if_t *interface,
-                                   void* objectdata
-                                 );
+static inline void universal_output_stream_init( universal_output_stream_t *this_,
+                                                 const universal_output_stream_if_t *interface,
+                                                 void* objectdata
+                                               );
 
 /*!
- *  \brief destroys the universal_output_stream_t
+ *  \brief destroys the universal_output_stream_t.
+ *
+ *  This function calls \c destroy on the \c interface,
+ *  this should not be called twice by the caller.
  *
  *  \param this_ pointer to own object attributes
+ *  \result returns 0 if success, -1 in case of error
  */
-void universal_output_stream_destroy( universal_output_stream_t *this_ );
+static inline int universal_output_stream_destroy( universal_output_stream_t *this_ );
 
 /*!
  *  \brief gets the set of interface functions
@@ -56,6 +61,41 @@ static inline const universal_output_stream_if_t* universal_output_stream_get_in
  *  \result the object data that implements the interface
  */
 static inline void* universal_output_stream_get_objectdata ( universal_output_stream_t *this_ );
+
+/*!
+ *  \brief calls \c open on the \c interface
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param identifier identifier of the stream, e.g. a path in case of a file stream.
+ *  \result returns 0 if success, -1 in case of error
+ */
+static inline int universal_output_stream_open (universal_output_stream_t* this_, const char* identifier);
+
+/*!
+ *  \brief calls \c write on the \c interface
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param start start address from where to write
+ *  \param length length in bytes to write
+ *  \result returns 0 if success, -1 in case of error
+ */
+static inline int universal_output_stream_write (universal_output_stream_t* this_, const void *start, size_t length);
+
+/*!
+ *  \brief calls \c flush on the \c interface
+ *
+ *  \param this_ pointer to own object attributes
+ *  \result returns 0 if success, -1 in case of error
+ */
+static inline int universal_output_stream_flush (universal_output_stream_t* this_);
+
+/*!
+ *  \brief calls \c close on the \c interface
+ *
+ *  \param this_ pointer to own object attributes
+ *  \result returns 0 if success, -1 in case of error
+ */
+static inline int universal_output_stream_close (universal_output_stream_t* this_);
 
 #include "universal_output_stream.inl"
 

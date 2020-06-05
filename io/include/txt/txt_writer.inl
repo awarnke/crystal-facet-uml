@@ -6,12 +6,11 @@
 static inline int txt_writer_write_plain ( txt_writer_t *this_, const char *text )
 {
     assert ( NULL != text );
-    assert ( NULL != (*this_).output_if );
-    assert ( NULL != (*this_).output_impl );
+    assert ( NULL != (*this_).output );
     int write_err;
 
     const size_t text_len = strlen(text);
-    write_err = (*((*this_).output_if)).write( (*this_).output_impl, text, text_len );
+    write_err = universal_output_stream_write ( (*this_).output, text, text_len );
 
     return ( write_err );
 }

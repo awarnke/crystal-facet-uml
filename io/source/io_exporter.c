@@ -2,6 +2,7 @@
 
 #include "io_exporter.h"
 #include "stream/universal_file_output_stream.h"
+#include "stream/universal_output_stream.h"
 #include "trace.h"
 #include "tslog.h"
 #include <gtk/gtk.h>
@@ -202,9 +203,13 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
         }
         else /* IO_FILE_FORMAT_TXT */
         {
+            universal_output_stream_t output;
             universal_file_output_stream_t text_output;
             universal_file_output_stream_init( &text_output );
-            const universal_output_stream_if_t* text_output_if = universal_file_output_stream_get_if( &text_output );
+            universal_output_stream_init( &output,
+                                          universal_file_output_stream_get_if( &text_output ),
+                                          &text_output
+                                        );
 
             /* open file */
             result |= universal_file_output_stream_open( &text_output, utf8stringbuf_get_string( (*this_).temp_filename ) );
@@ -213,7 +218,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
                 int write_err;
 
                 /* write file */
-                io_format_writer_init( &((*this_).temp_format_writer ), (*this_).db_reader, IO_FILE_FORMAT_TXT, text_output_if, &text_output );
+                io_format_writer_init( &((*this_).temp_format_writer ), (*this_).db_reader, IO_FILE_FORMAT_TXT, &output );
                 write_err = io_diagram_text_exporter_write_all ( &((*this_).diagram_text_exporter), &((*this_).temp_format_writer ) );
                 io_format_writer_destroy( &((*this_).temp_format_writer ) );
 
@@ -224,10 +229,10 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
                 }
 
                 /* close file */
-                result |= universal_file_output_stream_close( &text_output );
+                result |= universal_output_stream_close( &output );
             }
 
-            universal_file_output_stream_destroy( &text_output );
+            result |= universal_output_stream_destroy( &output );
         }
     }
 
@@ -275,9 +280,13 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
     TRACE_INFO_STR("target_folder:", target_folder );
     TRACE_INFO_STR("document_file_name:", document_file_name );
     int export_err = 0;
-    universal_file_output_stream_t output;
-    universal_file_output_stream_init( &output );
-    const universal_output_stream_if_t* output_if = universal_file_output_stream_get_if( &output );
+    universal_output_stream_t output;
+    universal_file_output_stream_t file_output;
+    universal_file_output_stream_init( &file_output );
+    universal_output_stream_init( &output,
+                                  universal_file_output_stream_get_if( &file_output ),
+                                  &file_output
+                                );
 
     /* open file */
     utf8stringbuf_copy_str( (*this_).temp_filename, target_folder );
@@ -312,11 +321,11 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
     }
     TSLOG_EVENT_STR( "exporting diagrams to document file:", utf8stringbuf_get_string( (*this_).temp_filename ) );
 
-    export_err |= universal_file_output_stream_open( &output, utf8stringbuf_get_string( (*this_).temp_filename ) );
+    export_err |= universal_output_stream_open( &output, utf8stringbuf_get_string( (*this_).temp_filename ) );
     if ( export_err == 0 )
     {
         /* write file */
-        io_format_writer_init( &((*this_).temp_format_writer ), (*this_).db_reader, export_type, output_if, &output );
+        io_format_writer_init( &((*this_).temp_format_writer ), (*this_).db_reader, export_type, &output );
         if ( IO_FILE_FORMAT_CSS == export_type )
         {
             export_err |= io_format_writer_write_stylesheet( &((*this_).temp_format_writer) );
@@ -331,14 +340,13 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         io_format_writer_destroy( &((*this_).temp_format_writer ) );
 
         /* close file */
-        export_err |= universal_file_output_stream_close( &output );
+        export_err |= universal_output_stream_close( &output );
     }
 
-    universal_file_output_stream_destroy( &output );
+    export_err |= universal_output_stream_destroy( &output );
 
     TRACE_END_ERR( export_err );
     return export_err;
-
 }
 
 int io_exporter_private_export_document_part( io_exporter_t *this_,

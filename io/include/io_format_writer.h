@@ -19,7 +19,7 @@
 #include "storage/data_database_reader.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/string/utf8stringbuf.h"
-#include "stream/universal_output_stream_if.h"
+#include "stream/universal_output_stream.h"
 
 /*!
  *  \brief attributes of the document exporter
@@ -41,14 +41,12 @@ typedef struct io_format_writer_struct io_format_writer_t;
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader object
  *  \param export_type image file format
- *  \param output_if set of interface functions to write to a file
- *  \param output_impl object that implements writing to a file
+ *  \param output output stream where to write the generated output to
  */
 void io_format_writer_init( io_format_writer_t *this_,
                             data_database_reader_t *db_reader,
                             io_file_format_t export_type,
-                            const universal_output_stream_if_t *output_if,
-                            void* output_impl
+                            universal_output_stream_t *output
                           );
 
 /*!

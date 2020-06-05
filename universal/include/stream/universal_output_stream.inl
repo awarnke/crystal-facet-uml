@@ -1,6 +1,6 @@
 /* File: universal_output_stream.inl; Copyright and License: see below */
 
-void universal_output_stream_init( universal_output_stream_t *this_,
+static inline void universal_output_stream_init( universal_output_stream_t *this_,
                                    const universal_output_stream_if_t *interface,
                                    void* objectdata )
 {
@@ -8,10 +8,12 @@ void universal_output_stream_init( universal_output_stream_t *this_,
     (*this_).objectdata = objectdata;
 }
 
-void universal_output_stream_destroy( universal_output_stream_t *this_ )
+static inline int universal_output_stream_destroy( universal_output_stream_t *this_ )
 {
+    int result = (*(  (*(  (*this_).interface  )).destroy  )) ( (*this_).objectdata );
     (*this_).interface = NULL;
     (*this_).objectdata = NULL;
+    return result;
 }
 
 static inline const universal_output_stream_if_t* universal_output_stream_get_interface ( universal_output_stream_t *this_ )
@@ -22,6 +24,26 @@ static inline const universal_output_stream_if_t* universal_output_stream_get_in
 static inline void* universal_output_stream_get_objectdata ( universal_output_stream_t *this_ )
 {
     return (*this_).objectdata;
+}
+
+static inline int universal_output_stream_open ( universal_output_stream_t* this_, const char* identifier )
+{
+    return (*(  (*(  (*this_).interface  )).open  )) ( (*this_).objectdata, identifier );
+}
+
+static inline int universal_output_stream_write ( universal_output_stream_t* this_, const void *start, size_t length )
+{
+    return (*(  (*(  (*this_).interface  )).write  )) ( (*this_).objectdata, start, length );
+}
+
+static inline int universal_output_stream_flush ( universal_output_stream_t* this_ )
+{
+    return (*(  (*(  (*this_).interface  )).flush  )) ( (*this_).objectdata );
+}
+
+static inline int universal_output_stream_close ( universal_output_stream_t* this_ )
+{
+    return (*(  (*(  (*this_).interface  )).close  )) ( (*this_).objectdata );
 }
 
 

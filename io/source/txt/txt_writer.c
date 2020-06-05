@@ -15,15 +15,12 @@ static const char TXT_ID_INDENT_SPACES[TXT_WRITER_INDENT_COLUMN+1] = "          
 static const char TXT_NEWLINE[] = "\n";
 
 void txt_writer_init ( txt_writer_t *this_,
-                       const universal_output_stream_if_t *output_if,
-                       void* output_impl )
+                       universal_output_stream_t *output )
 {
     TRACE_BEGIN();
-    assert( NULL != output_if );
-    assert( NULL != output_impl );
+    assert( NULL != output );
 
-    (*this_).output_if = output_if;
-    (*this_).output_impl = output_impl;
+    (*this_).output = output;
 
     TRACE_END();
 }
@@ -32,8 +29,7 @@ void txt_writer_destroy( txt_writer_t *this_ )
 {
     TRACE_BEGIN();
 
-    (*this_).output_if = NULL;
-    (*this_).output_impl = NULL;
+    (*this_).output = NULL;
 
     TRACE_END();
 }
@@ -44,8 +40,7 @@ int txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
 {
     TRACE_BEGIN();
     assert( NULL != indent );
-    assert( NULL != (*this_).output_if );
-    assert( NULL != (*this_).output_impl );
+    assert( NULL != (*this_).output );
     int result = 0;
     const size_t indent_length = strlen( indent );
 
@@ -91,13 +86,13 @@ int txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
             if ( end_of_line )
             {
                 /* print indent pattern */
-                result |= (*((*this_).output_if)).write( (*this_).output_impl, indent, indent_length );
+                result |= universal_output_stream_write ( (*this_).output, indent, indent_length );
 
                 /* print next line */
-                result |= (*((*this_).output_if)).write( (*this_).output_impl, line_start, line_length );
+                result |= universal_output_stream_write ( (*this_).output, line_start, line_length );
 
                 /* print newline */
-                result |= (*((*this_).output_if)).write( (*this_).output_impl, TXT_NEWLINE, strlen(TXT_NEWLINE) );
+                result |= universal_output_stream_write ( (*this_).output, TXT_NEWLINE, strlen(TXT_NEWLINE) );
 
                 /* reset line indices */
                 line_start = &(multiline_string[index+1]);
@@ -118,8 +113,7 @@ int txt_writer_write_indent_id ( txt_writer_t *this_,
     TRACE_BEGIN();
     assert( DATA_TABLE_VOID != table );
     assert( DATA_ID_VOID_ID != row_id );
-    assert( NULL != (*this_).output_if );
-    assert( NULL != (*this_).output_impl );
+    assert( NULL != (*this_).output );
     assert( sizeof(TXT_ID_INDENT_SPACES) == 1+TXT_WRITER_INDENT_COLUMN );
     int result = 0;
 
@@ -131,7 +125,7 @@ int txt_writer_write_indent_id ( txt_writer_t *this_,
     }
     if ( indent_width > 0 )
     {
-        result |= (*((*this_).output_if)).write( (*this_).output_impl, &TXT_ID_INDENT_SPACES, indent_width );
+        result |= universal_output_stream_write( (*this_).output, &TXT_ID_INDENT_SPACES, indent_width );
     }
 
     /* print id */
@@ -146,7 +140,7 @@ int txt_writer_write_indent_id ( txt_writer_t *this_,
         utf8stringbuf_append_str( id_str, "]" );
 
         const unsigned int len = utf8stringbuf_get_length(id_str);
-        result |= (*((*this_).output_if)).write( (*this_).output_impl, utf8stringbuf_get_string(id_str), len );
+        result |= universal_output_stream_write( (*this_).output, utf8stringbuf_get_string(id_str), len );
     }
 
     TRACE_END_ERR( result );
@@ -158,8 +152,7 @@ int txt_writer_write_plain_id ( txt_writer_t *this_, data_table_t table, int64_t
     TRACE_BEGIN();
     assert( DATA_TABLE_VOID != table );
     assert( DATA_ID_VOID_ID != row_id );
-    assert( NULL != (*this_).output_if );
-    assert( NULL != (*this_).output_impl );
+    assert( NULL != (*this_).output );
     int result = 0;
 
     /* print id */
@@ -172,7 +165,7 @@ int txt_writer_write_plain_id ( txt_writer_t *this_, data_table_t table, int64_t
         data_id_to_utf8stringbuf( &the_id, id_str );
 
         const unsigned int len = utf8stringbuf_get_length(id_str);
-        result |= (*((*this_).output_if)).write( (*this_).output_impl, utf8stringbuf_get_string(id_str), len );
+        result |= universal_output_stream_write ( (*this_).output, utf8stringbuf_get_string(id_str), len );
     }
 
     TRACE_END_ERR( result );
