@@ -76,6 +76,7 @@ int universal_memory_output_stream_write ( universal_memory_output_stream_t *thi
         memcpy( ((char*)(*this_).mem_buf_start) + (*this_).mem_buf_filled, start, space_left );
         (*this_).mem_buf_filled += space_left;
         TSLOG_WARNING_INT( "not all bytes could be written. missing:", length-space_left );
+        err = -1;
     }
 
     TRACE_END_ERR(err);

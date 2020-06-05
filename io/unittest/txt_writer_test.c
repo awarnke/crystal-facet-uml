@@ -34,7 +34,7 @@ test_suite_t txt_writer_test_get_list(void)
 static data_visible_set_t my_fake_input_data;
 static txt_writer_t my_fake_testee;
 static char my_out_buffer[24];
-universal_memory_output_stream_t my_out_stream;
+static universal_memory_output_stream_t my_out_stream;
 static const char ENDMARKER[] = "[";
 static const int ENDMARKER_LEN = 1;
 

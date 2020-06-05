@@ -50,7 +50,7 @@ static md_filter_t md_filter;
 #define TAG_LINK3 "</REF>"
 
 static char my_out_buffer[200];
-universal_memory_output_stream_t my_out_stream;
+static universal_memory_output_stream_t my_out_stream;
 static xml_writer_t xml_writer;
 
 test_suite_t md_filter_test_get_list(void)

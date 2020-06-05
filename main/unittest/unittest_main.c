@@ -23,6 +23,7 @@
 #include "pencil_layout_data_test.h"
 #include "universal_array_index_sorter_test.h"
 #include "universal_array_list_test.h"
+#include "universal_memory_output_stream_test.h"
 #include "utf8stringbuf_test.h"
 #include "utf8codepoint_test.h"
 #include "utf8string_test.h"
@@ -110,6 +111,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, pencil_layout_data_test_get_list() );
         test_runner_run_suite( &runner, universal_array_index_sorter_test_get_list() );
         test_runner_run_suite( &runner, universal_array_list_test_get_list() );
+        test_runner_run_suite( &runner, universal_memory_output_stream_test_get_list() );
         test_runner_run_suite( &runner, utf8codepoint_test_get_list() );
         test_runner_run_suite( &runner, utf8stringbuf_test_get_list() );
         test_runner_run_suite( &runner, utf8string_test_get_list() );
