@@ -176,7 +176,7 @@ man(1), man(7), http://www.tldp.org/HOWTO/Man-Page/
                 <replaceable>export_directory</replaceable></option></term>
         <listitem>
           <para>Exports all diagrams of a databasefile in file_format to the export_directory.
-              Valid formats are: pdf, ps, png, svg, txt, xhtml, docbook.
+              Valid formats are: pdf, ps, png, svg, txt, xhtml, docbook, xmi.
               </para>
         </listitem>
       </varlistentry>
