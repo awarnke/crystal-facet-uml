@@ -99,6 +99,11 @@ int io_exporter_export_files( io_exporter_t *this_,
             export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_XHTML, target_folder, document_file_name );
             export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_CSS, target_folder, document_file_name );
         }
+
+        if ( ( export_type & IO_FILE_FORMAT_XMI2 ) != 0 )
+        {
+            export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_XMI2, target_folder, document_file_name );
+        }
     }
     else /* target_folder == NULL */
     {
@@ -301,6 +306,12 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         case IO_FILE_FORMAT_CSS:
         {
             utf8stringbuf_append_str( (*this_).temp_filename, ".css" );
+        }
+        break;
+
+        case IO_FILE_FORMAT_XMI2:
+        {
+            utf8stringbuf_append_str( (*this_).temp_filename, ".xmi" );
         }
         break;
 

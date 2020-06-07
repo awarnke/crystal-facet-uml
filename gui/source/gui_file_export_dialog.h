@@ -37,6 +37,7 @@ struct gui_file_export_dialog_struct {
     GtkWidget *format_svg;  /*!< pointer to checkbox for export-format svg */
     GtkWidget *format_txt;  /*!< pointer to checkbox for export-format txt */
     GtkWidget *format_xhtml;  /*!< pointer to checkbox for export-format xhtml */
+    GtkWidget *format_xmi2;  /*!< pointer to checkbox for export-format xmi version 2.x */
 
     GtkWidget *diagram_set_label;  /*!< the label for filetype-sets */
     GtkWidget *document_label;  /*!< the label for document-types */

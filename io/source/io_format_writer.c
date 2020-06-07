@@ -103,6 +103,16 @@ static const char DOCBOOK_ELEMENT_END[]
 static const char DOCBOOK_ELEMENT_LIST_END[]
     = "        </variablelist>\n";
 
+/* IO_FILE_FORMAT_XMI2 */
+
+static const char XMI2_ENC[]
+    = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+static const char XMI2_DOC_START[]
+    = "<xmi:XMI xmlns:xmi=\"http://www.omg.org/spec/XMI/20100901\">\n";
+    /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.1 : 1,1a,1e,1f */
+static const char XMI2_DOC_END[]
+    = "</xmi:XMI>\n";
+    /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.1 : 1,1a */
 
 /* IO_FILE_FORMAT_XHTML */
 
@@ -435,6 +445,16 @@ int io_format_writer_write_header( io_format_writer_t *this_, const char *docume
         }
         break;
 
+        case IO_FILE_FORMAT_XMI2:
+        {
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_ENC );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_DOC_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!-- " );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), document_title );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
+        }
+        break;
+
         case IO_FILE_FORMAT_XHTML:
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ENC );
@@ -626,6 +646,14 @@ int io_format_writer_start_diagram( io_format_writer_t *this_, int64_t diag_id )
         }
         break;
 
+        case IO_FILE_FORMAT_XMI2:
+        {
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n\n<!-- " );
+            export_err |= xml_writer_write_plain_id ( &((*this_).xml_writer), DATA_TABLE_DIAGRAM, diag_id );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
+        }
+        break;
+
         case IO_FILE_FORMAT_XHTML:
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_START );
@@ -684,6 +712,17 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_IMG_MIDDLE );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diagram_file_base_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_IMG_END );
+        }
+        break;
+
+        case IO_FILE_FORMAT_XMI2:
+        {
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!-- " );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!--\n" );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_description );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n-->\n" );
         }
         break;
 
@@ -746,6 +785,12 @@ int io_format_writer_start_classifier( io_format_writer_t *this_ )
         }
         break;
 
+        case IO_FILE_FORMAT_XMI2:
+        {
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n" );
+        }
+        break;
+
         case IO_FILE_FORMAT_XHTML:
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_LIST_START );
@@ -802,6 +847,28 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_DESCR_END );
             }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_END );
+        }
+        break;
+
+        case IO_FILE_FORMAT_XMI2:
+        {
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!-- " );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
+                                                     DATA_TABLE_CLASSIFIER,
+                                                     classifier_id
+                                                   );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!-- " );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
+
+            if ( 0 != classifier_descr_len )
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!--\n" );
+                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_descr );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n-->\n" );
+            }
         }
         break;
 
@@ -895,6 +962,35 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_DESCR_END );
             }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_END );
+        }
+        break;
+
+        case IO_FILE_FORMAT_XMI2:
+        {
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!-- " );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
+                                                     DATA_TABLE_FEATURE,
+                                                     feature_id
+                                                   );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!-- " );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_key );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
+
+            if ( 0 != feature_value_len )
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!-- " );
+                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
+            }
+
+            if ( 0 != feature_descr_len )
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!--\n" );
+                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_descr );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n-->\n" );
+            }
         }
         break;
 
@@ -1003,6 +1099,32 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
         }
         break;
 
+        case IO_FILE_FORMAT_XMI2:
+        {
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!-- " );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
+                                                     DATA_TABLE_RELATIONSHIP,
+                                                     relation_id
+                                                   );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!-- " );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!-- " );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), dest_classifier_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
+
+            if ( 0 != relation_descr_len )
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!--\n" );
+                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_descr );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n-->\n" );
+            }
+        }
+        break;
+
         case IO_FILE_FORMAT_XHTML:
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_START );
@@ -1088,6 +1210,11 @@ int io_format_writer_end_classifier( io_format_writer_t *this_ )
         }
         break;
 
+        case IO_FILE_FORMAT_XMI2:
+        {
+        }
+        break;
+
         case IO_FILE_FORMAT_XHTML:
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_LIST_END );
@@ -1122,6 +1249,11 @@ int io_format_writer_end_diagram( io_format_writer_t *this_ )
         case IO_FILE_FORMAT_DOCBOOK:
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_END : DOCBOOK_DIAGRAM_END );
+        }
+        break;
+
+        case IO_FILE_FORMAT_XMI2:
+        {
         }
         break;
 
@@ -1188,6 +1320,12 @@ int io_format_writer_write_footer( io_format_writer_t *this_ )
         case IO_FILE_FORMAT_DOCBOOK:
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DOC_END );
+        }
+        break;
+
+        case IO_FILE_FORMAT_XMI2:
+        {
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_DOC_END );
         }
         break;
 
