@@ -2,6 +2,8 @@
 
 #include "io_format_writer.h"
 #include "util/string/utf8string.h"
+#include "meta/meta_version.h"
+#include "meta/meta_info.h"
 #include "trace.h"
 #include "tslog.h"
 #include <stdio.h>
@@ -115,6 +117,15 @@ static const char XMI2_DOC_START[]
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.1 : 1,1a */
 static const char XMI2_DOC_END[]
     = "</xmi:XMI>\n";
+/* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 7.5.3 + 7.5.5 */
+static const char XMI2_DOC_METAINFO_START[]
+    = "<xmi:Documentation exporter=\"";
+/* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 7.5.3 + 7.5.5 */
+static const char XMI2_DOC_METAINFO_MIDDLE[]
+    = "\" exporterVersion=\"";
+/* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 7.5.3 + 7.5.5 */
+static const char XMI2_DOC_METAINFO_END[]
+    = "\"/>\n";
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.2 : 2e */
 static const char XMI2_GENERIC_ID_START[]
     = "xmi:id=\"";
@@ -497,11 +508,19 @@ int io_format_writer_write_header( io_format_writer_t *this_, const char *docume
 
         case IO_FILE_FORMAT_XMI2:
         {
+            /* xml header */
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_ENC );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_DOC_START );
+            /* meta info */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_DOC_METAINFO_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), META_INFO_PROGRAM_ID_STR );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_DOC_METAINFO_MIDDLE );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), META_VERSION_STR );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_DOC_METAINFO_END );
+            /* uml model */
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGE_START );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_START );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), "uml:Model" );
+/* TODO */            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), "uml:Model" );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), document_title );
@@ -1029,7 +1048,7 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
 
         case IO_FILE_FORMAT_XMI2:
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!-- " );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "        <!-- " );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_START );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
                                                      DATA_TABLE_FEATURE,
@@ -1038,20 +1057,20 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
 
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!-- " );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "        <!-- " );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_key );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
 
             if ( 0 != feature_value_len )
             {
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!-- " );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "        <!-- " );
                 export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
             }
 
             if ( 0 != feature_descr_len )
             {
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!--\n" );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "        <!--\n" );
                 export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_descr );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n-->\n" );
             }
@@ -1141,6 +1160,10 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
+            /* list start */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_LIST_START );
+            /* element */
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_START );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
@@ -1160,25 +1183,33 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_DESCR_END );
             }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_END );
+            /* list end */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_LIST_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_END );
         }
         break;
 
         case IO_FILE_FORMAT_XMI2:
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!-- " );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_START );
+/* TODO */            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), "uml:Association" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_START );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
                                                      DATA_TABLE_RELATIONSHIP,
                                                      relation_id
                                                    );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_END );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
-
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!-- " );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_LABEL_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_LABEL_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_MIDDLE );
 
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!-- " );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!-- DESTINATION: " );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), dest_classifier_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
 
@@ -1193,6 +1224,9 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
 
         case IO_FILE_FORMAT_XHTML:
         {
+            /* list start */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_LIST_START );
+            /* element */
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), TXT_SPACE_ARROW_SPACE );
@@ -1210,6 +1244,8 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_DESCR_END );
             }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_END );
+            /* list end */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_LIST_END );
         }
         break;
 

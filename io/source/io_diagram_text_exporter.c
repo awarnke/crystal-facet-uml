@@ -81,22 +81,23 @@ int io_diagram_text_exporter_write_classifiers ( io_diagram_text_exporter_t *thi
             const int64_t classifier_id = data_classifier_get_id(classifier);
             TRACE_INFO_INT( "printing classifier with id", classifier_id );
 
+            /* start classifier */
             write_err |=  io_format_writer_start_classifier( format_writer );
 
             write_err |=  io_format_writer_write_classifier( format_writer, classifier );
 
-            /* print all features */
+            /* print all features of the classifier */
             write_err |= io_diagram_text_exporter_private_write_features_of_classifier( this_,
                                                                                         classifier_id,
                                                                                         format_writer );
 
-            /* print all relationships */
+            /* end classifier */
+            write_err |=  io_format_writer_end_classifier( format_writer );
+
+            /* print all relationships starting from classifier_id */
             write_err |= io_diagram_text_exporter_private_write_relations_of_classifier( this_,
                                                                                          classifier_id,
                                                                                          format_writer );
-
-            /* finish */
-            write_err |=  io_format_writer_end_classifier( format_writer );
         }
         else
         {

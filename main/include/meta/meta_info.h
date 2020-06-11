@@ -9,7 +9,9 @@
  *  \brief Defines the own program name
  */
 
+/* human readable version */
 #define META_INFO_PROGRAM_NAME_STR "crystal facet uml"
+/* machine readable version */
 #define META_INFO_PROGRAM_ID_STR "crystal_facet_uml"
 #define META_INFO_COPYRIGHT_STR /*Copyright*/ "2016-2020 Andreas Warnke"
 #ifdef __linux__
