@@ -125,7 +125,7 @@ static const char XMI2_DOC_METAINFO_MIDDLE[]
     = "\" exporterVersion=\"";
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 7.5.3 + 7.5.5 */
 static const char XMI2_DOC_METAINFO_END[]
-    = "\"/>\n";
+    = "\"/ >\n";
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.2 : 2e */
 static const char XMI2_GENERIC_ID_START[]
     = "xmi:id=\"";
@@ -1209,16 +1209,17 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_LABEL_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_MIDDLE );
 
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!-- DESTINATION: " );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "        <!-- DESTINATION: " );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), dest_classifier_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
 
             if ( 0 != relation_descr_len )
             {
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!--\n" );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "        <!--\n" );
                 export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_descr );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n-->\n" );
             }
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_END );
         }
         break;
 
