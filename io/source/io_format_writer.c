@@ -2,6 +2,7 @@
 
 #include "io_format_writer.h"
 #include "util/string/utf8string.h"
+#include "data_id.h"
 #include "meta/meta_version.h"
 #include "meta/meta_info.h"
 #include "trace.h"
@@ -132,12 +133,14 @@ static const char XMI2_GENERIC_ID_START[]
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.2 : 2e */
 static const char XMI2_GENERIC_ID_END[]
     = "\" ";
+#if 0
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.2 : 2e */
 static const char XMI2_GENERIC_LABEL_START[]
     = "xmi:label=\"";
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.2 : 2e */
 static const char XMI2_GENERIC_LABEL_END[]
     = "\" ";
+#endif
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.2 : 2g */
 static const char XMI2_GENERIC_TYPE_START[]
     = "xmi:type=\"";
@@ -174,6 +177,21 @@ static const char XMI2_UML_PACKAGED_ELEMENT_MIDDLE[]
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 12.3.5 */
 static const char XMI2_UML_PACKAGED_ELEMENT_END[]
     = "    </packagedElement>\n";
+/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.9.17 */
+static const char XMI2_UML_OWNED_ATTRIBUTE_START[]
+    = "        <ownedAttribute ";
+/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.9.17 */
+static const char XMI2_UML_OWNED_ATTRIBUTE_MIDDLE[]
+    = ">\n";
+/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.9.17 */
+static const char XMI2_UML_OWNED_ATTRIBUTE_END[]
+    = "        </ownedAttribute>\n";
+/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.8.3 */
+static const char XMI2_UML_MEMBER_END_START[]
+    = "        <memberEnd ";
+/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.8.3 */
+static const char XMI2_UML_MEMBER_END_END[]
+    = "/>\n";
 
 /* IO_FILE_FORMAT_XHTML */
 
@@ -939,9 +957,11 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_END );
+#if 0
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_LABEL_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_LABEL_END );
+#endif
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_MIDDLE );
 
             if ( 0 != classifier_descr_len )
@@ -1048,18 +1068,25 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
 
         case IO_FILE_FORMAT_XMI2:
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "        <!-- " );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_ATTRIBUTE_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_START );
+/* TODO */            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), "uml:Property" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_START );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
                                                      DATA_TABLE_FEATURE,
                                                      feature_id
                                                    );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_END );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
-
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "        <!-- " );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_key );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_END );
+#if 0
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_LABEL_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_key );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_LABEL_END );
+#endif
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_ATTRIBUTE_MIDDLE );
 
             if ( 0 != feature_value_len )
             {
@@ -1074,6 +1101,8 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
                 export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_descr );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n-->\n" );
             }
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_ATTRIBUTE_END );
         }
         break;
 
@@ -1155,6 +1184,10 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
     const char *const relation_descr = data_relationship_get_description_ptr( relation_ptr );
     const size_t relation_descr_len = utf8string_get_length(relation_descr);
     const char *const dest_classifier_name = data_classifier_get_name_ptr( dest_classifier_ptr );
+    const int64_t from_classifier_id = data_relationship_get_from_classifier_id( relation_ptr );
+    const int64_t from_feature_id = data_relationship_get_from_feature_id( relation_ptr );
+    const int64_t to_classifier_id = data_relationship_get_to_classifier_id( relation_ptr );
+    const int64_t to_feature_id = data_relationship_get_to_feature_id( relation_ptr );
 
     switch ( (*this_).export_type )
     {
@@ -1204,14 +1237,52 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_END );
+#if 0
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_LABEL_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_LABEL_END );
+#endif
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_MIDDLE );
 
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "        <!-- DESTINATION: " );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), dest_classifier_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
+            /* source */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MEMBER_END_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_START );
+            if ( from_feature_id == DATA_ID_VOID_ID )
+            {
+                export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
+                                                         DATA_TABLE_CLASSIFIER,
+                                                         from_classifier_id
+                                                       );
+            }
+            else
+            {
+                export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
+                                                         DATA_TABLE_FEATURE,
+                                                         from_feature_id
+                                                       );
+            }
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MEMBER_END_END );
+
+            /* destination */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MEMBER_END_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_START );
+            if ( to_feature_id == DATA_ID_VOID_ID )
+            {
+                export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
+                                                         DATA_TABLE_CLASSIFIER,
+                                                         to_classifier_id
+                                                       );
+            }
+            else
+            {
+                export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
+                                                         DATA_TABLE_FEATURE,
+                                                         to_feature_id
+                                                       );
+            }
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MEMBER_END_END );
 
             if ( 0 != relation_descr_len )
             {
