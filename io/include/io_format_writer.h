@@ -207,6 +207,21 @@ int io_format_writer_write_footer( io_format_writer_t *this_ );
  */
 int io_format_writer_write_stylesheet( io_format_writer_t *this_ );
 
+/*!
+ *  \brief writes a comment in xmi format
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param element_id id of the element whicht to write a comment for
+ *  \param comment_type type is typically spec - but maybe there are other types in future
+ *  \param comment the comment to encode and write
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_format_writer_private_write_xmi_comment( io_format_writer_t *this_, 
+                                                data_id_t *element_id, 
+                                                const char *comment_type,
+                                                const char *comment
+                                              );
+
 #endif  /* IO_FORMAT_WRITER_H */
 
 

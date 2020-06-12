@@ -186,6 +186,27 @@ static const char XMI2_UML_OWNED_ATTRIBUTE_MIDDLE[]
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.9.17 */
 static const char XMI2_UML_OWNED_ATTRIBUTE_END[]
     = "        </ownedAttribute>\n";
+/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.4 */
+static const char XMI2_UML_OWNED_COMMENT_START[]
+    = "        <ownedComment ";
+/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.4 */
+static const char XMI2_UML_OWNED_COMMENT_MIDDLE[]
+    = ">\n";
+/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.4 */
+static const char XMI2_UML_OWNED_COMMENT_END[]
+    = "        </ownedComment>\n";
+/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.5 */
+static const char XMI2_UML_OWNED_COMMENT_BODY_START[]
+    = "\n            body=\"";
+/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.5 */
+static const char XMI2_UML_OWNED_COMMENT_BODY_END[]
+    = "\" ";
+/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.9.2 */
+static const char XMI2_UML_ANNOTATED_ELEMENT_START[]
+    = "            <annotatedElement ";
+/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.9.2 */
+static const char XMI2_UML_ANNOTATED_ELEMENT_END[]
+    = "/>\n";
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.8.3 */
 static const char XMI2_UML_MEMBER_END_START[]
     = "        <memberEnd ";
@@ -914,6 +935,8 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
     int export_err = 0;
 
     const char *const classifier_name = data_classifier_get_name_ptr(classifier_ptr);
+    const char *const classifier_stereo = data_classifier_get_stereotype_ptr(classifier_ptr);
+    const size_t classifier_stereo_len = utf8string_get_length(classifier_stereo);
     const char *const classifier_descr = data_classifier_get_description_ptr(classifier_ptr);
     const size_t classifier_descr_len = utf8string_get_length(classifier_descr);
     const int64_t classifier_id = data_classifier_get_id(classifier_ptr);
@@ -964,11 +987,27 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
 #endif
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_MIDDLE );
 
+            if ( 0 != classifier_stereo_len )
+            {
+                data_id_t ele_id;
+                data_id_init( &ele_id, DATA_TABLE_CLASSIFIER, classifier_id );
+                export_err |= io_format_writer_private_write_xmi_comment( this_,
+                                                                          &ele_id, 
+                                                                          "stereotype",
+                                                                          classifier_stereo
+                                                                        );
+                data_id_destroy( &ele_id );
+            }
             if ( 0 != classifier_descr_len )
             {
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "    <!--\n    " );
-                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_descr );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n    -->\n" );
+                data_id_t ele_id;
+                data_id_init( &ele_id, DATA_TABLE_CLASSIFIER, classifier_id );
+                export_err |= io_format_writer_private_write_xmi_comment( this_,
+                                                                          &ele_id, 
+                                                                          "specification",
+                                                                          classifier_descr
+                                                                        );
+                data_id_destroy( &ele_id );
             }
         }
         break;
@@ -1090,16 +1129,26 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
 
             if ( 0 != feature_value_len )
             {
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "        <!-- " );
-                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
+                data_id_t ele_id;
+                data_id_init( &ele_id, DATA_TABLE_FEATURE, feature_id );
+                export_err |= io_format_writer_private_write_xmi_comment( this_,
+                                                                          &ele_id, 
+                                                                          "valuetype",
+                                                                          feature_value
+                                                                        );
+                data_id_destroy( &ele_id );
             }
 
             if ( 0 != feature_descr_len )
             {
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "        <!--\n" );
-                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_descr );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n-->\n" );
+                data_id_t ele_id;
+                data_id_init( &ele_id, DATA_TABLE_FEATURE, feature_id );
+                export_err |= io_format_writer_private_write_xmi_comment( this_,
+                                                                          &ele_id, 
+                                                                          "specification",
+                                                                          feature_descr
+                                                                        );
+                data_id_destroy( &ele_id );
             }
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_ATTRIBUTE_END );
@@ -1225,6 +1274,7 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
         case IO_FILE_FORMAT_XMI2:
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_START );
+            
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_START );
 /* TODO */            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), "uml:Association" );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_END );
@@ -1244,6 +1294,18 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
 #endif
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_MIDDLE );
 
+            if ( 0 != relation_descr_len )
+            {
+                data_id_t ele_id;
+                data_id_init( &ele_id, DATA_TABLE_RELATIONSHIP, relation_id );
+                export_err |= io_format_writer_private_write_xmi_comment( this_,
+                                                                          &ele_id, 
+                                                                          "specification",
+                                                                          relation_descr
+                                                                        );
+                data_id_destroy( &ele_id );
+            }
+            
             /* source */
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MEMBER_END_START );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_START );
@@ -1284,12 +1346,6 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MEMBER_END_END );
 
-            if ( 0 != relation_descr_len )
-            {
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "        <!--\n" );
-                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_descr );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n-->\n" );
-            }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_END );
         }
         break;
@@ -1522,6 +1578,75 @@ int io_format_writer_write_footer( io_format_writer_t *this_ )
         {
             TSLOG_ERROR("error: unknown_format.");
             export_err = -1;
+        }
+        break;
+    }
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int io_format_writer_private_write_xmi_comment( io_format_writer_t *this_, 
+                                                data_id_t *element_id, 
+                                                const char *comment_type, 
+                                                const char *comment )
+
+{
+    TRACE_BEGIN();
+    assert( NULL != element_id );
+    assert( NULL != comment_type );
+    assert( NULL != comment );
+    int export_err = 0;
+
+    switch ( (*this_).export_type )
+    {
+        case IO_FILE_FORMAT_XMI2:
+        {
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_COMMENT_START );
+            
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_START );
+/* TODO */            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), "uml:Comment" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_END );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_START );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
+                                                     data_id_get_table( element_id ),
+                                                     data_id_get_row_id( element_id )
+                                                   );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), "#" );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), comment_type );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_END );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), comment_type );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_END );
+#if 0
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_LABEL_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), comment_type );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_LABEL_END );
+#endif
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_COMMENT_BODY_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), comment );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_COMMENT_BODY_END );
+            
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_COMMENT_MIDDLE );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_ANNOTATED_ELEMENT_START );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
+                                                     data_id_get_table( element_id ),
+                                                     data_id_get_row_id( element_id )
+                                                   );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_ANNOTATED_ELEMENT_END );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_COMMENT_END );
+        }
+        break;
+
+        default:
+        {
+            /* nothing to do */
+            TRACE_INFO( "unexpected file format type." );
         }
         break;
     }
