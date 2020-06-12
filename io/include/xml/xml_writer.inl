@@ -58,6 +58,22 @@ static inline int xml_writer_write_xml_enc_buf ( xml_writer_t *this_, const char
     return ( write_err | (( UTF8ERROR_SUCCESS != strerr) ? -1 : 0) );
 }
 
+static inline int xml_writer_write_xml_comment ( xml_writer_t *this_, const char *text )
+{
+    assert ( NULL != text );
+    assert ( NULL != (*this_).output );
+    int write_err;
+    utf8error_t strerr;
+
+    strerr = utf8stringbuf_copy_str( (*this_).temp_output, text );
+    strerr |= utf8stringbuf_replace_all( (*this_).temp_output, (*this_).xml_comments_encode_table );
+
+    const size_t text_len = utf8stringbuf_get_length( (*this_).temp_output );
+    write_err = universal_output_stream_write ( (*this_).output, utf8stringbuf_get_string( (*this_).temp_output ), text_len );
+
+    return ( write_err | (( UTF8ERROR_SUCCESS != strerr) ? -1 : 0) );
+}
+
 
 /*
 Copyright 2019-2020 Andreas Warnke

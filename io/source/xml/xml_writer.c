@@ -16,6 +16,15 @@ static const char * const XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[] = {
     NULL,  /* end translation table */
 };
 
+static const char * const XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS[] = {
+    "<", "&lt;",
+    ">", "&gt;",
+    "\"", "&quot;",
+    "&", "&amp;",
+    "-", " - ",
+    NULL,  /* end translation table */
+};
+
 void xml_writer_init ( xml_writer_t *this_,
                        universal_output_stream_t *output )
 {
@@ -26,6 +35,7 @@ void xml_writer_init ( xml_writer_t *this_,
 
     (*this_).temp_output = utf8stringbuf_init( sizeof( (*this_).temp_output_buffer), (*this_).temp_output_buffer );
     (*this_).xml_encode_table = XML_WRITER_PRIVATE_ENCODE_XML_STRINGS;
+    (*this_).xml_comments_encode_table = XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS;
 
     TRACE_END();
 }

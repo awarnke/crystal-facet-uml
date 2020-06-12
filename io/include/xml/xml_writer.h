@@ -31,6 +31,7 @@ struct xml_writer_struct {
     char temp_output_buffer[XML_WRITER_MAX_STRING_SIZE];  /*!< temporary output buffer to convert strings */
     utf8stringbuf_t temp_output;  /*!< temporary output string buffer to convert strings */
     const char * const * xml_encode_table;  /*!< table for xml encode string replacements */
+    const char * const * xml_comments_encode_table;  /*!< table for xml coments encode string replacements */
 };
 
 typedef struct xml_writer_struct xml_writer_t;
@@ -101,6 +102,15 @@ static inline int xml_writer_write_xml_enc ( xml_writer_t *this_, const char *te
  *  \result 0 in case of success, -1 otherwise
  */
 static inline int xml_writer_write_xml_enc_buf ( xml_writer_t *this_, const char *start, size_t length );
+
+/*!
+ *  \brief writes a string to a file, xml encoded and space-separated --
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param text string to write, encoded for xml comments
+ *  \result 0 in case of success, -1 otherwise
+ */
+static inline int xml_writer_write_xml_comment ( xml_writer_t *this_, const char *text );
 
 #include "xml_writer.inl"
 
