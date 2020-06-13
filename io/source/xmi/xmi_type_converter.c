@@ -19,6 +19,9 @@ void xmi_type_converter_destroy( xmi_type_converter_t *this_ )
     TRACE_END();
 }
 
+#define XMI_TYPE_CONVERTER_NS_UML "uml:"
+#define XMI_TYPE_CONVERTER_NS_SYSML "SysML:"
+
 const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t *this_, data_classifier_type_t c_type )
 {
     TRACE_BEGIN();
@@ -28,189 +31,237 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
     {
         case DATA_CLASSIFIER_TYPE_BLOCK:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Blocks */
+            result = XMI_TYPE_CONVERTER_NS_SYSML "Block";
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: ConstraintBlocks */
+            result = XMI_TYPE_CONVERTER_NS_SYSML "ConstraintBlock";
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_FEATURE:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
+            result = XMI_TYPE_CONVERTER_NS_SYSML "Requirement";
+            /* note: there is no special type in SysML for a feature or composite requirement */
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_REQUIREMENT:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
+            result = XMI_TYPE_CONVERTER_NS_SYSML "Requirement";
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_UML_ACTOR:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: UseCases */
+            result = XMI_TYPE_CONVERTER_NS_UML "Actor";
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: UseCases */
+            result = XMI_TYPE_CONVERTER_NS_UML "UseCase";
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
+            result = XMI_TYPE_CONVERTER_NS_UML "Node";
+            /* TODO: check type */
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
+            result = XMI_TYPE_CONVERTER_NS_UML "Activity";
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_UML_STATE:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StateMachines */
+            result = XMI_TYPE_CONVERTER_NS_UML "State";
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
+            result = XMI_TYPE_CONVERTER_NS_UML "Activity";
+            /* TODO: check type */
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_UML_NODE:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
+            result = XMI_TYPE_CONVERTER_NS_UML "Node";
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
+            result = XMI_TYPE_CONVERTER_NS_UML "Component";
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_UML_PART:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
+            result = XMI_TYPE_CONVERTER_NS_UML "Component";
+            /* TODO: check type */
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+            result = XMI_TYPE_CONVERTER_NS_UML "Interface";
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Packages */
+            result = XMI_TYPE_CONVERTER_NS_UML "Package";
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_UML_CLASS:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
+            result = XMI_TYPE_CONVERTER_NS_UML "Class";
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_UML_OBJECT:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
+            result = XMI_TYPE_CONVERTER_NS_UML "Class";
+            /* TODO: check type */
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
+            result = XMI_TYPE_CONVERTER_NS_UML "Artifact";
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_UML_COMMENT:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: CommonStructure */
+            result = XMI_TYPE_CONVERTER_NS_UML "Comment";
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
+            result = XMI_TYPE_CONVERTER_NS_UML "InterruptibleActivityRegion";
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
+            result = XMI_TYPE_CONVERTER_NS_UML "InitialNode";
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
+            /* result = XMI_TYPE_CONVERTER_NS_UML "FinalNode"; */
+            result = XMI_TYPE_CONVERTER_NS_UML "ActivityFinalNode";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StateMachines */
+            /* result = XMI_TYPE_CONVERTER_NS_UML "FinalState"; */
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
+            result = XMI_TYPE_CONVERTER_NS_UML "ForkNode";
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
+            result = XMI_TYPE_CONVERTER_NS_UML "JoinNode";
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
+            result = XMI_TYPE_CONVERTER_NS_UML "DecisionNode";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Actions */
+            /* result = XMI_TYPE_CONVERTER_NS_UML "ConditionalNode"; */
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StateMachines */
+            result = XMI_TYPE_CONVERTER_NS_UML "Pseudostate";
+            /* TODO: PseudostateKind = shallowHistory shall be set */
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StateMachines */
+            result = XMI_TYPE_CONVERTER_NS_UML "Pseudostate";
+            /* TODO: PseudostateKind = deepHistory shall be set */
         }
         break;
 
         /*
         case DATA_CLASSIFIER_TYPE_DYN_PARTITION:
         {
-            result = "";
+            / * spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities * /
+            result = XMI_TYPE_CONVERTER_NS_UML "ActivityPartition";
         }
         break;
         */
 
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+            result = XMI_TYPE_CONVERTER_NS_UML "Reception";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Actions */
+            /* result = XMI_TYPE_CONVERTER_NS_UML "AcceptEventAction"; */
+            /* TODO: check type */
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: CommonBehavior */
+            result = XMI_TYPE_CONVERTER_NS_UML "TimeEvent";
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+            /* result = XMI_TYPE_CONVERTER_NS_UML "Signal"; */
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: CommonBehavior */
+            result = XMI_TYPE_CONVERTER_NS_UML "SignalEvent";
         }
         break;
 
@@ -236,44 +287,53 @@ const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *t
     {
         case DATA_FEATURE_TYPE_PROPERTY:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Classification */
+            result = XMI_TYPE_CONVERTER_NS_UML "Property";
         }
         break;
 
         case DATA_FEATURE_TYPE_OPERATION:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Classification */
+            result = XMI_TYPE_CONVERTER_NS_UML "Operation";
         }
         break;
 
         case DATA_FEATURE_TYPE_PORT:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
+            result = XMI_TYPE_CONVERTER_NS_UML "Port";
         }
         break;
 
         case DATA_FEATURE_TYPE_LIFELINE:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Interactions */
+            result = XMI_TYPE_CONVERTER_NS_UML "Lifeline";
         }
         break;
 
         case DATA_FEATURE_TYPE_PROVIDED_INTERFACE:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+            result = XMI_TYPE_CONVERTER_NS_UML "Interface";
+            /* TODO: check directlyRealizedInterfaces */
         }
         break;
 
         case DATA_FEATURE_TYPE_REQUIRED_INTERFACE:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+            result = XMI_TYPE_CONVERTER_NS_UML "Interface";
+            /* TODO: check directlyUsedInterfaces */
         }
         break;
 
         /*
         case DATA_FEATURE_TYPE_TESTCASE:
         {
-            result = "";
+            / * spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements * /
+            result = XMI_TYPE_CONVERTER_NS_SYSML "TestCase";
         }
         break;
         */
@@ -300,115 +360,145 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
     {
         case DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: CommonStructure */
+            result = XMI_TYPE_CONVERTER_NS_UML "Dependency";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
+            result = XMI_TYPE_CONVERTER_NS_UML "Association";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_AGGREGATION:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Classification */
+            result = XMI_TYPE_CONVERTER_NS_UML "AggregationKind";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_COMPOSITION:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Classification */
+            result = XMI_TYPE_CONVERTER_NS_UML "AggregationKind";
+            /* TODO: check type */
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Classification */
+            result = XMI_TYPE_CONVERTER_NS_UML "Generalization";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_REALIZATION:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+            /* result = XMI_TYPE_CONVERTER_NS_UML "InterfaceRealization"; */
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: CommonStructure */
+            result = XMI_TYPE_CONVERTER_NS_UML "Realization";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Interactions */
+            result = XMI_TYPE_CONVERTER_NS_UML "Message";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: CommonBehavior */
+            /* result = XMI_TYPE_CONVERTER_NS_UML "SignalEvent"; */
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: CommonBehavior */
+            result = XMI_TYPE_CONVERTER_NS_UML "CallEvent";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Actions */
+            result = XMI_TYPE_CONVERTER_NS_UML "ReplyAction";
+            /* TODO: check type */
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
+            result = XMI_TYPE_CONVERTER_NS_UML "CommunicationPath";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
+            result = XMI_TYPE_CONVERTER_NS_UML "ControlFlow";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Actions */
+            /* result = XMI_TYPE_CONVERTER_NS_UML "SendSignalAction"; */
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
+            result = XMI_TYPE_CONVERTER_NS_UML "ObjectFlow";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Actions */
+            /* result = XMI_TYPE_CONVERTER_NS_UML "SendObjectAction"; */
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
+            result = XMI_TYPE_CONVERTER_NS_UML "Deployment";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
+            result = XMI_TYPE_CONVERTER_NS_UML "Manifestation";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_EXTEND:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: UseCases */
+            result = XMI_TYPE_CONVERTER_NS_UML "Extend";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: UseCases */
+            result = XMI_TYPE_CONVERTER_NS_UML "Include";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Packages */
+            result = XMI_TYPE_CONVERTER_NS_UML "PackageMerge";
+            /* TODO: check type */
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_REFINE:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
+            result = XMI_TYPE_CONVERTER_NS_SYSML "Refine";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_TRACE:
         {
-            result = "";
+            /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
+            result = XMI_TYPE_CONVERTER_NS_SYSML "Trace";
         }
         break;
 
