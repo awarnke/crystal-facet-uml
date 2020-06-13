@@ -1,0 +1,84 @@
+/* File: xmi_type_converter.h; Copyright and License: see below */
+
+#ifndef XMI_TYPE_CONVERTER_H
+#define XMI_TYPE_CONVERTER_H
+
+/* public file for the doxygen documentation: */
+/*!
+ *  \file
+ *  \brief converts crystal facet uml types to xmi (uml and sysml) types
+ */
+
+#include "data_diagram_type.h"
+#include "data_classifier_type.h"
+#include "data_feature_type.h"
+#include "data_relationship_type.h"
+
+/*!
+ *  \brief attributes of the xmi type converter
+ */
+struct xmi_type_converter_struct {
+    int dummy;  /*!< xmi_type_converter_t currently has not member attributes */
+};
+
+typedef struct xmi_type_converter_struct xmi_type_converter_t;
+
+/*!
+ *  \brief initializes the xmi type converter
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void xmi_type_converter_init( xmi_type_converter_t *this_ );
+
+/*!
+ *  \brief destroys the xmi type converter
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void xmi_type_converter_destroy( xmi_type_converter_t *this_ );
+
+/*!
+ *  \brief gets a string representation of a data_classifier_type_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param c_type data_classifier_type_t to convert to a string
+ *  \result string representation of c_type, empty string if not available
+ */
+const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t *this_, data_classifier_type_t c_type );
+
+/*!
+ *  \brief gets a string representation of a data_feature_type_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param f_type data_feature_type_t to convert to a string
+ *  \result string representation of f_type, empty string if not available
+ */
+const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *this_, data_feature_type_t f_type );
+
+/*!
+ *  \brief gets a string representation of a data_relationship_type_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param r_type data_relationship_type_t to convert to a string
+ *  \result string representation of r_type, empty string if not available
+ */
+const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter_t *this_, data_relationship_type_t r_type );
+
+#endif  /* XMI_TYPE_CONVERTER_H */
+
+
+/*
+Copyright 2020-2020 Andreas Warnke
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/

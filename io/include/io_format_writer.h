@@ -12,6 +12,7 @@
 #include "io_file_format.h"
 #include "xml/xml_writer.h"
 #include "txt/txt_writer.h"
+#include "xmi/xmi_type_converter.h"
 #include "md/md_filter.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
@@ -28,9 +29,10 @@ struct io_format_writer_struct {
     io_file_format_t export_type;  /*!< format of output document */
     uint32_t current_tree_depth;  /*!< tree depth in diagram tree, starts at 0, increases with every call to io_format_writer_start_diagram */
 
-    md_filter_t md_filter;  /*!< own instance of an md filter */
-    xml_writer_t xml_writer;  /*!< own instance of an xml writer */
     txt_writer_t txt_writer;  /*!< own instance of a txt writer */
+    xml_writer_t xml_writer;  /*!< own instance of an xml writer */
+    xmi_type_converter_t xmi_types;  /*!< own instance of an xmi_type_converter_t */
+    md_filter_t md_filter;  /*!< own instance of an md filter */
 };
 
 typedef struct io_format_writer_struct io_format_writer_t;
@@ -216,8 +218,8 @@ int io_format_writer_write_stylesheet( io_format_writer_t *this_ );
  *  \param comment the comment to encode and write
  *  \result 0 in case of success, -1 otherwise
  */
-int io_format_writer_private_write_xmi_comment( io_format_writer_t *this_, 
-                                                data_id_t *element_id, 
+int io_format_writer_private_write_xmi_comment( io_format_writer_t *this_,
+                                                data_id_t *element_id,
                                                 const char *comment_type,
                                                 const char *comment
                                               );

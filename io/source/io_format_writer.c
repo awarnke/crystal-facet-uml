@@ -112,9 +112,11 @@ static const char XMI2_ENC[]
     = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.1 : 1,1a,1e,1f */
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 12.3.3.1.3 */
+/* spec-ref: https://www.omg.org/spec/SysML/1.6/PDF chapter G.3 */
 static const char XMI2_DOC_START[]
-    = "<xmi:XMI xmlns:xmi=\"http://www.omg.org/spec/XMI/20131001\" "
-      "xmlns:uml=\"http://www.omg.org/spec/UML/20161101\">\n";
+    = "<xmi:XMI xmlns:xmi=\"http://www.omg.org/spec/XMI/20131001\"\n"
+      "         xmlns:uml=\"http://www.omg.org/spec/UML/20161101\"\n"
+      "         xmlns:SysML=\"http://www.omg.org/spec/SysML/20181001\">\n";
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.1 : 1,1a */
 static const char XMI2_DOC_END[]
     = "</xmi:XMI>\n";
@@ -477,6 +479,7 @@ void io_format_writer_init ( io_format_writer_t *this_,
 
     txt_writer_init( &((*this_).txt_writer), output );
     xml_writer_init( &((*this_).xml_writer), output );
+    xmi_type_converter_init( &((*this_).xmi_types) );
 
     switch ( (*this_).export_type )
     {
@@ -521,6 +524,7 @@ void io_format_writer_destroy( io_format_writer_t *this_ )
     TRACE_BEGIN();
 
     md_filter_destroy( &((*this_).md_filter) );
+    xmi_type_converter_destroy( &((*this_).xmi_types) );
     xml_writer_destroy( &((*this_).xml_writer) );
     txt_writer_destroy( &((*this_).txt_writer) );
 
@@ -989,13 +993,13 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
 
             if ( 0 != classifier_stereo_len )
             {
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), 
-                                                       "        <!-- note: export of stereotypes is subject to change -->\n" 
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
+                                                       "        <!-- note: export of stereotypes is subject to change -->\n"
                                                      );
                 data_id_t ele_id;
                 data_id_init( &ele_id, DATA_TABLE_CLASSIFIER, classifier_id );
 /* TODO */                export_err |= io_format_writer_private_write_xmi_comment( this_,
-/* TODO */                                                                          &ele_id, 
+/* TODO */                                                                          &ele_id,
 /* TODO */                                                                          "stereotype",
 /* TODO */                                                                          classifier_stereo
 /* TODO */                                                                        );
@@ -1006,7 +1010,7 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
                 data_id_t ele_id;
                 data_id_init( &ele_id, DATA_TABLE_CLASSIFIER, classifier_id );
                 export_err |= io_format_writer_private_write_xmi_comment( this_,
-                                                                          &ele_id, 
+                                                                          &ele_id,
                                                                           "specification",
                                                                           classifier_descr
                                                                         );
@@ -1132,13 +1136,13 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
 
             if ( 0 != feature_value_len )
             {
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), 
-                                                       "        <!-- note: export of valuetypes is subject to change -->\n" 
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
+                                                       "        <!-- note: export of valuetypes is subject to change -->\n"
                                                      );
                 data_id_t ele_id;
                 data_id_init( &ele_id, DATA_TABLE_FEATURE, feature_id );
                 export_err |= io_format_writer_private_write_xmi_comment( this_,
-                                                                          &ele_id, 
+                                                                          &ele_id,
                                                                           "valuetype",
                                                                           feature_value
                                                                         );
@@ -1150,7 +1154,7 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
                 data_id_t ele_id;
                 data_id_init( &ele_id, DATA_TABLE_FEATURE, feature_id );
                 export_err |= io_format_writer_private_write_xmi_comment( this_,
-                                                                          &ele_id, 
+                                                                          &ele_id,
                                                                           "specification",
                                                                           feature_descr
                                                                         );
@@ -1280,7 +1284,7 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
         case IO_FILE_FORMAT_XMI2:
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_START );
-            
+
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_START );
 /* TODO */            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), "uml:Association" );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_END );
@@ -1305,13 +1309,13 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
                 data_id_t ele_id;
                 data_id_init( &ele_id, DATA_TABLE_RELATIONSHIP, relation_id );
                 export_err |= io_format_writer_private_write_xmi_comment( this_,
-                                                                          &ele_id, 
+                                                                          &ele_id,
                                                                           "specification",
                                                                           relation_descr
                                                                         );
                 data_id_destroy( &ele_id );
             }
-            
+
             /* source */
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MEMBER_END_START );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_START );
@@ -1592,9 +1596,9 @@ int io_format_writer_write_footer( io_format_writer_t *this_ )
     return export_err;
 }
 
-int io_format_writer_private_write_xmi_comment( io_format_writer_t *this_, 
-                                                data_id_t *element_id, 
-                                                const char *comment_type, 
+int io_format_writer_private_write_xmi_comment( io_format_writer_t *this_,
+                                                data_id_t *element_id,
+                                                const char *comment_type,
                                                 const char *comment )
 
 {
@@ -1609,7 +1613,7 @@ int io_format_writer_private_write_xmi_comment( io_format_writer_t *this_,
         case IO_FILE_FORMAT_XMI2:
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_COMMENT_START );
-            
+
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_START );
 /* TODO */            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), "uml:Comment" );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_END );
@@ -1635,7 +1639,7 @@ int io_format_writer_private_write_xmi_comment( io_format_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_COMMENT_BODY_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), comment );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_COMMENT_BODY_END );
-            
+
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_COMMENT_MIDDLE );
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_ANNOTATED_ELEMENT_START );
