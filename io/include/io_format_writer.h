@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Exports a document
+ *  \brief Writes several document pieces to one file output stream.
  */
 
 #include "io_file_format.h"
@@ -114,10 +114,10 @@ int io_format_writer_end_toc_sublist ( io_format_writer_t *this_ );
  *  This starts a section that contains a diagram and a list of classifiers
  *
  *  \param this_ pointer to own object attributes
- *  \param diag_id row identifier of the diagram
+ *  \param diag_id identifier of the diagram
  *  \result 0 in case of success, -1 otherwise
  */
-int io_format_writer_start_diagram( io_format_writer_t *this_, int64_t diag_id );
+int io_format_writer_start_diagram( io_format_writer_t *this_, data_id_t diag_id );
 
 /*!
  *  \brief writes a diagram of the document
@@ -213,13 +213,13 @@ int io_format_writer_write_stylesheet( io_format_writer_t *this_ );
  *  \brief writes a comment in xmi format
  *
  *  \param this_ pointer to own object attributes
- *  \param element_id id of the element whicht to write a comment for
+ *  \param element_id id of the element which to write a comment for
  *  \param comment_type type is typically spec - but maybe there are other types in future
  *  \param comment the comment to encode and write
  *  \result 0 in case of success, -1 otherwise
  */
 int io_format_writer_private_write_xmi_comment( io_format_writer_t *this_,
-                                                data_id_t *element_id,
+                                                data_id_t element_id,
                                                 const char *comment_type,
                                                 const char *comment
                                               );

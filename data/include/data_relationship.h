@@ -10,6 +10,7 @@
  */
 
 #include "data_relationship_type.h"
+#include "data_id.h"
 #include "data_error.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdint.h>
@@ -128,6 +129,14 @@ static inline int64_t data_relationship_get_id ( const data_relationship_t *this
 static inline void data_relationship_set_id ( data_relationship_t *this_, int64_t id );
 
 /*!
+ *  \brief gets the data_id derived from the id attribute
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return data_id denoting this object
+ */
+static inline data_id_t data_relationship_get_data_id ( const data_relationship_t *this_ );
+
+/*!
  *  \brief gets the attribute from_classifier_id
  *
  *  \param this_ pointer to own object attributes
@@ -142,6 +151,14 @@ static inline int64_t data_relationship_get_from_classifier_id ( const data_rela
  *  \param from_classifier_id new from_classifier_id of this object
  */
 static inline void data_relationship_set_from_classifier_id ( data_relationship_t *this_, int64_t from_classifier_id );
+
+/*!
+ *  \brief gets the data_id derived from the from_classifier_id attribute
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return data_id denoting the from_classifier_id
+ */
+static inline data_id_t data_relationship_get_from_classifier_data_id ( const data_relationship_t *this_ );
 
 /*!
  *  \brief gets the attribute from_feature_id
@@ -160,6 +177,14 @@ static inline int64_t data_relationship_get_from_feature_id ( const data_relatio
 static inline void data_relationship_set_from_feature_id ( data_relationship_t *this_, int64_t from_feature_id );
 
 /*!
+ *  \brief gets the data_id derived from the from_feature_id attribute
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return data_id denoting the from_feature_id
+ */
+static inline data_id_t data_relationship_get_from_feature_data_id ( const data_relationship_t *this_ );
+
+/*!
  *  \brief gets the attribute to_classifier_id
  *
  *  \param this_ pointer to own object attributes
@@ -176,6 +201,14 @@ static inline int64_t data_relationship_get_to_classifier_id ( const data_relati
 static inline void data_relationship_set_to_classifier_id ( data_relationship_t *this_, int64_t to_classifier_id );
 
 /*!
+ *  \brief gets the data_id derived from the to_classifier_id attribute
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return data_id denoting the to_classifier_id
+ */
+static inline data_id_t data_relationship_get_to_classifier_data_id ( const data_relationship_t *this_ );
+
+/*!
  *  \brief gets the attribute to_feature_id
  *
  *  \param this_ pointer to own object attributes
@@ -190,6 +223,14 @@ static inline int64_t data_relationship_get_to_feature_id ( const data_relations
  *  \param to_feature_id new to_feature_id of this object
  */
 static inline void data_relationship_set_to_feature_id ( data_relationship_t *this_, int64_t to_feature_id );
+
+/*!
+ *  \brief gets the data_id derived from the to_feature_id attribute
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return data_id denoting the to_feature_id
+ */
+static inline data_id_t data_relationship_get_to_feature_data_id ( const data_relationship_t *this_ );
 
 /*!
  *  \brief gets the attribute main_type

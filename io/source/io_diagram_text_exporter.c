@@ -16,12 +16,32 @@ void io_diagram_text_exporter_init( io_diagram_text_exporter_t *this_, const dat
     (*this_).input_data = input_data;
     data_rules_init ( &((*this_).filter_rules) );
 
+    universal_array_list_init ( &((*this_).written_id_set),
+                                sizeof((*this_).written_id_set_buf)/sizeof(data_id_t),
+                                &((*this_).written_id_set_buf),
+                                sizeof(data_id_t),
+                                ((char*)(&((*this_).written_id_set_buf[1])))-((char*)(&((*this_).written_id_set_buf[0]))),
+                                (void (*)(void *, const void *)) &data_id_copy,
+                                (bool (*)(const void *, const void *)) &data_id_equals,
+                                (void (*)(void *)) &data_id_destroy
+                              );
+
+    TRACE_END();
+}
+
+void io_diagram_text_exporter_reinit( io_diagram_text_exporter_t *this_, const data_visible_set_t *input_data )
+{
+    TRACE_BEGIN();
+    io_diagram_text_exporter_destroy( this_ );
+    io_diagram_text_exporter_init( this_, input_data );
     TRACE_END();
 }
 
 void io_diagram_text_exporter_destroy( io_diagram_text_exporter_t *this_ )
 {
     TRACE_BEGIN();
+
+    universal_array_list_destroy ( &((*this_).written_id_set) );
 
     data_rules_destroy ( &((*this_).filter_rules) );
     (*this_).input_data = NULL;
@@ -42,7 +62,7 @@ int io_diagram_text_exporter_write_all ( io_diagram_text_exporter_t *this_, io_f
     TRACE_INFO_INT("printing diagram with id",data_diagram_get_id(diag_ptr));
 
     write_err |= io_format_writer_write_header( format_writer, "DUMMY_TITLE" );
-    write_err |= io_format_writer_start_diagram( format_writer, data_diagram_get_id(diag_ptr) );
+    write_err |= io_format_writer_start_diagram( format_writer, data_diagram_get_data_id(diag_ptr) );
     write_err |= io_format_writer_write_diagram( format_writer,
                                                  diag_ptr,
                                                  "NO_IMAGE_FILE"

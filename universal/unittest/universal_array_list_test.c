@@ -14,6 +14,7 @@ static void test_element_lifecycle(void);
 
 unsigned int ctor_calls;  /* count constructor callbacks */
 unsigned int dtor_calls;  /* count destructor callbacks */
+unsigned int eq_calls;  /* count equal callbacks */
 
 test_suite_t universal_array_list_test_get_list(void)
 {
@@ -29,6 +30,7 @@ static void set_up(void)
 {
     ctor_calls = 0;
     dtor_calls = 0;
+    eq_calls = 0;
 }
 
 static void tear_down(void)
@@ -48,6 +50,7 @@ static void test_insert_and_retrieve(void)
                                 sizeof(char[7]),
                                 ((char*)(&(string_buf[1])))-((char*)(&(string_buf[0]))),
                                 NULL /*copy_ctor*/,
+                                NULL /*equal*/,
                                 NULL /*dtor*/
                               );
     TEST_ASSERT_EQUAL_INT( true, universal_array_list_is_empty( &testee ) );
@@ -72,6 +75,9 @@ static void test_insert_and_retrieve(void)
     TEST_ASSERT_EQUAL_INT( 0, memcmp( "123456", universal_array_list_get_const( &testee, 0 ), sizeof(char[7]) ) );
     TEST_ASSERT_EQUAL_INT( 0, memcmp( "123456", universal_array_list_get_ptr( &testee, 0 ), sizeof(char[7]) ) );
 
+    /* search element */
+    TEST_ASSERT_EQUAL_INT( 1, universal_array_list_get_index_of ( &testee, "abcdef" ) );
+
     /* clear */
     universal_array_list_clear( &testee );
     TEST_ASSERT_EQUAL_INT( true, universal_array_list_is_empty( &testee ) );
@@ -79,6 +85,9 @@ static void test_insert_and_retrieve(void)
     TEST_ASSERT_EQUAL_PTR( NULL, universal_array_list_get_const( &testee, 0 ) );
     TEST_ASSERT_EQUAL_PTR( NULL, universal_array_list_get_ptr( &testee, 0 ) );
 
+    /* search element */
+    TEST_ASSERT_EQUAL_INT( -1, universal_array_list_get_index_of ( &testee, "abcdef" ) );
+    
     /* done */
     universal_array_list_destroy( &testee );
     TEST_ASSERT_EQUAL_INT( 0, ctor_calls );
@@ -98,6 +107,7 @@ static void test_max_size(void)
                                 sizeof(uint64_t),
                                 ((char*)(&(buf[1])))-((char*)(&(buf[0]))),
                                 NULL /*copy_ctor*/,
+                                NULL /*equal*/,
                                 NULL /*dtor*/
                               );
     TEST_ASSERT_EQUAL_INT( 0, universal_array_list_get_length( &testee ) );
@@ -145,6 +155,12 @@ void dtor (double* instance)
     dtor_calls++;
 }
 
+bool equal (const double* instance_1, const double* instance_2)
+{
+    eq_calls++;
+    return ( *instance_1 == *instance_2 );
+}
+
 static void test_element_lifecycle(void)
 {
     int err;
@@ -158,6 +174,7 @@ static void test_element_lifecycle(void)
                                 sizeof(double),
                                 ((char*)(&(buf[1])))-((char*)(&(buf[0]))),
                                 (void (*)(void*, const void*))copy_ctor,
+                                (bool (*)(const void*, const void*))equal,
                                 (void (*)(void*))dtor
                               );
     TEST_ASSERT_EQUAL_INT( 0, ctor_calls );
@@ -168,28 +185,40 @@ static void test_element_lifecycle(void)
     err = universal_array_list_add ( &testee, &ele1 );
     TEST_ASSERT_EQUAL_INT( 0, err );
     TEST_ASSERT_EQUAL_INT( 1, ctor_calls );
+    TEST_ASSERT_EQUAL_INT( 0, eq_calls );
     TEST_ASSERT_EQUAL_INT( 0, dtor_calls );
 
     /* clear */
     universal_array_list_clear( &testee );
     TEST_ASSERT_EQUAL_INT( 1, ctor_calls );
+    TEST_ASSERT_EQUAL_INT( 0, eq_calls );
     TEST_ASSERT_EQUAL_INT( 1, dtor_calls );
 
     /* insert first again */
     err = universal_array_list_add ( &testee, &ele1 );
     TEST_ASSERT_EQUAL_INT( 0, err );
     TEST_ASSERT_EQUAL_INT( 2, ctor_calls );
+    TEST_ASSERT_EQUAL_INT( 0, eq_calls );
     TEST_ASSERT_EQUAL_INT( 1, dtor_calls );
 
     /* insert self, first time */
     err = universal_array_list_add_all ( &testee, &testee );
     TEST_ASSERT_EQUAL_INT( 0, err );
     TEST_ASSERT_EQUAL_INT( 3, ctor_calls );
+    TEST_ASSERT_EQUAL_INT( 0, eq_calls );
+    TEST_ASSERT_EQUAL_INT( 1, dtor_calls );
+
+    /* search element */
+    int idx = universal_array_list_get_index_of ( &testee, &ele1 );
+    TEST_ASSERT_EQUAL_INT( 0, idx );
+    TEST_ASSERT_EQUAL_INT( 3, ctor_calls );
+    TEST_ASSERT_EQUAL_INT( 1, eq_calls );
     TEST_ASSERT_EQUAL_INT( 1, dtor_calls );
 
     /* done */
     universal_array_list_destroy( &testee );
     TEST_ASSERT_EQUAL_INT( 3, ctor_calls );
+    TEST_ASSERT_EQUAL_INT( 1, eq_calls );
     TEST_ASSERT_EQUAL_INT( 3, dtor_calls );
 }
 

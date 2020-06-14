@@ -11,6 +11,7 @@ static inline void universal_array_list_init ( universal_array_list_t *this_,
                                                size_t element_size,
                                                ptrdiff_t step_size,
                                                void (*copy_ctor)(void* to_instance, const void* from_instance),
+                                               bool (*equal)(const void* instance_1, const void* instance_2),
                                                void (*dtor)(void* instance) )
 {
     TRACE_INFO_INT( "- max_elements:", max_elements );
@@ -27,6 +28,7 @@ static inline void universal_array_list_init ( universal_array_list_t *this_,
     (*this_).element_size = element_size;
     (*this_).step_size = step_size;
     (*this_).copy_ctor = copy_ctor;
+    (*this_).equal = equal;
     (*this_).dtor = dtor;
 }
 
@@ -133,6 +135,40 @@ static inline void const *universal_array_list_get_const ( const universal_array
     else
     {
         result = NULL;
+    }
+
+    return result;
+}
+
+static inline int universal_array_list_get_index_of ( const universal_array_list_t *this_, const void* element )
+{
+    assert( (*this_).length <= (*this_).max_elements );
+    assert( (*this_).elements != NULL );
+    assert( element != NULL );
+
+    int result = -1;
+
+    if ( (*this_).equal != NULL )
+    {
+        for ( unsigned int index = 0; ( index < (*this_).length )&&( result == -1 ); index ++ )
+        {
+            const void *current = universal_array_list_get_const( this_, index );
+            if ( (*this_).equal( current, element ) )
+            {
+                result = index;
+            }
+        }
+    }
+    else
+    {
+        for ( unsigned int index = 0; ( index < (*this_).length )&&( result == -1 ); index ++ )
+        {
+            const void *current = universal_array_list_get_const( this_, index );
+            if ( 0 == memcmp( current, element, (*this_).element_size ) )
+            {
+                result = index;
+            }
+        }
     }
 
     return result;

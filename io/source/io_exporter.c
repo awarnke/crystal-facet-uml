@@ -218,6 +218,8 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
             {
                 int write_err;
 
+                /* reset the diagram_text_exporter */
+                io_diagram_text_exporter_reinit( &((*this_).diagram_text_exporter), &((*this_).input_data) );
                 /* write file */
                 io_format_writer_init( &((*this_).temp_format_writer ), (*this_).db_reader, IO_FILE_FORMAT_TXT, output );
                 write_err = io_diagram_text_exporter_write_all ( &((*this_).diagram_text_exporter), &((*this_).temp_format_writer ) );
@@ -335,6 +337,9 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         }
         else
         {
+            /* reset the diagram_text_exporter */
+            io_diagram_text_exporter_reinit( &((*this_).diagram_text_exporter), &((*this_).input_data) );
+            /* write the document */
             export_err |= io_format_writer_write_header( &((*this_).temp_format_writer), document_file_name );
             export_err |= io_exporter_private_export_table_of_contents( this_, DATA_ID_VOID_ID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, &((*this_).temp_format_writer) );
             export_err |= io_exporter_private_export_document_part( this_, DATA_ID_VOID_ID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, &((*this_).temp_format_writer) );
@@ -383,7 +388,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
         io_exporter_private_append_valid_chars_to_filename( this_, diag_name, (*this_).temp_filename );
 
         /* write doc part */
-        export_err |= io_format_writer_start_diagram( format_writer, data_diagram_get_id( diag_ptr ) );
+        export_err |= io_format_writer_start_diagram( format_writer, data_diagram_get_data_id( diag_ptr ) );
         export_err |= io_format_writer_write_diagram( format_writer,
                                                       diag_ptr,
                                                       utf8stringbuf_get_string( (*this_).temp_filename )

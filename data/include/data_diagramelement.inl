@@ -101,6 +101,14 @@ static inline void data_diagramelement_set_id ( data_diagramelement_t *this_, in
     (*this_).id = id;
 }
 
+static inline data_id_t data_diagramelement_get_data_id ( const data_diagramelement_t *this_ )
+{
+    data_id_t result;
+    data_id_init ( &result, DATA_TABLE_DIAGRAMELEMENT, (*this_).id );
+    return result;
+}
+
+
 static inline int64_t data_diagramelement_get_diagram_id ( const data_diagramelement_t *this_ )
 {
     return (*this_).diagram_id;

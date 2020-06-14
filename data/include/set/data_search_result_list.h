@@ -23,7 +23,7 @@ typedef universal_array_list_t data_search_result_list_t;
 
 #define DATA_SEARCH_RESULT_LIST_INIT( THIS, ARRAY ) universal_array_list_init( (universal_array_list_t*)(THIS), \
 sizeof(ARRAY)/sizeof(data_search_result_t), &(ARRAY), sizeof(data_search_result_t), ((char*)(&((ARRAY)[1])))-((char*)(&((ARRAY)[0]))), \
-(void (*)(void *, const void *))data_search_result_copy, NULL );
+(void (*)(void *, const void *))data_search_result_copy, NULL, NULL );
 
 /*!
  *  \brief initializes the data_search_result_list_t struct

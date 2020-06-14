@@ -78,11 +78,10 @@ static inline int xml_writer_write_plain_buf ( xml_writer_t *this_, const char *
  *  if the id is invalid, nothing is printed.
  *
  *  \param this_ pointer to own object attributes
- *  \param table table identifier
- *  \param row_id row identifier
+ *  \param id the identifier
  *  \result 0 in case of success, -1 otherwise
  */
-int xml_writer_write_plain_id ( xml_writer_t *this_, data_table_t table, int64_t row_id );
+int xml_writer_write_plain_id ( xml_writer_t *this_, data_id_t id );
 
 /*!
  *  \brief writes a string to a file, xml encoded

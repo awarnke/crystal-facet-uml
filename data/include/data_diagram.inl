@@ -145,6 +145,14 @@ static inline void data_diagram_set_id ( data_diagram_t *this_, int64_t id )
     (*this_).id = id;
 }
 
+static inline data_id_t data_diagram_get_data_id ( const data_diagram_t *this_ )
+{
+    data_id_t result;
+    data_id_init ( &result, DATA_TABLE_DIAGRAM, (*this_).id );
+    return result;
+}
+
+
 static inline int64_t data_diagram_get_parent_id ( const data_diagram_t *this_ )
 {
     return (*this_).parent_id;

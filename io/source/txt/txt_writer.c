@@ -107,12 +107,11 @@ int txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
 
 int txt_writer_write_indent_id ( txt_writer_t *this_,
                                  int indent_width,
-                                 data_table_t table,
-                                 int64_t row_id )
+                                 data_id_t id )
 {
     TRACE_BEGIN();
-    assert( DATA_TABLE_VOID != table );
-    assert( DATA_ID_VOID_ID != row_id );
+    assert( DATA_TABLE_VOID != data_id_get_table(&id) );
+    assert( DATA_ID_VOID_ID != data_id_get_row_id(&id) );
     assert( NULL != (*this_).output );
     assert( sizeof(TXT_ID_INDENT_SPACES) == 1+TXT_WRITER_INDENT_COLUMN );
     int result = 0;
@@ -134,9 +133,7 @@ int txt_writer_write_indent_id ( txt_writer_t *this_,
         utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
         utf8stringbuf_clear( id_str );
         utf8stringbuf_append_str( id_str, " [" );
-        data_id_t the_id;
-        data_id_init( &the_id, table, row_id );
-        data_id_to_utf8stringbuf( &the_id, id_str );
+        data_id_to_utf8stringbuf( &id, id_str );
         utf8stringbuf_append_str( id_str, "]" );
 
         const unsigned int len = utf8stringbuf_get_length(id_str);
@@ -147,11 +144,11 @@ int txt_writer_write_indent_id ( txt_writer_t *this_,
     return result;
 }
 
-int txt_writer_write_plain_id ( txt_writer_t *this_, data_table_t table, int64_t row_id )
+int txt_writer_write_plain_id ( txt_writer_t *this_, data_id_t id )
 {
     TRACE_BEGIN();
-    assert( DATA_TABLE_VOID != table );
-    assert( DATA_ID_VOID_ID != row_id );
+    assert( DATA_TABLE_VOID != data_id_get_table(&id) );
+    assert( DATA_ID_VOID_ID != data_id_get_row_id(&id) );
     assert( NULL != (*this_).output );
     int result = 0;
 
@@ -160,9 +157,7 @@ int txt_writer_write_plain_id ( txt_writer_t *this_, data_table_t table, int64_t
         char id_buf[DATA_ID_MAX_UTF8STRING_SIZE];
         utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
         utf8stringbuf_clear( id_str );
-        data_id_t the_id;
-        data_id_init( &the_id, table, row_id );
-        data_id_to_utf8stringbuf( &the_id, id_str );
+        data_id_to_utf8stringbuf( &id, id_str );
 
         const unsigned int len = utf8stringbuf_get_length(id_str);
         result |= universal_output_stream_write ( (*this_).output, utf8stringbuf_get_string(id_str), len );

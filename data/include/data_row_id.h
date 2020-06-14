@@ -1,7 +1,7 @@
-/* File: data_row.h; Copyright and License: see below */
+/* File: data_row_id.h; Copyright and License: see below */
 
-#ifndef DATA_ROW_H
-#define DATA_ROW_H
+#ifndef DATA_ROW_ID_H
+#define DATA_ROW_ID_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -12,9 +12,9 @@
 /*!
  *  \brief wraps the database-internal identifier-type
  */
-typedef int64_t data_row_t;
+typedef int64_t data_row_id_t;
 
-#endif  /* DATA_ROW_H */
+#endif  /* DATA_ROW_ID_H */
 
 
 /*

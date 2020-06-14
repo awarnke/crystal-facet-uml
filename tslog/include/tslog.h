@@ -52,82 +52,82 @@
 /*!
  *  \brief logs an error string
  */
-#define TSLOG_ERROR(x) { const char *string_test = x; fprintf(TSLOG_OUT_STREAM,"\nERR : %s\n",string_test); fflush(TSLOG_OUT_STREAM); sleep(ERR_DELAY); }
+#define TSLOG_ERROR(x) { const char *string_test = (x); fprintf(TSLOG_OUT_STREAM,"\nERR : %s\n",string_test); fflush(TSLOG_OUT_STREAM); sleep(ERR_DELAY); }
 
 /*!
  *  \brief logs an error string and an integer
  */
-#define TSLOG_ERROR_INT(x,i) { const char *string_test = x; const int int_test = i; fprintf(TSLOG_OUT_STREAM,"\nERR : %s %i\n",string_test,int_test); fflush(TSLOG_OUT_STREAM); sleep(ERR_DELAY); }
+#define TSLOG_ERROR_INT(x,i) { const char *string_test = (x); const int int_test = (i); fprintf(TSLOG_OUT_STREAM,"\nERR : %s %i\n",string_test,int_test); fflush(TSLOG_OUT_STREAM); sleep(ERR_DELAY); }
 
 /*!
  *  \brief logs an error string and a hexadecimal integer
  */
-#define TSLOG_ERROR_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; fprintf(TSLOG_OUT_STREAM,"\nERR : %s 0x%x\n",string_test,int_test); fflush(TSLOG_OUT_STREAM); sleep(ERR_DELAY); }
+#define TSLOG_ERROR_HEX(x,i) { const char *string_test = (x); const unsigned int int_test = (i); fprintf(TSLOG_OUT_STREAM,"\nERR : %s 0x%x\n",string_test,int_test); fflush(TSLOG_OUT_STREAM); sleep(ERR_DELAY); }
 
 /*!
  *  \brief logs an error string and an information string
  */
-#define TSLOG_ERROR_STR(x,s) { const char *string_test = x; const char *string2_test = s; fprintf(TSLOG_OUT_STREAM,"\nERR : %s %s\n",string_test,string2_test); fflush(TSLOG_OUT_STREAM); sleep(ERR_DELAY); }
+#define TSLOG_ERROR_STR(x,s) { const char *string_test = (x); const char *string2_test = (s); fprintf(TSLOG_OUT_STREAM,"\nERR : %s %s\n",string_test,string2_test); fflush(TSLOG_OUT_STREAM); sleep(ERR_DELAY); }
 
 /*!
  *  \brief logs a warning string
  */
-#define TSLOG_WARNING(x) { const char *string_test = x; fprintf(TSLOG_OUT_STREAM,"\nWARN: %s\n",string_test); fflush(TSLOG_OUT_STREAM); sleep(WARN_DELAY); }
+#define TSLOG_WARNING(x) { const char *string_test = (x); fprintf(TSLOG_OUT_STREAM,"\nWARN: %s\n",string_test); fflush(TSLOG_OUT_STREAM); sleep(WARN_DELAY); }
 
 /*!
  *  \brief logs a warning string and an integer
  */
-#define TSLOG_WARNING_INT(x,i) { const char *string_test = x; const int int_test = i; fprintf(TSLOG_OUT_STREAM,"\nWARN: %s %i\n",string_test,int_test); fflush(TSLOG_OUT_STREAM); sleep(WARN_DELAY); }
+#define TSLOG_WARNING_INT(x,i) { const char *string_test = (x); const int int_test = (i); fprintf(TSLOG_OUT_STREAM,"\nWARN: %s %i\n",string_test,int_test); fflush(TSLOG_OUT_STREAM); sleep(WARN_DELAY); }
 
 /*!
  *  \brief logs a warning string and a hexadecimal integer
  */
-#define TSLOG_WARNING_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; fprintf(TSLOG_OUT_STREAM,"\nWARN: %s 0x%x\n",string_test,int_test); fflush(TSLOG_OUT_STREAM); sleep(WARN_DELAY); }
+#define TSLOG_WARNING_HEX(x,i) { const char *string_test = (x); const unsigned int int_test = (i); fprintf(TSLOG_OUT_STREAM,"\nWARN: %s 0x%x\n",string_test,int_test); fflush(TSLOG_OUT_STREAM); sleep(WARN_DELAY); }
 
 /*!
  *  \brief logs a warning string and an information string
  */
-#define TSLOG_WARNING_STR(x,s) { const char *string_test = x; const char *string2_test = s; fprintf(TSLOG_OUT_STREAM,"\nWARN: %s %s\n",string_test,string2_test); fflush(TSLOG_OUT_STREAM); sleep(WARN_DELAY); }
+#define TSLOG_WARNING_STR(x,s) { const char *string_test = (x); const char *string2_test = (s); fprintf(TSLOG_OUT_STREAM,"\nWARN: %s %s\n",string_test,string2_test); fflush(TSLOG_OUT_STREAM); sleep(WARN_DELAY); }
 
 /*!
  *  \brief logs an anomaly string
  */
-#define TSLOG_ANOMALY(x) { const char *string_test = x; fprintf(TSLOG_OUT_STREAM,"ANOM: %s\n",string_test); }
+#define TSLOG_ANOMALY(x) { const char *string_test = (x); fprintf(TSLOG_OUT_STREAM,"ANOM: %s\n",string_test); }
 
 /*!
  *  \brief logs an anomaly string and an integer
  */
-#define TSLOG_ANOMALY_INT(x,i) { const char *string_test = x; const int int_test = i; fprintf(TSLOG_OUT_STREAM,"ANOM: %s %i\n",string_test,int_test); }
+#define TSLOG_ANOMALY_INT(x,i) { const char *string_test = (x); const int int_test = (i); fprintf(TSLOG_OUT_STREAM,"ANOM: %s %i\n",string_test,int_test); }
 
 /*!
  *  \brief logs an anomaly string and a hexadecimal integer
  */
-#define TSLOG_ANOMALY_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; fprintf(TSLOG_OUT_STREAM,"ANOM: %s 0x%x\n",string_test,int_test); }
+#define TSLOG_ANOMALY_HEX(x,i) { const char *string_test = (x); const unsigned int int_test = (i); fprintf(TSLOG_OUT_STREAM,"ANOM: %s 0x%x\n",string_test,int_test); }
 
 /*!
  *  \brief logs an anomaly string and an information string
  */
-#define TSLOG_ANOMALY_STR(x,s) { const char *string_test = x; const char *string2_test = s; fprintf(TSLOG_OUT_STREAM,"ANOM: %s %s\n",string_test,string2_test); }
+#define TSLOG_ANOMALY_STR(x,s) { const char *string_test = (x); const char *string2_test = (s); fprintf(TSLOG_OUT_STREAM,"ANOM: %s %s\n",string_test,string2_test); }
 
 /*!
  *  \brief logs an event string
  */
-#define TSLOG_EVENT(x) { const char *string_test = x; fprintf(TSLOG_OUT_STREAM,"EVT : %s\n",string_test); }
+#define TSLOG_EVENT(x) { const char *string_test = (x); fprintf(TSLOG_OUT_STREAM,"EVT : %s\n",string_test); }
 
 /*!
  *  \brief logs an event string and an integer
  */
-#define TSLOG_EVENT_INT(x,i) { const char *string_test = x; const int int_test = i; fprintf(TSLOG_OUT_STREAM,"EVT : %s %i\n",string_test,int_test); }
+#define TSLOG_EVENT_INT(x,i) { const char *string_test = (x); const int int_test = (i); fprintf(TSLOG_OUT_STREAM,"EVT : %s %i\n",string_test,int_test); }
 
 /*!
  *  \brief logs an event string and a hexadecimal integer
  */
-#define TSLOG_EVENT_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; fprintf(TSLOG_OUT_STREAM,"EVT : %s 0x%x\n",string_test,int_test); }
+#define TSLOG_EVENT_HEX(x,i) { const char *string_test = (x); const unsigned int int_test = (i); fprintf(TSLOG_OUT_STREAM,"EVT : %s 0x%x\n",string_test,int_test); }
 
 /*!
  *  \brief logs an event string and an information string
  */
-#define TSLOG_EVENT_STR(x,s) { const char *string_test = x; const char *string2_test = s; fprintf(TSLOG_OUT_STREAM,"EVT : %s %s\n",string_test,string2_test); }
+#define TSLOG_EVENT_STR(x,s) { const char *string_test = (x); const char *string2_test = (s); fprintf(TSLOG_OUT_STREAM,"EVT : %s %s\n",string_test,string2_test); }
 
 #else             /* SWITCH RELEASE/DEBUG */
 #ifdef __linux__  /* SWITCH RELEASE SYSLOG */
@@ -135,7 +135,7 @@
 /*!
  *  \brief starts to log
  */
-#define TSLOG_INIT(program_id) { openlog( /* ident: */ program_id, /* options: */ 0, /* facility: */ LOG_USER  ); }
+#define TSLOG_INIT(program_id) { const char *string_test = (program_id); openlog( /* ident: */ string_test, /* options: */ 0, /* facility: */ LOG_USER  ); }
 
 /*!
  *  \brief stops logging
@@ -145,82 +145,82 @@
 /*!
  *  \brief logs an error string
  */
-#define TSLOG_ERROR(x) { const char *string_test = x; syslog(LOG_ERR,"ERR : %s",string_test); }
+#define TSLOG_ERROR(x) { const char *string_test = (x); syslog(LOG_ERR,"ERR : %s",string_test); }
 
 /*!
  *  \brief logs an error string and an integer
  */
-#define TSLOG_ERROR_INT(x,i) { const char *string_test = x; const int int_test = i; syslog(LOG_ERR,"ERR : %s %i",string_test,int_test); }
+#define TSLOG_ERROR_INT(x,i) { const char *string_test = (x); const int int_test = (i); syslog(LOG_ERR,"ERR : %s %i",string_test,int_test); }
 
 /*!
  *  \brief logs an error string and a hexadecimal integer
  */
-#define TSLOG_ERROR_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; syslog(LOG_ERR,"ERR : %s 0x%x",string_test,int_test); }
+#define TSLOG_ERROR_HEX(x,i) { const char *string_test = (x); const unsigned int int_test = (i); syslog(LOG_ERR,"ERR : %s 0x%x",string_test,int_test); }
 
 /*!
  *  \brief logs an error string and an information string
  */
-#define TSLOG_ERROR_STR(x,s) { const char *string_test = x; const char *string2_test = s; syslog(LOG_ERR,"ERR : %s %s",string_test,string2_test); }
+#define TSLOG_ERROR_STR(x,s) { const char *string_test = (x); const char *string2_test = (s); syslog(LOG_ERR,"ERR : %s %s",string_test,string2_test); }
 
 /*!
  *  \brief logs a warning string
  */
-#define TSLOG_WARNING(x) { const char *string_test = x; syslog(LOG_WARNING,"WARN: %s",string_test); }
+#define TSLOG_WARNING(x) { const char *string_test = (x); syslog(LOG_WARNING,"WARN: %s",string_test); }
 
 /*!
  *  \brief logs a warning string and an integer
  */
-#define TSLOG_WARNING_INT(x,i) { const char *string_test = x; const int int_test = i; syslog(LOG_WARNING,"WARN: %s %i",string_test,int_test); }
+#define TSLOG_WARNING_INT(x,i) { const char *string_test = (x); const int int_test = (i); syslog(LOG_WARNING,"WARN: %s %i",string_test,int_test); }
 
 /*!
  *  \brief logs a warning string and a hexadecimal integer
  */
-#define TSLOG_WARNING_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; syslog(LOG_WARNING,"WARN: %s 0x%x",string_test,int_test); }
+#define TSLOG_WARNING_HEX(x,i) { const char *string_test = (x); const unsigned int int_test = (i); syslog(LOG_WARNING,"WARN: %s 0x%x",string_test,int_test); }
 
 /*!
  *  \brief logs a warning string and an information string
  */
-#define TSLOG_WARNING_STR(x,s) { const char *string_test = x; const char *string2_test = s; syslog(LOG_WARNING,"WARN: %s %s",string_test,string2_test); }
+#define TSLOG_WARNING_STR(x,s) { const char *string_test = (x); const char *string2_test = (s); syslog(LOG_WARNING,"WARN: %s %s",string_test,string2_test); }
 
 /*!
  *  \brief logs an anomaly string
  */
-#define TSLOG_ANOMALY(x) { const char *string_test = x; syslog(LOG_INFO,"ANOM: %s",string_test); }
+#define TSLOG_ANOMALY(x) { const char *string_test = (x); syslog(LOG_INFO,"ANOM: %s",string_test); }
 
 /*!
  *  \brief logs an anomaly string and an integer
  */
-#define TSLOG_ANOMALY_INT(x,i) { const char *string_test = x; const int int_test = i; syslog(LOG_INFO,"ANOM: %s %i",string_test,int_test); }
+#define TSLOG_ANOMALY_INT(x,i) { const char *string_test = (x); const int int_test = (i); syslog(LOG_INFO,"ANOM: %s %i",string_test,int_test); }
 
 /*!
  *  \brief logs an anomaly string and a hexadecimal integer
  */
-#define TSLOG_ANOMALY_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; syslog(LOG_INFO,"ANOM: %s 0x%x",string_test,int_test); }
+#define TSLOG_ANOMALY_HEX(x,i) { const char *string_test = (x); const unsigned int int_test = (i); syslog(LOG_INFO,"ANOM: %s 0x%x",string_test,int_test); }
 
 /*!
  *  \brief logs an anomaly string and an information string
  */
-#define TSLOG_ANOMALY_STR(x,s) { const char *string_test = x; const char *string2_test = s; syslog(LOG_INFO,"ANOM: %s %s",string_test,string2_test); }
+#define TSLOG_ANOMALY_STR(x,s) { const char *string_test = (x); const char *string2_test = (s); syslog(LOG_INFO,"ANOM: %s %s",string_test,string2_test); }
 
 /*!
  *  \brief logs an event string
  */
-#define TSLOG_EVENT(x) { const char *string_test __attribute__((unused)) = x; /*syslog(LOG_INFO,"EVT : %s",string_test);*/ }
+#define TSLOG_EVENT(x) { const char *string_test __attribute__((unused)) = (x); /*syslog(LOG_INFO,"EVT : %s",string_test);*/ }
 
 /*!
  *  \brief logs an event string and an integer
  */
-#define TSLOG_EVENT_INT(x,i) { const char *string_test __attribute__((unused)) = x; const int int_test __attribute__((unused))  = i; /*syslog(LOG_INFO,"EVT : %s %i",string_test,int_test);*/ }
+#define TSLOG_EVENT_INT(x,i) { const char *string_test __attribute__((unused)) = (x); const int int_test __attribute__((unused))  = (i); /*syslog(LOG_INFO,"EVT : %s %i",string_test,int_test);*/ }
 
 /*!
  *  \brief logs an event string and a hexadecimal integer
  */
-#define TSLOG_EVENT_HEX(x,i) { const char *string_test __attribute__((unused)) = x; const unsigned int int_test __attribute__((unused)) = i; /*syslog(LOG_INFO,"EVT : %s 0x%x",string_test,int_test);*/ }
+#define TSLOG_EVENT_HEX(x,i) { const char *string_test __attribute__((unused)) = (x); const unsigned int int_test __attribute__((unused)) = (i); /*syslog(LOG_INFO,"EVT : %s 0x%x",string_test,int_test);*/ }
 
 /*!
  *  \brief logs an event string and an information string
  */
-#define TSLOG_EVENT_STR(x,s) { const char *string_test __attribute__((unused)) = x; const char *string2_test __attribute__((unused)) = s; /*syslog(LOG_INFO,"EVT : %s %s",string_test,string2_test);*/ }
+#define TSLOG_EVENT_STR(x,s) { const char *string_test __attribute__((unused)) = (x); const char *string2_test __attribute__((unused)) = (s); /*syslog(LOG_INFO,"EVT : %s %s",string_test,string2_test);*/ }
 
 #else   /* SWITCH RELEASE SYSLOG */
 

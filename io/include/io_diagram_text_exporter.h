@@ -13,14 +13,19 @@
 #include "set/data_visible_set.h"
 #include "data_table.h"
 #include "data_rules.h"
+#include "universal_array_list.h"
 #include <stdio.h>
 
 /*!
  *  \brief attributes of the description writer
  */
 struct io_diagram_text_exporter_struct {
+    /*data_database_reader_t *db_reader;*/  /* !< pointer to external database reader */
     const data_visible_set_t *input_data;  /*!< pointer to an external data cache */
     data_rules_t filter_rules;  /*!< own instance of uml and sysml consistency rules */
+    
+    data_id_t written_id_set_buf[50000];  /*!< buffer for list of already exported element ids */
+    universal_array_list_t written_id_set;  /*!< list of already exported element ids */
 };
 
 typedef struct io_diagram_text_exporter_struct io_diagram_text_exporter_t;
@@ -32,6 +37,14 @@ typedef struct io_diagram_text_exporter_struct io_diagram_text_exporter_t;
  *  \param input_data pointer to the (cached) data to be rendered
  */
 void io_diagram_text_exporter_init( io_diagram_text_exporter_t *this_, const data_visible_set_t *input_data );
+
+/*!
+ *  \brief re-initializes the io_diagram_text_exporter_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param input_data pointer to the (cached) data to be rendered
+ */
+void io_diagram_text_exporter_reinit( io_diagram_text_exporter_t *this_, const data_visible_set_t *input_data );
 
 /*!
  *  \brief destroys the io_diagram_text_exporter_t

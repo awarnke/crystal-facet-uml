@@ -38,37 +38,37 @@ extern const char trace_indent_pattern_info[TRACE_INDENT_STEP*TRACE_INDENT_MAX+T
 /*!
  *  \brief traces a string
  */
-#define TRACE_INFO(x) { const char *string_test = x; fprintf(TRACE_OUT_STREAM,"%s%s\n",TRACE_INDENT_INFO,string_test); }
+#define TRACE_INFO(x) { const char *string_test = (x); fprintf(TRACE_OUT_STREAM,"%s%s\n",TRACE_INDENT_INFO,string_test); }
 
 /*!
  *  \brief traces a string and an integer
  */
-#define TRACE_INFO_INT(x,i) { const char *string_test = x; const int int_test = i; fprintf(TRACE_OUT_STREAM,"%s%s %i\n",TRACE_INDENT_INFO,string_test,int_test); }
+#define TRACE_INFO_INT(x,i) { const char *string_test = (x); const int int_test = (i); fprintf(TRACE_OUT_STREAM,"%s%s %i\n",TRACE_INDENT_INFO,string_test,int_test); }
 
 /*!
  *  \brief traces a string and two integers
  */
-#define TRACE_INFO_INT_INT(x,i,j) { const char *string_test = x; const int int_test = i; const int int_test2 = j; fprintf(TRACE_OUT_STREAM,"%s%s %i, %i\n",TRACE_INDENT_INFO,string_test,int_test,int_test2); }
+#define TRACE_INFO_INT_INT(x,i,j) { const char *string_test = (x); const int int_test = (i); const int int_test2 = (j); fprintf(TRACE_OUT_STREAM,"%s%s %i, %i\n",TRACE_INDENT_INFO,string_test,int_test,int_test2); }
 
 /*!
  *  \brief traces a string and a hexadecimal integer
  */
-#define TRACE_INFO_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; fprintf(TRACE_OUT_STREAM,"%s%s 0x%x\n",TRACE_INDENT_INFO,string_test,int_test); }
+#define TRACE_INFO_HEX(x,i) { const char *string_test = (x); const unsigned int int_test = (i); fprintf(TRACE_OUT_STREAM,"%s%s 0x%x\n",TRACE_INDENT_INFO,string_test,int_test); }
 
 /*!
  *  \brief traces a string and a pointer
  */
-#define TRACE_INFO_PTR(x,p) { const char *string_test = x; const void *ptr_test = p; fprintf(TRACE_OUT_STREAM,"%s%s @:%p\n",TRACE_INDENT_INFO,string_test,ptr_test); }
+#define TRACE_INFO_PTR(x,p) { const char *string_test = (x); const void *ptr_test = (p); fprintf(TRACE_OUT_STREAM,"%s%s @:%p\n",TRACE_INDENT_INFO,string_test,ptr_test); }
 
 /*!
  *  \brief traces a string and and an information string
  */
-#define TRACE_INFO_STR(x,s) { const char *string_test = x; const char *string2_test = s; fprintf(TRACE_OUT_STREAM,"%s%s %s\n",TRACE_INDENT_INFO,string_test,string2_test); }
+#define TRACE_INFO_STR(x,s) { const char *string_test = (x); const char *string2_test = (s); fprintf(TRACE_OUT_STREAM,"%s%s %s\n",TRACE_INDENT_INFO,string_test,string2_test); }
 
 /*!
  *  \brief traces a string and a double
  */
-#define TRACE_INFO_FLT(x,r) { const char *string_test = x; const double real_test = r; fprintf(TRACE_OUT_STREAM,"%s%s %f\n",TRACE_INDENT_INFO,string_test,real_test); }
+#define TRACE_INFO_FLT(x,r) { const char *string_test = (x); const double real_test = (r); fprintf(TRACE_OUT_STREAM,"%s%s %f\n",TRACE_INDENT_INFO,string_test,real_test); }
 
 /*!
  *  \brief traces a function start
@@ -85,7 +85,7 @@ extern const char trace_indent_pattern_info[TRACE_INDENT_STEP*TRACE_INDENT_MAX+T
 /*!
  *  \brief traces a function return and an error code if the error does not equal 0
  */
-#define TRACE_END_ERR(e) { if ( e==0 ) {TRACE_END();} else { trace_indent_depth--; const int int_test = e; fprintf(TRACE_OUT_STREAM,"%s%s [end] ERR=0x%x\n",TRACE_INDENT_END,__func__,int_test); }}
+#define TRACE_END_ERR(e) { const int int_test = (e); if ( int_test==0 ) {TRACE_END();} else { trace_indent_depth--; fprintf(TRACE_OUT_STREAM,"%s%s [end] ERR=0x%x\n",TRACE_INDENT_END,__func__,int_test); }}
 
 /*!
  *  \brief ensures to flush all data.
@@ -119,37 +119,37 @@ extern const char trace_indent_pattern_info[TRACE_INDENT_STEP*TRACE_INDENT_MAX+T
 /*!
  *  \brief traces a string
  */
-#define TRACE_INFO(x) { const char *string_test ATTR_UNUSED = x; }
+#define TRACE_INFO(x) { const char *string_test ATTR_UNUSED = (x); }
 
 /*!
  *  \brief traces a string and an integer
  */
-#define TRACE_INFO_INT(x,i) { const char *string_test ATTR_UNUSED = x; const int int_test ATTR_UNUSED = i; }
+#define TRACE_INFO_INT(x,i) { const char *string_test ATTR_UNUSED = (x); const int int_test ATTR_UNUSED = (i); }
 
 /*!
  *  \brief traces a string and two integers
  */
-#define TRACE_INFO_INT_INT(x,i,j) { const char *string_test ATTR_UNUSED = x; const int int_test ATTR_UNUSED = i; const int int_test2 ATTR_UNUSED = j; }
+#define TRACE_INFO_INT_INT(x,i,j) { const char *string_test ATTR_UNUSED = (x); const int int_test ATTR_UNUSED = (i); const int int_test2 ATTR_UNUSED = (j); }
 
 /*!
  *  \brief traces a string and a hexadecimal integer
  */
-#define TRACE_INFO_HEX(x,i) { const char *string_test ATTR_UNUSED = x; const int int_test ATTR_UNUSED = i; }
+#define TRACE_INFO_HEX(x,i) { const char *string_test ATTR_UNUSED = (x); const int int_test ATTR_UNUSED = (i); }
 
 /*!
  *  \brief traces a string and a pointer
  */
-#define TRACE_INFO_PTR(x,p) { const char *string_test ATTR_UNUSED = x; const void *ptr_test ATTR_UNUSED = p; }
+#define TRACE_INFO_PTR(x,p) { const char *string_test ATTR_UNUSED = (x); const void *ptr_test ATTR_UNUSED = (p); }
 
 /*!
  *  \brief traces a string and and an information string
  */
-#define TRACE_INFO_STR(x,s) { const char *string_test ATTR_UNUSED = x; const char *string2_test ATTR_UNUSED = s; }
+#define TRACE_INFO_STR(x,s) { const char *string_test ATTR_UNUSED = (x); const char *string2_test ATTR_UNUSED = (s); }
 
 /*!
  *  \brief traces a string and a double
  */
-#define TRACE_INFO_FLT(x,r) { const char *string_test ATTR_UNUSED = x; const double real_test ATTR_UNUSED = r; }
+#define TRACE_INFO_FLT(x,r) { const char *string_test ATTR_UNUSED = (x); const double real_test ATTR_UNUSED = (r); }
 
 /*!
  *  \brief traces a function start
@@ -166,7 +166,7 @@ extern const char trace_indent_pattern_info[TRACE_INDENT_STEP*TRACE_INDENT_MAX+T
 /*!
  *  \brief traces a function return and an error code if the error does not equal 0
  */
-#define TRACE_END_ERR(e) { const int int_test ATTR_UNUSED = e; }
+#define TRACE_END_ERR(e) { const int int_test ATTR_UNUSED = (e); }
 
 /*!
  *  \brief ensures to flush all data.

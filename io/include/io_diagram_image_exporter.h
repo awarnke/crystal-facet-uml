@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Exports a single diagram
+ *  \brief Exports a single diagram to a single file
  */
 
 #include "io_file_format.h"

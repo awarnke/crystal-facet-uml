@@ -10,6 +10,7 @@ static inline void data_search_result_list_init ( data_search_result_list_t *thi
                                sizeof(data_search_result_t),
                                sizeof(data_search_result_t),
                                (void (*)(void *, const void *)) data_search_result_copy,
+                               NULL,
                                NULL
                              );
 }

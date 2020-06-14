@@ -677,10 +677,10 @@ int io_format_writer_write_toc_entry ( io_format_writer_t *this_, const data_dia
         case IO_FILE_FORMAT_XHTML:
         {
             const char *const diag_name = data_diagram_get_name_ptr(diag_ptr);
-            const int64_t diag_id = data_diagram_get_id(diag_ptr);
+            const data_id_t diag_id = data_diagram_get_data_id(diag_ptr);
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_ENTRY_TITLE_START );
-            export_err |= xml_writer_write_plain_id ( &((*this_).xml_writer), DATA_TABLE_DIAGRAM, diag_id );
+            export_err |= xml_writer_write_plain_id ( &((*this_).xml_writer), diag_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_ENTRY_TITLE_MIDDLE );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_ENTRY_TITLE_END );
@@ -750,7 +750,7 @@ int io_format_writer_end_toc_sublist ( io_format_writer_t *this_ )
     return export_err;
 }
 
-int io_format_writer_start_diagram( io_format_writer_t *this_, int64_t diag_id )
+int io_format_writer_start_diagram( io_format_writer_t *this_, data_id_t diag_id )
 {
     TRACE_BEGIN();
     int export_err = 0;
@@ -763,7 +763,7 @@ int io_format_writer_start_diagram( io_format_writer_t *this_, int64_t diag_id )
         case IO_FILE_FORMAT_DOCBOOK:
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_START : DOCBOOK_DIAGRAM_START );
-            export_err |= xml_writer_write_plain_id ( &((*this_).xml_writer), DATA_TABLE_DIAGRAM, diag_id );
+            export_err |= xml_writer_write_plain_id ( &((*this_).xml_writer), diag_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_MIDDLE : DOCBOOK_DIAGRAM_MIDDLE );
         }
         break;
@@ -771,7 +771,7 @@ int io_format_writer_start_diagram( io_format_writer_t *this_, int64_t diag_id )
         case IO_FILE_FORMAT_XMI2:
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n\n<!-- " );
-            export_err |= xml_writer_write_plain_id ( &((*this_).xml_writer), DATA_TABLE_DIAGRAM, diag_id );
+            export_err |= xml_writer_write_plain_id ( &((*this_).xml_writer), diag_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
         }
         break;
@@ -779,7 +779,7 @@ int io_format_writer_start_diagram( io_format_writer_t *this_, int64_t diag_id )
         case IO_FILE_FORMAT_XHTML:
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_START );
-            export_err |= xml_writer_write_plain_id ( &((*this_).xml_writer), DATA_TABLE_DIAGRAM, diag_id );
+            export_err |= xml_writer_write_plain_id ( &((*this_).xml_writer), diag_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_MIDDLE );
         }
         break;
@@ -817,7 +817,7 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
 
     const char *const diag_name = data_diagram_get_name_ptr( diag_ptr );
     const char *const diag_description = data_diagram_get_description_ptr( diag_ptr );
-    const int64_t diag_id = data_diagram_get_id(diag_ptr);
+    const data_id_t diag_id = data_diagram_get_data_id(diag_ptr);
 
     switch ( (*this_).export_type )
     {
@@ -870,7 +870,6 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
             export_err |= txt_writer_write_plain ( &((*this_).txt_writer), diag_name );
             export_err |= txt_writer_write_indent_id( &((*this_).txt_writer),
                                                       TXT_ID_INDENT_COLUMN - utf8string_get_length(diag_name),
-                                                      DATA_TABLE_DIAGRAM,
                                                       diag_id
                                                     );
             export_err |= txt_writer_write_plain ( &((*this_).txt_writer), TXT_NEWLINE );
@@ -948,7 +947,7 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
     const size_t classifier_stereo_len = utf8string_get_length(classifier_stereo);
     const char *const classifier_descr = data_classifier_get_description_ptr(classifier_ptr);
     const size_t classifier_descr_len = utf8string_get_length(classifier_descr);
-    const int64_t classifier_id = data_classifier_get_id(classifier_ptr);
+    const data_id_t classifier_id = data_classifier_get_data_id(classifier_ptr);
     const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier_ptr);
 
     switch ( (*this_).export_type )
@@ -960,10 +959,7 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_START );
-            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                     DATA_TABLE_CLASSIFIER,
-                                                     classifier_id
-                                                   );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_END );
             if ( 0 != classifier_descr_len )
             {
@@ -983,10 +979,7 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), c_type );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_START );
-            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                     DATA_TABLE_CLASSIFIER,
-                                                     classifier_id
-                                                   );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
@@ -1003,25 +996,19 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
                                                        "        <!-- note: export of stereotypes is subject to change -->\n"
                                                      );
-                data_id_t ele_id;
-                data_id_init( &ele_id, DATA_TABLE_CLASSIFIER, classifier_id );
 /* TODO */                export_err |= io_format_writer_private_write_xmi_comment( this_,
-/* TODO */                                                                          &ele_id,
+/* TODO */                                                                          classifier_id,
 /* TODO */                                                                          "stereotype",
 /* TODO */                                                                          classifier_stereo
 /* TODO */                                                                        );
-                data_id_destroy( &ele_id );
             }
             if ( 0 != classifier_descr_len )
             {
-                data_id_t ele_id;
-                data_id_init( &ele_id, DATA_TABLE_CLASSIFIER, classifier_id );
                 export_err |= io_format_writer_private_write_xmi_comment( this_,
-                                                                          &ele_id,
+                                                                          classifier_id,
                                                                           "specification",
                                                                           classifier_descr
                                                                         );
-                data_id_destroy( &ele_id );
             }
         }
         break;
@@ -1033,10 +1020,7 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_NAME_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_START );
-            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                     DATA_TABLE_CLASSIFIER,
-                                                     classifier_id
-                                                   );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_END );
             if ( 0 != classifier_descr_len )
             {
@@ -1054,7 +1038,6 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
             export_err |= txt_writer_write_plain ( &((*this_).txt_writer), classifier_name );
             export_err |= txt_writer_write_indent_id( &((*this_).txt_writer),
                                                       TXT_ID_INDENT_COLUMN - utf8string_get_length(classifier_name),
-                                                      DATA_TABLE_CLASSIFIER,
                                                       classifier_id
                                                     );
             export_err |= txt_writer_write_plain ( &((*this_).txt_writer), TXT_NEWLINE );
@@ -1088,7 +1071,7 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
     const size_t feature_value_len = utf8string_get_length(feature_value);
     const char *const feature_descr = data_feature_get_description_ptr( feature_ptr );
     const size_t feature_descr_len = utf8string_get_length(feature_descr);
-    const int64_t feature_id = data_feature_get_id( feature_ptr );
+    const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
     const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
 
     switch ( (*this_).export_type )
@@ -1105,10 +1088,7 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
             }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_START );
-            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                     DATA_TABLE_FEATURE,
-                                                     feature_id
-                                                   );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), feature_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_END );
             if ( 0 != feature_descr_len )
             {
@@ -1128,10 +1108,7 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), f_type );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_START );
-            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                     DATA_TABLE_FEATURE,
-                                                     feature_id
-                                                   );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), feature_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_key );
@@ -1148,26 +1125,20 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
                                                        "        <!-- note: export of valuetypes is subject to change -->\n"
                                                      );
-                data_id_t ele_id;
-                data_id_init( &ele_id, DATA_TABLE_FEATURE, feature_id );
                 export_err |= io_format_writer_private_write_xmi_comment( this_,
-                                                                          &ele_id,
+                                                                          feature_id,
                                                                           "valuetype",
                                                                           feature_value
                                                                         );
-                data_id_destroy( &ele_id );
             }
 
             if ( 0 != feature_descr_len )
             {
-                data_id_t ele_id;
-                data_id_init( &ele_id, DATA_TABLE_FEATURE, feature_id );
                 export_err |= io_format_writer_private_write_xmi_comment( this_,
-                                                                          &ele_id,
+                                                                          feature_id,
                                                                           "specification",
                                                                           feature_descr
                                                                         );
-                data_id_destroy( &ele_id );
             }
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_ATTRIBUTE_END );
@@ -1185,10 +1156,7 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
             }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_START );
-            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                     DATA_TABLE_FEATURE,
-                                                     feature_id
-                                                   );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), feature_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_END );
             if ( 0 != feature_descr_len )
             {
@@ -1215,7 +1183,6 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
                 - ((feature_value_len==0)?0:feature_value_len+utf8string_get_length(TXT_COLON_SPACE));
             export_err |= txt_writer_write_indent_id( &((*this_).txt_writer),
                                                       id_indent_width,
-                                                      DATA_TABLE_FEATURE,
                                                       feature_id
                                                     );
             export_err |= txt_writer_write_plain ( &((*this_).txt_writer), TXT_NEWLINE );
@@ -1248,14 +1215,14 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
     int export_err = 0;
 
     const char *const relation_name = data_relationship_get_name_ptr( relation_ptr );
-    const int64_t relation_id = data_relationship_get_id( relation_ptr );
+    const data_id_t relation_id = data_relationship_get_data_id( relation_ptr );
     const char *const relation_descr = data_relationship_get_description_ptr( relation_ptr );
     const size_t relation_descr_len = utf8string_get_length(relation_descr);
     const char *const dest_classifier_name = data_classifier_get_name_ptr( dest_classifier_ptr );
-    const int64_t from_classifier_id = data_relationship_get_from_classifier_id( relation_ptr );
-    const int64_t from_feature_id = data_relationship_get_from_feature_id( relation_ptr );
-    const int64_t to_classifier_id = data_relationship_get_to_classifier_id( relation_ptr );
-    const int64_t to_feature_id = data_relationship_get_to_feature_id( relation_ptr );
+    const data_id_t from_classifier_id = data_relationship_get_from_classifier_data_id( relation_ptr );
+    const data_id_t from_feature_id = data_relationship_get_from_feature_data_id( relation_ptr );
+    const data_id_t to_classifier_id = data_relationship_get_to_classifier_data_id( relation_ptr );
+    const data_id_t to_feature_id = data_relationship_get_to_feature_data_id( relation_ptr );
     const data_relationship_type_t relation_type = data_relationship_get_main_type( relation_ptr );
 
     switch ( (*this_).export_type )
@@ -1273,10 +1240,7 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), dest_classifier_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_START );
-            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                     DATA_TABLE_RELATIONSHIP,
-                                                     relation_id
-                                                   );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), relation_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_END );
             if ( 0 != relation_descr_len )
             {
@@ -1300,10 +1264,7 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), r_type );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_START );
-            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                     DATA_TABLE_RELATIONSHIP,
-                                                     relation_id
-                                                   );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), relation_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
@@ -1317,32 +1278,23 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
 
             if ( 0 != relation_descr_len )
             {
-                data_id_t ele_id;
-                data_id_init( &ele_id, DATA_TABLE_RELATIONSHIP, relation_id );
                 export_err |= io_format_writer_private_write_xmi_comment( this_,
-                                                                          &ele_id,
+                                                                          relation_id,
                                                                           "specification",
                                                                           relation_descr
                                                                         );
-                data_id_destroy( &ele_id );
             }
 
             /* source */
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MEMBER_END_START );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_START );
-            if ( from_feature_id == DATA_ID_VOID_ID )
+            if ( data_id_is_valid( &from_feature_id ) )
             {
-                export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                         DATA_TABLE_CLASSIFIER,
-                                                         from_classifier_id
-                                                       );
+                export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), from_feature_id );
             }
             else
             {
-                export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                         DATA_TABLE_FEATURE,
-                                                         from_feature_id
-                                                       );
+                export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), from_classifier_id );
             }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MEMBER_END_END );
@@ -1350,19 +1302,13 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
             /* destination */
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MEMBER_END_START );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_START );
-            if ( to_feature_id == DATA_ID_VOID_ID )
+            if ( data_id_is_valid( &to_feature_id ) )
             {
-                export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                         DATA_TABLE_CLASSIFIER,
-                                                         to_classifier_id
-                                                       );
+                export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), to_feature_id );
             }
             else
             {
-                export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                         DATA_TABLE_FEATURE,
-                                                         to_feature_id
-                                                       );
+                export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), to_classifier_id );
             }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MEMBER_END_END );
@@ -1381,10 +1327,7 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), TXT_SPACE_ARROW_SPACE );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), dest_classifier_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_START );
-            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                     DATA_TABLE_RELATIONSHIP,
-                                                     relation_id
-                                                   );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), relation_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_END );
             if ( 0 != relation_descr_len )
             {
@@ -1423,7 +1366,6 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
                 - dest_classifier_name_len;
             export_err |= txt_writer_write_indent_id( &((*this_).txt_writer),
                                                       id_indent_width,
-                                                      DATA_TABLE_RELATIONSHIP,
                                                       relation_id
                                                     );
 
@@ -1608,13 +1550,12 @@ int io_format_writer_write_footer( io_format_writer_t *this_ )
 }
 
 int io_format_writer_private_write_xmi_comment( io_format_writer_t *this_,
-                                                data_id_t *element_id,
+                                                data_id_t element_id,
                                                 const char *comment_type,
                                                 const char *comment )
 
 {
     TRACE_BEGIN();
-    assert( NULL != element_id );
     assert( NULL != comment_type );
     assert( NULL != comment );
     int export_err = 0;
@@ -1630,10 +1571,7 @@ int io_format_writer_private_write_xmi_comment( io_format_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_END );
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_START );
-            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                     data_id_get_table( element_id ),
-                                                     data_id_get_row_id( element_id )
-                                                   );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), element_id );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), "#" );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), comment_type );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_END );
@@ -1655,10 +1593,7 @@ int io_format_writer_private_write_xmi_comment( io_format_writer_t *this_,
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_ANNOTATED_ELEMENT_START );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_START );
-            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                     data_id_get_table( element_id ),
-                                                     data_id_get_row_id( element_id )
-                                                   );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), element_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_ANNOTATED_ELEMENT_END );
 

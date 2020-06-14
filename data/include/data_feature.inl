@@ -110,6 +110,13 @@ static inline void data_feature_set_id ( data_feature_t *this_, int64_t id )
     (*this_).id = id;
 }
 
+static inline data_id_t data_feature_get_data_id ( const data_feature_t *this_ )
+{
+    data_id_t result;
+    data_id_init ( &result, DATA_TABLE_FEATURE, (*this_).id );
+    return result;
+}
+
 static inline int64_t data_feature_get_classifier_id ( const data_feature_t *this_ )
 {
     return (*this_).classifier_id;

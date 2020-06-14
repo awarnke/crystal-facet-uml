@@ -190,6 +190,13 @@ static inline void data_classifier_set_id ( data_classifier_t *this_, int64_t id
     (*this_).id = id;
 }
 
+static inline data_id_t data_classifier_get_data_id ( const data_classifier_t *this_ )
+{
+    data_id_t result;
+    data_id_init ( &result, DATA_TABLE_CLASSIFIER, (*this_).id );
+    return result;
+}
+
 static inline data_classifier_type_t data_classifier_get_main_type ( const data_classifier_t *this_ )
 {
     return (*this_).main_type;

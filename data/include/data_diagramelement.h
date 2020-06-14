@@ -10,6 +10,7 @@
  */
 
 #include "data_diagramelement_flag.h"
+#include "data_id.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -148,6 +149,14 @@ static inline int64_t data_diagramelement_get_id ( const data_diagramelement_t *
  *  \param id new id of this object
  */
 static inline void data_diagramelement_set_id ( data_diagramelement_t *this_, int64_t id );
+
+/*!
+ *  \brief gets the data_id derived from the id attribute
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return data_id denoting this object
+ */
+static inline data_id_t data_diagramelement_get_data_id ( const data_diagramelement_t *this_ );
 
 /*!
  *  \brief gets the attribute diagram_id

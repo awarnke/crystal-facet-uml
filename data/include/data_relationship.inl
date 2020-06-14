@@ -105,6 +105,13 @@ static inline void data_relationship_set_id ( data_relationship_t *this_, int64_
     (*this_).id = id;
 }
 
+static inline data_id_t data_relationship_get_data_id ( const data_relationship_t *this_ )
+{
+    data_id_t result;
+    data_id_init ( &result, DATA_TABLE_RELATIONSHIP, (*this_).id );
+    return result;
+}
+
 static inline int64_t data_relationship_get_from_classifier_id ( const data_relationship_t *this_ )
 {
     return (*this_).from_classifier_id;
@@ -113,6 +120,13 @@ static inline int64_t data_relationship_get_from_classifier_id ( const data_rela
 static inline void data_relationship_set_from_classifier_id ( data_relationship_t *this_, int64_t from_classifier_id )
 {
     (*this_).from_classifier_id = from_classifier_id;
+}
+
+static inline data_id_t data_relationship_get_from_classifier_data_id ( const data_relationship_t *this_ )
+{
+    data_id_t result;
+    data_id_init ( &result, DATA_TABLE_RELATIONSHIP, (*this_).from_classifier_id );
+    return result;
 }
 
 static inline int64_t data_relationship_get_from_feature_id ( const data_relationship_t *this_ )
@@ -125,6 +139,13 @@ static inline void data_relationship_set_from_feature_id ( data_relationship_t *
     (*this_).from_feature_id = from_feature_id;
 }
 
+static inline data_id_t data_relationship_get_from_feature_data_id ( const data_relationship_t *this_ )
+{
+    data_id_t result;
+    data_id_init ( &result, DATA_TABLE_RELATIONSHIP, (*this_).from_feature_id );
+    return result;
+}
+
 static inline int64_t data_relationship_get_to_classifier_id ( const data_relationship_t *this_ )
 {
     return (*this_).to_classifier_id;
@@ -135,6 +156,13 @@ static inline void data_relationship_set_to_classifier_id ( data_relationship_t 
     (*this_).to_classifier_id = to_classifier_id;
 }
 
+static inline data_id_t data_relationship_get_to_classifier_data_id ( const data_relationship_t *this_ )
+{
+    data_id_t result;
+    data_id_init ( &result, DATA_TABLE_RELATIONSHIP, (*this_).to_classifier_id );
+    return result;
+}
+
 static inline int64_t data_relationship_get_to_feature_id ( const data_relationship_t *this_ )
 {
     return (*this_).to_feature_id;
@@ -143,6 +171,13 @@ static inline int64_t data_relationship_get_to_feature_id ( const data_relations
 static inline void data_relationship_set_to_feature_id ( data_relationship_t *this_, int64_t to_feature_id )
 {
     (*this_).to_feature_id = to_feature_id;
+}
+
+static inline data_id_t data_relationship_get_to_feature_data_id ( const data_relationship_t *this_ )
+{
+    data_id_t result;
+    data_id_init ( &result, DATA_TABLE_RELATIONSHIP, (*this_).to_feature_id );
+    return result;
 }
 
 static inline data_relationship_type_t data_relationship_get_main_type ( const data_relationship_t *this_ )

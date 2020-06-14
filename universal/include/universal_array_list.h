@@ -31,6 +31,7 @@ struct universal_array_list_struct {
 
     /* callbacks to elements */
     void (*copy_ctor)(void* to_instance, const void* from_instance); /* the copy constructor of an element, needed to add */
+    bool (*equal)(const void* instance_1, const void* instance_2); /* the compare operator, needed for get_index_of */
     void (*dtor)(void* instance); /* the destructor of an element, needed to remove and clear */
 };
 
@@ -45,6 +46,7 @@ typedef struct universal_array_list_struct universal_array_list_t;
  *  \param element_size size in bytes of a single element (the base type, without padding for alignment)
  *  \param step_size number of bytes from one array antry to the next (this may be equal to element_size or bigger in case of padding)
  *  \param copy_ctor a function that copies an element, NULL if memcpy shall be used.
+ *  \param equal a compare function, NULL if memcmp shall be used.
  *  \param dtor a function that destroys an element, NULL if no cleanup necessary.
  */
 static inline void universal_array_list_init ( universal_array_list_t *this_,
@@ -53,6 +55,7 @@ static inline void universal_array_list_init ( universal_array_list_t *this_,
                                                size_t element_size,
                                                ptrdiff_t step_size,
                                                void (*copy_ctor)(void* to_instance, const void* from_instance),
+                                               bool (*equal)(const void* instance_1, const void* instance_2),
                                                void (*dtor)(void* instance)
                                              );
 
@@ -112,6 +115,15 @@ static inline void *universal_array_list_get_ptr ( universal_array_list_t *this_
  *  \return pointer to the element, NULL if index is invalid
  */
 static inline void const *universal_array_list_get_const ( const universal_array_list_t *this_, unsigned int index );
+
+/*!
+ *  \brief returns the index of the given element
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param element element to be searched. Only a valid object can be searched, NULL is not allowed.
+ *  \return index of the element, -1 if element is not in the list
+ */
+static inline int universal_array_list_get_index_of ( const universal_array_list_t *this_, const void* element );
 
 /*!
  *  \brief clears the universal_array_list_t and all contained elements
