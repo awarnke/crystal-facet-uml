@@ -127,6 +127,13 @@ static inline void data_feature_set_classifier_id ( data_feature_t *this_, int64
     (*this_).classifier_id = classifier_id;
 }
 
+static inline data_id_t data_feature_get_classifier_data_id ( const data_feature_t *this_ )
+{
+    data_id_t result;
+    data_id_init ( &result, DATA_TABLE_CLASSIFIER, (*this_).classifier_id );
+    return result;
+}
+
 static inline data_feature_type_t data_feature_get_main_type ( const data_feature_t *this_ )
 {
     return (*this_).main_type;

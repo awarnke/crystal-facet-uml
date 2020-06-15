@@ -81,22 +81,22 @@ static inline void universal_array_list_trace ( const universal_array_list_t *th
 static inline bool universal_array_list_is_empty ( const universal_array_list_t *this_ );
 
 /*!
- *  \brief adds an element to universal_array_list_t
+ *  \brief appends an element to universal_array_list_t
  *
  *  \param this_ pointer to own object attributes
  *  \param element element to be added. Only a valid object can be added, NULL is not allowed.
  *  \return -1 if list is full, 0 on success
  */
-static inline int universal_array_list_add ( universal_array_list_t *this_, const void* element );
+static inline int universal_array_list_append ( universal_array_list_t *this_, const void* element );
 
 /*!
- *  \brief adds all elements of that to universal_array_list_t
+ *  \brief appends all elements of that to universal_array_list_t
  *
  *  \param this_ pointer to own object attributes
- *  \param that list of element to be added.
+ *  \param that list of elements to be added.
  *  \return -1 if list is full, 0 on success
  */
-static inline int universal_array_list_add_all ( universal_array_list_t *this_, const universal_array_list_t *that );
+static inline int universal_array_list_append_all ( universal_array_list_t *this_, const universal_array_list_t *that );
 
 /*!
  *  \brief returns an element

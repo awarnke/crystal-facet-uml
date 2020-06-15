@@ -1,6 +1,7 @@
 /* File: io_exporter.c; Copyright and License: see below */
 
 #include "io_exporter.h"
+#include "io_filter_flag.h"
 #include "stream/universal_file_output_stream.h"
 #include "stream/universal_output_stream.h"
 #include "trace.h"
@@ -26,7 +27,7 @@ void io_exporter_init ( io_exporter_t *this_,
     (*this_).temp_filename = utf8stringbuf_init( sizeof((*this_).temp_filename_buf), (*this_).temp_filename_buf );
 
     data_visible_set_init( &((*this_).input_data) );
-    io_diagram_text_exporter_init( &((*this_).diagram_text_exporter), &((*this_).input_data) );
+    io_diagram_text_exporter_init( &((*this_).diagram_text_exporter), IO_FILTER_FLAG_NONE, &((*this_).input_data) );
     io_diagram_image_exporter_init( &((*this_).diagram_image_exporter ), &((*this_).input_data) );
 
     TRACE_END();
@@ -219,7 +220,10 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
                 int write_err;
 
                 /* reset the diagram_text_exporter */
-                io_diagram_text_exporter_reinit( &((*this_).diagram_text_exporter), &((*this_).input_data) );
+                io_diagram_text_exporter_reinit( &((*this_).diagram_text_exporter), 
+                                                 IO_FILTER_FLAG_LIFELINES | IO_FILTER_FLAG_HIDDEN,
+                                                 &((*this_).input_data)
+                                               );
                 /* write file */
                 io_format_writer_init( &((*this_).temp_format_writer ), (*this_).db_reader, IO_FILE_FORMAT_TXT, output );
                 write_err = io_diagram_text_exporter_write_all ( &((*this_).diagram_text_exporter), &((*this_).temp_format_writer ) );
@@ -338,7 +342,14 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         else
         {
             /* reset the diagram_text_exporter */
-            io_diagram_text_exporter_reinit( &((*this_).diagram_text_exporter), &((*this_).input_data) );
+            const io_filter_flag_t filter_flags
+                = (IO_FILE_FORMAT_XMI2==export_type) 
+                ? IO_FILTER_FLAG_DUPLICATES 
+                : (IO_FILTER_FLAG_LIFELINES | IO_FILTER_FLAG_HIDDEN);
+            io_diagram_text_exporter_reinit( &((*this_).diagram_text_exporter), 
+                                             filter_flags,
+                                             &((*this_).input_data)
+                                           );
             /* write the document */
             export_err |= io_format_writer_write_header( &((*this_).temp_format_writer), document_file_name );
             export_err |= io_exporter_private_export_table_of_contents( this_, DATA_ID_VOID_ID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, &((*this_).temp_format_writer) );

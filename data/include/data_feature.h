@@ -150,6 +150,14 @@ static inline int64_t data_feature_get_classifier_id ( const data_feature_t *thi
 static inline void data_feature_set_classifier_id ( data_feature_t *this_, int64_t classifier_id );
 
 /*!
+ *  \brief gets the data_id derived from the classifier_id attribute
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return data_id denoting the classifier_id
+ */
+static inline data_id_t data_feature_get_classifier_data_id ( const data_feature_t *this_ );
+
+/*!
  *  \brief gets the attribute main_type
  *
  *  \param this_ pointer to own object attributes

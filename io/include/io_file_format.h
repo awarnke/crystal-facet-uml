@@ -1,7 +1,7 @@
 /* File: io_file_format.h; Copyright and License: see below */
 
-#ifndef IO_FILE_FORMAT
-#define IO_FILE_FORMAT
+#ifndef IO_FILE_FORMAT_H
+#define IO_FILE_FORMAT_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -31,7 +31,7 @@ typedef enum io_file_format_enum io_file_format_t;
 
 void io_file_format_to_string( io_file_format_t format_set, utf8stringbuf_t out_fileformat );
 
-#endif  /* IO_FILE_FORMAT */
+#endif  /* IO_FILE_FORMAT_H */
 
 
 /*

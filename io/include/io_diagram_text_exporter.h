@@ -10,6 +10,7 @@
  */
 
 #include "io_format_writer.h"
+#include "io_filter_flag.h"
 #include "set/data_visible_set.h"
 #include "data_table.h"
 #include "data_rules.h"
@@ -23,6 +24,7 @@ struct io_diagram_text_exporter_struct {
     /*data_database_reader_t *db_reader;*/  /* !< pointer to external database reader */
     const data_visible_set_t *input_data;  /*!< pointer to an external data cache */
     data_rules_t filter_rules;  /*!< own instance of uml and sysml consistency rules */
+    io_filter_flag_t filter_flags;  /*!< flags indicating which elements shall be exported */
     
     data_id_t written_id_set_buf[50000];  /*!< buffer for list of already exported element ids */
     universal_array_list_t written_id_set;  /*!< list of already exported element ids */
@@ -34,17 +36,25 @@ typedef struct io_diagram_text_exporter_struct io_diagram_text_exporter_t;
  *  \brief initializes the io_diagram_text_exporter_t
  *
  *  \param this_ pointer to own object attributes
+ *  \param filter_flags flags indicating which elements shall be exported
  *  \param input_data pointer to the (cached) data to be rendered
  */
-void io_diagram_text_exporter_init( io_diagram_text_exporter_t *this_, const data_visible_set_t *input_data );
+void io_diagram_text_exporter_init( io_diagram_text_exporter_t *this_, 
+                                    io_filter_flag_t filter_flags, 
+                                    const data_visible_set_t *input_data
+                                  );
 
 /*!
  *  \brief re-initializes the io_diagram_text_exporter_t
  *
  *  \param this_ pointer to own object attributes
+ *  \param filter_flags flags indicating which elements shall be exported
  *  \param input_data pointer to the (cached) data to be rendered
  */
-void io_diagram_text_exporter_reinit( io_diagram_text_exporter_t *this_, const data_visible_set_t *input_data );
+void io_diagram_text_exporter_reinit( io_diagram_text_exporter_t *this_, 
+                                      io_filter_flag_t filter_flags, 
+                                      const data_visible_set_t *input_data 
+                                    );
 
 /*!
  *  \brief destroys the io_diagram_text_exporter_t
@@ -80,7 +90,7 @@ int io_diagram_text_exporter_write_classifiers ( io_diagram_text_exporter_t *thi
  *  \return -1 in case of error, 0 in case of success
  */
 int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_text_exporter_t *this_,
-                                                                    int64_t classifier_id,
+                                                                    data_id_t classifier_id,
                                                                     io_format_writer_t *format_writer
                                                                   );
 
@@ -93,7 +103,7 @@ int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_t
  *  \return -1 in case of error, 0 in case of success
  */
 int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_text_exporter_t *this_,
-                                                                     int64_t from_classifier_id,
+                                                                     data_id_t from_classifier_id,
                                                                      io_format_writer_t *format_writer
                                                                    );
 

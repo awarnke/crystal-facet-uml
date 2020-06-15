@@ -58,7 +58,7 @@ static inline bool universal_array_list_is_empty ( const universal_array_list_t 
     return ( 0 == (*this_).length );
 }
 
-static inline int universal_array_list_add ( universal_array_list_t *this_, const void* element )
+static inline int universal_array_list_append ( universal_array_list_t *this_, const void* element )
 {
     assert( (*this_).length <= (*this_).max_elements );
     assert( (*this_).elements != NULL );
@@ -88,7 +88,7 @@ static inline int universal_array_list_add ( universal_array_list_t *this_, cons
     return err_result;
 }
 
-static inline int universal_array_list_add_all ( universal_array_list_t *this_, const universal_array_list_t *that )
+static inline int universal_array_list_append_all ( universal_array_list_t *this_, const universal_array_list_t *that )
 {
     assert( that != NULL );
 
@@ -96,7 +96,7 @@ static inline int universal_array_list_add_all ( universal_array_list_t *this_, 
     const unsigned int len = universal_array_list_get_length(that);
     for ( unsigned int idx = 0; (idx < len)&&(err_result == 0); idx ++ )
     {
-        err_result = universal_array_list_add( this_, universal_array_list_get_const( that, idx ) );
+        err_result = universal_array_list_append( this_, universal_array_list_get_const( that, idx ) );
     }
 
     return err_result;

@@ -8,11 +8,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void io_diagram_text_exporter_init( io_diagram_text_exporter_t *this_, const data_visible_set_t *input_data )
+void io_diagram_text_exporter_init( io_diagram_text_exporter_t *this_,
+                                    io_filter_flag_t filter_flags,  
+                                    const data_visible_set_t *input_data )
 {
     TRACE_BEGIN();
     assert( NULL != input_data );
 
+    (*this_).filter_flags = filter_flags;
     (*this_).input_data = input_data;
     data_rules_init ( &((*this_).filter_rules) );
 
@@ -29,11 +32,13 @@ void io_diagram_text_exporter_init( io_diagram_text_exporter_t *this_, const dat
     TRACE_END();
 }
 
-void io_diagram_text_exporter_reinit( io_diagram_text_exporter_t *this_, const data_visible_set_t *input_data )
+void io_diagram_text_exporter_reinit( io_diagram_text_exporter_t *this_,
+                                      io_filter_flag_t filter_flags,
+                                      const data_visible_set_t *input_data )
 {
     TRACE_BEGIN();
     io_diagram_text_exporter_destroy( this_ );
-    io_diagram_text_exporter_init( this_, input_data );
+    io_diagram_text_exporter_init( this_, filter_flags, input_data );
     TRACE_END();
 }
 
@@ -98,26 +103,45 @@ int io_diagram_text_exporter_write_classifiers ( io_diagram_text_exporter_t *thi
         {
             const data_classifier_t *classifier;
             classifier = data_visible_classifier_get_classifier_const( visible_classifier );
-            const int64_t classifier_id = data_classifier_get_id(classifier);
-            TRACE_INFO_INT( "printing classifier with id", classifier_id );
+            const data_id_t classifier_id = data_classifier_get_data_id(classifier);
+            TRACE_INFO_INT( "printing classifier with id", data_id_get_row_id( &classifier_id ) );
 
-            /* start classifier */
-            write_err |=  io_format_writer_start_classifier( format_writer );
+            /* determine if the classifier is a duplicate */
+            const bool duplicate_classifier
+                =( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &classifier_id ) );
+            const bool filter_duplicates
+                = ( 0 != (IO_FILTER_FLAG_DUPLICATES & (*this_).filter_flags) );
+            const bool filter_classifier
+                = ( duplicate_classifier && filter_duplicates );
+            
+            if ( ! filter_classifier )
+            {
+                /* add classifier to duplicates-list */
+                if ( ! duplicate_classifier )
+                {
+                    write_err |= universal_array_list_append( &((*this_).written_id_set), &classifier_id );
+                }
+                
+                /* start classifier */
+                write_err |= io_format_writer_start_classifier( format_writer );
 
-            write_err |=  io_format_writer_write_classifier( format_writer, classifier );
+                write_err |= io_format_writer_write_classifier( format_writer, classifier );
 
-            /* print all features of the classifier */
-            write_err |= io_diagram_text_exporter_private_write_features_of_classifier( this_,
-                                                                                        classifier_id,
-                                                                                        format_writer );
+                /* print all features of the classifier */
+                write_err |= io_diagram_text_exporter_private_write_features_of_classifier( this_,
+                                                                                            classifier_id,
+                                                                                            format_writer
+                                                                                          );
 
-            /* end classifier */
-            write_err |=  io_format_writer_end_classifier( format_writer );
-
+                /* end classifier */
+                write_err |=  io_format_writer_end_classifier( format_writer );
+            }
+            
             /* print all relationships starting from classifier_id */
             write_err |= io_diagram_text_exporter_private_write_relations_of_classifier( this_,
                                                                                          classifier_id,
-                                                                                         format_writer );
+                                                                                         format_writer
+                                                                                       );
         }
         else
         {
@@ -130,12 +154,13 @@ int io_diagram_text_exporter_write_classifiers ( io_diagram_text_exporter_t *thi
 }
 
 int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_text_exporter_t *this_,
-                                                                    int64_t classifier_id,
+                                                                    data_id_t classifier_id,
                                                                     io_format_writer_t *format_writer )
 {
     TRACE_BEGIN();
     assert( NULL != format_writer );
-    assert( DATA_ID_VOID_ID != classifier_id );
+    assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &classifier_id ) );
+    assert( DATA_ID_VOID_ID != data_id_get_row_id( &classifier_id) );
     int write_err = 0;
 
     /* iterate over all features */
@@ -148,14 +173,26 @@ int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_t
         feature = data_visible_set_get_feature_const ( (*this_).input_data, index );
         if (( feature != NULL ) && ( data_feature_is_valid( feature ) ))
         {
-            if ( classifier_id == data_feature_get_classifier_id( feature ) )
+            const data_id_t f_classifier_id = data_feature_get_classifier_data_id( feature );
+            if ( data_id_equals( &classifier_id, &f_classifier_id ) )
             {
-                const bool show = data_rules_diagram_shows_feature ( &((*this_).filter_rules),
-                                                                     (*this_).input_data,
-                                                                     data_feature_get_id( feature )
-                                                                   );
-
-                if ( show && (DATA_FEATURE_TYPE_LIFELINE != data_feature_get_main_type( feature ) ))
+                const bool is_visible = data_rules_diagram_shows_feature ( &((*this_).filter_rules),
+                                                                           (*this_).input_data,
+                                                                           data_feature_get_id( feature )
+                                                                         );
+                const bool is_lifeline
+                    =( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( feature ) );
+                const bool filter_lifelines
+                    = ( 0 != (IO_FILTER_FLAG_LIFELINES & (*this_).filter_flags) );
+                const bool filter_hidden
+                    = ( 0 != (IO_FILTER_FLAG_HIDDEN & (*this_).filter_flags) );
+ 
+                const bool visible_filter_passed
+                    = is_visible || ( ! filter_hidden );
+                const bool lifeline_filter_passed
+                    =  ( ! is_lifeline ) || ( ! filter_lifelines );
+                
+                if ( visible_filter_passed && lifeline_filter_passed )
                 {
                     write_err |=  io_format_writer_write_feature( format_writer, feature );
                 }
@@ -172,12 +209,13 @@ int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_t
 }
 
 int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_text_exporter_t *this_,
-                                                                     int64_t from_classifier_id,
+                                                                     data_id_t from_classifier_id,
                                                                      io_format_writer_t *format_writer )
 {
     TRACE_BEGIN();
     assert( NULL != format_writer );
-    assert( DATA_ID_VOID_ID != from_classifier_id );
+    assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &from_classifier_id ) );
+    assert( DATA_ID_VOID_ID != data_id_get_row_id( &from_classifier_id) );
     int write_err = 0;
 
     /* iterate over all relationships */
@@ -190,14 +228,24 @@ int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_
         relation = data_visible_set_get_relationship_const ( (*this_).input_data, index );
         if (( relation != NULL ) && ( data_relationship_is_valid( relation ) ))
         {
-            if ( from_classifier_id == data_relationship_get_from_classifier_id( relation ) )
+            const data_id_t r_from_classifier_id = data_relationship_get_from_classifier_data_id( relation );
+            if ( data_id_equals( &from_classifier_id, &r_from_classifier_id ) )
             {
-                const bool show = data_rules_diagram_shows_relationship ( &((*this_).filter_rules),
-                                                                          (*this_).input_data,
-                                                                          data_relationship_get_id( relation )
-                                                                        );
+                const bool is_visible = data_rules_diagram_shows_relationship ( &((*this_).filter_rules),
+                                                                              (*this_).input_data,
+                                                                              data_relationship_get_id( relation )
+                                                                            );
 
-                if ( show )
+                /* determine if the relationship is a duplicate */
+                const data_id_t relation_id = data_relationship_get_data_id( relation );
+                const bool duplicate_relationship
+                    =( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &relation_id ) );
+                const bool filter_duplicates
+                    = ( 0 != (IO_FILTER_FLAG_DUPLICATES & (*this_).filter_flags) );
+                const bool filter_relationship
+                    = ( duplicate_relationship && filter_duplicates );
+                
+                if ( is_visible && ( ! filter_relationship ) )
                 {
                     const int64_t to_classifier_id = data_relationship_get_to_classifier_id( relation );
                     const data_classifier_t *dest_classifier = data_visible_set_get_classifier_by_id_const ( (*this_).input_data,
@@ -205,6 +253,12 @@ int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_
                                                                                                            );
                     if ( dest_classifier != NULL )
                     {
+                        /* add the relationship to the duplicates list */
+                        if ( ! duplicate_relationship )
+                        {
+                            write_err |= universal_array_list_append( &((*this_).written_id_set), &relation_id );
+                        }
+                        
                         /* destination classifier found, print the relation */
                         write_err |= io_format_writer_write_relationship( format_writer,
                                                                           relation,
@@ -213,7 +267,7 @@ int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_
                     }
                     else
                     {
-                        assert ( false );  /* show should not be true if dest_classifier == NULL */
+                        assert ( false );  /* is_visible should not be true if dest_classifier == NULL */
                     }
                 }
             }

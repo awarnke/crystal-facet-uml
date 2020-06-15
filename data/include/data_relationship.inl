@@ -125,7 +125,7 @@ static inline void data_relationship_set_from_classifier_id ( data_relationship_
 static inline data_id_t data_relationship_get_from_classifier_data_id ( const data_relationship_t *this_ )
 {
     data_id_t result;
-    data_id_init ( &result, DATA_TABLE_RELATIONSHIP, (*this_).from_classifier_id );
+    data_id_init ( &result, DATA_TABLE_CLASSIFIER, (*this_).from_classifier_id );
     return result;
 }
 
@@ -142,7 +142,7 @@ static inline void data_relationship_set_from_feature_id ( data_relationship_t *
 static inline data_id_t data_relationship_get_from_feature_data_id ( const data_relationship_t *this_ )
 {
     data_id_t result;
-    data_id_init ( &result, DATA_TABLE_RELATIONSHIP, (*this_).from_feature_id );
+    data_id_init ( &result, DATA_TABLE_FEATURE, (*this_).from_feature_id );
     return result;
 }
 
@@ -159,7 +159,7 @@ static inline void data_relationship_set_to_classifier_id ( data_relationship_t 
 static inline data_id_t data_relationship_get_to_classifier_data_id ( const data_relationship_t *this_ )
 {
     data_id_t result;
-    data_id_init ( &result, DATA_TABLE_RELATIONSHIP, (*this_).to_classifier_id );
+    data_id_init ( &result, DATA_TABLE_CLASSIFIER, (*this_).to_classifier_id );
     return result;
 }
 
@@ -176,7 +176,7 @@ static inline void data_relationship_set_to_feature_id ( data_relationship_t *th
 static inline data_id_t data_relationship_get_to_feature_data_id ( const data_relationship_t *this_ )
 {
     data_id_t result;
-    data_id_init ( &result, DATA_TABLE_RELATIONSHIP, (*this_).to_feature_id );
+    data_id_init ( &result, DATA_TABLE_FEATURE, (*this_).to_feature_id );
     return result;
 }
 

@@ -36,12 +36,12 @@ static inline bool data_search_result_list_is_empty ( const data_search_result_l
 
 static inline int data_search_result_list_add ( data_search_result_list_t *this_, const data_search_result_t* element )
 {
-    return universal_array_list_add( (universal_array_list_t*) this_, element );
+    return universal_array_list_append( (universal_array_list_t*) this_, element );
 }
 
 static inline int data_search_result_list_add_all ( data_search_result_list_t *this_, const data_search_result_list_t *that )
 {
-    return universal_array_list_add_all( (universal_array_list_t*) this_, (const universal_array_list_t*) that );
+    return universal_array_list_append_all( (universal_array_list_t*) this_, (const universal_array_list_t*) that );
 }
 
 static inline data_search_result_list_t *data_search_result_list_get_ptr ( data_search_result_list_t *this_, unsigned int index )
