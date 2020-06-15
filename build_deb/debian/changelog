@@ -1,3 +1,13 @@
+crystal-facet-uml (1.23.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * at operations cut, copy, paste and delete: print understandable statistics
+  * at operations undo, redo: print understandable statistics
+  * layouting of classifiers improved
+  * experimental xmi export
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 14 Jun 2020 17:30:00 +0200
+
 crystal-facet-uml (1.22.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

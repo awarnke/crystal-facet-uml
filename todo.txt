@@ -4,13 +4,11 @@ ideas for future versions:
       do not redraw 3 times when changing 3 attributes simultaneously. (especially at undo/redo)
   [ ] a "saveAs" or export-as-cfu1 command should allow to copy the current db
   [ ] next to the about button, a help button is needed that can provide context-sensitive information.
-  [ ] rename relationship types so that "source"-"rel-type-name"-"destination" is a correct sentence, see e.g. Realization/Generalization
   [ ] when opening the second database, the root diagram cannot be focused immediately
   [ ] show a progress bar while exporting diagrams
   [ ] update seach result view when changing the database (e.g. by undo)
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
-  [ ] when changing sets of objects (cut/copy/paste/delete/redo/undo...) print understandable statistics
   @pencil
   [ ] Support Diagram-Types: Profile
   [ ] exception+error flows to leave an interruptable area (activity diagrams)
@@ -23,8 +21,9 @@ ideas for future versions:
   [ ] activity diagrams need swimlanes/partitions
   [ ] component and artifact icons steal space from the "inner space" of the element
   @io
-  [ ] export formats: extend export formats by latex, asciidoc, rtf(?), pdf
+  [ ] export formats: enhance xmi standard compliance
   [ ] how to exclude diagrams from export? some are unimportant and exist just for completeness
+  [ ] import XMI format
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> add a "display_flags" field to "diagrams"
@@ -33,8 +32,6 @@ ideas for future versions:
       --> add a "stereotype" field to "diagrams"
   [ ] some way to compare two database files / and/or to merge
   @ctrl
-  [ ] export XMI format
-  [ ] import XMI format
   @universal+utf8stringbuf
   [ ] combine the static string allocation with dynamic additional buffers for unexpectedly-long strings
   [ ] combine the static array allocation with dynamic additional buffers for arrays of unpredictable lengths

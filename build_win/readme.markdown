@@ -2,7 +2,7 @@
 crystal_facet_uml - build for windows/wine
 =============
 
-How to build from source using mingw for wine
+How to prepare for build from source using mingw and wine
 -----------
 
 wine on debian/raspbian/ubuntu:
@@ -17,44 +17,35 @@ wine on debian/raspbian/ubuntu:
 >
 > sudo apt install g++-mingw-w64-i686  # not needed but cmake searches for it
 >
-> mkdir my_build && cd my_build
->
-> echo Download the gtk+-bundle archive
+> echo Download the gtk+-bundle archive to build_win/3rd_party/
 >
 > echo e.g. gtk+-bundle_3.6.4-20130513_win32.zip (28.8 Mb) from http://www.tarnyko.net/dl/gtk.htm
 >
-> unzip gtk+-bundle_3.6.4-20130513_win32.zip -d gtk+-bundle_3.6.4-20130513_win32
+> echo Download the sqlite sources (amalgamation) from https://sqlite.org/download.html to build_win/3rd_party/
 >
-> echo Download the sqlite sources (amalgamation) from https://sqlite.org/download.html
+> echo e.g. sqlite-amalgamation-3290000.zip
+
+
+How to build and pack
+-----------
+
+> cd pack_scripts
 >
-> unzip sqlite-amalgamation-3290000.zip -d sqlite-amalgamation-3290000
+> ./0_cleanup.sh
 >
-> cmake -DCMAKE_TOOLCHAIN_FILE=../crystal_facet_uml/build_win/mingw_wine_toolchain.cmake ../crystal_facet_uml/build_win
+> ./1_configure.sh
 >
-> make crystal_facet_uml
+> ./2_make.sh
+>
+> ./3_install.sh
+>
+> ./4_test.sh
+>
+> ./5_pack.sh
 
 
 How to run
 -----------
 
-> mv crystal_facet_uml.exe gtk+-bundle_3.6.4-20130513_win32/bin
->
-> cd gtk+-bundle_3.6.4-20130513_win32/bin
->
 > wine crystal_facet_uml.exe
 
-
-How to pack
------------
-
-> rm -fr crystal_facet_uml
->
-> unzip gtk+-bundle_3.6.4-20130513_win32.zip -d crystal_facet_uml
->
-> cp crystal_facet_uml.exe crystal_facet_uml/bin
->
-> cp ../crystal_facet_uml/installation_win/crystal_facet_uml.bat crystal_facet_uml
->
-> cp ../crystal_facet_uml/installation_win/crystal_facet_uml_readme.txt crystal_facet_uml
->
-> zip -r crystal-facet-uml_1.15.0-1_win32.zip crystal_facet_uml

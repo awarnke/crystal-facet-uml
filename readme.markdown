@@ -114,6 +114,8 @@ How to install
 How to use
 -----------
 
+See user documentation:
+
 > cd ../crystal_facet_uml/user_doc
 >
 > make
@@ -123,7 +125,7 @@ How to use
 Meta-Information
 -----------
 
-> Version: see META_INFO_VERSION_STR in main/include/meta/meta_info.h
+> Version: see META_VERSION_STR in main/include/meta/meta_version.inl
 >
 > Author+Copyright: 2016-2020 Andreas Warnke
 >
