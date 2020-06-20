@@ -9,6 +9,8 @@
  *  \brief Type for wrapping the database-internal identifier-type
  */
 
+#include <stdint.h>
+
 /*!
  *  \brief wraps the database-internal identifier-type
  */

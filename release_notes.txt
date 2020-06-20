@@ -1,3 +1,10 @@
+crystal-facet-uml (1.23.1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * t.b.d.
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 21 Jun 2020 17:30:00 +0200
+
 crystal-facet-uml (1.23.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
@@ -6,7 +13,7 @@ crystal-facet-uml (1.23.0) UNRELEASED; urgency=medium
   * layouting of classifiers improved
   * experimental xmi export
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 14 Jun 2020 17:30:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 15 Jun 2020 11:30:00 +0200
 
 crystal-facet-uml (1.22.0) UNRELEASED; urgency=medium
 

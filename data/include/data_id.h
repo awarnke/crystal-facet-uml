@@ -10,6 +10,7 @@
  */
 
 #include "data_table.h"
+#include "data_row_id.h"
 #include <util/string/utf8stringbuf.h>
 #include <util/string/utf8error.h>
 #include <stdint.h>
