@@ -16,6 +16,7 @@
 #include "set/data_id_pair.h"
 #include "set/data_visible_classifier.h"
 #include "set/data_small_set.h"
+#include "data_row_id.h"
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>
@@ -34,7 +35,7 @@ enum data_database_consistency_checker_const_enum {
 struct data_database_consistency_checker_struct {
     data_database_t *database;  /*!< pointer to external database */
 
-    int64_t private_temp_diagram_ids_buf[DATA_DATABASE_CONSISTENCY_CHECKER_MAX_TEMP_DIAG_IDS][2];  /*!< buffer to store a temporary diag ids list */
+    data_row_id_t private_temp_diagram_ids_buf[DATA_DATABASE_CONSISTENCY_CHECKER_MAX_TEMP_DIAG_IDS][2];  /*!< buffer to store a temporary diag ids list */
 };
 
 typedef struct data_database_consistency_checker_struct data_database_consistency_checker_t;
@@ -80,7 +81,7 @@ data_error_t data_database_consistency_checker_find_circular_diagram_parents ( d
  */
 data_error_t data_database_consistency_checker_private_get_diagram_ids ( data_database_consistency_checker_t *this_,
                                                                          uint32_t max_out_array_size,
-                                                                         int64_t (*out_diagram_id_pair)[][2],
+                                                                         data_row_id_t (*out_diagram_id_pair)[][2],
                                                                          uint32_t *out_diagram_id_pair_count
                                                                        );
 
@@ -151,7 +152,7 @@ data_error_t data_database_consistency_checker_find_invalid_relationship_feature
  *  \param obj_id id of the classifier record to be deleted.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_consistency_checker_kill_classifier( data_database_consistency_checker_t *this_, int64_t obj_id );
+data_error_t data_database_consistency_checker_kill_classifier( data_database_consistency_checker_t *this_, data_row_id_t obj_id );
 
 #endif  /* DATA_DATABASE_CONSISTENCY_CHECKER_H */
 

@@ -68,7 +68,7 @@ void gui_sketch_nav_tree_destroy( gui_sketch_nav_tree_t *this_ )
     TRACE_END();
 }
 
-void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagram_id, data_database_reader_t *db_reader )
+void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
@@ -81,7 +81,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagra
     bool finished = false;
     for ( unsigned int anc_index = 0; ( anc_index < GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS ) && ( db_err == DATA_ERROR_NONE ) && ( ! finished ); anc_index ++ )
     {
-        int64_t id_to_load;
+        data_row_id_t id_to_load;
         if ( anc_index == 0 )
         {
             id_to_load = diagram_id;
@@ -114,7 +114,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagra
     /* get siblings */
     if ( db_err == DATA_ERROR_NONE )
     {
-        int64_t parent_id;
+        data_row_id_t parent_id;
         parent_id = data_diagram_get_parent_id( &((*this_).ancestor_diagrams[0]) );
         db_err = data_database_reader_get_diagrams_by_parent_id ( db_reader,
                                                                   parent_id,

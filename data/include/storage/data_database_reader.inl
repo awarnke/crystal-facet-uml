@@ -83,7 +83,7 @@ static inline data_error_t data_database_reader_private_bind_void_to_statement (
 
 static inline data_error_t data_database_reader_private_bind_id_to_statement ( data_database_reader_t *this_,
                                                                                sqlite3_stmt *statement_ptr,
-                                                                               int64_t id )
+                                                                               data_row_id_t id )
 {
     assert( NULL != statement_ptr );
     data_error_t result = DATA_ERROR_NONE;
@@ -111,8 +111,8 @@ static inline data_error_t data_database_reader_private_bind_id_to_statement ( d
 
 static inline data_error_t data_database_reader_private_bind_two_ids_to_statement ( data_database_reader_t *this_,
                                                                                     sqlite3_stmt *statement_ptr,
-                                                                                    int64_t id1,
-                                                                                    int64_t id2 )
+                                                                                    data_row_id_t id1,
+                                                                                    data_row_id_t id2 )
 {
     assert( NULL != statement_ptr );
     data_error_t result = DATA_ERROR_NONE;

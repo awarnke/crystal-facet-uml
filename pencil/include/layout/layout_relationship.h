@@ -185,7 +185,7 @@ static inline layout_feature_t *layout_relationship_get_to_feature_ptr ( const l
  *  \param this_ pointer to own object attributes
  *  \return id of the relationship
  */
-static inline int64_t layout_relationship_get_relationship_id ( const layout_relationship_t *this_ );
+static inline data_row_id_t layout_relationship_get_relationship_id ( const layout_relationship_t *this_ );
 
 /*!
  *  \brief gets the symbol_box of the source object, the feature or the classifier

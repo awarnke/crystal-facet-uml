@@ -26,7 +26,7 @@ struct gui_clipboard_struct {
     json_export_from_database_t exporter;  /*!< own instance of a json exporter */
     json_import_to_database_t importer;  /*!< own instance of a json importer */
 
-    int64_t destination_diagram_id;  /*!< id of the diagram to which the deserialized objects shal  be added */
+    data_row_id_t destination_diagram_id;  /*!< id of the diagram to which the deserialized objects shal  be added */
     GtkClipboard *the_clipboard;  /*!< pointer to external GtkClipboard */
     utf8stringbuf_t clipboard_stringbuf;  /*!< stringbuffer to read and write to/from the clipboard */
     char private_clipboard_buffer[128*1024];  /*!< stringbuffer to read and write to/from the clipboard */
@@ -66,7 +66,7 @@ void gui_clipboard_destroy ( gui_clipboard_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param destination_diagram_id diagram to which the deserialized objects shall be added
  */
-void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, int64_t destination_diagram_id );
+void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, data_row_id_t destination_diagram_id );
 
 /*!
  *  \brief callback that informs that the text from the clipboard is now available.

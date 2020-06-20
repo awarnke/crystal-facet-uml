@@ -54,9 +54,9 @@ static inline void data_id_pair_reinit_solo ( data_id_pair_t *this_, data_id_t p
 
 static inline void data_id_pair_init_by_table_and_id ( data_id_pair_t *this_,
                                                        data_table_t primary_table,
-                                                       int64_t primary_row_id,
+                                                       data_row_id_t primary_row_id,
                                                        data_table_t secondary_table,
-                                                       int64_t secondary_row_id )
+                                                       data_row_id_t secondary_row_id )
 {
     assert ( DATA_TABLE_CLASSIFIER != primary_table );
     assert ( ( DATA_TABLE_VOID == secondary_table )
@@ -69,9 +69,9 @@ static inline void data_id_pair_init_by_table_and_id ( data_id_pair_t *this_,
 
 static inline void data_id_pair_reinit_by_table_and_id ( data_id_pair_t *this_,
                                                          data_table_t primary_table,
-                                                         int64_t primary_row_id,
+                                                         data_row_id_t primary_row_id,
                                                          data_table_t secondary_table,
-                                                         int64_t secondary_row_id )
+                                                         data_row_id_t secondary_row_id )
 {
     assert ( DATA_TABLE_CLASSIFIER != primary_table );
     assert ( ( DATA_TABLE_VOID == secondary_table )

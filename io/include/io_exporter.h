@@ -90,7 +90,7 @@ int io_exporter_private_get_filename( io_exporter_t *this_,
  *  \result 0 in case of success, -1 otherwise
  */
 int io_exporter_private_export_image_files( io_exporter_t *this_,
-                                            int64_t diagram_id,
+                                            data_row_id_t diagram_id,
                                             uint32_t max_recursion,
                                             io_file_format_t export_type,
                                             const char* target_folder
@@ -119,7 +119,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
  *  \result 0 in case of success, -1 otherwise
  */
 int io_exporter_private_export_document_part( io_exporter_t *this_,
-                                              int64_t diagram_id,
+                                              data_row_id_t diagram_id,
                                               uint32_t max_recursion,
                                               io_format_writer_t *format_writer
                                             );
@@ -133,7 +133,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
  *  \result 0 in case of success, -1 otherwise
  */
 int io_exporter_private_export_table_of_contents( io_exporter_t *this_,
-                                                  int64_t diagram_id,
+                                                  data_row_id_t diagram_id,
                                                   uint32_t max_recursion,
                                                   io_format_writer_t *format_writer
                                                 );

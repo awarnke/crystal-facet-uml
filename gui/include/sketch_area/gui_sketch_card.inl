@@ -4,7 +4,7 @@
 #include "trace.h"
 #include <assert.h>
 
-static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_, int64_t diagram_id, data_database_reader_t *db_reader )
+static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader )
 {
     /* load data to be drawn */
     data_visible_set_load( &((*this_).painter_input_data), diagram_id, db_reader );
@@ -244,7 +244,7 @@ static inline int32_t gui_sketch_card_get_highest_rel_list_order( const gui_sket
     return result;
 }
 
-static inline int32_t gui_sketch_card_get_highest_feat_list_order( const gui_sketch_card_t *this_, int64_t classifier_id )
+static inline int32_t gui_sketch_card_get_highest_feat_list_order( const gui_sketch_card_t *this_, data_row_id_t classifier_id )
 {
     int32_t result = 0;
 

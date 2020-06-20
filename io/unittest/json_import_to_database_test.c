@@ -24,7 +24,7 @@ static void insert_unconditional_relationships(void);
 static void insert_scenario_relationships_to_scenario(void);
 static void insert_scenario_relationships_to_non_scenario(void);
 
-static int64_t create_root_diag();  /* helper function */
+static data_row_id_t create_root_diag();  /* helper function */
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -86,7 +86,7 @@ static void tear_down(void)
     TEST_ENVIRONMENT_ASSERT ( 0 == err );
 }
 
-static int64_t create_root_diag()
+static data_row_id_t create_root_diag()
 {
     ctrl_error_t ctrl_err;
     data_error_t data_err;
@@ -95,7 +95,7 @@ static int64_t create_root_diag()
     diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
 
     /* create a diagram of type DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM */
-    int64_t root_diag_id;
+    data_row_id_t root_diag_id;
 
     data_diagram_t root_diagram;
     data_err = data_diagram_init ( &root_diagram,
@@ -242,7 +242,7 @@ static const char *const test_json_no_diag =
 
 static void insert_invalid_json(void)
 {
-    int64_t root_diag_id = create_root_diag();
+    data_row_id_t root_diag_id = create_root_diag();
 
     json_import_to_database_t importer;
     json_import_to_database_init ( &importer, &db_reader, &controller );
@@ -281,7 +281,7 @@ static void insert_invalid_json(void)
 
 static void insert_invalid_parent_diag(void)
 {
-    int64_t root_diag_id = create_root_diag();
+    data_row_id_t root_diag_id = create_root_diag();
 
     json_import_to_database_t importer;
     json_import_to_database_init ( &importer, &db_reader, &controller );
@@ -306,7 +306,7 @@ static void insert_invalid_parent_diag(void)
 
 static void insert_empty_set(void)
 {
-    int64_t root_diag_id = create_root_diag();
+    data_row_id_t root_diag_id = create_root_diag();
 
     json_import_to_database_t importer;
     json_import_to_database_init ( &importer, &db_reader, &controller );
@@ -332,7 +332,7 @@ static void insert_empty_set(void)
 
 static void insert_new_classifier_to_existing_diagram(void)
 {
-    int64_t root_diag_id = create_root_diag();
+    data_row_id_t root_diag_id = create_root_diag();
 
     json_import_to_database_t importer;
     json_import_to_database_init ( &importer, &db_reader, &controller );
@@ -367,7 +367,7 @@ static void insert_new_classifier_to_existing_diagram(void)
 
 static void insert_new_classifier_to_new_diagram(void)
 {
-    int64_t root_diag_id = create_root_diag();
+    data_row_id_t root_diag_id = create_root_diag();
 
     json_import_to_database_t importer;
     json_import_to_database_init ( &importer, &db_reader, &controller );
@@ -402,7 +402,7 @@ static void insert_new_classifier_to_new_diagram(void)
 
 static void insert_existing_classifier_to_existing_diagram(void)
 {
-    int64_t root_diag_id = create_root_diag();
+    data_row_id_t root_diag_id = create_root_diag();
 
     json_import_to_database_t importer;
     json_import_to_database_init ( &importer, &db_reader, &controller );
@@ -457,7 +457,7 @@ static void insert_existing_classifier_to_existing_diagram(void)
 
 static void insert_existing_classifier_to_new_diagram(void)
 {
-    int64_t root_diag_id = create_root_diag();
+    data_row_id_t root_diag_id = create_root_diag();
 
     json_import_to_database_t importer;
     json_import_to_database_init ( &importer, &db_reader, &controller );
@@ -512,7 +512,7 @@ static void insert_existing_classifier_to_new_diagram(void)
 
 static void insert_unconditional_relationships(void)
 {
-    int64_t root_diag_id = create_root_diag();
+    data_row_id_t root_diag_id = create_root_diag();
 
     json_import_to_database_t importer;
     json_import_to_database_init ( &importer, &db_reader, &controller );
@@ -624,7 +624,7 @@ static const char *const test_scenario_relationship =
 
 static void insert_scenario_relationships_to_scenario(void)
 {
-    int64_t root_diag_id = create_root_diag();
+    data_row_id_t root_diag_id = create_root_diag();
 
     json_import_to_database_t importer;
     json_import_to_database_init ( &importer, &db_reader, &controller );
@@ -679,7 +679,7 @@ static const char *const test_json_scenario_self_relation =
 
 static void insert_scenario_relationships_to_non_scenario(void)
 {
-    int64_t root_diag_id = create_root_diag();  /* root doag type is DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM, no scenario */
+    data_row_id_t root_diag_id = create_root_diag();  /* root doag type is DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM, no scenario */
 
     json_import_to_database_t importer;
     json_import_to_database_init ( &importer, &db_reader, &controller );

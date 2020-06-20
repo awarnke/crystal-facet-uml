@@ -384,7 +384,7 @@ void pencil_feature_layouter_private_layout_prop_or_op ( pencil_feature_layouter
     /* define names for input data */
     const layout_visible_classifier_t * const vis_classfy = layout_feature_get_classifier_ptr ( out_feature_layout );
     assert ( NULL != vis_classfy );
-    const int64_t diagele_id = layout_visible_classifier_get_diagramelement_id ( vis_classfy );
+    const data_row_id_t diagele_id = layout_visible_classifier_get_diagramelement_id ( vis_classfy );
 
     /* determine number of features above the current */
     uint32_t count_features_above = 0;
@@ -460,7 +460,7 @@ void pencil_feature_layouter_private_layout_prop_or_op ( pencil_feature_layouter
 }
 
 void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter_t *this_,
-                                                         int64_t diagramelement_id,
+                                                         data_row_id_t diagramelement_id,
                                                          PangoLayout *font_layout,
                                                          geometry_dimensions_t *out_features_bounds )
 {

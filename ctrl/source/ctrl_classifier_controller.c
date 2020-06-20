@@ -42,14 +42,14 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ )
 ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_controller_t *this_,
                                                             const data_classifier_t *new_classifier,
                                                             bool add_to_latest_undo_set,
-                                                            int64_t* out_new_id )
+                                                            data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
     assert( NULL != new_classifier );
     data_classifier_t to_be_created;
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
-    int64_t new_id;
+    data_row_id_t new_id;
 
     data_classifier_copy( &to_be_created, new_classifier );
     data_classifier_set_id( &to_be_created, DATA_ID_VOID_ID );
@@ -90,7 +90,7 @@ ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_cont
 }
 
 ctrl_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_controller_t *this_,
-                                                           int64_t obj_id,
+                                                           data_row_id_t obj_id,
                                                            bool add_to_latest_undo_set )
 {
     TRACE_BEGIN();
@@ -252,7 +252,7 @@ ctrl_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_contr
 }
 
 ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classifier_controller_t *this_,
-                                                                       int64_t classifier_id,
+                                                                       data_row_id_t classifier_id,
                                                                        const char* new_classifier_stereotype )
 {
     TRACE_BEGIN();
@@ -281,7 +281,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_clas
 }
 
 ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_classifier_controller_t *this_,
-                                                                        int64_t classifier_id,
+                                                                        data_row_id_t classifier_id,
                                                                         const char* new_classifier_description )
 {
     TRACE_BEGIN();
@@ -310,7 +310,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_cla
 }
 
 ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_controller_t *this_,
-                                                                 int64_t classifier_id,
+                                                                 data_row_id_t classifier_id,
                                                                  const char* new_classifier_name )
 {
     TRACE_BEGIN();
@@ -339,7 +339,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier
 }
 
 ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classifier_controller_t *this_,
-                                                                      int64_t classifier_id,
+                                                                      data_row_id_t classifier_id,
                                                                       data_classifier_type_t new_classifier_main_type )
 {
     TRACE_BEGIN();
@@ -368,7 +368,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_class
 }
 
 ctrl_error_t ctrl_classifier_controller_update_classifier_x_order ( ctrl_classifier_controller_t *this_,
-                                                                    int64_t classifier_id,
+                                                                    data_row_id_t classifier_id,
                                                                     int32_t new_classifier_x_order )
 {
     TRACE_BEGIN();
@@ -397,7 +397,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_x_order ( ctrl_classif
 }
 
 ctrl_error_t ctrl_classifier_controller_update_classifier_y_order ( ctrl_classifier_controller_t *this_,
-                                                                    int64_t classifier_id,
+                                                                    data_row_id_t classifier_id,
                                                                     int32_t new_classifier_y_order )
 {
     TRACE_BEGIN();
@@ -426,7 +426,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_y_order ( ctrl_classif
 }
 
 ctrl_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl_classifier_controller_t *this_,
-                                                                            int64_t classifier_id,
+                                                                            data_row_id_t classifier_id,
                                                                             int32_t new_classifier_x_order,
                                                                             int32_t new_classifier_y_order )
 {
@@ -461,7 +461,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl
 }
 
 ctrl_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_classifier_controller_t *this_,
-                                                                       int64_t classifier_id,
+                                                                       data_row_id_t classifier_id,
                                                                        int32_t new_classifier_list_order )
 {
     TRACE_BEGIN();
@@ -494,14 +494,14 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_clas
 ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controller_t *this_,
                                                          const data_feature_t *new_feature,
                                                          bool add_to_latest_undo_set,
-                                                         int64_t* out_new_id )
+                                                         data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
     assert( NULL != new_feature );
     data_feature_t to_be_created;
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
-    int64_t new_id;
+    data_row_id_t new_id;
 
     data_feature_copy( &to_be_created, new_feature );
     data_feature_set_id( &to_be_created, DATA_ID_VOID_ID );
@@ -542,7 +542,7 @@ ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_control
 }
 
 ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controller_t *this_,
-                                                         int64_t obj_id,
+                                                         data_row_id_t obj_id,
                                                          bool add_to_latest_undo_set )
 {
     TRACE_BEGIN();
@@ -627,7 +627,7 @@ ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_control
 }
 
 ctrl_error_t ctrl_classifier_controller_update_feature_main_type ( ctrl_classifier_controller_t *this_,
-                                                                   int64_t feature_id,
+                                                                   data_row_id_t feature_id,
                                                                    data_feature_type_t new_feature_type )
 {
     TRACE_BEGIN();
@@ -656,7 +656,7 @@ ctrl_error_t ctrl_classifier_controller_update_feature_main_type ( ctrl_classifi
 }
 
 ctrl_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_controller_t *this_,
-                                                             int64_t feature_id,
+                                                             data_row_id_t feature_id,
                                                              const char* new_feature_key )
 {
     TRACE_BEGIN();
@@ -685,7 +685,7 @@ ctrl_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_con
 }
 
 ctrl_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_controller_t *this_,
-                                                               int64_t feature_id,
+                                                               data_row_id_t feature_id,
                                                                const char* new_feature_value )
 {
     TRACE_BEGIN();
@@ -714,7 +714,7 @@ ctrl_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_c
 }
 
 ctrl_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classifier_controller_t *this_,
-                                                                     int64_t feature_id,
+                                                                     data_row_id_t feature_id,
                                                                      const char* new_feature_description )
 {
     TRACE_BEGIN();
@@ -743,7 +743,7 @@ ctrl_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classi
 }
 
 ctrl_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classifier_controller_t *this_,
-                                                                    int64_t feature_id,
+                                                                    data_row_id_t feature_id,
                                                                     int32_t new_feature_list_order )
 {
     TRACE_BEGIN();
@@ -776,14 +776,14 @@ ctrl_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classif
 ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_controller_t *this_,
                                                               const data_relationship_t *new_relationship,
                                                               bool add_to_latest_undo_set,
-                                                              int64_t* out_new_id )
+                                                              data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
     assert( NULL != new_relationship );
     data_relationship_t to_be_created;
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
-    int64_t new_id;
+    data_row_id_t new_id;
 
     data_relationship_copy( &to_be_created, new_relationship );
     data_relationship_set_id( &to_be_created, DATA_ID_VOID_ID );
@@ -824,7 +824,7 @@ ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_co
 }
 
 ctrl_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_controller_t *this_,
-                                                              int64_t obj_id,
+                                                              data_row_id_t obj_id,
                                                               bool add_to_latest_undo_set )
 {
     TRACE_BEGIN();
@@ -862,7 +862,7 @@ ctrl_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_co
 }
 
 ctrl_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_classifier_controller_t *this_,
-                                                                        int64_t relationship_id,
+                                                                        data_row_id_t relationship_id,
                                                                         data_relationship_type_t new_relationship_type )
 {
     TRACE_BEGIN();
@@ -891,7 +891,7 @@ ctrl_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_cla
 }
 
 ctrl_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifier_controller_t *this_,
-                                                                   int64_t relationship_id,
+                                                                   data_row_id_t relationship_id,
                                                                    const char* new_relationship_name )
 {
     TRACE_BEGIN();
@@ -920,7 +920,7 @@ ctrl_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifi
 }
 
 ctrl_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_classifier_controller_t *this_,
-                                                                          int64_t relationship_id,
+                                                                          data_row_id_t relationship_id,
                                                                           const char* new_relationship_description )
 {
     TRACE_BEGIN();
@@ -949,7 +949,7 @@ ctrl_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_c
 }
 
 ctrl_error_t ctrl_classifier_controller_update_relationship_list_order ( ctrl_classifier_controller_t *this_,
-                                                                         int64_t relationship_id,
+                                                                         data_row_id_t relationship_id,
                                                                          int32_t new_relationship_list_order )
 {
     TRACE_BEGIN();

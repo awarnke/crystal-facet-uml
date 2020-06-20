@@ -54,7 +54,7 @@ static inline void gui_sketch_marker_destroy( gui_sketch_marker_t *this_ );
  */
 static inline void gui_sketch_marker_prepare_draw ( const gui_sketch_marker_t *this_,
                                                     data_table_t table,
-                                                    int64_t row_id,
+                                                    data_row_id_t row_id,
                                                     gui_marked_set_t *marked_set,
                                                     shape_int_rectangle_t rect,
                                                     cairo_t *cr

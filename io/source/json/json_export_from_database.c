@@ -159,7 +159,7 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
             {
                 data_classifier_t out_classifier;
                 data_diagramelement_t out_diagramelement;
-                int64_t classifier_id;
+                data_row_id_t classifier_id;
 
                 read_error = data_database_reader_get_diagramelement_by_id ( (*this_).db_reader,
                                                                              data_id_get_row_id( &current_id ),

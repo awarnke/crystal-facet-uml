@@ -75,7 +75,7 @@ void json_import_to_database_destroy ( json_import_to_database_t *this_ );
  */
 data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t *this_,
                                                        const char *json_text,
-                                                       int64_t diagram_id,
+                                                       data_row_id_t diagram_id,
                                                        data_stat_t *io_stat,
                                                        uint32_t *out_read_pos
                                                      );
@@ -88,7 +88,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
  *  \param feature_id id of the feature that shall be the focused_feature of the diagramelement (for a lifeline, this means being visible)
  *  \return true if a matching diagramelement is found
  */
-bool json_import_to_database_private_is_feature_focused_in_diagram( json_import_to_database_t *this_, int64_t diagram_id, int64_t feature_id );
+bool json_import_to_database_private_is_feature_focused_in_diagram( json_import_to_database_t *this_, data_row_id_t diagram_id, data_row_id_t feature_id );
 
 #endif  /* JSON_IMPORT_TO_DATABASE_H */
 

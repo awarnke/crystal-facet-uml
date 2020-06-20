@@ -3,7 +3,7 @@
 #include <assert.h>
 
 static inline void data_search_result_init_diagram ( data_search_result_t *this_,
-                                                     int64_t match_id,
+                                                     data_row_id_t match_id,
                                                      int match_type,
                                                      const char* match_name )
 {
@@ -26,10 +26,10 @@ static inline void data_search_result_init_diagram ( data_search_result_t *this_
 }
 
 static inline void data_search_result_init_classifier ( data_search_result_t *this_,
-                                                        int64_t match_id,
+                                                        data_row_id_t match_id,
                                                         int match_type,
                                                         const char* match_name,
-                                                        int64_t diagram_id  )
+                                                        data_row_id_t diagram_id  )
 {
     assert( NULL != match_name );
     utf8error_t strerr;
@@ -50,11 +50,11 @@ static inline void data_search_result_init_classifier ( data_search_result_t *th
 }
 
 static inline void data_search_result_init_feature ( data_search_result_t *this_,
-                                                     int64_t match_id,
+                                                     data_row_id_t match_id,
                                                      int match_type,
                                                      const char* match_name,
-                                                     int64_t classifier_id,
-                                                     int64_t diagram_id )
+                                                     data_row_id_t classifier_id,
+                                                     data_row_id_t diagram_id )
 {
     assert( NULL != match_name );
     utf8error_t strerr;
@@ -75,12 +75,12 @@ static inline void data_search_result_init_feature ( data_search_result_t *this_
 }
 
 static inline void data_search_result_init_relationship ( data_search_result_t *this_,
-                                                          int64_t match_id,
+                                                          data_row_id_t match_id,
                                                           int match_type,
                                                           const char* match_name,
-                                                          int64_t from_classifier_id,
-                                                          int64_t to_classifier_id,
-                                                          int64_t diagram_id )
+                                                          data_row_id_t from_classifier_id,
+                                                          data_row_id_t to_classifier_id,
+                                                          data_row_id_t diagram_id )
 {
     assert( NULL != match_name );
     utf8error_t strerr;

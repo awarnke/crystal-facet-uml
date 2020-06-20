@@ -21,10 +21,10 @@ static inline void data_diagramelement_reinit_empty ( data_diagramelement_t *thi
 }
 
 static inline void data_diagramelement_init_new ( data_diagramelement_t *this_,
-                                                  int64_t diagram_id,
-                                                  int64_t classifier_id,
+                                                  data_row_id_t diagram_id,
+                                                  data_row_id_t classifier_id,
                                                   data_diagramelement_flag_t display_flags,
-                                                  int64_t focused_feature_id )
+                                                  data_row_id_t focused_feature_id )
 {
     (*this_).id = DATA_ID_VOID_ID;
     (*this_).diagram_id = diagram_id;
@@ -34,11 +34,11 @@ static inline void data_diagramelement_init_new ( data_diagramelement_t *this_,
 }
 
 static inline void data_diagramelement_init ( data_diagramelement_t *this_,
-                                              int64_t id,
-                                              int64_t diagram_id,
-                                              int64_t classifier_id,
+                                              data_row_id_t id,
+                                              data_row_id_t diagram_id,
+                                              data_row_id_t classifier_id,
                                               data_diagramelement_flag_t display_flags,
-                                              int64_t focused_feature_id )
+                                              data_row_id_t focused_feature_id )
 {
     (*this_).id = id;
     (*this_).diagram_id = diagram_id;
@@ -48,11 +48,11 @@ static inline void data_diagramelement_init ( data_diagramelement_t *this_,
 }
 
 static inline void data_diagramelement_reinit ( data_diagramelement_t *this_,
-                                                int64_t id,
-                                                int64_t diagram_id,
-                                                int64_t classifier_id,
+                                                data_row_id_t id,
+                                                data_row_id_t diagram_id,
+                                                data_row_id_t classifier_id,
                                                 data_diagramelement_flag_t display_flags,
-                                                int64_t focused_feature_id )
+                                                data_row_id_t focused_feature_id )
 {
     (*this_).id = id;
     (*this_).diagram_id = diagram_id;
@@ -91,12 +91,12 @@ static inline void data_diagramelement_trace ( const data_diagramelement_t *this
     TRACE_INFO_INT( "- focused_feature_id:", (*this_).focused_feature_id );
 }
 
-static inline int64_t data_diagramelement_get_id ( const data_diagramelement_t *this_ )
+static inline data_row_id_t data_diagramelement_get_id ( const data_diagramelement_t *this_ )
 {
     return (*this_).id;
 }
 
-static inline void data_diagramelement_set_id ( data_diagramelement_t *this_, int64_t id )
+static inline void data_diagramelement_set_id ( data_diagramelement_t *this_, data_row_id_t id )
 {
     (*this_).id = id;
 }
@@ -109,22 +109,22 @@ static inline data_id_t data_diagramelement_get_data_id ( const data_diagramelem
 }
 
 
-static inline int64_t data_diagramelement_get_diagram_id ( const data_diagramelement_t *this_ )
+static inline data_row_id_t data_diagramelement_get_diagram_id ( const data_diagramelement_t *this_ )
 {
     return (*this_).diagram_id;
 }
 
-static inline int64_t data_diagramelement_get_classifier_id ( const data_diagramelement_t *this_ )
+static inline data_row_id_t data_diagramelement_get_classifier_id ( const data_diagramelement_t *this_ )
 {
     return (*this_).classifier_id;
 }
 
-static inline int64_t data_diagramelement_get_focused_feature_id ( const data_diagramelement_t *this_ )
+static inline data_row_id_t data_diagramelement_get_focused_feature_id ( const data_diagramelement_t *this_ )
 {
     return (*this_).focused_feature_id;
 }
 
-static inline void data_diagramelement_set_focused_feature_id ( data_diagramelement_t *this_, int64_t focused_feature_id )
+static inline void data_diagramelement_set_focused_feature_id ( data_diagramelement_t *this_, data_row_id_t focused_feature_id )
 {
     (*this_).focused_feature_id = focused_feature_id;
 }

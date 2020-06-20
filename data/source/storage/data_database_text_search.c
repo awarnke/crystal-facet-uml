@@ -609,8 +609,8 @@ data_error_t data_database_text_search_private_get_relationships_by_textfragment
                                                       sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN ),
                                                       sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_DIAGRAM_ID_COLUMN )
                                                     );
-                const int64_t from_feat = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN );
-                const int64_t to_feat = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN );
+                const data_row_id_t from_feat = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN );
+                const data_row_id_t to_feat = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN );
                 const data_diagram_type_t d_type = sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_DIAGRAM_TYPE_COLUMN );
                 TRACE_INFO_INT( "- from_feat:", from_feat );
                 TRACE_INFO_INT( "- to_feat:", to_feat );

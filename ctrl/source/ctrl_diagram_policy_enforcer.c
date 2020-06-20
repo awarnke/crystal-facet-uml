@@ -52,7 +52,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_lifelines ( ctrl_diagra
     {
         /* this diagram type needs lifelines */
 
-        int64_t diagram_id;
+        data_row_id_t diagram_id;
         diagram_id = data_diagram_get_id ( updated_diagram );
 
         /* search all contained diagramelements */
@@ -72,7 +72,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_lifelines ( ctrl_diagra
             {
                 data_diagramelement_t *current_diagele;
                 current_diagele = &((*this_).private_temp_diagele_buf[index]);
-                int64_t focused_feature;
+                data_row_id_t focused_feature;
                 focused_feature = data_diagramelement_get_focused_feature_id( current_diagele );
 
                 if ( DATA_ID_VOID_ID == focused_feature )
@@ -144,7 +144,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_one_lifeline ( ctrl_dia
     result |= (ctrl_error_t) data_result;
 
     /* create the lifeline */
-    int64_t new_feature_id;
+    data_row_id_t new_feature_id;
     result |= ctrl_classifier_controller_create_feature ( (*this_).clfy_ctrl,
                                                           &new_lifeline,
                                                           true, /* add_to_latest_undo_set */
@@ -152,7 +152,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_one_lifeline ( ctrl_dia
                                                         );
 
     /* the newly create lifeline is the focused feature */
-    int64_t diagramelement_id;
+    data_row_id_t diagramelement_id;
     diagramelement_id = data_diagramelement_get_id( the_diagramelement );
     result |= ctrl_diagram_controller_update_diagramelement_focused_feature_id ( (*this_).diag_ctrl,
                                                                                  diagramelement_id,
@@ -175,7 +175,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_a_lifeline ( ctrl_diagr
     ctrl_error_t result = CTRL_ERROR_NONE;
 
     /* delete the lifeline of the already deleted data_diagramelement_t */
-    int64_t focused_feature_id;
+    data_row_id_t focused_feature_id;
     focused_feature_id = data_diagramelement_get_focused_feature_id( deleted_diagramelement );
     if ( DATA_ID_VOID_ID != focused_feature_id )
     {

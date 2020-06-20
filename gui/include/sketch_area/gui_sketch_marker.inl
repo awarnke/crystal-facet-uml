@@ -22,13 +22,13 @@ static const double GUI_SKETCH_MARKER_BLACK_A = 1.0;
 
 static inline void gui_sketch_marker_prepare_draw ( const gui_sketch_marker_t *this_,
                                                     data_table_t table,
-                                                    int64_t row_id,
+                                                    data_row_id_t row_id,
                                                     gui_marked_set_t *marked_set,
                                                     shape_int_rectangle_t rect,
                                                     cairo_t *cr )
 {
     const data_id_t focused_id = gui_marked_set_get_focused ( marked_set );
-    const int64_t focused_diagram_id = gui_marked_set_get_focused_diagram ( marked_set );
+    const data_row_id_t focused_diagram_id = gui_marked_set_get_focused_diagram ( marked_set );
     const data_id_t highlighted_id = gui_marked_set_get_highlighted ( marked_set );
     const data_small_set_t *const selected_set = gui_marked_set_get_selected_set_ptr ( marked_set );
 

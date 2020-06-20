@@ -240,7 +240,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
  *          PENCIL_ERROR_UNKNOWN_OBJECT if the object is not in the diagram or has unsupported type
  */
 pencil_error_t pencil_layouter_get_relationship_order_at_pos ( const pencil_layouter_t *this_,
-                                                               int64_t relationship_id,
+                                                               data_row_id_t relationship_id,
                                                                double x,
                                                                double y,
                                                                layout_order_t* out_layout_order

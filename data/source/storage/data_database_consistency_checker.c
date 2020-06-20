@@ -319,7 +319,7 @@ data_error_t data_database_consistency_checker_find_circular_diagram_parents ( d
         diag_has_parent = ( DATA_ID_VOID_ID != ((*this_).private_temp_diagram_ids_buf)[diag_idx][1] );
         if ( diag_has_parent )
         {
-            int64_t diag_id = ((*this_).private_temp_diagram_ids_buf)[diag_idx][0];
+            data_row_id_t diag_id = ((*this_).private_temp_diagram_ids_buf)[diag_idx][0];
             TSLOG_ERROR_INT( "Diagram has a parent that is not linked to root:", diag_id );
             data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAM, diag_id );
         }
@@ -331,7 +331,7 @@ data_error_t data_database_consistency_checker_find_circular_diagram_parents ( d
 
 data_error_t data_database_consistency_checker_private_get_diagram_ids ( data_database_consistency_checker_t *this_,
                                                                          uint32_t max_out_array_size,
-                                                                         int64_t (*out_diagram_id_pair)[][2],
+                                                                         data_row_id_t (*out_diagram_id_pair)[][2],
                                                                          uint32_t *out_diagram_id_pair_count )
 {
     TRACE_BEGIN();
@@ -380,8 +380,8 @@ data_error_t data_database_consistency_checker_private_get_diagram_ids ( data_da
                 }
                 else if ( SQLITE_ROW == sqlite_err )
                 {
-                    int64_t diag_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMS_DIAG_ID_COLUMN );
-                    int64_t diag_parent_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMS_DIAG_PARENT_ID_COLUMN );
+                    data_row_id_t diag_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMS_DIAG_ID_COLUMN );
+                    data_row_id_t diag_parent_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMS_DIAG_PARENT_ID_COLUMN );
                     if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMS_DIAG_PARENT_ID_COLUMN ) )
                     {
                         diag_parent_id = DATA_ID_VOID_ID;
@@ -470,11 +470,11 @@ data_error_t data_database_consistency_checker_find_nonreferencing_diagramelemen
                 }
                 else if ( SQLITE_ROW == sqlite_err )
                 {
-                    int64_t diagele_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENTS_DIAGELE_ID_COLUMN );
-                    int64_t diagele_diagram_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENTS_DIAGELE_DIAGRAM_ID_COLUMN );
-                    int64_t diagele_classifier_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENTS_DIAGELE_CLASSIFIER_ID_COLUMN );
-                    /*int64_t diagram_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENTS_DIAGRAM_ID_COLUMN );*/
-                    /*int64_t classifier_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENTS_CLASSIFIER_ID_COLUMN );*/
+                    data_row_id_t diagele_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENTS_DIAGELE_ID_COLUMN );
+                    data_row_id_t diagele_diagram_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENTS_DIAGELE_DIAGRAM_ID_COLUMN );
+                    data_row_id_t diagele_classifier_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENTS_DIAGELE_CLASSIFIER_ID_COLUMN );
+                    /*data_row_id_t diagram_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENTS_DIAGRAM_ID_COLUMN );*/
+                    /*data_row_id_t classifier_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENTS_CLASSIFIER_ID_COLUMN );*/
                     bool diagram_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMELEMENTS_DIAGRAM_ID_COLUMN ) );
                     bool classifier_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMELEMENTS_CLASSIFIER_ID_COLUMN ) );
                     if (( ! diagram_exists ) && ( ! classifier_exists ))
@@ -566,13 +566,13 @@ data_error_t data_database_consistency_checker_find_invalid_focused_features ( d
                 }
                 else if ( SQLITE_ROW == sqlite_err )
                 {
-                    int64_t diagele_id;
-                    int64_t diagele_classifier_id;
+                    data_row_id_t diagele_id;
+                    data_row_id_t diagele_classifier_id;
                     bool diagele_has_focused_feature;
-                    int64_t diagele_focused_feature_id;
+                    data_row_id_t diagele_focused_feature_id;
                     bool feature_exists;
-                    int64_t feature_id;
-                    int64_t feature_classifier_id;
+                    data_row_id_t feature_id;
+                    data_row_id_t feature_classifier_id;
 
                     /* fetch data record */
                     diagele_id = sqlite3_column_int64( prepared_statement, RESULT_FOCUSED_FEATURES_DIAGELE_ID_COLUMN );
@@ -690,11 +690,11 @@ data_error_t data_database_consistency_checker_find_unreferenced_classifiers ( d
                 }
                 else if ( SQLITE_ROW == sqlite_err )
                 {
-                    int64_t classifier_id = sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIERS_CLASSIFIER_ID_COLUMN );
+                    data_row_id_t classifier_id = sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIERS_CLASSIFIER_ID_COLUMN );
                     /*
-                    int64_t diagele_classifier_id = sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIERS_DIAGELE_CLASSIFIER_ID_COLUMN );
+                    data_row_id_t diagele_classifier_id = sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIERS_DIAGELE_CLASSIFIER_ID_COLUMN );
                     */
-                    int64_t diagele_id = sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIERS_DIAGELE_ID_COLUMN );
+                    data_row_id_t diagele_id = sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIERS_DIAGELE_ID_COLUMN );
                     bool diagele_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_CLASSIFIERS_DIAGELE_CLASSIFIER_ID_COLUMN ) );
                     if ( ! diagele_exists )
                     {
@@ -772,9 +772,9 @@ data_error_t data_database_consistency_checker_find_unreferenced_features ( data
                 }
                 else if ( SQLITE_ROW == sqlite_err )
                 {
-                    int64_t feature_id = sqlite3_column_int64( prepared_statement, RESULT_FEATURES_FEATURE_ID_COLUMN );
-                    int64_t feature_classifier_id = sqlite3_column_int64( prepared_statement, RESULT_FEATURES_FEATURE_CLASSIFIER_ID_COLUMN );
-                    /*int64_t classifier_id = sqlite3_column_int64( prepared_statement, RESULT_FEATURES_CLASSIFIER_ID_COLUMN );*/
+                    data_row_id_t feature_id = sqlite3_column_int64( prepared_statement, RESULT_FEATURES_FEATURE_ID_COLUMN );
+                    data_row_id_t feature_classifier_id = sqlite3_column_int64( prepared_statement, RESULT_FEATURES_FEATURE_CLASSIFIER_ID_COLUMN );
+                    /*data_row_id_t classifier_id = sqlite3_column_int64( prepared_statement, RESULT_FEATURES_CLASSIFIER_ID_COLUMN );*/
                     bool classifier_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_FEATURES_CLASSIFIER_ID_COLUMN ) );
                     if ( ! classifier_exists )
                     {
@@ -852,11 +852,11 @@ data_error_t data_database_consistency_checker_find_unreferenced_relationships (
                 }
                 else if ( SQLITE_ROW == sqlite_err )
                 {
-                    int64_t relation_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_RELATIONSHIP_ID_COLUMN );
-                    int64_t relation_from_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_RELATIONSHIP_FROM_ID_COLUMN );
-                    int64_t relation_to_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_RELATIONSHIP_TO_ID_COLUMN );
-                    /*int64_t source_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_SOURCE_ID_COLUMN );*/
-                    /*int64_t dest_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_DEST_ID_COLUMN );*/
+                    data_row_id_t relation_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_RELATIONSHIP_ID_COLUMN );
+                    data_row_id_t relation_from_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_RELATIONSHIP_FROM_ID_COLUMN );
+                    data_row_id_t relation_to_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_RELATIONSHIP_TO_ID_COLUMN );
+                    /*data_row_id_t source_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_SOURCE_ID_COLUMN );*/
+                    /*data_row_id_t dest_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_DEST_ID_COLUMN );*/
                     bool source_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIPS_SOURCE_ID_COLUMN ) );
                     bool dest_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIPS_DEST_ID_COLUMN ) );
                     if (( ! source_exists ) && ( ! dest_exists ))
@@ -948,19 +948,19 @@ data_error_t data_database_consistency_checker_find_invalid_relationship_feature
                 }
                 else if ( SQLITE_ROW == sqlite_err )
                 {
-                    int64_t relation_id;
-                    int64_t relation_from_classifier_id;
-                    int64_t relation_to_classifier_id;
+                    data_row_id_t relation_id;
+                    data_row_id_t relation_from_classifier_id;
+                    data_row_id_t relation_to_classifier_id;
                     bool relation_has_from_feature;
-                    int64_t relation_from_feature_id;
+                    data_row_id_t relation_from_feature_id;
                     bool relation_has_to_feature;
-                    int64_t relation_to_feature_id;
+                    data_row_id_t relation_to_feature_id;
                     bool source_feature_exists;
-                    int64_t source_feature_id;
-                    int64_t source_feature_classifier_id;
+                    data_row_id_t source_feature_id;
+                    data_row_id_t source_feature_classifier_id;
                     bool dest_feature_exists;
-                    int64_t dest_feature_id;
-                    int64_t dest_feature_classifier_id;
+                    data_row_id_t dest_feature_id;
+                    data_row_id_t dest_feature_classifier_id;
 
                     /* fetch data record */
                     relation_id = sqlite3_column_int64( prepared_statement, RESULT_FEATURE_RELATIONSHIPS_RELATION_ID_COLUMN );
@@ -1131,7 +1131,7 @@ static const char *DATA_DATABASE_CONSISTENCY_CHECKER_DELETE_CLASSIFIER_PREFIX =
  */
 static const char *DATA_DATABASE_CONSISTENCY_CHECKER_DELETE_CLASSIFIER_POSTFIX = ");";
 
-data_error_t data_database_consistency_checker_kill_classifier( data_database_consistency_checker_t *this_, int64_t obj_id )
+data_error_t data_database_consistency_checker_kill_classifier( data_database_consistency_checker_t *this_, data_row_id_t obj_id )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;

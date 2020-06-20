@@ -247,7 +247,7 @@ int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_
                 
                 if ( is_visible && ( ! filter_relationship ) )
                 {
-                    const int64_t to_classifier_id = data_relationship_get_to_classifier_id( relation );
+                    const data_row_id_t to_classifier_id = data_relationship_get_to_classifier_id( relation );
                     const data_classifier_t *dest_classifier = data_visible_set_get_classifier_by_id_const ( (*this_).input_data,
                                                                                                              to_classifier_id
                                                                                                            );

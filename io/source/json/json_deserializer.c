@@ -165,10 +165,10 @@ data_error_t json_deserializer_get_type_of_next_element ( json_deserializer_t *t
 }
 
 data_error_t json_deserializer_get_next_classifier ( json_deserializer_t *this_,
-                                                          data_classifier_t *out_object,
-                                                          uint32_t max_out_array_size,
-                                                          data_feature_t (*out_feature)[],
-                                                          uint32_t *out_feature_count )
+                                                     data_classifier_t *out_object,
+                                                     uint32_t max_out_array_size,
+                                                     data_feature_t (*out_feature)[],
+                                                     uint32_t *out_feature_count )
 {
     TRACE_BEGIN();
     assert ( NULL != out_object );

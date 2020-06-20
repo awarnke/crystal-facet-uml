@@ -17,7 +17,7 @@ static void test_md_plain_mixed(void);
 static void test_valid_links(void);
 static void test_invalid_links(void);
 
-static int64_t create_root_diag();  /* helper function */
+static data_row_id_t create_root_diag();  /* helper function */
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -99,7 +99,7 @@ static void tear_down(void)
     TEST_ENVIRONMENT_ASSERT ( 0 == err );
 }
 
-static int64_t create_root_diag()
+static data_row_id_t create_root_diag()
 {
     ctrl_error_t ctrl_err;
     data_error_t data_err;
@@ -108,7 +108,7 @@ static int64_t create_root_diag()
     diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
 
     /* create a diagram */
-    int64_t root_diag_id;
+    data_row_id_t root_diag_id;
 
     data_diagram_t root_diagram;
     data_err = data_diagram_init ( &root_diagram,
@@ -167,7 +167,7 @@ static void test_md_plain_mixed(void)
 
 static void test_valid_links(void)
 {
-    int64_t root_diag_id = create_root_diag();
+    data_row_id_t root_diag_id = create_root_diag();
     TEST_ENVIRONMENT_ASSERT( 1 == root_diag_id );  /* otherwise D0001 needs to be adapted (hint: delete old database file) */
     int err;
 
@@ -186,7 +186,7 @@ static void test_valid_links(void)
 
 static void test_invalid_links(void)
 {
-    int64_t root_diag_id = create_root_diag();
+    data_row_id_t root_diag_id = create_root_diag();
     TEST_ENVIRONMENT_ASSERT( 1 == root_diag_id );  /* otherwise D0001 needs to be adapted (hint: delete old database file) */
     int err;
 

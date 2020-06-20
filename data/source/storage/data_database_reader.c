@@ -164,7 +164,7 @@ static const char DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID_NULL[] =
     "SELECT id "
     "FROM diagrams WHERE parent_id IS NULL ORDER BY list_order ASC;";
 
-data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, int64_t id, data_diagram_t *out_diagram )
+data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, data_row_id_t id, data_diagram_t *out_diagram )
 {
     TRACE_BEGIN();
     assert( NULL != out_diagram );
@@ -222,7 +222,7 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
 }
 
 data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_,
-                                                              int64_t parent_id,
+                                                              data_row_id_t parent_id,
                                                               uint32_t max_out_array_size,
                                                               data_diagram_t (*out_diagram)[],
                                                               uint32_t *out_diagram_count )
@@ -300,7 +300,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
 }
 
 data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_reader_t *this_,
-                                                                  int64_t classifier_id,
+                                                                  data_row_id_t classifier_id,
                                                                   uint32_t max_out_array_size,
                                                                   data_diagram_t (*out_diagram)[],
                                                                   uint32_t *out_diagram_count )
@@ -371,7 +371,7 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
 }
 
 data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_reader_t *this_,
-                                                                 int64_t parent_id,
+                                                                 data_row_id_t parent_id,
                                                                  data_small_set_t *out_diagram_ids )
 {
     TRACE_BEGIN();
@@ -515,7 +515,7 @@ static const int RESULT_CLASSIFIER_DISPLAY_FLAGS_COLUMN = 9;
  */
 static const int RESULT_CLASSIFIER_FOCUSED_FEATURE_ID_COLUMN = 10;
 
-data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, int64_t id, data_classifier_t *out_classifier )
+data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, data_row_id_t id, data_classifier_t *out_classifier )
 {
     TRACE_BEGIN();
     assert( NULL != out_classifier );
@@ -627,7 +627,7 @@ data_error_t data_database_reader_get_classifier_by_name ( data_database_reader_
 }
 
 data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_,
-                                                                  int64_t diagram_id,
+                                                                  data_row_id_t diagram_id,
                                                                   uint32_t max_out_array_size,
                                                                   data_visible_classifier_t (*out_visible_classifier)[],
                                                                   uint32_t *out_visible_classifier_count )
@@ -665,7 +665,7 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
 
                 data_classifier_t *current_classifier;
                 current_classifier = data_visible_classifier_get_classifier_ptr( current_vis_classifier );
-                int64_t classifier_id = sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_ID_COLUMN );
+                data_row_id_t classifier_id = sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_ID_COLUMN );
                 result |= data_classifier_reinit( current_classifier,
                                                   classifier_id,
                                                   sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_MAIN_TYPE_COLUMN ),
@@ -760,7 +760,7 @@ static const int RESULT_DIAGRAMELEMENT_DISPLAY_FLAGS_COLUMN = 3;
  */
 static const int RESULT_DIAGRAMELEMENT_FOCUSED_FEATURE_ID_COLUMN = 4;
 
-data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_, int64_t id, data_diagramelement_t *out_diagramelement )
+data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_, data_row_id_t id, data_diagramelement_t *out_diagramelement )
 {
     TRACE_BEGIN();
     assert( NULL != out_diagramelement );
@@ -817,7 +817,7 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
 }
 
 data_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_database_reader_t *this_,
-                                                                      int64_t diagram_id,
+                                                                      data_row_id_t diagram_id,
                                                                       uint32_t max_out_array_size,
                                                                       data_diagramelement_t (*out_diagramelement)[],
                                                                       uint32_t *out_diagramelement_count )
@@ -887,7 +887,7 @@ data_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_datab
 }
 
 data_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_database_reader_t *this_,
-                                                                         int64_t classifier_id,
+                                                                         data_row_id_t classifier_id,
                                                                          uint32_t max_out_array_size,
                                                                          data_diagramelement_t (*out_diagramelement)[],
                                                                          uint32_t *out_diagramelement_count )
@@ -1023,7 +1023,7 @@ static const int RESULT_FEATURE_LIST_ORDER_COLUMN = 6;
  */
 static const int RESULT_FEATURE_DIAGRAMELEMENTS_ID_COLUMN = 7;
 
-data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *this_, int64_t id, data_feature_t *out_feature )
+data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *this_, data_row_id_t id, data_feature_t *out_feature )
 {
     TRACE_BEGIN();
     assert( NULL != out_feature );
@@ -1078,7 +1078,7 @@ data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *th
 }
 
 data_error_t data_database_reader_get_features_by_classifier_id ( data_database_reader_t *this_,
-                                                                  int64_t classifier_id,
+                                                                  data_row_id_t classifier_id,
                                                                   uint32_t max_out_array_size,
                                                                   data_feature_t (*out_feature)[],
                                                                   uint32_t *out_feature_count )
@@ -1147,7 +1147,7 @@ data_error_t data_database_reader_get_features_by_classifier_id ( data_database_
 }
 
 data_error_t data_database_reader_get_features_by_diagram_id ( data_database_reader_t *this_,
-                                                               int64_t diagram_id,
+                                                               data_row_id_t diagram_id,
                                                                uint32_t max_out_array_size,
                                                                data_feature_t (*out_feature)[],
                                                                uint32_t *out_feature_count )
@@ -1316,7 +1316,7 @@ static const int RESULT_RELATIONSHIP_SOURCE_DIAGRAMELEMENTS_ID_COLUMN = 9;
  */
 static const int RESULT_RELATIONSHIP_DEST_DIAGRAMELEMENTS_ID_COLUMN = 10;
 
-data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t *this_, int64_t id, data_relationship_t *out_relationship )
+data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t *this_, data_row_id_t id, data_relationship_t *out_relationship )
 {
     TRACE_BEGIN();
     assert( NULL != out_relationship );
@@ -1381,7 +1381,7 @@ data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_
 }
 
 data_error_t data_database_reader_get_relationships_by_classifier_id ( data_database_reader_t *this_,
-                                                                       int64_t classifier_id,
+                                                                       data_row_id_t classifier_id,
                                                                        uint32_t max_out_array_size,
                                                                        data_relationship_t (*out_relationship)[],
                                                                        uint32_t *out_relationship_count )
@@ -1460,7 +1460,7 @@ data_error_t data_database_reader_get_relationships_by_classifier_id ( data_data
 }
 
 data_error_t data_database_reader_get_relationships_by_feature_id ( data_database_reader_t *this_,
-                                                                    int64_t feature_id,
+                                                                    data_row_id_t feature_id,
                                                                     uint32_t max_out_array_size,
                                                                     data_relationship_t (*out_relationship)[],
                                                                     uint32_t *out_relationship_count )
@@ -1539,7 +1539,7 @@ data_error_t data_database_reader_get_relationships_by_feature_id ( data_databas
 }
 
 data_error_t data_database_reader_get_relationships_by_diagram_id ( data_database_reader_t *this_,
-                                                                    int64_t diagram_id,
+                                                                    data_row_id_t diagram_id,
                                                                     uint32_t max_out_array_size,
                                                                     data_relationship_t (*out_relationship)[],
                                                                     uint32_t *out_relationship_count )

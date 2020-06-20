@@ -5,7 +5,7 @@
 #include <assert.h>
 
 static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
-                                                   int64_t parent_diagram_id,
+                                                   data_row_id_t parent_diagram_id,
                                                    data_diagram_type_t diagram_type,
                                                    const char* diagram_name,
                                                    const char* diagram_description,
@@ -62,8 +62,8 @@ static inline void data_diagram_reinit_empty ( data_diagram_t *this_ )
 }
 
 static inline data_error_t data_diagram_init ( data_diagram_t *this_,
-                                               int64_t diagram_id,
-                                               int64_t parent_diagram_id,
+                                               data_row_id_t diagram_id,
+                                               data_row_id_t parent_diagram_id,
                                                data_diagram_type_t diagram_type,
                                                const char* diagram_name,
                                                const char* diagram_description,
@@ -135,12 +135,12 @@ static inline void data_diagram_trace ( const data_diagram_t *this_ )
     TRACE_INFO_INT( "- list_order:", (*this_).list_order );
 }
 
-static inline int64_t data_diagram_get_id ( const data_diagram_t *this_ )
+static inline data_row_id_t data_diagram_get_id ( const data_diagram_t *this_ )
 {
     return (*this_).id;
 }
 
-static inline void data_diagram_set_id ( data_diagram_t *this_, int64_t id )
+static inline void data_diagram_set_id ( data_diagram_t *this_, data_row_id_t id )
 {
     (*this_).id = id;
 }
@@ -153,12 +153,12 @@ static inline data_id_t data_diagram_get_data_id ( const data_diagram_t *this_ )
 }
 
 
-static inline int64_t data_diagram_get_parent_id ( const data_diagram_t *this_ )
+static inline data_row_id_t data_diagram_get_parent_id ( const data_diagram_t *this_ )
 {
     return (*this_).parent_id;
 }
 
-static inline void data_diagram_set_parent_id ( data_diagram_t *this_, int64_t parent_id )
+static inline void data_diagram_set_parent_id ( data_diagram_t *this_, data_row_id_t parent_id )
 {
     (*this_).parent_id = parent_id;
 }

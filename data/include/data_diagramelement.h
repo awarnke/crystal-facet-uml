@@ -11,6 +11,7 @@
 
 #include "data_diagramelement_flag.h"
 #include "data_id.h"
+#include "data_row_id.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -18,10 +19,10 @@
  *  \brief all data attributes needed for the diagramelement functions
  */
 struct data_diagramelement_struct {
-    int64_t id;  /*!< id of the diagramelement_t relation */
-    int64_t diagram_id;  /*!< id of the referenced diagram_t */
-    int64_t classifier_id;  /*!< id of the referenced classifier_t */
-    int64_t focused_feature_id;  /*!< focused_feature_id is optional; -1 if not used */
+    data_row_id_t id;  /*!< id of the diagramelement_t relation */
+    data_row_id_t diagram_id;  /*!< id of the referenced diagram_t */
+    data_row_id_t classifier_id;  /*!< id of the referenced classifier_t */
+    data_row_id_t focused_feature_id;  /*!< focused_feature_id is optional; -1 if not used */
 
     data_diagramelement_flag_t display_flags;  /*!< flags that influence the way how the classifier is displayed in the diagram. \see data_diagramelement_display_flag_enum */
 };
@@ -54,10 +55,10 @@ static inline void data_diagramelement_reinit_empty ( data_diagramelement_t *thi
  *  \param focused_feature_id id of the focused feature_t or DATA_ID_VOID_ID if no feature is focused
  */
 static inline void data_diagramelement_init_new ( data_diagramelement_t *this_,
-                                                  int64_t diagram_id,
-                                                  int64_t classifier_id,
+                                                  data_row_id_t diagram_id,
+                                                  data_row_id_t classifier_id,
                                                   data_diagramelement_flag_t display_flags,
-                                                  int64_t focused_feature_id
+                                                  data_row_id_t focused_feature_id
                                                 );
 
 /*!
@@ -71,11 +72,11 @@ static inline void data_diagramelement_init_new ( data_diagramelement_t *this_,
  *  \param focused_feature_id id of the focused feature_t or DATA_ID_VOID_ID if no feature is focused
  */
 static inline void data_diagramelement_init ( data_diagramelement_t *this_,
-                                              int64_t id,
-                                              int64_t diagram_id,
-                                              int64_t classifier_id,
+                                              data_row_id_t id,
+                                              data_row_id_t diagram_id,
+                                              data_row_id_t classifier_id,
                                               data_diagramelement_flag_t display_flags,
-                                              int64_t focused_feature_id
+                                              data_row_id_t focused_feature_id
                                             );
 
 /*!
@@ -89,11 +90,11 @@ static inline void data_diagramelement_init ( data_diagramelement_t *this_,
  *  \param focused_feature_id id of the focused feature_t or DATA_ID_VOID_ID if no feature is focused
  */
 static inline void data_diagramelement_reinit ( data_diagramelement_t *this_,
-                                                int64_t id,
-                                                int64_t diagram_id,
-                                                int64_t classifier_id,
+                                                data_row_id_t id,
+                                                data_row_id_t diagram_id,
+                                                data_row_id_t classifier_id,
                                                 data_diagramelement_flag_t display_flags,
-                                                int64_t focused_feature_id
+                                                data_row_id_t focused_feature_id
                                               );
 
 /*!
@@ -140,7 +141,7 @@ static inline void data_diagramelement_trace ( const data_diagramelement_t *this
  *  \param this_ pointer to own object attributes
  *  \return attribute id, DATA_ID_VOID_ID if this_ is not valid
  */
-static inline int64_t data_diagramelement_get_id ( const data_diagramelement_t *this_ );
+static inline data_row_id_t data_diagramelement_get_id ( const data_diagramelement_t *this_ );
 
 /*!
  *  \brief sets the attribute id
@@ -148,7 +149,7 @@ static inline int64_t data_diagramelement_get_id ( const data_diagramelement_t *
  *  \param this_ pointer to own object attributes
  *  \param id new id of this object
  */
-static inline void data_diagramelement_set_id ( data_diagramelement_t *this_, int64_t id );
+static inline void data_diagramelement_set_id ( data_diagramelement_t *this_, data_row_id_t id );
 
 /*!
  *  \brief gets the data_id derived from the id attribute
@@ -164,7 +165,7 @@ static inline data_id_t data_diagramelement_get_data_id ( const data_diagramelem
  *  \param this_ pointer to own object attributes
  *  \return attribute diagram_id, DATA_ID_VOID_ID if the referenced diagram is not valid
  */
-static inline int64_t data_diagramelement_get_diagram_id ( const data_diagramelement_t *this_ );
+static inline data_row_id_t data_diagramelement_get_diagram_id ( const data_diagramelement_t *this_ );
 
 /*!
  *  \brief gets the attribute classifier_id
@@ -172,7 +173,7 @@ static inline int64_t data_diagramelement_get_diagram_id ( const data_diagramele
  *  \param this_ pointer to own object attributes
  *  \return attribute classifier_id, DATA_ID_VOID_ID if the referenced classifier is not valid
  */
-static inline int64_t data_diagramelement_get_classifier_id ( const data_diagramelement_t *this_ );
+static inline data_row_id_t data_diagramelement_get_classifier_id ( const data_diagramelement_t *this_ );
 
 /*!
  *  \brief gets the attribute focused_feature_id
@@ -180,7 +181,7 @@ static inline int64_t data_diagramelement_get_classifier_id ( const data_diagram
  *  \param this_ pointer to own object attributes
  *  \return attribute focused_feature_id, DATA_ID_VOID_ID if there is no focused feature
  */
-static inline int64_t data_diagramelement_get_focused_feature_id ( const data_diagramelement_t *this_ );
+static inline data_row_id_t data_diagramelement_get_focused_feature_id ( const data_diagramelement_t *this_ );
 
 /*!
  *  \brief sets the attribute focused_feature_id
@@ -188,7 +189,7 @@ static inline int64_t data_diagramelement_get_focused_feature_id ( const data_di
  *  \param this_ pointer to own object attributes
  *  \param focused_feature_id new attribute focused_feature_id
  */
-static inline void data_diagramelement_set_focused_feature_id ( data_diagramelement_t *this_, int64_t focused_feature_id );
+static inline void data_diagramelement_set_focused_feature_id ( data_diagramelement_t *this_, data_row_id_t focused_feature_id );
 
 /*!
  *  \brief gets the attribute display_flags

@@ -94,7 +94,7 @@ void gui_sketch_nav_tree_destroy ( gui_sketch_nav_tree_t *this_ );
  *  \param diagram_id id of the diagram to load
  *  \param db_reader pointer to a database reader object
  */
-void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagram_id, data_database_reader_t *db_reader );
+void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader );
 
 /*!
  *  \brief gets the id of the root diagram
@@ -102,7 +102,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagra
  *  \param this_ pointer to own object attributes
  *  \return the id of the root diagram, DATA_ID_VOID_ID if no diagrams exist
  */
-static inline int64_t gui_sketch_nav_tree_get_root_diagram_id ( const gui_sketch_nav_tree_t *this_ );
+static inline data_row_id_t gui_sketch_nav_tree_get_root_diagram_id ( const gui_sketch_nav_tree_t *this_ );
 
 /*!
  *  \brief gets the highest list order of the sibling diagrams
@@ -130,8 +130,8 @@ static inline int32_t gui_sketch_nav_tree_get_children_highest_order ( const gui
  *  \return GUI_ERROR_NONE if both ids are in the cache, GUI_ERROR_UNKNOWN_OBJECT otherwise
  */
 static inline gui_error_t gui_sketch_nav_tree_is_descendant ( const gui_sketch_nav_tree_t *this_,
-                                                              int64_t probe_ancestor_id,
-                                                              int64_t probe_descendant_id,
+                                                              data_row_id_t probe_ancestor_id,
+                                                              data_row_id_t probe_descendant_id,
                                                               bool *out_is_descendant
                                                             );
 

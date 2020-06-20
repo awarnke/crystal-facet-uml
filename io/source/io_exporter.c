@@ -143,7 +143,7 @@ int io_exporter_private_get_filename( io_exporter_t *this_,
 }
 
 int io_exporter_private_export_image_files( io_exporter_t *this_,
-                                            int64_t diagram_id,
+                                            data_row_id_t diagram_id,
                                             uint32_t max_recursion,
                                             io_file_format_t export_type,
                                             const char* target_folder )
@@ -261,7 +261,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
             {
                 data_id_t probe;
                 probe = data_small_set_get_id( &the_set, pos );
-                int64_t probe_row_id;
+                data_row_id_t probe_row_id;
                 probe_row_id = data_id_get_row_id( &probe );
 
                 result |= io_exporter_private_export_image_files( this_, probe_row_id, max_recursion-1, export_type, target_folder );
@@ -369,7 +369,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
 }
 
 int io_exporter_private_export_document_part( io_exporter_t *this_,
-                                              int64_t diagram_id,
+                                              data_row_id_t diagram_id,
                                               uint32_t max_recursion,
                                               io_format_writer_t *format_writer )
 {
@@ -425,7 +425,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
             for ( uint32_t pos = 0; pos < child_count; pos ++ )
             {
                 data_id_t probe = data_small_set_get_id( &the_set, pos );
-                const int64_t probe_row_id = data_id_get_row_id( &probe );
+                const data_row_id_t probe_row_id = data_id_get_row_id( &probe );
 
                 export_err |= io_exporter_private_export_document_part( this_, probe_row_id, max_recursion-1, format_writer );
 
@@ -447,7 +447,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
 }
 
 int io_exporter_private_export_table_of_contents( io_exporter_t *this_,
-                                                  int64_t diagram_id,
+                                                  data_row_id_t diagram_id,
                                                   uint32_t max_recursion,
                                                   io_format_writer_t *format_writer )
 {
@@ -496,7 +496,7 @@ int io_exporter_private_export_table_of_contents( io_exporter_t *this_,
                 for ( uint32_t pos = 0; pos < child_count; pos ++ )
                 {
                     data_id_t probe = data_small_set_get_id( &the_set, pos );
-                    const int64_t probe_row_id = data_id_get_row_id( &probe );
+                    const data_row_id_t probe_row_id = data_id_get_row_id( &probe );
 
                     export_err |= io_exporter_private_export_table_of_contents( this_, probe_row_id, max_recursion-1, format_writer );
 

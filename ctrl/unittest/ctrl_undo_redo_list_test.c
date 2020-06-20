@@ -72,9 +72,9 @@ static void undo_redo_classifier(void)
 {
     ctrl_error_t ctrl_err;
     data_error_t data_err;
-    int64_t root_diagram_id;
-    int64_t classifier_id;
-    int64_t diagele_id;
+    data_row_id_t root_diagram_id;
+    data_row_id_t classifier_id;
+    data_row_id_t diagele_id;
     ctrl_diagram_controller_t *diag_ctrl;
     diag_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
     ctrl_classifier_controller_t *classifier_ctrl;
@@ -265,8 +265,8 @@ static void undo_redo_classifier(void)
 static void undo_redo_list_limits(void)
 {
     ctrl_error_t ctrl_err;
-    int64_t root_diagram_id;
-    int64_t child_diag_id;
+    data_row_id_t root_diagram_id;
+    data_row_id_t child_diag_id;
     ctrl_diagram_controller_t *diag_ctrl;
     diag_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
 
@@ -453,7 +453,7 @@ static void undo_redo_feature_and_relationship(void)
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     /* 1. create the feature in the db */
-    int64_t new_feature_id;
+    data_row_id_t new_feature_id;
     ctrl_err = ctrl_classifier_controller_create_feature ( classifier_ctrl,
                                                            &step1,
                                                            false, /* add_to_latest_undo_set */
@@ -491,7 +491,7 @@ static void undo_redo_feature_and_relationship(void)
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     /* 3b. create the relationship in the db */
-    int64_t new_relationship_id;
+    data_row_id_t new_relationship_id;
     ctrl_err = ctrl_classifier_controller_create_relationship ( classifier_ctrl,
                                                                 &step3b,
                                                                 true, /* add_to_latest_undo_set */
@@ -791,7 +791,7 @@ static void undo_redo_update_diagram(void)
     diag_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
 
     /* step 1: create a diagram */
-    int64_t root_diagram_id;
+    data_row_id_t root_diagram_id;
     root_diagram_id = DATA_ID_VOID_ID;
     ctrl_err = ctrl_diagram_controller_create_root_diagram_if_not_exists ( diag_ctrl,
                                                                            DATA_DIAGRAM_TYPE_SYSML_REQUIREMENTS_DIAGRAM,
@@ -802,7 +802,7 @@ static void undo_redo_update_diagram(void)
     TEST_ASSERT( DATA_ID_VOID_ID != root_diagram_id );
 
     /* step 2: create a diagramelement */
-    int64_t diagele_id;
+    data_row_id_t diagele_id;
     diagele_id = DATA_ID_VOID_ID;
     data_diagramelement_t new_diagele;
     data_diagramelement_init_new ( &new_diagele,

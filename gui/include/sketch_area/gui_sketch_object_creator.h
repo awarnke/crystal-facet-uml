@@ -67,11 +67,11 @@ void gui_sketch_object_creator_destroy ( gui_sketch_object_creator_t *this_ );
  *  \return CTRL_ERROR_NONE in case of success, CTRL_ERROR_DUPLICATE_NAME in case of error
  */
 ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creator_t *this_,
-                                                           int64_t diagram_id,
+                                                           data_row_id_t diagram_id,
                                                            int32_t x_order,
                                                            int32_t y_order,
-                                                           int64_t *out_diagramelement_id,
-                                                           int64_t *out_classifier_id
+                                                           data_row_id_t *out_diagramelement_id,
+                                                           data_row_id_t *out_classifier_id
                                                          );
 
 /*!
@@ -88,13 +88,13 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
  *  \return CTRL_ERROR_NONE in case of success, CTRL_ERROR_DUPLICATE_NAME in case of error
  */
 ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_object_creator_t *this_,
-                                                                    int64_t diagram_id,
-                                                                    int64_t parent_classifier_id,
+                                                                    data_row_id_t diagram_id,
+                                                                    data_row_id_t parent_classifier_id,
                                                                     int32_t x_order,
                                                                     int32_t y_order,
-                                                                    int64_t *out_diagramelement_id,
-                                                                    int64_t *out_classifier_id,
-                                                                    int64_t *out_relationship_id
+                                                                    data_row_id_t *out_diagramelement_id,
+                                                                    data_row_id_t *out_classifier_id,
+                                                                    data_row_id_t *out_relationship_id
                                                                   );
 
 /*!
@@ -107,9 +107,9 @@ ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_o
  *  \return CTRL_ERROR_NONE in case of success
  */
 ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creator_t *this_,
-                                                        int64_t parent_diagram_id,
+                                                        data_row_id_t parent_diagram_id,
                                                         int32_t list_order,
-                                                        int64_t *out_diagram_id
+                                                        data_row_id_t *out_diagram_id
                                                       );
 
 /*!
@@ -127,12 +127,12 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
  */
 ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_creator_t *this_,
                                                              data_diagram_type_t diag_type,
-                                                             int64_t from_classifier_id,
-                                                             int64_t from_feature_id,
-                                                             int64_t to_classifier_id,
-                                                             int64_t to_feature_id,
+                                                             data_row_id_t from_classifier_id,
+                                                             data_row_id_t from_feature_id,
+                                                             data_row_id_t to_classifier_id,
+                                                             data_row_id_t to_feature_id,
                                                              int32_t list_order,
-                                                             int64_t *out_relationship_id
+                                                             data_row_id_t *out_relationship_id
                                                            );
 
 /*!
@@ -148,10 +148,10 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
  */
 ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_t *this_,
                                                         data_diagram_type_t diag_type,
-                                                        int64_t parent_classifier_id,
+                                                        data_row_id_t parent_classifier_id,
                                                         int32_t std_list_order,
                                                         int32_t port_list_order,
-                                                        int64_t *out_feature_id
+                                                        data_row_id_t *out_feature_id
                                                       );
 
 /*!

@@ -159,7 +159,7 @@ static inline const layout_visible_classifier_t *layout_feature_get_classifier_c
  *  \param this_ pointer to own object attributes
  *  \return id of the feature
  */
-static inline int64_t layout_feature_get_feature_id ( const layout_feature_t *this_ );
+static inline data_row_id_t layout_feature_get_feature_id ( const layout_feature_t *this_ );
 
 #include "layout_feature.inl"
 

@@ -76,9 +76,9 @@ static void classifier_create_read_modify_read(void)
 {
     ctrl_error_t ctrl_err;
     data_error_t data_err;
-    int64_t diagram_id;
-    int64_t classifier_id;
-    int64_t diagele_id;
+    data_row_id_t diagram_id;
+    data_row_id_t classifier_id;
+    data_row_id_t diagele_id;
     data_classifier_t read_classifier;
     ctrl_classifier_controller_t *classifier_ctrl;
     ctrl_diagram_controller_t *diagram_ctrl;
@@ -223,7 +223,7 @@ static void features_CRURDR(void)
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
 
     /* create a feature */
-    int64_t new_feature_id;
+    data_row_id_t new_feature_id;
     {
         data_feature_t probe;
         data_err = data_feature_init ( &probe,
@@ -340,7 +340,7 @@ static void relationship_CRURDR(void)
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
 
     /* create a relationship */
-    int64_t new_relationship_id;
+    data_row_id_t new_relationship_id;
     {
         data_relationship_t probe;
         data_err = data_relationship_init ( &probe,

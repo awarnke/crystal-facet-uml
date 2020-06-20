@@ -124,7 +124,7 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_sea
  *  \param this_ pointer to own object attributes
  *  \param main_diagram_id id of the main diagram to be shown or DATA_ID_VOID_ID for root diagram
  */
-void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_diagram_id );
+void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, data_row_id_t main_diagram_id );
 
 /*!
  *  \brief loads the cards and result_list data to be shown in seach mode
@@ -133,7 +133,7 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_
  *  \param result_list list of search results including their diagram ids to be displayed
  *  \param back_diagram_id id of the previously visible diagram or DATA_ID_VOID_ID for none
  */
-void gui_sketch_area_private_load_data_list ( gui_sketch_area_t *this_, const data_search_result_list_t *result_list, int64_t back_diagram_id );
+void gui_sketch_area_private_load_data_list ( gui_sketch_area_t *this_, const data_search_result_list_t *result_list, data_row_id_t back_diagram_id );
 
 /*!
  *  \brief re-loads the cards, nav_tree and result_list data to be shown
@@ -175,7 +175,7 @@ static inline data_diagram_t *gui_sketch_area_get_focused_diagram_ptr ( gui_sket
  *
  *  \param this_ pointer to own object attributes
  */
-static inline int64_t gui_sketch_area_get_focused_diagram_id ( gui_sketch_area_t *this_ );
+static inline data_row_id_t gui_sketch_area_get_focused_diagram_id ( gui_sketch_area_t *this_ );
 
 /*!
  *  \brief callback that redraws the sketch_area widget

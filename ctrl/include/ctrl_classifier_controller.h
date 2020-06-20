@@ -79,7 +79,7 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ );
 ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_controller_t *this_,
                                                             const data_classifier_t *new_classifier,
                                                             bool add_to_latest_undo_set,
-                                                            int64_t* out_new_id
+                                                            data_row_id_t* out_new_id
                                                           );
 
 /*!
@@ -95,7 +95,7 @@ ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_cont
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 ctrl_error_t ctrl_classifier_controller_delete_classifier ( ctrl_classifier_controller_t *this_,
-                                                            int64_t obj_id,
+                                                            data_row_id_t obj_id,
                                                             bool add_to_latest_undo_set
                                                           );
 
@@ -108,7 +108,7 @@ ctrl_error_t ctrl_classifier_controller_delete_classifier ( ctrl_classifier_cont
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classifier_controller_t *this_,
-                                                                       int64_t classifier_id,
+                                                                       data_row_id_t classifier_id,
                                                                        const char* new_classifier_stereotype
                                                                      );
 
@@ -121,7 +121,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_clas
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_classifier_controller_t *this_,
-                                                                        int64_t classifier_id,
+                                                                        data_row_id_t classifier_id,
                                                                         const char* new_classifier_description
                                                                       );
 
@@ -134,7 +134,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_cla
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_controller_t *this_,
-                                                                 int64_t classifier_id,
+                                                                 data_row_id_t classifier_id,
                                                                  const char* new_classifier_name
                                                                );
 
@@ -147,7 +147,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classifier_controller_t *this_,
-                                                                      int64_t classifier_id,
+                                                                      data_row_id_t classifier_id,
                                                                       data_classifier_type_t new_classifier_main_type
                                                                     );
 
@@ -160,7 +160,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_class
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_update_classifier_x_order ( ctrl_classifier_controller_t *this_,
-                                                                    int64_t classifier_id,
+                                                                    data_row_id_t classifier_id,
                                                                     int32_t new_classifier_x_order
                                                                   );
 
@@ -173,7 +173,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_x_order ( ctrl_classif
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_update_classifier_y_order ( ctrl_classifier_controller_t *this_,
-                                                                    int64_t classifier_id,
+                                                                    data_row_id_t classifier_id,
                                                                     int32_t new_classifier_y_order
                                                                   );
 
@@ -187,7 +187,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_y_order ( ctrl_classif
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl_classifier_controller_t *this_,
-                                                                            int64_t classifier_id,
+                                                                            data_row_id_t classifier_id,
                                                                             int32_t new_classifier_x_order,
                                                                             int32_t new_classifier_y_order
                                                                           );
@@ -201,7 +201,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_classifier_controller_t *this_,
-                                                                       int64_t classifier_id,
+                                                                       data_row_id_t classifier_id,
                                                                        int32_t new_classifier_list_order
                                                                      );
 
@@ -220,7 +220,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_clas
 ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controller_t *this_,
                                                          const data_feature_t *new_feature,
                                                          bool add_to_latest_undo_set,
-                                                         int64_t* out_new_id
+                                                         data_row_id_t* out_new_id
                                                        );
 
 /*!
@@ -235,7 +235,7 @@ ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_control
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controller_t *this_,
-                                                         int64_t obj_id,
+                                                         data_row_id_t obj_id,
                                                          bool add_to_latest_undo_set
                                                        );
 
@@ -248,7 +248,7 @@ ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_control
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_update_feature_main_type ( ctrl_classifier_controller_t *this_,
-                                                                   int64_t feature_id,
+                                                                   data_row_id_t feature_id,
                                                                    data_feature_type_t new_feature_type
                                                                  );
 
@@ -261,7 +261,7 @@ ctrl_error_t ctrl_classifier_controller_update_feature_main_type ( ctrl_classifi
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_controller_t *this_,
-                                                             int64_t feature_id,
+                                                             data_row_id_t feature_id,
                                                              const char* new_feature_key
                                                            );
 
@@ -274,7 +274,7 @@ ctrl_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_con
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_controller_t *this_,
-                                                               int64_t feature_id,
+                                                               data_row_id_t feature_id,
                                                                const char* new_feature_value
                                                              );
 
@@ -287,7 +287,7 @@ ctrl_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_c
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classifier_controller_t *this_,
-                                                                     int64_t feature_id,
+                                                                     data_row_id_t feature_id,
                                                                      const char* new_feature_description
                                                                    );
 
@@ -300,7 +300,7 @@ ctrl_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classi
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classifier_controller_t *this_,
-                                                                    int64_t feature_id,
+                                                                    data_row_id_t feature_id,
                                                                     int32_t new_feature_list_order
                                                                   );
 
@@ -319,7 +319,7 @@ ctrl_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classif
 ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_controller_t *this_,
                                                               const data_relationship_t *new_relationship,
                                                               bool add_to_latest_undo_set,
-                                                              int64_t* out_new_id
+                                                              data_row_id_t* out_new_id
                                                             );
 
 /*!
@@ -333,7 +333,7 @@ ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_co
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 ctrl_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_controller_t *this_,
-                                                              int64_t obj_id,
+                                                              data_row_id_t obj_id,
                                                               bool add_to_latest_undo_set
                                                             );
 
@@ -346,7 +346,7 @@ ctrl_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_co
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_classifier_controller_t *this_,
-                                                                        int64_t relationship_id,
+                                                                        data_row_id_t relationship_id,
                                                                         data_relationship_type_t new_relationship_type
                                                                       );
 
@@ -359,7 +359,7 @@ ctrl_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_cla
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifier_controller_t *this_,
-                                                                   int64_t relationship_id,
+                                                                   data_row_id_t relationship_id,
                                                                    const char* new_relationship_name
                                                                  );
 
@@ -372,7 +372,7 @@ ctrl_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifi
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_classifier_controller_t *this_,
-                                                                          int64_t relationship_id,
+                                                                          data_row_id_t relationship_id,
                                                                           const char* new_relationship_description
                                                                         );
 
@@ -385,7 +385,7 @@ ctrl_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_c
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_update_relationship_list_order ( ctrl_classifier_controller_t *this_,
-                                                                         int64_t relationship_id,
+                                                                         data_row_id_t relationship_id,
                                                                          int32_t new_relationship_list_order
                                                                        );
 

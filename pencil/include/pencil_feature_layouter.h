@@ -74,7 +74,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
  *  \param out_features_bounds memory location where the result shall be stored. Must not be NULL.
  */
 void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter_t *this_,
-                                                         int64_t diagramelement_id,
+                                                         data_row_id_t diagramelement_id,
                                                          PangoLayout *font_layout,
                                                          geometry_dimensions_t *out_features_bounds
                                                        );

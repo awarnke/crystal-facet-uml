@@ -84,12 +84,12 @@ void data_database_writer_db_change_callback ( data_database_writer_t *this_, da
 
 data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_,
                                                    const data_diagram_t *diagram,
-                                                   int64_t* out_new_id )
+                                                   data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
     assert( NULL != diagram );
     data_error_t result = DATA_ERROR_NONE;
-    int64_t new_id = DATA_ID_VOID_ID;
+    data_row_id_t new_id = DATA_ID_VOID_ID;
 
     result |= data_database_sql_builder_build_create_diagram_command( &((*this_).sql_builder), diagram );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
@@ -98,7 +98,7 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
     TSLOG_EVENT_INT( "sqlite3_exec: INSERT INTO diagrams ... ->", new_id );  /* do not log confidential information, only id */
 
     /* notify listeners */
-    int64_t parent_id;
+    data_row_id_t parent_id;
     parent_id = data_diagram_get_parent_id( diagram );
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ),
                                       DATA_CHANGE_EVENT_TYPE_CREATE,
@@ -118,7 +118,7 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
 }
 
 data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_,
-                                                   int64_t obj_id,
+                                                   data_row_id_t obj_id,
                                                    data_diagram_t *out_old_diagram )
 {
     TRACE_BEGIN();
@@ -183,7 +183,7 @@ data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_
 }
 
 data_error_t data_database_writer_update_diagram_description ( data_database_writer_t *this_,
-                                                               int64_t diagram_id,
+                                                               data_row_id_t diagram_id,
                                                                const char* new_diagram_description,
                                                                data_diagram_t *out_old_diagram )
 {
@@ -219,7 +219,7 @@ data_error_t data_database_writer_update_diagram_description ( data_database_wri
 }
 
 data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *this_,
-                                                        int64_t diagram_id,
+                                                        data_row_id_t diagram_id,
                                                         const char* new_diagram_name,
                                                         data_diagram_t *out_old_diagram )
 {
@@ -255,7 +255,7 @@ data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *
 }
 
 data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *this_,
-                                                        int64_t diagram_id,
+                                                        data_row_id_t diagram_id,
                                                         data_diagram_type_t new_diagram_type,
                                                         data_diagram_t *out_old_diagram )
 {
@@ -290,7 +290,7 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
 }
 
 data_error_t data_database_writer_update_diagram_list_order ( data_database_writer_t *this_,
-                                                              int64_t diagram_id,
+                                                              data_row_id_t diagram_id,
                                                               int32_t new_diagram_list_order,
                                                               data_diagram_t *out_old_diagram )
 {
@@ -325,8 +325,8 @@ data_error_t data_database_writer_update_diagram_list_order ( data_database_writ
 }
 
 data_error_t data_database_writer_update_diagram_parent_id ( data_database_writer_t *this_,
-                                                             int64_t diagram_id,
-                                                             int64_t new_diagram_parent_id,
+                                                             data_row_id_t diagram_id,
+                                                             data_row_id_t new_diagram_parent_id,
                                                              data_diagram_t *out_old_diagram )
 {
     TRACE_BEGIN();
@@ -365,12 +365,12 @@ data_error_t data_database_writer_update_diagram_parent_id ( data_database_write
 
 data_error_t data_database_writer_create_classifier( data_database_writer_t *this_,
                                                      const data_classifier_t *classifier,
-                                                     int64_t* out_new_id )
+                                                     data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
     assert( NULL != classifier );
     data_error_t result = DATA_ERROR_NONE;
-    int64_t new_id = DATA_ID_VOID_ID;
+    data_row_id_t new_id = DATA_ID_VOID_ID;
 
     result |= data_database_sql_builder_build_create_classifier_command( &((*this_).sql_builder), classifier );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
@@ -397,7 +397,7 @@ data_error_t data_database_writer_create_classifier( data_database_writer_t *thi
 }
 
 data_error_t data_database_writer_delete_classifier( data_database_writer_t *this_,
-                                                     int64_t obj_id,
+                                                     data_row_id_t obj_id,
                                                      data_classifier_t *out_old_classifier )
 {
     TRACE_BEGIN();
@@ -472,7 +472,7 @@ data_error_t data_database_writer_delete_classifier( data_database_writer_t *thi
 }
 
 data_error_t data_database_writer_update_classifier_stereotype ( data_database_writer_t *this_,
-                                                                 int64_t classifier_id,
+                                                                 data_row_id_t classifier_id,
                                                                  const char* new_classifier_stereotype,
                                                                  data_classifier_t *out_old_classifier )
 {
@@ -507,7 +507,7 @@ data_error_t data_database_writer_update_classifier_stereotype ( data_database_w
 }
 
 data_error_t data_database_writer_update_classifier_description ( data_database_writer_t *this_,
-                                                                  int64_t classifier_id,
+                                                                  data_row_id_t classifier_id,
                                                                   const char* new_classifier_description,
                                                                   data_classifier_t *out_old_classifier )
 {
@@ -542,7 +542,7 @@ data_error_t data_database_writer_update_classifier_description ( data_database_
 }
 
 data_error_t data_database_writer_update_classifier_name ( data_database_writer_t *this_,
-                                                           int64_t classifier_id,
+                                                           data_row_id_t classifier_id,
                                                            const char* new_classifier_name,
                                                            data_classifier_t *out_old_classifier )
 {
@@ -577,7 +577,7 @@ data_error_t data_database_writer_update_classifier_name ( data_database_writer_
 }
 
 data_error_t data_database_writer_update_classifier_main_type ( data_database_writer_t *this_,
-                                                                int64_t classifier_id,
+                                                                data_row_id_t classifier_id,
                                                                 data_classifier_type_t new_classifier_main_type,
                                                                 data_classifier_t *out_old_classifier )
 {
@@ -612,7 +612,7 @@ data_error_t data_database_writer_update_classifier_main_type ( data_database_wr
 }
 
 data_error_t data_database_writer_update_classifier_x_order ( data_database_writer_t *this_,
-                                                              int64_t classifier_id,
+                                                              data_row_id_t classifier_id,
                                                               int32_t new_classifier_x_order,
                                                               data_classifier_t *out_old_classifier )
 {
@@ -647,7 +647,7 @@ data_error_t data_database_writer_update_classifier_x_order ( data_database_writ
 }
 
 data_error_t data_database_writer_update_classifier_y_order ( data_database_writer_t *this_,
-                                                              int64_t classifier_id,
+                                                              data_row_id_t classifier_id,
                                                               int32_t new_classifier_y_order,
                                                               data_classifier_t *out_old_classifier )
 {
@@ -682,7 +682,7 @@ data_error_t data_database_writer_update_classifier_y_order ( data_database_writ
 }
 
 data_error_t data_database_writer_update_classifier_list_order ( data_database_writer_t *this_,
-                                                                 int64_t classifier_id,
+                                                                 data_row_id_t classifier_id,
                                                                  int32_t new_classifier_list_order,
                                                                  data_classifier_t *out_old_classifier )
 {
@@ -720,12 +720,12 @@ data_error_t data_database_writer_update_classifier_list_order ( data_database_w
 
 data_error_t data_database_writer_create_diagramelement( data_database_writer_t *this_,
                                                          const data_diagramelement_t *diagramelement,
-                                                         int64_t* out_new_id )
+                                                         data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
     assert( NULL != diagramelement );
     data_error_t result = DATA_ERROR_NONE;
-    int64_t new_id = DATA_ID_VOID_ID;
+    data_row_id_t new_id = DATA_ID_VOID_ID;
 
     result |= data_database_sql_builder_build_create_diagramelement_command( &((*this_).sql_builder), diagramelement );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
@@ -734,7 +734,7 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
     TSLOG_EVENT_INT( "sqlite3_exec: INSERT INTO diagramelements ... ->", new_id );  /* do not log confidential information, only id */
 
     /* notify listeners */
-    int64_t diagram_id;
+    data_row_id_t diagram_id;
     diagram_id = data_diagramelement_get_diagram_id( diagramelement );
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ),
                                       DATA_CHANGE_EVENT_TYPE_CREATE,
@@ -754,7 +754,7 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
 }
 
 data_error_t data_database_writer_delete_diagramelement( data_database_writer_t *this_,
-                                                         int64_t obj_id,
+                                                         data_row_id_t obj_id,
                                                          data_diagramelement_t *out_old_diagramelement )
 {
     TRACE_BEGIN();
@@ -788,7 +788,7 @@ data_error_t data_database_writer_delete_diagramelement( data_database_writer_t 
 }
 
 data_error_t data_database_writer_update_diagramelement_display_flags ( data_database_writer_t *this_,
-                                                                        int64_t diagramelement_id,
+                                                                        data_row_id_t diagramelement_id,
                                                                         data_diagramelement_flag_t new_display_flags,
                                                                         data_diagramelement_t *out_old_diagramelement )
 {
@@ -823,8 +823,8 @@ data_error_t data_database_writer_update_diagramelement_display_flags ( data_dat
 }
 
 data_error_t data_database_writer_update_diagramelement_focused_feature_id ( data_database_writer_t *this_,
-                                                                             int64_t diagramelement_id,
-                                                                             int64_t new_focused_feature_id,
+                                                                             data_row_id_t diagramelement_id,
+                                                                             data_row_id_t new_focused_feature_id,
                                                                              data_diagramelement_t *out_old_diagramelement )
 {
     TRACE_BEGIN();
@@ -859,12 +859,12 @@ data_error_t data_database_writer_update_diagramelement_focused_feature_id ( dat
 
 /* ================================ FEATURE ================================ */
 
-data_error_t data_database_writer_create_feature ( data_database_writer_t *this_, const data_feature_t *feature, int64_t* out_new_id )
+data_error_t data_database_writer_create_feature ( data_database_writer_t *this_, const data_feature_t *feature, data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
     assert( NULL != feature );
     data_error_t result = DATA_ERROR_NONE;
-    int64_t new_id = DATA_ID_VOID_ID;
+    data_row_id_t new_id = DATA_ID_VOID_ID;
 
     result |= data_database_sql_builder_build_create_feature_command( &((*this_).sql_builder), feature );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
@@ -873,7 +873,7 @@ data_error_t data_database_writer_create_feature ( data_database_writer_t *this_
     TSLOG_EVENT_INT( "sqlite3_exec: INSERT INTO features ... ->", new_id );  /* do not log confidential information, only id */
 
     /* notify listeners */
-    int64_t classifier_id;
+    data_row_id_t classifier_id;
     classifier_id = data_feature_get_classifier_id( feature );
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ),
                                       DATA_CHANGE_EVENT_TYPE_CREATE,
@@ -892,7 +892,7 @@ data_error_t data_database_writer_create_feature ( data_database_writer_t *this_
     return result;
 }
 
-data_error_t data_database_writer_delete_feature ( data_database_writer_t *this_, int64_t obj_id, data_feature_t *out_old_feature )
+data_error_t data_database_writer_delete_feature ( data_database_writer_t *this_, data_row_id_t obj_id, data_feature_t *out_old_feature )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
@@ -924,7 +924,7 @@ data_error_t data_database_writer_delete_feature ( data_database_writer_t *this_
     return result;
 }
 
-data_error_t data_database_writer_update_feature_main_type ( data_database_writer_t *this_, int64_t feature_id, data_feature_type_t new_feature_type, data_feature_t *out_old_feature )
+data_error_t data_database_writer_update_feature_main_type ( data_database_writer_t *this_, data_row_id_t feature_id, data_feature_type_t new_feature_type, data_feature_t *out_old_feature )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
@@ -956,7 +956,7 @@ data_error_t data_database_writer_update_feature_main_type ( data_database_write
     return result;
 }
 
-data_error_t data_database_writer_update_feature_key ( data_database_writer_t *this_, int64_t feature_id, const char* new_feature_key, data_feature_t *out_old_feature )
+data_error_t data_database_writer_update_feature_key ( data_database_writer_t *this_, data_row_id_t feature_id, const char* new_feature_key, data_feature_t *out_old_feature )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
@@ -988,7 +988,7 @@ data_error_t data_database_writer_update_feature_key ( data_database_writer_t *t
     return result;
 }
 
-data_error_t data_database_writer_update_feature_value ( data_database_writer_t *this_, int64_t feature_id, const char* new_feature_value, data_feature_t *out_old_feature )
+data_error_t data_database_writer_update_feature_value ( data_database_writer_t *this_, data_row_id_t feature_id, const char* new_feature_value, data_feature_t *out_old_feature )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
@@ -1020,7 +1020,7 @@ data_error_t data_database_writer_update_feature_value ( data_database_writer_t 
     return result;
 }
 
-data_error_t data_database_writer_update_feature_description ( data_database_writer_t *this_, int64_t feature_id, const char* new_feature_description, data_feature_t *out_old_feature )
+data_error_t data_database_writer_update_feature_description ( data_database_writer_t *this_, data_row_id_t feature_id, const char* new_feature_description, data_feature_t *out_old_feature )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
@@ -1052,7 +1052,7 @@ data_error_t data_database_writer_update_feature_description ( data_database_wri
     return result;
 }
 
-data_error_t data_database_writer_update_feature_list_order ( data_database_writer_t *this_, int64_t feature_id, int32_t new_feature_list_order, data_feature_t *out_old_feature )
+data_error_t data_database_writer_update_feature_list_order ( data_database_writer_t *this_, data_row_id_t feature_id, int32_t new_feature_list_order, data_feature_t *out_old_feature )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
@@ -1086,12 +1086,12 @@ data_error_t data_database_writer_update_feature_list_order ( data_database_writ
 
 /* ================================ RELATIONSHIP ================================ */
 
-data_error_t data_database_writer_create_relationship ( data_database_writer_t *this_, const data_relationship_t *relationship, int64_t* out_new_id )
+data_error_t data_database_writer_create_relationship ( data_database_writer_t *this_, const data_relationship_t *relationship, data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
     assert( NULL != relationship );
     data_error_t result = DATA_ERROR_NONE;
-    int64_t new_id = DATA_ID_VOID_ID;
+    data_row_id_t new_id = DATA_ID_VOID_ID;
 
     result |= data_database_sql_builder_build_create_relationship_command( &((*this_).sql_builder), relationship );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
@@ -1100,7 +1100,7 @@ data_error_t data_database_writer_create_relationship ( data_database_writer_t *
     TSLOG_EVENT_INT( "sqlite3_exec: INSERT INTO relationships ... ->", new_id );  /* do not log confidential information, only id */
 
     /* notify listeners */
-    int64_t from_classifier_id;
+    data_row_id_t from_classifier_id;
     from_classifier_id = data_relationship_get_from_classifier_id( relationship );
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ),
                                       DATA_CHANGE_EVENT_TYPE_CREATE,
@@ -1119,7 +1119,7 @@ data_error_t data_database_writer_create_relationship ( data_database_writer_t *
     return result;
 }
 
-data_error_t data_database_writer_delete_relationship ( data_database_writer_t *this_, int64_t obj_id, data_relationship_t *out_old_relationship )
+data_error_t data_database_writer_delete_relationship ( data_database_writer_t *this_, data_row_id_t obj_id, data_relationship_t *out_old_relationship )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
@@ -1151,7 +1151,7 @@ data_error_t data_database_writer_delete_relationship ( data_database_writer_t *
     return result;
 }
 
-data_error_t data_database_writer_update_relationship_main_type ( data_database_writer_t *this_, int64_t relationship_id, data_relationship_type_t new_relationship_type, data_relationship_t *out_old_relationship )
+data_error_t data_database_writer_update_relationship_main_type ( data_database_writer_t *this_, data_row_id_t relationship_id, data_relationship_type_t new_relationship_type, data_relationship_t *out_old_relationship )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
@@ -1183,7 +1183,7 @@ data_error_t data_database_writer_update_relationship_main_type ( data_database_
     return result;
 }
 
-data_error_t data_database_writer_update_relationship_name ( data_database_writer_t *this_, int64_t relationship_id, const char* new_relationship_name, data_relationship_t *out_old_relationship )
+data_error_t data_database_writer_update_relationship_name ( data_database_writer_t *this_, data_row_id_t relationship_id, const char* new_relationship_name, data_relationship_t *out_old_relationship )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
@@ -1215,7 +1215,7 @@ data_error_t data_database_writer_update_relationship_name ( data_database_write
     return result;
 }
 
-data_error_t data_database_writer_update_relationship_description ( data_database_writer_t *this_, int64_t relationship_id, const char* new_relationship_description, data_relationship_t *out_old_relationship )
+data_error_t data_database_writer_update_relationship_description ( data_database_writer_t *this_, data_row_id_t relationship_id, const char* new_relationship_description, data_relationship_t *out_old_relationship )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
@@ -1247,7 +1247,7 @@ data_error_t data_database_writer_update_relationship_description ( data_databas
     return result;
 }
 
-data_error_t data_database_writer_update_relationship_list_order ( data_database_writer_t *this_, int64_t relationship_id, int32_t new_relationship_list_order, data_relationship_t *out_old_relationship )
+data_error_t data_database_writer_update_relationship_list_order ( data_database_writer_t *this_, data_row_id_t relationship_id, int32_t new_relationship_list_order, data_relationship_t *out_old_relationship )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
@@ -1281,7 +1281,7 @@ data_error_t data_database_writer_update_relationship_list_order ( data_database
 
 /* ================================ private ================================ */
 
-data_error_t data_database_writer_private_execute_create_command ( data_database_writer_t *this_, const char* sql_statement, int64_t* out_new_id )
+data_error_t data_database_writer_private_execute_create_command ( data_database_writer_t *this_, const char* sql_statement, data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
     assert( NULL != sql_statement );
@@ -1334,7 +1334,7 @@ data_error_t data_database_writer_private_execute_create_command ( data_database
         {
             if ( SQLITE_OK == sqlite_err )
             {
-                int64_t new_id;
+                data_row_id_t new_id;
                 new_id = sqlite3_last_insert_rowid(db);
                 TSLOG_EVENT_INT( "sqlite3_last_insert_rowid():", new_id );
                 *out_new_id = new_id;

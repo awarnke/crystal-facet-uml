@@ -71,8 +71,8 @@ static void create_read_modify_read(void)
 {
     ctrl_error_t ctrl_err;
     data_error_t data_err;
-    const static int64_t PARENT_ID = 17;
-    int64_t diagram_id;
+    const static data_row_id_t PARENT_ID = 17;
+    data_row_id_t diagram_id;
     uint32_t read_diagrams_count;
     data_diagram_t read_diagrams[2];
     ctrl_diagram_controller_t *diag_ctrl;
@@ -163,14 +163,14 @@ static void create_diagramelements_and_delete(void)
     data_error_t data_err;
     ctrl_classifier_controller_t *classifier_ctrl;
     ctrl_diagram_controller_t *diagram_ctrl;
-    int64_t diagram_id;
-    int64_t classifier_id;
+    data_row_id_t diagram_id;
+    data_row_id_t classifier_id;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
     diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
     uint32_t read_vis_classifiers_count;
     data_visible_classifier_t read_vis_classifiers[2];
     data_diagramelement_t *diag_element_ptr;
-    int64_t diag_element_id;
+    data_row_id_t diag_element_id;
     data_diagramelement_t diag_element;
     uint32_t out_diagram_count;
     data_diagram_t out_diagram[2];

@@ -19,6 +19,7 @@
 #include "set/data_small_set.h"
 #include "data_feature.h"
 #include "data_relationship.h"
+#include "data_row_id.h"
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>
@@ -100,7 +101,7 @@ static inline bool data_database_reader_is_open( data_database_reader_t *this_ )
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, int64_t id, data_diagram_t *out_diagram );
+data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, data_row_id_t id, data_diagram_t *out_diagram );
 
 /*!
  *  \brief reads all child-diagrams from the database
@@ -114,7 +115,7 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_,
-                                                              int64_t parent_id,
+                                                              data_row_id_t parent_id,
                                                               uint32_t max_out_array_size,
                                                               data_diagram_t (*out_diagram)[],
                                                               uint32_t *out_diagram_count
@@ -134,7 +135,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_reader_t *this_,
-                                                                  int64_t classifier_id,
+                                                                  data_row_id_t classifier_id,
                                                                   uint32_t max_out_array_size,
                                                                   data_diagram_t (*out_diagram)[],
                                                                   uint32_t *out_diagram_count
@@ -150,7 +151,7 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_reader_t *this_,
-                                                                 int64_t parent_id,
+                                                                 data_row_id_t parent_id,
                                                                  data_small_set_t *out_diagram_ids
                                                                );
 
@@ -165,7 +166,7 @@ data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_r
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, int64_t id, data_classifier_t *out_classifier );
+data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, data_row_id_t id, data_classifier_t *out_classifier );
 
 /*!
  *  \brief reads a classifier from the database
@@ -192,7 +193,7 @@ data_error_t data_database_reader_get_classifier_by_name ( data_database_reader_
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_,
-                                                                  int64_t diagram_id,
+                                                                  data_row_id_t diagram_id,
                                                                   uint32_t max_out_array_size,
                                                                   data_visible_classifier_t (*out_visible_classifier)[],
                                                                   uint32_t *out_visible_classifier_count
@@ -209,7 +210,7 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_, int64_t id, data_diagramelement_t *out_diagramelement );
+data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_, data_row_id_t id, data_diagramelement_t *out_diagramelement );
 
 /*!
  *  \brief reads all diagramelements of a diagram from the database
@@ -223,7 +224,7 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_database_reader_t *this_,
-                                                                      int64_t diagram_id,
+                                                                      data_row_id_t diagram_id,
                                                                       uint32_t max_out_array_size,
                                                                       data_diagramelement_t (*out_diagramelement)[],
                                                                       uint32_t *out_diagramelement_count
@@ -241,7 +242,7 @@ data_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_datab
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_database_reader_t *this_,
-                                                                         int64_t classifier_id,
+                                                                         data_row_id_t classifier_id,
                                                                          uint32_t max_out_array_size,
                                                                          data_diagramelement_t (*out_diagramelement)[],
                                                                          uint32_t *out_diagramelement_count
@@ -258,7 +259,7 @@ data_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_da
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *this_, int64_t id, data_feature_t *out_feature );
+data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *this_, data_row_id_t id, data_feature_t *out_feature );
 
 /*!
  *  \brief reads all features of a classifier from the database
@@ -272,7 +273,7 @@ data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *th
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_features_by_classifier_id ( data_database_reader_t *this_,
-                                                                  int64_t classifier_id,
+                                                                  data_row_id_t classifier_id,
                                                                   uint32_t max_out_array_size,
                                                                   data_feature_t (*out_feature)[],
                                                                   uint32_t *out_feature_count
@@ -292,7 +293,7 @@ data_error_t data_database_reader_get_features_by_classifier_id ( data_database_
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_features_by_diagram_id ( data_database_reader_t *this_,
-                                                               int64_t diagram_id,
+                                                               data_row_id_t diagram_id,
                                                                uint32_t max_out_array_size,
                                                                data_feature_t (*out_feature)[],
                                                                uint32_t *out_feature_count
@@ -309,7 +310,7 @@ data_error_t data_database_reader_get_features_by_diagram_id ( data_database_rea
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t *this_, int64_t id, data_relationship_t *out_relationship );
+data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t *this_, data_row_id_t id, data_relationship_t *out_relationship );
 
 /*!
  *  \brief reads all relationships of a classifier from the database
@@ -325,7 +326,7 @@ data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_relationships_by_classifier_id ( data_database_reader_t *this_,
-                                                                       int64_t classifier_id,
+                                                                       data_row_id_t classifier_id,
                                                                        uint32_t max_out_array_size,
                                                                        data_relationship_t (*out_relationship)[],
                                                                        uint32_t *out_relationship_count
@@ -345,7 +346,7 @@ data_error_t data_database_reader_get_relationships_by_classifier_id ( data_data
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_relationships_by_feature_id ( data_database_reader_t *this_,
-                                                                    int64_t feature_id,
+                                                                    data_row_id_t feature_id,
                                                                     uint32_t max_out_array_size,
                                                                     data_relationship_t (*out_relationship)[],
                                                                     uint32_t *out_relationship_count
@@ -365,7 +366,7 @@ data_error_t data_database_reader_get_relationships_by_feature_id ( data_databas
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_relationships_by_diagram_id ( data_database_reader_t *this_,
-                                                                    int64_t diagram_id,
+                                                                    data_row_id_t diagram_id,
                                                                     uint32_t max_out_array_size,
                                                                     data_relationship_t (*out_relationship)[],
                                                                     uint32_t *out_relationship_count
@@ -432,7 +433,7 @@ static inline data_error_t data_database_reader_private_bind_void_to_statement (
  *  \param id integer to bind to the prepared statement. DATA_ID_VOID_ID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline data_error_t data_database_reader_private_bind_id_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr, int64_t id );
+static inline data_error_t data_database_reader_private_bind_id_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr, data_row_id_t id );
 
 /*!
  *  \brief binds two integers to a prepared statement (after reset).
@@ -445,7 +446,7 @@ static inline data_error_t data_database_reader_private_bind_id_to_statement ( d
  *  \param id2 second integer to bind to the prepared statement. DATA_ID_VOID_ID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline data_error_t data_database_reader_private_bind_two_ids_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr, int64_t id1, int64_t id2 );
+static inline data_error_t data_database_reader_private_bind_two_ids_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr, data_row_id_t id1, data_row_id_t id2 );
 
 /*!
  *  \brief binds a single string to a prepared statement (after reset).

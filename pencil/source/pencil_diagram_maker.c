@@ -203,7 +203,7 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
             {
                 if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &mark_highlighted ) )
                 {
-                    int64_t diagramelement_id = data_id_get_row_id( &mark_highlighted );
+                    data_row_id_t diagramelement_id = data_id_get_row_id( &mark_highlighted );
                     const data_visible_classifier_t *visible_clsfy = data_visible_set_get_visible_classifier_by_id_const ( (*this_).input_data, diagramelement_id );
                     if ( visible_clsfy != NULL )
                     {
@@ -272,7 +272,7 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
 
         case DATA_TABLE_FEATURE:
         {
-            int64_t feature_id = data_id_get_row_id ( &obj_id );
+            data_row_id_t feature_id = data_id_get_row_id ( &obj_id );
             const data_feature_t *the_feature = data_visible_set_get_feature_by_id_const ( (*this_).input_data, feature_id );
             if( NULL != the_feature )
             {
@@ -294,7 +294,7 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            int64_t relationship_id = data_id_get_row_id ( &obj_id );
+            data_row_id_t relationship_id = data_id_get_row_id ( &obj_id );
             result = pencil_layouter_get_relationship_order_at_pos ( &((*this_).layouter),
                                                                      relationship_id,
                                                                      x,

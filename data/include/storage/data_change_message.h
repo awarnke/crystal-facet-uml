@@ -11,6 +11,7 @@
 
 #include "storage/data_change_event_type.h"
 #include "data_id.h"
+#include "data_row_id.h"
 #include "data_table.h"
 #include <stdbool.h>
 #include <stdint.h>

@@ -4,7 +4,7 @@
 #include "tslog.h"
 #include <util/string/utf8string.h>
 
-static inline void data_id_init ( data_id_t *this_, data_table_t table, int64_t row_id )
+static inline void data_id_init ( data_id_t *this_, data_table_t table, data_row_id_t row_id )
 {
     (*this_).table = table;
     (*this_).row_id = row_id;
@@ -90,7 +90,7 @@ static inline void data_id_init_by_string_region ( data_id_t *this_,
     }
 }
 
-static inline void data_id_reinit ( data_id_t *this_, data_table_t table, int64_t row_id )
+static inline void data_id_reinit ( data_id_t *this_, data_table_t table, data_row_id_t row_id )
 {
     (*this_).table = table;
     (*this_).row_id = row_id;
@@ -129,7 +129,7 @@ static inline data_table_t data_id_get_table ( const data_id_t *this_ )
     return (*this_).table;
 }
 
-static inline int64_t data_id_get_row_id ( const data_id_t *this_ )
+static inline data_row_id_t data_id_get_row_id ( const data_id_t *this_ )
 {
     return (*this_).row_id;
 }
@@ -155,7 +155,7 @@ static inline bool data_id_is_valid ( const data_id_t *this_ )
     return (( DATA_ID_VOID_ID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table ));
 }
 
-static inline bool data_id_equals_id ( const data_id_t *this_, data_table_t table, int64_t row_id )
+static inline bool data_id_equals_id ( const data_id_t *this_, data_table_t table, data_row_id_t row_id )
 {
     return ( ( DATA_ID_VOID_ID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table )
     &&( (*this_).row_id == row_id )&&( (*this_).table == table ) );

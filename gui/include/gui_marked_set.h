@@ -19,7 +19,7 @@ struct gui_marked_set_struct {
     data_id_t focused;  /*!<  references the one focused visible object, e.g. a data_diagram_t or a data_diagramelement_t (yellow corners) */
     data_id_t highlighted;  /*!<  references the one highlighted/mouse over object */
     data_small_set_t selected_set;  /*!<  references all selected objects (pink corners) */
-    int64_t focused_diagram;  /*!< the focused diagram, the place where to e.g. insert pasted objects */
+    data_row_id_t focused_diagram;  /*!< the focused diagram, the place where to e.g. insert pasted objects */
 };
 
 typedef struct gui_marked_set_struct gui_marked_set_t;
@@ -51,7 +51,7 @@ static inline data_id_t gui_marked_set_get_focused ( const gui_marked_set_t *thi
  *
  *  \param this_ pointer to own object attributes
  */
-static inline int64_t gui_marked_set_get_focused_diagram ( const gui_marked_set_t *this_ );
+static inline data_row_id_t gui_marked_set_get_focused_diagram ( const gui_marked_set_t *this_ );
 
 /*!
  *  \brief gets the highlighted object id
@@ -96,7 +96,7 @@ static inline void gui_marked_set_set_focused ( gui_marked_set_t *this_, data_id
  *  \param this_ pointer to own object attributes
  *  \param diag_id the id of the focused diagram
  */
-static inline void gui_marked_set_set_focused_diagram ( gui_marked_set_t *this_, int64_t diag_id );
+static inline void gui_marked_set_set_focused_diagram ( gui_marked_set_t *this_, data_row_id_t diag_id );
 
 /*!
  *  \brief sets the highlighted object id

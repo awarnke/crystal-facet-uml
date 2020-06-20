@@ -82,7 +82,7 @@ static void lifeline_to_diagramelement_consistency(void)
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
 
     /* create a diagram of type DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM */
-    int64_t root_diag_id;
+    data_row_id_t root_diag_id;
     {
         data_diagram_t root_diagram;
         data_err = data_diagram_init ( &root_diagram,
@@ -107,7 +107,7 @@ static void lifeline_to_diagramelement_consistency(void)
     }
 
     /* create a classifier of type DATA_CLASSIFIER_TYPE_UML_CLASS */
-    int64_t classifier_id;
+    data_row_id_t classifier_id;
     {
         data_classifier_t new_classifier;
         data_err = data_classifier_init_new ( &new_classifier,
@@ -133,7 +133,7 @@ static void lifeline_to_diagramelement_consistency(void)
     }
 
     /* create a diagramelement for the classifier */
-    int64_t first_diag_element_id;
+    data_row_id_t first_diag_element_id;
     {
         data_diagramelement_t new_diagele;
         data_diagramelement_init_new ( &new_diagele,
@@ -158,7 +158,7 @@ static void lifeline_to_diagramelement_consistency(void)
     static const uint32_t max_featues_size=2;
     data_feature_t features[2];
     uint32_t feature_count;
-    int64_t lifeline_id;
+    data_row_id_t lifeline_id;
     {
         data_err = data_database_reader_get_features_by_classifier_id ( &db_reader,
                                                                         classifier_id,

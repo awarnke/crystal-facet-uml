@@ -680,7 +680,7 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
     uint32_t count_operations = 0;
     {
         /* define names for input data */
-        const int64_t diagele_id = layout_visible_classifier_get_diagramelement_id ( layouted_classifier );
+        const data_row_id_t diagele_id = layout_visible_classifier_get_diagramelement_id ( layouted_classifier );
 
         const uint32_t num_features = pencil_layout_data_get_feature_count ( layout_data );
         for ( uint32_t f_probe_idx = 0; f_probe_idx < num_features; f_probe_idx ++ )

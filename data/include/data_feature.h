@@ -11,6 +11,7 @@
 
 #include "data_feature_type.h"
 #include "data_id.h"
+#include "data_row_id.h"
 #include "data_error.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdbool.h>
@@ -34,8 +35,8 @@ enum data_feature_max_enum {
  *  \see http://www.uml-diagrams.org/uml-core.html#feature
  */
 struct data_feature_struct {
-    int64_t id;
-    int64_t classifier_id;
+    data_row_id_t id;
+    data_row_id_t classifier_id;
 
     data_feature_type_t main_type;
     utf8stringbuf_t key;  /*!< name of the feature */
@@ -77,9 +78,9 @@ static inline void data_feature_reinit_empty ( data_feature_t *this_ );
  *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
  */
 static inline data_error_t data_feature_init ( data_feature_t *this_,
-                                               int64_t feature_id,
+                                               data_row_id_t feature_id,
                                                data_feature_type_t feature_main_type,
-                                               int64_t classifier_id,
+                                               data_row_id_t classifier_id,
                                                const char* feature_key,
                                                const char* feature_value,
                                                const char* feature_description,
@@ -115,7 +116,7 @@ static inline void data_feature_destroy ( data_feature_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline int64_t data_feature_get_id ( const data_feature_t *this_ );
+static inline data_row_id_t data_feature_get_id ( const data_feature_t *this_ );
 
 /*!
  *  \brief sets the attribute id
@@ -123,7 +124,7 @@ static inline int64_t data_feature_get_id ( const data_feature_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param id new id of this object
  */
-static inline void data_feature_set_id ( data_feature_t *this_, int64_t id );
+static inline void data_feature_set_id ( data_feature_t *this_, data_row_id_t id );
 
 /*!
  *  \brief gets the data_id derived from the id attribute
@@ -139,7 +140,7 @@ static inline data_id_t data_feature_get_data_id ( const data_feature_t *this_ )
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline int64_t data_feature_get_classifier_id ( const data_feature_t *this_ );
+static inline data_row_id_t data_feature_get_classifier_id ( const data_feature_t *this_ );
 
 /*!
  *  \brief sets the attribute classifier_id
@@ -147,7 +148,7 @@ static inline int64_t data_feature_get_classifier_id ( const data_feature_t *thi
  *  \param this_ pointer to own object attributes
  *  \param classifier_id new classifier_id of this object
  */
-static inline void data_feature_set_classifier_id ( data_feature_t *this_, int64_t classifier_id );
+static inline void data_feature_set_classifier_id ( data_feature_t *this_, data_row_id_t classifier_id );
 
 /*!
  *  \brief gets the data_id derived from the classifier_id attribute

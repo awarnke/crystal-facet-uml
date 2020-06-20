@@ -119,7 +119,7 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_sea
 
     /* load new data */
     gui_sketch_result_list_load_data( &((*this_).result_list), result_list, (*this_).db_reader );
-    int64_t go_back_id = gui_sketch_area_get_focused_diagram_id( this_ );
+    data_row_id_t go_back_id = gui_sketch_area_get_focused_diagram_id( this_ );
     gui_sketch_area_private_load_data_list ( this_, result_list, go_back_id );
 
     /* notify listener */
@@ -172,7 +172,7 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
     return FALSE;
 }
 
-void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_diagram_id )
+void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, data_row_id_t main_diagram_id )
 {
     TRACE_BEGIN();
     data_error_t db_err;
@@ -239,8 +239,8 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_
     if ( GUI_TOOLBOX_NAVIGATE == selected_tool )
     {
         /* determine ids */
-        int64_t selected_diagram_id;
-        int64_t parent_diagram_id;
+        data_row_id_t selected_diagram_id;
+        data_row_id_t parent_diagram_id;
         data_diagram_t *selected_diag;
         selected_diag = gui_sketch_area_get_focused_diagram_ptr( this_ );
         selected_diagram_id = data_diagram_get_id( selected_diag );
@@ -275,7 +275,7 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_
             {
                 if ( (*this_).card_num < GUI_SKETCH_AREA_CONST_MAX_CARDS )
                 {
-                    int64_t current_child_id;
+                    data_row_id_t current_child_id;
                     current_child_id = data_diagram_get_id( &((*this_).private_temp_diagram_buf[index]) );
                     gui_sketch_card_init( &((*this_).cards[(*this_).card_num]) );
                     gui_sketch_card_load_data( &((*this_).cards[(*this_).card_num]), current_child_id, (*this_).db_reader );
@@ -299,8 +299,8 @@ void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ 
     TRACE_BEGIN();
 
     /* determine currently selected diagram id and parent id from cache for emergency-fallback */
-    int64_t former_diagram_id;
-    int64_t former_parent_diagram_id;
+    data_row_id_t former_diagram_id;
+    data_row_id_t former_parent_diagram_id;
     //data_id_t former_focused_element;
     {
         data_diagram_t *former_diagram;
@@ -339,7 +339,7 @@ void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ 
     TRACE_END();
 }
 
-void gui_sketch_area_private_load_data_list ( gui_sketch_area_t *this_, const data_search_result_list_t *result_list, int64_t back_diagram_id )
+void gui_sketch_area_private_load_data_list ( gui_sketch_area_t *this_, const data_search_result_list_t *result_list, data_row_id_t back_diagram_id )
 {
     TRACE_BEGIN();
     assert( NULL != result_list );
@@ -369,7 +369,7 @@ void gui_sketch_area_private_load_data_list ( gui_sketch_area_t *this_, const da
             }
             else
             {
-                int64_t diag_row_id = data_id_get_row_id( &diag_id );
+                data_row_id_t diag_row_id = data_id_get_row_id( &diag_id );
                 {
                     gui_sketch_card_init( &((*this_).cards[(*this_).card_num]) );
                     gui_sketch_card_load_data( &((*this_).cards[(*this_).card_num]), diag_row_id, (*this_).db_reader );
@@ -778,7 +778,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     {
                         /* create a new diagram */
                         ctrl_error_t c_result;
-                        int64_t new_diag_id;
+                        data_row_id_t new_diag_id;
 
                         {
                             const data_diagram_t *selected_diag;
@@ -788,7 +788,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                                 case GUI_SKETCH_ACTION_NEW_SIBLING_DIAGRAM:
                                 {
                                     assert( data_diagram_is_valid( selected_diag ) );
-                                    int64_t parent_diagram_id;
+                                    data_row_id_t parent_diagram_id;
                                     parent_diagram_id = data_diagram_get_parent_id( selected_diag );
                                     int32_t list_order;
                                     list_order = gui_sketch_nav_tree_get_siblings_highest_order ( &((*this_).nav_tree) );
@@ -805,7 +805,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                                 case GUI_SKETCH_ACTION_NEW_CHILD_DIAGRAM:
                                 {
                                     assert( data_diagram_is_valid( selected_diag ) );
-                                    int64_t selected_diagram_id;
+                                    data_row_id_t selected_diagram_id;
                                     selected_diagram_id = data_diagram_get_id( selected_diag );
                                     int32_t list_order;
                                     list_order = gui_sketch_nav_tree_get_children_highest_order ( &((*this_).nav_tree) );
@@ -966,7 +966,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
 
                         /* create a new classifier */
                         data_diagram_t *target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
-                        int64_t selected_diagram_id = data_diagram_get_id( target_diag );
+                        data_row_id_t selected_diagram_id = data_diagram_get_id( target_diag );
                         TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
 
                         data_id_t dummy_classifier;
@@ -978,11 +978,11 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
 
                         /* create a classifier or a child-classifier */
                         ctrl_error_t c_result;
-                        int64_t new_diagele_id;
-                        int64_t new_classifier_id;
+                        data_row_id_t new_diagele_id;
+                        data_row_id_t new_classifier_id;
                         if ( DATA_TABLE_CLASSIFIER == data_id_get_table( surrounding_classifier ) )
                         {
-                            int64_t new_relationship_id;
+                            data_row_id_t new_relationship_id;
                             c_result = gui_sketch_object_creator_create_classifier_as_child ( &((*this_).object_creator),
                                                                                               selected_diagram_id,
                                                                                               data_id_get_row_id( surrounding_classifier ),
@@ -1151,7 +1151,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             ctrl_diagram_controller_t *diag_control2;
                             diag_control2 = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
-                            int64_t root_id;
+                            data_row_id_t root_id;
                             root_id = gui_sketch_nav_tree_get_root_diagram_id ( &((*this_).nav_tree) );
                             if (( root_id != DATA_ID_VOID_ID )&&( root_id != data_id_get_row_id( &dragged_diagram ) ))
                             {
@@ -1200,8 +1200,8 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     dragged_diagram = data_id_pair_get_primary_id( dragged_object );
                     if ( DATA_TABLE_DIAGRAM == data_id_get_table( &dragged_diagram ) )
                     {
-                        const int64_t drag_id = data_id_get_row_id( &dragged_diagram );
-                        const int64_t focus_id = gui_sketch_area_get_focused_diagram_id( this_ );
+                        const data_row_id_t drag_id = data_id_get_row_id( &dragged_diagram );
+                        const data_row_id_t focus_id = gui_sketch_area_get_focused_diagram_id( this_ );
                         if ( ( focus_id != DATA_ID_VOID_ID )&&( focus_id == drag_id ) )
                         {
                             /* if clicked diagram is already the focused diagram, switch to edit mode */
@@ -1356,7 +1356,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     dragged_diagram = data_id_pair_get_primary_id( dragged_object );
                     if ( DATA_TABLE_DIAGRAM == data_id_get_table( &dragged_diagram ) )
                     {
-                        const int64_t drag_id = data_id_get_row_id( &dragged_diagram );
+                        const data_row_id_t drag_id = data_id_get_row_id( &dragged_diagram );
 
                         /* load/reload data to be drawn */
                         gui_sketch_area_private_load_data( this_, drag_id );
@@ -1413,10 +1413,10 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             data_diagram_type_t diag_type = data_diagram_get_diagram_type ( target_diag );
 
                             /* determine source and destionation */
-                            int64_t new_from_classifier_id;
-                            int64_t new_to_classifier_id;
-                            int64_t new_from_feature_id;
-                            int64_t new_to_feature_id;
+                            data_row_id_t new_from_classifier_id;
+                            data_row_id_t new_to_classifier_id;
+                            data_row_id_t new_from_feature_id;
+                            data_row_id_t new_to_feature_id;
                             {
                                 new_from_classifier_id = data_id_get_row_id( &dragged_classifier );
                                 if ( DATA_TABLE_FEATURE == data_id_get_table( &dragged_element ) )
@@ -1456,7 +1456,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                 }
                             }
 
-                            int64_t new_relationship_id;
+                            data_row_id_t new_relationship_id;
                             ctrl_error_t c_result;
                             c_result = gui_sketch_object_creator_create_relationship ( &((*this_).object_creator),
                                                                                        diag_type,
@@ -1504,7 +1504,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             data_diagram_type_t diag_type = data_diagram_get_diagram_type ( target_diag );
 
                             /* determine id of classifier to which the clicked object belongs */
-                            const int64_t classifier_id = data_id_get_row_id( &dragged_classifier );
+                            const data_row_id_t classifier_id = data_id_get_row_id( &dragged_classifier );
 
                             /* propose a list_order for the feature */
                             int32_t std_list_order_proposal = 0;
@@ -1529,7 +1529,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             }
 
                             /* create a feature */
-                            int64_t new_feature_id;
+                            data_row_id_t new_feature_id;
                             ctrl_error_t ctrl_err;
                             ctrl_err = gui_sketch_object_creator_create_feature ( &((*this_).object_creator),
                                                                                   diag_type,

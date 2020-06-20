@@ -21,7 +21,7 @@ static inline data_id_t gui_marked_set_get_focused ( const gui_marked_set_t *thi
     return ( (*this_).focused );
 }
 
-static inline int64_t gui_marked_set_get_focused_diagram ( const gui_marked_set_t *this_ )
+static inline data_row_id_t gui_marked_set_get_focused_diagram ( const gui_marked_set_t *this_ )
 {
     return( (*this_).focused_diagram );
 }
@@ -52,7 +52,7 @@ static inline void gui_marked_set_set_focused ( gui_marked_set_t *this_, data_id
     (*this_).focused = obj_id;
 }
 
-static inline void gui_marked_set_set_focused_diagram ( gui_marked_set_t *this_, int64_t diag_id )
+static inline void gui_marked_set_set_focused_diagram ( gui_marked_set_t *this_, data_row_id_t diag_id )
 {
     (*this_).focused_diagram = diag_id;
 }

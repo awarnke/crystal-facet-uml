@@ -26,9 +26,9 @@ static inline void data_feature_reinit_empty ( data_feature_t *this_ )
 }
 
 static inline data_error_t data_feature_init ( data_feature_t *this_,
-                                               int64_t feature_id,
+                                               data_row_id_t feature_id,
                                                data_feature_type_t feature_main_type,
-                                               int64_t classifier_id,
+                                               data_row_id_t classifier_id,
                                                const char* feature_key,
                                                const char* feature_value,
                                                const char* feature_description,
@@ -100,12 +100,12 @@ static inline void data_feature_destroy ( data_feature_t *this_ )
     (*this_).id = DATA_ID_VOID_ID;
 }
 
-static inline int64_t data_feature_get_id ( const data_feature_t *this_ )
+static inline data_row_id_t data_feature_get_id ( const data_feature_t *this_ )
 {
     return (*this_).id;
 }
 
-static inline void data_feature_set_id ( data_feature_t *this_, int64_t id )
+static inline void data_feature_set_id ( data_feature_t *this_, data_row_id_t id )
 {
     (*this_).id = id;
 }
@@ -117,12 +117,12 @@ static inline data_id_t data_feature_get_data_id ( const data_feature_t *this_ )
     return result;
 }
 
-static inline int64_t data_feature_get_classifier_id ( const data_feature_t *this_ )
+static inline data_row_id_t data_feature_get_classifier_id ( const data_feature_t *this_ )
 {
     return (*this_).classifier_id;
 }
 
-static inline void data_feature_set_classifier_id ( data_feature_t *this_, int64_t classifier_id )
+static inline void data_feature_set_classifier_id ( data_feature_t *this_, data_row_id_t classifier_id )
 {
     (*this_).classifier_id = classifier_id;
 }

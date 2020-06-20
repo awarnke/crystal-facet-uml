@@ -72,7 +72,7 @@ data_error_t gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_, const 
     return serialize_error;
 }
 
-void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, int64_t destination_diagram_id )
+void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, data_row_id_t destination_diagram_id )
 {
     TRACE_BEGIN();
 

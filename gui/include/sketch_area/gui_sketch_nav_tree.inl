@@ -2,10 +2,10 @@
 
 #include "tslog.h"
 
-static inline int64_t gui_sketch_nav_tree_get_root_diagram_id ( const gui_sketch_nav_tree_t *this_ )
+static inline data_row_id_t gui_sketch_nav_tree_get_root_diagram_id ( const gui_sketch_nav_tree_t *this_ )
 {
     assert( (*this_).ancestors_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS );
-    int64_t result;
+    data_row_id_t result;
 
     if ( (*this_).ancestors_count == 0 )
     {
@@ -55,8 +55,8 @@ static inline int32_t gui_sketch_nav_tree_get_children_highest_order ( const gui
 }
 
 static inline gui_error_t gui_sketch_nav_tree_is_descendant ( const gui_sketch_nav_tree_t *this_,
-                                                              int64_t probe_ancestor_id,
-                                                              int64_t probe_descendant_id,
+                                                              data_row_id_t probe_ancestor_id,
+                                                              data_row_id_t probe_descendant_id,
                                                               bool *out_is_descendant )
 {
     assert( (*this_).ancestors_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS );

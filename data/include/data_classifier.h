@@ -11,6 +11,7 @@
 
 #include "data_classifier_type.h"
 #include "data_id.h"
+#include "data_row_id.h"
 #include "data_error.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdint.h>
@@ -35,7 +36,7 @@ enum data_classifier_max_enum {
  *  \see http://www.uml-diagrams.org/classifier.html
  */
 struct data_classifier_struct {
-    int64_t id;
+    data_row_id_t id;
 
     data_classifier_type_t main_type;
     utf8stringbuf_t stereotype;
@@ -103,7 +104,7 @@ static inline void data_classifier_reinit_empty ( data_classifier_t *this_ );
  *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
  */
 static inline data_error_t data_classifier_init ( data_classifier_t *this_,
-                                                  int64_t id,
+                                                  data_row_id_t id,
                                                   data_classifier_type_t main_type,
                                                   const char* stereotype,
                                                   const char* name,
@@ -128,7 +129,7 @@ static inline data_error_t data_classifier_init ( data_classifier_t *this_,
  *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
  */
 static inline data_error_t data_classifier_reinit ( data_classifier_t *this_,
-                                                    int64_t id,
+                                                    data_row_id_t id,
                                                     data_classifier_type_t main_type,
                                                     const char* stereotype,
                                                     const char* name,
@@ -174,7 +175,7 @@ static inline void data_classifier_trace ( const data_classifier_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline int64_t data_classifier_get_id ( const data_classifier_t *this_ );
+static inline data_row_id_t data_classifier_get_id ( const data_classifier_t *this_ );
 
 /*!
  *  \brief sets the attribute id
@@ -182,7 +183,7 @@ static inline int64_t data_classifier_get_id ( const data_classifier_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param id new id of this object
  */
-static inline void data_classifier_set_id ( data_classifier_t *this_, int64_t id );
+static inline void data_classifier_set_id ( data_classifier_t *this_, data_row_id_t id );
 
 /*!
  *  \brief gets the data_id derived from the id attribute

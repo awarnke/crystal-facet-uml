@@ -10,9 +10,9 @@ static inline data_diagram_t *gui_sketch_area_get_focused_diagram_ptr ( gui_sket
     return gui_sketch_card_get_diagram_ptr( result_card );
 }
 
-static inline int64_t gui_sketch_area_get_focused_diagram_id ( gui_sketch_area_t *this_ )
+static inline data_row_id_t gui_sketch_area_get_focused_diagram_id ( gui_sketch_area_t *this_ )
 {
-    int64_t focused_diagram_id;
+    data_row_id_t focused_diagram_id;
     data_diagram_t *focused_diag;
     focused_diag = gui_sketch_area_get_focused_diagram_ptr( this_ );
     focused_diagram_id = data_diagram_get_id( focused_diag );

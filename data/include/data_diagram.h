@@ -11,6 +11,7 @@
 
 #include "data_diagram_type.h"
 #include "data_id.h"
+#include "data_row_id.h"
 #include "data_error.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdbool.h>
@@ -30,8 +31,8 @@ enum data_diagram_max_enum {
  *  \brief all data attributes needed for the diagram functions
  */
 struct data_diagram_struct {
-    int64_t id;
-    int64_t parent_id;
+    data_row_id_t id;
+    data_row_id_t parent_id;
 
     data_diagram_type_t diagram_type;
     utf8stringbuf_t name;
@@ -55,7 +56,7 @@ typedef struct data_diagram_struct data_diagram_t;
  *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
  */
 static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
-                                                   int64_t parent_diagram_id,
+                                                   data_row_id_t parent_diagram_id,
                                                    data_diagram_type_t diagram_type,
                                                    const char* diagram_name,
                                                    const char* diagram_description,
@@ -89,8 +90,8 @@ static inline void data_diagram_reinit_empty ( data_diagram_t *this_ );
  *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
  */
 static inline data_error_t data_diagram_init ( data_diagram_t *this_,
-                                               int64_t diagram_id,
-                                               int64_t parent_diagram_id,
+                                               data_row_id_t diagram_id,
+                                               data_row_id_t parent_diagram_id,
                                                data_diagram_type_t diagram_type,
                                                const char* diagram_name,
                                                const char* diagram_description,
@@ -133,7 +134,7 @@ static inline void data_diagram_trace ( const data_diagram_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline int64_t data_diagram_get_id ( const data_diagram_t *this_ );
+static inline data_row_id_t data_diagram_get_id ( const data_diagram_t *this_ );
 
 /*!
  *  \brief sets the attribute id
@@ -141,7 +142,7 @@ static inline int64_t data_diagram_get_id ( const data_diagram_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param id new id of this object
  */
-static inline void data_diagram_set_id ( data_diagram_t *this_, int64_t id );
+static inline void data_diagram_set_id ( data_diagram_t *this_, data_row_id_t id );
 
 /*!
  *  \brief gets the data_id derived from the id attribute
@@ -157,7 +158,7 @@ static inline data_id_t data_diagram_get_data_id ( const data_diagram_t *this_ )
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline int64_t data_diagram_get_parent_id ( const data_diagram_t *this_ );
+static inline data_row_id_t data_diagram_get_parent_id ( const data_diagram_t *this_ );
 
 /*!
  *  \brief sets the attribute parent_id
@@ -165,7 +166,7 @@ static inline int64_t data_diagram_get_parent_id ( const data_diagram_t *this_ )
  *  \param this_ pointer to own object attributes
  *  \param parent_id new parent_id of this object
  */
-static inline void data_diagram_set_parent_id ( data_diagram_t *this_, int64_t parent_id );
+static inline void data_diagram_set_parent_id ( data_diagram_t *this_, data_row_id_t parent_id );
 
 /*!
  *  \brief gets the attribute diagram_type

@@ -640,7 +640,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
     pencil_error_t result = PENCIL_ERROR_NONE;
 
     /* get data of feature */
-    int64_t parent_classifier_id;
+    data_row_id_t parent_classifier_id;
     data_feature_type_t feature_type;
     feature_type = data_feature_get_main_type ( feature_ptr );
     parent_classifier_id = data_feature_get_classifier_id ( feature_ptr );
@@ -671,7 +671,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
         {
             const layout_visible_classifier_t *visible_classifier;
             visible_classifier = pencil_layout_data_get_visible_classifier_const ( &((*this_).layout_data), classfy_index );
-            int64_t classfy_id;
+            data_row_id_t classfy_id;
             classfy_id = layout_visible_classifier_get_classifier_id ( visible_classifier );
             if ( parent_classifier_id == classfy_id )
             {
@@ -836,7 +836,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
 }
 
 pencil_error_t pencil_layouter_get_relationship_order_at_pos ( const pencil_layouter_t *this_,
-                                                               int64_t relationship_id,
+                                                               data_row_id_t relationship_id,
                                                                double x,
                                                                double y,
                                                                layout_order_t* out_layout_order )

@@ -40,14 +40,14 @@ void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ )
 ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_,
                                                       const data_diagram_t *new_diagram,
                                                       bool add_to_latest_undo_set,
-                                                      int64_t* out_new_id )
+                                                      data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
     assert( NULL != new_diagram );
     data_diagram_t to_be_created;
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
-    int64_t new_id;
+    data_row_id_t new_id;
 
     data_diagram_copy( &to_be_created, new_diagram );
     data_diagram_set_id( &to_be_created, DATA_ID_VOID_ID );
@@ -88,16 +88,16 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
 }
 
 ctrl_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram_controller_t *this_,
-                                                                    int64_t parent_diagram_id,
+                                                                    data_row_id_t parent_diagram_id,
                                                                     data_diagram_type_t diagram_type,
                                                                     const char* diagram_name,
-                                                                    int64_t* out_new_id )
+                                                                    data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
     data_diagram_t to_be_created;
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
-    int64_t new_id;
+    data_row_id_t new_id;
 
     data_diagram_init_new( &to_be_created, parent_diagram_id, diagram_type, diagram_name, "", 0 );
 
@@ -128,7 +128,7 @@ ctrl_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram
 ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_diagram_controller_t *this_,
                                                                          data_diagram_type_t diagram_type,
                                                                          const char* diagram_name,
-                                                                         int64_t* out_new_id )
+                                                                         data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
@@ -168,7 +168,7 @@ ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_di
 }
 
 ctrl_error_t ctrl_diagram_controller_delete_diagram ( ctrl_diagram_controller_t *this_,
-                                                      int64_t obj_id,
+                                                      data_row_id_t obj_id,
                                                       bool add_to_latest_undo_set )
 {
     TRACE_BEGIN();
@@ -209,8 +209,8 @@ ctrl_error_t ctrl_diagram_controller_delete_diagram ( ctrl_diagram_controller_t 
 }
 
 ctrl_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_controller_t *this_,
-                                                                int64_t diagram_id,
-                                                                int64_t new_diagram_parent_id,
+                                                                data_row_id_t diagram_id,
+                                                                data_row_id_t new_diagram_parent_id,
                                                                 bool add_to_latest_undo_set )
 {
     TRACE_BEGIN();
@@ -251,7 +251,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_con
 }
 
 ctrl_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_controller_t *this_,
-                                                                  int64_t diagram_id,
+                                                                  data_row_id_t diagram_id,
                                                                   const char* new_diagram_description )
 {
     TRACE_BEGIN();
@@ -280,7 +280,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_c
 }
 
 ctrl_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controller_t *this_,
-                                                           int64_t diagram_id,
+                                                           data_row_id_t diagram_id,
                                                            const char* new_diagram_name )
 {
     TRACE_BEGIN();
@@ -309,7 +309,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controll
 }
 
 ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller_t *this_,
-                                                           int64_t diagram_id,
+                                                           data_row_id_t diagram_id,
                                                            data_diagram_type_t new_diagram_type )
 {
     TRACE_BEGIN();
@@ -347,7 +347,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controll
 }
 
 ctrl_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_controller_t *this_,
-                                                                 int64_t diagram_id,
+                                                                 data_row_id_t diagram_id,
                                                                  int32_t new_diagram_list_order )
 {
     TRACE_BEGIN();
@@ -380,14 +380,14 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_co
 ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_controller_t *this_,
                                                              const data_diagramelement_t *new_diagramelement,
                                                              bool add_to_latest_undo_set,
-                                                             int64_t* out_new_id )
+                                                             data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
     assert( NULL != new_diagramelement );
     data_diagramelement_t to_be_created;
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
-    int64_t new_id;
+    data_row_id_t new_id;
 
     data_diagramelement_copy( &to_be_created, new_diagramelement );
     data_diagramelement_set_id( &to_be_created, DATA_ID_VOID_ID );
@@ -436,7 +436,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_contro
 }
 
 ctrl_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_controller_t *this_,
-                                                             int64_t obj_id,
+                                                             data_row_id_t obj_id,
                                                              bool add_to_latest_undo_set )
 {
     TRACE_BEGIN();
@@ -484,7 +484,7 @@ ctrl_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_contro
 }
 
 ctrl_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_diagram_controller_t *this_,
-                                                                           int64_t diagramelement_id,
+                                                                           data_row_id_t diagramelement_id,
                                                                            data_diagramelement_flag_t new_diagramelement_display_flags,
                                                                            bool add_to_latest_undo_set )
 {
@@ -530,8 +530,8 @@ ctrl_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_
 }
 
 ctrl_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id ( ctrl_diagram_controller_t *this_,
-                                                                                int64_t diagramelement_id,
-                                                                                int64_t new_diagramelement_focused_feature_id,
+                                                                                data_row_id_t diagramelement_id,
+                                                                                data_row_id_t new_diagramelement_focused_feature_id,
                                                                                 bool add_to_latest_undo_set )
 {
     TRACE_BEGIN();

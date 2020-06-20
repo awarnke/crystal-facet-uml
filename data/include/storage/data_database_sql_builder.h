@@ -17,6 +17,7 @@
 #include "data_diagramelement.h"
 #include "data_feature.h"
 #include "data_relationship.h"
+#include "data_row_id.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdbool.h>
 #include <stdint.h>
@@ -73,7 +74,7 @@ data_error_t data_database_sql_builder_build_create_diagram_command ( data_datab
  *  \param diagram_id id of the diagram to be deleted
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_delete_diagram_command ( data_database_sql_builder_t *this_, int64_t diagram_id );
+data_error_t data_database_sql_builder_build_delete_diagram_command ( data_database_sql_builder_t *this_, data_row_id_t diagram_id );
 
 /*!
  *  \brief builds the sql command string to update a diagram record. The result is stored in (*this_).private_sql_stringbuf.
@@ -83,7 +84,7 @@ data_error_t data_database_sql_builder_build_delete_diagram_command ( data_datab
  *  \param new_diagram_name new name of the diagram
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_diagram_name_cmd ( data_database_sql_builder_t *this_, int64_t diagram_id, const char *new_diagram_name );
+data_error_t data_database_sql_builder_build_update_diagram_name_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagram_id, const char *new_diagram_name );
 
 /*!
  *  \brief builds the sql command string to update a diagram record. The result is stored in (*this_).private_sql_stringbuf.
@@ -93,7 +94,7 @@ data_error_t data_database_sql_builder_build_update_diagram_name_cmd ( data_data
  *  \param new_diagram_description new description of the diagram
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_diagram_description_cmd ( data_database_sql_builder_t *this_, int64_t diagram_id, const char *new_diagram_description );
+data_error_t data_database_sql_builder_build_update_diagram_description_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagram_id, const char *new_diagram_description );
 
 /*!
  *  \brief builds the sql command string to update a diagram record. The result is stored in (*this_).private_sql_stringbuf.
@@ -103,7 +104,7 @@ data_error_t data_database_sql_builder_build_update_diagram_description_cmd ( da
  *  \param new_diagram_type new type of the diagram
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_diagram_type_cmd ( data_database_sql_builder_t *this_, int64_t diagram_id, data_diagram_type_t new_diagram_type );
+data_error_t data_database_sql_builder_build_update_diagram_type_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagram_id, data_diagram_type_t new_diagram_type );
 
 /*!
  *  \brief builds the sql command string to update a diagram record. The result is stored in (*this_).private_sql_stringbuf.
@@ -113,7 +114,7 @@ data_error_t data_database_sql_builder_build_update_diagram_type_cmd ( data_data
  *  \param new_diagram_list_order new list_order of the diagram
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_diagram_list_order_cmd ( data_database_sql_builder_t *this_, int64_t diagram_id, int32_t new_diagram_list_order );
+data_error_t data_database_sql_builder_build_update_diagram_list_order_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagram_id, int32_t new_diagram_list_order );
 
 /*!
  *  \brief builds the sql command string to update a diagram record. The result is stored in (*this_).private_sql_stringbuf.
@@ -123,7 +124,7 @@ data_error_t data_database_sql_builder_build_update_diagram_list_order_cmd ( dat
  *  \param new_diagram_parent_id new parent_id of the diagram
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_diagram_parent_id_cmd ( data_database_sql_builder_t *this_, int64_t diagram_id, int64_t new_diagram_parent_id );
+data_error_t data_database_sql_builder_build_update_diagram_parent_id_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagram_id, data_row_id_t new_diagram_parent_id );
 
 /* ================================ CLASSIFIER ================================ */
 
@@ -142,7 +143,7 @@ data_error_t data_database_sql_builder_build_create_classifier_command ( data_da
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be deleted
  */
-data_error_t data_database_sql_builder_build_delete_classifier_command ( data_database_sql_builder_t *this_, int64_t classifier_id );
+data_error_t data_database_sql_builder_build_delete_classifier_command ( data_database_sql_builder_t *this_, data_row_id_t classifier_id );
 
 /*!
  *  \brief builds the sql command string to update a classifier record. The result is stored in (*this_).private_sql_stringbuf.
@@ -151,7 +152,7 @@ data_error_t data_database_sql_builder_build_delete_classifier_command ( data_da
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_stereotype new stereotype of the classifier
  */
-data_error_t data_database_sql_builder_build_update_classifier_stereotype_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, const char *new_classifier_stereotype );
+data_error_t data_database_sql_builder_build_update_classifier_stereotype_cmd ( data_database_sql_builder_t *this_, data_row_id_t classifier_id, const char *new_classifier_stereotype );
 
 /*!
  *  \brief builds the sql command string to update a classifier record. The result is stored in (*this_).private_sql_stringbuf.
@@ -161,7 +162,7 @@ data_error_t data_database_sql_builder_build_update_classifier_stereotype_cmd ( 
  *  \param new_classifier_name new name of the classifier
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_classifier_name_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, const char *new_classifier_name );
+data_error_t data_database_sql_builder_build_update_classifier_name_cmd ( data_database_sql_builder_t *this_, data_row_id_t classifier_id, const char *new_classifier_name );
 
 /*!
  *  \brief builds the sql command string to update a classifier record. The result is stored in (*this_).private_sql_stringbuf.
@@ -171,7 +172,7 @@ data_error_t data_database_sql_builder_build_update_classifier_name_cmd ( data_d
  *  \param new_classifier_description new description of the classifier
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_classifier_description_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, const char *new_classifier_description );
+data_error_t data_database_sql_builder_build_update_classifier_description_cmd ( data_database_sql_builder_t *this_, data_row_id_t classifier_id, const char *new_classifier_description );
 
 /*!
  *  \brief builds the sql command string to update a classifier record. The result is stored in (*this_).private_sql_stringbuf.
@@ -181,7 +182,7 @@ data_error_t data_database_sql_builder_build_update_classifier_description_cmd (
  *  \param new_classifier_main_type new description of the classifier
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_classifier_main_type_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, data_classifier_type_t new_classifier_main_type );
+data_error_t data_database_sql_builder_build_update_classifier_main_type_cmd ( data_database_sql_builder_t *this_, data_row_id_t classifier_id, data_classifier_type_t new_classifier_main_type );
 
 /*!
  *  \brief builds the sql command string to update a classifier record. The result is stored in (*this_).private_sql_stringbuf.
@@ -191,7 +192,7 @@ data_error_t data_database_sql_builder_build_update_classifier_main_type_cmd ( d
  *  \param new_classifier_x_order new x_order of the classifier
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, int32_t new_classifier_x_order );
+data_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( data_database_sql_builder_t *this_, data_row_id_t classifier_id, int32_t new_classifier_x_order );
 
 /*!
  *  \brief builds the sql command string to update a classifier record. The result is stored in (*this_).private_sql_stringbuf.
@@ -201,7 +202,7 @@ data_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( dat
  *  \param new_classifier_y_order new y_order of the classifier
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, int32_t new_classifier_y_order );
+data_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( data_database_sql_builder_t *this_, data_row_id_t classifier_id, int32_t new_classifier_y_order );
 
 /*!
  *  \brief builds the sql command string to update a classifier record. The result is stored in (*this_).private_sql_stringbuf.
@@ -211,7 +212,7 @@ data_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( dat
  *  \param new_classifier_list_order new list_order of the classifier
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_classifier_list_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, int32_t new_classifier_list_order );
+data_error_t data_database_sql_builder_build_update_classifier_list_order_cmd ( data_database_sql_builder_t *this_, data_row_id_t classifier_id, int32_t new_classifier_list_order );
 
 /* ================================ DIAGRAMELEMENT ================================ */
 
@@ -231,7 +232,7 @@ data_error_t data_database_sql_builder_build_create_diagramelement_command ( dat
  *  \param diagramelement_id id of the diagramelement to be deleted.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_delete_diagramelement_command ( data_database_sql_builder_t *this_, int64_t diagramelement_id );
+data_error_t data_database_sql_builder_build_delete_diagramelement_command ( data_database_sql_builder_t *this_, data_row_id_t diagramelement_id );
 
 /*!
  *  \brief builds the sql command string to update a diagramelement record. The result is stored in (*this_).private_sql_stringbuf.
@@ -241,7 +242,7 @@ data_error_t data_database_sql_builder_build_delete_diagramelement_command ( dat
  *  \param new_display_flags new display_flags of the diagramelement
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_diagramelement_display_flags_cmd ( data_database_sql_builder_t *this_, int64_t diagramelement_id, data_diagramelement_flag_t new_display_flags );
+data_error_t data_database_sql_builder_build_update_diagramelement_display_flags_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagramelement_id, data_diagramelement_flag_t new_display_flags );
 
 /*!
  *  \brief builds the sql command string to update a diagramelement record. The result is stored in (*this_).private_sql_stringbuf.
@@ -251,7 +252,7 @@ data_error_t data_database_sql_builder_build_update_diagramelement_display_flags
  *  \param new_focused_feature_id new focused_feature_id of the diagramelement
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_diagramelement_focused_feature_id_cmd ( data_database_sql_builder_t *this_, int64_t diagramelement_id, int64_t new_focused_feature_id );
+data_error_t data_database_sql_builder_build_update_diagramelement_focused_feature_id_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagramelement_id, data_row_id_t new_focused_feature_id );
 
 /* ================================ FEATURE ================================ */
 
@@ -271,7 +272,7 @@ data_error_t data_database_sql_builder_build_create_feature_command ( data_datab
  *  \param feature_id id of the feature to be deleted
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_delete_feature_command ( data_database_sql_builder_t *this_, int64_t feature_id );
+data_error_t data_database_sql_builder_build_delete_feature_command ( data_database_sql_builder_t *this_, data_row_id_t feature_id );
 
 /*!
  *  \brief builds the sql command string to update a feature record. The result is stored in (*this_).private_sql_stringbuf.
@@ -281,7 +282,7 @@ data_error_t data_database_sql_builder_build_delete_feature_command ( data_datab
  *  \param new_feature_type new type of the feature
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_feature_main_type_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, data_feature_type_t new_feature_type );
+data_error_t data_database_sql_builder_build_update_feature_main_type_cmd ( data_database_sql_builder_t *this_, data_row_id_t feature_id, data_feature_type_t new_feature_type );
 
 /*!
  *  \brief builds the sql command string to update a feature record. The result is stored in (*this_).private_sql_stringbuf.
@@ -291,7 +292,7 @@ data_error_t data_database_sql_builder_build_update_feature_main_type_cmd ( data
  *  \param new_feature_key new key of the feature
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_feature_key_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, const char *new_feature_key );
+data_error_t data_database_sql_builder_build_update_feature_key_cmd ( data_database_sql_builder_t *this_, data_row_id_t feature_id, const char *new_feature_key );
 
 /*!
  *  \brief builds the sql command string to update a feature record. The result is stored in (*this_).private_sql_stringbuf.
@@ -301,7 +302,7 @@ data_error_t data_database_sql_builder_build_update_feature_key_cmd ( data_datab
  *  \param new_feature_value new value of the feature
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_feature_value_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, const char *new_feature_value );
+data_error_t data_database_sql_builder_build_update_feature_value_cmd ( data_database_sql_builder_t *this_, data_row_id_t feature_id, const char *new_feature_value );
 
 /*!
  *  \brief builds the sql command string to update a feature record. The result is stored in (*this_).private_sql_stringbuf.
@@ -311,7 +312,7 @@ data_error_t data_database_sql_builder_build_update_feature_value_cmd ( data_dat
  *  \param new_feature_description new description of the feature
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_feature_description_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, const char *new_feature_description );
+data_error_t data_database_sql_builder_build_update_feature_description_cmd ( data_database_sql_builder_t *this_, data_row_id_t feature_id, const char *new_feature_description );
 
 /*!
  *  \brief builds the sql command string to update a feature record. The result is stored in (*this_).private_sql_stringbuf.
@@ -321,7 +322,7 @@ data_error_t data_database_sql_builder_build_update_feature_description_cmd ( da
  *  \param new_feature_list_order new list_order of the feature
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_feature_list_order_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, int32_t new_feature_list_order );
+data_error_t data_database_sql_builder_build_update_feature_list_order_cmd ( data_database_sql_builder_t *this_, data_row_id_t feature_id, int32_t new_feature_list_order );
 
 /* ================================ RELATIONSHIP ================================ */
 
@@ -341,7 +342,7 @@ data_error_t data_database_sql_builder_build_create_relationship_command ( data_
  *  \param relationship_id id of the relationship to be deleted
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_delete_relationship_command ( data_database_sql_builder_t *this_, int64_t relationship_id );
+data_error_t data_database_sql_builder_build_delete_relationship_command ( data_database_sql_builder_t *this_, data_row_id_t relationship_id );
 
 /*!
  *  \brief builds the sql command string to update a relationship record. The result is stored in (*this_).private_sql_stringbuf.
@@ -351,7 +352,7 @@ data_error_t data_database_sql_builder_build_delete_relationship_command ( data_
  *  \param new_relationship_type new type of the relationship
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_relationship_main_type_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, data_relationship_type_t new_relationship_type );
+data_error_t data_database_sql_builder_build_update_relationship_main_type_cmd ( data_database_sql_builder_t *this_, data_row_id_t relationship_id, data_relationship_type_t new_relationship_type );
 
 /*!
  *  \brief builds the sql command string to update a relationship record. The result is stored in (*this_).private_sql_stringbuf.
@@ -361,7 +362,7 @@ data_error_t data_database_sql_builder_build_update_relationship_main_type_cmd (
  *  \param new_relationship_name new name of the relationship
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, const char *new_relationship_name );
+data_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data_database_sql_builder_t *this_, data_row_id_t relationship_id, const char *new_relationship_name );
 
 /*!
  *  \brief builds the sql command string to update a relationship record. The result is stored in (*this_).private_sql_stringbuf.
@@ -371,7 +372,7 @@ data_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data
  *  \param new_relationship_description new description of the relationship
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_relationship_description_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, const char *new_relationship_description );
+data_error_t data_database_sql_builder_build_update_relationship_description_cmd ( data_database_sql_builder_t *this_, data_row_id_t relationship_id, const char *new_relationship_description );
 
 /*!
  *  \brief builds the sql command string to update a relationship record. The result is stored in (*this_).private_sql_stringbuf.
@@ -381,7 +382,7 @@ data_error_t data_database_sql_builder_build_update_relationship_description_cmd
  *  \param new_relationship_list_order new list_order of the relationship
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-data_error_t data_database_sql_builder_build_update_relationship_list_order_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, int32_t new_relationship_list_order );
+data_error_t data_database_sql_builder_build_update_relationship_list_order_cmd ( data_database_sql_builder_t *this_, data_row_id_t relationship_id, int32_t new_relationship_list_order );
 
 #include "storage/data_database_sql_builder.inl"
 

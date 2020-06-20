@@ -10,6 +10,7 @@
  */
 
 #include "data_id.h"
+#include "data_row_id.h"
 
 /*!
  *  \brief constants for max string sizes
@@ -43,7 +44,7 @@ typedef struct data_search_result_struct data_search_result_t;
  *  \param match_name matching object name, must not be NULL
  */
 static inline void data_search_result_init_diagram ( data_search_result_t *this_,
-                                                     int64_t match_id,
+                                                     data_row_id_t match_id,
                                                      int match_type,
                                                      const char* match_name
                                                    );
@@ -58,10 +59,10 @@ static inline void data_search_result_init_diagram ( data_search_result_t *this_
  *  \param diagram_id diagram id where the matching object is visible
  */
 static inline void data_search_result_init_classifier ( data_search_result_t *this_,
-                                                        int64_t match_id,
+                                                        data_row_id_t match_id,
                                                         int match_type,
                                                         const char* match_name,
-                                                        int64_t diagram_id
+                                                        data_row_id_t diagram_id
                                                       );
 
 /*!
@@ -75,11 +76,11 @@ static inline void data_search_result_init_classifier ( data_search_result_t *th
  *  \param diagram_id diagram id where the matching feature is visible
  */
 static inline void data_search_result_init_feature ( data_search_result_t *this_,
-                                                     int64_t match_id,
+                                                     data_row_id_t match_id,
                                                      int match_type,
                                                      const char* match_name,
-                                                     int64_t classifier_id,
-                                                     int64_t diagram_id
+                                                     data_row_id_t classifier_id,
+                                                     data_row_id_t diagram_id
                                                    );
 
 /*!
@@ -94,12 +95,12 @@ static inline void data_search_result_init_feature ( data_search_result_t *this_
  *  \param diagram_id diagram id where the matching relationship is visible
  */
 static inline void data_search_result_init_relationship ( data_search_result_t *this_,
-                                                          int64_t match_id,
+                                                          data_row_id_t match_id,
                                                           int match_type,
                                                           const char* match_name,
-                                                          int64_t from_classifier_id,
-                                                          int64_t to_classifier_id,
-                                                          int64_t diagram_id
+                                                          data_row_id_t from_classifier_id,
+                                                          data_row_id_t to_classifier_id,
+                                                          data_row_id_t diagram_id
                                                         );
 
 /*!

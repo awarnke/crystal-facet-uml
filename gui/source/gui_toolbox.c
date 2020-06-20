@@ -301,7 +301,7 @@ void gui_toolbox_paste( gui_toolbox_t *this_ )
     TRACE_BEGIN();
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    const int64_t destination_diagram_id = gui_marked_set_get_focused_diagram( (*this_).marker );
+    const data_row_id_t destination_diagram_id = gui_marked_set_get_focused_diagram( (*this_).marker );
     gui_clipboard_request_clipboard_text( &((*this_).clipboard), destination_diagram_id );
 
     /* Note: (*this_).message_to_user is updated by (*this_).clipboard already - nothing to do here */
@@ -483,7 +483,7 @@ void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_, const
             case DATA_TABLE_DIAGRAMELEMENT:
             {
                 data_diagramelement_t out_diagramelement;
-                int64_t diag_elem_id = data_id_get_row_id( &current_id );
+                data_row_id_t diag_elem_id = data_id_get_row_id( &current_id );
                 ctrl_diagram_controller_t *diag_ctrl;
                 diag_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
 

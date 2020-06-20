@@ -186,7 +186,7 @@ data_error_t data_database_sql_builder_build_create_diagram_command ( data_datab
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_delete_diagram_command ( data_database_sql_builder_t *this_, int64_t diagram_id )
+data_error_t data_database_sql_builder_build_delete_diagram_command ( data_database_sql_builder_t *this_, data_row_id_t diagram_id )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
@@ -208,7 +208,7 @@ data_error_t data_database_sql_builder_build_delete_diagram_command ( data_datab
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_diagram_name_cmd ( data_database_sql_builder_t *this_, int64_t diagram_id, const char *new_diagram_name )
+data_error_t data_database_sql_builder_build_update_diagram_name_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagram_id, const char *new_diagram_name )
 {
     TRACE_BEGIN();
     assert( NULL != new_diagram_name );
@@ -247,7 +247,7 @@ data_error_t data_database_sql_builder_build_update_diagram_name_cmd ( data_data
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_diagram_description_cmd ( data_database_sql_builder_t *this_, int64_t diagram_id, const char *new_diagram_description )
+data_error_t data_database_sql_builder_build_update_diagram_description_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagram_id, const char *new_diagram_description )
 {
     TRACE_BEGIN();
     assert( NULL != new_diagram_description );
@@ -286,7 +286,7 @@ data_error_t data_database_sql_builder_build_update_diagram_description_cmd ( da
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_diagram_type_cmd ( data_database_sql_builder_t *this_, int64_t diagram_id, data_diagram_type_t new_diagram_type )
+data_error_t data_database_sql_builder_build_update_diagram_type_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagram_id, data_diagram_type_t new_diagram_type )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
@@ -311,7 +311,7 @@ data_error_t data_database_sql_builder_build_update_diagram_type_cmd ( data_data
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_diagram_list_order_cmd ( data_database_sql_builder_t *this_, int64_t diagram_id, int32_t new_diagram_list_order )
+data_error_t data_database_sql_builder_build_update_diagram_list_order_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagram_id, int32_t new_diagram_list_order )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
@@ -336,7 +336,7 @@ data_error_t data_database_sql_builder_build_update_diagram_list_order_cmd ( dat
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_diagram_parent_id_cmd ( data_database_sql_builder_t *this_, int64_t diagram_id, int64_t new_diagram_parent_id )
+data_error_t data_database_sql_builder_build_update_diagram_parent_id_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagram_id, data_row_id_t new_diagram_parent_id )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
@@ -519,7 +519,7 @@ data_error_t data_database_sql_builder_build_create_classifier_command ( data_da
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_delete_classifier_command ( data_database_sql_builder_t *this_, int64_t classifier_id )
+data_error_t data_database_sql_builder_build_delete_classifier_command ( data_database_sql_builder_t *this_, data_row_id_t classifier_id )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
@@ -541,7 +541,7 @@ data_error_t data_database_sql_builder_build_delete_classifier_command ( data_da
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_classifier_stereotype_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, const char *new_classifier_stereotype )
+data_error_t data_database_sql_builder_build_update_classifier_stereotype_cmd ( data_database_sql_builder_t *this_, data_row_id_t classifier_id, const char *new_classifier_stereotype )
 {
     TRACE_BEGIN();
     assert( NULL != new_classifier_stereotype );
@@ -580,7 +580,7 @@ data_error_t data_database_sql_builder_build_update_classifier_stereotype_cmd ( 
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_classifier_name_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, const char *new_classifier_name )
+data_error_t data_database_sql_builder_build_update_classifier_name_cmd ( data_database_sql_builder_t *this_, data_row_id_t classifier_id, const char *new_classifier_name )
 {
     TRACE_BEGIN();
     assert( NULL != new_classifier_name );
@@ -619,7 +619,7 @@ data_error_t data_database_sql_builder_build_update_classifier_name_cmd ( data_d
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_classifier_description_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, const char *new_classifier_description )
+data_error_t data_database_sql_builder_build_update_classifier_description_cmd ( data_database_sql_builder_t *this_, data_row_id_t classifier_id, const char *new_classifier_description )
 {
     TRACE_BEGIN();
     assert( NULL != new_classifier_description );
@@ -658,7 +658,7 @@ data_error_t data_database_sql_builder_build_update_classifier_description_cmd (
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_classifier_main_type_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, data_classifier_type_t new_classifier_main_type )
+data_error_t data_database_sql_builder_build_update_classifier_main_type_cmd ( data_database_sql_builder_t *this_, data_row_id_t classifier_id, data_classifier_type_t new_classifier_main_type )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
@@ -684,7 +684,7 @@ data_error_t data_database_sql_builder_build_update_classifier_main_type_cmd ( d
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, int32_t new_classifier_x_order )
+data_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( data_database_sql_builder_t *this_, data_row_id_t classifier_id, int32_t new_classifier_x_order )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
@@ -710,7 +710,7 @@ data_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( dat
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, int32_t new_classifier_y_order )
+data_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( data_database_sql_builder_t *this_, data_row_id_t classifier_id, int32_t new_classifier_y_order )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
@@ -736,7 +736,7 @@ data_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( dat
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_classifier_list_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, int32_t new_classifier_list_order )
+data_error_t data_database_sql_builder_build_update_classifier_list_order_cmd ( data_database_sql_builder_t *this_, data_row_id_t classifier_id, int32_t new_classifier_list_order )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
@@ -862,7 +862,7 @@ data_error_t data_database_sql_builder_build_create_diagramelement_command ( dat
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_delete_diagramelement_command ( data_database_sql_builder_t *this_, int64_t diagramelement_id )
+data_error_t data_database_sql_builder_build_delete_diagramelement_command ( data_database_sql_builder_t *this_, data_row_id_t diagramelement_id )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
@@ -884,7 +884,7 @@ data_error_t data_database_sql_builder_build_delete_diagramelement_command ( dat
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_diagramelement_display_flags_cmd ( data_database_sql_builder_t *this_, int64_t diagramelement_id, data_diagramelement_flag_t new_display_flags )
+data_error_t data_database_sql_builder_build_update_diagramelement_display_flags_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagramelement_id, data_diagramelement_flag_t new_display_flags )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
@@ -910,7 +910,7 @@ data_error_t data_database_sql_builder_build_update_diagramelement_display_flags
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_diagramelement_focused_feature_id_cmd ( data_database_sql_builder_t *this_, int64_t diagramelement_id, int64_t new_focused_feature_id )
+data_error_t data_database_sql_builder_build_update_diagramelement_focused_feature_id_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagramelement_id, data_row_id_t new_focused_feature_id )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
@@ -1080,7 +1080,7 @@ data_error_t data_database_sql_builder_build_create_feature_command ( data_datab
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_delete_feature_command ( data_database_sql_builder_t *this_, int64_t feature_id )
+data_error_t data_database_sql_builder_build_delete_feature_command ( data_database_sql_builder_t *this_, data_row_id_t feature_id )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
@@ -1102,7 +1102,7 @@ data_error_t data_database_sql_builder_build_delete_feature_command ( data_datab
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_feature_main_type_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, data_feature_type_t new_feature_type )
+data_error_t data_database_sql_builder_build_update_feature_main_type_cmd ( data_database_sql_builder_t *this_, data_row_id_t feature_id, data_feature_type_t new_feature_type )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
@@ -1128,7 +1128,7 @@ data_error_t data_database_sql_builder_build_update_feature_main_type_cmd ( data
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_feature_key_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, const char *new_feature_key )
+data_error_t data_database_sql_builder_build_update_feature_key_cmd ( data_database_sql_builder_t *this_, data_row_id_t feature_id, const char *new_feature_key )
 {
     TRACE_BEGIN();
     assert( NULL != new_feature_key );
@@ -1167,7 +1167,7 @@ data_error_t data_database_sql_builder_build_update_feature_key_cmd ( data_datab
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_feature_value_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, const char *new_feature_value )
+data_error_t data_database_sql_builder_build_update_feature_value_cmd ( data_database_sql_builder_t *this_, data_row_id_t feature_id, const char *new_feature_value )
 {
     TRACE_BEGIN();
     assert( NULL != new_feature_value );
@@ -1206,7 +1206,7 @@ data_error_t data_database_sql_builder_build_update_feature_value_cmd ( data_dat
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_feature_description_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, const char *new_feature_description )
+data_error_t data_database_sql_builder_build_update_feature_description_cmd ( data_database_sql_builder_t *this_, data_row_id_t feature_id, const char *new_feature_description )
 {
     TRACE_BEGIN();
     assert( NULL != new_feature_description );
@@ -1245,7 +1245,7 @@ data_error_t data_database_sql_builder_build_update_feature_description_cmd ( da
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_feature_list_order_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, int32_t new_feature_list_order )
+data_error_t data_database_sql_builder_build_update_feature_list_order_cmd ( data_database_sql_builder_t *this_, data_row_id_t feature_id, int32_t new_feature_list_order )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
@@ -1412,7 +1412,7 @@ data_error_t data_database_sql_builder_build_create_relationship_command ( data_
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_delete_relationship_command ( data_database_sql_builder_t *this_, int64_t relationship_id )
+data_error_t data_database_sql_builder_build_delete_relationship_command ( data_database_sql_builder_t *this_, data_row_id_t relationship_id )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
@@ -1434,7 +1434,7 @@ data_error_t data_database_sql_builder_build_delete_relationship_command ( data_
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_relationship_main_type_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, data_relationship_type_t new_relationship_type )
+data_error_t data_database_sql_builder_build_update_relationship_main_type_cmd ( data_database_sql_builder_t *this_, data_row_id_t relationship_id, data_relationship_type_t new_relationship_type )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
@@ -1460,7 +1460,7 @@ data_error_t data_database_sql_builder_build_update_relationship_main_type_cmd (
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, const char *new_relationship_name )
+data_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data_database_sql_builder_t *this_, data_row_id_t relationship_id, const char *new_relationship_name )
 {
     TRACE_BEGIN();
     assert( NULL != new_relationship_name );
@@ -1499,7 +1499,7 @@ data_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_relationship_description_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, const char *new_relationship_description )
+data_error_t data_database_sql_builder_build_update_relationship_description_cmd ( data_database_sql_builder_t *this_, data_row_id_t relationship_id, const char *new_relationship_description )
 {
     TRACE_BEGIN();
     assert( NULL != new_relationship_description );
@@ -1538,7 +1538,7 @@ data_error_t data_database_sql_builder_build_update_relationship_description_cmd
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_relationship_list_order_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, int32_t new_relationship_list_order )
+data_error_t data_database_sql_builder_build_update_relationship_list_order_cmd ( data_database_sql_builder_t *this_, data_row_id_t relationship_id, int32_t new_relationship_list_order )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;

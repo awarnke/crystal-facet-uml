@@ -12,6 +12,7 @@
 #include "storage/data_change_event_type.h"
 #include "data_error.h"
 #include "data_table.h"
+#include "data_row_id.h"
 #include <glib-object.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -73,9 +74,9 @@ void data_change_notifier_destroy ( data_change_notifier_t *this_ );
 void data_change_notifier_emit_signal ( data_change_notifier_t *this_,
                                         data_change_event_type_t event_type,
                                         data_table_t table,
-                                        int64_t row_id,
+                                        data_row_id_t row_id,
                                         data_table_t parent_table,
-                                        int64_t parent_row_id
+                                        data_row_id_t parent_row_id
                                       );
 
 /*!
@@ -93,7 +94,7 @@ void data_change_notifier_emit_signal ( data_change_notifier_t *this_,
 static inline void data_change_notifier_emit_signal_without_parent ( data_change_notifier_t *this_,
                                                                      data_change_event_type_t event_type,
                                                                      data_table_t table,
-                                                                     int64_t row_id
+                                                                     data_row_id_t row_id
                                                                    );
 
 /*!

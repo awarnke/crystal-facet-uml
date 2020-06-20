@@ -40,7 +40,7 @@ void json_import_to_database_destroy ( json_import_to_database_t *this_ )
 
 data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t *this_,
                                                        const char *json_text,
-                                                       int64_t diagram_id,
+                                                       data_row_id_t diagram_id,
                                                        data_stat_t *io_stat,
                                                        uint32_t *out_read_pos )
 {
@@ -55,7 +55,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
     TRACE_INFO ( json_text );
 
     json_deserializer_init( &deserializer, json_text );
-    int64_t current_diagram_id = diagram_id;
+    data_row_id_t current_diagram_id = diagram_id;
 
     /* check if diagram id exists */
     {
@@ -111,7 +111,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                         else
                         {
                             /* create classifier if not yet existing */
-                            int64_t the_classifier_id;
+                            data_row_id_t the_classifier_id;
                             {
                                 /* check if the parsed classifier already exists in this database; if not, create it */
                                 ctrl_classifier_controller_t *classifier_ctrl;
@@ -145,7 +145,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                         for ( int f_index = 0; f_index < feature_count; f_index ++ )
                                         {
                                             data_feature_t *current_feature = &((*this_).temp_features[f_index]);
-                                            int64_t new_feature_id;
+                                            data_row_id_t new_feature_id;
                                             data_feature_set_classifier_id( current_feature, the_classifier_id );
                                             /* filter lifelines */
                                             if ( ! data_rules_feature_is_scenario_cond( &((*this_).data_rules),
@@ -217,7 +217,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                 diag_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
 
                                 ctrl_error_t write_error2;
-                                int64_t new_element_id;
+                                data_row_id_t new_element_id;
                                 data_diagramelement_t diag_ele;
                                 data_diagramelement_init_new ( &diag_ele,
                                                                current_diagram_id,
@@ -261,7 +261,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                             diag_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
 
                             ctrl_error_t write_error3;
-                            int64_t new_diag_id;
+                            data_row_id_t new_diag_id;
                             data_diagram_set_parent_id( &new_diagram, diagram_id );
                             write_error3 = ctrl_diagram_controller_create_diagram ( diag_ctrl,
                                                                                     &new_diagram,
@@ -313,11 +313,11 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                         }
                         else
                         {
-                            int64_t from_classifier_id = DATA_ID_VOID_ID;
-                            int64_t from_feature_id = DATA_ID_VOID_ID;
+                            data_row_id_t from_classifier_id = DATA_ID_VOID_ID;
+                            data_row_id_t from_feature_id = DATA_ID_VOID_ID;
                             data_feature_type_t from_feature_type = DATA_FEATURE_TYPE_VOID;
-                            int64_t to_classifier_id = DATA_ID_VOID_ID;
-                            int64_t to_feature_id = DATA_ID_VOID_ID;
+                            data_row_id_t to_classifier_id = DATA_ID_VOID_ID;
+                            data_row_id_t to_feature_id = DATA_ID_VOID_ID;
                             data_feature_type_t to_feature_type = DATA_FEATURE_TYPE_VOID;
 
                             /* determine ids in target database */
@@ -350,7 +350,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                             for ( int src_idx=0; src_idx < feature_count; src_idx ++ )
                                             {
                                                 const data_feature_t *const current_feature = &((*this_).temp_features[src_idx]);
-                                                const int64_t current_feature_id = data_feature_get_id( current_feature );
+                                                const data_row_id_t current_feature_id = data_feature_get_id( current_feature );
                                                 const char *const current_feature_key = data_feature_get_key_ptr( current_feature );
                                                 const data_feature_type_t current_feature_type = data_feature_get_main_type( current_feature );
                                                 if ( utf8stringbuf_equals_str( rel_from_feat, current_feature_key ) )
@@ -411,7 +411,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                             for ( int src_idx=0; src_idx < feature_count; src_idx ++ )
                                             {
                                                 const data_feature_t *const current_feature = &((*this_).temp_features[src_idx]);
-                                                const int64_t current_feature_id = data_feature_get_id( current_feature );
+                                                const data_row_id_t current_feature_id = data_feature_get_id( current_feature );
                                                 const char *const current_feature_key = data_feature_get_key_ptr( current_feature );
                                                 const data_feature_type_t current_feature_type = data_feature_get_main_type( current_feature );
                                                  if ( utf8stringbuf_equals_str( rel_to_feat, current_feature_key ) )
@@ -496,7 +496,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                 data_relationship_set_to_feature_id ( &new_relationship, to_feature_id );
 
                                 /* create relationship */
-                                int64_t relationship_id;
+                                data_row_id_t relationship_id;
                                 write_error4 = ctrl_classifier_controller_create_relationship ( classifier_control4,
                                                                                                 &new_relationship,
                                                                                                 ! is_first, /*=add_to_latest_undo_set*/
@@ -560,7 +560,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
     return parse_error;
 }
 
-bool json_import_to_database_private_is_feature_focused_in_diagram( json_import_to_database_t *this_, int64_t diagram_id, int64_t feature_id )
+bool json_import_to_database_private_is_feature_focused_in_diagram( json_import_to_database_t *this_, data_row_id_t diagram_id, data_row_id_t feature_id )
 {
     TRACE_BEGIN();
     bool is_focused = false;

@@ -101,7 +101,7 @@ void pencil_layout_data_private_init_features( pencil_layout_data_t *this_ )
 
         if ( ( NULL != feature_data ) && data_feature_is_valid( feature_data ) )
         {
-            const int64_t feature_id = data_feature_get_id( feature_data );
+            const data_row_id_t feature_id = data_feature_get_id( feature_data );
             const bool show = data_rules_diagram_shows_feature ( &((*this_).filter_rules),
                                                                  (*this_).input_data,
                                                                  feature_id
@@ -227,10 +227,10 @@ uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *thi
     assert ( NULL != io_dropped_relationships );
     uint32_t layout_relationship_count = 0;
 
-    const int64_t from_classifier_id = data_relationship_get_from_classifier_id( relationship_data );
-    const int64_t to_classifier_id = data_relationship_get_to_classifier_id( relationship_data );
-    const int64_t from_feature_id = data_relationship_get_from_feature_id( relationship_data );
-    const int64_t to_feature_id = data_relationship_get_to_feature_id( relationship_data );
+    const data_row_id_t from_classifier_id = data_relationship_get_from_classifier_id( relationship_data );
+    const data_row_id_t to_classifier_id = data_relationship_get_to_classifier_id( relationship_data );
+    const data_row_id_t from_feature_id = data_relationship_get_from_feature_id( relationship_data );
+    const data_row_id_t to_feature_id = data_relationship_get_to_feature_id( relationship_data );
 
     if ( DATA_ID_VOID_ID == from_feature_id )  /* search source(from) in classifiers */
     {
