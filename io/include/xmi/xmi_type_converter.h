@@ -56,6 +56,15 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
 const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *this_, data_feature_type_t f_type );
 
 /*!
+ *  \brief gets a string representation of the xmi owning-type of a data_feature_type_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param f_type data_feature_type_t to convert to a string
+ *  \result string representation of the owning-link type, empty string if not available
+ */
+const char* xmi_type_converter_get_xmi_owning_type_of_feature ( xmi_type_converter_t *this_, data_feature_type_t f_type );
+
+/*!
  *  \brief gets a string representation of a data_relationship_type_t
  *
  *  \param this_ pointer to own object attributes

@@ -8,6 +8,14 @@
 #include <stdbool.h>
 #include <assert.h>
 
+const char XML_WRITER_START_TAG_START[2] = "<";
+const char XML_WRITER_START_TAG_END[2] = ">";
+const char XML_WRITER_END_TAG_START[3] = "</";
+const char XML_WRITER_END_TAG_END[2] = ">";
+const char XML_WRITER_EMPTY_TAG_START[2] = "<";
+const char XML_WRITER_EMPTY_TAG_END[4] = " />";
+const char XML_WRITER_ATTR_SEPARATOR[2] = " ";
+
 static const char * const XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[] = {
     "<", "&lt;",
     ">", "&gt;",

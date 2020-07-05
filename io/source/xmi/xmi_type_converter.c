@@ -33,6 +33,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
         {
             /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Blocks */
             result = XMI_TYPE_CONVERTER_NS_SYSML "Block";
+            /* TODO: spec ok but is ignored at import to EA */
         }
         break;
 
@@ -48,6 +49,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
             /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
             result = XMI_TYPE_CONVERTER_NS_SYSML "Requirement";
             /* note: there is no special type in SysML for a feature or composite requirement */
+            /* TODO: spec ok but is ignored at import to EA */
         }
         break;
 
@@ -55,6 +57,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
         {
             /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
             result = XMI_TYPE_CONVERTER_NS_SYSML "Requirement";
+            /* TODO: spec ok but is ignored at import to EA */
         }
         break;
 
@@ -135,6 +138,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
         {
             /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Packages */
             result = XMI_TYPE_CONVERTER_NS_UML "Package";
+            /* TODO: spec ok but is ignored at import to EA, maybe a packageImport-tag needed */
         }
         break;
 
@@ -164,6 +168,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
         {
             /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: CommonStructure */
             result = XMI_TYPE_CONVERTER_NS_UML "Comment";
+            /* TODO: spec ok but is ignored at import to EA */
         }
         break;
 
@@ -178,6 +183,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
         {
             /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
             result = XMI_TYPE_CONVERTER_NS_UML "InitialNode";
+            /* TODO: spec ok but is ignored at import to EA */
         }
         break;
 
@@ -188,6 +194,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
             result = XMI_TYPE_CONVERTER_NS_UML "ActivityFinalNode";
             /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StateMachines */
             /* result = XMI_TYPE_CONVERTER_NS_UML "FinalState"; */
+            /* TODO: spec ok but is ignored at import to EA */
         }
         break;
 
@@ -195,6 +202,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
         {
             /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
             result = XMI_TYPE_CONVERTER_NS_UML "ForkNode";
+            /* TODO: spec ok but is ignored at import to EA */
         }
         break;
 
@@ -202,6 +210,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
         {
             /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
             result = XMI_TYPE_CONVERTER_NS_UML "JoinNode";
+            /* TODO: spec ok but is ignored at import to EA */
         }
         break;
 
@@ -317,7 +326,6 @@ const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *t
         {
             /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
             result = XMI_TYPE_CONVERTER_NS_UML "Interface";
-            /* TODO: check directlyRealizedInterfaces */
         }
         break;
 
@@ -325,7 +333,6 @@ const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *t
         {
             /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
             result = XMI_TYPE_CONVERTER_NS_UML "Interface";
-            /* TODO: check directlyUsedInterfaces */
         }
         break;
 
@@ -334,6 +341,77 @@ const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *t
         {
             / * spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements * /
             result = XMI_TYPE_CONVERTER_NS_SYSML "TestCase";
+        }
+        break;
+        */
+
+        default:
+        {
+            TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", f_type );
+            assert( 0 );
+            result = "";
+        }
+        break;
+    }
+
+    TRACE_END_ERR( ('\0'==*result) ? -1 : 0 );
+    return result;
+}
+
+const char* xmi_type_converter_get_xmi_owning_type_of_feature ( xmi_type_converter_t *this_, data_feature_type_t f_type )
+{
+    TRACE_BEGIN();
+    const char* result = "";
+
+    switch ( f_type )
+    {
+        case DATA_FEATURE_TYPE_PROPERTY:
+        {
+            /* spec: https://www.omg.org/spec/UML/2.5.1/PDF ch 9.9.17 */
+            result = "ownedAttribute";
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_OPERATION:
+        {
+            /* spec: https://www.omg.org/spec/UML/2.5.1/PDF ch 9.6.2, 11.9.16 */
+            result = "ownedOperation";
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_PORT:
+        {
+            /* spec: https://www.omg.org/spec/UML/2.5.1/PDF ch 11.8.13.5 */
+            result = "ownedPort";
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_LIFELINE:
+        {
+            /* spec: https://www.omg.org/spec/UML/2.5.1/PDF TODO lifelines are only loosely coupled with their classifiers */
+            result = "ownedBehavior";
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_PROVIDED_INTERFACE:
+        {
+            /* spec: https://www.omg.org/spec/UML/2.5.1/PDF ch 11.6.2 */
+            result = "provided";
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_REQUIRED_INTERFACE:
+        {
+            /* spec: https://www.omg.org/spec/UML/2.5.1/PDF ch 11.6.2 */
+            result = "required";
+        }
+        break;
+
+        /*
+        case DATA_FEATURE_TYPE_TESTCASE:
+        {
+            / * spec: https://www.omg.org/spec/UML/2.5.1/PDF (v1.6) pkg: Requirements * /
+            result = "ownedBehavior";
         }
         break;
         */
@@ -485,6 +563,7 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
             /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Packages */
             result = XMI_TYPE_CONVERTER_NS_UML "PackageMerge";
             /* TODO: check type */
+            /* TODO: spec like but is ignored at import to EA, maybe a packageImport-tag or elementImport-tag is more suitable */
         }
         break;
 
