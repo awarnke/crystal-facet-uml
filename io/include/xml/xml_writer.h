@@ -22,6 +22,14 @@ enum xml_writer_max_enum {
     XML_WRITER_MAX_STRING_SIZE = DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH + DATA_CLASSIFIER_MAX_DESCRIPTION_LENGTH,
 };
 
+extern const char XML_WRITER_START_TAG_START[2];
+extern const char XML_WRITER_START_TAG_END[2];
+extern const char XML_WRITER_END_TAG_START[3];
+extern const char XML_WRITER_END_TAG_END[2];
+extern const char XML_WRITER_EMPTY_TAG_START[2];
+extern const char XML_WRITER_EMPTY_TAG_END[4];
+extern const char XML_WRITER_ATTR_SEPARATOR[2];
+
 /*!
  *  \brief attributes of the xml writer
  */
@@ -103,7 +111,7 @@ static inline int xml_writer_write_xml_enc ( xml_writer_t *this_, const char *te
 static inline int xml_writer_write_xml_enc_buf ( xml_writer_t *this_, const char *start, size_t length );
 
 /*!
- *  \brief writes a string to a file, xml encoded and space-separated --
+ *  \brief writes a string to a file, xml encoded and double-minus is space-separated
  *
  *  \param this_ pointer to own object attributes
  *  \param text string to write, encoded for xml comments
