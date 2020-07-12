@@ -120,8 +120,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
     /* draw id */
     {
         /* prepare text */
-        data_id_t the_id;
-        data_id_init( &the_id, DATA_TABLE_DIAGRAM, data_diagram_get_id(the_diagram) );
+        const data_id_t the_id = data_diagram_get_data_id(the_diagram);
 
         char id_buf[DATA_ID_MAX_UTF8STRING_SIZE+5];
         utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );

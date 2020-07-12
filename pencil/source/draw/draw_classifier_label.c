@@ -251,8 +251,7 @@ void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
     const data_classifier_type_t classifier_type = data_classifier_get_main_type( classifier );
 
     /* prepare text */
-    data_id_t the_id;
-    data_id_init( &the_id, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) );
+    const data_id_t the_id = data_classifier_get_data_id( classifier );
 
     char id_buf[DATA_ID_MAX_UTF8STRING_SIZE+5];
     utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );

@@ -18,7 +18,7 @@
  */
 struct universal_output_stream_struct {
     const universal_output_stream_if_t* interface;  /*!< set of interface functions to write to a stream */
-    void* objectdata;  /*!< object that implements writing to a stream */
+    void* objectdata;  /*!< object that implements writing to a stream, used in interface functions as this_ parameter */
 };
 
 typedef struct universal_output_stream_struct universal_output_stream_t;
