@@ -715,6 +715,28 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
     return result;
 }
 
+data_error_t data_database_reader_get_all_classifiers_iterator ( data_database_reader_t *this_,
+                                                                 data_database_iterator_classifiers_t *io_classifier_iterator
+                                                               )
+{
+    TRACE_BEGIN();
+    assert( NULL != io_classifier_iterator );
+    data_error_t result = DATA_ERROR_NONE;
+
+    if ( (*this_).is_open )
+    {
+        /* TODO */
+    }
+    else
+    {
+        result |= DATA_ERROR_NO_DB;
+        TRACE_INFO( "Database not open, cannot request data." );
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 /* ================================ DIAGRAMELEMENT ================================ */
 
 /*!

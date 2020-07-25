@@ -11,6 +11,7 @@
 
 #include "storage/data_database_listener.h"
 #include "storage/data_database_listener_signal.h"
+#include "storage/data_database_iterator_classifiers.h"
 #include "storage/data_database.h"
 #include "data_diagram.h"
 #include "data_error.h"
@@ -198,6 +199,20 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
                                                                   data_visible_classifier_t (*out_visible_classifier)[],
                                                                   uint32_t *out_visible_classifier_count
                                                                 );
+
+/*!
+ *  \brief iterates over all classifiers of a diagram from the database.
+ *
+ *  classifiers are sorted by number of containment-parents, ascending.
+ * 
+ *  \param this_ pointer to own object attributes
+ *  \param io_classifier_iterator iterator over all classifiers. The caller is responsible for initializing and destroying this object.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ */
+data_error_t data_database_reader_get_all_classifiers_iterator ( data_database_reader_t *this_,
+                                                                 data_database_iterator_classifiers_t *io_classifier_iterator
+                                                               );
 
 /* ================================ DIAGRAMELEMENT ================================ */
 

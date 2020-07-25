@@ -349,7 +349,11 @@
                 <itemizedlist>
                 <listitem><para>To focus the diagram or a classifier or a feature or a relationship (yellow corners), click on this object.</para></listitem>
                 <listitem><para>To select an element (pink corners), click on these objects twice.</para></listitem>
-                <listitem><para>To move classifiers within the diagram, 1.) press, 2.) drag and 3.) release the mouse button.</para></listitem>
+                <listitem>
+                    <para>To move classifiers within the diagram, 1.) press, 2.) drag and 3.) release the mouse button.</para>
+                    <para>Note: When moving a classifier, this is moved in all diagrams where it appears. 
+                        Order and locations of things stay consistent between different views.</para>
+                </listitem>
                 </itemizedlist>
             </para>
 
