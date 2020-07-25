@@ -461,6 +461,17 @@ static const char DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID[] =
     "ORDER BY classifiers.list_order ASC;";
 
 /*!
+ *  \brief search statement to iterate over all classifiers sorted by number of parent-containers
+ */
+static const char DATA_DATABASE_READER_SELECT_ALL_CLASSIFIERS[] =
+    "SELECT id,main_type,stereotype,name,description,x_order,y_order,list_order,"
+        "(SELECT count(*) FROM relationships "
+        "WHERE (relationships.to_classifier_id=classifiers.id) AND (relationships.to_feature_id IS NULL) "
+        "AND (relationships.main_type=300)) AS cnt "
+    "FROM classifiers "
+    "ORDER BY cnt ASC;";
+    
+/*!
  *  \brief the column id of the result where this parameter is stored: id
  */
 static const int RESULT_CLASSIFIER_ID_COLUMN = 0;
@@ -725,7 +736,17 @@ data_error_t data_database_reader_get_all_classifiers_iterator ( data_database_r
 
     if ( (*this_).is_open )
     {
-        /* TODO */
+        sqlite3_stmt *prepared_statement;
+        /* prepare a statement */
+        result |= data_database_reader_private_prepare_statement ( this_,
+                                                                   DATA_DATABASE_READER_SELECT_ALL_CLASSIFIERS,
+                                                                   sizeof( DATA_DATABASE_READER_SELECT_ALL_CLASSIFIERS ),
+                                                                   &prepared_statement
+                                                                 );
+        if ( result == DATA_ERROR_NONE )
+        {
+            result |= data_database_iterator_classifiers_reinit ( io_classifier_iterator, (*this_).database, prepared_statement );
+        }
     }
     else
     {

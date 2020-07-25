@@ -13,6 +13,7 @@ static void test_search_diagramelements(void);
 static void test_search_classifiers(void);
 static void test_search_features(void);
 static void test_search_relationships(void);
+static void test_iterate_over_classifiers(void);
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -43,6 +44,7 @@ test_suite_t data_database_reader_test_get_list(void)
     test_suite_add_test_case( &result, "test_search_classifiers", &test_search_classifiers );
     test_suite_add_test_case( &result, "test_search_features", &test_search_features );
     test_suite_add_test_case( &result, "test_search_relationships", &test_search_relationships );
+    test_suite_add_test_case( &result, "test_iterate_over_classifiers", &test_iterate_over_classifiers );
     return result;
 }
 
@@ -196,7 +198,7 @@ static void set_up(void)
     data_relationship_t second_relation;
     data_err = data_relationship_init ( &second_relation,
                                         35, /* relationship_id */
-                                        DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                        DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT, /* relationship_main_type */
                                         13, /* from_classifier_id */
                                         13, /* to_classifier_id */
                                         "the composition is more", /* relationship_name */
@@ -423,6 +425,43 @@ static void test_search_relationships(void)
                                                                     );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 2, out_relationship_count );
+}
+
+static void test_iterate_over_classifiers(void)
+{
+    data_error_t data_err;
+    data_database_iterator_classifiers_t classifier_iterator;
+    data_classifier_t out_classifier;
+    bool has_next;
+    
+    /* test the iterator, init */
+    data_database_iterator_classifiers_init_empty( &classifier_iterator );
+    data_err = data_database_reader_get_all_classifiers_iterator ( &db_reader, &classifier_iterator );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* test the iterator, step 1 */
+    has_next = data_database_iterator_classifiers_has_next( &classifier_iterator );
+    TEST_ASSERT( has_next );
+    data_err = data_database_iterator_classifiers_next( &classifier_iterator, &out_classifier );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 12, data_classifier_get_id( &out_classifier ) );
+
+    /* test the iterator, step 2 */
+    has_next = data_database_iterator_classifiers_has_next( &classifier_iterator );
+    TEST_ASSERT( has_next );
+    data_err = data_database_iterator_classifiers_next( &classifier_iterator, &out_classifier );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 13, data_classifier_get_id( &out_classifier ) );
+
+    /* test the iterator, step 3 */
+    has_next = data_database_iterator_classifiers_has_next( &classifier_iterator );
+    TEST_ASSERT( ! has_next );
+    data_err = data_database_iterator_classifiers_next( &classifier_iterator, &out_classifier );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_INVALID_REQUEST, data_err );
+
+    /* test the iterator, destroy */
+    data_err = data_database_iterator_classifiers_destroy( &classifier_iterator );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 }
 
 
