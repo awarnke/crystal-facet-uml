@@ -54,7 +54,7 @@ void io_export_model_traversal_destroy( io_export_model_traversal_t *this_ )
     TRACE_END();
 }
 
-int io_export_model_traversal_write_all ( io_export_model_traversal_t *this_, io_format_writer_t *format_writer )
+int io_export_model_traversal_walk_diagram ( io_export_model_traversal_t *this_, io_format_writer_t *format_writer )
 {
     TRACE_BEGIN();
     assert( NULL != format_writer );

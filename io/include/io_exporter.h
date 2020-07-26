@@ -11,7 +11,6 @@
 
 #include "io_file_format.h"
 #include "image/image_format_writer.h"
-#include "io_format_writer.h"
 #include "storage/data_database.h"
 #include "pencil_diagram_maker.h"
 #include "io_export_model_traversal.h"
@@ -26,8 +25,8 @@
 struct io_exporter_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     data_visible_set_t input_data;  /*!< caches the diagram data */
-    image_format_writer_t diagram_image_exporter;  /*!< exports single diagram images to one given file */
-    io_export_model_traversal_t diagram_text_exporter;  /*!< own instance of a diagram_text_exporter */
+    image_format_writer_t image_format_exporter;  /*!< exports single diagram images to one given file */
+    io_export_model_traversal_t model_traversal;  /*!< own instance of a model_traversal for text export */
 
     io_format_writer_t temp_format_writer;  /*!< possibly uninitialized memory for a format writer */
     char temp_filename_buf[512];  /*!< buffer space for temporary filename construction */

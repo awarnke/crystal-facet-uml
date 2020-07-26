@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Renders diagram and classifier descriptions to an output stream
+ *  \brief Traverses the model or a model-part(diagram) and writes the elements to an format writer
  */
 
 #include "io_format_writer.h"
@@ -25,6 +25,7 @@ struct io_export_model_traversal_struct {
     const data_visible_set_t *input_data;  /*!< pointer to an external data cache */
     data_rules_t filter_rules;  /*!< own instance of uml and sysml consistency rules */
     io_filter_flag_t filter_flags;  /*!< flags indicating which elements shall be exported */
+    /*io_format_writer_t format_writer;*/  /*!< own instance of a format writer */
     
     data_id_t written_id_set_buf[50000];  /*!< buffer for list of already exported element ids */
     universal_array_list_t written_id_set;  /*!< list of already exported element ids */
@@ -70,7 +71,7 @@ void io_export_model_traversal_destroy( io_export_model_traversal_t *this_ );
  *  \param format_writer writer to format the data and stream it out to a file
  *  \return -1 in case of error, 0 in case of success
  */
-int io_export_model_traversal_write_all ( io_export_model_traversal_t *this_, io_format_writer_t *format_writer );
+int io_export_model_traversal_walk_diagram ( io_export_model_traversal_t *this_, io_format_writer_t *format_writer );
 
 /*!
  *  \brief prints names and descriptions of the classifiers to the output stream

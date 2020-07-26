@@ -27,8 +27,8 @@ void io_exporter_init ( io_exporter_t *this_,
     (*this_).temp_filename = utf8stringbuf_init( sizeof((*this_).temp_filename_buf), (*this_).temp_filename_buf );
 
     data_visible_set_init( &((*this_).input_data) );
-    io_export_model_traversal_init( &((*this_).diagram_text_exporter), IO_FILTER_FLAG_NONE, &((*this_).input_data) );
-    image_format_writer_init( &((*this_).diagram_image_exporter ), &((*this_).input_data) );
+    io_export_model_traversal_init( &((*this_).model_traversal), IO_FILTER_FLAG_NONE, &((*this_).input_data) );
+    image_format_writer_init( &((*this_).image_format_exporter ), &((*this_).input_data) );
 
     TRACE_END();
 }
@@ -37,8 +37,8 @@ void io_exporter_destroy( io_exporter_t *this_ )
 {
     TRACE_BEGIN();
 
-    image_format_writer_destroy( &((*this_).diagram_image_exporter ) );
-    io_export_model_traversal_destroy( &((*this_).diagram_text_exporter) );
+    image_format_writer_destroy( &((*this_).image_format_exporter ) );
+    io_export_model_traversal_destroy( &((*this_).model_traversal) );
     data_visible_set_destroy( &((*this_).input_data) );
 
     (*this_).db_reader = NULL;
@@ -202,7 +202,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
             || ( IO_FILE_FORMAT_PS == export_type )
             || ( IO_FILE_FORMAT_PNG == export_type ) )
         {
-            result = image_format_writer_render_surface_to_file( &((*this_).diagram_image_exporter ),
+            result = image_format_writer_render_surface_to_file( &((*this_).image_format_exporter ),
                                                                        export_type,
                                                                        utf8stringbuf_get_string( (*this_).temp_filename )
                                                                      );
@@ -219,14 +219,14 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
             {
                 int write_err;
 
-                /* reset the diagram_text_exporter */
-                io_export_model_traversal_reinit( &((*this_).diagram_text_exporter), 
-                                                 IO_FILTER_FLAG_LIFELINES | IO_FILTER_FLAG_HIDDEN,
-                                                 &((*this_).input_data)
-                                               );
+                /* reset the model_traversal */
+                io_export_model_traversal_reinit( &((*this_).model_traversal), 
+                                                  IO_FILTER_FLAG_LIFELINES | IO_FILTER_FLAG_HIDDEN,
+                                                  &((*this_).input_data)
+                                                );
                 /* write file */
                 io_format_writer_init( &((*this_).temp_format_writer ), (*this_).db_reader, IO_FILE_FORMAT_TXT, output );
-                write_err = io_export_model_traversal_write_all ( &((*this_).diagram_text_exporter), &((*this_).temp_format_writer ) );
+                write_err = io_export_model_traversal_walk_diagram ( &((*this_).model_traversal), &((*this_).temp_format_writer ) );
                 io_format_writer_destroy( &((*this_).temp_format_writer ) );
 
                 if ( 0 != write_err )
@@ -341,15 +341,15 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         }
         else
         {
-            /* reset the diagram_text_exporter */
+            /* reset the model_traversal */
             const io_filter_flag_t filter_flags
                 = (IO_FILE_FORMAT_XMI2==export_type) 
                 ? IO_FILTER_FLAG_DUPLICATES 
                 : (IO_FILTER_FLAG_LIFELINES | IO_FILTER_FLAG_HIDDEN);
-            io_export_model_traversal_reinit( &((*this_).diagram_text_exporter), 
-                                             filter_flags,
-                                             &((*this_).input_data)
-                                           );
+            io_export_model_traversal_reinit( &((*this_).model_traversal), 
+                                              filter_flags,
+                                              &((*this_).input_data)
+                                            );
             /* write the document */
             export_err |= io_format_writer_write_header( &((*this_).temp_format_writer), document_file_name );
             export_err |= io_exporter_private_export_table_of_contents( this_, DATA_ID_VOID_ID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, &((*this_).temp_format_writer) );
@@ -404,7 +404,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
                                                       diag_ptr,
                                                       utf8stringbuf_get_string( (*this_).temp_filename )
                                                     );
-        export_err |= io_export_model_traversal_write_classifiers ( &((*this_).diagram_text_exporter), format_writer );
+        export_err |= io_export_model_traversal_write_classifiers ( &((*this_).model_traversal), format_writer );
     }
 
     /* recursion to children */
