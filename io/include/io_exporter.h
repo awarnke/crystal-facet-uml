@@ -10,7 +10,7 @@
  */
 
 #include "io_file_format.h"
-#include "io_diagram_image_exporter.h"
+#include "image/image_format_writer.h"
 #include "io_format_writer.h"
 #include "storage/data_database.h"
 #include "pencil_diagram_maker.h"
@@ -26,7 +26,7 @@
 struct io_exporter_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     data_visible_set_t input_data;  /*!< caches the diagram data */
-    io_diagram_image_exporter_t diagram_image_exporter;  /*!< exports single diagram images to one given file */
+    image_format_writer_t diagram_image_exporter;  /*!< exports single diagram images to one given file */
     io_diagram_text_exporter_t diagram_text_exporter;  /*!< own instance of a diagram_text_exporter */
 
     io_format_writer_t temp_format_writer;  /*!< possibly uninitialized memory for a format writer */

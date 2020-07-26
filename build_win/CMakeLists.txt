@@ -57,6 +57,7 @@ FILE(GLOB commonSource ../gui/source/*.c
                        ../pencil/source/util/geometry/*.c
                        ../pencil/source/draw/*.c
                        ../io/source/*.c
+                       ../io/source/image/*.c
                        ../io/source/json/*.c
                        ../io/source/xml/*.c
                        ../io/source/txt/*.c

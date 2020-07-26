@@ -28,7 +28,7 @@ void io_exporter_init ( io_exporter_t *this_,
 
     data_visible_set_init( &((*this_).input_data) );
     io_diagram_text_exporter_init( &((*this_).diagram_text_exporter), IO_FILTER_FLAG_NONE, &((*this_).input_data) );
-    io_diagram_image_exporter_init( &((*this_).diagram_image_exporter ), &((*this_).input_data) );
+    image_format_writer_init( &((*this_).diagram_image_exporter ), &((*this_).input_data) );
 
     TRACE_END();
 }
@@ -37,7 +37,7 @@ void io_exporter_destroy( io_exporter_t *this_ )
 {
     TRACE_BEGIN();
 
-    io_diagram_image_exporter_destroy( &((*this_).diagram_image_exporter ) );
+    image_format_writer_destroy( &((*this_).diagram_image_exporter ) );
     io_diagram_text_exporter_destroy( &((*this_).diagram_text_exporter) );
     data_visible_set_destroy( &((*this_).input_data) );
 
@@ -202,7 +202,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
             || ( IO_FILE_FORMAT_PS == export_type )
             || ( IO_FILE_FORMAT_PNG == export_type ) )
         {
-            result = io_diagram_image_exporter_render_surface_to_file( &((*this_).diagram_image_exporter ),
+            result = image_format_writer_render_surface_to_file( &((*this_).diagram_image_exporter ),
                                                                        export_type,
                                                                        utf8stringbuf_get_string( (*this_).temp_filename )
                                                                      );

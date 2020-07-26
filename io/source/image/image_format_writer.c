@@ -1,6 +1,6 @@
-/* File: io_diagram_image_exporter.c; Copyright and License: see below */
+/* File: image_format_writer.c; Copyright and License: see below */
 
-#include "io_diagram_image_exporter.h"
+#include "image/image_format_writer.h"
 #include "trace.h"
 #include "tslog.h"
 #include <gtk/gtk.h>
@@ -11,8 +11,8 @@
 #include <stdbool.h>
 #include <assert.h>
 
-void io_diagram_image_exporter_init ( io_diagram_image_exporter_t *this_,
-                                      data_visible_set_t *input_data )
+void image_format_writer_init ( image_format_writer_t *this_,
+                                data_visible_set_t *input_data )
 {
     TRACE_BEGIN();
     assert( NULL != input_data );
@@ -24,7 +24,7 @@ void io_diagram_image_exporter_init ( io_diagram_image_exporter_t *this_,
     TRACE_END();
 }
 
-void io_diagram_image_exporter_destroy( io_diagram_image_exporter_t *this_ )
+void image_format_writer_destroy( image_format_writer_t *this_ )
 {
     TRACE_BEGIN();
 
@@ -43,9 +43,9 @@ void io_diagram_image_exporter_destroy( io_diagram_image_exporter_t *this_ )
 #error "no png"
 #endif
 
-int io_diagram_image_exporter_render_surface_to_file( io_diagram_image_exporter_t *this_,
-                                                      io_file_format_t export_type,
-                                                      const char* target_filename )
+int image_format_writer_render_surface_to_file( image_format_writer_t *this_,
+                                                io_file_format_t export_type,
+                                                const char* target_filename )
 {
     TRACE_BEGIN();
     assert( NULL != target_filename );

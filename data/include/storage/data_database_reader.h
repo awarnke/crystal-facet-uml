@@ -201,12 +201,13 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
                                                                 );
 
 /*!
- *  \brief iterates over all classifiers of a diagram from the database.
+ *  \brief iterates over all classifiers from the database.
  *
  *  classifiers are sorted by number of containment-parents, ascending.
  * 
  *  \param this_ pointer to own object attributes
- *  \param io_classifier_iterator iterator over all classifiers. The caller is responsible for initializing and destroying this object.
+ *  \param io_classifier_iterator iterator over all classifiers. The caller is responsible for initializing before 
+ *                                and destroying this object afterwards.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
