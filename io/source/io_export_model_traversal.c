@@ -1,6 +1,6 @@
-/* File: io_diagram_text_exporter.c; Copyright and License: see below */
+/* File: io_export_model_traversal.c; Copyright and License: see below */
 
-#include "io_diagram_text_exporter.h"
+#include "io_export_model_traversal.h"
 #include "trace.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
@@ -8,9 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void io_diagram_text_exporter_init( io_diagram_text_exporter_t *this_,
-                                    io_filter_flag_t filter_flags,  
-                                    const data_visible_set_t *input_data )
+void io_export_model_traversal_init( io_export_model_traversal_t *this_,
+                                     io_filter_flag_t filter_flags,  
+                                     const data_visible_set_t *input_data )
 {
     TRACE_BEGIN();
     assert( NULL != input_data );
@@ -32,17 +32,17 @@ void io_diagram_text_exporter_init( io_diagram_text_exporter_t *this_,
     TRACE_END();
 }
 
-void io_diagram_text_exporter_reinit( io_diagram_text_exporter_t *this_,
-                                      io_filter_flag_t filter_flags,
-                                      const data_visible_set_t *input_data )
+void io_export_model_traversal_reinit( io_export_model_traversal_t *this_,
+                                       io_filter_flag_t filter_flags,
+                                       const data_visible_set_t *input_data )
 {
     TRACE_BEGIN();
-    io_diagram_text_exporter_destroy( this_ );
-    io_diagram_text_exporter_init( this_, filter_flags, input_data );
+    io_export_model_traversal_destroy( this_ );
+    io_export_model_traversal_init( this_, filter_flags, input_data );
     TRACE_END();
 }
 
-void io_diagram_text_exporter_destroy( io_diagram_text_exporter_t *this_ )
+void io_export_model_traversal_destroy( io_export_model_traversal_t *this_ )
 {
     TRACE_BEGIN();
 
@@ -54,7 +54,7 @@ void io_diagram_text_exporter_destroy( io_diagram_text_exporter_t *this_ )
     TRACE_END();
 }
 
-int io_diagram_text_exporter_write_all ( io_diagram_text_exporter_t *this_, io_format_writer_t *format_writer )
+int io_export_model_traversal_write_all ( io_export_model_traversal_t *this_, io_format_writer_t *format_writer )
 {
     TRACE_BEGIN();
     assert( NULL != format_writer );
@@ -74,7 +74,7 @@ int io_diagram_text_exporter_write_all ( io_diagram_text_exporter_t *this_, io_f
                                                );
 
     /* write all classifiers */
-    write_err |= io_diagram_text_exporter_write_classifiers( this_, format_writer );
+    write_err |= io_export_model_traversal_write_classifiers( this_, format_writer );
 
     /* write footer */
     write_err |= io_format_writer_end_diagram( format_writer );
@@ -84,7 +84,7 @@ int io_diagram_text_exporter_write_all ( io_diagram_text_exporter_t *this_, io_f
     return write_err;
 }
 
-int io_diagram_text_exporter_write_classifiers ( io_diagram_text_exporter_t *this_, io_format_writer_t *format_writer )
+int io_export_model_traversal_write_classifiers ( io_export_model_traversal_t *this_, io_format_writer_t *format_writer )
 {
     TRACE_BEGIN();
     assert( NULL != format_writer );
@@ -128,7 +128,7 @@ int io_diagram_text_exporter_write_classifiers ( io_diagram_text_exporter_t *thi
                 write_err |= io_format_writer_write_classifier( format_writer, classifier );
 
                 /* print all features of the classifier */
-                write_err |= io_diagram_text_exporter_private_write_features_of_classifier( this_,
+                write_err |= io_export_model_traversal_private_write_features_of_classifier( this_,
                                                                                             classifier_id,
                                                                                             format_writer
                                                                                           );
@@ -138,7 +138,7 @@ int io_diagram_text_exporter_write_classifiers ( io_diagram_text_exporter_t *thi
             }
             
             /* print all relationships starting from classifier_id */
-            write_err |= io_diagram_text_exporter_private_write_relations_of_classifier( this_,
+            write_err |= io_export_model_traversal_private_write_relations_of_classifier( this_,
                                                                                          classifier_id,
                                                                                          format_writer
                                                                                        );
@@ -153,9 +153,9 @@ int io_diagram_text_exporter_write_classifiers ( io_diagram_text_exporter_t *thi
     return write_err;
 }
 
-int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_text_exporter_t *this_,
-                                                                    data_id_t classifier_id,
-                                                                    io_format_writer_t *format_writer )
+int io_export_model_traversal_private_write_features_of_classifier ( io_export_model_traversal_t *this_,
+                                                                     data_id_t classifier_id,
+                                                                     io_format_writer_t *format_writer )
 {
     TRACE_BEGIN();
     assert( NULL != format_writer );
@@ -208,9 +208,9 @@ int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_t
     return write_err;
 }
 
-int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_text_exporter_t *this_,
-                                                                     data_id_t from_classifier_id,
-                                                                     io_format_writer_t *format_writer )
+int io_export_model_traversal_private_write_relations_of_classifier ( io_export_model_traversal_t *this_,
+                                                                      data_id_t from_classifier_id,
+                                                                      io_format_writer_t *format_writer )
 {
     TRACE_BEGIN();
     assert( NULL != format_writer );

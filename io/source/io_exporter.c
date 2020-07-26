@@ -27,7 +27,7 @@ void io_exporter_init ( io_exporter_t *this_,
     (*this_).temp_filename = utf8stringbuf_init( sizeof((*this_).temp_filename_buf), (*this_).temp_filename_buf );
 
     data_visible_set_init( &((*this_).input_data) );
-    io_diagram_text_exporter_init( &((*this_).diagram_text_exporter), IO_FILTER_FLAG_NONE, &((*this_).input_data) );
+    io_export_model_traversal_init( &((*this_).diagram_text_exporter), IO_FILTER_FLAG_NONE, &((*this_).input_data) );
     image_format_writer_init( &((*this_).diagram_image_exporter ), &((*this_).input_data) );
 
     TRACE_END();
@@ -38,7 +38,7 @@ void io_exporter_destroy( io_exporter_t *this_ )
     TRACE_BEGIN();
 
     image_format_writer_destroy( &((*this_).diagram_image_exporter ) );
-    io_diagram_text_exporter_destroy( &((*this_).diagram_text_exporter) );
+    io_export_model_traversal_destroy( &((*this_).diagram_text_exporter) );
     data_visible_set_destroy( &((*this_).input_data) );
 
     (*this_).db_reader = NULL;
@@ -220,13 +220,13 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
                 int write_err;
 
                 /* reset the diagram_text_exporter */
-                io_diagram_text_exporter_reinit( &((*this_).diagram_text_exporter), 
+                io_export_model_traversal_reinit( &((*this_).diagram_text_exporter), 
                                                  IO_FILTER_FLAG_LIFELINES | IO_FILTER_FLAG_HIDDEN,
                                                  &((*this_).input_data)
                                                );
                 /* write file */
                 io_format_writer_init( &((*this_).temp_format_writer ), (*this_).db_reader, IO_FILE_FORMAT_TXT, output );
-                write_err = io_diagram_text_exporter_write_all ( &((*this_).diagram_text_exporter), &((*this_).temp_format_writer ) );
+                write_err = io_export_model_traversal_write_all ( &((*this_).diagram_text_exporter), &((*this_).temp_format_writer ) );
                 io_format_writer_destroy( &((*this_).temp_format_writer ) );
 
                 if ( 0 != write_err )
@@ -346,7 +346,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
                 = (IO_FILE_FORMAT_XMI2==export_type) 
                 ? IO_FILTER_FLAG_DUPLICATES 
                 : (IO_FILTER_FLAG_LIFELINES | IO_FILTER_FLAG_HIDDEN);
-            io_diagram_text_exporter_reinit( &((*this_).diagram_text_exporter), 
+            io_export_model_traversal_reinit( &((*this_).diagram_text_exporter), 
                                              filter_flags,
                                              &((*this_).input_data)
                                            );
@@ -404,7 +404,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
                                                       diag_ptr,
                                                       utf8stringbuf_get_string( (*this_).temp_filename )
                                                     );
-        export_err |= io_diagram_text_exporter_write_classifiers ( &((*this_).diagram_text_exporter), format_writer );
+        export_err |= io_export_model_traversal_write_classifiers ( &((*this_).diagram_text_exporter), format_writer );
     }
 
     /* recursion to children */
