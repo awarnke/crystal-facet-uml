@@ -7,6 +7,10 @@
 /*!
  *  \file
  *  \brief Writes several document pieces to one file output stream.
+ * 
+ *  Source: io_export_model_traversal_t;
+ *  Task: convert model-elements to an output stream (using an own txt/xml/... writer);
+ *  Sink: universal_output_stream_t
  */
 
 #include "io_file_format.h"

@@ -7,6 +7,10 @@
 /*!
  *  \file
  *  \brief Traverses the model or a model-part(diagram) and writes the elements to an format writer
+ * 
+ *  Source: input_data(data_visible_set_t) or db_reader(data_database_reader_t);
+ *  Task: traverse the source model(-part);
+ *  Sink: io_format_writer_t
  */
 
 #include "io_format_writer.h"
@@ -25,7 +29,6 @@ struct io_export_model_traversal_struct {
     const data_visible_set_t *input_data;  /*!< pointer to an external data cache */
     data_rules_t filter_rules;  /*!< own instance of uml and sysml consistency rules */
     io_filter_flag_t filter_flags;  /*!< flags indicating which elements shall be exported */
-    /*io_format_writer_t format_writer;*/  /*!< own instance of a format writer */
     
     data_id_t written_id_set_buf[50000];  /*!< buffer for list of already exported element ids */
     universal_array_list_t written_id_set;  /*!< list of already exported element ids */
