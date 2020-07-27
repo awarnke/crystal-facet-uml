@@ -21,7 +21,7 @@
 struct image_format_writer_struct {
     geometry_rectangle_t bounds;  /*!< bounding box of the exported images */
     pencil_diagram_maker_t painter;  /*!< own instance of a diagram painter */
-    //data_visible_set_t *input_data;  /*!< pointer to external cache of diagram data */
+    //data_visible_set_t *input_data;  /*!< pointer to an external buffer for private use as data cache */
 };
 
 typedef struct image_format_writer_struct image_format_writer_t;
@@ -30,7 +30,7 @@ typedef struct image_format_writer_struct image_format_writer_t;
  *  \brief initializes the diagram image file exporter
  *
  *  \param this_ pointer to own object attributes
- *  \param input_data pointer to cache of diagram data
+ *  \param input_data pointer to an external buffer for private use as data cache
  */
 void image_format_writer_init( image_format_writer_t *this_,
                                data_visible_set_t *input_data

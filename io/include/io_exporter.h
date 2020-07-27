@@ -24,11 +24,14 @@
  */
 struct io_exporter_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
-    data_visible_set_t input_data;  /*!< caches the diagram data */
-    image_format_writer_t image_format_exporter;  /*!< exports single diagram images to one given file */
-    io_export_model_traversal_t model_traversal;  /*!< own instance of a model_traversal for text export */
 
-    io_format_writer_t temp_format_writer;  /*!< possibly uninitialized memory for a format writer */
+    /* temporary member attributes, only valid during exporting */
+    data_visible_set_t temp_input_data;  /*!< buffer to cache the diagram data */
+
+    image_format_writer_t temp_image_format_exporter;  /*!< exports single diagram images to one given file */
+    io_export_model_traversal_t temp_model_traversal;  /*!< own instance of a model_traversal for text export */
+    io_format_writer_t temp_format_writer;  /*!< memory for a temporary format writer */
+
     char temp_filename_buf[512];  /*!< buffer space for temporary filename construction */
     utf8stringbuf_t temp_filename;  /*!< buffer space for temporary filename construction */
     data_diagram_t temp_diagram;  /*!< buffer space for temporary diagram data */
@@ -89,7 +92,7 @@ int io_exporter_private_get_filename( io_exporter_t *this_,
  *  \result 0 in case of success, -1 otherwise
  */
 int io_exporter_private_export_image_files( io_exporter_t *this_,
-                                            data_row_id_t diagram_id,
+                                            data_id_t diagram_id,
                                             uint32_t max_recursion,
                                             io_file_format_t export_type,
                                             const char* target_folder
@@ -114,13 +117,11 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to export; DATA_ID_VOID_ID to export all root diagrams
  *  \param max_recursion if greater than 0 and children exist, this function calls itself recursively
- *  \param format_writer writer to format the data and stream it out to a file
  *  \result 0 in case of success, -1 otherwise
  */
 int io_exporter_private_export_document_part( io_exporter_t *this_,
-                                              data_row_id_t diagram_id,
-                                              uint32_t max_recursion,
-                                              io_format_writer_t *format_writer
+                                              data_id_t diagram_id,
+                                              uint32_t max_recursion
                                             );
 
 /*!
@@ -132,15 +133,27 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
  *  \result 0 in case of success, -1 otherwise
  */
 int io_exporter_private_export_table_of_contents( io_exporter_t *this_,
-                                                  data_row_id_t diagram_id,
+                                                  data_id_t diagram_id,
                                                   uint32_t max_recursion,
                                                   io_format_writer_t *format_writer
                                                 );
 
 /*!
+ *  \brief calculates a base filename (without type extension) for a givien diagram id
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagam
+ *  \param filename filename stringbuffer to which to write the filename
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_exporter_private_get_filename_for_diagram( io_exporter_t *this_,
+                                                  data_id_t diagram_id,
+                                                  utf8stringbuf_t filename
+                                                );
+
+/*!
  *  \brief appends all characters that are valid within a filename to filename
  *  \param this_ pointer to own object attributes
- *  \param name name of the object, after wjich the file shall be named
+ *  \param name name of the object, after which the file shall be named
  *  \param filename filename stringbuffer to which to write the valid characters
  */
 void io_exporter_private_append_valid_chars_to_filename( io_exporter_t *this_,

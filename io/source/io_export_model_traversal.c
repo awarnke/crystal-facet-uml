@@ -9,15 +9,21 @@
 #include <stdlib.h>
 
 void io_export_model_traversal_init( io_export_model_traversal_t *this_,
-                                     io_filter_flag_t filter_flags,  
-                                     const data_visible_set_t *input_data )
+                                     data_database_reader_t *db_reader,
+                                     data_visible_set_t *input_data,
+                                     io_filter_flag_t filter_flags,
+                                     io_format_writer_t *format_writer )
 {
     TRACE_BEGIN();
+    assert( NULL != db_reader );
     assert( NULL != input_data );
+    assert( NULL != format_writer );
 
-    (*this_).filter_flags = filter_flags;
+    (*this_).db_reader = db_reader;
     (*this_).input_data = input_data;
+    (*this_).filter_flags = filter_flags;
     data_rules_init ( &((*this_).filter_rules) );
+    (*this_).format_writer = format_writer;
 
     universal_array_list_init ( &((*this_).written_id_set),
                                 sizeof((*this_).written_id_set_buf)/sizeof(data_id_t),
@@ -33,12 +39,14 @@ void io_export_model_traversal_init( io_export_model_traversal_t *this_,
 }
 
 void io_export_model_traversal_reinit( io_export_model_traversal_t *this_,
+                                       data_database_reader_t *db_reader,
+                                       data_visible_set_t *input_data,
                                        io_filter_flag_t filter_flags,
-                                       const data_visible_set_t *input_data )
+                                       io_format_writer_t *format_writer )
 {
     TRACE_BEGIN();
     io_export_model_traversal_destroy( this_ );
-    io_export_model_traversal_init( this_, filter_flags, input_data );
+    io_export_model_traversal_init( this_, db_reader, input_data, filter_flags, format_writer );
     TRACE_END();
 }
 
@@ -50,44 +58,66 @@ void io_export_model_traversal_destroy( io_export_model_traversal_t *this_ )
 
     data_rules_destroy ( &((*this_).filter_rules) );
     (*this_).input_data = NULL;
+    (*this_).db_reader = NULL;
 
     TRACE_END();
 }
 
-int io_export_model_traversal_walk_diagram ( io_export_model_traversal_t *this_, io_format_writer_t *format_writer )
+int io_export_model_traversal_begin_and_walk_diagram ( io_export_model_traversal_t *this_,
+                                                       data_id_t diagram_id,
+                                                       const char *diagram_file_base_name )
 {
     TRACE_BEGIN();
-    assert( NULL != format_writer );
+    assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
     int write_err = 0;
 
-    /* write diagram */
-    const data_diagram_t *diag_ptr = data_visible_set_get_diagram_const( (*this_).input_data );
-    assert( diag_ptr != NULL );
-    assert( data_diagram_is_valid( diag_ptr ) );
-    TRACE_INFO_INT("printing diagram with id",data_diagram_get_id(diag_ptr));
+    /* write part for current diagram */
+    if ( DATA_ID_VOID_ID != data_id_get_row_id( &diagram_id ) )
+    {
+        /* load data to be drawn */
+        data_visible_set_init( (*this_).input_data );
+        data_visible_set_load( (*this_).input_data, data_id_get_row_id( &diagram_id ), (*this_).db_reader );
+        assert( data_visible_set_is_valid ( (*this_).input_data ) );
 
-    write_err |= io_format_writer_write_header( format_writer, "DUMMY_TITLE" );
-    write_err |= io_format_writer_start_diagram( format_writer, data_diagram_get_data_id(diag_ptr) );
-    write_err |= io_format_writer_write_diagram( format_writer,
-                                                 diag_ptr,
-                                                 "NO_IMAGE_FILE"
-                                               );
+        /* write diagram */
+        const data_diagram_t *diag_ptr = data_visible_set_get_diagram_const( (*this_).input_data );
+        assert( diag_ptr != NULL );
+        assert( data_diagram_is_valid( diag_ptr ) );
+        TRACE_INFO_INT("printing diagram with id",data_diagram_get_id(diag_ptr));
 
-    /* write all classifiers */
-    write_err |= io_export_model_traversal_write_classifiers( this_, format_writer );
+        /* write_err |= io_format_writer_write_header( (*this_).format_writer, "DUMMY_TITLE" ); */
+        write_err |= io_format_writer_start_diagram( (*this_).format_writer, data_diagram_get_data_id(diag_ptr) );
+        write_err |= io_format_writer_write_diagram( (*this_).format_writer,
+                                                     diag_ptr,
+                                                     diagram_file_base_name
+                                                   );
 
-    /* write footer */
-    write_err |= io_format_writer_end_diagram( format_writer );
-    write_err |= io_format_writer_write_footer( format_writer );
+        /* write all classifiers */
+        write_err |= io_export_model_traversal_private_write_classifiers( this_ );
+
+        data_visible_set_destroy( (*this_).input_data );
+    }
 
     TRACE_END_ERR( write_err );
     return write_err;
 }
 
-int io_export_model_traversal_write_classifiers ( io_export_model_traversal_t *this_, io_format_writer_t *format_writer )
+int io_export_model_traversal_end_diagram ( io_export_model_traversal_t *this_ )
 {
     TRACE_BEGIN();
-    assert( NULL != format_writer );
+    int write_err = 0;
+
+    /* write footer */
+    write_err |= io_format_writer_end_diagram( (*this_).format_writer );
+    /*  write_err |= io_format_writer_write_footer( (*this_).format_writer ); */
+
+    TRACE_END_ERR( write_err );
+    return write_err;
+}
+
+int io_export_model_traversal_private_write_classifiers ( io_export_model_traversal_t *this_ )
+{
+    TRACE_BEGIN();
     assert( data_visible_set_is_valid( (*this_).input_data ) );
     int write_err = 0;
 
@@ -113,7 +143,7 @@ int io_export_model_traversal_write_classifiers ( io_export_model_traversal_t *t
                 = ( 0 != (IO_FILTER_FLAG_DUPLICATES & (*this_).filter_flags) );
             const bool filter_classifier
                 = ( duplicate_classifier && filter_duplicates );
-            
+
             if ( ! filter_classifier )
             {
                 /* add classifier to duplicates-list */
@@ -121,26 +151,24 @@ int io_export_model_traversal_write_classifiers ( io_export_model_traversal_t *t
                 {
                     write_err |= universal_array_list_append( &((*this_).written_id_set), &classifier_id );
                 }
-                
-                /* start classifier */
-                write_err |= io_format_writer_start_classifier( format_writer );
 
-                write_err |= io_format_writer_write_classifier( format_writer, classifier );
+                /* start classifier */
+                write_err |= io_format_writer_start_classifier( (*this_).format_writer );
+
+                write_err |= io_format_writer_write_classifier( (*this_).format_writer, classifier );
 
                 /* print all features of the classifier */
                 write_err |= io_export_model_traversal_private_write_features_of_classifier( this_,
-                                                                                            classifier_id,
-                                                                                            format_writer
+                                                                                            classifier_id
                                                                                           );
 
                 /* end classifier */
-                write_err |=  io_format_writer_end_classifier( format_writer );
+                write_err |=  io_format_writer_end_classifier( (*this_).format_writer );
             }
-            
+
             /* print all relationships starting from classifier_id */
             write_err |= io_export_model_traversal_private_write_relations_of_classifier( this_,
-                                                                                         classifier_id,
-                                                                                         format_writer
+                                                                                         classifier_id
                                                                                        );
         }
         else
@@ -154,11 +182,9 @@ int io_export_model_traversal_write_classifiers ( io_export_model_traversal_t *t
 }
 
 int io_export_model_traversal_private_write_features_of_classifier ( io_export_model_traversal_t *this_,
-                                                                     data_id_t classifier_id,
-                                                                     io_format_writer_t *format_writer )
+                                                                     data_id_t classifier_id )
 {
     TRACE_BEGIN();
-    assert( NULL != format_writer );
     assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &classifier_id ) );
     assert( DATA_ID_VOID_ID != data_id_get_row_id( &classifier_id) );
     int write_err = 0;
@@ -186,15 +212,15 @@ int io_export_model_traversal_private_write_features_of_classifier ( io_export_m
                     = ( 0 != (IO_FILTER_FLAG_LIFELINES & (*this_).filter_flags) );
                 const bool filter_hidden
                     = ( 0 != (IO_FILTER_FLAG_HIDDEN & (*this_).filter_flags) );
- 
+
                 const bool visible_filter_passed
                     = is_visible || ( ! filter_hidden );
                 const bool lifeline_filter_passed
                     =  ( ! is_lifeline ) || ( ! filter_lifelines );
-                
+
                 if ( visible_filter_passed && lifeline_filter_passed )
                 {
-                    write_err |=  io_format_writer_write_feature( format_writer, feature );
+                    write_err |=  io_format_writer_write_feature( (*this_).format_writer, feature );
                 }
             }
         }
@@ -209,11 +235,9 @@ int io_export_model_traversal_private_write_features_of_classifier ( io_export_m
 }
 
 int io_export_model_traversal_private_write_relations_of_classifier ( io_export_model_traversal_t *this_,
-                                                                      data_id_t from_classifier_id,
-                                                                      io_format_writer_t *format_writer )
+                                                                      data_id_t from_classifier_id )
 {
     TRACE_BEGIN();
-    assert( NULL != format_writer );
     assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &from_classifier_id ) );
     assert( DATA_ID_VOID_ID != data_id_get_row_id( &from_classifier_id) );
     int write_err = 0;
@@ -244,7 +268,7 @@ int io_export_model_traversal_private_write_relations_of_classifier ( io_export_
                     = ( 0 != (IO_FILTER_FLAG_DUPLICATES & (*this_).filter_flags) );
                 const bool filter_relationship
                     = ( duplicate_relationship && filter_duplicates );
-                
+
                 if ( is_visible && ( ! filter_relationship ) )
                 {
                     const data_row_id_t to_classifier_id = data_relationship_get_to_classifier_id( relation );
@@ -258,9 +282,9 @@ int io_export_model_traversal_private_write_relations_of_classifier ( io_export_
                         {
                             write_err |= universal_array_list_append( &((*this_).written_id_set), &relation_id );
                         }
-                        
+
                         /* destination classifier found, print the relation */
-                        write_err |= io_format_writer_write_relationship( format_writer,
+                        write_err |= io_format_writer_write_relationship( (*this_).format_writer,
                                                                           relation,
                                                                           dest_classifier
                                                                         );
