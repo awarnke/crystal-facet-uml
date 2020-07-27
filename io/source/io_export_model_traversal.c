@@ -38,18 +38,6 @@ void io_export_model_traversal_init( io_export_model_traversal_t *this_,
     TRACE_END();
 }
 
-void io_export_model_traversal_reinit( io_export_model_traversal_t *this_,
-                                       data_database_reader_t *db_reader,
-                                       data_visible_set_t *input_data,
-                                       io_filter_flag_t filter_flags,
-                                       io_format_writer_t *format_writer )
-{
-    TRACE_BEGIN();
-    io_export_model_traversal_destroy( this_ );
-    io_export_model_traversal_init( this_, db_reader, input_data, filter_flags, format_writer );
-    TRACE_END();
-}
-
 void io_export_model_traversal_destroy( io_export_model_traversal_t *this_ )
 {
     TRACE_BEGIN();
@@ -110,6 +98,52 @@ int io_export_model_traversal_end_diagram ( io_export_model_traversal_t *this_ )
     /* write footer */
     write_err |= io_format_writer_end_diagram( (*this_).format_writer );
     /*  write_err |= io_format_writer_write_footer( (*this_).format_writer ); */
+
+    TRACE_END_ERR( write_err );
+    return write_err;
+}
+
+int io_export_model_traversal_walk_model ( io_export_model_traversal_t *this_ )
+{
+    TRACE_BEGIN();
+    int write_err = 0;
+
+    {
+        data_error_t data_err;
+        data_database_iterator_classifiers_t classifier_iterator;
+        data_classifier_t probe_classifier;  /* TODO TOO BIG DATA HERE */
+
+        /* test the iterator, init */
+        data_database_iterator_classifiers_init_empty( &classifier_iterator );
+        data_err = data_database_reader_get_all_classifiers_iterator ( (*this_).db_reader, &classifier_iterator );
+        if ( data_err != DATA_ERROR_NONE )
+        {
+            write_err = -1;
+        }
+        else
+        {
+            while( data_database_iterator_classifiers_has_next( &classifier_iterator ) && ( write_err==0 ) )
+            {
+                data_err = data_database_iterator_classifiers_next( &classifier_iterator, &probe_classifier );
+                if ( data_err != DATA_ERROR_NONE )
+                {
+                    write_err = -1;
+                }
+                else
+                {
+                    write_err |= io_format_writer_start_classifier( (*this_).format_writer );
+                    write_err |= io_format_writer_write_classifier( (*this_).format_writer, &probe_classifier );
+                    write_err |= io_format_writer_end_classifier( (*this_).format_writer );
+                    data_classifier_destroy( &probe_classifier );
+                }
+            }
+        }
+        data_err = data_database_iterator_classifiers_destroy( &classifier_iterator );
+        if ( data_err != DATA_ERROR_NONE )
+        {
+            write_err = -1;
+        }
+    }
 
     TRACE_END_ERR( write_err );
     return write_err;

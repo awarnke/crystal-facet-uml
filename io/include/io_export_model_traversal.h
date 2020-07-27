@@ -16,6 +16,7 @@
 #include "io_format_writer.h"
 #include "io_filter_flag.h"
 #include "set/data_visible_set.h"
+#include "storage/data_database_reader.h"
 #include "data_table.h"
 #include "data_rules.h"
 #include "universal_array_list.h"
@@ -54,22 +55,6 @@ void io_export_model_traversal_init( io_export_model_traversal_t *this_,
                                    );
 
 /*!
- *  \brief re-initializes the io_export_model_traversal_t
- *
- *  \param this_ pointer to own object attributes
- *  \param db_reader pointer to a database reader object
- *  \param input_data pointer to an external buffer for use as data cache
- *  \param filter_flags flags indicating which elements shall be exported
- *  \param format_writer pointer to an external io_format_writer_t which is the output sink
- */
-void io_export_model_traversal_reinit( io_export_model_traversal_t *this_,
-                                       data_database_reader_t *db_reader,
-                                       data_visible_set_t *input_data,
-                                       io_filter_flag_t filter_flags,
-                                       io_format_writer_t *format_writer
-                                     );
-
-/*!
  *  \brief destroys the io_export_model_traversal_t
  *
  *  \param this_ pointer to own object attributes
@@ -99,6 +84,14 @@ int io_export_model_traversal_begin_and_walk_diagram ( io_export_model_traversal
  *  \return -1 in case of error, 0 in case of success
  */
 int io_export_model_traversal_end_diagram ( io_export_model_traversal_t *this_ );
+
+/*!
+ *  \brief prints all classifiers to the output stream
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return -1 in case of error, 0 in case of success
+ */
+int io_export_model_traversal_walk_model ( io_export_model_traversal_t *this_ );
 
 /*!
  *  \brief prints names and descriptions of the classifiers to the output stream

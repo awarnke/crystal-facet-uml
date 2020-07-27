@@ -70,8 +70,8 @@ int image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
 }
 
 int image_format_writer_private_render_surface_to_file( image_format_writer_t *this_,
-                                                io_file_format_t export_type,
-                                                const char* target_filename )
+                                                        io_file_format_t export_type,
+                                                        const char* target_filename )
 {
     TRACE_BEGIN();
     assert( NULL != target_filename );
