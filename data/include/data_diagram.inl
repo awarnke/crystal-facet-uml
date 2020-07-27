@@ -16,7 +16,7 @@ static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
     utf8error_t strerr;
     data_error_t result = DATA_ERROR_NONE;
 
-    (*this_).id = DATA_ID_VOID_ID;
+    (*this_).id = DATA_ROW_ID_VOID;
     (*this_).parent_id = parent_diagram_id;
     (*this_).diagram_type = diagram_type;
 
@@ -43,8 +43,8 @@ static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
 
 static inline void data_diagram_init_empty ( data_diagram_t *this_ )
 {
-    (*this_).id = DATA_ID_VOID_ID;
-    (*this_).parent_id = DATA_ID_VOID_ID;
+    (*this_).id = DATA_ROW_ID_VOID;
+    (*this_).parent_id = DATA_ROW_ID_VOID;
     (*this_).diagram_type = DATA_DIAGRAM_TYPE_LIST;
 
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
@@ -120,8 +120,8 @@ static inline void data_diagram_replace ( data_diagram_t *this_, const data_diag
 
 static inline void data_diagram_destroy ( data_diagram_t *this_ )
 {
-    (*this_).id = DATA_ID_VOID_ID;
-    (*this_).parent_id = DATA_ID_VOID_ID;
+    (*this_).id = DATA_ROW_ID_VOID;
+    (*this_).parent_id = DATA_ROW_ID_VOID;
 }
 
 static inline void data_diagram_trace ( const data_diagram_t *this_ )
@@ -233,7 +233,7 @@ static inline void data_diagram_set_list_order ( data_diagram_t *this_, int32_t 
 
 static inline bool data_diagram_is_valid ( const data_diagram_t *this_ )
 {
-    return ( DATA_ID_VOID_ID != (*this_).id );
+    return ( DATA_ROW_ID_VOID != (*this_).id );
 }
 
 

@@ -562,9 +562,9 @@ data_error_t data_database_open ( data_database_t *this_, const char* db_file_pa
         data_change_notifier_emit_signal( &((*this_).notifier),
                                           DATA_CHANGE_EVENT_TYPE_DB_OPENED,
                                           DATA_TABLE_VOID,
-                                          DATA_ID_VOID_ID,
+                                          DATA_ROW_ID_VOID,
                                           DATA_TABLE_VOID,
-                                          DATA_ID_VOID_ID
+                                          DATA_ROW_ID_VOID
                                         );
     }
 
@@ -585,9 +585,9 @@ data_error_t data_database_close ( data_database_t *this_ )
         data_change_notifier_emit_signal( &((*this_).notifier),
                                           DATA_CHANGE_EVENT_TYPE_DB_PREPARE_CLOSE,
                                           DATA_TABLE_VOID,
-                                          DATA_ID_VOID_ID,
+                                          DATA_ROW_ID_VOID,
                                           DATA_TABLE_VOID,
-                                          DATA_ID_VOID_ID
+                                          DATA_ROW_ID_VOID
                                         );
 
         /* inform readers and writers on close */
@@ -638,9 +638,9 @@ data_error_t data_database_close ( data_database_t *this_ )
         data_change_notifier_emit_signal( &((*this_).notifier),
                                           DATA_CHANGE_EVENT_TYPE_DB_CLOSED,
                                           DATA_TABLE_VOID,
-                                          DATA_ID_VOID_ID,
+                                          DATA_ROW_ID_VOID,
                                           DATA_TABLE_VOID,
-                                          DATA_ID_VOID_ID
+                                          DATA_ROW_ID_VOID
         );
     }
 

@@ -198,7 +198,7 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
             );
             if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAM_PARENT_ID_COLUMN ) )
             {
-                (*out_diagram).parent_id = DATA_ID_VOID_ID;
+                (*out_diagram).parent_id = DATA_ROW_ID_VOID;
             }
 
             data_diagram_trace( out_diagram );
@@ -236,7 +236,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
 
     if ( (*this_).is_open )
     {
-        if ( DATA_ID_VOID_ID == parent_id )
+        if ( DATA_ROW_ID_VOID == parent_id )
         {
             prepared_statement = (*this_).private_prepared_query_diagrams_by_parent_id_null;
             result |= data_database_reader_private_bind_void_to_statement( this_, prepared_statement );
@@ -273,7 +273,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
                 );
                 if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAM_PARENT_ID_COLUMN ) )
                 {
-                    (*current_diag).parent_id = DATA_ID_VOID_ID;
+                    (*current_diag).parent_id = DATA_ROW_ID_VOID;
                 }
 
                 data_diagram_trace( current_diag );
@@ -344,7 +344,7 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
                 );
                 if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAM_PARENT_ID_COLUMN ) )
                 {
-                    (*current_diag).parent_id = DATA_ID_VOID_ID;
+                    (*current_diag).parent_id = DATA_ROW_ID_VOID;
                 }
 
                 data_diagram_trace( current_diag );
@@ -382,7 +382,7 @@ data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_r
 
     if ( (*this_).is_open )
     {
-        if ( DATA_ID_VOID_ID == parent_id )
+        if ( DATA_ROW_ID_VOID == parent_id )
         {
             prepared_statement = (*this_).private_prepared_query_diagram_ids_by_parent_id_null;
             result |= data_database_reader_private_bind_void_to_statement( this_, prepared_statement );
@@ -699,7 +699,7 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
                                            );
                 if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_CLASSIFIER_FOCUSED_FEATURE_ID_COLUMN ) )
                 {
-                    data_diagramelement_set_focused_feature_id ( current_diag_element, DATA_ID_VOID_ID );
+                    data_diagramelement_set_focused_feature_id ( current_diag_element, DATA_ROW_ID_VOID );
                 }
 
                 data_classifier_trace( current_classifier );
@@ -836,7 +836,7 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
             );
             if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMELEMENT_FOCUSED_FEATURE_ID_COLUMN ) )
             {
-                data_diagramelement_set_focused_feature_id ( out_diagramelement, DATA_ID_VOID_ID );
+                data_diagramelement_set_focused_feature_id ( out_diagramelement, DATA_ROW_ID_VOID );
             }
 
             data_diagramelement_trace( out_diagramelement );
@@ -903,7 +903,7 @@ data_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_datab
                 );
                 if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMELEMENT_FOCUSED_FEATURE_ID_COLUMN ) )
                 {
-                    data_diagramelement_set_focused_feature_id ( current_diagele, DATA_ID_VOID_ID );
+                    data_diagramelement_set_focused_feature_id ( current_diagele, DATA_ROW_ID_VOID );
                 }
 
                 data_diagramelement_trace( current_diagele );
@@ -973,7 +973,7 @@ data_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_da
                 );
                 if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMELEMENT_FOCUSED_FEATURE_ID_COLUMN ) )
                 {
-                    data_diagramelement_set_focused_feature_id ( current_diagele, DATA_ID_VOID_ID );
+                    data_diagramelement_set_focused_feature_id ( current_diagele, DATA_ROW_ID_VOID );
                 }
 
                 data_diagramelement_trace( current_diagele );
@@ -1396,11 +1396,11 @@ data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_
             );
             if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ) )
             {
-                data_relationship_set_from_feature_id ( out_relationship, DATA_ID_VOID_ID );
+                data_relationship_set_from_feature_id ( out_relationship, DATA_ROW_ID_VOID );
             }
             if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ) )
             {
-                data_relationship_set_to_feature_id ( out_relationship, DATA_ID_VOID_ID );
+                data_relationship_set_to_feature_id ( out_relationship, DATA_ROW_ID_VOID );
             }
 
             data_relationship_trace( out_relationship );
@@ -1472,11 +1472,11 @@ data_error_t data_database_reader_get_relationships_by_classifier_id ( data_data
                                                 );
                 if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ) )
                 {
-                    data_relationship_set_from_feature_id ( current_relation, DATA_ID_VOID_ID );
+                    data_relationship_set_from_feature_id ( current_relation, DATA_ROW_ID_VOID );
                 }
                 if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ) )
                 {
-                    data_relationship_set_to_feature_id ( current_relation, DATA_ID_VOID_ID );
+                    data_relationship_set_to_feature_id ( current_relation, DATA_ROW_ID_VOID );
                 }
 
                 data_relationship_trace( current_relation );
@@ -1551,11 +1551,11 @@ data_error_t data_database_reader_get_relationships_by_feature_id ( data_databas
                 );
                 if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ) )
                 {
-                    data_relationship_set_from_feature_id ( current_relation, DATA_ID_VOID_ID );
+                    data_relationship_set_from_feature_id ( current_relation, DATA_ROW_ID_VOID );
                 }
                 if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ) )
                 {
-                    data_relationship_set_to_feature_id ( current_relation, DATA_ID_VOID_ID );
+                    data_relationship_set_to_feature_id ( current_relation, DATA_ROW_ID_VOID );
                 }
 
                 data_relationship_trace( current_relation );
@@ -1630,11 +1630,11 @@ data_error_t data_database_reader_get_relationships_by_diagram_id ( data_databas
                                                 );
                 if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ) )
                 {
-                    data_relationship_set_from_feature_id ( current_relation, DATA_ID_VOID_ID );
+                    data_relationship_set_from_feature_id ( current_relation, DATA_ROW_ID_VOID );
                 }
                 if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ) )
                 {
-                    data_relationship_set_to_feature_id ( current_relation, DATA_ID_VOID_ID );
+                    data_relationship_set_to_feature_id ( current_relation, DATA_ROW_ID_VOID );
                 }
 
                 TRACE_INFO_INT( "(source)diagramelements.id:", sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_SOURCE_DIAGRAMELEMENTS_ID_COLUMN ) );

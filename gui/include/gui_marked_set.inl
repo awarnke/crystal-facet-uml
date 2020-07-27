@@ -5,7 +5,7 @@ static inline void gui_marked_set_init ( gui_marked_set_t *this_ )
     data_id_init_void( &((*this_).focused) );
     data_id_init_void( &((*this_).highlighted) );
     data_small_set_init( &((*this_).selected_set) );
-    (*this_).focused_diagram = DATA_ID_VOID_ID;
+    (*this_).focused_diagram = DATA_ROW_ID_VOID;
 }
 
 static inline void gui_marked_set_destroy ( gui_marked_set_t *this_ )
@@ -13,7 +13,7 @@ static inline void gui_marked_set_destroy ( gui_marked_set_t *this_ )
     data_id_destroy( &((*this_).focused) );
     data_id_destroy( &((*this_).highlighted) );
     data_small_set_destroy( &((*this_).selected_set) );
-    (*this_).focused_diagram = DATA_ID_VOID_ID;
+    (*this_).focused_diagram = DATA_ROW_ID_VOID;
 }
 
 static inline data_id_t gui_marked_set_get_focused ( const gui_marked_set_t *this_ )

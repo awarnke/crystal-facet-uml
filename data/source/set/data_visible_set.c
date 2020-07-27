@@ -36,7 +36,7 @@ void data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagram_id,
     TRACE_BEGIN();
     assert( NULL != db_reader );
 
-    if ( DATA_ID_VOID_ID == diagram_id )
+    if ( DATA_ROW_ID_VOID == diagram_id )
     {
         /* re-init */
         data_diagram_reinit_empty( &((*this_).diagram) );

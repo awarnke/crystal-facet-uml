@@ -23,7 +23,7 @@ void gui_clipboard_init ( gui_clipboard_t *this_,
     assert( NULL != db_reader );
     assert( NULL != controller );
 
-    (*this_).destination_diagram_id = DATA_ID_VOID_ID;
+    (*this_).destination_diagram_id = DATA_ROW_ID_VOID;
     (*this_).message_to_user = message_to_user;
     (*this_).the_clipboard = clipboard;
     (*this_).clipboard_stringbuf = utf8stringbuf_init( sizeof((*this_).private_clipboard_buffer),

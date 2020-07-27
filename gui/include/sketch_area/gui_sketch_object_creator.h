@@ -101,7 +101,7 @@ ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_o
  *  \brief creates a new diagram
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_diagram_id id of the parent diagram where the new diagram shall appear. DATA_ID_VOID_ID if a root diagram shall be created.
+ *  \param parent_diagram_id id of the parent diagram where the new diagram shall appear. DATA_ROW_ID_VOID if a root diagram shall be created.
  *  \param list_order order of the new diagram
  *  \param out_diagram_id row_id of the newly created diagram
  *  \return CTRL_ERROR_NONE in case of success
@@ -118,9 +118,9 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
  *  \param this_ pointer to own object attributes
  *  \param diag_type diagram type where the relationship was constructed and shall be visible
  *  \param from_classifier_id id of the classifier where the new relationship shall start from
- *  \param from_feature_id optional id of the feature where the new relationship shall start from; alternatively DATA_ID_VOID_ID
+ *  \param from_feature_id optional id of the feature where the new relationship shall start from; alternatively DATA_ROW_ID_VOID
  *  \param to_classifier_id id of the classifier where the new relationship shall end at
- *  \param to_feature_id optional id of the feature where the new relationship shall end at; alternatively DATA_ID_VOID_ID
+ *  \param to_feature_id optional id of the feature where the new relationship shall end at; alternatively DATA_ROW_ID_VOID
  *  \param list_order order where the new relationship shall be located
  *  \param out_relationship_id row_id of the newly created relationship
  *  \return CTRL_ERROR_NONE in case of success

@@ -45,7 +45,7 @@ struct data_diagram_struct {
 typedef struct data_diagram_struct data_diagram_t;
 
 /*!
- *  \brief initializes the data_diagram_t struct with id DATA_ID_VOID_ID
+ *  \brief initializes the data_diagram_t struct with id DATA_ROW_ID_VOID
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_diagram_id id of the parent diagram
@@ -64,14 +64,14 @@ static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
                                                  );
 
 /*!
- *  \brief initializes the data_diagram_t struct with id and parent_id DATA_ID_VOID_ID; all other values are zero.
+ *  \brief initializes the data_diagram_t struct with id and parent_id DATA_ROW_ID_VOID; all other values are zero.
  *
  *  \param this_ pointer to own object attributes
  */
 static inline void data_diagram_init_empty ( data_diagram_t *this_ );
 
 /*!
- *  \brief re-initializes the data_diagram_t struct with id and parent_id DATA_ID_VOID_ID; all other values are zero.
+ *  \brief re-initializes the data_diagram_t struct with id and parent_id DATA_ROW_ID_VOID; all other values are zero.
  *
  *  \param this_ pointer to own object attributes
  */
@@ -250,10 +250,10 @@ static inline int32_t data_diagram_get_list_order ( const data_diagram_t *this_ 
 static inline void data_diagram_set_list_order ( data_diagram_t *this_, int32_t list_order );
 
 /*!
- *  \brief checks if attribute id is not DATA_ID_VOID_ID
+ *  \brief checks if attribute id is not DATA_ROW_ID_VOID
  *
  *  \param this_ pointer to own object attributes
- *  \return true if the id of the diagram is not DATA_ID_VOID_ID
+ *  \return true if the id of the diagram is not DATA_ROW_ID_VOID
  */
 static inline bool data_diagram_is_valid ( const data_diagram_t *this_ );
 

@@ -46,7 +46,7 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
     TRACE_BEGIN();
     assert ( NULL != out_classifier_id );
     assert ( NULL != out_diagramelement_id );
-    assert ( DATA_ID_VOID_ID != diagram_id );
+    assert ( DATA_ROW_ID_VOID != diagram_id );
 
     ctrl_error_t c_result;
 
@@ -140,7 +140,7 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
                                        diagram_id,
                                        *out_classifier_id,
                                        DATA_DIAGRAMELEMENT_FLAG_NONE,
-                                       DATA_ID_VOID_ID
+                                       DATA_ROW_ID_VOID
                                      );
 
         c_result = ctrl_diagram_controller_create_diagramelement ( diagram_control,
@@ -173,8 +173,8 @@ ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_o
     assert ( NULL != out_classifier_id );
     assert ( NULL != out_diagramelement_id );
     assert ( NULL != out_relationship_id );
-    assert ( DATA_ID_VOID_ID != parent_classifier_id );
-    assert ( DATA_ID_VOID_ID != diagram_id );
+    assert ( DATA_ROW_ID_VOID != parent_classifier_id );
+    assert ( DATA_ROW_ID_VOID != diagram_id );
 
     ctrl_error_t c_result;
 
@@ -195,15 +195,15 @@ ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_o
         /* define relationship */
         data_error_t d_err;
         d_err = data_relationship_init ( &((*this_).private_temp_relationship),
-                                         DATA_ID_VOID_ID,
+                                         DATA_ROW_ID_VOID,
                                          DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
                                          parent_classifier_id,
                                          *out_classifier_id,
                                          "", /* =relationship_name */
                                          "", /* =relationship_description */
                                          y_order,  /* =list_order */
-                                         DATA_ID_VOID_ID,
-                                         DATA_ID_VOID_ID
+                                         DATA_ROW_ID_VOID,
+                                         DATA_ROW_ID_VOID
                                        );
         if ( d_err != DATA_ERROR_NONE )
         {
@@ -283,8 +283,8 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
 {
     TRACE_BEGIN();
     assert ( NULL != out_relationship_id );
-    assert ( DATA_ID_VOID_ID != from_classifier_id );
-    assert ( DATA_ID_VOID_ID != to_classifier_id );
+    assert ( DATA_ROW_ID_VOID != from_classifier_id );
+    assert ( DATA_ROW_ID_VOID != to_classifier_id );
 
     ctrl_error_t c_result;
 
@@ -317,7 +317,7 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
     /* define relationship struct */
     data_error_t d_err;
     d_err = data_relationship_init ( &((*this_).private_temp_relationship),
-                                     DATA_ID_VOID_ID,
+                                     DATA_ROW_ID_VOID,
                                      new_rel_type,
                                      from_classifier_id,
                                      to_classifier_id,
@@ -334,7 +334,7 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
 
     /* check preconditions */
     const bool is_scenario = data_rules_diagram_is_scenario ( &((*this_).data_rules), diag_type )
-                             && (( from_feature_id != DATA_ID_VOID_ID )||( to_feature_id != DATA_ID_VOID_ID ));
+                             && (( from_feature_id != DATA_ROW_ID_VOID )||( to_feature_id != DATA_ROW_ID_VOID ));
     const bool diagram_ok = is_scenario
                             ? data_rules_diagram_shows_scenario_relationships ( &((*this_).data_rules), diag_type )
                             : data_rules_diagram_shows_uncond_relationships ( &((*this_).data_rules), diag_type );
@@ -373,7 +373,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
 {
     TRACE_BEGIN();
     assert ( NULL != out_feature_id );
-    assert ( DATA_ID_VOID_ID != parent_classifier_id );
+    assert ( DATA_ROW_ID_VOID != parent_classifier_id );
 
     ctrl_error_t c_result;
 
@@ -426,7 +426,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
     /* define feature struct */
     data_error_t data_err;
     data_err = data_feature_init ( &((*this_).private_temp_feature),
-                                   DATA_ID_VOID_ID, /* feature_id */
+                                   DATA_ROW_ID_VOID, /* feature_id */
                                    new_feature_type,
                                    parent_classifier_id,
                                    utf8stringbuf_get_string( full_new_name ),

@@ -287,7 +287,7 @@ data_error_t data_database_consistency_checker_find_circular_diagram_parents ( d
         for ( uint_fast32_t child_idx = 0; child_idx < diagram_id_pair_count; child_idx ++ )
         {
             bool child_has_parent;
-            child_has_parent = ( DATA_ID_VOID_ID != ((*this_).private_temp_diagram_ids_buf)[child_idx][1] );
+            child_has_parent = ( DATA_ROW_ID_VOID != ((*this_).private_temp_diagram_ids_buf)[child_idx][1] );
             if ( child_has_parent )
             {
                 for ( uint_fast32_t probe_parent_idx = 0; probe_parent_idx < diagram_id_pair_count; probe_parent_idx ++ )
@@ -297,11 +297,11 @@ data_error_t data_database_consistency_checker_find_circular_diagram_parents ( d
                     if ( is_parent )
                     {
                         bool parent_has_parent;
-                        parent_has_parent = ( DATA_ID_VOID_ID != ((*this_).private_temp_diagram_ids_buf)[probe_parent_idx][1] );
+                        parent_has_parent = ( DATA_ROW_ID_VOID != ((*this_).private_temp_diagram_ids_buf)[probe_parent_idx][1] );
                         if ( ! parent_has_parent )
                         {
                             /* this diagram is child to a parent that has no parent. */
-                            ((*this_).private_temp_diagram_ids_buf)[child_idx][1] = DATA_ID_VOID_ID;
+                            ((*this_).private_temp_diagram_ids_buf)[child_idx][1] = DATA_ROW_ID_VOID;
                             found_children ++;
                         }
                     }
@@ -316,7 +316,7 @@ data_error_t data_database_consistency_checker_find_circular_diagram_parents ( d
     for ( uint_fast32_t diag_idx = 0; diag_idx < diagram_id_pair_count; diag_idx ++ )
     {
         bool diag_has_parent;
-        diag_has_parent = ( DATA_ID_VOID_ID != ((*this_).private_temp_diagram_ids_buf)[diag_idx][1] );
+        diag_has_parent = ( DATA_ROW_ID_VOID != ((*this_).private_temp_diagram_ids_buf)[diag_idx][1] );
         if ( diag_has_parent )
         {
             data_row_id_t diag_id = ((*this_).private_temp_diagram_ids_buf)[diag_idx][0];
@@ -384,7 +384,7 @@ data_error_t data_database_consistency_checker_private_get_diagram_ids ( data_da
                     data_row_id_t diag_parent_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMS_DIAG_PARENT_ID_COLUMN );
                     if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMS_DIAG_PARENT_ID_COLUMN ) )
                     {
-                        diag_parent_id = DATA_ID_VOID_ID;
+                        diag_parent_id = DATA_ROW_ID_VOID;
                         TRACE_INFO_INT( "root:", diag_id );
                     }
                     else
@@ -584,7 +584,7 @@ data_error_t data_database_consistency_checker_find_invalid_focused_features ( d
                     }
                     else
                     {
-                        diagele_focused_feature_id = DATA_ID_VOID_ID;
+                        diagele_focused_feature_id = DATA_ROW_ID_VOID;
                     }
                     feature_exists = ( SQLITE_NULL != sqlite3_column_type( prepared_statement, RESULT_FOCUSED_FEATURES_FEATURE_ID_COLUMN ) );
                     if ( feature_exists )
@@ -594,8 +594,8 @@ data_error_t data_database_consistency_checker_find_invalid_focused_features ( d
                     }
                     else
                     {
-                        feature_id = DATA_ID_VOID_ID;
-                        feature_classifier_id = DATA_ID_VOID_ID;
+                        feature_id = DATA_ROW_ID_VOID;
+                        feature_classifier_id = DATA_ROW_ID_VOID;
                     }
 
                     /* evaluate the data record */
@@ -973,7 +973,7 @@ data_error_t data_database_consistency_checker_find_invalid_relationship_feature
                     }
                     else
                     {
-                        relation_from_feature_id = DATA_ID_VOID_ID;
+                        relation_from_feature_id = DATA_ROW_ID_VOID;
                     }
                     relation_has_to_feature = ( SQLITE_NULL != sqlite3_column_type( prepared_statement, RESULT_FEATURE_RELATIONSHIPS_RELATION_TO_FEATURE_ID_COLUMN ) );
                     if ( relation_has_to_feature )
@@ -982,7 +982,7 @@ data_error_t data_database_consistency_checker_find_invalid_relationship_feature
                     }
                     else
                     {
-                        relation_to_feature_id = DATA_ID_VOID_ID;
+                        relation_to_feature_id = DATA_ROW_ID_VOID;
                     }
                     source_feature_exists = ( SQLITE_NULL != sqlite3_column_type( prepared_statement, RESULT_FEATURE_RELATIONSHIPS_SOURCE_FEATURE_ID_COLUMN ) );
                     if ( source_feature_exists )
@@ -992,8 +992,8 @@ data_error_t data_database_consistency_checker_find_invalid_relationship_feature
                     }
                     else
                     {
-                        source_feature_id = DATA_ID_VOID_ID;
-                        source_feature_classifier_id = DATA_ID_VOID_ID;
+                        source_feature_id = DATA_ROW_ID_VOID;
+                        source_feature_classifier_id = DATA_ROW_ID_VOID;
                     }
                     dest_feature_exists = ( SQLITE_NULL != sqlite3_column_type( prepared_statement, RESULT_FEATURE_RELATIONSHIPS_DEST_FEATURE_ID_COLUMN ) );
                     if ( dest_feature_exists )
@@ -1003,8 +1003,8 @@ data_error_t data_database_consistency_checker_find_invalid_relationship_feature
                     }
                     else
                     {
-                        dest_feature_id = DATA_ID_VOID_ID;
-                        dest_feature_classifier_id = DATA_ID_VOID_ID;
+                        dest_feature_id = DATA_ROW_ID_VOID;
+                        dest_feature_classifier_id = DATA_ROW_ID_VOID;
                     }
 
                     /* evaluate the data record */

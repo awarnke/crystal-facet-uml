@@ -7,11 +7,11 @@
 
 static inline void data_diagramelement_init_empty ( data_diagramelement_t *this_ )
 {
-    (*this_).id = DATA_ID_VOID_ID;
-    (*this_).diagram_id = DATA_ID_VOID_ID;
-    (*this_).classifier_id = DATA_ID_VOID_ID;
+    (*this_).id = DATA_ROW_ID_VOID;
+    (*this_).diagram_id = DATA_ROW_ID_VOID;
+    (*this_).classifier_id = DATA_ROW_ID_VOID;
     (*this_).display_flags = DATA_DIAGRAMELEMENT_FLAG_NONE;
-    (*this_).focused_feature_id = DATA_ID_VOID_ID;
+    (*this_).focused_feature_id = DATA_ROW_ID_VOID;
 }
 
 static inline void data_diagramelement_reinit_empty ( data_diagramelement_t *this_ )
@@ -26,7 +26,7 @@ static inline void data_diagramelement_init_new ( data_diagramelement_t *this_,
                                                   data_diagramelement_flag_t display_flags,
                                                   data_row_id_t focused_feature_id )
 {
-    (*this_).id = DATA_ID_VOID_ID;
+    (*this_).id = DATA_ROW_ID_VOID;
     (*this_).diagram_id = diagram_id;
     (*this_).classifier_id = classifier_id;
     (*this_).focused_feature_id = focused_feature_id;
@@ -73,12 +73,12 @@ static inline void data_diagramelement_replace ( data_diagramelement_t *this_, c
 
 static inline void data_diagramelement_destroy ( data_diagramelement_t *this_ )
 {
-    (*this_).id = DATA_ID_VOID_ID;
+    (*this_).id = DATA_ROW_ID_VOID;
 }
 
 static inline bool data_diagramelement_is_valid ( const data_diagramelement_t *this_ )
 {
-    return ( DATA_ID_VOID_ID != (*this_).id );
+    return ( DATA_ROW_ID_VOID != (*this_).id );
 }
 
 static inline void data_diagramelement_trace ( const data_diagramelement_t *this_ )

@@ -9,7 +9,7 @@ static inline data_row_id_t gui_sketch_nav_tree_get_root_diagram_id ( const gui_
 
     if ( (*this_).ancestors_count == 0 )
     {
-        result = DATA_ID_VOID_ID;
+        result = DATA_ROW_ID_VOID;
     }
     else
     {

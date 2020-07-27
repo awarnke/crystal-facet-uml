@@ -52,7 +52,7 @@ ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_cont
     data_row_id_t new_id;
 
     data_classifier_copy( &to_be_created, new_classifier );
-    data_classifier_set_id( &to_be_created, DATA_ID_VOID_ID );
+    data_classifier_set_id( &to_be_created, DATA_ROW_ID_VOID );
 
     data_result = data_database_writer_create_classifier( (*this_).db_writer, &to_be_created, &new_id );
     if ( DATA_ERROR_NONE == data_result )
@@ -504,7 +504,7 @@ ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_control
     data_row_id_t new_id;
 
     data_feature_copy( &to_be_created, new_feature );
-    data_feature_set_id( &to_be_created, DATA_ID_VOID_ID );
+    data_feature_set_id( &to_be_created, DATA_ROW_ID_VOID );
 
     data_result = data_database_writer_create_feature( (*this_).db_writer, &to_be_created, &new_id );
     if ( DATA_ERROR_NONE == data_result )
@@ -786,7 +786,7 @@ ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_co
     data_row_id_t new_id;
 
     data_relationship_copy( &to_be_created, new_relationship );
-    data_relationship_set_id( &to_be_created, DATA_ID_VOID_ID );
+    data_relationship_set_id( &to_be_created, DATA_ROW_ID_VOID );
 
     data_result = data_database_writer_create_relationship( (*this_).db_writer, &to_be_created, &new_id );
     if ( DATA_ERROR_NONE == data_result )

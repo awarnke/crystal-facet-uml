@@ -12,12 +12,15 @@
 #include <assert.h>
 
 void image_format_writer_init ( image_format_writer_t *this_,
+                                data_database_reader_t *db_reader,
                                 data_visible_set_t *input_data )
 {
     TRACE_BEGIN();
+    assert( NULL != db_reader );
     assert( NULL != input_data );
 
-    //(*this_).input_data = input_data;
+    (*this_).db_reader = db_reader;
+    (*this_).input_data = input_data;
     geometry_rectangle_init( &((*this_).bounds), 0.0, 0.0, 800.0, 600.0 );
     pencil_diagram_maker_init( &((*this_).painter), input_data );
 
@@ -30,7 +33,8 @@ void image_format_writer_destroy( image_format_writer_t *this_ )
 
     pencil_diagram_maker_destroy( &((*this_).painter) );
     geometry_rectangle_destroy(&((*this_).bounds));
-    //(*this_).input_data = NULL;
+    (*this_).input_data = NULL;
+    (*this_).db_reader = NULL;
 
     TRACE_END();
 }
@@ -43,7 +47,29 @@ void image_format_writer_destroy( image_format_writer_t *this_ )
 #error "no png"
 #endif
 
-int image_format_writer_render_surface_to_file( image_format_writer_t *this_,
+int image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
+                                                data_id_t diagram_id,
+                                                io_file_format_t export_type,
+                                                const char* target_filename )
+{
+    TRACE_BEGIN();
+    assert( NULL != target_filename );
+    assert( IO_FILE_FORMAT_TXT != export_type );
+    assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
+    const data_row_id_t diagram_row_id = data_id_get_row_id( &diagram_id );
+    int result = 0;
+
+    data_visible_set_init( (*this_).input_data );
+    data_visible_set_load( (*this_).input_data, diagram_row_id, (*this_).db_reader );
+    assert( data_visible_set_is_valid ( (*this_).input_data ) );
+    result = image_format_writer_private_render_surface_to_file( this_, export_type, target_filename );
+    data_visible_set_destroy( (*this_).input_data );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+int image_format_writer_private_render_surface_to_file( image_format_writer_t *this_,
                                                 io_file_format_t export_type,
                                                 const char* target_filename )
 {

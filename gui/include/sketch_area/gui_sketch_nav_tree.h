@@ -100,7 +100,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
  *  \brief gets the id of the root diagram
  *
  *  \param this_ pointer to own object attributes
- *  \return the id of the root diagram, DATA_ID_VOID_ID if no diagrams exist
+ *  \return the id of the root diagram, DATA_ROW_ID_VOID if no diagrams exist
  */
 static inline data_row_id_t gui_sketch_nav_tree_get_root_diagram_id ( const gui_sketch_nav_tree_t *this_ );
 

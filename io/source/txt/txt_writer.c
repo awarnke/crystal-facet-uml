@@ -111,7 +111,7 @@ int txt_writer_write_indent_id ( txt_writer_t *this_,
 {
     TRACE_BEGIN();
     assert( DATA_TABLE_VOID != data_id_get_table(&id) );
-    assert( DATA_ID_VOID_ID != data_id_get_row_id(&id) );
+    assert( DATA_ROW_ID_VOID != data_id_get_row_id(&id) );
     assert( NULL != (*this_).output );
     assert( sizeof(TXT_ID_INDENT_SPACES) == 1+TXT_WRITER_INDENT_COLUMN );
     int result = 0;
@@ -148,7 +148,7 @@ int txt_writer_write_plain_id ( txt_writer_t *this_, data_id_t id )
 {
     TRACE_BEGIN();
     assert( DATA_TABLE_VOID != data_id_get_table(&id) );
-    assert( DATA_ID_VOID_ID != data_id_get_row_id(&id) );
+    assert( DATA_ROW_ID_VOID != data_id_get_row_id(&id) );
     assert( NULL != (*this_).output );
     int result = 0;
 

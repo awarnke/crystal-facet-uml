@@ -54,7 +54,7 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
 
         data_err = data_diagram_init ( &(fake_input_data.diagram),
                                        3,  /* diagram_id */
-                                       DATA_ID_VOID_ID,  /* parent_diagram_id */
+                                       DATA_ROW_ID_VOID,  /* parent_diagram_id */
                                        DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,  /* diagram_type */
                                        "diagram_name",
                                        "diagram_description",
@@ -91,7 +91,7 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
                                    3,  /* diagram_id */
                                    c_idx/2,  /* classifier_id */
                                    DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,  /* display_flags */
-                                   DATA_ID_VOID_ID  /* focused_feature_id */
+                                   DATA_ROW_ID_VOID  /* focused_feature_id */
                                  );
 
         TEST_ENVIRONMENT_ASSERT( data_visible_classifier_is_valid( current ) );
@@ -133,8 +133,8 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
                                             "relationship_name",
                                             "relationship_description",
                                             1500*r_idx,  /* list_order */
-                                            DATA_ID_VOID_ID,  /* from_feature_id */
-                                            DATA_ID_VOID_ID  /* to_feature_id */
+                                            DATA_ROW_ID_VOID,  /* from_feature_id */
+                                            DATA_ROW_ID_VOID  /* to_feature_id */
                                           );
         TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
 
@@ -183,8 +183,8 @@ static void test_normal_model(void)
     fake_input_data = init_fake_input_data(15,30,20);
     /* make the 0-th relation a from-feature-to-feature relation: */
     data_relationship_t *linked_rel = data_visible_set_get_relationship_ptr ( fake_input_data, 0 /*index*/ );
-    data_relationship_set_from_feature_id ( linked_rel, 0 /* not DATA_ID_VOID_ID */ );
-    data_relationship_set_to_feature_id ( linked_rel, 0 /* not DATA_ID_VOID_ID */ );
+    data_relationship_set_from_feature_id ( linked_rel, 0 /* not DATA_ROW_ID_VOID */ );
+    data_relationship_set_to_feature_id ( linked_rel, 0 /* not DATA_ROW_ID_VOID */ );
 
     static pencil_layout_data_t testee;
     pencil_layout_data_init( &testee, fake_input_data );
@@ -225,7 +225,7 @@ static void test_inconsistent_model(void)
     data_feature_set_classifier_id ( illegal_feat1, 12000 /*non-existing classifier_id*/ );
     data_relationship_t *illegal_rel1 = data_visible_set_get_relationship_ptr ( fake_input_data, 0 /*index*/ );
     data_relationship_set_from_feature_id ( illegal_rel1, 1 /* feature id 1 does not belong to from classifier */ );
-    data_relationship_set_to_feature_id ( illegal_rel1, 0 /* not DATA_ID_VOID_ID */ );
+    data_relationship_set_to_feature_id ( illegal_rel1, 0 /* not DATA_ROW_ID_VOID */ );
     data_relationship_t *illegal_rel2 = data_visible_set_get_relationship_ptr ( fake_input_data, 1 /*index*/ );
     data_relationship_set_from_classifier_id ( illegal_rel2, 12000 /*non-existing classifier_id*/ );
     data_relationship_t *illegal_rel3 = data_visible_set_get_relationship_ptr ( fake_input_data, 2 /*index*/ );

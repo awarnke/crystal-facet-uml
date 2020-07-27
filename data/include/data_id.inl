@@ -24,7 +24,7 @@ static inline void data_id_init_by_string_region ( data_id_t *this_,
     if ( string_to_parse == NULL )
     {
         (*this_).table = DATA_TABLE_VOID;
-        (*this_).row_id = DATA_ID_VOID_ID;
+        (*this_).row_id = DATA_ROW_ID_VOID;
     }
     else
     {
@@ -69,7 +69,7 @@ static inline void data_id_init_by_string_region ( data_id_t *this_,
 
         if ( (*this_).table == DATA_TABLE_VOID )
         {
-            (*this_).row_id = DATA_ID_VOID_ID;
+            (*this_).row_id = DATA_ROW_ID_VOID;
         }
         else
         {
@@ -83,7 +83,7 @@ static inline void data_id_init_by_string_region ( data_id_t *this_,
             }
             else {
                 (*this_).table = DATA_TABLE_VOID;
-                (*this_).row_id = DATA_ID_VOID_ID;
+                (*this_).row_id = DATA_ROW_ID_VOID;
                 *out_length = 0;
             }
         }
@@ -99,13 +99,13 @@ static inline void data_id_reinit ( data_id_t *this_, data_table_t table, data_r
 static inline void data_id_init_void ( data_id_t *this_ )
 {
     (*this_).table = DATA_TABLE_VOID;
-    (*this_).row_id = DATA_ID_VOID_ID;
+    (*this_).row_id = DATA_ROW_ID_VOID;
 }
 
 static inline void data_id_reinit_void ( data_id_t *this_ )
 {
     (*this_).table = DATA_TABLE_VOID;
-    (*this_).row_id = DATA_ID_VOID_ID;
+    (*this_).row_id = DATA_ROW_ID_VOID;
 }
 
 static inline void data_id_copy ( data_id_t *this_, const data_id_t *that )
@@ -121,7 +121,7 @@ static inline void data_id_replace ( data_id_t *this_, const data_id_t *that )
 static inline void data_id_destroy ( data_id_t *this_ )
 {
     (*this_).table = DATA_TABLE_VOID;
-    (*this_).row_id = DATA_ID_VOID_ID;
+    (*this_).row_id = DATA_ROW_ID_VOID;
 }
 
 static inline data_table_t data_id_get_table ( const data_id_t *this_ )
@@ -146,18 +146,18 @@ static inline void data_id_trace ( const data_id_t *this_ )
 
 static inline bool data_id_equals ( const data_id_t *this_, const data_id_t *that )
 {
-    return ( ( DATA_ID_VOID_ID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table )
+    return ( ( DATA_ROW_ID_VOID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table )
              &&( (*this_).row_id == (*that).row_id )&&( (*this_).table == (*that).table ) );
 }
 
 static inline bool data_id_is_valid ( const data_id_t *this_ )
 {
-    return (( DATA_ID_VOID_ID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table ));
+    return (( DATA_ROW_ID_VOID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table ));
 }
 
 static inline bool data_id_equals_id ( const data_id_t *this_, data_table_t table, data_row_id_t row_id )
 {
-    return ( ( DATA_ID_VOID_ID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table )
+    return ( ( DATA_ROW_ID_VOID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table )
     &&( (*this_).row_id == row_id )&&( (*this_).table == table ) );
 }
 

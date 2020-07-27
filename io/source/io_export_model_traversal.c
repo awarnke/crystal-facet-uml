@@ -72,7 +72,7 @@ int io_export_model_traversal_begin_and_walk_diagram ( io_export_model_traversal
     int write_err = 0;
 
     /* write part for current diagram */
-    if ( DATA_ID_VOID_ID != data_id_get_row_id( &diagram_id ) )
+    if ( DATA_ROW_ID_VOID != data_id_get_row_id( &diagram_id ) )
     {
         /* load data to be drawn */
         data_visible_set_init( (*this_).input_data );
@@ -186,7 +186,7 @@ int io_export_model_traversal_private_write_features_of_classifier ( io_export_m
 {
     TRACE_BEGIN();
     assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &classifier_id ) );
-    assert( DATA_ID_VOID_ID != data_id_get_row_id( &classifier_id) );
+    assert( DATA_ROW_ID_VOID != data_id_get_row_id( &classifier_id) );
     int write_err = 0;
 
     /* iterate over all features */
@@ -239,7 +239,7 @@ int io_export_model_traversal_private_write_relations_of_classifier ( io_export_
 {
     TRACE_BEGIN();
     assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &from_classifier_id ) );
-    assert( DATA_ID_VOID_ID != data_id_get_row_id( &from_classifier_id) );
+    assert( DATA_ROW_ID_VOID != data_id_get_row_id( &from_classifier_id) );
     int write_err = 0;
 
     /* iterate over all relationships */

@@ -122,7 +122,7 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_sea
  *  \brief loads the cards, nav_tree and result_list data to be shown
  *
  *  \param this_ pointer to own object attributes
- *  \param main_diagram_id id of the main diagram to be shown or DATA_ID_VOID_ID for root diagram
+ *  \param main_diagram_id id of the main diagram to be shown or DATA_ROW_ID_VOID for root diagram
  */
 void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, data_row_id_t main_diagram_id );
 
@@ -131,7 +131,7 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, data_row_id_t
  *
  *  \param this_ pointer to own object attributes
  *  \param result_list list of search results including their diagram ids to be displayed
- *  \param back_diagram_id id of the previously visible diagram or DATA_ID_VOID_ID for none
+ *  \param back_diagram_id id of the previously visible diagram or DATA_ROW_ID_VOID for none
  */
 void gui_sketch_area_private_load_data_list ( gui_sketch_area_t *this_, const data_search_result_list_t *result_list, data_row_id_t back_diagram_id );
 

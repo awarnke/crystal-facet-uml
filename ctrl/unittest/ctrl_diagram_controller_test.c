@@ -80,10 +80,10 @@ static void create_read_modify_read(void)
 
     /* create a record */
     {
-        diagram_id = DATA_ID_VOID_ID;
+        diagram_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_diagram_controller_private_create_child_diagram ( diag_ctrl, PARENT_ID, DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, "diagram_name", &diagram_id );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-        TEST_ASSERT( DATA_ID_VOID_ID != diagram_id );
+        TEST_ASSERT( DATA_ROW_ID_VOID != diagram_id );
     }
 
     /* read this record */
@@ -179,14 +179,14 @@ static void create_diagramelements_and_delete(void)
 
     /* create the root diagram */
     {
-        diagram_id = DATA_ID_VOID_ID;
+        diagram_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_diagram_controller_create_root_diagram_if_not_exists ( diagram_ctrl,
                                                                                DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM,
                                                                                "root_diagram",
                                                                                &diagram_id
                                                                              );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-        TEST_ASSERT( DATA_ID_VOID_ID != diagram_id );
+        TEST_ASSERT( DATA_ROW_ID_VOID != diagram_id );
     }
 
     /* create a classifier */
@@ -209,7 +209,7 @@ static void create_diagramelements_and_delete(void)
                                                                 );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
         data_classifier_destroy ( &new_classifier );
-        TEST_ASSERT( DATA_ID_VOID_ID != classifier_id );
+        TEST_ASSERT( DATA_ROW_ID_VOID != classifier_id );
     }
 
     /* create a diagramelement */
@@ -219,7 +219,7 @@ static void create_diagramelements_and_delete(void)
                                        diagram_id,
                                        classifier_id,
                                        DATA_DIAGRAMELEMENT_FLAG_NONE,
-                                       DATA_ID_VOID_ID
+                                       DATA_ROW_ID_VOID
                                      );
         ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                    &new_diagele,
@@ -228,7 +228,7 @@ static void create_diagramelements_and_delete(void)
                                                                  );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
         data_diagramelement_destroy ( &new_diagele );
-        TEST_ASSERT( DATA_ID_VOID_ID != diag_element_id );
+        TEST_ASSERT( DATA_ROW_ID_VOID != diag_element_id );
     }
 
     /* get the id of the diagramelement */
@@ -249,7 +249,7 @@ static void create_diagramelements_and_delete(void)
         TEST_ASSERT_EQUAL_INT( diagram_id, data_diagramelement_get_diagram_id( &diag_element ) );
         TEST_ASSERT_EQUAL_INT( classifier_id, data_diagramelement_get_classifier_id( &diag_element ) );
         TEST_ASSERT_EQUAL_INT( diag_element_id, data_diagramelement_get_id( &diag_element ) );
-        TEST_ASSERT_EQUAL_INT( DATA_ID_VOID_ID, data_diagramelement_get_focused_feature_id( &diag_element ) );
+        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagramelement_get_focused_feature_id( &diag_element ) );
     }
 
     /* get all diagrams by classifier id */
@@ -258,7 +258,7 @@ static void create_diagramelements_and_delete(void)
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 1, out_diagram_count );
         TEST_ASSERT_EQUAL_INT( diagram_id, data_diagram_get_id( &(out_diagram[0]) ) );
-        TEST_ASSERT_EQUAL_INT( DATA_ID_VOID_ID, data_diagram_get_parent_id( &(out_diagram[0]) ) );
+        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_id( &(out_diagram[0]) ) );
         TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, data_diagram_get_diagram_type( &(out_diagram[0]) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "root_diagram", data_diagram_get_name_ptr( &(out_diagram[0]) ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_ptr( &(out_diagram[0]) ) ) );

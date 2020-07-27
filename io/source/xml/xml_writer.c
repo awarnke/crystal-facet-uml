@@ -61,7 +61,7 @@ int xml_writer_write_plain_id ( xml_writer_t *this_, data_id_t id )
 {
     TRACE_BEGIN();
     assert( DATA_TABLE_VOID != data_id_get_table(&id) );
-    assert( DATA_ID_VOID_ID != data_id_get_row_id(&id) );
+    assert( DATA_ROW_ID_VOID != data_id_get_row_id(&id) );
     assert( NULL != (*this_).output );
     int result = 0;
 

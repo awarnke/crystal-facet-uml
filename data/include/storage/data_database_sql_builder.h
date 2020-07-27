@@ -62,7 +62,7 @@ static inline char* data_database_sql_builder_get_string_ptr ( data_database_sql
  *  \brief builds the sql command string to create a new diagram record. The result is stored in (*this_).private_sql_stringbuf.
  *
  *  \param this_ pointer to own object attributes
- *  \param diagram diagram to be created. The id should be DATA_ID_VOID_ID unless a diagram with known, unique id shall be created.
+ *  \param diagram diagram to be created. The id should be DATA_ROW_ID_VOID unless a diagram with known, unique id shall be created.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_create_diagram_command ( data_database_sql_builder_t *this_, const data_diagram_t *diagram );
@@ -132,7 +132,7 @@ data_error_t data_database_sql_builder_build_update_diagram_parent_id_cmd ( data
  *  \brief builds the sql command string to create a new classifier record. The result is stored in (*this_).private_sql_stringbuf.
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier classifier to be created. The id should be DATA_ID_VOID_ID unless a classifier with known, unique id shall be created.
+ *  \param classifier classifier to be created. The id should be DATA_ROW_ID_VOID unless a classifier with known, unique id shall be created.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_create_classifier_command ( data_database_sql_builder_t *this_, const data_classifier_t *classifier );
@@ -220,7 +220,7 @@ data_error_t data_database_sql_builder_build_update_classifier_list_order_cmd ( 
  *  \brief builds the sql command string to create a new diagramelement record. The result is stored in (*this_).private_sql_stringbuf.
  *
  *  \param this_ pointer to own object attributes
- *  \param diagramelement diagramelement to be created. The id should be DATA_ID_VOID_ID unless a diagramelement with known, unique id shall be created.
+ *  \param diagramelement diagramelement to be created. The id should be DATA_ROW_ID_VOID unless a diagramelement with known, unique id shall be created.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_create_diagramelement_command ( data_database_sql_builder_t *this_, const data_diagramelement_t *diagramelement );
@@ -260,7 +260,7 @@ data_error_t data_database_sql_builder_build_update_diagramelement_focused_featu
  *  \brief builds the sql command string to create a new feature record. The result is stored in (*this_).private_sql_stringbuf.
  *
  *  \param this_ pointer to own object attributes
- *  \param feature feature to be created. The id should be DATA_ID_VOID_ID unless a feature with known, unique id shall be created.
+ *  \param feature feature to be created. The id should be DATA_ROW_ID_VOID unless a feature with known, unique id shall be created.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_create_feature_command ( data_database_sql_builder_t *this_, const data_feature_t *feature );
@@ -330,7 +330,7 @@ data_error_t data_database_sql_builder_build_update_feature_list_order_cmd ( dat
  *  \brief builds the sql command string to create a new relationship record. The result is stored in (*this_).private_sql_stringbuf.
  *
  *  \param this_ pointer to own object attributes
- *  \param relationship relationship to be created. The id should be DATA_ID_VOID_ID unless a relationship with known, unique id shall be created.
+ *  \param relationship relationship to be created. The id should be DATA_ROW_ID_VOID unless a relationship with known, unique id shall be created.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_create_relationship_command ( data_database_sql_builder_t *this_, const data_relationship_t *relationship );

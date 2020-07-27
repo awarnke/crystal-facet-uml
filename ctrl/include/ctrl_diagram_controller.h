@@ -100,7 +100,7 @@ ctrl_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram
  *  \param this_ pointer to own object attributes
  *  \param diagram_type type of the root diagram
  *  \param diagram_name name of the root diagram
- *  \param out_new_id id of the created root diagram or DATA_ID_VOID_ID if a root diagram already existed, NULL if the new id is not needed.
+ *  \param out_new_id id of the created root diagram or DATA_ROW_ID_VOID if a root diagram already existed, NULL if the new id is not needed.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_diagram_controller_t *this_,

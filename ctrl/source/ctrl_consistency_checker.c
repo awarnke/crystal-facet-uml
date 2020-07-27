@@ -131,7 +131,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_
     /* get all root diagrams */
     uint32_t out_diagram_count;
     data_err = data_database_reader_get_diagrams_by_parent_id ( (*this_).db_reader,
-                                                                DATA_ID_VOID_ID,
+                                                                DATA_ROW_ID_VOID,
                                                                 CTRL_CONSISTENCY_CHECKER_MAX_DIAG_BUFFER,
                                                                 &((*this_).temp_diagram_buffer),
                                                                 &out_diagram_count
@@ -232,11 +232,11 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctr
             (*io_err) += circ_ref_count;
 
             /* get the root diagram */
-            data_row_id_t root_diag_id = DATA_ID_VOID_ID;
+            data_row_id_t root_diag_id = DATA_ROW_ID_VOID;
             {
                 uint32_t out_diagram_count;
                 data_err = data_database_reader_get_diagrams_by_parent_id ( (*this_).db_reader,
-                                                                            DATA_ID_VOID_ID,
+                                                                            DATA_ROW_ID_VOID,
                                                                             CTRL_CONSISTENCY_CHECKER_MAX_DIAG_BUFFER,
                                                                             &((*this_).temp_diagram_buffer),
                                                                             &out_diagram_count
@@ -406,7 +406,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ct
                 {
                     data_id_t diagramelement_id = data_small_set_get_id( &unref, list_pos );
                     data_row_id_t diagramelement_row_id = data_id_get_row_id( &diagramelement_id );
-                    data_err = data_database_writer_update_diagramelement_focused_feature_id ( (*this_).db_writer, diagramelement_row_id, DATA_ID_VOID_ID, NULL );
+                    data_err = data_database_writer_update_diagramelement_focused_feature_id ( (*this_).db_writer, diagramelement_row_id, DATA_ROW_ID_VOID, NULL );
                     if ( DATA_ERROR_NONE == data_err )
                     {
                         utf8stringbuf_append_str( out_report, "    FIX: Focused features unlinked from " );

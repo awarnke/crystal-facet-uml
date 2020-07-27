@@ -50,7 +50,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
     data_row_id_t new_id;
 
     data_diagram_copy( &to_be_created, new_diagram );
-    data_diagram_set_id( &to_be_created, DATA_ID_VOID_ID );
+    data_diagram_set_id( &to_be_created, DATA_ROW_ID_VOID );
 
     data_result = data_database_writer_create_diagram( (*this_).db_writer, &to_be_created, &new_id );
     if ( DATA_ERROR_NONE == data_result )
@@ -138,7 +138,7 @@ ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_di
     /* load all without parent */
     uint32_t count;
     data_result = data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
-                                                                  DATA_ID_VOID_ID,
+                                                                  DATA_ROW_ID_VOID,
                                                                   1,
                                                                   &(root_diag_buf),
                                                                   &count
@@ -152,13 +152,13 @@ ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_di
         if ( 0 == count )
         {
             /* no root diagram exists */
-            result = ctrl_diagram_controller_private_create_child_diagram( this_, DATA_ID_VOID_ID, diagram_type, diagram_name, out_new_id );
+            result = ctrl_diagram_controller_private_create_child_diagram( this_, DATA_ROW_ID_VOID, diagram_type, diagram_name, out_new_id );
         }
         else
         {
             if ( NULL != out_new_id )
             {
-                *out_new_id = DATA_ID_VOID_ID;
+                *out_new_id = DATA_ROW_ID_VOID;
             }
         }
     }
@@ -390,7 +390,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_contro
     data_row_id_t new_id;
 
     data_diagramelement_copy( &to_be_created, new_diagramelement );
-    data_diagramelement_set_id( &to_be_created, DATA_ID_VOID_ID );
+    data_diagramelement_set_id( &to_be_created, DATA_ROW_ID_VOID );
 
     data_result = data_database_writer_create_diagramelement( (*this_).db_writer, &to_be_created, &new_id );
     if ( DATA_ERROR_NONE == data_result )

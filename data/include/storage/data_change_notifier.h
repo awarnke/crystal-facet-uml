@@ -68,7 +68,7 @@ void data_change_notifier_destroy ( data_change_notifier_t *this_ );
  *                      DATA_TABLE_VOID if ((table==DATA_TABLE_CLASIFIER)||(event_type==DATA_CHANGE_EVENT_TYPE_UPDATE))
  *                      because classifiers have no parent and in case of update, no parent is needed.
  *  \param parent_row_id the row_id of the parent element
- *                      DATA_ID_VOID_ID if ((table==DATA_TABLE_CLASIFIER)||(event_type==DATA_CHANGE_EVENT_TYPE_UPDATE))
+ *                      DATA_ROW_ID_VOID if ((table==DATA_TABLE_CLASIFIER)||(event_type==DATA_CHANGE_EVENT_TYPE_UPDATE))
  *                      because classifiers have no parent and in case of update, no parent is needed.
  */
 void data_change_notifier_emit_signal ( data_change_notifier_t *this_,

@@ -100,9 +100,9 @@ data_error_t json_serializer_append_diagram ( json_serializer_t *this_, data_dia
  *  \param this_ pointer to own object attributes
  *  \param object a pointer to the relationship to serialize
  *  \param from_clas a pointer to the source classifier of the relationship to serialize
- *  \param from_feat a pointer to the source feature of the relationship to serialize, pointer to DATA_ID_VOID_ID if not existant
+ *  \param from_feat a pointer to the source feature of the relationship to serialize, pointer to DATA_ROW_ID_VOID if not existant
  *  \param to_clas a pointer to the destination classifier of the relationship to serialize
- *  \param to_feat a pointer to the destination feature of the relationship to serialize, pointer to DATA_ID_VOID_ID if not existant
+ *  \param to_feat a pointer to the destination feature of the relationship to serialize, pointer to DATA_ROW_ID_VOID if not existant
  *  \param out stringbuffer where to write the result to
  *  \return DATA_ERROR_NONE in case of success,
  *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,

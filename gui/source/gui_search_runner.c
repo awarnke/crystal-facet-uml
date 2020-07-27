@@ -80,7 +80,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                             search_row_id,
                                                             data_classifier_get_main_type( &((*this_).temp_classifier) ),
                                                             data_classifier_get_name_ptr( &((*this_).temp_classifier) ),
-                                                            DATA_ID_VOID_ID /* diagram_id */
+                                                            DATA_ROW_ID_VOID /* diagram_id */
                                                         );
                         gui_search_runner_private_add_diagrams_of_classifier( this_, &half_initialized, &((*this_).temp_result_list) );
 
@@ -109,7 +109,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                          data_feature_get_main_type( &((*this_).temp_feature) ),
                                                          data_feature_get_key_ptr( &((*this_).temp_feature) ),
                                                          classifier_id,
-                                                         DATA_ID_VOID_ID /* diagram_id */
+                                                         DATA_ROW_ID_VOID /* diagram_id */
                                                        );
                         gui_search_runner_private_add_diagrams_of_classifier( this_, &half_initialized, &((*this_).temp_result_list) );
 
@@ -139,7 +139,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                               data_relationship_get_name_ptr( &((*this_).temp_relationship) ),
                                                               classifier_id,
                                                               data_relationship_get_to_classifier_id( &((*this_).temp_relationship) ),
-                                                              DATA_ID_VOID_ID /* diagram_id */
+                                                              DATA_ROW_ID_VOID /* diagram_id */
                                                             );
                         gui_search_runner_private_add_diagrams_of_classifier( this_, &half_initialized, &((*this_).temp_result_list) );
 

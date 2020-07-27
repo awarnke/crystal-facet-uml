@@ -69,7 +69,7 @@ static void set_up(void)
     data_diagram_t root_diagram;
     data_err = data_diagram_init ( &root_diagram,
                                    6 /*=diagram_id*/,
-                                   DATA_ID_VOID_ID /*=parent_diagram_id*/,
+                                   DATA_ROW_ID_VOID /*=parent_diagram_id*/,
                                    DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
                                    "diagram_name-6",
                                    "diagram_description-6",
@@ -135,7 +135,7 @@ static void set_up(void)
                                6 /*=diagram_id*/,
                                12 /*=classifier_id*/,
                                DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                               DATA_ID_VOID_ID
+                               DATA_ROW_ID_VOID
                              );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &first_diagramelement, NULL /*=out_new_id*/ );
@@ -159,7 +159,7 @@ static void set_up(void)
                                7 /*=diagram_id*/,
                                12 /*=classifier_id*/,
                                DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                               DATA_ID_VOID_ID
+                               DATA_ROW_ID_VOID
                              );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &second_diagramelement, NULL /*=out_new_id*/ );
@@ -171,7 +171,7 @@ static void set_up(void)
                                7 /*=diagram_id*/,
                                13 /*=classifier_id*/,
                                DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                               DATA_ID_VOID_ID
+                               DATA_ROW_ID_VOID
                              );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &third_diagramelement, NULL /*=out_new_id*/ );
@@ -204,8 +204,8 @@ static void set_up(void)
                                         "the composition is more", /* relationship_name */
                                         "than the sum of its parts", /* relationship_description */
                                         -77000, /* list_order */
-                                        DATA_ID_VOID_ID, /* from_feature_id */
-                                        DATA_ID_VOID_ID /* to_feature_id */
+                                        DATA_ROW_ID_VOID, /* from_feature_id */
+                                        DATA_ROW_ID_VOID /* to_feature_id */
                                       );
     TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 

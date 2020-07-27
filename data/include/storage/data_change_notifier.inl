@@ -17,7 +17,7 @@ static inline void data_change_notifier_emit_signal_without_parent ( data_change
                                        table,
                                        row_id,
                                        DATA_TABLE_VOID,
-                                       DATA_ID_VOID_ID
+                                       DATA_ROW_ID_VOID
                                      );
 }
 

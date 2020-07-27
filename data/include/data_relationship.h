@@ -35,9 +35,9 @@ enum data_relationship_max_enum {
 struct data_relationship_struct {
     data_row_id_t id;
     data_row_id_t from_classifier_id;
-    data_row_id_t from_feature_id;  /*!< from_classifier_id is the master, from_feature_id is an optional information; DATA_ID_VOID_ID if not used */
+    data_row_id_t from_feature_id;  /*!< from_classifier_id is the master, from_feature_id is an optional information; DATA_ROW_ID_VOID if not used */
     data_row_id_t to_classifier_id;
-    data_row_id_t to_feature_id;  /*!< from_classifier_id is the master, from_feature_id is an optional information; DATA_ID_VOID_ID if not used */
+    data_row_id_t to_feature_id;  /*!< from_classifier_id is the master, from_feature_id is an optional information; DATA_ROW_ID_VOID if not used */
 
     data_relationship_type_t main_type;
     utf8stringbuf_t name;
@@ -50,14 +50,14 @@ struct data_relationship_struct {
 typedef struct data_relationship_struct data_relationship_t;
 
 /*!
- *  \brief initializes the data_relationship_t struct with id, from_classifier_id and to_classifier_id DATA_ID_VOID_ID; all other values are zero.
+ *  \brief initializes the data_relationship_t struct with id, from_classifier_id and to_classifier_id DATA_ROW_ID_VOID; all other values are zero.
  *
  *  \param this_ pointer to own object attributes
  */
 static inline void data_relationship_init_empty ( data_relationship_t *this_ );
 
 /*!
- *  \brief re-initializes the data_relationship_t struct with id, from_classifier_id and to_classifier_id DATA_ID_VOID_ID; all other values are zero.
+ *  \brief re-initializes the data_relationship_t struct with id, from_classifier_id and to_classifier_id DATA_ROW_ID_VOID; all other values are zero.
  *
  *  \param this_ pointer to own object attributes
  */
@@ -74,8 +74,8 @@ static inline void data_relationship_reinit_empty ( data_relationship_t *this_ )
  *  \param relationship_name name of the relationship. relationship_name must not be NULL.
  *  \param relationship_description description of the relationship. relationship_description must not be NULL.
  *  \param list_order list_order of the relationship
- *  \param from_feature_id id of the source feature if the relationship starts at a feature, DATA_ID_VOID_ID otherwise
- *  \param to_feature_id id of the destination feature if the relationship ends at a feature, DATA_ID_VOID_ID otherwise
+ *  \param from_feature_id id of the source feature if the relationship starts at a feature, DATA_ROW_ID_VOID otherwise
+ *  \param to_feature_id id of the destination feature if the relationship ends at a feature, DATA_ROW_ID_VOID otherwise
  *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
  */
 static inline data_error_t data_relationship_init ( data_relationship_t *this_,
@@ -316,10 +316,10 @@ static inline int32_t data_relationship_get_list_order ( const data_relationship
 static inline void data_relationship_set_list_order ( data_relationship_t *this_, int32_t list_order );
 
 /*!
- *  \brief checks if attribute id is not DATA_ID_VOID_ID
+ *  \brief checks if attribute id is not DATA_ROW_ID_VOID
  *
  *  \param this_ pointer to own object attributes
- *  \return true if the id of the relationship is not DATA_ID_VOID_ID
+ *  \return true if the id of the relationship is not DATA_ROW_ID_VOID
  */
 static inline bool data_relationship_is_valid ( const data_relationship_t *this_ );
 

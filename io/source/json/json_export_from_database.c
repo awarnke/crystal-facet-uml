@@ -292,7 +292,7 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
                                                                               data_relationship_get_from_classifier_id( &out_relation ),
                                                                               &from_classifier
                                                                             );
-                    if ( DATA_ID_VOID_ID == data_relationship_get_from_feature_id( &out_relation ) )
+                    if ( DATA_ROW_ID_VOID == data_relationship_get_from_feature_id( &out_relation ) )
                     {
                         data_feature_init_empty( &((*this_).temp_features[0]) );
                     }
@@ -309,7 +309,7 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
                                                                               data_relationship_get_to_classifier_id( &out_relation ),
                                                                               &to_classifier
                                                                             );
-                    if ( DATA_ID_VOID_ID == data_relationship_get_to_feature_id( &out_relation ) )
+                    if ( DATA_ROW_ID_VOID == data_relationship_get_to_feature_id( &out_relation ) )
                     {
                         data_feature_init_empty( &((*this_).temp_features[1]) );
                     }

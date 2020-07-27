@@ -93,7 +93,7 @@ static void set_up(void)
 
         data_err_d = data_diagram_init ( &current_diagram,
                                          6 /*=diagram_id*/,
-                                         DATA_ID_VOID_ID /*=parent_diagram_id*/,
+                                         DATA_ROW_ID_VOID /*=parent_diagram_id*/,
                                          DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
                                          "diagram_name-6",
                                          "diagram_description-6",
@@ -136,7 +136,7 @@ static void set_up(void)
                                    6 /*=diagram_id*/,
                                    12 /*=classifier_id*/,
                                    DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                   DATA_ID_VOID_ID
+                                   DATA_ROW_ID_VOID
                                  );
 
         data_err_de = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
@@ -176,7 +176,7 @@ static void diagram_two_roots_consistency(void)
         data_diagram_t current_diagram;
         data_err = data_diagram_init ( &current_diagram,
                                        2 /*=diagram_id*/,
-                                       DATA_ID_VOID_ID /*=parent_diagram_id*/,
+                                       DATA_ROW_ID_VOID /*=parent_diagram_id*/,
                                        DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
                                        "diagram_name",
                                        "diagram_description",
@@ -378,7 +378,7 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
                                    6 /*=diagram_id*/,
                                    18 /*=classifier_id*/,
                                    DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                   DATA_ID_VOID_ID
+                                   DATA_ROW_ID_VOID
                                  );
 
         data_err = data_database_writer_create_diagramelement( &db_writer, &second_diagramelement, NULL /*=out_new_id*/ );
@@ -393,7 +393,7 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
                                    2 /*=diagram_id*/,
                                    12 /*=classifier_id*/,
                                    DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                   DATA_ID_VOID_ID
+                                   DATA_ROW_ID_VOID
                                  );
 
         data_err = data_database_writer_create_diagramelement( &db_writer, &third_diagramelement, NULL /*=out_new_id*/ );
@@ -408,7 +408,7 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
                                    2 /*=diagram_id*/,
                                    18 /*=classifier_id*/,
                                    DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                   DATA_ID_VOID_ID
+                                   DATA_ROW_ID_VOID
                                  );
 
         data_err = data_database_writer_create_diagramelement( &db_writer, &fourth_diagramelement, NULL /*=out_new_id*/ );
@@ -663,8 +663,8 @@ static void repair_unreferenced_classifiers_2(void)
                                             "the composition is more", /* relationship_name */
                                             "than the sum of its parts", /* relationship_description */
                                             -66000, /* list_order */
-                                            DATA_ID_VOID_ID, /* from_feature_id */
-                                            DATA_ID_VOID_ID /* to_feature_id */
+                                            DATA_ROW_ID_VOID, /* from_feature_id */
+                                            DATA_ROW_ID_VOID /* to_feature_id */
                                           );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -795,8 +795,8 @@ static void repair_invalid_relationship(void)
                                             "the composition is more", /* relationship_name */
                                             "than the sum of its parts", /* relationship_description */
                                             -66000, /* list_order */
-                                            DATA_ID_VOID_ID, /* from_feature_id */
-                                            DATA_ID_VOID_ID /* to_feature_id */
+                                            DATA_ROW_ID_VOID, /* from_feature_id */
+                                            DATA_ROW_ID_VOID /* to_feature_id */
                                           );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -815,8 +815,8 @@ static void repair_invalid_relationship(void)
                                             "the composition is more", /* relationship_name */
                                             "than the sum of its parts", /* relationship_description */
                                             -66000, /* list_order */
-                                            DATA_ID_VOID_ID, /* from_feature_id */
-                                            DATA_ID_VOID_ID /* to_feature_id */
+                                            DATA_ROW_ID_VOID, /* from_feature_id */
+                                            DATA_ROW_ID_VOID /* to_feature_id */
                                           );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -835,8 +835,8 @@ static void repair_invalid_relationship(void)
                                             "the composition is more", /* relationship_name */
                                             "than the sum of its parts", /* relationship_description */
                                             -66000, /* list_order */
-                                            DATA_ID_VOID_ID, /* from_feature_id */
-                                            DATA_ID_VOID_ID /* to_feature_id */
+                                            DATA_ROW_ID_VOID, /* from_feature_id */
+                                            DATA_ROW_ID_VOID /* to_feature_id */
                                           );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -855,8 +855,8 @@ static void repair_invalid_relationship(void)
                                             "the composition is more", /* relationship_name */
                                             "than the sum of its parts", /* relationship_description */
                                             -66000, /* list_order */
-                                            DATA_ID_VOID_ID, /* from_feature_id */
-                                            DATA_ID_VOID_ID /* to_feature_id */
+                                            DATA_ROW_ID_VOID, /* from_feature_id */
+                                            DATA_ROW_ID_VOID /* to_feature_id */
                                           );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 

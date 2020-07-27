@@ -107,7 +107,7 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
                                    TEST_DIAG_ID,
                                    classifier_id,
                                    DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                   with_lifeline ? (TEST_FEATURE_ID_OFFSET+vc_idx) : DATA_ID_VOID_ID  /* focused_feature_id */
+                                   with_lifeline ? (TEST_FEATURE_ID_OFFSET+vc_idx) : DATA_ROW_ID_VOID  /* focused_feature_id */
                                  );
 
         TEST_ENVIRONMENT_ASSERT( data_visible_classifier_is_valid( current ) );
@@ -155,8 +155,8 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
                                             "relationship_name",
                                             "relationship_description",
                                             1500*r_idx,  /* list_order */
-                                            from_feat ? (TEST_FEATURE_ID_OFFSET+r_idx) : DATA_ID_VOID_ID,  /* from_feature_id */
-                                            to_feat ? (TEST_FEATURE_ID_OFFSET+(r_idx+1)) : DATA_ID_VOID_ID  /* to_feature_id */
+                                            from_feat ? (TEST_FEATURE_ID_OFFSET+r_idx) : DATA_ROW_ID_VOID,  /* from_feature_id */
+                                            to_feat ? (TEST_FEATURE_ID_OFFSET+(r_idx+1)) : DATA_ROW_ID_VOID  /* to_feature_id */
                                           );
         TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
 

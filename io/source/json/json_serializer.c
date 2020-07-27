@@ -725,7 +725,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
 
         /* from_feature_id */
         out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
-        const bool from_feat_valid = ( data_relationship_get_from_feature_id( object ) != DATA_ID_VOID_ID );
+        const bool from_feat_valid = ( data_relationship_get_from_feature_id( object ) != DATA_ROW_ID_VOID );
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
@@ -766,7 +766,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
 
         /* to_feature_id */
         out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
-        const bool to_feat_valid = ( data_relationship_get_to_feature_id( object ) != DATA_ID_VOID_ID );
+        const bool to_feat_valid = ( data_relationship_get_to_feature_id( object ) != DATA_ROW_ID_VOID );
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB

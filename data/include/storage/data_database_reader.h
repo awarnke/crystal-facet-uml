@@ -108,7 +108,7 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
  *  \brief reads all child-diagrams from the database
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_id id of the parent diagram, DATA_ID_VOID_ID to get all root diagrams
+ *  \param parent_id id of the parent diagram, DATA_ROW_ID_VOID to get all root diagrams
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
  *  \param out_diagram array of diagrams read from the database (in case of success)
  *  \param out_diagram_count number of diagram records stored in out_diagram
@@ -146,7 +146,7 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
  *  \brief reads all child-diagram ids from the database
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_id id of the parent diagram, DATA_ID_VOID_ID to get all root diagram ids
+ *  \param parent_id id of the parent diagram, DATA_ROW_ID_VOID to get all root diagram ids
  *  \param out_diagram_ids set of diagram ids read from the database (in case of success). The provided set shall be initialized.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
@@ -354,7 +354,7 @@ data_error_t data_database_reader_get_relationships_by_classifier_id ( data_data
  *  This includes relationships where the feature is source-only, destination-only or both.
  *
  *  \param this_ pointer to own object attributes
- *  \param feature_id id of the source(from) or destination(to) feature; must not be DATA_ID_VOID_ID.
+ *  \param feature_id id of the source(from) or destination(to) feature; must not be DATA_ROW_ID_VOID.
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
  *  \param out_relationship array of relationships read from the database (in case of success)
  *  \param out_relationship_count number of relationship records stored in out_relationship
@@ -446,7 +446,7 @@ static inline data_error_t data_database_reader_private_bind_void_to_statement (
  *
  *  \param this_ pointer to own object attributes
  *  \param statement_ptr pointer to a statement object
- *  \param id integer to bind to the prepared statement. DATA_ID_VOID_ID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
+ *  \param id integer to bind to the prepared statement. DATA_ROW_ID_VOID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 static inline data_error_t data_database_reader_private_bind_id_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr, data_row_id_t id );
@@ -458,8 +458,8 @@ static inline data_error_t data_database_reader_private_bind_id_to_statement ( d
  *
  *  \param this_ pointer to own object attributes
  *  \param statement_ptr pointer to a statement object
- *  \param id1 first integer to bind to the prepared statement. DATA_ID_VOID_ID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
- *  \param id2 second integer to bind to the prepared statement. DATA_ID_VOID_ID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
+ *  \param id1 first integer to bind to the prepared statement. DATA_ROW_ID_VOID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
+ *  \param id2 second integer to bind to the prepared statement. DATA_ROW_ID_VOID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 static inline data_error_t data_database_reader_private_bind_two_ids_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr, data_row_id_t id1, data_row_id_t id2 );

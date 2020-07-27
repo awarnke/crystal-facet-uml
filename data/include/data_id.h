@@ -17,13 +17,6 @@
 #include <stdbool.h>
 
 /*!
- *  \brief constant to define a void data_id_t
- */
-enum data_id_void_enum {
-    DATA_ID_VOID_ID = -1,  /*!< invalid id */
-};
-
-/*!
  *  \brief constants to define maximum length of textual representation
  */
 enum data_id_max_enum {
@@ -41,7 +34,7 @@ struct data_id_struct {
 
 typedef struct data_id_struct data_id_t;
 
-#define DATA_ID_VOID ((data_id_t){.table=DATA_TABLE_VOID,.row_id=DATA_ID_VOID_ID})
+#define DATA_ID_VOID ((data_id_t){.table=DATA_TABLE_VOID,.row_id=DATA_ROW_ID_VOID})
 
 /*!
  *  \brief initializes the data_id_t struct

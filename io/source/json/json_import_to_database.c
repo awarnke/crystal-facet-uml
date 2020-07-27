@@ -223,7 +223,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                                                current_diagram_id,
                                                                the_classifier_id,
                                                                DATA_DIAGRAMELEMENT_FLAG_NONE,
-                                                               DATA_ID_VOID_ID
+                                                               DATA_ROW_ID_VOID
                                                              );
                                 write_error2 = ctrl_diagram_controller_create_diagramelement ( diag_ctrl,
                                                                                                &diag_ele,
@@ -313,11 +313,11 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                         }
                         else
                         {
-                            data_row_id_t from_classifier_id = DATA_ID_VOID_ID;
-                            data_row_id_t from_feature_id = DATA_ID_VOID_ID;
+                            data_row_id_t from_classifier_id = DATA_ROW_ID_VOID;
+                            data_row_id_t from_feature_id = DATA_ROW_ID_VOID;
                             data_feature_type_t from_feature_type = DATA_FEATURE_TYPE_VOID;
-                            data_row_id_t to_classifier_id = DATA_ID_VOID_ID;
-                            data_row_id_t to_feature_id = DATA_ID_VOID_ID;
+                            data_row_id_t to_classifier_id = DATA_ROW_ID_VOID;
+                            data_row_id_t to_feature_id = DATA_ROW_ID_VOID;
                             data_feature_type_t to_feature_type = DATA_FEATURE_TYPE_VOID;
 
                             /* determine ids in target database */
@@ -336,7 +336,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                     TRACE_INFO_STR( "id found for src classifier:", utf8stringbuf_get_string( rel_from_clas ) );
 
                                     /* search source feature id */
-                                    if ( data_relationship_get_from_feature_id( &new_relationship ) != DATA_ID_VOID_ID )
+                                    if ( data_relationship_get_from_feature_id( &new_relationship ) != DATA_ROW_ID_VOID )
                                     {
                                         uint32_t feature_count;
                                         read_error2 = data_database_reader_get_features_by_classifier_id ( (*this_).db_reader,
@@ -397,7 +397,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                     TRACE_INFO_STR( "id found for dst classifier:", utf8stringbuf_get_string( rel_to_clas ) );
 
                                     /* search destination feature id */
-                                    if ( data_relationship_get_to_feature_id( &new_relationship ) != DATA_ID_VOID_ID )
+                                    if ( data_relationship_get_to_feature_id( &new_relationship ) != DATA_ROW_ID_VOID )
                                     {
                                         uint32_t feature_count;
                                         read_error2 = data_database_reader_get_features_by_classifier_id ( (*this_).db_reader,
@@ -450,30 +450,30 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
 
                             /* create relationship */
                             bool dropped=false;
-                            if ( from_classifier_id == DATA_ID_VOID_ID )
+                            if ( from_classifier_id == DATA_ROW_ID_VOID )
                             {
                                 TSLOG_ERROR_STR( "A relationship could not be created because the source classifier could not be found.",
                                                  utf8stringbuf_get_string( rel_from_clas )
                                                );
                                 dropped = true;
                             }
-                            else if ( to_classifier_id == DATA_ID_VOID_ID )
+                            else if ( to_classifier_id == DATA_ROW_ID_VOID )
                             {
                                 TSLOG_ERROR_STR( "A relationship could not be created because the destination classifier could not be found.",
                                                  utf8stringbuf_get_string( rel_to_clas )
                                                );
                                 dropped = true;
                             }
-                            else if (( data_relationship_get_from_feature_id( &new_relationship ) != DATA_ID_VOID_ID )
-                                && ( from_feature_id == DATA_ID_VOID_ID ))
+                            else if (( data_relationship_get_from_feature_id( &new_relationship ) != DATA_ROW_ID_VOID )
+                                && ( from_feature_id == DATA_ROW_ID_VOID ))
                             {
                                 TSLOG_ERROR_STR( "A relationship could not be created because the source feature could not be found.",
                                                  utf8stringbuf_get_string( rel_from_feat )
                                                );
                                 dropped = true;
                             }
-                            else if (( data_relationship_get_to_feature_id( &new_relationship ) != DATA_ID_VOID_ID )
-                                && ( to_feature_id == DATA_ID_VOID_ID ))
+                            else if (( data_relationship_get_to_feature_id( &new_relationship ) != DATA_ROW_ID_VOID )
+                                && ( to_feature_id == DATA_ROW_ID_VOID ))
                             {
                                 TSLOG_ERROR_STR( "A relationship could not be created because the destination feature could not be found.",
                                                  utf8stringbuf_get_string( rel_to_feat )
@@ -489,7 +489,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                 classifier_control4 = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                                 /* update the json-parsed relationship struct */
-                                data_relationship_set_id ( &new_relationship, DATA_ID_VOID_ID );
+                                data_relationship_set_id ( &new_relationship, DATA_ROW_ID_VOID );
                                 data_relationship_set_from_classifier_id ( &new_relationship, from_classifier_id );
                                 data_relationship_set_from_feature_id ( &new_relationship, from_feature_id );
                                 data_relationship_set_to_classifier_id ( &new_relationship, to_classifier_id );

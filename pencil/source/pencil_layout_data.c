@@ -232,7 +232,7 @@ uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *thi
     const data_row_id_t from_feature_id = data_relationship_get_from_feature_id( relationship_data );
     const data_row_id_t to_feature_id = data_relationship_get_to_feature_id( relationship_data );
 
-    if ( DATA_ID_VOID_ID == from_feature_id )  /* search source(from) in classifiers */
+    if ( DATA_ROW_ID_VOID == from_feature_id )  /* search source(from) in classifiers */
     {
         for ( uint32_t c_idx3 = 0; c_idx3 < (*this_).visible_classifier_count; c_idx3 ++ )
         {
@@ -242,7 +242,7 @@ uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *thi
             const bool one_from_classifier_found = ( from_classifier_id == layout_visible_classifier_get_classifier_id( probe3_classifier ) );
             if ( one_from_classifier_found )
             {
-                if ( DATA_ID_VOID_ID == to_feature_id )  /* search destination(to) in classifiers */
+                if ( DATA_ROW_ID_VOID == to_feature_id )  /* search destination(to) in classifiers */
                 {
                     for ( uint32_t c_idx4 = 0; c_idx4 < (*this_).visible_classifier_count; c_idx4 ++ )
                     {
@@ -324,7 +324,7 @@ uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *thi
                 const bool from_feature_ok = ( from_classifier_id == data_feature_get_classifier_id(layout_feature_get_data_const( probe3_feature )) );
                 if ( from_feature_ok )
                 {
-                    if ( DATA_ID_VOID_ID == to_feature_id )  /* search destination(to) in classifiers */
+                    if ( DATA_ROW_ID_VOID == to_feature_id )  /* search destination(to) in classifiers */
                     {
                         for ( uint32_t c_idx5 = 0; c_idx5 < (*this_).visible_classifier_count; c_idx5 ++ )
                         {

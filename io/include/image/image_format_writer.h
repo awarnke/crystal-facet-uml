@@ -19,9 +19,10 @@
  *  \brief attributes of the diagram image file exporter
  */
 struct image_format_writer_struct {
+    data_database_reader_t *db_reader;  /* !< pointer to external database reader */
+    data_visible_set_t *input_data;  /*!< pointer to an external buffer for private use as data cache */
     geometry_rectangle_t bounds;  /*!< bounding box of the exported images */
     pencil_diagram_maker_t painter;  /*!< own instance of a diagram painter */
-    //data_visible_set_t *input_data;  /*!< pointer to an external buffer for private use as data cache */
 };
 
 typedef struct image_format_writer_struct image_format_writer_t;
@@ -30,9 +31,11 @@ typedef struct image_format_writer_struct image_format_writer_t;
  *  \brief initializes the diagram image file exporter
  *
  *  \param this_ pointer to own object attributes
+ *  \param db_reader pointer to a database reader object
  *  \param input_data pointer to an external buffer for private use as data cache
  */
 void image_format_writer_init( image_format_writer_t *this_,
+                               data_database_reader_t *db_reader,
                                data_visible_set_t *input_data
                              );
 
@@ -46,14 +49,28 @@ void image_format_writer_destroy( image_format_writer_t *this_ );
 /*!
  *  \brief creates one cairo surface to render a diagram into a file
  *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram which to process for export
  *  \param export_type image file format
  *  \param target_filename path name of the file to store the cairo surface
  *  \result 0 in case of success, -1 otherwise
  */
-int image_format_writer_render_surface_to_file( image_format_writer_t *this_,
+int image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
+                                                data_id_t diagram_id,
                                                 io_file_format_t export_type,
                                                 const char* target_filename
                                               );
+
+/*!
+ *  \brief creates one cairo surface to render a diagram into a file
+ *  \param this_ pointer to own object attributes
+ *  \param export_type image file format
+ *  \param target_filename path name of the file to store the cairo surface
+ *  \result 0 in case of success, -1 otherwise
+ */
+int image_format_writer_private_render_surface_to_file( image_format_writer_t *this_,
+                                                        io_file_format_t export_type,
+                                                        const char* target_filename
+                                                      );
 
 #endif  /* IMAGE_FORMAT_WRITER_H */
 

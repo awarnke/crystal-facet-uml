@@ -88,8 +88,8 @@ static void diagram_to_lifeline_consistency(void)
     {
         data_diagram_t root_diagram;
         data_err = data_diagram_init ( &root_diagram,
-                                       DATA_ID_VOID_ID /*=diagram_id is ignored*/,
-                                       DATA_ID_VOID_ID /*=parent_diagram_id*/,
+                                       DATA_ROW_ID_VOID /*=diagram_id is ignored*/,
+                                       DATA_ROW_ID_VOID /*=parent_diagram_id*/,
                                        DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,
                                        "the_root_diag",
                                        "diagram_description-root",
@@ -97,14 +97,14 @@ static void diagram_to_lifeline_consistency(void)
                                      );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-        root_diag_id = DATA_ID_VOID_ID;
+        root_diag_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_diagram_controller_create_diagram ( diagram_ctrl,
                                                             &root_diagram,
                                                             false, /* add_to_latest_undo_set */
                                                             &root_diag_id
                                                           );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-        TEST_ASSERT( DATA_ID_VOID_ID != root_diag_id );
+        TEST_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
         data_diagram_destroy ( &root_diagram );
     }
 
@@ -113,7 +113,7 @@ static void diagram_to_lifeline_consistency(void)
     {
         data_diagram_t child_diagram;
         data_err = data_diagram_init ( &child_diagram,
-                                       DATA_ID_VOID_ID /*=diagram_id is ignored*/,
+                                       DATA_ROW_ID_VOID /*=diagram_id is ignored*/,
                                        root_diag_id /*=parent_diagram_id*/,
                                        DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,
                                        "the_child_diag",
@@ -122,14 +122,14 @@ static void diagram_to_lifeline_consistency(void)
                                      );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-        child_diag_id = DATA_ID_VOID_ID;
+        child_diag_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_diagram_controller_create_diagram ( diagram_ctrl,
                                                             &child_diagram,
                                                             true, /* add_to_latest_undo_set */
                                                             &child_diag_id
                                                           );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-        TEST_ASSERT( child_diag_id != DATA_ID_VOID_ID );
+        TEST_ASSERT( child_diag_id != DATA_ROW_ID_VOID );
         data_diagram_destroy ( &child_diagram );
     }
 
@@ -148,14 +148,14 @@ static void diagram_to_lifeline_consistency(void)
                                             );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-        classifier_id = DATA_ID_VOID_ID;
+        classifier_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,
                                                                   &new_classifier,
                                                                   true,  /* add_to_latest_undo_set */
                                                                   &classifier_id
                                                                 );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-        TEST_ASSERT( DATA_ID_VOID_ID != classifier_id );
+        TEST_ASSERT( DATA_ROW_ID_VOID != classifier_id );
         data_classifier_destroy ( &new_classifier );
     }
 
@@ -167,10 +167,10 @@ static void diagram_to_lifeline_consistency(void)
                                        root_diag_id,
                                        classifier_id,
                                        DATA_DIAGRAMELEMENT_FLAG_NONE,
-                                       DATA_ID_VOID_ID
+                                       DATA_ROW_ID_VOID
                                      );
 
-        root_diag_element_id = DATA_ID_VOID_ID;
+        root_diag_element_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                    &new_diagele,
                                                                    true,  /* add_to_latest_undo_set */
@@ -178,7 +178,7 @@ static void diagram_to_lifeline_consistency(void)
                                                                  );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
         data_diagramelement_destroy ( &new_diagele );
-        TEST_ASSERT( DATA_ID_VOID_ID != root_diag_element_id );
+        TEST_ASSERT( DATA_ROW_ID_VOID != root_diag_element_id );
     }
 
     /* create one diagramelement for the child diagram */
@@ -189,10 +189,10 @@ static void diagram_to_lifeline_consistency(void)
                                        child_diag_id,
                                        classifier_id,
                                        DATA_DIAGRAMELEMENT_FLAG_NONE,
-                                       DATA_ID_VOID_ID
+                                       DATA_ROW_ID_VOID
                                      );
 
-        child_diag_element_id = DATA_ID_VOID_ID;
+        child_diag_element_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                    &new_diagele2,
                                                                    true,  /* add_to_latest_undo_set */
@@ -200,7 +200,7 @@ static void diagram_to_lifeline_consistency(void)
                                                                  );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
         data_diagramelement_destroy ( &new_diagele2 );
-        TEST_ASSERT( DATA_ID_VOID_ID != child_diag_element_id );
+        TEST_ASSERT( DATA_ROW_ID_VOID != child_diag_element_id );
     }
 
     /* change the type of the child diagram to DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM */
@@ -291,8 +291,8 @@ static void diagramelement_to_lifeline_consistency(void)
     {
         data_diagram_t root_diagram;
         data_err = data_diagram_init ( &root_diagram,
-                                       DATA_ID_VOID_ID /*=diagram_id is ignored*/,
-                                       DATA_ID_VOID_ID /*=parent_diagram_id*/,
+                                       DATA_ROW_ID_VOID /*=diagram_id is ignored*/,
+                                       DATA_ROW_ID_VOID /*=parent_diagram_id*/,
                                        DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,
                                        "the_root_diag",
                                        "diagram_description-root",
@@ -300,14 +300,14 @@ static void diagramelement_to_lifeline_consistency(void)
                                      );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-        root_diag_id = DATA_ID_VOID_ID;
+        root_diag_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_diagram_controller_create_diagram ( diagram_ctrl,
                                                             &root_diagram,
                                                             false, /* add_to_latest_undo_set */
                                                             &root_diag_id
         );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-        TEST_ASSERT( DATA_ID_VOID_ID != root_diag_id );
+        TEST_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
         data_diagram_destroy ( &root_diagram );
     }
 
@@ -326,14 +326,14 @@ static void diagramelement_to_lifeline_consistency(void)
                                             );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-        classifier_id = DATA_ID_VOID_ID;
+        classifier_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,
                                                                   &new_classifier,
                                                                   false,  /* add_to_latest_undo_set */
                                                                   &classifier_id
         );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-        TEST_ASSERT( DATA_ID_VOID_ID != classifier_id );
+        TEST_ASSERT( DATA_ROW_ID_VOID != classifier_id );
         data_classifier_destroy ( &new_classifier );
     }
 
@@ -345,10 +345,10 @@ static void diagramelement_to_lifeline_consistency(void)
                                        root_diag_id,
                                        classifier_id,
                                        DATA_DIAGRAMELEMENT_FLAG_NONE,
-                                       DATA_ID_VOID_ID
+                                       DATA_ROW_ID_VOID
                                      );
 
-        first_diag_element_id = DATA_ID_VOID_ID;
+        first_diag_element_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                    &new_diagele,
                                                                    true,  /* add_to_latest_undo_set */
@@ -356,7 +356,7 @@ static void diagramelement_to_lifeline_consistency(void)
                                                                  );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
         data_diagramelement_destroy ( &new_diagele );
-        TEST_ASSERT( DATA_ID_VOID_ID != first_diag_element_id );
+        TEST_ASSERT( DATA_ROW_ID_VOID != first_diag_element_id );
     }
 
     /* create second diagramelement for the classifier */
@@ -367,10 +367,10 @@ static void diagramelement_to_lifeline_consistency(void)
                                        root_diag_id,
                                        classifier_id,
                                        DATA_DIAGRAMELEMENT_FLAG_NONE,
-                                       DATA_ID_VOID_ID
+                                       DATA_ROW_ID_VOID
                                      );
 
-        second_diag_element_id = DATA_ID_VOID_ID;
+        second_diag_element_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                    &new_diagele2,
                                                                    true,  /* add_to_latest_undo_set */
@@ -378,7 +378,7 @@ static void diagramelement_to_lifeline_consistency(void)
                                                                  );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
         data_diagramelement_destroy ( &new_diagele2 );
-        TEST_ASSERT( DATA_ID_VOID_ID != second_diag_element_id );
+        TEST_ASSERT( DATA_ROW_ID_VOID != second_diag_element_id );
     }
 
     /* check that the classifier now has two features of type DATA_FEATURE_TYPE_LIFELINE */

@@ -73,7 +73,7 @@ void data_database_writer_db_change_callback ( data_database_writer_t *this_, da
  *  \brief creates a new diagram and returns its id
  *
  *  \param this_ pointer to own object attributes
- *  \param diagram data of the new diagram record to be created. The id should be DATA_ID_VOID_ID unless a diagram with known, unique id shall be created.
+ *  \param diagram data of the new diagram record to be created. The id should be DATA_ROW_ID_VOID unless a diagram with known, unique id shall be created.
  *  \param out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
@@ -152,7 +152,7 @@ data_error_t data_database_writer_update_diagram_parent_id ( data_database_write
  *  \brief creates a new classifier and returns its id
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier data of the new classifier record to be created. The id should be DATA_ID_VOID_ID unless a classifier with known, unique id shall be created.
+ *  \param classifier data of the new classifier record to be created. The id should be DATA_ROW_ID_VOID unless a classifier with known, unique id shall be created.
  *  \param out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
@@ -253,7 +253,7 @@ data_error_t data_database_writer_update_classifier_list_order ( data_database_w
  *  \brief creates a new diagramelement and returns its id
  *
  *  \param this_ pointer to own object attributes
- *  \param diagramelement data of the new diagramelement record to be created. The id should be DATA_ID_VOID_ID unless a diagramelement with known, unique id shall be created.
+ *  \param diagramelement data of the new diagramelement record to be created. The id should be DATA_ROW_ID_VOID unless a diagramelement with known, unique id shall be created.
  *  \param out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
@@ -297,7 +297,7 @@ data_error_t data_database_writer_update_diagramelement_focused_feature_id ( dat
  *  \brief creates a new feature and returns its id
  *
  *  \param this_ pointer to own object attributes
- *  \param feature data of the new feature record to be created. The id should be DATA_ID_VOID_ID unless a feature with known, unique id shall be created.
+ *  \param feature data of the new feature record to be created. The id should be DATA_ROW_ID_VOID unless a feature with known, unique id shall be created.
  *  \param out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
@@ -374,7 +374,7 @@ data_error_t data_database_writer_update_feature_list_order ( data_database_writ
  *  \brief creates a new relationship and returns its id
  *
  *  \param this_ pointer to own object attributes
- *  \param relationship data of the new relationship record to be created. The id should be DATA_ID_VOID_ID unless a relationship with known, unique id shall be created.
+ *  \param relationship data of the new relationship record to be created. The id should be DATA_ROW_ID_VOID unless a relationship with known, unique id shall be created.
  *  \param out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */

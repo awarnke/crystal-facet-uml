@@ -148,7 +148,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
     int result = 0;
 
     /* draw current diagram */
-    if ( DATA_ID_VOID_ID != diagram_row_id )
+    if ( DATA_ROW_ID_VOID != diagram_row_id )
     {
         assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
 
@@ -185,16 +185,13 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
             || ( IO_FILE_FORMAT_PS == export_type )
             || ( IO_FILE_FORMAT_PNG == export_type ) )
         {
-            data_visible_set_init( &((*this_).temp_input_data) );
-            image_format_writer_init( &((*this_).temp_image_format_exporter ), &((*this_).temp_input_data) );
-            data_visible_set_load( &((*this_).temp_input_data), diagram_row_id, (*this_).db_reader );
-            assert( data_visible_set_is_valid ( &((*this_).temp_input_data) ) );
-            result = image_format_writer_render_surface_to_file( &((*this_).temp_image_format_exporter ),
+            image_format_writer_init( &((*this_).temp_image_format_exporter ), (*this_).db_reader, &((*this_).temp_input_data) );
+            result = image_format_writer_render_diagram_to_file( &((*this_).temp_image_format_exporter ),
+                                                                 diagram_id,
                                                                  export_type,
                                                                  utf8stringbuf_get_string( (*this_).temp_filename )
                                                                );
             image_format_writer_destroy( &((*this_).temp_image_format_exporter ) );
-            data_visible_set_destroy( &((*this_).temp_input_data) );
         }
         else /* IO_FILE_FORMAT_TXT */
         {
@@ -236,7 +233,6 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
 
             result |= universal_output_stream_destroy( output );
         }
-        data_visible_set_destroy( &((*this_).temp_input_data) );
     }
 
     /* recursion to children */
@@ -375,7 +371,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
     int export_err = 0;
 
     /* write part for current diagram */
-    if ( DATA_ID_VOID_ID != diagram_row_id )
+    if ( DATA_ROW_ID_VOID != diagram_row_id )
     {
         assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
 
@@ -418,7 +414,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
     }
 
     /* end diagram section */
-    if ( DATA_ID_VOID_ID != diagram_row_id )
+    if ( DATA_ROW_ID_VOID != diagram_row_id )
     {
         /* write doc part */
         export_err |= io_export_model_traversal_end_diagram( &((*this_).temp_model_traversal) );
@@ -439,7 +435,7 @@ int io_exporter_private_export_table_of_contents( io_exporter_t *this_,
     int export_err = 0;
 
     /* write entry for current diagram */
-    if ( DATA_ID_VOID_ID != diagram_row_id )
+    if ( DATA_ROW_ID_VOID != diagram_row_id )
     {
         assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
 
@@ -493,7 +489,7 @@ int io_exporter_private_export_table_of_contents( io_exporter_t *this_,
     }
 
     /* end toc entry */
-    if ( DATA_ID_VOID_ID != diagram_row_id )
+    if ( DATA_ROW_ID_VOID != diagram_row_id )
     {
         export_err |= io_format_writer_end_toc_entry( format_writer );
     }

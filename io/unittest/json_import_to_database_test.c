@@ -99,8 +99,8 @@ static data_row_id_t create_root_diag()
 
     data_diagram_t root_diagram;
     data_err = data_diagram_init ( &root_diagram,
-                                   DATA_ID_VOID_ID /*=diagram_id is ignored*/,
-                                   DATA_ID_VOID_ID /*=parent_diagram_id*/,
+                                   DATA_ROW_ID_VOID /*=diagram_id is ignored*/,
+                                   DATA_ROW_ID_VOID /*=parent_diagram_id*/,
                                    DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,
                                    "the_root_diag",
                                    "diagram_description-root",
@@ -108,14 +108,14 @@ static data_row_id_t create_root_diag()
                                  );
     TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
-    root_diag_id = DATA_ID_VOID_ID;
+    root_diag_id = DATA_ROW_ID_VOID;
     ctrl_err = ctrl_diagram_controller_create_diagram ( diagram_ctrl,
                                                         &root_diagram,
                                                         false, /* add_to_latest_undo_set */
                                                         &root_diag_id
                                                       );
     TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == ctrl_err );
-    TEST_ENVIRONMENT_ASSERT( DATA_ID_VOID_ID != root_diag_id );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
     data_diagram_destroy ( &root_diagram );
 
     return root_diag_id;

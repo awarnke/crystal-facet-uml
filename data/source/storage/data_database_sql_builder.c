@@ -130,7 +130,7 @@ data_error_t data_database_sql_builder_build_create_diagram_command ( data_datab
     utf8error_t strerr = UTF8ERROR_SUCCESS;
     data_error_t result = DATA_ERROR_NONE;
 
-    if ( DATA_ID_VOID_ID == (*diagram).id  )
+    if ( DATA_ROW_ID_VOID == (*diagram).id  )
     {
         strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_PREFIX );
     }
@@ -140,7 +140,7 @@ data_error_t data_database_sql_builder_build_create_diagram_command ( data_datab
         strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagram).id );
         strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     }
-    if ( DATA_ID_VOID_ID == (*diagram).parent_id )
+    if ( DATA_ROW_ID_VOID == (*diagram).parent_id )
     {
         strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
     }
@@ -344,7 +344,7 @@ data_error_t data_database_sql_builder_build_update_diagram_parent_id_cmd ( data
 
     strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_PREFIX );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_PARENT_ID );
-    if ( DATA_ID_VOID_ID == new_diagram_parent_id )
+    if ( DATA_ROW_ID_VOID == new_diagram_parent_id )
     {
         strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
     }
@@ -457,7 +457,7 @@ data_error_t data_database_sql_builder_build_create_classifier_command ( data_da
 
     utf8stringbuf_clear( (*this_).sql_stringbuf );
 
-    if ( (*classifier).id == DATA_ID_VOID_ID )
+    if ( (*classifier).id == DATA_ROW_ID_VOID )
     {
         strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_PREFIX );
     }
@@ -826,7 +826,7 @@ data_error_t data_database_sql_builder_build_create_diagramelement_command ( dat
 
     utf8stringbuf_clear( (*this_).sql_stringbuf );
 
-    if ( DATA_ID_VOID_ID == (*diagramelement).id )
+    if ( DATA_ROW_ID_VOID == (*diagramelement).id )
     {
         strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_PREFIX );
     }
@@ -842,7 +842,7 @@ data_error_t data_database_sql_builder_build_create_diagramelement_command ( dat
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagramelement).display_flags );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    if ( DATA_ID_VOID_ID == (*diagramelement).focused_feature_id )
+    if ( DATA_ROW_ID_VOID == (*diagramelement).focused_feature_id )
     {
         strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
     }
@@ -919,7 +919,7 @@ data_error_t data_database_sql_builder_build_update_diagramelement_focused_featu
     strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_PREFIX );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_COL_FOCUSED_FEATURE_ID );
 
-    if ( DATA_ID_VOID_ID == new_focused_feature_id )
+    if ( DATA_ROW_ID_VOID == new_focused_feature_id )
     {
         strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
     }
@@ -1020,7 +1020,7 @@ data_error_t data_database_sql_builder_build_create_feature_command ( data_datab
     utf8error_t strerr = UTF8ERROR_SUCCESS;
     data_error_t result = DATA_ERROR_NONE;
 
-    if ( (*feature).id == DATA_ID_VOID_ID )
+    if ( (*feature).id == DATA_ROW_ID_VOID )
     {
         strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_FEATURE_PREFIX );
     }
@@ -1343,7 +1343,7 @@ data_error_t data_database_sql_builder_build_create_relationship_command ( data_
     utf8error_t strerr = UTF8ERROR_SUCCESS;
     data_error_t result = DATA_ERROR_NONE;
 
-    if ( (*relationship).id == DATA_ID_VOID_ID )
+    if ( (*relationship).id == DATA_ROW_ID_VOID )
     {
         strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_PREFIX );
     }
@@ -1383,7 +1383,7 @@ data_error_t data_database_sql_builder_build_create_relationship_command ( data_
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*relationship).list_order );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    if ( DATA_ID_VOID_ID == (*relationship).from_feature_id )
+    if ( DATA_ROW_ID_VOID == (*relationship).from_feature_id )
     {
         strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
     }
@@ -1392,7 +1392,7 @@ data_error_t data_database_sql_builder_build_create_relationship_command ( data_
         strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*relationship).from_feature_id );
     }
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    if ( DATA_ID_VOID_ID == (*relationship).to_feature_id )
+    if ( DATA_ROW_ID_VOID == (*relationship).to_feature_id )
     {
         strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
     }

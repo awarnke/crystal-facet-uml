@@ -89,7 +89,7 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
     TRACE_BEGIN();
     assert( NULL != diagram );
     data_error_t result = DATA_ERROR_NONE;
-    data_row_id_t new_id = DATA_ID_VOID_ID;
+    data_row_id_t new_id = DATA_ROW_ID_VOID;
 
     result |= data_database_sql_builder_build_create_diagram_command( &((*this_).sql_builder), diagram );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
@@ -370,7 +370,7 @@ data_error_t data_database_writer_create_classifier( data_database_writer_t *thi
     TRACE_BEGIN();
     assert( NULL != classifier );
     data_error_t result = DATA_ERROR_NONE;
-    data_row_id_t new_id = DATA_ID_VOID_ID;
+    data_row_id_t new_id = DATA_ROW_ID_VOID;
 
     result |= data_database_sql_builder_build_create_classifier_command( &((*this_).sql_builder), classifier );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
@@ -384,7 +384,7 @@ data_error_t data_database_writer_create_classifier( data_database_writer_t *thi
                                       DATA_TABLE_CLASSIFIER,
                                       new_id,
                                       DATA_TABLE_VOID,  /* classifiers have no parent */
-                                      DATA_ID_VOID_ID  /* classifiers have no parent */
+                                      DATA_ROW_ID_VOID  /* classifiers have no parent */
                                     );
 
     if ( NULL != out_new_id )
@@ -725,7 +725,7 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
     TRACE_BEGIN();
     assert( NULL != diagramelement );
     data_error_t result = DATA_ERROR_NONE;
-    data_row_id_t new_id = DATA_ID_VOID_ID;
+    data_row_id_t new_id = DATA_ROW_ID_VOID;
 
     result |= data_database_sql_builder_build_create_diagramelement_command( &((*this_).sql_builder), diagramelement );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
@@ -864,7 +864,7 @@ data_error_t data_database_writer_create_feature ( data_database_writer_t *this_
     TRACE_BEGIN();
     assert( NULL != feature );
     data_error_t result = DATA_ERROR_NONE;
-    data_row_id_t new_id = DATA_ID_VOID_ID;
+    data_row_id_t new_id = DATA_ROW_ID_VOID;
 
     result |= data_database_sql_builder_build_create_feature_command( &((*this_).sql_builder), feature );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
@@ -1091,7 +1091,7 @@ data_error_t data_database_writer_create_relationship ( data_database_writer_t *
     TRACE_BEGIN();
     assert( NULL != relationship );
     data_error_t result = DATA_ERROR_NONE;
-    data_row_id_t new_id = DATA_ID_VOID_ID;
+    data_row_id_t new_id = DATA_ROW_ID_VOID;
 
     result |= data_database_sql_builder_build_create_relationship_command( &((*this_).sql_builder), relationship );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );

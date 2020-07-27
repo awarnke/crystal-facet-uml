@@ -91,7 +91,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
             id_to_load = data_diagram_get_parent_id( &((*this_).ancestor_diagrams[anc_index-1]) );
         }
 
-        if ( id_to_load != DATA_ID_VOID_ID )
+        if ( id_to_load != DATA_ROW_ID_VOID )
         {
             db_err = data_database_reader_get_diagram_by_id ( db_reader, id_to_load, &((*this_).ancestor_diagrams[anc_index]) );
             if ( db_err == DATA_ERROR_NONE )

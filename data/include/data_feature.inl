@@ -5,8 +5,8 @@
 
 static inline void data_feature_init_empty ( data_feature_t *this_ )
 {
-    (*this_).id = DATA_ID_VOID_ID;
-    (*this_).classifier_id = DATA_ID_VOID_ID;
+    (*this_).id = DATA_ROW_ID_VOID;
+    (*this_).classifier_id = DATA_ROW_ID_VOID;
     (*this_).main_type = DATA_FEATURE_TYPE_PROPERTY;
 
     (*this_).key = utf8stringbuf_init( sizeof((*this_).private_key_buffer), (*this_).private_key_buffer );
@@ -97,7 +97,7 @@ static inline void data_feature_replace ( data_feature_t *this_, const data_feat
 
 static inline void data_feature_destroy ( data_feature_t *this_ )
 {
-    (*this_).id = DATA_ID_VOID_ID;
+    (*this_).id = DATA_ROW_ID_VOID;
 }
 
 static inline data_row_id_t data_feature_get_id ( const data_feature_t *this_ )
@@ -233,7 +233,7 @@ static inline void data_feature_set_list_order ( data_feature_t *this_, int32_t 
 
 static inline bool data_feature_is_valid ( const data_feature_t *this_ )
 {
-    return ( DATA_ID_VOID_ID != (*this_).id );
+    return ( DATA_ROW_ID_VOID != (*this_).id );
 }
 
 static inline void data_feature_trace ( const data_feature_t *this_ )

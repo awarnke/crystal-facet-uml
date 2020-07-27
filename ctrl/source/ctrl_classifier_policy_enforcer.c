@@ -78,7 +78,7 @@ ctrl_error_t ctrl_classifier_policy_enforcer_private_unlink_lifeline ( ctrl_clas
 
                     result |= ctrl_diagram_controller_update_diagramelement_focused_feature_id ( (*this_).diag_ctrl,
                                                                                                  diagele_id,
-                                                                                                 DATA_ID_VOID_ID,
+                                                                                                 DATA_ROW_ID_VOID,
                                                                                                  true /* = add_to_latest_undo_set */
                                                                                                );
                 }

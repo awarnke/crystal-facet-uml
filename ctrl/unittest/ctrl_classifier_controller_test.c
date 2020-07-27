@@ -108,19 +108,19 @@ static void classifier_create_read_modify_read(void)
                                                                 );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
         data_classifier_destroy ( &new_classifier );
-        TEST_ASSERT( DATA_ID_VOID_ID != classifier_id );
+        TEST_ASSERT( DATA_ROW_ID_VOID != classifier_id );
     }
 
     /* create the root diagram */
     {
-        diagram_id = DATA_ID_VOID_ID;
+        diagram_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_diagram_controller_create_root_diagram_if_not_exists ( diagram_ctrl,
                                                                                DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM,
                                                                                "root_diagram",
                                                                                &diagram_id
                                                                              );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-        TEST_ASSERT( DATA_ID_VOID_ID != diagram_id );
+        TEST_ASSERT( DATA_ROW_ID_VOID != diagram_id );
     }
 
     /* create a diagramelement */
@@ -130,7 +130,7 @@ static void classifier_create_read_modify_read(void)
                                        diagram_id,
                                        classifier_id,
                                        DATA_DIAGRAMELEMENT_FLAG_NONE,
-                                       DATA_ID_VOID_ID
+                                       DATA_ROW_ID_VOID
                                      );
         ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                    &new_diagele,
@@ -139,7 +139,7 @@ static void classifier_create_read_modify_read(void)
                                                                  );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
         data_diagramelement_destroy ( &new_diagele );
-        TEST_ASSERT( DATA_ID_VOID_ID != diagele_id );
+        TEST_ASSERT( DATA_ROW_ID_VOID != diagele_id );
     }
 
     /* read this record */
@@ -351,7 +351,7 @@ static void relationship_CRURDR(void)
                                             "the composition is more", /* relationship_name */
                                             "than the sum of its parts", /* relationship_description */
                                             -66000, /* list_order */
-                                            DATA_ID_VOID_ID, /* from_feature_id */
+                                            DATA_ROW_ID_VOID, /* from_feature_id */
                                             100666 /* to_feature_id */
                                           );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
@@ -376,7 +376,7 @@ static void relationship_CRURDR(void)
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "the composition is more", data_relationship_get_name_ptr( &check ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "than the sum of its parts", data_relationship_get_description_ptr( &check ) ) );
         TEST_ASSERT_EQUAL_INT( -66000, data_relationship_get_list_order( &check ) );
-        TEST_ASSERT_EQUAL_INT( DATA_ID_VOID_ID, data_relationship_get_from_feature_id( &check ) );
+        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_id( &check ) );
         TEST_ASSERT_EQUAL_INT( 100666, data_relationship_get_to_feature_id( &check ) );
     }
 
@@ -419,7 +419,7 @@ static void relationship_CRURDR(void)
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "async message", data_relationship_get_name_ptr( &check2 ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "good for modularization", data_relationship_get_description_ptr( &check2 ) ) );
         TEST_ASSERT_EQUAL_INT( -88000, data_relationship_get_list_order( &check2 ) );
-        TEST_ASSERT_EQUAL_INT( DATA_ID_VOID_ID, data_relationship_get_from_feature_id( &check2 ) );
+        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_id( &check2 ) );
         TEST_ASSERT_EQUAL_INT( 100666, data_relationship_get_to_feature_id( &check2 ) );
     }
 

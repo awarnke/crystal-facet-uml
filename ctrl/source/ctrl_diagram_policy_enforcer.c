@@ -75,7 +75,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_lifelines ( ctrl_diagra
                 data_row_id_t focused_feature;
                 focused_feature = data_diagramelement_get_focused_feature_id( current_diagele );
 
-                if ( DATA_ID_VOID_ID == focused_feature )
+                if ( DATA_ROW_ID_VOID == focused_feature )
                 {
                     /* diagramelement without focused feature found */
                     result |= ctrl_diagram_policy_enforcer_private_create_one_lifeline ( this_, current_diagele );
@@ -133,7 +133,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_one_lifeline ( ctrl_dia
     /* define the lifeline to create */
     data_feature_t new_lifeline;
     data_result = data_feature_init ( &new_lifeline,
-                                      DATA_ID_VOID_ID,
+                                      DATA_ROW_ID_VOID,
                                       DATA_FEATURE_TYPE_LIFELINE,
                                       data_diagramelement_get_classifier_id( the_diagramelement ),
                                       "",  /* key */
@@ -177,7 +177,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_a_lifeline ( ctrl_diagr
     /* delete the lifeline of the already deleted data_diagramelement_t */
     data_row_id_t focused_feature_id;
     focused_feature_id = data_diagramelement_get_focused_feature_id( deleted_diagramelement );
-    if ( DATA_ID_VOID_ID != focused_feature_id )
+    if ( DATA_ROW_ID_VOID != focused_feature_id )
     {
         result |= ctrl_classifier_controller_delete_feature ( (*this_).clfy_ctrl,
                                                               focused_feature_id,

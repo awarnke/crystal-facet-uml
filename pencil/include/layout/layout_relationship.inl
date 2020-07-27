@@ -44,10 +44,10 @@ static inline bool layout_relationship_is_valid ( const layout_relationship_t *t
         const data_row_id_t from_feature_id = data_relationship_get_from_feature_id( (*this_).data );
         const data_row_id_t to_feature_id = data_relationship_get_to_feature_id( (*this_).data );
         const bool from_feature_ok = ( NULL == (*this_).from_feature )
-            ? ( from_feature_id == DATA_ID_VOID_ID )
+            ? ( from_feature_id == DATA_ROW_ID_VOID )
             : ( from_feature_id == layout_feature_get_feature_id( (*this_).from_feature ) );
         const bool to_feature_ok = ( NULL == (*this_).to_feature )
-            ? ( to_feature_id == DATA_ID_VOID_ID )
+            ? ( to_feature_id == DATA_ROW_ID_VOID )
             : ( to_feature_id == layout_feature_get_feature_id( (*this_).to_feature ) );
         result = data_relationship_is_valid( (*this_).data )
             && layout_visible_classifier_is_valid( (*this_).from_classifier )

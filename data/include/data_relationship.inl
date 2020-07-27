@@ -5,11 +5,11 @@
 
 static inline void data_relationship_init_empty ( data_relationship_t *this_ )
 {
-    (*this_).id = DATA_ID_VOID_ID;
-    (*this_).from_classifier_id = DATA_ID_VOID_ID;
-    (*this_).from_feature_id = DATA_ID_VOID_ID;
-    (*this_).to_classifier_id = DATA_ID_VOID_ID;
-    (*this_).to_feature_id = DATA_ID_VOID_ID;
+    (*this_).id = DATA_ROW_ID_VOID;
+    (*this_).from_classifier_id = DATA_ROW_ID_VOID;
+    (*this_).from_feature_id = DATA_ROW_ID_VOID;
+    (*this_).to_classifier_id = DATA_ROW_ID_VOID;
+    (*this_).to_feature_id = DATA_ROW_ID_VOID;
     (*this_).main_type = DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY;
 
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
@@ -92,7 +92,7 @@ static inline void data_relationship_replace ( data_relationship_t *this_, const
 
 static inline void data_relationship_destroy ( data_relationship_t *this_ )
 {
-    (*this_).id = DATA_ID_VOID_ID;
+    (*this_).id = DATA_ROW_ID_VOID;
 }
 
 static inline data_row_id_t data_relationship_get_id ( const data_relationship_t *this_ )
@@ -250,7 +250,7 @@ static inline void data_relationship_set_list_order ( data_relationship_t *this_
 
 static inline bool data_relationship_is_valid ( const data_relationship_t *this_ )
 {
-    return ( DATA_ID_VOID_ID != (*this_).id );
+    return ( DATA_ROW_ID_VOID != (*this_).id );
 }
 
 static inline void data_relationship_trace ( const data_relationship_t *this_ )

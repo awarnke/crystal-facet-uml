@@ -332,7 +332,7 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( const pencil_layouter_t *t
                                                   DATA_TABLE_DIAGRAM,
                                                   data_diagram_get_id(diagram_data),
                                                   DATA_TABLE_VOID,
-                                                  DATA_ID_VOID_ID
+                                                  DATA_ROW_ID_VOID
                                                 );
         }
         if ( ! data_id_pair_is_valid( out_surrounding_id ) )
@@ -341,7 +341,7 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( const pencil_layouter_t *t
                                                   DATA_TABLE_DIAGRAM,
                                                   data_diagram_get_id(diagram_data),
                                                   DATA_TABLE_VOID,
-                                                  DATA_ID_VOID_ID
+                                                  DATA_ROW_ID_VOID
                                                 );
         }
     }
@@ -525,7 +525,7 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( const pencil
                                                       DATA_TABLE_RELATIONSHIP,
                                                       data_relationship_get_id( relation_data ),
                                                       DATA_TABLE_VOID,
-                                                      DATA_ID_VOID_ID
+                                                      DATA_ROW_ID_VOID
                                                     );
                 result = PENCIL_ERROR_NONE;
             }
@@ -656,7 +656,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
         layout_order_init_empty( out_layout_order );
         result = PENCIL_ERROR_OUT_OF_BOUNDS;
     }
-    else if ( DATA_ID_VOID_ID == parent_classifier_id ) {
+    else if ( DATA_ROW_ID_VOID == parent_classifier_id ) {
         TSLOG_WARNING( "feature to move has no parent classifier!" );
         layout_order_init_empty( out_layout_order );
         result = PENCIL_ERROR_UNKNOWN_OBJECT;

@@ -12,6 +12,13 @@
 #include <stdint.h>
 
 /*!
+ *  \brief constant to define a void data_row_id_t
+ */
+enum data_row_id_enum {
+    DATA_ROW_ID_VOID = -1,  /*!< invalid id */
+};
+
+/*!
  *  \brief wraps the database-internal identifier-type
  */
 typedef int64_t data_row_id_t;
