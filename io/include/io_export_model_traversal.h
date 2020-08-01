@@ -94,6 +94,22 @@ int io_export_model_traversal_end_diagram ( io_export_model_traversal_t *this_ )
 int io_export_model_traversal_walk_model ( io_export_model_traversal_t *this_ );
 
 /*!
+ *  \brief recusively descends the containment tree (graph) of a classifier.
+ *
+ *  While traversing, the written_id_set is extended.
+ *  Classifiers that are contained in written_id_set or that are beyond max_recursion are not traversed.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier of which the features are written
+ *  \param max_recursion maximum number of tree depth. Use e.g. 16 to actively limit the model, use 64 to catch (nearly) only error cases.
+ *  \return -1 in case of error, 0 in case of success.
+ *          If max_recursion limits the descent, or written_id_set prevents duplicate traversal of a classifier, 0 is returned nonetheless.
+ */
+int io_export_model_traversal_private_descend_containments ( io_export_model_traversal_t *this_,
+                                                             data_id_t classifier_id,
+                                                             unsigned int max_recursion
+                                                           );
+/*!
  *  \brief prints names and descriptions of the classifiers to the output stream
  *
  *  \param this_ pointer to own object attributes

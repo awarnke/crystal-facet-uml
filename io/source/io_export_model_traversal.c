@@ -149,6 +149,22 @@ int io_export_model_traversal_walk_model ( io_export_model_traversal_t *this_ )
     return write_err;
 }
 
+int io_export_model_traversal_private_descend_containments ( io_export_model_traversal_t *this_,
+                                                             data_id_t classifier_id,
+                                                             unsigned int max_recursion )
+{
+    TRACE_BEGIN();
+    int write_err = 0;
+
+    {
+        data_error_t data_err;
+
+    }
+
+    TRACE_END_ERR( write_err );
+    return write_err;
+}
+
 int io_export_model_traversal_private_write_classifiers ( io_export_model_traversal_t *this_ )
 {
     TRACE_BEGIN();
