@@ -23,6 +23,15 @@
 #include <stdio.h>
 
 /*!
+ *  \brief constants for maximum values of io_export_model_traversal_t
+ */
+enum io_export_model_traversal_max_enum {
+    IO_EXPORT_MODEL_TRAVERSAL_MAX_TOTAL_CLASSIFIERS = 16384,  /*!< maximum number of total classifiers to be exported */
+    IO_EXPORT_MODEL_TRAVERSAL_MAX_FEATURES = 64,  /*!< maximum number of features linked to one classifiers, incl. lifelines */
+    IO_EXPORT_MODEL_TRAVERSAL_MAX_RELATIONSHIPS = 256,  /*!< maximum number of relationships linked to one classifiers, incl. scenario-based */
+};
+
+/*!
  *  \brief attributes of the description writer
  */
 struct io_export_model_traversal_struct {
@@ -32,8 +41,12 @@ struct io_export_model_traversal_struct {
     io_filter_flag_t filter_flags;  /*!< flags indicating which elements shall be exported */
     io_format_writer_t *format_writer;  /*!< pointer to external io_format_writer_t which is the output sink */
 
-    data_id_t written_id_set_buf[50000];  /*!< buffer for list of already exported element ids */
+    data_id_t written_id_set_buf[IO_EXPORT_MODEL_TRAVERSAL_MAX_TOTAL_CLASSIFIERS];  /*!< buffer for list of already exported element ids */
     universal_array_list_t written_id_set;  /*!< list of already exported element ids */
+    
+    data_classifier_t temp_classifier;  /*!< temporary buffer to store one classifier (uninitialized) */
+    data_feature_t temp_features[IO_EXPORT_MODEL_TRAVERSAL_MAX_FEATURES];  /*!< temporary buffer to store features of one classifier (uninitialized) */
+    data_relationship_t temp_relationships[IO_EXPORT_MODEL_TRAVERSAL_MAX_RELATIONSHIPS];  /*!< temporary buffer to store relationships of one classifier (uninitialized) */
 };
 
 typedef struct io_export_model_traversal_struct io_export_model_traversal_t;
@@ -94,13 +107,37 @@ int io_export_model_traversal_end_diagram ( io_export_model_traversal_t *this_ )
 int io_export_model_traversal_walk_model ( io_export_model_traversal_t *this_ );
 
 /*!
+ *  \brief iterates over features of a classifier.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier of which the features are written
+ *  \return -1 in case of error, 0 in case of success.
+ */
+int io_export_model_traversal_private_iterate_features ( io_export_model_traversal_t *this_,
+                                                         data_id_t classifier_id
+                                                       );
+
+/*!
+ *  \brief iterates over relationships of a classifier.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier of which the relationships are written
+ *  \param io_contained_classifiers data set to which contained classifiers are added
+ *  \return -1 in case of error, 0 in case of success.
+ */
+int io_export_model_traversal_private_iterate_relationships ( io_export_model_traversal_t *this_,
+                                                              data_id_t classifier_id,
+                                                              data_small_set_t *io_contained_classifiers
+                                                            );
+
+/*!
  *  \brief recusively descends the containment tree (graph) of a classifier.
  *
  *  While traversing, the written_id_set is extended.
  *  Classifiers that are contained in written_id_set or that are beyond max_recursion are not traversed.
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier_id id of the classifier of which the features are written
+ *  \param classifier_id id of the classifier of which the containment relations are traversed
  *  \param max_recursion maximum number of tree depth. Use e.g. 16 to actively limit the model, use 64 to catch (nearly) only error cases.
  *  \return -1 in case of error, 0 in case of success.
  *          If max_recursion limits the descent, or written_id_set prevents duplicate traversal of a classifier, 0 is returned nonetheless.
@@ -109,6 +146,7 @@ int io_export_model_traversal_private_descend_containments ( io_export_model_tra
                                                              data_id_t classifier_id,
                                                              unsigned int max_recursion
                                                            );
+
 /*!
  *  \brief prints names and descriptions of the classifiers to the output stream
  *

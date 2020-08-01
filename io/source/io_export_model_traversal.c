@@ -111,7 +111,6 @@ int io_export_model_traversal_walk_model ( io_export_model_traversal_t *this_ )
     {
         data_error_t data_err;
         data_database_iterator_classifiers_t classifier_iterator;
-        data_classifier_t probe_classifier;  /* TODO TOO BIG DATA HERE */
 
         /* test the iterator, init */
         data_database_iterator_classifiers_init_empty( &classifier_iterator );
@@ -124,7 +123,7 @@ int io_export_model_traversal_walk_model ( io_export_model_traversal_t *this_ )
         {
             while( data_database_iterator_classifiers_has_next( &classifier_iterator ) && ( write_err==0 ) )
             {
-                data_err = data_database_iterator_classifiers_next( &classifier_iterator, &probe_classifier );
+                data_err = data_database_iterator_classifiers_next( &classifier_iterator, &((*this_).temp_classifier) );
                 if ( data_err != DATA_ERROR_NONE )
                 {
                     write_err = -1;
@@ -132,9 +131,20 @@ int io_export_model_traversal_walk_model ( io_export_model_traversal_t *this_ )
                 else
                 {
                     write_err |= io_format_writer_start_classifier( (*this_).format_writer );
-                    write_err |= io_format_writer_write_classifier( (*this_).format_writer, &probe_classifier );
+                    write_err |= io_format_writer_write_classifier( (*this_).format_writer, &((*this_).temp_classifier) );
+                    write_err |= io_export_model_traversal_private_iterate_features( this_, data_classifier_get_data_id(&((*this_).temp_classifier)) );
                     write_err |= io_format_writer_end_classifier( (*this_).format_writer );
-                    data_classifier_destroy( &probe_classifier );
+                    
+                    data_small_set_t contained_classifiers;
+                    data_small_set_init (&contained_classifiers);
+                    write_err |= io_export_model_traversal_private_iterate_relationships( this_,
+                                                                                          data_classifier_get_data_id(&((*this_).temp_classifier)),
+                                                                                          &contained_classifiers
+                                                                                        );
+                    write_err |= io_export_model_traversal_private_descend_containments( this_, data_classifier_get_data_id(&((*this_).temp_classifier)), 16 );
+                    data_small_set_destroy (&contained_classifiers);
+
+                    data_classifier_destroy( &((*this_).temp_classifier) );
                 }
             }
         }
@@ -143,6 +153,37 @@ int io_export_model_traversal_walk_model ( io_export_model_traversal_t *this_ )
         {
             write_err = -1;
         }
+    }
+
+    TRACE_END_ERR( write_err );
+    return write_err;
+}
+
+int io_export_model_traversal_private_iterate_features ( io_export_model_traversal_t *this_,
+                                                         data_id_t classifier_id )
+{
+    TRACE_BEGIN();
+    int write_err = 0;
+
+    {
+        data_error_t data_err;
+
+    }
+
+    TRACE_END_ERR( write_err );
+    return write_err;
+}
+
+int io_export_model_traversal_private_iterate_relationships ( io_export_model_traversal_t *this_,
+                                                              data_id_t classifier_id,
+                                                              data_small_set_t *io_contained_classifiers )
+{
+    TRACE_BEGIN();
+    int write_err = 0;
+
+    {
+        data_error_t data_err;
+
     }
 
     TRACE_END_ERR( write_err );
@@ -209,8 +250,8 @@ int io_export_model_traversal_private_write_classifiers ( io_export_model_traver
 
                 /* print all features of the classifier */
                 write_err |= io_export_model_traversal_private_write_features_of_classifier( this_,
-                                                                                            classifier_id
-                                                                                          );
+                                                                                             classifier_id
+                                                                                           );
 
                 /* end classifier */
                 write_err |=  io_format_writer_end_classifier( (*this_).format_writer );
@@ -218,8 +259,8 @@ int io_export_model_traversal_private_write_classifiers ( io_export_model_traver
 
             /* print all relationships starting from classifier_id */
             write_err |= io_export_model_traversal_private_write_relations_of_classifier( this_,
-                                                                                         classifier_id
-                                                                                       );
+                                                                                          classifier_id
+                                                                                        );
         }
         else
         {
@@ -306,9 +347,9 @@ int io_export_model_traversal_private_write_relations_of_classifier ( io_export_
             if ( data_id_equals( &from_classifier_id, &r_from_classifier_id ) )
             {
                 const bool is_visible = data_rules_diagram_shows_relationship ( &((*this_).filter_rules),
-                                                                              (*this_).input_data,
-                                                                              data_relationship_get_id( relation )
-                                                                            );
+                                                                                (*this_).input_data,
+                                                                                data_relationship_get_id( relation )
+                                                                              );
 
                 /* determine if the relationship is a duplicate */
                 const data_id_t relation_id = data_relationship_get_data_id( relation );
