@@ -549,8 +549,8 @@ int io_format_writer_write_header( io_format_writer_t *this_, const char *docume
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_DOC_METAINFO_MIDDLE );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), META_VERSION_STR );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_DOC_METAINFO_END );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), 
-                                                   "<!-- this xmi export is experimental -->\n"   
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
+                                                   "<!-- this xmi export is experimental -->\n"
                                                    "<!-- please check for a newer version of crystal_facet_uml -->\n"
                                                    "<!-- at https://github.com/awarnke/crystal_facet_uml -->\n" );
             /* uml model */
@@ -1206,14 +1206,16 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
 {
     TRACE_BEGIN();
     assert ( NULL != relation_ptr );
-    assert ( NULL != dest_classifier_ptr );
     int export_err = 0;
 
     const char *const relation_name = data_relationship_get_name_ptr( relation_ptr );
     const data_id_t relation_id = data_relationship_get_data_id( relation_ptr );
     const char *const relation_descr = data_relationship_get_description_ptr( relation_ptr );
     const size_t relation_descr_len = utf8string_get_length(relation_descr);
-    const char *const dest_classifier_name = data_classifier_get_name_ptr( dest_classifier_ptr );
+    const char *const dest_classifier_name
+        = (NULL != dest_classifier_ptr)
+        ? data_classifier_get_name_ptr( dest_classifier_ptr )
+        : "";
     const data_id_t from_classifier_id = data_relationship_get_from_classifier_data_id( relation_ptr );
     const data_id_t from_feature_id = data_relationship_get_from_feature_data_id( relation_ptr );
     const data_id_t to_classifier_id = data_relationship_get_to_classifier_data_id( relation_ptr );

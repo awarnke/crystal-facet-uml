@@ -7,7 +7,7 @@
 /*!
  *  \file
  *  \brief Writes several document pieces to one file output stream.
- * 
+ *
  *  Source: io_export_model_traversal_t;
  *  Task: convert model-elements to an output stream (using an own txt/xml/... writer);
  *  Sink: universal_output_stream_t
@@ -150,7 +150,7 @@ int io_format_writer_start_classifier( io_format_writer_t *this_ );
  *  \brief writes a classifier of the document
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier_ptr pointer to classifier that shall be written
+ *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \result 0 in case of success, -1 otherwise
  */
 int io_format_writer_write_classifier( io_format_writer_t *this_, const data_classifier_t *classifier_ptr );
@@ -159,7 +159,7 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
  *  \brief writes a feature of the document
  *
  *  \param this_ pointer to own object attributes
- *  \param feature_ptr pointer to feature that shall be written
+ *  \param feature_ptr pointer to feature that shall be written, not NULL
  *  \result 0 in case of success, -1 otherwise
  */
 int io_format_writer_write_feature( io_format_writer_t *this_, const data_feature_t *feature_ptr );
@@ -168,8 +168,8 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
  *  \brief writes a relationship of the document
  *
  *  \param this_ pointer to own object attributes
- *  \param relation_ptr pointer to relationship that shall be written
- *  \param dest_classifier_ptr pointer to destination classifier
+ *  \param relation_ptr pointer to relationship that shall be written, not NULL
+ *  \param dest_classifier_ptr pointer to destination classifier, NULL is allowed.
  *  \result 0 in case of success, -1 otherwise
  */
 int io_format_writer_write_relationship( io_format_writer_t *this_,

@@ -85,7 +85,7 @@ int io_export_model_traversal_begin_and_walk_diagram ( io_export_model_traversal
                                                    );
 
         /* write all classifiers */
-        write_err |= io_export_model_traversal_private_write_classifiers( this_ );
+        write_err |= io_export_model_traversal_private_write_classifiers( this_, (*this_).input_data );
 
         data_visible_set_destroy( (*this_).input_data );
     }
@@ -144,15 +144,14 @@ int io_export_model_traversal_walk_model ( io_export_model_traversal_t *this_ )
                     {
                         write_err |= io_format_writer_start_classifier( (*this_).format_writer );
                         write_err |= io_format_writer_write_classifier( (*this_).format_writer, &((*this_).temp_classifier) );
-                        write_err |= io_export_model_traversal_private_iterate_features( this_, data_classifier_get_data_id(&((*this_).temp_classifier)) );
+                        write_err |= io_export_model_traversal_private_iterate_node_features( this_, &((*this_).temp_node_data) );
                         write_err |= io_format_writer_end_classifier( (*this_).format_writer );
 
                         data_small_set_t contained_classifiers;
                         data_small_set_init (&contained_classifiers);
-                        write_err |= io_export_model_traversal_private_iterate_relationships( this_,
-                                                                                            data_classifier_get_data_id(&((*this_).temp_classifier)),
-                                                                                            &contained_classifiers
-                                                                                            );
+                        write_err |= io_export_model_traversal_private_iterate_node_relationships( this_,
+                                                                                                   &((*this_).temp_node_data)
+                                                                                                 );
                         write_err |= io_export_model_traversal_private_descend_containments( this_, data_classifier_get_data_id(&((*this_).temp_classifier)), 16 );
                         data_small_set_destroy (&contained_classifiers);
                     }
@@ -173,31 +172,94 @@ int io_export_model_traversal_walk_model ( io_export_model_traversal_t *this_ )
     return write_err;
 }
 
-int io_export_model_traversal_private_iterate_features ( io_export_model_traversal_t *this_,
-                                                         data_id_t classifier_id )
+int io_export_model_traversal_private_iterate_node_features ( io_export_model_traversal_t *this_,
+                                                              const data_node_set_t *node_data )
 {
     TRACE_BEGIN();
+    assert( node_data != NULL );
+    assert( data_node_set_is_valid( node_data ) );
     int write_err = 0;
 
+    /* iterate over all features */
+    const uint32_t count = data_node_set_get_feature_count ( node_data );
+    for ( uint32_t index = 0; index < count; index ++ )
     {
-        data_error_t data_err;
+        /* get feature */
+        const data_feature_t *feature;
+        feature = data_node_set_get_feature_const ( node_data, index );
+        if (( feature != NULL ) && ( data_feature_is_valid( feature ) ))
+        {
+            const bool is_lifeline
+                =( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( feature ) );
+            const bool filter_lifelines
+                = ( 0 != (IO_FILTER_FLAG_LIFELINES & (*this_).filter_flags) );
+            const bool lifeline_filter_passed
+                =  ( ! is_lifeline ) || ( ! filter_lifelines );
 
+            if ( lifeline_filter_passed )
+            {
+                write_err |=  io_format_writer_write_feature( (*this_).format_writer, feature );
+            }
+        }
+        else
+        {
+            assert( false );
+        }
     }
 
     TRACE_END_ERR( write_err );
     return write_err;
 }
 
-int io_export_model_traversal_private_iterate_relationships ( io_export_model_traversal_t *this_,
-                                                              data_id_t classifier_id,
-                                                              data_small_set_t *io_contained_classifiers )
+int io_export_model_traversal_private_iterate_node_relationships ( io_export_model_traversal_t *this_,
+                                                                   const data_node_set_t *node_data )
 {
     TRACE_BEGIN();
+    assert( node_data != NULL );
+    assert( data_node_set_is_valid( node_data ) );
     int write_err = 0;
 
+    /* iterate over all relationships */
+    const uint32_t count = data_node_set_get_relationship_count ( node_data );
+    for ( uint32_t index = 0; index < count; index ++ )
     {
-        data_error_t data_err;
+        /* get relationship */
+        const data_relationship_t *relation;
+        relation = data_node_set_get_relationship_const ( node_data, index );
+        if (( relation != NULL ) && ( data_relationship_is_valid( relation ) ))
+        {
+            /* determine if the relationship is a duplicate */
+            const data_id_t relation_id = data_relationship_get_data_id( relation );
+            const bool duplicate_relationship
+                = ( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &relation_id ) );
+            const bool filter_duplicates
+                = ( 0 != (IO_FILTER_FLAG_DUPLICATES & (*this_).filter_flags) );
+            const bool filter_relationship
+                = ( duplicate_relationship && filter_duplicates );
 
+            const data_id_t to_classifier_id = data_relationship_get_to_classifier_data_id( relation );
+            const bool destination_already_written
+                = ( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &to_classifier_id ) );
+
+            if ( destination_already_written && ( ! filter_relationship ))
+            {
+                /* add the relationship to the duplicates list */
+                if ( ! duplicate_relationship )
+                {
+                    write_err |= universal_array_list_append( &((*this_).written_id_set), &relation_id );
+                }
+
+                /* destination classifier found, print the relation */
+                write_err |= io_format_writer_write_relationship( (*this_).format_writer,
+                                                                  relation,
+                                                                  NULL /* destination classifier not at hand here */
+                                                                );
+            }
+        }
+        else
+        {
+            assert( false );
+        }
     }
 
     TRACE_END_ERR( write_err );
@@ -212,7 +274,7 @@ int io_export_model_traversal_private_descend_containments ( io_export_model_tra
     int write_err = 0;
 
     {
-        data_error_t data_err;
+        /*data_error_t data_err;*/
 
     }
 
@@ -220,20 +282,22 @@ int io_export_model_traversal_private_descend_containments ( io_export_model_tra
     return write_err;
 }
 
-int io_export_model_traversal_private_write_classifiers ( io_export_model_traversal_t *this_ )
+int io_export_model_traversal_private_write_classifiers ( io_export_model_traversal_t *this_,
+                                                          const data_visible_set_t *diagram_data )
 {
     TRACE_BEGIN();
-    assert( data_visible_set_is_valid( (*this_).input_data ) );
+    assert( diagram_data != NULL );
+    assert( data_visible_set_is_valid( diagram_data ) );
     int write_err = 0;
 
     /* iterate over all classifiers */
     uint32_t count;
-    count = data_visible_set_get_visible_classifier_count ( (*this_).input_data );
+    count = data_visible_set_get_visible_classifier_count ( diagram_data );
     for ( uint32_t index = 0; index < count; index ++ )
     {
         /* get classifier */
         const data_visible_classifier_t *visible_classifier;
-        visible_classifier = data_visible_set_get_visible_classifier_const ( (*this_).input_data, index );
+        visible_classifier = data_visible_set_get_visible_classifier_const ( diagram_data, index );
         if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
         {
             const data_classifier_t *classifier;
@@ -264,6 +328,7 @@ int io_export_model_traversal_private_write_classifiers ( io_export_model_traver
 
                 /* print all features of the classifier */
                 write_err |= io_export_model_traversal_private_write_features_of_classifier( this_,
+                                                                                             diagram_data,
                                                                                              classifier_id
                                                                                            );
 
@@ -273,6 +338,7 @@ int io_export_model_traversal_private_write_classifiers ( io_export_model_traver
 
             /* print all relationships starting from classifier_id */
             write_err |= io_export_model_traversal_private_write_relations_of_classifier( this_,
+                                                                                          diagram_data,
                                                                                           classifier_id
                                                                                         );
         }
@@ -287,28 +353,31 @@ int io_export_model_traversal_private_write_classifiers ( io_export_model_traver
 }
 
 int io_export_model_traversal_private_write_features_of_classifier ( io_export_model_traversal_t *this_,
+                                                                     const data_visible_set_t *diagram_data,
                                                                      data_id_t classifier_id )
 {
     TRACE_BEGIN();
+    assert( diagram_data != NULL );
+    assert( data_visible_set_is_valid( diagram_data ) );
     assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &classifier_id ) );
     assert( DATA_ROW_ID_VOID != data_id_get_row_id( &classifier_id) );
     int write_err = 0;
 
     /* iterate over all features */
     uint32_t count;
-    count = data_visible_set_get_feature_count ( (*this_).input_data );
+    count = data_visible_set_get_feature_count ( diagram_data );
     for ( uint32_t index = 0; index < count; index ++ )
     {
         /* get feature */
         const data_feature_t *feature;
-        feature = data_visible_set_get_feature_const ( (*this_).input_data, index );
+        feature = data_visible_set_get_feature_const ( diagram_data, index );
         if (( feature != NULL ) && ( data_feature_is_valid( feature ) ))
         {
             const data_id_t f_classifier_id = data_feature_get_classifier_data_id( feature );
             if ( data_id_equals( &classifier_id, &f_classifier_id ) )
             {
                 const bool is_visible = data_rules_diagram_shows_feature ( &((*this_).filter_rules),
-                                                                           (*this_).input_data,
+                                                                           diagram_data,
                                                                            data_feature_get_id( feature )
                                                                          );
                 const bool is_lifeline
@@ -340,28 +409,31 @@ int io_export_model_traversal_private_write_features_of_classifier ( io_export_m
 }
 
 int io_export_model_traversal_private_write_relations_of_classifier ( io_export_model_traversal_t *this_,
+                                                                      const data_visible_set_t *diagram_data,
                                                                       data_id_t from_classifier_id )
 {
     TRACE_BEGIN();
+    assert( diagram_data != NULL );
+    assert( data_visible_set_is_valid( diagram_data ) );
     assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &from_classifier_id ) );
     assert( DATA_ROW_ID_VOID != data_id_get_row_id( &from_classifier_id) );
     int write_err = 0;
 
     /* iterate over all relationships */
     uint32_t count;
-    count = data_visible_set_get_relationship_count ( (*this_).input_data );
+    count = data_visible_set_get_relationship_count ( diagram_data );
     for ( uint32_t index = 0; index < count; index ++ )
     {
         /* get relationship */
         const data_relationship_t *relation;
-        relation = data_visible_set_get_relationship_const ( (*this_).input_data, index );
+        relation = data_visible_set_get_relationship_const ( diagram_data, index );
         if (( relation != NULL ) && ( data_relationship_is_valid( relation ) ))
         {
             const data_id_t r_from_classifier_id = data_relationship_get_from_classifier_data_id( relation );
             if ( data_id_equals( &from_classifier_id, &r_from_classifier_id ) )
             {
                 const bool is_visible = data_rules_diagram_shows_relationship ( &((*this_).filter_rules),
-                                                                                (*this_).input_data,
+                                                                                diagram_data,
                                                                                 data_relationship_get_id( relation )
                                                                               );
 
@@ -377,7 +449,7 @@ int io_export_model_traversal_private_write_relations_of_classifier ( io_export_
                 if ( is_visible && ( ! filter_relationship ) )
                 {
                     const data_row_id_t to_classifier_id = data_relationship_get_to_classifier_id( relation );
-                    const data_classifier_t *dest_classifier = data_visible_set_get_classifier_by_id_const ( (*this_).input_data,
+                    const data_classifier_t *dest_classifier = data_visible_set_get_classifier_by_id_const ( diagram_data,
                                                                                                              to_classifier_id
                                                                                                            );
                     if ( dest_classifier != NULL )
