@@ -134,20 +134,30 @@ int io_export_model_traversal_walk_model ( io_export_model_traversal_t *this_ )
                 }
                 else
                 {
-                    write_err |= io_format_writer_start_classifier( (*this_).format_writer );
-                    write_err |= io_format_writer_write_classifier( (*this_).format_writer, &((*this_).temp_classifier) );
-                    write_err |= io_export_model_traversal_private_iterate_features( this_, data_classifier_get_data_id(&((*this_).temp_classifier)) );
-                    write_err |= io_format_writer_end_classifier( (*this_).format_writer );
+                    data_node_set_init( &((*this_).temp_node_data) );
+                    data_err = data_node_set_load( &((*this_).temp_node_data), data_classifier_get_id(&((*this_).temp_classifier)), (*this_).db_reader );
+                    if ( data_err != DATA_ERROR_NONE )
+                    {
+                        write_err = -1;
+                    }
+                    else
+                    {
+                        write_err |= io_format_writer_start_classifier( (*this_).format_writer );
+                        write_err |= io_format_writer_write_classifier( (*this_).format_writer, &((*this_).temp_classifier) );
+                        write_err |= io_export_model_traversal_private_iterate_features( this_, data_classifier_get_data_id(&((*this_).temp_classifier)) );
+                        write_err |= io_format_writer_end_classifier( (*this_).format_writer );
 
-                    data_small_set_t contained_classifiers;
-                    data_small_set_init (&contained_classifiers);
-                    write_err |= io_export_model_traversal_private_iterate_relationships( this_,
-                                                                                          data_classifier_get_data_id(&((*this_).temp_classifier)),
-                                                                                          &contained_classifiers
-                                                                                        );
-                    write_err |= io_export_model_traversal_private_descend_containments( this_, data_classifier_get_data_id(&((*this_).temp_classifier)), 16 );
-                    data_small_set_destroy (&contained_classifiers);
+                        data_small_set_t contained_classifiers;
+                        data_small_set_init (&contained_classifiers);
+                        write_err |= io_export_model_traversal_private_iterate_relationships( this_,
+                                                                                            data_classifier_get_data_id(&((*this_).temp_classifier)),
+                                                                                            &contained_classifiers
+                                                                                            );
+                        write_err |= io_export_model_traversal_private_descend_containments( this_, data_classifier_get_data_id(&((*this_).temp_classifier)), 16 );
+                        data_small_set_destroy (&contained_classifiers);
+                    }
 
+                    data_node_set_destroy( &((*this_).temp_node_data) );
                     data_classifier_destroy( &((*this_).temp_classifier) );
                 }
             }

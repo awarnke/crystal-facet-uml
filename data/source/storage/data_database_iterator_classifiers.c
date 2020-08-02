@@ -31,13 +31,13 @@ data_error_t data_database_iterator_classifiers_reinit ( data_database_iterator_
 
     /* destroy old state */
     result = data_database_iterator_classifiers_destroy( this_ );
-    
+
     /* init new state */
     (*this_).is_valid = true;
     (*this_).database = database;
     (*this_).classifiers_sql_statement_result = classifiers_sql_statement_result;
     result |= data_database_iterator_private_step_to_next( this_ );
-    
+
     TRACE_END_ERR(result);
     return result;
 }
@@ -115,6 +115,11 @@ static const int RESULT_CLASSIFIER_Y_ORDER_COLUMN = 6;
  */
 static const int RESULT_CLASSIFIER_LIST_ORDER_COLUMN = 7;
 
+/*!
+ *  \brief the column id of the result where this parameter is stored: count of containment parents
+ */
+static const int RESULT_CLASSIFIER_CONTAINMENT_PARENTS_COLUMN = 8;
+
 data_error_t data_database_iterator_classifiers_next ( data_database_iterator_classifiers_t *this_, data_classifier_t *out_classifier )
 {
     TRACE_BEGIN();
@@ -138,7 +143,8 @@ data_error_t data_database_iterator_classifiers_next ( data_database_iterator_cl
                                               sqlite3_column_int( sql_statement, RESULT_CLASSIFIER_LIST_ORDER_COLUMN )
                                             );
             data_classifier_trace( out_classifier );
-            
+            TRACE_INFO_INT( "count of containment parents:", sqlite3_column_int( sql_statement, RESULT_CLASSIFIER_CONTAINMENT_PARENTS_COLUMN ));
+
             /* step to next */
             result |= data_database_iterator_private_step_to_next( this_ );
         }
@@ -188,7 +194,7 @@ data_error_t data_database_iterator_private_step_to_next ( data_database_iterato
             result |= DATA_ERROR_AT_DB;
         }
     }
-    
+
     TRACE_END_ERR(result);
     return result;
 }

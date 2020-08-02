@@ -47,3 +47,5 @@ SEVERE:
 | | ' io_file_format_to_string [end]
 | | + gui_simple_message_to_user_show_message_with_string [begin]
 Speicherzugriffsfehler
+ANALYSIS-STATUS: Was reproducible with one build binary, not reproducable anymore after rebuild. Possibly inconsistent image?
+ANALYSIS-STATUS: Code review of gui_file_export_dialog and gui_simple_message_to_user did not reveal flaws in memory.

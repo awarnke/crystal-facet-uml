@@ -129,7 +129,7 @@
  *    \n Faults and anomalies shall be logged when they occur.
  *  - error_codes
  *    \n The return parameter of a function shall be the error code. Futher return values shall be declared as *out_xy parmeter.
- *    \n Exception to his rule are helper and utility functions which do not report errors (only perform asserts).
+ *    \n Exception to this rule are helper and utility functions which do not report errors (only perform asserts).
  *  - error handling
  *    \n Errors shall be reported to the user: in GUI mode, a message shall be shown in a window, in console mode, it shall be
  *    shown on std_err.

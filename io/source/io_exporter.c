@@ -349,7 +349,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
             if ( IO_FILE_FORMAT_XMI2 == export_type )
             {
                 /* TODO: EXPERIMENTAL */
-                //export_err |= io_export_model_traversal_walk_model( &((*this_).temp_model_traversal) );
+                export_err |= io_export_model_traversal_walk_model( &((*this_).temp_model_traversal) );
             }
             export_err |= io_format_writer_write_footer( &((*this_).temp_format_writer) );
 
