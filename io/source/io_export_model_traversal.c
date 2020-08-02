@@ -85,7 +85,7 @@ int io_export_model_traversal_begin_and_walk_diagram ( io_export_model_traversal
                                                    );
 
         /* write all classifiers */
-        write_err |= io_export_model_traversal_private_write_classifiers( this_, (*this_).input_data );
+        write_err |= io_export_model_traversal_private_iterate_diagram_classifiers( this_, (*this_).input_data );
 
         data_visible_set_destroy( (*this_).input_data );
     }
@@ -107,7 +107,7 @@ int io_export_model_traversal_end_diagram ( io_export_model_traversal_t *this_ )
     return write_err;
 }
 
-int io_export_model_traversal_walk_model ( io_export_model_traversal_t *this_ )
+int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *this_ )
 {
     TRACE_BEGIN();
     int write_err = 0;
@@ -152,7 +152,7 @@ int io_export_model_traversal_walk_model ( io_export_model_traversal_t *this_ )
                         write_err |= io_export_model_traversal_private_iterate_node_relationships( this_,
                                                                                                    &((*this_).temp_node_data)
                                                                                                  );
-                        write_err |= io_export_model_traversal_private_descend_containments( this_, data_classifier_get_data_id(&((*this_).temp_classifier)), 16 );
+                        write_err |= io_export_model_traversal_private_descend_node_containments( this_, data_classifier_get_data_id(&((*this_).temp_classifier)), 16 );
                         data_small_set_destroy (&contained_classifiers);
                     }
 
@@ -266,9 +266,9 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
     return write_err;
 }
 
-int io_export_model_traversal_private_descend_containments ( io_export_model_traversal_t *this_,
-                                                             data_id_t classifier_id,
-                                                             unsigned int max_recursion )
+int io_export_model_traversal_private_descend_node_containments ( io_export_model_traversal_t *this_,
+                                                                  data_id_t classifier_id,
+                                                                  unsigned int max_recursion )
 {
     TRACE_BEGIN();
     int write_err = 0;
@@ -282,8 +282,8 @@ int io_export_model_traversal_private_descend_containments ( io_export_model_tra
     return write_err;
 }
 
-int io_export_model_traversal_private_write_classifiers ( io_export_model_traversal_t *this_,
-                                                          const data_visible_set_t *diagram_data )
+int io_export_model_traversal_private_iterate_diagram_classifiers ( io_export_model_traversal_t *this_,
+                                                                    const data_visible_set_t *diagram_data )
 {
     TRACE_BEGIN();
     assert( diagram_data != NULL );
@@ -327,20 +327,20 @@ int io_export_model_traversal_private_write_classifiers ( io_export_model_traver
                 write_err |= io_format_writer_write_classifier( (*this_).format_writer, classifier );
 
                 /* print all features of the classifier */
-                write_err |= io_export_model_traversal_private_write_features_of_classifier( this_,
-                                                                                             diagram_data,
-                                                                                             classifier_id
-                                                                                           );
+                write_err |= io_export_model_traversal_private_iterate_classifier_features( this_,
+                                                                                            diagram_data,
+                                                                                            classifier_id
+                                                                                          );
 
                 /* end classifier */
                 write_err |=  io_format_writer_end_classifier( (*this_).format_writer );
             }
 
             /* print all relationships starting from classifier_id */
-            write_err |= io_export_model_traversal_private_write_relations_of_classifier( this_,
-                                                                                          diagram_data,
-                                                                                          classifier_id
-                                                                                        );
+            write_err |= io_export_model_traversal_private_iterate_classifier_relationships( this_,
+                                                                                             diagram_data,
+                                                                                             classifier_id
+                                                                                           );
         }
         else
         {
@@ -352,9 +352,9 @@ int io_export_model_traversal_private_write_classifiers ( io_export_model_traver
     return write_err;
 }
 
-int io_export_model_traversal_private_write_features_of_classifier ( io_export_model_traversal_t *this_,
-                                                                     const data_visible_set_t *diagram_data,
-                                                                     data_id_t classifier_id )
+int io_export_model_traversal_private_iterate_classifier_features ( io_export_model_traversal_t *this_,
+                                                                    const data_visible_set_t *diagram_data,
+                                                                    data_id_t classifier_id )
 {
     TRACE_BEGIN();
     assert( diagram_data != NULL );
@@ -408,9 +408,9 @@ int io_export_model_traversal_private_write_features_of_classifier ( io_export_m
     return write_err;
 }
 
-int io_export_model_traversal_private_write_relations_of_classifier ( io_export_model_traversal_t *this_,
-                                                                      const data_visible_set_t *diagram_data,
-                                                                      data_id_t from_classifier_id )
+int io_export_model_traversal_private_iterate_classifier_relationships ( io_export_model_traversal_t *this_,
+                                                                         const data_visible_set_t *diagram_data,
+                                                                         data_id_t from_classifier_id )
 {
     TRACE_BEGIN();
     assert( diagram_data != NULL );

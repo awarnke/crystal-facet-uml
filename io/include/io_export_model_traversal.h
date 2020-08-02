@@ -102,7 +102,7 @@ int io_export_model_traversal_end_diagram ( io_export_model_traversal_t *this_ )
  *  \param this_ pointer to own object attributes
  *  \return -1 in case of error, 0 in case of success
  */
-int io_export_model_traversal_walk_model ( io_export_model_traversal_t *this_ );
+int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *this_ );
 
 /*!
  *  \brief iterates over features of a classifier.
@@ -137,10 +137,10 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
  *  \return -1 in case of error, 0 in case of success.
  *          If max_recursion limits the descent, or written_id_set prevents duplicate traversal of a classifier, 0 is returned nonetheless.
  */
-int io_export_model_traversal_private_descend_containments ( io_export_model_traversal_t *this_,
-                                                             data_id_t classifier_id,
-                                                             unsigned int max_recursion
-                                                           );
+int io_export_model_traversal_private_descend_node_containments ( io_export_model_traversal_t *this_,
+                                                                  data_id_t classifier_id,
+                                                                  unsigned int max_recursion
+                                                                );
 
 /*!
  *  \brief prints names and descriptions of the classifiers to the output stream
@@ -149,9 +149,9 @@ int io_export_model_traversal_private_descend_containments ( io_export_model_tra
  *  \param diagram_data diagram data of which the classifiers are written, not NULL
  *  \return -1 in case of error, 0 in case of success
  */
-int io_export_model_traversal_private_write_classifiers ( io_export_model_traversal_t *this_,
-                                                          const data_visible_set_t *diagram_data
-                                                        );
+int io_export_model_traversal_private_iterate_diagram_classifiers ( io_export_model_traversal_t *this_,
+                                                                    const data_visible_set_t *diagram_data
+                                                                  );
 
 /*!
  *  \brief prints names and descriptions of the classifier to the output stream
@@ -161,10 +161,10 @@ int io_export_model_traversal_private_write_classifiers ( io_export_model_traver
  *  \param classifier_id id of the classifier of which the features are written
  *  \return -1 in case of error, 0 in case of success
  */
-int io_export_model_traversal_private_write_features_of_classifier ( io_export_model_traversal_t *this_,
-                                                                     const data_visible_set_t *diagram_data,
-                                                                     data_id_t classifier_id
-                                                                   );
+int io_export_model_traversal_private_iterate_classifier_features ( io_export_model_traversal_t *this_,
+                                                                    const data_visible_set_t *diagram_data,
+                                                                    data_id_t classifier_id
+                                                                  );
 
 /*!
  *  \brief prints names and descriptions of the relationships to the output stream
@@ -174,10 +174,10 @@ int io_export_model_traversal_private_write_features_of_classifier ( io_export_m
  *  \param from_classifier_id id of the classifier of which the relationships are written
  *  \return -1 in case of error, 0 in case of success
  */
-int io_export_model_traversal_private_write_relations_of_classifier ( io_export_model_traversal_t *this_,
-                                                                      const data_visible_set_t *diagram_data,
-                                                                      data_id_t from_classifier_id
-                                                                    );
+int io_export_model_traversal_private_iterate_classifier_relationships ( io_export_model_traversal_t *this_,
+                                                                         const data_visible_set_t *diagram_data,
+                                                                         data_id_t from_classifier_id
+                                                                       );
 
 #endif  /* IO_EXPORT_MODEL_TRAVERSAL_H */
 
