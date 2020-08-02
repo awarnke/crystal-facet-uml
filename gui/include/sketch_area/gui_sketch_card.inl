@@ -7,7 +7,11 @@
 static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader )
 {
     /* load data to be drawn */
-    data_visible_set_load( &((*this_).painter_input_data), diagram_id, db_reader );
+    const data_error_t d_err = data_visible_set_load( &((*this_).painter_input_data), diagram_id, db_reader );
+    if ( d_err != DATA_ERROR_NONE )
+    {
+        TRACE_INFO( "gui_sketch_card_load_data called on invalid database." );
+    }
 }
 
 static inline void gui_sketch_card_invalidate_data( gui_sketch_card_t *this_ )

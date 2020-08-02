@@ -64,7 +64,11 @@ int io_export_model_traversal_begin_and_walk_diagram ( io_export_model_traversal
     {
         /* load data to be drawn */
         data_visible_set_init( (*this_).input_data );
-        data_visible_set_load( (*this_).input_data, data_id_get_row_id( &diagram_id ), (*this_).db_reader );
+        const data_error_t d_err = data_visible_set_load( (*this_).input_data,
+                                                          data_id_get_row_id( &diagram_id ),
+                                                          (*this_).db_reader
+                                                        );
+        assert( d_err == DATA_ERROR_NONE );
         assert( data_visible_set_is_valid ( (*this_).input_data ) );
 
         /* write diagram */
@@ -134,7 +138,7 @@ int io_export_model_traversal_walk_model ( io_export_model_traversal_t *this_ )
                     write_err |= io_format_writer_write_classifier( (*this_).format_writer, &((*this_).temp_classifier) );
                     write_err |= io_export_model_traversal_private_iterate_features( this_, data_classifier_get_data_id(&((*this_).temp_classifier)) );
                     write_err |= io_format_writer_end_classifier( (*this_).format_writer );
-                    
+
                     data_small_set_t contained_classifiers;
                     data_small_set_init (&contained_classifiers);
                     write_err |= io_export_model_traversal_private_iterate_relationships( this_,

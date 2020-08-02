@@ -66,8 +66,9 @@ void data_visible_set_destroy( data_visible_set_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram for which the data shall be loaded
  *  \param db_reader database reader to use when acquiring data
+ *  \return DATA_ERROR_NONE in case of success
  */
-void data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader );
+data_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader );
 
 /* ================================ diagram ================================ */
 

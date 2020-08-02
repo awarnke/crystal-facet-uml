@@ -31,10 +31,11 @@ void data_visible_set_destroy( data_visible_set_t *this_ )
     TRACE_END();
 }
 
-void data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader )
+data_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
+    data_error_t result = DATA_ERROR_NONE;
 
     if ( DATA_ROW_ID_VOID == diagram_id )
     {
@@ -70,6 +71,7 @@ void data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagram_id,
             /* error at loading */
             data_diagram_reinit_empty( &((*this_).diagram) );
         }
+        result |= db_err;  /* collect error flags */
 
         /* load classifiers */
         db_err = data_database_reader_get_classifiers_by_diagram_id ( db_reader,
@@ -92,6 +94,7 @@ void data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagram_id,
             /* error at loading */
             (*this_).visible_classifier_count = 0;
         }
+        result |= db_err;  /* collect error flags */
 
         /* load features */
         db_err = data_database_reader_get_features_by_diagram_id ( db_reader,
@@ -114,6 +117,7 @@ void data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagram_id,
             /* error at loading */
             (*this_).feature_count = 0;
         }
+        result |= db_err;  /* collect error flags */
 
         /* load relationships */
         db_err = data_database_reader_get_relationships_by_diagram_id ( db_reader,
@@ -136,12 +140,14 @@ void data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagram_id,
             /* error at loading */
             (*this_).relationship_count = 0;
         }
+        result |= db_err;  /* collect error flags */
     }
 
     /* update the containment cache */
     data_visible_set_private_update_containment_cache( this_ );
 
-    TRACE_END();
+    TRACE_END_ERR(result);
+    return result;
 }
 
 void data_visible_set_private_update_containment_cache ( data_visible_set_t *this_ )
