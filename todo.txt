@@ -40,3 +40,10 @@ ideas for future versions:
   @ts_log/trace/test_fw
 
 
+SEVERE:
+| | | ' io_exporter_private_export_document_file [end]
+| | ' io_exporter_export_files [end]
+| | + io_file_format_to_string [begin]
+| | ' io_file_format_to_string [end]
+| | + gui_simple_message_to_user_show_message_with_string [begin]
+Speicherzugriffsfehler

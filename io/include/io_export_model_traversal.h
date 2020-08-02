@@ -16,6 +16,7 @@
 #include "io_format_writer.h"
 #include "io_filter_flag.h"
 #include "set/data_visible_set.h"
+#include "set/data_node_set.h"
 #include "storage/data_database_reader.h"
 #include "data_table.h"
 #include "data_rules.h"
@@ -27,8 +28,6 @@
  */
 enum io_export_model_traversal_max_enum {
     IO_EXPORT_MODEL_TRAVERSAL_MAX_TOTAL_CLASSIFIERS = 16384,  /*!< maximum number of total classifiers to be exported */
-    IO_EXPORT_MODEL_TRAVERSAL_MAX_FEATURES = 64,  /*!< maximum number of features linked to one classifiers, incl. lifelines */
-    IO_EXPORT_MODEL_TRAVERSAL_MAX_RELATIONSHIPS = 256,  /*!< maximum number of relationships linked to one classifiers, incl. scenario-based */
 };
 
 /*!
@@ -43,10 +42,9 @@ struct io_export_model_traversal_struct {
 
     data_id_t written_id_set_buf[IO_EXPORT_MODEL_TRAVERSAL_MAX_TOTAL_CLASSIFIERS];  /*!< buffer for list of already exported element ids */
     universal_array_list_t written_id_set;  /*!< list of already exported element ids */
-    
-    data_classifier_t temp_classifier;  /*!< temporary buffer to store one classifier (uninitialized) */
-    data_feature_t temp_features[IO_EXPORT_MODEL_TRAVERSAL_MAX_FEATURES];  /*!< temporary buffer to store features of one classifier (uninitialized) */
-    data_relationship_t temp_relationships[IO_EXPORT_MODEL_TRAVERSAL_MAX_RELATIONSHIPS];  /*!< temporary buffer to store relationships of one classifier (uninitialized) */
+
+    data_classifier_t temp_classifier;  /*!< own buffer for private use as data cache */
+    data_node_set_t temp_node_data;  /*!< own buffer for private use as data cache */
 };
 
 typedef struct io_export_model_traversal_struct io_export_model_traversal_t;
