@@ -73,6 +73,8 @@ void io_export_model_traversal_init( io_export_model_traversal_t *this_,
  */
 void io_export_model_traversal_destroy( io_export_model_traversal_t *this_ );
 
+/* ================================ walk diagrams and classifiers ================================ */
+
 /*!
  *  \brief prints names and descriptions of the diagram and contained classifiers to the output stream
  *
@@ -96,55 +98,6 @@ int io_export_model_traversal_begin_and_walk_diagram ( io_export_model_traversal
  *  \return -1 in case of error, 0 in case of success
  */
 int io_export_model_traversal_end_diagram ( io_export_model_traversal_t *this_ );
-
-/*!
- *  \brief prints all classifiers to the output stream
- *
- *  \param this_ pointer to own object attributes
- *  \return -1 in case of error, 0 in case of success
- */
-int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *this_ );
-
-/*!
- *  \brief iterates over features of a classifier.
- *
- *  \param this_ pointer to own object attributes
- *  \param node_data node data of the classifier of which the features are written, not NULL
- *  \return -1 in case of error, 0 in case of success.
- */
-int io_export_model_traversal_private_iterate_node_features ( io_export_model_traversal_t *this_,
-                                                              const data_node_set_t *node_data
-                                                            );
-
-/*!
- *  \brief iterates over relationships of a classifier.
- *
- *  \param this_ pointer to own object attributes
- *  \param node_data node data of the from-classifier of which the relationships are written, not NULL
- *  \return -1 in case of error, 0 in case of success.
- */
-int io_export_model_traversal_private_iterate_node_relationships ( io_export_model_traversal_t *this_,
-                                                                   const data_node_set_t *node_data
-                                                                 );
-/*!
- *  \brief writes the node, features and relationships and recusively descends the containment tree (graph) of a classifier.
- *
- *  While traversing, the written_id_set is extended.
- *  Classifiers that are contained in written_id_set or that are beyond max_recursion are not traversed.
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_id id of the classifier to process
- *  \param recursion_depth current number of tree depth. Used to actively limit the recursive descend to max IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH.
- *  \return -1 in case of error,
- *          0 in case of success.
- *          If IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH limits the descent,
- *          or written_id_set prevents duplicate traversal of a classifier,
- *          0 is returned nonetheless.
- */
-int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *this_,
-                                                  data_id_t classifier_id,
-                                                  unsigned int recursion_depth
-                                                );
 
 /*!
  *  \brief prints names and descriptions of the classifiers to the output stream
@@ -182,6 +135,72 @@ int io_export_model_traversal_private_iterate_classifier_relationships ( io_expo
                                                                          const data_visible_set_t *diagram_data,
                                                                          data_id_t from_classifier_id
                                                                        );
+
+/* ================================ walk model tree ================================ */
+
+/*!
+ *  \brief prints all classifiers to the output stream
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return -1 in case of error, 0 in case of success
+ */
+int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *this_ );
+
+/*!
+ *  \brief writes the node if it is not a duplicate.
+ *
+ *  While traversing, the written_id_set is extended.
+ *  Classifiers that are contained in written_id_set or that are beyond max_recursion are not traversed.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to process
+ *  \param recursion_depth current number of tree depth.
+ *  \return -1 in case of error,
+ *          0 in case of success.
+ */
+int io_export_model_traversal_private_walk_unique_node ( io_export_model_traversal_t *this_,
+                                                         data_id_t classifier_id,
+                                                         unsigned int recursion_depth
+                                                       );
+
+/*!
+ *  \brief writes the node, features and relationships and recusively descends the containment tree (graph) of a classifier.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to process
+ *  \param recursion_depth current number of tree depth. Used to actively limit the recursive descend to max IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH.
+ *  \return -1 in case of error,
+ *          0 in case of success.
+ *          If IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH limits the descent,
+ *          or written_id_set prevents duplicate traversal of a classifier,
+ *          0 is returned nonetheless.
+ */
+int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *this_,
+                                                  data_id_t classifier_id,
+                                                  unsigned int recursion_depth
+                                                );
+
+/*!
+ *  \brief iterates over features of a classifier.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param node_data node data of the classifier of which the features are written, not NULL
+ *  \return -1 in case of error, 0 in case of success.
+ */
+int io_export_model_traversal_private_iterate_node_features ( io_export_model_traversal_t *this_,
+                                                              const data_node_set_t *node_data
+                                                            );
+
+/*!
+ *  \brief iterates over relationships of a classifier.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param node_data node data of the from-classifier of which the relationships are written, not NULL
+ *  \return -1 in case of error, 0 in case of success.
+ */
+int io_export_model_traversal_private_iterate_node_relationships ( io_export_model_traversal_t *this_,
+                                                                   const data_node_set_t *node_data
+                                                                 );
 
 #endif  /* IO_EXPORT_MODEL_TRAVERSAL_H */
 
