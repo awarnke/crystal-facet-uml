@@ -207,16 +207,16 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
                 /* temporarily use the temp_model_traversal */
                 /* write file */
                 io_format_writer_init( &((*this_).temp_format_writer ), (*this_).db_reader, IO_FILE_FORMAT_TXT, output );
-                io_export_model_traversal_init( &((*this_).temp_model_traversal),
-                                                (*this_).db_reader,
-                                                &((*this_).temp_input_data),
-                                                &((*this_).temp_format_writer)
-                                              );
+                io_export_diagram_traversal_init( &((*this_).temp_diagram_traversal),
+                                                  (*this_).db_reader,
+                                                  &((*this_).temp_input_data),
+                                                  &((*this_).temp_format_writer)
+                                                );
                 write_err |= io_format_writer_write_header( &((*this_).temp_format_writer), "DUMMY_TITLE" );
-                write_err |= io_export_model_traversal_begin_and_walk_diagram ( &((*this_).temp_model_traversal), diagram_id, "NO_IMAGE_FILE" );
-                write_err |= io_export_model_traversal_end_diagram ( &((*this_).temp_model_traversal) );
+                write_err |= io_export_diagram_traversal_begin_and_walk_diagram ( &((*this_).temp_diagram_traversal), diagram_id, "NO_IMAGE_FILE" );
+                write_err |= io_export_diagram_traversal_end_diagram ( &((*this_).temp_diagram_traversal) );
                 write_err |= io_format_writer_write_footer( &((*this_).temp_format_writer) );
-                io_export_model_traversal_destroy( &((*this_).temp_model_traversal) );
+                io_export_diagram_traversal_destroy( &((*this_).temp_diagram_traversal) );
                 io_format_writer_destroy( &((*this_).temp_format_writer ) );
 
                 if ( 0 != write_err )
@@ -327,28 +327,35 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         {
             export_err |= io_format_writer_write_stylesheet( &((*this_).temp_format_writer) );
         }
-        else
+        else if ( IO_FILE_FORMAT_XMI2 == export_type )
         {
             /* reset the model_traversal */
             io_export_model_traversal_init( &((*this_).temp_model_traversal),
                                             (*this_).db_reader,
-                                            &((*this_).temp_input_data),
                                             &((*this_).temp_format_writer)
                                           );
             /* write the document */
             export_err |= io_format_writer_write_header( &((*this_).temp_format_writer), document_file_name );
-            if ( IO_FILE_FORMAT_XMI2 == export_type )
-            {
-                export_err |= io_export_model_traversal_walk_model_nodes( &((*this_).temp_model_traversal) );
-            }
-            else
-            {
-                export_err |= io_exporter_private_export_table_of_contents( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, &((*this_).temp_format_writer) );
-                export_err |= io_exporter_private_export_document_part( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH );
-            }
+            export_err |= io_export_model_traversal_walk_model_nodes( &((*this_).temp_model_traversal) );
             export_err |= io_format_writer_write_footer( &((*this_).temp_format_writer) );
 
             io_export_model_traversal_destroy( &((*this_).temp_model_traversal) );
+        }
+        else
+        {
+            /* reset the diagram_traversal */
+            io_export_diagram_traversal_init( &((*this_).temp_diagram_traversal),
+                                              (*this_).db_reader,
+                                              &((*this_).temp_input_data),
+                                              &((*this_).temp_format_writer)
+                                            );
+            /* write the document */
+            export_err |= io_format_writer_write_header( &((*this_).temp_format_writer), document_file_name );
+            export_err |= io_exporter_private_export_table_of_contents( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, &((*this_).temp_format_writer) );
+            export_err |= io_exporter_private_export_document_part( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH );
+            export_err |= io_format_writer_write_footer( &((*this_).temp_format_writer) );
+
+            io_export_diagram_traversal_destroy( &((*this_).temp_diagram_traversal) );
         }
         io_format_writer_destroy( &((*this_).temp_format_writer ) );
 
@@ -380,10 +387,10 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
 
 
         /* write doc part */
-        export_err |= io_export_model_traversal_begin_and_walk_diagram( &((*this_).temp_model_traversal),
-                                                                        diagram_id,
-                                                                        utf8stringbuf_get_string( (*this_).temp_filename )
-                                                                      );
+        export_err |= io_export_diagram_traversal_begin_and_walk_diagram( &((*this_).temp_diagram_traversal),
+                                                                          diagram_id,
+                                                                          utf8stringbuf_get_string( (*this_).temp_filename )
+                                                                        );
     }
 
     /* recursion to children */
@@ -417,7 +424,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
     if ( DATA_ROW_ID_VOID != diagram_row_id )
     {
         /* write doc part */
-        export_err |= io_export_model_traversal_end_diagram( &((*this_).temp_model_traversal) );
+        export_err |= io_export_diagram_traversal_end_diagram( &((*this_).temp_diagram_traversal) );
     }
 
     TRACE_END_ERR( export_err );
