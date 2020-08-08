@@ -11,9 +11,10 @@
 
 #include "io_file_format.h"
 #include "image/image_format_writer.h"
+#include "io_export_model_traversal.h"
+#include "io_export_diagram_traversal.h"
 #include "storage/data_database.h"
 #include "pencil_diagram_maker.h"
-#include "io_export_model_traversal.h"
 #include "set/data_visible_set.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/string/utf8stringbuf.h"
@@ -30,6 +31,7 @@ struct io_exporter_struct {
 
     image_format_writer_t temp_image_format_exporter;  /*!< exports single diagram images to one given file */
     io_export_model_traversal_t temp_model_traversal;  /*!< own instance of a model_traversal for text export */
+    io_export_diagram_traversal_t temp_diagram_traversal;  /*!< own instance of a diagram_traversal for text export */
     io_format_writer_t temp_format_writer;  /*!< memory for a temporary format writer */
 
     char temp_filename_buf[512];  /*!< buffer space for temporary filename construction */
