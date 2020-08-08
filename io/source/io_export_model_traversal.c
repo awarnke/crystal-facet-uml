@@ -134,29 +134,10 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
                 }
                 else
                 {
-                    data_node_set_init( &((*this_).temp_node_data) );
-                    data_err = data_node_set_load( &((*this_).temp_node_data), data_classifier_get_id(&((*this_).temp_classifier)), (*this_).db_reader );
-                    if ( data_err != DATA_ERROR_NONE )
-                    {
-                        write_err = -1;
-                    }
-                    else
-                    {
-                        write_err |= io_format_writer_start_classifier( (*this_).format_writer );
-                        write_err |= io_format_writer_write_classifier( (*this_).format_writer, &((*this_).temp_classifier) );
-                        write_err |= io_export_model_traversal_private_iterate_node_features( this_, &((*this_).temp_node_data) );
-                        write_err |= io_format_writer_end_classifier( (*this_).format_writer );
-
-                        data_small_set_t contained_classifiers;
-                        data_small_set_init (&contained_classifiers);
-                        write_err |= io_export_model_traversal_private_iterate_node_relationships( this_,
-                                                                                                   &((*this_).temp_node_data)
-                                                                                                 );
-                        write_err |= io_export_model_traversal_private_descend_node_containments( this_, data_classifier_get_data_id(&((*this_).temp_classifier)), 16 );
-                        data_small_set_destroy (&contained_classifiers);
-                    }
-
-                    data_node_set_destroy( &((*this_).temp_node_data) );
+                    write_err |= io_export_model_traversal_private_walk_node ( this_,
+                                                                               data_classifier_get_data_id( &((*this_).temp_classifier) ),
+                                                                               0 /* initial recursion_depth */
+                                                                             );
                     data_classifier_destroy( &((*this_).temp_classifier) );
                 }
             }
@@ -237,11 +218,14 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
             const bool filter_relationship
                 = ( duplicate_relationship && filter_duplicates );
 
+            const data_id_t from_classifier_id = data_relationship_get_from_classifier_data_id( relation );
+            const bool source_already_written
+                = ( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &from_classifier_id ) );
             const data_id_t to_classifier_id = data_relationship_get_to_classifier_data_id( relation );
             const bool destination_already_written
                 = ( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &to_classifier_id ) );
 
-            if ( destination_already_written && ( ! filter_relationship ))
+            if ( source_already_written && destination_already_written && ( ! filter_relationship ))
             {
                 /* add the relationship to the duplicates list */
                 if ( ! duplicate_relationship )
@@ -266,17 +250,97 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
     return write_err;
 }
 
-int io_export_model_traversal_private_descend_node_containments ( io_export_model_traversal_t *this_,
-                                                                  data_id_t classifier_id,
-                                                                  unsigned int max_recursion )
+int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *this_,
+                                                  data_id_t classifier_id,
+                                                  unsigned int recursion_depth )
 {
     TRACE_BEGIN();
     int write_err = 0;
 
-    {
-        /*data_error_t data_err;*/
+    data_small_set_t contained_classifiers;
+    data_small_set_init (&contained_classifiers);
 
+    /* load and process the node set */
+    {
+        data_node_set_init( &((*this_).temp_node_data) );
+        const data_error_t data_err_1 = data_node_set_load( &((*this_).temp_node_data),
+                                                            data_id_get_row_id( &classifier_id ),
+                                                            (*this_).db_reader
+                                                          );
+        if ( data_err_1 != DATA_ERROR_NONE )
+        {
+            write_err = -1;
+        }
+        else
+        {
+            /* get vlassifier */
+            const data_classifier_t *classifier;
+            classifier = data_node_set_get_classifier_const ( &((*this_).temp_node_data) );
+            write_err |= io_format_writer_start_classifier( (*this_).format_writer );
+            write_err |= io_format_writer_write_classifier( (*this_).format_writer, classifier );
+            write_err |= io_export_model_traversal_private_iterate_node_features( this_, &((*this_).temp_node_data) );
+        }
+
+        /* search containments in relationships */
+        const uint32_t count = data_node_set_get_relationship_count ( &((*this_).temp_node_data) );
+        for ( uint32_t index = 0; index < count; index ++ )
+        {
+            /* get relationship */
+            const data_relationship_t *relation;
+            relation = data_node_set_get_relationship_const ( &((*this_).temp_node_data), index );
+            if (( relation != NULL ) && ( data_relationship_is_valid( relation ) ))
+            {
+                if ( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == data_relationship_get_main_type( relation ) )
+                {
+                    const data_id_t to_classifier_id = data_relationship_get_to_classifier_data_id( relation );
+                    if ( ! data_id_equals( &to_classifier_id, &classifier_id ) )
+                    {
+                        data_small_set_add_obj ( &contained_classifiers, to_classifier_id );
+                    }
+                }
+            }
+            else
+            {
+                assert( false );
+            }
+        }
+
+        data_node_set_destroy( &((*this_).temp_node_data) );
     }
+
+    /* do recursion, all required data is stored on the stack now */
+    if ( recursion_depth < IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH )
+    {
+        const uint32_t children = data_small_set_get_count ( &contained_classifiers );
+        for ( uint32_t index = 0; index < children; index ++ )
+        {
+            const data_id_t child = data_small_set_get_id ( &contained_classifiers, index );
+            write_err |= io_export_model_traversal_private_walk_node( this_, child, recursion_depth+1 );
+        }
+    }
+
+    /* load and process the node set a second time to print the rest */
+    {
+        data_node_set_init( &((*this_).temp_node_data) );
+        const data_error_t data_err_2 = data_node_set_load( &((*this_).temp_node_data),
+                                                            data_id_get_row_id( &classifier_id ),
+                                                            (*this_).db_reader
+                                                          );
+        if ( data_err_2 != DATA_ERROR_NONE )
+        {
+            write_err = -1;
+        }
+        else
+        {
+            write_err |= io_format_writer_end_classifier( (*this_).format_writer );
+
+            write_err |= io_export_model_traversal_private_iterate_node_relationships( this_,
+                                                                                        &((*this_).temp_node_data)
+                                                                                        );
+        }
+    }
+
+    data_small_set_destroy (&contained_classifiers);
 
     TRACE_END_ERR( write_err );
     return write_err;

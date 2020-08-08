@@ -344,12 +344,14 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
                                           );
             /* write the document */
             export_err |= io_format_writer_write_header( &((*this_).temp_format_writer), document_file_name );
-            export_err |= io_exporter_private_export_table_of_contents( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, &((*this_).temp_format_writer) );
-            export_err |= io_exporter_private_export_document_part( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH );
             if ( IO_FILE_FORMAT_XMI2 == export_type )
             {
-                /* TODO: EXPERIMENTAL */
                 export_err |= io_export_model_traversal_walk_model_nodes( &((*this_).temp_model_traversal) );
+            }
+            else
+            {
+                export_err |= io_exporter_private_export_table_of_contents( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, &((*this_).temp_format_writer) );
+                export_err |= io_exporter_private_export_document_part( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH );
             }
             export_err |= io_format_writer_write_footer( &((*this_).temp_format_writer) );
 

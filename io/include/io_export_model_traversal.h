@@ -27,7 +27,8 @@
  *  \brief constants for maximum values of io_export_model_traversal_t
  */
 enum io_export_model_traversal_max_enum {
-    IO_EXPORT_MODEL_TRAVERSAL_MAX_TOTAL_CLASSIFIERS = 16384,  /*!< maximum number of total classifiers to be exported */
+    IO_EXPORT_MODEL_TRAVERSAL_MAX_TOTAL_ELEMENTS = 16384,  /*!< maximum number of total classifiers and relationships to be exported */
+    IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH = 24,  /*!< maximum number of recursive descend into containment children */
 };
 
 /*!
@@ -40,7 +41,7 @@ struct io_export_model_traversal_struct {
     io_filter_flag_t filter_flags;  /*!< flags indicating which elements shall be exported */
     io_format_writer_t *format_writer;  /*!< pointer to external io_format_writer_t which is the output sink */
 
-    data_id_t written_id_set_buf[IO_EXPORT_MODEL_TRAVERSAL_MAX_TOTAL_CLASSIFIERS];  /*!< buffer for list of already exported element ids */
+    data_id_t written_id_set_buf[IO_EXPORT_MODEL_TRAVERSAL_MAX_TOTAL_ELEMENTS];  /*!< buffer for list of already exported element ids */
     universal_array_list_t written_id_set;  /*!< list of already exported element ids */
 
     data_classifier_t temp_classifier;  /*!< own buffer for private use as data cache */
@@ -126,21 +127,24 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                                                                    const data_node_set_t *node_data
                                                                  );
 /*!
- *  \brief recusively descends the containment tree (graph) of a classifier.
+ *  \brief writes the node, features and relationships and recusively descends the containment tree (graph) of a classifier.
  *
  *  While traversing, the written_id_set is extended.
  *  Classifiers that are contained in written_id_set or that are beyond max_recursion are not traversed.
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier_id id of the classifier of which the containment relations are traversed
- *  \param max_recursion maximum number of tree depth. Use e.g. 16 to actively limit the model, use 64 to catch (nearly) only error cases.
- *  \return -1 in case of error, 0 in case of success.
- *          If max_recursion limits the descent, or written_id_set prevents duplicate traversal of a classifier, 0 is returned nonetheless.
+ *  \param classifier_id id of the classifier to process
+ *  \param recursion_depth current number of tree depth. Used to actively limit the recursive descend to max IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH.
+ *  \return -1 in case of error,
+ *          0 in case of success.
+ *          If IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH limits the descent,
+ *          or written_id_set prevents duplicate traversal of a classifier,
+ *          0 is returned nonetheless.
  */
-int io_export_model_traversal_private_descend_node_containments ( io_export_model_traversal_t *this_,
-                                                                  data_id_t classifier_id,
-                                                                  unsigned int max_recursion
-                                                                );
+int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *this_,
+                                                  data_id_t classifier_id,
+                                                  unsigned int recursion_depth
+                                                );
 
 /*!
  *  \brief prints names and descriptions of the classifiers to the output stream
