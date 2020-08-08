@@ -6,10 +6,10 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Traverses the model or a model-part(diagram) and writes the elements to an format writer
+ *  \brief Traverses the model-part shown in a diagram and writes the elements to an format writer
  *
  *  Source: db_reader(data_database_reader_t);
- *  Task: traverse the source model(-part);
+ *  Task: traverse the source model-part;
  *  Sink: io_format_writer_t
  */
 
