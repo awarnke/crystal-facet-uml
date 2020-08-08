@@ -464,8 +464,8 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
             write_err |= io_format_writer_end_classifier( (*this_).format_writer );
 
             write_err |= io_export_model_traversal_private_iterate_node_relationships( this_,
-                                                                                        &((*this_).temp_node_data)
-                                                                                        );
+                                                                                       &((*this_).temp_node_data)
+                                                                                     );
         }
     }
 
