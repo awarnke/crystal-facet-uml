@@ -14,7 +14,6 @@
  */
 
 #include "io_format_writer.h"
-#include "io_filter_flag.h"
 #include "set/data_visible_set.h"
 #include "set/data_node_set.h"
 #include "storage/data_database_reader.h"
@@ -38,7 +37,6 @@ struct io_export_model_traversal_struct {
     data_database_reader_t *db_reader;  /* !< pointer to external database reader */
     data_visible_set_t *input_data;  /*!< pointer to an external buffer for private use as data cache */
     data_rules_t filter_rules;  /*!< own instance of uml and sysml consistency rules */
-    io_filter_flag_t filter_flags;  /*!< flags indicating which elements shall be exported */
     io_format_writer_t *format_writer;  /*!< pointer to external io_format_writer_t which is the output sink */
 
     data_id_t written_id_set_buf[IO_EXPORT_MODEL_TRAVERSAL_MAX_TOTAL_ELEMENTS];  /*!< buffer for list of already exported element ids */
@@ -56,13 +54,11 @@ typedef struct io_export_model_traversal_struct io_export_model_traversal_t;
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader object
  *  \param input_data pointer to an external buffer for private use as data cache
- *  \param filter_flags flags indicating which elements shall be exported
  *  \param format_writer pointer to an external io_format_writer_t which is the output sink
  */
 void io_export_model_traversal_init( io_export_model_traversal_t *this_,
                                      data_database_reader_t *db_reader,
                                      data_visible_set_t *input_data,
-                                     io_filter_flag_t filter_flags,
                                      io_format_writer_t *format_writer
                                    );
 

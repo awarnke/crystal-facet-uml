@@ -11,7 +11,6 @@
 void io_export_model_traversal_init( io_export_model_traversal_t *this_,
                                      data_database_reader_t *db_reader,
                                      data_visible_set_t *input_data,
-                                     io_filter_flag_t filter_flags,
                                      io_format_writer_t *format_writer )
 {
     TRACE_BEGIN();
@@ -21,7 +20,6 @@ void io_export_model_traversal_init( io_export_model_traversal_t *this_,
 
     (*this_).db_reader = db_reader;
     (*this_).input_data = input_data;
-    (*this_).filter_flags = filter_flags;
     data_rules_init ( &((*this_).filter_rules) );
     (*this_).format_writer = format_writer;
 
@@ -135,12 +133,8 @@ int io_export_model_traversal_private_iterate_diagram_classifiers ( io_export_mo
             /* determine if the classifier is a duplicate */
             const bool duplicate_classifier
                 =( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &classifier_id ) );
-            const bool filter_duplicates
-                = ( 0 != (IO_FILTER_FLAG_DUPLICATES & (*this_).filter_flags) );
-            const bool filter_classifier
-                = ( duplicate_classifier && filter_duplicates );
 
-            if ( ! filter_classifier )
+            /* no classifier filter here */
             {
                 /* add classifier to duplicates-list */
                 if ( ! duplicate_classifier )
@@ -209,17 +203,8 @@ int io_export_model_traversal_private_iterate_classifier_features ( io_export_mo
                                                                          );
                 const bool is_lifeline
                     =( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( feature ) );
-                const bool filter_lifelines
-                    = ( 0 != (IO_FILTER_FLAG_LIFELINES & (*this_).filter_flags) );
-                const bool filter_hidden
-                    = ( 0 != (IO_FILTER_FLAG_HIDDEN & (*this_).filter_flags) );
 
-                const bool visible_filter_passed
-                    = is_visible || ( ! filter_hidden );
-                const bool lifeline_filter_passed
-                    =  ( ! is_lifeline ) || ( ! filter_lifelines );
-
-                if ( visible_filter_passed && lifeline_filter_passed )
+                if ( is_visible && ( ! is_lifeline ) )
                 {
                     write_err |=  io_format_writer_write_feature( (*this_).format_writer, feature );
                 }
@@ -259,21 +244,17 @@ int io_export_model_traversal_private_iterate_classifier_relationships ( io_expo
             const data_id_t r_from_classifier_id = data_relationship_get_from_classifier_data_id( relation );
             if ( data_id_equals( &from_classifier_id, &r_from_classifier_id ) )
             {
+                const data_id_t relation_id = data_relationship_get_data_id( relation );
                 const bool is_visible = data_rules_diagram_shows_relationship ( &((*this_).filter_rules),
                                                                                 diagram_data,
-                                                                                data_relationship_get_id( relation )
+                                                                                data_id_get_row_id( &relation_id )
                                                                               );
 
                 /* determine if the relationship is a duplicate */
-                const data_id_t relation_id = data_relationship_get_data_id( relation );
                 const bool duplicate_relationship
                     =( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &relation_id ) );
-                const bool filter_duplicates
-                    = ( 0 != (IO_FILTER_FLAG_DUPLICATES & (*this_).filter_flags) );
-                const bool filter_relationship
-                    = ( duplicate_relationship && filter_duplicates );
 
-                if ( is_visible && ( ! filter_relationship ) )
+                if ( is_visible /* no filter for duplicates */ )
                 {
                     const data_row_id_t to_classifier_id = data_relationship_get_to_classifier_id( relation );
                     const data_classifier_t *dest_classifier = data_visible_set_get_classifier_by_id_const ( diagram_data,
@@ -492,17 +473,7 @@ int io_export_model_traversal_private_iterate_node_features ( io_export_model_tr
         feature = data_node_set_get_feature_const ( node_data, index );
         if (( feature != NULL ) && ( data_feature_is_valid( feature ) ))
         {
-            const bool is_lifeline
-                =( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( feature ) );
-            const bool filter_lifelines
-                = ( 0 != (IO_FILTER_FLAG_LIFELINES & (*this_).filter_flags) );
-            const bool lifeline_filter_passed
-                =  ( ! is_lifeline ) || ( ! filter_lifelines );
-
-            if ( lifeline_filter_passed )
-            {
-                write_err |=  io_format_writer_write_feature( (*this_).format_writer, feature );
-            }
+            write_err |=  io_format_writer_write_feature( (*this_).format_writer, feature );
         }
         else
         {
@@ -535,10 +506,6 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
             const data_id_t relation_id = data_relationship_get_data_id( relation );
             const bool duplicate_relationship
                 = ( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &relation_id ) );
-            const bool filter_duplicates
-                = ( 0 != (IO_FILTER_FLAG_DUPLICATES & (*this_).filter_flags) );
-            const bool filter_relationship
-                = ( duplicate_relationship && filter_duplicates );
 
             const data_id_t from_classifier_id = data_relationship_get_from_classifier_data_id( relation );
             const bool source_already_written
@@ -547,7 +514,7 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
             const bool destination_already_written
                 = ( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &to_classifier_id ) );
 
-            if ( source_already_written && destination_already_written && ( ! filter_relationship ))
+            if ( source_already_written && destination_already_written && ( ! duplicate_relationship ))
             {
                 /* add the relationship to the duplicates list */
                 if ( ! duplicate_relationship )

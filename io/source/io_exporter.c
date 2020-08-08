@@ -1,7 +1,6 @@
 /* File: io_exporter.c; Copyright and License: see below */
 
 #include "io_exporter.h"
-#include "io_filter_flag.h"
 #include "stream/universal_file_output_stream.h"
 #include "stream/universal_output_stream.h"
 #include "trace.h"
@@ -211,7 +210,6 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
                 io_export_model_traversal_init( &((*this_).temp_model_traversal),
                                                 (*this_).db_reader,
                                                 &((*this_).temp_input_data),
-                                                IO_FILTER_FLAG_LIFELINES | IO_FILTER_FLAG_HIDDEN,
                                                 &((*this_).temp_format_writer)
                                               );
                 write_err |= io_format_writer_write_header( &((*this_).temp_format_writer), "DUMMY_TITLE" );
@@ -332,14 +330,9 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         else
         {
             /* reset the model_traversal */
-            const io_filter_flag_t filter_flags
-                = (IO_FILE_FORMAT_XMI2==export_type)
-                ? IO_FILTER_FLAG_DUPLICATES
-                : (IO_FILTER_FLAG_LIFELINES | IO_FILTER_FLAG_HIDDEN);
             io_export_model_traversal_init( &((*this_).temp_model_traversal),
                                             (*this_).db_reader,
                                             &((*this_).temp_input_data),
-                                            filter_flags,
                                             &((*this_).temp_format_writer)
                                           );
             /* write the document */
