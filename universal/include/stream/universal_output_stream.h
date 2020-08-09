@@ -41,8 +41,7 @@ static inline void universal_output_stream_init( universal_output_stream_t *this
 /*!
  *  \brief destroys the universal_output_stream_t.
  *
- *  This function calls \c destroy on the \c interface,
- *  this should not be called twice by the caller.
+ *  This function does NOT call \c destroy on the \c interface.
  *
  *  \param this_ pointer to own object attributes
  *  \result returns 0 if success, -1 in case of error

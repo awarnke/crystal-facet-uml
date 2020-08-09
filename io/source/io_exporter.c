@@ -229,7 +229,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
                 result |= universal_output_stream_close( output );
             }
 
-            result |= universal_output_stream_destroy( output );
+            result |= universal_file_output_stream_destroy( &text_output );
         }
     }
 
@@ -363,7 +363,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         export_err |= universal_output_stream_close( output );
     }
 
-    export_err |= universal_output_stream_destroy( output );
+    export_err |= universal_file_output_stream_destroy( &file_output );
 
     TRACE_END_ERR( export_err );
     return export_err;

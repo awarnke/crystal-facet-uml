@@ -42,7 +42,7 @@ void universal_escaping_output_stream_init( universal_escaping_output_stream_t *
                                         );
 
 /*!
- *  \brief destroys the universal_escaping_output_stream_t
+ *  \brief destroys the universal_escaping_output_stream_t but not the underlying sink
  *
  *  \param this_ pointer to own object attributes
  *  \result 0 in case of success, -1 otherwise
@@ -50,7 +50,7 @@ void universal_escaping_output_stream_init( universal_escaping_output_stream_t *
 int universal_escaping_output_stream_destroy( universal_escaping_output_stream_t *this_ );
 
 /*!
- *  \brief opens a stream
+ *  \brief opens a stream at the underlying sink
  *
  *  \param this_ pointer to own object attributes
  *  \param path resource path identifying the stream to open for writing
@@ -69,7 +69,7 @@ int universal_escaping_output_stream_open ( universal_escaping_output_stream_t *
 int universal_escaping_output_stream_write ( universal_escaping_output_stream_t *this_, const void *start, size_t length );
 
 /*!
- *  \brief flushes buffers
+ *  \brief flushes buffers including the ones of the underlying sink
  *
  *  \param this_ pointer to own object attributes
  *  \result 0 in case of success, -1 otherwise
@@ -77,7 +77,7 @@ int universal_escaping_output_stream_write ( universal_escaping_output_stream_t 
 int universal_escaping_output_stream_flush( universal_escaping_output_stream_t *this_ );
 
 /*!
- *  \brief closes the universal_escaping_output_stream_t
+ *  \brief closes the universal_escaping_output_stream_t and the underlying sink
  *
  *  \param this_ pointer to own object attributes
  *  \result 0 in case of success, -1 otherwise

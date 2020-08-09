@@ -22,14 +22,15 @@
 /*!
  *  \brief function pointers of a universal_output_stream_if_t.
  *
- *  This is similar to a vmt but used here only to access an interface without inheritance.
+ *  This is similar to a vmt and used here to access an implementation of this interface
+ * 
+ *  Lifecycle functions like init and destroy are not part of the interface.
  */
 struct universal_output_stream_if_struct {
     int (*open)(void* this_, const char* identifier); /*!< a function to open an output stream; returns 0 if success, -1 in case of error */
     int (*write)(void* this_, const void *start, size_t length); /*!< a function to write data to an output stream; returns 0 if success, -1 in case of error */
     int (*flush)(void* this_); /*!< a function to flush data to an output stream; returns 0 if success, -1 in case of error */
     int (*close)(void* this_); /*!< a function to close an output stream; returns 0 if success, -1 in case of error */
-    int (*destroy)(void* this_); /*!< the destructor of the output stream; returns 0 if success, -1 in case of error */
 };
 
 typedef struct universal_output_stream_if_struct universal_output_stream_if_t;

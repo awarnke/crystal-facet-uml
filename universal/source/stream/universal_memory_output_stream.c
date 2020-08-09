@@ -13,8 +13,7 @@ static const universal_output_stream_if_t universal_memory_output_stream_private
         /* open:   */ (int (*)(void*, const char*)) &universal_memory_output_stream_open,
         /* write:  */ (int (*)(void*, const void*, size_t)) &universal_memory_output_stream_write,
         /* flush:  */ (int (*)(void*)) &universal_memory_output_stream_flush,
-        /* close:  */ (int (*)(void*)) &universal_memory_output_stream_close,
-        /* destroy:*/ (int (*)(void*)) &universal_memory_output_stream_destroy
+        /* close:  */ (int (*)(void*)) &universal_memory_output_stream_close
     };
 
 void universal_memory_output_stream_init ( universal_memory_output_stream_t *this_,
@@ -40,7 +39,7 @@ int universal_memory_output_stream_destroy( universal_memory_output_stream_t *th
     (*this_).mem_buf_start = NULL;
     (*this_).mem_buf_size = 0;
     (*this_).mem_buf_filled = 0;
-    /* do not call universal_output_stream_destroy here - this would be a recursion */
+    universal_output_stream_destroy( &((*this_).output_stream) );
 
     TRACE_END_ERR(err);
     return err;

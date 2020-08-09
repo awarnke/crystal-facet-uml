@@ -10,10 +10,11 @@ static inline void universal_output_stream_init( universal_output_stream_t *this
 
 static inline int universal_output_stream_destroy( universal_output_stream_t *this_ )
 {
-    int result = (*(  (*(  (*this_).interface  )).destroy  )) ( (*this_).objectdata );
+    /*int result = (*(  (*(  (*this_).interface  )).destroy  )) ( (*this_).objectdata );*/
     (*this_).interface = NULL;
     (*this_).objectdata = NULL;
-    return result;
+    /*return result;*/
+    return 0;
 }
 
 static inline const universal_output_stream_if_t* universal_output_stream_get_interface ( universal_output_stream_t *this_ )

@@ -13,8 +13,7 @@ static const universal_output_stream_if_t universal_escaping_output_stream_priva
         /* open:   */ (int (*)(void*, const char*)) &universal_escaping_output_stream_open,
         /* write:  */ (int (*)(void*, const void*, size_t)) &universal_escaping_output_stream_write,
         /* flush:  */ (int (*)(void*)) &universal_escaping_output_stream_flush,
-        /* close:  */ (int (*)(void*)) &universal_escaping_output_stream_close,
-        /* destroy:*/ (int (*)(void*)) &universal_escaping_output_stream_destroy
+        /* close:  */ (int (*)(void*)) &universal_escaping_output_stream_close
     };
 
 void universal_escaping_output_stream_init ( universal_escaping_output_stream_t *this_,
@@ -39,7 +38,7 @@ int universal_escaping_output_stream_destroy( universal_escaping_output_stream_t
 
     (*this_).patterns_and_replacements = NULL;
     (*this_).sink = NULL;
-    /* do not call universal_output_stream_destroy here - this would be a recursion */
+    universal_output_stream_destroy( &((*this_).output_stream) );
 
     TRACE_END_ERR(err);
     return err;

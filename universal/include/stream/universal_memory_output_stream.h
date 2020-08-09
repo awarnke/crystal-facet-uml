@@ -44,10 +44,10 @@ void universal_memory_output_stream_init( universal_memory_output_stream_t *this
 int universal_memory_output_stream_destroy( universal_memory_output_stream_t *this_ );
 
 /*!
- *  \brief opens a file
+ *  \brief opens an output stream
  *
  *  \param this_ pointer to own object attributes
- *  \param path file path identifying the file to open for writing
+ *  \param path path identifying the memory to open for writing
  *  \result 0 in case of success, -1 otherwise
  */
 int universal_memory_output_stream_open ( universal_memory_output_stream_t *this_, const char *path );
