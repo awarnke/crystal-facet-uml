@@ -61,8 +61,63 @@ int universal_escaping_output_stream_write ( universal_escaping_output_stream_t 
     assert( start != NULL );
     assert( (*this_).patterns_and_replacements != NULL );
     assert( (*this_).sink != NULL );
+    int err = 0;
+    const char (*char_buf)[] = (void*)start;
+    
+    /* count input patterns */
+    unsigned int pattern_count = 0;
+    for ( unsigned int pattern_idx = 0; (*((*this_).patterns_and_replacements))[pattern_idx][0] != NULL; pattern_idx++ )
+    {
+        pattern_count++;
+    };
 
-    const int err = universal_output_stream_write( (*this_).sink, start, length );
+    /* search and replace patterns */
+    size_t bytes_already_written = 0;
+    for ( size_t index = 0; index < length; index ++ )
+    {
+        /* check if a pattern matches */
+        int matching_pattern_idx = -1;
+        for ( unsigned int pattern_idx = 0; ( pattern_idx < pattern_count )&&( matching_pattern_idx == -1 ); pattern_idx++ )
+        {
+            const char * pattern = (*((*this_).patterns_and_replacements))[pattern_idx][0];
+            const unsigned int pattern_len = strlen( pattern );
+            if (( index + pattern_len <= length )&&( pattern_len > 0 ))
+            {
+                if ( 0 == memcmp( &((*char_buf)[index]), pattern, pattern_len ) )
+                {
+                    matching_pattern_idx = pattern_idx;
+                    /*fprintf(stderr,"found pattern %d at pos %zd\n",matching_pattern_idx,index);*/
+                }
+            }
+        }
+        
+        /* replace pattern */
+        if ( matching_pattern_idx != -1 ) 
+        {
+            /* write previously processed bytes */
+            err |= universal_output_stream_write( (*this_).sink, &((*char_buf)[bytes_already_written]), index-bytes_already_written );
+            bytes_already_written = index;
+            /* write pattern */
+            const char * pattern = (*((*this_).patterns_and_replacements))[matching_pattern_idx][0];
+            const unsigned int pattern_len = strlen( pattern );
+            const char * replacement = (*((*this_).patterns_and_replacements))[matching_pattern_idx][1];
+            unsigned int replace_len = 0;
+            if ( replacement != NULL ) 
+            {
+                replace_len = strlen(replacement);
+            }
+            err |= universal_output_stream_write( (*this_).sink, replacement, replace_len );
+            bytes_already_written += pattern_len;
+            /* forward index */
+            index = index + pattern_len - 1;
+        }
+        
+        if ( (index+1)==length ) /* is last? */
+        {
+            err |= universal_output_stream_write( (*this_).sink, &((*char_buf)[bytes_already_written]), length-bytes_already_written );
+            bytes_already_written = length;
+        }
+    }
 
     TRACE_END_ERR(err);
     return err;

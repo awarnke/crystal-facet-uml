@@ -12,10 +12,10 @@ static void tear_down(void);
 static void test_write_regular(void);
 static void test_write_border_cases(void);
 
-static char my_out_buffer[10];
+static char my_out_buffer[16];
 static universal_memory_output_stream_t my_mem_out_stream;
 static universal_escaping_output_stream_t my_esc_out_stream;
-const char *const ((my_patterns_and_replacements)[][2]) = {{"&","&amp;"},{"--","- - "},{"\n","    \n"}};
+const char *const ((my_patterns_and_replacements)[][2]) = {{"&","&amp;"},{"--","- - "},{"\n","  \n"},{NULL,NULL}};
 
 test_suite_t universal_escaping_output_stream_test_get_list(void)
 {
@@ -53,53 +53,34 @@ static void test_write_regular(void)
     my_out_stream = universal_escaping_output_stream_get_output_stream( &my_esc_out_stream );
     TEST_ASSERT( my_out_stream != NULL );
 
-    /* get universal_output_stream_if_t */
-    const universal_output_stream_if_t *my_out_if = universal_output_stream_get_interface ( my_out_stream );
-    TEST_ASSERT( my_out_if != NULL );
-
-    /* get objectdata */
-    void *my_obj_data = universal_output_stream_get_objectdata ( my_out_stream );
-    TEST_ASSERT_EQUAL_PTR( &my_esc_out_stream, my_obj_data );
-
     /* open */
     err = universal_output_stream_open ( my_out_stream, "identifier" );
     TEST_ASSERT_EQUAL_INT( 0, err );
 
     /* write */
-    const char test_1[] = "Hello";
-    err = universal_output_stream_write ( my_out_stream, test_1, sizeof(test_1) );
+    const char test_1[] = "&";
+    err = universal_output_stream_write ( my_out_stream, test_1, strlen(test_1) );
     TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), test_1 ) );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), "&amp;" ) );
 
     /* flush */
     err = universal_output_stream_flush (my_out_stream);
     TEST_ASSERT_EQUAL_INT( 0, err );
 
-    /* close */
-    err = universal_output_stream_close (my_out_stream);
-    TEST_ASSERT_EQUAL_INT( 0, err );
-
-    /* open */
-    err = universal_output_stream_open ( my_out_stream, "identifier" );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-
     /* write */
-    const char test_2[] = "Hel";
+    const char test_2[] = "---4\n";
     err = universal_output_stream_write ( my_out_stream, test_2, strlen(test_2) );
     TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), "&amp;- - -4  \n" ) );
 
     /* write */
-    const char test_3[] = "lo!";
-    err = universal_output_stream_write ( my_out_stream, test_3, sizeof(test_3) );
+    const char test_3[] = "";
+    err = universal_output_stream_write ( my_out_stream, test_3, strlen(test_3) );
     TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), "Hello!" ) );
-
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), "&amp;- - -4  \n" ) );
+    
     /* close */
     err = universal_output_stream_close (my_out_stream);
-    TEST_ASSERT_EQUAL_INT( 0, err );
-
-    /* destroy */
-    err = universal_output_stream_destroy (my_out_stream);
     TEST_ASSERT_EQUAL_INT( 0, err );
 }
 
@@ -113,28 +94,30 @@ static void test_write_border_cases(void)
     TEST_ASSERT( my_out_stream != NULL );
 
     /* write */
-    const char test_1[] = "123456";
-    err = universal_output_stream_write ( my_out_stream, test_1, strlen(test_1) );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), test_1 ) );
+    const char test_1[] = "0123456789abcdef";
+    err = universal_output_stream_write ( my_out_stream, test_1, sizeof(test_1) );
+    TEST_ASSERT_EQUAL_INT( -1, err );
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), test_1, sizeof(my_out_buffer) ) );
 
+    /* close */
+    err = universal_output_stream_close (my_out_stream);
+    TEST_ASSERT_EQUAL_INT( 0, err );
+
+    /* open */
+    err = universal_output_stream_open ( my_out_stream, "identifier" );
+    TEST_ASSERT_EQUAL_INT( 0, err );
+    
     /* write */
-    const char test_2[] = "7890abc";
+    const char test_2[] = "&&-----";
     err = universal_output_stream_write ( my_out_stream, test_2, strlen(test_2) );
     TEST_ASSERT_EQUAL_INT( -1, err );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "1234567890", sizeof(my_out_buffer) ) );
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "&amp;&amp;- - - ", sizeof(my_out_buffer) ) );
 
     /* write */
-    const char test_3[] = "lo!";
+    const char test_3[] = "\n";
     err = universal_output_stream_write ( my_out_stream, test_3, sizeof(test_3) );
     TEST_ASSERT_EQUAL_INT( -1, err );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "1234567890", sizeof(my_out_buffer) ) );
-
-    /* write */
-    const char test_4[] = "";
-    err = universal_output_stream_write ( my_out_stream, test_4, 0 );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "1234567890", sizeof(my_out_buffer) ) );
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "&amp;&amp;- - - ", sizeof(my_out_buffer) ) );
 }
 
 
