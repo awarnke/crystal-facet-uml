@@ -6,16 +6,16 @@
 #include <string.h>
 #include <assert.h>
 
-static const char * const JSON_TOKENIZER_PRIVATE_DECODE_JSON_STRINGS[] = {
-    "\\t", "\x09",  /* tab */
-    "\\n", "\x0a",  /* newline */
-    "\\r", "\x0d",  /* return */
-    "\\b", "\x08",  /* backspace */
-    "\\f", "\x0c",  /* form feed */
-    "\\\"", "\"",  /* double quote */
-    "\\\\", "\\",  /* backslash*/
-    "\\/", "/",  /* slash */
-    NULL,  /* for JSON, see rfc7159 */
+static const char *const JSON_TOKENIZER_PRIVATE_DECODE_JSON_STRINGS[][2] = {
+    { "\\t", "\x09" },  /* tab */
+    { "\\n", "\x0a" },  /* newline */
+    { "\\r", "\x0d" },  /* return */
+    { "\\b", "\x08" },  /* backspace */
+    { "\\f", "\x0c" },  /* form feed */
+    { "\\\"", "\"" },  /* double quote */
+    { "\\\\", "\\" },  /* backslash*/
+    { "\\/", "/" },  /* slash */
+    { NULL, NULL }  /* for JSON, see rfc7159 */
 };
 
 void json_tokenizer_init ( json_tokenizer_t *this_ )
@@ -100,7 +100,7 @@ data_error_t json_tokenizer_get_member_name ( json_tokenizer_t *this_, const cha
                 /* copy and unescape the string */
                 str_err |= utf8stringbuf_copy_region_from_str( out_name, in_data, start, end-start );
                 str_err |= utf8stringbuf_replace_all( out_name,
-                                                      JSON_TOKENIZER_PRIVATE_DECODE_JSON_STRINGS );
+                                                      &JSON_TOKENIZER_PRIVATE_DECODE_JSON_STRINGS );
                 if ( UTF8ERROR_SUCCESS != str_err )
                 {
                     result_err = DATA_ERROR_STRING_BUFFER_EXCEEDED;
@@ -362,7 +362,7 @@ data_error_t json_tokenizer_get_string_value ( json_tokenizer_t *this_, const ch
                 /* copy and unescape the string */
                 str_err |= utf8stringbuf_copy_region_from_str( out_value, in_data, start, end-start );
                 str_err |= utf8stringbuf_replace_all( out_value,
-                                                      JSON_TOKENIZER_PRIVATE_DECODE_JSON_STRINGS );
+                                                      &JSON_TOKENIZER_PRIVATE_DECODE_JSON_STRINGS );
                 if ( UTF8ERROR_SUCCESS != str_err )
                 {
                     result_err = DATA_ERROR_STRING_BUFFER_EXCEEDED;

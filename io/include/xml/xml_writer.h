@@ -38,8 +38,8 @@ struct xml_writer_struct {
 
     char temp_output_buffer[XML_WRITER_MAX_STRING_SIZE];  /*!< temporary output buffer to convert strings */
     utf8stringbuf_t temp_output;  /*!< temporary output string buffer to convert strings */
-    const char * const * xml_encode_table;  /*!< table for xml encode string replacements */
-    const char * const * xml_comments_encode_table;  /*!< table for xml coments encode string replacements */
+    const char *const ((*xml_encode_table)[][2]);  /*!< table for xml encode string replacements */
+    const char *const ((*xml_comments_encode_table)[][2]);  /*!< table for xml coments encode string replacements */
 };
 
 typedef struct xml_writer_struct xml_writer_t;

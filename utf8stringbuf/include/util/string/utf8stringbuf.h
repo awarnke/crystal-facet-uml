@@ -503,41 +503,43 @@ static inline utf8error_t utf8stringbuf_replace_all_buf_by_buf( const utf8string
  * \n
  * Examples:
  * \code
- *     const char *const SQL_ENCODE[] = {
- *         "\0", "\\0",  //  within strings, null cannot be represented.
- *         "\x09", "\\t",
- *         "\x0a", "\\n",
- *         "\x0d", "\\r",
- *         "\x0e", "\\b",
- *         "\x1a", "\\z",
- *         "\"", "\\\"",
- *         "'", "\\'",
- *         "\\", "\\\\",
- *         "%", "\\%",  //  % replacement only needed in searches by LIKE operator
- *         "_", "\\_",  //  _ replacement only needed in searches by LIKE operator
- *         NULL, };
- *     utf8stringbuf_replace_all( mySqlBuf, SQL_ENCODE );
- *     const char *const XML_ENCODE[] = {
- *         "<", "&lt;",
- *         ">", "&gt;",
- *         "&", "&amp;",
- *         "\"", "&quot;",  //  " replacement only needed in attribute values
- *         "'", "&apos;",  //  ' replacement only needed in attribute values
- *         NULL, };
- *     utf8stringbuf_replace_all( myXmlBuf, XML_ENCODE );
+ *     const char *const SQL_ENCODE[][2] = {
+ *         { "\0", "\\0" },  //  within strings, null cannot be represented.
+ *         { "\x09", "\\t" },
+ *         { "\x0a", "\\n" },
+ *         { "\x0d", "\\r" },
+ *         { "\x0e", "\\b" },
+ *         { "\x1a", "\\z" },
+ *         { "\"", "\\\"" },
+ *         { "'", "\\'" },
+ *         { "\\", "\\\\" },
+ *         { "%", "\\%" },  //  % replacement only needed in searches by LIKE operator
+ *         { "_", "\\_" },  //  _ replacement only needed in searches by LIKE operator
+ *         { NULL, NULL }
+ *     };
+ *     utf8stringbuf_replace_all( mySqlBuf, &SQL_ENCODE );
+ *     const char *const XML_ENCODE[][2] = {
+ *         { "<", "&lt;" },
+ *         { ">", "&gt;" },
+ *         { "&", "&amp;" },
+ *         { "\"", "&quot;" },  //  " replacement only needed in attribute values
+ *         { "'", "&apos;" },  //  ' replacement only needed in attribute values
+ *         { NULL, NULL }
+ *     };
+ *     utf8stringbuf_replace_all( myXmlBuf, &XML_ENCODE );
  * \endcode
  * \see https://dev.mysql.com/doc/refman/5.6/en/string-literals.html
  * \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*p+n*(n+r)), n:strlen, p:sumOfPatternlen, r:maxOfReplacelen
  * \param this_ The string buffer within which to search
  * \param patterns_and_replacements The string array containing the byte-sequences to search and to replace,
- *                                  terminated by NULL. Empty patterns are not replaced.
+ *                                  terminated by a NULL-pair. Empty patterns are not replaced.
  *                                  The string buffer this_ is processed from start to end;
  *                                  if multiple patterns match, the first pattern is replaced.
  * \return UTF8ERROR_SUCCESS in case of success,
  *         UTF8ERROR_TRUNCATED if the string buffer was truncated or
  *         UTF8ERROR_NULL_PARAM if patterns_and_replacements is NULL.
  */
-extern utf8error_t utf8stringbuf_replace_all( const utf8stringbuf_t this_, const char * const * patterns_and_replacements );
+extern utf8error_t utf8stringbuf_replace_all( const utf8stringbuf_t this_, const char *const ((*patterns_and_replacements)[][2]) );
 
 /*!
  * \brief Replaces a region within a string buffer

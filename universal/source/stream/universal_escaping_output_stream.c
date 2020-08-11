@@ -44,6 +44,17 @@ int universal_escaping_output_stream_destroy( universal_escaping_output_stream_t
     return err;
 }
 
+void universal_escaping_output_stream_change_rules( universal_escaping_output_stream_t *this_,
+                                                    const char *const ((*patterns_and_replacements)[][2]) )
+{
+    TRACE_BEGIN();
+    assert( patterns_and_replacements != NULL );
+
+    (*this_).patterns_and_replacements = patterns_and_replacements;
+
+    TRACE_END();
+}
+
 int universal_escaping_output_stream_open ( universal_escaping_output_stream_t *this_, const char *path )
 {
     TRACE_BEGIN();

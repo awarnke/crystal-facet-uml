@@ -250,14 +250,14 @@ utf8error_t utf8_string_buf_private_replace_region_by_str( utf8stringbuf_t this_
     return result;
 }
 
-utf8error_t utf8stringbuf_replace_all( const utf8stringbuf_t this_, const char * const * patterns_and_replacements ) {
+utf8error_t utf8stringbuf_replace_all( const utf8stringbuf_t this_, const char *const ((*patterns_and_replacements)[][2]) ) {
     utf8error_t result = UTF8ERROR_NULL_PARAM;
 
     /* count input patterns */
     int maxPatternIdx = 0;
     if ( patterns_and_replacements != NULL ) {
         result = UTF8ERROR_SUCCESS;
-        for ( maxPatternIdx = 0; patterns_and_replacements[maxPatternIdx] != NULL; maxPatternIdx += 2 ) {
+        for ( maxPatternIdx = 0; (*patterns_and_replacements)[maxPatternIdx][0] != NULL; maxPatternIdx ++ ) {
         };
     }
 
@@ -266,10 +266,10 @@ utf8error_t utf8stringbuf_replace_all( const utf8stringbuf_t this_, const char *
     for ( int index = 0; index < thisLen; index ++ ) {
         int matchingPatternIdx = -1;
         unsigned int remainingLength = thisLen-index;
-        for ( int patternIdx = 0; ( patternIdx < maxPatternIdx )&&( matchingPatternIdx == -1 ); patternIdx += 2 ) {
+        for ( int patternIdx = 0; ( patternIdx < maxPatternIdx )&&( matchingPatternIdx == -1 ); patternIdx ++ ) {
             int finished = 0;
             for ( int compareIdx = 0; ( compareIdx <= remainingLength )&&( finished == 0 ); compareIdx ++ ) {
-                char cmpChar = patterns_and_replacements[patternIdx][compareIdx];
+                char cmpChar = (*patterns_and_replacements)[patternIdx][0][compareIdx];
                 if ( cmpChar == '\0' ) {
                     if ( compareIdx != 0 ) {
                            /* all characters were equal (and there was at least one) */
@@ -285,8 +285,9 @@ utf8error_t utf8stringbuf_replace_all( const utf8stringbuf_t this_, const char *
         }
         /* replace pattern */
         if ( matchingPatternIdx != -1 ) {
-            int patternLen = strlen( patterns_and_replacements[matchingPatternIdx] );
-            const char * replacement = patterns_and_replacements[matchingPatternIdx+1];
+            const char * pattern = (*patterns_and_replacements)[matchingPatternIdx][0];
+            int patternLen = strlen( pattern );
+            const char * replacement = (*patterns_and_replacements)[matchingPatternIdx][1];
             int replaceLen = 0;
             if ( replacement != NULL ) {
                 replaceLen = strlen(replacement);

@@ -6,16 +6,16 @@
 #include "tslog.h"
 #include <assert.h>
 
-static const char * const JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS[] = {
-    "\x09", "\\t",  /* tab */
-    "\x0a", "\\n",  /* newline */
-    "\x0d", "\\r",  /* return */
-    "\x08", "\\b",  /* backspace */
-    "\x0c", "\\f",  /* form feed */
-    "\"", "\\\"",  /* double quote */
-    "\\", "\\\\",  /* backslash*/
-    "/", "\\/",  /* slash */
-    NULL,  /* for JSON, see rfc7159 */
+static const char * const JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS[][2] = {
+    { "\x09", "\\t" },  /* tab */
+    { "\x0a", "\\n" },  /* newline */
+    { "\x0d", "\\r" },  /* return */
+    { "\x08", "\\b" },  /* backspace */
+    { "\x0c", "\\f" },  /* form feed */
+    { "\"", "\\\"" },  /* double quote */
+    { "\\", "\\\\" },  /* backslash*/
+    { "/", "\\/" },  /* slash */
+    { NULL, NULL }  /* for JSON, see rfc7159 */
 };
 
 void json_serializer_init ( json_serializer_t *this_ )
@@ -197,7 +197,7 @@ data_error_t json_serializer_append_classifier ( json_serializer_t *this_,
         strerr |= utf8stringbuf_append_str( out,
                                             data_classifier_get_stereotype_ptr( object ));
         strerr |= utf8stringbuf_replace_all( out,
-                                             JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+                                             &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_NEXT_NL );
@@ -218,7 +218,7 @@ data_error_t json_serializer_append_classifier ( json_serializer_t *this_,
         strerr |= utf8stringbuf_append_str( out,
                                             data_classifier_get_name_ptr( object ));
         strerr |= utf8stringbuf_replace_all( out,
-                                             JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+                                             &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_NEXT_NL );
@@ -239,7 +239,7 @@ data_error_t json_serializer_append_classifier ( json_serializer_t *this_,
         strerr |= utf8stringbuf_append_str( out,
                                             data_classifier_get_description_ptr( object ));
         strerr |= utf8stringbuf_replace_all( out,
-                                             JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+                                             &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_NEXT_NL );
@@ -444,7 +444,7 @@ data_error_t json_serializer_append_diagram ( json_serializer_t *this_, data_dia
         strerr |= utf8stringbuf_append_str( out,
                                             data_diagram_get_name_ptr( object ));
         strerr |= utf8stringbuf_replace_all( out,
-                                             JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+                                             &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_NEXT_NL );
@@ -465,7 +465,7 @@ data_error_t json_serializer_append_diagram ( json_serializer_t *this_, data_dia
         strerr |= utf8stringbuf_append_str( out,
                                             data_diagram_get_description_ptr( object ));
         strerr |= utf8stringbuf_replace_all( out,
-                                             JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+                                             &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_NEXT_NL );
@@ -607,7 +607,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
         strerr |= utf8stringbuf_append_str( out,
                                             data_relationship_get_name_ptr( object ));
         strerr |= utf8stringbuf_replace_all( out,
-                                             JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+                                             &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_NEXT_NL );
@@ -628,7 +628,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
         strerr |= utf8stringbuf_append_str( out,
                                             data_relationship_get_description_ptr( object ));
         strerr |= utf8stringbuf_replace_all( out,
-                                             JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+                                             &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_NEXT_NL );
@@ -681,7 +681,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
         strerr |= utf8stringbuf_append_str( out,
                                             data_classifier_get_name_ptr( from_clas ));
         strerr |= utf8stringbuf_replace_all( out,
-                                             JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+                                             &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_NEXT_NL );
@@ -718,7 +718,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
         strerr |= utf8stringbuf_append_str( out,
                                             data_classifier_get_name_ptr( to_clas ));
         strerr |= utf8stringbuf_replace_all( out,
-                                             JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+                                             &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_NEXT_NL );
@@ -758,7 +758,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
             strerr |= utf8stringbuf_append_str( out,
                                                 data_feature_get_key_ptr( from_feat ));
             strerr |= utf8stringbuf_replace_all( out,
-                                                 JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+                                                 &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
             strerr |= utf8stringbuf_append_str( out,
                                                 JSON_CONSTANTS_QUOTE
                                                 JSON_CONSTANTS_NEXT_NL );
@@ -799,7 +799,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
             strerr |= utf8stringbuf_append_str( out,
                                                 data_feature_get_key_ptr( to_feat ));
             strerr |= utf8stringbuf_replace_all( out,
-                                                 JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+                                                 &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
             strerr |= utf8stringbuf_append_str( out,
                                                 JSON_CONSTANTS_QUOTE
                                                 JSON_CONSTANTS_NL );  /* LAST, no NEXT */
@@ -900,7 +900,7 @@ utf8error_t json_serializer_private_append_feature ( json_serializer_t *this_, d
     strerr |= utf8stringbuf_append_str( out,
                                         data_feature_get_key_ptr( object ));
     strerr |= utf8stringbuf_replace_all( out,
-                                         JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+                                         &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
     strerr |= utf8stringbuf_append_str( out,
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NEXT_NL );
@@ -923,7 +923,7 @@ utf8error_t json_serializer_private_append_feature ( json_serializer_t *this_, d
     strerr |= utf8stringbuf_append_str( out,
                                         data_feature_get_value_ptr( object ));
     strerr |= utf8stringbuf_replace_all( out,
-                                         JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+                                         &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
     strerr |= utf8stringbuf_append_str( out,
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NEXT_NL );
@@ -946,7 +946,7 @@ utf8error_t json_serializer_private_append_feature ( json_serializer_t *this_, d
     strerr |= utf8stringbuf_append_str( out,
                                         data_feature_get_description_ptr( object ));
     strerr |= utf8stringbuf_replace_all( out,
-                                         JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+                                         &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
     strerr |= utf8stringbuf_append_str( out,
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NEXT_NL );

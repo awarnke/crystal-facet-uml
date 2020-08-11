@@ -32,9 +32,9 @@ static const char *DATA_DATABASE_SQL_BUILDER_NULL_VALUE = "NULL";
  *
  *  Note: This table is not suitable for searches using the LIKE operator because _ and % are not handled.
  */
-const char *const DATA_DATABASE_SQL_BUILDER_SQL_ENCODE[] = {
-    "'", "''",
-    NULL,
+const char *const DATA_DATABASE_SQL_BUILDER_SQL_ENCODE[][2] = {
+    { "'", "''" },
+    { NULL, NULL }
 };
 
 void data_database_sql_builder_init ( data_database_sql_builder_t *this_ )
@@ -156,7 +156,7 @@ data_error_t data_database_sql_builder_build_create_diagram_command ( data_datab
     {
         /* prepare temp buf */
         strerr |= utf8stringbuf_copy_buf( (*this_).temp_stringbuf, (*diagram).name );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -167,7 +167,7 @@ data_error_t data_database_sql_builder_build_create_diagram_command ( data_datab
     {
         /* prepare temp buf */
         strerr |= utf8stringbuf_copy_buf( (*this_).temp_stringbuf, (*diagram).description );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -227,7 +227,7 @@ data_error_t data_database_sql_builder_build_update_diagram_name_cmd ( data_data
         {
             strerr |= UTF8ERROR_TRUNCATED;
         }
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -266,7 +266,7 @@ data_error_t data_database_sql_builder_build_update_diagram_description_cmd ( da
         {
             strerr |= UTF8ERROR_TRUNCATED;
         }
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -474,7 +474,7 @@ data_error_t data_database_sql_builder_build_create_classifier_command ( data_da
     {
         /* prepare temp buf */
         strerr |= utf8stringbuf_copy_buf( (*this_).temp_stringbuf, (*classifier).stereotype );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -485,7 +485,7 @@ data_error_t data_database_sql_builder_build_create_classifier_command ( data_da
     {
         /* prepare temp buf */
         strerr |= utf8stringbuf_copy_buf( (*this_).temp_stringbuf, (*classifier).name );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -496,7 +496,7 @@ data_error_t data_database_sql_builder_build_create_classifier_command ( data_da
     {
         /* prepare temp buf */
         strerr |= utf8stringbuf_copy_buf( (*this_).temp_stringbuf, (*classifier).description );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -560,7 +560,7 @@ data_error_t data_database_sql_builder_build_update_classifier_stereotype_cmd ( 
         {
             strerr |= UTF8ERROR_TRUNCATED;
         }
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -599,7 +599,7 @@ data_error_t data_database_sql_builder_build_update_classifier_name_cmd ( data_d
         {
             strerr |= UTF8ERROR_TRUNCATED;
         }
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -638,7 +638,7 @@ data_error_t data_database_sql_builder_build_update_classifier_description_cmd (
         {
             strerr |= UTF8ERROR_TRUNCATED;
         }
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -1039,7 +1039,7 @@ data_error_t data_database_sql_builder_build_create_feature_command ( data_datab
     {
         /* prepare temp buf */
         strerr |= utf8stringbuf_copy_buf( (*this_).temp_stringbuf, (*feature).key );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -1050,7 +1050,7 @@ data_error_t data_database_sql_builder_build_create_feature_command ( data_datab
     {
         /* prepare temp buf */
         strerr |= utf8stringbuf_copy_buf( (*this_).temp_stringbuf, (*feature).value );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -1061,7 +1061,7 @@ data_error_t data_database_sql_builder_build_create_feature_command ( data_datab
     {
         /* prepare temp buf */
         strerr |= utf8stringbuf_copy_buf( (*this_).temp_stringbuf, (*feature).description );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -1147,7 +1147,7 @@ data_error_t data_database_sql_builder_build_update_feature_key_cmd ( data_datab
         {
             strerr |= UTF8ERROR_TRUNCATED;
         }
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -1186,7 +1186,7 @@ data_error_t data_database_sql_builder_build_update_feature_value_cmd ( data_dat
         {
             strerr |= UTF8ERROR_TRUNCATED;
         }
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -1225,7 +1225,7 @@ data_error_t data_database_sql_builder_build_update_feature_description_cmd ( da
         {
             strerr |= UTF8ERROR_TRUNCATED;
         }
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -1364,7 +1364,7 @@ data_error_t data_database_sql_builder_build_create_relationship_command ( data_
     {
         /* prepare temp buf */
         strerr |= utf8stringbuf_copy_buf( (*this_).temp_stringbuf, (*relationship).name );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -1375,7 +1375,7 @@ data_error_t data_database_sql_builder_build_create_relationship_command ( data_
     {
         /* prepare temp buf */
         strerr |= utf8stringbuf_copy_buf( (*this_).temp_stringbuf, (*relationship).description );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -1479,7 +1479,7 @@ data_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data
         {
             strerr |= UTF8ERROR_TRUNCATED;
         }
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -1518,7 +1518,7 @@ data_error_t data_database_sql_builder_build_update_relationship_description_cmd
         {
             strerr |= UTF8ERROR_TRUNCATED;
         }
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );

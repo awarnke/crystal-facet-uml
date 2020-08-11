@@ -34,12 +34,12 @@ typedef struct universal_escaping_output_stream_struct universal_escaping_output
  *  \param this_ pointer to own object attributes
  *  \param patterns_and_replacements pointer to 2-dim array, NULL-terminated,
  *         each arrray-entry is a pointer to a 0-terminated string.
- *  \param pointer to data stream sink
+ *  \param sink pointer to data stream sink
  */
 void universal_escaping_output_stream_init( universal_escaping_output_stream_t *this_,
                                             const char *const ((*patterns_and_replacements)[][2]),
                                             universal_output_stream_t *sink
-                                        );
+                                          );
 
 /*!
  *  \brief destroys the universal_escaping_output_stream_t but not the underlying sink
@@ -48,6 +48,17 @@ void universal_escaping_output_stream_init( universal_escaping_output_stream_t *
  *  \result 0 in case of success, -1 otherwise
  */
 int universal_escaping_output_stream_destroy( universal_escaping_output_stream_t *this_ );
+
+/*!
+ *  \brief changes the patterns_and_replacements attribute
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param patterns_and_replacements pointer to 2-dim array, NULL-terminated,
+ *         each arrray-entry is a pointer to a 0-terminated string.
+ */
+void universal_escaping_output_stream_change_rules( universal_escaping_output_stream_t *this_,
+                                                    const char *const ((*patterns_and_replacements)[][2])
+                                                  );
 
 /*!
  *  \brief opens a stream at the underlying sink

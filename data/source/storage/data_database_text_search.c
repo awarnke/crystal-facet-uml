@@ -10,11 +10,11 @@
 /*!
  *  \brief translation table to encode strings for usage in LIKE search string literals
  */
-const char *const DATA_DATABASE_TEXT_SEARCH_SQL_ENCODE[] = {
-    "%", "\\%",
-    "_", "\\_",
-    "\\", "\\\\",
-    NULL,
+const char *const DATA_DATABASE_TEXT_SEARCH_SQL_ENCODE[][2] = {
+    { "%", "\\%" },
+    { "_", "\\_" },
+    { "\\", "\\\\" },
+    { NULL, NULL }
 };
 
 data_error_t data_database_text_search_init ( data_database_text_search_t *this_, data_database_t *database )
@@ -116,7 +116,7 @@ data_error_t data_database_text_search_get_objects_by_textfragment ( data_databa
         u8err |= utf8stringbuf_append_str( like_search, "%" );
         utf8stringbuf_t escape_me = utf8stringbuf_get_end( like_search );
         u8err |= utf8stringbuf_append_str( escape_me, textfragment );
-        u8err |= utf8stringbuf_replace_all( escape_me, DATA_DATABASE_TEXT_SEARCH_SQL_ENCODE );
+        u8err |= utf8stringbuf_replace_all( escape_me, &DATA_DATABASE_TEXT_SEARCH_SQL_ENCODE );
         u8err |= utf8stringbuf_append_str( like_search, "%" );
     }
     else

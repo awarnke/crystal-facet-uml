@@ -8,58 +8,58 @@
 #include <pthread.h>
 #include <assert.h>
 
-static const char * const SQL_ENCODE[] = {
-         "\0", "\\0",  //  within strings, null cannot be represented.
-         "\x09", "\\t",
-         "\x0a", "\\n",
-         "\x0d", "\\r",
-         "\x0e", "\\b",
-         "\x1a", "\\z",
-         "\"", "\\\"",
-         "'", "\\'",
-         "\\", "\\\\",
-         "%", "\\%",  //  % replacement only needed in searches by LIKE operator
-         "_", "\\_",  //  _ replacement only needed in searches by LIKE operator
-         NULL, };
-static const char *const XML_ENCODE[] = {
-         "<", "&lt;",
-         ">", "&gt;",
-         "&", "&amp;",
-         "\"", "&quot;",  //  " replacement only needed in attribute values
-         "'", "&apos;",  //  " replacement only needed in attribute values
-         NULL, };
+static const char * const SQL_ENCODE[][2] = {
+         { "\0", "\\0" },  //  within strings, null cannot be represented.
+         { "\x09", "\\t" },
+         { "\x0a", "\\n" },
+         { "\x0d", "\\r" },
+         { "\x0e", "\\b" },
+         { "\x1a", "\\z" },
+         { "\"", "\\\"" },
+         { "'", "\\'" },
+         { "\\", "\\\\" },
+         { "%", "\\%" },  //  % replacement only needed in searches by LIKE operator
+         { "_", "\\_" },  //  _ replacement only needed in searches by LIKE operator
+         { NULL, NULL } };
+static const char *const XML_ENCODE[][2] = {
+         { "<", "&lt;" },
+         { ">", "&gt;" },
+         { "&", "&amp;" },
+         { "\"", "&quot;" },  //  " replacement only needed in attribute values
+         { "'", "&apos;" },  //  " replacement only needed in attribute values
+         { NULL, NULL } };
 
 const char END[] = "";
 
-static const char *const TO_UPPER_CASE[] = {
-         "a", "A", "b", "B", "c", "C", "d", "D", "e", "E", "f", "F", "g", "G", "h", "H",
-         "i", "I", "j", "J", "k", "K", "l", "L", "m", "M", "n", "N", "o", "O", "p", "P",
-         "q", "Q", "r", "R", "s", "S", "t", "T", "u", "U", "v", "V", "w", "W", "x", "X",
-         "y", "Y", "z", "Z", "\xc3\xa4", "\xc3\x84", "\xc3\xb6", "\xc3\x96",
-         "\xc3\xbc", "\xc3\x9c",
-         NULL, };
+static const char *const TO_UPPER_CASE[][2] = {
+         { "a", "A" }, { "b", "B" }, { "c", "C" }, { "d", "D" }, { "e", "E" }, { "f", "F" }, { "g", "G" }, { "h", "H" },
+         { "i", "I" }, { "j", "J" }, { "k", "K" }, { "l", "L" }, { "m", "M" }, { "n", "N" }, { "o", "O" }, { "p", "P" },
+         { "q", "Q" }, { "r", "R" }, { "s", "S" }, { "t", "T" }, { "u", "U" }, { "v", "V" }, { "w", "W" }, { "x", "X" },
+         { "y", "Y" }, { "z", "Z" }, { "\xc3\xa4", "\xc3\x84" }, { "\xc3\xb6", "\xc3\x96" },
+         { "\xc3\xbc", "\xc3\x9c" },
+         { NULL, NULL } };
 
-static const char *const TO_LOWER_CASE[] = {
-         "A", "a", "B", "b", "C", "c", "D", "d", "E", "e", "F", "f", "G", "g", "H", "h",
-         "I", "i", "J", "j", "K", "k", "L", "l", "M", "m", "N", "n", "O", "o", "P", "p",
-         "Q", "q", "R", "r", "S", "s", "T", "t", "U", "u", "V", "v", "W", "w", "X", "x",
-         "Y", "y", "Z", "z", "\xc3\x84", "\xc3\xa4", "\xc3\x96", "\xc3\xb6",
-         "\xc3\x9c", "\xc3\xbc",
-         NULL, };
+static const char *const TO_LOWER_CASE[][2] = {
+         { "A", "a" }, { "B", "b" }, { "C", "c" }, { "D", "d" }, { "E", "e" }, { "F", "f" }, { "G", "g" }, { "H", "h" },
+         { "I", "i" }, { "J", "j" }, { "K", "k" }, { "L", "l" }, { "M", "m" }, { "N", "n" }, { "O", "o" }, { "P", "p" },
+         { "Q", "q" }, { "R", "r" }, { "S", "s" }, { "T", "t" }, { "U", "u" }, { "V", "v" }, { "W", "w" }, { "X", "x" },
+         { "Y", "y" }, { "Z", "z" }, { "\xc3\x84", "\xc3\xa4" }, { "\xc3\x96", "\xc3\xb6" },
+         { "\xc3\x9c", "\xc3\xbc" },
+         { NULL, NULL } };
 
-static const char *const SHRINK_DUPLICATES_EXCEPT_Z[] = {
-         "aa", "A", "bb", "B", "cc", "C", "dd", "D", "ee", "E", "ff", "F", "gg", "G", "hh", "H",
-         "ii", "I", "jj", "J", "kk", "K", "ll", "L", "mm", "M", "nn", "N", "oo", "O", "pp", "P",
-         "qq", "Q", "rr", "R", "ss", "S", "tt", "T", "uu", "U", "vv", "V", "ww", "W", "xx", "X",
-         "yy", "Y",
-         NULL, };
+static const char *const SHRINK_DUPLICATES_EXCEPT_Z[][2] = {
+         { "aa", "A" }, { "bb", "B" }, { "cc", "C" }, { "dd", "D" }, { "ee", "E" }, { "ff", "F" }, { "gg", "G" }, { "hh", "H" },
+         { "ii", "I" }, { "jj", "J" }, { "kk", "K" }, { "ll", "L" }, { "mm", "M" }, { "nn", "N" }, { "oo", "O" }, { "pp", "P" },
+         { "qq", "Q" }, { "rr", "R" }, { "ss", "S" }, { "tt", "T" }, { "uu", "U" }, { "vv", "V" }, { "ww", "W" }, { "xx", "X" },
+         { "yy", "Y" },
+         { NULL, NULL } };
 
-static const char *const EXPAND_SINGLES_EXCEPT_Z[] = {
-         "A", "aa", "B", "bb", "C", "cc", "D", "dd", "E", "ee", "F", "ff", "G", "gg", "H", "hh",
-         "I", "ii", "J", "jj", "K", "kk", "L", "ll", "M", "mm", "N", "nn", "O", "oo", "P", "pp",
-         "Q", "qq", "R", "rr", "S", "ss", "T", "tt", "U", "uu", "V", "vv", "W", "ww", "X", "xx",
-         "Y", "yy",
-         NULL, };
+static const char *const EXPAND_SINGLES_EXCEPT_Z[][2] = {
+         { "A", "aa" }, { "B", "bb" }, { "C", "cc" }, { "D", "dd" }, { "E", "ee" }, { "F", "ff" }, { "G", "gg" }, { "H", "hh" },
+         { "I", "ii" }, { "J", "jj" }, { "K", "kk" }, { "L", "ll" }, { "M", "mm" }, { "N", "nn" }, { "O", "oo" }, { "P", "pp" },
+         { "Q", "qq" }, { "R", "rr" }, { "S", "ss" }, { "T", "tt" }, { "U", "uu" }, { "V", "vv" }, { "W", "ww" }, { "X", "xx" },
+         { "Y", "yy" },
+         { NULL, NULL } };
 
 static char oneByteArr[] = "";
 static utf8stringbuf_t oneByteBuf = UTF8STRINGBUF(oneByteArr);
@@ -1041,36 +1041,36 @@ static void testReplaceAll(void) {
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
 
     /* check utf8stringbuf_replace_all */
-    error = utf8stringbuf_replace_all( dynTestBuf1, XML_ENCODE );
+    error = utf8stringbuf_replace_all( dynTestBuf1, &XML_ENCODE );
     /*printf( "%s", utf8stringbuf_get_string(dynTestBuf1) );*/
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
     equal = utf8stringbuf_equals_str( dynTestBuf1, "He&amp;l&lt;&apos;" );
     TEST_ASSERT_EQUAL_INT( 1, equal );
 
-    error = utf8stringbuf_replace_all( dynTestBuf1, SQL_ENCODE );
+    error = utf8stringbuf_replace_all( dynTestBuf1, &SQL_ENCODE );
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
     equal = utf8stringbuf_equals_str( dynTestBuf1, "He&amp;l&lt;&apos;" );
     TEST_ASSERT_EQUAL_INT( 1, equal );
 
-    error = utf8stringbuf_replace_all( dynTestBuf1, XML_ENCODE );
+    error = utf8stringbuf_replace_all( dynTestBuf1, &XML_ENCODE );
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
     equal = utf8stringbuf_equals_str( dynTestBuf1, "He&amp;amp;l&amp;lt" );
     TEST_ASSERT_EQUAL_INT( 1, equal );
 
     /* change nearly everything */
-    error = utf8stringbuf_replace_all( megaByteBuf, TO_UPPER_CASE );
+    error = utf8stringbuf_replace_all( megaByteBuf, &TO_UPPER_CASE );
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
     equal = utf8stringbuf_starts_with_str( megaByteBuf, "AAAAAAAAAA" );
     TEST_ASSERT_EQUAL_INT( 1, equal );
 
     /* change everything */
-    error = utf8stringbuf_replace_all( megaByteBuf, TO_LOWER_CASE );
+    error = utf8stringbuf_replace_all( megaByteBuf, &TO_LOWER_CASE );
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
     equal = utf8stringbuf_starts_with_str( megaByteBuf, "aaaaaaaaaaaaaaaaaaaaaaaaaaa" );
     TEST_ASSERT_EQUAL_INT( 1, equal );
 
     /* change nothing */
-    error = utf8stringbuf_replace_all( megaByteBuf, TO_LOWER_CASE );
+    error = utf8stringbuf_replace_all( megaByteBuf, &TO_LOWER_CASE );
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
     equal = utf8stringbuf_starts_with_str( megaByteBuf, "aaaaaaaaaaaaaaaaaaaaaaaaaaa" );
     TEST_ASSERT_EQUAL_INT( 1, equal );
@@ -1079,31 +1079,31 @@ static void testReplaceAll(void) {
     utf8stringbuf_delete_to_end( megaByteBuf, 20000 );
 
     /* shrink at each replacement */
-    error = utf8stringbuf_replace_all( megaByteBuf, SHRINK_DUPLICATES_EXCEPT_Z );
+    error = utf8stringbuf_replace_all( megaByteBuf, &SHRINK_DUPLICATES_EXCEPT_Z );
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
     equal = utf8stringbuf_starts_with_str( megaByteBuf, "AAAAAAAAAA" );
     TEST_ASSERT_EQUAL_INT( 1, equal );
 
     /* grow at each replacement */
-    error = utf8stringbuf_replace_all( megaByteBuf, EXPAND_SINGLES_EXCEPT_Z );
+    error = utf8stringbuf_replace_all( megaByteBuf, &EXPAND_SINGLES_EXCEPT_Z );
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
     equal = utf8stringbuf_starts_with_str( megaByteBuf, "aaaaaaaaaaaaaaaaaaaaaaaaaaa" );
     TEST_ASSERT_EQUAL_INT( 1, equal );
 
 }
 
-static const char *const TEST_PATTERNS[] = {
-         "", "",
-         "", NULL,
-         "Z", NULL,
-         "Y", "yyy",
-         "Hello", "Hello World",
-         "World", "Hello World",
-         "Hello World", "",
-         "\xE2\x82\xAC", "EUR",
-         "EUR", "\xE2\x82\xAC",
-         "5E", "5 \xE2\x82\xAC",
-         NULL, };
+static const char *const TEST_PATTERNS[][2] = {
+         { "", "" },
+         { "", NULL },
+         { "Z", NULL },
+         { "Y", "yyy" },
+         { "Hello", "Hello World" },
+         { "World", "Hello World" },
+         { "Hello World", "" },
+         { "\xE2\x82\xAC", "EUR" },
+         { "EUR", "\xE2\x82\xAC" },
+         { "5E", "5 \xE2\x82\xAC" },
+         { NULL, "anything"  } };
 
 static void testReplaceAllBadCases(void) {
     int error;
@@ -1115,7 +1115,7 @@ static void testReplaceAllBadCases(void) {
 
     /* check utf8stringbuf_replace_all */
     utf8stringbuf_copy_str( dynTestBuf1, "Hello World" );
-    error = utf8stringbuf_replace_all( dynTestBuf1, TEST_PATTERNS );
+    error = utf8stringbuf_replace_all( dynTestBuf1, &TEST_PATTERNS );
     /*printf( "%s", utf8stringbuf_get_string(dynTestBuf1) );*/
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
     equal = utf8stringbuf_equals_str( dynTestBuf1, "Hello World Hello World" );
@@ -1123,7 +1123,7 @@ static void testReplaceAllBadCases(void) {
 
     /* replace everything, including shrinking */
     utf8stringbuf_copy_str( dynTestBuf2, "\xE2\x82\xAC" "Z" "\xE2\x82\xAC" );
-    error = utf8stringbuf_replace_all( dynTestBuf2, TEST_PATTERNS );
+    error = utf8stringbuf_replace_all( dynTestBuf2, &TEST_PATTERNS );
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
     equal = utf8stringbuf_equals_str( dynTestBuf2, "EUREUR" );
     TEST_ASSERT_EQUAL_INT( 1, equal );
@@ -1137,56 +1137,56 @@ static void testReplaceAllBadCases(void) {
 
     /* try to cut trailing string code point */
     utf8stringbuf_copy_str( dynTestBuf2, "\xE2\x82\xAC" "Y" "\xE2\x82\xAC" );
-    error = utf8stringbuf_replace_all( dynTestBuf2, TEST_PATTERNS );
+    error = utf8stringbuf_replace_all( dynTestBuf2, &TEST_PATTERNS );
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
     equal = utf8stringbuf_equals_str( dynTestBuf2, "EURyyy" );
     TEST_ASSERT_EQUAL_INT( 1, equal );
 
     /* first shrink, then grow, fit exactly*/
     utf8stringbuf_copy_str( dynTestBuf2, "ZZaY" "\xE2\x82\xAC" );
-    error = utf8stringbuf_replace_all( dynTestBuf2, TEST_PATTERNS );
+    error = utf8stringbuf_replace_all( dynTestBuf2, &TEST_PATTERNS );
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
     equal = utf8stringbuf_equals_str( dynTestBuf2, "ayyyEUR" );
     TEST_ASSERT_EQUAL_INT( 1, equal );
 
     /* first shrink, then grow, cut after second byte of multibyte code point*/
     utf8stringbuf_copy_str( dynTestBuf2, "ZaaY" "\xE2\x82\xAC" );
-    error = utf8stringbuf_replace_all( dynTestBuf2, TEST_PATTERNS );
+    error = utf8stringbuf_replace_all( dynTestBuf2, &TEST_PATTERNS );
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
     equal = utf8stringbuf_equals_str( dynTestBuf2, "aayyy" );
     TEST_ASSERT_EQUAL_INT( 1, equal );
 
     /* first grow, then shrink, cut after first byte of multibyte code point*/
     utf8stringbuf_copy_str( dynTestBuf2, "YZZa" "\xE2\x82\xAC" );
-    error = utf8stringbuf_replace_all( dynTestBuf2, TEST_PATTERNS );
+    error = utf8stringbuf_replace_all( dynTestBuf2, &TEST_PATTERNS );
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
     equal = utf8stringbuf_equals_str( dynTestBuf2, "yyya" );
     TEST_ASSERT_EQUAL_INT( 1, equal );
 
     /* first grow, then shrink, cut after second byte of multibyte code point*/
     utf8stringbuf_copy_str( dynTestBuf2, "YZa" "\xE2\x82\xAC" );
-    error = utf8stringbuf_replace_all( dynTestBuf2, TEST_PATTERNS );
+    error = utf8stringbuf_replace_all( dynTestBuf2, &TEST_PATTERNS );
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
     equal = utf8stringbuf_equals_str( dynTestBuf2, "yyya" );
     TEST_ASSERT_EQUAL_INT( 1, equal );
 
     /* try to cut replacement string*/
     utf8stringbuf_copy_str( dynTestBuf2, "aZWorld" );
-    error = utf8stringbuf_replace_all( dynTestBuf2, TEST_PATTERNS );
+    error = utf8stringbuf_replace_all( dynTestBuf2, &TEST_PATTERNS );
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
     equal = utf8stringbuf_equals_str( dynTestBuf2, "aHello " );
     TEST_ASSERT_EQUAL_INT( 1, equal );
 
     /* try to cut replacement code point */
     utf8stringbuf_copy_str( dynTestBuf2, "Y5EHell" );
-    error = utf8stringbuf_replace_all( dynTestBuf2, TEST_PATTERNS );
+    error = utf8stringbuf_replace_all( dynTestBuf2, &TEST_PATTERNS );
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
     equal = utf8stringbuf_equals_str( dynTestBuf2, "yyy5 " );
     TEST_ASSERT_EQUAL_INT( 1, equal );
 
     /* try to cut trailing string code point */
     utf8stringbuf_copy_str( dynTestBuf2, "a5E" "\xE2\x82\xAC" );
-    error = utf8stringbuf_replace_all( dynTestBuf2, TEST_PATTERNS );
+    error = utf8stringbuf_replace_all( dynTestBuf2, &TEST_PATTERNS );
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
     equal = utf8stringbuf_equals_str( dynTestBuf2, "a5 " "\xE2\x82\xAC" );
     TEST_ASSERT_EQUAL_INT( 1, equal );

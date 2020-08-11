@@ -16,21 +16,21 @@ const char XML_WRITER_EMPTY_TAG_START[2] = "<";
 const char XML_WRITER_EMPTY_TAG_END[4] = " />";
 const char XML_WRITER_ATTR_SEPARATOR[2] = " ";
 
-static const char * const XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[] = {
-    "<", "&lt;",
-    ">", "&gt;",
-    "\"", "&quot;",
-    "&", "&amp;",
-    NULL,  /* end translation table */
+static const char *const XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[][2] = {
+    { "<", "&lt;" },
+    { ">", "&gt;" },
+    { "\"", "&quot;" },
+    { "&", "&amp;" },
+    { NULL, NULL }  /* end translation table */
 };
 
-static const char * const XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS[] = {
-    "<", "&lt;",
-    ">", "&gt;",
-    "\"", "&quot;",
-    "&", "&amp;",
-    "-", " - ",
-    NULL,  /* end translation table */
+static const char *const XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS[][2] = {
+    { "<", "&lt;" },
+    { ">", "&gt;" },
+    { "\"", "&quot;" },
+    { "&", "&amp;" },
+    { "-", " - " },
+    { NULL, NULL }  /* end translation table */
 };
 
 void xml_writer_init ( xml_writer_t *this_,
@@ -42,8 +42,8 @@ void xml_writer_init ( xml_writer_t *this_,
     (*this_).output = output;
 
     (*this_).temp_output = utf8stringbuf_init( sizeof( (*this_).temp_output_buffer), (*this_).temp_output_buffer );
-    (*this_).xml_encode_table = XML_WRITER_PRIVATE_ENCODE_XML_STRINGS;
-    (*this_).xml_comments_encode_table = XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS;
+    (*this_).xml_encode_table = &XML_WRITER_PRIVATE_ENCODE_XML_STRINGS;
+    (*this_).xml_comments_encode_table = &XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS;
 
     TRACE_END();
 }
