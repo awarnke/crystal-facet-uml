@@ -14,6 +14,7 @@
 #include "data_table.h"
 #include "util/string/utf8stringbuf.h"
 #include "stream/universal_output_stream.h"
+#include "stream/universal_escaping_output_stream.h"
 
 /*!
  *  \brief constants for max string sizes
@@ -35,9 +36,8 @@ extern const char XML_WRITER_ATTR_SEPARATOR[2];
  */
 struct xml_writer_struct {
     universal_output_stream_t *output;  /*!< output stream where to write the generated document to */
+    universal_escaping_output_stream_t esc_output;  /*!< escaping output stream filter that does the xml escaping */
 
-    char temp_output_buffer[XML_WRITER_MAX_STRING_SIZE];  /*!< temporary output buffer to convert strings */
-    utf8stringbuf_t temp_output;  /*!< temporary output string buffer to convert strings */
     const char *const ((*xml_encode_table)[][2]);  /*!< table for xml encode string replacements */
     const char *const ((*xml_comments_encode_table)[][2]);  /*!< table for xml coments encode string replacements */
 };

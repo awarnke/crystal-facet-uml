@@ -40,8 +40,8 @@ void xml_writer_init ( xml_writer_t *this_,
     assert( NULL != output );
 
     (*this_).output = output;
+    universal_escaping_output_stream_init( &((*this_).esc_output), &XML_WRITER_PRIVATE_ENCODE_XML_STRINGS, output );
 
-    (*this_).temp_output = utf8stringbuf_init( sizeof( (*this_).temp_output_buffer), (*this_).temp_output_buffer );
     (*this_).xml_encode_table = &XML_WRITER_PRIVATE_ENCODE_XML_STRINGS;
     (*this_).xml_comments_encode_table = &XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS;
 
@@ -52,6 +52,7 @@ void xml_writer_destroy( xml_writer_t *this_ )
 {
     TRACE_BEGIN();
 
+    universal_escaping_output_stream_destroy( &((*this_).esc_output) );
     (*this_).output = NULL;
 
     TRACE_END();
