@@ -6,11 +6,11 @@
 static inline int xml_writer_write_plain ( xml_writer_t *this_, const char *text )
 {
     assert ( NULL != text );
-    assert ( NULL != (*this_).output );
     int write_err;
 
     const size_t text_len = strlen(text);
-    write_err = universal_output_stream_write ( (*this_).output, text, text_len );
+    universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).xml_plain_table );
+    write_err = universal_escaping_output_stream_write ( &((*this_).esc_output), text, text_len );
 
     return ( write_err );
 }
@@ -18,11 +18,11 @@ static inline int xml_writer_write_plain ( xml_writer_t *this_, const char *text
 static inline int xml_writer_write_xml_enc ( xml_writer_t *this_, const char *text )
 {
     assert ( NULL != text );
-    assert ( NULL != (*this_).output );
     int write_err;
 
+    const size_t text_len = strlen(text);
     universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).xml_encode_table );
-    write_err = universal_escaping_output_stream_write( &((*this_).esc_output), text, strlen(text) );
+    write_err = universal_escaping_output_stream_write( &((*this_).esc_output), text, text_len );
 
     return write_err;
 }
@@ -30,10 +30,10 @@ static inline int xml_writer_write_xml_enc ( xml_writer_t *this_, const char *te
 static inline int xml_writer_write_plain_buf ( xml_writer_t *this_, const char *start, size_t length )
 {
     assert ( NULL != start );
-    assert ( NULL != (*this_).output );
     int write_err;
 
-    write_err = universal_output_stream_write( (*this_).output, start, length );
+    universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).xml_plain_table );
+    write_err = universal_escaping_output_stream_write( &((*this_).esc_output), start, length );
 
     return ( write_err );
 }
@@ -41,7 +41,6 @@ static inline int xml_writer_write_plain_buf ( xml_writer_t *this_, const char *
 static inline int xml_writer_write_xml_enc_buf ( xml_writer_t *this_, const char *start, size_t length )
 {
     assert ( NULL != start );
-    assert ( NULL != (*this_).output );
     int write_err;
 
     universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).xml_encode_table );
@@ -53,13 +52,42 @@ static inline int xml_writer_write_xml_enc_buf ( xml_writer_t *this_, const char
 static inline int xml_writer_write_xml_comment ( xml_writer_t *this_, const char *text )
 {
     assert ( NULL != text );
-    assert ( NULL != (*this_).output );
     int write_err;
 
+    const size_t text_len = strlen(text);
     universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).xml_comments_encode_table );
-    write_err = universal_escaping_output_stream_write( &((*this_).esc_output), text, strlen(text) );
+    write_err = universal_escaping_output_stream_write( &((*this_).esc_output), text, text_len );
 
     return write_err;
+}
+
+static inline void xml_writer_reset_indent ( xml_writer_t *this_ )
+{
+    (*this_).indent_level = 0;
+    xml_writer_update_encoding_tables( this_ );
+}
+
+static inline void xml_writer_increase_indent ( xml_writer_t *this_ )
+{
+    (*this_).indent_level++;
+    xml_writer_update_encoding_tables( this_ );
+}
+
+static inline int xml_writer_decrease_indent ( xml_writer_t *this_ )
+{
+    int result = 0;
+
+    if ( (*this_).indent_level > 0 )
+    {
+        (*this_).indent_level--;
+        xml_writer_update_encoding_tables( this_ );
+    }
+    else
+    {
+        result = -1;
+    }
+
+    return result;
 }
 
 

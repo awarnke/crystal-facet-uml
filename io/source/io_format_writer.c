@@ -526,6 +526,8 @@ int io_format_writer_write_header( io_format_writer_t *this_, const char *docume
     assert ( NULL != document_title );
     int export_err = 0;
 
+    xml_writer_reset_indent ( &((*this_).xml_writer) );
+
     switch ( (*this_).export_type )
     {
         case IO_FILE_FORMAT_DOCBOOK:
@@ -613,6 +615,7 @@ int io_format_writer_start_toc_sublist ( io_format_writer_t *this_ )
         case IO_FILE_FORMAT_XHTML:
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_START );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
         }
         break;
 
@@ -720,6 +723,7 @@ int io_format_writer_end_toc_sublist ( io_format_writer_t *this_ )
     {
         case IO_FILE_FORMAT_XHTML:
         {
+            export_err |= xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_END );
         }
         break;
@@ -753,6 +757,7 @@ int io_format_writer_start_diagram( io_format_writer_t *this_, data_id_t diag_id
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_START : DOCBOOK_DIAGRAM_START );
             export_err |= xml_writer_write_plain_id ( &((*this_).xml_writer), diag_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_MIDDLE : DOCBOOK_DIAGRAM_MIDDLE );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
         }
         break;
 
@@ -769,6 +774,7 @@ int io_format_writer_start_diagram( io_format_writer_t *this_, data_id_t diag_id
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_START );
             export_err |= xml_writer_write_plain_id ( &((*this_).xml_writer), diag_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_MIDDLE );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
         }
         break;
 
@@ -961,6 +967,7 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
 
         case IO_FILE_FORMAT_XMI2:
         {
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_START );
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_START );
@@ -1405,6 +1412,7 @@ int io_format_writer_end_classifier( io_format_writer_t *this_ )
         case IO_FILE_FORMAT_XMI2:
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_END );
+            export_err |= xml_writer_decrease_indent ( &((*this_).xml_writer) );
         }
         break;
 
@@ -1441,6 +1449,7 @@ int io_format_writer_end_diagram( io_format_writer_t *this_ )
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
+            export_err |= xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_END : DOCBOOK_DIAGRAM_END );
         }
         break;
@@ -1452,6 +1461,7 @@ int io_format_writer_end_diagram( io_format_writer_t *this_ )
 
         case IO_FILE_FORMAT_XHTML:
         {
+            export_err |= xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_END );
         }
         break;

@@ -15,22 +15,147 @@ const char XML_WRITER_END_TAG_END[2] = ">";
 const char XML_WRITER_EMPTY_TAG_START[2] = "<";
 const char XML_WRITER_EMPTY_TAG_END[4] = " />";
 const char XML_WRITER_ATTR_SEPARATOR[2] = " ";
+#define XML_WRITER_PRIVATE_MAX_INDENT_LEVELS (6)
 
-static const char *const XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[][2] = {
-    { "<", "&lt;" },
-    { ">", "&gt;" },
-    { "\"", "&quot;" },
-    { "&", "&amp;" },
-    { NULL, NULL }  /* end translation table */
+static const char *const XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[XML_WRITER_PRIVATE_MAX_INDENT_LEVELS][6][2] = {
+    {
+        { "<", "&lt;" },
+        { ">", "&gt;" },
+        { "\"", "&quot;" },
+        { "&", "&amp;" },
+        { "\n", "\n" },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "<", "&lt;" },
+        { ">", "&gt;" },
+        { "\"", "&quot;" },
+        { "&", "&amp;" },
+        { "\n", "\n    " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "<", "&lt;" },
+        { ">", "&gt;" },
+        { "\"", "&quot;" },
+        { "&", "&amp;" },
+        { "\n", "\n        " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "<", "&lt;" },
+        { ">", "&gt;" },
+        { "\"", "&quot;" },
+        { "&", "&amp;" },
+        { "\n", "\n            " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "<", "&lt;" },
+        { ">", "&gt;" },
+        { "\"", "&quot;" },
+        { "&", "&amp;" },
+        { "\n", "\n                " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "<", "&lt;" },
+        { ">", "&gt;" },
+        { "\"", "&quot;" },
+        { "&", "&amp;" },
+        { "\n", "\n                    " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    }
 };
 
-static const char *const XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS[][2] = {
-    { "<", "&lt;" },
-    { ">", "&gt;" },
-    { "\"", "&quot;" },
-    { "&", "&amp;" },
-    { "-", " - " },
-    { NULL, NULL }  /* end translation table */
+static const char *const XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS[XML_WRITER_PRIVATE_MAX_INDENT_LEVELS][8][2] = {
+    {
+        { "\n", "\n" },
+        { "<", "&lt;" },
+        { ">", "&gt;" },
+        { "\"", "&quot;" },
+        { "&", "&amp;" },
+        { "-", " - " },
+        { "\n", "\n" },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "\n", "\n" },
+        { "<", "&lt;" },
+        { ">", "&gt;" },
+        { "\"", "&quot;" },
+        { "&", "&amp;" },
+        { "-", " - " },
+        { "\n", "\n    " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "\n", "\n" },
+        { "<", "&lt;" },
+        { ">", "&gt;" },
+        { "\"", "&quot;" },
+        { "&", "&amp;" },
+        { "-", " - " },
+        { "\n", "\n        " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "\n", "\n" },
+        { "<", "&lt;" },
+        { ">", "&gt;" },
+        { "\"", "&quot;" },
+        { "&", "&amp;" },
+        { "-", " - " },
+        { "\n", "\n            " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "\n", "\n" },
+        { "<", "&lt;" },
+        { ">", "&gt;" },
+        { "\"", "&quot;" },
+        { "&", "&amp;" },
+        { "-", " - " },
+        { "\n", "\n                " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "\n", "\n" },
+        { "<", "&lt;" },
+        { ">", "&gt;" },
+        { "\"", "&quot;" },
+        { "&", "&amp;" },
+        { "-", " - " },
+        { "\n", "\n                    " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    }
+};
+
+static const char *const XML_WRITER_PRIVATE_INDENT_PLAIN[XML_WRITER_PRIVATE_MAX_INDENT_LEVELS][2][2] = {
+    {
+        { "\n", "\n" },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "\n", "\n    " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "\n", "\n        " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "\n", "\n            " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "\n", "\n                " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "\n", "\n                    " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    }
 };
 
 void xml_writer_init ( xml_writer_t *this_,
@@ -40,10 +165,12 @@ void xml_writer_init ( xml_writer_t *this_,
     assert( NULL != output );
 
     (*this_).output = output;
-    universal_escaping_output_stream_init( &((*this_).esc_output), &XML_WRITER_PRIVATE_ENCODE_XML_STRINGS, output );
+    universal_escaping_output_stream_init( &((*this_).esc_output), &(XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[0]), output );
+    (*this_).indent_level = 0;
 
-    (*this_).xml_encode_table = &XML_WRITER_PRIVATE_ENCODE_XML_STRINGS;
-    (*this_).xml_comments_encode_table = &XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS;
+    (*this_).xml_encode_table = &(XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[0]);
+    (*this_).xml_comments_encode_table = &(XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS[0]);
+    (*this_).xml_plain_table = &(XML_WRITER_PRIVATE_INDENT_PLAIN[0]);
 
     TRACE_END();
 }
@@ -63,7 +190,6 @@ int xml_writer_write_plain_id ( xml_writer_t *this_, data_id_t id )
     TRACE_BEGIN();
     assert( DATA_TABLE_VOID != data_id_get_table(&id) );
     assert( DATA_ROW_ID_VOID != data_id_get_row_id(&id) );
-    assert( NULL != (*this_).output );
     int result = 0;
 
     /* print id */
@@ -74,11 +200,27 @@ int xml_writer_write_plain_id ( xml_writer_t *this_, data_id_t id )
         data_id_to_utf8stringbuf( &id, id_str );
 
         const unsigned int len = utf8stringbuf_get_length(id_str);
-        result = universal_output_stream_write( (*this_).output, utf8stringbuf_get_string(id_str), len );
+        universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).xml_plain_table );
+        result = universal_escaping_output_stream_write( &((*this_).esc_output), utf8stringbuf_get_string(id_str), len );
     }
 
     TRACE_END_ERR( result );
     return result;
+}
+
+void xml_writer_update_encoding_tables ( xml_writer_t *this_ )
+{
+    TRACE_BEGIN();
+
+    const unsigned int level
+        = ( (*this_).indent_level >= XML_WRITER_PRIVATE_MAX_INDENT_LEVELS )
+        ? ( XML_WRITER_PRIVATE_MAX_INDENT_LEVELS - 1 )
+        : ( (*this_).indent_level );
+    (*this_).xml_encode_table = &(XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[level]);
+    (*this_).xml_comments_encode_table = &(XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS[level]);
+    (*this_).xml_plain_table = &(XML_WRITER_PRIVATE_INDENT_PLAIN[level]);
+
+    TRACE_END();
 }
 
 

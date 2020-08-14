@@ -37,9 +37,11 @@ extern const char XML_WRITER_ATTR_SEPARATOR[2];
 struct xml_writer_struct {
     universal_output_stream_t *output;  /*!< output stream where to write the generated document to */
     universal_escaping_output_stream_t esc_output;  /*!< escaping output stream filter that does the xml escaping */
+    unsigned int indent_level;  /*!< current indentation level of written lines */
 
     const char *const ((*xml_encode_table)[][2]);  /*!< table for xml encode string replacements */
     const char *const ((*xml_comments_encode_table)[][2]);  /*!< table for xml coments encode string replacements */
+    const char *const ((*xml_plain_table)[][2]);  /*!< table for xml plain output, just performing indentation */
 };
 
 typedef struct xml_writer_struct xml_writer_t;
@@ -118,6 +120,35 @@ static inline int xml_writer_write_xml_enc_buf ( xml_writer_t *this_, const char
  *  \result 0 in case of success, -1 otherwise
  */
 static inline int xml_writer_write_xml_comment ( xml_writer_t *this_, const char *text );
+
+/*!
+ *  \brief resets the indentation level to 0
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void xml_writer_reset_indent ( xml_writer_t *this_ );
+
+/*!
+ *  \brief increases the indentation level
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void xml_writer_increase_indent ( xml_writer_t *this_ );
+
+/*!
+ *  \brief decreases the indentation level
+ *
+ *  \param this_ pointer to own object attributes
+ *  \result 0 in case of success, -1 if the indent was already 0
+ */
+static inline int xml_writer_decrease_indent ( xml_writer_t *this_ );
+
+/*!
+ *  \brief adapts the encoding tables according to the current indentation level
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void xml_writer_update_encoding_tables ( xml_writer_t *this_ );
 
 #include "xml_writer.inl"
 
