@@ -15,7 +15,7 @@ const char XML_WRITER_END_TAG_END[2] = ">";
 const char XML_WRITER_EMPTY_TAG_START[2] = "<";
 const char XML_WRITER_EMPTY_TAG_END[4] = " />";
 const char XML_WRITER_ATTR_SEPARATOR[2] = " ";
-#define XML_WRITER_PRIVATE_MAX_INDENT_LEVELS (6)
+#define XML_WRITER_PRIVATE_MAX_INDENT_LEVELS (8)
 
 static const char *const XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[XML_WRITER_PRIVATE_MAX_INDENT_LEVELS][6][2] = {
     {
@@ -64,6 +64,22 @@ static const char *const XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[XML_WRITER_PRIVAT
         { "\"", "&quot;" },
         { "&", "&amp;" },
         { "\n", "\n                    " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "<", "&lt;" },
+        { ">", "&gt;" },
+        { "\"", "&quot;" },
+        { "&", "&amp;" },
+        { "\n", "\n                        " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "<", "&lt;" },
+        { ">", "&gt;" },
+        { "\"", "&quot;" },
+        { "&", "&amp;" },
+        { "\n", "\n                            " },  /* indentation level */
         { NULL, NULL }  /* end translation table */
     }
 };
@@ -128,6 +144,26 @@ static const char *const XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS[XML_WRITER_PRIVA
         { "-", " - " },
         { "\n", "\n                    " },  /* indentation level */
         { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "\n", "\n" },
+        { "<", "&lt;" },
+        { ">", "&gt;" },
+        { "\"", "&quot;" },
+        { "&", "&amp;" },
+        { "-", " - " },
+        { "\n", "\n                        " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "\n", "\n" },
+        { "<", "&lt;" },
+        { ">", "&gt;" },
+        { "\"", "&quot;" },
+        { "&", "&amp;" },
+        { "-", " - " },
+        { "\n", "\n                            " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
     }
 };
 
@@ -154,6 +190,14 @@ static const char *const XML_WRITER_PRIVATE_INDENT_PLAIN[XML_WRITER_PRIVATE_MAX_
     },
     {
         { "\n", "\n                    " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "\n", "\n                        " },  /* indentation level */
+        { NULL, NULL }  /* end translation table */
+    },
+    {
+        { "\n", "\n                            " },  /* indentation level */
         { NULL, NULL }  /* end translation table */
     }
 };

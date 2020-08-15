@@ -27,51 +27,49 @@
 /* IO_FILE_FORMAT_DOCBOOK */
 
 static const char DOCBOOK_ENC[]
-    = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+    = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 static const char DOCBOOK_DOC_START[]
-    = "<book xmlns=\"http://docbook.org/ns/docbook\" version=\"5.0\" xml:lang=\"en\">\n";
+    = "\n<book xmlns=\"http://docbook.org/ns/docbook\" version=\"5.0\" xml:lang=\"en\">";
 static const char DOCBOOK_DOC_TITLE_START[]
-    = "    <title>";
+    = "\n<title>";
 static const char DOCBOOK_DOC_TITLE_END[]
-    = "</title>\n";
+    = "</title>";
 static const char DOCBOOK_DOC_END[]
-    = "</book>\n";
+    = "\n</book>\n";
 
 static const char DOCBOOK_TOP_DIAGRAM_START[]
-    = "    <chapter xml:id=\"";
+    = "\n<chapter xml:id=\"";
 static const char DOCBOOK_TOP_DIAGRAM_MIDDLE[]
-    = "\">\n";
+    = "\">";
 static const char DOCBOOK_TOP_DIAGRAM_END[]
-    = "    </chapter>\n";
+    = "\n</chapter>";
 static const char DOCBOOK_DIAGRAM_START[]
-    = "    <section xml:id=\"";
+    = "\n<section xml:id=\"";
 static const char DOCBOOK_DIAGRAM_MIDDLE[]
-    = "\">\n";
+    = "\">";
 static const char DOCBOOK_DIAGRAM_TITLE_START[]
-    = "        <title>";
+    = "\n<title>";
 static const char DOCBOOK_DIAGRAM_TITLE_END[]
-    = "</title>\n";
+    = "</title>";
 static const char DOCBOOK_DIAGRAM_IMG_START[]
-    = "\n"
-      "        <para>\n"
-      "            <mediaobject>\n"
-      "                <imageobject><imagedata fileref=\"";
+    = "\n<para>"
+      "\n    <mediaobject>"
+      "\n        <imageobject><imagedata fileref=\"";
 static const char DOCBOOK_DIAGRAM_IMG_MIDDLE[]
-    = ".pdf\" width=\"12cm\"/></imageobject>\n"
-      "                <imageobject><imagedata fileref=\"";
+    = ".pdf\" width=\"12cm\"/></imageobject>"
+      "\n        <imageobject><imagedata fileref=\"";
 static const char DOCBOOK_DIAGRAM_IMG_END[]
-    = ".png\"/></imageobject>\n"
-      "            </mediaobject>\n"
-      "        </para>\n";
+    = ".png\"/></imageobject>"
+      "\n    </mediaobject>"
+      "\n</para>";
 static const char DOCBOOK_DIAGRAM_END[]
-    = "    </section>\n";
+    = "\n</section>";
 
 static const char DOCBOOK_DESCRIPTION_START[]
-    = "        <para>\n";
+    = "\n<para>";
 static const char DOCBOOK_DESCRIPTION_MIDDLE[]  /* optional */
-    = "\n"
-      "        </para>\n"
-      "        <para>\n";
+    = "\n</para>"
+      "\n<para>";
 static const char DOCBOOK_DESCRIPTION_XREF_START[]
     = "<xref linkend=\"";
 static const char DOCBOOK_DESCRIPTION_XREF_MIDDLE[]
@@ -79,57 +77,55 @@ static const char DOCBOOK_DESCRIPTION_XREF_MIDDLE[]
 static const char DOCBOOK_DESCRIPTION_XREF_END[]
     = "";
 static const char DOCBOOK_DESCRIPTION_END[]
-    = "\n"
-      "        </para>\n";
+    = "\n</para>";
 
 static const char DOCBOOK_ELEMENT_LIST_START[]
-    = "        <variablelist>\n";
+    = "\n<variablelist>";
 static const char DOCBOOK_ELEMENT_START[]
-    = "            <varlistentry>\n";
+    = "\n<varlistentry>";
 static const char DOCBOOK_ELEMENT_NAME_START[]
-    = "                <term>";
+    = "\n    <term>";
 static const char DOCBOOK_ELEMENT_NAME_END[]
-    = "</term>\n";
+    = "\n    </term>";
 static const char DOCBOOK_ELEMENT_ID_START[]
-    = "                <listitem>\n"
-      "                    <para><token>";
+    = "\n    <listitem>"
+      "\n        <para><token>";
 static const char DOCBOOK_ELEMENT_ID_END[]
-    = "</token></para>\n";
+    = "\n        </token></para>";
 static const char DOCBOOK_ELEMENT_DESCR_START[]  /* optional */
-    = "                    <para>\n";
+    = "\n        <para>";
 static const char DOCBOOK_ELEMENT_DESCR_END[]  /* optional */
-    = "\n"
-      "                    </para>\n";
+    = "\n        </para>";
 static const char DOCBOOK_ELEMENT_END[]
-    = "                </listitem>\n"
-      "            </varlistentry>\n";
+    = "\n    </listitem>"
+      "\n</varlistentry>";
 static const char DOCBOOK_ELEMENT_LIST_END[]
-    = "        </variablelist>\n";
+    = "\n</variablelist>";
 
 /* IO_FILE_FORMAT_XMI2 */
 
 static const char XMI2_ENC[]
-    = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+    = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.1 : 1,1a,1e,1f */
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 12.3.3.1.3 */
 /* spec-ref: https://www.omg.org/spec/SysML/1.6/PDF chapter G.3 */
 static const char XMI2_DOC_START[]
-    = "<xmi:XMI xmlns:xmi=\"http://www.omg.org/spec/XMI/20131001\"\n"
-      "         xmlns:uml=\"http://www.omg.org/spec/UML/20161101\"\n"
-      "         xmlns:SysML=\"http://www.omg.org/spec/SysML/20181001\">\n"
-      "         <!-- XMI 2.5.1, UML 2.5.1, SysML 1.6 -->\n";
+    = "\n<xmi:XMI xmlns:xmi=\"http://www.omg.org/spec/XMI/20131001\""
+      "\n         xmlns:uml=\"http://www.omg.org/spec/UML/20161101\""
+      "\n         xmlns:SysML=\"http://www.omg.org/spec/SysML/20181001\">"
+      "\n         <!-- XMI 2.5.1, UML 2.5.1, SysML 1.6 -->";
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.1 : 1,1a */
 static const char XMI2_DOC_END[]
-    = "</xmi:XMI>\n";
+    = "\n</xmi:XMI>";
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 7.5.3 + 7.5.5 */
 static const char XMI2_DOC_METAINFO_START[]
-    = "<xmi:Documentation exporter=\"";
+    = "\n<xmi:Documentation exporter=\"";
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 7.5.3 + 7.5.5 */
 static const char XMI2_DOC_METAINFO_MIDDLE[]
     = "\" exporterVersion=\"";
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 7.5.3 + 7.5.5 */
 static const char XMI2_DOC_METAINFO_END[]
-    = "\"/>\n";
+    = "\"/>";
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.2 : 2e */
 static const char XMI2_GENERIC_ID_START[]
     = "xmi:id=\"";
@@ -157,137 +153,133 @@ static const char XMI2_GENERIC_NAME_END[]
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 12.2.2, 12.3.5 */
 /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Packages */
 static const char XMI2_UML_MODEL_START[]
-    = "<uml:Model ";
+    = "\n<uml:Model ";
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 12.2.2, 12.3.5 */
 static const char XMI2_UML_MODEL_MIDDLE[]
-    = ">\n";
+    = ">";
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 12.2.2, 12.3.5 */
 static const char XMI2_UML_MODEL_END[]
-    = "</uml:Model>\n";
+    = "\n</uml:Model>";
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 12.3.5 */
 static const char XMI2_UML_PACKAGED_ELEMENT_START[]
-    = "    <packagedElement ";
+    = "\n<packagedElement ";
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 12.3.5 */
 static const char XMI2_UML_PACKAGED_ELEMENT_MIDDLE[]
-    = ">\n";
+    = ">";
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 12.3.5 */
 static const char XMI2_UML_PACKAGED_ELEMENT_END[]
-    = "    </packagedElement>\n";
-static const char XMI2_GENERIC_FEATURE_INDENT[]
-    = "        ";
-static const char XMI2_GENERIC_NEWLINE[]
-    = "\n";
+    = "\n</packagedElement>";
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.4 */
 static const char XMI2_UML_OWNED_COMMENT_START[]
-    = "        <ownedComment ";
+    = "\n<ownedComment ";
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.4 */
 static const char XMI2_UML_OWNED_COMMENT_MIDDLE[]
-    = ">\n";
+    = "\n>";
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.4 */
 static const char XMI2_UML_OWNED_COMMENT_END[]
-    = "        </ownedComment>\n";
+    = "\n</ownedComment>";
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.5 */
 static const char XMI2_UML_OWNED_COMMENT_BODY_START[]
-    = "\n            body=\"";
+    = "\nbody=\"";
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.5 */
 static const char XMI2_UML_OWNED_COMMENT_BODY_END[]
     = "\" ";
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.9.2 */
 static const char XMI2_UML_ANNOTATED_ELEMENT_START[]
-    = "            <annotatedElement ";
+    = "\n<annotatedElement ";
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.9.2 */
 static const char XMI2_UML_ANNOTATED_ELEMENT_END[]
-    = "/>\n";
+    = "/>";
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.8.3 */
 static const char XMI2_UML_MEMBER_END_START[]
-    = "        <memberEnd ";
+    = "\n<memberEnd ";
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.8.3 */
 static const char XMI2_UML_MEMBER_END_END[]
-    = "/>\n";
+    = "/>";
 
 /* IO_FILE_FORMAT_XHTML */
 
 enum XHTML_DIAGRAM_MAX { XHTML_DIAGRAM_MAX_DEPTH = 6, };
 static const char XHTML_ENC[]
-    = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n";
+    = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>";
 static const char XHTML_DTD[]
-    = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n";
+    = "\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">";
 static const char XHTML_DOC_START[]
-    = "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
+    = "\n<html xmlns=\"http://www.w3.org/1999/xhtml\">";
 static const char XHTML_HEAD_START[]
-    = "    <head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />";
+    = "\n<head>"
+      "\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />";
 static const char XHTML_HEAD_TITLE_START[]
-    = "        <title>";
+    = "\n<title>";
 static const char XHTML_HEAD_TITLE_END[]
-    = "</title>\n";
+    = "</title>";
 static const char XHTML_HEAD_CSS_START[]
-    = "        <link rel=\"stylesheet\" type=\"text/css\" href=\"";
+    = "\n<link rel=\"stylesheet\" type=\"text/css\" href=\"";
 static const char XHTML_HEAD_CSS_END[]
-    = ".css\" />\n";
+    = ".css\" />";
 static const char XHTML_HEAD_END[]
-    = "    </head>\n";
+    = "\n</head>";
 static const char XHTML_BODY_START[]
-    = "    <body>\n";
+    = "\n<body>";
 static const char XHTML_BODY_END[]
-    = "    </body>\n";
+    = "\n</body>";
 static const char XHTML_DOC_END[]
-    = "</html>\n";
+    = "\n</html>\n";
 static const char XHTML_TOC_SUBLIST_START[]
-    = "        <ul class=\"toc\">\n";
+    = "\n<ul class=\"toc\">";
 static const char *XHTML_TOC_SUBLIST_ENTRY_START[XHTML_DIAGRAM_MAX_DEPTH]
     = {
-      "            <li class=\"toc1\">\n",
-      "            <li class=\"toc2\">\n",
-      "            <li class=\"toc3\">\n",
-      "            <li class=\"toc4\">\n",
-      "            <li class=\"toc5\">\n",
-      "            <li class=\"toc6\">\n"
+      "\n<li class=\"toc1\">",
+      "\n<li class=\"toc2\">",
+      "\n<li class=\"toc3\">",
+      "\n<li class=\"toc4\">",
+      "\n<li class=\"toc5\">",
+      "\n<li class=\"toc6\">"
       };
 static const char XHTML_TOC_SUBLIST_ENTRY_TITLE_START[]
-    = "                <a href=\"#";
+    = "\n<a href=\"#";
 static const char XHTML_TOC_SUBLIST_ENTRY_TITLE_MIDDLE[]
     = "\">";
 static const char XHTML_TOC_SUBLIST_ENTRY_TITLE_END[]
-    = "</a>\n";
+    = "</a>";
 static const char XHTML_TOC_SUBLIST_ENTRY_END[]
-    = "            </li>\n";
+    = "\n</li>";
 static const char XHTML_TOC_SUBLIST_END[]
-    = "        </ul>\n";
+    = "\n</ul>";
 
 static const char XHTML_DIAGRAM_START[]
-    = "        <div class=\"diagram\" id=\"";
+    = "\n<div class=\"diagram\" id=\"";
 static const char XHTML_DIAGRAM_MIDDLE[]
-    = "\">\n";
+    = "\">";
 static const char *XHTML_DIAGRAM_TITLE_START[XHTML_DIAGRAM_MAX_DEPTH]
     = {
-      "            <h1 class=\"title\">",
-      "            <h2 class=\"title\">",
-      "            <h3 class=\"title\">",
-      "            <h4 class=\"title\">",
-      "            <h5 class=\"title\">",
-      "            <h6 class=\"title\">"
+      "\n<h1 class=\"title\">",
+      "\n<h2 class=\"title\">",
+      "\n<h3 class=\"title\">",
+      "\n<h4 class=\"title\">",
+      "\n<h5 class=\"title\">",
+      "\n<h6 class=\"title\">"
       };
 static const char *XHTML_DIAGRAM_TITLE_END[XHTML_DIAGRAM_MAX_DEPTH]
     = {
-      "</h1>\n",
-      "</h2>\n",
-      "</h3>\n",
-      "</h4>\n",
-      "</h5>\n",
-      "</h6>\n"
+      "</h1>",
+      "</h2>",
+      "</h3>",
+      "</h4>",
+      "</h5>",
+      "</h6>"
       };
 static const char XHTML_DIAGRAM_IMG_START[]
-    = "                <div class=\"mediaobject\"><img src=\"";
+    = "\n<div class=\"mediaobject\"><img src=\"";
 static const char XHTML_DIAGRAM_IMG_END[]
-    = ".png\" alt=\"\" /></div>\n";
+    = ".png\" alt=\"\" /></div>";
 static const char XHTML_DIAGRAM_END[]
-    = "        </div>\n";
+    = "\n</div>";
 
 static const char XHTML_DESCRIPTION_START[]
-    = "            <div class=\"description\"><p>\n";
+    = "\n<div class=\"description\"><p>";
 static const char XHTML_DESCRIPTION_MIDDLE[]  /* optional */
-    = "\n"
-      "            <br />\n";
+    = "\n<br />\n";
 static const char XHTML_DESCRIPTION_XREF_START[]
     = "<a href=\"#";
 static const char XHTML_DESCRIPTION_XREF_MIDDLE[]
@@ -295,31 +287,29 @@ static const char XHTML_DESCRIPTION_XREF_MIDDLE[]
 static const char XHTML_DESCRIPTION_XREF_END[]
     = "</a>";
 static const char XHTML_DESCRIPTION_END[]
-    = "\n"
-      "            </p></div>\n";
+    = "\n</p></div>";
 
 static const char XHTML_ELEMENT_LIST_START[]
-    = "            <div class=\"element\">\n";
+    = "\n<div class=\"element\">";
 static const char XHTML_ELEMENT_START[]
-    = "            <p>\n";
+    = "\n<p>";
 static const char XHTML_ELEMENT_NAME_START[]
-    = "                <strong class=\"elementname\">";
+    = "\n<strong class=\"elementname\">";
 static const char XHTML_ELEMENT_NAME_END[]
-    = "</strong>\n";
+    = "</strong>";
 static const char XHTML_ELEMENT_ID_START[]
-    = "                <em class=\"elementid\">";
+    = "\n<em class=\"elementid\">";
 static const char XHTML_ELEMENT_ID_END[]
-    = "</em>\n";
+    = "</em>";
 static const char XHTML_ELEMENT_DESCR_START[]  /* optional */
-    = "\n"
-      "            </p>\n"
-      "            <p class=\"elementdescr\">\n";
+    = "\n</p>"
+      "\n<p class=\"elementdescr\">\n";
 static const char XHTML_ELEMENT_DESCR_END[]  /* optional */
     = "\n";
 static const char XHTML_ELEMENT_END[]
-    = "            </p>\n";
+    = "\n</p>";
 static const char XHTML_ELEMENT_LIST_END[]
-    = "            </div>\n";
+    = "\n</div>";
 
 /* IO_FILE_FORMAT_TXT */
 
@@ -534,6 +524,7 @@ int io_format_writer_write_header( io_format_writer_t *this_, const char *docume
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ENC );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DOC_START );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DOC_TITLE_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), document_title );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DOC_TITLE_END );
@@ -552,11 +543,12 @@ int io_format_writer_write_header( io_format_writer_t *this_, const char *docume
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), META_VERSION_STR );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_DOC_METAINFO_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
-                                                   "<!-- this xmi export is experimental -->\n"
-                                                   "<!-- please check for a newer version of crystal_facet_uml -->\n"
-                                                   "<!-- at https://github.com/awarnke/crystal_facet_uml -->\n" );
+                                                   "\n<!-- this xmi export is experimental -->"
+                                                   "\n<!-- please check for a newer version of crystal_facet_uml -->"
+                                                   "\n<!-- at https://github.com/awarnke/crystal_facet_uml -->" );
             /* uml model */
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MODEL_START );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_START );
 /* TODO */            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), "uml:Model" );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_END );
@@ -573,14 +565,17 @@ int io_format_writer_write_header( io_format_writer_t *this_, const char *docume
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DTD );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DOC_START );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_HEAD_START );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_HEAD_TITLE_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), document_title );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_HEAD_TITLE_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_HEAD_CSS_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), document_title );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_HEAD_CSS_END );
+            export_err |= xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_HEAD_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_BODY_START );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
         }
         break;
 
@@ -643,6 +638,7 @@ int io_format_writer_start_toc_entry ( io_format_writer_t *this_ )
                 ? (XHTML_DIAGRAM_MAX_DEPTH-1)
                 : ((*this_).current_tree_depth-1);
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_ENTRY_START[index_of_depth] );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
         }
         break;
 
@@ -699,6 +695,7 @@ int io_format_writer_end_toc_entry ( io_format_writer_t *this_ )
     {
         case IO_FILE_FORMAT_XHTML:
         {
+            export_err |= xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_ENTRY_END );
         }
         break;
@@ -763,9 +760,9 @@ int io_format_writer_start_diagram( io_format_writer_t *this_, data_id_t diag_id
 
         case IO_FILE_FORMAT_XMI2:
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n\n<!-- " );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- " );
             export_err |= xml_writer_write_plain_id ( &((*this_).xml_writer), diag_id );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->" );
         }
         break;
 
@@ -833,12 +830,12 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
 
         case IO_FILE_FORMAT_XMI2:
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!-- " );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- " );
             export_err |= xml_writer_write_xml_comment ( &((*this_).xml_writer), diag_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<!--\n" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!--\n" );
             export_err |= xml_writer_write_xml_comment ( &((*this_).xml_writer), diag_description );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n-->\n" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n-->" );
         }
         break;
 
@@ -967,8 +964,8 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
 
         case IO_FILE_FORMAT_XMI2:
         {
-            xml_writer_increase_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_START );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_START );
             const char* c_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types), classifier_type );
@@ -988,7 +985,7 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
             if ( 0 != classifier_stereo_len )
             {
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
-                                                       "        <!-- note: export of stereotypes is subject to change -->\n"
+                                                       "\n<!-- note: export of stereotypes is subject to change -->"
                                                      );
 /* TODO */                export_err |= io_format_writer_private_write_xmi_comment( this_,
 /* TODO */                                                                          classifier_id,
@@ -1073,6 +1070,7 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
         case IO_FILE_FORMAT_DOCBOOK:
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_START );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_key );
             if ( 0 != feature_value_len )
@@ -1090,6 +1088,7 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
                 export_err |= md_filter_transform ( &((*this_).md_filter), feature_descr );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_DESCR_END );
             }
+            export_err |= xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_END );
         }
         break;
@@ -1097,7 +1096,8 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
         case IO_FILE_FORMAT_XMI2:
         {
             const char* owning_type = xmi_type_converter_get_xmi_owning_type_of_feature( &((*this_).xmi_types), feature_type );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_FEATURE_INDENT );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n" );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), owning_type );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
@@ -1116,12 +1116,11 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_END );
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NEWLINE );
 
             if ( 0 != feature_value_len )
             {
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
-                                                       "        <!-- note: export of valuetypes is subject to change -->\n"
+                                                       "\n<!-- note: export of valuetypes is subject to change -->"
                                                      );
                 export_err |= io_format_writer_private_write_xmi_comment( this_,
                                                                           feature_id,
@@ -1139,17 +1138,17 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
                                                                         );
             }
 
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_FEATURE_INDENT );
+            export_err |= xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), owning_type );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NEWLINE );
         }
         break;
 
         case IO_FILE_FORMAT_XHTML:
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_START );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_key );
             if ( 0 != feature_value_len )
             {
@@ -1166,6 +1165,7 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
                 export_err |= md_filter_transform ( &((*this_).md_filter), feature_descr );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_DESCR_END );
             }
+            export_err |= xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_END );
         }
         break;
@@ -1236,6 +1236,7 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
             /* list start */
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_START );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_LIST_START );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
             /* element */
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_START );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_START );
@@ -1248,12 +1249,15 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_END );
             if ( 0 != relation_descr_len )
             {
+                xml_writer_increase_indent ( &((*this_).xml_writer) );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_DESCR_START );
                 export_err |= md_filter_transform ( &((*this_).md_filter), relation_descr );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_DESCR_END );
+                export_err |= xml_writer_decrease_indent ( &((*this_).xml_writer) );
             }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_END );
             /* list end */
+            export_err |= xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_LIST_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_END );
         }
@@ -1277,6 +1281,7 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_END );
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_MIDDLE );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
 
             if ( 0 != relation_descr_len )
             {
@@ -1315,10 +1320,13 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MEMBER_END_END );
 
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "        <!-- " );
+            /*
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- " );
             export_err |= xml_writer_write_xml_comment ( &((*this_).xml_writer), dest_classifier_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->\n" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->" );
+            */
 
+            export_err |= xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_END );
         }
         break;
@@ -1411,8 +1419,8 @@ int io_format_writer_end_classifier( io_format_writer_t *this_ )
 
         case IO_FILE_FORMAT_XMI2:
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_END );
             export_err |= xml_writer_decrease_indent ( &((*this_).xml_writer) );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_END );
         }
         break;
 
@@ -1522,12 +1530,14 @@ int io_format_writer_write_footer( io_format_writer_t *this_ )
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
+            export_err |= xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DOC_END );
         }
         break;
 
         case IO_FILE_FORMAT_XMI2:
         {
+            export_err |= xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MODEL_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_DOC_END );
         }
@@ -1535,6 +1545,7 @@ int io_format_writer_write_footer( io_format_writer_t *this_ )
 
         case IO_FILE_FORMAT_XHTML:
         {
+            export_err |= xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_BODY_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DOC_END );
         }
@@ -1594,6 +1605,7 @@ int io_format_writer_private_write_xmi_comment( io_format_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_COMMENT_BODY_END );
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_COMMENT_MIDDLE );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_ANNOTATED_ELEMENT_START );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_START );
@@ -1601,6 +1613,7 @@ int io_format_writer_private_write_xmi_comment( io_format_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_ANNOTATED_ELEMENT_END );
 
+            export_err |= xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_COMMENT_END );
         }
         break;
