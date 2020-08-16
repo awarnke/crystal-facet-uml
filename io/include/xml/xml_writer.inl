@@ -73,10 +73,8 @@ static inline void xml_writer_increase_indent ( xml_writer_t *this_ )
     xml_writer_update_encoding_tables( this_ );
 }
 
-static inline int xml_writer_decrease_indent ( xml_writer_t *this_ )
+static inline void xml_writer_decrease_indent ( xml_writer_t *this_ )
 {
-    int result = 0;
-
     if ( (*this_).indent_level > 0 )
     {
         (*this_).indent_level--;
@@ -84,10 +82,8 @@ static inline int xml_writer_decrease_indent ( xml_writer_t *this_ )
     }
     else
     {
-        result = -1;
+        assert(false);
     }
-
-    return result;
 }
 
 

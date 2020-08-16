@@ -36,7 +36,7 @@ struct io_export_model_traversal_struct {
     io_format_writer_t *format_writer;  /*!< pointer to external io_format_writer_t which is the output sink */
 
     data_id_t written_id_set_buf[IO_EXPORT_MODEL_TRAVERSAL_MAX_TOTAL_ELEMENTS];  /*!< buffer for list of already exported element ids */
-    universal_array_list_t written_id_set;  /*!< list of already exported element ids */
+    universal_array_list_t written_id_set;  /*!< list of already exported element ids (extended when starting to export an element), used for classifiers and relationships */
 
     data_classifier_t temp_classifier;  /*!< own buffer for private use as data cache */
     data_node_set_t temp_node_data;  /*!< own buffer for private use as data cache */
@@ -79,12 +79,14 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to process
+ *  \param containment_relationship_id id of the containment relationship which caused the processing, DATA_ID_VOID if not applicable
  *  \param recursion_depth current number of tree depth.
  *  \return -1 in case of error,
  *          0 in case of success.
  */
 int io_export_model_traversal_private_walk_unique_node ( io_export_model_traversal_t *this_,
                                                          data_id_t classifier_id,
+                                                         data_id_t containment_relationship_id,
                                                          unsigned int recursion_depth
                                                        );
 

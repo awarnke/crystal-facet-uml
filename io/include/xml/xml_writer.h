@@ -139,12 +139,13 @@ static inline void xml_writer_increase_indent ( xml_writer_t *this_ );
  *  \brief decreases the indentation level
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 if the indent was already 0
  */
-static inline int xml_writer_decrease_indent ( xml_writer_t *this_ );
+static inline void xml_writer_decrease_indent ( xml_writer_t *this_ );
 
 /*!
  *  \brief adapts the encoding tables according to the current indentation level
+ *
+ *  asserts that no more decreases are called than increases
  *
  *  \param this_ pointer to own object attributes
  */
