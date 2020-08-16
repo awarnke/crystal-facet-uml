@@ -24,6 +24,10 @@ ideas for future versions:
   [ ] export formats: enhance xmi standard compliance
   [ ] how to exclude diagrams from export? some are unimportant and exist just for completeness
   [ ] import XMI format
+  [ ] validate export XMI format at http://validator.omg.org/se-interop/tools/validator
+      using mof 2.5.1: https://www.omg.org/spec/MOF/20131001/MOF.xmi
+      using uml 2.5.1: https://www.omg.org/spec/UML/20161101/StandardProfile.xmi
+      using sysml 1.6: https://www.omg.org/spec/SysML/20181001/SysML.xmi
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> add a "display_flags" field to "diagrams"
@@ -38,14 +42,3 @@ ideas for future versions:
   [ ] add streaming support, e.g. to escape characters while writing to a file or to parse json before having received all data
   @main
   @ts_log/trace/test_fw
-
-
-SEVERE:
-| | | ' io_exporter_private_export_document_file [end]
-| | ' io_exporter_export_files [end]
-| | + io_file_format_to_string [begin]
-| | ' io_file_format_to_string [end]
-| | + gui_simple_message_to_user_show_message_with_string [begin]
-Speicherzugriffsfehler
-ANALYSIS-STATUS: Was reproducible with one build binary, not reproducable anymore after rebuild. Possibly inconsistent image?
-ANALYSIS-STATUS: Code review of gui_file_export_dialog and gui_simple_message_to_user did not reveal flaws in memory.

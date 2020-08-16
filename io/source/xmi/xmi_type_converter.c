@@ -404,6 +404,7 @@ const char* xmi_type_converter_get_xmi_owning_type_of_feature ( xmi_type_convert
         {
             /* spec: https://www.omg.org/spec/UML/2.5.1/PDF ch 11.6.2 */
             result = "required";
+            /* TODO look out for ownedReception */
         }
         break;
 

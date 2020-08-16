@@ -105,15 +105,20 @@ static const char DOCBOOK_ELEMENT_LIST_END[]
 /* IO_FILE_FORMAT_XMI2 */
 
 static const char XMI2_ENC[]
-    = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
+    = "<?xml version=\"1.0\" encoding=\"utf-8\" \"standalone='yes\"?>";
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.1 : 1,1a,1e,1f */
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 12.3.3.1.3 */
 /* spec-ref: https://www.omg.org/spec/SysML/1.6/PDF chapter G.3 */
+//static const char XMI2_DOC_START[]
+//    = "\n<xmi:XMI xmlns:xmi=\"http://www.omg.org/spec/XMI/20131001\""
+//      "\n         xmlns:uml=\"http://www.omg.org/spec/UML/20161101\""
+//      "\n         xmlns:SysML=\"http://www.omg.org/spec/SysML/20181001\">"
+//      "\n         <!-- XMI 2.5.1, UML 2.5.1, SysML 1.6 -->";
 static const char XMI2_DOC_START[]
-    = "\n<xmi:XMI xmlns:xmi=\"http://www.omg.org/spec/XMI/20131001\""
-      "\n         xmlns:uml=\"http://www.omg.org/spec/UML/20161101\""
-      "\n         xmlns:SysML=\"http://www.omg.org/spec/SysML/20181001\">"
-      "\n         <!-- XMI 2.5.1, UML 2.5.1, SysML 1.6 -->";
+    = "\n<xmi:XMI xmlns:uml=\"http://www.omg.org/spec/UML/20110701\""
+      "\n         xmlns:xmi=\"http://www.omg.org/spec/XMI/20110701\""
+      "\n         xmlns:SysML=\"http://www.omg.org/spec/SysML/20131001/SysML.xmi\">"
+      "\n         <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->";
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.1 : 1,1a */
 static const char XMI2_DOC_END[]
     = "\n</xmi:XMI>";
