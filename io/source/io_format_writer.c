@@ -105,7 +105,7 @@ static const char DOCBOOK_ELEMENT_LIST_END[]
 /* IO_FILE_FORMAT_XMI2 */
 
 static const char XMI2_ENC[]
-    = "<?xml version=\"1.0\" encoding=\"utf-8\" \"standalone='yes\"?>";
+    = "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>";
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.1 : 1,1a,1e,1f */
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 12.3.3.1.3 */
 /* spec-ref: https://www.omg.org/spec/SysML/1.6/PDF chapter G.3 */
@@ -547,10 +547,6 @@ int io_format_writer_write_header( io_format_writer_t *this_, const char *docume
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_DOC_METAINFO_MIDDLE );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), META_VERSION_STR );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_DOC_METAINFO_END );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
-                                                   "\n<!-- this xmi export is experimental -->"
-                                                   "\n<!-- please check for a newer version of crystal_facet_uml -->"
-                                                   "\n<!-- at https://github.com/awarnke/crystal_facet_uml -->" );
             /* uml model */
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MODEL_START );
             xml_writer_increase_indent ( &((*this_).xml_writer) );
