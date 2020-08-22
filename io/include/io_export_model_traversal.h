@@ -78,6 +78,7 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
  *  Classifiers that are contained in written_id_set or that are beyond max_recursion are not traversed.
  *
  *  \param this_ pointer to own object attributes
+ *  \param parent_type type of the parent classiier, needed for xmi export
  *  \param classifier_id id of the classifier to process
  *  \param containment_relationship_id id of the containment relationship which caused the processing, DATA_ID_VOID if not applicable
  *  \param recursion_depth current number of tree depth.
@@ -85,6 +86,7 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
  *          0 in case of success.
  */
 int io_export_model_traversal_private_walk_unique_node ( io_export_model_traversal_t *this_,
+                                                         data_classifier_type_t parent_type,
                                                          data_id_t classifier_id,
                                                          data_id_t containment_relationship_id,
                                                          unsigned int recursion_depth
@@ -94,6 +96,7 @@ int io_export_model_traversal_private_walk_unique_node ( io_export_model_travers
  *  \brief writes the node, features and relationships and recusively descends the containment tree (graph) of a classifier.
  *
  *  \param this_ pointer to own object attributes
+ *  \param parent_type type of the parent classiier, needed for xmi export
  *  \param classifier_id id of the classifier to process
  *  \param recursion_depth current number of tree depth. Used to actively limit the recursive descend to max IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH.
  *  \return -1 in case of error,
@@ -103,6 +106,7 @@ int io_export_model_traversal_private_walk_unique_node ( io_export_model_travers
  *          0 is returned nonetheless.
  */
 int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *this_,
+                                                  data_classifier_type_t parent_type,
                                                   data_id_t classifier_id,
                                                   unsigned int recursion_depth
                                                 );

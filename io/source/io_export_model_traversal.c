@@ -71,6 +71,7 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
                 else
                 {
                     write_err |= io_export_model_traversal_private_walk_unique_node ( this_,
+                                                                                      DATA_CLASSIFIER_TYPE_UML_PACKAGE, /* a uml:Model is a uml:Package*/
                                                                                       data_classifier_get_data_id( &((*this_).temp_classifier) ),
                                                                                       DATA_ID_VOID,
                                                                                       0 /* initial recursion_depth */
@@ -91,6 +92,7 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
 }
 
 int io_export_model_traversal_private_walk_unique_node ( io_export_model_traversal_t *this_,
+                                                         data_classifier_type_t parent_type,
                                                          data_id_t classifier_id,
                                                          data_id_t containment_relationship_id,
                                                          unsigned int recursion_depth )
@@ -109,7 +111,7 @@ int io_export_model_traversal_private_walk_unique_node ( io_export_model_travers
         }
 
         /* walk node which is not a duplicate */
-        write_err |= io_export_model_traversal_private_walk_node( this_, classifier_id, recursion_depth );
+        write_err |= io_export_model_traversal_private_walk_node( this_, parent_type, classifier_id, recursion_depth );
     }
 
     TRACE_END_ERR( write_err );
@@ -117,6 +119,7 @@ int io_export_model_traversal_private_walk_unique_node ( io_export_model_travers
 }
 
 int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *this_,
+                                                  data_classifier_type_t parent_type,
                                                   data_id_t classifier_id,
                                                   unsigned int recursion_depth )
 {
@@ -127,6 +130,7 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
     data_small_set_init (&contained_classifiers);
     data_small_set_t containment_relations;
     data_small_set_init (&containment_relations);
+    data_classifier_type_t classifier_type = DATA_CLASSIFIER_TYPE_UML_PACKAGE;  /* default */
 
     /* load and process the node set */
     {
@@ -142,9 +146,10 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
         else
         {
             /* get classifier */
-            const data_classifier_t *classifier;
-            classifier = data_node_set_get_classifier_const ( &((*this_).temp_node_data) );
-            write_err |= io_format_writer_start_classifier( (*this_).format_writer );
+            const data_classifier_t *const classifier
+                = data_node_set_get_classifier_const ( &((*this_).temp_node_data) );
+            classifier_type = data_classifier_get_main_type( classifier );
+            write_err |= io_format_writer_start_nested_classifier( (*this_).format_writer, parent_type, classifier );
             write_err |= io_format_writer_write_classifier( (*this_).format_writer, classifier );
 
             write_err |= io_export_model_traversal_private_iterate_node_features( this_, &((*this_).temp_node_data) );
@@ -192,7 +197,7 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
         {
             const data_id_t child = data_small_set_get_id ( &contained_classifiers, index );
             const data_id_t c_rel = data_small_set_get_id ( &containment_relations, index );
-            write_err |= io_export_model_traversal_private_walk_unique_node( this_, child, c_rel, recursion_depth+1 );
+            write_err |= io_export_model_traversal_private_walk_unique_node( this_, classifier_type, child, c_rel, recursion_depth+1 );
         }
     }
 
@@ -209,7 +214,10 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
         }
         else
         {
-            write_err |= io_format_writer_end_classifier( (*this_).format_writer );
+            /* get classifier again */
+            const data_classifier_t *const classifier
+                = data_node_set_get_classifier_const ( &((*this_).temp_node_data) );
+            write_err |= io_format_writer_end_nested_classifier( (*this_).format_writer, parent_type, classifier );
 
             write_err |= io_export_model_traversal_private_iterate_node_relationships( this_,
                                                                                        &((*this_).temp_node_data)

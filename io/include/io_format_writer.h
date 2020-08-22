@@ -147,6 +147,21 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
 int io_format_writer_start_classifier( io_format_writer_t *this_ );
 
 /*!
+ *  \brief writes a classifier start
+ *
+ *  This starts a division that contains a classifier and a list of features and relationships
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_type type of the parent classifier, needed for xmi export
+ *  \param classifier_ptr pointer to classifier that shall be written, not NULL
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_format_writer_start_nested_classifier( io_format_writer_t *this_, 
+                                              data_classifier_type_t parent_type,
+                                              const data_classifier_t *classifier_ptr
+                                            );
+
+/*!
  *  \brief writes a classifier of the document
  *
  *  \param this_ pointer to own object attributes
@@ -176,6 +191,21 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
                                          const data_relationship_t *relation_ptr,
                                          const data_classifier_t *dest_classifier_ptr
                                        );
+
+/*!
+ *  \brief writes a classifier end
+ *
+ *  This ends a division that contains a classifier and a list of features and relationships
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_type type of the parent classiier, needed for xmi export
+ *  \param classifier_ptr pointer to classifier that shall be written, not NULL
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_format_writer_end_nested_classifier( io_format_writer_t *this_,
+                                            data_classifier_type_t parent_type,
+                                            const data_classifier_t *classifier_ptr
+                                          );
 
 /*!
  *  \brief writes a classifier end
