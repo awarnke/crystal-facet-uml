@@ -294,250 +294,249 @@ const char* xmi_type_converter_get_xmi_nesting_type_of_classifier ( xmi_type_con
     TRACE_BEGIN();
     const char* result = "";
 
+    /*
     if ( child_type == DATA_CLASSIFIER_TYPE_UML_USE_CASE )
     {
-        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Classifier */
+        / * spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Classifier * /
         result = "ownedUseCase";
     }
-    else
+    */
+    switch ( parent_type )
     {
-        switch ( parent_type )
+        case DATA_CLASSIFIER_TYPE_BLOCK:
         {
-            case DATA_CLASSIFIER_TYPE_BLOCK:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
-                result = "packagedElement";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
-                result = "ownedBehavior";
-                /* TODO */
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_FEATURE:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
-                result = "packagedElement";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_REQUIREMENT:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
-                result = "packagedElement";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_UML_ACTOR:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
-                result = "packagedElement";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
-                result = "ownedBehavior";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
-                result = "packagedElement";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
-                /*result = "ownedBehavior";*/
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: ActivityNode */
-                result = "node";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_UML_STATE:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
-                /*result = "ownedBehavior";*/
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredActivityNode */
-                result = "node";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredActivityNode */
-                result = "node";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_UML_NODE:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
-                result = "nestedNode";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
-                result = "packagedElement";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_UML_PART:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
-                result = "packagedElement";
-                /* TODO */
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
-                result = "nestedClassifier";
-                /* TODO */
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Packages */
-                result = "packagedElement";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_UML_CLASS:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
-                result = "nestedClassifier";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_UML_OBJECT:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
-                result = "nestedClassifier";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
-                result = "nestedArtifact";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_UML_COMMENT:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
-                result = "nestedClassifier";
-                /* TODO */
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: InterruptibleActivityRegion */
-                result = "node";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
-                result = "ownedBehavior";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
-                result = "ownedBehavior";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
-                result = "ownedBehavior";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
-                result = "ownedBehavior";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
-                result = "ownedBehavior";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
-                result = "ownedBehavior";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
-                result = "ownedBehavior";
-            }
-            break;
-
-            /*
-            case DATA_CLASSIFIER_TYPE_DYN_PARTITION:
-            {
-                / * spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers * /
-                result = "ownedBehavior";
-            }
-            break;
-            */
-
-            case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
-                result = "ownedBehavior";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
-                result = "ownedBehavior";
-            }
-            break;
-
-            case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
-            {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
-                result = "ownedBehavior";
-            }
-            break;
-
-            default:
-            {
-                TSLOG_ERROR_INT( "switch case statement for data_classifier_type_t incomplete", parent_type );
-                assert( 0 );
-                result = "";
-            }
-            break;
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
+            result = "packagedElement";
         }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+            result = "ownedBehavior";
+            /* TODO */
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_FEATURE:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
+            result = "packagedElement";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_REQUIREMENT:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
+            result = "packagedElement";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_ACTOR:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
+            result = "packagedElement";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+            result = "ownedBehavior";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
+            result = "packagedElement";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+            /*result = "ownedBehavior";*/
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: ActivityNode */
+            result = "node";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_STATE:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+            /*result = "ownedBehavior";*/
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredActivityNode */
+            result = "node";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredActivityNode */
+            result = "node";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_NODE:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
+            result = "nestedNode";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
+            result = "packagedElement";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_PART:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
+            result = "packagedElement";
+            /* TODO */
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
+            result = "nestedClassifier";
+            /* TODO */
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Packages */
+            result = "packagedElement";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_CLASS:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
+            result = "nestedClassifier";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_OBJECT:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
+            result = "nestedClassifier";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
+            result = "nestedArtifact";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_COMMENT:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
+            result = "nestedClassifier";
+            /* TODO */
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: InterruptibleActivityRegion */
+            result = "node";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+            result = "ownedBehavior";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+            result = "ownedBehavior";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+            result = "ownedBehavior";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+            result = "ownedBehavior";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+            result = "ownedBehavior";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+            result = "ownedBehavior";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+            result = "ownedBehavior";
+        }
+        break;
+
+        /*
+        case DATA_CLASSIFIER_TYPE_DYN_PARTITION:
+        {
+            / * spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers * /
+            result = "ownedBehavior";
+        }
+        break;
+        */
+
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+            result = "ownedBehavior";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+            result = "ownedBehavior";
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
+        {
+            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+            result = "ownedBehavior";
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR_INT( "switch case statement for data_classifier_type_t incomplete", parent_type );
+            assert( 0 );
+            result = "";
+        }
+        break;
     }
 
     TRACE_END_ERR( ('\0'==*result) ? -1 : 0 );
