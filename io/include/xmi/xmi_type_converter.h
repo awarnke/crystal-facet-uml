@@ -9,6 +9,7 @@
  *  \brief converts crystal facet uml types to xmi (uml and sysml) types
  */
 
+#include "xmi/xmi_spec.h"
 #include "data_diagram_type.h"
 #include "data_classifier_type.h"
 #include "data_feature_type.h"
@@ -38,13 +39,26 @@ void xmi_type_converter_init( xmi_type_converter_t *this_ );
 void xmi_type_converter_destroy( xmi_type_converter_t *this_ );
 
 /*!
+ *  \brief gets the xmi specification bitset for data_classifier_type_t types
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param c_type data_classifier_type_t to evaluate
+ *  \result xmi specification bitset
+ */
+xmi_spec_t xmi_type_converter_get_xmi_spec_of_classifier ( xmi_type_converter_t *this_, data_classifier_type_t c_type );
+
+/*!
  *  \brief gets a string representation of a data_classifier_type_t
  *
  *  \param this_ pointer to own object attributes
  *  \param c_type data_classifier_type_t to convert to a string
+ *  \param spec according to which specification? profiles are extensions to base mof+uml.
  *  \result string representation of c_type, empty string if not available
  */
-const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t *this_, data_classifier_type_t c_type );
+const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t *this_, 
+                                                            data_classifier_type_t c_type, 
+                                                            xmi_spec_t spec
+                                                          );
 
 /*!
  *  \brief gets a string representation of the xmi nesting-type of a data_classifier_type_t

@@ -19,10 +19,219 @@ void xmi_type_converter_destroy( xmi_type_converter_t *this_ )
     TRACE_END();
 }
 
+xmi_spec_t xmi_type_converter_get_xmi_spec_of_classifier ( xmi_type_converter_t *this_, data_classifier_type_t c_type )
+{
+    TRACE_BEGIN();
+    xmi_spec_t result = XMI_SPEC_VOID;
+
+    switch ( c_type )
+    {
+        case DATA_CLASSIFIER_TYPE_BLOCK:
+        {
+            result = XMI_SPEC_SYSML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
+        {
+            result = XMI_SPEC_SYSML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_FEATURE:
+        {
+            result = XMI_SPEC_SYSML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_REQUIREMENT:
+        {
+            result = XMI_SPEC_SYSML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_ACTOR:
+        {
+            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
+        {
+            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
+        {
+            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
+        {
+            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_STATE:
+        {
+            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
+        {
+            result = XMI_SPEC_UML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_NODE:
+        {
+            result = XMI_SPEC_UML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
+        {
+            result = XMI_SPEC_UML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_PART:
+        {
+            result = XMI_SPEC_UML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
+        {
+            result = XMI_SPEC_UML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
+        {
+            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_CLASS:
+        {
+            result = XMI_SPEC_UML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_OBJECT:
+        {
+            result = XMI_SPEC_UML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
+        {
+            result = XMI_SPEC_UML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_COMMENT:
+        {
+            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
+        {
+            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
+        {
+            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
+        {
+            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
+        {
+            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
+        {
+            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
+        {
+            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
+        {
+            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
+        {
+            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
+        }
+        break;
+
+        /*
+        case DATA_CLASSIFIER_TYPE_DYN_PARTITION:
+        {
+            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
+        }
+        break;
+        */
+
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT:
+        {
+            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
+        {
+            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
+        {
+            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR_INT( "switch case statement for data_classifier_type_t incomplete", c_type );
+            assert( 0 );
+        }
+        break;
+    }
+    
+    TRACE_END();
+    return result;
+}
+
 #define XMI_TYPE_CONVERTER_NS_UML "uml:"
 #define XMI_TYPE_CONVERTER_NS_SYSML "SysML:"
 
-const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t *this_, data_classifier_type_t c_type )
+const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t *this_, 
+                                                            data_classifier_type_t c_type, 
+                                                            xmi_spec_t spec )
 {
     TRACE_BEGIN();
     const char* result = "";
@@ -32,32 +241,41 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
         case DATA_CLASSIFIER_TYPE_BLOCK:
         {
             /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Blocks */
-            result = XMI_TYPE_CONVERTER_NS_SYSML "Block";
-            /* TODO: spec ok but is ignored at import to EA */
+            result 
+                = ( (spec & XMI_SPEC_SYSML) == XMI_SPEC_SYSML )
+                ? XMI_TYPE_CONVERTER_NS_SYSML "Block"
+                : XMI_TYPE_CONVERTER_NS_UML "Class";  /* base class from which the sysml profile is derived */
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
         {
             /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: ConstraintBlocks */
-            result = XMI_TYPE_CONVERTER_NS_SYSML "ConstraintBlock";
+            result 
+                = ( (spec & XMI_SPEC_SYSML) == XMI_SPEC_SYSML )
+                ? XMI_TYPE_CONVERTER_NS_SYSML "ConstraintBlock"
+                : XMI_TYPE_CONVERTER_NS_UML "Class";  /* base class from which the sysml profile is derived */
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_FEATURE:
         {
             /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
-            result = XMI_TYPE_CONVERTER_NS_SYSML "Requirement";
+            result 
+                = ( (spec & XMI_SPEC_SYSML) == XMI_SPEC_SYSML )
+                ? XMI_TYPE_CONVERTER_NS_SYSML "Requirement"
+                : XMI_TYPE_CONVERTER_NS_UML "Class";  /* base class from which the sysml profile is derived */
             /* note: there is no special type in SysML for a feature or composite requirement */
-            /* TODO: spec ok but is ignored at import to EA */
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_REQUIREMENT:
         {
             /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
-            result = XMI_TYPE_CONVERTER_NS_SYSML "Requirement";
-            /* TODO: spec ok but is ignored at import to EA */
+            result 
+                = ( (spec & XMI_SPEC_SYSML) == XMI_SPEC_SYSML )
+                ? XMI_TYPE_CONVERTER_NS_SYSML "Requirement"
+                : XMI_TYPE_CONVERTER_NS_UML "Class";  /* base class from which the sysml profile is derived */
         }
         break;
 
