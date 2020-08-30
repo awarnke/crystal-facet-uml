@@ -13,11 +13,13 @@
  *  \brief bit set of xmi specifications for crystal facet uml types
  */
 enum xmi_spec_enum {
-    XMI_SPEC_VOID  = 0x0000,  /*!< not specified anywhere */
-    XMI_SPEC_MOF   = 0x0001,  /*!< specified in MOF specification */
-    XMI_SPEC_XMI   = 0x0002,  /*!< specified in XMI file format specification */
-    XMI_SPEC_UML   = 0x0004,  /*!< specified in UML specification */
-    XMI_SPEC_SYSML = 0x0008,  /*!< specified in SYSML profile specification */
+    XMI_SPEC_VOID      = 0x0000,  /*!< not specified anywhere */
+    XMI_SPEC_MOF       = 0x0001,  /*!< specified in MOF specification */
+    XMI_SPEC_XMI       = 0x0002,  /*!< specified in XMI file format specification */
+    XMI_SPEC_UML       = 0x0004,  /*!< specified in UML specification */
+    XMI_SPEC_PRIMITIVE = 0x0008,  /*!< specified in Primitive Types profile specification */
+    XMI_SPEC_STANDARD  = 0x0010,  /*!< specified in StandardProfile specification */
+    XMI_SPEC_SYSML     = 0x0020,  /*!< specified in SYSML profile specification */
 };
 
 typedef enum xmi_spec_enum xmi_spec_t;
