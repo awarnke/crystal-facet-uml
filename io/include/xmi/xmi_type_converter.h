@@ -92,6 +92,15 @@ const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *t
 const char* xmi_type_converter_get_xmi_owning_type_of_feature ( xmi_type_converter_t *this_, data_feature_type_t f_type );
 
 /*!
+ *  \brief gets the xmi specification bitset for data_relationship_type_t types
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param r_type data_relationship_type_t to evaluate
+ *  \result xmi specification bitset
+ */
+xmi_spec_t xmi_type_converter_get_xmi_spec_of_relationship ( xmi_type_converter_t *this_, data_relationship_type_t r_type );
+
+/*!
  *  \brief gets a string representation of a data_relationship_type_t
  *
  *  \param this_ pointer to own object attributes

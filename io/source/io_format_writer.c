@@ -116,6 +116,7 @@ static const char XMI2_ENC[]
 //      "\n         <!-- XMI 2.5.1, UML 2.5.1, SysML 1.6 -->";
 static const char XMI2_DOC_START[]
     = "\n<xmi:XMI xmlns:uml=\"http://www.omg.org/spec/UML/20110701\""
+      "\n         xmlns:StandardProfile=\"http://www.omg.org/spec/UML/20131001/StandardProfile\""
       "\n         xmlns:xmi=\"http://www.omg.org/spec/XMI/20110701\""
       "\n         xmlns:SysML=\"http://www.omg.org/spec/SysML/20131001/SysML.xmi\">"
       /*"\n         xmlns:SysML=\"http://www.omg.org/spec/SysML/20120322/SysML\">"*/
@@ -1503,7 +1504,6 @@ int io_format_writer_end_nested_classifier( io_format_writer_t *this_,
 
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
         
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
         export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), sysml_type );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
