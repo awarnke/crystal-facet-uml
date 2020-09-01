@@ -221,7 +221,7 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_classifier ( xmi_type_converter_t 
         }
         break;
     }
-    
+
     TRACE_END();
     return result;
 }
@@ -230,8 +230,8 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_classifier ( xmi_type_converter_t 
 #define XMI_TYPE_CONVERTER_NS_SYSML "SysML:"
 #define XMI_TYPE_CONVERTER_NS_STDPROF "StandardProfile:"
 
-const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t *this_, 
-                                                            data_classifier_type_t c_type, 
+const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t *this_,
+                                                            data_classifier_type_t c_type,
                                                             xmi_spec_t spec )
 {
     TRACE_BEGIN();
@@ -242,7 +242,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
         case DATA_CLASSIFIER_TYPE_BLOCK:
         {
             /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Blocks */
-            result 
+            result
                 = ( (spec & XMI_SPEC_SYSML) == XMI_SPEC_SYSML )
                 ? XMI_TYPE_CONVERTER_NS_SYSML "Block"
                 : XMI_TYPE_CONVERTER_NS_UML "Class";  /* base class from which the sysml profile is derived */
@@ -252,7 +252,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
         case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
         {
             /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: ConstraintBlocks */
-            result 
+            result
                 = ( (spec & XMI_SPEC_SYSML) == XMI_SPEC_SYSML )
                 ? XMI_TYPE_CONVERTER_NS_SYSML "ConstraintBlock"
                 : XMI_TYPE_CONVERTER_NS_UML "Class";  /* base class from which the sysml profile is derived */
@@ -262,7 +262,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
         case DATA_CLASSIFIER_TYPE_FEATURE:
         {
             /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
-            result 
+            result
                 = ( (spec & XMI_SPEC_SYSML) == XMI_SPEC_SYSML )
                 ? XMI_TYPE_CONVERTER_NS_SYSML "Requirement"
                 : XMI_TYPE_CONVERTER_NS_UML "Class";  /* base class from which the sysml profile is derived */
@@ -273,7 +273,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
         case DATA_CLASSIFIER_TYPE_REQUIREMENT:
         {
             /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
-            result 
+            result
                 = ( (spec & XMI_SPEC_SYSML) == XMI_SPEC_SYSML )
                 ? XMI_TYPE_CONVERTER_NS_SYSML "Requirement"
                 : XMI_TYPE_CONVERTER_NS_UML "Class";  /* base class from which the sysml profile is derived */
@@ -507,7 +507,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
 }
 
 const char* xmi_type_converter_get_xmi_nesting_type_of_classifier ( xmi_type_converter_t *this_,
-                                                                    data_classifier_type_t parent_type, 
+                                                                    data_classifier_type_t parent_type,
                                                                     data_classifier_type_t child_type )
 {
     TRACE_BEGIN();
@@ -762,7 +762,18 @@ const char* xmi_type_converter_get_xmi_nesting_type_of_classifier ( xmi_type_con
     return result;
 }
 
-const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *this_, data_feature_type_t f_type )
+xmi_spec_t xmi_type_converter_get_xmi_spec_of_feature ( xmi_type_converter_t *this_, data_feature_type_t f_type )
+{
+    TRACE_BEGIN();
+    xmi_spec_t result = XMI_SPEC_UML;  /* all currently known features are defined in the uml specification */
+
+    TRACE_END();
+    return result;
+}
+
+const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *this_,
+                                                         data_feature_type_t f_type,
+                                                         xmi_spec_t spec )
 {
     TRACE_BEGIN();
     const char* result = "";
@@ -908,137 +919,18 @@ const char* xmi_type_converter_get_xmi_owning_type_of_feature ( xmi_type_convert
 xmi_spec_t xmi_type_converter_get_xmi_spec_of_relationship ( xmi_type_converter_t *this_, data_relationship_type_t r_type )
 {
     TRACE_BEGIN();
-    xmi_spec_t result = XMI_SPEC_VOID;
-
-    switch ( r_type )
-    {
-        case DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY:
-        {
-            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION:
-        {
-            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_AGGREGATION:
-        {
-            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_COMPOSITION:
-        {
-            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION:
-        {
-            result = XMI_SPEC_UML;
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_REALIZATION:
-        {
-            result = XMI_SPEC_UML;
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL:
-        {
-            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL:
-        {
-            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL:
-        {
-            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH:
-        {
-            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW:
-        {
-            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW:
-        {
-            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
-        {
-            result = XMI_SPEC_UML;
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:
-        {
-            result = XMI_SPEC_UML;
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_EXTEND:
-        {
-            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
-        {
-            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT:
-        {
-            result = XMI_SPEC_UML | XMI_SPEC_SYSML;
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_REFINE:
-        {
-            result = XMI_SPEC_SYSML;
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_TRACE:
-        {
-            result = XMI_SPEC_SYSML;
-        }
-        break;
-
-        default:
-        {
-            TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", r_type );
-            assert( 0 );
-        }
-        break;
-    }
+    xmi_spec_t result
+        = (( r_type == DATA_RELATIONSHIP_TYPE_UML_REFINE )||( r_type == DATA_RELATIONSHIP_TYPE_UML_TRACE ))
+        ? XMI_SPEC_STANDARD
+        : XMI_SPEC_UML;
 
     TRACE_END();
     return result;
 }
 
-const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter_t *this_, data_relationship_type_t r_type )
+const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter_t *this_,
+                                                              data_relationship_type_t r_type,
+                                                              xmi_spec_t spec  )
 {
     TRACE_BEGIN();
     const char* result = "";
@@ -1179,16 +1071,20 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
         case DATA_RELATIONSHIP_TYPE_UML_REFINE:
         {
             /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
-            /* spec: https://www.omg.org/spec/UML/StandardProfile.xmi (v2.5.1) */
-            result = XMI_TYPE_CONVERTER_NS_UML "Refine";
+            result
+                = ( (spec & XMI_SPEC_STANDARD) == XMI_SPEC_STANDARD )
+                ? XMI_TYPE_CONVERTER_NS_STDPROF "Refine"
+                : XMI_TYPE_CONVERTER_NS_UML "Class";  /* base class from which the standard profile is derived */
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_TRACE:
         {
             /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
-            /* spec: https://www.omg.org/spec/UML/StandardProfile.xmi (v2.5.1) */
-            result = XMI_TYPE_CONVERTER_NS_UML "Trace";
+            result
+                = ( (spec & XMI_SPEC_STANDARD) == XMI_SPEC_STANDARD )
+                ? XMI_TYPE_CONVERTER_NS_STDPROF "Trace"
+                : XMI_TYPE_CONVERTER_NS_UML "Class";  /* base class from which the standard profile is derived */
         }
         break;
 

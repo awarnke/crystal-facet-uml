@@ -52,11 +52,11 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_classifier ( xmi_type_converter_t 
  *
  *  \param this_ pointer to own object attributes
  *  \param c_type data_classifier_type_t to convert to a string
- *  \param spec according to which specification? profiles are extensions to base mof+uml.
+ *  \param spec control, according to which specification the xmi type shall be returned. profiles define extensions to base types in mof+uml.
  *  \result string representation of c_type, empty string if not available
  */
-const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t *this_, 
-                                                            data_classifier_type_t c_type, 
+const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t *this_,
+                                                            data_classifier_type_t c_type,
                                                             xmi_spec_t spec
                                                           );
 
@@ -68,19 +68,32 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
  *  \param child_type data_classifier_type_t of the nested child of which the nesting-type shall be determined
  *  \result string representation of the nesting-link type, empty string if not available
  */
-const char* xmi_type_converter_get_xmi_nesting_type_of_classifier ( xmi_type_converter_t *this_, 
-                                                                    data_classifier_type_t parent_type, 
-                                                                    data_classifier_type_t child_type 
+const char* xmi_type_converter_get_xmi_nesting_type_of_classifier ( xmi_type_converter_t *this_,
+                                                                    data_classifier_type_t parent_type,
+                                                                    data_classifier_type_t child_type
                                                                   );
+
+/*!
+ *  \brief gets the xmi specification bitset for data_classifier_type_t types
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param f_type data_feature_type_t to evaluate
+ *  \result xmi specification bitset
+ */
+xmi_spec_t xmi_type_converter_get_xmi_spec_of_feature ( xmi_type_converter_t *this_, data_feature_type_t f_type );
 
 /*!
  *  \brief gets a string representation of a data_feature_type_t
  *
  *  \param this_ pointer to own object attributes
  *  \param f_type data_feature_type_t to convert to a string
+ *  \param spec control, according to which specification the xmi type shall be returned. profiles define extensions to base types in mof+uml.
  *  \result string representation of f_type, empty string if not available
  */
-const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *this_, data_feature_type_t f_type );
+const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *this_,
+                                                         data_feature_type_t f_type,
+                                                         xmi_spec_t spec
+                                                       );
 
 /*!
  *  \brief gets a string representation of the xmi owning-type of a data_feature_type_t
@@ -105,9 +118,13 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_relationship ( xmi_type_converter_
  *
  *  \param this_ pointer to own object attributes
  *  \param r_type data_relationship_type_t to convert to a string
+ *  \param spec control, according to which specification the xmi type shall be returned. profiles define extensions to base types in mof+uml.
  *  \result string representation of r_type, empty string if not available
  */
-const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter_t *this_, data_relationship_type_t r_type );
+const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter_t *this_,
+                                                              data_relationship_type_t r_type,
+                                                              xmi_spec_t spec
+                                                            );
 
 #endif  /* XMI_TYPE_CONVERTER_H */
 

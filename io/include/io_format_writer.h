@@ -14,6 +14,7 @@
  */
 
 #include "io_file_format.h"
+#include "io_writer_pass.h"
 #include "xml/xml_writer.h"
 #include "txt/txt_writer.h"
 #include "xmi/xmi_type_converter.h"
@@ -27,10 +28,11 @@
 #include "stream/universal_output_stream.h"
 
 /*!
- *  \brief attributes of the document exporter
+ *  \brief attributes of the format writer
  */
 struct io_format_writer_struct {
     io_file_format_t export_type;  /*!< format of output document */
+    io_writer_pass_t mode;  /*!< depending on the mode, conversion from a data object to the output format differs */
     uint32_t current_tree_depth;  /*!< tree depth in diagram tree, starts at 0, increases with every call to io_format_writer_start_diagram */
 
     txt_writer_t txt_writer;  /*!< own instance of a txt writer */
@@ -42,7 +44,7 @@ struct io_format_writer_struct {
 typedef struct io_format_writer_struct io_format_writer_t;
 
 /*!
- *  \brief initializes the document exporter
+ *  \brief initializes the format writer
  *
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader object
@@ -56,11 +58,19 @@ void io_format_writer_init( io_format_writer_t *this_,
                           );
 
 /*!
- *  \brief destroys the document exporter
+ *  \brief destroys the format writer
  *
  *  \param this_ pointer to own object attributes
  */
 void io_format_writer_destroy( io_format_writer_t *this_ );
+
+/*!
+ *  \brief sets the conversion mode of the format writer
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param mode mode how to convert a data object to the output format, e.g. uml-basic or profile-extension
+ */
+void io_format_writer_set_mode( io_format_writer_t *this_, io_writer_pass_t mode );
 
 /*!
  *  \brief writes the header of the document
@@ -113,6 +123,16 @@ int io_format_writer_end_toc_entry ( io_format_writer_t *this_ );
 int io_format_writer_end_toc_sublist ( io_format_writer_t *this_ );
 
 /*!
+ *  \brief writes the start of the main section
+ *
+ *  This starts a section that contains the main part of the document
+ *
+ *  \param this_ pointer to own object attributes
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_format_writer_start_main( io_format_writer_t *this_ );
+
+/*!
  *  \brief writes a diagram start
  *
  *  This starts a section that contains a diagram and a list of classifiers
@@ -156,7 +176,7 @@ int io_format_writer_start_classifier( io_format_writer_t *this_ );
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \result 0 in case of success, -1 otherwise
  */
-int io_format_writer_start_nested_classifier( io_format_writer_t *this_, 
+int io_format_writer_start_nested_classifier( io_format_writer_t *this_,
                                               data_classifier_type_t parent_type,
                                               const data_classifier_t *classifier_ptr
                                             );
@@ -228,7 +248,17 @@ int io_format_writer_end_classifier( io_format_writer_t *this_ );
 int io_format_writer_end_diagram( io_format_writer_t *this_ );
 
 /*!
- *  \brief writes a diagram of the document
+ *  \brief writes the ending of the main section
+ *
+ *  This ends a section that contains the main part of the document
+ *
+ *  \param this_ pointer to own object attributes
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_format_writer_end_main( io_format_writer_t *this_ );
+
+/*!
+ *  \brief writes the footer of the document
  *
  *  \param this_ pointer to own object attributes
  *  \result 0 in case of success, -1 otherwise

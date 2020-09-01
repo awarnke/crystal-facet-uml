@@ -336,6 +336,10 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
                                           );
             /* write the document */
             export_err |= io_format_writer_write_header( &((*this_).temp_format_writer), document_file_name );
+            export_err |= io_format_writer_start_main( &((*this_).temp_format_writer) );
+            export_err |= io_export_model_traversal_walk_model_nodes( &((*this_).temp_model_traversal) );
+            export_err |= io_format_writer_end_main( &((*this_).temp_format_writer) );
+            io_format_writer_set_mode( &((*this_).temp_format_writer ), IO_WRITER_PASS_PROFILE );
             export_err |= io_export_model_traversal_walk_model_nodes( &((*this_).temp_model_traversal) );
             export_err |= io_format_writer_write_footer( &((*this_).temp_format_writer) );
 
