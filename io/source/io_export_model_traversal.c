@@ -51,8 +51,9 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
     {
         data_error_t data_err;
         data_database_iterator_classifiers_t classifier_iterator;
+        universal_array_list_clear( &((*this_).written_id_set) );
 
-        /* test the iterator, init */
+        /* init the iterator */
         data_database_iterator_classifiers_init_empty( &classifier_iterator );
         data_err = data_database_reader_get_all_classifiers_iterator ( (*this_).db_reader, &classifier_iterator );
         if ( data_err != DATA_ERROR_NONE )
