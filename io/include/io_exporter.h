@@ -13,6 +13,8 @@
 #include "image/image_format_writer.h"
 #include "io_export_model_traversal.h"
 #include "io_export_diagram_traversal.h"
+#include "io_format_writer.h"
+#include "xmi/xmi_element_writer.h"
 #include "storage/data_database.h"
 #include "pencil_diagram_maker.h"
 #include "set/data_visible_set.h"
@@ -33,6 +35,7 @@ struct io_exporter_struct {
     io_export_model_traversal_t temp_model_traversal;  /*!< own instance of a model_traversal for text export */
     io_export_diagram_traversal_t temp_diagram_traversal;  /*!< own instance of a diagram_traversal for text export */
     io_format_writer_t temp_format_writer;  /*!< memory for a temporary format writer */
+    xmi_element_writer_t temp_xmi_writer;  /*!< memory for a temporary xmi writer */
 
     char temp_filename_buf[512];  /*!< buffer space for temporary filename construction */
     utf8stringbuf_t temp_filename;  /*!< buffer space for temporary filename construction */

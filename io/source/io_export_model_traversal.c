@@ -10,7 +10,7 @@
 
 void io_export_model_traversal_init( io_export_model_traversal_t *this_,
                                      data_database_reader_t *db_reader,
-                                     io_format_writer_t *format_writer )
+                                     xmi_element_writer_t *format_writer )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
@@ -150,8 +150,8 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
             const data_classifier_t *const classifier
                 = data_node_set_get_classifier_const ( &((*this_).temp_node_data) );
             classifier_type = data_classifier_get_main_type( classifier );
-            write_err |= io_format_writer_start_nested_classifier( (*this_).format_writer, parent_type, classifier );
-            write_err |= io_format_writer_write_classifier( (*this_).format_writer, classifier );
+            write_err |= xmi_element_writer_start_nested_classifier( (*this_).format_writer, parent_type, classifier );
+            write_err |= xmi_element_writer_write_classifier( (*this_).format_writer, classifier );
 
             write_err |= io_export_model_traversal_private_iterate_node_features( this_, &((*this_).temp_node_data) );
         }
@@ -218,7 +218,7 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
             /* get classifier again */
             const data_classifier_t *const classifier
                 = data_node_set_get_classifier_const ( &((*this_).temp_node_data) );
-            write_err |= io_format_writer_end_nested_classifier( (*this_).format_writer, parent_type, classifier );
+            write_err |= xmi_element_writer_end_nested_classifier( (*this_).format_writer, parent_type, classifier );
 
             write_err |= io_export_model_traversal_private_iterate_node_relationships( this_,
                                                                                        &((*this_).temp_node_data)
@@ -250,7 +250,7 @@ int io_export_model_traversal_private_iterate_node_features ( io_export_model_tr
         feature = data_node_set_get_feature_const ( node_data, index );
         if (( feature != NULL ) && ( data_feature_is_valid( feature ) ))
         {
-            write_err |=  io_format_writer_write_feature( (*this_).format_writer, feature );
+            write_err |=  xmi_element_writer_write_feature( (*this_).format_writer, feature );
         }
         else
         {
@@ -300,10 +300,10 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                 }
 
                 /* destination classifier found, print the relation */
-                write_err |= io_format_writer_write_relationship( (*this_).format_writer,
-                                                                  relation,
-                                                                  NULL /* destination classifier not at hand here */
-                                                                );
+                write_err |= xmi_element_writer_write_relationship( (*this_).format_writer,
+                                                                    relation,
+                                                                    NULL /* destination classifier not at hand here */
+                                                                  );
             }
         }
         else

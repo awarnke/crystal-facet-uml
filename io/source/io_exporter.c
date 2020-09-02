@@ -322,32 +322,37 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
     if ( export_err == 0 )
     {
         /* write file */
-        io_format_writer_init( &((*this_).temp_format_writer ), (*this_).db_reader, export_type, output );
         if ( IO_FILE_FORMAT_CSS == export_type )
         {
+            io_format_writer_init( &((*this_).temp_format_writer ), (*this_).db_reader, export_type, output );
             export_err |= io_format_writer_write_stylesheet( &((*this_).temp_format_writer) );
+            io_format_writer_destroy( &((*this_).temp_format_writer ) );
         }
         else if ( IO_FILE_FORMAT_XMI2 == export_type )
         {
-            /* reset the model_traversal */
+            xmi_element_writer_init( &((*this_).temp_xmi_writer ), (*this_).db_reader, export_type, output );
+            /* init the model_traversal */
             io_export_model_traversal_init( &((*this_).temp_model_traversal),
                                             (*this_).db_reader,
-                                            &((*this_).temp_format_writer)
+                                            &((*this_).temp_xmi_writer)
                                           );
             /* write the document */
-            export_err |= io_format_writer_write_header( &((*this_).temp_format_writer), document_file_name );
-            export_err |= io_format_writer_start_main( &((*this_).temp_format_writer) );
+            export_err |= xmi_element_writer_write_header( &((*this_).temp_xmi_writer), document_file_name );
+            export_err |= xmi_element_writer_start_main( &((*this_).temp_xmi_writer), document_file_name );
+            xmi_element_writer_set_mode( &((*this_).temp_xmi_writer ), IO_WRITER_PASS_BASE );
             export_err |= io_export_model_traversal_walk_model_nodes( &((*this_).temp_model_traversal) );
-            export_err |= io_format_writer_end_main( &((*this_).temp_format_writer) );
-            io_format_writer_set_mode( &((*this_).temp_format_writer ), IO_WRITER_PASS_PROFILE );
+            export_err |= xmi_element_writer_end_main( &((*this_).temp_xmi_writer) );
+            xmi_element_writer_set_mode( &((*this_).temp_xmi_writer ), IO_WRITER_PASS_PROFILE );
             export_err |= io_export_model_traversal_walk_model_nodes( &((*this_).temp_model_traversal) );
-            export_err |= io_format_writer_write_footer( &((*this_).temp_format_writer) );
+            export_err |= xmi_element_writer_write_footer( &((*this_).temp_xmi_writer) );
 
             io_export_model_traversal_destroy( &((*this_).temp_model_traversal) );
+            xmi_element_writer_destroy( &((*this_).temp_xmi_writer ) );
         }
         else
         {
-            /* reset the diagram_traversal */
+            io_format_writer_init( &((*this_).temp_format_writer ), (*this_).db_reader, export_type, output );
+            /* init the diagram_traversal */
             io_export_diagram_traversal_init( &((*this_).temp_diagram_traversal),
                                               (*this_).db_reader,
                                               &((*this_).temp_input_data),
@@ -360,8 +365,8 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
             export_err |= io_format_writer_write_footer( &((*this_).temp_format_writer) );
 
             io_export_diagram_traversal_destroy( &((*this_).temp_diagram_traversal) );
+            io_format_writer_destroy( &((*this_).temp_format_writer ) );
         }
-        io_format_writer_destroy( &((*this_).temp_format_writer ) );
 
         /* close file */
         export_err |= universal_output_stream_close( output );

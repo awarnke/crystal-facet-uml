@@ -14,6 +14,7 @@
  */
 
 #include "io_format_writer.h"
+#include "xmi/xmi_element_writer.h"
 #include "set/data_node_set.h"
 #include "storage/data_database_reader.h"
 #include "data_table.h"
@@ -34,7 +35,7 @@ enum io_export_model_traversal_max_enum {
  */
 struct io_export_model_traversal_struct {
     data_database_reader_t *db_reader;  /* !< pointer to external database reader */
-    io_format_writer_t *format_writer;  /*!< pointer to external io_format_writer_t which is the output sink */
+    xmi_element_writer_t *format_writer;  /*!< pointer to external io_format_writer_t which is the output sink */
 
     data_id_t written_id_set_buf[IO_EXPORT_MODEL_TRAVERSAL_MAX_TOTAL_ELEMENTS];  /*!< buffer for list of already exported element ids */
     universal_array_list_t written_id_set;  /*!< list of already exported element ids (extended when starting to export an element), used for classifiers and relationships */
@@ -50,11 +51,11 @@ typedef struct io_export_model_traversal_struct io_export_model_traversal_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader object
- *  \param format_writer pointer to an external io_format_writer_t which is the output sink
+ *  \param format_writer pointer to an external xmi_element_writer_t which is the output sink
  */
 void io_export_model_traversal_init( io_export_model_traversal_t *this_,
                                      data_database_reader_t *db_reader,
-                                     io_format_writer_t *format_writer
+                                     xmi_element_writer_t *format_writer
                                    );
 
 /*!
