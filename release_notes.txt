@@ -3,7 +3,7 @@ crystal-facet-uml (1.23.1) UNRELEASED; urgency=medium
   [ Andreas Warnke ]
   * XMI(TM) export good enough to be checked by NIST validator
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 21 Jun 2020 17:30:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 06 Sep 2020 11:30:00 +0200
 
 crystal-facet-uml (1.23.0) UNRELEASED; urgency=medium
 

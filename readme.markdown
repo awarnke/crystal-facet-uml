@@ -15,7 +15,7 @@ It exports diagrams in svg, pdf, ps and png formats
 to be used in text processing systems like docbook, html, latex.
 This tool runs on your local linux PC and is based on glib, gdk, gtk, cairo, pango, sqlite.
 
-![ScreenShot](user_doc/screenshot_1.png)
+[ScreenShot](user_doc/doc/screenshot_1.png)
 
 [User Manual](user_doc/crystal_facet_uml_user_documentation.pdf)
 
