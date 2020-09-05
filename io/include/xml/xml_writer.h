@@ -30,6 +30,8 @@ extern const char XML_WRITER_END_TAG_END[2];
 extern const char XML_WRITER_EMPTY_TAG_START[2];
 extern const char XML_WRITER_EMPTY_TAG_END[4];
 extern const char XML_WRITER_ATTR_SEPARATOR[2];
+extern const char XML_WRITER_COMMENT_START[5];
+extern const char XML_WRITER_COMMENT_END[4];
 
 /*!
  *  \brief attributes of the xml writer
@@ -94,6 +96,15 @@ static inline int xml_writer_write_plain_buf ( xml_writer_t *this_, const char *
 int xml_writer_write_plain_id ( xml_writer_t *this_, data_id_t id );
 
 /*!
+ *  \brief prints an integer
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param number the integer to print
+ *  \result 0 in case of success, -1 otherwise
+ */
+int xml_writer_write_int ( xml_writer_t *this_, int64_t number );
+
+/*!
  *  \brief writes a string to a file, xml encoded
  *
  *  \param this_ pointer to own object attributes
@@ -113,7 +124,7 @@ static inline int xml_writer_write_xml_enc ( xml_writer_t *this_, const char *te
 static inline int xml_writer_write_xml_enc_buf ( xml_writer_t *this_, const char *start, size_t length );
 
 /*!
- *  \brief writes a string to a file, xml encoded and double-minus is space-separated
+ *  \brief writes a string to a file, xml encoded and double-minus gets space-separated
  *
  *  \param this_ pointer to own object attributes
  *  \param text string to write, encoded for xml comments

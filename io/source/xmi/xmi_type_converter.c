@@ -264,7 +264,8 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
             /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
             result
                 = ( (spec & XMI_SPEC_SYSML) == XMI_SPEC_SYSML )
-                ? XMI_TYPE_CONVERTER_NS_SYSML "Requirement"
+                ? XMI_TYPE_CONVERTER_NS_SYSML "Block" /* TODO */
+                //? XMI_TYPE_CONVERTER_NS_SYSML "Requirement"
                 : XMI_TYPE_CONVERTER_NS_UML "Class";  /* base class from which the sysml profile is derived */
             /* note: there is no special type in SysML for a feature or composite requirement */
         }
@@ -275,7 +276,8 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
             /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
             result
                 = ( (spec & XMI_SPEC_SYSML) == XMI_SPEC_SYSML )
-                ? XMI_TYPE_CONVERTER_NS_SYSML "Requirement"
+                ? XMI_TYPE_CONVERTER_NS_SYSML "Block" /* TODO */
+                //? XMI_TYPE_CONVERTER_NS_SYSML "Requirement"
                 : XMI_TYPE_CONVERTER_NS_UML "Class";  /* base class from which the sysml profile is derived */
         }
         break;
@@ -1074,7 +1076,8 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
             result
                 = ( (spec & XMI_SPEC_STANDARD) == XMI_SPEC_STANDARD )
                 ? XMI_TYPE_CONVERTER_NS_STDPROF "Refine"
-                : XMI_TYPE_CONVERTER_NS_UML "Class";  /* base class from which the standard profile is derived */
+                : XMI_TYPE_CONVERTER_NS_UML "Abstraction";  /* base class from which the standard profile is derived, SysML 1.4 */
+                /*: XMI_TYPE_CONVERTER_NS_UML "Class";*/  /* base class from which the standard profile is derived */
         }
         break;
 
@@ -1084,7 +1087,8 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
             result
                 = ( (spec & XMI_SPEC_STANDARD) == XMI_SPEC_STANDARD )
                 ? XMI_TYPE_CONVERTER_NS_STDPROF "Trace"
-                : XMI_TYPE_CONVERTER_NS_UML "Class";  /* base class from which the standard profile is derived */
+                : XMI_TYPE_CONVERTER_NS_UML "Abstraction";  /* base class from which the standard profile is derived, SysML 1.4 */
+                /*: XMI_TYPE_CONVERTER_NS_UML "Class";*/  /* base class from which the standard profile is derived */
         }
         break;
 

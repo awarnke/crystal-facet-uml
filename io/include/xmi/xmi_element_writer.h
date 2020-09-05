@@ -127,13 +127,11 @@ int xmi_element_writer_write_feature( xmi_element_writer_t *this_, const data_fe
  *
  *  \param this_ pointer to own object attributes
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
- *  \param dest_classifier_ptr pointer to destination classifier, NULL is allowed.
  *  \result 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
-                                         const data_relationship_t *relation_ptr,
-                                         const data_classifier_t *dest_classifier_ptr
-                                       );
+                                           const data_relationship_t *relation_ptr
+                                         );
 
 /*!
  *  \brief writes a classifier end
@@ -178,10 +176,21 @@ int xmi_element_writer_write_footer( xmi_element_writer_t *this_ );
  *  \result 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_private_write_xmi_comment( xmi_element_writer_t *this_,
-                                                data_id_t element_id,
-                                                const char *comment_type,
-                                                const char *comment
-                                              );
+                                                  data_id_t element_id,
+                                                  const char *comment_type,
+                                                  const char *comment
+                                                );
+
+/*!
+ *  \brief encodes a data_id to an xml number as required for xmi base_Class attribute
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param element_id id which to encode for xmi
+ *  \result 0 in case of success, -1 otherwise
+ */
+int xmi_element_writer_private_encode_xmi_id( xmi_element_writer_t *this_,
+                                              data_id_t element_id
+                                            );
 
 #endif  /* XMI_ELEMENT_WRITER_H */
 

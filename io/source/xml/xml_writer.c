@@ -15,6 +15,8 @@ const char XML_WRITER_END_TAG_END[2] = ">";
 const char XML_WRITER_EMPTY_TAG_START[2] = "<";
 const char XML_WRITER_EMPTY_TAG_END[4] = " />";
 const char XML_WRITER_ATTR_SEPARATOR[2] = " ";
+const char XML_WRITER_COMMENT_START[5] = "<!--";
+const char XML_WRITER_COMMENT_END[4] = "-->";
 #define XML_WRITER_PRIVATE_MAX_INDENT_LEVELS (8)
 
 static const char *const XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[XML_WRITER_PRIVATE_MAX_INDENT_LEVELS][6][2] = {
@@ -247,6 +249,20 @@ int xml_writer_write_plain_id ( xml_writer_t *this_, data_id_t id )
         universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).xml_plain_table );
         result = universal_escaping_output_stream_write( &((*this_).esc_output), utf8stringbuf_get_string(id_str), len );
     }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+int xml_writer_write_int ( xml_writer_t *this_, int64_t number )
+{
+    TRACE_BEGIN();
+    char numberStr[21]; /* this is sufficient for signed 64 bit integers: -9223372036854775806 */
+    int result = 0;
+
+    /* Note: snprintf is not available on every OS */
+    sprintf( numberStr, "%" PRIi64, number );
+    result = xml_writer_write_plain( this_, &(numberStr[0]) );
 
     TRACE_END_ERR( result );
     return result;

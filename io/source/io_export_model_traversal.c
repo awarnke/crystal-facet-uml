@@ -300,10 +300,7 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                 }
 
                 /* destination classifier found, print the relation */
-                write_err |= xmi_element_writer_write_relationship( (*this_).format_writer,
-                                                                    relation,
-                                                                    NULL /* destination classifier not at hand here */
-                                                                  );
+                write_err |= xmi_element_writer_write_relationship( (*this_).format_writer, relation );
             }
         }
         else

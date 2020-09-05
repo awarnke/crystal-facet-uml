@@ -42,10 +42,10 @@ typedef struct io_export_diagram_traversal_struct io_export_diagram_traversal_t;
  *  \param format_writer pointer to an external io_format_writer_t which is the output sink
  */
 void io_export_diagram_traversal_init( io_export_diagram_traversal_t *this_,
-                                     data_database_reader_t *db_reader,
-                                     data_visible_set_t *input_data,
-                                     io_format_writer_t *format_writer
-                                   );
+                                       data_database_reader_t *db_reader,
+                                       data_visible_set_t *input_data,
+                                       io_format_writer_t *format_writer
+                                     );
 
 /*!
  *  \brief destroys the io_export_diagram_traversal_t
@@ -66,9 +66,9 @@ void io_export_diagram_traversal_destroy( io_export_diagram_traversal_t *this_ )
  *  \return -1 in case of error, 0 in case of success
  */
 int io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_traversal_t *this_,
-                                                       data_id_t diagram_id,
-                                                       const char *diagram_file_base_name
-                                                     );
+                                                         data_id_t diagram_id,
+                                                         const char *diagram_file_base_name
+                                                       );
 
 /*!
  *  \brief prints the end of a diagram section
@@ -86,8 +86,8 @@ int io_export_diagram_traversal_end_diagram ( io_export_diagram_traversal_t *thi
  *  \return -1 in case of error, 0 in case of success
  */
 int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_diagram_traversal_t *this_,
-                                                                    const data_visible_set_t *diagram_data
-                                                                  );
+                                                                      const data_visible_set_t *diagram_data
+                                                                    );
 
 /*!
  *  \brief prints names and descriptions of the classifier to the output stream
@@ -98,9 +98,9 @@ int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_
  *  \return -1 in case of error, 0 in case of success
  */
 int io_export_diagram_traversal_private_iterate_classifier_features ( io_export_diagram_traversal_t *this_,
-                                                                    const data_visible_set_t *diagram_data,
-                                                                    data_id_t classifier_id
-                                                                  );
+                                                                      const data_visible_set_t *diagram_data,
+                                                                      data_id_t classifier_id
+                                                                    );
 
 /*!
  *  \brief prints names and descriptions of the relationships to the output stream
@@ -111,9 +111,9 @@ int io_export_diagram_traversal_private_iterate_classifier_features ( io_export_
  *  \return -1 in case of error, 0 in case of success
  */
 int io_export_diagram_traversal_private_iterate_classifier_relationships ( io_export_diagram_traversal_t *this_,
-                                                                         const data_visible_set_t *diagram_data,
-                                                                         data_id_t from_classifier_id
-                                                                       );
+                                                                           const data_visible_set_t *diagram_data,
+                                                                           data_id_t from_classifier_id
+                                                                         );
 
 #endif  /* IO_EXPORT_DIAGRAM_TRAVERSAL_H */
 

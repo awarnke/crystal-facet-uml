@@ -13,7 +13,7 @@
  *  \brief enumeration of all feature types
  */
 enum data_feature_type_enum {
-    DATA_FEATURE_TYPE_VOID = -1,  /*!< invalid feature, used when relationships link from and/or to classifiers without features */
+    DATA_FEATURE_TYPE_VOID = -1,  /*!< invalid feature, used when relationships link from and/or to classifiers without specifying features */
     DATA_FEATURE_TYPE_PROPERTY = 0,
     DATA_FEATURE_TYPE_OPERATION = 1,
     DATA_FEATURE_TYPE_PORT = 2,

@@ -496,6 +496,18 @@ static inline bool data_rules_diagram_shows_scenario_relationships ( const data_
     return show;
 }
 
+static inline bool data_rules_is_relationship_compliant ( const data_rules_t *this_,
+                                                          data_relationship_type_t relation_type,
+                                                          data_classifier_type_t from_c_type,
+                                                          data_feature_type_t from_f_type,
+                                                          data_classifier_type_t to_c_type,
+                                                          data_feature_type_t to_f_type )
+{
+    bool comply;
+    comply = true;  /* TODO */
+    return comply;
+}
+
 
 /*
 Copyright 2017-2020 Andreas Warnke
