@@ -1151,7 +1151,7 @@ const char* xmi_type_converter_private_get_xmi_end_property_of_relationship ( xm
         case DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY:
         {
             /* Type: UML Dependency, Usage, Deployment, Realization, Manifestation, Abstraction */
-            result = from_end ? "client" : "supplier";
+            result = from_end ? XMI_TYPE_CONVERTER_NS_UML "Dependency.client" : XMI_TYPE_CONVERTER_NS_UML "Dependency.supplier";
         }
         break;
 
@@ -1159,7 +1159,7 @@ const char* xmi_type_converter_private_get_xmi_end_property_of_relationship ( xm
         {
             /* Type: UML Association, CommunicationPath */
             /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.8.3 */
-            result = "memberEnd";
+            result = XMI_TYPE_CONVERTER_NS_UML "Association.memberEnd";
         }
         break;
 
@@ -1182,14 +1182,14 @@ const char* xmi_type_converter_private_get_xmi_end_property_of_relationship ( xm
         case DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION:
         {
             /* Type: UML Generalization */
-            result = from_end ? "specific" : "general";
+            result = from_end ? XMI_TYPE_CONVERTER_NS_UML "Generalization.specific" : XMI_TYPE_CONVERTER_NS_UML "Generalization.general";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_REALIZATION:
         {
             /* Type: UML Dependency, Usage, Deployment, Realization, Manifestation, Abstraction */
-            result = from_end ? "client" : "supplier";
+            result = from_end ? XMI_TYPE_CONVERTER_NS_UML "Dependency.client" : XMI_TYPE_CONVERTER_NS_UML "Dependency.supplier";
         }
         break;
 
@@ -1221,7 +1221,7 @@ const char* xmi_type_converter_private_get_xmi_end_property_of_relationship ( xm
         {
             /* Type: UML Association, CommunicationPath */
             /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.8.3 */
-            result = "memberEnd";
+            result = XMI_TYPE_CONVERTER_NS_UML "Association.memberEnd";
         }
         break;
 
@@ -1244,28 +1244,28 @@ const char* xmi_type_converter_private_get_xmi_end_property_of_relationship ( xm
         case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
         {
             /* Type: UML Dependency, Usage, Deployment, Realization, Manifestation, Abstraction */
-            result = from_end ? "client" : "supplier";
+            result = from_end ? XMI_TYPE_CONVERTER_NS_UML "Dependency.client" : XMI_TYPE_CONVERTER_NS_UML "Dependency.supplier";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:
         {
             /* Type: UML Dependency, Usage, Deployment, Realization, Manifestation, Abstraction */
-            result = from_end ? "client" : "supplier";
+            result = from_end ? XMI_TYPE_CONVERTER_NS_UML "Dependency.client" : XMI_TYPE_CONVERTER_NS_UML "Dependency.supplier";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_EXTEND:
         {
             /* Type: UML Extend */
-            result = from_end ? "extension" : "extendedCase";
+            result = from_end ? XMI_TYPE_CONVERTER_NS_UML "Extend.extension" : XMI_TYPE_CONVERTER_NS_UML "Extend.extendedCase";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
         {
             /* Type: UML Include */
-            result = from_end ? "includingCase" : "addition";
+            result = from_end ? XMI_TYPE_CONVERTER_NS_UML "Include.includingCase" : XMI_TYPE_CONVERTER_NS_UML "Include.addition";
         }
         break;
 
@@ -1273,21 +1273,21 @@ const char* xmi_type_converter_private_get_xmi_end_property_of_relationship ( xm
         {
             /* Type: UML PackageMerge */
             /* TODO: PackageMerge may be the wrong type - choose the properties of the right type of relationship */
-            result = from_end ? "receivingPackage" : "mergedPackage";
+            result = from_end ? XMI_TYPE_CONVERTER_NS_UML "PackageMerge.receivingPackage" : XMI_TYPE_CONVERTER_NS_UML "PackageMerge.mergedPackage";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_REFINE:
         {
             /* Type: UML Dependency, Usage, Deployment, Realization, Manifestation, Abstraction */
-            result = from_end ? "client" : "supplier";
+            result = from_end ? XMI_TYPE_CONVERTER_NS_UML "Dependency.client" : XMI_TYPE_CONVERTER_NS_UML "Dependency.supplier";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_TRACE:
         {
             /* Type: UML Dependency, Usage, Deployment, Realization, Manifestation, Abstraction */
-            result = from_end ? "client" : "supplier";
+            result = from_end ? XMI_TYPE_CONVERTER_NS_UML "Dependency.client" : XMI_TYPE_CONVERTER_NS_UML "Dependency.supplier";
         }
         break;
 
