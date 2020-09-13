@@ -54,7 +54,11 @@ int io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_trave
                                                           data_id_get_row_id( &diagram_id ),
                                                           (*this_).db_reader
                                                         );
-        assert( d_err == DATA_ERROR_NONE );
+        if( d_err != DATA_ERROR_NONE )
+        {
+            write_err = -1;
+            assert(false);
+        }
         assert( data_visible_set_is_valid ( (*this_).input_data ) );
 
         /* write diagram */

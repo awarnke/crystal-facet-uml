@@ -61,7 +61,11 @@ int image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
 
     data_visible_set_init( (*this_).input_data );
     const data_error_t d_err = data_visible_set_load( (*this_).input_data, diagram_row_id, (*this_).db_reader );
-    assert( d_err == DATA_ERROR_NONE );
+    if( d_err != DATA_ERROR_NONE )
+    {
+        result = -1;
+        assert(false);
+    }
     assert( data_visible_set_is_valid ( (*this_).input_data ) );
     result = image_format_writer_private_render_surface_to_file( this_, export_type, target_filename );
     data_visible_set_destroy( (*this_).input_data );
