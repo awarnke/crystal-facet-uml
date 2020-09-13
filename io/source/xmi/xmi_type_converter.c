@@ -19,6 +19,8 @@ void xmi_type_converter_destroy( xmi_type_converter_t *this_ )
     TRACE_END();
 }
 
+/* ================================ CLASSIFIER ================================ */
+
 xmi_spec_t xmi_type_converter_get_xmi_spec_of_classifier ( xmi_type_converter_t *this_, data_classifier_type_t c_type )
 {
     TRACE_BEGIN();
@@ -508,9 +510,9 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
     return result;
 }
 
-const char* xmi_type_converter_get_xmi_nesting_type_of_classifier ( xmi_type_converter_t *this_,
-                                                                    data_classifier_type_t parent_type,
-                                                                    data_classifier_type_t child_type )
+const char* xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_converter_t *this_,
+                                                                        data_classifier_type_t parent_type,
+                                                                        data_classifier_type_t child_type )
 {
     TRACE_BEGIN();
     const char* result = "";
@@ -773,6 +775,8 @@ const char* xmi_type_converter_get_xmi_nesting_type_of_classifier ( xmi_type_con
     return result;
 }
 
+/* ================================ FEATURE ================================ */
+
 xmi_spec_t xmi_type_converter_get_xmi_spec_of_feature ( xmi_type_converter_t *this_, data_feature_type_t f_type )
 {
     TRACE_BEGIN();
@@ -855,7 +859,7 @@ const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *t
     return result;
 }
 
-const char* xmi_type_converter_get_xmi_owning_type_of_feature ( xmi_type_converter_t *this_, data_feature_type_t f_type )
+const char* xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t *this_, data_feature_type_t f_type )
 {
     TRACE_BEGIN();
     const char* result = "";
@@ -926,6 +930,8 @@ const char* xmi_type_converter_get_xmi_owning_type_of_feature ( xmi_type_convert
     TRACE_END_ERR( ('\0'==*result) ? -1 : 0 );
     return result;
 }
+
+/* ================================ RELATIONSHIP ================================ */
 
 xmi_spec_t xmi_type_converter_get_xmi_spec_of_relationship ( xmi_type_converter_t *this_, data_relationship_type_t r_type )
 {
@@ -1098,6 +1104,190 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
                 ? XMI_TYPE_CONVERTER_NS_STDPROF "Trace"
                 : XMI_TYPE_CONVERTER_NS_UML "Abstraction";  /* base class from which the standard profile is derived, SysML 1.4 */
                 /*: XMI_TYPE_CONVERTER_NS_UML "Class";*/  /* base class from which the standard profile is derived */
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", r_type );
+            assert( 0 );
+            result = "";
+        }
+        break;
+    }
+
+    TRACE_END_ERR( ('\0'==*result) ? -1 : 0 );
+    return result;
+}
+
+const char* xmi_type_converter_get_xmi_from_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                       data_relationship_type_t r_type )
+{
+    TRACE_BEGIN();
+    const char* result = xmi_type_converter_private_get_xmi_end_property_of_relationship( this_, r_type, true );
+    TRACE_END();
+    return result;
+}
+
+const char* xmi_type_converter_get_xmi_to_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                     data_relationship_type_t r_type )
+{
+    TRACE_BEGIN();
+    const char* result = xmi_type_converter_private_get_xmi_end_property_of_relationship( this_, r_type, false );
+    TRACE_END();
+    return result;
+}
+
+const char* xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                              data_relationship_type_t r_type,
+                                                                              bool from_end )
+{
+    TRACE_BEGIN();
+    const char* result = "";
+
+    /* spec: https://www.omg.org/spec/UML/2.5.1/PDF */
+    switch ( r_type )
+    {
+        case DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY:
+        {
+            /* Type: UML Dependency, Usage, Deployment, Realization, Manifestation, Abstraction */
+            result = from_end ? "client" : "supplier";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION:
+        {
+            /* Type: UML Association, CommunicationPath */
+            /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.8.3 */
+            result = "memberEnd";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_AGGREGATION:
+        {
+            /* Type: UML AggregationKind */
+            /* TODO: source and target are generic read-only properties - choose the right ones for this type of relationship */
+            result = from_end ? "informationSource" : "informationTarget";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_COMPOSITION:
+        {
+            /* Type: UML AggregationKind */
+            /* TODO: source and target are generic read-only properties - choose the right ones for this type of relationship */
+            result = from_end ? "informationSource" : "informationTarget";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION:
+        {
+            /* Type: UML Generalization */
+            result = from_end ? "specific" : "general";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_REALIZATION:
+        {
+            /* Type: UML Dependency, Usage, Deployment, Realization, Manifestation, Abstraction */
+            result = from_end ? "client" : "supplier";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL:
+        {
+            /* Type: UML Message */
+            /* TODO: source and target are generic read-only properties - choose the right ones for this type of relationship */
+            result = from_end ? "informationSource" : "informationTarget";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL:
+        {
+            /* Type: UML CallEvent */
+            /* TODO: source and target are generic read-only properties - choose the right ones for this type of relationship */
+            result = from_end ? "informationSource" : "informationTarget";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL:
+        {
+            /* Type: UML ReplyAction */
+            /* TODO: source and target are generic read-only properties - choose the right ones for this type of relationship */
+            result = from_end ? "informationSource" : "informationTarget";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH:
+        {
+            /* Type: UML Association, CommunicationPath */
+            /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.8.3 */
+            result = "memberEnd";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW:
+        {
+            /* Type: UML ControlFlow */
+            /* TODO: source and target are generic read-only properties - choose the right ones for this type of relationship */
+            result = from_end ? "informationSource" : "informationTarget";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW:
+        {
+            /* Type: UML ObjectFlow */
+            /* TODO: source and target are generic read-only properties - choose the right ones for this type of relationship */
+            result = from_end ? "informationSource" : "informationTarget";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
+        {
+            /* Type: UML Dependency, Usage, Deployment, Realization, Manifestation, Abstraction */
+            result = from_end ? "client" : "supplier";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:
+        {
+            /* Type: UML Dependency, Usage, Deployment, Realization, Manifestation, Abstraction */
+            result = from_end ? "client" : "supplier";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_EXTEND:
+        {
+            /* Type: UML Extend */
+            result = from_end ? "extension" : "extendedCase";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
+        {
+            /* Type: UML Include */
+            result = from_end ? "includingCase" : "addition";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT:
+        {
+            /* Type: UML PackageMerge */
+            /* TODO: PackageMerge may be the wrong type - choose the properties of the right type of relationship */
+            result = from_end ? "receivingPackage" : "mergedPackage";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_REFINE:
+        {
+            /* Type: UML Dependency, Usage, Deployment, Realization, Manifestation, Abstraction */
+            result = from_end ? "client" : "supplier";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_TRACE:
+        {
+            /* Type: UML Dependency, Usage, Deployment, Realization, Manifestation, Abstraction */
+            result = from_end ? "client" : "supplier";
         }
         break;
 

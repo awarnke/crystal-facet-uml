@@ -117,12 +117,6 @@ static const char XMI2_UML_ANNOTATED_ELEMENT_START[]
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.9.2 */
 static const char XMI2_UML_ANNOTATED_ELEMENT_END[]
     = "/>";
-/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.8.3 */
-static const char XMI2_UML_MEMBER_END_START[]
-    = "\n<memberEnd ";
-/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.8.3 */
-static const char XMI2_UML_MEMBER_END_END[]
-    = "/>";
 /* spec-ref: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Packages */
 /*
 static const char XMI2_UML_STEREOTYPE_START[]
@@ -274,7 +268,7 @@ int xmi_element_writer_start_nested_classifier( xmi_element_writer_t *this_,
         xml_writer_increase_indent ( &((*this_).xml_writer) );
 
         /* write start of tag */
-        const char* owning_type = xmi_type_converter_get_xmi_nesting_type_of_classifier( &((*this_).xmi_types),
+        const char* owning_type = xmi_type_converter_get_xmi_nesting_property_of_classifier( &((*this_).xmi_types),
                                                                                         parent_type,
 
                                                                                         data_classifier_get_main_type(classifier_ptr)
@@ -437,7 +431,7 @@ int xmi_element_writer_write_feature( xmi_element_writer_t *this_, const data_fe
         {
             if ( (*this_).mode == IO_WRITER_PASS_BASE )
             {
-                const char* owning_type = xmi_type_converter_get_xmi_owning_type_of_feature( &((*this_).xmi_types), feature_type );
+                const char* owning_type = xmi_type_converter_get_xmi_owning_property_of_feature( &((*this_).xmi_types), feature_type );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), owning_type );
@@ -569,7 +563,13 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
                 }
 
                 /* source */
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MEMBER_END_START );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
+                const char* from_type = xmi_type_converter_get_xmi_from_property_of_relationship ( &((*this_).xmi_types),
+                                                                                                 relation_type );
+                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), from_type );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_START );
                 if ( data_id_is_valid( &from_feature_id ) )
                 {
@@ -580,10 +580,17 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
                     export_err |= xmi_element_writer_private_encode_xmi_id( this_, from_classifier_id );
                 }
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_END );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MEMBER_END_END );
+
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
 
                 /* destination */
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MEMBER_END_START );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
+                const char* to_type = xmi_type_converter_get_xmi_to_property_of_relationship ( &((*this_).xmi_types),
+                                                                                                 relation_type );
+                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), to_type );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_START );
                 if ( data_id_is_valid( &to_feature_id ) )
                 {
@@ -594,7 +601,8 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
                     export_err |= xmi_element_writer_private_encode_xmi_id( this_, to_classifier_id );
                 }
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_END );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MEMBER_END_END );
+
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
 
                 xml_writer_decrease_indent ( &((*this_).xml_writer) );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_END );
@@ -667,7 +675,7 @@ int xmi_element_writer_end_nested_classifier( xmi_element_writer_t *this_,
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
 
         /* write end tag */
-        const char* owning_type = xmi_type_converter_get_xmi_nesting_type_of_classifier( &((*this_).xmi_types),
+        const char* owning_type = xmi_type_converter_get_xmi_nesting_property_of_classifier( &((*this_).xmi_types),
                                                                                          parent_type,
                                                                                          classifier_type
                                                                                        );

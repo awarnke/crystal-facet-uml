@@ -14,6 +14,7 @@
 #include "data_classifier_type.h"
 #include "data_feature_type.h"
 #include "data_relationship_type.h"
+#include <stdbool.h>
 
 /*!
  *  \brief attributes of the xmi type converter
@@ -37,6 +38,8 @@ void xmi_type_converter_init( xmi_type_converter_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 void xmi_type_converter_destroy( xmi_type_converter_t *this_ );
+
+/* ================================ CLASSIFIER ================================ */
 
 /*!
  *  \brief gets the xmi specification bitset for data_classifier_type_t types
@@ -68,10 +71,12 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
  *  \param child_type data_classifier_type_t of the nested child of which the nesting-type shall be determined
  *  \result string representation of the nesting-link type, empty string if not available
  */
-const char* xmi_type_converter_get_xmi_nesting_type_of_classifier ( xmi_type_converter_t *this_,
-                                                                    data_classifier_type_t parent_type,
-                                                                    data_classifier_type_t child_type
-                                                                  );
+const char* xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_converter_t *this_,
+                                                                        data_classifier_type_t parent_type,
+                                                                        data_classifier_type_t child_type
+                                                                      );
+
+/* ================================ FEATURE ================================ */
 
 /*!
  *  \brief gets the xmi specification bitset for data_classifier_type_t types
@@ -102,7 +107,9 @@ const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *t
  *  \param f_type data_feature_type_t of the child of which the owning-type shall be determined
  *  \result string representation of the owning-link type, empty string if not available
  */
-const char* xmi_type_converter_get_xmi_owning_type_of_feature ( xmi_type_converter_t *this_, data_feature_type_t f_type );
+const char* xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t *this_, data_feature_type_t f_type );
+
+/* ================================ RELATIONSHIP ================================ */
 
 /*!
  *  \brief gets the xmi specification bitset for data_relationship_type_t types
@@ -125,6 +132,41 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
                                                               data_relationship_type_t r_type,
                                                               xmi_spec_t spec
                                                             );
+
+/*!
+ *  \brief gets a string representation of the from property of a data_relationship_type_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param r_type data_relationship_type_t for which to define the from property
+ *  \result string representation of the from property of the r_type
+ */
+const char* xmi_type_converter_get_xmi_from_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                       data_relationship_type_t r_type
+                                                                     );
+
+/*!
+ *  \brief gets a string representation of the to property of a data_relationship_type_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param r_type data_relationship_type_t for which to define the to property
+ *  \result string representation of the to property of the r_type
+ */
+const char* xmi_type_converter_get_xmi_to_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                     data_relationship_type_t r_type
+                                                                   );
+
+/*!
+ *  \brief gets a string representation of an end property of a data_relationship_type_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param r_type data_relationship_type_t for which to define the end property
+ *  \param from_end true if the source(from) end, is requested, false if the target(to) end is requested.
+ *  \result string representation of the from property of the r_type
+ */
+const char* xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                              data_relationship_type_t r_type,
+                                                                              bool from_end
+                                                                            );
 
 #endif  /* XMI_TYPE_CONVERTER_H */
 
