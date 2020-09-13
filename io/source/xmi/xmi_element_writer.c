@@ -350,7 +350,7 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data
                 if ( xmi_type_converter_get_xmi_spec_of_classifier( &((*this_).xmi_types), classifier_type ) == XMI_SPEC_SYSML )
                 {
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
-                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
                     const char* profile_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
                                                                                                classifier_type,
                                                                                                XMI_SPEC_SYSML | XMI_SPEC_STANDARD
@@ -383,17 +383,12 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data
                     }
                     */
 
-                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
                     /*
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_COMMENT_START );
                     export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_COMMENT_END );
                     */
-
-                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
-                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
-                    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), profile_type );
-                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
                 }
             }
         }
@@ -613,7 +608,7 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
                 if ( xmi_type_converter_get_xmi_spec_of_relationship( &((*this_).xmi_types), relation_type ) == XMI_SPEC_STANDARD )
                 {
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
-                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
                     const char* profile_type = xmi_type_converter_get_xmi_type_of_relationship ( &((*this_).xmi_types),
                                                                                                  relation_type,
                                                                                                  XMI_SPEC_SYSML | XMI_SPEC_STANDARD
@@ -631,16 +626,12 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
                     export_err |= xmi_element_writer_private_encode_xmi_id( this_, relation_id );
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ABSTRACTION_END );
 
-                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
                     /*
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_COMMENT_START );
                     export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), relation_id );
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_COMMENT_END );
                     */
-                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
-                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
-                    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), profile_type );
-                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
                 }
             }
         }
