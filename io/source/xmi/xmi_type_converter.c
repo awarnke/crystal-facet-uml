@@ -532,8 +532,8 @@ const char* xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type
         {
             case DATA_CLASSIFIER_TYPE_BLOCK:
             {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
-                result = "packagedElement";
+                /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.4 */
+                result = "nestedClassifier";
             }
             break;
 
@@ -547,15 +547,15 @@ const char* xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type
 
             case DATA_CLASSIFIER_TYPE_FEATURE:
             {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
-                result = "packagedElement";
+                /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.4 */
+                result = "nestedClassifier";
             }
             break;
 
             case DATA_CLASSIFIER_TYPE_REQUIREMENT:
             {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
-                result = "packagedElement";
+                /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.4 */
+                result = "nestedClassifier";
             }
             break;
 
@@ -585,7 +585,9 @@ const char* xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type
                 /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
                 /*result = "ownedBehavior";*/
                 /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: ActivityNode */
-                result = "node";
+                //result = "node";
+                /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.4 */
+                result = "nestedClassifier";
             }
             break;
 
@@ -607,15 +609,18 @@ const char* xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type
 
             case DATA_CLASSIFIER_TYPE_UML_NODE:
             {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
-                result = "nestedNode";
+                result = (child_type==DATA_CLASSIFIER_TYPE_UML_NODE)
+                    /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
+                    ? "nestedNode"
+                    /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.4 */
+                    : "nestedClassifier";
             }
             break;
 
             case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
             {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
-                result = "packagedElement";
+                /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.4 */
+                result = "nestedClassifier";
             }
             break;
 
@@ -644,7 +649,7 @@ const char* xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type
 
             case DATA_CLASSIFIER_TYPE_UML_CLASS:
             {
-                /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
+                /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.4 */
                 result = "nestedClassifier";
             }
             break;
