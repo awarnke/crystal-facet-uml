@@ -384,12 +384,14 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data
                         export_err |= xmi_element_writer_private_encode_xmi_id( this_, classifier_id );
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "</id>" );
 
+                        /*
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<master>" );
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "1" );
                         export_err |= xmi_element_writer_private_encode_xmi_id( this_, classifier_id );
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "</master>" );
-
+                        */
+                        
                         //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "RefinedBy=\"160002\" " );
                         //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "SatisfiedBy=\"160002\" " );
 

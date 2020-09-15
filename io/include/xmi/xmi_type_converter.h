@@ -83,6 +83,18 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
                                                                 data_classifier_type_t child_type,
                                                                 char const * *out_xmi_name
                                                               );
+/*!
+ *  \brief checks if a parent classifier may nest a child classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_type data_classifier_type_t of the parent of which the nesting-ability shall be determined
+ *  \param child_type data_classifier_type_t of the nested child of which the nesting-ability shall be determined
+ *  \result true if nesting is allowed
+ */
+static inline bool xmi_type_converter_can_classifier_nest_classifier ( xmi_type_converter_t *this_,
+                                                                       data_classifier_type_t parent_type,
+                                                                       data_classifier_type_t child_type
+                                                                     );
 
 /*!
  *  \brief gets a string representation of the from property of a data_relationship_type_t

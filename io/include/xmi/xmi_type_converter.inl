@@ -4,6 +4,18 @@
 
 /* ================================ CLASSIFIER ================================ */
 
+static inline bool xmi_type_converter_can_classifier_nest_classifier ( xmi_type_converter_t *this_,
+                                                                       data_classifier_type_t parent_type,
+                                                                       data_classifier_type_t child_type )
+{
+    char const * xmi_name;
+    return ( 0 == xmi_type_converter_get_xmi_nesting_property_of_classifier ( this_,
+                                                                              parent_type,
+                                                                              child_type,
+                                                                              &xmi_name
+                                                                            ) );
+}
+
 /* ================================ FEATURE ================================ */
 
 /* ================================ RELATIONSHIP ================================ */

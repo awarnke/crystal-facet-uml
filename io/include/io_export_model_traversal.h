@@ -112,6 +112,25 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
                                                   unsigned int recursion_depth
                                                 );
 
+int io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *this_,
+                                                   data_classifier_type_t parent_type,
+                                                   const data_node_set_t *node_data );
+
+int io_export_model_traversal_private_get_containments ( io_export_model_traversal_t *this_,
+                                                         const data_node_set_t *node_data,
+                                                         data_small_set_t *io_contained_classifiers,
+                                                         data_small_set_t *io_containment_relations );
+
+int io_export_model_traversal_private_walk_containments ( io_export_model_traversal_t *this_,
+                                                          data_classifier_type_t classifier_type,
+                                                   const data_small_set_t *contained_classifiers,
+                                                   const data_small_set_t *containment_relations,
+                                                   unsigned int recursion_depth );
+
+int io_export_model_traversal_private_end_node ( io_export_model_traversal_t *this_,
+                                                   data_classifier_type_t parent_type,
+                                                   const data_node_set_t *node_data );
+
 /*!
  *  \brief iterates over features of a classifier.
  *

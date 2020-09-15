@@ -103,38 +103,17 @@ int io_export_model_traversal_private_walk_unique_node ( io_export_model_travers
 
     const bool duplicate_classifier
         =( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &classifier_id ) );
-    if ( ! duplicate_classifier )
-    {
-        write_err |= universal_array_list_append( &((*this_).written_id_set), &classifier_id );
-        if ( data_id_is_valid( &containment_relationship_id ) )
-        {
-            write_err |= universal_array_list_append( &((*this_).written_id_set), &containment_relationship_id );
-        }
 
-        /* walk node which is not a duplicate */
-        write_err |= io_export_model_traversal_private_walk_node( this_, parent_type, classifier_id, recursion_depth );
-    }
-
-    TRACE_END_ERR( write_err );
-    return write_err;
-}
-
-int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *this_,
-                                                  data_classifier_type_t parent_type,
-                                                  data_id_t classifier_id,
-                                                  unsigned int recursion_depth )
-{
-    TRACE_BEGIN();
-    int write_err = 0;
+    data_classifier_type_t classifier_type = DATA_CLASSIFIER_TYPE_UML_PACKAGE;  /* a default value */
 
     data_small_set_t contained_classifiers;
     data_small_set_init (&contained_classifiers);
     data_small_set_t containment_relations;
     data_small_set_init (&containment_relations);
-    data_classifier_type_t classifier_type = DATA_CLASSIFIER_TYPE_UML_PACKAGE;  /* default */
-
-    /* load and process the node set */
+    
     {
+    
+    
         data_node_set_init( &((*this_).temp_node_data) );
         const data_error_t data_err_1 = data_node_set_load( &((*this_).temp_node_data),
                                                             data_id_get_row_id( &classifier_id ),
@@ -146,63 +125,52 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
         }
         else
         {
-            /* get classifier */
-            const data_classifier_t *const classifier
-                = data_node_set_get_classifier_const ( &((*this_).temp_node_data) );
-            classifier_type = data_classifier_get_main_type( classifier );
-            write_err |= xmi_element_writer_start_nested_classifier( (*this_).format_writer, parent_type, classifier );
-            write_err |= xmi_element_writer_write_classifier( (*this_).format_writer, classifier );
 
-            write_err |= io_export_model_traversal_private_iterate_node_features( this_, &((*this_).temp_node_data) );
-        }
-
-        /* search containments in relationships */
-        const uint32_t count = data_node_set_get_relationship_count ( &((*this_).temp_node_data) );
-        for ( uint32_t index = 0; index < count; index ++ )
-        {
-            /* get relationship */
-            const data_relationship_t *relation;
-            relation = data_node_set_get_relationship_const ( &((*this_).temp_node_data), index );
-            if (( relation != NULL ) && ( data_relationship_is_valid( relation ) ))
+        
+            if ( ! duplicate_classifier )
             {
-                if ( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == data_relationship_get_main_type( relation ) )
+                write_err |= universal_array_list_append( &((*this_).written_id_set), &classifier_id );
+                if ( data_id_is_valid( &containment_relationship_id ) )
                 {
-                    const data_id_t relationship_id = data_relationship_get_data_id( relation );
-                    const data_id_t from_feature_id = data_relationship_get_from_feature_data_id( relation );
-                    const data_id_t to_feature_id = data_relationship_get_to_feature_data_id( relation );
-                    const data_id_t to_classifier_id = data_relationship_get_to_classifier_data_id( relation );
-                    if ( ( ! data_id_is_valid( &from_feature_id ) )
-                        && ( ! data_id_is_valid( &to_feature_id ) )
-                        && ( ! data_id_equals( &to_classifier_id, &classifier_id ) ) )
-                    {
-                        data_small_set_add_obj ( &containment_relations, relationship_id );
-                        data_small_set_add_obj ( &contained_classifiers, to_classifier_id );
-                    }
+                    write_err |= universal_array_list_append( &((*this_).written_id_set), &containment_relationship_id );
                 }
-            }
-            else
-            {
-                assert( false );
-            }
-        }
 
+                /* walk node which is not a duplicate */
+                write_err |= io_export_model_traversal_private_begin_node( this_,
+                                                                           parent_type,
+                                                                           &((*this_).temp_node_data)
+                                                                         );
+                
+                write_err |= io_export_model_traversal_private_iterate_node_features( this_, &((*this_).temp_node_data) );
+
+                write_err |= io_export_model_traversal_private_get_containments( this_,
+                                                                                 &((*this_).temp_node_data),
+                                                                                 &contained_classifiers,
+                                                                                 &containment_relations
+                                                                               );
+
+                const data_classifier_t *const classifier
+                    = data_node_set_get_classifier_const ( &((*this_).temp_node_data) );
+                classifier_type = data_classifier_get_main_type( classifier );
+
+    
+            }
+        
+        }        
+        
         data_node_set_destroy( &((*this_).temp_node_data) );
-    }
-
-    /* do recursion, all required data is stored on the stack now */
-    if ( recursion_depth < IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH )
+    }    
+    
+    if ( ! duplicate_classifier )
     {
-        const uint32_t children = data_small_set_get_count ( &contained_classifiers );
-        assert( children == data_small_set_get_count ( &containment_relations ) );
-        for ( uint32_t index = 0; index < children; index ++ )
-        {
-            const data_id_t child = data_small_set_get_id ( &contained_classifiers, index );
-            const data_id_t c_rel = data_small_set_get_id ( &containment_relations, index );
-            write_err |= io_export_model_traversal_private_walk_unique_node( this_, classifier_type, child, c_rel, recursion_depth+1 );
-        }
+        write_err |= io_export_model_traversal_private_walk_containments( this_,
+                                                                          classifier_type,
+                                                                          &contained_classifiers,
+                                                                          &containment_relations,
+                                                                          recursion_depth 
+                                                                        );
     }
-
-    /* load and process the node set a second time to print the rest */
+    
     {
         data_node_set_init( &((*this_).temp_node_data) );
         const data_error_t data_err_2 = data_node_set_load( &((*this_).temp_node_data),
@@ -215,19 +183,132 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
         }
         else
         {
-            /* get classifier again */
-            const data_classifier_t *const classifier
-                = data_node_set_get_classifier_const ( &((*this_).temp_node_data) );
-            write_err |= xmi_element_writer_end_nested_classifier( (*this_).format_writer, parent_type, classifier );
-
+            if ( ! duplicate_classifier )
+            {
+                write_err |= io_export_model_traversal_private_end_node( this_,
+                                                                         parent_type,
+                                                                         &((*this_).temp_node_data) 
+                                                                       );
+            }
+            
             write_err |= io_export_model_traversal_private_iterate_node_relationships( this_,
                                                                                        &((*this_).temp_node_data)
                                                                                      );
+        
+        }        
+        
+        data_node_set_destroy( &((*this_).temp_node_data) );
+    }    
+
+    data_small_set_destroy (&contained_classifiers);
+    data_small_set_destroy (&containment_relations);
+
+    TRACE_END_ERR( write_err );
+    return write_err;
+}
+
+int io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *this_,
+                                                   data_classifier_type_t parent_type,
+                                                   const data_node_set_t *node_data )
+{
+    TRACE_BEGIN();
+    int write_err = 0;
+
+    /* get classifier */
+    const data_classifier_t *const classifier
+        = data_node_set_get_classifier_const ( node_data );
+        
+    write_err |= xmi_element_writer_start_nested_classifier( (*this_).format_writer, parent_type, classifier );
+    write_err |= xmi_element_writer_write_classifier( (*this_).format_writer, classifier );
+    
+    TRACE_END_ERR( write_err );
+    return write_err;
+}
+
+int io_export_model_traversal_private_get_containments ( io_export_model_traversal_t *this_,
+                                                         const data_node_set_t *node_data,
+                                                         data_small_set_t *io_contained_classifiers,
+                                                         data_small_set_t *io_containment_relations )
+{
+    TRACE_BEGIN();
+    int write_err = 0;
+
+    const data_classifier_t *const classifier
+        = data_node_set_get_classifier_const ( node_data );
+    const data_id_t classifier_id = data_classifier_get_data_id( classifier );
+
+    /* search containments in relationships */
+    const uint32_t count = data_node_set_get_relationship_count ( node_data );
+    for ( uint32_t index = 0; index < count; index ++ )
+    {
+        /* get relationship */
+        const data_relationship_t *relation;
+        relation = data_node_set_get_relationship_const ( node_data, index );
+        if (( relation != NULL ) && ( data_relationship_is_valid( relation ) ))
+        {
+            if ( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == data_relationship_get_main_type( relation ) )
+            {
+                const data_id_t relationship_id = data_relationship_get_data_id( relation );
+                const data_id_t from_feature_id = data_relationship_get_from_feature_data_id( relation );
+                const data_id_t to_feature_id = data_relationship_get_to_feature_data_id( relation );
+                const data_id_t to_classifier_id = data_relationship_get_to_classifier_data_id( relation );
+                if ( ( ! data_id_is_valid( &from_feature_id ) )
+                    && ( ! data_id_is_valid( &to_feature_id ) )
+                    && ( ! data_id_equals( &to_classifier_id, &classifier_id ) ) )
+                {
+                    data_small_set_add_obj ( io_contained_classifiers, to_classifier_id );
+                    data_small_set_add_obj ( io_containment_relations, relationship_id );
+                }
+            }
+        }
+        else
+        {
+            assert( false );
         }
     }
 
-    data_small_set_destroy (&containment_relations);
-    data_small_set_destroy (&contained_classifiers);
+    TRACE_END_ERR( write_err );
+    return write_err;
+}
+
+int io_export_model_traversal_private_walk_containments ( io_export_model_traversal_t *this_,
+                                                          data_classifier_type_t classifier_type,
+                                                          const data_small_set_t *contained_classifiers,
+                                                          const data_small_set_t *containment_relations,
+                                                          unsigned int recursion_depth )
+{
+    TRACE_BEGIN();
+    int write_err = 0;
+    
+    /* do recursion, all required data is stored on the stack now */
+    if ( recursion_depth < IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH )
+    {
+        const uint32_t children = data_small_set_get_count ( contained_classifiers );
+        assert( children == data_small_set_get_count ( &containment_relations ) );
+        for ( uint32_t index = 0; index < children; index ++ )
+        {
+            const data_id_t child = data_small_set_get_id ( contained_classifiers, index );
+            const data_id_t c_rel = data_small_set_get_id ( containment_relations, index );
+            write_err |= io_export_model_traversal_private_walk_unique_node( this_, classifier_type, child, c_rel, recursion_depth+1 );
+        }
+    }
+    
+    TRACE_END_ERR( write_err );
+    return write_err;
+}
+
+int io_export_model_traversal_private_end_node ( io_export_model_traversal_t *this_,
+                                                   data_classifier_type_t parent_type,
+                                                   const data_node_set_t *node_data )
+{
+    TRACE_BEGIN();
+    int write_err = 0;
+
+    /* get classifier again */
+    const data_classifier_t *const classifier
+        = data_node_set_get_classifier_const ( node_data );
+        
+    write_err |= xmi_element_writer_end_nested_classifier( (*this_).format_writer, parent_type, classifier );
 
     TRACE_END_ERR( write_err );
     return write_err;
