@@ -350,7 +350,7 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data
                 if ( xmi_type_converter_get_xmi_spec_of_classifier( &((*this_).xmi_types), classifier_type ) == XMI_SPEC_SYSML )
                 {
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
-                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
                     const char* profile_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
                                                                                                classifier_type,
                                                                                                XMI_SPEC_SYSML | XMI_SPEC_STANDARD
@@ -367,28 +367,52 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_CLASS_START );
                     export_err |= xmi_element_writer_private_encode_xmi_id( this_, classifier_id );
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_CLASS_END );
+                    
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
+                    xml_writer_increase_indent ( &((*this_).xml_writer) );
 
-                    /*
                     if (( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT ) || ( classifier_type == DATA_CLASSIFIER_TYPE_FEATURE ))
                     {
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "Derived=\"160002\" " );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "DerivedFrom=\"160002\" " );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "Id=\"160002\" " ); // MANDATORY
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "Master=\"160002\" " ); // MANDATORY
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "RefinedBy=\"160002\" " );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "SatisfiedBy=\"160002\" " );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "Text=\"160002\" " ); // MANDATORY
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "TracedTo=\"160002\" " );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "VerifiedBy=\"160002\" " );
+                        //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "Derived=\"160002\" " );
+                        //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "DerivedFrom=\"160002\" " );
+                        
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<id>" );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "1" );
+                        export_err |= xmi_element_writer_private_encode_xmi_id( this_, classifier_id );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "</id>" );
+                        
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<master>" ); 
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "1" );
+                        export_err |= xmi_element_writer_private_encode_xmi_id( this_, classifier_id );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "</master>" );
+                        
+                        //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "RefinedBy=\"160002\" " );
+                        //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "SatisfiedBy=\"160002\" " );
+                        
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<text>" );
+                        //export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
+                        //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
+                        export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_descr );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "</text>" ); 
+                        
+                        //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "TracedTo=\"160002\" " );
+                        //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "VerifiedBy=\"160002\" " );
                     }
-                    */
 
-                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
                     /*
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_COMMENT_START );
                     export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_COMMENT_END );
                     */
+                    
+                    xml_writer_decrease_indent ( &((*this_).xml_writer) );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
+                    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), profile_type );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
                 }
             }
         }

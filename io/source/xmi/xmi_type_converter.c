@@ -228,10 +228,6 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_classifier ( xmi_type_converter_t 
     return result;
 }
 
-#define XMI_TYPE_CONVERTER_NS_UML "uml:"
-#define XMI_TYPE_CONVERTER_NS_SYSML "SysML:"
-#define XMI_TYPE_CONVERTER_NS_STDPROF "StandardProfile:"
-
 const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t *this_,
                                                             data_classifier_type_t c_type,
                                                             xmi_spec_t spec )
