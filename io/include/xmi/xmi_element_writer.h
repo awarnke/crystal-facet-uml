@@ -90,6 +90,19 @@ int xmi_element_writer_write_header( xmi_element_writer_t *this_, const char *do
 int xmi_element_writer_start_main( xmi_element_writer_t *this_, const char *document_title );
 
 /*!
+ *  \brief checks if a parent classifier may nest a child classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_type data_classifier_type_t of the parent of which the nesting-ability shall be determined
+ *  \param child_type data_classifier_type_t of the nested child of which the nesting-ability shall be determined
+ *  \result true if nesting is allowed
+ */
+bool xmi_element_writer_can_classifier_nest_classifier ( xmi_element_writer_t *this_,
+                                                         data_classifier_type_t parent_type,
+                                                         data_classifier_type_t child_type
+                                                       );
+
+/*!
  *  \brief writes a classifier start
  *
  *  This starts a division that contains a classifier and a list of features and relationships
@@ -100,9 +113,9 @@ int xmi_element_writer_start_main( xmi_element_writer_t *this_, const char *docu
  *  \result 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_start_nested_classifier( xmi_element_writer_t *this_,
-                                              data_classifier_type_t parent_type,
-                                              const data_classifier_t *classifier_ptr
-                                            );
+                                                data_classifier_type_t parent_type,
+                                                const data_classifier_t *classifier_ptr
+                                              );
 
 /*!
  *  \brief writes a classifier of the document
@@ -121,6 +134,17 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data
  *  \result 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_write_feature( xmi_element_writer_t *this_, const data_feature_t *feature_ptr );
+
+/*!
+ *  \brief checks if a parent classifier may nest relationships
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_type data_classifier_type_t of the parent of which the nesting-ability shall be determined
+ *  \result true if nesting or any relationship is allowed
+ */
+bool xmi_element_writer_can_classifier_nest_relationships ( xmi_element_writer_t *this_,
+                                                            data_classifier_type_t parent_type
+                                                          );
 
 /*!
  *  \brief writes a relationship of the document

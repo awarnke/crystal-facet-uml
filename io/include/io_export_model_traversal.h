@@ -73,7 +73,7 @@ void io_export_model_traversal_destroy( io_export_model_traversal_t *this_ );
 int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *this_ );
 
 /*!
- *  \brief writes the node if it is not a duplicate.
+ *  \brief writes the node if it is not a duplicate. writes its relationships if they are not duplicates.
  *
  *  While traversing, the written_id_set is extended.
  *  Classifiers that are contained in written_id_set or that are beyond max_recursion are not traversed.
@@ -86,12 +86,12 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
  *  \return -1 in case of error,
  *          0 in case of success.
  */
-int io_export_model_traversal_private_walk_unique_node ( io_export_model_traversal_t *this_,
-                                                         data_classifier_type_t parent_type,
-                                                         data_id_t classifier_id,
-                                                         data_id_t containment_relationship_id,
-                                                         unsigned int recursion_depth
-                                                       );
+int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *this_,
+                                                  data_classifier_type_t parent_type,
+                                                  data_id_t classifier_id,
+                                                  data_id_t containment_relationship_id,
+                                                  unsigned int recursion_depth
+                                                );
 
 /*!
  *  \brief writes the node, features and relationships and recusively descends the containment tree (graph) of a classifier.
@@ -106,11 +106,13 @@ int io_export_model_traversal_private_walk_unique_node ( io_export_model_travers
  *          or written_id_set prevents duplicate traversal of a classifier,
  *          0 is returned nonetheless.
  */
+/*
 int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *this_,
                                                   data_classifier_type_t parent_type,
                                                   data_id_t classifier_id,
                                                   unsigned int recursion_depth
                                                 );
+*/
 
 int io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *this_,
                                                    data_classifier_type_t parent_type,

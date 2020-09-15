@@ -97,6 +97,17 @@ static inline bool xmi_type_converter_can_classifier_nest_classifier ( xmi_type_
                                                                      );
 
 /*!
+ *  \brief checks if a parent classifier may nest relationships
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_type data_classifier_type_t of the parent of which the nesting-ability shall be determined
+ *  \result true if nesting or any relationship is allowed
+ */
+static inline bool xmi_type_converter_can_classifier_nest_relationships ( xmi_type_converter_t *this_,
+                                                                          data_classifier_type_t parent_type
+                                                                        );
+
+/*!
  *  \brief gets a string representation of the from property of a data_relationship_type_t
  *
  *  \param this_ pointer to own object attributes

@@ -252,6 +252,18 @@ int xmi_element_writer_start_main( xmi_element_writer_t *this_, const char *docu
     return export_err;
 }
 
+bool xmi_element_writer_can_classifier_nest_classifier ( xmi_element_writer_t *this_,
+                                                         data_classifier_type_t parent_type,
+                                                         data_classifier_type_t child_type )
+{
+    TRACE_BEGIN();
+
+    const bool result = xmi_type_converter_can_classifier_nest_classifier( &((*this_).xmi_types), parent_type, child_type );
+
+    TRACE_END( );
+    return result;
+}
+
 int xmi_element_writer_start_nested_classifier( xmi_element_writer_t *this_,
                                                 data_classifier_type_t parent_type,
                                                 const data_classifier_t *classifier_ptr )
@@ -391,7 +403,7 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data
                         export_err |= xmi_element_writer_private_encode_xmi_id( this_, classifier_id );
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "</master>" );
                         */
-                        
+
                         //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "RefinedBy=\"160002\" " );
                         //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "SatisfiedBy=\"160002\" " );
 
@@ -524,6 +536,17 @@ int xmi_element_writer_write_feature( xmi_element_writer_t *this_, const data_fe
 
     TRACE_END_ERR( export_err );
     return export_err;
+}
+
+bool xmi_element_writer_can_classifier_nest_relationships ( xmi_element_writer_t *this_,
+                                                            data_classifier_type_t parent_type )
+{
+    TRACE_BEGIN();
+
+    const bool result = xmi_type_converter_can_classifier_nest_relationships( &((*this_).xmi_types), parent_type );
+
+    TRACE_END();
+    return result;
 }
 
 int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
