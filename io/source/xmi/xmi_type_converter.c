@@ -513,19 +513,19 @@ const char* xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type
     TRACE_BEGIN();
     const char* result = "";
 
+    const bool parent_is_classifier = xmi_type_converter_is_uml_classifier( this_, child_type );
+
     if ( child_type == DATA_CLASSIFIER_TYPE_UML_COMMENT )
     {
         /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.2 */
         /* any element can own 0..* comments */
         result = "ownedComment";
     }
-    /*
-    else if ( child_type == DATA_CLASSIFIER_TYPE_UML_USE_CASE )
+    else if ( parent_is_classifier && ( child_type == DATA_CLASSIFIER_TYPE_UML_USE_CASE ) )
     {
-        / * spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Classifier * /
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Classifier */
         result = "ownedUseCase";
     }
-    */
     else
     {
         switch ( parent_type )
@@ -773,6 +773,213 @@ const char* xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type
     }
 
     TRACE_END_ERR( ('\0'==*result) ? -1 : 0 );
+    return result;
+}
+
+bool xmi_type_converter_is_uml_classifier ( xmi_type_converter_t *this_, data_classifier_type_t c_type )
+{
+    TRACE_BEGIN();
+    bool result = false;
+
+    switch ( c_type )
+    {
+        case DATA_CLASSIFIER_TYPE_BLOCK:
+        {
+            result = true;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
+        {
+            result = false;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_FEATURE:
+        {
+            result = true;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_REQUIREMENT:
+        {
+            result = true;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_ACTOR:
+        {
+            result = true;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
+        {
+            result = true;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
+        {
+            result = true;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
+        {
+            result = true;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_STATE:
+        {
+            result = false;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
+        {
+            result = true;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_NODE:
+        {
+            result = true;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
+        {
+            result = true;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_PART:
+        {
+            result = true;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
+        {
+            result = true;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
+        {
+            result = false;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_CLASS:
+        {
+            result = true;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_OBJECT:
+        {
+            result = true;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
+        {
+            result = true;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_COMMENT:
+        {
+            result = false;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
+        {
+            result = false;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
+        {
+            result = false;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
+        {
+            result = false;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
+        {
+            result = false;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
+        {
+            result = false;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
+        {
+            result = false;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
+        {
+            result = false;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
+        {
+            result = false;
+        }
+        break;
+
+        /*
+        case DATA_CLASSIFIER_TYPE_DYN_PARTITION:
+        {
+            result = false;
+        }
+        break;
+        */
+
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT:
+        {
+            result = false;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
+        {
+            result = false;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
+        {
+            result = false;
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR_INT( "switch case statement for data_classifier_type_t incomplete", c_type );
+            assert( 0 );
+        }
+        break;
+    }
+
+    TRACE_END();
     return result;
 }
 
@@ -1118,24 +1325,6 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
     }
 
     TRACE_END_ERR( ('\0'==*result) ? -1 : 0 );
-    return result;
-}
-
-const char* xmi_type_converter_get_xmi_from_property_of_relationship ( xmi_type_converter_t *this_,
-                                                                       data_relationship_type_t r_type )
-{
-    TRACE_BEGIN();
-    const char* result = xmi_type_converter_private_get_xmi_end_property_of_relationship( this_, r_type, true );
-    TRACE_END();
-    return result;
-}
-
-const char* xmi_type_converter_get_xmi_to_property_of_relationship ( xmi_type_converter_t *this_,
-                                                                     data_relationship_type_t r_type )
-{
-    TRACE_BEGIN();
-    const char* result = xmi_type_converter_private_get_xmi_end_property_of_relationship( this_, r_type, false );
-    TRACE_END();
     return result;
 }
 

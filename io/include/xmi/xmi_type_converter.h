@@ -82,6 +82,16 @@ const char* xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type
                                                                         data_classifier_type_t child_type
                                                                       );
 
+/*!
+ *  \brief gets a string representation of the from property of a data_relationship_type_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param c_type data_classifier_type_t for which to determine if this is a subclass of uml:Classifier
+ *  \result true if the uml-equivalent to c_type is a subclass of uml:Classifier
+ */
+bool xmi_type_converter_is_uml_classifier ( xmi_type_converter_t *this_, data_classifier_type_t c_type );
+
+
 /* ================================ FEATURE ================================ */
 
 /*!
@@ -146,9 +156,9 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
  *  \param r_type data_relationship_type_t for which to define the from property
  *  \result string representation of the from property of the r_type
  */
-const char* xmi_type_converter_get_xmi_from_property_of_relationship ( xmi_type_converter_t *this_,
-                                                                       data_relationship_type_t r_type
-                                                                     );
+static inline const char* xmi_type_converter_get_xmi_from_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                                     data_relationship_type_t r_type
+                                                                                   );
 
 /*!
  *  \brief gets a string representation of the to property of a data_relationship_type_t
@@ -157,9 +167,9 @@ const char* xmi_type_converter_get_xmi_from_property_of_relationship ( xmi_type_
  *  \param r_type data_relationship_type_t for which to define the to property
  *  \result string representation of the to property of the r_type
  */
-const char* xmi_type_converter_get_xmi_to_property_of_relationship ( xmi_type_converter_t *this_,
-                                                                     data_relationship_type_t r_type
-                                                                   );
+static inline const char* xmi_type_converter_get_xmi_to_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                                   data_relationship_type_t r_type
+                                                                                 );
 
 /*!
  *  \brief gets a string representation of an end property of a data_relationship_type_t
@@ -173,6 +183,8 @@ const char* xmi_type_converter_private_get_xmi_end_property_of_relationship ( xm
                                                                               data_relationship_type_t r_type,
                                                                               bool from_end
                                                                             );
+
+#include "xmi_type_converter.inl"
 
 #endif  /* XMI_TYPE_CONVERTER_H */
 
