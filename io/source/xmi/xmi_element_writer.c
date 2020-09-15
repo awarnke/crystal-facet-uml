@@ -253,8 +253,8 @@ int xmi_element_writer_start_main( xmi_element_writer_t *this_, const char *docu
 }
 
 int xmi_element_writer_start_nested_classifier( xmi_element_writer_t *this_,
-                                              data_classifier_type_t parent_type,
-                                              const data_classifier_t *classifier_ptr )
+                                                data_classifier_type_t parent_type,
+                                                const data_classifier_t *classifier_ptr )
 {
     TRACE_BEGIN();
     assert( (*this_).export_type == IO_FILE_FORMAT_XMI2 );  /* for other formats, use xmi_element_writer_start_classifier */
@@ -268,10 +268,12 @@ int xmi_element_writer_start_nested_classifier( xmi_element_writer_t *this_,
         xml_writer_increase_indent ( &((*this_).xml_writer) );
 
         /* write start of tag */
-        const char* nesting_property
+        const char* nesting_property;
+        const int nesting_err
             = xmi_type_converter_get_xmi_nesting_property_of_classifier( &((*this_).xmi_types),
                                                                          parent_type,
-                                                                         data_classifier_get_main_type(classifier_ptr)
+                                                                         data_classifier_get_main_type(classifier_ptr),
+                                                                         &nesting_property
                                                                        );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), nesting_property );
@@ -367,7 +369,7 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_CLASS_START );
                     export_err |= xmi_element_writer_private_encode_xmi_id( this_, classifier_id );
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_CLASS_END );
-                    
+
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
                     xml_writer_increase_indent ( &((*this_).xml_writer) );
 
@@ -375,29 +377,29 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data
                     {
                         //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "Derived=\"160002\" " );
                         //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "DerivedFrom=\"160002\" " );
-                        
+
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<id>" );
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "1" );
                         export_err |= xmi_element_writer_private_encode_xmi_id( this_, classifier_id );
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "</id>" );
-                        
+
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<master>" ); 
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<master>" );
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "1" );
                         export_err |= xmi_element_writer_private_encode_xmi_id( this_, classifier_id );
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "</master>" );
-                        
+
                         //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "RefinedBy=\"160002\" " );
                         //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "SatisfiedBy=\"160002\" " );
-                        
+
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<text>" );
                         //export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
                         //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
                         export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_descr );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "</text>" ); 
-                        
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "</text>" );
+
                         //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "TracedTo=\"160002\" " );
                         //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "VerifiedBy=\"160002\" " );
                     }
@@ -407,7 +409,7 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data
                     export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_COMMENT_END );
                     */
-                    
+
                     xml_writer_decrease_indent ( &((*this_).xml_writer) );
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
@@ -674,8 +676,8 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
 }
 
 int xmi_element_writer_end_nested_classifier( xmi_element_writer_t *this_,
-                                            data_classifier_type_t parent_type,
-                                            const data_classifier_t *classifier_ptr )
+                                              data_classifier_type_t parent_type,
+                                              const data_classifier_t *classifier_ptr )
 {
     TRACE_BEGIN();
     assert( (*this_).export_type == IO_FILE_FORMAT_XMI2 );  /* for other formats, use xmi_element_writer_end_classifier */
@@ -690,10 +692,12 @@ int xmi_element_writer_end_nested_classifier( xmi_element_writer_t *this_,
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
 
         /* write end tag */
-        const char* nesting_property
+        const char* nesting_property;
+        const int nesting_err
             = xmi_type_converter_get_xmi_nesting_property_of_classifier( &((*this_).xmi_types),
                                                                          parent_type,
-                                                                         classifier_type
+                                                                         classifier_type,
+                                                                         &nesting_property
                                                                        );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), nesting_property );

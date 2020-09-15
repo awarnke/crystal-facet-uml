@@ -506,11 +506,13 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
     return result;
 }
 
-const char* xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_converter_t *this_,
-                                                                        data_classifier_type_t parent_type,
-                                                                        data_classifier_type_t child_type )
+int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_converter_t *this_,
+                                                                data_classifier_type_t parent_type,
+                                                                data_classifier_type_t child_type,
+                                                                char const * *out_xmi_name )
 {
     TRACE_BEGIN();
+    assert( out_xmi_name != NULL );
     const char* result = "";
 
     const bool parent_is_classifier = xmi_type_converter_is_uml_classifier( this_, child_type );
@@ -772,8 +774,10 @@ const char* xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type
         }
     }
 
-    TRACE_END_ERR( ('\0'==*result) ? -1 : 0 );
-    return result;
+    *out_xmi_name = result;
+    const bool result_err = ('\0'==*result) ? -1 : 0;
+    TRACE_END_ERR( result_err );
+    return result_err;
 }
 
 bool xmi_type_converter_is_uml_classifier ( xmi_type_converter_t *this_, data_classifier_type_t c_type )

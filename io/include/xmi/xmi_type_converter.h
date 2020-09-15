@@ -75,12 +75,14 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
  *  \param this_ pointer to own object attributes
  *  \param parent_type data_classifier_type_t of the parent of which the nesting-type shall be determined
  *  \param child_type data_classifier_type_t of the nested child of which the nesting-type shall be determined
- *  \result string representation of the nesting-link type, empty string if not available
+ *  \param out_xmi_name representation of the nesting-link type, empty string if not available
+ *  \result 0 in case of success
  */
-const char* xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_converter_t *this_,
-                                                                        data_classifier_type_t parent_type,
-                                                                        data_classifier_type_t child_type
-                                                                      );
+int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_converter_t *this_,
+                                                                data_classifier_type_t parent_type,
+                                                                data_classifier_type_t child_type,
+                                                                char const * *out_xmi_name
+                                                              );
 
 /*!
  *  \brief gets a string representation of the from property of a data_relationship_type_t
