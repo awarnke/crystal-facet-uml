@@ -253,7 +253,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
             result
                 = ( (spec & XMI_SPEC_SYSML) == XMI_SPEC_SYSML )
                 ? XMI_TYPE_CONVERTER_NS_SYSML "ConstraintBlock"
-                : XMI_TYPE_CONVERTER_NS_UML "Class";  /* base class from which the sysml profile is derived */
+                : XMI_TYPE_CONVERTER_NS_UML "Property";  /* base class from which the sysml profile is derived */
         }
         break;
 
@@ -513,9 +513,11 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
 {
     TRACE_BEGIN();
     assert( out_xmi_name != NULL );
-    const char* result = "";
+    const char* result = NULL;
 
-    const bool parent_is_classifier = xmi_type_converter_is_uml_classifier( this_, child_type );
+    const bool parent_is_classifier = xmi_type_converter_is_uml_classifier( this_, parent_type );
+    const bool child_is_classifier = xmi_type_converter_is_uml_classifier( this_, child_type );
+    const bool child_is_behavior = ( child_type == DATA_CLASSIFIER_TYPE_UML_ACTIVITY );
 
     if ( child_type == DATA_CLASSIFIER_TYPE_UML_COMMENT )
     {
@@ -535,7 +537,11 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
             case DATA_CLASSIFIER_TYPE_BLOCK:
             {
                 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.4 */
-                result = "nestedClassifier";
+                result = child_is_behavior
+                    ? "ownedBehavior"
+                    : child_is_classifier
+                        ? "nestedClassifier"
+                        : NULL;
             }
             break;
 
@@ -550,14 +556,22 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
             case DATA_CLASSIFIER_TYPE_FEATURE:
             {
                 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.4 */
-                result = "nestedClassifier";
+                result = child_is_behavior
+                    ? "ownedBehavior"
+                    : child_is_classifier
+                        ? "nestedClassifier"
+                        : NULL;
             }
             break;
 
             case DATA_CLASSIFIER_TYPE_REQUIREMENT:
             {
                 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.4 */
-                result = "nestedClassifier";
+                result = child_is_behavior
+                    ? "ownedBehavior"
+                    : child_is_classifier
+                        ? "nestedClassifier"
+                        : NULL;
             }
             break;
 
@@ -615,14 +629,23 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
                     /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
                     ? "nestedNode"
                     /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.4 */
-                    : "nestedClassifier";
+                    : child_is_behavior
+                        ? "ownedBehavior"
+                        : child_is_classifier
+                            ? "nestedClassifier"
+                            : NULL;
+
             }
             break;
 
             case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
             {
                 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.4 */
-                result = "nestedClassifier";
+                result = child_is_behavior
+                    ? "ownedBehavior"
+                    : child_is_classifier
+                        ? "nestedClassifier"
+                        : NULL;
             }
             break;
 
@@ -652,7 +675,11 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
             case DATA_CLASSIFIER_TYPE_UML_CLASS:
             {
                 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.4 */
-                result = "nestedClassifier";
+                result = child_is_behavior
+                    ? "ownedBehavior"
+                    : child_is_classifier
+                        ? "nestedClassifier"
+                        : NULL;
             }
             break;
 
@@ -768,14 +795,14 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
             {
                 TSLOG_ERROR_INT( "switch case statement for data_classifier_type_t incomplete", parent_type );
                 assert( 0 );
-                result = "";
+                result = NULL;
             }
             break;
         }
     }
 
-    *out_xmi_name = result;
-    const bool result_err = ('\0'==*result) ? -1 : 0;
+    *out_xmi_name = (result==NULL) ? "" : result;
+    const int result_err = (result==NULL) ? -1 : 0;
     TRACE_END_ERR( result_err );
     return result_err;
 }

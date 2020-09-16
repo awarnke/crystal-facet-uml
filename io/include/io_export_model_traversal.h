@@ -79,26 +79,57 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
  *  Classifiers that are contained in written_id_set or that are beyond max_recursion are not traversed.
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classiier, needed for xmi export
- *  \param classifier_id id of the classifier to process
+ *  \param parent_type type of the parent classifier, needed for xmi export
  *  \param containment_relationship_id id of the containment relationship which caused the processing, DATA_ID_VOID if not applicable
+ *  \param classifier_id id of the classifier to process
  *  \param recursion_depth current number of tree depth.
  *  \return -1 in case of error,
  *          0 in case of success.
  */
 int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *this_,
                                                   data_classifier_type_t parent_type,
-                                                  data_id_t classifier_id,
                                                   data_id_t containment_relationship_id,
+                                                  data_id_t classifier_id,
                                                   unsigned int recursion_depth
                                                 );
 
 /*!
- *  \brief writes the node, features and relationships and recusively descends the containment tree (graph) of a classifier.
+ *  \brief writes the first half of the node
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classiier, needed for xmi export
- *  \param classifier_id id of the classifier to process
+ *  \param parent_type type of the parent classifier, needed for xmi export
+ *  \param node_data the data set of a model-node: a classifier, list of contained features and set of relationships
+ *  \return -1 in case of error,
+ *          0 in case of success.
+ */
+int io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *this_,
+                                                   data_classifier_type_t parent_type,
+                                                   const data_node_set_t *node_data
+                                                 );
+
+/*!
+ *  \brief retrieves the relationships of type DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param node_data the data set at a model-node: 1 classifier, contained features and set of relationships
+ *  \param io_contained_classifiers set of classifiers, contained classifiers are appended. This set shall be initialized when calling this function.
+ *  \param io_containment_relations set of relationships, containment relationships are appended. This set shall be initialized when calling this function.
+ *  \return -1 in case of error,
+ *          0 in case of success.
+ */
+int io_export_model_traversal_private_get_containments ( io_export_model_traversal_t *this_,
+                                                         const data_node_set_t *node_data,
+                                                         data_small_set_t *io_contained_classifiers,
+                                                         data_small_set_t *io_containment_relations
+                                                       );
+
+/*!
+ *  \brief recusively descends the containment tree (graph) of a classifier.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_type type of the classifier (which containments to process)
+ *  \param contained_classifiers set of contained classifiers.
+ *  \param containment_relations set of containment relationships.
  *  \param recursion_depth current number of tree depth. Used to actively limit the recursive descend to max IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH.
  *  \return -1 in case of error,
  *          0 in case of success.
@@ -106,32 +137,26 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
  *          or written_id_set prevents duplicate traversal of a classifier,
  *          0 is returned nonetheless.
  */
-/*
-int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *this_,
-                                                  data_classifier_type_t parent_type,
-                                                  data_id_t classifier_id,
-                                                  unsigned int recursion_depth
-                                                );
-*/
-
-int io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *this_,
-                                                   data_classifier_type_t parent_type,
-                                                   const data_node_set_t *node_data );
-
-int io_export_model_traversal_private_get_containments ( io_export_model_traversal_t *this_,
-                                                         const data_node_set_t *node_data,
-                                                         data_small_set_t *io_contained_classifiers,
-                                                         data_small_set_t *io_containment_relations );
-
 int io_export_model_traversal_private_walk_containments ( io_export_model_traversal_t *this_,
                                                           data_classifier_type_t classifier_type,
-                                                   const data_small_set_t *contained_classifiers,
-                                                   const data_small_set_t *containment_relations,
-                                                   unsigned int recursion_depth );
+                                                          const data_small_set_t *contained_classifiers,
+                                                          const data_small_set_t *containment_relations,
+                                                          unsigned int recursion_depth
+                                                        );
 
+/*!
+ *  \brief writes the second half of the node
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_type type of the parent classifier, needed for xmi export
+ *  \param node_data the data set of a model-node: a classifier, list of contained features and set of relationships
+ *  \return -1 in case of error,
+ *          0 in case of success.
+ */
 int io_export_model_traversal_private_end_node ( io_export_model_traversal_t *this_,
-                                                   data_classifier_type_t parent_type,
-                                                   const data_node_set_t *node_data );
+                                                 data_classifier_type_t parent_type,
+                                                 const data_node_set_t *node_data
+                                               );
 
 /*!
  *  \brief iterates over features of a classifier.
