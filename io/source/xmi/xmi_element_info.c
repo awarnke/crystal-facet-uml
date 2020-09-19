@@ -7,13 +7,12 @@
 
 const xmi_element_info_t xmi_element_info_standard_list[XMI_ELEMENT_INFO_MAX_ENTRIES]
 = {
-    {
+    [XMI_ELEMENT_INFO_INDEX_BLOCK] = {
         .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_BLOCK,
         .specification            = XMI_SPEC_SYSML,
         .profile_name             = XMI_ELEMENT_INFO_NS_SYSML "Block",
         .base_name                = XMI_ELEMENT_INFO_NS_UML   "Class",
-        .is_classifier            = true,
-        .is_behaviored_classifier = false,  /* TODO */
+        .is_a                     = (XMI_ELEMENT_IS_A_CLASSIFIER),
         .property_from            = NULL,
         .property_to              = NULL,
     },

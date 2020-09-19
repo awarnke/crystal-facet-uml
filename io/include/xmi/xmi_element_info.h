@@ -10,10 +10,21 @@
  */
 
 #include "xmi_spec.h"
+#include "xmi/xmi_element_is_a.h"
 #include "data_classifier_type.h"
 #include "data_feature_type.h"
 #include "data_relationship_type.h"
 #include <stdbool.h>
+
+/*!
+ *  \brief defines the array indices of uml elements
+ */
+enum xmi_element_info_index_enum {
+    XMI_ELEMENT_INFO_INDEX_BLOCK = 0,  /*!< the type is a decendant of uml:Classifier */
+    XMI_ELEMENT_INFO_INDEX_CLASS = 1,  /*!< the type is a decendant of uml:BehavioredClassifier */
+};
+
+typedef enum xmi_element_info_index_enum xmi_element_info_index_t;
 
 /*!
  *  \brief all data attributes needed for the diagramelement functions
@@ -23,8 +34,7 @@ struct xmi_element_info_struct {
     xmi_spec_t specification;  /*!< a bitfield stating which spec defines this, e.g. (XMI_SPEC_UML|XMI_SPEC_SYSML) */
     const char * profile_name;  /*!< name of the profile extension-type, NULL if not applicable */
     const char * base_name;  /*!< name of the uml element type */
-    bool is_classifier;  /*!< states if the type is a decendant of uml:Classifier */
-    bool is_behaviored_classifier;  /*!< states if the type is a decendant of uml:BehavioredClassifier */
+    xmi_element_is_a_t is_a;  /*!< states if the type is a decendant of which parent types */
     const char * property_from;  /*!< in case of a relationship, states the property-name of the source end; NULL otherwise */
     const char * property_to;  /*!< in case of a relationship, states the property-name of the target end; NULL otherwise */
 };
