@@ -168,9 +168,9 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
  *  \result 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_end_nested_classifier( xmi_element_writer_t *this_,
-                                            data_classifier_type_t parent_type,
-                                            const data_classifier_t *classifier_ptr
-                                          );
+                                              data_classifier_type_t parent_type,
+                                              const data_classifier_t *classifier_ptr
+                                            );
 
 /*!
  *  \brief writes the ending of the main section

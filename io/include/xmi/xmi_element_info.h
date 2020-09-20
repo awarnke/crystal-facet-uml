@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Lists static data on xmi type names, type hierarchies and property names
+ *  \brief Stores static data on xmi type names, type hierarchies and property names
  */
 
 #include "xmi_spec.h"
@@ -17,17 +17,7 @@
 #include <stdbool.h>
 
 /*!
- *  \brief defines the array indices of uml elements
- */
-enum xmi_element_info_index_enum {
-    XMI_ELEMENT_INFO_INDEX_BLOCK = 0,  /*!< the type is a decendant of uml:Classifier */
-    XMI_ELEMENT_INFO_INDEX_CLASS = 1,  /*!< the type is a decendant of uml:BehavioredClassifier */
-};
-
-typedef enum xmi_element_info_index_enum xmi_element_info_index_t;
-
-/*!
- *  \brief all data attributes needed for the diagramelement functions
+ *  \brief defines static data on xmi type name, type hierarchy and property names
  */
 struct xmi_element_info_struct {
     int data_type_checksum;  /*!< a checksum to assert that the program is still consistent */
@@ -44,34 +34,6 @@ typedef struct xmi_element_info_struct xmi_element_info_t;
 #define XMI_ELEMENT_INFO_NS_UML "uml:"
 #define XMI_ELEMENT_INFO_NS_SYSML "SysML:"
 #define XMI_ELEMENT_INFO_NS_STDPROF "StandardProfile:"
-#define XMI_ELEMENT_INFO_MAX_ENTRIES (45)
-extern const xmi_element_info_t xmi_element_info_standard_list[XMI_ELEMENT_INFO_MAX_ENTRIES];
-
-/*!
- *  \brief returns a pointer to the xmi_element_info_t struct identified by c_type.
- *
- *  \param c_type selects the xmi_element_info_t
- *  \return pointer to the selected xmi_element_info_t
- */
-static inline const xmi_element_info_t * xmi_element_info_static_get_classifier ( data_classifier_type_t c_type );
-
-/*!
- *  \brief returns a pointer to the xmi_element_info_t struct identified by f_type.
- *
- *  \param f_type selects the xmi_element_info_t
- *  \return pointer to the selected xmi_element_info_t
- */
-static inline const xmi_element_info_t * xmi_element_info_static_get_feature ( data_feature_type_t f_type );
-
-/*!
- *  \brief returns a pointer to the xmi_element_info_t struct identified by r_type.
- *
- *  \param r_type selects the xmi_element_info_t
- *  \return pointer to the selected xmi_element_info_t
- */
-static inline const xmi_element_info_t * xmi_element_info_static_get_relationship ( data_relationship_type_t r_type );
-
-#include "xmi_element_info.inl"
 
 #endif  /* XMI_ELEMENT_INFO_H */
 
