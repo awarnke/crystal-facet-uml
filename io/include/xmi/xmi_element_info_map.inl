@@ -14,7 +14,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
     {
         case DATA_CLASSIFIER_TYPE_BLOCK:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_BLOCK < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_BLOCK]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_BLOCK );
         }
@@ -22,7 +21,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_CONSTRAINT_PROPERTY < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_CONSTRAINT_PROPERTY]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY );
         }
@@ -30,7 +28,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_FEATURE:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_REQUIREMENT < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_REQUIREMENT]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_REQUIREMENT );
         }
@@ -38,7 +35,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_REQUIREMENT:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_REQUIREMENT < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_REQUIREMENT]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_REQUIREMENT );
         }
@@ -46,7 +42,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_UML_ACTOR:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_ACTOR < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_ACTOR]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_ACTOR );
         }
@@ -54,7 +49,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_USE_CASE < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_USE_CASE]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_USE_CASE );
         }
@@ -62,7 +56,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_SYSTEM_BOUNDARY < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_SYSTEM_BOUNDARY]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY );
         }
@@ -70,7 +63,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_ACTIVITY < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_ACTIVITY]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_ACTIVITY );
         }
@@ -78,7 +70,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_UML_STATE:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_STATE < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_STATE]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_STATE );
         }
@@ -86,7 +77,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_DIAGRAM_REFERENCE < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DIAGRAM_REFERENCE]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE );
         }
@@ -94,7 +84,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_UML_NODE:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_NODE < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_NODE]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_NODE );
         }
@@ -102,7 +91,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_COMPONENT < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_COMPONENT]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_COMPONENT );
         }
@@ -110,7 +98,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_UML_PART:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_COMPONENT < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_COMPONENT]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_COMPONENT );
         }
@@ -118,7 +105,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_INTERFACE < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_INTERFACE]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_INTERFACE );
         }
@@ -126,7 +112,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_PACKAGE < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_PACKAGE]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_PACKAGE );
         }
@@ -134,7 +119,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_UML_CLASS:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_CLASS < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_CLASS]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_CLASS );
         }
@@ -142,7 +126,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_UML_OBJECT:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_CLASS < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_CLASS]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_CLASS );
         }
@@ -150,7 +133,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_ARTIFACT < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_ARTIFACT]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_ARTIFACT );
         }
@@ -158,7 +140,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_UML_COMMENT:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_COMMENT < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_COMMENT]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_COMMENT );
         }
@@ -166,7 +147,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_DYN_INTERRUPTABLE_REGION < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_INTERRUPTABLE_REGION]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION );
         }
@@ -174,7 +154,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_DYN_INITIAL_NODE < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_INITIAL_NODE]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE );
         }
@@ -182,7 +161,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_DYN_FINAL_NODE < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_FINAL_NODE]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE );
         }
@@ -190,7 +168,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_DYN_FORK_NODE < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_FORK_NODE]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_FORK_NODE );
         }
@@ -198,7 +175,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_DYN_JOIN_NODE < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_JOIN_NODE]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE );
         }
@@ -206,7 +182,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_DYN_DECISION_NODE < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_DECISION_NODE]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE );
         }
@@ -214,7 +189,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_DYN_SHALLOW_HISTORY < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_SHALLOW_HISTORY]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY );
         }
@@ -222,7 +196,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_DYN_DEEP_HISTORY < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_DEEP_HISTORY]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY );
         }
@@ -231,7 +204,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
         /*
         case DATA_CLASSIFIER_TYPE_DYN_PARTITION:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_DYN_PARTITION < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_PARTITION]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_PARTITION );
         }
@@ -240,7 +212,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACCEPT_EVENT < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACCEPT_EVENT]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT );
         }
@@ -248,7 +219,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACCEPT_TIME_EVENT < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACCEPT_TIME_EVENT]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT );
         }
@@ -256,7 +226,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
         {
-            assert ( XMI_ELEMENT_INFO_MAP_INDEX_DYN_SEND_SIGNAL < XMI_ELEMENT_INFO_MAP_INDEX_MAX );
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_SEND_SIGNAL]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL );
         }
@@ -282,7 +251,152 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_feature
 static inline const xmi_element_info_t * xmi_element_info_map_static_get_relationship ( const xmi_element_info_map_t *this_,
                                                                                         data_relationship_type_t r_type )
 {
-    return NULL;
+    const xmi_element_info_t * result = NULL;
+
+    switch ( r_type )
+    {
+        case DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DEPENDENCY]);
+            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY );
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_ASSOCIATION]);
+            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION );
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_AGGREGATION:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_AGGREGATION]);
+            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_AGGREGATION );
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_COMPOSITION:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_COMPOSITION]);
+            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_COMPOSITION );
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_GENERALIZATION]);
+            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION );
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_REALIZATION:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_REALIZATION]);
+            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_REALIZATION );
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_ASYNC_CALL]);
+            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL );
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_SYNC_CALL]);
+            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL );
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_RETURN_CALL]);
+            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL );
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_COMMUNICATION_PATH]);
+            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH );
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_CONTROL_FLOW]);
+            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW );
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_OBJECT_FLOW]);
+            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW );
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DEPLOY]);
+            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_DEPLOY );
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_MANIFEST]);
+            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_MANIFEST );
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_EXTEND:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_EXTEND]);
+            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_EXTEND );
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_INCLUDE]);
+            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_INCLUDE );
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_CONTAINMENT]);
+            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT );
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_REFINE:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_REFINE]);
+            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_REFINE );
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_TRACE:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_TRACE]);
+            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_TRACE );
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", r_type );
+            assert( 0 );
+        }
+        break;
+    }
+
+    return result;
 }
 
 

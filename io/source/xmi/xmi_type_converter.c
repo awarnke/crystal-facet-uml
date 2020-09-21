@@ -51,7 +51,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
         : (*e_info).base_name;
     assert ( result != NULL );
 
-    TRACE_END_ERR( ('\0'==*result) ? -1 : 0 );
+    TRACE_END();
     return result;
 }
 
@@ -286,10 +286,12 @@ const char* xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_con
 xmi_spec_t xmi_type_converter_get_xmi_spec_of_relationship ( xmi_type_converter_t *this_, data_relationship_type_t r_type )
 {
     TRACE_BEGIN();
-    xmi_spec_t result
-        = (( r_type == DATA_RELATIONSHIP_TYPE_UML_REFINE )||( r_type == DATA_RELATIONSHIP_TYPE_UML_TRACE ))
-        ? XMI_SPEC_STANDARD
-        : XMI_SPEC_UML;
+
+    const xmi_element_info_t *e_info
+        = xmi_element_info_map_static_get_relationship ( &xmi_element_info_map_standard, r_type );
+    assert ( e_info != NULL );
+    const xmi_spec_t result
+        = (*e_info).specification;
 
     TRACE_END();
     return result;
@@ -300,173 +302,17 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
                                                               xmi_spec_t spec  )
 {
     TRACE_BEGIN();
-    const char* result = "";
 
-    switch ( r_type )
-    {
-        case DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: CommonStructure */
-            result = XMI_TYPE_CONVERTER_NS_UML "Dependency";
-        }
-        break;
+    const xmi_element_info_t *e_info
+        = xmi_element_info_map_static_get_relationship ( &xmi_element_info_map_standard, r_type );
+    assert ( e_info != NULL );
+    const char* result
+        = (( (spec & (XMI_SPEC_SYSML|XMI_SPEC_STANDARD)) != 0 )&&( (*e_info).profile_name != NULL ))
+        ? (*e_info).profile_name
+        : (*e_info).base_name;
+    assert ( result != NULL );
 
-        case DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
-            result = XMI_TYPE_CONVERTER_NS_UML "Association";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_AGGREGATION:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Classification */
-            result = XMI_TYPE_CONVERTER_NS_UML "AggregationKind";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_COMPOSITION:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Classification */
-            result = XMI_TYPE_CONVERTER_NS_UML "AggregationKind";
-            /* TODO: check type */
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Classification */
-            result = XMI_TYPE_CONVERTER_NS_UML "Generalization";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_REALIZATION:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
-            /* result = XMI_TYPE_CONVERTER_NS_UML "InterfaceRealization"; */
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: CommonStructure */
-            result = XMI_TYPE_CONVERTER_NS_UML "Realization";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Interactions */
-            result = XMI_TYPE_CONVERTER_NS_UML "Message";
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: CommonBehavior */
-            /* result = XMI_TYPE_CONVERTER_NS_UML "SignalEvent"; */
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: CommonBehavior */
-            result = XMI_TYPE_CONVERTER_NS_UML "CallEvent";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Actions */
-            result = XMI_TYPE_CONVERTER_NS_UML "ReplyAction";
-            /* TODO: check type */
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
-            result = XMI_TYPE_CONVERTER_NS_UML "CommunicationPath";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
-            result = XMI_TYPE_CONVERTER_NS_UML "ControlFlow";
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Actions */
-            /* result = XMI_TYPE_CONVERTER_NS_UML "SendSignalAction"; */
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
-            result = XMI_TYPE_CONVERTER_NS_UML "ObjectFlow";
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Actions */
-            /* result = XMI_TYPE_CONVERTER_NS_UML "SendObjectAction"; */
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
-            result = XMI_TYPE_CONVERTER_NS_UML "Deployment";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
-            result = XMI_TYPE_CONVERTER_NS_UML "Manifestation";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_EXTEND:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: UseCases */
-            result = XMI_TYPE_CONVERTER_NS_UML "Extend";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: UseCases */
-            result = XMI_TYPE_CONVERTER_NS_UML "Include";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Packages */
-            result = XMI_TYPE_CONVERTER_NS_UML "PackageMerge";
-            /* TODO: check type */
-            /* TODO: spec like but is ignored at import to EA, maybe a packageImport-tag or elementImport-tag is more suitable */
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_REFINE:
-        {
-            /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
-            result
-                = ( (spec & XMI_SPEC_STANDARD) == XMI_SPEC_STANDARD )
-                ? XMI_TYPE_CONVERTER_NS_STDPROF "Refine"
-                : XMI_TYPE_CONVERTER_NS_UML "Abstraction";  /* base class from which the standard profile is derived, SysML 1.4 */
-                /*: XMI_TYPE_CONVERTER_NS_UML "Class";*/  /* base class from which the standard profile is derived */
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_TRACE:
-        {
-            /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
-            result
-                = ( (spec & XMI_SPEC_STANDARD) == XMI_SPEC_STANDARD )
-                ? XMI_TYPE_CONVERTER_NS_STDPROF "Trace"
-                : XMI_TYPE_CONVERTER_NS_UML "Abstraction";  /* base class from which the standard profile is derived, SysML 1.4 */
-                /*: XMI_TYPE_CONVERTER_NS_UML "Class";*/  /* base class from which the standard profile is derived */
-        }
-        break;
-
-        default:
-        {
-            TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", r_type );
-            assert( 0 );
-            result = "";
-        }
-        break;
-    }
-
-    TRACE_END_ERR( ('\0'==*result) ? -1 : 0 );
+    TRACE_END();
     return result;
 }
 
@@ -475,164 +321,16 @@ const char* xmi_type_converter_private_get_xmi_end_property_of_relationship ( xm
                                                                               bool from_end )
 {
     TRACE_BEGIN();
-    const char* result = "";
+    const xmi_element_info_t *e_info
+        = xmi_element_info_map_static_get_relationship ( &xmi_element_info_map_standard, r_type );
+    assert ( e_info != NULL );
+    const char* result
+        = ( from_end )
+        ? (*e_info).property_from
+        : (*e_info).property_to;
+    assert ( result != NULL );
 
-    /* spec: https://www.omg.org/spec/UML/2.5.1/PDF */
-    switch ( r_type )
-    {
-        case DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY:
-        {
-            /* Type: UML Dependency, Usage, Deployment, Realization, Manifestation, Abstraction */
-            result = from_end ? XMI_TYPE_CONVERTER_NS_UML "Dependency.client" : XMI_TYPE_CONVERTER_NS_UML "Dependency.supplier";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION:
-        {
-            /* Type: UML Association, CommunicationPath */
-            /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.8.3 */
-            result = XMI_TYPE_CONVERTER_NS_UML "Association.memberEnd";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_AGGREGATION:
-        {
-            /* Type: UML AggregationKind */
-            /* TODO: source and target are generic read-only properties - choose the right ones for this type of relationship */
-            result = from_end ? "informationSource" : "informationTarget";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_COMPOSITION:
-        {
-            /* Type: UML AggregationKind */
-            /* TODO: source and target are generic read-only properties - choose the right ones for this type of relationship */
-            result = from_end ? "informationSource" : "informationTarget";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION:
-        {
-            /* Type: UML Generalization */
-            result = from_end ? XMI_TYPE_CONVERTER_NS_UML "Generalization.specific" : XMI_TYPE_CONVERTER_NS_UML "Generalization.general";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_REALIZATION:
-        {
-            /* Type: UML Dependency, Usage, Deployment, Realization, Manifestation, Abstraction */
-            result = from_end ? XMI_TYPE_CONVERTER_NS_UML "Dependency.client" : XMI_TYPE_CONVERTER_NS_UML "Dependency.supplier";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL:
-        {
-            /* Type: UML Message */
-            /* TODO: source and target are generic read-only properties - choose the right ones for this type of relationship */
-            result = from_end ? "informationSource" : "informationTarget";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL:
-        {
-            /* Type: UML CallEvent */
-            /* TODO: source and target are generic read-only properties - choose the right ones for this type of relationship */
-            result = from_end ? "informationSource" : "informationTarget";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL:
-        {
-            /* Type: UML ReplyAction */
-            /* TODO: source and target are generic read-only properties - choose the right ones for this type of relationship */
-            result = from_end ? "informationSource" : "informationTarget";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH:
-        {
-            /* Type: UML Association, CommunicationPath */
-            /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.8.3 */
-            result = XMI_TYPE_CONVERTER_NS_UML "Association.memberEnd";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW:
-        {
-            /* Type: UML ControlFlow */
-            /* TODO: source and target are generic read-only properties - choose the right ones for this type of relationship */
-            result = from_end ? "informationSource" : "informationTarget";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW:
-        {
-            /* Type: UML ObjectFlow */
-            /* TODO: source and target are generic read-only properties - choose the right ones for this type of relationship */
-            result = from_end ? "informationSource" : "informationTarget";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
-        {
-            /* Type: UML Dependency, Usage, Deployment, Realization, Manifestation, Abstraction */
-            result = from_end ? XMI_TYPE_CONVERTER_NS_UML "Dependency.client" : XMI_TYPE_CONVERTER_NS_UML "Dependency.supplier";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:
-        {
-            /* Type: UML Dependency, Usage, Deployment, Realization, Manifestation, Abstraction */
-            result = from_end ? XMI_TYPE_CONVERTER_NS_UML "Dependency.client" : XMI_TYPE_CONVERTER_NS_UML "Dependency.supplier";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_EXTEND:
-        {
-            /* Type: UML Extend */
-            result = from_end ? XMI_TYPE_CONVERTER_NS_UML "Extend.extension" : XMI_TYPE_CONVERTER_NS_UML "Extend.extendedCase";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
-        {
-            /* Type: UML Include */
-            result = from_end ? XMI_TYPE_CONVERTER_NS_UML "Include.includingCase" : XMI_TYPE_CONVERTER_NS_UML "Include.addition";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT:
-        {
-            /* Type: UML PackageMerge */
-            /* TODO: PackageMerge may be the wrong type - choose the properties of the right type of relationship */
-            result = from_end ? XMI_TYPE_CONVERTER_NS_UML "PackageMerge.receivingPackage" : XMI_TYPE_CONVERTER_NS_UML "PackageMerge.mergedPackage";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_REFINE:
-        {
-            /* Type: UML Dependency, Usage, Deployment, Realization, Manifestation, Abstraction */
-            result = from_end ? XMI_TYPE_CONVERTER_NS_UML "Dependency.client" : XMI_TYPE_CONVERTER_NS_UML "Dependency.supplier";
-        }
-        break;
-
-        case DATA_RELATIONSHIP_TYPE_UML_TRACE:
-        {
-            /* Type: UML Dependency, Usage, Deployment, Realization, Manifestation, Abstraction */
-            result = from_end ? XMI_TYPE_CONVERTER_NS_UML "Dependency.client" : XMI_TYPE_CONVERTER_NS_UML "Dependency.supplier";
-        }
-        break;
-
-        default:
-        {
-            TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", r_type );
-            assert( 0 );
-            result = "";
-        }
-        break;
-    }
-
-    TRACE_END_ERR( ('\0'==*result) ? -1 : 0 );
+    TRACE_END();
     return result;
 }
 
