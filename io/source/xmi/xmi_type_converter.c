@@ -293,7 +293,7 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_relationship ( xmi_type_converter_
     const xmi_spec_t result
         = (*e_info).specification;
 
-    TRACE_END();
+        TRACE_END();
     return result;
 }
 
@@ -321,6 +321,7 @@ const char* xmi_type_converter_private_get_xmi_end_property_of_relationship ( xm
                                                                               bool from_end )
 {
     TRACE_BEGIN();
+
     const xmi_element_info_t *e_info
         = xmi_element_info_map_static_get_relationship ( &xmi_element_info_map_standard, r_type );
     assert ( e_info != NULL );
