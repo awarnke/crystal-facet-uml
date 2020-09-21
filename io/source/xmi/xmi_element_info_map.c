@@ -5,8 +5,14 @@
 #include "tslog.h"
 #include <assert.h>
 
+#define XMI_ELEMENT_INFO_NS_UML "uml:"
+#define XMI_ELEMENT_INFO_NS_SYSML "SysML:"
+#define XMI_ELEMENT_INFO_NS_STDPROF "StandardProfile:"
+
 const xmi_element_info_map_t xmi_element_info_map_standard
 = {
+    /* ================================ CLASSIFIER ================================ */
+
     [XMI_ELEMENT_INFO_MAP_INDEX_BLOCK] = {
         /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Blocks */
         .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_BLOCK,
@@ -64,7 +70,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .specification            = (XMI_SPEC_UML),
         .profile_name             = NULL,
         .base_name                = XMI_ELEMENT_INFO_NS_UML   "Node", /* TODO: check type */
-        .is_a                     = (XMI_ELEMENT_IS_A_CLASS),
+        .is_a                     = (XMI_ELEMENT_IS_A_NODE),
         .property_from            = NULL,
         .property_to              = NULL,
     },
@@ -74,7 +80,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
         .base_name                = XMI_ELEMENT_INFO_NS_UML   "Activity",
-        .is_a                     = (XMI_ELEMENT_IS_A_BEHAVIOR),
+        .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY),
         .property_from            = NULL,
         .property_to              = NULL,
     },
@@ -94,7 +100,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
         .base_name                = XMI_ELEMENT_INFO_NS_UML   "Activity",  /* TODO: check type */
-        .is_a                     = (XMI_ELEMENT_IS_A_BEHAVIOR),
+        .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY),
         .property_from            = NULL,
         .property_to              = NULL,
     },
@@ -104,7 +110,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .specification            = (XMI_SPEC_UML),
         .profile_name             = NULL,
         .base_name                = XMI_ELEMENT_INFO_NS_UML   "Node",
-        .is_a                     = (XMI_ELEMENT_IS_A_CLASS),
+        .is_a                     = (XMI_ELEMENT_IS_A_NODE),
         .property_from            = NULL,
         .property_to              = NULL,
     },
@@ -154,7 +160,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .specification            = XMI_SPEC_UML,
         .profile_name             = NULL,
         .base_name                = XMI_ELEMENT_INFO_NS_UML   "Artifact",
-        .is_a                     = (XMI_ELEMENT_IS_A_CLASSIFIER),
+        .is_a                     = (XMI_ELEMENT_IS_A_ARTIFACT),
         .property_from            = NULL,
         .property_to              = NULL,
     },
@@ -299,6 +305,218 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .profile_name             = NULL,
         .base_name                = XMI_ELEMENT_INFO_NS_UML   "Signal",
         .is_a                     = (XMI_ELEMENT_IS_A_CLASSIFIER),
+        .property_from            = NULL,
+        .property_to              = NULL,
+    },
+
+    /* ================================ FEATURE ================================ */
+
+    /* ================================ RELATIONSHIP ================================ */
+
+    [XMI_ELEMENT_INFO_MAP_INDEX_DEPENDENCY] = {
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: CommonStructure */
+        .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+        .specification            = (XMI_SPEC_UML),
+        .profile_name             = NULL,
+        .base_name                = XMI_ELEMENT_INFO_NS_UML     "Dependency",
+        .is_a                     = (XMI_ELEMENT_IS_A_DEPENDENCY),
+        .property_from            = NULL,
+        .property_to              = NULL,
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_ASSOCIATION] = {
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
+        .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION,
+        .specification            = (XMI_SPEC_UML),
+        .profile_name             = NULL,
+        .base_name                = XMI_ELEMENT_INFO_NS_UML     "Association",
+        .is_a                     = (XMI_ELEMENT_IS_A_ASSOCIATION),
+        .property_from            = NULL,
+        .property_to              = NULL,
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_AGGREGATION] = {
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.5 */
+        .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_AGGREGATION,
+        .specification            = (XMI_SPEC_UML),
+        .profile_name             = NULL,
+        .base_name                = XMI_ELEMENT_INFO_NS_UML     "Association",  /* TODO an Aggregation is an Association with special properties */
+        .is_a                     = (XMI_ELEMENT_IS_A_ASSOCIATION),
+        .property_from            = NULL,
+        .property_to              = NULL,
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_COMPOSITION] = {
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.5 */
+        .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_COMPOSITION,
+        .specification            = (XMI_SPEC_UML),
+        .profile_name             = NULL,
+        .base_name                = XMI_ELEMENT_INFO_NS_UML     "Association",  /* TODO a Composition is an Association with special properties */
+        .is_a                     = (XMI_ELEMENT_IS_A_ASSOCIATION),
+        .property_from            = NULL,
+        .property_to              = NULL,
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_GENERALIZATION] = {
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Classification */
+        .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION,
+        .specification            = (XMI_SPEC_UML),
+        .profile_name             = NULL,
+        .base_name                = XMI_ELEMENT_INFO_NS_UML     "Generalization",
+        .is_a                     = (XMI_ELEMENT_IS_A_DIRECTED_RELATIONSHIP),
+        .property_from            = NULL,
+        .property_to              = NULL,
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_REALIZATION] = {
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+        /* XMI_ELEMENT_INFO_NS_UML "InterfaceRealization"; */
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: CommonStructure */
+        /* XMI_ELEMENT_INFO_NS_UML "Realization"; */
+        .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_REALIZATION,
+        .specification            = (XMI_SPEC_UML),
+        .profile_name             = NULL,
+        .base_name                = XMI_ELEMENT_INFO_NS_UML     "Realization",
+        .is_a                     = (XMI_ELEMENT_IS_A_ABSTRACTION),
+        .property_from            = NULL,
+        .property_to              = NULL,
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_ASYNC_CALL] = {
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Interactions */
+        /* XMI_ELEMENT_INFO_NS_UML "Message"; */
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: CommonBehavior */
+        /* XMI_ELEMENT_INFO_NS_UML "SignalEvent"; */
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 17.12.18, 17.12.22 */
+        .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL,
+        .specification            = (XMI_SPEC_UML),
+        .profile_name             = NULL,
+        .base_name                = XMI_ELEMENT_INFO_NS_UML     "Message",  /* TODO: applicable only in an interaction context, see asynchSignal */
+        .is_a                     = (XMI_ELEMENT_IS_A_NAMED_ELEMENT),
+        .property_from            = NULL,
+        .property_to              = NULL,
+        /*.extra_attribute          = "messageSort=\"asynchSignal\"",*/
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_SYNC_CALL] = {
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 17.12.18, 17.12.22 */
+        .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL,
+        .specification            = (XMI_SPEC_UML),
+        .profile_name             = NULL,
+        .base_name                = XMI_ELEMENT_INFO_NS_UML     "Message",  /* TODO: applicable only in an interaction context, see synchCall */
+        .is_a                     = (XMI_ELEMENT_IS_A_NAMED_ELEMENT),
+        .property_from            = NULL,
+        .property_to              = NULL,
+        /*.extra_attribute          = "messageSort=\"synchCall\"",*/
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_RETURN_CALL] = {
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 17.12.18, 17.12.22 */
+        .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL,
+        .specification            = (XMI_SPEC_UML),
+        .profile_name             = NULL,
+        .base_name                = XMI_ELEMENT_INFO_NS_UML     "Message",  /* TODO: applicable only in an interaction context, see reply */
+        .is_a                     = (XMI_ELEMENT_IS_A_NAMED_ELEMENT),
+        .property_from            = NULL,
+        .property_to              = NULL,
+        /*.extra_attribute          = "messageSort=\"reply\"",*/
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_COMMUNICATION_PATH] = {
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
+        .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH,
+        .specification            = (XMI_SPEC_UML),
+        .profile_name             = NULL,
+        .base_name                = XMI_ELEMENT_INFO_NS_UML     "CommunicationPath",
+        .is_a                     = (XMI_ELEMENT_IS_A_ASSOCIATION),
+        .property_from            = NULL,
+        .property_to              = NULL,
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_CONTROL_FLOW] = {
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
+        /* XMI_TYPE_CONVERTER_NS_UML "ControlFlow"; */
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Actions */
+        /* XMI_TYPE_CONVERTER_NS_UML "SendSignalAction"; */
+        .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW,
+        .specification            = (XMI_SPEC_UML),
+        .profile_name             = NULL,
+        .base_name                = XMI_ELEMENT_INFO_NS_UML     "ControlFlow",
+        .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY_EDGE),
+        .property_from            = NULL,
+        .property_to              = NULL,
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_OBJECT_FLOW] = {
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
+        /* XMI_TYPE_CONVERTER_NS_UML "ObjectFlow"; */
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Actions */
+        /* XMI_TYPE_CONVERTER_NS_UML "SendObjectAction"; */
+        .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW,
+        .specification            = (XMI_SPEC_UML),
+        .profile_name             = NULL,
+        .base_name                = XMI_ELEMENT_INFO_NS_UML     "ObjectFlow",
+        .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY_EDGE),
+        .property_from            = NULL,
+        .property_to              = NULL,
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_DEPLOY] = {
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
+        .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_DEPLOY,
+        .specification            = (XMI_SPEC_UML),
+        .profile_name             = NULL,
+        .base_name                = XMI_ELEMENT_INFO_NS_UML     "Deployment",
+        .is_a                     = (XMI_ELEMENT_IS_A_DEPENDENCY),
+        .property_from            = NULL,
+        .property_to              = NULL,
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_MANIFEST] = {
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
+        .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_MANIFEST,
+        .specification            = (XMI_SPEC_UML),
+        .profile_name             = NULL,
+        .base_name                = XMI_ELEMENT_INFO_NS_UML     "Manifestation",
+        .is_a                     = (XMI_ELEMENT_IS_A_ABSTRACTION),
+        .property_from            = NULL,
+        .property_to              = NULL,
+    },
+
+    [XMI_ELEMENT_INFO_MAP_INDEX_EXTEND] = {
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: UseCases */
+        .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_EXTEND,
+        .specification            = (XMI_SPEC_UML),
+        .profile_name             = NULL,
+        .base_name                = XMI_ELEMENT_INFO_NS_UML     "Extend",
+        .is_a                     = (XMI_ELEMENT_IS_A_DIRECTED_RELATIONSHIP),
+        .property_from            = NULL,
+        .property_to              = NULL,
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_INCLUDE] = {
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: UseCases */
+        .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_INCLUDE,
+        .specification            = (XMI_SPEC_UML),
+        .profile_name             = NULL,
+        .base_name                = XMI_ELEMENT_INFO_NS_UML     "Include",
+        .is_a                     = (XMI_ELEMENT_IS_A_DIRECTED_RELATIONSHIP),
+        .property_from            = NULL,
+        .property_to              = NULL,
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_CONTAINMENT] = {
+        /* Note: This is a fallback only, if xmi_type_converter_get_xmi_nesting_property_of_classifier() fails */
+        .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
+        .specification            = (XMI_SPEC_UML),
+        .profile_name             = NULL,
+        .base_name                = XMI_ELEMENT_INFO_NS_UML     "Association",  /* TODO a Composition is an Association with special properties */
+        .is_a                     = (XMI_ELEMENT_IS_A_ASSOCIATION),
+        .property_from            = NULL,
+        .property_to              = NULL,
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_REFINE] = {
+        /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
+        .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_REFINE,
+        .specification            = (XMI_SPEC_STANDARD),
+        .profile_name             = XMI_ELEMENT_INFO_NS_STDPROF "Refine",
+        .base_name                = XMI_ELEMENT_INFO_NS_UML     "Abstraction",
+        .is_a                     = (XMI_ELEMENT_IS_A_ABSTRACTION),
+        .property_from            = NULL,
+        .property_to              = NULL,
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_TRACE] = {
+        /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
+        .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_TRACE,
+        .specification            = (XMI_SPEC_STANDARD),
+        .profile_name             = XMI_ELEMENT_INFO_NS_STDPROF "Trace",
+        .base_name                = XMI_ELEMENT_INFO_NS_UML     "Abstraction",
+        .is_a                     = (XMI_ELEMENT_IS_A_ABSTRACTION),
         .property_from            = NULL,
         .property_to              = NULL,
     },

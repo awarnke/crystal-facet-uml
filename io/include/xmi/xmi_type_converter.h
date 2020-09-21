@@ -107,16 +107,6 @@ static inline bool xmi_type_converter_can_classifier_nest_relationships ( xmi_ty
                                                                           data_classifier_type_t parent_type
                                                                         );
 
-/*!
- *  \brief gets a string representation of the from property of a data_relationship_type_t
- *
- *  \param this_ pointer to own object attributes
- *  \param c_type data_classifier_type_t for which to determine if this is a subclass of uml:Classifier
- *  \result true if the uml-equivalent to c_type is a subclass of uml:Classifier
- */
-bool xmi_type_converter_is_uml_classifier ( xmi_type_converter_t *this_, data_classifier_type_t c_type );
-
-
 /* ================================ FEATURE ================================ */
 
 /*!

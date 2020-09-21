@@ -31,9 +31,103 @@ struct xmi_element_info_struct {
 
 typedef struct xmi_element_info_struct xmi_element_info_t;
 
-#define XMI_ELEMENT_INFO_NS_UML "uml:"
-#define XMI_ELEMENT_INFO_NS_SYSML "SysML:"
-#define XMI_ELEMENT_INFO_NS_STDPROF "StandardProfile:"
+/*!
+ *  \brief checks if the type is a classifier.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if is_a has XMI_ELEMENT_IS_A_CLASSIFIER bits set
+ */
+static inline bool xmi_element_info_is_a_classifier ( const xmi_element_info_t *this_ );
+
+/*!
+ *  \brief checks if the type is a comment.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if is_a has XMI_ELEMENT_IS_A_COMMENT bits set
+ */
+static inline bool xmi_element_info_is_a_comment ( const xmi_element_info_t *this_ );
+
+/*!
+ *  \brief checks if the type is a behavior.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if is_a has XMI_ELEMENT_IS_A_BEHAVIOR bits set
+ */
+static inline bool xmi_element_info_is_a_behavior ( const xmi_element_info_t *this_ );
+
+/*!
+ *  \brief checks if the type is a named_element.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if is_a has XMI_ELEMENT_IS_A_NAMED_ELEMENT bits set
+ */
+static inline bool xmi_element_info_is_a_named_element ( const xmi_element_info_t *this_ );
+
+/*!
+ *  \brief checks if the type is a package.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if is_a has XMI_ELEMENT_IS_A_PACKAGE bits set
+ */
+static inline bool xmi_element_info_is_a_package ( const xmi_element_info_t *this_ );
+
+/*!
+ *  \brief checks if the type is a packageable_element.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if is_a has XMI_ELEMENT_IS_A_PACKAGEABLE_ELEMENT bits set
+ */
+static inline bool xmi_element_info_is_a_packageable_element ( const xmi_element_info_t *this_ );
+
+/*!
+ *  \brief checks if the type is a node.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if is_a has XMI_ELEMENT_IS_A_NODE bits set
+ */
+static inline bool xmi_element_info_is_a_node ( const xmi_element_info_t *this_ );
+
+/*!
+ *  \brief checks if the type is a activity.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if is_a has XMI_ELEMENT_IS_A_ACTIVITY bits set
+ */
+static inline bool xmi_element_info_is_a_activity ( const xmi_element_info_t *this_ );
+
+/*!
+ *  \brief checks if the type is a activity_node.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if is_a has XMI_ELEMENT_IS_A_ACTIVITY_NODE bits set
+ */
+static inline bool xmi_element_info_is_a_activity_node ( const xmi_element_info_t *this_ );
+
+/*!
+ *  \brief checks if the type is a artifact.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if is_a has XMI_ELEMENT_IS_A_ARTIFACT bits set
+ */
+static inline bool xmi_element_info_is_a_artifact ( const xmi_element_info_t *this_ );
+
+/*!
+ *  \brief checks if the type is a behaviored_classifier.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if is_a has XMI_ELEMENT_IS_A_BEHAVIORED_CLASSIFIER bits set
+ */
+static inline bool xmi_element_info_is_a_behaviored_classifier ( const xmi_element_info_t *this_ );
+
+/*!
+ *  \brief checks if the type is a class.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if is_a has XMI_ELEMENT_IS_A_CLASS bits set
+ */
+static inline bool xmi_element_info_is_a_class ( const xmi_element_info_t *this_ );
+
+#include "xmi_element_info.inl"
 
 #endif  /* XMI_ELEMENT_INFO_H */
 

@@ -20,6 +20,7 @@
  *  \brief defines the array indices of uml elements
  */
 enum xmi_element_info_map_index_enum {
+    /* ================================ CLASSIFIER ================================ */
     XMI_ELEMENT_INFO_MAP_INDEX_BLOCK,
     XMI_ELEMENT_INFO_MAP_INDEX_CONSTRAINT_PROPERTY,
     XMI_ELEMENT_INFO_MAP_INDEX_REQUIREMENT,
@@ -48,11 +49,34 @@ enum xmi_element_info_map_index_enum {
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACCEPT_EVENT,
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACCEPT_TIME_EVENT,
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_SEND_SIGNAL,
+
+    /* ================================ FEATURE ================================ */
+
+    /* ================================ RELATIONSHIP ================================ */
+    XMI_ELEMENT_INFO_MAP_INDEX_DEPENDENCY,
+    XMI_ELEMENT_INFO_MAP_INDEX_ASSOCIATION,
+    XMI_ELEMENT_INFO_MAP_INDEX_AGGREGATION,
+    XMI_ELEMENT_INFO_MAP_INDEX_COMPOSITION,
+    XMI_ELEMENT_INFO_MAP_INDEX_GENERALIZATION,
+    XMI_ELEMENT_INFO_MAP_INDEX_REALIZATION,
+    XMI_ELEMENT_INFO_MAP_INDEX_ASYNC_CALL,
+    XMI_ELEMENT_INFO_MAP_INDEX_SYNC_CALL,
+    XMI_ELEMENT_INFO_MAP_INDEX_RETURN_CALL,
+    XMI_ELEMENT_INFO_MAP_INDEX_COMMUNICATION_PATH,
+    XMI_ELEMENT_INFO_MAP_INDEX_CONTROL_FLOW,
+    XMI_ELEMENT_INFO_MAP_INDEX_OBJECT_FLOW,
+    XMI_ELEMENT_INFO_MAP_INDEX_DEPLOY,
+    XMI_ELEMENT_INFO_MAP_INDEX_MANIFEST,
+    XMI_ELEMENT_INFO_MAP_INDEX_EXTEND,
+    XMI_ELEMENT_INFO_MAP_INDEX_INCLUDE,
+    XMI_ELEMENT_INFO_MAP_INDEX_CONTAINMENT,
+    XMI_ELEMENT_INFO_MAP_INDEX_REFINE,
+    XMI_ELEMENT_INFO_MAP_INDEX_TRACE,
 };
 
 typedef enum xmi_element_info_map_index_enum xmi_element_info_map_index_t;
 
-#define XMI_ELEMENT_INFO_MAP_INDEX_MAX (45)
+#define XMI_ELEMENT_INFO_MAP_INDEX_MAX (47)
 
 typedef xmi_element_info_t xmi_element_info_map_t[XMI_ELEMENT_INFO_MAP_INDEX_MAX];
 
@@ -65,7 +89,7 @@ extern const xmi_element_info_map_t xmi_element_info_map_standard;
  *  \param c_type selects the xmi_element_info_t
  *  \return pointer to the selected xmi_element_info_t
  */
-static inline const xmi_element_info_t * xmi_element_info_map_static_get_classifier ( xmi_element_info_map_t *this_,
+static inline const xmi_element_info_t * xmi_element_info_map_static_get_classifier ( const xmi_element_info_map_t *this_,
                                                                                       data_classifier_type_t c_type
                                                                                     );
 
@@ -76,7 +100,7 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
  *  \param f_type selects the xmi_element_info_t
  *  \return pointer to the selected xmi_element_info_t
  */
-static inline const xmi_element_info_t * xmi_element_info_map_static_get_feature ( xmi_element_info_map_t *this_,
+static inline const xmi_element_info_t * xmi_element_info_map_static_get_feature ( const xmi_element_info_map_t *this_,
                                                                                    data_feature_type_t f_type
                                                                                  );
 
@@ -87,7 +111,7 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_feature
  *  \param r_type selects the xmi_element_info_t
  *  \return pointer to the selected xmi_element_info_t
  */
-static inline const xmi_element_info_t * xmi_element_info_map_static_get_relationship ( xmi_element_info_map_t *this_,
+static inline const xmi_element_info_t * xmi_element_info_map_static_get_relationship ( const xmi_element_info_map_t *this_,
                                                                                         data_relationship_type_t r_type
                                                                                       );
 

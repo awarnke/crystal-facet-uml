@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static inline const xmi_element_info_t * xmi_element_info_map_static_get_classifier ( xmi_element_info_map_t *this_,
+static inline const xmi_element_info_t * xmi_element_info_map_static_get_classifier ( const xmi_element_info_map_t *this_,
                                                                                       data_classifier_type_t c_type )
 {
     const xmi_element_info_t * result = NULL;
@@ -273,13 +273,13 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
     return result;
 }
 
-static inline const xmi_element_info_t * xmi_element_info_map_static_get_feature ( xmi_element_info_map_t *this_,
+static inline const xmi_element_info_t * xmi_element_info_map_static_get_feature ( const xmi_element_info_map_t *this_,
                                                                                    data_feature_type_t f_type )
 {
     return NULL;
 }
 
-static inline const xmi_element_info_t * xmi_element_info_map_static_get_relationship ( xmi_element_info_map_t *this_,
+static inline const xmi_element_info_t * xmi_element_info_map_static_get_relationship ( const xmi_element_info_map_t *this_,
                                                                                         data_relationship_type_t r_type )
 {
     return NULL;
