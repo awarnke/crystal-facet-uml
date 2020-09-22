@@ -24,6 +24,8 @@
  *    <THING>_END
  */
 
+/* Note: when writing, each method typically starts with writing a newline, it does not end with writing a newline. */
+
 /* IO_FILE_FORMAT_XMI2 */
 
 static const char XMI2_ENC[]
@@ -111,20 +113,18 @@ static const char XMI2_UML_OWNED_COMMENT_START[]
     = "\n<ownedComment ";
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.4 */
 static const char XMI2_UML_OWNED_COMMENT_MIDDLE[]
-    = "\n>";
+    = ">";
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.4 */
 static const char XMI2_UML_OWNED_COMMENT_END[]
     = "\n</ownedComment>";
-/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.5 */
-static const char XMI2_UML_OWNED_COMMENT_BODY_START[]
-    = "\nbody=\"";
-/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.5 */
-static const char XMI2_UML_OWNED_COMMENT_BODY_END[]
-    = "\" ";
+/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.2 */
+static const char XMI2_UML_COMMENT_BODY_START[]
+    = "\n<body>";
+static const char XMI2_UML_COMMENT_BODY_END[]
+    = "\n</body>";
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.9.2 */
 static const char XMI2_UML_ANNOTATED_ELEMENT_START[]
     = "\n<annotatedElement ";
-/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.9.2 */
 static const char XMI2_UML_ANNOTATED_ELEMENT_END[]
     = "/>";
 /* spec-ref: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Packages */
@@ -352,13 +352,28 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data
     /* TODO */                                                                          classifier_stereo
     /* TODO */                                                                        );
                 }
-                if ( 0 != classifier_descr_len )
+                if ( classifier_type == DATA_CLASSIFIER_TYPE_UML_COMMENT )
+                {
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_COMMENT_BODY_START );
+                    xml_writer_increase_indent ( &((*this_).xml_writer) );
+
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
+                    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_descr );
+
+                    xml_writer_decrease_indent ( &((*this_).xml_writer) );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_COMMENT_BODY_END );
+                }
+                else if (( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT ) || ( classifier_type == DATA_CLASSIFIER_TYPE_FEATURE ))
+                {
+                    /* nothing to do here, classifier_descr will be written later at IO_WRITER_PASS_PROFILE */
+                }
+                else if ( 0 != classifier_descr_len )
                 {
                     export_err |= xmi_element_writer_private_write_xmi_comment( this_,
-                                                                            classifier_id,
-                                                                            "specification",
-                                                                            classifier_descr
-                                                                            );
+                                                                                classifier_id,
+                                                                                "specification",
+                                                                                classifier_descr
+                                                                              );
                 }
             }
             else if ( (*this_).mode == IO_WRITER_PASS_PROFILE )
@@ -397,35 +412,21 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data
 
                     if (( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT ) || ( classifier_type == DATA_CLASSIFIER_TYPE_FEATURE ))
                     {
-                        //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "Derived=\"160002\" " );
-                        //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "DerivedFrom=\"160002\" " );
-
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<id>" );
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "1" );
                         export_err |= xmi_element_writer_private_encode_xmi_id( this_, classifier_id );
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "</id>" );
 
-                        /*
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<master>" );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "1" );
-                        export_err |= xmi_element_writer_private_encode_xmi_id( this_, classifier_id );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "</master>" );
-                        */
-
-                        //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "RefinedBy=\"160002\" " );
-                        //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "SatisfiedBy=\"160002\" " );
-
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<text>" );
-                        //export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
-                        //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
-                        export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_descr );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "</text>" );
+                        xml_writer_increase_indent ( &((*this_).xml_writer) );
 
-                        //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "TracedTo=\"160002\" " );
-                        //export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "VerifiedBy=\"160002\" " );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
+                        export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_descr );
+
+                        xml_writer_decrease_indent ( &((*this_).xml_writer) );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n</text>" );
                     }
 
                     /*
@@ -836,14 +837,17 @@ int xmi_element_writer_private_write_xmi_comment( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), comment_type );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_END );
 
-            xml_writer_increase_indent ( &((*this_).xml_writer) );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_COMMENT_BODY_START );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), comment );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_COMMENT_BODY_END );
-            xml_writer_decrease_indent ( &((*this_).xml_writer) );
-
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_COMMENT_MIDDLE );
             xml_writer_increase_indent ( &((*this_).xml_writer) );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_COMMENT_BODY_START );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), comment );
+
+            xml_writer_decrease_indent ( &((*this_).xml_writer) );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_COMMENT_BODY_END );
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_ANNOTATED_ELEMENT_START );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_IDREF_START );
