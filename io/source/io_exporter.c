@@ -41,12 +41,14 @@ void io_exporter_destroy( io_exporter_t *this_ )
 
 int io_exporter_export_files( io_exporter_t *this_,
                               io_file_format_t export_type,
-                              const char* target_folder,
-                              const char* document_file_path )
+                              const char *target_folder,
+                              const char *document_file_path,
+                              data_stat_t *io_export_stat )
 {
     TRACE_BEGIN();
     assert ( NULL != target_folder );
     assert ( NULL != document_file_path );
+    assert ( NULL != io_export_stat );
     int export_err = 0;
 
     /* transform file path to name */
@@ -59,43 +61,43 @@ int io_exporter_export_files( io_exporter_t *this_,
     {
         if ( ( export_type & IO_FILE_FORMAT_SVG ) != 0 )
         {
-            export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, IO_FILE_FORMAT_SVG, target_folder );
+            export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, IO_FILE_FORMAT_SVG, target_folder, io_export_stat );
         }
 
         if ( ( export_type & ( IO_FILE_FORMAT_PDF | IO_FILE_FORMAT_DOCBOOK ) ) != 0 )
         {
-            export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, IO_FILE_FORMAT_PDF, target_folder );
+            export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, IO_FILE_FORMAT_PDF, target_folder, io_export_stat );
         }
 
         if ( ( export_type & IO_FILE_FORMAT_PS ) != 0 )
         {
-            export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, IO_FILE_FORMAT_PS, target_folder );
+            export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, IO_FILE_FORMAT_PS, target_folder, io_export_stat );
         }
 
         if ( ( export_type & ( IO_FILE_FORMAT_PNG | IO_FILE_FORMAT_DOCBOOK | IO_FILE_FORMAT_XHTML ) ) != 0 )
         {
-            export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, IO_FILE_FORMAT_PNG, target_folder );
+            export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, IO_FILE_FORMAT_PNG, target_folder, io_export_stat );
         }
 
         if ( ( export_type & IO_FILE_FORMAT_TXT ) != 0 )
         {
-            export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, IO_FILE_FORMAT_TXT, target_folder );
+            export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, IO_FILE_FORMAT_TXT, target_folder, io_export_stat );
         }
 
         if ( ( export_type & IO_FILE_FORMAT_DOCBOOK ) != 0 )
         {
-            export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_DOCBOOK, target_folder, document_file_name );
+            export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_DOCBOOK, target_folder, document_file_name, io_export_stat );
         }
 
         if ( ( export_type & IO_FILE_FORMAT_XHTML ) != 0 )
         {
-            export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_XHTML, target_folder, document_file_name );
-            export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_CSS, target_folder, document_file_name );
+            export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_XHTML, target_folder, document_file_name, io_export_stat );
+            export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_CSS, target_folder, document_file_name, io_export_stat );
         }
 
         if ( ( export_type & IO_FILE_FORMAT_XMI2 ) != 0 )
         {
-            export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_XMI2, target_folder, document_file_name );
+            export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_XMI2, target_folder, document_file_name, io_export_stat );
         }
     }
     else /* target_folder == NULL */
@@ -138,10 +140,12 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
                                             data_id_t diagram_id,
                                             uint32_t max_recursion,
                                             io_file_format_t export_type,
-                                            const char* target_folder )
+                                            const char *target_folder,
+                                            data_stat_t *io_export_stat )
 {
     TRACE_BEGIN();
     assert ( NULL != target_folder );
+    assert ( NULL != io_export_stat );
     TRACE_INFO_STR("target_folder:", target_folder );
     const data_row_id_t diagram_row_id = data_id_get_row_id( &diagram_id );
     int result = 0;
@@ -231,6 +235,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
 
             result |= universal_file_output_stream_destroy( &text_output );
         }
+        data_stat_inc_count ( io_export_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED );
     }
 
     /* recursion to children */
@@ -252,7 +257,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
                 data_id_t probe_id;
                 probe_id = data_small_set_get_id( &the_set, pos );
 
-                result |= io_exporter_private_export_image_files( this_, probe_id, max_recursion-1, export_type, target_folder );
+                result |= io_exporter_private_export_image_files( this_, probe_id, max_recursion-1, export_type, target_folder, io_export_stat );
 
                 data_id_destroy( &probe_id );
             }
@@ -266,12 +271,14 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
 
 int io_exporter_private_export_document_file( io_exporter_t *this_,
                                               io_file_format_t export_type,
-                                              const char* target_folder,
-                                              const char* document_file_name )
+                                              const char *target_folder,
+                                              const char *document_file_name,
+                                              data_stat_t *io_export_stat )
 {
     TRACE_BEGIN();
     assert ( NULL != target_folder );
     assert ( NULL != document_file_name );
+    assert ( NULL != io_export_stat );
     TRACE_INFO_STR("target_folder:", target_folder );
     TRACE_INFO_STR("document_file_name:", document_file_name );
     int export_err = 0;
@@ -361,7 +368,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
             /* write the document */
             export_err |= io_format_writer_write_header( &((*this_).temp_format_writer), document_file_name );
             export_err |= io_exporter_private_export_table_of_contents( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, &((*this_).temp_format_writer) );
-            export_err |= io_exporter_private_export_document_part( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH );
+            export_err |= io_exporter_private_export_document_part( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, io_export_stat );
             export_err |= io_format_writer_write_footer( &((*this_).temp_format_writer) );
 
             io_export_diagram_traversal_destroy( &((*this_).temp_diagram_traversal) );
@@ -380,9 +387,11 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
 
 int io_exporter_private_export_document_part( io_exporter_t *this_,
                                               data_id_t diagram_id,
-                                              uint32_t max_recursion )
+                                              uint32_t max_recursion,
+                                              data_stat_t *io_export_stat )
 {
     TRACE_BEGIN();
+    assert ( NULL != io_export_stat );
     const data_row_id_t diagram_row_id = data_id_get_row_id( &diagram_id );
     int export_err = 0;
 
@@ -421,7 +430,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
             {
                 data_id_t probe_id = data_small_set_get_id( &the_set, pos );
 
-                export_err |= io_exporter_private_export_document_part( this_, probe_id, max_recursion-1 );
+                export_err |= io_exporter_private_export_document_part( this_, probe_id, max_recursion-1, io_export_stat );
 
                 data_id_destroy( &probe_id );
             }

@@ -21,10 +21,11 @@
  */
 enum data_stat_series_enum {
     DATA_STAT_SERIES_CREATED = 0,  /*!< number of things created/exported successfully */
+    DATA_STAT_SERIES_EXPORTED = 0,  /*!< number of things created/exported successfully */
     DATA_STAT_SERIES_MODIFIED = 1,  /*!< number of things modified/un-/selected/found successfully */
     DATA_STAT_SERIES_DELETED = 2,  /*!< number of things deleted successfully */
     DATA_STAT_SERIES_IGNORED = 3,  /*!< number of things ignored, maybe because already existing or unmodified */
-    DATA_STAT_SERIES_WARNING = 4,  /*!< number of things with possibly unexpected results */
+    DATA_STAT_SERIES_WARNING = 4,  /*!< number of things with possibly unexpected results; these items are counted twice: e.g. one _MODIFIED and one _WARNING */
     DATA_STAT_SERIES_ERROR = 5,  /*!< number of things not processed as expected */
     DATA_STAT_SERIES_MAX = 6
 };

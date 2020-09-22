@@ -109,7 +109,7 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
     }
     else if ( xmi_element_info_is_a_artifact(parent_info) && xmi_element_info_is_a_artifact(child_info) )
     {
-        /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter  */
+        /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 19.5.1.6 */
         result = "nestedArtifact";
     }
     else if ( (parent_type==DATA_CLASSIFIER_TYPE_UML_PACKAGE) )
@@ -218,14 +218,14 @@ const char* xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_con
     {
         case DATA_FEATURE_TYPE_PROPERTY:
         {
-            /* spec: https://www.omg.org/spec/UML/2.5.1/PDF ch 9.9.17 */
+            /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.8.3.6 */
             result = "ownedAttribute";
         }
         break;
 
         case DATA_FEATURE_TYPE_OPERATION:
         {
-            /* spec: https://www.omg.org/spec/UML/2.5.1/PDF ch 9.6.2, 11.9.16 */
+            /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.8.3.6 */
             result = "ownedOperation";
         }
         break;
@@ -293,7 +293,7 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_relationship ( xmi_type_converter_
     const xmi_spec_t result
         = (*e_info).specification;
 
-        TRACE_END();
+    TRACE_END();
     return result;
 }
 

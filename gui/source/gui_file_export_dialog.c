@@ -1,6 +1,7 @@
 /* File: gui_file_export_dialog.c; Copyright and License: see below */
 
 #include "gui_file_export_dialog.h"
+#include "set/data_stat.h"
 #include "trace.h"
 #include "util/string/utf8string.h"
 #include "util/string/utf8stringbuf.h"
@@ -142,7 +143,10 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
         {
             TSLOG_EVENT( "GTK_RESPONSE_ACCEPT" );
             int export_err;
+            data_stat_t export_stat;
+            data_stat_init ( &export_stat );
             io_file_format_t selected_format;
+
             gchar *folder_path;
             folder_path = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
@@ -163,7 +167,7 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
 
             if ( data_database_is_open((*this_).database) )
             {
-                export_err = io_exporter_export_files( &((*this_).file_exporter), selected_format, folder_path, db_path );
+                export_err = io_exporter_export_files( &((*this_).file_exporter), selected_format, folder_path, db_path, &export_stat );
             }
             else
             {
@@ -194,6 +198,8 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
             }
 
             g_free (folder_path);
+            data_stat_trace( &export_stat );
+            data_stat_destroy ( &export_stat );
         }
         break;
 

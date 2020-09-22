@@ -165,7 +165,13 @@ int main (int argc, char *argv[]) {
             static data_database_reader_t db_reader;
             data_database_reader_init( &db_reader, &database );
             io_exporter_init( &exporter, &db_reader );
-            export_err = io_exporter_export_files( &exporter, export_format, export_directory, document_filename );
+            {
+                data_stat_t export_stat;
+                data_stat_init ( &export_stat );
+                export_err = io_exporter_export_files( &exporter, export_format, export_directory, document_filename, &export_stat );
+                data_stat_trace( &export_stat );
+                data_stat_destroy ( &export_stat );
+            }
             data_database_reader_destroy( &db_reader );
             io_exporter_destroy( &exporter );
         }
