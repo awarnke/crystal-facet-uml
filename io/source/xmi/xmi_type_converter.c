@@ -148,42 +148,42 @@ const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *t
         case DATA_FEATURE_TYPE_PROPERTY:
         {
             /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Classification */
-            result = XMI_TYPE_CONVERTER_NS_UML "Property";
+            result = "Property";
         }
         break;
 
         case DATA_FEATURE_TYPE_OPERATION:
         {
             /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Classification */
-            result = XMI_TYPE_CONVERTER_NS_UML "Operation";
+            result = "Operation";
         }
         break;
 
         case DATA_FEATURE_TYPE_PORT:
         {
             /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
-            result = XMI_TYPE_CONVERTER_NS_UML "Port";
+            result = "Port";
         }
         break;
 
         case DATA_FEATURE_TYPE_LIFELINE:
         {
             /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Interactions */
-            result = XMI_TYPE_CONVERTER_NS_UML "Lifeline";
+            result = "Lifeline";
         }
         break;
 
         case DATA_FEATURE_TYPE_PROVIDED_INTERFACE:
         {
             /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
-            result = XMI_TYPE_CONVERTER_NS_UML "Interface";
+            result = "Interface";
         }
         break;
 
         case DATA_FEATURE_TYPE_REQUIRED_INTERFACE:
         {
             /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
-            result = XMI_TYPE_CONVERTER_NS_UML "Interface";
+            result = "Interface";
         }
         break;
 

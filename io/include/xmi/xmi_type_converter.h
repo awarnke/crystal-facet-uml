@@ -16,10 +16,6 @@
 #include "data_relationship_type.h"
 #include <stdbool.h>
 
-#define XMI_TYPE_CONVERTER_NS_UML "uml:"
-#define XMI_TYPE_CONVERTER_NS_SYSML "SysML:"
-#define XMI_TYPE_CONVERTER_NS_STDPROF "StandardProfile:"
-
 /* NOTE: When searching in the internet for xmi samples, use the following 12 characters: filetype:xmi */
 
 /*!
