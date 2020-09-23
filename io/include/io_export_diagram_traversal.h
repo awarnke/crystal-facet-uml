@@ -16,6 +16,7 @@
 #include "io_format_writer.h"
 #include "set/data_visible_set.h"
 #include "set/data_node_set.h"
+#include "set/data_stat.h"
 #include "storage/data_database_reader.h"
 #include "data_table.h"
 #include "data_rules.h"
@@ -28,6 +29,7 @@ struct io_export_diagram_traversal_struct {
     data_database_reader_t *db_reader;  /* !< pointer to external database reader */
     data_visible_set_t *input_data;  /*!< pointer to an external buffer for private use as data cache */
     data_rules_t filter_rules;  /*!< own instance of uml and sysml consistency rules */
+    data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
     io_format_writer_t *format_writer;  /*!< pointer to external io_format_writer_t which is the output sink */
 };
 
@@ -39,11 +41,13 @@ typedef struct io_export_diagram_traversal_struct io_export_diagram_traversal_t;
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader object
  *  \param input_data pointer to an external buffer for private use as data cache
+ *  \param io_export_stat pointer to statistics object where export statistics are collected
  *  \param format_writer pointer to an external io_format_writer_t which is the output sink
  */
 void io_export_diagram_traversal_init( io_export_diagram_traversal_t *this_,
                                        data_database_reader_t *db_reader,
                                        data_visible_set_t *input_data,
+                                       data_stat_t *io_export_stat,
                                        io_format_writer_t *format_writer
                                      );
 

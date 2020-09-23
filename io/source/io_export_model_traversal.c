@@ -10,13 +10,16 @@
 
 void io_export_model_traversal_init( io_export_model_traversal_t *this_,
                                      data_database_reader_t *db_reader,
+                                     data_stat_t *io_export_stat,
                                      xmi_element_writer_t *format_writer )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
+    assert( NULL != io_export_stat );
     assert( NULL != format_writer );
 
     (*this_).db_reader = db_reader;
+    (*this_).export_stat = io_export_stat;
     (*this_).format_writer = format_writer;
 
     universal_array_list_init ( &((*this_).written_id_set),

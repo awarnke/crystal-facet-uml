@@ -11,16 +11,19 @@
 void io_export_diagram_traversal_init( io_export_diagram_traversal_t *this_,
                                      data_database_reader_t *db_reader,
                                      data_visible_set_t *input_data,
+                                     data_stat_t *io_export_stat,
                                      io_format_writer_t *format_writer )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != input_data );
+    assert( NULL != io_export_stat );
     assert( NULL != format_writer );
 
     (*this_).db_reader = db_reader;
     (*this_).input_data = input_data;
     data_rules_init ( &((*this_).filter_rules) );
+    (*this_).export_stat = io_export_stat;
     (*this_).format_writer = format_writer;
 
     TRACE_END();

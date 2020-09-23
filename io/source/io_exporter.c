@@ -214,6 +214,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
                 io_export_diagram_traversal_init( &((*this_).temp_diagram_traversal),
                                                   (*this_).db_reader,
                                                   &((*this_).temp_input_data),
+                                                  io_export_stat,
                                                   &((*this_).temp_format_writer)
                                                 );
                 write_err |= io_format_writer_write_header( &((*this_).temp_format_writer), "DUMMY_TITLE" );
@@ -341,6 +342,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
             /* init the model_traversal */
             io_export_model_traversal_init( &((*this_).temp_model_traversal),
                                             (*this_).db_reader,
+                                            io_export_stat,
                                             &((*this_).temp_xmi_writer)
                                           );
             /* write the document */
@@ -363,6 +365,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
             io_export_diagram_traversal_init( &((*this_).temp_diagram_traversal),
                                               (*this_).db_reader,
                                               &((*this_).temp_input_data),
+                                              io_export_stat,
                                               &((*this_).temp_format_writer)
                                             );
             /* write the document */
