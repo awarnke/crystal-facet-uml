@@ -490,7 +490,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
 #ifdef NDEBUG
     gui_simple_message_to_user_hide( &((*this_).message_to_user) );
 #else
-    gui_simple_message_to_user_show_message ( &((*this_).message_to_user), GUI_SIMPLE_MESSAGE_TYPE_INFO, GUI_SIMPLE_MESSAGE_CONTENT_0_DEBUG_MODE );
+    gui_simple_message_to_user_show_message ( &((*this_).message_to_user), GUI_SIMPLE_MESSAGE_TYPE_INFO, GUI_SIMPLE_MESSAGE_CONTENT_DEBUG_MODE );
 #endif
     gui_search_request_hide( &((*this_).search_request) );
 
@@ -602,7 +602,7 @@ void gui_main_window_about_btn_callback( GtkWidget* button, gpointer data )
     {
         gui_simple_message_to_user_show_message( &((*this_).message_to_user),
                                                  GUI_SIMPLE_MESSAGE_TYPE_ABOUT,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_ABOUT
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_ABOUT
                                                );
     }
 

@@ -352,7 +352,7 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
         /* notify error to user */
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_NO_RELATIONSHIPS
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_RELATIONSHIPS
                                                );
         c_result = CTRL_ERROR_DIAGRAM_HIDES_RELATIONSHIPS;
     }
@@ -461,7 +461,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
         /* notify error to user */
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_FEATURELESS_CLASSIFIER
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_FEATURELESS_CLASSIFIER
                                                );
         c_result = CTRL_ERROR_CLASSIFIER_REFUSES_FEATURE;
     }
@@ -470,7 +470,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
         /* notify error to user */
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_NO_FEATURES
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_FEATURES
                                                );
         c_result = CTRL_ERROR_DIAGRAM_HIDES_FEATURES;
     }

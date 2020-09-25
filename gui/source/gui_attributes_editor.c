@@ -415,7 +415,7 @@ void gui_attributes_editor_commit_clicked_callback (GtkButton *button, gpointer 
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_DB_FILE_WRITE_ERROR
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITE_ERROR
         );
     }
     else
@@ -580,7 +580,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                     TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a classifier" );
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
                 if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
@@ -612,7 +612,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                     TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a feature" );
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
                 if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
@@ -644,7 +644,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                     TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a relationship" );
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
                 if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
@@ -687,7 +687,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                     TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
                 if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
@@ -762,7 +762,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
@@ -787,7 +787,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
@@ -812,7 +812,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
@@ -844,7 +844,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
@@ -900,7 +900,7 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
@@ -925,7 +925,7 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
@@ -1112,7 +1112,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
@@ -1137,7 +1137,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
@@ -1162,7 +1162,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
@@ -1194,7 +1194,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )

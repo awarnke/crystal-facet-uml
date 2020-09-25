@@ -1185,7 +1185,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             /* current diagram is root */
                             gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                                      GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                     GUI_SIMPLE_MESSAGE_CONTENT_0_ANCESTOR_IS_NOT_DESCENDANT
+                                                                     GUI_SIMPLE_MESSAGE_CONTENT_ANCESTOR_IS_NOT_DESCENDANT
                                                                    );
                         }
                     }

@@ -104,7 +104,7 @@ void gui_clipboard_clipboard_text_received_callback ( GtkClipboard *clipboard, c
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_NO_INPUT_DATA
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_INPUT_DATA
                                                );
     }
 

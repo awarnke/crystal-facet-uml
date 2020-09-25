@@ -195,14 +195,14 @@ void gui_toolbox_cut( gui_toolbox_t *this_ )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_NO_SELECTION
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
                                                );
     }
     else if ( CTRL_ERROR_NONE != ( ctrl_err & CTRL_ERROR_OBJECT_STILL_REFERENCED ))
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_DELETING_NOT_POSSIBLE
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_DELETING_NOT_POSSIBLE
                                                );
     }
     else if ( CTRL_ERROR_NONE != ctrl_err )
@@ -257,7 +257,7 @@ void gui_toolbox_copy( gui_toolbox_t *this_ )
         {
             gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                     GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                    GUI_SIMPLE_MESSAGE_CONTENT_0_NO_SELECTION
+                                                    GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
                                                 );
         }
         else
@@ -274,7 +274,7 @@ void gui_toolbox_copy( gui_toolbox_t *this_ )
         /* error to be shown to the user */
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                );
     }
 
@@ -340,14 +340,14 @@ void gui_toolbox_delete( gui_toolbox_t *this_ )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_NO_SELECTION
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
                                                );
     }
     else if ( CTRL_ERROR_NONE != ( ctrl_err & CTRL_ERROR_OBJECT_STILL_REFERENCED ))
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_DELETING_NOT_POSSIBLE
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_DELETING_NOT_POSSIBLE
                                                );
     }
     else if ( CTRL_ERROR_NONE != ctrl_err )
@@ -553,7 +553,7 @@ void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_, const
         /* error to be shown to the user */
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_SET_PARTLY_UNSUITABLE
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_SET_PARTLY_UNSUITABLE
                                                );
     }
     else if ( 0 == data_small_set_get_count( set_to_be_toggled ) )
@@ -561,7 +561,7 @@ void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_, const
         /* error to be shown to the user */
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_NO_SELECTION
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
                                                );
     }
 
@@ -584,14 +584,14 @@ void gui_toolbox_undo_btn_callback( GtkWidget* button, gpointer data )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_NO_MORE_UNDO
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_MORE_UNDO
         );
     }
     else if ( CTRL_ERROR_ARRAY_BUFFER_EXCEEDED == ctrl_err )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_UNDO_NOT_POSSIBLE
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_UNDO_NOT_POSSIBLE
                                                );
     }
     else
@@ -626,7 +626,7 @@ void gui_toolbox_redo_btn_callback( GtkWidget* button, gpointer data )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_0_NO_MORE_REDO
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_MORE_REDO
                                                );
     }
     else
