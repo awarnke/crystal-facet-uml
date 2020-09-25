@@ -131,12 +131,11 @@ void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const c
 
     if ( DATA_ERROR_NONE != parse_error )
     {
-        gui_simple_message_to_user_show_message_with_int ( (*this_).message_to_user,
-                                                           GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                           GUI_SIMPLE_MESSAGE_CONTENT_P_INVALID_INPUT_DATA,
-                                                           GUI_SIMPLE_MESSAGE_PARAM_NATURE_STREAM_POS,
-                                                           read_err_pos
-                                                         );
+        gui_simple_message_to_user_show_message_with_position ( (*this_).message_to_user,
+                                                                GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA,
+                                                                read_err_pos
+                                                              );
     }
     else
     {

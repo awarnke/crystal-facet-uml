@@ -126,12 +126,11 @@ void gui_window_manager_open_main_window2( gui_window_manager_t *this_, gui_simp
 
     if ( NULL == new_win )
     {
-        gui_simple_message_to_user_show_message_with_int( message_to_user,
-                                                          GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                          GUI_SIMPLE_MESSAGE_CONTENT_Q_MAX_WINDOWS_ALREADY_OPEN,
-                                                          GUI_SIMPLE_MESSAGE_PARAM_NATURE_QUANTITY,
-                                                          GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS
-                                                        );
+        gui_simple_message_to_user_show_message_with_quantity( message_to_user,
+                                                               GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                               GUI_SIMPLE_MESSAGE_CONTENT_MAX_WINDOWS_ALREADY_OPEN,
+                                                               GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS
+                                                             );
     }
 
     TRACE_END();

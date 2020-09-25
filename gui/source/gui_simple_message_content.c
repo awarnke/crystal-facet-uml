@@ -18,6 +18,13 @@ const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_UNDO = &GUI_
 static const gui_simple_message_content_stat_t GUI_SIMPLE_MESSAGE_CONTENT_REDO_DATA = { .stat=NULL };
 const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_REDO = &GUI_SIMPLE_MESSAGE_CONTENT_REDO_DATA;
 
+static const gui_simple_message_content_quantity_t GUI_SIMPLE_MESSAGE_CONTENT_DB_INCONSISTENT_DATA = { .quantity=0 };
+const gui_simple_message_content_quantity_t *GUI_SIMPLE_MESSAGE_CONTENT_DB_INCONSISTENT = &GUI_SIMPLE_MESSAGE_CONTENT_DB_INCONSISTENT_DATA;
+static const gui_simple_message_content_quantity_t GUI_SIMPLE_MESSAGE_CONTENT_MAX_WINDOWS_ALREADY_OPEN_DATA = { .quantity=0 };
+const gui_simple_message_content_quantity_t *GUI_SIMPLE_MESSAGE_CONTENT_MAX_WINDOWS_ALREADY_OPEN = &GUI_SIMPLE_MESSAGE_CONTENT_MAX_WINDOWS_ALREADY_OPEN_DATA;
+
+static const gui_simple_message_content_position_t GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA_DATA = { .stream_position=0 };
+const gui_simple_message_content_position_t *GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA = &GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA_DATA;
 
 /*
 Copyright 2020-2020 Andreas Warnke

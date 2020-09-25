@@ -89,15 +89,27 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
  *  \param this_ pointer to own object attributes
  *  \param type_id type of message to be shown
  *  \param content_id id of the message to be shown. The id is language-independant and could be translated within this method.
- *  \param param_nature nature/meaning of the parameter
- *  \param int_param a language-independant parameter that is printed with the content-message-string.
+ *  \param quantity a quantity parameter that is printed with the content-message-string.
  */
-void gui_simple_message_to_user_show_message_with_int ( gui_simple_message_to_user_t *this_,
-                                                        gui_simple_message_type_t type_id,
-                                                        gui_simple_message_content_t content_id,
-                                                        gui_simple_message_param_nature_t param_nature,
-                                                        int int_param
-                                                      );
+void gui_simple_message_to_user_show_message_with_quantity ( gui_simple_message_to_user_t *this_,
+                                                             gui_simple_message_type_t type_id,
+                                                             const gui_simple_message_content_quantity_t *content_id,
+                                                             int quantity
+                                                           );
+
+/*!
+ *  \brief shows a message
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param type_id type of message to be shown
+ *  \param content_id id of the message to be shown. The id is language-independant and could be translated within this method.
+ *  \param stream_position a position parameter that is printed with the content-message-string.
+ */
+void gui_simple_message_to_user_show_message_with_position ( gui_simple_message_to_user_t *this_,
+                                                             gui_simple_message_type_t type_id,
+                                                             const gui_simple_message_content_position_t *content_id,
+                                                             int stream_position
+                                                           );
 
 /*!
  *  \brief shows a message

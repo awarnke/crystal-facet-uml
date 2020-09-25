@@ -19,15 +19,12 @@
  *  The infix N informs that a name parameter is expected.
  *  The infix P informs that a stream/string position parameter is expected.
  *  The infix Q informs that a quantitity parameter is expected.
- *  The infix S informs that a statistics-set parameter is expected.
  */
 enum gui_simple_message_content_enum {
     GUI_SIMPLE_MESSAGE_CONTENT_0_NO_MESSAGE,  /*!< there is no message */
     GUI_SIMPLE_MESSAGE_CONTENT_0_ABOUT,  /*!< shows the about text */
     GUI_SIMPLE_MESSAGE_CONTENT_N_DB_FILE_NOT_OPENED,  /*!< the chosen database file cannot be used */
     GUI_SIMPLE_MESSAGE_CONTENT_N_DB_FILE_OPENED_WITH_ERROR,  /*!< the chosen database file was opened but with a warning/error */
-    GUI_SIMPLE_MESSAGE_CONTENT_Q_DB_INCONSISTENT,  /*!< the current database file is inconsistent */
-    GUI_SIMPLE_MESSAGE_CONTENT_Q_MAX_WINDOWS_ALREADY_OPEN,  /*!< the maximum number of windows is already open */
     GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED,  /*!< a stringlength is exceeded, a string was truncated */
     GUI_SIMPLE_MESSAGE_CONTENT_0_NO_SELECTION,  /*!< nothing is selected, action could not be performed */
     GUI_SIMPLE_MESSAGE_CONTENT_0_DELETING_NOT_POSSIBLE,  /*!< some objects could not be deleted because they are still referenced */
@@ -35,7 +32,6 @@ enum gui_simple_message_content_enum {
     GUI_SIMPLE_MESSAGE_CONTENT_0_UNDO_NOT_POSSIBLE,  /*!< undo failed, list bounds of undo exceeded */
     GUI_SIMPLE_MESSAGE_CONTENT_0_NO_MORE_REDO,  /*!< redo failed, nothing more to undo */
     GUI_SIMPLE_MESSAGE_CONTENT_0_NO_INPUT_DATA,  /*!< paste failed, no input data */
-    GUI_SIMPLE_MESSAGE_CONTENT_P_INVALID_INPUT_DATA,  /*!< paste failed, parser error at input data */
     GUI_SIMPLE_MESSAGE_CONTENT_N_FILE_EXPORT_FAILED,  /*!< some or all diagrams could not be exported */
     GUI_SIMPLE_MESSAGE_CONTENT_N_NAME_NOT_UNIQUE,  /*!< object not created or name not changed */
     GUI_SIMPLE_MESSAGE_CONTENT_0_SET_PARTLY_UNSUITABLE,  /*!< operation cannot be performed on some elements in the set */
@@ -76,6 +72,51 @@ extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_PASTE
 extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_DELETE;  /*!< show statistics on deleted elements */
 extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_UNDO;  /*!< show statistics on undo actions */
 extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_REDO;  /*!< show statistics on redo actions */
+
+/*! \brief tag-type to identify constants that may be used only at gui_simple_message_to_user_show_message_with_quantity method.
+ *
+ *  This type allows the compiler to check if a constant is used in the right function context.
+ *
+ *  The idea is similar to C++ tag dispatching.
+ */
+typedef struct gui_simple_message_content_quantity_struct { const int quantity; } gui_simple_message_content_quantity_t;
+
+extern const gui_simple_message_content_quantity_t *GUI_SIMPLE_MESSAGE_CONTENT_DB_INCONSISTENT;  /*!< the current database file is inconsistent */
+extern const gui_simple_message_content_quantity_t *GUI_SIMPLE_MESSAGE_CONTENT_MAX_WINDOWS_ALREADY_OPEN;  /*!< the maximum number of windows is already open */
+
+/*! \brief tag-type to identify constants that may be used only at gui_simple_message_to_user_show_message_with_position method.
+ *
+ *  This type allows the compiler to check if a constant is used in the right function context.
+ *
+ *  The idea is similar to C++ tag dispatching.
+ */
+typedef struct gui_simple_message_content_position_struct { const int stream_position; } gui_simple_message_content_position_t;
+
+extern const gui_simple_message_content_position_t *GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA;  /*!< paste failed, parser error at input data */
+
+/*! \brief tag-type to identify constants that may be used only at gui_simple_message_to_user_show_message_with_name method.
+ *
+ *  This type allows the compiler to check if a constant is used in the right function context.
+ *
+ *  The idea is similar to C++ tag dispatching.
+ */
+typedef struct gui_simple_message_content_name_struct { const char *name; } gui_simple_message_content_name_t;
+
+/*! \brief tag-type to identify constants that may be used only at gui_simple_message_to_user_show_message_with_names method.
+ *
+ *  This type allows the compiler to check if a constant is used in the right function context.
+ *
+ *  The idea is similar to C++ tag dispatching.
+ */
+typedef struct gui_simple_message_content_names_struct { const char *list_of_names; } gui_simple_message_content_names_t;
+
+/*! \brief tag-type to identify constants that may be used only at gui_simple_message_to_user_show_message_with_error method.
+ *
+ *  This type allows the compiler to check if a constant is used in the right function context.
+ *
+ *  The idea is similar to C++ tag dispatching.
+ */
+typedef struct gui_simple_message_content_error_struct { const char *error_message; } gui_simple_message_content_error_t;
 
 #endif  /* GUI_SIMPLE_MESSAGE_CONTENT_H */
 

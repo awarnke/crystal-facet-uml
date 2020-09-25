@@ -93,22 +93,6 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_Q_DB_INCONSISTENT:
-            {
-                assert( param_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_QUANTITY );
-                utf8stringbuf_append_str( (*this_).private_temp_str, "Current database is inconsistent; errors: " );
-                utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
-            }
-            break;
-
-            case GUI_SIMPLE_MESSAGE_CONTENT_Q_MAX_WINDOWS_ALREADY_OPEN:
-            {
-                assert( param_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_QUANTITY );
-                utf8stringbuf_append_str( (*this_).private_temp_str, "Maximum number of windows already open: " );
-                utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
-            }
-            break;
-
             case GUI_SIMPLE_MESSAGE_CONTENT_0_STRING_TRUNCATED:
             {
                 assert( param_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID );
@@ -163,14 +147,6 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             {
                 assert( param_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_VOID );
                 utf8stringbuf_append_str( (*this_).private_temp_str, "No input data." );
-            }
-            break;
-
-            case GUI_SIMPLE_MESSAGE_CONTENT_P_INVALID_INPUT_DATA:
-            {
-                assert( param_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_STREAM_POS );
-                utf8stringbuf_append_str( (*this_).private_temp_str, "Invalid input data at position " );
-                utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
             }
             break;
 
@@ -269,20 +245,82 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
     TRACE_END();
 }
 
-void gui_simple_message_to_user_show_message_with_int ( gui_simple_message_to_user_t *this_,
-                                                        gui_simple_message_type_t type_id,
-                                                        gui_simple_message_content_t content_id,
-                                                        gui_simple_message_param_nature_t param_nature,
-                                                        int int_param )
+void gui_simple_message_to_user_show_message_with_quantity ( gui_simple_message_to_user_t *this_,
+                                                             gui_simple_message_type_t type_id,
+                                                             const gui_simple_message_content_quantity_t *content_id,
+                                                             int quantity )
 {
     TRACE_BEGIN();
+    assert( content_id != NULL );
 
+    /* update type id: */
+    (*this_).type_id = type_id;
+    gui_simple_message_to_user_private_set_icon_image( this_, type_id );
+
+    /* update content text: */
+    utf8stringbuf_clear( (*this_).private_temp_str );
+    if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_DB_INCONSISTENT )
+    {
+        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DB_INCONSISTENT" );
+        utf8stringbuf_append_str( (*this_).private_temp_str, "Current database is inconsistent; errors: " );
+        utf8stringbuf_append_int( (*this_).private_temp_str, quantity );
+    }
+    else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_MAX_WINDOWS_ALREADY_OPEN )
+    {
+        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_MAX_WINDOWS_ALREADY_OPEN" );
+        utf8stringbuf_append_str( (*this_).private_temp_str, "Maximum number of windows already open: " );
+        utf8stringbuf_append_int( (*this_).private_temp_str, quantity );
+    }
+    else
+    {
+        TSLOG_ERROR("unexptected content_id");
+        assert(false);
+    }
+    gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
+
+    /* show: */
+    gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
+    gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
+
+    TRACE_END();
+}
+
+void gui_simple_message_to_user_show_message_with_position ( gui_simple_message_to_user_t *this_,
+                                                             gui_simple_message_type_t type_id,
+                                                             const gui_simple_message_content_position_t *content_id,
+                                                             int stream_position )
+{
+    TRACE_BEGIN();
+    assert( content_id != NULL );
+
+    /*
     char string_of_int_buf[16];
     utf8stringbuf_t string_of_int = UTF8STRINGBUF( string_of_int_buf );
     utf8stringbuf_clear( string_of_int );
     utf8stringbuf_append_int( string_of_int, int_param );
+    */
+    /* update type id: */
+    (*this_).type_id = type_id;
+    gui_simple_message_to_user_private_set_icon_image( this_, type_id );
 
-    gui_simple_message_to_user_show_message_with_string( this_, type_id, content_id, param_nature, utf8stringbuf_get_string( string_of_int ));
+    /* update content text: */
+    utf8stringbuf_clear( (*this_).private_temp_str );
+    if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA )
+    {
+        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA" );
+        utf8stringbuf_append_str( (*this_).private_temp_str, "Invalid input data at position " );
+        utf8stringbuf_append_int( (*this_).private_temp_str, stream_position );
+    }
+    else
+    {
+        TSLOG_ERROR("unexptected content_id");
+        assert(false);
+    }
+    gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
+
+    /* show: */
+    gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
+    gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
 
     TRACE_END();
 }

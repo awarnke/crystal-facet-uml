@@ -430,12 +430,11 @@ void gui_attributes_editor_commit_clicked_callback (GtkButton *button, gpointer 
         fprintf( stdout, "\n\n%s\n", utf8stringbuf_get_string(repair_log) );
         if (( found_errors != 0 ) || ( fixed_errors != 0 ))
         {
-            gui_simple_message_to_user_show_message_with_int( (*this_).message_to_user,
-                                                              GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                              GUI_SIMPLE_MESSAGE_CONTENT_Q_DB_INCONSISTENT,
-                                                              GUI_SIMPLE_MESSAGE_PARAM_NATURE_QUANTITY,
-                                                              found_errors
-                                                            );
+            gui_simple_message_to_user_show_message_with_quantity( (*this_).message_to_user,
+                                                                   GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                   GUI_SIMPLE_MESSAGE_CONTENT_DB_INCONSISTENT,
+                                                                   found_errors
+                                                                 );
         }
 #endif
     }
