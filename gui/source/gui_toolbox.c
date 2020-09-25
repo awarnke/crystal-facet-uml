@@ -213,8 +213,7 @@ void gui_toolbox_cut( gui_toolbox_t *this_ )
     {
         gui_simple_message_to_user_show_message_with_stat ( (*this_).message_to_user,
                                                             GUI_SIMPLE_MESSAGE_TYPE_INFO,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_S_CUT_TO_CLIPBOARD_STATS,
-                                                            GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_CUT_TO_CLIPBOARD,
                                                             &stat
                                                           );
     }
@@ -265,8 +264,7 @@ void gui_toolbox_copy( gui_toolbox_t *this_ )
         {
             gui_simple_message_to_user_show_message_with_stat ( (*this_).message_to_user,
                                                                 GUI_SIMPLE_MESSAGE_TYPE_INFO,
-                                                                GUI_SIMPLE_MESSAGE_CONTENT_S_COPY_TO_CLIPBOARD_STATS,
-                                                                GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS,
+                                                                GUI_SIMPLE_MESSAGE_CONTENT_COPY_TO_CLIPBOARD,
                                                                 &stat
                                                               );
         }
@@ -360,8 +358,7 @@ void gui_toolbox_delete( gui_toolbox_t *this_ )
     {
         gui_simple_message_to_user_show_message_with_stat ( (*this_).message_to_user,
                                                             GUI_SIMPLE_MESSAGE_TYPE_INFO,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_S_DELETE_STATS,
-                                                            GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_DELETE,
                                                             &stat
                                                           );
     }
@@ -602,8 +599,7 @@ void gui_toolbox_undo_btn_callback( GtkWidget* button, gpointer data )
         /* success */
         gui_simple_message_to_user_show_message_with_stat ( (*this_).message_to_user,
                                                             GUI_SIMPLE_MESSAGE_TYPE_INFO,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_S_UNDO_STATS,
-                                                            GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_UNDO,
                                                             &stat
                                                           );
     }
@@ -638,8 +634,7 @@ void gui_toolbox_redo_btn_callback( GtkWidget* button, gpointer data )
         /* success */
         gui_simple_message_to_user_show_message_with_stat ( (*this_).message_to_user,
                                                             GUI_SIMPLE_MESSAGE_TYPE_INFO,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_S_REDO_STATS,
-                                                            GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_REDO,
                                                             &stat
                                                           );
     }

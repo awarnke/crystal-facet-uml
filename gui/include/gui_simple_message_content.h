@@ -46,19 +46,13 @@ enum gui_simple_message_content_enum {
     GUI_SIMPLE_MESSAGE_CONTENT_0_NO_FEATURES,  /*!< current diagram type does not allow to create features */
     GUI_SIMPLE_MESSAGE_CONTENT_0_FEATURELESS_CLASSIFIER,  /*!< current classifier type does not allow to create features */
     GUI_SIMPLE_MESSAGE_CONTENT_0_IS_ALWAYS_INSTANCE,  /*!< current classifier type does not allow to remove the instance flag */
-    GUI_SIMPLE_MESSAGE_CONTENT_S_CUT_TO_CLIPBOARD_STATS,  /*!< show statistics on cut elements */
-    GUI_SIMPLE_MESSAGE_CONTENT_S_COPY_TO_CLIPBOARD_STATS,  /*!< show statistics on copied elements */
-    GUI_SIMPLE_MESSAGE_CONTENT_S_PASTE_FROM_CLIPBOARD_STATS,  /*!< show statistics on pasted elements */
-    GUI_SIMPLE_MESSAGE_CONTENT_S_DELETE_STATS,  /*!< show statistics on deleted elements */
-    GUI_SIMPLE_MESSAGE_CONTENT_S_UNDO_STATS,  /*!< show statistics on undo actions */
-    GUI_SIMPLE_MESSAGE_CONTENT_S_REDO_STATS,  /*!< show statistics on redo actions */
 
     GUI_SIMPLE_MESSAGE_CONTENT_E_NOT_YET_IMPLEMENTED,  /*!< the feature is not yet implemented */
 };
 
 typedef enum gui_simple_message_content_enum gui_simple_message_content_t;
 
-/*! \brief tag-type to identify constants that may be used only at dedicated show_message_xy methods.
+/*! \brief tag-type to identify constants that may be used only at gui_simple_message_to_user_show_message_with_names_and_stat method.
  *
  *  This type allows the compiler to check if a constant is used in the right function context.
  *
@@ -67,6 +61,21 @@ typedef enum gui_simple_message_content_enum gui_simple_message_content_t;
 typedef struct gui_simple_message_content_names_stat_struct { const char *list_of_names; const data_stat_t *stat; } gui_simple_message_content_names_stat_t;
 
 extern const gui_simple_message_content_names_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED;  /*!< files exported successfully */
+
+/*! \brief tag-type to identify constants that may be used only at gui_simple_message_to_user_show_message_with_stat method.
+ *
+ *  This type allows the compiler to check if a constant is used in the right function context.
+ *
+ *  The idea is similar to C++ tag dispatching.
+ */
+typedef struct gui_simple_message_content_stat_struct { const data_stat_t *stat; } gui_simple_message_content_stat_t;
+
+extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_CUT_TO_CLIPBOARD;  /*!< show statistics on cut elements */
+extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_COPY_TO_CLIPBOARD;  /*!< show statistics on copied elements */
+extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_PASTE_FROM_CLIPBOARD;  /*!< show statistics on pasted elements */
+extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_DELETE;  /*!< show statistics on deleted elements */
+extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_UNDO;  /*!< show statistics on undo actions */
+extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_REDO;  /*!< show statistics on redo actions */
 
 #endif  /* GUI_SIMPLE_MESSAGE_CONTENT_H */
 

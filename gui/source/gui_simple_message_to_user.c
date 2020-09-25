@@ -52,9 +52,11 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
     }
     else
     {
+        /* update type id: */
         (*this_).type_id = type_id;
         gui_simple_message_to_user_private_set_icon_image( this_, type_id );
 
+        /* update content text: */
         utf8stringbuf_clear( (*this_).private_temp_str );
         switch ( content_id )
         {
@@ -250,54 +252,6 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_S_CUT_TO_CLIPBOARD_STATS:
-            {
-                assert( param_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
-                utf8stringbuf_append_str( (*this_).private_temp_str, "Selection cut to clipboard: \n" );
-                utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
-            }
-            break;
-
-            case GUI_SIMPLE_MESSAGE_CONTENT_S_COPY_TO_CLIPBOARD_STATS:
-            {
-                assert( param_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
-                utf8stringbuf_append_str( (*this_).private_temp_str, "Selection copied to clipboard: \n" );
-                utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
-            }
-            break;
-
-            case GUI_SIMPLE_MESSAGE_CONTENT_S_PASTE_FROM_CLIPBOARD_STATS:
-            {
-                assert( param_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
-                utf8stringbuf_append_str( (*this_).private_temp_str, "Clipboard pasted: \n" );
-                utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
-            }
-            break;
-
-            case GUI_SIMPLE_MESSAGE_CONTENT_S_DELETE_STATS:
-            {
-                assert( param_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
-                utf8stringbuf_append_str( (*this_).private_temp_str, "Selection deleted: \n" );
-                utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
-            }
-            break;
-
-            case GUI_SIMPLE_MESSAGE_CONTENT_S_UNDO_STATS:
-            {
-                assert( param_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
-                utf8stringbuf_append_str( (*this_).private_temp_str, "Undo success: \n" );
-                utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
-            }
-            break;
-
-            case GUI_SIMPLE_MESSAGE_CONTENT_S_REDO_STATS:
-            {
-                assert( param_nature == GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS );
-                utf8stringbuf_append_str( (*this_).private_temp_str, "Redo success: \n" );
-                utf8stringbuf_append_str( (*this_).private_temp_str, string_param );
-            }
-            break;
-
             default:
             {
                 TSLOG_ERROR("unexptected gui_simple_message_content_t");
@@ -305,6 +259,7 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
         }
         gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
 
+        /* show: */
         gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
         gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
 
@@ -341,24 +296,67 @@ const char *const (gui_simple_message_to_user_private_series_name4other[DATA_STA
 
 void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_user_t *this_,
                                                          gui_simple_message_type_t type_id,
-                                                         gui_simple_message_content_t content_id,
-                                                         gui_simple_message_param_nature_t param_nature,
-                                                         const data_stat_t *stat_param
+                                                         const gui_simple_message_content_stat_t *content_id,
+                                                         const data_stat_t *stat
                                                        )
 {
     TRACE_BEGIN();
-    assert( stat_param != NULL );
-    data_stat_trace( stat_param );
+    assert( stat != NULL );
+    assert( content_id != NULL );
+    data_stat_trace( stat );
 
-    char stat_buf[256] = "";
-    utf8stringbuf_t stat_str = UTF8STRINGBUF( stat_buf );
+    /* update type id: */
+    (*this_).type_id = type_id;
+    gui_simple_message_to_user_private_set_icon_image( this_, type_id );
 
-    const bool alt_labels
-        = ((content_id == GUI_SIMPLE_MESSAGE_CONTENT_S_CUT_TO_CLIPBOARD_STATS )
-        || (content_id == GUI_SIMPLE_MESSAGE_CONTENT_S_COPY_TO_CLIPBOARD_STATS ));
-    gui_simple_message_to_user_private_append_stat( this_, stat_param, alt_labels, stat_str );
+    /* update content text: */
+    utf8stringbuf_clear( (*this_).private_temp_str );
+    if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_CUT_TO_CLIPBOARD )
+    {
+        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_CUT_TO_CLIPBOARD" );
+        utf8stringbuf_append_str( (*this_).private_temp_str, "Selection cut to clipboard: \n" );
+        gui_simple_message_to_user_private_append_stat( this_, stat, true, (*this_).private_temp_str );
+    }
+    else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_COPY_TO_CLIPBOARD )
+    {
+        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_COPY_TO_CLIPBOARD" );
+        utf8stringbuf_append_str( (*this_).private_temp_str, "Selection copied to clipboard: \n" );
+        gui_simple_message_to_user_private_append_stat( this_, stat, true, (*this_).private_temp_str );
+    }
+    else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_PASTE_FROM_CLIPBOARD )
+    {
+        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_PASTE_FROM_CLIPBOARD" );
+        utf8stringbuf_append_str( (*this_).private_temp_str, "Clipboard pasted: \n" );
+        gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
+    }
+    else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_DELETE )
+    {
+        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DELETE" );
+        utf8stringbuf_append_str( (*this_).private_temp_str, "Selection deleted: \n" );
+        gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
+    }
+    else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_UNDO )
+    {
+        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_UNDO" );
+        utf8stringbuf_append_str( (*this_).private_temp_str, "Undo success: \n" );
+        gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
+    }
+    else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_REDO )
+    {
+        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_REDO" );
+        utf8stringbuf_append_str( (*this_).private_temp_str, "Redo success: \n" );
+        gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
+    }
+    else
+    {
+        TSLOG_ERROR("unexptected content_id");
+        assert(false);
+    }
+    gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
 
-    gui_simple_message_to_user_show_message_with_string( this_, type_id, content_id, param_nature, utf8stringbuf_get_string( stat_str ));
+    /* show: */
+    gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
+    gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
 
     TRACE_END();
 }
@@ -370,16 +368,22 @@ void gui_simple_message_to_user_show_message_with_names_and_stat( gui_simple_mes
                                                                   const data_stat_t *stat )
 {
     TRACE_BEGIN();
+    assert( stat != NULL );
+    assert( list_of_names != NULL );
+    assert( content_id != NULL );
+    data_stat_trace( stat );
 
+    /* update type id: */
     (*this_).type_id = type_id;
     gui_simple_message_to_user_private_set_icon_image( this_, type_id );
 
+    /* update content text: */
     utf8stringbuf_clear( (*this_).private_temp_str );
     if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED )
     {
+        TSLOG_EVENT_STR( "GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED", list_of_names );
         utf8stringbuf_append_str( (*this_).private_temp_str, "Files exported, format: " );
         utf8stringbuf_append_str( (*this_).private_temp_str, list_of_names );
-        TSLOG_EVENT_STR( "GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED", list_of_names );
         utf8stringbuf_append_str( (*this_).private_temp_str, "\n" );
         gui_simple_message_to_user_private_append_stat( this_, stat, true, (*this_).private_temp_str );
     }
@@ -390,6 +394,7 @@ void gui_simple_message_to_user_show_message_with_names_and_stat( gui_simple_mes
     }
     gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
 
+    /* show: */
     gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
     gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
 

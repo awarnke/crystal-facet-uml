@@ -142,8 +142,7 @@ void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const c
     {
         gui_simple_message_to_user_show_message_with_stat ( (*this_).message_to_user,
                                                             GUI_SIMPLE_MESSAGE_TYPE_INFO,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_S_PASTE_FROM_CLIPBOARD_STATS,
-                                                            GUI_SIMPLE_MESSAGE_PARAM_NATURE_ELEMENT_STATS,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_PASTE_FROM_CLIPBOARD,
                                                             &stat
                                                           );
     }
