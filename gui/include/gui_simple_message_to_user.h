@@ -15,6 +15,7 @@
 #include "set/data_stat.h"
 #include "util/string/utf8stringbuf.h"
 #include <gtk/gtk.h>
+#include <stdbool.h>
 
 /*!
  *  \brief constants for max string sizes
@@ -28,8 +29,6 @@ enum gui_simple_message_to_user_max_enum {
  */
 struct gui_simple_message_to_user_struct {
     gui_simple_message_type_t type_id;  /*!< current visible type */
-    gui_simple_message_content_t content_id;  /*!< current visible content */
-    gui_simple_message_param_nature_t param1_nature;  /*!< nature/meaning of the first parameter */
     GtkWidget *text_label;  /*!< pointer to external GtkWidget */
     GtkWidget *icon_image;  /*!< pointer to external GtkWidget */
     gui_resources_t *res;  /*!< pointer to external gui_resources_t */
@@ -117,6 +116,22 @@ void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_u
                                                        );
 
 /*!
+ *  \brief shows a message
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param type_id type of message to be shown
+ *  \param content_id id of the message to be shown. The id is language-independant and is translated within this method.
+ *  \param list_of_names a language-independant list of names that is printed with the content-message-string.
+ *  \param stat statistics on performed actions that is printed with the content-message-string.
+ */
+void gui_simple_message_to_user_show_message_with_names_and_stat( gui_simple_message_to_user_t *this_,
+                                                                  gui_simple_message_type_t type_id,
+                                                                  const gui_simple_message_content_names_stat_t *content_id,
+                                                                  const char *list_of_names,
+                                                                  const data_stat_t *stat
+                                                                );
+
+/*!
  *  \brief hides whatever is currently shown
  *
  *  \param this_ pointer to own object attributes
@@ -126,16 +141,32 @@ void gui_simple_message_to_user_hide ( gui_simple_message_to_user_t *this_ );
 /*!
  *  \brief gets the type of the currently visible message type id
  *
+ *  \param this_ pointer to own object attributes
  *  \return message type
  */
 static inline gui_simple_message_type_t gui_simple_message_to_user_get_type_id( gui_simple_message_to_user_t *this_ );
 
 /*!
- *  \brief gets the type of the currently visible message content id
+ *  \brief updates the icon_image according to the message type id
  *
- *  \return message content
+ *  \param this_ pointer to own object attributes
+ *  \param type_id type of icon_image to be shown
  */
-static inline gui_simple_message_content_t gui_simple_message_to_user_get_content_id( gui_simple_message_to_user_t *this_ );
+static inline void gui_simple_message_to_user_private_set_icon_image ( gui_simple_message_to_user_t *this_, gui_simple_message_type_t type_id );
+
+/*!
+ *  \brief appends statistics to a string buffer
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param stat statistics on performed actions that is printed with the content-message-string.
+ *  \param alt_labels use alternative labels for export.
+ *  \param out_buf a stringbuffer which is already initialized, output is appended.
+ */
+void gui_simple_message_to_user_private_append_stat ( gui_simple_message_to_user_t *this_,
+                                                      const data_stat_t *stat,
+                                                      bool alt_labels,
+                                                      utf8stringbuf_t out_buf
+                                                    );
 
 #include "gui_simple_message_to_user.inl"
 

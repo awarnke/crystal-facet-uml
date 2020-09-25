@@ -180,12 +180,21 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
 
             if ( 0 == export_err )
             {
+                /*
                 gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                                      GUI_SIMPLE_MESSAGE_TYPE_INFO,
                                                                      GUI_SIMPLE_MESSAGE_CONTENT_L_EXPORT_FINISHED,
                                                                      GUI_SIMPLE_MESSAGE_PARAM_NATURE_LIST_OF_NAMES,
                                                                      utf8stringbuf_get_string( temp_fileformat )
                                                                    );
+                */
+                gui_simple_message_to_user_show_message_with_names_and_stat( (*this_).message_to_user,
+                                                                             GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                                             GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED,
+                                                                             utf8stringbuf_get_string( temp_fileformat ),
+                                                                             &export_stat
+                                                                           );
+
             }
             else
             {

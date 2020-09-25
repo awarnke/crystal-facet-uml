@@ -1,12 +1,14 @@
 /* File: gui_simple_message_content.h; Copyright and License: see below */
 
-#ifndef GUI_SIMPLE_MESSAGE_CONTENT_0_H
-#define GUI_SIMPLE_MESSAGE_CONTENT_0_H
+#ifndef GUI_SIMPLE_MESSAGE_CONTENT_H
+#define GUI_SIMPLE_MESSAGE_CONTENT_H
 
 /* public file for the doxygen documentation: */
 /*! \file
  *  \brief Defines a list of message text-ids
  */
+
+#include "set/data_stat.h"
 
 /*!
  *  \brief enumeration on message text-ids
@@ -36,7 +38,6 @@ enum gui_simple_message_content_enum {
     GUI_SIMPLE_MESSAGE_CONTENT_P_INVALID_INPUT_DATA,  /*!< paste failed, parser error at input data */
     GUI_SIMPLE_MESSAGE_CONTENT_N_FILE_EXPORT_FAILED,  /*!< some or all diagrams could not be exported */
     GUI_SIMPLE_MESSAGE_CONTENT_N_NAME_NOT_UNIQUE,  /*!< object not created or name not changed */
-    GUI_SIMPLE_MESSAGE_CONTENT_L_EXPORT_FINISHED,  /*!< files exported successfully */
     GUI_SIMPLE_MESSAGE_CONTENT_0_SET_PARTLY_UNSUITABLE,  /*!< operation cannot be performed on some elements in the set */
     GUI_SIMPLE_MESSAGE_CONTENT_0_DB_FILE_WRITE_ERROR,  /*!< database could not write to file */
     GUI_SIMPLE_MESSAGE_CONTENT_0_ANCESTOR_IS_NOT_DESCENDANT,  /*!< root/ancestor/parent diagram cannot move to descendant tree location */
@@ -57,7 +58,17 @@ enum gui_simple_message_content_enum {
 
 typedef enum gui_simple_message_content_enum gui_simple_message_content_t;
 
-#endif  /* GUI_SIMPLE_MESSAGE_CONTENT_0_H */
+/*! \brief tag-type to identify constants that may be used only at dedicated show_message_xy methods.
+ *
+ *  This type allows the compiler to check if a constant is used in the right function context.
+ *
+ *  The idea is similar to C++ tag dispatching.
+ */
+typedef struct gui_simple_message_content_names_stat_struct { const char *list_of_names; const data_stat_t *stat; } gui_simple_message_content_names_stat_t;
+
+extern const gui_simple_message_content_names_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED;  /*!< files exported successfully */
+
+#endif  /* GUI_SIMPLE_MESSAGE_CONTENT_H */
 
 
 /*

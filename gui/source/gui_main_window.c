@@ -593,7 +593,7 @@ void gui_main_window_about_btn_callback( GtkWidget* button, gpointer data )
     TRACE_BEGIN();
     gui_main_window_t *this_ = data;
 
-    if ( GUI_SIMPLE_MESSAGE_CONTENT_0_ABOUT == gui_simple_message_to_user_get_content_id( &((*this_).message_to_user) ) )
+    if ( GUI_SIMPLE_MESSAGE_TYPE_ABOUT == gui_simple_message_to_user_get_type_id( &((*this_).message_to_user) ) )
     {
         /* hide the already visible about message */
         gui_simple_message_to_user_hide( &((*this_).message_to_user) );
