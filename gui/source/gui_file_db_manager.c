@@ -57,21 +57,19 @@ void gui_file_db_manager_use_db_response_callback( GtkDialog *dialog, gint respo
             {
                 if ( data_database_is_open( (*this_).database ) )
                 {
-                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                         GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                                         GUI_SIMPLE_MESSAGE_CONTENT_N_DB_FILE_OPENED_WITH_ERROR,
-                                                                         GUI_SIMPLE_MESSAGE_PARAM_NATURE_NAME,
-                                                                         filename
-                                                                       );
+                    gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
+                                                                       GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                                       GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR,
+                                                                       filename
+                                                                     );
                 }
                 else
                 {
-                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                         GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                         GUI_SIMPLE_MESSAGE_CONTENT_N_DB_FILE_NOT_OPENED,
-                                                                         GUI_SIMPLE_MESSAGE_PARAM_NATURE_NAME,
-                                                                         filename
-                                                                       );
+                    gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
+                                                                       GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                       GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_OPENED,
+                                                                       filename
+                                                                     );
                 }
 
             }

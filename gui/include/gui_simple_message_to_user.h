@@ -117,6 +117,48 @@ void gui_simple_message_to_user_show_message_with_position ( gui_simple_message_
  *  \param this_ pointer to own object attributes
  *  \param type_id type of message to be shown
  *  \param content_id id of the message to be shown. The id is language-independant and could be translated within this method.
+ *  \param name a name parameter that is printed with the content-message-string.
+ */
+void gui_simple_message_to_user_show_message_with_name ( gui_simple_message_to_user_t *this_,
+                                                         gui_simple_message_type_t type_id,
+                                                         const gui_simple_message_content_name_t *content_id,
+                                                         const char *name
+                                                       );
+
+/*!
+ *  \brief shows a message
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param type_id type of message to be shown
+ *  \param content_id id of the message to be shown. The id is language-independant and could be translated within this method.
+ *  \param list_of_names a list_of_names parameter that is printed with the content-message-string.
+ */
+void gui_simple_message_to_user_show_message_with_names ( gui_simple_message_to_user_t *this_,
+                                                          gui_simple_message_type_t type_id,
+                                                          const gui_simple_message_content_names_t *content_id,
+                                                          const char *list_of_names
+                                                        );
+
+/*!
+ *  \brief shows a message
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param type_id type of message to be shown
+ *  \param content_id id of the message to be shown. The id is language-independant and could be translated within this method.
+ *  \param error_message a error_message parameter that is printed with the content-message-string.
+ */
+void gui_simple_message_to_user_show_message_with_error ( gui_simple_message_to_user_t *this_,
+                                                          gui_simple_message_type_t type_id,
+                                                          const gui_simple_message_content_error_t *content_id,
+                                                          const char *error_message
+                                                        );
+
+/*!
+ *  \brief shows a message
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param type_id type of message to be shown
+ *  \param content_id id of the message to be shown. The id is language-independant and could be translated within this method.
  *  \param stat statistics on performed actions that is printed with the content-message-string.
  */
 void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_user_t *this_,

@@ -752,12 +752,11 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 ctrl_err = ctrl_classifier_controller_update_classifier_name ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
                 if ( CTRL_ERROR_DUPLICATE_NAME == ctrl_err )
                 {
-                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                         GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                         GUI_SIMPLE_MESSAGE_CONTENT_N_NAME_NOT_UNIQUE,
-                                                                         GUI_SIMPLE_MESSAGE_PARAM_NATURE_NAME,
-                                                                         text
-                                                                       );
+                    gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
+                                                                       GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                       GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
+                                                                       text
+                                                                     );
                 }
                 else if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
                 {

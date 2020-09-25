@@ -1007,12 +1007,11 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                         if ( CTRL_ERROR_DUPLICATE_NAME == c_result )
                         {
                             /* this should not happen: names are auto-generated */
-                            gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                                 GUI_SIMPLE_MESSAGE_CONTENT_N_NAME_NOT_UNIQUE,
-                                                                                 GUI_SIMPLE_MESSAGE_PARAM_NATURE_NAME,
-                                                                                 ""
-                                                                               );
+                            gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
+                                                                               GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                               GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
+                                                                               ""
+                                                                             );
                         }
                         else if ( CTRL_ERROR_NONE != c_result )
                         {
