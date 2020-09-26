@@ -141,6 +141,11 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
                                                                                                parent_type,
                                                                                                classifier_type
                                                                                              );
+            if (( recursion_depth == 0 )&&( !is_classifier_compliant_here ))
+            {
+                /* fallback, there is no other place to put the classifier */
+                is_classifier_compliant_here = true;
+            }
 
             if ( is_classifier_compliant_here )
             {

@@ -112,12 +112,6 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
         /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 19.5.1.6 */
         result = "nestedArtifact";
     }
-    else if ( (parent_type==DATA_CLASSIFIER_TYPE_UML_PACKAGE) )
-    {
-        /* emergengy: at least the outer model should contain the elements */
-        result = "packagedElement";
-        TSLOG_WARNING_STR("The xmi export cannot place:",(*child_info).base_name);
-    }
 
     *out_xmi_name = (result==NULL) ? "" : result;
     const int result_err = (result==NULL) ? -1 : 0;

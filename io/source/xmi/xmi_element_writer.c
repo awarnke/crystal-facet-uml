@@ -152,6 +152,8 @@ static const char XMI2_EXT_BASE_ELEMENT_MIDDLE[]
     = "=\"";
 static const char XMI2_EXT_BASE_ELEMENT_END[]
     = "\" ";
+static const char XMI2_FALLBACK_NESTING_ELEMENT[]
+    = "packagedElement";
 
 void xmi_element_writer_init ( xmi_element_writer_t *this_,
                                data_database_reader_t *db_reader,
@@ -280,11 +282,7 @@ int xmi_element_writer_start_nested_classifier( xmi_element_writer_t *this_,
 
     if ( (*this_).mode == IO_WRITER_PASS_BASE )
     {
-        /* new line, adjust indentation */
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
-        xml_writer_increase_indent ( &((*this_).xml_writer) );
-
-        /* write start of tag */
+        /* determine nesting tag */
         const char* nesting_property;
         const int nesting_err
             = xmi_type_converter_get_xmi_nesting_property_of_classifier( &((*this_).xmi_types),
@@ -292,9 +290,30 @@ int xmi_element_writer_start_nested_classifier( xmi_element_writer_t *this_,
                                                                          data_classifier_get_main_type(classifier_ptr),
                                                                          &nesting_property
                                                                        );
+        if ( nesting_err != 0 )
+        {
+            /* The caller requested to write a classifier to an illegal place */
+            TSLOG_WARNING("xmi_element_writer: request to write a classifier to an illegal place!")
+            /* update export statistics */
+            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
+            /* inform the user via an XML comment: */
+            const data_id_t classifier_id = data_classifier_get_data_id(classifier_ptr);
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- ILLEGAL NESTED TYPE OF " );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- PROPOSAL: Pack the " );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " into a more suitable container or change its type -->" );
+            /* use a fallback */
+            nesting_property = XMI2_FALLBACK_NESTING_ELEMENT;
+        }
+
+        /* write nesting tag */
+        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), nesting_property );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+        xml_writer_increase_indent ( &((*this_).xml_writer) );
     }
 
     TRACE_END_ERR( export_err );
@@ -745,11 +764,7 @@ int xmi_element_writer_end_nested_classifier( xmi_element_writer_t *this_,
 
     if ( (*this_).mode == IO_WRITER_PASS_BASE )
     {
-        /* adjust indentation, new line */
-        xml_writer_decrease_indent ( &((*this_).xml_writer) );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
-
-        /* write end tag */
+        /* determine nesting tag */
         const char* nesting_property;
         const int nesting_err
             = xmi_type_converter_get_xmi_nesting_property_of_classifier( &((*this_).xmi_types),
@@ -757,6 +772,16 @@ int xmi_element_writer_end_nested_classifier( xmi_element_writer_t *this_,
                                                                          classifier_type,
                                                                          &nesting_property
                                                                        );
+        if ( nesting_err != 0 )
+        {
+            /* The caller requested to write a classifier to an illegal place */
+            /* use a fallback */
+            nesting_property = XMI2_FALLBACK_NESTING_ELEMENT;
+        }
+
+        /* adjust indentation, write end tag */
+        xml_writer_decrease_indent ( &((*this_).xml_writer) );
+        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), nesting_property );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
