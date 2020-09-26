@@ -338,7 +338,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         }
         else if ( IO_FILE_FORMAT_XMI2 == export_type )
         {
-            xmi_element_writer_init( &((*this_).temp_xmi_writer ), (*this_).db_reader, export_type, output );
+            xmi_element_writer_init( &((*this_).temp_xmi_writer ), (*this_).db_reader, export_type, io_export_stat, output );
             /* init the model_traversal */
             io_export_model_traversal_init( &((*this_).temp_model_traversal),
                                             (*this_).db_reader,

@@ -22,6 +22,7 @@
 #include "data_diagram.h"
 #include "data_classifier.h"
 #include "set/data_visible_set.h"
+#include "set/data_stat.h"
 #include "storage/data_database_reader.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/string/utf8stringbuf.h"
@@ -34,7 +35,9 @@ struct xmi_element_writer_struct {
     io_file_format_t export_type;  /*!< format of output document */
     io_writer_pass_t mode;  /*!< depending on the mode, conversion from a data object to the output format differs */
 
+    data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
     xml_writer_t xml_writer;  /*!< own instance of an xml writer */
+
     xmi_type_converter_t xmi_types;  /*!< own instance of an xmi_type_converter_t */
 };
 
@@ -46,13 +49,15 @@ typedef struct xmi_element_writer_struct xmi_element_writer_t;
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader object
  *  \param export_type image file format
+ *  \param io_export_stat pointer to statistics object where export statistics are collected
  *  \param output output stream where to write the generated output to
  */
 void xmi_element_writer_init( xmi_element_writer_t *this_,
-                            data_database_reader_t *db_reader,
-                            io_file_format_t export_type,
-                            universal_output_stream_t *output
-                          );
+                              data_database_reader_t *db_reader,
+                              io_file_format_t export_type,
+                              data_stat_t *io_export_stat,
+                              universal_output_stream_t *output
+                            );
 
 /*!
  *  \brief destroys the format writer

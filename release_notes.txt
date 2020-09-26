@@ -1,3 +1,11 @@
+crystal-facet-uml (1.23.2) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * xmi export reflects containment-hierarcy of elements
+  * internal: Messages to user user are typesafe for their parameters
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 27 Sep 2020 11:30:00 +0200
+
 crystal-facet-uml (1.23.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

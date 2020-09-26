@@ -125,8 +125,8 @@ void gui_simple_message_to_user_show_message ( gui_simple_message_to_user_t *thi
         case GUI_SIMPLE_MESSAGE_CONTENT_ANCESTOR_IS_NOT_DESCENDANT:
         {
             utf8stringbuf_append_str( (*this_).private_temp_str,
-                                        "An ancestor (parent/root) diagram cannot move to a descendant (child) location.\n"
-                                        "Instead, try to move a descendant out to an ancestor or sibling location"
+                                      "An ancestor (parent/root) diagram cannot move to a descendant (child) location.\n"
+                                      "Instead, try to move a descendant out to an ancestor or sibling location"
                                     );
         }
         break;
@@ -134,8 +134,8 @@ void gui_simple_message_to_user_show_message ( gui_simple_message_to_user_t *thi
         case GUI_SIMPLE_MESSAGE_CONTENT_DEBUG_MODE:
         {
             utf8stringbuf_append_str( (*this_).private_temp_str,
-                                        "This software was compiled in DEBUG mode.\nIt may be slower than the RELEASE version.\n"
-                                        "Confidential information may be printed to syslog."
+                                      "This software was compiled in DEBUG mode.\nIt may be slower than the RELEASE version.\n"
+                                      "Confidential information may be printed to syslog."
                                     );
         }
         break;

@@ -154,16 +154,19 @@ static const char XMI2_EXT_BASE_ELEMENT_END[]
     = "\" ";
 
 void xmi_element_writer_init ( xmi_element_writer_t *this_,
-                             data_database_reader_t *db_reader,
-                             io_file_format_t export_type,
-                             universal_output_stream_t *output )
+                               data_database_reader_t *db_reader,
+                               io_file_format_t export_type,
+                               data_stat_t *io_export_stat,
+                               universal_output_stream_t *output )
 {
     TRACE_BEGIN();
     assert( NULL != output );
+    assert( NULL != io_export_stat );
     assert( NULL != db_reader );
 
     (*this_).export_type = export_type;
     (*this_).mode = IO_WRITER_PASS_BASE;
+    (*this_).export_stat = io_export_stat;
 
     xml_writer_init( &((*this_).xml_writer), output );
     xmi_type_converter_init( &((*this_).xmi_types) );
@@ -375,6 +378,9 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data
                                                                                 classifier_descr
                                                                               );
                 }
+
+                /* update export statistics */
+                data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED );
             }
             else if ( (*this_).mode == IO_WRITER_PASS_PROFILE )
             {
@@ -535,6 +541,9 @@ int xmi_element_writer_write_feature( xmi_element_writer_t *this_, const data_fe
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), owning_type );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
+
+                /* update export statistics */
+                data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
             }
         }
         break;
@@ -666,6 +675,9 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
 
                 xml_writer_decrease_indent ( &((*this_).xml_writer) );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_END );
+
+                /* update export statistics */
+                data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
             }
             else if ( (*this_).mode == IO_WRITER_PASS_PROFILE )
             {
