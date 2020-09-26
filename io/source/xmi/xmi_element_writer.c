@@ -870,10 +870,6 @@ int xmi_element_writer_private_write_xmi_comment( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), comment_type );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_END );
 
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_START );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), comment_type );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_END );
-
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_COMMENT_MIDDLE );
             xml_writer_increase_indent ( &((*this_).xml_writer) );
 
