@@ -192,7 +192,6 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
             case DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION:
             case DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL:
             case DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL:
-            case DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH:
             case DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW:
             case DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW:
             case DATA_RELATIONSHIP_TYPE_UML_EXTEND:  /* t.b.d. */
@@ -311,6 +310,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
             case DATA_RELATIONSHIP_TYPE_UML_AGGREGATION:
             case DATA_RELATIONSHIP_TYPE_UML_COMPOSITION:
             case DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT:
+            case DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH:
             {
                 /* no arrow tip */
             }

@@ -104,6 +104,7 @@ struct gui_resources_struct {
 
     GdkPixbuf *type_rel_aggregate;
     GdkPixbuf *type_rel_associate;
+    GdkPixbuf *type_rel_communication_path;
     GdkPixbuf *type_rel_compose;
     GdkPixbuf *type_rel_contain;
     GdkPixbuf *type_rel_depend;
@@ -722,6 +723,13 @@ static inline const GdkPixbuf *gui_resources_get_type_rel_associate ( gui_resour
  *  \param this_ pointer to own object attributes
  */
 static inline const GdkPixbuf *gui_resources_get_type_rel_compose ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_rel_communication_path
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_rel_communication_path ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_contain

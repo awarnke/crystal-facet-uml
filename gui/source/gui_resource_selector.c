@@ -223,7 +223,8 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         const GdkPixbuf *icon_rel_manifest = gui_resources_get_type_rel_manifest( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_MANIFEST, "Manifest, no cycles", icon_rel_manifest );
         current = &((*this_).type_name_icon_list[idx]); idx++;
-        gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH, "Communication Path", icon_simple_arrow );
+        const GdkPixbuf *icon_rel_communication_path = gui_resources_get_type_rel_communication_path( (*this_).resources );
+        gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH, "Communication Path", icon_rel_communication_path );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION, "Association", icon_simple_arrow );
         current = &((*this_).type_name_icon_list[idx]); idx++;

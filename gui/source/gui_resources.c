@@ -100,6 +100,7 @@
 #include "resources/type_rel_aggregate.c"
 #include "resources/type_rel_associate.c"
 #include "resources/type_rel_compose.c"
+#include "resources/type_rel_communication_path.c"
 #include "resources/type_rel_contain.c"
 #include "resources/type_rel_depend.c"
 #include "resources/type_rel_deploy.c"
@@ -221,6 +222,7 @@ void gui_resources_init ( gui_resources_t *this_ )
 
     (*this_).type_rel_aggregate = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_aggregate ) );
     (*this_).type_rel_associate = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_associate ) );
+    (*this_).type_rel_communication_path = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_communication_path ) );
     (*this_).type_rel_compose = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_compose ) );
     (*this_).type_rel_contain = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_contain ) );
     (*this_).type_rel_depend = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_depend ) );

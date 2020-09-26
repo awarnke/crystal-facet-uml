@@ -577,8 +577,8 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_rel_associate.pdf" width="1cm"/></imageobject>
-                                <imageobject><imagedata fileref="../../gui/source/resources/type_rel_associate.png"/></imageobject></mediaobject>
+                                <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_rel_communication_path.pdf" width="1cm"/></imageobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/type_rel_communication_path.png"/></imageobject></mediaobject>
                                 Communication Path</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 14.2--></para></entry>
                             <entry><para>Component, Composite Structure, Block, Internal Block</para></entry>

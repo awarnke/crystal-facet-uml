@@ -415,6 +415,11 @@ static inline const GdkPixbuf *gui_resources_get_type_rel_associate ( gui_resour
     return (*this_).type_rel_associate;
 }
 
+static inline const GdkPixbuf *gui_resources_get_type_rel_communication_path ( gui_resources_t *this_ )
+{
+    return (*this_).type_rel_communication_path;
+}
+
 static inline const GdkPixbuf *gui_resources_get_type_rel_compose ( gui_resources_t *this_ )
 {
     return (*this_).type_rel_compose;

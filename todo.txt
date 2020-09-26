@@ -7,7 +7,6 @@ ideas for future versions:
   [ ] when opening the second database, the root diagram cannot be focused immediately
   [ ] show a progress bar while exporting diagrams
   [ ] update seach result view when changing the database (e.g. by undo)
-  [ ] no arrow tip at communication path
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   @pencil
