@@ -27,7 +27,7 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_classifier ( xmi_type_converter_t 
     TRACE_BEGIN();
 
     const xmi_element_info_t *e_info
-        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, c_type );
+        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, c_type, false /*this parameter does not matter for this use case*/ );
     assert ( e_info != NULL );
     const xmi_spec_t result
         = (*e_info).specification;
@@ -37,13 +37,14 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_classifier ( xmi_type_converter_t 
 }
 
 const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t *this_,
+                                                            data_classifier_type_t parent_type,
                                                             data_classifier_type_t c_type,
                                                             xmi_spec_t spec )
 {
     TRACE_BEGIN();
 
     const xmi_element_info_t *e_info
-        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, c_type );
+        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, c_type, (parent_type==DATA_CLASSIFIER_TYPE_UML_STATE) );
     assert ( e_info != NULL );
     const char* result
         = (( (spec & (XMI_SPEC_SYSML|XMI_SPEC_STANDARD)) != 0 )&&( (*e_info).profile_name != NULL ))
@@ -65,10 +66,10 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
     const char* result = NULL;
 
     const xmi_element_info_t *parent_info
-        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, parent_type );
+        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, parent_type, false /*guess*/ );
     assert ( parent_info != NULL );
     const xmi_element_info_t *child_info
-        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, child_type );
+        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, child_type, (parent_type==DATA_CLASSIFIER_TYPE_UML_STATE) );
     assert ( child_info != NULL );
 
     if ( xmi_element_info_is_a_package(parent_info) &&  xmi_element_info_is_a_packageable_element(child_info) )

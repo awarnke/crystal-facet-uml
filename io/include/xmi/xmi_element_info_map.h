@@ -22,7 +22,7 @@
 enum xmi_element_info_map_index_enum {
     /* ================================ CLASSIFIER ================================ */
     XMI_ELEMENT_INFO_MAP_INDEX_BLOCK,
-    XMI_ELEMENT_INFO_MAP_INDEX_CONSTRAINT_PROPERTY,
+    XMI_ELEMENT_INFO_MAP_INDEX_CONSTRAINT_BLOCK,
     XMI_ELEMENT_INFO_MAP_INDEX_REQUIREMENT,
     XMI_ELEMENT_INFO_MAP_INDEX_ACTOR,
     XMI_ELEMENT_INFO_MAP_INDEX_USE_CASE,
@@ -38,11 +38,14 @@ enum xmi_element_info_map_index_enum {
     XMI_ELEMENT_INFO_MAP_INDEX_ARTIFACT,
     XMI_ELEMENT_INFO_MAP_INDEX_COMMENT,
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_INTERRUPTABLE_REGION,
-    XMI_ELEMENT_INFO_MAP_INDEX_DYN_INITIAL_NODE,
-    XMI_ELEMENT_INFO_MAP_INDEX_DYN_FINAL_NODE,
+    XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACTIVITY_INITIAL_NODE,
+    XMI_ELEMENT_INFO_MAP_INDEX_DYN_STATE_INITIAL_NODE,
+    XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACTIVITY_FINAL_NODE,
+    XMI_ELEMENT_INFO_MAP_INDEX_DYN_STATE_FINAL_NODE,
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_FORK_NODE,
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_JOIN_NODE,
-    XMI_ELEMENT_INFO_MAP_INDEX_DYN_DECISION_NODE,
+    XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACTIVITY_DECISION_NODE,
+    XMI_ELEMENT_INFO_MAP_INDEX_DYN_STATE_DECISION_NODE,
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_SHALLOW_HISTORY,
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_DEEP_HISTORY,
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_PARTITION,
@@ -76,7 +79,7 @@ enum xmi_element_info_map_index_enum {
 
 typedef enum xmi_element_info_map_index_enum xmi_element_info_map_index_t;
 
-#define XMI_ELEMENT_INFO_MAP_INDEX_MAX (47)
+#define XMI_ELEMENT_INFO_MAP_INDEX_MAX (50)
 
 typedef xmi_element_info_t xmi_element_info_map_t[XMI_ELEMENT_INFO_MAP_INDEX_MAX];
 
@@ -87,10 +90,12 @@ extern const xmi_element_info_map_t xmi_element_info_map_standard;
  *
  *  \param this_ pointer to own object attributes
  *  \param c_type selects the xmi_element_info_t
+ *  \param statemachine_context for some classifiers, the result depends on the used context, e.g. statemachine or activities
  *  \return pointer to the selected xmi_element_info_t
  */
 static inline const xmi_element_info_t * xmi_element_info_map_static_get_classifier ( const xmi_element_info_map_t *this_,
-                                                                                      data_classifier_type_t c_type
+                                                                                      data_classifier_type_t c_type,
+                                                                                      bool statemachine_context
                                                                                     );
 
 /*!

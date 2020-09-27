@@ -126,10 +126,14 @@ int xmi_element_writer_start_nested_classifier( xmi_element_writer_t *this_,
  *  \brief writes a classifier of the document
  *
  *  \param this_ pointer to own object attributes
+ *  \param parent_type type of the parent classifier, needed for xmi export
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \result 0 in case of success, -1 otherwise
  */
-int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data_classifier_t *classifier_ptr );
+int xmi_element_writer_write_classifier( xmi_element_writer_t *this_,
+                                         data_classifier_type_t parent_type,
+                                         const data_classifier_t *classifier_ptr
+                                       );
 
 /*!
  *  \brief writes a feature of the document

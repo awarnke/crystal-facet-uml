@@ -146,7 +146,7 @@ static inline data_relationship_type_t data_rules_get_default_relationship_type 
     switch ( from_classifier_type )
     {
         case DATA_CLASSIFIER_TYPE_BLOCK:  /* and */
-        case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
+        case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
         {
             result = DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH;
         }
@@ -249,7 +249,7 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
     switch ( parent_classifier_type )
     {
         case DATA_CLASSIFIER_TYPE_BLOCK:  /* and */
-        case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
+        case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
         {
             result = DATA_FEATURE_TYPE_PORT;
         }
@@ -367,7 +367,7 @@ static inline bool data_rules_classifier_has_uncond_features ( const data_rules_
     switch ( classifier_type )
     {
         case DATA_CLASSIFIER_TYPE_BLOCK:
-        case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
+        case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
         case DATA_CLASSIFIER_TYPE_FEATURE: /* a feature is an abstract requirement or requirement-group */
         case DATA_CLASSIFIER_TYPE_REQUIREMENT: /* for requirements, there is a predefined set of: id, text, ... */
         case DATA_CLASSIFIER_TYPE_UML_INTERFACE:

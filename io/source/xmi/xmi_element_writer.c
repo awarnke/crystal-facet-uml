@@ -322,7 +322,9 @@ int xmi_element_writer_start_nested_classifier( xmi_element_writer_t *this_,
     return export_err;
 }
 
-int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data_classifier_t *classifier_ptr )
+int xmi_element_writer_write_classifier( xmi_element_writer_t *this_,
+                                         data_classifier_type_t parent_type,
+                                         const data_classifier_t *classifier_ptr )
 {
     TRACE_BEGIN();
     assert ( NULL != classifier_ptr );
@@ -336,7 +338,7 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data
     const data_id_t classifier_id = data_classifier_get_data_id(classifier_ptr);
     const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier_ptr);
     const xmi_element_info_t *classifier_info
-        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, classifier_type );
+        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, classifier_type, (parent_type==DATA_CLASSIFIER_TYPE_UML_STATE) );
 
     switch ( (*this_).export_type )
     {
@@ -347,6 +349,7 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_START );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_XML_NS_UML );
                 const char* c_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
+                                                                                     parent_type,
                                                                                      classifier_type,
                                                                                      XMI_SPEC_UML
                                                                                    );
@@ -425,6 +428,7 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_XML_NS_SYSML );
                     const char* profile_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
+                                                                                               parent_type,
                                                                                                classifier_type,
                                                                                                XMI_SPEC_SYSML
                                                                                              );
@@ -439,6 +443,7 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data
 
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_START );
                     const char* base_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
+                                                                                            parent_type,
                                                                                             classifier_type,
                                                                                             XMI_SPEC_UML
                                                                                           );

@@ -6,7 +6,8 @@
 #include <stdlib.h>
 
 static inline const xmi_element_info_t * xmi_element_info_map_static_get_classifier ( const xmi_element_info_map_t *this_,
-                                                                                      data_classifier_type_t c_type )
+                                                                                      data_classifier_type_t c_type,
+                                                                                      bool statemachine_context )
 {
     const xmi_element_info_t * result = NULL;
 
@@ -19,10 +20,10 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
+        case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
         {
-            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_CONSTRAINT_PROPERTY]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY );
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_CONSTRAINT_BLOCK]);
+            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK );
         }
         break;
 
@@ -154,15 +155,31 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
         {
-            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_INITIAL_NODE]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE );
+            if ( statemachine_context )
+            {
+                result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_STATE_INITIAL_NODE]);
+                assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE );
+            }
+            else
+            {
+                result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACTIVITY_INITIAL_NODE]);
+                assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE );
+            }
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
         {
-            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_FINAL_NODE]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE );
+            if ( statemachine_context )
+            {
+                result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_STATE_FINAL_NODE]);
+                assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE );
+            }
+            else
+            {
+                result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACTIVITY_FINAL_NODE]);
+                assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE );
+            }
         }
         break;
 
@@ -182,8 +199,16 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
         {
-            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_DECISION_NODE]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE );
+            if ( statemachine_context )
+            {
+                result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_STATE_DECISION_NODE]);
+                assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE );
+            }
+            else
+            {
+                result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACTIVITY_DECISION_NODE]);
+                assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE );
+            }
         }
         break;
 

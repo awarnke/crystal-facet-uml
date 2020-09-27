@@ -20,7 +20,7 @@ enum data_classifier_type_enum {
     /* Block + Internal Block Diagrams: */
     DATA_CLASSIFIER_TYPE_BLOCK = 90,  /* SysML */
     /* Parametric Diagram: */
-    DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY = 96,  /* SysML, this is an equation */
+    DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK = 96,  /* SysML, this is an equation */
     /* Requirements Diagram: */
     DATA_CLASSIFIER_TYPE_FEATURE = 98,
     DATA_CLASSIFIER_TYPE_REQUIREMENT = 99,  /* SysML */

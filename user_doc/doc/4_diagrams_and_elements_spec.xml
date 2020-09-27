@@ -73,7 +73,7 @@
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_constraint.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_constraint.png"/></imageobject></mediaobject>
-                                Constraint Property/Equation</para></entry>
+                                Constraint Block</para></entry>
                             <entry><para>SysML<!--spec 1.5 chapter 10.2.2--></para></entry>
                             <entry><para>Parametric / -</para></entry>
                             <entry><para>Limitations: Only the rounded-rect symbol is supported, ports are not completely inside the rounded-rect.</para></entry>

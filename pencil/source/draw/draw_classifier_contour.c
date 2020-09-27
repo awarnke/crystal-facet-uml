@@ -97,7 +97,7 @@ void draw_classifier_contour_get_shape_border_dimensions( const draw_classifier_
         case DATA_CLASSIFIER_TYPE_UML_CLASS:
         case DATA_CLASSIFIER_TYPE_UML_OBJECT:
         case DATA_CLASSIFIER_TYPE_UML_COMMENT:
-        case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
+        case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
         {
             /* standard size */

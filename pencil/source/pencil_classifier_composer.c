@@ -198,7 +198,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
 
             case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
             case DATA_CLASSIFIER_TYPE_UML_STATE:
-            case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
+            case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
             {
                 draw_classifier_contour_draw_rounded_rect ( &((*this_).draw_classifier_contour), classifier_symbol_box, false, pencil_size, cr );
                 pencil_classifier_composer_private_draw_feature_compartments ( this_,

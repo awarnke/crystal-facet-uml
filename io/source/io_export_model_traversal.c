@@ -245,7 +245,7 @@ int io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *
         = data_node_set_get_classifier_const ( node_data );
 
     write_err |= xmi_element_writer_start_nested_classifier( (*this_).format_writer, parent_type, classifier );
-    write_err |= xmi_element_writer_write_classifier( (*this_).format_writer, classifier );
+    write_err |= xmi_element_writer_write_classifier( (*this_).format_writer, parent_type, classifier );
 
     TRACE_END_ERR( write_err );
     return write_err;

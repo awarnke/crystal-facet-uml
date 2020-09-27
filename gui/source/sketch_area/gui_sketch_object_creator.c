@@ -517,7 +517,7 @@ void gui_sketch_object_creator_private_propose_classifier_name( gui_sketch_objec
     switch ( c_type )
     {
         case DATA_CLASSIFIER_TYPE_BLOCK:
-        case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
+        case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
         {
             utf8stringbuf_copy_str( out_name, BLOCK_NAMES[cycle_names&0x07] );
         }

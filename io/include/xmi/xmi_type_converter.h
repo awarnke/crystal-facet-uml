@@ -56,11 +56,13 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_classifier ( xmi_type_converter_t 
  *  \brief gets a string representation of a data_classifier_type_t
  *
  *  \param this_ pointer to own object attributes
+ *  \param parent_type for some classifiers, the result depends on the parent type, e.g. state or activity
  *  \param c_type data_classifier_type_t to convert to a string
  *  \param spec control, according to which specification the xmi type shall be returned. profiles define extensions to base types in mof+uml.
  *  \result string representation of c_type, empty string if not available
  */
 const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t *this_,
+                                                            data_classifier_type_t parent_type,
                                                             data_classifier_type_t c_type,
                                                             xmi_spec_t spec
                                                           );

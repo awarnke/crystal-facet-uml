@@ -300,7 +300,7 @@ void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
+        case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
         case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
         case DATA_CLASSIFIER_TYPE_UML_STATE:
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:

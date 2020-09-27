@@ -95,7 +95,7 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_BLOCK, "Block", icon_clas_block );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_clas_constraint = gui_resources_get_type_clas_constraint( (*this_).resources );
-        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY, "Constraint Property/Equation", icon_clas_constraint );
+        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK, "Constraint Block", icon_clas_constraint );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_clas_node = gui_resources_get_type_clas_node( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_UML_NODE, "Node", icon_clas_node );
