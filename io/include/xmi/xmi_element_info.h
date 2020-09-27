@@ -33,6 +33,62 @@ struct xmi_element_info_struct {
 typedef struct xmi_element_info_struct xmi_element_info_t;
 
 /*!
+ *  \brief gets the data_type_checksum.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return data_type_checksum
+ */
+static inline int xmi_element_info_get_data_type_checksum ( const xmi_element_info_t *this_ );
+
+/*!
+ *  \brief gets the specification.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return specification
+ */
+static inline xmi_spec_t xmi_element_info_get_specification ( const xmi_element_info_t *this_ );
+
+/*!
+ *  \brief gets the profile_name.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return profile_name or NULL if not applicable
+ */
+static inline const char * xmi_element_info_get_profile_name ( const xmi_element_info_t *this_ );
+
+/*!
+ *  \brief gets the base_name.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return base_name
+ */
+static inline const char * xmi_element_info_get_base_name ( const xmi_element_info_t *this_ );
+
+/*!
+ *  \brief gets the property_from.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return property_from or NULL if not applicable
+ */
+static inline const char * xmi_element_info_get_property_from ( const xmi_element_info_t *this_ );
+
+/*!
+ *  \brief gets the property_to.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return property_to or NULL if not applicable
+ */
+static inline const char * xmi_element_info_get_property_to ( const xmi_element_info_t *this_ );
+
+/*!
+ *  \brief gets the additional_properties.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return additional_properties or NULL if not applicable
+ */
+static inline const char * xmi_element_info_get_additional_properties ( const xmi_element_info_t *this_ );
+
+/*!
  *  \brief checks if the type is a classifier.
  *
  *  \param this_ pointer to own object attributes

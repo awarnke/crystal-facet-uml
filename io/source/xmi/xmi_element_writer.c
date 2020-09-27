@@ -338,7 +338,10 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_,
     const data_id_t classifier_id = data_classifier_get_data_id(classifier_ptr);
     const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier_ptr);
     const xmi_element_info_t *classifier_info
-        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, classifier_type, (parent_type==DATA_CLASSIFIER_TYPE_UML_STATE) );
+        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard,
+                                                       classifier_type,
+                                                       (parent_type==DATA_CLASSIFIER_TYPE_UML_STATE)
+                                                     );
 
     switch ( (*this_).export_type )
     {
@@ -365,6 +368,14 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_,
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_START );
                     export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_END );
+                }
+
+                if ( NULL != xmi_element_info_get_additional_properties( classifier_info ) )
+                {
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
+                                                           xmi_element_info_get_additional_properties( classifier_info )
+                                                         );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
                 }
 
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
@@ -627,6 +638,8 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
     const data_id_t to_classifier_id = data_relationship_get_to_classifier_data_id( relation_ptr );
     const data_id_t to_feature_id = data_relationship_get_to_feature_data_id( relation_ptr );
     const data_relationship_type_t relation_type = data_relationship_get_main_type( relation_ptr );
+    const xmi_element_info_t *relation_info
+        = xmi_element_info_map_static_get_relationship ( &xmi_element_info_map_standard, relation_type );
 
     switch ( (*this_).export_type )
     {
@@ -652,6 +665,15 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_START );
                 export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_END );
+
+                if ( NULL != xmi_element_info_get_additional_properties( relation_info ) )
+                {
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
+                                                           xmi_element_info_get_additional_properties( relation_info )
+                                                         );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+                }
+
 
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_MIDDLE );
                 /*

@@ -1,5 +1,40 @@
 /* File: xmi_element_info.inl; Copyright and License: see below */
 
+static inline int xmi_element_info_get_data_type_checksum ( const xmi_element_info_t *this_ )
+{
+    return (*this_).data_type_checksum;
+}
+
+static inline xmi_spec_t xmi_element_info_get_specification ( const xmi_element_info_t *this_ )
+{
+    return (*this_).specification;
+}
+
+static inline const char * xmi_element_info_get_profile_name ( const xmi_element_info_t *this_ )
+{
+    return (*this_).profile_name;
+}
+
+static inline const char * xmi_element_info_get_base_name ( const xmi_element_info_t *this_ )
+{
+    return (*this_).base_name;
+}
+
+static inline const char * xmi_element_info_get_property_from ( const xmi_element_info_t *this_ )
+{
+    return (*this_).property_from;
+}
+
+static inline const char * xmi_element_info_get_property_to ( const xmi_element_info_t *this_ )
+{
+    return (*this_).property_to;
+}
+
+static inline const char * xmi_element_info_get_additional_properties ( const xmi_element_info_t *this_ )
+{
+    return (*this_).additional_properties;
+}
+
 static inline bool xmi_element_info_is_a_classifier ( const xmi_element_info_t *this_ )
 {
     return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_CLASSIFIER ) == XMI_ELEMENT_IS_A_CLASSIFIER;
