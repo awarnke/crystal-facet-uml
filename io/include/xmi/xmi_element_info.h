@@ -27,6 +27,7 @@ struct xmi_element_info_struct {
     xmi_element_is_a_t is_a;  /*!< states if the type is a decendant of which parent types */
     const char * property_from;  /*!< in case of a relationship, states the property-name of the source end; NULL otherwise */
     const char * property_to;  /*!< in case of a relationship, states the property-name of the target end; NULL otherwise */
+    const char * additional_properties;  /*!< additional xml attributes that are fix for this type; NULL if none */
 };
 
 typedef struct xmi_element_info_struct xmi_element_info_t;
