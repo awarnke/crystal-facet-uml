@@ -37,7 +37,11 @@ const xmi_element_info_map_t xmi_element_info_map_standard
             /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
         .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_REQUIREMENT,
         .specification            = XMI_SPEC_SYSML,
+#ifdef NDEBUG
+        .profile_name             = "Requirement",
+#else
         .profile_name             = "AbstractRequirement", /* the validation tool seems to not allow Requirement */
+#endif
         .base_name                = "Class",
         .is_a                     = (XMI_ELEMENT_IS_A_CLASS),
         .property_from            = NULL,
@@ -321,8 +325,8 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .profile_name             = NULL,
         .base_name                = "Dependency",
         .is_a                     = (XMI_ELEMENT_IS_A_DEPENDENCY),
-        .property_from            = "x-client",
-        .property_to              = "x-supplier",
+        .property_from            = "client",
+        .property_to              = "supplier",
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_ASSOCIATION] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
@@ -377,8 +381,8 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .profile_name             = NULL,
         .base_name                = "Realization",
         .is_a                     = (XMI_ELEMENT_IS_A_ABSTRACTION),
-        .property_from            = "x-client",
-        .property_to              = "x-supplier",
+        .property_from            = "client",
+        .property_to              = "supplier",
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_ASYNC_CALL] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Interactions */
@@ -441,8 +445,8 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .profile_name             = NULL,
         .base_name                = "ControlFlow",
         .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY_EDGE),
-        .property_from            = "X-source",
-        .property_to              = "X-target",
+        .property_from            = "source",
+        .property_to              = "target",
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_OBJECT_FLOW] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
@@ -454,8 +458,8 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .profile_name             = NULL,
         .base_name                = "ObjectFlow",
         .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY_EDGE),
-        .property_from            = "X-source",
-        .property_to              = "X-target",
+        .property_from            = "source",
+        .property_to              = "target",
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_DEPLOY] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
@@ -464,8 +468,8 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .profile_name             = NULL,
         .base_name                = "Deployment",
         .is_a                     = (XMI_ELEMENT_IS_A_DEPENDENCY),
-        .property_from            = "x-client",
-        .property_to              = "x-supplier",
+        .property_from            = "client",
+        .property_to              = "supplier",
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_MANIFEST] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
@@ -474,8 +478,8 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .profile_name             = NULL,
         .base_name                = "Manifestation",
         .is_a                     = (XMI_ELEMENT_IS_A_ABSTRACTION),
-        .property_from            = "x-client",
-        .property_to              = "x-supplier",
+        .property_from            = "client",
+        .property_to              = "supplier",
     },
 
     [XMI_ELEMENT_INFO_MAP_INDEX_EXTEND] = {
@@ -516,8 +520,8 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .profile_name             = "Refine",
         .base_name                = "Abstraction",
         .is_a                     = (XMI_ELEMENT_IS_A_ABSTRACTION),
-        .property_from            = "x-client",
-        .property_to              = "x-supplier",
+        .property_from            = "client",
+        .property_to              = "supplier",
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_TRACE] = {
         /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
@@ -526,8 +530,8 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .profile_name             = "Trace",
         .base_name                = "Abstraction",
         .is_a                     = (XMI_ELEMENT_IS_A_ABSTRACTION),
-        .property_from            = "x-client",
-        .property_to              = "x-supplier",
+        .property_from            = "client",
+        .property_to              = "supplier",
     },
 };
 

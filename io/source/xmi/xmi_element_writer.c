@@ -1,6 +1,8 @@
 /* File: xmi_element_writer.c; Copyright and License: see below */
 
 #include "xmi/xmi_element_writer.h"
+#include "xmi/xmi_element_info_map.h"
+#include "xmi/xmi_element_info.h"
 #include "util/string/utf8string.h"
 #include "data_id.h"
 #include "meta/meta_version.h"
@@ -333,6 +335,8 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data
     const size_t classifier_descr_len = utf8string_get_length(classifier_descr);
     const data_id_t classifier_id = data_classifier_get_data_id(classifier_ptr);
     const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier_ptr);
+    const xmi_element_info_t *classifier_info
+        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, classifier_type );
 
     switch ( (*this_).export_type )
     {
@@ -353,9 +357,12 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data
                 export_err |= xmi_element_writer_private_encode_xmi_id( this_, classifier_id );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_END );
 
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_START );
-                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_END );
+                if ( xmi_element_info_is_a_named_element( classifier_info ) )
+                {
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_START );
+                    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_END );
+                }
 
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
 
@@ -373,6 +380,14 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_, const data
     /* TODO */                                                                          "stereotype",
     /* TODO */                                                                          classifier_stereo
     /* TODO */                                                                        );
+                }
+                if ( ! xmi_element_info_is_a_named_element( classifier_info ) )
+                {
+                    export_err |= xmi_element_writer_private_write_xmi_comment( this_,
+                                                                                classifier_id,
+                                                                                "name",
+                                                                                classifier_name
+                                                                              );
                 }
                 if ( classifier_type == DATA_CLASSIFIER_TYPE_UML_COMMENT )
                 {
