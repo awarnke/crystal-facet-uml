@@ -136,71 +136,17 @@ const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *t
                                                          xmi_spec_t spec )
 {
     TRACE_BEGIN();
-    const char* result = "";
 
-    switch ( f_type )
-    {
-        case DATA_FEATURE_TYPE_PROPERTY:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Classification */
-            result = "Property";
-        }
-        break;
+    const xmi_element_info_t *e_info
+        = xmi_element_info_map_static_get_feature ( &xmi_element_info_map_standard, f_type );
+    assert ( e_info != NULL );
+    const char* result
+        = (( (spec & (XMI_SPEC_SYSML|XMI_SPEC_STANDARD)) != 0 )&&( (*e_info).profile_name != NULL ))
+        ? (*e_info).profile_name
+        : (*e_info).base_name;
+    assert ( result != NULL );
 
-        case DATA_FEATURE_TYPE_OPERATION:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Classification */
-            result = "Operation";
-        }
-        break;
-
-        case DATA_FEATURE_TYPE_PORT:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
-            result = "Port";
-        }
-        break;
-
-        case DATA_FEATURE_TYPE_LIFELINE:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Interactions */
-            result = "Lifeline";
-        }
-        break;
-
-        case DATA_FEATURE_TYPE_PROVIDED_INTERFACE:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
-            result = "Interface";
-        }
-        break;
-
-        case DATA_FEATURE_TYPE_REQUIRED_INTERFACE:
-        {
-            /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
-            result = "Interface";
-        }
-        break;
-
-        /*
-        case DATA_FEATURE_TYPE_TESTCASE:
-        {
-            / * spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements * /
-            result = XMI_TYPE_CONVERTER_NS_SYSML "TestCase";
-        }
-        break;
-        */
-
-        default:
-        {
-            TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", f_type );
-            assert( 0 );
-            result = "";
-        }
-        break;
-    }
-
-    TRACE_END_ERR( ('\0'==*result) ? -1 : 0 );
+    TRACE_END();
     return result;
 }
 

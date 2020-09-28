@@ -270,7 +270,70 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 static inline const xmi_element_info_t * xmi_element_info_map_static_get_feature ( const xmi_element_info_map_t *this_,
                                                                                    data_feature_type_t f_type )
 {
-    return NULL;
+    const xmi_element_info_t * result = NULL;
+
+    switch ( f_type )
+    {
+        case DATA_FEATURE_TYPE_PROPERTY:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_PROPERTY]);
+            assert ( (*result).data_type_checksum == (int)DATA_FEATURE_TYPE_PROPERTY );
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_OPERATION:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_OPERATION]);
+            assert ( (*result).data_type_checksum == (int)DATA_FEATURE_TYPE_OPERATION );
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_PORT:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_PORT]);
+            assert ( (*result).data_type_checksum == (int)DATA_FEATURE_TYPE_PORT );
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_LIFELINE:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_LIFELINE]);
+            assert ( (*result).data_type_checksum == (int)DATA_FEATURE_TYPE_LIFELINE );
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_PROVIDED_INTERFACE:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_PROVIDED_INTERFACE]);
+            assert ( (*result).data_type_checksum == (int)DATA_FEATURE_TYPE_PROVIDED_INTERFACE );
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_REQUIRED_INTERFACE:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_REQUIRED_INTERFACE]);
+            assert ( (*result).data_type_checksum == (int)DATA_FEATURE_TYPE_REQUIRED_INTERFACE );
+        }
+        break;
+
+        /*
+        case DATA_FEATURE_TYPE_TESTCASE:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_TESTCAS]);
+            assert ( (*result).data_type_checksum == (int)DATA_FEATURE_TYPE_TESTCASE );
+        }
+        break;
+        */
+
+        default:
+        {
+            TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", f_type );
+            assert( 0 );
+        }
+        break;
+    }
+
+    return result;
 }
 
 static inline const xmi_element_info_t * xmi_element_info_map_static_get_relationship ( const xmi_element_info_map_t *this_,

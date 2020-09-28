@@ -30,7 +30,7 @@ crystal_facet_uml manages a meta model:
 
 <itemizedlist>
     <listitem><para>Diagrams are organized as a tree, similar to a book's table-of-contents</para></listitem>
-    <listitem><para>Uml elements exist only once even if shown in many diagrams</para></listitem>
+    <listitem><para>Uml(TM)/SysML(TM) elements exist only once even if shown in many diagrams</para></listitem>
     <listitem><para>Relationships and features are consistent between all diagrams</para></listitem>
     <listitem><para>Diagram-local messages/transitions are supported in scenario-based diagrams</para>
         <para>(sequence, communication, timing)</para></listitem>
@@ -42,7 +42,7 @@ crystal_facet_uml exports diagrams as
     <listitem><para>vector graphics</para><para>(pdf, ps, svg)</para></listitem>
     <listitem><para>pixel graphics</para><para>(png)</para></listitem>
     <listitem><para>textual representation</para><para>(utf-8-txt, docbook, xhtml)</para></listitem>
-    <listitem><para>machine-readable model</para><para>(xmi)</para></listitem>
+    <listitem><para>machine-readable model</para><para>(xmi(TM))</para></listitem>
 </itemizedlist>
 
 crystal_facet_uml can also be started from command line

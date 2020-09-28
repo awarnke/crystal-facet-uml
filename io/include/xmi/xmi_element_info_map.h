@@ -54,6 +54,12 @@ enum xmi_element_info_map_index_enum {
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_SEND_SIGNAL,
 
     /* ================================ FEATURE ================================ */
+    XMI_ELEMENT_INFO_MAP_INDEX_PROPERTY,
+    XMI_ELEMENT_INFO_MAP_INDEX_OPERATION,
+    XMI_ELEMENT_INFO_MAP_INDEX_PORT,
+    XMI_ELEMENT_INFO_MAP_INDEX_LIFELINE,
+    XMI_ELEMENT_INFO_MAP_INDEX_PROVIDED_INTERFACE,
+    XMI_ELEMENT_INFO_MAP_INDEX_REQUIRED_INTERFACE,
 
     /* ================================ RELATIONSHIP ================================ */
     XMI_ELEMENT_INFO_MAP_INDEX_DEPENDENCY,
@@ -79,7 +85,7 @@ enum xmi_element_info_map_index_enum {
 
 typedef enum xmi_element_info_map_index_enum xmi_element_info_map_index_t;
 
-#define XMI_ELEMENT_INFO_MAP_INDEX_MAX (50)
+#define XMI_ELEMENT_INFO_MAP_INDEX_MAX (56)
 
 typedef xmi_element_info_t xmi_element_info_map_t[XMI_ELEMENT_INFO_MAP_INDEX_MAX];
 

@@ -527,6 +527,8 @@ int xmi_element_writer_write_feature( xmi_element_writer_t *this_, const data_fe
     const size_t feature_descr_len = utf8string_get_length(feature_descr);
     const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
     const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
+    const xmi_element_info_t *feature_info
+        = xmi_element_info_map_static_get_feature ( &xmi_element_info_map_standard, feature_type );
 
     switch ( (*this_).export_type )
     {
@@ -557,6 +559,14 @@ int xmi_element_writer_write_feature( xmi_element_writer_t *this_, const data_fe
                 export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_key );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_NAME_END );
 
+                if ( NULL != xmi_element_info_get_additional_properties( feature_info ) )
+                {
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
+                                                           xmi_element_info_get_additional_properties( feature_info )
+                                                         );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+                }
+
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
                 /*
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_COMMENT_START );
@@ -585,6 +595,7 @@ int xmi_element_writer_write_feature( xmi_element_writer_t *this_, const data_fe
                                                                                 feature_descr
                                                                               );
                 }
+                /* TODO: A Lifeline must have an interaction property */
 
                 xml_writer_decrease_indent ( &((*this_).xml_writer) );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
@@ -674,7 +685,6 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
                 }
 
-
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_MIDDLE );
                 /*
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_COMMENT_START );
@@ -696,7 +706,8 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
                 const char* from_type = xmi_type_converter_get_xmi_from_property_of_relationship ( &((*this_).xmi_types),
-                                                                                                 relation_type );
+                                                                                                   relation_type
+                                                                                                 );
                 export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), from_type );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
 
@@ -717,7 +728,8 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
                 const char* to_type = xmi_type_converter_get_xmi_to_property_of_relationship ( &((*this_).xmi_types),
-                                                                                                 relation_type );
+                                                                                               relation_type
+                                                                                             );
                 export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), to_type );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
 
