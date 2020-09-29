@@ -35,6 +35,11 @@ static inline const char * xmi_element_info_get_additional_properties ( const xm
     return (*this_).additional_properties;
 }
 
+static inline bool xmi_element_info_is_a_encapsulated_classifier ( const xmi_element_info_t *this_ )
+{
+    return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_ENCAPSULATED_CLASSIFIER ) == XMI_ELEMENT_IS_A_ENCAPSULATED_CLASSIFIER;
+}
+
 static inline bool xmi_element_info_is_a_classifier ( const xmi_element_info_t *this_ )
 {
     return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_CLASSIFIER ) == XMI_ELEMENT_IS_A_CLASSIFIER;

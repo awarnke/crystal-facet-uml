@@ -66,7 +66,7 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
     const char* result = NULL;
 
     const xmi_element_info_t *parent_info
-        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, parent_type, false /*guess*/ );
+        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, parent_type, false /*TODO: fix guess*/ );
     assert ( parent_info != NULL );
     const xmi_element_info_t *child_info
         = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, child_type, (parent_type==DATA_CLASSIFIER_TYPE_UML_STATE) );
@@ -150,24 +150,39 @@ const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *t
     return result;
 }
 
-const char* xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t *this_, data_feature_type_t f_type )
+int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t *this_,
+                                                            data_classifier_type_t parent_type,
+                                                            data_feature_type_t f_type,
+                                                            char const * *out_xmi_name )
 {
     TRACE_BEGIN();
-    const char* result = "";
+    assert( out_xmi_name != NULL );
+    const char* result = NULL;
+    int result_err = -1;
+
+    const xmi_element_info_t *parent_info
+        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, parent_type, false /*TODO: fix guess*/ );
+    assert ( parent_info != NULL );
 
     switch ( f_type )
     {
         case DATA_FEATURE_TYPE_PROPERTY:
         {
+            const bool p_is_interface = ( parent_type == DATA_CLASSIFIER_TYPE_UML_INTERFACE );
             /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.8.3.6 */
+            /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 10.5.5.4 */
             result = "ownedAttribute";
+            result_err = ( xmi_element_info_is_a_class(parent_info) || p_is_interface ) ? 0 : -1;
         }
         break;
 
         case DATA_FEATURE_TYPE_OPERATION:
         {
+            const bool p_is_interface = ( parent_type == DATA_CLASSIFIER_TYPE_UML_INTERFACE );
             /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.8.3.6 */
+            /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 10.5.5.4 */
             result = "ownedOperation";
+            result_err = ( xmi_element_info_is_a_class(parent_info) || p_is_interface ) ? 0 : -1;
         }
         break;
 
@@ -175,27 +190,42 @@ const char* xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_con
         {
             /* spec: https://www.omg.org/spec/UML/2.5.1/PDF ch 11.8.13.5 */
             result = "ownedPort";
+            result_err = xmi_element_info_is_a_encapsulated_classifier(parent_info) ? 0 : -1;
+            /*TODO ownedPort is a derived value*/
         }
         break;
 
         case DATA_FEATURE_TYPE_LIFELINE:
         {
-            /* spec: https://www.omg.org/spec/UML/2.5.1/PDF TODO lifelines are only loosely coupled with their classifiers */
-            result = "ownedBehavior";
+            /* spec: https://www.omg.org/spec/UML/2.5.1/PDF 17.3.2 */
+            /* TODO lifelines are only loosely coupled with their classifiers */
+            /* TODO: Lifeline has represents attribute*/
+            result = "lifeline";
+            result_err = -1; /* TODO: Lifelines work differently */
         }
         break;
 
         case DATA_FEATURE_TYPE_PROVIDED_INTERFACE:
         {
+            const bool p_is_component
+                = ( parent_type == DATA_CLASSIFIER_TYPE_UML_COMPONENT )
+                  ||( parent_type == DATA_CLASSIFIER_TYPE_UML_PART );
             /* spec: https://www.omg.org/spec/UML/2.5.1/PDF ch 11.6.2 */
             result = "provided";
+            result_err = p_is_component ? 0 : -1;
+            /*TODO provided is a derived value*/
         }
         break;
 
         case DATA_FEATURE_TYPE_REQUIRED_INTERFACE:
         {
+            const bool p_is_component
+                = ( parent_type == DATA_CLASSIFIER_TYPE_UML_COMPONENT )
+                  ||( parent_type == DATA_CLASSIFIER_TYPE_UML_PART );
             /* spec: https://www.omg.org/spec/UML/2.5.1/PDF ch 11.6.2 */
             result = "required";
+            result_err = p_is_component ? 0 : -1;
+            /*TODO required is a derived value*/
             /* TODO look out for ownedReception */
         }
         break;
@@ -213,13 +243,13 @@ const char* xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_con
         {
             TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", f_type );
             assert( 0 );
-            result = "";
         }
         break;
     }
 
-    TRACE_END_ERR( ('\0'==*result) ? -1 : 0 );
-    return result;
+    *out_xmi_name = (result==NULL) ? "" : result;
+    TRACE_END_ERR( result_err );
+    return result_err;
 }
 
 /* ================================ RELATIONSHIP ================================ */

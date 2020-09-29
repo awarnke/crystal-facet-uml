@@ -295,7 +295,7 @@ int xmi_element_writer_start_nested_classifier( xmi_element_writer_t *this_,
         if ( nesting_err != 0 )
         {
             /* The caller requested to write a classifier to an illegal place */
-            TSLOG_WARNING("xmi_element_writer: request to write a classifier to an illegal place!")
+            TRACE_INFO("xmi_element_writer: request to write a classifier to an illegal place!")
             /* update export statistics */
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
@@ -514,7 +514,9 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_,
     return export_err;
 }
 
-int xmi_element_writer_write_feature( xmi_element_writer_t *this_, const data_feature_t *feature_ptr )
+int xmi_element_writer_write_feature( xmi_element_writer_t *this_,
+                                      data_classifier_type_t parent_type,
+                                      const data_feature_t *feature_ptr )
 {
     TRACE_BEGIN();
     assert ( NULL != feature_ptr );
@@ -536,7 +538,37 @@ int xmi_element_writer_write_feature( xmi_element_writer_t *this_, const data_fe
         {
             if ( (*this_).mode == IO_WRITER_PASS_BASE )
             {
-                const char* owning_type = xmi_type_converter_get_xmi_owning_property_of_feature( &((*this_).xmi_types), feature_type );
+                /* determine nesting tag */
+                const char* owning_type;
+                const int owning_err
+                    = xmi_type_converter_get_xmi_owning_property_of_feature( &((*this_).xmi_types),
+                                                                             parent_type,
+                                                                             feature_type,
+                                                                             &owning_type
+                                                                           );
+                if ( owning_err != 0 )
+                {
+                    /* The caller requested to write a feature to an illegal place */
+                    TRACE_INFO("xmi_element_writer: request to write a feature to an illegal place!")
+                    /* update export statistics */
+                    data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+                    /* inform the user via an XML comment: */
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- ILLEGAL PARENT TYPE OF " );
+                    export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), feature_id );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->" );
+                    if ( feature_type == DATA_FEATURE_TYPE_LIFELINE )
+                    {
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- PROPOSAL: Look out for a newer version of crystal_facet_uml -->" );
+                        /* TODO */
+                    }
+                    else
+                    {
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- PROPOSAL: Pack the " );
+                        export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), feature_id );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " into a more suitable container or change its type -->" );
+                    }
+                }
+
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), owning_type );

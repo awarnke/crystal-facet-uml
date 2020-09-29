@@ -133,10 +133,16 @@ const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *t
  *  \brief gets a string representation of the xmi owning-type of a data_feature_type_t
  *
  *  \param this_ pointer to own object attributes
+ *  \param parent_type data_classifier_type_t of the parent of which the nesting-type shall be determined
  *  \param f_type data_feature_type_t of the child of which the owning-type shall be determined
- *  \result string representation of the owning-link type, empty string if not available
+ *  \param out_xmi_name representation of the owning-link type, even in case of a type mismatch a string is provided
+ *  \result 0 in case of success, -1 in case of type mismatch between parent and owned-child
  */
-const char* xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t *this_, data_feature_type_t f_type );
+int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t *this_,
+                                                            data_classifier_type_t parent_type,
+                                                            data_feature_type_t f_type,
+                                                            char const * *out_xmi_name
+                                                          );
 
 /* ================================ RELATIONSHIP ================================ */
 

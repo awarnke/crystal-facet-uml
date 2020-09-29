@@ -89,6 +89,14 @@ static inline const char * xmi_element_info_get_property_to ( const xmi_element_
 static inline const char * xmi_element_info_get_additional_properties ( const xmi_element_info_t *this_ );
 
 /*!
+ *  \brief checks if the type is a encapsulated_classifier.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if is_a has XMI_ELEMENT_IS_A_ENCAPSULATED_CLASSIFIER bits set
+ */
+static inline bool xmi_element_info_is_a_encapsulated_classifier ( const xmi_element_info_t *this_ );
+
+/*!
  *  \brief checks if the type is a classifier.
  *
  *  \param this_ pointer to own object attributes

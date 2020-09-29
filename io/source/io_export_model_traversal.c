@@ -354,6 +354,10 @@ int io_export_model_traversal_private_iterate_node_features ( io_export_model_tr
     assert( data_node_set_is_valid( node_data ) );
     int write_err = 0;
 
+    /* get parent classifier */
+    const data_classifier_t *const classifier
+        = data_node_set_get_classifier_const ( node_data );
+
     /* iterate over all features */
     const uint32_t count = data_node_set_get_feature_count ( node_data );
     for ( uint32_t index = 0; index < count; index ++ )
@@ -363,7 +367,10 @@ int io_export_model_traversal_private_iterate_node_features ( io_export_model_tr
         feature = data_node_set_get_feature_const ( node_data, index );
         if (( feature != NULL ) && ( data_feature_is_valid( feature ) ))
         {
-            write_err |=  xmi_element_writer_write_feature( (*this_).format_writer, feature );
+            write_err |=  xmi_element_writer_write_feature( (*this_).format_writer,
+                                                            data_classifier_get_main_type( classifier ),
+                                                            feature
+                                                          );
         }
         else
         {
