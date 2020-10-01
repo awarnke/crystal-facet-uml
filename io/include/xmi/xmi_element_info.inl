@@ -100,6 +100,12 @@ static inline bool xmi_element_info_is_a_class ( const xmi_element_info_t *this_
     return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_CLASS ) == XMI_ELEMENT_IS_A_CLASS;
 }
 
+static inline bool xmi_element_info_is_a_vertex ( const xmi_element_info_t *this_ )
+{
+    return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_VERTEX ) == XMI_ELEMENT_IS_A_VERTEX;
+}
+
+
 /*
 Copyright 2020-2020 Andreas Warnke
 

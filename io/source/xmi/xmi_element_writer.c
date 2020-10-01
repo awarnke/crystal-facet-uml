@@ -156,6 +156,10 @@ static const char XMI2_EXT_BASE_ELEMENT_END[]
     = "\" ";
 static const char XMI2_FALLBACK_NESTING_ELEMENT[]
     = "packagedElement";
+static const char XMI2_STATE_REGION_NESTING_STATE[]
+    = "region";
+static const char XMI2_STATE_REGION_TYPE[]
+    = "Region";
 
 void xmi_element_writer_init ( xmi_element_writer_t *this_,
                                data_database_reader_t *db_reader,
@@ -425,6 +429,26 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_,
                                                                                 "specification",
                                                                                 classifier_descr
                                                                               );
+                }
+
+                /* generate start of pseudo subelement region to statemachines and states */
+                if ( classifier_type == DATA_CLASSIFIER_TYPE_UML_STATE )
+                {
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_STATE_REGION_NESTING_STATE );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+                    xml_writer_increase_indent ( &((*this_).xml_writer) );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_START );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_XML_NS_UML );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_STATE_REGION_TYPE );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_END );
+
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_START );
+                    export_err |= xmi_element_writer_private_encode_xmi_id( this_, classifier_id );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "#region" );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_END );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
                 }
 
                 /* update export statistics */
@@ -850,6 +874,16 @@ int xmi_element_writer_end_nested_classifier( xmi_element_writer_t *this_,
 
     if ( (*this_).mode == IO_WRITER_PASS_BASE )
     {
+        /* generate end to pseudo subelement region to statemachines and states */
+        if ( classifier_type == DATA_CLASSIFIER_TYPE_UML_STATE )
+        {
+            xml_writer_decrease_indent ( &((*this_).xml_writer) );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_STATE_REGION_NESTING_STATE );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
+        }
+                
         /* determine nesting tag */
         const char* nesting_property;
         const int nesting_err

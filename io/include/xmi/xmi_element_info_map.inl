@@ -71,8 +71,16 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
 
         case DATA_CLASSIFIER_TYPE_UML_STATE:
         {
-            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_STATE]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_STATE );
+            if ( statemachine_context )
+            {
+                result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_STATE]);
+                assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_STATE );
+            }
+            else
+            {
+                result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_STATEMACHINE]);
+                assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_STATE );
+            }
         }
         break;
 

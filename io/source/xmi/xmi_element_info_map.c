@@ -95,6 +95,18 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .property_to              = NULL,
         .additional_properties    = NULL,
     },
+    [XMI_ELEMENT_INFO_MAP_INDEX_STATEMACHINE] = {
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StateMachines */
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 14.5.10 */
+        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_UML_STATE,
+        .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
+        .profile_name             = NULL,
+        .base_name                = "StateMachine",
+        .is_a                     = (XMI_ELEMENT_IS_A_BEHAVIOR),
+        .property_from            = NULL,
+        .property_to              = NULL,
+        .additional_properties    = NULL,
+    },
     [XMI_ELEMENT_INFO_MAP_INDEX_STATE] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StateMachines */
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 14.5.9 */
@@ -234,7 +246,8 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .is_a                     = (XMI_ELEMENT_IS_A_VERTEX),
         .property_from            = NULL,
         .property_to              = NULL,
-        .additional_properties    = "kind=\"initial\"",
+        /*.additional_properties    = "kind=\"initial\"",  -- the default value must not be written */
+        .additional_properties    = NULL,
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACTIVITY_FINAL_NODE] = {
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 15.7.3 */
