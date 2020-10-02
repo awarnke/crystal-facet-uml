@@ -278,71 +278,105 @@
                             <entry><para></para></entry>
                         </row>
                         <row>
-                            <entry><para>
+                            <entry>
+                                <para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_decision.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_decision.png"/></imageobject></mediaobject>
-                                Decision/Choice</para></entry>
+                                Decision/Choice
+                                </para>
+                            </entry>
                             <entry><para>UML 2.5 (ch14.2.4,15.3), SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>Activity, State / unconditional features</para></entry>
-                            <entry><para>In activity diagrams, this is called decision, in statesmachines it is called choice</para>
+                            <entry>
+                                <para>In activity diagrams, this is called decision, in statesmachines it is called choice</para>
+                                <para>XMI-Export/State-context: For xmi export, all states belonging to the same statemachine need an outer, enclosing state.</para>
                             </entry>
                         </row>
                         <row>
-                            <entry><para>
+                            <entry>
+                                <para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_initial.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_initial.png"/></imageobject></mediaobject>
-                                Initial Node</para></entry>
+                                Initial Node
+                                </para>
+                            </entry>
                             <entry><para>UML 2.5 (ch14.2.4)<!--spec 2.5 chapter 14.2.4-->, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>Activity, State / unconditional features</para></entry>
-                            <entry><para>Limitations: There is no distinction in ActivityInitial and FlowInitial</para>
+                            <entry>
+                                <para>Limitations: There is no distinction in ActivityInitial and FlowInitial</para>
                                 <para>Limitations: There is no separate entryPoint state-type</para>
+                                <para>XMI-Export/State-context: For xmi export, all states belonging to the same statemachine need an outer, enclosing state.</para>
                             </entry>
                         </row>
                         <row>
-                            <entry><para>
+                            <entry>
+                                <para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_final.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_final.png"/></imageobject></mediaobject>
-                                Final Node</para></entry>
+                                Final Node
+                                </para>
+                            </entry>
                             <entry><para>UML 2.5 (ch14.2.4), SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>Activity, State / unconditional features</para></entry>
-                            <entry><para>Limitations: There is no distinction in ActivityFinal and FlowFinal</para>
+                            <entry>
+                                <para>Limitations: There is no distinction in ActivityFinal and FlowFinal</para>
                                 <para>Limitations: There is no separate exitPoint and terminate state-type</para>
+                                <para>XMI-Export/State-context: For xmi export, all states belonging to the same statemachine need an outer, enclosing state.</para>
                             </entry>
                         </row>
                         <row>
-                            <entry><para>
+                            <entry>
+                                <para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_state.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_state.png"/></imageobject></mediaobject>
-                                State</para></entry>
+                                State
+                                </para>
+                            </entry>
                             <entry><para>UML 2.5 (ch14.2), SysML</para></entry>
                             <entry><para>State, Timing / -</para></entry>
-                            <entry><para>Limitations: No symbol for hidden decompositions, no regions (swimlanes) in composite states</para>
+                            <entry>
+                                <para>Limitations: No symbol for hidden decompositions, no regions (swimlanes) in composite states</para>
                                 <para>Limitations: entry/exit/do list</para>
-                                <para>Limitations: entryPoint and exitPoint states cannot be drawn on parent state border line</para></entry>
+                                <para>Limitations: entryPoint and exitPoint states cannot be drawn on parent state border line</para>
+                                <para>XMI-Export: For xmi export, all states belonging to the same statemachine need an outer, enclosing state.</para>
+                            </entry>
                         </row>
                         <row>
-                            <entry><para>
+                            <entry>
+                                <para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_history.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_history.png"/></imageobject></mediaobject>
-                                Shallow History</para></entry>
+                                Shallow History
+                                </para>
+                            </entry>
                             <entry><para>UML 2.5 (ch14.2.4), SysML</para></entry>
                             <entry><para>State / unconditional features</para></entry>
-                            <entry><para></para></entry>
+                            <entry>
+                                <para>XMI-Export: For xmi export, all states belonging to the same statemachine need an outer, enclosing state.</para>
+                            </entry>
                         </row>
                         <row>
-                            <entry><para>
+                            <entry>
+                                <para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_deephistory.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_deephistory.png"/></imageobject></mediaobject>
-                                Deep History</para></entry>
+                                Deep History
+                                </para>
+                            </entry>
                             <entry><para>UML 2.5 (ch14.2.4), SysML</para></entry>
                             <entry><para>State / unconditional features</para></entry>
-                            <entry><para></para></entry>
+                            <entry>
+                                <para>XMI-Export: For xmi export, all states belonging to the same statemachine need an outer, enclosing state.</para>
+                            </entry>
                         </row>
                         <row>
-                            <entry><para>
+                            <entry>
+                                <para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_undef.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_undef.png"/></imageobject></mediaobject>
-                                Value Type</para></entry>
+                                Value Type
+                                </para>
+                            </entry>
                             <entry><para>SysML<!--spec 1.5 chapter 8.2.1--></para></entry>
                             <entry><para>- / -</para></entry>
                             <entry><para>not supported.</para>
@@ -370,13 +404,17 @@
                             <entry><para>not supported.</para></entry>
                         </row>
                         <row>
-                            <entry><para>
+                            <entry>
+                                <para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_undef.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_undef.png"/></imageobject></mediaobject>
-                                MergeNode/Junction</para></entry>
+                                MergeNode/Junction
+                                </para>
+                            </entry>
                             <entry><para>UML 2.5 (ch15.3), SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>Activity, State / unconditional features</para></entry>
-                            <entry><para>In activity diagrams, it is called merge, in state diagrams junction node. This is not supported.</para>
+                            <entry>
+                                <para>In activity diagrams, it is called merge, in state diagrams junction node. This is not supported.</para>
                                 <para>Note: You may directly connect the arrows to the target activity/state.</para>
                             </entry>
                         </row>
