@@ -28,6 +28,7 @@ enum xmi_element_info_map_index_enum {
     XMI_ELEMENT_INFO_MAP_INDEX_USE_CASE,
     XMI_ELEMENT_INFO_MAP_INDEX_SYSTEM_BOUNDARY,
     XMI_ELEMENT_INFO_MAP_INDEX_ACTIVITY,
+    XMI_ELEMENT_INFO_MAP_INDEX_STATEMACHINE,  /*!< The outermost state is a statemachine */
     XMI_ELEMENT_INFO_MAP_INDEX_STATE,
     XMI_ELEMENT_INFO_MAP_INDEX_DIAGRAM_REFERENCE,
     XMI_ELEMENT_INFO_MAP_INDEX_NODE,
@@ -85,7 +86,7 @@ enum xmi_element_info_map_index_enum {
 
 typedef enum xmi_element_info_map_index_enum xmi_element_info_map_index_t;
 
-#define XMI_ELEMENT_INFO_MAP_INDEX_MAX (56)
+#define XMI_ELEMENT_INFO_MAP_INDEX_MAX (57)
 
 typedef xmi_element_info_t xmi_element_info_map_t[XMI_ELEMENT_INFO_MAP_INDEX_MAX];
 
