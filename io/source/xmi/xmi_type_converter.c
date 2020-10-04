@@ -69,6 +69,8 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
         = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, parent_type, false /*TODO: fix guess*/ );
     assert ( parent_info != NULL );
     const bool p_is_state = ( parent_type == DATA_CLASSIFIER_TYPE_UML_STATE );
+    const bool p_is_activity = ( parent_type == DATA_CLASSIFIER_TYPE_UML_ACTIVITY );
+    const bool p_is_interruptable_region = ( parent_type == DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION );
     const xmi_element_info_t *child_info
         = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, child_type, p_is_state );
     assert ( child_info != NULL );
@@ -94,9 +96,19 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
         /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 19.5.10.5 */
         result = "nestedNode";
     }
-    else if ( xmi_element_info_is_a_activity(parent_info) && xmi_element_info_is_a_activity_node(child_info) )
+    else if ( p_is_activity && xmi_element_info_is_a_activity_node(child_info) )
     {
         /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 15.7.1.5 */
+        result = "node";
+    }
+    else if ( p_is_activity && xmi_element_info_is_a_activity_group(child_info) )
+    {
+        /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 15.7.1.5 */
+        result = "group";
+    }
+    else if ( p_is_interruptable_region && xmi_element_info_is_a_activity_node(child_info) )
+    {
+        /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 15.7.19.4 */
         result = "node";
     }
     else if ( xmi_element_info_is_a_behaviored_classifier(parent_info) && xmi_element_info_is_a_behavior(child_info) )
@@ -119,7 +131,7 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
         /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 14.5.8 (note: states have an implicit Region) */
         result = "subvertex";
     }
-    
+
     *out_xmi_name = (result==NULL) ? "" : result;
     const int result_err = (result==NULL) ? -1 : 0;
     TRACE_END_ERR( result_err );

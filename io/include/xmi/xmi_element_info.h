@@ -153,12 +153,20 @@ static inline bool xmi_element_info_is_a_packageable_element ( const xmi_element
 static inline bool xmi_element_info_is_a_node ( const xmi_element_info_t *this_ );
 
 /*!
- *  \brief checks if the type is a activity.
+ *  \brief checks if the type is a activity group.
  *
  *  \param this_ pointer to own object attributes
- *  \return true if is_a has XMI_ELEMENT_IS_A_ACTIVITY bits set
+ *  \return true if is_a has XMI_ELEMENT_IS_A_ACTIVITY_GROUP bits set
  */
-static inline bool xmi_element_info_is_a_activity ( const xmi_element_info_t *this_ );
+static inline bool xmi_element_info_is_a_activity_group ( const xmi_element_info_t *this_ );
+
+/*!
+ *  \brief checks if the type is a activity edge.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if is_a has XMI_ELEMENT_IS_A_ACTIVITY_EDGE bits set
+ */
+static inline bool xmi_element_info_is_a_activity_edge ( const xmi_element_info_t *this_ );
 
 /*!
  *  \brief checks if the type is a activity_node.

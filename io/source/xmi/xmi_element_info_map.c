@@ -90,7 +90,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
         .base_name                = "Activity",  /* TODO: check type, isn't this an Action? */
-        .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY),
+        .is_a                     = (XMI_ELEMENT_IS_A_BEHAVIOR),
         .property_from            = NULL,
         .property_to              = NULL,
         .additional_properties    = NULL,
@@ -126,7 +126,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
         .base_name                = "Activity",  /* TODO: check type */
-        .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY),
+        .is_a                     = (XMI_ELEMENT_IS_A_BEHAVIOR),
         .property_from            = NULL,
         .property_to              = NULL,
         .additional_properties    = NULL,
@@ -220,7 +220,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
         .base_name                = "InterruptibleActivityRegion",
-        .is_a                     = (XMI_ELEMENT_IS_A_NAMED_ELEMENT),
+        .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY_GROUP),
         .property_from            = NULL,
         .property_to              = NULL,
         .additional_properties    = NULL,
@@ -352,7 +352,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
         .base_name                = "ActivityPartition",
-        .is_a                     = (XMI_ELEMENT_IS_A_NAMED_ELEMENT),
+        .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY_GROUP),
         .property_from            = NULL,
         .property_to              = NULL,
         .additional_properties    = NULL,
@@ -621,6 +621,14 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY_EDGE),
         .property_from            = "source",
         .property_to              = "target",
+#ifdef NDEBUG
+        .property_from            = "source",
+        .property_to              = "target",
+#else
+        /* the xmi validator does not like the tags according to spec */
+        .property_from            = "x-source",
+        .property_to              = "x-target",
+#endif
         .additional_properties    = NULL,
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_OBJECT_FLOW] = {
@@ -633,8 +641,14 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .profile_name             = NULL,
         .base_name                = "ObjectFlow",
         .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY_EDGE),
+#ifdef NDEBUG
         .property_from            = "source",
         .property_to              = "target",
+#else
+        /* the xmi validator does not like the tags according to spec */
+        .property_from            = "x-source",
+        .property_to              = "x-target",
+#endif
         .additional_properties    = NULL,
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_DEPLOY] = {

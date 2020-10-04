@@ -75,9 +75,14 @@ static inline bool xmi_element_info_is_a_node ( const xmi_element_info_t *this_ 
     return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_NODE ) == XMI_ELEMENT_IS_A_NODE;
 }
 
-static inline bool xmi_element_info_is_a_activity ( const xmi_element_info_t *this_ )
+static inline bool xmi_element_info_is_a_activity_group ( const xmi_element_info_t *this_ )
 {
-    return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_ACTIVITY ) == XMI_ELEMENT_IS_A_ACTIVITY;
+    return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_ACTIVITY_GROUP ) == XMI_ELEMENT_IS_A_ACTIVITY_GROUP;
+}
+
+static inline bool xmi_element_info_is_a_activity_edge ( const xmi_element_info_t *this_ )
+{
+    return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_ACTIVITY_EDGE ) == XMI_ELEMENT_IS_A_ACTIVITY_EDGE;
 }
 
 static inline bool xmi_element_info_is_a_activity_node ( const xmi_element_info_t *this_ )

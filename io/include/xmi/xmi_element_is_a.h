@@ -7,6 +7,9 @@
 /*!
  *  \file
  *  \brief Represents the part of the hierarchy of uml elements that is relevant for the xmi-export
+ *
+ *  Only base classes that have at least one descendant are covered;
+ *  there is no need to represent a class that has no children.
  */
 
 /*!
@@ -36,7 +39,7 @@ enum xmi_element_is_a_enum {
                                                           | XMI_ELEMENT_IS_A_BEHAVIORED_CLASSIFIER,  /*!< the type is a decendant of uml:Class */
     XMI_ELEMENT_IS_A_BEHAVIOR                = 0x00010000 | XMI_ELEMENT_IS_A_ENCAPSULATED_CLASSIFIER
                                                           | XMI_ELEMENT_IS_A_BEHAVIORED_CLASSIFIER,  /*!< the type is a decendant of uml:Behavior */
-    XMI_ELEMENT_IS_A_ACTIVITY                = 0x00020000 | XMI_ELEMENT_IS_A_BEHAVIOR,               /*!< the type is a decendant of uml:Activity */
+    XMI_ELEMENT_IS_A_ACTIVITY_GROUP          = 0x00020000 | XMI_ELEMENT_IS_A_NAMED_ELEMENT,          /*!< the type is a decendant of uml:ActivityGroup */
     XMI_ELEMENT_IS_A_ACTIVITY_NODE           = 0x00040000 | XMI_ELEMENT_IS_A_REDEFINEABLE_ELEMENT,   /*!< the type is a decendant of uml:ActivityNode */
     XMI_ELEMENT_IS_A_ACTIVITY_EDGE           = 0x00080000 | XMI_ELEMENT_IS_A_REDEFINEABLE_ELEMENT,   /*!< the type is a decendant of uml:ActivityEdge */
     XMI_ELEMENT_IS_A_NODE                    = 0x00100000 | XMI_ELEMENT_IS_A_CLASS
