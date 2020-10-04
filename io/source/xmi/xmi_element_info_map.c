@@ -40,9 +40,9 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_REQUIREMENT,
         .specification            = XMI_SPEC_SYSML,
 #ifdef NDEBUG
-        .profile_name             = "Requirement",  /* TODO check problems once more */
+        .profile_name             = "Requirement",
 #else
-        .profile_name             = "AbstractRequirement", /* the validation tool seems to not allow Requirement */
+        .profile_name             = "x-Requirement", /* the validation tool seems to not allow Requirement */
 #endif
         .base_name                = "Class",
         .is_a                     = (XMI_ELEMENT_IS_A_CLASS),
@@ -624,12 +624,13 @@ const xmi_element_info_map_t xmi_element_info_map_standard
 #ifdef NDEBUG
         .property_from            = "source",
         .property_to              = "target",
+        .additional_properties    = NULL,
 #else
-        /* the xmi validator does not like the tags according to spec */
+        /* the xmi validator does not like the tags aource and target */
         .property_from            = "x-source",
         .property_to              = "x-target",
+        .additional_properties    = "weight=\"1\" guard=\"true\"",
 #endif
-        .additional_properties    = NULL,
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_OBJECT_FLOW] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
@@ -644,12 +645,13 @@ const xmi_element_info_map_t xmi_element_info_map_standard
 #ifdef NDEBUG
         .property_from            = "source",
         .property_to              = "target",
+        .additional_properties    = NULL,
 #else
-        /* the xmi validator does not like the tags according to spec */
+        /* the xmi validator does not like the tags source and target */
         .property_from            = "x-source",
         .property_to              = "x-target",
+        .additional_properties    = "weight=\"1\" guard=\"true\"",
 #endif
-        .additional_properties    = NULL,
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_DEPLOY] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */

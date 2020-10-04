@@ -509,6 +509,14 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_,
 
                         xml_writer_decrease_indent ( &((*this_).xml_writer) );
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n</text>" );
+
+                        /*
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<master xmi:idref=\"" );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "1" );
+                        export_err |= xmi_element_writer_private_encode_xmi_id( this_, classifier_id );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\" />" );
+                        */
                     }
 
                     /*
