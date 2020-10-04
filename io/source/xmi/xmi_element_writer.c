@@ -298,7 +298,9 @@ int xmi_element_writer_start_nested_classifier( xmi_element_writer_t *this_,
                                                                        );
         if ( nesting_err != 0 )
         {
-            /* The caller requested to write a classifier to an illegal place */
+            /* The caller requested to write a classifier to an illegal place. */
+            /* This can happen in the fallback case. */
+            /* During the regular tree traversal, xmi_element_writer_can_classifier_nest_classifier is checked and adhered. */
             TRACE_INFO("xmi_element_writer: request to write a classifier to an illegal place!")
             /* update export statistics */
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
@@ -883,7 +885,7 @@ int xmi_element_writer_end_nested_classifier( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_STATE_REGION_NESTING_STATE );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
         }
-                
+
         /* determine nesting tag */
         const char* nesting_property;
         const int nesting_err

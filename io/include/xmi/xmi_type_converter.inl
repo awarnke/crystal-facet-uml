@@ -19,6 +19,7 @@ static inline bool xmi_type_converter_can_classifier_nest_classifier ( xmi_type_
 static inline bool xmi_type_converter_can_classifier_nest_relationships ( xmi_type_converter_t *this_,
                                                                           data_classifier_type_t parent_type )
 {
+    /* TODO: A UML_PACKAGE can only nest XMI_ELEMENT_IS_A_PACKAGEABLE_ELEMENT */
     return ( parent_type == DATA_CLASSIFIER_TYPE_UML_PACKAGE );
 }
 

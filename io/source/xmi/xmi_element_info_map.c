@@ -359,42 +359,58 @@ const xmi_element_info_map_t xmi_element_info_map_standard
     },
     */
     [XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACCEPT_EVENT] = {
-        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 13.4.1 */
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 16.14.2 */
+        /* spec-ref: https://www.omg.org/spec/SysML/1.6/PDF chapter 11.2 */
         .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT,
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
-        .base_name                = "AnyReceiveEvent",
-        .is_a                     = (XMI_ELEMENT_IS_A_EVENT),
+        .base_name                = "AcceptEventAction",
+        .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY_NODE),
         .property_from            = NULL,
         .property_to              = NULL,
         .additional_properties    = NULL,
+        /* TODO: property trigger is required */
+
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 13.4.9 */
         /*.base_name                = "SignalEvent", -- does not work: signal is a mandatory relation and is not available */
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 13.4.1 */
+        /*.base_name                = "AnyReceiveEvent", */
+        /*.is_a                     = (XMI_ELEMENT_IS_A_EVENT), */
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACCEPT_TIME_EVENT] = {
-        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: CommonBehavior */
-        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 13.4.10 */
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 16.14.2 */
+        /* spec-ref: https://www.omg.org/spec/SysML/1.6/PDF chapter 11.2 */
+        /* A Time Event is a AcceptEventAction referencing a Trigger referencint a TimeEvent */
         .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT,
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
-        .base_name                = "TimeEvent",
-        .is_a                     = (XMI_ELEMENT_IS_A_EVENT),
+        .base_name                = "AcceptEventAction",
+        .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY_NODE),
         .property_from            = NULL,
         .property_to              = NULL,
         .additional_properties    = NULL,
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: CommonBehavior */
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 13.4.10 */
+        /*.base_name                = "TimeEvent", */
+        /*.is_a                     = (XMI_ELEMENT_IS_A_EVENT), */
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_DYN_SEND_SIGNAL] = {
-        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
-        /* "Signal"; */
-        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 10.5.9 */
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 16.14.50 */
+        /* spec-ref: https://www.omg.org/spec/SysML/1.6/PDF chapter 11.2 */
         .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL,
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
-        .base_name                = "Signal",
-        .is_a                     = (XMI_ELEMENT_IS_A_CLASSIFIER),
+        .base_name                = "SendSignalAction",
+        .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY_NODE),
         .property_from            = NULL,
         .property_to              = NULL,
         .additional_properties    = NULL,
+        /* TODO: properties signal and target are required */
+
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 10.5.9 */
+        /* "Signal"; */
+        /*.is_a                     = (XMI_ELEMENT_IS_A_CLASSIFIER), */
     },
 
     /* ================================ FEATURE ================================ */

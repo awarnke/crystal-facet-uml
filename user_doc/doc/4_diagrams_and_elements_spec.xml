@@ -230,7 +230,9 @@
                                 Interruptable Region</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>Activity / unconditional features</para></entry>
-                            <entry><para></para></entry>
+                            <entry>
+                                <para>XMI-Export: For xmi export, all regions belonging to the same set of activities need an outer, enclosing activity.</para>
+                            </entry>
                         </row>
                         <row>
                             <entry><para>
@@ -239,7 +241,9 @@
                                 Fork</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>Activity / unconditional features</para></entry>
-                            <entry><para></para></entry>
+                            <entry>
+                                <para>XMI-Export: For xmi export, all activity-nodes belonging to the same set of activities need an outer, enclosing activity.</para>
+                            </entry>
                         </row>
                         <row>
                             <entry><para>
@@ -248,7 +252,9 @@
                                 Join</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>Activity / unconditional features</para></entry>
-                            <entry><para></para></entry>
+                            <entry>
+                                <para>XMI-Export: For xmi export, all activity-nodes belonging to the same set of activities need an outer, enclosing activity.</para>
+                            </entry>
                         </row>
                         <row>
                             <entry><para>
@@ -257,7 +263,9 @@
                                 Accept Event</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>Activity / unconditional features</para></entry>
-                            <entry><para></para></entry>
+                            <entry>
+                                <para>XMI-Export: For xmi export, all activity-nodes belonging to the same set of activities need an outer, enclosing activity.</para>
+                            </entry>
                         </row>
                         <row>
                             <entry><para>
@@ -266,7 +274,9 @@
                                 Accept Time Event</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>Activity / unconditional features</para></entry>
-                            <entry><para></para></entry>
+                            <entry>
+                                <para>XMI-Export: For xmi export, all activity-nodes belonging to the same set of activities need an outer, enclosing activity.</para>
+                            </entry>
                         </row>
                         <row>
                             <entry><para>
@@ -275,7 +285,9 @@
                                 Send Signal</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>Activity / unconditional features</para></entry>
-                            <entry><para></para></entry>
+                            <entry>
+                                <para>XMI-Export: For xmi export, all activity-nodes belonging to the same set of activities need an outer, enclosing activity.</para>
+                            </entry>
                         </row>
                         <row>
                             <entry>
@@ -288,8 +300,9 @@
                             <entry><para>UML 2.5 (ch14.2.4,15.3), SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>Activity, State / unconditional features</para></entry>
                             <entry>
-                                <para>In activity diagrams, this is called decision, in statesmachines it is called choice</para>
+                                <para>In activity diagrams, this is called decision, in statesmachines it is called choice.</para>
                                 <para>XMI-Export/State-context: For xmi export, all states belonging to the same statemachine need an outer, enclosing state.</para>
+                                <para>XMI-Export/Activity-context: For xmi export, all activity-nodes belonging to the same set of activities need an outer, enclosing activity.</para>
                             </entry>
                         </row>
                         <row>
@@ -303,9 +316,10 @@
                             <entry><para>UML 2.5 (ch14.2.4)<!--spec 2.5 chapter 14.2.4-->, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>Activity, State / unconditional features</para></entry>
                             <entry>
-                                <para>Limitations: There is no distinction in ActivityInitial and FlowInitial</para>
-                                <para>Limitations: There is no separate entryPoint state-type</para>
+                                <para>Limitations: There is no distinction in ActivityInitial and FlowInitial.</para>
+                                <para>Limitations: There is no separate entryPoint state-type.</para>
                                 <para>XMI-Export/State-context: For xmi export, all states belonging to the same statemachine need an outer, enclosing state.</para>
+                                <para>XMI-Export/Activity-context: For xmi export, all activity-nodes belonging to the same set of activities need an outer, enclosing activity.</para>
                             </entry>
                         </row>
                         <row>
@@ -319,9 +333,10 @@
                             <entry><para>UML 2.5 (ch14.2.4), SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>Activity, State / unconditional features</para></entry>
                             <entry>
-                                <para>Limitations: There is no distinction in ActivityFinal and FlowFinal</para>
-                                <para>Limitations: There is no separate exitPoint and terminate state-type</para>
+                                <para>Limitations: There is no distinction in ActivityFinal and FlowFinal.</para>
+                                <para>Limitations: There is no separate exitPoint and terminate state-type.</para>
                                 <para>XMI-Export/State-context: For xmi export, all states belonging to the same statemachine need an outer, enclosing state.</para>
+                                <para>XMI-Export/Activity-context: For xmi export, all activity-nodes belonging to the same set of activities need an outer, enclosing activity.</para>
                             </entry>
                         </row>
                         <row>
@@ -335,9 +350,9 @@
                             <entry><para>UML 2.5 (ch14.2), SysML</para></entry>
                             <entry><para>State, Timing / -</para></entry>
                             <entry>
-                                <para>Limitations: No symbol for hidden decompositions, no regions (swimlanes) in composite states</para>
-                                <para>Limitations: entry/exit/do list</para>
-                                <para>Limitations: entryPoint and exitPoint states cannot be drawn on parent state border line</para>
+                                <para>Limitations: No symbol for hidden decompositions, no regions (swimlanes) in composite states.</para>
+                                <para>Limitations: entry/exit/do list.</para>
+                                <para>Limitations: entryPoint and exitPoint states cannot be drawn on parent state border line.</para>
                                 <para>XMI-Export: For xmi export, all states belonging to the same statemachine need an outer, enclosing state.</para>
                             </entry>
                         </row>
@@ -483,7 +498,7 @@
                                     Property</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 9.2.1--></para></entry>
                             <entry><para>unconditional</para></entry>
-                            <entry><para>Limitations: no SysML Flow-Properties refinement</para></entry>
+                            <entry><para>Limitations: no SysML Flow-Properties refinement.</para></entry>
                         </row>
                         <row>
                             <entry><para>
@@ -501,10 +516,10 @@
                                     Port</para></entry>
                             <entry><para>UML<!--spec 2.5 chapter 11.3-->, SysML<!--spec 1.5 chapter 9.2.1--></para></entry>
                             <entry><para>unconditional</para></entry>
-                            <entry><para>Limitations: no SysML-compartment Notation supported</para>
-                                <para>Limitations: no SysML-nested-ports, SysML-proxy-port, SysML full-ports supported</para>
-                                <para>Limitations: no flow property, no compartment notation, no port-compartments</para>
-                                <para>Limitations: no UML behavior ports</para>
+                            <entry><para>Limitations: no SysML-compartment Notation supported.</para>
+                                <para>Limitations: no SysML-nested-ports, SysML-proxy-port, SysML full-ports supported.</para>
+                                <para>Limitations: no flow property, no compartment notation, no port-compartments.</para>
+                                <para>Limitations: no UML behavior ports.</para>
                             </entry>
                         </row>
                         <row>
@@ -532,9 +547,10 @@
                                     Lifeline</para></entry>
                             <entry><para>UML 2.5 (ch17.2), SysML</para></entry>
                             <entry><para>scenario, 1 per diagram</para></entry>
-                            <entry><para>Limitations: One lifeline is visible only in one diagram</para>
-                                <para>Limitations: Lifelines start and end only at diagram border</para>
-                                <para>Limitations: ExecutionSpecification (ActivityBar) are not supported</para>
+                            <entry><para>Limitations: One lifeline is visible only in one diagram.</para>
+                                <para>Limitations: Lifelines start and end only at diagram border.</para>
+                                <para>Limitations: ExecutionSpecification (ActivityBar) are not supported.</para>
+                                <para>XMI-Export: For xmi export, lifelines are not yet supported.</para>
                             </entry>
                         </row>
                     </tbody>
