@@ -138,36 +138,6 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
     return result_err;
 }
 
-/* ================================ FEATURE ================================ */
-
-xmi_spec_t xmi_type_converter_get_xmi_spec_of_feature ( xmi_type_converter_t *this_, data_feature_type_t f_type )
-{
-    TRACE_BEGIN();
-    xmi_spec_t result = XMI_SPEC_UML;  /* all currently known features are defined in the uml specification */
-
-    TRACE_END();
-    return result;
-}
-
-const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *this_,
-                                                         data_feature_type_t f_type,
-                                                         xmi_spec_t spec )
-{
-    TRACE_BEGIN();
-
-    const xmi_element_info_t *e_info
-        = xmi_element_info_map_static_get_feature ( &xmi_element_info_map_standard, f_type );
-    assert ( e_info != NULL );
-    const char* result
-        = (( (spec & (XMI_SPEC_SYSML|XMI_SPEC_STANDARD)) != 0 )&&( (*e_info).profile_name != NULL ))
-        ? (*e_info).profile_name
-        : (*e_info).base_name;
-    assert ( result != NULL );
-
-    TRACE_END();
-    return result;
-}
-
 int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t *this_,
                                                             data_classifier_type_t parent_type,
                                                             data_feature_type_t f_type,
@@ -268,6 +238,76 @@ int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t
     *out_xmi_name = (result==NULL) ? "" : result;
     TRACE_END_ERR( result_err );
     return result_err;
+}
+
+int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                  data_classifier_type_t parent_type,
+                                                                  data_relationship_type_t child_type,
+                                                                  char const * *out_xmi_name )
+{
+    TRACE_BEGIN();
+    assert( out_xmi_name != NULL );
+    const char* result = NULL;
+
+    const xmi_element_info_t *parent_info
+        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, parent_type, false /*TODO: fix guess*/ );
+    assert ( parent_info != NULL );
+    /*
+    const bool p_is_state = ( parent_type == DATA_CLASSIFIER_TYPE_UML_STATE );
+    const bool p_is_activity = ( parent_type == DATA_CLASSIFIER_TYPE_UML_ACTIVITY );
+    const bool p_is_interruptable_region = ( parent_type == DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION );
+    */
+    const xmi_element_info_t *child_info
+        = xmi_element_info_map_static_get_relationship ( &xmi_element_info_map_standard, child_type );
+    assert ( child_info != NULL );
+    const bool c_is_generalization = ( child_type == DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION );
+
+    if ( xmi_element_info_is_a_package(parent_info) && xmi_element_info_is_a_packageable_element(child_info) )
+    {
+        /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 12.4.5.6 */
+        result = "packagedElement";
+    }
+    else if ( xmi_element_info_is_a_classifier(parent_info) && c_is_generalization )
+    {
+        /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.9.4 */
+        result = "generalization";
+    }
+    /* TODO */
+
+    *out_xmi_name = (result==NULL) ? "" : result;
+    const int result_err = (result==NULL) ? -1 : 0;
+    TRACE_END_ERR( result_err );
+    return result_err;
+}
+
+/* ================================ FEATURE ================================ */
+
+xmi_spec_t xmi_type_converter_get_xmi_spec_of_feature ( xmi_type_converter_t *this_, data_feature_type_t f_type )
+{
+    TRACE_BEGIN();
+    xmi_spec_t result = XMI_SPEC_UML;  /* all currently known features are defined in the uml specification */
+
+    TRACE_END();
+    return result;
+}
+
+const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *this_,
+                                                         data_feature_type_t f_type,
+                                                         xmi_spec_t spec )
+{
+    TRACE_BEGIN();
+
+    const xmi_element_info_t *e_info
+        = xmi_element_info_map_static_get_feature ( &xmi_element_info_map_standard, f_type );
+    assert ( e_info != NULL );
+    const char* result
+        = (( (spec & (XMI_SPEC_SYSML|XMI_SPEC_STANDARD)) != 0 )&&( (*e_info).profile_name != NULL ))
+        ? (*e_info).profile_name
+        : (*e_info).base_name;
+    assert ( result != NULL );
+
+    TRACE_END();
+    return result;
 }
 
 /* ================================ RELATIONSHIP ================================ */

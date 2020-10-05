@@ -72,7 +72,7 @@ void xmi_element_writer_destroy( xmi_element_writer_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param mode mode how to convert a data object to the output format, e.g. uml-basic or profile-extension
  */
-void xmi_element_writer_set_mode( xmi_element_writer_t *this_, io_writer_pass_t mode );
+static inline void xmi_element_writer_set_mode( xmi_element_writer_t *this_, io_writer_pass_t mode );
 
 /*!
  *  \brief writes the header of the document
@@ -102,10 +102,10 @@ int xmi_element_writer_start_main( xmi_element_writer_t *this_, const char *docu
  *  \param child_type data_classifier_type_t of the nested child of which the nesting-ability shall be determined
  *  \result true if nesting is allowed
  */
-bool xmi_element_writer_can_classifier_nest_classifier ( xmi_element_writer_t *this_,
-                                                         data_classifier_type_t parent_type,
-                                                         data_classifier_type_t child_type
-                                                       );
+static inline bool xmi_element_writer_can_classifier_nest_classifier ( xmi_element_writer_t *this_,
+                                                                       data_classifier_type_t parent_type,
+                                                                       data_classifier_type_t child_type
+                                                                     );
 
 /*!
  *  \brief writes a classifier start
@@ -153,20 +153,24 @@ int xmi_element_writer_write_feature( xmi_element_writer_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_type data_classifier_type_t of the parent of which the nesting-ability shall be determined
+ *  \param child_type data_relationship_type_t of the nested child of which the nesting-ability shall be determined
  *  \result true if nesting or any relationship is allowed
  */
-bool xmi_element_writer_can_classifier_nest_relationships ( xmi_element_writer_t *this_,
-                                                            data_classifier_type_t parent_type
-                                                          );
+static inline bool xmi_element_writer_can_classifier_nest_relationship ( xmi_element_writer_t *this_,
+                                                                         data_classifier_type_t parent_type,
+                                                                         data_relationship_type_t child_type
+                                                                       );
 
 /*!
  *  \brief writes a relationship of the document
  *
  *  \param this_ pointer to own object attributes
+ *  \param parent_type type of the parent classifier, needed for xmi export
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
  *  \result 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
+                                           data_classifier_type_t parent_type,
                                            const data_relationship_t *relation_ptr
                                          );
 
@@ -176,7 +180,7 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
  *  This ends a division that contains a classifier and a list of features and relationships
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classiier, needed for xmi export
+ *  \param parent_type type of the parent classifier, needed for xmi export
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \result 0 in case of success, -1 otherwise
  */
@@ -228,6 +232,8 @@ int xmi_element_writer_private_write_xmi_comment( xmi_element_writer_t *this_,
 int xmi_element_writer_private_encode_xmi_id( xmi_element_writer_t *this_,
                                               data_id_t element_id
                                             );
+
+#include "xmi_element_writer.inl"
 
 #endif  /* XMI_ELEMENT_WRITER_H */
 

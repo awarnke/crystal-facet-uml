@@ -4,23 +4,32 @@
 
 /* ================================ CLASSIFIER ================================ */
 
-static inline bool xmi_type_converter_can_classifier_nest_classifier ( xmi_type_converter_t *this_,
-                                                                       data_classifier_type_t parent_type,
-                                                                       data_classifier_type_t child_type )
+static inline bool xmi_type_converter_can_nest_classifier ( xmi_type_converter_t *this_,
+                                                            data_classifier_type_t parent_type,
+                                                            data_classifier_type_t child_type )
 {
     char const * xmi_name;
-    return ( 0 == xmi_type_converter_get_xmi_nesting_property_of_classifier ( this_,
-                                                                              parent_type,
-                                                                              child_type,
-                                                                              &xmi_name
-                                                                            ) );
+    const int err_code
+        = xmi_type_converter_get_xmi_nesting_property_of_classifier ( this_,
+                                                                      parent_type,
+                                                                      child_type,
+                                                                      &xmi_name
+                                                                    );
+    return ( 0 == err_code );
 }
 
-static inline bool xmi_type_converter_can_classifier_nest_relationships ( xmi_type_converter_t *this_,
-                                                                          data_classifier_type_t parent_type )
+static inline bool xmi_type_converter_can_nest_relationship ( xmi_type_converter_t *this_,
+                                                              data_classifier_type_t parent_type,
+                                                              data_relationship_type_t child_type )
 {
-    /* TODO: A UML_PACKAGE can only nest XMI_ELEMENT_IS_A_PACKAGEABLE_ELEMENT */
-    return ( parent_type == DATA_CLASSIFIER_TYPE_UML_PACKAGE );
+    char const * xmi_name;
+    const int err_code
+        = xmi_type_converter_get_xmi_nesting_property_of_relationship ( this_,
+                                                                        parent_type,
+                                                                        child_type,
+                                                                        &xmi_name
+                                                                      );
+    return ( 0 == err_code );
 }
 
 /* ================================ FEATURE ================================ */

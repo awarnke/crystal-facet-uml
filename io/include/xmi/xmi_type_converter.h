@@ -68,7 +68,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
                                                           );
 
 /*!
- *  \brief gets a string representation of the xmi nesting-type of a data_classifier_type_t
+ *  \brief gets a string representation of a classifiers nesting-type of a child classifier
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_type data_classifier_type_t of the parent of which the nesting-type shall be determined
@@ -89,21 +89,53 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
  *  \param child_type data_classifier_type_t of the nested child of which the nesting-ability shall be determined
  *  \result true if nesting is allowed
  */
-static inline bool xmi_type_converter_can_classifier_nest_classifier ( xmi_type_converter_t *this_,
-                                                                       data_classifier_type_t parent_type,
-                                                                       data_classifier_type_t child_type
-                                                                     );
+static inline bool xmi_type_converter_can_nest_classifier ( xmi_type_converter_t *this_,
+                                                            data_classifier_type_t parent_type,
+                                                            data_classifier_type_t child_type
+                                                          );
 
 /*!
- *  \brief checks if a parent classifier may nest relationships
+ *  \brief gets a string representation of a classifiers owning-type of a feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_type data_classifier_type_t of the parent of which the nesting-type shall be determined
+ *  \param f_type data_feature_type_t of the child of which the owning-type shall be determined
+ *  \param out_xmi_name representation of the owning-link type, even in case of a type mismatch a string is provided
+ *  \result 0 in case of success, -1 in case of type mismatch between parent and owned-child
+ */
+int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t *this_,
+                                                            data_classifier_type_t parent_type,
+                                                            data_feature_type_t f_type,
+                                                            char const * *out_xmi_name
+                                                          );
+
+/*!
+ *  \brief gets a string representation of a classifiers nesting-type of a relationship
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_type data_classifier_type_t of the parent of which the nesting-type shall be determined
+ *  \param child_type data_relationship_type_t of the nested child of which the nesting-type shall be determined
+ *  \param out_xmi_name representation of the nesting-link type, empty string if not available
+ *  \result 0 in case of success
+ */
+int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                  data_classifier_type_t parent_type,
+                                                                  data_relationship_type_t child_type,
+                                                                  char const * *out_xmi_name
+                                                                );
+
+/*!
+ *  \brief checks if a parent classifier may nest a child relationship
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_type data_classifier_type_t of the parent of which the nesting-ability shall be determined
+ *  \param child_type data_relationship_type_t of the nested child of which the nesting-ability shall be determined
  *  \result true if nesting or any relationship is allowed
  */
-static inline bool xmi_type_converter_can_classifier_nest_relationships ( xmi_type_converter_t *this_,
-                                                                          data_classifier_type_t parent_type
-                                                                        );
+static inline bool xmi_type_converter_can_nest_relationship ( xmi_type_converter_t *this_,
+                                                              data_classifier_type_t parent_type,
+                                                              data_relationship_type_t child_type
+                                                            );
 
 /* ================================ FEATURE ================================ */
 
@@ -128,21 +160,6 @@ const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *t
                                                          data_feature_type_t f_type,
                                                          xmi_spec_t spec
                                                        );
-
-/*!
- *  \brief gets a string representation of the xmi owning-type of a data_feature_type_t
- *
- *  \param this_ pointer to own object attributes
- *  \param parent_type data_classifier_type_t of the parent of which the nesting-type shall be determined
- *  \param f_type data_feature_type_t of the child of which the owning-type shall be determined
- *  \param out_xmi_name representation of the owning-link type, even in case of a type mismatch a string is provided
- *  \result 0 in case of success, -1 in case of type mismatch between parent and owned-child
- */
-int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t *this_,
-                                                            data_classifier_type_t parent_type,
-                                                            data_feature_type_t f_type,
-                                                            char const * *out_xmi_name
-                                                          );
 
 /* ================================ RELATIONSHIP ================================ */
 

@@ -103,14 +103,8 @@ static const char XMI2_UML_MODEL_MIDDLE[]
     = ">";
 static const char XMI2_UML_MODEL_END[]
     = "\n</uml:Model>";
-/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 12.3.5 */
-static const char XMI2_UML_PACKAGED_ELEMENT_START[]
-    = "\n<packagedElement ";
-static const char XMI2_UML_PACKAGED_ELEMENT_MIDDLE[]
-    = ">";
-static const char XMI2_UML_PACKAGED_ELEMENT_END[]
-    = "\n</packagedElement>";
-/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.4 */
+
+    /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.4 */
 static const char XMI2_UML_OWNED_COMMENT_START[]
     = "\n<ownedComment ";
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.4 */
@@ -119,7 +113,8 @@ static const char XMI2_UML_OWNED_COMMENT_MIDDLE[]
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.4 */
 static const char XMI2_UML_OWNED_COMMENT_END[]
     = "\n</ownedComment>";
-/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.2 */
+
+    /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.2 */
 static const char XMI2_UML_COMMENT_BODY_START[]
     = "\n<body>";
 static const char XMI2_UML_COMMENT_BODY_END[]
@@ -129,6 +124,7 @@ static const char XMI2_UML_ANNOTATED_ELEMENT_START[]
     = "\n<annotatedElement ";
 static const char XMI2_UML_ANNOTATED_ELEMENT_END[]
     = "/>";
+
 /* spec-ref: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Packages */
 /*
 static const char XMI2_UML_STEREOTYPE_START[]
@@ -138,15 +134,7 @@ static const char XMI2_UML_STEREOTYPE_MIDDLE[]
 static const char XMI2_UML_STEREOTYPE_END[]
     = "\n</ownedStereotype>";
 */
-/* spec-ref: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Behavior */
-/*
-static const char XMI2_UML_SPECIFICATION_START[]
-    = "\n<specification ";
-static const char XMI2_UML_SPECIFICATION_MIDDLE[]
-    = ">";
-static const char XMI2_UML_SPECIFICATION_END[]
-    = "\n</specification>";
-*/
+
 /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: all */
 static const char XMI2_EXT_BASE_ELEMENT_START[]
     = "base_";
@@ -154,8 +142,10 @@ static const char XMI2_EXT_BASE_ELEMENT_MIDDLE[]
     = "=\"";
 static const char XMI2_EXT_BASE_ELEMENT_END[]
     = "\" ";
+
 static const char XMI2_FALLBACK_NESTING_ELEMENT[]
     = "packagedElement";
+
 static const char XMI2_STATE_REGION_NESTING_STATE[]
     = "region";
 static const char XMI2_STATE_REGION_TYPE[]
@@ -190,11 +180,6 @@ void xmi_element_writer_destroy( xmi_element_writer_t *this_ )
     xml_writer_destroy( &((*this_).xml_writer) );
 
     TRACE_END();
-}
-
-void xmi_element_writer_set_mode( xmi_element_writer_t *this_, io_writer_pass_t mode )
-{
-    (*this_).mode = mode;
 }
 
 int xmi_element_writer_write_header( xmi_element_writer_t *this_, const char *document_title )
@@ -263,18 +248,6 @@ int xmi_element_writer_start_main( xmi_element_writer_t *this_, const char *docu
 
     TRACE_END_ERR( export_err );
     return export_err;
-}
-
-bool xmi_element_writer_can_classifier_nest_classifier ( xmi_element_writer_t *this_,
-                                                         data_classifier_type_t parent_type,
-                                                         data_classifier_type_t child_type )
-{
-    TRACE_BEGIN();
-
-    const bool result = xmi_type_converter_can_classifier_nest_classifier( &((*this_).xmi_types), parent_type, child_type );
-
-    TRACE_END( );
-    return result;
 }
 
 int xmi_element_writer_start_nested_classifier( xmi_element_writer_t *this_,
@@ -687,18 +660,8 @@ int xmi_element_writer_write_feature( xmi_element_writer_t *this_,
     return export_err;
 }
 
-bool xmi_element_writer_can_classifier_nest_relationships ( xmi_element_writer_t *this_,
-                                                            data_classifier_type_t parent_type )
-{
-    TRACE_BEGIN();
-
-    const bool result = xmi_type_converter_can_classifier_nest_relationships( &((*this_).xmi_types), parent_type );
-
-    TRACE_END();
-    return result;
-}
-
 int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
+                                           data_classifier_type_t parent_type,
                                            const data_relationship_t *relation_ptr )
 {
     TRACE_BEGIN();
@@ -724,7 +687,45 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
         {
             if ( (*this_).mode == IO_WRITER_PASS_BASE )
             {
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_START );
+                /* determine nesting tag */
+                const char* nesting_property;
+                const int nesting_err
+                    = xmi_type_converter_get_xmi_nesting_property_of_relationship( &((*this_).xmi_types),
+                                                                                   parent_type,
+                                                                                   relation_type,
+                                                                                   &nesting_property
+                                                                                 );
+                if ( nesting_err != 0 )
+                {
+                    /* The caller requested to write a relationship to an illegal place */
+                    TRACE_INFO("xmi_element_writer: request to write a relationship to an illegal place!")
+                    /* update export statistics */
+                    data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+                    /* inform the user via an XML comment: */
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- COMMENT ON UML-COMPLIANCE: Unsuitable parent type of " );
+                    export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), relation_id );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->" );
+                    /*
+                    if ( feature_type == DATA_FEATURE_TYPE_LIFELINE )
+                    {
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- PROPOSAL: None, maybe there is a fix in a future version of crystal_facet_uml -->" );
+                    }
+                    else
+                    */
+                    {
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- PROPOSAL: Change either the " );
+                        export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), relation_id );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " or the classifier at its source end to a more suitable type -->" );
+                        /* classifier types at target end are not yet checked */
+                    }
+                    /* use a fallback */
+                    nesting_property = XMI2_FALLBACK_NESTING_ELEMENT;
+                }
+
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), nesting_property );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
 
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_START );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_XML_NS_UML );
@@ -751,7 +752,7 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
                 }
 
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_MIDDLE );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
                 /*
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_COMMENT_START );
                 export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), relation_id );
@@ -813,7 +814,10 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
 
                 xml_writer_decrease_indent ( &((*this_).xml_writer) );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_PACKAGED_ELEMENT_END );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), nesting_property );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
 
                 /* update export statistics */
                 data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );

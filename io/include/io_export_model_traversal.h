@@ -177,10 +177,16 @@ int io_export_model_traversal_private_iterate_node_features ( io_export_model_tr
  *  \brief iterates over relationships of a classifier.
  *
  *  \param this_ pointer to own object attributes
+ *  \param nested_to_foreign_node true, if nested to a foreign node, e.g. the outer model,
+ *         false is nested to node_data.
+ *  \param nesting_type type of the nesting classifier,
+ *         if node_data is the nesting parent, classifier type of node_data.
  *  \param node_data node data of the from-classifier of which the relationships are written, not NULL
  *  \return -1 in case of error, 0 in case of success.
  */
 int io_export_model_traversal_private_iterate_node_relationships ( io_export_model_traversal_t *this_,
+                                                                   bool nested_to_foreign_node,
+                                                                   data_classifier_type_t nesting_type,
                                                                    const data_node_set_t *node_data
                                                                  );
 

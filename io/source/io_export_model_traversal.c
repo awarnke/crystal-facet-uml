@@ -205,18 +205,27 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
         {
             if (( ! duplicate_classifier )&&( is_classifier_compliant_here ))
             {
+                /* write the relationships that can be nested within the classifier */
+                write_err |= io_export_model_traversal_private_iterate_node_relationships( this_,
+                                                                                           false,
+                                                                                           classifier_type,
+                                                                                           &((*this_).temp_node_data)
+                                                                                         );
+
                 write_err |= io_export_model_traversal_private_end_node( this_,
                                                                          parent_type,
                                                                          &((*this_).temp_node_data)
                                                                        );
             }
 
-            const bool are_relationships_compliant_here
-                = xmi_element_writer_can_classifier_nest_relationships( (*this_).format_writer, parent_type );
-
-            if ( are_relationships_compliant_here )
+            /* recursion trick: If from- and to- classifiers are nested, this block is evaluated
+             * 1x for the nested from-/to- classifier and 1x for same classifier at the toplevel model package
+             */
             {
+                /* write the relationships that can be stated after the classifier */
                 write_err |= io_export_model_traversal_private_iterate_node_relationships( this_,
+                                                                                           true,
+                                                                                           parent_type,
                                                                                            &((*this_).temp_node_data)
                                                                                          );
             }
@@ -329,8 +338,8 @@ int io_export_model_traversal_private_walk_containments ( io_export_model_traver
 }
 
 int io_export_model_traversal_private_end_node ( io_export_model_traversal_t *this_,
-                                                   data_classifier_type_t parent_type,
-                                                   const data_node_set_t *node_data )
+                                                 data_classifier_type_t parent_type,
+                                                 const data_node_set_t *node_data )
 {
     TRACE_BEGIN();
     assert( node_data != NULL );
@@ -383,12 +392,18 @@ int io_export_model_traversal_private_iterate_node_features ( io_export_model_tr
 }
 
 int io_export_model_traversal_private_iterate_node_relationships ( io_export_model_traversal_t *this_,
+                                                                   bool nested_to_foreign_node,
+                                                                   data_classifier_type_t nesting_type,
                                                                    const data_node_set_t *node_data )
 {
     TRACE_BEGIN();
     assert( node_data != NULL );
     assert( data_node_set_is_valid( node_data ) );
     int write_err = 0;
+
+    const data_classifier_t *const classifier
+        = data_node_set_get_classifier_const ( node_data );
+    const data_id_t classifier_id = data_classifier_get_data_id( classifier );
 
     /* iterate over all relationships */
     const uint32_t count = data_node_set_get_relationship_count ( node_data );
@@ -403,24 +418,44 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
             const data_id_t relation_id = data_relationship_get_data_id( relation );
             const bool duplicate_relationship
                 = ( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &relation_id ) );
-
-            const data_id_t from_classifier_id = data_relationship_get_from_classifier_data_id( relation );
-            const bool source_already_written
-                = ( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &from_classifier_id ) );
-            const data_id_t to_classifier_id = data_relationship_get_to_classifier_data_id( relation );
-            const bool destination_already_written
-                = ( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &to_classifier_id ) );
-
-            if ( source_already_written && destination_already_written && ( ! duplicate_relationship ))
+            if ( ! duplicate_relationship )
             {
-                /* add the relationship to the duplicates list */
-                if ( ! duplicate_relationship )
-                {
-                    write_err |= universal_array_list_append( &((*this_).written_id_set), &relation_id );
-                }
+                const data_id_t from_classifier_id = data_relationship_get_from_classifier_data_id( relation );
+                const bool source_already_written
+                    = ( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &from_classifier_id ) );
+                const data_id_t to_classifier_id = data_relationship_get_to_classifier_data_id( relation );
+                const bool destination_already_written
+                    = ( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &to_classifier_id ) );
 
-                /* destination classifier found, print the relation */
-                write_err |= xmi_element_writer_write_relationship( (*this_).format_writer, relation );
+                const data_relationship_type_t r_type = data_relationship_get_main_type( relation );
+                const bool is_relationship_compliant_here
+                    = xmi_element_writer_can_classifier_nest_relationship( (*this_).format_writer, nesting_type, r_type );
+                const data_id_t from_feature_id = data_relationship_get_from_feature_data_id( relation );
+                const bool from_here
+                    = ( ( ! data_id_is_valid( &from_feature_id ) )
+                    && ( data_id_equals( &from_classifier_id, &classifier_id ) ) );
+
+                /* nested_to_foreign_node is kind of emergency node:
+                 * is_relationship_compliant_here is of no interest
+                 * but source_already_written and destination_already_written must have passed
+                 * to ensure that there is no other solution
+                 */
+                const bool foreign_ok = nested_to_foreign_node && source_already_written && destination_already_written;
+
+                /* in uml, the source is the dependant, the destination has no link to the source
+                 */
+                const bool local_ok = ( ! nested_to_foreign_node ) && is_relationship_compliant_here && from_here;
+
+                if ( foreign_ok || local_ok )
+                {
+                    /* add the relationship to the duplicates list */
+                    {
+                        write_err |= universal_array_list_append( &((*this_).written_id_set), &relation_id );
+                    }
+
+                    /* destination classifier found, print the relation */
+                    write_err |= xmi_element_writer_write_relationship( (*this_).format_writer, nesting_type, relation );
+                }
             }
         }
         else
