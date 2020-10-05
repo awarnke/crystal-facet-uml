@@ -252,11 +252,7 @@ int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_conve
     const xmi_element_info_t *parent_info
         = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, parent_type, false /*TODO: fix guess*/ );
     assert ( parent_info != NULL );
-    /*
-    const bool p_is_state = ( parent_type == DATA_CLASSIFIER_TYPE_UML_STATE );
     const bool p_is_activity = ( parent_type == DATA_CLASSIFIER_TYPE_UML_ACTIVITY );
-    const bool p_is_interruptable_region = ( parent_type == DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION );
-    */
     const xmi_element_info_t *child_info
         = xmi_element_info_map_static_get_relationship ( &xmi_element_info_map_standard, child_type );
     assert ( child_info != NULL );
@@ -271,6 +267,11 @@ int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_conve
     {
         /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.9.4 */
         result = "generalization";
+    }
+    else if ( p_is_activity && xmi_element_info_is_a_activity_edge(child_info) )
+    {
+        /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 15.7.1.5 */
+        result = "edge";
     }
     /* TODO */
 

@@ -440,7 +440,9 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                  * but source_already_written and destination_already_written must have passed
                  * to ensure that there is no other solution
                  */
-                const bool foreign_ok = nested_to_foreign_node && source_already_written && destination_already_written;
+                const bool foreign_ok
+                    = nested_to_foreign_node && source_already_written && destination_already_written
+                    && ( is_relationship_compliant_here || ( nesting_type == DATA_CLASSIFIER_TYPE_UML_PACKAGE ));
 
                 /* in uml, the source is the dependant, the destination has no link to the source
                  */
