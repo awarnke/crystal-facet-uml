@@ -27,7 +27,7 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_classifier ( xmi_type_converter_t 
     TRACE_BEGIN();
 
     const xmi_element_info_t *e_info
-        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, c_type, false /*this parameter does not matter for this use case*/ );
+        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, c_type, false /*this parameter does not matter for this use case*/ );
     assert ( e_info != NULL );
     const xmi_spec_t result
         = (*e_info).specification;
@@ -44,7 +44,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
     TRACE_BEGIN();
 
     const xmi_element_info_t *e_info
-        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, c_type, (parent_type==DATA_CLASSIFIER_TYPE_UML_STATE) );
+        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, c_type, (parent_type==DATA_CLASSIFIER_TYPE_UML_STATE) );
     assert ( e_info != NULL );
     const char* result
         = (( (spec & (XMI_SPEC_SYSML|XMI_SPEC_STANDARD)) != 0 )&&( (*e_info).profile_name != NULL ))
@@ -66,13 +66,13 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
     const char* result = NULL;
 
     const xmi_element_info_t *parent_info
-        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, parent_type, false /*TODO: fix guess*/ );
+        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, parent_type, false /*TODO: fix guess*/ );
     assert ( parent_info != NULL );
     const bool p_is_state = ( parent_type == DATA_CLASSIFIER_TYPE_UML_STATE );
     const bool p_is_activity = ( parent_type == DATA_CLASSIFIER_TYPE_UML_ACTIVITY );
     const bool p_is_interruptable_region = ( parent_type == DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION );
     const xmi_element_info_t *child_info
-        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, child_type, p_is_state );
+        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, child_type, p_is_state );
     assert ( child_info != NULL );
 
     if ( xmi_element_info_is_a_package(parent_info) &&  xmi_element_info_is_a_packageable_element(child_info) )
@@ -149,7 +149,7 @@ int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t
     int result_err = -1;
 
     const xmi_element_info_t *parent_info
-        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, parent_type, false /*TODO: fix guess*/ );
+        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, parent_type, false /*TODO: fix guess*/ );
     assert ( parent_info != NULL );
 
     switch ( f_type )
@@ -241,7 +241,7 @@ int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t
 }
 
 int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_converter_t *this_,
-                                                                  data_classifier_type_t parent_type,
+                                                                  data_classifier_type_t hosting_type,
                                                                   data_relationship_type_t child_type,
                                                                   char const * *out_xmi_name )
 {
@@ -249,60 +249,59 @@ int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_conve
     assert( out_xmi_name != NULL );
     const char* result = NULL;
 
-    const xmi_element_info_t *parent_info
-        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, parent_type, false /*TODO: fix guess*/ );
-    assert ( parent_info != NULL );
-    const bool p_is_activity = ( parent_type == DATA_CLASSIFIER_TYPE_UML_ACTIVITY );
-    /*const bool p_is_interface = ( parent_type == DATA_CLASSIFIER_TYPE_UML_INTERFACE );*/
-    /*const bool p_is_implicit_region = ( parent_type == DATA_CLASSIFIER_TYPE_UML_STATE );*/
-    const bool p_is_usecase = ( parent_type == DATA_CLASSIFIER_TYPE_UML_USE_CASE );
+    const xmi_element_info_t *host_info
+        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, hosting_type, false /*TODO: fix guess*/ );
+    assert ( host_info != NULL );
+    const bool host_is_activity = ( hosting_type == DATA_CLASSIFIER_TYPE_UML_ACTIVITY );
+    /*const bool host_is_interface = ( hosting_type == DATA_CLASSIFIER_TYPE_UML_INTERFACE );*/
+    const bool host_is_implicit_region = ( hosting_type == DATA_CLASSIFIER_TYPE_UML_STATE );
+    const bool host_is_usecase = ( hosting_type == DATA_CLASSIFIER_TYPE_UML_USE_CASE );
+    const bool host_is_state = ( hosting_type == DATA_CLASSIFIER_TYPE_UML_STATE );
     const xmi_element_info_t *child_info
-        = xmi_element_info_map_static_get_relationship ( &xmi_element_info_map_standard, child_type );
+        = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard, child_type, host_is_state );
     assert ( child_info != NULL );
     const bool c_is_generalization = ( child_type == DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION );
 
-    if ( xmi_element_info_is_a_package(parent_info) && xmi_element_info_is_a_packageable_element(child_info) )
+    if ( xmi_element_info_is_a_package(host_info) && xmi_element_info_is_a_packageable_element(child_info) )
     {
         /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 12.4.5.6 */
         result = "packagedElement";
     }
-    else if ( xmi_element_info_is_a_classifier(parent_info) && c_is_generalization )
+    else if ( xmi_element_info_is_a_classifier(host_info) && c_is_generalization )
     {
         /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.9.4 */
         result = "generalization";
     }
-    else if ( p_is_activity && xmi_element_info_is_a_activity_edge(child_info) )
+    else if ( host_is_activity && xmi_element_info_is_a_activity_edge(child_info) )
     {
         /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 15.7.1.5 */
         result = "edge";
     }
     /*
-    else if ( p_is_interface && xmi_element_info_is_a_reception(child_info) )
+    else if ( host_is_interface && xmi_element_info_is_a_reception(child_info) )
     {
         / * spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 10.5.5.4 * /
         result = "ownedReception";
     }
     */
     /*
-    else if ( xmi_element_info_is_a_class(parent_info) && xmi_element_info_is_a_reception(child_info) )
+    else if ( xmi_element_info_is_a_class(host_info) && xmi_element_info_is_a_reception(child_info) )
     {
         / * spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.8.3.6 * /
         result = "ownedReception";
     }
     */
-    /*
-    else if ( p_is_implicit_region && xmi_element_info_is_a_transition(child_info) / * TODO * / )
+    else if ( host_is_implicit_region && xmi_element_info_is_a_transition(child_info) )
     {
-        / * spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 14.5.8.4 * /
+        /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 14.5.8.4 */
         result = "transition";
     }
-    */
-    else if ( p_is_usecase && (child_type==DATA_RELATIONSHIP_TYPE_UML_EXTEND) )
+    else if ( host_is_usecase && (child_type==DATA_RELATIONSHIP_TYPE_UML_EXTEND) )
     {
         /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 18.2.5.4 */
         result = "extend";
     }
-    else if ( p_is_usecase && (child_type==DATA_RELATIONSHIP_TYPE_UML_INCLUDE) )
+    else if ( host_is_usecase && (child_type==DATA_RELATIONSHIP_TYPE_UML_INCLUDE) )
     {
         /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 18.2.5.4 */
         result = "include";
@@ -332,7 +331,7 @@ const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *t
     TRACE_BEGIN();
 
     const xmi_element_info_t *e_info
-        = xmi_element_info_map_static_get_feature ( &xmi_element_info_map_standard, f_type );
+        = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, f_type );
     assert ( e_info != NULL );
     const char* result
         = (( (spec & (XMI_SPEC_SYSML|XMI_SPEC_STANDARD)) != 0 )&&( (*e_info).profile_name != NULL ))
@@ -351,7 +350,7 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_relationship ( xmi_type_converter_
     TRACE_BEGIN();
 
     const xmi_element_info_t *e_info
-        = xmi_element_info_map_static_get_relationship ( &xmi_element_info_map_standard, r_type );
+        = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard, r_type, false /*this parameter does not matter for this use case*/ );
     assert ( e_info != NULL );
     const xmi_spec_t result
         = (*e_info).specification;
@@ -361,14 +360,15 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_relationship ( xmi_type_converter_
 }
 
 const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter_t *this_,
+                                                              data_classifier_type_t hosting_type,
                                                               data_relationship_type_t r_type,
                                                               xmi_spec_t spec  )
 {
     TRACE_BEGIN();
 
-    /* TODO: A ControlFlow in a Statemachine is a Transition, not a ControlFlow */
+    const bool host_is_state = ( hosting_type == DATA_CLASSIFIER_TYPE_UML_STATE );
     const xmi_element_info_t *e_info
-        = xmi_element_info_map_static_get_relationship ( &xmi_element_info_map_standard, r_type );
+        = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard, r_type, host_is_state );
     assert ( e_info != NULL );
     const char* result
         = (( (spec & (XMI_SPEC_SYSML|XMI_SPEC_STANDARD)) != 0 )&&( (*e_info).profile_name != NULL ))
@@ -381,13 +381,15 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
 }
 
 const char* xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                              data_classifier_type_t hosting_type,
                                                                               data_relationship_type_t r_type,
                                                                               bool from_end )
 {
     TRACE_BEGIN();
 
+    const bool host_is_state = ( hosting_type == DATA_CLASSIFIER_TYPE_UML_STATE );
     const xmi_element_info_t *e_info
-        = xmi_element_info_map_static_get_relationship ( &xmi_element_info_map_standard, r_type );
+        = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard, r_type, host_is_state );
     assert ( e_info != NULL );
     const char* result
         = ( from_end )

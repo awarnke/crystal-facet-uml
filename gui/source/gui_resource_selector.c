@@ -254,7 +254,7 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         const GdkPixbuf *icon_rel_include = gui_resources_get_type_rel_include( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_INCLUDE, "Include (use case), no cycles", icon_rel_include );
         current = &((*this_).type_name_icon_list[idx]); idx++;
-        gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW, "Control Flow", icon_simple_arrow );
+        gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW, "Control Flow/Transition", icon_simple_arrow );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW, "Object Flow", icon_simple_arrow );
         current = &((*this_).type_name_icon_list[idx]); idx++;

@@ -113,13 +113,13 @@ int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t
  *  \brief gets a string representation of a classifiers nesting-type of a relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type data_classifier_type_t of the parent of which the nesting-type shall be determined
+ *  \param hosting_type data_classifier_type_t of the host of which the nesting-type shall be determined
  *  \param child_type data_relationship_type_t of the nested child of which the nesting-type shall be determined
  *  \param out_xmi_name representation of the nesting-link type, empty string if not available
  *  \result 0 in case of success
  */
 int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_converter_t *this_,
-                                                                  data_classifier_type_t parent_type,
+                                                                  data_classifier_type_t hosting_type,
                                                                   data_relationship_type_t child_type,
                                                                   char const * *out_xmi_name
                                                                 );
@@ -128,12 +128,12 @@ int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_conve
  *  \brief checks if a parent classifier may nest a child relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type data_classifier_type_t of the parent of which the nesting-ability shall be determined
+ *  \param hosting_type data_classifier_type_t of the host of which the nesting-ability shall be determined
  *  \param child_type data_relationship_type_t of the nested child of which the nesting-ability shall be determined
  *  \result true if nesting or any relationship is allowed
  */
 static inline bool xmi_type_converter_can_nest_relationship ( xmi_type_converter_t *this_,
-                                                              data_classifier_type_t parent_type,
+                                                              data_classifier_type_t hosting_type,
                                                               data_relationship_type_t child_type
                                                             );
 
@@ -176,11 +176,13 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_relationship ( xmi_type_converter_
  *  \brief gets a string representation of a data_relationship_type_t
  *
  *  \param this_ pointer to own object attributes
+ *  \param hosting_type data_classifier_type_t of the host of which the nesting-type shall be determined
  *  \param r_type data_relationship_type_t to convert to a string
  *  \param spec control, according to which specification the xmi type shall be returned. profiles define extensions to base types in mof+uml.
  *  \result string representation of r_type, empty string if not available
  */
 const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter_t *this_,
+                                                              data_classifier_type_t hosting_type,
                                                               data_relationship_type_t r_type,
                                                               xmi_spec_t spec
                                                             );
@@ -189,10 +191,12 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
  *  \brief gets a string representation of the from property of a data_relationship_type_t
  *
  *  \param this_ pointer to own object attributes
+ *  \param hosting_type data_classifier_type_t of the host of which the nesting-type shall be determined
  *  \param r_type data_relationship_type_t for which to define the from property
  *  \result string representation of the from property of the r_type
  */
 static inline const char* xmi_type_converter_get_xmi_from_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                                     data_classifier_type_t hosting_type,
                                                                                      data_relationship_type_t r_type
                                                                                    );
 
@@ -200,10 +204,12 @@ static inline const char* xmi_type_converter_get_xmi_from_property_of_relationsh
  *  \brief gets a string representation of the to property of a data_relationship_type_t
  *
  *  \param this_ pointer to own object attributes
+ *  \param hosting_type data_classifier_type_t of the host of which the nesting-type shall be determined
  *  \param r_type data_relationship_type_t for which to define the to property
  *  \result string representation of the to property of the r_type
  */
 static inline const char* xmi_type_converter_get_xmi_to_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                                   data_classifier_type_t hosting_type,
                                                                                    data_relationship_type_t r_type
                                                                                  );
 
@@ -211,11 +217,13 @@ static inline const char* xmi_type_converter_get_xmi_to_property_of_relationship
  *  \brief gets a string representation of an end property of a data_relationship_type_t
  *
  *  \param this_ pointer to own object attributes
+ *  \param hosting_type data_classifier_type_t of the host of which the nesting-type shall be determined
  *  \param r_type data_relationship_type_t for which to define the end property
  *  \param from_end true if the source(from) end, is requested, false if the target(to) end is requested.
  *  \result string representation of the from property of the r_type
  */
 const char* xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                              data_classifier_type_t hosting_type,
                                                                               data_relationship_type_t r_type,
                                                                               bool from_end
                                                                             );

@@ -436,20 +436,22 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                     && ( data_id_equals( &from_classifier_id, &classifier_id ) ) );
 
                 /* nested_to_foreign_node is kind of yellow or even red emergency node:
-                 * source_already_written and destination_already_written must have passed
+                 * source_already_written and possibly destination_already_written must have passed
                  * to ensure that there is no other solution;
                  * either (yellow) is_relationship_compliant_here
                  * or (red) nesting to package shall be true.
                  */
-                const bool foreign_ok
+                const bool foreign_yellow_ok
+                    = nested_to_foreign_node && source_already_written && is_relationship_compliant_here;
+                const bool foreign_red_ok
                     = nested_to_foreign_node && source_already_written && destination_already_written
-                    && ( is_relationship_compliant_here || ( nesting_type == DATA_CLASSIFIER_TYPE_UML_PACKAGE ));
+                    && ( nesting_type == DATA_CLASSIFIER_TYPE_UML_PACKAGE );
 
                 /* in uml, the source is the dependant, the destination has no link to the source
                  */
                 const bool local_ok = ( ! nested_to_foreign_node ) && is_relationship_compliant_here && from_here;
 
-                if ( foreign_ok || local_ok )
+                if ( local_ok || foreign_yellow_ok || foreign_red_ok )
                 {
                     /* add the relationship to the duplicates list */
                     write_err |= universal_array_list_append( &((*this_).written_id_set), &relation_id );

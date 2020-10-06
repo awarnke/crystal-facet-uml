@@ -2,6 +2,7 @@ crystal-facet-uml (1.24.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * XMI(TM) export reflects containment-hierarcy of elements
+  * XMI(TM) export automatically disambiguates between activity/state contexts
   * warnings are printed to xml export if model is not uml compliant
   * no arrow tip at communication path
   * export shows statistics on diagrams or classifiers

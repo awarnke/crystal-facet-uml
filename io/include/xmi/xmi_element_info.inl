@@ -110,6 +110,11 @@ static inline bool xmi_element_info_is_a_vertex ( const xmi_element_info_t *this
     return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_VERTEX ) == XMI_ELEMENT_IS_A_VERTEX;
 }
 
+static inline bool xmi_element_info_is_a_transition ( const xmi_element_info_t *this_ )
+{
+    return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_TRANSITION ) == XMI_ELEMENT_IS_A_TRANSITION;
+}
+
 
 /*
 Copyright 2020-2020 Andreas Warnke

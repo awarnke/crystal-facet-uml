@@ -75,6 +75,7 @@ enum xmi_element_info_map_index_enum {
     XMI_ELEMENT_INFO_MAP_INDEX_COMMUNICATION_PATH,
     XMI_ELEMENT_INFO_MAP_INDEX_CONTROL_FLOW,
     XMI_ELEMENT_INFO_MAP_INDEX_OBJECT_FLOW,
+    XMI_ELEMENT_INFO_MAP_INDEX_TRANSITION,
     XMI_ELEMENT_INFO_MAP_INDEX_DEPLOY,
     XMI_ELEMENT_INFO_MAP_INDEX_MANIFEST,
     XMI_ELEMENT_INFO_MAP_INDEX_EXTEND,
@@ -86,7 +87,7 @@ enum xmi_element_info_map_index_enum {
 
 typedef enum xmi_element_info_map_index_enum xmi_element_info_map_index_t;
 
-#define XMI_ELEMENT_INFO_MAP_INDEX_MAX (57)
+#define XMI_ELEMENT_INFO_MAP_INDEX_MAX (58)
 
 typedef xmi_element_info_t xmi_element_info_map_t[XMI_ELEMENT_INFO_MAP_INDEX_MAX];
 
@@ -95,37 +96,39 @@ extern const xmi_element_info_map_t xmi_element_info_map_standard;
 /*!
  *  \brief returns a pointer to the xmi_element_info_t struct identified by c_type.
  *
- *  \param this_ pointer to own object attributes
+ *  \param this_ pointer to own object attributes; use e.g. the global &xmi_element_info_map_standard
  *  \param c_type selects the xmi_element_info_t
  *  \param statemachine_context for some classifiers, the result depends on the used context, e.g. statemachine or activities
  *  \return pointer to the selected xmi_element_info_t
  */
-static inline const xmi_element_info_t * xmi_element_info_map_static_get_classifier ( const xmi_element_info_map_t *this_,
-                                                                                      data_classifier_type_t c_type,
-                                                                                      bool statemachine_context
-                                                                                    );
+static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( const xmi_element_info_map_t *this_,
+                                                                               data_classifier_type_t c_type,
+                                                                               bool statemachine_context
+                                                                             );
 
 /*!
  *  \brief returns a pointer to the xmi_element_info_t struct identified by f_type.
  *
- *  \param this_ pointer to own object attributes
+ *  \param this_ pointer to own object attributes; use e.g. the global &xmi_element_info_map_standard
  *  \param f_type selects the xmi_element_info_t
  *  \return pointer to the selected xmi_element_info_t
  */
-static inline const xmi_element_info_t * xmi_element_info_map_static_get_feature ( const xmi_element_info_map_t *this_,
-                                                                                   data_feature_type_t f_type
-                                                                                 );
+static inline const xmi_element_info_t * xmi_element_info_map_get_feature ( const xmi_element_info_map_t *this_,
+                                                                            data_feature_type_t f_type
+                                                                          );
 
 /*!
  *  \brief returns a pointer to the xmi_element_info_t struct identified by r_type.
  *
- *  \param this_ pointer to own object attributes
+ *  \param this_ pointer to own object attributes; use e.g. the global &xmi_element_info_map_standard
  *  \param r_type selects the xmi_element_info_t
+ *  \param statemachine_context for some relationships, the result depends on the used context, e.g. statemachine or activities
  *  \return pointer to the selected xmi_element_info_t
  */
-static inline const xmi_element_info_t * xmi_element_info_map_static_get_relationship ( const xmi_element_info_map_t *this_,
-                                                                                        data_relationship_type_t r_type
-                                                                                      );
+static inline const xmi_element_info_t * xmi_element_info_map_get_relationship ( const xmi_element_info_map_t *this_,
+                                                                                 data_relationship_type_t r_type,
+                                                                                 bool statemachine_context
+                                                                               );
 
 #include "xmi_element_info_map.inl"
 

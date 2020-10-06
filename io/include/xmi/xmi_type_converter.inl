@@ -19,13 +19,13 @@ static inline bool xmi_type_converter_can_nest_classifier ( xmi_type_converter_t
 }
 
 static inline bool xmi_type_converter_can_nest_relationship ( xmi_type_converter_t *this_,
-                                                              data_classifier_type_t parent_type,
+                                                              data_classifier_type_t hosting_type,
                                                               data_relationship_type_t child_type )
 {
     char const * xmi_name;
     const int err_code
         = xmi_type_converter_get_xmi_nesting_property_of_relationship ( this_,
-                                                                        parent_type,
+                                                                        hosting_type,
                                                                         child_type,
                                                                         &xmi_name
                                                                       );
@@ -37,15 +37,17 @@ static inline bool xmi_type_converter_can_nest_relationship ( xmi_type_converter
 /* ================================ RELATIONSHIP ================================ */
 
 static inline const char* xmi_type_converter_get_xmi_from_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                                     data_classifier_type_t hosting_type,
                                                                                      data_relationship_type_t r_type )
 {
-    return xmi_type_converter_private_get_xmi_end_property_of_relationship( this_, r_type, true );
+    return xmi_type_converter_private_get_xmi_end_property_of_relationship( this_, hosting_type, r_type, true );
 }
 
 static inline const char* xmi_type_converter_get_xmi_to_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                                   data_classifier_type_t hosting_type,
                                                                                    data_relationship_type_t r_type )
 {
-    return xmi_type_converter_private_get_xmi_end_property_of_relationship( this_, r_type, false );
+    return xmi_type_converter_private_get_xmi_end_property_of_relationship( this_, hosting_type, r_type, false );
 }
 
 

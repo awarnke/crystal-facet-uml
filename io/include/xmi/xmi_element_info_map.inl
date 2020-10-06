@@ -5,9 +5,9 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static inline const xmi_element_info_t * xmi_element_info_map_static_get_classifier ( const xmi_element_info_map_t *this_,
-                                                                                      data_classifier_type_t c_type,
-                                                                                      bool statemachine_context )
+static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( const xmi_element_info_map_t *this_,
+                                                                               data_classifier_type_t c_type,
+                                                                               bool statemachine_context )
 {
     const xmi_element_info_t * result = NULL;
 
@@ -275,8 +275,8 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_classif
     return result;
 }
 
-static inline const xmi_element_info_t * xmi_element_info_map_static_get_feature ( const xmi_element_info_map_t *this_,
-                                                                                   data_feature_type_t f_type )
+static inline const xmi_element_info_t * xmi_element_info_map_get_feature ( const xmi_element_info_map_t *this_,
+                                                                            data_feature_type_t f_type )
 {
     const xmi_element_info_t * result = NULL;
 
@@ -344,8 +344,9 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_feature
     return result;
 }
 
-static inline const xmi_element_info_t * xmi_element_info_map_static_get_relationship ( const xmi_element_info_map_t *this_,
-                                                                                        data_relationship_type_t r_type )
+static inline const xmi_element_info_t * xmi_element_info_map_get_relationship ( const xmi_element_info_map_t *this_,
+                                                                                 data_relationship_type_t r_type,
+                                                                                 bool statemachine_context )
 {
     const xmi_element_info_t * result = NULL;
 
@@ -423,15 +424,31 @@ static inline const xmi_element_info_t * xmi_element_info_map_static_get_relatio
 
         case DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW:
         {
-            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_CONTROL_FLOW]);
-            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW );
+            if ( statemachine_context )
+            {
+                result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_TRANSITION]);
+                assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW );
+            }
+            else
+            {
+                result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_CONTROL_FLOW]);
+                assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW );
+            }
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW:
         {
-            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_OBJECT_FLOW]);
-            assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW );
+            if ( statemachine_context )
+            {
+                result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_TRANSITION]);
+                assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW ); /*mix on purpose*/
+            }
+            else
+            {
+                result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_OBJECT_FLOW]);
+                assert ( (*result).data_type_checksum == (int)DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW );
+            }
         }
         break;
 

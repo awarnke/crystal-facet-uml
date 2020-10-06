@@ -734,10 +734,12 @@
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_rel_associate.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_rel_associate.png"/></imageobject></mediaobject>
-                                Control Flow</para></entry>
-                            <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>Activity</para></entry>
-                            <entry><para></para></entry>
+                                Control Flow/Transition</para></entry>
+                            <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1, 14.5.11--></para></entry>
+                            <entry><para>Activity, State</para></entry>
+                            <entry>
+                                <para>In activity diagrams, this is called control flow, in statesmachines it is called transition.</para>
+                            </entry>
                         </row>
                         <row>
                             <entry><para>

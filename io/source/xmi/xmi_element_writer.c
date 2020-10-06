@@ -317,10 +317,10 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_,
     const data_id_t classifier_id = data_classifier_get_data_id(classifier_ptr);
     const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier_ptr);
     const xmi_element_info_t *classifier_info
-        = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard,
-                                                       classifier_type,
-                                                       (parent_type==DATA_CLASSIFIER_TYPE_UML_STATE)
-                                                     );
+        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
+                                               classifier_type,
+                                               (parent_type==DATA_CLASSIFIER_TYPE_UML_STATE)
+                                             );
 
     switch ( (*this_).export_type )
     {
@@ -537,7 +537,7 @@ int xmi_element_writer_write_feature( xmi_element_writer_t *this_,
     const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
     const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
     const xmi_element_info_t *feature_info
-        = xmi_element_info_map_static_get_feature ( &xmi_element_info_map_standard, feature_type );
+        = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, feature_type );
 
     switch ( (*this_).export_type )
     {
@@ -679,7 +679,10 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
     const data_id_t to_feature_id = data_relationship_get_to_feature_data_id( relation_ptr );
     const data_relationship_type_t relation_type = data_relationship_get_main_type( relation_ptr );
     const xmi_element_info_t *relation_info
-        = xmi_element_info_map_static_get_relationship ( &xmi_element_info_map_standard, relation_type );
+        = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
+                                                 relation_type,
+                                                 (parent_type==DATA_CLASSIFIER_TYPE_UML_STATE)
+                                               );
 
     switch ( (*this_).export_type )
     {
@@ -730,6 +733,7 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_START );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_XML_NS_UML );
                 const char* r_type = xmi_type_converter_get_xmi_type_of_relationship ( &((*this_).xmi_types),
+                                                                                       parent_type,
                                                                                        relation_type,
                                                                                        XMI_SPEC_UML
                                                                                      );
@@ -773,6 +777,7 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
                 const char* from_type = xmi_type_converter_get_xmi_from_property_of_relationship ( &((*this_).xmi_types),
+                                                                                                   parent_type,
                                                                                                    relation_type
                                                                                                  );
                 export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), from_type );
@@ -795,6 +800,7 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
                 const char* to_type = xmi_type_converter_get_xmi_to_property_of_relationship ( &((*this_).xmi_types),
+                                                                                               parent_type,
                                                                                                relation_type
                                                                                              );
                 export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), to_type );
@@ -831,6 +837,7 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_XML_NS_STDPROF );
                     const char* profile_type = xmi_type_converter_get_xmi_type_of_relationship ( &((*this_).xmi_types),
+                                                                                                 parent_type,
                                                                                                  relation_type,
                                                                                                  XMI_SPEC_STANDARD
                                                                                                );
@@ -845,6 +852,7 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
 
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_START );
                     const char* base_type = xmi_type_converter_get_xmi_type_of_relationship ( &((*this_).xmi_types),
+                                                                                              parent_type,
                                                                                               relation_type,
                                                                                               XMI_SPEC_UML
                                                                                             );

@@ -54,6 +54,7 @@ enum xmi_element_is_a_enum {
     XMI_ELEMENT_IS_A_DEPENDENCY              = 0x04000000 | XMI_ELEMENT_IS_A_DIRECTED_RELATIONSHIP
                                                           | XMI_ELEMENT_IS_A_PACKAGEABLE_ELEMENT,    /*!< the type is a decendant of uml:Dependency */
     XMI_ELEMENT_IS_A_ABSTRACTION             = 0x08000000 | XMI_ELEMENT_IS_A_DEPENDENCY,             /*!< the type is a decendant of uml:Abstraction */
+    XMI_ELEMENT_IS_A_TRANSITION              = 0x10000000 | XMI_ELEMENT_IS_A_REDEFINEABLE_ELEMENT,   /*!< the type is a decendant of uml:Transition */
 };
 
 typedef enum xmi_element_is_a_enum xmi_element_is_a_t;
