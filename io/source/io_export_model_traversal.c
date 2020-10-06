@@ -435,10 +435,11 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                     = ( ( ! data_id_is_valid( &from_feature_id ) )
                     && ( data_id_equals( &from_classifier_id, &classifier_id ) ) );
 
-                /* nested_to_foreign_node is kind of emergency node:
-                 * is_relationship_compliant_here is of no interest
-                 * but source_already_written and destination_already_written must have passed
-                 * to ensure that there is no other solution
+                /* nested_to_foreign_node is kind of yellow or even red emergency node:
+                 * source_already_written and destination_already_written must have passed
+                 * to ensure that there is no other solution;
+                 * either (yellow) is_relationship_compliant_here
+                 * or (red) nesting to package shall be true.
                  */
                 const bool foreign_ok
                     = nested_to_foreign_node && source_already_written && destination_already_written
@@ -451,9 +452,7 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                 if ( foreign_ok || local_ok )
                 {
                     /* add the relationship to the duplicates list */
-                    {
-                        write_err |= universal_array_list_append( &((*this_).written_id_set), &relation_id );
-                    }
+                    write_err |= universal_array_list_append( &((*this_).written_id_set), &relation_id );
 
                     /* destination classifier found, print the relation */
                     write_err |= xmi_element_writer_write_relationship( (*this_).format_writer, nesting_type, relation );

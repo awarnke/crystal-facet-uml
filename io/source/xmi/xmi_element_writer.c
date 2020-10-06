@@ -279,7 +279,7 @@ int xmi_element_writer_start_nested_classifier( xmi_element_writer_t *this_,
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
             const data_id_t classifier_id = data_classifier_get_data_id(classifier_ptr);
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- COMMENT ON UML-COMPLIANCE: Unsuitable nested type of " );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- COMMENT ON UML-CONFORMANCE: Unsuitable nested type of " );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->" );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- PROPOSAL: Pack the " );
@@ -560,7 +560,7 @@ int xmi_element_writer_write_feature( xmi_element_writer_t *this_,
                     /* update export statistics */
                     data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
                     /* inform the user via an XML comment: */
-                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- COMMENT ON UML-COMPLIANCE: Unsuitable parent type of " );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- COMMENT ON UML-CONFORMANCE: Unsuitable parent type of " );
                     export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), feature_id );
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->" );
                     if ( feature_type == DATA_FEATURE_TYPE_LIFELINE )
@@ -702,7 +702,7 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
                     /* update export statistics */
                     data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
                     /* inform the user via an XML comment: */
-                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- COMMENT ON UML-COMPLIANCE: Unsuitable parent type of " );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- COMMENT ON UML-CONFORMANCE: Unsuitable parent type of " );
                     export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), relation_id );
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->" );
                     /*

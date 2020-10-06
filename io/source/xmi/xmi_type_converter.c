@@ -253,6 +253,9 @@ int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_conve
         = xmi_element_info_map_static_get_classifier ( &xmi_element_info_map_standard, parent_type, false /*TODO: fix guess*/ );
     assert ( parent_info != NULL );
     const bool p_is_activity = ( parent_type == DATA_CLASSIFIER_TYPE_UML_ACTIVITY );
+    /*const bool p_is_interface = ( parent_type == DATA_CLASSIFIER_TYPE_UML_INTERFACE );*/
+    /*const bool p_is_implicit_region = ( parent_type == DATA_CLASSIFIER_TYPE_UML_STATE );*/
+    const bool p_is_usecase = ( parent_type == DATA_CLASSIFIER_TYPE_UML_USE_CASE );
     const xmi_element_info_t *child_info
         = xmi_element_info_map_static_get_relationship ( &xmi_element_info_map_standard, child_type );
     assert ( child_info != NULL );
@@ -273,7 +276,37 @@ int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_conve
         /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 15.7.1.5 */
         result = "edge";
     }
-    /* TODO */
+    /*
+    else if ( p_is_interface && xmi_element_info_is_a_reception(child_info) )
+    {
+        / * spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 10.5.5.4 * /
+        result = "ownedReception";
+    }
+    */
+    /*
+    else if ( xmi_element_info_is_a_class(parent_info) && xmi_element_info_is_a_reception(child_info) )
+    {
+        / * spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.8.3.6 * /
+        result = "ownedReception";
+    }
+    */
+    /*
+    else if ( p_is_implicit_region && xmi_element_info_is_a_transition(child_info) / * TODO * / )
+    {
+        / * spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 14.5.8.4 * /
+        result = "transition";
+    }
+    */
+    else if ( p_is_usecase && (child_type==DATA_RELATIONSHIP_TYPE_UML_EXTEND) )
+    {
+        /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 18.2.5.4 */
+        result = "extend";
+    }
+    else if ( p_is_usecase && (child_type==DATA_RELATIONSHIP_TYPE_UML_INCLUDE) )
+    {
+        /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 18.2.5.4 */
+        result = "include";
+    }
 
     *out_xmi_name = (result==NULL) ? "" : result;
     const int result_err = (result==NULL) ? -1 : 0;
@@ -333,6 +366,7 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
 {
     TRACE_BEGIN();
 
+    /* TODO: A ControlFlow in a Statemachine is a Transition, not a ControlFlow */
     const xmi_element_info_t *e_info
         = xmi_element_info_map_static_get_relationship ( &xmi_element_info_map_standard, r_type );
     assert ( e_info != NULL );
