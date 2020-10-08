@@ -20,7 +20,7 @@ Update all version numbers:
 Pack
 -----------
 
->       # commit all changes before packing !
+>       git commit -a -m 'version x.y.z'
 >       # build and test source packet
 >       ./source_pack.sh
 >       ./source_test.sh

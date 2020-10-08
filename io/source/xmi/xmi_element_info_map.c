@@ -289,7 +289,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE,
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
-        .base_name                = "JoinNode",  /* TODO: spec ok but is ignored at import to EA */
+        .base_name                = "JoinNode",
         .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY_NODE),
         .property_from            = NULL,
         .property_to              = NULL,
@@ -525,7 +525,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_COMPOSITION,
         .specification            = (XMI_SPEC_UML),
         .profile_name             = NULL,
-        .base_name                = "Association",  /* TODO a Composition is an Association with special properties */
+        .base_name                = "Association",  /* TODO a Composition is an Association with property aggregation = composite */
         .is_a                     = (XMI_ELEMENT_IS_A_ASSOCIATION),
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.8.3 */
         .property_from            = "memberEnd",

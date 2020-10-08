@@ -150,6 +150,8 @@ static const char XMI2_STATE_REGION_NESTING_STATE[]
     = "region";
 static const char XMI2_STATE_REGION_TYPE[]
     = "Region";
+static const char XMI2_COMMENT_TYPE[]
+    = "Comment";
 
 void xmi_element_writer_init ( xmi_element_writer_t *this_,
                                data_database_reader_t *db_reader,
@@ -1003,7 +1005,8 @@ int xmi_element_writer_private_write_xmi_comment( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_COMMENT_START );
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_START );
-/* TODO */            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), "uml:Comment" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_XML_NS_UML );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_COMMENT_TYPE );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_END );
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_ID_START );
