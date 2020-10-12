@@ -1,3 +1,10 @@
+crystal-facet-uml (1.24.1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * moving ports follow the cursor more accurate
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 11 Oct 2020 20:30:00 +0200
+
 crystal-facet-uml (1.24.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

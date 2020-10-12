@@ -6,11 +6,11 @@ crystal-facet-uml (1.24.0-1) UNRELEASED; urgency=medium
   * warnings are printed to xml export if model is not uml compliant
   * no arrow tip at communication path
   * export shows statistics on diagrams or classifiers
-  * internal: messages to user user are typesafe for their parameters
+  * internal: messages to user are typesafe for their parameters
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Thu, 08 Oct 2020 20:30:00 +0200
 
- crystal-facet-uml (1.23.1-1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.23.1-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * XMI(TM) export good enough to be checked by NIST validator

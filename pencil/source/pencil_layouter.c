@@ -771,35 +771,43 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
                 {
                     const geometry_rectangle_t *const closest_parent_symbol_box
                         = layout_visible_classifier_get_symbol_box_const ( closest_parent_instance );
-                    double center_x;
-                    double center_y;
-                    center_x = geometry_rectangle_get_center_x( closest_parent_symbol_box );
-                    center_y = geometry_rectangle_get_center_y( closest_parent_symbol_box );
-                    double delta_x;
-                    double delta_y;
-                    delta_x = ( x < center_x ) ? (center_x - x) : (x - center_x);
-                    delta_y = ( y < center_y ) ? (center_y - y) : (y - center_y);
+                    const double center_x = geometry_rectangle_get_center_x( closest_parent_symbol_box );
+                    const double center_y = geometry_rectangle_get_center_y( closest_parent_symbol_box );
+                    const double width = geometry_rectangle_get_width( closest_parent_symbol_box );
+                    const double height = geometry_rectangle_get_height( closest_parent_symbol_box );
+                    const double delta_x = x - center_x;
+                    const double delty_y = y - center_y;
+                    const double relative_delta_x = delta_x * height;
+                    const double relative_delta_y = delty_y * width;
+                    const double distance_x = ( x < center_x ) ? (center_x - x) : (x - center_x);
+                    const double distance_y = ( y < center_y ) ? (center_y - y) : (y - center_y);
+                    const double relative_dist_x = distance_x * height;
+                    const double relative_dist_y = distance_y * width;
                     int32_t order;
-                    if ( delta_x > delta_y )
+                    if ( relative_dist_x > relative_dist_y )
                     {
                         if ( x < center_x )
                         {
-                            order = INT32_MAX*(((y-center_y)/(delta_x+0.1))*0.25+0.25);
+                            /* x,y is on left side, order is between 0 and INT32_MAX/2 */
+                            order = INT32_MAX*(relative_delta_y/(relative_dist_x+0.1)*0.25+0.25);
                         }
                         else
                         {
-                            order = INT32_MIN*(((y-center_y)/(delta_x+0.1))*0.25+0.75);
+                            /* x,y is on right side, order is between INT32_MIN and INT32_MIN/2 */
+                            order = INT32_MIN*(relative_delta_y/(relative_dist_x+0.1)*0.25+0.75);
                         }
                     }
                     else
                     {
                         if ( y < center_y )
                         {
-                            order = INT32_MIN*(((x-center_x)/(delta_y+0.1))*0.25+0.25);
+                            /* x,y is on upper side, order is between INT32_MIN/2 and 0 */
+                            order = INT32_MIN*(relative_delta_x/(relative_dist_y+0.1)*0.25+0.25);
                         }
                         else
                         {
-                            order = INT32_MAX*(((x-center_x)/(delta_y+0.1))*0.25+0.75);
+                            /* x,y is on lower side, order is between INT32_MAX/2 and INT32_MAX */
+                            order = INT32_MAX*(relative_delta_x/(relative_dist_y+0.1)*0.25+0.75);
                         }
                     }
                     layout_order_init_list( out_layout_order, order );

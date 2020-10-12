@@ -45,7 +45,9 @@ struct data_feature_struct {
     char private_value_buffer[DATA_FEATURE_MAX_VALUE_SIZE];
     utf8stringbuf_t description;
     char private_description_buffer[DATA_FEATURE_MAX_DESCRIPTION_SIZE];
-    int32_t list_order;
+    int32_t list_order;  /*!< For feature lists, lower values are on top.
+                              For ports and interfaces, INT32_MIN/MAX is bottom-right, INT32_MIN/2 is top-right,
+                              0 is top-left, INT32_MAX/2 is bottom-left */
 };
 
 typedef struct data_feature_struct data_feature_t;
