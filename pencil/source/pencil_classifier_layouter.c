@@ -116,19 +116,35 @@ void pencil_classifier_layouter_embrace_children( pencil_classifier_layouter_t *
     /* sort the relationships by their number of descendants */
     pencil_classifier_layouter_private_propose_embracing_order ( this_, &sorted_relationships );
 
+    /* init the set of classifiers that has embraced children */
+    data_small_set_t has_embraced_children;
+    data_small_set_init( &has_embraced_children );
+
     /* move the classifiers */
     const uint32_t count_sorted = universal_array_index_sorter_get_count( &sorted_relationships );
-
-    /* search containment relations */
     for ( uint32_t rel_sort_idx = 0; rel_sort_idx < count_sorted; rel_sort_idx ++ )
     {
         const uint32_t rel_idx
             = universal_array_index_sorter_get_array_index( &sorted_relationships, rel_sort_idx );
+        layout_relationship_t *const the_relationship
+            = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, rel_idx );
+        assert ( the_relationship != NULL );
+        const data_relationship_t *const rel_data = layout_relationship_get_data_const ( the_relationship );
+        assert ( rel_data != NULL );
+        const data_id_t rel_from_id = data_relationship_get_from_classifier_data_id ( rel_data );
 
-        layout_relationship_t *the_relationship;
-        the_relationship = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, rel_idx );
-        pencil_classifier_layouter_private_try_embrace_child( this_, the_relationship );
+        const int failure
+            = pencil_classifier_layouter_private_try_embrace_child( this_,
+                                                                    the_relationship,
+                                                                    ! data_small_set_contains( &has_embraced_children, rel_from_id )
+                                                                  );
+        if ( ! failure )
+        {
+            data_small_set_add_obj( &has_embraced_children, rel_from_id );
+        }
     }
+
+    data_small_set_destroy( &has_embraced_children );
 
     universal_array_index_sorter_destroy( &sorted_relationships );
 
@@ -165,10 +181,11 @@ void pencil_classifier_layouter_private_propose_embracing_order ( pencil_classif
     TRACE_END();
 }
 
-void pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_layouter_t *this_, layout_relationship_t *the_relationship )
+int pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_layouter_t *this_, layout_relationship_t *the_relationship, bool move )
 {
     TRACE_BEGIN();
     assert( NULL != the_relationship );
+    int result_err = -1;
 
     const data_relationship_type_t the_type
         = data_relationship_get_main_type ( layout_relationship_get_data_const( the_relationship ));
@@ -206,21 +223,24 @@ void pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_lay
             extend_to_top = geometry_rectangle_get_top( parent_space ) - geometry_rectangle_get_top( &child_total_bounds );
             extend_to_right = geometry_rectangle_get_right( &child_total_bounds ) - geometry_rectangle_get_right( parent_space );
             extend_to_bottom = geometry_rectangle_get_bottom( &child_total_bounds ) - geometry_rectangle_get_bottom( parent_space );
-            if ( extend_to_left < 0.0 )
+            if ( ! move )
             {
-                extend_to_left = 0.0;
-            }
-            if ( extend_to_top < 0.0 )
-            {
-                extend_to_top = 0.0;
-            }
-            if ( extend_to_right < 0.0 )
-            {
-                extend_to_right = 0.0;
-            }
-            if ( extend_to_bottom < 0.0 )
-            {
-                extend_to_bottom = 0.0;
+                if ( extend_to_left < 0.0 )
+                {
+                    extend_to_left = 0.0;
+                }
+                if ( extend_to_top < 0.0 )
+                {
+                    extend_to_top = 0.0;
+                }
+                if ( extend_to_right < 0.0 )
+                {
+                    extend_to_right = 0.0;
+                }
+                if ( extend_to_bottom < 0.0 )
+                {
+                    extend_to_bottom = 0.0;
+                }
             }
             geometry_rectangle_expand( &probe_parent_symbol_box, extend_to_left+extend_to_right, extend_to_top+extend_to_bottom );
             geometry_rectangle_shift( &probe_parent_symbol_box, -extend_to_left, -extend_to_top );
@@ -263,6 +283,7 @@ void pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_lay
             {
                 layout_visible_classifier_expand( from_classifier, extend_to_left+extend_to_right, extend_to_top+extend_to_bottom );
                 layout_visible_classifier_shift( from_classifier, -extend_to_left, -extend_to_top );
+                result_err = 0;
             }
 
             /* cleanup */
@@ -275,7 +296,8 @@ void pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_lay
     }
     /* else this is not a parent child relationship */
 
-    TRACE_END();
+    TRACE_END_ERR( result_err );
+    return result_err;
 }
 
 void pencil_classifier_layouter_hide_relations_of_embraced_children( pencil_classifier_layouter_t *this_ )
@@ -450,11 +472,22 @@ void pencil_classifier_layouter_private_propose_move_processing_order ( pencil_c
 
         /* reduce simpleness by own size: the bigger the object, the earlier it should be moved */
         {
-            double default_classifier_area = geometry_dimensions_get_area( (*this_).default_classifier_size );
-            double classifier_area = geometry_rectangle_get_area( classifier_symbol_box );
+            const double default_classifier_area = geometry_dimensions_get_area( (*this_).default_classifier_size );
+            const double classifier_area = geometry_rectangle_get_area( classifier_symbol_box );
             if (( default_classifier_area > 0.000000001 )&&( classifier_area > 0.000000001 ))
             {
                 simpleness -= default_classifier_area * ( classifier_area / ( classifier_area + default_classifier_area ));
+            }
+        }
+
+        /* increase simpleness if contained children: if embracing children later, layouting problems might get solved */
+        {
+            const double default_classifier_area = geometry_dimensions_get_area( (*this_).default_classifier_size );
+            const uint32_t descendant_count
+                = pencil_layout_data_count_descendants( (*this_).layout_data, the_classifier );
+            if ( descendant_count != 0 )
+            {
+                simpleness += default_classifier_area;
             }
         }
 

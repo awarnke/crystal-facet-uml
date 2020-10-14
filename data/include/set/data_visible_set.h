@@ -101,8 +101,8 @@ static inline uint32_t data_visible_set_get_visible_classifier_count ( const dat
  *  \brief gets a visible classifier within the painter input data
  *
  *  \param this_ pointer to own object attributes
- *  \param index index of the visible classifier to retrieve; 0 <= index < data_visible_set_get_visible_classifier_count().
- *  \return NULL if index >= data_visible_set_get_visible_classifier_count(); pointer to data_visible_classifier_t otherwise.
+ *  \param index index of the visible classifier to retrieve; 0 &lt;= index &lt; data_visible_set_get_visible_classifier_count().
+ *  \return NULL if index &gt;= data_visible_set_get_visible_classifier_count(); pointer to data_visible_classifier_t otherwise.
  */
 static inline const data_visible_classifier_t *data_visible_set_get_visible_classifier_const ( const data_visible_set_t *this_, uint32_t index );
 
@@ -110,8 +110,8 @@ static inline const data_visible_classifier_t *data_visible_set_get_visible_clas
  *  \brief gets a visible classifier within the painter input data
  *
  *  \param this_ pointer to own object attributes
- *  \param index index of the visible classifier to retrieve; 0 <= index < data_visible_set_get_visible_classifier_count().
- *  \return NULL if index >= data_visible_set_get_visible_classifier_count(); pointer to data_visible_classifier_t otherwise.
+ *  \param index index of the visible classifier to retrieve; 0 &lt;= index &lt; data_visible_set_get_visible_classifier_count().
+ *  \return NULL if index &gt;= data_visible_set_get_visible_classifier_count(); pointer to data_visible_classifier_t otherwise.
  */
 static inline data_visible_classifier_t *data_visible_set_get_visible_classifier_ptr ( data_visible_set_t *this_, uint32_t index );
 
@@ -184,8 +184,8 @@ static inline uint32_t data_visible_set_get_feature_count ( const data_visible_s
  *  \brief gets a feature within the painter input data
  *
  *  \param this_ pointer to own object attributes
- *  \param index index of the feature to retrieve; 0 <= index < data_visible_set_get_feature_count().
- *  \return NULL if index >= data_visible_set_get_feature_count(); pointer to data_feature_t otherwise.
+ *  \param index index of the feature to retrieve; 0 &lt;= index &lt; data_visible_set_get_feature_count().
+ *  \return NULL if index &gt;= data_visible_set_get_feature_count(); pointer to data_feature_t otherwise.
  */
 static inline const data_feature_t *data_visible_set_get_feature_const ( const data_visible_set_t *this_, uint32_t index );
 
@@ -193,8 +193,8 @@ static inline const data_feature_t *data_visible_set_get_feature_const ( const d
  *  \brief gets a feature within the painter input data
  *
  *  \param this_ pointer to own object attributes
- *  \param index index of the feature to retrieve; 0 <= index < data_visible_set_get_feature_count().
- *  \return NULL if index >= data_visible_set_get_feature_count(); pointer to data_feature_t otherwise.
+ *  \param index index of the feature to retrieve; 0 &lt;= index &lt; data_visible_set_get_feature_count().
+ *  \return NULL if index &gt;= data_visible_set_get_feature_count(); pointer to data_feature_t otherwise.
  */
 static inline data_feature_t *data_visible_set_get_feature_ptr ( data_visible_set_t *this_, uint32_t index );
 
@@ -237,8 +237,8 @@ static inline uint32_t data_visible_set_get_relationship_count ( const data_visi
  *  \brief gets a relationship within the painter input data
  *
  *  \param this_ pointer to own object attributes
- *  \param index index of the relationship to retrieve; 0 <= index < data_visible_set_get_relationship_count().
- *  \return NULL if index >= data_visible_set_get_relationship_count(); pointer to data_relationship_t otherwise.
+ *  \param index index of the relationship to retrieve; 0 &lt;= index &lt; data_visible_set_get_relationship_count().
+ *  \return NULL if index &gt;= data_visible_set_get_relationship_count(); pointer to data_relationship_t otherwise.
  */
 static inline const data_relationship_t *data_visible_set_get_relationship_const ( const data_visible_set_t *this_, uint32_t index );
 
@@ -246,8 +246,8 @@ static inline const data_relationship_t *data_visible_set_get_relationship_const
  *  \brief gets a relationship within the painter input data
  *
  *  \param this_ pointer to own object attributes
- *  \param index index of the relationship to retrieve; 0 <= index < data_visible_set_get_relationship_count().
- *  \return NULL if index >= data_visible_set_get_relationship_count(); pointer to data_relationship_t otherwise.
+ *  \param index index of the relationship to retrieve; 0 &lt;= index &lt; data_visible_set_get_relationship_count().
+ *  \return NULL if index &gt;= data_visible_set_get_relationship_count(); pointer to data_relationship_t otherwise.
  */
 static inline data_relationship_t *data_visible_set_get_relationship_ptr ( data_visible_set_t *this_, uint32_t index );
 
@@ -273,8 +273,8 @@ static inline data_relationship_t *data_visible_set_get_relationship_by_id_ptr (
  *  \brief determines if ancestor is an ancestor of descendant
  *
  *  \param this_ pointer to own object attributes
- *  \param ancestor_index index of the ancestor classifier; 0 <= ancestor_index < data_visible_set_get_visible_classifier_count().
- *  \param descendant_index index of the descendant classifier; 0 <= descendant_index < data_visible_set_get_visible_classifier_count().
+ *  \param ancestor_index index of the ancestor classifier; 0 &lt;= ancestor_index &lt; data_visible_set_get_visible_classifier_count().
+ *  \param descendant_index index of the descendant classifier; 0 &lt;= descendant_index &lt; data_visible_set_get_visible_classifier_count().
  *  \return true if there is a DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT relationship from ancestor to descendant within this data_visible_set object
  */
 static inline bool data_visible_set_is_ancestor_by_index ( const data_visible_set_t *this_, uint32_t ancestor_index, uint32_t descendant_index );
@@ -283,7 +283,7 @@ static inline bool data_visible_set_is_ancestor_by_index ( const data_visible_se
  *  \brief counts the number of ancestors of a classifier denoted by index
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier_index index of the classifier; 0 <= classifier_index < data_visible_set_get_visible_classifier_count().
+ *  \param classifier_index index of the classifier; 0 &lt;= classifier_index &lt; data_visible_set_get_visible_classifier_count().
  *  \return number of ancestors of classifier_index which are listed in this_.
  */
 static inline uint32_t data_visible_set_count_ancestors_of_index ( const data_visible_set_t *this_, uint32_t classifier_index );
@@ -292,7 +292,7 @@ static inline uint32_t data_visible_set_count_ancestors_of_index ( const data_vi
  *  \brief counts the number of descendants of a classifier denoted by index
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier_index index of the classifier; 0 <= classifier_index < data_visible_set_get_visible_classifier_count().
+ *  \param classifier_index index of the classifier; 0 &lt;= classifier_index &lt; data_visible_set_get_visible_classifier_count().
  *  \return number of descendants of classifier_index which are listed in this_.
  */
 static inline uint32_t data_visible_set_count_descendants_of_index ( const data_visible_set_t *this_, uint32_t classifier_index );

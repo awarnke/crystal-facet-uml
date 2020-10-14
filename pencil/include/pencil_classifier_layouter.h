@@ -100,8 +100,10 @@ void pencil_classifier_layouter_private_propose_embracing_order ( pencil_classif
  *
  *  \param this_ pointer to own object attributes
  *  \param the_relationship the relationship to process: the parent tries to embrace the child
+ *  \param move true if the containing parent classifier may move to the child, false if it shall expand only
+ *  \return 0 in case of success, -1 if embracing was not possible
  */
-void pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_layouter_t *this_, layout_relationship_t *the_relationship );
+int pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_layouter_t *this_, layout_relationship_t *the_relationship, bool move );
 
 /*!
  *  \brief hides containment relationships if parents embrace their children

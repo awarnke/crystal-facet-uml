@@ -123,14 +123,19 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_, geometry_rectangle_
     count = pencil_layout_data_get_visible_classifier_count ( &((*this_).layout_data) );
     for ( uint32_t index = 0; index < count; index ++ )
     {
-        layout_visible_classifier_t *visible_classifier;
-        visible_classifier = pencil_layout_data_get_visible_classifier_ptr ( &((*this_).layout_data), index );
-        const data_classifier_t *classifier_data;
-        classifier_data = layout_visible_classifier_get_classifier_const( visible_classifier );
+        const layout_visible_classifier_t *const visible_classifier
+            = pencil_layout_data_get_visible_classifier_ptr ( &((*this_).layout_data), index );
+        const data_classifier_t *const classifier_data
+            = layout_visible_classifier_get_classifier_const( visible_classifier );
+        const uint32_t visible_descendants
+            = pencil_layout_data_count_descendants( &((*this_).layout_data), visible_classifier );
 
-        /* adjust the non-linear scales for this classifier */
-        geometry_non_linear_scale_add_order ( &((*this_).x_scale), data_classifier_get_x_order( classifier_data ) );
-        geometry_non_linear_scale_add_order ( &((*this_).y_scale), data_classifier_get_y_order( classifier_data ) );
+        /* adjust the non-linear scales for this classifier (if no contained descendants) */
+        if ( 0 == visible_descendants )
+        {
+            geometry_non_linear_scale_add_order ( &((*this_).x_scale), data_classifier_get_x_order( classifier_data ) );
+            geometry_non_linear_scale_add_order ( &((*this_).y_scale), data_classifier_get_y_order( classifier_data ) );
+        }
     }
 
     TRACE_END();
@@ -253,7 +258,9 @@ void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t
     /* set the default size to grid cell minus a gap on each side, minus extra gap on top for containers */
     geometry_dimensions_t *const default_size = &((*this_).default_classifier_size);
     geometry_dimensions_reinit( default_size, grid_width, grid_height );
-    geometry_dimensions_expand ( default_size, -2.0 * gap, -4.0 * gap ); /* ensures non-negative values */
+    const double x_space = 3.0 * gap;  /* space for enclosing parents and for relationships */
+    const double y_space = 5.0 * gap;  /* space for enclosing parents (including title-line) and for relationships */
+    geometry_dimensions_expand ( default_size, -x_space, -y_space ); /* ensures non-negative values */
 
     /* for aesthetic reasons, ensure that the default dimension is more wide than high */
     const double w = geometry_dimensions_get_width( default_size );
