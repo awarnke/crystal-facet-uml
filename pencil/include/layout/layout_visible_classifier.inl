@@ -89,6 +89,13 @@ static inline void layout_visible_classifier_set_label_anchor ( layout_visible_c
     (*this_).label_v_anchor = label_v_anchor;
 }
 
+static inline geometry_rectangle_t layout_visible_classifier_calc_envelope_box ( const layout_visible_classifier_t *this_ )
+{
+    geometry_rectangle_t result;
+    geometry_rectangle_init_by_bounds( &result, &((*this_).symbol_box), &((*this_).label_box) );
+    return result;
+}
+
 static inline void layout_visible_classifier_shift ( layout_visible_classifier_t *this_, double delta_x, double delta_y )
 {
     geometry_rectangle_shift( &((*this_).symbol_box), delta_x, delta_y );
@@ -148,6 +155,15 @@ static inline data_row_id_t layout_visible_classifier_get_diagramelement_id ( co
 {
     return data_diagramelement_get_id( data_visible_classifier_get_diagramelement_const ( (*this_).data ) );
 }
+
+static inline bool layout_visible_classifier_is_equal_diagramelement_id ( const layout_visible_classifier_t *this_,
+                                                                          const layout_visible_classifier_t *that )
+{
+    const data_row_id_t this_diagele_id = layout_visible_classifier_get_diagramelement_id( this_ );
+    const data_row_id_t that_diagele_id = layout_visible_classifier_get_diagramelement_id( that );
+    return ( this_diagele_id == that_diagele_id );
+}
+
 
 /*
 Copyright 2018-2020 Andreas Warnke

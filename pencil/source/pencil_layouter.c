@@ -207,11 +207,11 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
         /* move the classifiers to avoid overlaps */
         pencil_classifier_layouter_move_to_avoid_overlaps( &((*this_).pencil_classifier_layouter) );
 
-        /* parent classifiers embrace their children */
-        pencil_classifier_layouter_embrace_children( &((*this_).pencil_classifier_layouter) );
+        /* parent classifiers embrace their children step by step */
+        pencil_classifier_layouter_embrace_children( &((*this_).pencil_classifier_layouter), font_layout );
 
-        /* classifiers shall grab more space if there is space left (beautify) */
-        pencil_classifier_layouter_local_move_and_grow_for_gaps( &((*this_).pencil_classifier_layouter), font_layout );
+        /* classifiers embrace all children at once and move them if there is space available */
+        pencil_classifier_layouter_move_and_embrace_children( &((*this_).pencil_classifier_layouter), font_layout );
 
         /* calculate the feature shapes */
         pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );

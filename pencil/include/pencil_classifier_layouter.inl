@@ -28,33 +28,57 @@ static inline void pencil_classifier_layouter_private_sort_classifiers_by_list_o
     }
 }
 
-static inline void pencil_classifier_layouter_private_move_embraced_descendants( pencil_classifier_layouter_t *this_,
-                                                                                 uint32_t ancestor_index,
-                                                                                 double delta_x,
-                                                                                 double delta_y )
+static inline geometry_rectangle_t pencil_classifier_layouter_private_calc_descendant_envelope( pencil_classifier_layouter_t *this_,
+                                                                                                const layout_visible_classifier_t *ancestor_classifier
+                                                                                              )
 {
-    const uint32_t count_classifiers = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
-    assert ( ancestor_index < count_classifiers );
+    assert( ancestor_classifier != NULL );
+    geometry_rectangle_t descendant_envelope;
+    bool descendant_envelope_initialized = false;
 
-    const layout_visible_classifier_t *const ancestor = pencil_layout_data_get_visible_classifier_const( (*this_).layout_data, ancestor_index );
-    const geometry_rectangle_t *const ancestor_space = layout_visible_classifier_get_space_const( ancestor );
+    const uint32_t count_classifiers = pencil_layout_data_get_visible_classifier_count( (*this_).layout_data );
+    for ( uint32_t classifier_search_idx = 0; classifier_search_idx < count_classifiers; classifier_search_idx ++ )
+    {
+        const layout_visible_classifier_t * probe_classifier
+            = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, classifier_search_idx );
+        if ( pencil_layout_data_is_ancestor( (*this_).layout_data, ancestor_classifier, probe_classifier ) )
+        {
+            const geometry_rectangle_t probe_envelope = layout_visible_classifier_calc_envelope_box( probe_classifier );
+            if ( ! descendant_envelope_initialized )
+            {
+                geometry_rectangle_copy( &descendant_envelope, &probe_envelope );
+                descendant_envelope_initialized = true;
+            }
+            else
+            {
+                geometry_rectangle_init_by_bounds ( &descendant_envelope, &descendant_envelope, &probe_envelope );
+            }
+        }
+    }
+    if ( ! descendant_envelope_initialized )
+    {
+        descendant_envelope = layout_visible_classifier_calc_envelope_box( ancestor_classifier );
+    }
+
+    return descendant_envelope;
+}
+
+static inline void pencil_classifier_layouter_private_move_descendants( pencil_classifier_layouter_t *this_,
+                                                                        const layout_visible_classifier_t *ancestor_classifier,
+                                                                        double delta_x,
+                                                                        double delta_y )
+{
+    assert( ancestor_classifier != NULL );
 
     /* check all classifiers */
+    const uint32_t count_classifiers = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_classifiers; index ++ )
     {
-        if ( index != ancestor_index )
+        layout_visible_classifier_t *const probe_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, index );
+        const bool is_descendant = pencil_layout_data_is_ancestor ( (*this_).layout_data, ancestor_classifier, probe_classifier );
+        if ( is_descendant )
         {
-            /* this is not myself */
-            layout_visible_classifier_t *const probe_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, index );
-            const bool is_descendant = pencil_layout_data_is_ancestor ( (*this_).layout_data, ancestor, probe_classifier );
-            if ( is_descendant )
-            {
-                const geometry_rectangle_t *const probe_symbol_box = layout_visible_classifier_get_symbol_box_const( probe_classifier );
-                if ( geometry_rectangle_is_containing( ancestor_space, probe_symbol_box ) )
-                {
-                    layout_visible_classifier_shift ( probe_classifier, delta_x, delta_y );
-                }
-            }
+            layout_visible_classifier_shift ( probe_classifier, delta_x, delta_y );
         }
     }
 }
