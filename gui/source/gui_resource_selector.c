@@ -77,13 +77,13 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         gui_type_resource_init_diagram( current, DATA_DIAGRAM_TYPE_UML_STATE_MACHINE_DIAGRAM, "State Machine Diagram (SysML, UML)", icon_diag_state );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_diag_communication = gui_resources_get_type_diag_communication ( (*this_).resources );
-        gui_type_resource_init_diagram( current, DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM, "Communication Diagram (UML), Scenario", icon_diag_communication );
+        gui_type_resource_init_diagram( current, DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM, "Communication Diagram (UML)", icon_diag_communication );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_diag_sequence = gui_resources_get_type_diag_sequence ( (*this_).resources );
-        gui_type_resource_init_diagram( current, DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM, "Sequence Diagram (SysML, UML), Scenario", icon_diag_sequence );
+        gui_type_resource_init_diagram( current, DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM, "Sequence Diagram (SysML, UML)", icon_diag_sequence );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_diag_timing = gui_resources_get_type_diag_timing ( (*this_).resources );
-        gui_type_resource_init_diagram( current, DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM, "Timing Diagram (UML), Scenario", icon_diag_timing );
+        gui_type_resource_init_diagram( current, DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM, "Timing Diagram (UML)", icon_diag_timing );
     }
     (*this_).diagram_types_length = idx - (*this_).diagram_types_start;
 

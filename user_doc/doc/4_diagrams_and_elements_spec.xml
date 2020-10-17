@@ -966,7 +966,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_diag_overview.png"/></imageobject></mediaobject>
                                 Interaction Overview Diagram</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>unconditional relationships (Scenario)</para></entry>
+                            <entry><para>unconditional relationships (Scenario), unconditional feature</para></entry>
                             <entry><para>Limitations: There is no link from Diagram-References to referenced Diagrams</para></entry>
                         </row>
                         <row>

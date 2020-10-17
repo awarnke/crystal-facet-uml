@@ -430,7 +430,8 @@ static inline bool data_rules_diagram_shows_uncond_features ( const data_rules_t
            || ( diagram_type == DATA_DIAGRAM_TYPE_BOX_DIAGRAM )
            || ( diagram_type == DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM )
            || ( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
-           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM ));
+           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
+           || ( diagram_type == DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM ));
     return ( ! hide );
 }
 

@@ -473,8 +473,8 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
     geometry_rectangle_t *out_classifier_label_box;
     out_classifier_label_box = layout_visible_classifier_get_label_box_ptr( io_classifier_layout );
 
-    bool is_fix_sized_symbol;
-    is_fix_sized_symbol = layout_visible_classifier_is_fix_sized_symbol( io_classifier_layout );
+    const bool is_fix_sized_symbol
+         = layout_visible_classifier_is_fix_sized_symbol( io_classifier_layout );
 
     /* adapt to the size of the contained features */
     if ( ! is_fix_sized_symbol )

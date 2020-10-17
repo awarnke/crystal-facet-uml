@@ -1,4 +1,4 @@
-crystal-facet-uml (1.24.1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.25.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * moving ports follow the cursor more accurate
@@ -8,7 +8,7 @@ crystal-facet-uml (1.24.1) UNRELEASED; urgency=medium
   * Interaction Overview Diagram is reworked, 
     data from older versions is auto-converted to Activity Diagram
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 11 Oct 2020 20:30:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 18 Oct 2020 20:30:00 +0200
 
 crystal-facet-uml (1.24.0) UNRELEASED; urgency=medium
 
