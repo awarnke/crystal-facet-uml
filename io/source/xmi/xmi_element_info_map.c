@@ -125,7 +125,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE,
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
-        .base_name                = "Activity",  /* TODO: check type */
+        .base_name                = "Activity",  /* TODO: check type, should be an Interaction Occurrence */
         .is_a                     = (XMI_ELEMENT_IS_A_BEHAVIOR),
         .property_from            = NULL,
         .property_to              = NULL,

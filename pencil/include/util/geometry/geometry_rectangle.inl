@@ -50,8 +50,8 @@ static inline void geometry_rectangle_reinit_empty ( geometry_rectangle_t *this_
 }
 
 static inline int geometry_rectangle_init_by_intersect ( geometry_rectangle_t *this_,
-                                                          const geometry_rectangle_t *rect_a,
-                                                          const geometry_rectangle_t *rect_b )
+                                                         const geometry_rectangle_t *rect_a,
+                                                         const geometry_rectangle_t *rect_b )
 {
     assert( NULL != rect_a );
     assert( NULL != rect_b );

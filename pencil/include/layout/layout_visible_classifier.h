@@ -136,6 +136,16 @@ static inline void layout_visible_classifier_set_label_anchor ( layout_visible_c
                                                               );
 
 /*!
+ *  \brief calculates the envelope bounds of the classifier.
+ *
+ *  The envelope contains the label and the symbol box and implicitly the (inner) space.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return geometry_rectangle_t ehich is the envelope to label and symbol-box.
+ */
+static inline geometry_rectangle_t layout_visible_classifier_calc_envelope_box ( const layout_visible_classifier_t *this_ );
+
+/*!
  *  \brief moves the layout_visible_classifier_t
  *
  *  \param this_ pointer to own object attributes
@@ -208,6 +218,19 @@ static inline data_row_id_t layout_visible_classifier_get_classifier_id ( const 
  *  \return id of the diagramelement
  */
 static inline data_row_id_t layout_visible_classifier_get_diagramelement_id ( const layout_visible_classifier_t *this_ );
+
+/*!
+ *  \brief checks if the ids of the associated diagramelements are identical
+ *
+ *  This is a shortcut for layout_visible_classifier_get_diagramelement_id( this_ )==layout_visible_classifier_get_diagramelement_id( that )
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to others object attributes
+ *  \return true if ids of the associated diagramelements are identical
+ */
+static inline bool layout_visible_classifier_is_equal_diagramelement_id ( const layout_visible_classifier_t *this_,
+                                                                          const layout_visible_classifier_t *that
+                                                                        );
 
 #include "layout_visible_classifier.inl"
 

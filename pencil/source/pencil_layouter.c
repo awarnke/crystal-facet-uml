@@ -123,14 +123,19 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_, geometry_rectangle_
     count = pencil_layout_data_get_visible_classifier_count ( &((*this_).layout_data) );
     for ( uint32_t index = 0; index < count; index ++ )
     {
-        layout_visible_classifier_t *visible_classifier;
-        visible_classifier = pencil_layout_data_get_visible_classifier_ptr ( &((*this_).layout_data), index );
-        const data_classifier_t *classifier_data;
-        classifier_data = layout_visible_classifier_get_classifier_const( visible_classifier );
+        const layout_visible_classifier_t *const visible_classifier
+            = pencil_layout_data_get_visible_classifier_ptr ( &((*this_).layout_data), index );
+        const data_classifier_t *const classifier_data
+            = layout_visible_classifier_get_classifier_const( visible_classifier );
+        const uint32_t visible_descendants
+            = pencil_layout_data_count_descendants( &((*this_).layout_data), visible_classifier );
 
-        /* adjust the non-linear scales for this classifier */
-        geometry_non_linear_scale_add_order ( &((*this_).x_scale), data_classifier_get_x_order( classifier_data ) );
-        geometry_non_linear_scale_add_order ( &((*this_).y_scale), data_classifier_get_y_order( classifier_data ) );
+        /* adjust the non-linear scales for this classifier (if no contained descendants) */
+        if ( 0 == visible_descendants )
+        {
+            geometry_non_linear_scale_add_order ( &((*this_).x_scale), data_classifier_get_x_order( classifier_data ) );
+            geometry_non_linear_scale_add_order ( &((*this_).y_scale), data_classifier_get_y_order( classifier_data ) );
+        }
     }
 
     TRACE_END();
@@ -202,11 +207,11 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
         /* move the classifiers to avoid overlaps */
         pencil_classifier_layouter_move_to_avoid_overlaps( &((*this_).pencil_classifier_layouter) );
 
-        /* parent classifiers embrace their children */
-        pencil_classifier_layouter_embrace_children( &((*this_).pencil_classifier_layouter) );
+        /* parent classifiers embrace their children step by step */
+        pencil_classifier_layouter_embrace_children( &((*this_).pencil_classifier_layouter), font_layout );
 
-        /* classifiers shall grab more space if there is space left (beautify) */
-        pencil_classifier_layouter_local_move_and_grow_for_gaps( &((*this_).pencil_classifier_layouter), font_layout );
+        /* classifiers embrace all children at once and move them if there is space available */
+        pencil_classifier_layouter_move_and_embrace_children( &((*this_).pencil_classifier_layouter), font_layout );
 
         /* calculate the feature shapes */
         pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
@@ -253,7 +258,9 @@ void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t
     /* set the default size to grid cell minus a gap on each side, minus extra gap on top for containers */
     geometry_dimensions_t *const default_size = &((*this_).default_classifier_size);
     geometry_dimensions_reinit( default_size, grid_width, grid_height );
-    geometry_dimensions_expand ( default_size, -2.0 * gap, -4.0 * gap ); /* ensures non-negative values */
+    const double x_space = 3.0 * gap;  /* space for enclosing parents and for relationships */
+    const double y_space = 5.0 * gap;  /* space for enclosing parents (including title-line) and for relationships */
+    geometry_dimensions_expand ( default_size, -x_space, -y_space ); /* ensures non-negative values */
 
     /* for aesthetic reasons, ensure that the default dimension is more wide than high */
     const double w = geometry_dimensions_get_width( default_size );
@@ -771,35 +778,43 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
                 {
                     const geometry_rectangle_t *const closest_parent_symbol_box
                         = layout_visible_classifier_get_symbol_box_const ( closest_parent_instance );
-                    double center_x;
-                    double center_y;
-                    center_x = geometry_rectangle_get_center_x( closest_parent_symbol_box );
-                    center_y = geometry_rectangle_get_center_y( closest_parent_symbol_box );
-                    double delta_x;
-                    double delta_y;
-                    delta_x = ( x < center_x ) ? (center_x - x) : (x - center_x);
-                    delta_y = ( y < center_y ) ? (center_y - y) : (y - center_y);
+                    const double center_x = geometry_rectangle_get_center_x( closest_parent_symbol_box );
+                    const double center_y = geometry_rectangle_get_center_y( closest_parent_symbol_box );
+                    const double width = geometry_rectangle_get_width( closest_parent_symbol_box );
+                    const double height = geometry_rectangle_get_height( closest_parent_symbol_box );
+                    const double delta_x = x - center_x;
+                    const double delty_y = y - center_y;
+                    const double relative_delta_x = delta_x * height;
+                    const double relative_delta_y = delty_y * width;
+                    const double distance_x = ( x < center_x ) ? (center_x - x) : (x - center_x);
+                    const double distance_y = ( y < center_y ) ? (center_y - y) : (y - center_y);
+                    const double relative_dist_x = distance_x * height;
+                    const double relative_dist_y = distance_y * width;
                     int32_t order;
-                    if ( delta_x > delta_y )
+                    if ( relative_dist_x > relative_dist_y )
                     {
                         if ( x < center_x )
                         {
-                            order = INT32_MAX*(((y-center_y)/(delta_x+0.1))*0.25+0.25);
+                            /* x,y is on left side, order is between 0 and INT32_MAX/2 */
+                            order = INT32_MAX*(relative_delta_y/(relative_dist_x+0.1)*0.25+0.25);
                         }
                         else
                         {
-                            order = INT32_MIN*(((y-center_y)/(delta_x+0.1))*0.25+0.75);
+                            /* x,y is on right side, order is between INT32_MIN and INT32_MIN/2 */
+                            order = INT32_MIN*(relative_delta_y/(relative_dist_x+0.1)*0.25+0.75);
                         }
                     }
                     else
                     {
                         if ( y < center_y )
                         {
-                            order = INT32_MIN*(((x-center_x)/(delta_y+0.1))*0.25+0.25);
+                            /* x,y is on upper side, order is between INT32_MIN/2 and 0 */
+                            order = INT32_MIN*(relative_delta_x/(relative_dist_y+0.1)*0.25+0.25);
                         }
                         else
                         {
-                            order = INT32_MAX*(((x-center_x)/(delta_y+0.1))*0.25+0.75);
+                            /* x,y is on lower side, order is between INT32_MAX/2 and INT32_MAX */
+                            order = INT32_MAX*(relative_delta_x/(relative_dist_y+0.1)*0.25+0.75);
                         }
                     }
                     layout_order_init_list( out_layout_order, order );
