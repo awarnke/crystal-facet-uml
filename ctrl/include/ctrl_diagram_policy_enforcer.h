@@ -111,6 +111,7 @@ static inline ctrl_error_t ctrl_diagram_policy_enforcer_post_delete_diagrameleme
  *  - when changing a diagram type to DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM
  *    or to DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM
  *    or to DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+ *    or to DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM,
  *    all contained elements shall get a lifeline
  *    and this lifeline shall be the focused_feature of the diagramelement.
  *
@@ -130,6 +131,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_lifelines ( ctrl_diagra
  *    to a diagram of type DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM
  *    or DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM
  *    or DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+ *    or to DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM,
  *    the new diagramelement shall get a lifeline
  *    and this lifeline shall be the focused_feature of the diagramelement.
  *
