@@ -72,6 +72,8 @@ void pencil_classifier_layouter_init( pencil_classifier_layouter_t *this_,
  */
 void pencil_classifier_layouter_destroy( pencil_classifier_layouter_t *this_ );
 
+/* ================================ INITIAL LAYOUT ================================ */
+
 /*!
  *  \brief estimates classifier bounds for each classifier
  *
@@ -80,38 +82,7 @@ void pencil_classifier_layouter_destroy( pencil_classifier_layouter_t *this_ );
  */
 void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *this_, PangoLayout *font_layout );
 
-/*!
- *  \brief resize classifiers so that they embrace their children
- *
- *  \param this_ pointer to own object attributes
- *  \param font_layout pango layout object to determine the font metrics if re-layouting titles
- */
-void pencil_classifier_layouter_embrace_children( pencil_classifier_layouter_t *this_, PangoLayout *font_layout );
-
-/*!
- *  \brief determine order by which to embrace classifiers
- *
- *  \param this_ pointer to own object attributes
- *  \param out_sorted sorting order of relationships by which to adapt classifiers; must not be NULL, shall be initialized to empty.
- */
-void pencil_classifier_layouter_private_propose_embracing_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
-
-/*!
- *  \brief try to resize classifiers so that they embrace their children
- *
- *  \param this_ pointer to own object attributes
- *  \param the_relationship the relationship to process: the parent tries to embrace the child
- *  \param move true if the containing parent classifier may move to the child, false if it shall expand only
- *  \return 0 in case of success, -1 if embracing was not possible
- */
-int pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_layouter_t *this_, layout_relationship_t *the_relationship, bool move );
-
-/*!
- *  \brief hides containment relationships if parents embrace their children
- *
- *  \param this_ pointer to own object attributes
- */
-void pencil_classifier_layouter_hide_relations_of_embraced_children( pencil_classifier_layouter_t *this_ );
+/* ================================ MOVE TO AVOID OVERLAPS ================================ */
 
 /*!
  *  \brief move classifiers to avoid overlaps
@@ -184,6 +155,45 @@ void pencil_classifier_layouter_private_select_move_solution ( pencil_classifier
                                                                uint32_t *out_index_of_best
                                                              );
 
+/* ================================ EMBRACE CHILDREN STEP BY STEP ================================ */
+
+/*!
+ *  \brief resize classifiers so that they embrace their children
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param font_layout pango layout object to determine the font metrics if re-layouting titles
+ */
+void pencil_classifier_layouter_embrace_children( pencil_classifier_layouter_t *this_, PangoLayout *font_layout );
+
+/*!
+ *  \brief determine order by which to embrace classifiers
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param out_sorted sorting order of relationships by which to adapt classifiers; must not be NULL, shall be initialized to empty.
+ */
+void pencil_classifier_layouter_private_propose_embracing_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
+
+/*!
+ *  \brief try to resize classifiers so that they embrace their children
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param the_relationship the relationship to process: the parent tries to embrace the child
+ *  \param move true if the containing parent classifier may move to the child, false if it shall expand only
+ *  \return 0 in case of success, -1 if embracing was not possible
+ */
+int pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_layouter_t *this_, layout_relationship_t *the_relationship, bool move );
+
+/* ================================ EMBRACE CHILDREN COMMON ================================ */
+
+/*!
+ *  \brief hides containment relationships if parents embrace their children
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void pencil_classifier_layouter_hide_relations_of_embraced_children( pencil_classifier_layouter_t *this_ );
+
+/* ================================ EMBRACE AND MOVE CHILDREN TOGETHER ================================ */
+
 /*!
  *  \brief move and embrace child classifiers so that they have nice distances to neighbours and parent
  *
@@ -198,7 +208,7 @@ void pencil_classifier_layouter_move_and_embrace_children( pencil_classifier_lay
  *  \param this_ pointer to own object attributes
  *  \param out_sorted sorting order by which to grow classifiers; must not be NULL, shall be initialized to empty.
  */
-void pencil_classifier_layouter_private_propose_embrace_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
+void pencil_classifier_layouter_private_propose_move_embrace_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
 
 /*!
  *  \brief calculates the envelope hull of all descendants (excluding self).
@@ -213,6 +223,18 @@ static inline geometry_rectangle_t pencil_classifier_layouter_private_calc_desce
                                                                                               );
 
 /*!
+ *  \brief calculates the outer space around a given rectangle ignoring descendants, ancesters and self.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param start_rect rectangle for which to explore and determine the outer space
+ *  \param parent_classifier the classifier of which descendants, ancesters and self shall be ignored
+ */
+static inline geometry_rectangle_t pencil_classifier_layouter_private_calc_outer_space( pencil_classifier_layouter_t *this_,
+                                                                                        const geometry_rectangle_t *start_rect,
+                                                                                        const layout_visible_classifier_t *the_classifier
+                                                                                      );
+
+/*!
  *  \brief moves all descendants of a classifier
  *
  *  \param this_ pointer to own object attributes
@@ -225,6 +247,8 @@ static inline void pencil_classifier_layouter_private_move_descendants( pencil_c
                                                                         double delta_x,
                                                                         double delta_y
                                                                       );
+
+/* ================================ LAYOUT FOR SCENARIO ================================ */
 
 /*!
  *  \brief defines classifier bounds for list diagrams

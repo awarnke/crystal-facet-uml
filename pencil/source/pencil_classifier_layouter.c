@@ -50,6 +50,8 @@ void pencil_classifier_layouter_destroy( pencil_classifier_layouter_t *this_ )
     TRACE_END();
 }
 
+/* ================================ INITIAL LAYOUT ================================ */
+
 void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *this_, PangoLayout *font_layout )
 {
     TRACE_BEGIN();
@@ -105,244 +107,7 @@ void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *
     TRACE_END();
 }
 
-void pencil_classifier_layouter_embrace_children( pencil_classifier_layouter_t *this_, PangoLayout *font_layout )
-{
-    TRACE_BEGIN();
-    assert( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
-
-    universal_array_index_sorter_t sorted_relationships;
-    universal_array_index_sorter_init( &sorted_relationships );
-
-    /* sort the relationships by their number of descendants */
-    pencil_classifier_layouter_private_propose_embracing_order ( this_, &sorted_relationships );
-
-    /* init the set of classifiers that has embraced children */
-    data_small_set_t has_embraced_children;
-    data_small_set_init( &has_embraced_children );
-
-    /* move the classifiers */
-    const uint32_t count_sorted = universal_array_index_sorter_get_count( &sorted_relationships );
-    for ( uint32_t rel_sort_idx = 0; rel_sort_idx < count_sorted; rel_sort_idx ++ )
-    {
-        const uint32_t rel_idx
-            = universal_array_index_sorter_get_array_index( &sorted_relationships, rel_sort_idx );
-        layout_relationship_t *const the_relationship
-            = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, rel_idx );
-        assert ( the_relationship != NULL );
-        const data_relationship_t *const rel_data = layout_relationship_get_data_const ( the_relationship );
-        assert ( rel_data != NULL );
-        const data_id_t rel_from_id = data_relationship_get_from_classifier_data_id ( rel_data );
-
-        const int failure
-            = pencil_classifier_layouter_private_try_embrace_child( this_,
-                                                                    the_relationship,
-                                                                    ! data_small_set_contains( &has_embraced_children, rel_from_id )
-                                                                  );
-        if ( ! failure )
-        {
-            data_small_set_add_obj( &has_embraced_children, rel_from_id );
-
-            /* re-calculate the label-box and thereby update the space-box of the parent */
-            layout_visible_classifier_t *const from_classifier
-                = layout_relationship_get_from_classifier_ptr( the_relationship );
-            pencil_classifier_composer_set_space_and_label( &((*this_).classifier_composer),
-                                                            layout_visible_classifier_get_data_const( from_classifier ),
-                                                            (*this_).pencil_size,
-                                                            font_layout,
-                                                            from_classifier
-                                                          );
-        }
-    }
-
-    data_small_set_destroy( &has_embraced_children );
-
-    universal_array_index_sorter_destroy( &sorted_relationships );
-
-    TRACE_END();
-}
-
-void pencil_classifier_layouter_private_propose_embracing_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted )
-{
-    TRACE_BEGIN();
-    assert( NULL != out_sorted );
-
-    const uint32_t rel_count = pencil_layout_data_get_relationship_count( (*this_).layout_data );
-    for ( uint32_t rel_idx = 0; rel_idx < rel_count; rel_idx ++ )
-    {
-        const layout_relationship_t *const the_relationship
-            = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, rel_idx );
-
-        /* count the descendants */
-        const layout_visible_classifier_t *const from_classifier
-            = layout_relationship_get_from_classifier_ptr( the_relationship );
-        const uint32_t from_descendant_count
-            = pencil_layout_data_count_descendants( (*this_).layout_data, from_classifier );
-
-        /* sort it into the array by the number of decendants: */
-        /* the less descendants the earlier it shall be processed. */
-        int err;
-        err = universal_array_index_sorter_insert( out_sorted, rel_idx, (double)from_descendant_count );
-        if ( 0 != err )
-        {
-            TSLOG_ERROR ( "universal_array_index_sorter_t list is full." );
-        }
-    }
-
-    TRACE_END();
-}
-
-int pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_layouter_t *this_, layout_relationship_t *the_relationship, bool move )
-{
-    TRACE_BEGIN();
-    assert( NULL != the_relationship );
-    int result_err = -1;
-
-    const data_relationship_type_t the_type
-        = data_relationship_get_main_type ( layout_relationship_get_data_const( the_relationship ));
-
-    if ( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type )
-    {
-        layout_visible_classifier_t *const from_classifier
-            = layout_relationship_get_from_classifier_ptr( the_relationship );
-        const layout_visible_classifier_t *const to_classifier
-            = layout_relationship_get_to_classifier_ptr( the_relationship );
-        if ( from_classifier != to_classifier )
-        {
-            const geometry_rectangle_t parent_envelope = layout_visible_classifier_calc_envelope_box( from_classifier );
-            const geometry_rectangle_t *const parent_space
-                = layout_visible_classifier_get_space_const ( from_classifier );
-            const geometry_rectangle_t child_envelope = layout_visible_classifier_calc_envelope_box( to_classifier );
-
-            /* try embrace child */
-            geometry_rectangle_t probe_parent_envelope;  /* try out a new parent symbol_box rectangle */
-            geometry_rectangle_copy( &probe_parent_envelope, &parent_envelope );
-            double extend_to_left = 0.0;
-            double extend_to_right = 0.0;
-            double extend_to_top = 0.0;
-            double extend_to_bottom = 0.0;
-            extend_to_left = geometry_rectangle_get_left( parent_space ) - geometry_rectangle_get_left( &child_envelope );
-            extend_to_top = geometry_rectangle_get_top( parent_space ) - geometry_rectangle_get_top( &child_envelope );
-            extend_to_right = geometry_rectangle_get_right( &child_envelope ) - geometry_rectangle_get_right( parent_space );
-            extend_to_bottom = geometry_rectangle_get_bottom( &child_envelope ) - geometry_rectangle_get_bottom( parent_space );
-            if ( ! move )
-            {
-                if ( extend_to_left < 0.0 )
-                {
-                    extend_to_left = 0.0;
-                }
-                if ( extend_to_top < 0.0 )
-                {
-                    extend_to_top = 0.0;
-                }
-                if ( extend_to_right < 0.0 )
-                {
-                    extend_to_right = 0.0;
-                }
-                if ( extend_to_bottom < 0.0 )
-                {
-                    extend_to_bottom = 0.0;
-                }
-            }
-            geometry_rectangle_expand( &probe_parent_envelope, extend_to_left+extend_to_right, extend_to_top+extend_to_bottom );
-            geometry_rectangle_shift( &probe_parent_envelope, -extend_to_left, -extend_to_top );
-
-            /* check what else would be embraced */
-            bool illegal_overlap = false;
-            uint32_t count_clasfy;
-            count_clasfy = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
-            for ( uint32_t c_index = 0; c_index < count_clasfy; c_index ++ )
-            {
-                layout_visible_classifier_t *probe_classifier;
-                probe_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, c_index );
-
-                if (( probe_classifier != from_classifier )&&( probe_classifier != to_classifier ))
-                {
-                    if ( pencil_layout_data_is_ancestor ( (*this_).layout_data, from_classifier, probe_classifier ) )
-                    {
-                        /* it is ok to embrace also other children, no illegal_overlap */
-                    }
-                    else if ( pencil_layout_data_is_ancestor ( (*this_).layout_data, probe_classifier, from_classifier ) )
-                    {
-                        /* it is ok if parent is already contained in grand-parent classifier, no illegal_overlap */
-                    }
-                    else
-                    {
-                        const geometry_rectangle_t *const current_symbol_box
-                            = layout_visible_classifier_get_symbol_box_const ( probe_classifier );
-                        illegal_overlap |= geometry_rectangle_is_intersecting( current_symbol_box, &probe_parent_envelope );
-                    }
-                }
-            }
-            /* check overlap to diagram boundary */
-            if ( ! geometry_rectangle_is_containing ( (*this_).diagram_draw_area, &probe_parent_envelope ) )
-            {
-                illegal_overlap = true;
-            }
-
-            /* cancel or commit */
-            if ( ! illegal_overlap )
-            {
-                layout_visible_classifier_expand( from_classifier, extend_to_left+extend_to_right, extend_to_top+extend_to_bottom );
-                layout_visible_classifier_shift( from_classifier, -extend_to_left, -extend_to_top );
-                result_err = 0;
-            }
-
-            /* cleanup */
-            geometry_rectangle_destroy( &probe_parent_envelope );
-        }
-        else
-        {
-            TRACE_INFO( "Classifier contains itself" );
-        }
-    }
-    /* else this is not a parent child relationship */
-
-    TRACE_END_ERR( result_err );
-    return result_err;
-}
-
-void pencil_classifier_layouter_hide_relations_of_embraced_children( pencil_classifier_layouter_t *this_ )
-{
-    TRACE_BEGIN();
-
-    /* search containment relations */
-    const uint32_t rel_count = pencil_layout_data_get_relationship_count( (*this_).layout_data );
-    for ( uint32_t rel_idx = 0; rel_idx < rel_count; rel_idx ++ )
-    {
-        const layout_relationship_t *const the_relationship
-            = pencil_layout_data_get_relationship_const( (*this_).layout_data, rel_idx );
-        const data_relationship_t *const the_rel_data
-            = layout_relationship_get_data_const( the_relationship );
-
-        const data_relationship_type_t the_type = data_relationship_get_main_type ( the_rel_data );
-        const pencil_visibility_t visibility = layout_relationship_get_visibility( the_relationship );
-
-        if (( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type )
-            && (( PENCIL_VISIBILITY_SHOW == visibility )||(PENCIL_VISIBILITY_GRAY_OUT == visibility) ))
-        {
-            const layout_visible_classifier_t *const from_classifier
-                = layout_relationship_get_from_classifier_ptr( the_relationship );
-            const layout_visible_classifier_t *const to_classifier
-                = layout_relationship_get_to_classifier_ptr( the_relationship );
-            if ( from_classifier != to_classifier )
-            {
-                const geometry_rectangle_t *const parent_space
-                    = layout_visible_classifier_get_space_const ( from_classifier );
-                const geometry_rectangle_t *const child_symbol_box
-                    = layout_visible_classifier_get_symbol_box_const ( to_classifier );
-
-                /* hide if parent embraced child completely */
-                if ( geometry_rectangle_is_containing( parent_space, child_symbol_box ) )
-                {
-                    pencil_layout_data_set_relationship_visibility( (*this_).layout_data, rel_idx, PENCIL_VISIBILITY_IMPLICIT );
-                    TRACE_INFO( "Containment relation is PENCIL_VISIBILITY_IMPLICIT" );
-                }
-            }
-        }
-    }
-
-    TRACE_END();
-}
+/* ================================ MOVE TO AVOID OVERLAPS ================================ */
 
 void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layouter_t *this_ )
 {
@@ -916,6 +681,251 @@ void pencil_classifier_layouter_private_select_move_solution ( pencil_classifier
     TRACE_END();
 }
 
+/* ================================ EMBRACE CHILDREN STEP BY STEP ================================ */
+
+void pencil_classifier_layouter_embrace_children( pencil_classifier_layouter_t *this_, PangoLayout *font_layout )
+{
+    TRACE_BEGIN();
+    assert( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
+
+    universal_array_index_sorter_t sorted_relationships;
+    universal_array_index_sorter_init( &sorted_relationships );
+
+    /* sort the relationships by their number of descendants */
+    pencil_classifier_layouter_private_propose_embracing_order ( this_, &sorted_relationships );
+
+    /* init the set of classifiers that has embraced children */
+    data_small_set_t has_embraced_children;
+    data_small_set_init( &has_embraced_children );
+
+    /* move the classifiers */
+    const uint32_t count_sorted = universal_array_index_sorter_get_count( &sorted_relationships );
+    for ( uint32_t rel_sort_idx = 0; rel_sort_idx < count_sorted; rel_sort_idx ++ )
+    {
+        const uint32_t rel_idx
+            = universal_array_index_sorter_get_array_index( &sorted_relationships, rel_sort_idx );
+        layout_relationship_t *const the_relationship
+            = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, rel_idx );
+        assert ( the_relationship != NULL );
+        const data_relationship_t *const rel_data = layout_relationship_get_data_const ( the_relationship );
+        assert ( rel_data != NULL );
+        const data_id_t rel_from_id = data_relationship_get_from_classifier_data_id ( rel_data );
+
+        const int failure
+            = pencil_classifier_layouter_private_try_embrace_child( this_,
+                                                                    the_relationship,
+                                                                    ! data_small_set_contains( &has_embraced_children, rel_from_id )
+                                                                  );
+        if ( ! failure )
+        {
+            data_small_set_add_obj( &has_embraced_children, rel_from_id );
+
+            /* re-calculate the label-box and thereby update the space-box of the parent */
+            layout_visible_classifier_t *const from_classifier
+                = layout_relationship_get_from_classifier_ptr( the_relationship );
+            pencil_classifier_composer_set_space_and_label( &((*this_).classifier_composer),
+                                                            layout_visible_classifier_get_data_const( from_classifier ),
+                                                            (*this_).pencil_size,
+                                                            font_layout,
+                                                            from_classifier
+                                                          );
+        }
+    }
+
+    data_small_set_destroy( &has_embraced_children );
+
+    universal_array_index_sorter_destroy( &sorted_relationships );
+
+    TRACE_END();
+}
+
+void pencil_classifier_layouter_private_propose_embracing_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted )
+{
+    TRACE_BEGIN();
+    assert( NULL != out_sorted );
+
+    const uint32_t rel_count = pencil_layout_data_get_relationship_count( (*this_).layout_data );
+    for ( uint32_t rel_idx = 0; rel_idx < rel_count; rel_idx ++ )
+    {
+        const layout_relationship_t *const the_relationship
+            = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, rel_idx );
+
+        /* count the descendants */
+        const layout_visible_classifier_t *const from_classifier
+            = layout_relationship_get_from_classifier_ptr( the_relationship );
+        const uint32_t from_descendant_count
+            = pencil_layout_data_count_descendants( (*this_).layout_data, from_classifier );
+
+        /* sort it into the array by the number of decendants: */
+        /* the less descendants the earlier it shall be processed. */
+        int err;
+        err = universal_array_index_sorter_insert( out_sorted, rel_idx, (double)from_descendant_count );
+        if ( 0 != err )
+        {
+            TSLOG_ERROR ( "universal_array_index_sorter_t list is full." );
+        }
+    }
+
+    TRACE_END();
+}
+
+int pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_layouter_t *this_, layout_relationship_t *the_relationship, bool move )
+{
+    TRACE_BEGIN();
+    assert( NULL != the_relationship );
+    int result_err = -1;
+
+    const data_relationship_type_t the_type
+        = data_relationship_get_main_type ( layout_relationship_get_data_const( the_relationship ));
+
+    if ( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type )
+    {
+        layout_visible_classifier_t *const from_classifier
+            = layout_relationship_get_from_classifier_ptr( the_relationship );
+        const layout_visible_classifier_t *const to_classifier
+            = layout_relationship_get_to_classifier_ptr( the_relationship );
+        if ( from_classifier != to_classifier )
+        {
+            const geometry_rectangle_t parent_envelope = layout_visible_classifier_calc_envelope_box( from_classifier );
+            const geometry_rectangle_t *const parent_space
+                = layout_visible_classifier_get_space_const ( from_classifier );
+            const geometry_rectangle_t child_envelope = layout_visible_classifier_calc_envelope_box( to_classifier );
+
+            /* try embrace child */
+            geometry_rectangle_t probe_parent_envelope;  /* try out a new parent symbol_box rectangle */
+            geometry_rectangle_copy( &probe_parent_envelope, &parent_envelope );
+            double extend_to_left = 0.0;
+            double extend_to_right = 0.0;
+            double extend_to_top = 0.0;
+            double extend_to_bottom = 0.0;
+            extend_to_left = geometry_rectangle_get_left( parent_space ) - geometry_rectangle_get_left( &child_envelope );
+            extend_to_top = geometry_rectangle_get_top( parent_space ) - geometry_rectangle_get_top( &child_envelope );
+            extend_to_right = geometry_rectangle_get_right( &child_envelope ) - geometry_rectangle_get_right( parent_space );
+            extend_to_bottom = geometry_rectangle_get_bottom( &child_envelope ) - geometry_rectangle_get_bottom( parent_space );
+            if ( ! move )
+            {
+                if ( extend_to_left < 0.0 )
+                {
+                    extend_to_left = 0.0;
+                }
+                if ( extend_to_top < 0.0 )
+                {
+                    extend_to_top = 0.0;
+                }
+                if ( extend_to_right < 0.0 )
+                {
+                    extend_to_right = 0.0;
+                }
+                if ( extend_to_bottom < 0.0 )
+                {
+                    extend_to_bottom = 0.0;
+                }
+            }
+            geometry_rectangle_expand( &probe_parent_envelope, extend_to_left+extend_to_right, extend_to_top+extend_to_bottom );
+            geometry_rectangle_shift( &probe_parent_envelope, -extend_to_left, -extend_to_top );
+
+            /* check what else would be embraced */
+            bool illegal_overlap = false;
+            uint32_t count_clasfy;
+            count_clasfy = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
+            for ( uint32_t c_index = 0; c_index < count_clasfy; c_index ++ )
+            {
+                layout_visible_classifier_t *probe_classifier;
+                probe_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, c_index );
+
+                if (( probe_classifier != from_classifier )&&( probe_classifier != to_classifier ))
+                {
+                    if ( pencil_layout_data_is_ancestor ( (*this_).layout_data, from_classifier, probe_classifier ) )
+                    {
+                        /* it is ok to embrace also other children, no illegal_overlap */
+                    }
+                    else if ( pencil_layout_data_is_ancestor ( (*this_).layout_data, probe_classifier, from_classifier ) )
+                    {
+                        /* it is ok if parent is already contained in grand-parent classifier, no illegal_overlap */
+                    }
+                    else
+                    {
+                        const geometry_rectangle_t *const current_symbol_box
+                            = layout_visible_classifier_get_symbol_box_const ( probe_classifier );
+                        illegal_overlap |= geometry_rectangle_is_intersecting( current_symbol_box, &probe_parent_envelope );
+                    }
+                }
+            }
+            /* check overlap to diagram boundary */
+            if ( ! geometry_rectangle_is_containing ( (*this_).diagram_draw_area, &probe_parent_envelope ) )
+            {
+                illegal_overlap = true;
+            }
+
+            /* cancel or commit */
+            if ( ! illegal_overlap )
+            {
+                layout_visible_classifier_expand( from_classifier, extend_to_left+extend_to_right, extend_to_top+extend_to_bottom );
+                layout_visible_classifier_shift( from_classifier, -extend_to_left, -extend_to_top );
+                result_err = 0;
+            }
+
+            /* cleanup */
+            geometry_rectangle_destroy( &probe_parent_envelope );
+        }
+        else
+        {
+            TRACE_INFO( "Classifier contains itself" );
+        }
+    }
+    /* else this is not a parent child relationship */
+
+    TRACE_END_ERR( result_err );
+    return result_err;
+}
+
+/* ================================ EMBRACE CHILDREN COMMON ================================ */
+
+void pencil_classifier_layouter_hide_relations_of_embraced_children( pencil_classifier_layouter_t *this_ )
+{
+    TRACE_BEGIN();
+
+    /* search containment relations */
+    const uint32_t rel_count = pencil_layout_data_get_relationship_count( (*this_).layout_data );
+    for ( uint32_t rel_idx = 0; rel_idx < rel_count; rel_idx ++ )
+    {
+        const layout_relationship_t *const the_relationship
+            = pencil_layout_data_get_relationship_const( (*this_).layout_data, rel_idx );
+        const data_relationship_t *const the_rel_data
+            = layout_relationship_get_data_const( the_relationship );
+
+        const data_relationship_type_t the_type = data_relationship_get_main_type ( the_rel_data );
+        const pencil_visibility_t visibility = layout_relationship_get_visibility( the_relationship );
+
+        if (( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type )
+            && (( PENCIL_VISIBILITY_SHOW == visibility )||(PENCIL_VISIBILITY_GRAY_OUT == visibility) ))
+        {
+            const layout_visible_classifier_t *const from_classifier
+                = layout_relationship_get_from_classifier_ptr( the_relationship );
+            const layout_visible_classifier_t *const to_classifier
+                = layout_relationship_get_to_classifier_ptr( the_relationship );
+            if ( from_classifier != to_classifier )
+            {
+                const geometry_rectangle_t *const parent_space
+                    = layout_visible_classifier_get_space_const ( from_classifier );
+                const geometry_rectangle_t *const child_symbol_box
+                    = layout_visible_classifier_get_symbol_box_const ( to_classifier );
+
+                /* hide if parent embraced child completely */
+                if ( geometry_rectangle_is_containing( parent_space, child_symbol_box ) )
+                {
+                    pencil_layout_data_set_relationship_visibility( (*this_).layout_data, rel_idx, PENCIL_VISIBILITY_IMPLICIT );
+                    TRACE_INFO( "Containment relation is PENCIL_VISIBILITY_IMPLICIT" );
+                }
+            }
+        }
+    }
+
+    TRACE_END();
+}
+
+/* ================================ EMBRACE AND MOVE CHILDREN TOGETHER ================================ */
+
 void pencil_classifier_layouter_move_and_embrace_children( pencil_classifier_layouter_t *this_, PangoLayout *font_layout )
 {
     TRACE_BEGIN();
@@ -929,7 +939,7 @@ void pencil_classifier_layouter_move_and_embrace_children( pencil_classifier_lay
     universal_array_index_sorter_init( &sorted_classifiers );
 
     /* sort the classifiers by their need to move and to embrace */
-    pencil_classifier_layouter_private_propose_embrace_order ( this_, &sorted_classifiers );
+    pencil_classifier_layouter_private_propose_move_embrace_order ( this_, &sorted_classifiers );
 
     /* small-move and embrace the child classifiers */
     const uint32_t count_sorted = universal_array_index_sorter_get_count( &sorted_classifiers );
@@ -955,42 +965,8 @@ void pencil_classifier_layouter_move_and_embrace_children( pencil_classifier_lay
                 = pencil_classifier_layouter_private_calc_descendant_envelope( this_, the_classifier );
 
             /* determine outer space around envelope rectangle */
-            geometry_rectangle_t outer_space;
-            {
-                geometry_rectangle_copy( &outer_space, &children_envelope );
-                const double children_envelope_w = geometry_rectangle_get_width(&children_envelope);
-                const double children_envelope_h = geometry_rectangle_get_height(&children_envelope);
-                geometry_rectangle_shift ( &outer_space,
-                                           -0.5*children_envelope_w-parent_space_width_diff,
-                                           -0.5*children_envelope_h-parent_space_height_diff
-                                         );
-                geometry_rectangle_expand ( &outer_space,
-                                            children_envelope_w+2.0*parent_space_width_diff,
-                                            children_envelope_h+2.0*parent_space_height_diff
-                                          );
-
-                geometry_rectangle_init_by_intersect( &outer_space,
-                                                      &outer_space,
-                                                      (*this_).diagram_draw_area
-                                                    );
-
-                const uint32_t count_classifiers = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
-                for ( uint32_t probe_index = 0; probe_index < count_classifiers; probe_index ++ )
-                {
-                    /* get classifier to check overlaps */
-                    const layout_visible_classifier_t *const the_probe
-                        = pencil_layout_data_get_visible_classifier_const( (*this_).layout_data, probe_index );
-
-                    const bool ignore = pencil_layout_data_is_ancestor ( (*this_).layout_data, the_classifier, the_probe )
-                                        || pencil_layout_data_is_ancestor ( (*this_).layout_data, the_probe, the_classifier ) /* ancestor may already encapsulate probe */
-                                        || ( layout_visible_classifier_is_equal_diagramelement_id( the_classifier, the_probe ));
-                    if ( ! ignore )
-                    {
-                        const geometry_rectangle_t probe_envelope = layout_visible_classifier_calc_envelope_box( the_probe );
-                        geometry_rectangle_init_by_difference( &outer_space, &outer_space, &probe_envelope );
-                    }
-                }
-            }
+            const geometry_rectangle_t outer_space
+                = pencil_classifier_layouter_private_calc_outer_space( this_, &children_envelope, the_classifier );
 
             const double parent_min_width = parent_space_width_diff + geometry_rectangle_get_width(&children_envelope);
             const double parent_min_height = parent_space_height_diff + geometry_rectangle_get_height(&children_envelope);
@@ -1043,7 +1019,7 @@ void pencil_classifier_layouter_move_and_embrace_children( pencil_classifier_lay
     TRACE_END();
 }
 
-void pencil_classifier_layouter_private_propose_embrace_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted )
+void pencil_classifier_layouter_private_propose_move_embrace_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted )
 {
     TRACE_BEGIN();
     assert ( NULL != out_sorted );
@@ -1071,6 +1047,8 @@ void pencil_classifier_layouter_private_propose_embrace_order ( pencil_classifie
 
     TRACE_END();
 }
+
+/* ================================ LAYOUT FOR SCENARIO ================================ */
 
 void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *this_, PangoLayout *font_layout )
 {
