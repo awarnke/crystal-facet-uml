@@ -3,6 +3,10 @@ crystal-facet-uml (1.24.1) UNRELEASED; urgency=medium
   [ Andreas Warnke ]
   * moving ports follow the cursor more accurate
   * layouting containments does not reserve columns/rows for the container
+  * Feature/Composite Requirement does not exist anymore, 
+    is auto-converted to Requirement
+  * Interaction Overview Diagram is reworked, 
+    data from older versions is auto-converted to Activity Diagram
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 11 Oct 2020 20:30:00 +0200
 

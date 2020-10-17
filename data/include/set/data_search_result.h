@@ -40,7 +40,7 @@ typedef struct data_search_result_struct data_search_result_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param match_id matching diagram id
- *  \param match_type matching objects type, stored as int
+ *  \param match_type matching objects type, data_diagram_type_t stored as int
  *  \param match_name matching object name, must not be NULL
  */
 static inline void data_search_result_init_diagram ( data_search_result_t *this_,
@@ -54,7 +54,7 @@ static inline void data_search_result_init_diagram ( data_search_result_t *this_
  *
  *  \param this_ pointer to own object attributes
  *  \param match_id matching classifier id
- *  \param match_type matching objects type, stored as int
+ *  \param match_type matching objects type, data_classifier_type_t stored as int
  *  \param match_name matching object name, must not be NULL
  *  \param diagram_id diagram id where the matching object is visible
  */
@@ -70,7 +70,7 @@ static inline void data_search_result_init_classifier ( data_search_result_t *th
  *
  *  \param this_ pointer to own object attributes
  *  \param match_id matching feature id
- *  \param match_type matching objects type, stored as int
+ *  \param match_type matching objects type, data_feature_type_t stored as int
  *  \param match_name matching object name, must not be NULL
  *  \param classifier_id classifier of matching feature
  *  \param diagram_id diagram id where the matching feature is visible
@@ -88,7 +88,7 @@ static inline void data_search_result_init_feature ( data_search_result_t *this_
  *
  *  \param this_ pointer to own object attributes
  *  \param match_id matching relationship id
- *  \param match_type matching objects type, stored as int
+ *  \param match_type matching objects type, data_relationship_type_t stored as int
  *  \param match_name matching object name, must not be NULL
  *  \param from_classifier_id from classifier of matching relationship
  *  \param to_classifier_id to classifier of matching relationship

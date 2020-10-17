@@ -1,6 +1,7 @@
 /* File: data_search_result.inl; Copyright and License: see below */
 
 #include <assert.h>
+#include "tslog.h"
 
 static inline void data_search_result_init_diagram ( data_search_result_t *this_,
                                                      data_row_id_t match_id,
@@ -11,6 +12,11 @@ static inline void data_search_result_init_diagram ( data_search_result_t *this_
     utf8error_t strerr;
 
     data_id_init( &((*this_).match_object_id), DATA_TABLE_DIAGRAM, match_id );
+    if ( match_type == DATA_DIAGRAM_TYPE_DEPRECATED_INTERACTION_OVERVIEW_DIAGRAM )
+    {
+        match_type = DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM;
+        TSLOG_ANOMALY_INT( "Diagram type INTERACTION_OVERVIEW is re-invented. Old type converted to ACTIVITY. See id D", match_id );
+    }
     (*this_).match_type = match_type;
     (*this_).match_object_name = utf8stringbuf_init( sizeof((*this_).private_match_name_buffer), (*this_).private_match_name_buffer );
     strerr = utf8stringbuf_copy_str( (*this_).match_object_name, match_name );
@@ -35,6 +41,11 @@ static inline void data_search_result_init_classifier ( data_search_result_t *th
     utf8error_t strerr;
 
     data_id_init( &((*this_).match_object_id), DATA_TABLE_CLASSIFIER, match_id );
+    if ( match_type == DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE )
+    {
+        match_type = DATA_CLASSIFIER_TYPE_REQUIREMENT;
+        TSLOG_ANOMALY_INT( "Classifier type FEATURE is deprecated. Converted to REQUIREMENT. See id C", match_id );
+    }
     (*this_).match_type = match_type;
     (*this_).match_object_name = utf8stringbuf_init( sizeof((*this_).private_match_name_buffer), (*this_).private_match_name_buffer );
     strerr = utf8stringbuf_copy_str( (*this_).match_object_name, match_name );

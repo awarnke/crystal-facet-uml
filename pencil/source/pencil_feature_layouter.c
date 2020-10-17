@@ -178,7 +178,7 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
         layout_feature_set_symbol_box ( out_feature_layout, &lifeline_bounds );
         layout_feature_set_label_box ( out_feature_layout, &lifeline_bounds );
     }
-    else /*if ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == diagram_type )*/
+    else /*if (( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == diagram_type )||( DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM == diagram_type ))*/
     {
         layout_feature_set_icon_direction ( out_feature_layout, GEOMETRY_DIRECTION_CENTER );
         layout_feature_set_symbol_box ( out_feature_layout, classifier_symbol_box );

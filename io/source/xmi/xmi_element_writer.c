@@ -395,7 +395,7 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_,
                     xml_writer_decrease_indent ( &((*this_).xml_writer) );
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_COMMENT_BODY_END );
                 }
-                else if (( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT ) || ( classifier_type == DATA_CLASSIFIER_TYPE_FEATURE ))
+                else if ( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
                 {
                     /* nothing to do here, classifier_descr will be written later at IO_WRITER_PASS_PROFILE */
                 }
@@ -467,7 +467,7 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_,
                     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
                     xml_writer_increase_indent ( &((*this_).xml_writer) );
 
-                    if (( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT ) || ( classifier_type == DATA_CLASSIFIER_TYPE_FEATURE ))
+                    if ( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
                     {
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<id>" );

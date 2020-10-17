@@ -87,7 +87,6 @@ void draw_classifier_contour_get_shape_border_dimensions( const draw_classifier_
         break;
 
         case DATA_CLASSIFIER_TYPE_BLOCK:
-        case DATA_CLASSIFIER_TYPE_FEATURE:
         case DATA_CLASSIFIER_TYPE_REQUIREMENT:
         case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
         case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:

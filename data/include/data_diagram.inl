@@ -76,6 +76,11 @@ static inline data_error_t data_diagram_init ( data_diagram_t *this_,
 
     (*this_).id = diagram_id;
     (*this_).parent_id = parent_diagram_id;
+    if ( diagram_type == DATA_DIAGRAM_TYPE_DEPRECATED_INTERACTION_OVERVIEW_DIAGRAM )
+    {
+        diagram_type = DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM;
+        TSLOG_ANOMALY_INT( "Diagram type INTERACTION_OVERVIEW is re-invented. Old type converted to ACTIVITY. See id D", diagram_id );
+    }
     (*this_).diagram_type = diagram_type;
 
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );

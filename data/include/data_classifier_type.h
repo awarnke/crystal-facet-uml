@@ -22,7 +22,7 @@ enum data_classifier_type_enum {
     /* Parametric Diagram: */
     DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK = 96,  /* SysML, this is an equation */
     /* Requirements Diagram: */
-    DATA_CLASSIFIER_TYPE_FEATURE = 98,
+    DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE = 98,  /* deprecated since version 1.25.0 */
     DATA_CLASSIFIER_TYPE_REQUIREMENT = 99,  /* SysML */
     /* Use Case Diagram */
     DATA_CLASSIFIER_TYPE_UML_ACTOR = 100,  /* SysML */

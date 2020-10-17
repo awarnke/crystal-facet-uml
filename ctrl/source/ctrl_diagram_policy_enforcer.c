@@ -48,7 +48,8 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_lifelines ( ctrl_diagra
     new_type = data_diagram_get_diagram_type ( updated_diagram );
     if (( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == new_type )
         || ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == new_type )
-        || ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == new_type ))
+        || ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == new_type )
+        || ( DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM == new_type ))
     {
         /* this diagram type needs lifelines */
 
@@ -108,7 +109,8 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_a_lifeline ( ctrl_diagr
         data_diagram_type_t dig_type = data_diagram_get_diagram_type( &the_diag );
         if (( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == dig_type )
             || ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == dig_type )
-            || ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == dig_type ))
+            || ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == dig_type )
+            || ( DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM == dig_type ))
         {
             result |= ctrl_diagram_policy_enforcer_private_create_one_lifeline ( this_, new_diagramelement );
         }

@@ -27,13 +27,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( c
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_FEATURE:
-        {
-            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_REQUIREMENT]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_REQUIREMENT );
-        }
-        break;
-
         case DATA_CLASSIFIER_TYPE_REQUIREMENT:
         {
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_REQUIREMENT]);

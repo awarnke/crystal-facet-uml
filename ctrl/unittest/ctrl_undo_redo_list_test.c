@@ -83,7 +83,7 @@ static void undo_redo_classifier(void)
     /* create the root diagram */
     root_diagram_id = DATA_ROW_ID_VOID;
     ctrl_err = ctrl_diagram_controller_create_root_diagram_if_not_exists ( diag_ctrl,
-                                                                           DATA_DIAGRAM_TYPE_UML_INTERACTION_OVERVIEW_DIAGRAM,
+                                                                           DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM,
                                                                            "my_root_diag",
                                                                            &root_diagram_id
                                                                          );
@@ -202,7 +202,7 @@ static void undo_redo_classifier(void)
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( root_diagram_id, data_diagram_get_id( &read_diagram ) );
         TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_id( &read_diagram ) );
-        TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_INTERACTION_OVERVIEW_DIAGRAM, data_diagram_get_diagram_type( &read_diagram ) );
+        TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, data_diagram_get_diagram_type( &read_diagram ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_root_diag", data_diagram_get_name_ptr( &read_diagram ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_ptr( &read_diagram ) ) );
         TEST_ASSERT_EQUAL_INT( 0, data_diagram_get_list_order( &read_diagram ) );
@@ -272,7 +272,7 @@ static void undo_redo_list_limits(void)
 
     /* create the root diagram */
     ctrl_err = ctrl_diagram_controller_create_root_diagram_if_not_exists ( diag_ctrl,
-                                                                           DATA_DIAGRAM_TYPE_UML_INTERACTION_OVERVIEW_DIAGRAM,
+                                                                           DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM,
                                                                            "my_root_diag",
                                                                            &root_diagram_id
                                                                          );

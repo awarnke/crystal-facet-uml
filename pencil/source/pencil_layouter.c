@@ -221,9 +221,9 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
             /* hide relationships in simple list and box diagrams */
             pencil_relationship_layouter_layout_void( &((*this_).pencil_relationship_layouter) );
         }
-        else if ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == diag_type )
+        else if (( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == diag_type )||( DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM == diag_type ))
         {
-            /* calculate the relationship shapes for a communication diagram (scenario-relations only) */
+            /* calculate the relationship shapes for a communication diagram or an interaction overview diagram (scenario-relations only) */
             pencil_relationship_layouter_layout_for_communication( &((*this_).pencil_relationship_layouter) );
         }
         else
@@ -889,9 +889,9 @@ pencil_error_t pencil_layouter_get_relationship_order_at_pos ( const pencil_layo
             layout_order_init_empty( out_layout_order );
             result = PENCIL_ERROR_OUT_OF_BOUNDS;
         }
-        else if ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == diag_type )
+        else if (( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == diag_type )||( DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM == diag_type ))
         {
-            /* communication diagrams do not care about list_orders of relationships */
+            /* communication diagrams and interaction overview diagrams do not care about list_orders of relationships */
             layout_order_init_empty( out_layout_order );
         }
         else if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type )

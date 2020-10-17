@@ -68,7 +68,7 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         gui_type_resource_init_diagram( current, DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM, "Use Case Diagram (SysML, UML)", icon_diag_usecase );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_diag_overview = gui_resources_get_type_diag_overview ( (*this_).resources );
-        gui_type_resource_init_diagram( current, DATA_DIAGRAM_TYPE_UML_INTERACTION_OVERVIEW_DIAGRAM, "Interaction Overview Diagram (UML)", icon_diag_overview );
+        gui_type_resource_init_diagram( current, DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM, "Interaction Overview Diagram (UML)", icon_diag_overview );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_diag_activity = gui_resources_get_type_diag_activity ( (*this_).resources );
         gui_type_resource_init_diagram( current, DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, "Activity Diagram (SysML, UML)", icon_diag_activity );
@@ -124,8 +124,6 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         /* requirements classifiers: */
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_clas_requirement = gui_resources_get_type_clas_requirement( (*this_).resources );
-        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_FEATURE, "Feature/Composite Requirement", icon_clas_requirement );
-        current = &((*this_).type_name_icon_list[idx]); idx++;
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_REQUIREMENT, "Requirement", icon_clas_requirement );
         /* behavioral classifiers: */
         current = &((*this_).type_name_icon_list[idx]); idx++;

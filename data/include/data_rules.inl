@@ -79,7 +79,7 @@ static inline data_classifier_type_t data_rules_get_default_classifier_type ( co
         }
         break;
 
-        case DATA_DIAGRAM_TYPE_UML_INTERACTION_OVERVIEW_DIAGRAM:
+        case DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM:
         {
             result = DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE;
         }
@@ -152,7 +152,6 @@ static inline data_relationship_type_t data_rules_get_default_relationship_type 
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_FEATURE:  /* and */
         case DATA_CLASSIFIER_TYPE_REQUIREMENT:
         {
             result = DATA_RELATIONSHIP_TYPE_UML_TRACE;
@@ -255,7 +254,6 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_FEATURE:  /* and */
         case DATA_CLASSIFIER_TYPE_REQUIREMENT:
         {
             result = DATA_FEATURE_TYPE_PROPERTY;
@@ -352,7 +350,8 @@ static inline bool data_rules_diagram_is_scenario ( const data_rules_t *this_, d
     bool result;
     result = (( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
              || ( diagram_type == DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM )
-             || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM ));
+             || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
+             || ( diagram_type == DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM ));
     return result;
 }
 
@@ -368,7 +367,6 @@ static inline bool data_rules_classifier_has_uncond_features ( const data_rules_
     {
         case DATA_CLASSIFIER_TYPE_BLOCK:
         case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
-        case DATA_CLASSIFIER_TYPE_FEATURE: /* a feature is an abstract requirement or requirement-group */
         case DATA_CLASSIFIER_TYPE_REQUIREMENT: /* for requirements, there is a predefined set of: id, text, ... */
         case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
         case DATA_CLASSIFIER_TYPE_UML_CLASS:
@@ -441,7 +439,8 @@ static inline bool data_rules_diagram_shows_scenario_features ( const data_rules
     bool show;
     show = (( diagram_type == DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM )
            || ( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
-           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM ));
+           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
+           || ( diagram_type == DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM ));
     return show;
 }
 
@@ -483,7 +482,8 @@ static inline bool data_rules_diagram_shows_uncond_relationships ( const data_ru
            || ( diagram_type == DATA_DIAGRAM_TYPE_BOX_DIAGRAM )
            || ( diagram_type == DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM )
            || ( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
-           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM ));
+           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
+           || ( diagram_type == DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM ));
     return ( ! hide );
 }
 
@@ -492,7 +492,8 @@ static inline bool data_rules_diagram_shows_scenario_relationships ( const data_
     bool show;
     show = (( diagram_type == DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM )
            || ( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
-           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM ));
+           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
+           || ( diagram_type == DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM ));
     return show;
 }
 

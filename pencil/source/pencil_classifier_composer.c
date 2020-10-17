@@ -137,7 +137,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
         //const int border_height = height - 2.0 * gap;
         switch ( classifier_type )
         {
-            case DATA_CLASSIFIER_TYPE_FEATURE:
             case DATA_CLASSIFIER_TYPE_REQUIREMENT:  /* SysML */
             case DATA_CLASSIFIER_TYPE_UML_PART:
             {

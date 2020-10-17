@@ -497,7 +497,6 @@ void gui_sketch_object_creator_private_propose_classifier_name( gui_sketch_objec
 {
     static int cycle_names = 0;
     static char *(BLOCK_NAMES[8]) = {"New DRAM","New SoC","New NAND","New NOR","New PMIC","New Watchdog","New CPU","New SRAM"};
-    static char *(FEATURE_NAMES[8]) = {"New Usability","New Reliability","New Function","New Security","New Performance","New Compatibility","New Maintainability","New Portability"};
     static char *(REQUIREMENT_NAMES[8]) = {"New Reaction Time","New Startup Time","New Latency","New Resource Consumption","New Update","New Fault Tolerance","New Availability","New Hardware Abstraction"};
     static char *(ACTOR_NAMES[8]) = {"New Customer","New Database","New Service/Maintenance","New Operator","New Backend/Server","New Authorities","New Hacker/Cheater","New Peer/Client"};
     static char *(USECASE_NAMES[8]) = {"New Get Status","New Perform Transaction","New SW Update","New Pay Order","New Deliver","New Debug","New Prove Eventlog","New Manage Rights"};
@@ -520,12 +519,6 @@ void gui_sketch_object_creator_private_propose_classifier_name( gui_sketch_objec
         case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
         {
             utf8stringbuf_copy_str( out_name, BLOCK_NAMES[cycle_names&0x07] );
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_FEATURE:
-        {
-            utf8stringbuf_copy_str( out_name, FEATURE_NAMES[cycle_names&0x07] );
         }
         break;
 

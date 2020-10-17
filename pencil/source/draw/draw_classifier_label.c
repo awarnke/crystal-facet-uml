@@ -272,7 +272,6 @@ void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
     switch ( classifier_type )
     {
         case DATA_CLASSIFIER_TYPE_BLOCK:
-        case DATA_CLASSIFIER_TYPE_FEATURE:
         case DATA_CLASSIFIER_TYPE_REQUIREMENT:
         case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
         case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
