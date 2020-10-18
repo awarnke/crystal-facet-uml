@@ -7,10 +7,10 @@ crystal-facet-uml (1.25.0) UNRELEASED; urgency=medium
   * Comment titles do not overlap with the comment-corner
   * packages containing children display their title in the tab-symbol
   * layouting containments does not reserve columns/rows for the container
-  * Feature/Composite Requirement does not exist anymore, 
+  * Feature/Composite Requirement does not exist anymore,
     data from older versions is auto-converted to Requirement
   * Requirements are displyed as box-with-label omitting the description
-  * Interaction Overview Diagram is redesigned, 
+  * Interaction Overview Diagram is redesigned,
     data from older versions is auto-converted to Activity Diagram
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 18 Oct 2020 20:30:00 +0200
