@@ -159,18 +159,6 @@
                             <entry><para>* / unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
-                        <!--
-                        <row>
-                            <entry><para>
-                                <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_requirement.pdf" width="1cm"/></imageobject>
-                                <imageobject><imagedata fileref="../../gui/source/resources/type_clas_requirement.png"/></imageobject></mediaobject>
-                                Feature/Composite Requirement</para></entry>
-                            <entry><para>SysML</para></entry>
-                            <entry><para>* / -</para></entry>
-                            <entry><para>Represents a group of requirements
-                                    </para></entry>
-                        </row>
-                        -->
                         <row>
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_requirement.pdf" width="1cm"/></imageobject>

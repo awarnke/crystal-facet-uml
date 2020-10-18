@@ -75,12 +75,14 @@ void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *
                                                                 &features_bounds
                                                               );
 
+            const bool has_contained_children = false;  /* if classifier has children, this will be updated later when calling pencil_classifier_composer_set_space_and_label */
             pencil_classifier_composer_set_all_bounds ( &((*this_).classifier_composer),
                                                         visible_classifier2,
-                                                        (*this_).pencil_size,
-                                                        font_layout,
                                                         (*this_).default_classifier_size,
                                                         &features_bounds,
+                                                        has_contained_children,  
+                                                        (*this_).pencil_size,
+                                                        font_layout,
                                                         classifier_layout
                                                       );
 
@@ -723,8 +725,10 @@ void pencil_classifier_layouter_embrace_children( pencil_classifier_layouter_t *
             /* re-calculate the label-box and thereby update the space-box of the parent */
             layout_visible_classifier_t *const from_classifier
                 = layout_relationship_get_from_classifier_ptr( the_relationship );
+            const bool has_contained_children = true;
             pencil_classifier_composer_set_space_and_label( &((*this_).classifier_composer),
                                                             layout_visible_classifier_get_data_const( from_classifier ),
+                                                            has_contained_children,
                                                             (*this_).pencil_size,
                                                             font_layout,
                                                             from_classifier
@@ -995,8 +999,10 @@ void pencil_classifier_layouter_move_and_embrace_children( pencil_classifier_lay
                 layout_visible_classifier_expand ( the_classifier, delta_width, delta_height );
 
                 /* re-calculate the label-box and thereby update the space-box of the parent */
+                const bool has_contained_children = true;
                 pencil_classifier_composer_set_space_and_label( &((*this_).classifier_composer),
                                                                 layout_visible_classifier_get_data_const( the_classifier ),
+                                                                has_contained_children,
                                                                 (*this_).pencil_size,
                                                                 font_layout,
                                                                 the_classifier
@@ -1095,8 +1101,10 @@ void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *t
                                );
 
         /* update inner space and label_box */
+        const bool has_contained_children = false;
         pencil_classifier_composer_set_space_and_label ( &((*this_).classifier_composer),
                                                          layout_visible_classifier_get_data_const( visible_classifier2 ),
+                                                         has_contained_children,
                                                          (*this_).pencil_size,
                                                          font_layout,
                                                          visible_classifier2
@@ -1154,8 +1162,10 @@ void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_
                                );
 
         /* update inner space and label_box */
+        const bool has_contained_children = false;
         pencil_classifier_composer_set_space_and_label ( &((*this_).classifier_composer),
                                                          layout_visible_classifier_get_data_const( visible_classifier2 ),
+                                                         has_contained_children,
                                                          (*this_).pencil_size,
                                                          font_layout,
                                                          visible_classifier2
@@ -1213,8 +1223,10 @@ void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t 
                                );
 
         /* update inner space and label_box */
+        const bool has_contained_children = false;
         pencil_classifier_composer_set_space_and_label ( &((*this_).classifier_composer),
                                                          layout_visible_classifier_get_data_const( visible_classifier2 ),
+                                                         has_contained_children,
                                                          (*this_).pencil_size,
                                                          font_layout,
                                                          visible_classifier2

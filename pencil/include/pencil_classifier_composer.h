@@ -89,18 +89,20 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
  *
  *  \param this_ pointer to own object attributes
  *  \param visible_classifier pointer to the data to be drawn
- *  \param pencil_size set of sizes and colors for drawing lines and text
- *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param proposed_bounds proposed bounds calculated for aesthetics
  *  \param minimum_feature_space minimum space needed by the contained features
+ *  \param has_contained_children true if the classifier has contained children
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param io_classifier_layout output is symbol box, space and label_box. Must not be NULL.
  */
 void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_composer_t *this_,
                                                  const data_visible_classifier_t *visible_classifier,
-                                                 const pencil_size_t *pencil_size,
-                                                 PangoLayout *font_layout,
                                                  const geometry_dimensions_t *proposed_bounds,
                                                  const geometry_dimensions_t *minimum_feature_space,
+                                                 bool has_contained_children,
+                                                 const pencil_size_t *pencil_size,
+                                                 PangoLayout *font_layout,
                                                  layout_visible_classifier_t *io_classifier_layout
                                                );
 
@@ -111,12 +113,14 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
  *
  *  \param this_ pointer to own object attributes
  *  \param visible_classifier pointer to the data to be drawn
+ *  \param has_contained_children true if the classifier has contained children
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param io_classifier_layout input is symbol box, output is space and label_box. Must not be NULL.
  */
 void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_composer_t *this_,
                                                       const data_visible_classifier_t *visible_classifier,
+                                                      bool has_contained_children,
                                                       const pencil_size_t *pencil_size,
                                                       PangoLayout *font_layout,
                                                       layout_visible_classifier_t *io_classifier_layout

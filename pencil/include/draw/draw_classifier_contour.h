@@ -167,11 +167,13 @@ void draw_classifier_contour_draw_send_signal ( const draw_classifier_contour_t 
  *
  *  \param this_ pointer to own object attributes
  *  \param outer_bounds outer bounding rectangle of the shape, the package has a distance of gap to the outer bounds
+ *  \param label_box rectangle of the label text
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
  */
 void draw_classifier_contour_draw_package ( const draw_classifier_contour_t *this_,
                                             const geometry_rectangle_t *outer_bounds,
+                                            const geometry_rectangle_t *label_box,
                                             const pencil_size_t *pencil_size,
                                             cairo_t *cr
                                           );

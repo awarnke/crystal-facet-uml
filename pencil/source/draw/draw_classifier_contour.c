@@ -369,6 +369,7 @@ void draw_classifier_contour_draw_send_signal ( const draw_classifier_contour_t 
 
 void draw_classifier_contour_draw_package ( const draw_classifier_contour_t *this_,
                                             const geometry_rectangle_t *outer_bounds,
+                                            const geometry_rectangle_t *label_box,
                                             const pencil_size_t *pencil_size,
                                             cairo_t *cr )
 {
@@ -381,10 +382,22 @@ void draw_classifier_contour_draw_package ( const draw_classifier_contour_t *thi
     const double border_top = geometry_rectangle_get_top ( outer_bounds ) + gap;
     const double border_width = geometry_rectangle_get_width ( outer_bounds ) - gap - gap;
     const double border_height = geometry_rectangle_get_height ( outer_bounds ) - gap - gap;
-    const double top_ornament_height = pencil_size_get_standard_font_size( pencil_size );
 
-    cairo_rectangle ( cr, border_left, border_top, border_width/3.0, top_ornament_height );
-    cairo_rectangle ( cr, border_left, border_top+top_ornament_height, border_width, border_height-top_ornament_height );
+    double tab_width;
+    double tab_height;
+    const bool label_in_tab = ( geometry_rectangle_get_top( label_box ) < (border_top + gap + gap) );
+    if ( label_in_tab )
+    {
+        tab_width = geometry_rectangle_get_width ( label_box ) + gap + gap;
+        tab_height = geometry_rectangle_get_height ( label_box ) + gap;
+    }
+    else
+    {
+        tab_width = border_width/3.0;
+        tab_height = pencil_size_get_standard_font_size( pencil_size );
+    }
+    cairo_rectangle ( cr, border_left, border_top, tab_width, tab_height );
+    cairo_rectangle ( cr, border_left, border_top+tab_height, border_width, border_height-tab_height );
     cairo_stroke (cr);
 
     TRACE_END();

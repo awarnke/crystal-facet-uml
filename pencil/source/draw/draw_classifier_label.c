@@ -98,8 +98,7 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
         /* draw description text */
         int text3_width = 0;
         int text3_height = 0;
-        if (( DATA_CLASSIFIER_TYPE_UML_COMMENT == data_classifier_get_main_type ( classifier ) )
-            || ( DATA_CLASSIFIER_TYPE_REQUIREMENT == data_classifier_get_main_type ( classifier ) ))
+        if ( DATA_CLASSIFIER_TYPE_UML_COMMENT == data_classifier_get_main_type ( classifier ) )
         {
             pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
             pango_layout_set_text (font_layout, data_classifier_get_description_ptr( classifier ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
@@ -208,8 +207,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
     }
 
     /* draw description text */
-    if (( DATA_CLASSIFIER_TYPE_UML_COMMENT == classifier_type )
-        || ( DATA_CLASSIFIER_TYPE_REQUIREMENT == classifier_type ))
+    if ( DATA_CLASSIFIER_TYPE_UML_COMMENT == classifier_type )
     {
         int text3_width;
         int text3_height;
