@@ -9,11 +9,11 @@
  *  \brief Draws simple geometric objects like 2d boxes, 3d boxes, ovals, rounded-corner-boxes
  */
 
+#include "pencil_size.h"
 #include "util/geometry/geometry_h_align.h"
 #include "util/geometry/geometry_v_align.h"
-#include "pencil_size.h"
-#include "data_classifier_type.h"
 #include "util/geometry/geometry_rectangle.h"
+#include "data_classifier_type.h"
 #include <cairo.h>
 #include <stdint.h>
 
@@ -54,13 +54,13 @@ static inline void draw_classifier_contour_destroy( draw_classifier_contour_t *t
  *  \param out_right_border width of the right border is returned. NULL is not allowed.
  */
 void draw_classifier_contour_get_shape_border_dimensions( const draw_classifier_contour_t *this_,
-                                               data_classifier_type_t classifier_type,
-                                               const pencil_size_t *pencil_size,
-                                               double *out_top_border,
-                                               double *out_left_border,
-                                               double *out_bottom_border,
-                                               double *out_right_border
-                                             );
+                                                          data_classifier_type_t classifier_type,
+                                                          const pencil_size_t *pencil_size,
+                                                          double *out_top_border,
+                                                          double *out_left_border,
+                                                          double *out_bottom_border,
+                                                          double *out_right_border
+                                                        );
 
 /*!
  *  \brief draws a rectangle shape into the outer bounds rect
@@ -71,10 +71,10 @@ void draw_classifier_contour_get_shape_border_dimensions( const draw_classifier_
  *  \param cr a cairo drawing context
  */
 static inline void draw_classifier_contour_draw_rect ( const draw_classifier_contour_t *this_,
-                                            const geometry_rectangle_t *outer_bounds,
-                                            const pencil_size_t *pencil_size,
-                                            cairo_t *cr
-                                          );
+                                                       const geometry_rectangle_t *outer_bounds,
+                                                       const pencil_size_t *pencil_size,
+                                                       cairo_t *cr
+                                                     );
 
 /*!
  *  \brief draws a rounded-corner-rectangle shape into the outer bounds rect
@@ -86,11 +86,11 @@ static inline void draw_classifier_contour_draw_rect ( const draw_classifier_con
  *  \param cr a cairo drawing context
  */
 void draw_classifier_contour_draw_rounded_rect ( const draw_classifier_contour_t *this_,
-                                      const geometry_rectangle_t *outer_bounds,
-                                      bool dashed_line,
-                                      const pencil_size_t *pencil_size,
-                                      cairo_t *cr
-                                    );
+                                                 const geometry_rectangle_t *outer_bounds,
+                                                 bool dashed_line,
+                                                 const pencil_size_t *pencil_size,
+                                                 cairo_t *cr
+                                               );
 
 /*!
  *  \brief draws an ellipse shape into the outer bounds rect
@@ -101,10 +101,10 @@ void draw_classifier_contour_draw_rounded_rect ( const draw_classifier_contour_t
  *  \param cr a cairo drawing context
  */
 void draw_classifier_contour_draw_ellipse ( const draw_classifier_contour_t *this_,
-                                 const geometry_rectangle_t *outer_bounds,
-                                 const pencil_size_t *pencil_size,
-                                 cairo_t *cr
-                               );
+                                            const geometry_rectangle_t *outer_bounds,
+                                            const pencil_size_t *pencil_size,
+                                            cairo_t *cr
+                                          );
 
 /*!
  *  \brief draws a rhombus shape into the outer bounds rect
@@ -115,10 +115,10 @@ void draw_classifier_contour_draw_ellipse ( const draw_classifier_contour_t *thi
  *  \param cr a cairo drawing context
  */
 void draw_classifier_contour_draw_rhombus ( const draw_classifier_contour_t *this_,
-                                 const geometry_rectangle_t *outer_bounds,
-                                 const pencil_size_t *pencil_size,
-                                 cairo_t *cr
-                               );
+                                            const geometry_rectangle_t *outer_bounds,
+                                            const pencil_size_t *pencil_size,
+                                            cairo_t *cr
+                                          );
 
 /*!
  *  \brief draws an 3d_box shape into the outer bounds rect
@@ -129,10 +129,10 @@ void draw_classifier_contour_draw_rhombus ( const draw_classifier_contour_t *thi
  *  \param cr a cairo drawing context
  */
 void draw_classifier_contour_draw_3d_box ( const draw_classifier_contour_t *this_,
-                                const geometry_rectangle_t *outer_bounds,
-                                const pencil_size_t *pencil_size,
-                                cairo_t *cr
-                              );
+                                           const geometry_rectangle_t *outer_bounds,
+                                           const pencil_size_t *pencil_size,
+                                           cairo_t *cr
+                                         );
 
 /*!
  *  \brief draws an accept_event shape into the outer bounds rect
@@ -143,10 +143,10 @@ void draw_classifier_contour_draw_3d_box ( const draw_classifier_contour_t *this
  *  \param cr a cairo drawing context
  */
 void draw_classifier_contour_draw_accept_event ( const draw_classifier_contour_t *this_,
-                                      const geometry_rectangle_t *outer_bounds,
-                                      const pencil_size_t *pencil_size,
-                                      cairo_t *cr
-                                    );
+                                                 const geometry_rectangle_t *outer_bounds,
+                                                 const pencil_size_t *pencil_size,
+                                                 cairo_t *cr
+                                               );
 
 /*!
  *  \brief draws a send_signal shape into the outer bounds rect
@@ -157,10 +157,10 @@ void draw_classifier_contour_draw_accept_event ( const draw_classifier_contour_t
  *  \param cr a cairo drawing context
  */
 void draw_classifier_contour_draw_send_signal ( const draw_classifier_contour_t *this_,
-                                     const geometry_rectangle_t *outer_bounds,
-                                     const pencil_size_t *pencil_size,
-                                     cairo_t *cr
-                                   );
+                                                const geometry_rectangle_t *outer_bounds,
+                                                const pencil_size_t *pencil_size,
+                                                cairo_t *cr
+                                              );
 
 /*!
  *  \brief draws a package shape into the outer bounds rect
@@ -171,10 +171,10 @@ void draw_classifier_contour_draw_send_signal ( const draw_classifier_contour_t 
  *  \param cr a cairo drawing context
  */
 void draw_classifier_contour_draw_package ( const draw_classifier_contour_t *this_,
-                                 const geometry_rectangle_t *outer_bounds,
-                                 const pencil_size_t *pencil_size,
-                                 cairo_t *cr
-                               );
+                                            const geometry_rectangle_t *outer_bounds,
+                                            const pencil_size_t *pencil_size,
+                                            cairo_t *cr
+                                          );
 
 /*!
  *  \brief draws a diagram shape into the outer bounds rect
@@ -185,10 +185,10 @@ void draw_classifier_contour_draw_package ( const draw_classifier_contour_t *thi
  *  \param cr a cairo drawing context
  */
 void draw_classifier_contour_draw_diagram_ref ( const draw_classifier_contour_t *this_,
-                                     const geometry_rectangle_t *outer_bounds,
-                                     const pencil_size_t *pencil_size,
-                                     cairo_t *cr
-                                   );
+                                                const geometry_rectangle_t *outer_bounds,
+                                                const pencil_size_t *pencil_size,
+                                                cairo_t *cr
+                                              );
 
 /*!
  *  \brief draws a comment shape into the outer bounds rect
@@ -199,10 +199,10 @@ void draw_classifier_contour_draw_diagram_ref ( const draw_classifier_contour_t 
  *  \param cr a cairo drawing context
  */
 void draw_classifier_contour_draw_comment ( const draw_classifier_contour_t *this_,
-                                 const geometry_rectangle_t *outer_bounds,
-                                 const pencil_size_t *pencil_size,
-                                 cairo_t *cr
-                               );
+                                            const geometry_rectangle_t *outer_bounds,
+                                            const pencil_size_t *pencil_size,
+                                            cairo_t *cr
+                                          );
 
 /*!
  *  \brief draws a horizontal line to e.g. split compartments of feature-groups

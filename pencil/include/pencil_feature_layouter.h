@@ -99,12 +99,14 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
  *  \brief determines the symbol box of a port
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier_symbol_box symbol box of the classifier
+ *  \param classifier_type type of the parent classifier
+ *  \param classifier_symbol_box symbol box of the parent classifier
  *  \param the_feature the feature data to be layouted
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param out_feature_layout output parameter: feature layout coordinates
  */
 void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *this_,
+                                                   data_classifier_type_t classifier_type,
                                                    const geometry_rectangle_t *classifier_symbol_box,
                                                    const data_feature_t *the_feature,
                                                    PangoLayout *font_layout,

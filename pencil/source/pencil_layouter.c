@@ -259,7 +259,7 @@ void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t
     geometry_dimensions_t *const default_size = &((*this_).default_classifier_size);
     geometry_dimensions_reinit( default_size, grid_width, grid_height );
     const double x_space = 3.0 * gap;  /* space for enclosing parents and for relationships */
-    const double y_space = 5.0 * gap;  /* space for enclosing parents (including title-line) and for relationships */
+    const double y_space = 4.0 * gap;  /* space for enclosing parents (including title-line) and for relationships */
     geometry_dimensions_expand ( default_size, -x_space, -y_space ); /* ensures non-negative values */
 
     /* for aesthetic reasons, ensure that the default dimension is more wide than high */

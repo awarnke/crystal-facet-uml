@@ -13,6 +13,8 @@
 #include "util/geometry/geometry_h_align.h"
 #include "util/geometry/geometry_v_align.h"
 #include "util/geometry/geometry_rectangle.h"
+#include "util/geometry/geometry_dimensions.h"
+#include "data_classifier_type.h"
 #include <cairo.h>
 #include <stdint.h>
 
@@ -43,6 +45,21 @@ static inline void draw_classifier_symbol_init( draw_classifier_symbol_t *this_ 
  *  \param this_ pointer to own object attributes
  */
 static inline void draw_classifier_symbol_destroy( draw_classifier_symbol_t *this_ );
+
+/*!
+ *  \brief determines the dimensions of the type icon.
+ *
+ *  Type icons are e.g. artifact-icon or component-icon.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_type type of the classifier to draw
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \return of the icon.
+ */
+static inline geometry_dimensions_t draw_classifier_symbol_get_icon_dimensions( const draw_classifier_symbol_t *this_,
+                                                                                data_classifier_type_t classifier_type,
+                                                                                const pencil_size_t *pencil_size
+                                                                              );
 
 /*!
  *  \brief calculates the bounding rectangle for component icon

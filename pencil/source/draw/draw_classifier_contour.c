@@ -91,10 +91,12 @@ void draw_classifier_contour_get_shape_border_dimensions( const draw_classifier_
         case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
         case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
         case DATA_CLASSIFIER_TYPE_UML_STATE:
+        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
         case DATA_CLASSIFIER_TYPE_UML_PART:
         case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
         case DATA_CLASSIFIER_TYPE_UML_CLASS:
         case DATA_CLASSIFIER_TYPE_UML_OBJECT:
+        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
         case DATA_CLASSIFIER_TYPE_UML_COMMENT:
         case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
@@ -104,28 +106,6 @@ void draw_classifier_contour_get_shape_border_dimensions( const draw_classifier_
             *out_left_border = double_gap;
             *out_bottom_border = double_gap;
             *out_right_border = double_gap;
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
-        {
-            double type_icon_height = pencil_size_get_title_font_size( pencil_size );
-
-            *out_top_border = double_gap;
-            *out_left_border = double_gap;
-            *out_bottom_border = double_gap;
-            *out_right_border = double_gap + DRAW_SYMBOL_COMPONENT_ICON_WIDTH_TO_HEIGHT * type_icon_height;
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
-        {
-            double type_icon_height = pencil_size_get_title_font_size( pencil_size );
-
-            *out_top_border = double_gap;
-            *out_left_border = double_gap;
-            *out_bottom_border = double_gap;
-            *out_right_border = double_gap + DRAW_SYMBOL_ARTIFACT_ICON_WIDTH_TO_HEIGHT * type_icon_height;
         }
         break;
 

@@ -79,7 +79,12 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
             case DATA_FEATURE_TYPE_PORT:
             {
                 /* layout port feature onto parent classifier box */
+                const data_classifier_t *const classifier
+                    = layout_visible_classifier_get_classifier_const( layout_classifier );
+                const data_classifier_type_t classifier_type
+                    = data_classifier_get_main_type( classifier );
                 pencil_feature_layouter_private_layout_port ( this_,
+                                                              classifier_type,
                                                               c_symbol_box,
                                                               the_feature,
                                                               font_layout,
@@ -189,6 +194,7 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
 }
 
 void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *this_,
+                                                   data_classifier_type_t classifier_type,
                                                    const geometry_rectangle_t *classifier_symbol_box,
                                                    const data_feature_t *the_feature,
                                                    PangoLayout *font_layout,
@@ -201,11 +207,11 @@ void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *th
     assert ( NULL != out_feature_layout );
 
     /* get preferred object distance */
-    double gap;
-    gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
+    const double gap
+        = pencil_size_get_standard_object_border( (*this_).pencil_size );
 
-    double port_icon_size;
-    port_icon_size = pencil_size_get_standard_font_size( (*this_).pencil_size );
+    const double port_icon_size
+        = pencil_size_get_standard_font_size( (*this_).pencil_size );
 
     /* determine the coordinates of the box-line */
     geometry_rectangle_t classifier_box;
@@ -217,40 +223,42 @@ void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *th
     list_order = data_feature_get_list_order( the_feature );
 
     /* position the port icon */
+    const double outwards_distance 
+        = (classifier_type == DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK) ? 0 : (0.5*port_icon_size);
     double port_icon_left;
     double port_icon_top;
     if ( list_order < 0 )
     {
         if ( list_order < INT32_MIN/2 )  /* SHOW ON RIGHT BORDER */
         {
-            double y_pos_rel = 0.0;
-            y_pos_rel = (list_order - (INT32_MIN/2)) / ((double)(INT32_MIN/2));
-            port_icon_left = geometry_rectangle_get_right( &classifier_box ) - 0.5 * port_icon_size;
+            const double y_pos_rel
+                = (list_order - (INT32_MIN/2)) / ((double)(INT32_MIN/2));
+            port_icon_left = geometry_rectangle_get_right( &classifier_box ) - port_icon_size + outwards_distance;
             port_icon_top = geometry_rectangle_get_top( &classifier_box ) + y_pos_rel * ( geometry_rectangle_get_height( &classifier_box ) - port_icon_size );
         }
         else  /* SHOW ON TOP BORDER */
         {
-            double x_pos_rel = 0.0;
-            x_pos_rel = (list_order) / ((double)(INT32_MIN/2));
+            const double x_pos_rel
+                = (list_order) / ((double)(INT32_MIN/2));
             port_icon_left = geometry_rectangle_get_left( &classifier_box ) + x_pos_rel * ( geometry_rectangle_get_width( &classifier_box ) - port_icon_size );
-            port_icon_top = geometry_rectangle_get_top( &classifier_box ) - 0.5 * port_icon_size;
+            port_icon_top = geometry_rectangle_get_top( &classifier_box ) - outwards_distance;
         }
     }
     else
     {
         if ( list_order < INT32_MAX/2 )  /* SHOW ON LEFT BORDER */
         {
-            double y_pos_rel = 0.0;
-            y_pos_rel = (list_order) / ((double)(INT32_MAX/2));
-            port_icon_left = geometry_rectangle_get_left( &classifier_box ) - 0.5 * port_icon_size;
+            const double y_pos_rel
+                = (list_order) / ((double)(INT32_MAX/2));
+            port_icon_left = geometry_rectangle_get_left( &classifier_box ) - outwards_distance;
             port_icon_top = geometry_rectangle_get_top( &classifier_box ) + y_pos_rel * ( geometry_rectangle_get_height( &classifier_box ) - port_icon_size );
         }
         else  /* SHOW ON BOTTOM BORDER */
         {
-            double x_pos_rel = 0.0;
-            x_pos_rel = (list_order - (INT32_MAX/2)) / ((double)(INT32_MAX/2));
+            const double x_pos_rel
+                = (list_order - (INT32_MAX/2)) / ((double)(INT32_MAX/2));
             port_icon_left = geometry_rectangle_get_left( &classifier_box ) + x_pos_rel * ( geometry_rectangle_get_width( &classifier_box ) - port_icon_size );
-            port_icon_top = geometry_rectangle_get_bottom( &classifier_box ) - 0.5 * port_icon_size;
+            port_icon_top = geometry_rectangle_get_bottom( &classifier_box ) - port_icon_size + outwards_distance;
         }
     }
 
@@ -476,14 +484,13 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
     count_features = pencil_layout_data_get_feature_count ( (*this_).layout_data );
     for ( uint32_t f_idx = 0; f_idx < count_features; f_idx ++ )
     {
-        layout_feature_t *feature_layout;
-        feature_layout = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, f_idx );
-        const data_feature_t *the_feature;
-        the_feature = layout_feature_get_data_const ( feature_layout );
-        layout_visible_classifier_t *layout_classifier;
-        layout_classifier = layout_feature_get_classifier_ptr ( feature_layout );
-        bool property_or_operation;
-        property_or_operation
+        layout_feature_t *const feature_layout
+            = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, f_idx );
+        const data_feature_t *const the_feature
+            = layout_feature_get_data_const ( feature_layout );
+        layout_visible_classifier_t *const layout_classifier
+            = layout_feature_get_classifier_ptr ( feature_layout );
+        const bool property_or_operation
             = ( DATA_FEATURE_TYPE_PROPERTY == data_feature_get_main_type ( the_feature ) )
             || ( DATA_FEATURE_TYPE_OPERATION == data_feature_get_main_type ( the_feature ) );
 

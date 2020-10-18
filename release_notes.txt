@@ -2,10 +2,13 @@ crystal-facet-uml (1.25.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * moving ports follow the cursor more accurate
+  * Constraint Blocks show their ports completely inside
+  * Artifacts and Components do not waste space for contained children
+  * Comment titles do not overlap with the comment-corner
   * layouting containments does not reserve columns/rows for the container
   * Feature/Composite Requirement does not exist anymore, 
-    is auto-converted to Requirement
-  * Interaction Overview Diagram is reworked, 
+    data from older versions is auto-converted to Requirement
+  * Interaction Overview Diagram is redesigned, 
     data from older versions is auto-converted to Activity Diagram
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 18 Oct 2020 20:30:00 +0200
