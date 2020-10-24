@@ -82,8 +82,8 @@
                 Distinguish things that are
                 <itemizedlist>
                 <listitem><para>given constraints (problem space),</para></listitem>
-                <listitem><para>decisions, chosen and rejected alternatives and</para></listitem>
-                <listitem><para>the designed solution</para></listitem>
+                <listitem><para>decisions, rejected alternatives and</para></listitem>
+                <listitem><para>the selected solution</para></listitem>
                 </itemizedlist>
             </para>
 

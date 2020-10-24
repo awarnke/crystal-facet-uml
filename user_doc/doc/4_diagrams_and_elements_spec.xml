@@ -955,7 +955,10 @@
                                 Interaction Overview Diagram</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>unconditional relationships (Scenario), unconditional feature</para></entry>
-                            <entry><para>Limitations: There is no link from Diagram-References to referenced Diagrams</para></entry>
+                            <entry>
+                                <para>Limitations: There is no link from Diagram-References to referenced Diagrams</para>
+                                <para>Containments cannot be shown in this diagram type</para>
+                            </entry>
                         </row>
                         <row>
                             <entry><para>
@@ -982,7 +985,7 @@
                                 Communication Diagram</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>unconditional relationships (Scenario), unconditional features</para></entry>
-                            <entry><para></para></entry>
+                            <entry><para>Containments cannot be shown in this diagram type</para></entry>
                         </row>
                         <row>
                             <entry><para>
@@ -991,7 +994,7 @@
                                 Sequence Diagram</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para>unconditional relationships (Scenario), unconditional features</para></entry>
-                            <entry><para></para></entry>
+                            <entry><para>Limitations: Comments not supported</para></entry>
                         </row>
                         <row>
                             <entry><para>
@@ -1000,7 +1003,7 @@
                                 Timing Diagram</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>unconditional relationships (Scenario), unconditional features</para></entry>
-                            <entry><para></para></entry>
+                            <entry><para>Limitations: Comments not supported</para></entry>
                         </row>
                     </tbody>
                 </tgroup>
