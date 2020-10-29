@@ -1,4 +1,4 @@
-PROJECT(crystal_facet_uml)
+PROJECT(crystal_facet_uml LANGUAGES C)
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
 
 #helper to find include directories and libraries:

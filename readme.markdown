@@ -49,13 +49,17 @@ Building from source is described in this section.
 
 debian/ubuntu/raspbian:
 
+> sudo apt install gcc
+>
 > sudo apt install cmake
 >
 > sudo apt install libgtk-3-dev
 >
 > sudo apt install libsqlite3-dev
 >
-> sudo apt install devscripts  # for debian build, includes build-essential
+> sudo apt install devscripts  # for debian build, includes possibly build-essential
+>
+> sudo apt install build-essential  # for debian build
 >
 > sudo apt install debsigs     # for signing debian packages
 >
@@ -76,8 +80,6 @@ debian/ubuntu/raspbian:
 openSuSE:
 
 > sudo zypper install gcc
->
-> sudo zypper install gcc-c++     # only needed to make cmake happy
 >
 > sudo zypper install cmake
 >

@@ -1,9 +1,9 @@
 crystal-facet-uml (1.25.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * t.b.d.
+  * cmake does not depend on c++ compiler anymore
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 21 Nov 2020 20:30:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Thu, 29 Oct 2020 20:30:00 +0100
 
 crystal-facet-uml (1.25.0) UNRELEASED; urgency=medium
 
