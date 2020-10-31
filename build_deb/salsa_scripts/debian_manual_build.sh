@@ -13,6 +13,6 @@ echo fetching sources
 debian/rules get-orig-source
 (cd .. && tar --strip=1 --one-top-level=crystal-facet-uml -xzf crystal-facet-uml_*.orig.tar.gz)
 echo building binaries and package
-debuild --lintian-opts -i --pedantic
+debuild --diff-ignore='^(\.git.*|.*\.yml)$' --lintian-opts -i --pedantic
 yamllint debian/upstream/metadata
 

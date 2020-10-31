@@ -61,6 +61,8 @@ debian/ubuntu/raspbian:
 >
 > sudo apt install build-essential  # for debian build
 >
+> sudo apt install yamllint    # for debian script checker
+>
 > sudo apt install debsigs     # for signing debian packages
 >
 > sudo apt install dblatex     # for user documentation

@@ -26,6 +26,11 @@
                 <listitem><para><ulink url="http://www.andreaswarnke.de/crystal_facet_uml/crystal_facet_uml_user_documentation.pdf"/></para></listitem>
                 <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml/blob/master/user_doc/crystal_facet_uml_user_documentation.pdf"/></para></listitem>
                 </itemizedlist>
+
+                Static code analysis results are available here:
+                <itemizedlist>
+                <listitem><para><ulink url="https://scan.coverity.com/projects/awarnke-crystal_facet_uml"/></para></listitem>
+                </itemizedlist>
             </para>
         </section>
 

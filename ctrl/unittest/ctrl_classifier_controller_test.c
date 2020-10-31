@@ -317,7 +317,7 @@ static void features_CRURDR(void)
 
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_delete_set ( &controller, small_set, &stat );
+        ctrl_err = ctrl_controller_delete_set ( &controller, &small_set, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -434,7 +434,7 @@ static void relationship_CRURDR(void)
 
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_delete_set ( &controller, small_set, &stat );
+        ctrl_err = ctrl_controller_delete_set ( &controller, &small_set, &stat );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));

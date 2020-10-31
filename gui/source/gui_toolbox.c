@@ -377,7 +377,7 @@ ctrl_error_t gui_toolbox_private_delete_set( gui_toolbox_t *this_,
     assert( NULL != io_stat );
     ctrl_error_t ctrl_err;
 
-    ctrl_err = ctrl_controller_delete_set ( (*this_).controller, *set_to_be_deleted, io_stat );
+    ctrl_err = ctrl_controller_delete_set ( (*this_).controller, set_to_be_deleted, io_stat );
 
     TRACE_END_ERR( ctrl_err );
     return ctrl_err;

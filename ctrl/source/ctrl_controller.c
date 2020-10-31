@@ -78,14 +78,14 @@ ctrl_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const c
 /* ================================ interface for sets of elements ================================ */
 
 ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
-                                          data_small_set_t objects,
+                                          const data_small_set_t *objects,
                                           data_stat_t *io_stat )
 {
     TRACE_BEGIN();
     assert ( NULL != io_stat );
     ctrl_error_t result = CTRL_ERROR_NONE;
 
-    if ( data_small_set_is_empty( &objects ) )
+    if ( data_small_set_is_empty( objects ) )
     {
         result = CTRL_ERROR_INPUT_EMPTY;
     }
@@ -99,10 +99,10 @@ ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
 
         /* STEP ZERO: Delete all objects that can be immediately deleted */
 
-        for ( index = 0; index < data_small_set_get_count( &objects ); index ++ )
+        for ( index = 0; index < data_small_set_get_count( objects ); index ++ )
         {
             data_id_t current_id;
-            current_id = data_small_set_get_id( &objects, index );
+            current_id = data_small_set_get_id( objects, index );
             switch ( data_id_get_table( &current_id ) )
             {
                 case DATA_TABLE_CLASSIFIER:
@@ -151,10 +151,10 @@ ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
 
         /* STEP ONE: Delete all objects that can be deleted after relationships and features are gone */
 
-        for ( index = 0; index < data_small_set_get_count( &objects ); index ++ )
+        for ( index = 0; index < data_small_set_get_count( objects ); index ++ )
         {
             data_id_t current_id;
-            current_id = data_small_set_get_id( &objects, index );
+            current_id = data_small_set_get_id( objects, index );
             switch ( data_id_get_table( &current_id ) )
             {
                 case DATA_TABLE_CLASSIFIER:
@@ -200,10 +200,10 @@ ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
 
         /* STEP TWO: Delete all objects that can be deleted after step one */
 
-        for ( index = 0; index < data_small_set_get_count( &objects ); index ++ )
+        for ( index = 0; index < data_small_set_get_count( objects ); index ++ )
         {
             data_id_t current_id;
-            current_id = data_small_set_get_id( &objects, index );
+            current_id = data_small_set_get_id( objects, index );
             switch ( data_id_get_table( &current_id ) )
             {
                 case DATA_TABLE_CLASSIFIER:

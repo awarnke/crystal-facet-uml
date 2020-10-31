@@ -140,7 +140,7 @@ static inline ctrl_error_t ctrl_controller_repair_database ( ctrl_controller_t *
  *  \return error id in case of an error, e.g. CTRL_ERROR_INPUT_EMPTY in case of empty set, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
-                                          data_small_set_t objects,
+                                          const data_small_set_t *objects,
                                           data_stat_t *io_stat
                                         );
 

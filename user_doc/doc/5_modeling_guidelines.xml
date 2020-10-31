@@ -111,7 +111,7 @@
             <para>
 
                 Be precise: Write in active form, e.g. The persistence component shall store and retrieve
-                binary data records indentified by string-based keys.
+                binary data records identified by string-based keys.
             </para>
 
         </section>
