@@ -854,7 +854,7 @@ data_error_t json_deserializer_private_get_next_feature_array ( json_deserialize
                     {
                         first_element_passed = true;
                     }
-                    result = json_deserializer_private_get_next_feature( this_, &((*out_feature)[count]) );
+                    result |= json_deserializer_private_get_next_feature( this_, &((*out_feature)[count]) );
                     if ( DATA_ERROR_NONE == result )
                     {
                         feature_count = count+1;

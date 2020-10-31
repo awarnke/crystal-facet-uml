@@ -14,7 +14,8 @@ void io_file_format_to_string( io_file_format_t format_set, utf8stringbuf_t out_
 
     if ( ( format_set & IO_FILE_FORMAT_PDF ) != 0 )
     {
-        utf8stringbuf_append_str( out_fileformat, (count==0)?("pdf"):(", pdf") );
+        /*utf8stringbuf_append_str( out_fileformat, (count==0)?("pdf"):(", pdf") );*/
+        utf8stringbuf_append_str( out_fileformat, "pdf" );
         count ++;
     }
 

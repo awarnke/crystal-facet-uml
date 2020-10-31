@@ -501,7 +501,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                                                                                 &new_relationship,
                                                                                                 ! is_first, /*=add_to_latest_undo_set*/
                                                                                                 &relationship_id
-                                                                                                );
+                                                                                              );
                                 if ( CTRL_ERROR_NONE != write_error4 )
                                 {
                                     TSLOG_ERROR( "unexpected error at ctrl_classifier_controller_create_relationship" );
@@ -513,21 +513,17 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                             data_relationship_destroy ( &new_relationship );
 
                             /* update statistics */
-                            if ( data_rules_relationship_is_scenario_cond ( &((*this_).data_rules),
-                                                                            from_feature_type,
-                                                                            to_feature_type ) )
+                            data_stat_inc_count ( io_stat,
+                                                  DATA_TABLE_RELATIONSHIP,
+                                                  (!dropped)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                                );
+                            if ( dropped )
                             {
-                                data_stat_inc_count ( io_stat,
-                                                      DATA_TABLE_RELATIONSHIP,
-                                                      (!dropped)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
-                                                    );
-                            }
-                            else
-                            {
-                                data_stat_inc_count ( io_stat,
-                                                      DATA_TABLE_RELATIONSHIP,
-                                                      (!dropped)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
-                                                    );
+                                const bool is_scenario = data_rules_relationship_is_scenario_cond ( &((*this_).data_rules),
+                                                                                                    from_feature_type,
+                                                                                                    to_feature_type 
+                                                                                                  );
+                                TRACE_INFO( is_scenario ? "relationship in scenario dropped" : "general relationship dropped" );
                             }
                         }
                     }

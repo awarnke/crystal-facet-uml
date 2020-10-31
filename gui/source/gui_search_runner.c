@@ -171,7 +171,8 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                         int err = data_search_result_list_add( &((*this_).temp_result_list), &half_initialized );
                         if ( err != 0 )
                         {
-                            d_err = DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                            /*d_err = DATA_ERROR_ARRAY_BUFFER_EXCEEDED;*/
+                            TSLOG_WARNING( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
                         }
 
                         data_diagramelement_destroy( &((*this_).temp_diagramelement) );
@@ -199,7 +200,8 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                         int err = data_search_result_list_add( &((*this_).temp_result_list), &half_initialized );
                         if ( err != 0 )
                         {
-                            d_err = DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                            /*d_err = DATA_ERROR_ARRAY_BUFFER_EXCEEDED;*/
+                            TSLOG_WARNING( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
                         }
 
                         data_diagram_destroy( &((*this_).temp_diagrams[0]) );
@@ -313,7 +315,7 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
                 const int err = data_search_result_list_add( io_list, classifier_template );
                 if ( err != 0 )
                 {
-                    d_err |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                    /*d_err |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;*/
                     TSLOG_WARNING( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
                 }
             }

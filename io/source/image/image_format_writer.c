@@ -67,7 +67,7 @@ int image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
         assert(false);
     }
     assert( data_visible_set_is_valid ( (*this_).input_data ) );
-    result = image_format_writer_private_render_surface_to_file( this_, export_type, target_filename );
+    result |= image_format_writer_private_render_surface_to_file( this_, export_type, target_filename );
     data_visible_set_destroy( (*this_).input_data );
 
     TRACE_END_ERR( result );

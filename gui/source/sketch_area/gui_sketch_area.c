@@ -827,7 +827,6 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                                 }
                                 break;
 
-                                case GUI_SKETCH_ACTION_NONE:  /* and */
                                 default:
                                 {
                                     TSLOG_ERROR_INT("illegal action value in gui_sketch_action_t:",action_button_id);
