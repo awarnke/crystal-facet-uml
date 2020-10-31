@@ -229,34 +229,36 @@ void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *th
     double port_icon_top;
     if ( list_order < 0 )
     {
-        if ( list_order < INT32_MIN/2 )  /* SHOW ON RIGHT BORDER */
+        static const int32_t INT32_MIN_HALF = INT32_MIN/2;
+        if ( list_order < INT32_MIN_HALF )  /* SHOW ON RIGHT BORDER */
         {
             const double y_pos_rel
-                = (list_order - (INT32_MIN/2)) / ((double)(INT32_MIN/2));
+                = (list_order - INT32_MIN_HALF) / ((double)(INT32_MIN_HALF));
             port_icon_left = geometry_rectangle_get_right( &classifier_box ) - port_icon_size + outwards_distance;
             port_icon_top = geometry_rectangle_get_top( &classifier_box ) + y_pos_rel * ( geometry_rectangle_get_height( &classifier_box ) - port_icon_size );
         }
         else  /* SHOW ON TOP BORDER */
         {
             const double x_pos_rel
-                = (list_order) / ((double)(INT32_MIN/2));
+                = (list_order) / ((double)(INT32_MIN_HALF));
             port_icon_left = geometry_rectangle_get_left( &classifier_box ) + x_pos_rel * ( geometry_rectangle_get_width( &classifier_box ) - port_icon_size );
             port_icon_top = geometry_rectangle_get_top( &classifier_box ) - outwards_distance;
         }
     }
     else
     {
-        if ( list_order < INT32_MAX/2 )  /* SHOW ON LEFT BORDER */
+        static const int32_t INT32_MAX_HALF = (INT32_MAX/2)+1;  /* round to ceiling */
+        if ( list_order < INT32_MAX_HALF )  /* SHOW ON LEFT BORDER */
         {
             const double y_pos_rel
-                = (list_order) / ((double)(INT32_MAX/2));
+                = (list_order) / ((double)(INT32_MAX_HALF));
             port_icon_left = geometry_rectangle_get_left( &classifier_box ) - outwards_distance;
             port_icon_top = geometry_rectangle_get_top( &classifier_box ) + y_pos_rel * ( geometry_rectangle_get_height( &classifier_box ) - port_icon_size );
         }
         else  /* SHOW ON BOTTOM BORDER */
         {
             const double x_pos_rel
-                = (list_order - (INT32_MAX/2)) / ((double)(INT32_MAX/2));
+                = (list_order - INT32_MAX_HALF) / ((double)(INT32_MAX_HALF));
             port_icon_left = geometry_rectangle_get_left( &classifier_box ) + x_pos_rel * ( geometry_rectangle_get_width( &classifier_box ) - port_icon_size );
             port_icon_top = geometry_rectangle_get_bottom( &classifier_box ) - port_icon_size + outwards_distance;
         }
@@ -303,10 +305,11 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
     /* position the interface icon */
     if ( list_order < 0 )
     {
-        if ( list_order < INT32_MIN/2 )  /* SHOW ON RIGHT BORDER */
+        static const int32_t INT32_MIN_HALF = INT32_MIN/2;
+        if ( list_order < INT32_MIN_HALF )  /* SHOW ON RIGHT BORDER */
         {
             double y_pos_rel = 0.0;
-            y_pos_rel = (list_order - (INT32_MIN/2)) / ((double)(INT32_MIN/2));
+            y_pos_rel = (list_order - INT32_MIN_HALF) / ((double)(INT32_MIN_HALF));
             geometry_rectangle_t f_bounds;
             geometry_rectangle_init ( &f_bounds,
                                       geometry_rectangle_get_right( classifier_symbol_box ) + interface_distance,
@@ -321,7 +324,7 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
         else  /* SHOW ON TOP BORDER */
         {
             double x_pos_rel = 0.0;
-            x_pos_rel = (list_order) / ((double)(INT32_MIN/2));
+            x_pos_rel = (list_order) / ((double)(INT32_MIN_HALF));
             geometry_rectangle_t f_bounds;
             geometry_rectangle_init ( &f_bounds,
                                       geometry_rectangle_get_left( classifier_symbol_box ) + x_pos_rel * ( geometry_rectangle_get_width( classifier_symbol_box ) - interface_icon_size ),
@@ -336,10 +339,11 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
     }
     else
     {
-        if ( list_order < INT32_MAX/2 )  /* SHOW ON LEFT BORDER */
+        static const int32_t INT32_MAX_HALF = (INT32_MAX/2)+1;  /* round to ceiling */
+        if ( list_order < INT32_MAX_HALF )  /* SHOW ON LEFT BORDER */
         {
             double y_pos_rel = 0.0;
-            y_pos_rel = (list_order) / ((double)(INT32_MAX/2));
+            y_pos_rel = (list_order) / ((double)(INT32_MAX_HALF));
             geometry_rectangle_t f_bounds;
             geometry_rectangle_init ( &f_bounds,
                                       geometry_rectangle_get_left( classifier_symbol_box ) - interface_distance - interface_icon_size,
@@ -354,7 +358,7 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
         else  /* SHOW ON BOTTOM BORDER */
         {
             double x_pos_rel = 0.0;
-            x_pos_rel = (list_order - (INT32_MAX/2)) / ((double)(INT32_MAX/2));
+            x_pos_rel = (list_order - INT32_MAX_HALF) / ((double)(INT32_MAX_HALF));
             geometry_rectangle_t f_bounds;
             geometry_rectangle_init ( &f_bounds,
                                       geometry_rectangle_get_left( classifier_symbol_box ) + x_pos_rel * ( geometry_rectangle_get_width( classifier_symbol_box ) - interface_icon_size ),
