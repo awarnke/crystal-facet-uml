@@ -6,20 +6,21 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Traverses the model-part shown in a diagram and writes the elements to an format writer
+ *  \brief Traverses the model-part shown in an interaction diagram and writes the elements to an xmi_element_writer
  *
  *  Source: db_reader(data_database_reader_t);
  *  Task: traverse the source model-part;
- *  Sink: io_format_writer_t
+ *  Sink: xmi_element_writer
  */
 
-#include "io_format_writer.h"
+#include "xmi/xmi_element_writer.h"
 #include "set/data_visible_set.h"
 #include "set/data_node_set.h"
 #include "set/data_stat.h"
 #include "storage/data_database_reader.h"
 #include "data_table.h"
 #include "data_rules.h"
+#include "universal_array_list.h"
 #include <stdio.h>
 
 /*!
@@ -29,8 +30,9 @@ struct io_export_interaction_traversal_struct {
     data_database_reader_t *db_reader;  /* !< pointer to external database reader */
     data_visible_set_t *input_data;  /*!< pointer to an external buffer for private use as data cache */
     data_rules_t filter_rules;  /*!< own instance of uml and sysml consistency rules */
+    universal_array_list_t *written_id_set;  /*!< pointer to external list of already exported element ids */
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
-    io_format_writer_t *format_writer;  /*!< pointer to external io_format_writer_t which is the output sink */
+    xmi_element_writer_t *format_writer;  /*!< pointer to external xmi_element_writer which is the output sink */
 };
 
 typedef struct io_export_interaction_traversal_struct io_export_interaction_traversal_t;
@@ -41,15 +43,17 @@ typedef struct io_export_interaction_traversal_struct io_export_interaction_trav
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader object
  *  \param input_data pointer to an external buffer for private use as data cache
+ *  \param io_written_id_set pointer to external list of already exported element ids
  *  \param io_export_stat pointer to statistics object where export statistics are collected
- *  \param format_writer pointer to an external io_format_writer_t which is the output sink
+ *  \param out_format_writer pointer to an external xmi_element_writer which is the output sink
  */
 void io_export_interaction_traversal_init( io_export_interaction_traversal_t *this_,
-                                       data_database_reader_t *db_reader,
-                                       data_visible_set_t *input_data,
-                                       data_stat_t *io_export_stat,
-                                       io_format_writer_t *format_writer
-                                     );
+                                           data_database_reader_t *db_reader,
+                                           data_visible_set_t *input_data,
+                                           universal_array_list_t *io_written_id_set,
+                                           data_stat_t *io_export_stat,
+                                           xmi_element_writer_t *out_format_writer
+                                         );
 
 /*!
  *  \brief destroys the io_export_interaction_traversal_t

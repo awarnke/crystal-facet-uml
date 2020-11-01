@@ -13,7 +13,7 @@
  *  Sink: io_format_writer_t
  */
 
-#include "io_format_writer.h"
+#include "io_export_interaction_traversal.h"
 #include "xmi/xmi_element_writer.h"
 #include "set/data_node_set.h"
 #include "set/data_stat.h"
@@ -38,6 +38,8 @@ struct io_export_model_traversal_struct {
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
     xmi_element_writer_t *format_writer;  /*!< pointer to external io_format_writer_t which is the output sink */
 
+    io_export_interaction_traversal_t interaction_helper;  /* !< instance of own io_export_interaction_traversal to help with interaction exports */
+    
     data_id_t written_id_set_buf[IO_EXPORT_MODEL_TRAVERSAL_MAX_TOTAL_ELEMENTS];  /*!< buffer for list of already exported element ids */
     universal_array_list_t written_id_set;  /*!< list of already exported element ids (extended when starting to export an element), used for classifiers and relationships */
 
@@ -52,13 +54,15 @@ typedef struct io_export_model_traversal_struct io_export_model_traversal_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader object
+ *  \param input_data pointer to an external buffer for private use as data cache by interaction_helper
  *  \param io_export_stat pointer to statistics object where export statistics are collected
- *  \param format_writer pointer to an external xmi_element_writer_t which is the output sink
+ *  \param out_format_writer pointer to an external xmi_element_writer_t which is the output sink
  */
 void io_export_model_traversal_init( io_export_model_traversal_t *this_,
                                      data_database_reader_t *db_reader,
+                                     data_visible_set_t *input_data,
                                      data_stat_t *io_export_stat,
-                                     xmi_element_writer_t *format_writer
+                                     xmi_element_writer_t *out_format_writer
                                    );
 
 /*!

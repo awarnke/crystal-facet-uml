@@ -9,22 +9,25 @@
 #include <stdlib.h>
 
 void io_export_interaction_traversal_init( io_export_interaction_traversal_t *this_,
-                                       data_database_reader_t *db_reader,
-                                       data_visible_set_t *input_data,
-                                       data_stat_t *io_export_stat,
-                                       io_format_writer_t *format_writer )
+                                           data_database_reader_t *db_reader,
+                                           data_visible_set_t *input_data,
+                                           universal_array_list_t *io_written_id_set,
+                                           data_stat_t *io_export_stat,
+                                           xmi_element_writer_t *out_format_writer )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != input_data );
+    assert( NULL != io_written_id_set );
     assert( NULL != io_export_stat );
-    assert( NULL != format_writer );
+    assert( NULL != out_format_writer );
 
     (*this_).db_reader = db_reader;
     (*this_).input_data = input_data;
     data_rules_init ( &((*this_).filter_rules) );
+    (*this_).written_id_set = io_written_id_set;
     (*this_).export_stat = io_export_stat;
-    (*this_).format_writer = format_writer;
+    (*this_).format_writer = out_format_writer;
 
     TRACE_END();
 }
@@ -71,12 +74,14 @@ int io_export_interaction_traversal_begin_and_walk_diagram ( io_export_interacti
         TRACE_INFO_INT("printing diagram with id",data_diagram_get_id(diag_ptr));
 
         /* write_err |= io_format_writer_write_header( (*this_).format_writer, "DUMMY_TITLE" ); */
+        /*
         write_err |= io_format_writer_start_diagram( (*this_).format_writer, data_diagram_get_data_id(diag_ptr) );
         write_err |= io_format_writer_write_diagram( (*this_).format_writer,
                                                      diag_ptr,
                                                      diagram_file_base_name
                                                    );
-
+        */
+        
         /* write all classifiers */
         write_err |= io_export_interaction_traversal_private_iterate_diagram_classifiers( this_, (*this_).input_data );
 
@@ -93,7 +98,9 @@ int io_export_interaction_traversal_end_diagram ( io_export_interaction_traversa
     int write_err = 0;
 
     /* write footer */
+    /*
     write_err |= io_format_writer_end_diagram( (*this_).format_writer );
+    */
     /*  write_err |= io_format_writer_write_footer( (*this_).format_writer ); */
 
     TRACE_END_ERR( write_err );
@@ -126,9 +133,11 @@ int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_exp
             /* no classifier filter here */
             {
                 /* start classifier */
+                /*
                 write_err |= io_format_writer_start_classifier( (*this_).format_writer );
 
                 write_err |= io_format_writer_write_classifier( (*this_).format_writer, classifier );
+                */
 
                 /* print all features of the classifier */
                 write_err |= io_export_interaction_traversal_private_iterate_classifier_features( this_,
@@ -137,7 +146,9 @@ int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_exp
                                                                                             );
 
                 /* end classifier */
+                /*
                 write_err |=  io_format_writer_end_classifier( (*this_).format_writer );
+                */
             }
 
             /* print all relationships starting from classifier_id */
@@ -189,7 +200,9 @@ int io_export_interaction_traversal_private_iterate_classifier_features ( io_exp
 
                 if ( is_visible && ( ! is_lifeline ) )
                 {
+                    /*
                     write_err |=  io_format_writer_write_feature( (*this_).format_writer, feature );
+                    */
                 }
             }
         }
@@ -242,10 +255,12 @@ int io_export_interaction_traversal_private_iterate_classifier_relationships ( i
                     if ( dest_classifier != NULL )
                     {
                         /* destination classifier found, print the relation */
+                        /*
                         write_err |= io_format_writer_write_relationship( (*this_).format_writer,
                                                                           relation,
                                                                           dest_classifier
                                                                         );
+                                                                        */
                     }
                     else
                     {

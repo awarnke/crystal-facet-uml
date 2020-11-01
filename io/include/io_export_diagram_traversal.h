@@ -42,13 +42,13 @@ typedef struct io_export_diagram_traversal_struct io_export_diagram_traversal_t;
  *  \param db_reader pointer to a database reader object
  *  \param input_data pointer to an external buffer for private use as data cache
  *  \param io_export_stat pointer to statistics object where export statistics are collected
- *  \param format_writer pointer to an external io_format_writer_t which is the output sink
+ *  \param out_format_writer pointer to an external io_format_writer_t which is the output sink
  */
 void io_export_diagram_traversal_init( io_export_diagram_traversal_t *this_,
                                        data_database_reader_t *db_reader,
                                        data_visible_set_t *input_data,
                                        data_stat_t *io_export_stat,
-                                       io_format_writer_t *format_writer
+                                       io_format_writer_t *out_format_writer
                                      );
 
 /*!

@@ -35,14 +35,6 @@ pkg_search_module(GLIB2 REQUIRED glib-2.0)
 INCLUDE_DIRECTORIES(${GLIB2_INCLUDE_DIRS})
 #MESSAGE("GLIB2:   ${GLIB2_INCLUDE_DIRS}")
 
-#pkg_search_module(PANGO REQUIRED pango)
-#pkg_search_module(CAIRO REQUIRED cairo)
-#pkg_search_module(FTYPE2 REQUIRED freetype2)
-#pkg_search_module(GIO2 REQUIRED gio-unix-2.0)
-#pkg_search_module(GDK3 REQUIRED gdk-3.0)
-#pkg_search_module(ATK REQUIRED atk)
-#pkg_search_module(HARFB REQUIRED harfbuzz)
-
 pkg_search_module(GTK3 REQUIRED gtk+-3.0)
 INCLUDE_DIRECTORIES(${GTK3_INCLUDE_DIRS})
 #MESSAGE("GTK3:    ${GTK3_INCLUDE_DIRS}")
@@ -110,7 +102,7 @@ SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
 # for test cases, be less restrictive with errors.
 SET(CMAKE_C_FLAGS "-std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Wall -Wno-overlength-strings ${GTK3_CFLAGS_OTHER}" )
-# Note: The GIMP-generated images are longer that 4095 characters, therefore -Wno-overlength-strings is required here.
+# Note: The GIMP-generated images are longer that 4095 characters, therefore -Wno-overlength-strings is needed here.
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 

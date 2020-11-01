@@ -10,17 +10,18 @@
 
 void io_export_model_traversal_init( io_export_model_traversal_t *this_,
                                      data_database_reader_t *db_reader,
+                                     data_visible_set_t *input_data,
                                      data_stat_t *io_export_stat,
-                                     xmi_element_writer_t *format_writer )
+                                     xmi_element_writer_t *out_format_writer )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != io_export_stat );
-    assert( NULL != format_writer );
+    assert( NULL != out_format_writer );
 
     (*this_).db_reader = db_reader;
     (*this_).export_stat = io_export_stat;
-    (*this_).format_writer = format_writer;
+    (*this_).format_writer = out_format_writer;
 
     universal_array_list_init ( &((*this_).written_id_set),
                                 sizeof((*this_).written_id_set_buf)/sizeof(data_id_t),
@@ -32,6 +33,13 @@ void io_export_model_traversal_init( io_export_model_traversal_t *this_,
                                 (void (*)(void *)) &data_id_destroy
                               );
 
+    io_export_interaction_traversal_init( &((*this_).interaction_helper),
+                                          db_reader,
+                                          input_data,
+                                          &((*this_).written_id_set),
+                                          io_export_stat,
+                                          out_format_writer
+                                        );
     TRACE_END();
 }
 
@@ -39,6 +47,8 @@ void io_export_model_traversal_destroy( io_export_model_traversal_t *this_ )
 {
     TRACE_BEGIN();
 
+    io_export_interaction_traversal_destroy ( &((*this_).interaction_helper) );
+    
     universal_array_list_destroy ( &((*this_).written_id_set) );
 
     (*this_).db_reader = NULL;

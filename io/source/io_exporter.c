@@ -342,6 +342,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
             /* init the model_traversal */
             io_export_model_traversal_init( &((*this_).temp_model_traversal),
                                             (*this_).db_reader,
+                                            &((*this_).temp_input_data),
                                             io_export_stat,
                                             &((*this_).temp_xmi_writer)
                                           );
@@ -350,8 +351,6 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
             export_err |= xmi_element_writer_start_main( &((*this_).temp_xmi_writer), document_file_name );
             xmi_element_writer_set_mode( &((*this_).temp_xmi_writer ), IO_WRITER_PASS_BASE );
             export_err |= io_export_model_traversal_walk_model_nodes( &((*this_).temp_model_traversal) );
-            /* TODO - idea - is this here  place where to traverse the diagram tree using io_exporter_private_export_document_part ? */
-            /* but sounds wrong somehow - would be easily fitting but strange concept to so much rely on diagram-rows */
             export_err |= xmi_element_writer_end_main( &((*this_).temp_xmi_writer) );
             xmi_element_writer_set_mode( &((*this_).temp_xmi_writer ), IO_WRITER_PASS_PROFILE );
             export_err |= io_export_model_traversal_walk_model_nodes( &((*this_).temp_model_traversal) );
