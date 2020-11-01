@@ -63,20 +63,15 @@ void io_export_interaction_traversal_init( io_export_interaction_traversal_t *th
 void io_export_interaction_traversal_destroy( io_export_interaction_traversal_t *this_ );
 
 /*!
- *  \brief prints names and descriptions of the diagram and contained classifiers to the output stream
- *
- *  Note: When finished, the caller may recurse to chilren diagrams.
- *  Finally, io_export_interaction_traversal_end_diagram has to be called.
+ *  \brief iterates all interactions where classifier is involved, exports these interactions
  *
  *  \param this_ pointer to own object attributes
- *  \param diagram_id id of the diagram which to process for export
- *  \param diagram_file_base_name filename of the diagram without extension
+ *  \param classifier_id id of the classifier which occurrences to process for export
  *  \return -1 in case of error, 0 in case of success
  */
-int io_export_interaction_traversal_begin_and_walk_diagram ( io_export_interaction_traversal_t *this_,
-                                                         data_id_t diagram_id,
-                                                         const char *diagram_file_base_name
-                                                       );
+int io_export_interaction_traversal_iterate_classifier_occurrences ( io_export_interaction_traversal_t *this_,
+                                                                     data_id_t classifier_id
+                                                                   );
 
 /*!
  *  \brief prints the end of a diagram section

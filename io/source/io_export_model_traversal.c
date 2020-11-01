@@ -524,18 +524,19 @@ int io_export_model_traversal_private_fake_interactions_of_node ( io_export_mode
             const data_feature_type_t feat_type = data_feature_get_main_type( feature );
             const bool is_lifeline = ( feat_type == DATA_FEATURE_TYPE_LIFELINE );
             
-            if (( ! duplicate_feature )&&( is_lifeline ))
+            if (( ! duplicate_feature )&&( is_lifeline ))  /* just an optimization, checked again by (*this_).interaction_helper */
             {
                 static const data_classifier_type_t FAKE_INTERACTION 
                     = DATA_CLASSIFIER_TYPE_UML_CLASS; /* interaction is subclass of class */
                 const bool is_interaction_compliant_here
                     = xmi_element_writer_can_classifier_nest_relationship( (*this_).format_writer, nesting_type, FAKE_INTERACTION );
 
-                /* TODO */
-                write_err |=  xmi_element_writer_write_feature( (*this_).format_writer,
-                                                                data_classifier_get_main_type( classifier ),
-                                                                feature
-                                                              );
+                if ( is_interaction_compliant_here )
+                {
+                    write_err |=  io_export_interaction_traversal_iterate_classifier_occurrences( &((*this_).interaction_helper),
+                                                                                                  classifier_id
+                                                                                                );
+                }
             }
         }
         else

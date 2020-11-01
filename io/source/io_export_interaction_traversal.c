@@ -43,6 +43,13 @@ void io_export_interaction_traversal_destroy( io_export_interaction_traversal_t 
     TRACE_END();
 }
 
+int io_export_interaction_traversal_iterate_classifier_occurrences ( io_export_interaction_traversal_t *this_,
+                                                                     data_id_t classifier_id
+                                                                   )
+{
+    return -1;
+}
+
 int io_export_interaction_traversal_begin_and_walk_diagram ( io_export_interaction_traversal_t *this_,
                                                          data_id_t diagram_id,
                                                          const char *diagram_file_base_name )
