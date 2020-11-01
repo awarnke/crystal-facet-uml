@@ -94,7 +94,7 @@ MESSAGE( "Note:                                          CMAKE_BUILD_TYPE = ${CM
 #MESSAGE( "Note:                                          CMAKE_BUILD_DIR = ${CMAKE_BUILD_DIR}" )
 MESSAGE( "Note: to build a release, run                  cmake -DCMAKE_BUILD_TYPE=Release " ${CMAKE_CURRENT_SOURCE_DIR} )
 MESSAGE( "Note: to build with asserts and traces, run    cmake -DCMAKE_BUILD_TYPE=Debug " ${CMAKE_CURRENT_SOURCE_DIR} )
-MESSAGE( "Note: then, to build using 4 cores, run        make -j4" )
+MESSAGE( "Note: then, to build, run                      make -j4" )
 MESSAGE( "Note: to install, run                          sudo make install" )
 
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Werror=format-security -Wall -Wno-overlength-strings ${GTK3_CFLAGS_OTHER}" )

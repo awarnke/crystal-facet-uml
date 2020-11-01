@@ -229,6 +229,7 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
                                                                                            &((*this_).temp_node_data)
                                                                                          );
             }
+            /* TODO - is here the right place to export interactions? */
         }
 
         data_node_set_destroy( &((*this_).temp_node_data) );

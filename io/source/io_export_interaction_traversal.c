@@ -1,6 +1,6 @@
-/* File: io_export_diagram_traversal.c; Copyright and License: see below */
+/* File: io_export_interaction_traversal.c; Copyright and License: see below */
 
-#include "io_export_diagram_traversal.h"
+#include "io_export_interaction_traversal.h"
 #include "trace.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void io_export_diagram_traversal_init( io_export_diagram_traversal_t *this_,
+void io_export_interaction_traversal_init( io_export_interaction_traversal_t *this_,
                                        data_database_reader_t *db_reader,
                                        data_visible_set_t *input_data,
                                        data_stat_t *io_export_stat,
@@ -29,7 +29,7 @@ void io_export_diagram_traversal_init( io_export_diagram_traversal_t *this_,
     TRACE_END();
 }
 
-void io_export_diagram_traversal_destroy( io_export_diagram_traversal_t *this_ )
+void io_export_interaction_traversal_destroy( io_export_interaction_traversal_t *this_ )
 {
     TRACE_BEGIN();
 
@@ -40,7 +40,7 @@ void io_export_diagram_traversal_destroy( io_export_diagram_traversal_t *this_ )
     TRACE_END();
 }
 
-int io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_traversal_t *this_,
+int io_export_interaction_traversal_begin_and_walk_diagram ( io_export_interaction_traversal_t *this_,
                                                          data_id_t diagram_id,
                                                          const char *diagram_file_base_name )
 {
@@ -78,7 +78,7 @@ int io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_trave
                                                    );
 
         /* write all classifiers */
-        write_err |= io_export_diagram_traversal_private_iterate_diagram_classifiers( this_, (*this_).input_data );
+        write_err |= io_export_interaction_traversal_private_iterate_diagram_classifiers( this_, (*this_).input_data );
 
         data_visible_set_destroy( (*this_).input_data );
     }
@@ -87,7 +87,7 @@ int io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_trave
     return write_err;
 }
 
-int io_export_diagram_traversal_end_diagram ( io_export_diagram_traversal_t *this_ )
+int io_export_interaction_traversal_end_diagram ( io_export_interaction_traversal_t *this_ )
 {
     TRACE_BEGIN();
     int write_err = 0;
@@ -100,7 +100,7 @@ int io_export_diagram_traversal_end_diagram ( io_export_diagram_traversal_t *thi
     return write_err;
 }
 
-int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_diagram_traversal_t *this_,
+int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_export_interaction_traversal_t *this_,
                                                                       const data_visible_set_t *diagram_data )
 {
     TRACE_BEGIN();
@@ -131,7 +131,7 @@ int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_
                 write_err |= io_format_writer_write_classifier( (*this_).format_writer, classifier );
 
                 /* print all features of the classifier */
-                write_err |= io_export_diagram_traversal_private_iterate_classifier_features( this_,
+                write_err |= io_export_interaction_traversal_private_iterate_classifier_features( this_,
                                                                                               diagram_data,
                                                                                               classifier_id
                                                                                             );
@@ -141,7 +141,7 @@ int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_
             }
 
             /* print all relationships starting from classifier_id */
-            write_err |= io_export_diagram_traversal_private_iterate_classifier_relationships( this_,
+            write_err |= io_export_interaction_traversal_private_iterate_classifier_relationships( this_,
                                                                                                diagram_data,
                                                                                                classifier_id
                                                                                              );
@@ -156,7 +156,7 @@ int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_
     return write_err;
 }
 
-int io_export_diagram_traversal_private_iterate_classifier_features ( io_export_diagram_traversal_t *this_,
+int io_export_interaction_traversal_private_iterate_classifier_features ( io_export_interaction_traversal_t *this_,
                                                                       const data_visible_set_t *diagram_data,
                                                                       data_id_t classifier_id )
 {
@@ -203,7 +203,7 @@ int io_export_diagram_traversal_private_iterate_classifier_features ( io_export_
     return write_err;
 }
 
-int io_export_diagram_traversal_private_iterate_classifier_relationships ( io_export_diagram_traversal_t *this_,
+int io_export_interaction_traversal_private_iterate_classifier_relationships ( io_export_interaction_traversal_t *this_,
                                                                            const data_visible_set_t *diagram_data,
                                                                            data_id_t from_classifier_id )
 {
@@ -266,7 +266,7 @@ int io_export_diagram_traversal_private_iterate_classifier_relationships ( io_ex
 
 
 /*
-Copyright 2016-2020 Andreas Warnke
+Copyright 2020-2020 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
