@@ -232,14 +232,25 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
              * 1x for the nested from-/to- classifier and 1x for same classifier at the toplevel model package
              */
             {
-                /* write the relationships that can be stated after the classifier */
+                /* write the relationships that can be stated after the classifier or in the toplevel package */
                 write_err |= io_export_model_traversal_private_iterate_node_relationships( this_,
                                                                                            true,
                                                                                            parent_type,
                                                                                            &((*this_).temp_node_data)
                                                                                          );
             }
-            /* TODO - is here the right place to export interactions? */
+            
+            /* fake and export interactions in which the current node is participant */
+            /* recursion trick: If from- and to- classifiers are nested, this block is evaluated
+             * 1x for the nested from-/to- classifier and 1x for same classifier at the toplevel model package
+             */
+            {
+                /* write the relationships that can be stated after the classifier or in the toplevel package */
+                write_err |= io_export_model_traversal_private_fake_interactions_of_node( this_,
+                                                                                          parent_type,
+                                                                                          &((*this_).temp_node_data)
+                                                                                        );
+            }
         }
 
         data_node_set_destroy( &((*this_).temp_node_data) );
@@ -470,6 +481,61 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                     /* destination classifier found, print the relation */
                     write_err |= xmi_element_writer_write_relationship( (*this_).format_writer, nesting_type, relation );
                 }
+            }
+        }
+        else
+        {
+            assert( false );
+        }
+    }
+
+    TRACE_END_ERR( write_err );
+    return write_err;
+}
+
+int io_export_model_traversal_private_fake_interactions_of_node ( io_export_model_traversal_t *this_,
+                                                                  data_classifier_type_t nesting_type,
+                                                                  const data_node_set_t *node_data )
+{
+    TRACE_BEGIN();
+    assert( node_data != NULL );
+    assert( data_node_set_is_valid( node_data ) );
+    int write_err = 0;
+
+    const data_classifier_t *const classifier
+        = data_node_set_get_classifier_const ( node_data );
+    const data_id_t classifier_id = data_classifier_get_data_id( classifier );
+
+    /* iterate over all features, search for lifelines */
+    const uint32_t count = data_node_set_get_feature_count ( node_data );
+    for ( uint32_t index = 0; index < count; index ++ )
+    {
+        /* get feature */
+        const data_feature_t *feature;
+        feature = data_node_set_get_feature_const ( node_data, index );
+        if (( feature != NULL ) && ( data_feature_is_valid( feature ) ))
+        {
+            /* determine if the feature is a duplicate */
+            const data_id_t feature_id = data_feature_get_data_id( feature );
+            const bool duplicate_feature
+                = ( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &feature_id ) );
+                
+            /* determine if the feature is a lifeline */
+            const data_feature_type_t feat_type = data_feature_get_main_type( feature );
+            const bool is_lifeline = ( feat_type == DATA_FEATURE_TYPE_LIFELINE );
+            
+            if (( ! duplicate_feature )&&( is_lifeline ))
+            {
+                static const data_classifier_type_t FAKE_INTERACTION 
+                    = DATA_CLASSIFIER_TYPE_UML_CLASS; /* interaction is subclass of class */
+                const bool is_interaction_compliant_here
+                    = xmi_element_writer_can_classifier_nest_relationship( (*this_).format_writer, nesting_type, FAKE_INTERACTION );
+
+                /* TODO */
+                write_err |=  xmi_element_writer_write_feature( (*this_).format_writer,
+                                                                data_classifier_get_main_type( classifier ),
+                                                                feature
+                                                              );
             }
         }
         else

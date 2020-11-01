@@ -17,7 +17,7 @@ enum data_feature_type_enum {
     DATA_FEATURE_TYPE_PROPERTY = 0,
     DATA_FEATURE_TYPE_OPERATION = 1,
     DATA_FEATURE_TYPE_PORT = 2,
-    DATA_FEATURE_TYPE_LIFELINE = 3,  /* for sequence and timing and communication diagrams */
+    DATA_FEATURE_TYPE_LIFELINE = 3,  /* for sequence, timing, communication and interaction-overview diagrams */
     DATA_FEATURE_TYPE_PROVIDED_INTERFACE = 4,
     DATA_FEATURE_TYPE_REQUIRED_INTERFACE = 5,
     /* DATA_FEATURE_TYPE_TESTCASE = 6, */  /* for SysML requirements diagram */

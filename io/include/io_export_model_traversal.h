@@ -194,6 +194,19 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                                                                    const data_node_set_t *node_data
                                                                  );
 
+/*!
+ *  \brief checks in which interaction-diagrams the node is used and fakes interaction-model-objects.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param nesting_type type of the nesting classifier
+ *  \param node_data node data of the classifier of which the interactions are faked, not NULL
+ *  \return -1 in case of error, 0 in case of success.
+ */
+int io_export_model_traversal_private_fake_interactions_of_node ( io_export_model_traversal_t *this_,
+                                                                  data_classifier_type_t nesting_type,
+                                                                  const data_node_set_t *node_data
+                                                                );
+
 #endif  /* IO_EXPORT_MODEL_TRAVERSAL_H */
 
 
