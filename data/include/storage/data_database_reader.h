@@ -26,6 +26,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#define DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT 1
+
 /*!
  *  \brief all data attributes needed for the database functions
  */
@@ -36,9 +38,12 @@ struct data_database_reader_struct {
     sqlite3_stmt *private_prepared_query_diagram_by_id;
     sqlite3_stmt *private_prepared_query_diagrams_by_parent_id;
     sqlite3_stmt *private_prepared_query_diagrams_by_parent_id_null;
+#ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
     sqlite3_stmt *private_prepared_query_diagrams_by_classifier_id;
+#endif
     sqlite3_stmt *private_prepared_query_diagram_ids_by_parent_id;
     sqlite3_stmt *private_prepared_query_diagram_ids_by_parent_id_null;
+    sqlite3_stmt *private_prepared_query_diagram_ids_by_classifier_id;
     sqlite3_stmt *private_prepared_query_classifier_by_id;
     sqlite3_stmt *private_prepared_query_classifier_by_name;
     sqlite3_stmt *private_prepared_query_classifiers_by_diagram_id;
@@ -122,6 +127,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
                                                               uint32_t *out_diagram_count
                                                             );
 
+#ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
 /*!
  *  \brief reads all classifier-displaying diagrams from the database
  *
@@ -141,6 +147,7 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
                                                                   data_diagram_t (*out_diagram)[],
                                                                   uint32_t *out_diagram_count
                                                                 );
+#endif
 
 /*!
  *  \brief reads all child-diagram ids from the database
@@ -155,6 +162,22 @@ data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_r
                                                                  data_row_id_t parent_id,
                                                                  data_small_set_t *out_diagram_ids
                                                                );
+
+/*!
+ *  \brief reads all classifier-displaying diagrams ids from the database
+ *
+ *  If a diagram shows the classifier multiple times, the diagram is returned just once (DISTINCT).
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier
+ *  \param out_diagram_ids set of diagram ids read from the database (in case of success). The provided set shall be initialized.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ */
+data_error_t data_database_reader_get_diagram_ids_by_classifier_id ( data_database_reader_t *this_,
+                                                                     data_row_id_t classifier_id,
+                                                                     data_small_set_t *out_diagram_ids
+                                                                   );
 
 /* ================================ CLASSIFIER ================================ */
 

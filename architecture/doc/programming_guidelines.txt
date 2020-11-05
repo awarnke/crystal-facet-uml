@@ -95,11 +95,11 @@
  *    The caller is responsible for destroying it.
  *    \n Rationale: The caller will most likely do an assignment like result_object=function(x);
  *    Only result_object can be destroyed by the caller, not the copy on the stack.
- *  - Functions may accept object-parameters only if the assignment via memcpy is a valid copy-operation.
+ *  - Functions may accept object-parameters (non-pointer) only if the assignment via memcpy is a valid copy-operation.
  *    \n Rationale: The caller will do an assignment like function(object_parameter); which produces a copy.
  *    Note that the caller is still responsible to destroy object_parameter and the callee to destroy the copy.
  *  - Functions may define memory locations for result-objects as "out_"-parameter. The caller shall pre-initialize these.
- *    \n Rationale: This allows to stick to the rule, who creates an object is responsible for destroying it.
+ *    \n Rationale: This allows to stick to the followin rule: Who creates an object is responsible for destroying it.
  *  - Arrays: Objects in arrays shall be destroyed as all other objects.
  *  - Exceptions shall be documented.
  *  - Avoid using NULL pointers, prefer using pointers to void objects.

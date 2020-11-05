@@ -107,11 +107,11 @@ static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID_NULL[] =
     "SELECT id,parent_id,diagram_type,name,description,list_order "
     "FROM diagrams WHERE parent_id IS NULL ORDER BY list_order ASC;";
 
+#ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
 /*!
  *  \brief predefined search statement to find diagrams by classifier-id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID[] =
-    /*"SELECT DISTINCT diagrams.id,diagrams.parent_id,diagrams.diagram_type,"*/
     "SELECT diagrams.id,diagrams.parent_id,diagrams.diagram_type,"
     "diagrams.name,diagrams.description,diagrams.list_order "
     "FROM diagrams "
@@ -119,6 +119,7 @@ static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID[] =
     "WHERE diagramelements.classifier_id=? "
     "GROUP BY diagrams.id "  /* filter duplicates if a classifier exists twice in a diagram */
     "ORDER BY diagrams.list_order ASC;";
+#endif
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id
@@ -163,6 +164,17 @@ static const char DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID[] =
 static const char DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID_NULL[] =
     "SELECT id "
     "FROM diagrams WHERE parent_id IS NULL ORDER BY list_order ASC;";
+
+/*!
+ *  \brief predefined search statement to find diagram ids by classifier-id
+ */
+static const char DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_CLASSIFIER_ID[] =
+    "SELECT diagrams.id "
+    "FROM diagrams "
+    "INNER JOIN diagramelements ON diagramelements.diagram_id=diagrams.id "
+    "WHERE diagramelements.classifier_id=? "
+    "GROUP BY diagrams.id "  /* filter duplicates if a classifier exists twice in a diagram */
+    "ORDER BY diagrams.list_order ASC;";
 
 data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, data_row_id_t id, data_diagram_t *out_diagram )
 {
@@ -299,6 +311,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
     return result;
 }
 
+#ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
 data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_reader_t *this_,
                                                                   data_row_id_t classifier_id,
                                                                   uint32_t max_out_array_size,
@@ -369,6 +382,7 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
     TRACE_END_ERR( result );
     return result;
 }
+#endif
 
 data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_reader_t *this_,
                                                                  data_row_id_t parent_id,
@@ -421,6 +435,60 @@ data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_r
             }
         }
         data_small_set_trace( out_diagram_ids );
+    }
+    else
+    {
+        result |= DATA_ERROR_NO_DB;
+        TRACE_INFO( "Database not open, cannot request data." );
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_reader_get_diagram_ids_by_classifier_id ( data_database_reader_t *this_,
+                                                                     data_row_id_t classifier_id,
+                                                                     data_small_set_t *out_diagram_ids )
+{
+    TRACE_BEGIN();
+    assert( NULL != out_diagram_ids );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    sqlite3_stmt *prepared_statement;
+
+    if ( (*this_).is_open )
+    {
+        prepared_statement = (*this_).private_prepared_query_diagram_ids_by_classifier_id;
+
+        result |= data_database_reader_private_bind_id_to_statement( this_, prepared_statement, classifier_id );
+
+        sqlite_err = SQLITE_ROW;
+        for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= DATA_SMALL_SET_MAX_SET_SIZE); row_index ++ )
+        {
+            TRACE_INFO( "sqlite3_step()" );
+            sqlite_err = sqlite3_step( prepared_statement );
+            if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
+            {
+                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                result |= DATA_ERROR_AT_DB;
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index < DATA_SMALL_SET_MAX_SET_SIZE))
+            {
+                data_id_t current_diag_id;
+                data_id_init( &current_diag_id, DATA_TABLE_DIAGRAM, sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_ID_COLUMN ) );
+                result |= data_small_set_add_obj( out_diagram_ids, current_diag_id );
+                data_id_trace( &current_diag_id );
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index >= DATA_SMALL_SET_MAX_SET_SIZE))
+            {
+                TSLOG_ANOMALY_INT( "out_diagram_ids[] full:", (row_index+1) );
+                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+            }
+            if ( SQLITE_DONE == sqlite_err )
+            {
+                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+            }
+        }
     }
     else
     {
@@ -1689,11 +1757,13 @@ data_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
                                                                    &((*this_).private_prepared_query_diagrams_by_parent_id_null)
                                                                  );
 
+#ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID ),
                                                                    &((*this_).private_prepared_query_diagrams_by_classifier_id)
                                                                  );
+#endif
 
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID,
@@ -1705,6 +1775,12 @@ data_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
                                                                    DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID_NULL,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID_NULL ),
                                                                    &((*this_).private_prepared_query_diagram_ids_by_parent_id_null)
+                                                                 );
+
+        result |= data_database_reader_private_prepare_statement ( this_,
+                                                                   DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_CLASSIFIER_ID,
+                                                                   sizeof( DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_CLASSIFIER_ID ),
+                                                                   &((*this_).private_prepared_query_diagram_ids_by_classifier_id)
                                                                  );
 
         result |= data_database_reader_private_prepare_statement ( this_,
@@ -1810,11 +1886,15 @@ data_error_t data_database_reader_private_close ( data_database_reader_t *this_ 
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagrams_by_parent_id_null );
 
+#ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagrams_by_classifier_id );
+#endif
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_ids_by_parent_id );
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_ids_by_parent_id_null );
+
+        result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_ids_by_classifier_id );
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_classifier_by_id );
 

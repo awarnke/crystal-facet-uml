@@ -313,6 +313,16 @@ static void test_search_diagrams(void)
                                                                   );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 2, out_diagram_count );
+    
+    /* test 5 */
+    data_small_set_t out_showing_diagram_ids;
+    data_small_set_init( &out_showing_diagram_ids );
+    data_err = data_database_reader_get_diagram_ids_by_classifier_id ( &db_reader,
+                                                                       12,
+                                                                       &out_showing_diagram_ids
+                                                                     );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 2, data_small_set_get_count( &out_showing_diagram_ids ) );
 }
 
 static void test_search_diagramelements(void)

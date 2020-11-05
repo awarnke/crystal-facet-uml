@@ -47,12 +47,38 @@ int io_export_interaction_traversal_iterate_classifier_occurrences ( io_export_i
                                                                      data_id_t classifier_id
                                                                    )
 {
-    return -1;
+    TRACE_BEGIN();
+    assert( data_id_is_valid( &classifier_id ) );
+    int write_err = 0;
+
+    data_small_set_t out_showing_diagram_ids;
+    data_small_set_init( &out_showing_diagram_ids );
+    const data_error_t data_err = data_database_reader_get_diagram_ids_by_classifier_id ( (*this_).db_reader,
+                                                                                          data_id_get_row_id( &classifier_id ),
+                                                                                          &out_showing_diagram_ids
+                                                                                        );
+    if( data_err == DATA_ERROR_NONE )
+    {
+        const uint32_t diag_count = data_small_set_get_count( &out_showing_diagram_ids );
+        for ( uint32_t diag_idx = 0; diag_idx < diag_count; diag_idx ++ )
+        {
+            const data_id_t diag_id = data_small_set_get_id(  &out_showing_diagram_ids, diag_idx );
+            write_err |= io_export_interaction_traversal_private_walk_diagram( this_, diag_id );
+        }
+        data_small_set_destroy( &out_showing_diagram_ids );
+    }
+    else
+    {
+        write_err = -1;
+        assert(false);
+    }
+    
+    TRACE_END_ERR( write_err );
+    return write_err;
 }
 
-int io_export_interaction_traversal_begin_and_walk_diagram ( io_export_interaction_traversal_t *this_,
-                                                         data_id_t diagram_id,
-                                                         const char *diagram_file_base_name )
+int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction_traversal_t *this_, 
+                                                          data_id_t diagram_id )
 {
     TRACE_BEGIN();
     assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
@@ -94,21 +120,6 @@ int io_export_interaction_traversal_begin_and_walk_diagram ( io_export_interacti
 
         data_visible_set_destroy( (*this_).input_data );
     }
-
-    TRACE_END_ERR( write_err );
-    return write_err;
-}
-
-int io_export_interaction_traversal_end_diagram ( io_export_interaction_traversal_t *this_ )
-{
-    TRACE_BEGIN();
-    int write_err = 0;
-
-    /* write footer */
-    /*
-    write_err |= io_format_writer_end_diagram( (*this_).format_writer );
-    */
-    /*  write_err |= io_format_writer_write_footer( (*this_).format_writer ); */
 
     TRACE_END_ERR( write_err );
     return write_err;
