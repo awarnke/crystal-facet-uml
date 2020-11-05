@@ -1,8 +1,18 @@
 /* File: xmi_element_writer.inl; Copyright and License: see below */
 
+static inline io_writer_pass_t xmi_element_writer_get_mode( xmi_element_writer_t *this_ )
+{
+    return (*this_).mode;
+}
+
 static inline void xmi_element_writer_set_mode( xmi_element_writer_t *this_, io_writer_pass_t mode )
 {
     (*this_).mode = mode;
+}
+
+static inline xml_writer_t *xmi_element_writer_get_xml_writer_ptr( xmi_element_writer_t *this_ )
+{
+    return &((*this_).xml_writer);
 }
 
 static inline bool xmi_element_writer_can_classifier_nest_classifier ( xmi_element_writer_t *this_,

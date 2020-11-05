@@ -6,9 +6,6 @@
 #include <gtk/gtk.h>
 #include <assert.h>
 
-    gui_type_resource_t type_name_icon_list[GUI_RESOURCE_SELECTOR_MAX_TYPES];
-
-
 void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_t *resources )
 {
     TRACE_BEGIN();

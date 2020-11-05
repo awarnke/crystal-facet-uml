@@ -13,22 +13,25 @@ void io_export_interaction_traversal_init( io_export_interaction_traversal_t *th
                                            data_visible_set_t *input_data,
                                            universal_array_list_t *io_written_id_set,
                                            data_stat_t *io_export_stat,
-                                           xmi_element_writer_t *out_format_writer )
+                                           xml_writer_t *out_writer )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != input_data );
     assert( NULL != io_written_id_set );
     assert( NULL != io_export_stat );
-    assert( NULL != out_format_writer );
+    assert( NULL != out_writer );
 
     (*this_).db_reader = db_reader;
     (*this_).input_data = input_data;
     data_rules_init ( &((*this_).filter_rules) );
     (*this_).written_id_set = io_written_id_set;
     (*this_).export_stat = io_export_stat;
-    (*this_).format_writer = out_format_writer;
-
+    xmi_interaction_writer_init( &((*this_).format_writer), 
+                                 db_reader,
+                                 io_export_stat,
+                                 out_writer
+                               );
     TRACE_END();
 }
 
@@ -53,39 +56,48 @@ int io_export_interaction_traversal_iterate_classifier_occurrences ( io_export_i
 
     data_small_set_t out_showing_diagram_ids;
     data_small_set_init( &out_showing_diagram_ids );
-    const data_error_t data_err = data_database_reader_get_diagram_ids_by_classifier_id ( (*this_).db_reader,
-                                                                                          data_id_get_row_id( &classifier_id ),
-                                                                                          &out_showing_diagram_ids
-                                                                                        );
-    if( data_err == DATA_ERROR_NONE )
     {
-        const uint32_t diag_count = data_small_set_get_count( &out_showing_diagram_ids );
-        for ( uint32_t diag_idx = 0; diag_idx < diag_count; diag_idx ++ )
+        const data_error_t data_err = data_database_reader_get_diagram_ids_by_classifier_id ( (*this_).db_reader,
+                                                                                              data_id_get_row_id( &classifier_id ),
+                                                                                              &out_showing_diagram_ids
+                                                                                            );
+        if( data_err == DATA_ERROR_NONE )
         {
-            const data_id_t diag_id = data_small_set_get_id(  &out_showing_diagram_ids, diag_idx );
-            write_err |= io_export_interaction_traversal_private_walk_diagram( this_, diag_id );
+            const uint32_t diag_count = data_small_set_get_count( &out_showing_diagram_ids );
+            for ( uint32_t diag_idx = 0; diag_idx < diag_count; diag_idx ++ )
+            {
+                const data_id_t diag_id = data_small_set_get_id(  &out_showing_diagram_ids, diag_idx );
+                
+                const bool duplicate_diagram
+                    =( -1 != universal_array_list_get_index_of( (*this_).written_id_set, &diag_id ) );
+                
+                if ( ! duplicate_diagram )
+                {
+                    write_err |= io_export_interaction_traversal_private_walk_diagram( this_, diag_id );
+                }            
+            }
         }
-        data_small_set_destroy( &out_showing_diagram_ids );
+        else
+        {
+            write_err = -1;
+            assert(false);
+        }
     }
-    else
-    {
-        write_err = -1;
-        assert(false);
-    }
+    data_small_set_destroy( &out_showing_diagram_ids );
     
     TRACE_END_ERR( write_err );
     return write_err;
 }
 
 int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction_traversal_t *this_, 
-                                                          data_id_t diagram_id )
+                                                           data_id_t diagram_id )
 {
     TRACE_BEGIN();
     assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
     int write_err = 0;
 
     /* write part for current diagram */
-    if ( DATA_ROW_ID_VOID != data_id_get_row_id( &diagram_id ) )
+    if ( data_id_is_valid( &diagram_id ) )
     {
         /* load data to be drawn */
         data_visible_set_init( (*this_).input_data );
@@ -104,20 +116,35 @@ int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction
         const data_diagram_t *diag_ptr = data_visible_set_get_diagram_const( (*this_).input_data );
         assert( diag_ptr != NULL );
         assert( data_diagram_is_valid( diag_ptr ) );
-        TRACE_INFO_INT("printing diagram with id",data_diagram_get_id(diag_ptr));
+        const data_diagram_type_t diag_type = data_diagram_get_diagram_type( diag_ptr );
+        const bool is_interaction_type 
+            = (( diag_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
+            || ( diag_type == DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM )
+            || ( diag_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
+            || ( diag_type == DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM ));
 
-        /* write_err |= io_format_writer_write_header( (*this_).format_writer, "DUMMY_TITLE" ); */
-        /*
-        write_err |= io_format_writer_start_diagram( (*this_).format_writer, data_diagram_get_data_id(diag_ptr) );
-        write_err |= io_format_writer_write_diagram( (*this_).format_writer,
-                                                     diag_ptr,
-                                                     diagram_file_base_name
-                                                   );
-        */
+        if ( is_interaction_type )
+        {
+            TRACE_INFO_INT("exporting diagram as interaction, id:",data_diagram_get_id(diag_ptr));
+
+            /* add this classifier to the already written elements */
+            write_err |= universal_array_list_append( (*this_).written_id_set, &diagram_id );
+            
+            write_err |= xmi_interaction_writer_start_diagram( &((*this_).format_writer), diag_ptr );
+            /*
+            write_err |= io_format_writer_start_diagram( (*this_).format_writer, data_diagram_get_data_id(diag_ptr) );
+            write_err |= io_format_writer_write_diagram( (*this_).format_writer,
+                                                        diag_ptr,
+                                                        diagram_file_base_name
+                                                    );
+            */
+            
+            /* write all classifiers */
+            write_err |= io_export_interaction_traversal_private_iterate_diagram_classifiers( this_, (*this_).input_data );
+            
+            write_err |= xmi_interaction_writer_end_diagram( &((*this_).format_writer) );
+        }
         
-        /* write all classifiers */
-        write_err |= io_export_interaction_traversal_private_iterate_diagram_classifiers( this_, (*this_).input_data );
-
         data_visible_set_destroy( (*this_).input_data );
     }
 

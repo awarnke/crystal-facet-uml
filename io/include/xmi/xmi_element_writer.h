@@ -32,7 +32,6 @@
  *  \brief attributes of the format writer
  */
 struct xmi_element_writer_struct {
-    io_file_format_t export_type;  /*!< format of output document */
     io_writer_pass_t mode;  /*!< depending on the mode, conversion from a data object to the output format differs */
 
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
@@ -47,14 +46,12 @@ typedef struct xmi_element_writer_struct xmi_element_writer_t;
  *  \brief initializes the format writer
  *
  *  \param this_ pointer to own object attributes
- *  \param db_reader pointer to a database reader object
- *  \param export_type image file format
+ *  \param db_reader pointer to a database reader object (to resolve markdown links)
  *  \param io_export_stat pointer to statistics object where export statistics are collected
  *  \param output output stream where to write the generated output to
  */
 void xmi_element_writer_init( xmi_element_writer_t *this_,
                               data_database_reader_t *db_reader,
-                              io_file_format_t export_type,
                               data_stat_t *io_export_stat,
                               universal_output_stream_t *output
                             );
@@ -67,12 +64,28 @@ void xmi_element_writer_init( xmi_element_writer_t *this_,
 void xmi_element_writer_destroy( xmi_element_writer_t *this_ );
 
 /*!
+ *  \brief gets the conversion mode of the format writer
+ *
+ *  \param this_ pointer to own object attributes
+ *  \result mode how to convert a data object to the output format, e.g. uml-basic or profile-extension
+ */
+static inline io_writer_pass_t xmi_element_writer_get_mode( xmi_element_writer_t *this_ );
+
+/*!
  *  \brief sets the conversion mode of the format writer
  *
  *  \param this_ pointer to own object attributes
  *  \param mode mode how to convert a data object to the output format, e.g. uml-basic or profile-extension
  */
 static inline void xmi_element_writer_set_mode( xmi_element_writer_t *this_, io_writer_pass_t mode );
+
+/*!
+ *  \brief gets a pointer to the xml_writer
+ *
+ *  \param this_ pointer to own object attributes
+ *  \result pointer to the internal xml_writer
+ */
+static inline xml_writer_t *xmi_element_writer_get_xml_writer_ptr( xmi_element_writer_t *this_ );
 
 /*!
  *  \brief writes the header of the document

@@ -38,7 +38,7 @@ void io_export_model_traversal_init( io_export_model_traversal_t *this_,
                                           input_data,
                                           &((*this_).written_id_set),
                                           io_export_stat,
-                                          out_format_writer
+                                          xmi_element_writer_get_xml_writer_ptr( out_format_writer )
                                         );
     TRACE_END();
 }
@@ -529,7 +529,7 @@ int io_export_model_traversal_private_fake_interactions_of_node ( io_export_mode
                 static const data_classifier_type_t FAKE_INTERACTION 
                     = DATA_CLASSIFIER_TYPE_UML_CLASS; /* interaction is subclass of class */
                 const bool is_interaction_compliant_here
-                    = xmi_element_writer_can_classifier_nest_relationship( (*this_).format_writer, nesting_type, FAKE_INTERACTION );
+                    = xmi_element_writer_can_classifier_nest_classifier( (*this_).format_writer, nesting_type, FAKE_INTERACTION );
 
                 if ( is_interaction_compliant_here )
                 {
