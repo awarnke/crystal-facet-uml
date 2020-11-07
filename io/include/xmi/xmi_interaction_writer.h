@@ -68,10 +68,14 @@ void xmi_interaction_writer_destroy( xmi_interaction_writer_t *this_ );
  *  This starts a section that contains the main part of the document
  *
  *  \param this_ pointer to own object attributes
+ *  \param parent_type type of the parent classifier
  *  \param diagram_ptr diagram which shall be written as XMI interaction
  *  \result 0 in case of success, -1 otherwise
  */
-int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_, const data_diagram_t *diagram_ptr );
+int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_, 
+                                          data_classifier_type_t parent_type,
+                                          const data_diagram_t *diagram_ptr 
+                                        );
 
 /*!
  *  \brief writes a classifier of the document
@@ -82,9 +86,9 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_, const
  *  \result 0 in case of success, -1 otherwise
  */
 int xmi_interaction_writer_write_classifier( xmi_interaction_writer_t *this_,
-                                         data_classifier_type_t parent_type,
-                                         const data_classifier_t *classifier_ptr
-                                       );
+                                             data_classifier_type_t parent_type,
+                                             const data_classifier_t *classifier_ptr
+                                           );
 
 /*!
  *  \brief writes a feature of the document
@@ -95,9 +99,9 @@ int xmi_interaction_writer_write_classifier( xmi_interaction_writer_t *this_,
  *  \result 0 in case of success, -1 otherwise
  */
 int xmi_interaction_writer_write_feature( xmi_interaction_writer_t *this_,
-                                      data_classifier_type_t parent_type,
-                                      const data_feature_t *feature_ptr
-                                    );
+                                          data_classifier_type_t parent_type,
+                                          const data_feature_t *feature_ptr
+                                        );
 
 /*!
  *  \brief writes a relationship of the document
@@ -108,9 +112,9 @@ int xmi_interaction_writer_write_feature( xmi_interaction_writer_t *this_,
  *  \result 0 in case of success, -1 otherwise
  */
 int xmi_interaction_writer_write_relationship( xmi_interaction_writer_t *this_,
-                                           data_classifier_type_t parent_type,
-                                           const data_relationship_t *relation_ptr
-                                         );
+                                               data_classifier_type_t parent_type,
+                                               const data_relationship_t *relation_ptr
+                                             );
 
 /*!
  *  \brief writes the ending of the main section
@@ -118,17 +122,12 @@ int xmi_interaction_writer_write_relationship( xmi_interaction_writer_t *this_,
  *  This ends a section that contains the main part of the document
  *
  *  \param this_ pointer to own object attributes
+ *  \param parent_type type of the parent classifier
  *  \result 0 in case of success, -1 otherwise
  */
-int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_ );
-
-/*!
- *  \brief writes the footer of the document
- *
- *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
- */
-int xmi_interaction_writer_write_footer( xmi_interaction_writer_t *this_ );
+int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
+                                        data_classifier_type_t parent_type 
+                                      );
 
 /*!
  *  \brief writes a comment in xmi format

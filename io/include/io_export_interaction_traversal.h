@@ -66,10 +66,12 @@ void io_export_interaction_traversal_destroy( io_export_interaction_traversal_t 
  *  \brief iterates all interactions where classifier is involved, exports these interactions
  *
  *  \param this_ pointer to own object attributes
+ *  \param nesting_type type of the nesting parent classifier
  *  \param classifier_id id of the classifier which occurrences to process for export
  *  \return -1 in case of error, 0 in case of success
  */
 int io_export_interaction_traversal_iterate_classifier_occurrences ( io_export_interaction_traversal_t *this_,
+                                                                     data_classifier_type_t nesting_type,
                                                                      data_id_t classifier_id
                                                                    );
 
@@ -77,10 +79,14 @@ int io_export_interaction_traversal_iterate_classifier_occurrences ( io_export_i
  *  \brief prints the end of a diagram section
  *
  *  \param this_ pointer to own object attributes
+ *  \param nesting_type type of the nesting parent classifier
  *  \param diagram_id id of the diagram which to process for export
  *  \return -1 in case of error, 0 in case of success
  */
-int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction_traversal_t *this_, data_id_t diagram_id );
+int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction_traversal_t *this_, 
+                                                           data_classifier_type_t nesting_type,
+                                                           data_id_t diagram_id 
+                                                         );
 
 /*!
  *  \brief prints names and descriptions of the classifiers to the output stream
@@ -90,8 +96,8 @@ int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction
  *  \return -1 in case of error, 0 in case of success
  */
 int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_export_interaction_traversal_t *this_,
-                                                                      const data_visible_set_t *diagram_data
-                                                                    );
+                                                                          const data_visible_set_t *diagram_data
+                                                                        );
 
 /*!
  *  \brief prints names and descriptions of the classifier to the output stream
@@ -102,9 +108,9 @@ int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_exp
  *  \return -1 in case of error, 0 in case of success
  */
 int io_export_interaction_traversal_private_iterate_classifier_features ( io_export_interaction_traversal_t *this_,
-                                                                      const data_visible_set_t *diagram_data,
-                                                                      data_id_t classifier_id
-                                                                    );
+                                                                          const data_visible_set_t *diagram_data,
+                                                                          data_id_t classifier_id
+                                                                        );
 
 /*!
  *  \brief prints names and descriptions of the relationships to the output stream
@@ -115,9 +121,9 @@ int io_export_interaction_traversal_private_iterate_classifier_features ( io_exp
  *  \return -1 in case of error, 0 in case of success
  */
 int io_export_interaction_traversal_private_iterate_classifier_relationships ( io_export_interaction_traversal_t *this_,
-                                                                           const data_visible_set_t *diagram_data,
-                                                                           data_id_t from_classifier_id
-                                                                         );
+                                                                               const data_visible_set_t *diagram_data,
+                                                                               data_id_t from_classifier_id
+                                                                             );
 
 #endif  /* IO_EXPORT_INTERACTION_TRAVERSAL_H */
 

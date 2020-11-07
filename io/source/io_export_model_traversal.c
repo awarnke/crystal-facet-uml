@@ -534,6 +534,7 @@ int io_export_model_traversal_private_fake_interactions_of_node ( io_export_mode
                 if ( is_interaction_compliant_here )
                 {
                     write_err |=  io_export_interaction_traversal_iterate_classifier_occurrences( &((*this_).interaction_helper),
+                                                                                                  nesting_type,
                                                                                                   classifier_id
                                                                                                 );
                 }

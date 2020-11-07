@@ -47,8 +47,8 @@ void io_export_interaction_traversal_destroy( io_export_interaction_traversal_t 
 }
 
 int io_export_interaction_traversal_iterate_classifier_occurrences ( io_export_interaction_traversal_t *this_,
-                                                                     data_id_t classifier_id
-                                                                   )
+                                                                     data_classifier_type_t nesting_type,
+                                                                     data_id_t classifier_id )
 {
     TRACE_BEGIN();
     assert( data_id_is_valid( &classifier_id ) );
@@ -73,7 +73,7 @@ int io_export_interaction_traversal_iterate_classifier_occurrences ( io_export_i
                 
                 if ( ! duplicate_diagram )
                 {
-                    write_err |= io_export_interaction_traversal_private_walk_diagram( this_, diag_id );
+                    write_err |= io_export_interaction_traversal_private_walk_diagram( this_, nesting_type, diag_id );
                 }            
             }
         }
@@ -90,6 +90,7 @@ int io_export_interaction_traversal_iterate_classifier_occurrences ( io_export_i
 }
 
 int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction_traversal_t *this_, 
+                                                           data_classifier_type_t nesting_type,
                                                            data_id_t diagram_id )
 {
     TRACE_BEGIN();
@@ -130,7 +131,7 @@ int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction
             /* add this classifier to the already written elements */
             write_err |= universal_array_list_append( (*this_).written_id_set, &diagram_id );
             
-            write_err |= xmi_interaction_writer_start_diagram( &((*this_).format_writer), diag_ptr );
+            write_err |= xmi_interaction_writer_start_diagram( &((*this_).format_writer), nesting_type, diag_ptr );
             /*
             write_err |= io_format_writer_start_diagram( (*this_).format_writer, data_diagram_get_data_id(diag_ptr) );
             write_err |= io_format_writer_write_diagram( (*this_).format_writer,
@@ -142,7 +143,7 @@ int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction
             /* write all classifiers */
             write_err |= io_export_interaction_traversal_private_iterate_diagram_classifiers( this_, (*this_).input_data );
             
-            write_err |= xmi_interaction_writer_end_diagram( &((*this_).format_writer) );
+            write_err |= xmi_interaction_writer_end_diagram( &((*this_).format_writer), nesting_type );
         }
         
         data_visible_set_destroy( (*this_).input_data );
@@ -153,7 +154,7 @@ int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction
 }
 
 int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_export_interaction_traversal_t *this_,
-                                                                      const data_visible_set_t *diagram_data )
+                                                                          const data_visible_set_t *diagram_data )
 {
     TRACE_BEGIN();
     assert( diagram_data != NULL );
@@ -213,8 +214,8 @@ int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_exp
 }
 
 int io_export_interaction_traversal_private_iterate_classifier_features ( io_export_interaction_traversal_t *this_,
-                                                                      const data_visible_set_t *diagram_data,
-                                                                      data_id_t classifier_id )
+                                                                          const data_visible_set_t *diagram_data,
+                                                                          data_id_t classifier_id )
 {
     TRACE_BEGIN();
     assert( diagram_data != NULL );
@@ -262,8 +263,8 @@ int io_export_interaction_traversal_private_iterate_classifier_features ( io_exp
 }
 
 int io_export_interaction_traversal_private_iterate_classifier_relationships ( io_export_interaction_traversal_t *this_,
-                                                                           const data_visible_set_t *diagram_data,
-                                                                           data_id_t from_classifier_id )
+                                                                               const data_visible_set_t *diagram_data,
+                                                                               data_id_t from_classifier_id )
 {
     TRACE_BEGIN();
     assert( diagram_data != NULL );

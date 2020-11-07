@@ -3,6 +3,7 @@
 #include "xmi/xmi_element_writer.h"
 #include "xmi/xmi_element_info_map.h"
 #include "xmi/xmi_element_info.h"
+#include "xmi/xmi_xml.h"
 #include "util/string/utf8string.h"
 #include "data_id.h"
 #include "meta/meta_version.h"
@@ -59,13 +60,6 @@ static const char XMI2_DOC_METAINFO_MIDDLE[]
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 7.5.3 + 7.5.5 */
 static const char XMI2_DOC_METAINFO_END[]
     = "\"/>";
-
-static const char XMI2_XML_NS_UML[]
-    = "uml:";
-static const char XMI2_XML_NS_SYSML[]
-    = "SysML:";
-static const char XMI2_XML_NS_STDPROF[]
-    = "StandardProfile:";
 
     /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.2 : 2e */
 static const char XMI2_GENERIC_ID_START[]
@@ -296,7 +290,7 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_,
     if ( (*this_).mode == IO_WRITER_PASS_BASE )
     {
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_START );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_XML_NS_UML );
+        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
         const char* c_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
                                                                              parent_type,
                                                                              classifier_type,
@@ -382,7 +376,7 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
             xml_writer_increase_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_START );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_XML_NS_UML );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_STATE_REGION_TYPE );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_END );
 
@@ -403,7 +397,7 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_,
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_XML_NS_SYSML );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_SYSML );
             const char* profile_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
                                                                                        parent_type,
                                                                                        classifier_type,
@@ -468,7 +462,7 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_,
             xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_XML_NS_SYSML );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_SYSML );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), profile_type );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
         }
@@ -535,7 +529,7 @@ int xmi_element_writer_write_feature( xmi_element_writer_t *this_,
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
 
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_START );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_XML_NS_UML );
+        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
         const char* f_type = xmi_type_converter_get_xmi_type_of_feature ( &((*this_).xmi_types),
                                                                           feature_type,
                                                                           XMI_SPEC_UML
@@ -670,7 +664,7 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
 
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_START );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_XML_NS_UML );
+        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
         const char* r_type = xmi_type_converter_get_xmi_type_of_relationship ( &((*this_).xmi_types),
                                                                                parent_type,
                                                                                relation_type,
@@ -774,7 +768,7 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_NL );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_XML_NS_STDPROF );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_STDPROF );
             const char* profile_type = xmi_type_converter_get_xmi_type_of_relationship ( &((*this_).xmi_types),
                                                                                          parent_type,
                                                                                          relation_type,
@@ -899,7 +893,7 @@ int xmi_element_writer_private_write_xmi_comment( xmi_element_writer_t *this_,
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_OWNED_COMMENT_START );
 
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_START );
-    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_XML_NS_UML );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_COMMENT_TYPE );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_GENERIC_TYPE_END );
 
