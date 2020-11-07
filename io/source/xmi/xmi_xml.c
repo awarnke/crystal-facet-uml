@@ -9,6 +9,22 @@ const char XMI_XML_NS_SYSML[7]
 const char XMI_XML_NS_STDPROF[17]
     = "StandardProfile:";
 
+const char XMI_XML_ATTR_ID_START[9]
+    = "xmi:id=\"";
+const char XMI_XML_ATTR_ID_END[3]
+    = "\" ";
+const char XMI_XML_ATTR_TYPE_START[11]
+    = "xmi:type=\"";
+const char XMI_XML_ATTR_TYPE_END[3]
+    = "\" ";
+const char XMI_XML_ATTR_IDREF_START[12]
+    = "xmi:idref=\"";
+const char XMI_XML_ATTR_IDREF_END[3]
+    = "\" ";
+const char XMI_XML_ATTR_NAME_START[7]
+    = "name=\"";
+const char XMI_XML_ATTR_NAME_END[3]
+    = "\" ";
 
 /*
 Copyright 2020-2020 Andreas Warnke

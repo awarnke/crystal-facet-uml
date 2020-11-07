@@ -132,13 +132,6 @@ int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction
             write_err |= universal_array_list_append( (*this_).written_id_set, &diagram_id );
             
             write_err |= xmi_interaction_writer_start_diagram( &((*this_).format_writer), nesting_type, diag_ptr );
-            /*
-            write_err |= io_format_writer_start_diagram( (*this_).format_writer, data_diagram_get_data_id(diag_ptr) );
-            write_err |= io_format_writer_write_diagram( (*this_).format_writer,
-                                                        diag_ptr,
-                                                        diagram_file_base_name
-                                                    );
-            */
             
             /* write all classifiers */
             write_err |= io_export_interaction_traversal_private_iterate_diagram_classifiers( this_, (*this_).input_data );
@@ -175,6 +168,9 @@ int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_exp
             classifier = data_visible_classifier_get_classifier_const( visible_classifier );
             const data_id_t classifier_id = data_classifier_get_data_id(classifier);
             TRACE_INFO_INT( "printing classifier with id", data_id_get_row_id( &classifier_id ) );
+            const data_diagramelement_t *diagele;
+            diagele = data_visible_classifier_get_diagramelement_const( visible_classifier );
+            const data_id_t focused_feature_id = data_diagramelement_get_data_id( diagele );
 
             /* no classifier filter here */
             {
@@ -186,22 +182,23 @@ int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_exp
                 */
 
                 /* print all features of the classifier */
-                write_err |= io_export_interaction_traversal_private_iterate_classifier_features( this_,
+                write_err |= io_export_interaction_traversal_private_look_for_focused_feature( this_,
                                                                                               diagram_data,
-                                                                                              classifier_id
+                                                                                              focused_feature_id
                                                                                             );
 
                 /* end classifier */
                 /*
                 write_err |=  io_format_writer_end_classifier( (*this_).format_writer );
                 */
+                
             }
-
             /* print all relationships starting from classifier_id */
-            write_err |= io_export_interaction_traversal_private_iterate_classifier_relationships( this_,
-                                                                                               diagram_data,
-                                                                                               classifier_id
-                                                                                             );
+            write_err |= io_export_interaction_traversal_private_iterate_feature_relationships( this_,
+                                                                                                diagram_data,
+                                                                                                classifier_id,
+                                                                                                focused_feature_id
+                                                                                              );
         }
         else
         {
@@ -213,15 +210,15 @@ int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_exp
     return write_err;
 }
 
-int io_export_interaction_traversal_private_iterate_classifier_features ( io_export_interaction_traversal_t *this_,
-                                                                          const data_visible_set_t *diagram_data,
-                                                                          data_id_t classifier_id )
+int io_export_interaction_traversal_private_look_for_focused_feature ( io_export_interaction_traversal_t *this_,
+                                                                       const data_visible_set_t *diagram_data,
+                                                                       data_id_t focused_feature_id )
 {
     TRACE_BEGIN();
     assert( diagram_data != NULL );
     assert( data_visible_set_is_valid( diagram_data ) );
-    assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &classifier_id ) );
-    assert( DATA_ROW_ID_VOID != data_id_get_row_id( &classifier_id) );
+    assert( DATA_TABLE_FEATURE == data_id_get_table( &focused_feature_id ) );
+    assert( DATA_ROW_ID_VOID != data_id_get_row_id( &focused_feature_id) );
     int write_err = 0;
 
     /* iterate over all features */
@@ -234,8 +231,8 @@ int io_export_interaction_traversal_private_iterate_classifier_features ( io_exp
         feature = data_visible_set_get_feature_const ( diagram_data, index );
         if (( feature != NULL ) && ( data_feature_is_valid( feature ) ))
         {
-            const data_id_t f_classifier_id = data_feature_get_classifier_data_id( feature );
-            if ( data_id_equals( &classifier_id, &f_classifier_id ) )
+            const data_id_t feat_id = data_feature_get_data_id( feature );
+            if ( data_id_equals( &focused_feature_id, &feat_id ) )
             {
                 const bool is_visible = data_rules_diagram_shows_feature ( &((*this_).filter_rules),
                                                                            diagram_data,
@@ -262,9 +259,11 @@ int io_export_interaction_traversal_private_iterate_classifier_features ( io_exp
     return write_err;
 }
 
-int io_export_interaction_traversal_private_iterate_classifier_relationships ( io_export_interaction_traversal_t *this_,
+int io_export_interaction_traversal_private_iterate_feature_relationships ( io_export_interaction_traversal_t *this_,
                                                                                const data_visible_set_t *diagram_data,
-                                                                               data_id_t from_classifier_id )
+                                                                               data_id_t from_classifier_id,
+                                                                               data_id_t focused_feature_id
+                                                                          )
 {
     TRACE_BEGIN();
     assert( diagram_data != NULL );

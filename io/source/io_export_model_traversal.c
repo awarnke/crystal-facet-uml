@@ -531,7 +531,7 @@ int io_export_model_traversal_private_fake_interactions_of_node ( io_export_mode
                 const bool is_interaction_compliant_here
                     = xmi_element_writer_can_classifier_nest_classifier( (*this_).format_writer, nesting_type, FAKE_INTERACTION );
 
-                if ( is_interaction_compliant_here )
+                if ( is_interaction_compliant_here && (IO_WRITER_PASS_BASE==xmi_element_writer_get_mode( (*this_).format_writer ) ))
                 {
                     write_err |=  io_export_interaction_traversal_iterate_classifier_occurrences( &((*this_).interaction_helper),
                                                                                                   nesting_type,

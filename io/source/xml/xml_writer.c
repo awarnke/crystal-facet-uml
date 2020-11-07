@@ -17,6 +17,7 @@ const char XML_WRITER_EMPTY_TAG_END[3] = "/>";
 const char XML_WRITER_ATTR_SEPARATOR[2] = " ";
 const char XML_WRITER_COMMENT_START[5] = "<!--";
 const char XML_WRITER_COMMENT_END[4] = "-->";
+const char XML_WRITER_NL[2] = "\n";
 #define XML_WRITER_PRIVATE_MAX_INDENT_LEVELS (12)
 
 static const char *const XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[XML_WRITER_PRIVATE_MAX_INDENT_LEVELS][6][2] = {

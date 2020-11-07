@@ -23,7 +23,23 @@ extern const char XMI_XML_NS_SYSML[7];
  *  \brief namespace for standard profile elements and attributes
  */
 extern const char XMI_XML_NS_STDPROF[17];
+   
+/* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.2 : 2e */
+extern const char XMI_XML_ATTR_ID_START[9];
+extern const char XMI_XML_ATTR_ID_END[3];
+    
+/* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.2 : 2g */
+extern const char XMI_XML_ATTR_TYPE_START[11];
+extern const char XMI_XML_ATTR_TYPE_END[3];
+    
+/* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.2 : 2l */
+extern const char XMI_XML_ATTR_IDREF_START[12];
+extern const char XMI_XML_ATTR_IDREF_END[3];
 
+/* spec-ref: not-found */
+extern const char XMI_XML_ATTR_NAME_START[7];
+extern const char XMI_XML_ATTR_NAME_END[3];
+    
 #endif  /* XMI_XML_H */
 
 

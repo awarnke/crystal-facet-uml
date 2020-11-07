@@ -100,17 +100,17 @@ int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_exp
                                                                         );
 
 /*!
- *  \brief prints names and descriptions of the classifier to the output stream
+ *  \brief prints names and descriptions of the focused feature to the output stream
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_data diagram data that contains the classifier of which the features are written, not NULL
- *  \param classifier_id id of the classifier of which the features are written
+ *  \param focused_feature_id id of the  focused feature (lifeline) which shall be written
  *  \return -1 in case of error, 0 in case of success
  */
-int io_export_interaction_traversal_private_iterate_classifier_features ( io_export_interaction_traversal_t *this_,
-                                                                          const data_visible_set_t *diagram_data,
-                                                                          data_id_t classifier_id
-                                                                        );
+int io_export_interaction_traversal_private_look_for_focused_feature ( io_export_interaction_traversal_t *this_,
+                                                                       const data_visible_set_t *diagram_data,
+                                                                       data_id_t focused_feature_id
+                                                                     );
 
 /*!
  *  \brief prints names and descriptions of the relationships to the output stream
@@ -118,12 +118,14 @@ int io_export_interaction_traversal_private_iterate_classifier_features ( io_exp
  *  \param this_ pointer to own object attributes
  *  \param diagram_data diagram data that contains the from-classifier of which the relationships are written, not NULL
  *  \param from_classifier_id id of the classifier of which the relationships are written
+ *  \param focused_feature_id id of the focused feature (lifeline) of which the relationships are written
  *  \return -1 in case of error, 0 in case of success
  */
-int io_export_interaction_traversal_private_iterate_classifier_relationships ( io_export_interaction_traversal_t *this_,
-                                                                               const data_visible_set_t *diagram_data,
-                                                                               data_id_t from_classifier_id
-                                                                             );
+int io_export_interaction_traversal_private_iterate_feature_relationships ( io_export_interaction_traversal_t *this_,
+                                                                            const data_visible_set_t *diagram_data,
+                                                                            data_id_t from_classifier_id,
+                                                                            data_id_t focused_feature_id
+                                                                          );
 
 #endif  /* IO_EXPORT_INTERACTION_TRAVERSAL_H */
 
