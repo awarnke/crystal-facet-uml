@@ -232,6 +232,9 @@ int io_export_interaction_traversal_private_look_for_focused_feature ( io_export
 
                 if ( is_visible && is_lifeline )
                 {
+                    /* add the lifeline to the duplicates list */
+                    write_err |= universal_array_list_append( (*this_).written_id_set, &feat_id );
+                        
                     write_err |= xmi_element_writer_write_feature( (*this_).element_writer, 
                                                                    DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
                                                                    feature 
@@ -272,8 +275,12 @@ int io_export_interaction_traversal_private_iterate_feature_relationships ( io_e
         relation = data_visible_set_get_relationship_const ( diagram_data, index );
         if (( relation != NULL ) && ( data_relationship_is_valid( relation ) ))
         {
-            const data_id_t r_from_classifier_id = data_relationship_get_from_classifier_data_id( relation );
-            if ( data_id_equals( &from_classifier_id, &r_from_classifier_id ) )
+            /*const data_id_t r_from_classifier_id = data_relationship_get_from_classifier_data_id( relation );*/
+            const data_id_t rel_from_feature_id = data_relationship_get_from_feature_data_id( relation );
+            const data_id_t rel_to_feature_id = data_relationship_get_to_feature_data_id( relation );
+            /*if ( data_id_equals( &from_classifier_id, &r_from_classifier_id ) )*/  /* do not care if send or receive */
+            if (( data_id_equals( &focused_feature_id, &rel_from_feature_id ) )
+                ||( data_id_equals( &focused_feature_id, &rel_to_feature_id ) ))
             {
                 const data_id_t relation_id = data_relationship_get_data_id( relation );
                 const bool is_visible = data_rules_diagram_shows_relationship ( &((*this_).filter_rules),

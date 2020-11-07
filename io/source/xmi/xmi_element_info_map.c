@@ -592,7 +592,8 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .is_a                     = (XMI_ELEMENT_IS_A_MESSAGE),
         .property_from            = "sendEvent",
         .property_to              = "receiveEvent",
-        .additional_properties    = "messageSort=\"synchCall\"",
+        /*.additional_properties    = "messageSort=\"synchCall\"",*/  /* this is the default value */
+        .additional_properties    = NULL,
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_RETURN_CALL] = {
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 17.12.18, 17.12.22 */

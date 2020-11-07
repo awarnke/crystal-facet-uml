@@ -41,7 +41,7 @@ struct io_export_model_traversal_struct {
     io_export_interaction_traversal_t interaction_helper;  /* !< instance of own io_export_interaction_traversal to help with interaction exports */
     
     data_id_t written_id_set_buf[IO_EXPORT_MODEL_TRAVERSAL_MAX_TOTAL_ELEMENTS];  /*!< buffer for list of already exported element ids */
-    universal_array_list_t written_id_set;  /*!< list of already exported element ids (extended when starting to export an element), used for classifiers and relationships */
+    universal_array_list_t written_id_set;  /*!< list of already exported element ids (extended when starting to export an element), used for classifiers and relationships and lifelines(which are features) */
 
     data_classifier_t temp_classifier;  /*!< own buffer for private use as data cache */
     data_node_set_t temp_node_data;  /*!< own buffer for private use as data cache */

@@ -677,51 +677,138 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
                                                                       );
         }
 
-        /* source */
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
-        const char* from_type = xmi_type_converter_get_xmi_from_property_of_relationship ( &((*this_).xmi_types),
+        if ( ! xmi_element_info_is_a_message ( relation_info ) )
+        {
+            /* source */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
+            const char* from_type = xmi_type_converter_get_xmi_from_property_of_relationship ( &((*this_).xmi_types),
+                                                                                               parent_type,
+                                                                                               relation_type
+                                                                                             );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), from_type );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_START );
+            if ( data_id_is_valid( &from_feature_id ) )
+            {
+                export_err |= xmi_element_writer_private_encode_xmi_id( this_, from_feature_id );
+            }
+            else
+            {
+                export_err |= xmi_element_writer_private_encode_xmi_id( this_, from_classifier_id );
+            }
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_END );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
+
+            /* destination */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
+            const char* to_type = xmi_type_converter_get_xmi_to_property_of_relationship ( &((*this_).xmi_types),
                                                                                            parent_type,
                                                                                            relation_type
                                                                                          );
-        export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), from_type );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), to_type );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
 
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_START );
-        if ( data_id_is_valid( &from_feature_id ) )
-        {
-            export_err |= xmi_element_writer_private_encode_xmi_id( this_, from_feature_id );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_START );
+            if ( data_id_is_valid( &to_feature_id ) )
+            {
+                export_err |= xmi_element_writer_private_encode_xmi_id( this_, to_feature_id );
+            }
+            else
+            {
+                export_err |= xmi_element_writer_private_encode_xmi_id( this_, to_classifier_id );
+            }
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_END );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
         }
         else
         {
-            export_err |= xmi_element_writer_private_encode_xmi_id( this_, from_classifier_id );
+            /* source */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
+            const char* from_type = xmi_type_converter_get_xmi_from_property_of_relationship ( &((*this_).xmi_types),
+                                                                                               parent_type,
+                                                                                               relation_type
+                                                                                             );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), from_type );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+            
+            /* write type attribute */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "MessageOccurrenceSpecification" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_END );
+
+            /* write id attribute */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
+            export_err |= xmi_element_writer_private_encode_xmi_id( this_, relation_id );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "#source" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
+
+            /* write lifeline id attribute */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "covered=\"" );
+            if ( data_id_is_valid( &from_feature_id ) )
+            {
+                export_err |= xmi_element_writer_private_encode_xmi_id( this_, from_feature_id );
+            }
+            else
+            {
+                export_err |= xmi_element_writer_private_encode_xmi_id( this_, from_classifier_id );
+            }
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\" " );
+
+            /* write lifeline id attribute */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "enclosingInteraction=\"" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "90001" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\" " );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
+
+            /* destination */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
+            const char* to_type = xmi_type_converter_get_xmi_to_property_of_relationship ( &((*this_).xmi_types),
+                                                                                           parent_type,
+                                                                                           relation_type
+                                                                                         );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), to_type );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+
+            /* write type attribute */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "MessageOccurrenceSpecification" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_END );
+
+            /* write id attribute */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
+            export_err |= xmi_element_writer_private_encode_xmi_id( this_, relation_id );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "#dest" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
+
+            /* write lifeline id attribute */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "covered=\"" );
+            if ( data_id_is_valid( &to_feature_id ) )
+            {
+                export_err |= xmi_element_writer_private_encode_xmi_id( this_, to_feature_id );
+            }
+            else
+            {
+                export_err |= xmi_element_writer_private_encode_xmi_id( this_, to_classifier_id );
+            }
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\" " );
+
+            /* write lifeline id attribute */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "enclosingInteraction=\"" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "90001" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\" " );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
         }
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_END );
-
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
-
-        /* destination */
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
-        const char* to_type = xmi_type_converter_get_xmi_to_property_of_relationship ( &((*this_).xmi_types),
-                                                                                       parent_type,
-                                                                                       relation_type
-                                                                                     );
-        export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), to_type );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
-
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_START );
-        if ( data_id_is_valid( &to_feature_id ) )
-        {
-            export_err |= xmi_element_writer_private_encode_xmi_id( this_, to_feature_id );
-        }
-        else
-        {
-            export_err |= xmi_element_writer_private_encode_xmi_id( this_, to_classifier_id );
-        }
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_END );
-
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
 
         xml_writer_decrease_indent ( &((*this_).xml_writer) );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
