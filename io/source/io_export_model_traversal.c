@@ -12,16 +12,16 @@ void io_export_model_traversal_init( io_export_model_traversal_t *this_,
                                      data_database_reader_t *db_reader,
                                      data_visible_set_t *input_data,
                                      data_stat_t *io_export_stat,
-                                     xmi_element_writer_t *out_format_writer )
+                                     xmi_element_writer_t *out_element_writer )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != io_export_stat );
-    assert( NULL != out_format_writer );
+    assert( NULL != out_element_writer );
 
     (*this_).db_reader = db_reader;
     (*this_).export_stat = io_export_stat;
-    (*this_).format_writer = out_format_writer;
+    (*this_).element_writer = out_element_writer;
 
     universal_array_list_init ( &((*this_).written_id_set),
                                 sizeof((*this_).written_id_set_buf)/sizeof(data_id_t),
@@ -38,7 +38,7 @@ void io_export_model_traversal_init( io_export_model_traversal_t *this_,
                                           input_data,
                                           &((*this_).written_id_set),
                                           io_export_stat,
-                                          xmi_element_writer_get_xml_writer_ptr( out_format_writer )
+                                          out_element_writer
                                         );
     TRACE_END();
 }
@@ -147,7 +147,7 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
             const data_classifier_t *const classifier
                 = data_node_set_get_classifier_const ( &((*this_).temp_node_data) );
             classifier_type = data_classifier_get_main_type( classifier );
-            is_classifier_compliant_here = xmi_element_writer_can_classifier_nest_classifier ( (*this_).format_writer,
+            is_classifier_compliant_here = xmi_element_writer_can_classifier_nest_classifier ( (*this_).element_writer,
                                                                                                parent_type,
                                                                                                classifier_type
                                                                                              );
@@ -275,8 +275,8 @@ int io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *
     const data_classifier_t *const classifier
         = data_node_set_get_classifier_const ( node_data );
 
-    write_err |= xmi_element_writer_start_nested_classifier( (*this_).format_writer, parent_type, classifier );
-    write_err |= xmi_element_writer_write_classifier( (*this_).format_writer, parent_type, classifier );
+    write_err |= xmi_element_writer_start_nested_classifier( (*this_).element_writer, parent_type, classifier );
+    write_err |= xmi_element_writer_write_classifier( (*this_).element_writer, parent_type, classifier );
 
     TRACE_END_ERR( write_err );
     return write_err;
@@ -371,7 +371,7 @@ int io_export_model_traversal_private_end_node ( io_export_model_traversal_t *th
     const data_classifier_t *const classifier
         = data_node_set_get_classifier_const ( node_data );
 
-    write_err |= xmi_element_writer_end_nested_classifier( (*this_).format_writer, parent_type, classifier );
+    write_err |= xmi_element_writer_end_nested_classifier( (*this_).element_writer, parent_type, classifier );
 
     TRACE_END_ERR( write_err );
     return write_err;
@@ -398,10 +398,16 @@ int io_export_model_traversal_private_iterate_node_features ( io_export_model_tr
         feature = data_node_set_get_feature_const ( node_data, index );
         if (( feature != NULL ) && ( data_feature_is_valid( feature ) ))
         {
-            write_err |=  xmi_element_writer_write_feature( (*this_).format_writer,
-                                                            data_classifier_get_main_type( classifier ),
-                                                            feature
-                                                          );
+            const bool is_lifeline
+                =( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( feature ) );
+
+            if ( ! is_lifeline )
+            {
+                write_err |=  xmi_element_writer_write_feature( (*this_).element_writer,
+                                                                data_classifier_get_main_type( classifier ),
+                                                                feature
+                                                              );
+            }
         }
         else
         {
@@ -451,7 +457,7 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
 
                 const data_relationship_type_t r_type = data_relationship_get_main_type( relation );
                 const bool is_relationship_compliant_here
-                    = xmi_element_writer_can_classifier_nest_relationship( (*this_).format_writer, nesting_type, r_type );
+                    = xmi_element_writer_can_classifier_nest_relationship( (*this_).element_writer, nesting_type, r_type );
                 const data_id_t from_feature_id = data_relationship_get_from_feature_data_id( relation );
                 const bool from_here
                     = ( ( ! data_id_is_valid( &from_feature_id ) )
@@ -479,7 +485,7 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                     write_err |= universal_array_list_append( &((*this_).written_id_set), &relation_id );
 
                     /* destination classifier found, print the relation */
-                    write_err |= xmi_element_writer_write_relationship( (*this_).format_writer, nesting_type, relation );
+                    write_err |= xmi_element_writer_write_relationship( (*this_).element_writer, nesting_type, relation );
                 }
             }
         }
@@ -529,9 +535,9 @@ int io_export_model_traversal_private_fake_interactions_of_node ( io_export_mode
                 static const data_classifier_type_t FAKE_INTERACTION 
                     = DATA_CLASSIFIER_TYPE_UML_CLASS; /* interaction is subclass of class */
                 const bool is_interaction_compliant_here
-                    = xmi_element_writer_can_classifier_nest_classifier( (*this_).format_writer, nesting_type, FAKE_INTERACTION );
+                    = xmi_element_writer_can_classifier_nest_classifier( (*this_).element_writer, nesting_type, FAKE_INTERACTION );
 
-                if ( is_interaction_compliant_here && (IO_WRITER_PASS_BASE==xmi_element_writer_get_mode( (*this_).format_writer ) ))
+                if ( is_interaction_compliant_here && (IO_WRITER_PASS_BASE==xmi_element_writer_get_mode( (*this_).element_writer ) ))
                 {
                     write_err |=  io_export_interaction_traversal_iterate_classifier_occurrences( &((*this_).interaction_helper),
                                                                                                   nesting_type,

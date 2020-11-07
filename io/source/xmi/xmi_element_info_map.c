@@ -412,7 +412,18 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         /* "Signal"; */
         /*.is_a                     = (XMI_ELEMENT_IS_A_CLASSIFIER), */
     },
-
+    [XMI_ELEMENT_INFO_MAP_INDEX_INTERACTION] = {
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 17.2 */
+        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_INTERACTION,
+        .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
+        .profile_name             = NULL,
+        .base_name                = "Interaction",
+        .is_a                     = (XMI_ELEMENT_IS_A_BEHAVIOR),
+        .property_from            = NULL,
+        .property_to              = NULL,
+        .additional_properties    = NULL,
+    },
+    
     /* ================================ FEATURE ================================ */
 
     [XMI_ELEMENT_INFO_MAP_INDEX_PROPERTY] = {

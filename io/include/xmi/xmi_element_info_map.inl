@@ -257,6 +257,13 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( c
         }
         break;
 
+        case DATA_CLASSIFIER_TYPE_INTERACTION:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_INTERACTION]);
+            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_INTERACTION );
+        }
+        break;
+        
         default:
         {
             TSLOG_ERROR_INT( "switch case statement for data_classifier_type_t incomplete", c_type );

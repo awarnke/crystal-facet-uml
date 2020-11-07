@@ -114,9 +114,23 @@ static inline data_row_id_t data_diagramelement_get_diagram_id ( const data_diag
     return (*this_).diagram_id;
 }
 
+static inline data_id_t data_diagramelement_get_diagram_data_id ( const data_diagramelement_t *this_ )
+{
+    data_id_t result;
+    data_id_init ( &result, DATA_TABLE_DIAGRAM, (*this_).diagram_id );
+    return result;
+}
+
 static inline data_row_id_t data_diagramelement_get_classifier_id ( const data_diagramelement_t *this_ )
 {
     return (*this_).classifier_id;
+}
+
+static inline data_id_t data_diagramelement_get_classifier_data_id ( const data_diagramelement_t *this_ )
+{
+    data_id_t result;
+    data_id_init ( &result, DATA_TABLE_CLASSIFIER, (*this_).classifier_id );
+    return result;
 }
 
 static inline data_row_id_t data_diagramelement_get_focused_feature_id ( const data_diagramelement_t *this_ )
@@ -127,6 +141,20 @@ static inline data_row_id_t data_diagramelement_get_focused_feature_id ( const d
 static inline void data_diagramelement_set_focused_feature_id ( data_diagramelement_t *this_, data_row_id_t focused_feature_id )
 {
     (*this_).focused_feature_id = focused_feature_id;
+}
+
+static inline data_id_t data_diagramelement_get_focused_feature_data_id ( const data_diagramelement_t *this_ )
+{
+    data_id_t result;
+    if ( (*this_).focused_feature_id == DATA_ROW_ID_VOID )
+    {
+        data_id_init_void ( &result );
+    }
+    else
+    {
+        data_id_init ( &result, DATA_TABLE_FEATURE, (*this_).focused_feature_id );
+    }
+    return result;
 }
 
 static inline data_diagramelement_flag_t data_diagramelement_get_display_flags ( const data_diagramelement_t *this_ )

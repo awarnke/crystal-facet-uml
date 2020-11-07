@@ -482,24 +482,18 @@ int xmi_element_writer_write_feature( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- COMMENT ON UML-CONFORMANCE: Unsuitable parent type of " );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), feature_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->" );
-            if ( feature_type == DATA_FEATURE_TYPE_LIFELINE )
-            {
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- PROPOSAL: None, maybe there is a fix in a future version of crystal_facet_uml -->" );
-                /* TODO */
-            }
-            else
-            {
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- PROPOSAL: Pack the " );
-                export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), feature_id );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " into a more suitable container or change its type -->" );
-            }
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- PROPOSAL: Pack the " );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), feature_id );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " into a more suitable container or change its type -->" );
         }
 
+        /* write nesting tag */
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), owning_type );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
 
+        /* write type attribute */
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
         const char* f_type = xmi_type_converter_get_xmi_type_of_feature ( &((*this_).xmi_types),
@@ -509,10 +503,12 @@ int xmi_element_writer_write_feature( xmi_element_writer_t *this_,
         export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), f_type );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_END );
 
+        /* write id attribute */
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
         export_err |= xmi_element_writer_private_encode_xmi_id( this_, feature_id );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
 
+        /* write name attribute */
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_START );
         export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_key );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_END );
@@ -635,6 +631,7 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), nesting_property );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
 
+        /* write type attribute */
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
         const char* r_type = xmi_type_converter_get_xmi_type_of_relationship ( &((*this_).xmi_types),
@@ -645,10 +642,12 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
         export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), r_type );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_END );
 
+        /* write id attribute */
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
         export_err |= xmi_element_writer_private_encode_xmi_id( this_, relation_id );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
 
+        /* write name attribute */
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_START );
         export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_END );

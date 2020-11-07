@@ -68,11 +68,6 @@ static const char XMI2_STATE_REGION_TYPE[]
     = "Region";
 static const char XMI2_COMMENT_TYPE[]
     = "Comment";
-static const char XMI2_INTERACTION_TYPE[]
-    = "Interaction";
-
-/* an interaction has class as an ancestor type */
-static const data_classifier_type_t CLASSIFIER_TYPE_INTERACTION = DATA_CLASSIFIER_TYPE_UML_CLASS;
 
 void xmi_interaction_writer_init ( xmi_interaction_writer_t *this_,
                                    data_database_reader_t *db_reader,
@@ -122,7 +117,7 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
         const int nesting_err
             = xmi_type_converter_get_xmi_nesting_property_of_classifier( &((*this_).xmi_types),
                                                                          parent_type,
-                                                                         CLASSIFIER_TYPE_INTERACTION,
+                                                                         DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake child type */
                                                                          &nesting_property
                                                                        );
         if ( nesting_err != 0 )
@@ -151,7 +146,12 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
         /* write type attribute */
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_TYPE_START );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_NS_UML );
-        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI2_INTERACTION_TYPE );
+        const char* c_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
+                                                                             parent_type,
+                                                                             DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake child type */
+                                                                             XMI_SPEC_UML
+                                                                           );
+        export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, c_type );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_TYPE_END );
 
         /* write id attribute */
@@ -743,7 +743,7 @@ int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
         const int nesting_err
             = xmi_type_converter_get_xmi_nesting_property_of_classifier( &((*this_).xmi_types),
                                                                          parent_type,
-                                                                         CLASSIFIER_TYPE_INTERACTION,
+                                                                         DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake child type */
                                                                          &nesting_property
                                                                        );
         if ( nesting_err != 0 )

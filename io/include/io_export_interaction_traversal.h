@@ -13,6 +13,7 @@
  *  Sink: xmi_interaction_writer
  */
 
+#include "xmi/xmi_element_writer.h"
 #include "xmi/xmi_interaction_writer.h"
 #include "set/data_visible_set.h"
 #include "set/data_node_set.h"
@@ -32,7 +33,8 @@ struct io_export_interaction_traversal_struct {
     data_rules_t filter_rules;  /*!< own instance of uml and sysml consistency rules */
     universal_array_list_t *written_id_set;  /*!< pointer to external list of already exported element ids */
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
-    xmi_interaction_writer_t format_writer;  /*!< pointer to own xmi_interaction_writer which is the output sink */
+    xmi_element_writer_t *element_writer;  /*!< pointer to external xmi_element_writer_t which is the regular output sink */
+    xmi_interaction_writer_t interaction_writer;  /*!< instance of own xmi_interaction_writer which is the interaction output sink */
 };
 
 typedef struct io_export_interaction_traversal_struct io_export_interaction_traversal_t;
@@ -45,14 +47,14 @@ typedef struct io_export_interaction_traversal_struct io_export_interaction_trav
  *  \param input_data pointer to an external buffer for private use as data cache
  *  \param io_written_id_set pointer to external list of already exported element ids
  *  \param io_export_stat pointer to statistics object where export statistics are collected
- *  \param out_writer pointer to an xml_writer_t which is the output sink
+ *  \param out_element_writer pointer to an xmi_element_writer_t which is the output sink
  */
 void io_export_interaction_traversal_init( io_export_interaction_traversal_t *this_,
                                            data_database_reader_t *db_reader,
                                            data_visible_set_t *input_data,
                                            universal_array_list_t *io_written_id_set,
                                            data_stat_t *io_export_stat,
-                                           xml_writer_t *out_writer
+                                           xmi_element_writer_t *out_element_writer
                                          );
 
 /*!

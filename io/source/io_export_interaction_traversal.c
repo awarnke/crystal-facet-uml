@@ -13,24 +13,25 @@ void io_export_interaction_traversal_init( io_export_interaction_traversal_t *th
                                            data_visible_set_t *input_data,
                                            universal_array_list_t *io_written_id_set,
                                            data_stat_t *io_export_stat,
-                                           xml_writer_t *out_writer )
+                                           xmi_element_writer_t *out_element_writer )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != input_data );
     assert( NULL != io_written_id_set );
     assert( NULL != io_export_stat );
-    assert( NULL != out_writer );
+    assert( NULL != out_element_writer );
 
     (*this_).db_reader = db_reader;
     (*this_).input_data = input_data;
     data_rules_init ( &((*this_).filter_rules) );
     (*this_).written_id_set = io_written_id_set;
     (*this_).export_stat = io_export_stat;
-    xmi_interaction_writer_init( &((*this_).format_writer), 
+    (*this_).element_writer = out_element_writer;
+    xmi_interaction_writer_init( &((*this_).interaction_writer), 
                                  db_reader,
                                  io_export_stat,
-                                 out_writer
+                                 xmi_element_writer_get_xml_writer_ptr( out_element_writer )
                                );
     TRACE_END();
 }
@@ -131,12 +132,12 @@ int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction
             /* add this classifier to the already written elements */
             write_err |= universal_array_list_append( (*this_).written_id_set, &diagram_id );
             
-            write_err |= xmi_interaction_writer_start_diagram( &((*this_).format_writer), nesting_type, diag_ptr );
+            write_err |= xmi_interaction_writer_start_diagram( &((*this_).interaction_writer), nesting_type, diag_ptr );
             
             /* write all classifiers */
             write_err |= io_export_interaction_traversal_private_iterate_diagram_classifiers( this_, (*this_).input_data );
             
-            write_err |= xmi_interaction_writer_end_diagram( &((*this_).format_writer), nesting_type );
+            write_err |= xmi_interaction_writer_end_diagram( &((*this_).interaction_writer), nesting_type );
         }
         
         data_visible_set_destroy( (*this_).input_data );
@@ -170,35 +171,23 @@ int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_exp
             TRACE_INFO_INT( "printing classifier with id", data_id_get_row_id( &classifier_id ) );
             const data_diagramelement_t *diagele;
             diagele = data_visible_classifier_get_diagramelement_const( visible_classifier );
-            const data_id_t focused_feature_id = data_diagramelement_get_data_id( diagele );
+            const data_id_t focused_feature_id = data_diagramelement_get_focused_feature_data_id( diagele );
 
-            /* no classifier filter here */
+            /* print focused features (lifelines) of the visible classifier */
+            if ( data_id_is_valid( &focused_feature_id ) )
             {
-                /* start classifier */
-                /*
-                write_err |= io_format_writer_start_classifier( (*this_).format_writer );
-
-                write_err |= io_format_writer_write_classifier( (*this_).format_writer, classifier );
-                */
-
-                /* print all features of the classifier */
                 write_err |= io_export_interaction_traversal_private_look_for_focused_feature( this_,
-                                                                                              diagram_data,
-                                                                                              focused_feature_id
-                                                                                            );
-
-                /* end classifier */
-                /*
-                write_err |=  io_format_writer_end_classifier( (*this_).format_writer );
-                */
+                                                                                               diagram_data,
+                                                                                               focused_feature_id
+                                                                                             );
                 
+                /* print all relationships starting from focused feature (lifeline) of classifier_id */
+                write_err |= io_export_interaction_traversal_private_iterate_feature_relationships( this_,
+                                                                                                    diagram_data,
+                                                                                                    classifier_id,
+                                                                                                    focused_feature_id
+                                                                                                  );
             }
-            /* print all relationships starting from classifier_id */
-            write_err |= io_export_interaction_traversal_private_iterate_feature_relationships( this_,
-                                                                                                diagram_data,
-                                                                                                classifier_id,
-                                                                                                focused_feature_id
-                                                                                              );
         }
         else
         {
@@ -241,11 +230,12 @@ int io_export_interaction_traversal_private_look_for_focused_feature ( io_export
                 const bool is_lifeline
                     =( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( feature ) );
 
-                if ( is_visible && ( ! is_lifeline ) )
+                if ( is_visible && is_lifeline )
                 {
-                    /*
-                    write_err |=  io_format_writer_write_feature( (*this_).format_writer, feature );
-                    */
+                    write_err |= xmi_element_writer_write_feature( (*this_).element_writer, 
+                                                                   DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
+                                                                   feature 
+                                                                 );
                 }
             }
         }
@@ -260,9 +250,9 @@ int io_export_interaction_traversal_private_look_for_focused_feature ( io_export
 }
 
 int io_export_interaction_traversal_private_iterate_feature_relationships ( io_export_interaction_traversal_t *this_,
-                                                                               const data_visible_set_t *diagram_data,
-                                                                               data_id_t from_classifier_id,
-                                                                               data_id_t focused_feature_id
+                                                                            const data_visible_set_t *diagram_data,
+                                                                            data_id_t from_classifier_id,
+                                                                            data_id_t focused_feature_id
                                                                           )
 {
     TRACE_BEGIN();
@@ -301,7 +291,7 @@ int io_export_interaction_traversal_private_iterate_feature_relationships ( io_e
                     {
                         /* destination classifier found, print the relation */
                         /*
-                        write_err |= io_format_writer_write_relationship( (*this_).format_writer,
+                        write_err |= io_interaction_writer_write_relationship( (*this_).interaction_writer,
                                                                           relation,
                                                                           dest_classifier
                                                                         );

@@ -10,7 +10,7 @@
  *
  *  Source: db_reader(data_database_reader_t);
  *  Task: traverse the source model;
- *  Sink: io_format_writer_t
+ *  Sink: xmi_element_writer_t
  */
 
 #include "io_export_interaction_traversal.h"
@@ -36,7 +36,7 @@ enum io_export_model_traversal_max_enum {
 struct io_export_model_traversal_struct {
     data_database_reader_t *db_reader;  /* !< pointer to external database reader */
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
-    xmi_element_writer_t *format_writer;  /*!< pointer to external io_format_writer_t which is the output sink */
+    xmi_element_writer_t *element_writer;  /*!< pointer to external xmi_element_writer_t which is the output sink */
 
     io_export_interaction_traversal_t interaction_helper;  /* !< instance of own io_export_interaction_traversal to help with interaction exports */
     
@@ -56,13 +56,13 @@ typedef struct io_export_model_traversal_struct io_export_model_traversal_t;
  *  \param db_reader pointer to a database reader object
  *  \param input_data pointer to an external buffer for private use as data cache by interaction_helper
  *  \param io_export_stat pointer to statistics object where export statistics are collected
- *  \param out_format_writer pointer to an external xmi_element_writer_t which is the output sink
+ *  \param out_element_writer pointer to an external xmi_element_writer_t which is the output sink
  */
 void io_export_model_traversal_init( io_export_model_traversal_t *this_,
                                      data_database_reader_t *db_reader,
                                      data_visible_set_t *input_data,
                                      data_stat_t *io_export_stat,
-                                     xmi_element_writer_t *out_format_writer
+                                     xmi_element_writer_t *out_element_writer
                                    );
 
 /*!

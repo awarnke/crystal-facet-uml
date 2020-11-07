@@ -168,12 +168,28 @@ static inline data_id_t data_diagramelement_get_data_id ( const data_diagramelem
 static inline data_row_id_t data_diagramelement_get_diagram_id ( const data_diagramelement_t *this_ );
 
 /*!
+ *  \brief gets the data_id derived from the attribute diagram_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return data_id diagram_id, DATA_ID_VOID if the referenced diagram is not valid
+ */
+static inline data_id_t data_diagramelement_get_diagram_data_id ( const data_diagramelement_t *this_ );
+
+/*!
  *  \brief gets the attribute classifier_id
  *
  *  \param this_ pointer to own object attributes
  *  \return attribute classifier_id, DATA_ROW_ID_VOID if the referenced classifier is not valid
  */
 static inline data_row_id_t data_diagramelement_get_classifier_id ( const data_diagramelement_t *this_ );
+
+/*!
+ *  \brief gets the data_id derived from the attribute classifier_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return data_id of referenced classifier, DATA_ID_VOID if the referenced classifier is not valid
+ */
+static inline data_id_t data_diagramelement_get_classifier_data_id ( const data_diagramelement_t *this_ );
 
 /*!
  *  \brief gets the attribute focused_feature_id
@@ -190,6 +206,14 @@ static inline data_row_id_t data_diagramelement_get_focused_feature_id ( const d
  *  \param focused_feature_id new attribute focused_feature_id
  */
 static inline void data_diagramelement_set_focused_feature_id ( data_diagramelement_t *this_, data_row_id_t focused_feature_id );
+
+/*!
+ *  \brief gets the data_id derived from the attribute focused_feature_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return data_id of focused_feature, DATA_ID_VOID if there is no focused feature
+ */
+static inline data_id_t data_diagramelement_get_focused_feature_data_id ( const data_diagramelement_t *this_ );
 
 /*!
  *  \brief gets the attribute display_flags

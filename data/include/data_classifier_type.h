@@ -55,6 +55,7 @@ enum data_classifier_type_enum {
     DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL = 170,  /* sends a signal, UML and SYSML */
     // missing: repeat-blocks/sections in sequence diagrams
     // missing: activity-bars and life-end-cross on lifelines - maybe these can be auto-generated?
+    DATA_CLASSIFIER_TYPE_INTERACTION = 190,  /* a uml interaction. Currently this does not exist in the data model but is faked at xmi export */
 };
 
 typedef enum data_classifier_type_enum data_classifier_type_t;
