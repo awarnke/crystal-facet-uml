@@ -115,6 +115,11 @@ static inline bool xmi_element_info_is_a_transition ( const xmi_element_info_t *
     return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_TRANSITION ) == XMI_ELEMENT_IS_A_TRANSITION;
 }
 
+static inline bool xmi_element_info_is_a_message ( const xmi_element_info_t *this_ )
+{
+    return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_MESSAGE ) == XMI_ELEMENT_IS_A_MESSAGE;
+}
+
 
 /*
 Copyright 2020-2020 Andreas Warnke

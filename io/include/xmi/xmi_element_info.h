@@ -216,6 +216,14 @@ static inline bool xmi_element_info_is_a_vertex ( const xmi_element_info_t *this
  */
 static inline bool xmi_element_info_is_a_transition ( const xmi_element_info_t *this_ );
 
+/*!
+ *  \brief checks if the type is a message.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if is_a has XMI_ELEMENT_IS_A_MESSAGE bits set
+ */
+static inline bool xmi_element_info_is_a_message ( const xmi_element_info_t *this_ );
+
 #include "xmi_element_info.inl"
 
 #endif  /* XMI_ELEMENT_INFO_H */

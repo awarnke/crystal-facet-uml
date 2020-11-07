@@ -258,6 +258,7 @@ int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_conve
     const bool host_is_implicit_region = ( hosting_type == DATA_CLASSIFIER_TYPE_UML_STATE );
     const bool host_is_usecase = ( hosting_type == DATA_CLASSIFIER_TYPE_UML_USE_CASE );
     const bool host_is_state = ( hosting_type == DATA_CLASSIFIER_TYPE_UML_STATE );
+    const bool host_is_interaction = ( hosting_type == DATA_CLASSIFIER_TYPE_INTERACTION );
     const xmi_element_info_t *child_info
         = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard, child_type, host_is_state );
     assert ( child_info != NULL );
@@ -306,6 +307,11 @@ int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_conve
     {
         /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 18.2.5.4 */
         result = "include";
+    }
+    else if ( host_is_interaction && xmi_element_info_is_a_message(child_info) )
+    {
+        /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 17.4 */
+        result = "message";
     }
 
     *out_xmi_name = (result==NULL) ? "" : result;

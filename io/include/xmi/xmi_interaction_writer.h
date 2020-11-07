@@ -78,45 +78,6 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
                                         );
 
 /*!
- *  \brief writes a classifier of the document
- *
- *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classifier
- *  \param classifier_ptr pointer to classifier that shall be written, not NULL
- *  \result 0 in case of success, -1 otherwise
- */
-int xmi_interaction_writer_write_classifier( xmi_interaction_writer_t *this_,
-                                             data_classifier_type_t parent_type,
-                                             const data_classifier_t *classifier_ptr
-                                           );
-
-/*!
- *  \brief writes a feature of the document
- *
- *  \param this_ pointer to own object attributes
- *  \param parent_type type of the owning parent classifier
- *  \param feature_ptr pointer to feature that shall be written, not NULL
- *  \result 0 in case of success, -1 otherwise
- */
-int xmi_interaction_writer_write_feature( xmi_interaction_writer_t *this_,
-                                          data_classifier_type_t parent_type,
-                                          const data_feature_t *feature_ptr
-                                        );
-
-/*!
- *  \brief writes a relationship of the document
- *
- *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classifier, needed for xmi export
- *  \param relation_ptr pointer to relationship that shall be written, not NULL
- *  \result 0 in case of success, -1 otherwise
- */
-int xmi_interaction_writer_write_relationship( xmi_interaction_writer_t *this_,
-                                               data_classifier_type_t parent_type,
-                                               const data_relationship_t *relation_ptr
-                                             );
-
-/*!
  *  \brief writes the ending of the main section
  *
  *  This ends a section that contains the main part of the document

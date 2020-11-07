@@ -577,11 +577,10 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL,
         .specification            = (XMI_SPEC_UML),
         .profile_name             = NULL,
-        .base_name                = "Interaction",  /* TODO: applicable only in an interaction context, see asynchSignal */
-        /*.base_name                = "Message",*/  /* TODO: applicable only in an interaction context, see asynchSignal */
-        .is_a                     = (XMI_ELEMENT_IS_A_NAMED_ELEMENT),
-        .property_from            = "lifeline",
-        .property_to              = "lifeline",
+        .base_name                = "Message",
+        .is_a                     = (XMI_ELEMENT_IS_A_MESSAGE),
+        .property_from            = "sendEvent",
+        .property_to              = "receiveEvent",
         .additional_properties    = "messageSort=\"asynchSignal\"",
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_SYNC_CALL] = {
@@ -589,11 +588,10 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL,
         .specification            = (XMI_SPEC_UML),
         .profile_name             = NULL,
-        .base_name                = "Interaction",  /* TODO: applicable only in an interaction context, see synchCall */
-        /*.base_name                = "Message",*/  /* TODO: applicable only in an interaction context, see synchCall */
-        .is_a                     = (XMI_ELEMENT_IS_A_NAMED_ELEMENT),
-        .property_from            = "lifeline",
-        .property_to              = "lifeline",
+        .base_name                = "Message",
+        .is_a                     = (XMI_ELEMENT_IS_A_MESSAGE),
+        .property_from            = "sendEvent",
+        .property_to              = "receiveEvent",
         .additional_properties    = "messageSort=\"synchCall\"",
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_RETURN_CALL] = {
@@ -601,11 +599,10 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL,
         .specification            = (XMI_SPEC_UML),
         .profile_name             = NULL,
-        .base_name                = "Interaction",  /* TODO: applicable only in an interaction context, see reply */
-        /*.base_name                = "Message",*/  /* TODO: applicable only in an interaction context, see reply */
-        .is_a                     = (XMI_ELEMENT_IS_A_NAMED_ELEMENT),
-        .property_from            = "lifeline",
-        .property_to              = "lifeline",
+        .base_name                = "Message",
+        .is_a                     = (XMI_ELEMENT_IS_A_MESSAGE),
+        .property_from            = "sendEvent",
+        .property_to              = "receiveEvent",
         .additional_properties    = "messageSort=\"reply\"",
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_COMMUNICATION_PATH] = {

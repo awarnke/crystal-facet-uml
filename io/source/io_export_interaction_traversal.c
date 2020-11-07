@@ -281,7 +281,16 @@ int io_export_interaction_traversal_private_iterate_feature_relationships ( io_e
                                                                                 data_id_get_row_id( &relation_id )
                                                                               );
 
-                if ( is_visible /* no filter for duplicates */ )
+                const bool is_relationship_compliant_here
+                    = xmi_element_writer_can_classifier_nest_relationship ( (*this_).element_writer, 
+                                                                            DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
+                                                                            data_relationship_get_main_type( relation )
+                                                                          );
+
+                const bool duplicate_relationship
+                    = ( -1 != universal_array_list_get_index_of( (*this_).written_id_set, &relation_id ) );
+
+                if ( is_visible && ( ! duplicate_relationship ) && is_relationship_compliant_here )
                 {
                     const data_row_id_t to_classifier_id = data_relationship_get_to_classifier_id( relation );
                     const data_classifier_t *dest_classifier = data_visible_set_get_classifier_by_id_const ( diagram_data,
@@ -289,13 +298,14 @@ int io_export_interaction_traversal_private_iterate_feature_relationships ( io_e
                                                                                                            );
                     if ( dest_classifier != NULL )
                     {
+                        /* add the relationship to the duplicates list */
+                        write_err |= universal_array_list_append( (*this_).written_id_set, &relation_id );
+                        
                         /* destination classifier found, print the relation */
-                        /*
-                        write_err |= io_interaction_writer_write_relationship( (*this_).interaction_writer,
-                                                                          relation,
-                                                                          dest_classifier
-                                                                        );
-                                                                        */
+                        write_err |= xmi_element_writer_write_relationship( (*this_).element_writer, 
+                                                                            DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
+                                                                            relation
+                                                                          );
                     }
                     else
                     {
