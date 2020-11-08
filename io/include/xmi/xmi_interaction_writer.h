@@ -90,6 +90,21 @@ int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
                                       );
 
 /*!
+ *  \brief writes constents of a lifeline-type feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param reference_id id of the object which this lifeline proxies
+ *  \param parent_type type of the owning parent classifier
+ *  \param feature_ptr pointer to feature that shall be written, not NULL
+ *  \result 0 in case of success, -1 otherwise
+ */
+int xmi_interaction_writer_assemble_feature( xmi_interaction_writer_t *this_,
+                                             data_id_t reference_id,
+                                             data_classifier_type_t parent_type,
+                                             const data_feature_t *feature_ptr
+                                           );
+
+/*!
  *  \brief writes the contents of a message-type relationship 
  *
  *  \param this_ pointer to own object attributes

@@ -426,7 +426,55 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
     return export_err;
 }
 
-int xmi_element_writer_write_feature( xmi_element_writer_t *this_,
+int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
+                                       data_classifier_type_t parent_type,
+                                       const data_classifier_t *classifier_ptr )
+{
+    TRACE_BEGIN();
+    assert ( NULL != classifier_ptr );
+    const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier_ptr);
+    int export_err = 0;
+
+    if ( (*this_).mode == IO_WRITER_PASS_BASE )
+    {
+        /* generate end to pseudo subelement region to statemachines and states */
+        if ( classifier_type == DATA_CLASSIFIER_TYPE_UML_STATE )
+        {
+            xml_writer_decrease_indent ( &((*this_).xml_writer) );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_STATE_REGION_NESTING_STATE );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
+        }
+
+        /* determine nesting tag */
+        const char* nesting_property;
+        const int nesting_err
+            = xmi_type_converter_get_xmi_nesting_property_of_classifier( &((*this_).xmi_types),
+                                                                         parent_type,
+                                                                         classifier_type,
+                                                                         &nesting_property
+                                                                       );
+        if ( nesting_err != 0 )
+        {
+            /* The caller requested to write a classifier to an illegal place */
+            /* use a fallback */
+            nesting_property = XMI_XML_FALLBACK_NESTING_ELEMENT;
+        }
+
+        /* adjust indentation, write end tag */
+        xml_writer_decrease_indent ( &((*this_).xml_writer) );
+        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
+        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), nesting_property );
+        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
+    }
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
                                       data_classifier_type_t parent_type,
                                       const data_feature_t *feature_ptr )
 {
@@ -435,10 +483,6 @@ int xmi_element_writer_write_feature( xmi_element_writer_t *this_,
     int export_err = 0;
 
     const char *const feature_key = data_feature_get_key_ptr( feature_ptr );
-    const char *const feature_value = data_feature_get_value_ptr( feature_ptr );
-    const size_t feature_value_len = utf8string_get_length(feature_value);
-    const char *const feature_descr = data_feature_get_description_ptr( feature_ptr );
-    const size_t feature_descr_len = utf8string_get_length(feature_descr);
     const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
     const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
     const xmi_element_info_t *feature_info
@@ -504,13 +548,33 @@ int xmi_element_writer_write_feature( xmi_element_writer_t *this_,
         }
 
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
-        /*
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_COMMENT_START );
-        export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), feature_id );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_COMMENT_END );
-        */
+
         xml_writer_increase_indent ( &((*this_).xml_writer) );
 
+        /* update export statistics */
+        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
+    }
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int xmi_element_writer_assemble_feature( xmi_element_writer_t *this_,
+                                         data_classifier_type_t parent_type,
+                                         const data_feature_t *feature_ptr )
+{
+    TRACE_BEGIN();
+    assert ( NULL != feature_ptr );
+    int export_err = 0;
+
+    const char *const feature_value = data_feature_get_value_ptr( feature_ptr );
+    const size_t feature_value_len = utf8string_get_length(feature_value);
+    const char *const feature_descr = data_feature_get_description_ptr( feature_ptr );
+    const size_t feature_descr_len = utf8string_get_length(feature_descr);
+    const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
+
+    if ( (*this_).mode == IO_WRITER_PASS_BASE )
+    {
         if ( 0 != feature_value_len )
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
@@ -531,16 +595,43 @@ int xmi_element_writer_write_feature( xmi_element_writer_t *this_,
                                                              feature_descr
                                                            );
         }
-        /* TODO: A Lifeline must have an interaction property */
+    }
 
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int xmi_element_writer_end_feature( xmi_element_writer_t *this_,
+                                    data_classifier_type_t parent_type,
+                                    const data_feature_t *feature_ptr )
+{
+    TRACE_BEGIN();
+    assert ( NULL != feature_ptr );
+    int export_err = 0;
+
+    const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
+
+    if ( (*this_).mode == IO_WRITER_PASS_BASE )
+    {
+        /* determine nesting tag */
+        const char* owning_type;
+        const int owning_err
+            = xmi_type_converter_get_xmi_owning_property_of_feature( &((*this_).xmi_types),
+                                                                     parent_type,
+                                                                     feature_type,
+                                                                     &owning_type
+                                                                   );
+        if ( owning_err != 0 )
+        {
+            /* The caller requested to write a feature to an illegal place */
+            TRACE_INFO("xmi_element_writer: request to write a feature to an illegal place!");
+        }
+        
         xml_writer_decrease_indent ( &((*this_).xml_writer) );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), owning_type );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
-
-        /* update export statistics */
-        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
     }
 
     TRACE_END_ERR( export_err );
@@ -797,54 +888,6 @@ int xmi_element_writer_end_relationship( xmi_element_writer_t *this_,
             nesting_property = XMI_XML_FALLBACK_NESTING_ELEMENT;
         }
 
-        xml_writer_decrease_indent ( &((*this_).xml_writer) );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), nesting_property );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
-    }
-
-    TRACE_END_ERR( export_err );
-    return export_err;
-}
-
-int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
-                                       data_classifier_type_t parent_type,
-                                       const data_classifier_t *classifier_ptr )
-{
-    TRACE_BEGIN();
-    assert ( NULL != classifier_ptr );
-    const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier_ptr);
-    int export_err = 0;
-
-    if ( (*this_).mode == IO_WRITER_PASS_BASE )
-    {
-        /* generate end to pseudo subelement region to statemachines and states */
-        if ( classifier_type == DATA_CLASSIFIER_TYPE_UML_STATE )
-        {
-            xml_writer_decrease_indent ( &((*this_).xml_writer) );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_STATE_REGION_NESTING_STATE );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
-        }
-
-        /* determine nesting tag */
-        const char* nesting_property;
-        const int nesting_err
-            = xmi_type_converter_get_xmi_nesting_property_of_classifier( &((*this_).xmi_types),
-                                                                         parent_type,
-                                                                         classifier_type,
-                                                                         &nesting_property
-                                                                       );
-        if ( nesting_err != 0 )
-        {
-            /* The caller requested to write a classifier to an illegal place */
-            /* use a fallback */
-            nesting_property = XMI_XML_FALLBACK_NESTING_ELEMENT;
-        }
-
-        /* adjust indentation, write end tag */
         xml_writer_decrease_indent ( &((*this_).xml_writer) );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );

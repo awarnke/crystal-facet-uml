@@ -149,17 +149,58 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
                                           );
 
 /*!
- *  \brief writes a feature
+ *  \brief writes a classifier end-element
+ *
+ *  This ends a division that contains a classifier and a list of features and relationships
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_type type of the parent classifier, needed for xmi export
+ *  \param classifier_ptr pointer to classifier that shall be written, not NULL
+ *  \result 0 in case of success, -1 otherwise
+ */
+int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
+                                       data_classifier_type_t parent_type,
+                                       const data_classifier_t *classifier_ptr
+                                     );
+
+/*!
+ *  \brief writes a feature start-element
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the owning parent classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
  *  \result 0 in case of success, -1 otherwise
  */
-int xmi_element_writer_write_feature( xmi_element_writer_t *this_,
+int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
                                       data_classifier_type_t parent_type,
                                       const data_feature_t *feature_ptr
                                     );
+
+/*!
+ *  \brief writes constents of a a feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_type type of the owning parent classifier
+ *  \param feature_ptr pointer to feature that shall be written, not NULL
+ *  \result 0 in case of success, -1 otherwise
+ */
+int xmi_element_writer_assemble_feature( xmi_element_writer_t *this_,
+                                         data_classifier_type_t parent_type,
+                                         const data_feature_t *feature_ptr
+                                       );
+
+/*!
+ *  \brief writes a feature end-element
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_type type of the owning parent classifier
+ *  \param feature_ptr pointer to feature that shall be written, not NULL
+ *  \result 0 in case of success, -1 otherwise
+ */
+int xmi_element_writer_end_feature( xmi_element_writer_t *this_,
+                                    data_classifier_type_t parent_type,
+                                    const data_feature_t *feature_ptr
+                                  );
 
 /*!
  *  \brief checks if a parent classifier may nest relationships
@@ -212,21 +253,6 @@ int xmi_element_writer_end_relationship( xmi_element_writer_t *this_,
                                          data_classifier_type_t parent_type,
                                          const data_relationship_t *relation_ptr
                                        );
-
-/*!
- *  \brief writes a classifier end-element
- *
- *  This ends a division that contains a classifier and a list of features and relationships
- *
- *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classifier, needed for xmi export
- *  \param classifier_ptr pointer to classifier that shall be written, not NULL
- *  \result 0 in case of success, -1 otherwise
- */
-int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
-                                       data_classifier_type_t parent_type,
-                                       const data_classifier_t *classifier_ptr
-                                     );
 
 /*!
  *  \brief writes the ending of the main section

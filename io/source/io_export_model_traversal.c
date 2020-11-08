@@ -403,10 +403,18 @@ int io_export_model_traversal_private_iterate_node_features ( io_export_model_tr
 
             if ( ! is_lifeline )
             {
-                write_err |=  xmi_element_writer_write_feature( (*this_).element_writer,
-                                                                data_classifier_get_main_type( classifier ),
-                                                                feature
-                                                              );
+                write_err |= xmi_element_writer_start_feature( (*this_).element_writer,
+                                                               data_classifier_get_main_type( classifier ),
+                                                               feature
+                                                             );
+                write_err |= xmi_element_writer_assemble_feature( (*this_).element_writer,
+                                                                  data_classifier_get_main_type( classifier ),
+                                                                  feature
+                                                                );
+                write_err |= xmi_element_writer_end_feature( (*this_).element_writer,
+                                                             data_classifier_get_main_type( classifier ),
+                                                             feature
+                                                           );
             }
         }
         else

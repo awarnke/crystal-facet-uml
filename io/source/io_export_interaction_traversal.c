@@ -220,6 +220,9 @@ int io_export_interaction_traversal_private_look_for_focused_feature ( io_export
         /* get feature */
         const data_feature_t *feature;
         feature = data_visible_set_get_feature_const ( diagram_data, index );
+        
+        const data_id_t classifier_id = data_feature_get_classifier_data_id ( feature );
+         
         if (( feature != NULL ) && ( data_feature_is_valid( feature ) ))
         {
             const data_id_t feat_id = data_feature_get_data_id( feature );
@@ -237,10 +240,23 @@ int io_export_interaction_traversal_private_look_for_focused_feature ( io_export
                     /* add the lifeline to the duplicates list */
                     write_err |= universal_array_list_append( (*this_).written_id_set, &feat_id );
                         
-                    write_err |= xmi_element_writer_write_feature( (*this_).element_writer, 
+                    write_err |= xmi_element_writer_start_feature( (*this_).element_writer, 
                                                                    DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
                                                                    feature 
                                                                  );
+                    write_err |= xmi_element_writer_assemble_feature( (*this_).element_writer, 
+                                                                      DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
+                                                                      feature 
+                                                                    );
+                    write_err |= xmi_interaction_writer_assemble_feature( &((*this_).interaction_writer), 
+                                                                          classifier_id,
+                                                                          DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
+                                                                          feature 
+                                                                        );
+                    write_err |= xmi_element_writer_end_feature( (*this_).element_writer, 
+                                                                 DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
+                                                                 feature 
+                                                               );
                 }
             }
         }

@@ -172,6 +172,48 @@ int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
     return export_err;
 }
 
+int xmi_interaction_writer_assemble_feature( xmi_interaction_writer_t *this_,
+                                             data_id_t reference_id,
+                                             data_classifier_type_t parent_type,
+                                             const data_feature_t *feature_ptr )
+{
+    TRACE_BEGIN();
+    assert ( NULL != feature_ptr );
+    int export_err = 0;
+
+    const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
+
+    if ( (*this_).mode == IO_WRITER_PASS_BASE )
+    {
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_NL );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_EMPTY_TAG_START );
+        export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, "represents" );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_ATTR_SEPARATOR );
+        
+        /* write type attribute */
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_TYPE_START );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_NS_UML );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, "ConnectableElement" );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_TYPE_END );
+
+        /* write id attribute */
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_ID_START );
+        export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), feature_id );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, "#ref" );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_ID_END );
+
+        /* write lifeline id attribute */
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, "todo-ref=\"" );
+        export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), reference_id );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\" " );
+
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_EMPTY_TAG_END );
+    }
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
 int xmi_ineraction_writer_assemble_relationship( xmi_interaction_writer_t *this_,
                                                  data_id_t interaction_id,
                                                  data_classifier_type_t parent_type,
