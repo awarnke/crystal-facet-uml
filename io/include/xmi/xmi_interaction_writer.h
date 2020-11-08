@@ -89,6 +89,22 @@ int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
                                         data_classifier_type_t parent_type 
                                       );
 
+/*!
+ *  \brief writes the contents of a message-type relationship 
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param interaction_id id of the interaction to which the message (relationship) belongs
+ *  \param parent_type type of the nesting-parent classifier, needed for xmi export
+ *  \param relation_ptr pointer to relationship that shall be written, not NULL
+ *  \result 0 in case of success, -1 otherwise
+ */
+int xmi_ineraction_writer_assemble_relationship( xmi_interaction_writer_t *this_,
+                                                 data_id_t interaction_id,
+                                                 data_classifier_type_t parent_type,
+                                                 const data_relationship_t *relation_ptr
+                                               );
+
+
 #endif  /* XMI_INTERACTION_WRITER_H */
 
 

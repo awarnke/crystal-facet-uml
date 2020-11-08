@@ -1,6 +1,8 @@
 /* File: io_export_interaction_traversal.c; Copyright and License: see below */
 
 #include "io_export_interaction_traversal.h"
+#include "xmi/xmi_element_info.h"
+#include "xmi/xmi_element_info_map.h"
 #include "trace.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
@@ -296,36 +298,50 @@ int io_export_interaction_traversal_private_iterate_feature_relationships ( io_e
 
                 const bool duplicate_relationship
                     = ( -1 != universal_array_list_get_index_of( (*this_).written_id_set, &relation_id ) );
+                    
+                /* is message */
+                const data_relationship_type_t relation_type = data_relationship_get_main_type( relation );
+                const xmi_element_info_t *relation_info
+                    = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
+                                                             relation_type,
+                                                             false /* interaction context, not state */
+                                                           );
+                const bool is_message = ( xmi_element_info_is_a_message ( relation_info ) );
+
 
                 if ( is_visible && ( ! duplicate_relationship ) && is_relationship_compliant_here )
                 {
-                    const data_row_id_t to_classifier_id = data_relationship_get_to_classifier_id( relation );
-                    const data_classifier_t *dest_classifier = data_visible_set_get_classifier_by_id_const ( diagram_data,
-                                                                                                             to_classifier_id
-                                                                                                           );
-                    if ( dest_classifier != NULL )
+                    /* add the relationship to the duplicates list */
+                    write_err |= universal_array_list_append( (*this_).written_id_set, &relation_id );
+                 
+                    /* determine the interaction id */
+                    const data_diagram_t *const diag_ptr = data_visible_set_get_diagram_const( diagram_data );
+                    const data_id_t interaction_id = data_diagram_get_data_id( diag_ptr );
+                    
+                    /* destination classifier found, print the relation */
+                    write_err |= xmi_element_writer_start_relationship( (*this_).element_writer, 
+                                                                        DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
+                                                                        relation
+                                                                      );
+                    if ( is_message )
                     {
-                        /* add the relationship to the duplicates list */
-                        write_err |= universal_array_list_append( (*this_).written_id_set, &relation_id );
-                        
-                        /* destination classifier found, print the relation */
-                        write_err |= xmi_element_writer_start_relationship( (*this_).element_writer, 
-                                                                            DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
-                                                                            relation
-                                                                          );
-                        write_err |= xmi_element_writer_assemble_relationship( (*this_).element_writer, 
-                                                                               DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
-                                                                               relation
-                                                                             );
-                        write_err |= xmi_element_writer_end_relationship( (*this_).element_writer, 
-                                                                          DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
-                                                                          relation
-                                                                        );
+                        write_err |= xmi_ineraction_writer_assemble_relationship( &((*this_).interaction_writer), 
+                                                                                  interaction_id,
+                                                                                  DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
+                                                                                  relation
+                                                                                );
                     }
                     else
                     {
-                        assert ( false );  /* is_visible should not be true if dest_classifier == NULL */
+                        write_err |= xmi_element_writer_assemble_relationship( (*this_).element_writer, 
+                                                                               DATA_CLASSIFIER_TYPE_INTERACTION,
+                                                                               relation
+                                                                             );
                     }
+                    write_err |= xmi_element_writer_end_relationship( (*this_).element_writer, 
+                                                                      DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
+                                                                      relation
+                                                                    );
                 }
             }
         }
