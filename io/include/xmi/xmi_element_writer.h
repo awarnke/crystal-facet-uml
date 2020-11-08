@@ -13,12 +13,11 @@
  *  Sink: universal_output_stream_t
  */
 
+#include "xmi/xmi_atom_writer.h"
+#include "xml/xml_writer.h"
+#include "xmi/xmi_type_converter.h"
 #include "io_file_format.h"
 #include "io_writer_pass.h"
-#include "xml/xml_writer.h"
-#include "txt/txt_writer.h"
-#include "xmi/xmi_type_converter.h"
-#include "md/md_filter.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
 #include "set/data_visible_set.h"
@@ -29,13 +28,14 @@
 #include "stream/universal_output_stream.h"
 
 /*!
- *  \brief attributes of the format writer
+ *  \brief attributes of the xmi_element_writer_t
  */
 struct xmi_element_writer_struct {
     io_writer_pass_t mode;  /*!< depending on the mode, conversion from a data object to the output format differs */
 
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
     xml_writer_t xml_writer;  /*!< own instance of an xml writer */
+    xmi_atom_writer_t atom_writer;  /*!< own instance of an atom writer */
 
     xmi_type_converter_t xmi_types;  /*!< own instance of an xmi_type_converter_t */
 };
@@ -43,7 +43,7 @@ struct xmi_element_writer_struct {
 typedef struct xmi_element_writer_struct xmi_element_writer_t;
 
 /*!
- *  \brief initializes the format writer
+ *  \brief initializes the xmi_element_writer_t
  *
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader object (to resolve markdown links)
@@ -57,14 +57,14 @@ void xmi_element_writer_init( xmi_element_writer_t *this_,
                             );
 
 /*!
- *  \brief destroys the format writer
+ *  \brief destroys the xmi_element_writer_t
  *
  *  \param this_ pointer to own object attributes
  */
 void xmi_element_writer_destroy( xmi_element_writer_t *this_ );
 
 /*!
- *  \brief gets the conversion mode of the format writer
+ *  \brief gets the conversion mode of the xmi_element_writer_t
  *
  *  \param this_ pointer to own object attributes
  *  \result mode how to convert a data object to the output format, e.g. uml-basic or profile-extension
@@ -72,7 +72,7 @@ void xmi_element_writer_destroy( xmi_element_writer_t *this_ );
 static inline io_writer_pass_t xmi_element_writer_get_mode( xmi_element_writer_t *this_ );
 
 /*!
- *  \brief sets the conversion mode of the format writer
+ *  \brief sets the conversion mode of the xmi_element_writer_t
  *
  *  \param this_ pointer to own object attributes
  *  \param mode mode how to convert a data object to the output format, e.g. uml-basic or profile-extension
@@ -219,32 +219,6 @@ int xmi_element_writer_end_main( xmi_element_writer_t *this_ );
  *  \result 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_write_footer( xmi_element_writer_t *this_ );
-
-/*!
- *  \brief writes a comment in xmi format
- *
- *  \param this_ pointer to own object attributes
- *  \param element_id id of the element which to write a comment for
- *  \param comment_type type is typically spec - but maybe there are other types in future
- *  \param comment the comment to encode and write
- *  \result 0 in case of success, -1 otherwise
- */
-int xmi_element_writer_private_write_xmi_comment( xmi_element_writer_t *this_,
-                                                  data_id_t element_id,
-                                                  const char *comment_type,
-                                                  const char *comment
-                                                );
-
-/*!
- *  \brief encodes a data_id to an xml number as required for xmi base_Class attribute
- *
- *  \param this_ pointer to own object attributes
- *  \param element_id id which to encode for xmi
- *  \result 0 in case of success, -1 otherwise
- */
-int xmi_element_writer_private_encode_xmi_id( xmi_element_writer_t *this_,
-                                              data_id_t element_id
-                                            );
 
 #include "xmi_element_writer.inl"
 

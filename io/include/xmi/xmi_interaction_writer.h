@@ -13,18 +13,16 @@
  *  Sink: universal_output_stream_t
  */
 
+#include "xmi/xmi_atom_writer.h"
+#include "xml/xml_writer.h"
+#include "xmi/xmi_type_converter.h"
 #include "io_file_format.h"
 #include "io_writer_pass.h"
-#include "xml/xml_writer.h"
-#include "txt/txt_writer.h"
-#include "xmi/xmi_type_converter.h"
-#include "md/md_filter.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
 #include "set/data_visible_set.h"
 #include "set/data_stat.h"
 #include "storage/data_database_reader.h"
-#include "util/geometry/geometry_rectangle.h"
 #include "util/string/utf8stringbuf.h"
 
 /*!
@@ -35,6 +33,7 @@ struct xmi_interaction_writer_struct {
     
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
     xml_writer_t *xml_writer;  /*!< pointer to external xml writer */
+    xmi_atom_writer_t atom_writer;  /*!< own instance of an atom writer */
 
     xmi_type_converter_t xmi_types;  /*!< own instance of an xmi_type_converter_t */
 };
@@ -89,32 +88,6 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
 int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
                                         data_classifier_type_t parent_type 
                                       );
-
-/*!
- *  \brief writes a comment in xmi format
- *
- *  \param this_ pointer to own object attributes
- *  \param element_id id of the element which to write a comment for
- *  \param comment_type type is typically spec - but maybe there are other types in future
- *  \param comment the comment to encode and write
- *  \result 0 in case of success, -1 otherwise
- */
-int xmi_interaction_writer_private_write_xmi_comment( xmi_interaction_writer_t *this_,
-                                                  data_id_t element_id,
-                                                  const char *comment_type,
-                                                  const char *comment
-                                                );
-
-/*!
- *  \brief encodes a data_id to an xml number as required for xmi base_Class attribute
- *
- *  \param this_ pointer to own object attributes
- *  \param element_id id which to encode for xmi
- *  \result 0 in case of success, -1 otherwise
- */
-int xmi_interaction_writer_private_encode_xmi_id( xmi_interaction_writer_t *this_,
-                                              data_id_t element_id
-                                            );
 
 #endif  /* XMI_INTERACTION_WRITER_H */
 
