@@ -121,7 +121,7 @@ static inline bool xmi_element_writer_can_classifier_nest_classifier ( xmi_eleme
                                                                      );
 
 /*!
- *  \brief writes a classifier start
+ *  \brief writes a classifier start-element
  *
  *  This starts a division that contains a classifier and a list of features and relationships
  *
@@ -130,23 +130,23 @@ static inline bool xmi_element_writer_can_classifier_nest_classifier ( xmi_eleme
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \result 0 in case of success, -1 otherwise
  */
-int xmi_element_writer_start_nested_classifier( xmi_element_writer_t *this_,
-                                                data_classifier_type_t parent_type,
-                                                const data_classifier_t *classifier_ptr
-                                              );
+int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
+                                         data_classifier_type_t parent_type,
+                                         const data_classifier_t *classifier_ptr
+                                       );
 
 /*!
- *  \brief writes a classifier of the document
+ *  \brief writes contents of a classifier of the document
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the parent classifier
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \result 0 in case of success, -1 otherwise
  */
-int xmi_element_writer_write_classifier( xmi_element_writer_t *this_,
-                                         data_classifier_type_t parent_type,
-                                         const data_classifier_t *classifier_ptr
-                                       );
+int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
+                                            data_classifier_type_t parent_type,
+                                            const data_classifier_t *classifier_ptr
+                                          );
 
 /*!
  *  \brief writes a feature of the document
@@ -188,7 +188,7 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
                                          );
 
 /*!
- *  \brief writes a classifier end
+ *  \brief writes a classifier end-element
  *
  *  This ends a division that contains a classifier and a list of features and relationships
  *
@@ -197,10 +197,10 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \result 0 in case of success, -1 otherwise
  */
-int xmi_element_writer_end_nested_classifier( xmi_element_writer_t *this_,
-                                              data_classifier_type_t parent_type,
-                                              const data_classifier_t *classifier_ptr
-                                            );
+int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
+                                       data_classifier_type_t parent_type,
+                                       const data_classifier_t *classifier_ptr
+                                     );
 
 /*!
  *  \brief writes the ending of the main section

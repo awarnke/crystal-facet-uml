@@ -275,8 +275,8 @@ int io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *
     const data_classifier_t *const classifier
         = data_node_set_get_classifier_const ( node_data );
 
-    write_err |= xmi_element_writer_start_nested_classifier( (*this_).element_writer, parent_type, classifier );
-    write_err |= xmi_element_writer_write_classifier( (*this_).element_writer, parent_type, classifier );
+    write_err |= xmi_element_writer_start_classifier( (*this_).element_writer, parent_type, classifier );
+    write_err |= xmi_element_writer_assemble_classifier( (*this_).element_writer, parent_type, classifier );
 
     TRACE_END_ERR( write_err );
     return write_err;
@@ -371,7 +371,7 @@ int io_export_model_traversal_private_end_node ( io_export_model_traversal_t *th
     const data_classifier_t *const classifier
         = data_node_set_get_classifier_const ( node_data );
 
-    write_err |= xmi_element_writer_end_nested_classifier( (*this_).element_writer, parent_type, classifier );
+    write_err |= xmi_element_writer_end_classifier( (*this_).element_writer, parent_type, classifier );
 
     TRACE_END_ERR( write_err );
     return write_err;

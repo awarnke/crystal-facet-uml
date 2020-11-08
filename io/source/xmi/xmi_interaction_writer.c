@@ -13,25 +13,7 @@
 #include <stdbool.h>
 #include <assert.h>
 
-/* GENERAL STRUCTURE */
-
-/*
- *    <THING>_START
- *    <THING>_MIDDLE            #optional, if dynamic content needs to be added to the start
- *    <THING>_TITLE_START       #alternative to TITLE: NAME
- *    <THING>_TITLE_END         #alternative to TITLE: NAME
- *    ...                       #optional text
- *    <THING>_<OTHERSUB>_START  #optional if there ore other sub-things
- *    <THING>_<OTHERSUB>_END    #optional if there ore other sub-things
- *    <THING>_END
- */
-
 /* Note: when writing, each method typically starts with writing a newline, it does not end with writing a newline. */
-
-/* IO_FILE_FORMAT_XMI2 */
-
-static const char XMI2_FALLBACK_NESTING_ELEMENT[]
-    = "packagedElement";
 
 void xmi_interaction_writer_init ( xmi_interaction_writer_t *this_,
                                    data_database_reader_t *db_reader,
@@ -99,7 +81,7 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
             export_err |= xml_writer_write_plain_id( (*this_).xml_writer, diagram_id );
             export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
             /* use a fallback */
-            nesting_property = XMI2_FALLBACK_NESTING_ELEMENT;
+            nesting_property = XMI_XML_FALLBACK_NESTING_ELEMENT;
         }
 
         /* write nesting tag */
@@ -141,10 +123,10 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
         if ( 0 != diagram_descr_len )
         {
             export_err |= xmi_atom_writer_write_xmi_comment( &((*this_).atom_writer),
-                                                                            diagram_id,
-                                                                            "specification",
-                                                                            diagram_descr
-                                                                          );
+                                                             diagram_id,
+                                                             "specification",
+                                                             diagram_descr
+                                                           );
         }
 
         /* update export statistics */
@@ -175,7 +157,7 @@ int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
         {
             /* The caller requested to write a classifier to an illegal place */
             /* use a fallback */
-            nesting_property = XMI2_FALLBACK_NESTING_ELEMENT;
+            nesting_property = XMI_XML_FALLBACK_NESTING_ELEMENT;
         }
 
         /* adjust indentation, write end tag */

@@ -9,7 +9,7 @@
 #include <stdbool.h>
 #include <assert.h>
 
-    /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.4 */
+/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.4 */
 static const char XMI2_UML_OWNED_COMMENT_START[]
     = "\n<ownedComment ";
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6.4 */
@@ -19,7 +19,7 @@ static const char XMI2_UML_OWNED_COMMENT_MIDDLE[]
 static const char XMI2_UML_OWNED_COMMENT_END[]
     = "\n</ownedComment>";
 
-    /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.2 */
+/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.2 */
 static const char XMI2_UML_COMMENT_BODY_START[]
     = "\n<body>";
 static const char XMI2_UML_COMMENT_BODY_END[]

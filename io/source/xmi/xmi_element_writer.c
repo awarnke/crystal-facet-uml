@@ -94,9 +94,6 @@ static const char XMI2_EXT_BASE_ELEMENT_MIDDLE[]
 static const char XMI2_EXT_BASE_ELEMENT_END[]
     = "\" ";
 
-static const char XMI2_FALLBACK_NESTING_ELEMENT[]
-    = "packagedElement";
-
 static const char XMI2_STATE_REGION_NESTING_STATE[]
     = "region";
 static const char XMI2_STATE_REGION_TYPE[]
@@ -173,9 +170,9 @@ int xmi_element_writer_start_main( xmi_element_writer_t *this_, const char *docu
     return export_err;
 }
 
-int xmi_element_writer_start_nested_classifier( xmi_element_writer_t *this_,
-                                                data_classifier_type_t parent_type,
-                                                const data_classifier_t *classifier_ptr )
+int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
+                                         data_classifier_type_t parent_type,
+                                         const data_classifier_t *classifier_ptr )
 {
     TRACE_BEGIN();
     assert ( NULL != classifier_ptr );
@@ -208,7 +205,7 @@ int xmi_element_writer_start_nested_classifier( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " into a more suitable container or change its type -->" );
             /* use a fallback */
-            nesting_property = XMI2_FALLBACK_NESTING_ELEMENT;
+            nesting_property = XMI_XML_FALLBACK_NESTING_ELEMENT;
         }
 
         /* write nesting tag */
@@ -223,9 +220,9 @@ int xmi_element_writer_start_nested_classifier( xmi_element_writer_t *this_,
     return export_err;
 }
 
-int xmi_element_writer_write_classifier( xmi_element_writer_t *this_,
-                                         data_classifier_type_t parent_type,
-                                         const data_classifier_t *classifier_ptr )
+int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
+                                            data_classifier_type_t parent_type,
+                                            const data_classifier_t *classifier_ptr )
 {
     TRACE_BEGIN();
     assert ( NULL != classifier_ptr );
@@ -287,18 +284,18 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_,
                                                    "\n<!-- note: export of stereotypes is subject to change -->"
                                                  );
 /* TODO */                export_err |= xmi_atom_writer_write_xmi_comment( &((*this_).atom_writer),
-/* TODO */                                                                            classifier_id,
-/* TODO */                                                                            "stereotype",
-/* TODO */                                                                            classifier_stereo
-/* TODO */                                                                          );
+/* TODO */                                                                 classifier_id,
+/* TODO */                                                                 "stereotype",
+/* TODO */                                                                 classifier_stereo
+/* TODO */                                                               );
         }
         if ( ! xmi_element_info_is_a_named_element( classifier_info ) )
         {
             export_err |= xmi_atom_writer_write_xmi_comment( &((*this_).atom_writer),
-                                                                        classifier_id,
-                                                                        "name",
-                                                                        classifier_name
-                                                                      );
+                                                             classifier_id,
+                                                             "name",
+                                                             classifier_name
+                                                           );
         }
         if ( classifier_type == DATA_CLASSIFIER_TYPE_UML_COMMENT )
         {
@@ -318,10 +315,10 @@ int xmi_element_writer_write_classifier( xmi_element_writer_t *this_,
         else if ( 0 != classifier_descr_len )
         {
             export_err |= xmi_atom_writer_write_xmi_comment( &((*this_).atom_writer),
-                                                                        classifier_id,
-                                                                        "specification",
-                                                                        classifier_descr
-                                                                      );
+                                                             classifier_id,
+                                                             "specification",
+                                                             classifier_descr
+                                                           );
         }
 
         /* generate start of pseudo subelement region to statemachines and states */
@@ -520,19 +517,19 @@ int xmi_element_writer_write_feature( xmi_element_writer_t *this_,
                                                    "\n<!-- note: export of valuetypes is subject to change -->"
                                                  );
             export_err |= xmi_atom_writer_write_xmi_comment( &((*this_).atom_writer),
-                                                                        feature_id,
-                                                                        "valuetype",
-                                                                        feature_value
-                                                                      );
+                                                             feature_id,
+                                                             "valuetype",
+                                                             feature_value
+                                                           );
         }
 
         if ( 0 != feature_descr_len )
         {
             export_err |= xmi_atom_writer_write_xmi_comment( &((*this_).atom_writer),
-                                                                        feature_id,
-                                                                        "specification",
-                                                                        feature_descr
-                                                                      );
+                                                             feature_id,
+                                                             "specification",
+                                                             feature_descr
+                                                           );
         }
         /* TODO: A Lifeline must have an interaction property */
 
@@ -608,7 +605,7 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
                 /* classifier types at target end are not yet checked */
             }
             /* use a fallback */
-            nesting_property = XMI2_FALLBACK_NESTING_ELEMENT;
+            nesting_property = XMI_XML_FALLBACK_NESTING_ELEMENT;
         }
 
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
@@ -656,10 +653,10 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
         if ( 0 != relation_descr_len )
         {
             export_err |= xmi_atom_writer_write_xmi_comment( &((*this_).atom_writer),
-                                                                        relation_id,
-                                                                        "specification",
-                                                                        relation_descr
-                                                                      );
+                                                             relation_id,
+                                                             "specification",
+                                                             relation_descr
+                                                           );
         }
 
         if ( ! xmi_element_info_is_a_message ( relation_info ) )
@@ -850,9 +847,9 @@ int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
     return export_err;
 }
 
-int xmi_element_writer_end_nested_classifier( xmi_element_writer_t *this_,
-                                              data_classifier_type_t parent_type,
-                                              const data_classifier_t *classifier_ptr )
+int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
+                                       data_classifier_type_t parent_type,
+                                       const data_classifier_t *classifier_ptr )
 {
     TRACE_BEGIN();
     assert ( NULL != classifier_ptr );
@@ -883,7 +880,7 @@ int xmi_element_writer_end_nested_classifier( xmi_element_writer_t *this_,
         {
             /* The caller requested to write a classifier to an illegal place */
             /* use a fallback */
-            nesting_property = XMI2_FALLBACK_NESTING_ELEMENT;
+            nesting_property = XMI_XML_FALLBACK_NESTING_ELEMENT;
         }
 
         /* adjust indentation, write end tag */

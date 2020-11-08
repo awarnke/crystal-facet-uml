@@ -40,6 +40,13 @@ extern const char XMI_XML_ATTR_IDREF_END[3];
 extern const char XMI_XML_ATTR_NAME_START[7];
 extern const char XMI_XML_ATTR_NAME_END[3];
     
+/*!
+ *  \brief fallback nesting type 
+ * 
+ * for the case that the outer model shall nest an element that is illegal according to uml/sysml spec
+ */
+extern const char XMI_XML_FALLBACK_NESTING_ELEMENT[16];
+
 #endif  /* XMI_XML_H */
 
 
