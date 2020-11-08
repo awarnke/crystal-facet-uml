@@ -136,7 +136,7 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
                                        );
 
 /*!
- *  \brief writes contents of a classifier of the document
+ *  \brief writes contents of a classifier 
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the parent classifier
@@ -149,7 +149,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
                                           );
 
 /*!
- *  \brief writes a feature of the document
+ *  \brief writes a feature
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the owning parent classifier
@@ -175,17 +175,43 @@ static inline bool xmi_element_writer_can_classifier_nest_relationship ( xmi_ele
                                                                        );
 
 /*!
- *  \brief writes a relationship of the document
+ *  \brief starts a relationship 
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the parent classifier, needed for xmi export
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
  *  \result 0 in case of success, -1 otherwise
  */
-int xmi_element_writer_write_relationship( xmi_element_writer_t *this_,
+int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
                                            data_classifier_type_t parent_type,
                                            const data_relationship_t *relation_ptr
                                          );
+
+/*!
+ *  \brief writes the contents of a relationship 
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_type type of the parent classifier, needed for xmi export
+ *  \param relation_ptr pointer to relationship that shall be written, not NULL
+ *  \result 0 in case of success, -1 otherwise
+ */
+int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
+                                              data_classifier_type_t parent_type,
+                                              const data_relationship_t *relation_ptr
+                                            );
+
+/*!
+ *  \brief ends a relationship 
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_type type of the parent classifier, needed for xmi export
+ *  \param relation_ptr pointer to relationship that shall be written, not NULL
+ *  \result 0 in case of success, -1 otherwise
+ */
+int xmi_element_writer_end_relationship( xmi_element_writer_t *this_,
+                                         data_classifier_type_t parent_type,
+                                         const data_relationship_t *relation_ptr
+                                       );
 
 /*!
  *  \brief writes a classifier end-element

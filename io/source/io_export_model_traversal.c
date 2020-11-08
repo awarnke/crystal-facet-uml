@@ -485,7 +485,9 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                     write_err |= universal_array_list_append( &((*this_).written_id_set), &relation_id );
 
                     /* destination classifier found, print the relation */
-                    write_err |= xmi_element_writer_write_relationship( (*this_).element_writer, nesting_type, relation );
+                    write_err |= xmi_element_writer_start_relationship( (*this_).element_writer, nesting_type, relation );
+                    write_err |= xmi_element_writer_assemble_relationship( (*this_).element_writer, nesting_type, relation );
+                    write_err |= xmi_element_writer_end_relationship( (*this_).element_writer, nesting_type, relation );
                 }
             }
         }

@@ -309,10 +309,18 @@ int io_export_interaction_traversal_private_iterate_feature_relationships ( io_e
                         write_err |= universal_array_list_append( (*this_).written_id_set, &relation_id );
                         
                         /* destination classifier found, print the relation */
-                        write_err |= xmi_element_writer_write_relationship( (*this_).element_writer, 
+                        write_err |= xmi_element_writer_start_relationship( (*this_).element_writer, 
                                                                             DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
                                                                             relation
                                                                           );
+                        write_err |= xmi_element_writer_assemble_relationship( (*this_).element_writer, 
+                                                                               DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
+                                                                               relation
+                                                                             );
+                        write_err |= xmi_element_writer_end_relationship( (*this_).element_writer, 
+                                                                          DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
+                                                                          relation
+                                                                        );
                     }
                     else
                     {
