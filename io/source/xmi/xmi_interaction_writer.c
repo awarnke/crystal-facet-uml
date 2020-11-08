@@ -193,7 +193,7 @@ int xmi_interaction_writer_assemble_feature( xmi_interaction_writer_t *this_,
         /* write type attribute */
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_TYPE_START );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_NS_UML );
-        export_err |= xml_writer_write_plain ( (*this_).xml_writer, "ConnectableElement" );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, "Property" );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_TYPE_END );
 
         /* write id attribute */
@@ -203,7 +203,7 @@ int xmi_interaction_writer_assemble_feature( xmi_interaction_writer_t *this_,
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_ID_END );
 
         /* write lifeline id attribute */
-        export_err |= xml_writer_write_plain ( (*this_).xml_writer, "todo-ref=\"" );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, "type=\"" );
         export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), reference_id );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\" " );
 
