@@ -540,7 +540,6 @@
                             <entry><para>Limitations: One lifeline is visible only in one diagram.</para>
                                 <para>Limitations: Lifelines start and end only at diagram border.</para>
                                 <para>Limitations: ExecutionSpecification (ActivityBar) are not supported.</para>
-                                <para>XMI-Export: For xmi export, lifelines are not yet supported.</para>
                             </entry>
                         </row>
                     </tbody>
@@ -746,7 +745,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_rel_associate.png"/></imageobject></mediaobject>
                                 Async. Call</para></entry>
                             <entry><para>UML, SysML (?)</para></entry>
-                            <entry><para>Sequence, Timing, Communication</para></entry>
+                            <entry><para>for sequence, timing, communication and interaction overview diagrams</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -755,7 +754,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_rel_sync.png"/></imageobject></mediaobject>
                                 Sync. Call</para></entry>
                             <entry><para>UML, SysML (?)</para></entry>
-                            <entry><para>Sequence, Timing, Communication</para></entry>
+                            <entry><para>for sequence, timing, communication and interaction overview diagrams</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -764,7 +763,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_rel_return.png"/></imageobject></mediaobject>
                                 Return Call</para></entry>
                             <entry><para>UML, SysML (?)</para></entry>
-                            <entry><para>Sequence, Timing, Communication</para></entry>
+                            <entry><para>for sequence, timing, communication and interaction overview diagrams</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>

@@ -142,25 +142,25 @@ void gui_simple_message_to_user_show_message ( gui_simple_message_to_user_t *thi
 
         case GUI_SIMPLE_MESSAGE_CONTENT_NO_RELATIONSHIPS:
         {
-            utf8stringbuf_append_str( (*this_).private_temp_str, "The current diagram type does not allow to create relationships." );
+            utf8stringbuf_append_str( (*this_).private_temp_str, "The current diagram type does not allow one to create relationships." );
         }
         break;
 
         case GUI_SIMPLE_MESSAGE_CONTENT_NO_FEATURES:
         {
-            utf8stringbuf_append_str( (*this_).private_temp_str, "The current diagram type does not allow to create features." );
+            utf8stringbuf_append_str( (*this_).private_temp_str, "The current diagram type does not allow one to create features." );
         }
         break;
 
         case GUI_SIMPLE_MESSAGE_CONTENT_FEATURELESS_CLASSIFIER:
         {
-            utf8stringbuf_append_str( (*this_).private_temp_str, "The current classifier type does not allow to create features." );
+            utf8stringbuf_append_str( (*this_).private_temp_str, "The current classifier type does not allow one to create features." );
         }
         break;
 
         case GUI_SIMPLE_MESSAGE_CONTENT_IS_ALWAYS_INSTANCE:
         {
-            utf8stringbuf_append_str( (*this_).private_temp_str, "The current classifier type does not allow to remove the instance flag." );
+            utf8stringbuf_append_str( (*this_).private_temp_str, "The current classifier type does not allow one to remove the instance flag." );
         }
         break;
 

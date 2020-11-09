@@ -187,8 +187,6 @@ int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t
         {
             const bool p_is_interaction = ( parent_type == DATA_CLASSIFIER_TYPE_INTERACTION );
             /* spec: https://www.omg.org/spec/UML/2.5.1/PDF 17.3.2 */
-            /* TODO lifelines are only loosely coupled with their classifiers */
-            /* TODO: Lifeline has represents attribute */
             result = "lifeline";
             result_err = p_is_interaction ? 0 : -1; /* note, DATA_CLASSIFIER_TYPE_INTERACTION is a fake type - only here, lifelines are valid. */
         }
@@ -215,7 +213,6 @@ int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t
             result = "required";
             result_err = p_is_component ? 0 : -1;
             /*TODO required is a derived value*/
-            /* TODO look out for ownedReception */
         }
         break;
 

@@ -1,3 +1,10 @@
+crystal-facet-uml (1.26.0) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * xmi export exports sequence, timing, communication and interaction overview
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Thu, 29 Oct 2020 20:30:00 +0100
+
 crystal-facet-uml (1.25.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

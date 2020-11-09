@@ -27,7 +27,6 @@ ideas for future versions:
       using mof 2.5.1: https://www.omg.org/spec/MOF/20131001/MOF.xmi
       using uml 2.5.1: https://www.omg.org/spec/UML/20161101/StandardProfile.xmi
       using sysml 1.6: https://www.omg.org/spec/SysML/20181001/SysML.xmi
-  [ ] xmi export is not spec-compliant for uml:Lifeline
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
   [ ] xmi export is not spec-compliant for aggregation, composition
   @data
