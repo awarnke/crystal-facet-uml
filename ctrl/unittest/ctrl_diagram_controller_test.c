@@ -193,7 +193,7 @@ static void create_diagramelements_and_delete(void)
     {
         data_classifier_t new_classifier;
         data_err = data_classifier_init_new ( &new_classifier,
-                                              DATA_CLASSIFIER_TYPE_UML_INTERFACE,
+                                              DATA_CLASSIFIER_TYPE_INTERFACE,
                                               "",  /* stereotype */
                                               "my_if",
                                               "",  /* description */

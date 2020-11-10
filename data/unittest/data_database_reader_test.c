@@ -99,7 +99,7 @@ static void set_up(void)
     data_classifier_t current_classifier;
     data_err = data_classifier_init ( &current_classifier,
                                       12 /*=classifier id*/,
-                                      DATA_CLASSIFIER_TYPE_UML_INTERFACE,
+                                      DATA_CLASSIFIER_TYPE_INTERFACE,
                                       "stereotype-12",
                                       "name-12",
                                       "description-12",
@@ -115,7 +115,7 @@ static void set_up(void)
     data_classifier_t second_classifier;
     data_err = data_classifier_init ( &second_classifier,
                                       13 /*=classifier id*/,
-                                      DATA_CLASSIFIER_TYPE_UML_INTERFACE,
+                                      DATA_CLASSIFIER_TYPE_INTERFACE,
                                       "stereotype-13",
                                       "name-13",
                                       "description-13",

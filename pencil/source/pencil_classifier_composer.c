@@ -138,16 +138,16 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
         switch ( classifier_type )
         {
             case DATA_CLASSIFIER_TYPE_REQUIREMENT:  /* SysML */
-            case DATA_CLASSIFIER_TYPE_UML_PART:
+            case DATA_CLASSIFIER_TYPE_PART:
             {
                 draw_classifier_contour_draw_rect ( &((*this_).draw_classifier_contour), classifier_symbol_box, pencil_size, cr );
             }
             break;
 
             case DATA_CLASSIFIER_TYPE_BLOCK:  /* SysML */
-            case DATA_CLASSIFIER_TYPE_UML_CLASS:
-            case DATA_CLASSIFIER_TYPE_UML_OBJECT:
-            case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
+            case DATA_CLASSIFIER_TYPE_CLASS:
+            case DATA_CLASSIFIER_TYPE_OBJECT:
+            case DATA_CLASSIFIER_TYPE_INTERFACE:
             {
                 draw_classifier_contour_draw_rect ( &((*this_).draw_classifier_contour), classifier_symbol_box, pencil_size, cr );
                 pencil_classifier_composer_private_draw_feature_compartments ( this_,
@@ -159,7 +159,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             }
             break;
 
-            case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
+            case DATA_CLASSIFIER_TYPE_COMPONENT:
             {
                 draw_classifier_contour_draw_rect ( &((*this_).draw_classifier_contour), classifier_symbol_box, pencil_size, cr );
 
@@ -177,7 +177,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             }
             break;
 
-            case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
+            case DATA_CLASSIFIER_TYPE_ARTIFACT:
             {
                 draw_classifier_contour_draw_rect ( &((*this_).draw_classifier_contour), classifier_symbol_box, pencil_size, cr );
 
@@ -195,8 +195,8 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             }
             break;
 
-            case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
-            case DATA_CLASSIFIER_TYPE_UML_STATE:
+            case DATA_CLASSIFIER_TYPE_ACTIVITY:
+            case DATA_CLASSIFIER_TYPE_STATE:
             case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
             {
                 draw_classifier_contour_draw_rounded_rect ( &((*this_).draw_classifier_contour), classifier_symbol_box, false, pencil_size, cr );
@@ -215,7 +215,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             }
             break;
 
-            case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
+            case DATA_CLASSIFIER_TYPE_USE_CASE:
             {
                 draw_classifier_contour_draw_ellipse ( &((*this_).draw_classifier_contour), classifier_symbol_box, pencil_size, cr );
                 pencil_classifier_composer_private_draw_feature_compartments ( this_,
@@ -227,13 +227,13 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             }
             break;
 
-            case DATA_CLASSIFIER_TYPE_UML_NODE:
+            case DATA_CLASSIFIER_TYPE_NODE:
             {
                 draw_classifier_contour_draw_3d_box ( &((*this_).draw_classifier_contour), classifier_symbol_box, pencil_size, cr );
             }
             break;
 
-            case DATA_CLASSIFIER_TYPE_UML_ACTOR:
+            case DATA_CLASSIFIER_TYPE_ACTOR:
             {
                 const double actor_height = pencil_size_get_classifier_symbol_height( pencil_size );
                 const double half_width = 0.5 * border_width;
@@ -333,19 +333,19 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             }
             break;
 
-            case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
+            case DATA_CLASSIFIER_TYPE_SUBSYSTEM:
             {
                 draw_classifier_contour_draw_rect ( &((*this_).draw_classifier_contour), classifier_symbol_box, pencil_size, cr );
             }
             break;
 
-            case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
+            case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:
             {
                 draw_classifier_contour_draw_diagram_ref ( &((*this_).draw_classifier_contour), classifier_symbol_box, pencil_size, cr );
             }
             break;
 
-            case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
+            case DATA_CLASSIFIER_TYPE_PACKAGE:
             {
                 const geometry_rectangle_t *const classifier_label_box
                     = layout_visible_classifier_get_label_box_const( layouted_classifier );
@@ -358,7 +358,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             }
             break;
 
-            case DATA_CLASSIFIER_TYPE_UML_COMMENT:
+            case DATA_CLASSIFIER_TYPE_COMMENT:
             {
                 draw_classifier_contour_draw_comment ( &((*this_).draw_classifier_contour), classifier_symbol_box, pencil_size, cr );
             }
@@ -514,7 +514,7 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
         }
 
         /* calculate label_box */
-        const bool is_package_with_contents = (classifier_type == DATA_CLASSIFIER_TYPE_UML_PACKAGE) && has_contained_children;
+        const bool is_package_with_contents = (classifier_type == DATA_CLASSIFIER_TYPE_PACKAGE) && has_contained_children;
         const geometry_h_align_t text_h_align = is_package_with_contents ? GEOMETRY_H_ALIGN_LEFT : GEOMETRY_H_ALIGN_CENTER;
         const double text_left = geometry_h_align_get_left( &text_h_align,
                                                             text_width,
@@ -645,7 +645,7 @@ void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_co
         }
 
         /* calculate label_box */
-        const bool is_package_with_contents = (classifier_type == DATA_CLASSIFIER_TYPE_UML_PACKAGE) && has_contained_children;
+        const bool is_package_with_contents = (classifier_type == DATA_CLASSIFIER_TYPE_PACKAGE) && has_contained_children;
         const geometry_h_align_t text_h_align = is_package_with_contents ? GEOMETRY_H_ALIGN_LEFT : GEOMETRY_H_ALIGN_CENTER;
         const double text_left = geometry_h_align_get_left( &text_h_align,
                                                             text_width,

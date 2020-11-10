@@ -265,11 +265,6 @@ static inline const GdkPixbuf *gui_resources_get_type_clas_block ( gui_resources
     return (*this_).type_clas_block;
 }
 
-static inline const GdkPixbuf *gui_resources_get_type_clas_boundary ( gui_resources_t *this_ )
-{
-    return (*this_).type_clas_boundary;
-}
-
 static inline const GdkPixbuf *gui_resources_get_type_clas_class ( gui_resources_t *this_ )
 {
     return (*this_).type_clas_class;
@@ -363,6 +358,11 @@ static inline const GdkPixbuf *gui_resources_get_type_clas_send ( gui_resources_
 static inline const GdkPixbuf *gui_resources_get_type_clas_state ( gui_resources_t *this_ )
 {
     return (*this_).type_clas_state;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_clas_subsystem ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_subsystem;
 }
 
 static inline const GdkPixbuf *gui_resources_get_type_clas_time ( gui_resources_t *this_ )

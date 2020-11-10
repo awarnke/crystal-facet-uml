@@ -98,7 +98,7 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
         /* draw description text */
         int text3_width = 0;
         int text3_height = 0;
-        if ( DATA_CLASSIFIER_TYPE_UML_COMMENT == data_classifier_get_main_type ( classifier ) )
+        if ( DATA_CLASSIFIER_TYPE_COMMENT == data_classifier_get_main_type ( classifier ) )
         {
             pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
             pango_layout_set_text (font_layout, data_classifier_get_description_ptr( classifier ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
@@ -207,7 +207,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
     }
 
     /* draw description text */
-    if ( DATA_CLASSIFIER_TYPE_UML_COMMENT == classifier_type )
+    if ( DATA_CLASSIFIER_TYPE_COMMENT == classifier_type )
     {
         int text3_width;
         int text3_height;
@@ -271,16 +271,16 @@ void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
     {
         case DATA_CLASSIFIER_TYPE_BLOCK:
         case DATA_CLASSIFIER_TYPE_REQUIREMENT:
-        case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
-        case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
-        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
-        case DATA_CLASSIFIER_TYPE_UML_PART:
-        case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
-        case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
-        case DATA_CLASSIFIER_TYPE_UML_CLASS:
-        case DATA_CLASSIFIER_TYPE_UML_OBJECT:
-        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
-        case DATA_CLASSIFIER_TYPE_UML_COMMENT:
+        case DATA_CLASSIFIER_TYPE_SUBSYSTEM:
+        case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:
+        case DATA_CLASSIFIER_TYPE_COMPONENT:
+        case DATA_CLASSIFIER_TYPE_PART:
+        case DATA_CLASSIFIER_TYPE_INTERFACE:
+        case DATA_CLASSIFIER_TYPE_PACKAGE:
+        case DATA_CLASSIFIER_TYPE_CLASS:
+        case DATA_CLASSIFIER_TYPE_OBJECT:
+        case DATA_CLASSIFIER_TYPE_ARTIFACT:
+        case DATA_CLASSIFIER_TYPE_COMMENT:
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT:
         {
             /* there is a border line */
@@ -289,7 +289,7 @@ void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_NODE:
+        case DATA_CLASSIFIER_TYPE_NODE:
         {
             /* there is a 3D border line */
             x_gap = 4*gap;
@@ -298,8 +298,8 @@ void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
         break;
 
         case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
-        case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
-        case DATA_CLASSIFIER_TYPE_UML_STATE:
+        case DATA_CLASSIFIER_TYPE_ACTIVITY:
+        case DATA_CLASSIFIER_TYPE_STATE:
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
         {
             /* there is a border line with a round corner */
@@ -308,7 +308,7 @@ void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_ACTOR:
+        case DATA_CLASSIFIER_TYPE_ACTOR:
         case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
         case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
         case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
@@ -323,7 +323,7 @@ void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
+        case DATA_CLASSIFIER_TYPE_USE_CASE:
         case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
         {
             /* there is a chance that the bottom-right corner is empty */

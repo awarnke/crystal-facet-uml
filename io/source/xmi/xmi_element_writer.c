@@ -238,7 +238,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
     const xmi_element_info_t *classifier_info
         = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
                                                classifier_type,
-                                               (parent_type==DATA_CLASSIFIER_TYPE_UML_STATE)
+                                               (parent_type==DATA_CLASSIFIER_TYPE_STATE)
                                              );
 
     if ( (*this_).mode == IO_WRITER_PASS_BASE )
@@ -297,7 +297,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
                                                              classifier_name
                                                            );
         }
-        if ( classifier_type == DATA_CLASSIFIER_TYPE_UML_COMMENT )
+        if ( classifier_type == DATA_CLASSIFIER_TYPE_COMMENT )
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_COMMENT_BODY_START );
             xml_writer_increase_indent ( &((*this_).xml_writer) );
@@ -322,7 +322,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
         }
 
         /* generate start of pseudo subelement region to statemachines and states */
-        if ( classifier_type == DATA_CLASSIFIER_TYPE_UML_STATE )
+        if ( classifier_type == DATA_CLASSIFIER_TYPE_STATE )
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
@@ -438,7 +438,7 @@ int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
     if ( (*this_).mode == IO_WRITER_PASS_BASE )
     {
         /* generate end to pseudo subelement region to statemachines and states */
-        if ( classifier_type == DATA_CLASSIFIER_TYPE_UML_STATE )
+        if ( classifier_type == DATA_CLASSIFIER_TYPE_STATE )
         {
             xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
@@ -653,7 +653,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
     const xmi_element_info_t *relation_info
         = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
                                                  relation_type,
-                                                 (parent_type==DATA_CLASSIFIER_TYPE_UML_STATE)
+                                                 (parent_type==DATA_CLASSIFIER_TYPE_STATE)
                                                );
 
     if ( (*this_).mode == IO_WRITER_PASS_BASE )

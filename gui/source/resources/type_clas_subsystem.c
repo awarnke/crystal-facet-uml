@@ -1,11 +1,11 @@
-/* GIMP RGBA C-Source image dump (type_clas_boundary.c) */
+/* GIMP RGBA C-Source image dump (type_clas_subsystem.c) */
 
 static const struct {
   guint  	 width;
   guint  	 height;
   guint  	 bytes_per_pixel; /* 2:RGB16, 3:RGB, 4:RGBA */ 
   guint8 	 pixel_data[32 * 24 * 4 + 1];
-} type_clas_boundary = {
+} type_clas_subsystem = {
   32, 24, 4,
   "\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
   "\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"

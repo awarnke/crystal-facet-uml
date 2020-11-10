@@ -133,7 +133,7 @@ static inline bool layout_visible_classifier_is_fix_sized_symbol ( const layout_
     data_classifier_type_t classifier_type;
     classifier_type = data_classifier_get_main_type( data_visible_classifier_get_classifier_const ( (*this_).data ) );
     bool result;
-    result = (  ( DATA_CLASSIFIER_TYPE_UML_ACTOR == classifier_type )
+    result = (  ( DATA_CLASSIFIER_TYPE_ACTOR == classifier_type )
                 || ( DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE == classifier_type )
                 || ( DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE == classifier_type )
                 || ( DATA_CLASSIFIER_TYPE_DYN_FORK_NODE == classifier_type )

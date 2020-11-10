@@ -293,7 +293,7 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
     classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
     /* get type of from_classifier */
-    data_classifier_type_t from_class_type = DATA_CLASSIFIER_TYPE_UML_CLASS;
+    data_classifier_type_t from_class_type = DATA_CLASSIFIER_TYPE_CLASS;
     {
         data_error_t clsfy_err;
         clsfy_err = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
@@ -382,7 +382,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
     classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
     /* get type of parent classifier */
-    data_classifier_type_t parent_class_type = DATA_CLASSIFIER_TYPE_UML_CLASS;
+    data_classifier_type_t parent_class_type = DATA_CLASSIFIER_TYPE_CLASS;
     {
         data_error_t clsfy_err;
         clsfy_err = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
@@ -528,25 +528,25 @@ void gui_sketch_object_creator_private_propose_classifier_name( gui_sketch_objec
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_ACTOR:
+        case DATA_CLASSIFIER_TYPE_ACTOR:
         {
             utf8stringbuf_copy_str( out_name, ACTOR_NAMES[cycle_names&0x07] );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
+        case DATA_CLASSIFIER_TYPE_USE_CASE:
         {
             utf8stringbuf_copy_str( out_name, USECASE_NAMES[cycle_names&0x07] );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
+        case DATA_CLASSIFIER_TYPE_SUBSYSTEM:
         {
             utf8stringbuf_copy_str( out_name, BOUNDARIES_NAMES[cycle_names&0x07] );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
+        case DATA_CLASSIFIER_TYPE_ACTIVITY:
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
         case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
         case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
@@ -561,7 +561,7 @@ void gui_sketch_object_creator_private_propose_classifier_name( gui_sketch_objec
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_STATE:
+        case DATA_CLASSIFIER_TYPE_STATE:
         case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
         case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
         {
@@ -569,61 +569,61 @@ void gui_sketch_object_creator_private_propose_classifier_name( gui_sketch_objec
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
+        case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:
         {
             utf8stringbuf_copy_str( out_name, DIAGREF_NAMES[cycle_names&0x07] );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_NODE:
+        case DATA_CLASSIFIER_TYPE_NODE:
         {
             utf8stringbuf_copy_str( out_name, BLOCK_NAMES[cycle_names&0x07] );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:  /* and */
+        case DATA_CLASSIFIER_TYPE_COMPONENT:  /* and */
         {
             utf8stringbuf_copy_str( out_name, COMPONENT_NAMES[cycle_names&0x07] );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_PART:
+        case DATA_CLASSIFIER_TYPE_PART:
         {
             utf8stringbuf_copy_str( out_name, COMPONENT_NAMES[cycle_names&0x07] );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
+        case DATA_CLASSIFIER_TYPE_ARTIFACT:
         {
             utf8stringbuf_copy_str( out_name, ARTIFACT_NAMES[cycle_names&0x07] );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_INTERFACE:  /* and */
+        case DATA_CLASSIFIER_TYPE_INTERFACE:  /* and */
         {
             utf8stringbuf_copy_str( out_name, IF_NAMES[cycle_names&0x07] );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_CLASS:  /* and */
+        case DATA_CLASSIFIER_TYPE_CLASS:  /* and */
         {
             utf8stringbuf_copy_str( out_name, CLASS_NAMES[cycle_names&0x07] );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_OBJECT:  /* and */
+        case DATA_CLASSIFIER_TYPE_OBJECT:  /* and */
         {
             utf8stringbuf_copy_str( out_name, CLASS_NAMES[cycle_names&0x07] );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
+        case DATA_CLASSIFIER_TYPE_PACKAGE:
         {
             utf8stringbuf_copy_str( out_name, PACKAGE_NAMES[cycle_names&0x07] );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_COMMENT:
+        case DATA_CLASSIFIER_TYPE_COMMENT:
         {
             utf8stringbuf_copy_str( out_name, NOTE_NAMES[cycle_names&0x07] );
         }

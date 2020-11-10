@@ -188,12 +188,12 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_boundary.pdf" width="1cm"/></imageobject>
-                                <imageobject><imagedata fileref="../../gui/source/resources/type_clas_boundary.png"/></imageobject></mediaobject>
-                                System Boundary</para></entry>
+                                <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_subsystem.pdf" width="1cm"/></imageobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/type_clas_subsystem.png"/></imageobject></mediaobject>
+                                Subsystem</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para>Use Case / unconditional features</para></entry>
-                            <entry><para></para></entry>
+                            <entry><para>A subsystem is a component of stereotype subsystem</para></entry>
                         </row>
                         <row>
                             <entry><para>

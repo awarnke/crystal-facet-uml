@@ -19,17 +19,17 @@ static inline geometry_dimensions_t draw_classifier_symbol_get_icon_dimensions( 
 {
     geometry_dimensions_t result;
 
-    if ( classifier_type == DATA_CLASSIFIER_TYPE_UML_COMPONENT )
+    if ( classifier_type == DATA_CLASSIFIER_TYPE_COMPONENT )
     {
         const double type_icon_height = pencil_size_get_title_font_size( pencil_size );
         geometry_dimensions_init ( &result, DRAW_SYMBOL_COMPONENT_ICON_WIDTH_TO_HEIGHT * type_icon_height, type_icon_height );
     }
-    else if ( classifier_type == DATA_CLASSIFIER_TYPE_UML_ARTIFACT )
+    else if ( classifier_type == DATA_CLASSIFIER_TYPE_ARTIFACT )
     {
         const double type_icon_height = pencil_size_get_title_font_size( pencil_size );
         geometry_dimensions_init ( &result, DRAW_SYMBOL_ARTIFACT_ICON_WIDTH_TO_HEIGHT * type_icon_height, type_icon_height );
     }
-    else if ( classifier_type == DATA_CLASSIFIER_TYPE_UML_COMMENT )
+    else if ( classifier_type == DATA_CLASSIFIER_TYPE_COMMENT )
     {
         /* comments do not have icons - but a folded corner at the same place - therefore this placeholder dimension */
         const double corner_width = pencil_size_get_standard_font_size( pencil_size );

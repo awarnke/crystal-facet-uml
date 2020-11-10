@@ -76,7 +76,7 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
 
         data_err = data_classifier_init ( classifier,
                                           c_idx/2,  /* id */
-                                          DATA_CLASSIFIER_TYPE_UML_CLASS,  /* main_type */
+                                          DATA_CLASSIFIER_TYPE_CLASS,  /* main_type */
                                           "stereotype",
                                           "name",
                                           "description",

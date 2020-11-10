@@ -112,7 +112,7 @@ static void set_up(void)
 
         data_err_c = data_classifier_init ( &current_classifier,
                                             12 /*=classifier id*/,
-                                            DATA_CLASSIFIER_TYPE_UML_INTERFACE,
+                                            DATA_CLASSIFIER_TYPE_INTERFACE,
                                             "stereotype-12",
                                             "name-12",
                                             "description-12",
@@ -491,7 +491,7 @@ static void diagram_illreferencing_diagramelements_consistency(void)
         data_classifier_t current_classifier;
         data_err = data_classifier_init ( &current_classifier,
                                           11 /*=classifier id*/,
-                                          DATA_CLASSIFIER_TYPE_UML_CLASS,
+                                          DATA_CLASSIFIER_TYPE_CLASS,
                                           "stereotype-11",
                                           "name-11",
                                           "description-11",
@@ -563,7 +563,7 @@ static void repair_unreferenced_classifiers(void)
         data_classifier_t current_classifier;
         data_err = data_classifier_init ( &current_classifier,
                                           13 /*=classifier id*/,
-                                          DATA_CLASSIFIER_TYPE_UML_INTERFACE,
+                                          DATA_CLASSIFIER_TYPE_INTERFACE,
                                           "stereotype-13",
                                           "name-13",
                                           "description-13",
@@ -620,7 +620,7 @@ static void repair_unreferenced_classifiers_2(void)
         data_classifier_t second_classifier;
         data_err = data_classifier_init ( &second_classifier,
                                           6 /*=classifier id*/,
-                                          DATA_CLASSIFIER_TYPE_UML_INTERFACE,
+                                          DATA_CLASSIFIER_TYPE_INTERFACE,
                                           "stereotype-c6",
                                           "name-c6",
                                           "description-c6",
@@ -907,7 +907,7 @@ static void repair_ill_feature_relationship(void)
         data_classifier_t second_classifier;
         data_err = data_classifier_init ( &second_classifier,
                                           11 /*=classifier id*/,
-                                          DATA_CLASSIFIER_TYPE_UML_PACKAGE,
+                                          DATA_CLASSIFIER_TYPE_PACKAGE,
                                           "stereotype-11",
                                           "name-11",
                                           "description-11",

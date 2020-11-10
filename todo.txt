@@ -36,6 +36,7 @@ ideas for future versions:
   [ ] diagrams need some kind of classification/stereotype like idea-for-future, rejected-alternative, ...
       --> add a "stereotype" field to "diagrams"
   [ ] some way to compare two database files / and/or to merge
+  [ ] remove classifier "System Boundary" - this is not a uml type
   @ctrl
   @universal+utf8stringbuf
   [ ] combine the static string allocation with dynamic additional buffers for unexpectedly-long strings

@@ -20,13 +20,13 @@ static inline data_classifier_type_t data_rules_get_default_classifier_type ( co
     {
         case DATA_DIAGRAM_TYPE_LIST:
         {
-            result = DATA_CLASSIFIER_TYPE_UML_OBJECT;
+            result = DATA_CLASSIFIER_TYPE_OBJECT;
         }
         break;
 
         case DATA_DIAGRAM_TYPE_BOX_DIAGRAM:
         {
-            result = DATA_CLASSIFIER_TYPE_UML_PACKAGE;
+            result = DATA_CLASSIFIER_TYPE_PACKAGE;
         }
         break;
 
@@ -51,86 +51,86 @@ static inline data_classifier_type_t data_rules_get_default_classifier_type ( co
 
         case DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM:
         {
-            result = DATA_CLASSIFIER_TYPE_UML_USE_CASE;
+            result = DATA_CLASSIFIER_TYPE_USE_CASE;
         }
         break;
 
         case DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM:
         {
-            result = DATA_CLASSIFIER_TYPE_UML_ACTIVITY;
+            result = DATA_CLASSIFIER_TYPE_ACTIVITY;
         }
         break;
 
         case DATA_DIAGRAM_TYPE_UML_STATE_MACHINE_DIAGRAM:
         {
-            result = DATA_CLASSIFIER_TYPE_UML_STATE;
+            result = DATA_CLASSIFIER_TYPE_STATE;
         }
         break;
 
         case DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM:
         {
-            result = DATA_CLASSIFIER_TYPE_UML_CLASS;
+            result = DATA_CLASSIFIER_TYPE_CLASS;
         }
         break;
 
         case DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM:
         {
-            result = DATA_CLASSIFIER_TYPE_UML_CLASS;
+            result = DATA_CLASSIFIER_TYPE_CLASS;
         }
         break;
 
         case DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM:
         {
-            result = DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE;
+            result = DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE;
         }
         break;
 
         case DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM:
         {
-            result = DATA_CLASSIFIER_TYPE_UML_STATE;
+            result = DATA_CLASSIFIER_TYPE_STATE;
         }
         break;
 
         case DATA_DIAGRAM_TYPE_UML_DEPLOYMENT_DIAGRAM:
         {
-            result = DATA_CLASSIFIER_TYPE_UML_NODE;
+            result = DATA_CLASSIFIER_TYPE_NODE;
         }
         break;
 
         case DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM:
         {
-            result = DATA_CLASSIFIER_TYPE_UML_COMPONENT;
+            result = DATA_CLASSIFIER_TYPE_COMPONENT;
         }
         break;
 
         case DATA_DIAGRAM_TYPE_UML_COMPOSITE_STRUCTURE_DIAGRAM:
         {
-            result = DATA_CLASSIFIER_TYPE_UML_PART;
+            result = DATA_CLASSIFIER_TYPE_PART;
         }
         break;
 
         case DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM:
         {
-            result = DATA_CLASSIFIER_TYPE_UML_PACKAGE;
+            result = DATA_CLASSIFIER_TYPE_PACKAGE;
         }
         break;
 
         case DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM:
         {
-            result = DATA_CLASSIFIER_TYPE_UML_CLASS;
+            result = DATA_CLASSIFIER_TYPE_CLASS;
         }
         break;
 
         case DATA_DIAGRAM_TYPE_UML_PROFILE_DIAGRAM:
         {
-            result = DATA_CLASSIFIER_TYPE_UML_CLASS;
+            result = DATA_CLASSIFIER_TYPE_CLASS;
         }
         break;
 
         default:
         {
             TSLOG_ERROR("diagram_type out of range in data_rules_get_default_classifier_type");
-            result = DATA_CLASSIFIER_TYPE_UML_COMMENT;
+            result = DATA_CLASSIFIER_TYPE_COMMENT;
             assert(false);
         }
         break;
@@ -158,27 +158,27 @@ static inline data_relationship_type_t data_rules_get_default_relationship_type 
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_ACTOR:
+        case DATA_CLASSIFIER_TYPE_ACTOR:
         {
             result = DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION;
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
+        case DATA_CLASSIFIER_TYPE_USE_CASE:
         {
             result = DATA_RELATIONSHIP_TYPE_UML_INCLUDE;  /* include is preferred over DATA_RELATIONSHIP_TYPE_UML_EXTEND (?) */
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
+        case DATA_CLASSIFIER_TYPE_SUBSYSTEM:
         {
             result = DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT;  /* containment is a not-so-nice default type - but nothing else makes sense */
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:  /* and */
-        case DATA_CLASSIFIER_TYPE_UML_STATE:  /* and */
-        case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:  /* and */
+        case DATA_CLASSIFIER_TYPE_ACTIVITY:  /* and */
+        case DATA_CLASSIFIER_TYPE_STATE:  /* and */
+        case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:  /* and */
@@ -195,35 +195,35 @@ static inline data_relationship_type_t data_rules_get_default_relationship_type 
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_NODE:  /* and */
-        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:  /* and */
-        case DATA_CLASSIFIER_TYPE_UML_PART:
+        case DATA_CLASSIFIER_TYPE_NODE:  /* and */
+        case DATA_CLASSIFIER_TYPE_COMPONENT:  /* and */
+        case DATA_CLASSIFIER_TYPE_PART:
         {
             result = DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH;  /* a node/component/part communicates with another node */
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
+        case DATA_CLASSIFIER_TYPE_ARTIFACT:
         {
             result = DATA_RELATIONSHIP_TYPE_UML_DEPLOY;  /* an artifact is deployed onto something, prefferred over DATA_RELATIONSHIP_TYPE_UML_MANIFEST */
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_INTERFACE:  /* and */
-        case DATA_CLASSIFIER_TYPE_UML_CLASS:  /* and */
-        case DATA_CLASSIFIER_TYPE_UML_OBJECT:  /* and */
+        case DATA_CLASSIFIER_TYPE_INTERFACE:  /* and */
+        case DATA_CLASSIFIER_TYPE_CLASS:  /* and */
+        case DATA_CLASSIFIER_TYPE_OBJECT:  /* and */
         {
             result = DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION;
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
+        case DATA_CLASSIFIER_TYPE_PACKAGE:
         {
             result = DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION;  /* containment is a not-so-nice default type - therefore association is preferred */
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_COMMENT:
+        case DATA_CLASSIFIER_TYPE_COMMENT:
         {
             result = DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY;
         }
@@ -260,27 +260,27 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_ACTOR:
+        case DATA_CLASSIFIER_TYPE_ACTOR:
         {
             result = DATA_FEATURE_TYPE_PROPERTY;
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
+        case DATA_CLASSIFIER_TYPE_USE_CASE:
         {
             result = DATA_FEATURE_TYPE_PROPERTY;
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
+        case DATA_CLASSIFIER_TYPE_SUBSYSTEM:
         {
             result = DATA_FEATURE_TYPE_PORT;
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:  /* and */
-        case DATA_CLASSIFIER_TYPE_UML_STATE:  /* and */
-        case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:  /* and */
+        case DATA_CLASSIFIER_TYPE_ACTIVITY:  /* and */
+        case DATA_CLASSIFIER_TYPE_STATE:  /* and */
+        case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:  /* and */
@@ -297,35 +297,35 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_NODE:  /* and */
-        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:  /* and */
-        case DATA_CLASSIFIER_TYPE_UML_PART:
+        case DATA_CLASSIFIER_TYPE_NODE:  /* and */
+        case DATA_CLASSIFIER_TYPE_COMPONENT:  /* and */
+        case DATA_CLASSIFIER_TYPE_PART:
         {
             result = DATA_FEATURE_TYPE_PORT;
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
+        case DATA_CLASSIFIER_TYPE_ARTIFACT:
         {
             result = DATA_FEATURE_TYPE_PROPERTY;
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_INTERFACE:  /* and */
-        case DATA_CLASSIFIER_TYPE_UML_CLASS:  /* and */
-        case DATA_CLASSIFIER_TYPE_UML_OBJECT:  /* and */
+        case DATA_CLASSIFIER_TYPE_INTERFACE:  /* and */
+        case DATA_CLASSIFIER_TYPE_CLASS:  /* and */
+        case DATA_CLASSIFIER_TYPE_OBJECT:  /* and */
         {
             result = DATA_FEATURE_TYPE_OPERATION;
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
+        case DATA_CLASSIFIER_TYPE_PACKAGE:
         {
             result = DATA_FEATURE_TYPE_PROPERTY;
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_COMMENT:
+        case DATA_CLASSIFIER_TYPE_COMMENT:
         {
             result = DATA_FEATURE_TYPE_PROPERTY;
         }
@@ -368,26 +368,26 @@ static inline bool data_rules_classifier_has_uncond_features ( const data_rules_
         case DATA_CLASSIFIER_TYPE_BLOCK:
         case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
         case DATA_CLASSIFIER_TYPE_REQUIREMENT: /* for requirements, there is a predefined set of: id, text, ... */
-        case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
-        case DATA_CLASSIFIER_TYPE_UML_CLASS:
-        case DATA_CLASSIFIER_TYPE_UML_OBJECT:
-        case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
-        case DATA_CLASSIFIER_TYPE_UML_NODE:
-        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
-        case DATA_CLASSIFIER_TYPE_UML_PART:
-        case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
-        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
-        case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
-        case DATA_CLASSIFIER_TYPE_UML_STATE:
+        case DATA_CLASSIFIER_TYPE_INTERFACE:
+        case DATA_CLASSIFIER_TYPE_CLASS:
+        case DATA_CLASSIFIER_TYPE_OBJECT:
+        case DATA_CLASSIFIER_TYPE_USE_CASE:
+        case DATA_CLASSIFIER_TYPE_NODE:
+        case DATA_CLASSIFIER_TYPE_COMPONENT:
+        case DATA_CLASSIFIER_TYPE_PART:
+        case DATA_CLASSIFIER_TYPE_PACKAGE:
+        case DATA_CLASSIFIER_TYPE_ARTIFACT:
+        case DATA_CLASSIFIER_TYPE_ACTIVITY:
+        case DATA_CLASSIFIER_TYPE_STATE:
         {
             result = true;
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_ACTOR:
-        case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
-        case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
-        case DATA_CLASSIFIER_TYPE_UML_COMMENT:
+        case DATA_CLASSIFIER_TYPE_ACTOR:
+        case DATA_CLASSIFIER_TYPE_SUBSYSTEM:
+        case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:
+        case DATA_CLASSIFIER_TYPE_COMMENT:
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
         case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
         case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:

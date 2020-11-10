@@ -66,7 +66,7 @@ static inline void data_rules_destroy ( data_rules_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param diagram_type the diagram type
  *  \return default classifier type in the given diagram_type.
- *          DATA_CLASSIFIER_TYPE_UML_COMMENT if diagram_type is invalid.
+ *          DATA_CLASSIFIER_TYPE_COMMENT if diagram_type is invalid.
  */
 static inline data_classifier_type_t data_rules_get_default_classifier_type ( const data_rules_t *this_,
                                                                               data_diagram_type_t diagram_type

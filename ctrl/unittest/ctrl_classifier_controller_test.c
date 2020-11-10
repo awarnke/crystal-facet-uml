@@ -92,7 +92,7 @@ static void classifier_create_read_modify_read(void)
     {
         data_classifier_t new_classifier;
         data_err = data_classifier_init_new ( &new_classifier,
-                                              DATA_CLASSIFIER_TYPE_UML_COMPONENT,
+                                              DATA_CLASSIFIER_TYPE_COMPONENT,
                                               "",  /* stereotype */
                                               "my_component",
                                               "",  /* description */
@@ -148,7 +148,7 @@ static void classifier_create_read_modify_read(void)
         data_err = data_database_reader_get_classifier_by_id ( &db_reader, classifier_id, &read_classifier );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( classifier_id, data_classifier_get_id( &read_classifier ) );
-        TEST_ASSERT_EQUAL_INT( DATA_CLASSIFIER_TYPE_UML_COMPONENT, data_classifier_get_main_type( &read_classifier ) );
+        TEST_ASSERT_EQUAL_INT( DATA_CLASSIFIER_TYPE_COMPONENT, data_classifier_get_main_type( &read_classifier ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_classifier_get_stereotype_ptr( &read_classifier ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_component", data_classifier_get_name_ptr( &read_classifier ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_classifier_get_description_ptr( &read_classifier ) ) );
@@ -168,7 +168,7 @@ static void classifier_create_read_modify_read(void)
         ctrl_err = ctrl_classifier_controller_update_classifier_name ( classifier_ctrl, classifier_id, "my_node" );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
-        ctrl_err = ctrl_classifier_controller_update_classifier_main_type ( classifier_ctrl, classifier_id, DATA_CLASSIFIER_TYPE_UML_NODE );
+        ctrl_err = ctrl_classifier_controller_update_classifier_main_type ( classifier_ctrl, classifier_id, DATA_CLASSIFIER_TYPE_NODE );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
         ctrl_err = ctrl_classifier_controller_update_classifier_x_order ( classifier_ctrl, classifier_id, 6789 );
@@ -183,14 +183,14 @@ static void classifier_create_read_modify_read(void)
         data_visible_classifier_init_empty( &(read_vis_classifiers[0]) );
         data_visible_classifier_init_empty( &(read_vis_classifiers[1]) );
         first_classifier = data_visible_classifier_get_classifier_ptr( &(read_vis_classifiers[0]) );
-        data_classifier_reinit ( first_classifier, 0x1234, DATA_CLASSIFIER_TYPE_UML_COMPONENT, "stereo", "my_name", "descr", 1000, 400, 398 );
+        data_classifier_reinit ( first_classifier, 0x1234, DATA_CLASSIFIER_TYPE_COMPONENT, "stereo", "my_name", "descr", 1000, 400, 398 );
 
         data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader, diagram_id, 0, &read_vis_classifiers, &read_vis_classifiers_count );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_ARRAY_BUFFER_EXCEEDED, data_err );
         TEST_ASSERT_EQUAL_INT( 0, read_vis_classifiers_count );
         /* check that old data is not overwritten: */
         TEST_ASSERT_EQUAL_INT( 0x1234, data_classifier_get_id( first_classifier ) );
-        TEST_ASSERT_EQUAL_INT( DATA_CLASSIFIER_TYPE_UML_COMPONENT, data_classifier_get_main_type( first_classifier ) );
+        TEST_ASSERT_EQUAL_INT( DATA_CLASSIFIER_TYPE_COMPONENT, data_classifier_get_main_type( first_classifier ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "stereo", data_classifier_get_stereotype_ptr( first_classifier ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_name", data_classifier_get_name_ptr( first_classifier ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "descr", data_classifier_get_description_ptr( first_classifier ) ) );
@@ -206,7 +206,7 @@ static void classifier_create_read_modify_read(void)
         TEST_ASSERT_EQUAL_INT( 1, read_vis_classifiers_count );
         /* check that new data is available */
         TEST_ASSERT_EQUAL_INT( classifier_id, data_classifier_get_id( first_classifier ) );
-        TEST_ASSERT_EQUAL_INT( DATA_CLASSIFIER_TYPE_UML_NODE, data_classifier_get_main_type( first_classifier ) );
+        TEST_ASSERT_EQUAL_INT( DATA_CLASSIFIER_TYPE_NODE, data_classifier_get_main_type( first_classifier ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_new_stereotype", data_classifier_get_stereotype_ptr( first_classifier ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_node", data_classifier_get_name_ptr( first_classifier ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_new_classifier_description", data_classifier_get_description_ptr( first_classifier ) ) );

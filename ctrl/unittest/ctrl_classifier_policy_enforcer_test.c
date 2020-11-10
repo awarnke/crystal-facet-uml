@@ -106,12 +106,12 @@ static void lifeline_to_diagramelement_consistency(void)
         data_diagram_destroy ( &root_diagram );
     }
 
-    /* create a classifier of type DATA_CLASSIFIER_TYPE_UML_CLASS */
+    /* create a classifier of type DATA_CLASSIFIER_TYPE_CLASS */
     data_row_id_t classifier_id;
     {
         data_classifier_t new_classifier;
         data_err = data_classifier_init_new ( &new_classifier,
-                                              DATA_CLASSIFIER_TYPE_UML_CLASS,
+                                              DATA_CLASSIFIER_TYPE_CLASS,
                                               "",  /* stereotype */
                                               "my_class",
                                               "",  /* description */

@@ -88,7 +88,7 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
         const bool with_feat = ( 0 == (classifier_id & 0x00000001) );
         data_err = data_classifier_init ( classifier,
                                           classifier_id,
-                                          with_feat ? DATA_CLASSIFIER_TYPE_UML_CLASS: DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE,
+                                          with_feat ? DATA_CLASSIFIER_TYPE_CLASS: DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE,
                                           "stereotype",
                                           "name",
                                           "description",

@@ -34,116 +34,116 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( c
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_ACTOR:
+        case DATA_CLASSIFIER_TYPE_ACTOR:
         {
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_ACTOR]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_ACTOR );
+            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_ACTOR );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
+        case DATA_CLASSIFIER_TYPE_USE_CASE:
         {
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_USE_CASE]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_USE_CASE );
+            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_USE_CASE );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
+        case DATA_CLASSIFIER_TYPE_SUBSYSTEM:
         {
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_SYSTEM_BOUNDARY]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY );
+            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_SUBSYSTEM );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
+        case DATA_CLASSIFIER_TYPE_ACTIVITY:
         {
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_ACTIVITY]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_ACTIVITY );
+            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_ACTIVITY );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_STATE:
+        case DATA_CLASSIFIER_TYPE_STATE:
         {
             if ( statemachine_context )
             {
                 result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_STATE]);
-                assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_STATE );
+                assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_STATE );
             }
             else
             {
                 result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_STATEMACHINE]);
-                assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_STATE );
+                assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_STATE );
             }
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
+        case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:
         {
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DIAGRAM_REFERENCE]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE );
+            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_NODE:
+        case DATA_CLASSIFIER_TYPE_NODE:
         {
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_NODE]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_NODE );
+            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_NODE );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
+        case DATA_CLASSIFIER_TYPE_COMPONENT:
         {
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_COMPONENT]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_COMPONENT );
+            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_COMPONENT );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_PART:
+        case DATA_CLASSIFIER_TYPE_PART:
         {
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_COMPONENT]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_COMPONENT );
+            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_COMPONENT );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
+        case DATA_CLASSIFIER_TYPE_INTERFACE:
         {
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_INTERFACE]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_INTERFACE );
+            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_INTERFACE );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
+        case DATA_CLASSIFIER_TYPE_PACKAGE:
         {
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_PACKAGE]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_PACKAGE );
+            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_PACKAGE );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_CLASS:
+        case DATA_CLASSIFIER_TYPE_CLASS:
         {
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_CLASS]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_CLASS );
+            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_CLASS );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_OBJECT:
+        case DATA_CLASSIFIER_TYPE_OBJECT:
         {
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_CLASS]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_CLASS );
+            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_CLASS );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
+        case DATA_CLASSIFIER_TYPE_ARTIFACT:
         {
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_ARTIFACT]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_ARTIFACT );
+            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_ARTIFACT );
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_COMMENT:
+        case DATA_CLASSIFIER_TYPE_COMMENT:
         {
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_COMMENT]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_UML_COMMENT );
+            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_COMMENT );
         }
         break;
 

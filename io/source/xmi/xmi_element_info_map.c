@@ -52,7 +52,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_ACTOR] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: UseCases */
-        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_UML_ACTOR,
+        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_ACTOR,
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
         .base_name                = "Actor",
@@ -63,7 +63,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_USE_CASE] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: UseCases */
-        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_UML_USE_CASE,
+        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_USE_CASE,
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
         .base_name                = "UseCase",
@@ -74,7 +74,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_SYSTEM_BOUNDARY] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
-        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY,
+        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_SUBSYSTEM,
         .specification            = (XMI_SPEC_UML),
         .profile_name             = NULL,
         .base_name                = "Node", /* TODO: check type */
@@ -86,7 +86,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
     [XMI_ELEMENT_INFO_MAP_INDEX_ACTIVITY] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 15.7.1 */
-        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_UML_ACTIVITY,
+        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_ACTIVITY,
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
         .base_name                = "Activity",
@@ -98,7 +98,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
     [XMI_ELEMENT_INFO_MAP_INDEX_STATEMACHINE] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StateMachines */
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 14.5.10 */
-        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_UML_STATE,
+        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_STATE,
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
         .base_name                = "StateMachine",
@@ -110,7 +110,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
     [XMI_ELEMENT_INFO_MAP_INDEX_STATE] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StateMachines */
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 14.5.9 */
-        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_UML_STATE,
+        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_STATE,
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
         .base_name                = "State",
@@ -122,7 +122,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
     [XMI_ELEMENT_INFO_MAP_INDEX_DIAGRAM_REFERENCE] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 15.7.1 */
-        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE,
+        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE,
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
         .base_name                = "Activity",  /* TODO: check type, should be an Interaction Occurrence */
@@ -134,7 +134,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
     [XMI_ELEMENT_INFO_MAP_INDEX_NODE] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 19.5.10 */
-        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_UML_NODE,
+        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_NODE,
         .specification            = (XMI_SPEC_UML),
         .profile_name             = NULL,
         .base_name                = "Node",
@@ -146,7 +146,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
     [XMI_ELEMENT_INFO_MAP_INDEX_COMPONENT] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.8.6 */
-        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_UML_COMPONENT,
+        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_COMPONENT,
         .specification            = XMI_SPEC_UML,
         .profile_name             = NULL,
         .base_name                = "Component",
@@ -158,7 +158,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
     [XMI_ELEMENT_INFO_MAP_INDEX_INTERFACE] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: SimpleClassifiers */
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 10.5.5 */
-        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_UML_INTERFACE,
+        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_INTERFACE,
         .specification            = XMI_SPEC_UML,
         .profile_name             = NULL,
         .base_name                = "Interface",
@@ -170,7 +170,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
     [XMI_ELEMENT_INFO_MAP_INDEX_PACKAGE] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Packages */
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 12.4.5 */
-        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_UML_PACKAGE,
+        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_PACKAGE,
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
         .base_name                = "Package",
@@ -181,7 +181,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_CLASS] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StructuredClassifiers */
-        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_UML_CLASS,
+        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_CLASS,
         .specification            = XMI_SPEC_UML,
         .profile_name             = NULL,
         .base_name                = "Class",
@@ -193,7 +193,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
     [XMI_ELEMENT_INFO_MAP_INDEX_ARTIFACT] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 19.5.1 */
-        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_UML_ARTIFACT,
+        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_ARTIFACT,
         .specification            = XMI_SPEC_UML,
         .profile_name             = NULL,
         .base_name                = "Artifact",
@@ -204,7 +204,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_COMMENT] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: CommonStructure */
-        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_UML_COMMENT,
+        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_COMMENT,
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
         .base_name                = "Comment",

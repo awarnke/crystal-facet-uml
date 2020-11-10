@@ -67,7 +67,7 @@
 #include "resources/type_clas_actor.c"
 #include "resources/type_clas_artifact.c"
 #include "resources/type_clas_block.c"
-#include "resources/type_clas_boundary.c"
+#include "resources/type_clas_subsystem.c"
 #include "resources/type_clas_class.c"
 #include "resources/type_clas_comment.c"
 #include "resources/type_clas_component.c"
@@ -190,7 +190,6 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).type_clas_actor = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_actor ) );
     (*this_).type_clas_artifact = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_artifact ) );
     (*this_).type_clas_block = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_block ) );
-    (*this_).type_clas_boundary = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_boundary ) );
     (*this_).type_clas_class = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_class ) );
     (*this_).type_clas_comment = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_comment ) );
     (*this_).type_clas_component = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_component ) );
@@ -210,6 +209,7 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).type_clas_requirement = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_requirement ) );
     (*this_).type_clas_send = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_send ) );
     (*this_).type_clas_state = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_state ) );
+    (*this_).type_clas_subsystem = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_subsystem ) );
     (*this_).type_clas_time = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_time ) );
     (*this_).type_clas_usecase = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_usecase ) );
 
@@ -311,7 +311,6 @@ void gui_resources_destroy ( gui_resources_t *this_ )
     g_object_unref ((*this_).type_clas_actor);
     g_object_unref ((*this_).type_clas_artifact);
     g_object_unref ((*this_).type_clas_block);
-    g_object_unref ((*this_).type_clas_boundary);
     g_object_unref ((*this_).type_clas_class);
     g_object_unref ((*this_).type_clas_comment);
     g_object_unref ((*this_).type_clas_component);
@@ -331,6 +330,7 @@ void gui_resources_destroy ( gui_resources_t *this_ )
     g_object_unref ((*this_).type_clas_requirement);
     g_object_unref ((*this_).type_clas_send);
     g_object_unref ((*this_).type_clas_state);
+    g_object_unref ((*this_).type_clas_subsystem);
     g_object_unref ((*this_).type_clas_time);
     g_object_unref ((*this_).type_clas_usecase);
 

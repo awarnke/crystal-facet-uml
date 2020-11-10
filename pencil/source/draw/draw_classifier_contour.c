@@ -30,7 +30,7 @@ void draw_classifier_contour_get_shape_border_dimensions( const draw_classifier_
 
     switch ( classifier_type )
     {
-        case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
+        case DATA_CLASSIFIER_TYPE_USE_CASE:
         {
             /* within a use case, space is limited: */
             double v_offset = pencil_size_get_standard_font_size( pencil_size );
@@ -43,7 +43,7 @@ void draw_classifier_contour_get_shape_border_dimensions( const draw_classifier_
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_NODE:
+        case DATA_CLASSIFIER_TYPE_NODE:
         {
             /* the 3d border of a node shrinks the space */
             double offset_3d = double_gap;
@@ -55,7 +55,7 @@ void draw_classifier_contour_get_shape_border_dimensions( const draw_classifier_
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_ACTOR:
+        case DATA_CLASSIFIER_TYPE_ACTOR:
         case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
         case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
         case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
@@ -74,8 +74,8 @@ void draw_classifier_contour_get_shape_border_dimensions( const draw_classifier_
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:  /* and */
-        case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
+        case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:  /* and */
+        case DATA_CLASSIFIER_TYPE_PACKAGE:
         {
             double top_ornament_height = pencil_size_get_standard_font_size( pencil_size );
 
@@ -88,16 +88,16 @@ void draw_classifier_contour_get_shape_border_dimensions( const draw_classifier_
 
         case DATA_CLASSIFIER_TYPE_BLOCK:
         case DATA_CLASSIFIER_TYPE_REQUIREMENT:
-        case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
-        case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
-        case DATA_CLASSIFIER_TYPE_UML_STATE:
-        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
-        case DATA_CLASSIFIER_TYPE_UML_PART:
-        case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
-        case DATA_CLASSIFIER_TYPE_UML_CLASS:
-        case DATA_CLASSIFIER_TYPE_UML_OBJECT:
-        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
-        case DATA_CLASSIFIER_TYPE_UML_COMMENT:
+        case DATA_CLASSIFIER_TYPE_SUBSYSTEM:
+        case DATA_CLASSIFIER_TYPE_ACTIVITY:
+        case DATA_CLASSIFIER_TYPE_STATE:
+        case DATA_CLASSIFIER_TYPE_COMPONENT:
+        case DATA_CLASSIFIER_TYPE_PART:
+        case DATA_CLASSIFIER_TYPE_INTERFACE:
+        case DATA_CLASSIFIER_TYPE_CLASS:
+        case DATA_CLASSIFIER_TYPE_OBJECT:
+        case DATA_CLASSIFIER_TYPE_ARTIFACT:
+        case DATA_CLASSIFIER_TYPE_COMMENT:
         case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
         {

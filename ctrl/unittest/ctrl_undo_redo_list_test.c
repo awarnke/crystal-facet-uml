@@ -94,7 +94,7 @@ static void undo_redo_classifier(void)
     classifier_id = DATA_ROW_ID_VOID;
     data_classifier_t new_classifier;
     data_err = data_classifier_init_new ( &new_classifier,
-                                          DATA_CLASSIFIER_TYPE_UML_NODE,
+                                          DATA_CLASSIFIER_TYPE_NODE,
                                           "",  /* stereotype */
                                           "my_node",
                                           "",  /* description */
@@ -244,7 +244,7 @@ static void undo_redo_classifier(void)
         first_classifier = data_visible_classifier_get_classifier_ptr( &(read_vis_classifiers[0]) );
 
         TEST_ASSERT_EQUAL_INT( classifier_id, data_classifier_get_id( first_classifier ) );
-        TEST_ASSERT_EQUAL_INT( DATA_CLASSIFIER_TYPE_UML_NODE, data_classifier_get_main_type( first_classifier ) );
+        TEST_ASSERT_EQUAL_INT( DATA_CLASSIFIER_TYPE_NODE, data_classifier_get_main_type( first_classifier ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_stereo", data_classifier_get_stereotype_ptr( first_classifier ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_node", data_classifier_get_name_ptr( first_classifier ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_classifier_get_description_ptr( first_classifier ) ) );

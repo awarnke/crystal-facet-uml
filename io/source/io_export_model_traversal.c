@@ -85,7 +85,7 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
                 else
                 {
                     write_err |= io_export_model_traversal_private_walk_node ( this_,
-                                                                               DATA_CLASSIFIER_TYPE_UML_PACKAGE, /* a uml:Model is a uml:Package*/
+                                                                               DATA_CLASSIFIER_TYPE_PACKAGE, /* a uml:Model is a uml:Package*/
                                                                                DATA_ID_VOID,
                                                                                data_classifier_get_data_id( &((*this_).temp_classifier) ),
                                                                                0 /* initial recursion_depth */
@@ -120,7 +120,7 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
     const bool duplicate_classifier
         =( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &classifier_id ) );
     bool is_classifier_compliant_here = false;  /* a default value */
-    data_classifier_type_t classifier_type = DATA_CLASSIFIER_TYPE_UML_PACKAGE;  /* a default value */
+    data_classifier_type_t classifier_type = DATA_CLASSIFIER_TYPE_PACKAGE;  /* a default value */
 
     /* the id-sets needed on the stack during recursion */
     data_small_set_t contained_classifiers;
@@ -481,7 +481,7 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                     = nested_to_foreign_node && source_already_written && is_relationship_compliant_here;
                 const bool foreign_red_ok
                     = nested_to_foreign_node && source_already_written && destination_already_written
-                    && ( nesting_type == DATA_CLASSIFIER_TYPE_UML_PACKAGE );
+                    && ( nesting_type == DATA_CLASSIFIER_TYPE_PACKAGE );
 
                 /* in uml, the source is the dependant, the destination has no link to the source
                  */
@@ -543,7 +543,7 @@ int io_export_model_traversal_private_fake_interactions_of_node ( io_export_mode
             if (( ! duplicate_feature )&&( is_lifeline ))  /* just an optimization, checked again by (*this_).interaction_helper */
             {
                 static const data_classifier_type_t FAKE_INTERACTION 
-                    = DATA_CLASSIFIER_TYPE_UML_CLASS; /* interaction is subclass of class */
+                    = DATA_CLASSIFIER_TYPE_CLASS; /* interaction is subclass of class */
                 const bool is_interaction_compliant_here
                     = xmi_element_writer_can_classifier_nest_classifier( (*this_).element_writer, nesting_type, FAKE_INTERACTION );
 
