@@ -199,7 +199,7 @@
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_diagram.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_diagram.png"/></imageobject></mediaobject>
-                                Diagram Reference /Interaction Use</para></entry>
+                                Interaction Diagram Reference (Interaction Use)</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>Interaction Overview / unconditional features</para></entry>
                             <entry><para>Hint: To easily find the referenced diagram, name the reference identical to the diagram.</para></entry>

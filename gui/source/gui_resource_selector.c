@@ -134,7 +134,7 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_SUBSYSTEM, "Subsystem", icon_clas_subsystem );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_clas_diagram = gui_resources_get_type_clas_diagram( (*this_).resources );
-        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE, "Diagram Reference", icon_clas_diagram );
+        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE, "Interaction Diagram Reference", icon_clas_diagram );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_clas_state = gui_resources_get_type_clas_state( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_ACTIVITY, "Activity", icon_clas_state );
