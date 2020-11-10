@@ -120,6 +120,11 @@ static inline bool xmi_element_info_is_a_message ( const xmi_element_info_t *thi
     return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_MESSAGE ) == XMI_ELEMENT_IS_A_MESSAGE;
 }
 
+static inline bool xmi_element_info_is_a_interaction_fragment ( const xmi_element_info_t *this_ )
+{
+    return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_INTERACTION_FRAGMENT ) == XMI_ELEMENT_IS_A_INTERACTION_FRAGMENT;
+}
+
 
 /*
 Copyright 2020-2020 Andreas Warnke

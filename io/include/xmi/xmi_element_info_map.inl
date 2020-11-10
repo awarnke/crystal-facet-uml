@@ -50,7 +50,7 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( c
 
         case DATA_CLASSIFIER_TYPE_SUBSYSTEM:
         {
-            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_SYSTEM_BOUNDARY]);
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_SUBSYSTEM]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_SUBSYSTEM );
         }
         break;
@@ -79,7 +79,7 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( c
 
         case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:
         {
-            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DIAGRAM_REFERENCE]);
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_INTERACTION_USE]);
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE );
         }
         break;

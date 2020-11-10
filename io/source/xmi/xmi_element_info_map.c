@@ -72,13 +72,13 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .property_to              = NULL,
         .additional_properties    = NULL,
     },
-    [XMI_ELEMENT_INFO_MAP_INDEX_SYSTEM_BOUNDARY] = {
+    [XMI_ELEMENT_INFO_MAP_INDEX_SUBSYSTEM] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Deployments */
         .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_SUBSYSTEM,
         .specification            = (XMI_SPEC_UML),
         .profile_name             = NULL,
-        .base_name                = "Node", /* TODO: check type */
-        .is_a                     = (XMI_ELEMENT_IS_A_NODE),
+        .base_name                = "Component",
+        .is_a                     = (XMI_ELEMENT_IS_A_CLASS),
         .property_from            = NULL,
         .property_to              = NULL,
         .additional_properties    = NULL,
@@ -119,14 +119,13 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .property_to              = NULL,
         .additional_properties    = NULL,
     },
-    [XMI_ELEMENT_INFO_MAP_INDEX_DIAGRAM_REFERENCE] = {
-        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
-        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 15.7.1 */
+    [XMI_ELEMENT_INFO_MAP_INDEX_INTERACTION_USE] = {
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 17.12.16 */
         .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE,
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
-        .base_name                = "Activity",  /* TODO: check type, should be an Interaction Occurrence */
-        .is_a                     = (XMI_ELEMENT_IS_A_BEHAVIOR),
+        .base_name                = "InteractionUse",
+        .is_a                     = (XMI_ELEMENT_IS_A_INTERACTION_FRAGMENT),
         .property_from            = NULL,
         .property_to              = NULL,
         .additional_properties    = NULL,

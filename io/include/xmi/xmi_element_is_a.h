@@ -23,6 +23,7 @@ enum xmi_element_is_a_enum {
     XMI_ELEMENT_IS_A_NAMED_ELEMENT           = 0x00000004 | XMI_ELEMENT_IS_A_ELEMENT,                /*!< the type is a decendant of uml:NamedElement */
     XMI_ELEMENT_IS_A_RELATIONSHIP            = 0x00000008 | XMI_ELEMENT_IS_A_ELEMENT,                /*!< the type is a decendant of uml:Relationship */
 
+    XMI_ELEMENT_IS_A_INTERACTION_FRAGMENT    = 0x00000010 | XMI_ELEMENT_IS_A_NAMED_ELEMENT,          /*!< the type is a decendant of uml:InteractionFragment */
     XMI_ELEMENT_IS_A_DEPLOYMENT_TARGET       = 0x00000020 | XMI_ELEMENT_IS_A_NAMED_ELEMENT,          /*!< the type is a decendant of uml:DeploymentTarget */
     XMI_ELEMENT_IS_A_REDEFINEABLE_ELEMENT    = 0x00000040 | XMI_ELEMENT_IS_A_NAMED_ELEMENT,          /*!< the type is a decendant of uml:RedefinableElement */
     XMI_ELEMENT_IS_A_PACKAGEABLE_ELEMENT     = 0x00000080 | XMI_ELEMENT_IS_A_NAMED_ELEMENT,          /*!< the type is a decendant of uml:PackageableElement */

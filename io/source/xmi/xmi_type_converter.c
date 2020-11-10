@@ -71,6 +71,7 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
     const bool p_is_state = ( parent_type == DATA_CLASSIFIER_TYPE_STATE );
     const bool p_is_activity = ( parent_type == DATA_CLASSIFIER_TYPE_ACTIVITY );
     const bool p_is_interruptable_region = ( parent_type == DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION );
+    const bool p_is_interaction = ( parent_type == DATA_CLASSIFIER_TYPE_INTERACTION );
     const xmi_element_info_t *child_info
         = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, child_type, p_is_state );
     assert ( child_info != NULL );
@@ -130,6 +131,11 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
     {
         /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 14.5.8 (note: states have an implicit Region) */
         result = "subvertex";
+    }
+    else if ( p_is_interaction && xmi_element_info_is_a_interaction_fragment(child_info) )
+    {
+        /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 17.12.11.4 */
+        result = "fragment";
     }
 
     *out_xmi_name = (result==NULL) ? "" : result;
