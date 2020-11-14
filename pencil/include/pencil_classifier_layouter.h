@@ -213,10 +213,10 @@ void pencil_classifier_layouter_private_propose_move_embrace_order ( pencil_clas
 /*!
  *  \brief calculates the envelope hull of all descendants (excluding self).
  *
- *   If there are not children, the envelope of parent_classifier is returned.
+ *   If there are not children, the envelope of ancestor_classifier is returned.
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_classifier the classifier of whichs children to determine the envelope
+ *  \param ancestor_classifier the classifier of whichs children to determine the envelope
  */
 static inline geometry_rectangle_t pencil_classifier_layouter_private_calc_descendant_envelope( pencil_classifier_layouter_t *this_,
                                                                                                 const layout_visible_classifier_t *ancestor_classifier
@@ -227,7 +227,7 @@ static inline geometry_rectangle_t pencil_classifier_layouter_private_calc_desce
  *
  *  \param this_ pointer to own object attributes
  *  \param start_rect rectangle for which to explore and determine the outer space
- *  \param parent_classifier the classifier of which descendants, ancesters and self shall be ignored
+ *  \param the_classifier the classifier of which descendants, ancesters and self shall be ignored
  */
 static inline geometry_rectangle_t pencil_classifier_layouter_private_calc_outer_space( pencil_classifier_layouter_t *this_,
                                                                                         const geometry_rectangle_t *start_rect,

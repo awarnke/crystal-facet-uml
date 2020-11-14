@@ -46,7 +46,7 @@ typedef struct xmi_interaction_writer_struct xmi_interaction_writer_t;
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader object (to resolve markdown links)
  *  \param io_export_stat pointer to statistics object where export statistics are collected
- *  \param output output stream where to write the generated output to
+ *  \param out_writer output stream where to write the generated output to
  */
 void xmi_interaction_writer_init( xmi_interaction_writer_t *this_,
                                   data_database_reader_t *db_reader,

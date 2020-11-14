@@ -33,7 +33,7 @@ typedef struct xmi_atom_writer_struct xmi_atom_writer_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader object (to resolve markdown links)
- *  \param output output stream where to write the generated output to
+ *  \param out_writer output stream where to write the generated output to
  */
 void xmi_atom_writer_init( xmi_atom_writer_t *this_,
                            data_database_reader_t *db_reader,
