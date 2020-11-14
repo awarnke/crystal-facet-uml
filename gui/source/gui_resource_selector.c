@@ -97,6 +97,9 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         const GdkPixbuf *icon_clas_node = gui_resources_get_type_clas_node( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_NODE, "Node", icon_clas_node );
         current = &((*this_).type_name_icon_list[idx]); idx++;
+        const GdkPixbuf *icon_clas_subsystem = gui_resources_get_type_clas_subsystem( (*this_).resources );
+        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_SUBSYSTEM, "Subsystem", icon_clas_subsystem );
+        current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_clas_component = gui_resources_get_type_clas_component( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_COMPONENT, "Component", icon_clas_component );
         current = &((*this_).type_name_icon_list[idx]); idx++;
@@ -129,9 +132,6 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_clas_usecase = gui_resources_get_type_clas_usecase( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_USE_CASE, "Use Case", icon_clas_usecase );
-        current = &((*this_).type_name_icon_list[idx]); idx++;
-        const GdkPixbuf *icon_clas_subsystem = gui_resources_get_type_clas_subsystem( (*this_).resources );
-        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_SUBSYSTEM, "Subsystem", icon_clas_subsystem );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_clas_diagram = gui_resources_get_type_clas_diagram( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE, "Interaction Diagram Reference", icon_clas_diagram );

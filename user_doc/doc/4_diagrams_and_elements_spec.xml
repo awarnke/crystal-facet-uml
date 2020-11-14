@@ -89,6 +89,15 @@
                         </row>
                         <row>
                             <entry><para>
+                                <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_subsystem.pdf" width="1cm"/></imageobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/type_clas_subsystem.png"/></imageobject></mediaobject>
+                                Subsystem</para></entry>
+                            <entry><para>UML</para></entry>
+                            <entry><para>Use Case / unconditional features</para></entry>
+                            <entry><para>A subsystem is a component with stereotype subsystem</para></entry>
+                        </row>
+                        <row>
+                            <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_component.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_component.png"/></imageobject></mediaobject>
                                 Component</para></entry>
@@ -188,22 +197,15 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_subsystem.pdf" width="1cm"/></imageobject>
-                                <imageobject><imagedata fileref="../../gui/source/resources/type_clas_subsystem.png"/></imageobject></mediaobject>
-                                Subsystem</para></entry>
-                            <entry><para>UML, SysML</para></entry>
-                            <entry><para>Use Case / unconditional features</para></entry>
-                            <entry><para>A subsystem is a component of stereotype subsystem</para></entry>
-                        </row>
-                        <row>
-                            <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_diagram.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_diagram.png"/></imageobject></mediaobject>
                                 Interaction Diagram Reference (Interaction Use)</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>Interaction Overview / unconditional features</para></entry>
-                            <entry><para>Hint: To easily find the referenced diagram, name the reference identical to the diagram.</para></entry>
-                            <entry><para>XMI-Export: For xmi export, this object may only occur in scenario-typed diagrams.</para></entry>
+                            <entry>
+                                <para>Hint: To easily find the referenced diagram, name the reference identical to the diagram.</para>
+                                <para>XMI-Export: For xmi export, this object may only occur in scenario-typed diagrams.</para>
+                            </entry>
                         </row>
                         <row>
                             <entry><para>

@@ -175,6 +175,28 @@ int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_exp
             diagele = data_visible_classifier_get_diagramelement_const( visible_classifier );
             const data_id_t focused_feature_id = data_diagramelement_get_focused_feature_data_id( diagele );
 
+            /* print classifiers if of type comment or interaction-diagram-reference */
+            {
+                const data_classifier_type_t parent_type = DATA_CLASSIFIER_TYPE_INTERACTION;  /* fake parent type */
+                const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier);
+                const bool is_classifier_compliant_here = xmi_element_writer_can_classifier_nest_classifier ( (*this_).element_writer,
+                                                                                                              parent_type,
+                                                                                                              classifier_type
+                                                                                                            );
+                const bool is_duplicate
+                    = ( -1 != universal_array_list_get_index_of( (*this_).written_id_set, &classifier_id ) );
+                if ( is_classifier_compliant_here && ( ! is_duplicate ) )
+                {
+                    /* add the classifier to the duplicates list */
+                    write_err |= universal_array_list_append( (*this_).written_id_set, &classifier_id );
+                    
+                    /* print */
+                    write_err |= xmi_element_writer_start_classifier( (*this_).element_writer, parent_type, classifier );
+                    write_err |= xmi_element_writer_assemble_classifier( (*this_).element_writer, parent_type, classifier );
+                    write_err |= xmi_element_writer_end_classifier( (*this_).element_writer, parent_type, classifier );
+                }
+            }
+            
             /* print focused features (lifelines) of the visible classifier */
             if ( data_id_is_valid( &focused_feature_id ) )
             {

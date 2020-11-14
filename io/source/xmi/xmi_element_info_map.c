@@ -124,13 +124,8 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE,
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
-#ifndef NDEBUG
-        .base_name                = "InteractionUse",  /* the right element - but does not yet work */
+        .base_name                = "InteractionUse",
         .is_a                     = (XMI_ELEMENT_IS_A_INTERACTION_FRAGMENT),
-#else
-        .base_name                = "Activity",
-        .is_a                     = (XMI_ELEMENT_IS_A_BEHAVIOR),
-#endif
         .property_from            = NULL,
         .property_to              = NULL,
         .additional_properties    = NULL,

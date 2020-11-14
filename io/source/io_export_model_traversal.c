@@ -117,7 +117,7 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
     int write_err = 0;
 
     /* initially define flags and attributes */
-    const bool duplicate_classifier
+    bool duplicate_classifier
         =( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &classifier_id ) );
     bool is_classifier_compliant_here = false;  /* a default value */
     data_classifier_type_t classifier_type = DATA_CLASSIFIER_TYPE_PACKAGE;  /* a default value */
@@ -147,6 +147,24 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
             const data_classifier_t *const classifier
                 = data_node_set_get_classifier_const ( &((*this_).temp_node_data) );
             classifier_type = data_classifier_get_main_type( classifier );
+            
+            /* fake and export interactions in which the current node is participant first */
+            /* recursion trick: If classifier is nested, this block is evaluated
+             * 1x for the nested classifier and 1x for same classifier at the toplevel model package
+             */
+            {
+                /* write the relationships that can be stated after the classifier or in the toplevel package */
+                write_err |= io_export_model_traversal_private_fake_interactions_of_node( this_,
+                                                                                          parent_type,
+                                                                                          &((*this_).temp_node_data)
+                                                                                        );
+                /* check if the classifier is already written */
+                duplicate_classifier
+                    =( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &classifier_id ) );            
+            }
+            
+            
+            
             is_classifier_compliant_here = xmi_element_writer_can_classifier_nest_classifier ( (*this_).element_writer,
                                                                                                parent_type,
                                                                                                classifier_type
@@ -157,7 +175,7 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
                 is_classifier_compliant_here = true;
             }
 
-            if ( is_classifier_compliant_here )
+            if (( ! duplicate_classifier )&&( is_classifier_compliant_here ))
             {
                 /* add this classifier to the already written elements */
                 write_err |= universal_array_list_append( &((*this_).written_id_set), &classifier_id );
@@ -238,18 +256,6 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
                                                                                            parent_type,
                                                                                            &((*this_).temp_node_data)
                                                                                          );
-            }
-            
-            /* fake and export interactions in which the current node is participant */
-            /* recursion trick: If from- and to- classifiers are nested, this block is evaluated
-             * 1x for the nested from-/to- classifier and 1x for same classifier at the toplevel model package
-             */
-            {
-                /* write the relationships that can be stated after the classifier or in the toplevel package */
-                write_err |= io_export_model_traversal_private_fake_interactions_of_node( this_,
-                                                                                          parent_type,
-                                                                                          &((*this_).temp_node_data)
-                                                                                        );
             }
         }
 
