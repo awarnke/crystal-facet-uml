@@ -24,7 +24,7 @@ pencil_tests/pencil_tests.xhtml: pencil_tests.cfu1
 	mkdir -p pencil_tests
 	crystal_facet_uml -e pencil_tests.cfu1 xhtml pencil_tests
 
-all_export_test: export_test/export_test_08_block.xmi export_test/export_test_11_component.xmi export_test/export_test_15_activity.xmi export_test/export_test_18_usecase.xmi export_test/export_test_10_constraint.xmi export_test/export_test_12_package.xmi export_test/export_test_16_requirement.xmi export_test/export_test_19_deployment.xmi export_test/export_test_11_class.xmi export_test/export_test_14_state.xmi export_test/export_test_17_sequence.xmi
+all_export_test: export_test/export_test_08_block.xmi export_test/export_test_11_component.xmi export_test/export_test_15_activity.xmi export_test/export_test_18_usecase.xmi export_test/export_test_10_constraint.xmi export_test/export_test_12_package.xmi export_test/export_test_16_requirement.xmi export_test/export_test_19_deployment.xmi export_test/export_test_11_class.xmi export_test/export_test_14_state.xmi export_test/export_test_17_sequence.xmi export_test/export_test_17_interaction.xmi
 
 export_test/export_test_08_block.xmi: export_test_08_block.cfu1
 	mkdir -p export_test
@@ -69,6 +69,10 @@ export_test/export_test_14_state.xmi: export_test_14_state.cfu1
 export_test/export_test_17_sequence.xmi: export_test_17_sequence.cfu1
 	mkdir -p export_test
 	crystal_facet_uml -e export_test_17_sequence.cfu1 xmi export_test
+
+export_test/export_test_17_interaction.xmi: export_test_17_interaction.cfu1
+	mkdir -p export_test
+	crystal_facet_uml -e export_test_17_interaction.cfu1 xmi export_test
 
 clean:
 	rm -fr mouse_droid/ quality/ pencil_tests/ export_test/
