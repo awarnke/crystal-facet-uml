@@ -10,6 +10,7 @@ ideas for future versions:
   [ ] enlarge the initial default window size, not even the quick-intro screen is visible.
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
+  [ ] The default relationship type between lifelines shall be "Message"
   @pencil
   [ ] Support Diagram-Types: Profile
   [ ] exception+error flows to leave an interruptable area (activity diagrams)
