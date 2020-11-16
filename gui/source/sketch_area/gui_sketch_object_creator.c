@@ -271,7 +271,7 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
     TRACE_END_ERR( c_result );
     return c_result;
 }
-
+                                                                                  
 ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_creator_t *this_,
                                                              data_diagram_type_t diag_type,
                                                              data_row_id_t from_classifier_id,
@@ -292,27 +292,47 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
     ctrl_classifier_controller_t *classifier_control;
     classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
-    /* get type of from_classifier */
-    data_classifier_type_t from_class_type = DATA_CLASSIFIER_TYPE_CLASS;
-    {
-        data_error_t clsfy_err;
-        clsfy_err = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                from_classifier_id,
-                                                                &((*this_).private_temp_classifier) );
-        if ( DATA_ERROR_NONE == clsfy_err )
-        {
-            from_class_type = data_classifier_get_main_type( &((*this_).private_temp_classifier) );
-            data_classifier_destroy ( &((*this_).private_temp_classifier) );
-        }
-        else
-        {
-            TSLOG_ERROR_INT( "gui_sketch_object_creator_create_relationship cannot find classifier:", from_classifier_id );
-        }
-    }
-
     /* propose a type for the relationship */
-    data_relationship_type_t new_rel_type;
-    new_rel_type = data_rules_get_default_relationship_type ( &((*this_).data_rules), from_class_type );
+    data_relationship_type_t new_rel_type = DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY;
+    {
+        /* get type of from_classifier */
+        data_classifier_type_t from_class_type = DATA_CLASSIFIER_TYPE_CLASS;
+        {
+            data_error_t clsfy_err;
+            clsfy_err = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
+                                                                    from_classifier_id,
+                                                                    &((*this_).private_temp_classifier) );
+            if ( DATA_ERROR_NONE == clsfy_err )
+            {
+                from_class_type = data_classifier_get_main_type( &((*this_).private_temp_classifier) );
+                data_classifier_destroy ( &((*this_).private_temp_classifier) );
+            }
+            else
+            {
+                TSLOG_ERROR_INT( "gui_sketch_object_creator_create_relationship cannot find classifier:", from_classifier_id );
+            }
+        }
+        
+        /* get type of from_feature */
+        data_feature_type_t from_feature_type = DATA_FEATURE_TYPE_VOID;
+        if ( from_feature_id != DATA_ROW_ID_VOID )
+        {
+            data_error_t feat_err;
+            feat_err = data_database_reader_get_feature_by_id ( (*this_).db_reader,
+                                                                from_feature_id,
+                                                                &((*this_).private_temp_feature) );
+            if ( DATA_ERROR_NONE == feat_err )
+            {
+                from_feature_type = data_feature_get_main_type( &((*this_).private_temp_feature) );
+                data_feature_destroy ( &((*this_).private_temp_feature) );
+            }
+            else
+            {
+                TSLOG_ERROR_INT( "gui_sketch_object_creator_create_relationship cannot find feature:", from_feature_id );
+            }
+        }
+        new_rel_type = data_rules_get_default_relationship_type ( &((*this_).data_rules), from_class_type, from_feature_type );
+    }
 
     /* define relationship struct */
     data_error_t d_err;

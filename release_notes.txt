@@ -1,8 +1,12 @@
 crystal-facet-uml (1.26.0) UNRELEASED; urgency=medium
 
+  [ Mike Gabriel ]
+  * Grammar fixes in application messages
+
   [ Andreas Warnke ]
   * xmi export exports sequence, timing, communication and interaction overview
   * system boundary renamed to subsystem (to match uml 2.5.1 spec)
+  * The default relationship type between lifelines is a synchronous call
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Thu, 29 Oct 2020 20:30:00 +0100
 

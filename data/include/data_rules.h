@@ -79,11 +79,14 @@ static inline data_classifier_type_t data_rules_get_default_classifier_type ( co
  *
  *  \param this_ pointer to own object attributes
  *  \param from_classifier_type the classifier type where the relation starts from
+ *  \param from_feature_type the feature type where the relation starts from; 
+ *                           DATA_FEATURE_TYPE_VOID if relation starts directly at the classifier
  *  \return default relationship type of the given from(source) classifier type.
  *          DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY if from_classifier_type is invalid.
  */
 static inline data_relationship_type_t data_rules_get_default_relationship_type ( const data_rules_t *this_,
-                                                                                  data_classifier_type_t from_classifier_type
+                                                                                  data_classifier_type_t from_classifier_type,
+                                                                                  data_feature_type_t from_feature_type
                                                                                 );
 
 /*!
