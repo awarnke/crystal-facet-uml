@@ -82,7 +82,7 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
             export_err |= xml_writer_write_plain_id( (*this_).xml_writer, diagram_id );
             export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
             /* use a fallback */
-            nesting_property = XMI_ELEMENT_PART_ID_FRAGMENT_TARGET_END;
+            nesting_property = XMI_ELEMENT_PART_FALLBACK_NESTING_ELEMENT;
         }
 
         /* write nesting tag */
@@ -158,7 +158,7 @@ int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
         {
             /* The caller requested to write a classifier to an illegal place */
             /* use a fallback */
-            nesting_property = XMI_ELEMENT_PART_ID_FRAGMENT_TARGET_END;
+            nesting_property = XMI_ELEMENT_PART_FALLBACK_NESTING_ELEMENT;
         }
 
         /* adjust indentation, write end tag */

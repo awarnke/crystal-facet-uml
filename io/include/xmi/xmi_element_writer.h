@@ -241,6 +241,10 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
                                               data_classifier_type_t parent_type,
                                               bool parent_is_source,
                                               const data_relationship_t *relation_ptr
+                                              /* TODO
+                                              ,int src_type
+                                              ,int dst_type
+                                              */
                                             );
 
 /*!

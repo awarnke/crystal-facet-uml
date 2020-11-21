@@ -206,7 +206,7 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " into a more suitable container or change its type -->" );
             /* use a fallback */
-            nesting_property = XMI_ELEMENT_PART_ID_FRAGMENT_TARGET_END;
+            nesting_property = XMI_ELEMENT_PART_FALLBACK_NESTING_ELEMENT;
         }
 
         /* write nesting tag */
@@ -460,7 +460,7 @@ int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
         {
             /* The caller requested to write a classifier to an illegal place */
             /* use a fallback */
-            nesting_property = XMI_ELEMENT_PART_ID_FRAGMENT_TARGET_END;
+            nesting_property = XMI_ELEMENT_PART_FALLBACK_NESTING_ELEMENT;
         }
 
         /* adjust indentation, write end tag */
@@ -685,7 +685,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
                 /* classifier types at target end are not yet checked */
             }
             /* use a fallback */
-            nesting_property = XMI_ELEMENT_PART_ID_FRAGMENT_TARGET_END;
+            nesting_property = XMI_ELEMENT_PART_FALLBACK_NESTING_ELEMENT;
         }
 
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
@@ -945,7 +945,7 @@ int xmi_element_writer_end_relationship( xmi_element_writer_t *this_,
         if ( nesting_err != 0 )
         {
             /* use a fallback */
-            nesting_property = XMI_ELEMENT_PART_ID_FRAGMENT_TARGET_END;
+            nesting_property = XMI_ELEMENT_PART_FALLBACK_NESTING_ELEMENT;
         }
 
         xml_writer_decrease_indent ( &((*this_).xml_writer) );
