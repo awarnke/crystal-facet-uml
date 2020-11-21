@@ -36,10 +36,16 @@ static inline bool xmi_element_writer_can_classifier_nest_relationship ( xmi_ele
 
 static inline int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
                                                               data_id_t relationship_id,
+                                                              data_relationship_type_t relationship_type,
                                                               data_id_t classifier_id,
                                                               bool is_target_end )
 {
     int export_err = 0;
+    const bool is_composition 
+        = ( relationship_type == DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT )  /* fallback relationship */
+        ||( relationship_type == DATA_RELATIONSHIP_TYPE_UML_COMPOSITION );
+    const bool is_aggregation 
+        = ( relationship_type == DATA_RELATIONSHIP_TYPE_UML_AGGREGATION );
     
     /* begin start member-end element */
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
@@ -63,10 +69,25 @@ static inline int xmi_element_writer_private_fake_memberend ( xmi_element_writer
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
 
     /* write association attribute */
-    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_ATTR_PROPERTY_ASSOCIATION );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_PROPERTY_ASSOCIATION_ATTRIBUTE );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_VALUE_START );
     export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), relationship_id );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_VALUE_END );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+
+    /* write aggregation attribute */
+    if (( is_composition || is_aggregation )&& is_target_end )
+    {
+        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_PROPERTY_AGGREGATION_ATTRIBUTE );
+        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_VALUE_START );
+        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), 
+                                               is_composition
+                                               ? XMI_ELEMENT_PART_PROPERTY_AGGREGATION_COMPOSITE
+                                               : XMI_ELEMENT_PART_PROPERTY_AGGREGATION_SHARED
+                                             );
+        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_VALUE_END );
+        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+    }
     
     /* end start member-end element */
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
@@ -75,7 +96,7 @@ static inline int xmi_element_writer_private_fake_memberend ( xmi_element_writer
     /* start type element */
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
-    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_ELEMENT_PROPERTY_TYPE );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_PROPERTY_TYPE_ELEMENT );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
     
     /* write id-ref attribute */
@@ -92,7 +113,7 @@ static inline int xmi_element_writer_private_fake_memberend ( xmi_element_writer
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_ELEMENT_OWNED_END );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
-
+    
     return export_err;
 }
 

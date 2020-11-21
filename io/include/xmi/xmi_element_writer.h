@@ -279,6 +279,7 @@ int xmi_element_writer_write_footer( xmi_element_writer_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param relationship_id id of the relationship
+ *  \param relationship_type type of relation, used to determine aggregation kind; none, shared or composite
  *  \param classifier_id id of the classifier at the relationship-end
  *  \param is_target_end true if the target member-end shall be written, 
  *                       false in case of the source member-end
@@ -286,6 +287,7 @@ int xmi_element_writer_write_footer( xmi_element_writer_t *this_ );
  */
 static inline int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
                                                               data_id_t relationship_id,
+                                                              data_relationship_type_t relationship_type,
                                                               data_id_t classifier_id,
                                                               bool is_target_end
                                                            );

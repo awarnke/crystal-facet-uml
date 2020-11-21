@@ -524,7 +524,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_AGGREGATION,
         .specification            = (XMI_SPEC_UML),
         .profile_name             = NULL,
-        .base_name                = "Association",  /* TODO an Aggregation is an Association with memberEnd property aggregation = shared */
+        .base_name                = "Association",
         .is_a                     = (XMI_ELEMENT_IS_A_ASSOCIATION),
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.8.3 */
         .property_from            = "memberEnd",
@@ -536,7 +536,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_COMPOSITION,
         .specification            = (XMI_SPEC_UML),
         .profile_name             = NULL,
-        .base_name                = "Association",  /* TODO a Composition is an Association with memberEnd property aggregation = composite */
+        .base_name                = "Association",
         .is_a                     = (XMI_ELEMENT_IS_A_ASSOCIATION),
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.8.3 */
         .property_from            = "memberEnd",
@@ -723,7 +723,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
         .specification            = (XMI_SPEC_UML),
         .profile_name             = NULL,
-        .base_name                = "Association",  /* TODO a Composition is an Association with memberEnd property aggregation = composite */
+        .base_name                = "Association",
         .is_a                     = (XMI_ELEMENT_IS_A_ASSOCIATION),
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 9.5.3, 9.8.3 */
         .property_from            = "memberEnd",

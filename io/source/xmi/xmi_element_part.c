@@ -17,11 +17,20 @@ const char * const XMI_ELEMENT_PART_ID_FRAGMENT_SOURCE_END
 const char * const XMI_ELEMENT_PART_ID_FRAGMENT_TARGET_END
     = "#targetend";
 
-const char * const XMI_ELEMENT_PART_ATTR_PROPERTY_ASSOCIATION
+const char * const XMI_ELEMENT_PART_PROPERTY_ASSOCIATION_ATTRIBUTE
     = "association";
     
-const char * const XMI_ELEMENT_PART_ELEMENT_PROPERTY_TYPE
+const char * const XMI_ELEMENT_PART_PROPERTY_TYPE_ELEMENT
     = "type";
+
+const char * const XMI_ELEMENT_PART_PROPERTY_AGGREGATION_ATTRIBUTE
+    = "aggregation";
+
+const char * const XMI_ELEMENT_PART_PROPERTY_AGGREGATION_SHARED
+    = "shared";
+
+const char * const XMI_ELEMENT_PART_PROPERTY_AGGREGATION_COMPOSITE
+    = "composite";
 
 
 /*

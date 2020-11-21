@@ -39,12 +39,28 @@ extern const char * const XMI_ELEMENT_PART_ID_FRAGMENT_TARGET_END;
 /*!
  *  \brief Association attribute of Property uml element of CommunicationPath and Association
  */
-extern const char * const XMI_ELEMENT_PART_ATTR_PROPERTY_ASSOCIATION;
+extern const char * const XMI_ELEMENT_PART_PROPERTY_ASSOCIATION_ATTRIBUTE;
 
 /*!
  *  \brief Type element of Property uml element of CommunicationPath and Association
  */
-extern const char * const XMI_ELEMENT_PART_ELEMENT_PROPERTY_TYPE;
+extern const char * const XMI_ELEMENT_PART_PROPERTY_TYPE_ELEMENT;
+
+/*!
+ *  \brief Aggregation attribute of Property uml element of CommunicationPath and Association
+ */
+extern const char * const XMI_ELEMENT_PART_PROPERTY_AGGREGATION_ATTRIBUTE;
+
+/*!
+ *  \brief Shared value for aggregation of Property uml element of CommunicationPath and Association
+ */
+extern const char * const XMI_ELEMENT_PART_PROPERTY_AGGREGATION_SHARED;
+
+/*!
+ *  \brief Composite value for aggregation of Property uml element of CommunicationPath and Association
+ */
+extern const char * const XMI_ELEMENT_PART_PROPERTY_AGGREGATION_COMPOSITE;
+
 
 #endif  /* XMI_ELEMENT_PART_H */
 

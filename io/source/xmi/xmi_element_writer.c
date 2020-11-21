@@ -869,6 +869,7 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
             {
                 export_err |= xmi_element_writer_private_fake_memberend ( this_,
                                                                           relation_id,
+                                                                          relation_type,
                                                                           from_classifier_id,
                                                                           false /* = is_target_end */
                                                                         );
@@ -907,6 +908,7 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
         {
             export_err |= xmi_element_writer_private_fake_memberend ( this_,
                                                                       relation_id,
+                                                                      relation_type,
                                                                       to_classifier_id,
                                                                       true /* = is_target_end */
                                                                     );
