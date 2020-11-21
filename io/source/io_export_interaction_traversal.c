@@ -373,6 +373,7 @@ int io_export_interaction_traversal_private_iterate_feature_relationships ( io_e
                     {
                         write_err |= xmi_element_writer_assemble_relationship( (*this_).element_writer, 
                                                                                DATA_CLASSIFIER_TYPE_INTERACTION,
+                                                                               false,  /* parent_is_source: parent is faked */
                                                                                relation
                                                                              );
                     }

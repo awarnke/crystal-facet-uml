@@ -500,7 +500,7 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
 
                     /* destination classifier found, print the relation */
                     write_err |= xmi_element_writer_start_relationship( (*this_).element_writer, nesting_type, relation );
-                    write_err |= xmi_element_writer_assemble_relationship( (*this_).element_writer, nesting_type, relation );
+                    write_err |= xmi_element_writer_assemble_relationship( (*this_).element_writer, nesting_type, local_ok, relation );
                     write_err |= xmi_element_writer_end_relationship( (*this_).element_writer, nesting_type, relation );
                 }
             }
