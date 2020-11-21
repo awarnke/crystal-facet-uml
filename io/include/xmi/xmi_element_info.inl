@@ -125,6 +125,11 @@ static inline bool xmi_element_info_is_a_interaction_fragment ( const xmi_elemen
     return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_INTERACTION_FRAGMENT ) == XMI_ELEMENT_IS_A_INTERACTION_FRAGMENT;
 }
 
+static inline bool xmi_element_info_is_a_association ( const xmi_element_info_t *this_ )
+{
+    return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_ASSOCIATION ) == XMI_ELEMENT_IS_A_ASSOCIATION;
+}
+
 
 /*
 Copyright 2020-2020 Andreas Warnke

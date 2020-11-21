@@ -3,6 +3,7 @@
 #include "xmi/xmi_interaction_writer.h"
 #include "xmi/xmi_element_info_map.h"
 #include "xmi/xmi_element_info.h"
+#include "xmi/xmi_element_part.h"
 #include "xmi/xmi_xml.h"
 #include "util/string/utf8string.h"
 #include "data_id.h"
@@ -81,7 +82,7 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
             export_err |= xml_writer_write_plain_id( (*this_).xml_writer, diagram_id );
             export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
             /* use a fallback */
-            nesting_property = XMI_XML_FALLBACK_NESTING_ELEMENT;
+            nesting_property = XMI_ELEMENT_PART_ID_FRAGMENT_TARGET_END;
         }
 
         /* write nesting tag */
@@ -157,7 +158,7 @@ int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
         {
             /* The caller requested to write a classifier to an illegal place */
             /* use a fallback */
-            nesting_property = XMI_XML_FALLBACK_NESTING_ELEMENT;
+            nesting_property = XMI_ELEMENT_PART_ID_FRAGMENT_TARGET_END;
         }
 
         /* adjust indentation, write end tag */

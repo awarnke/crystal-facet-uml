@@ -272,6 +272,22 @@ int xmi_element_writer_end_main( xmi_element_writer_t *this_ );
  */
 int xmi_element_writer_write_footer( xmi_element_writer_t *this_ );
 
+/*!
+ *  \brief writes a member end property of a relationship of uml-type association
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param relationship_id id of the relationship
+ *  \param classifier_id id of the classifier at the relationship-end
+ *  \param is_target_end true if the target member-end shall be written, 
+ *                       false in case of the source member-end
+ *  \result 0 in case of success, -1 otherwise
+ */
+static inline int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
+                                                              data_id_t relationship_id,
+                                                              data_id_t classifier_id,
+                                                              bool is_target_end
+                                                           );
+
 #include "xmi_element_writer.inl"
 
 #endif  /* XMI_ELEMENT_WRITER_H */

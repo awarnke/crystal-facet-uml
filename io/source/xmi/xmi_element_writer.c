@@ -3,6 +3,7 @@
 #include "xmi/xmi_element_writer.h"
 #include "xmi/xmi_element_info_map.h"
 #include "xmi/xmi_element_info.h"
+#include "xmi/xmi_element_part.h"
 #include "xmi/xmi_xml.h"
 #include "util/string/utf8string.h"
 #include "data_id.h"
@@ -205,7 +206,7 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " into a more suitable container or change its type -->" );
             /* use a fallback */
-            nesting_property = XMI_XML_FALLBACK_NESTING_ELEMENT;
+            nesting_property = XMI_ELEMENT_PART_ID_FRAGMENT_TARGET_END;
         }
 
         /* write nesting tag */
@@ -459,7 +460,7 @@ int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
         {
             /* The caller requested to write a classifier to an illegal place */
             /* use a fallback */
-            nesting_property = XMI_XML_FALLBACK_NESTING_ELEMENT;
+            nesting_property = XMI_ELEMENT_PART_ID_FRAGMENT_TARGET_END;
         }
 
         /* adjust indentation, write end tag */
@@ -690,7 +691,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
                 /* classifier types at target end are not yet checked */
             }
             /* use a fallback */
-            nesting_property = XMI_XML_FALLBACK_NESTING_ELEMENT;
+            nesting_property = XMI_ELEMENT_PART_ID_FRAGMENT_TARGET_END;
         }
 
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
@@ -797,6 +798,13 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
     const data_id_t to_classifier_id = data_relationship_get_to_classifier_data_id( relation_ptr );
     const data_id_t to_feature_id = data_relationship_get_to_feature_data_id( relation_ptr );
     const data_relationship_type_t relation_type = data_relationship_get_main_type( relation_ptr );
+    const xmi_element_info_t *relation_info
+        = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
+                                                 relation_type,
+                                                 (parent_type==DATA_CLASSIFIER_TYPE_STATE)
+                                               );
+    /* evaluate if xmi requires to generate fake properties */
+    const bool fake_property_ends = xmi_element_info_is_a_association( relation_info );
 
     if ( (*this_).mode == IO_WRITER_PASS_BASE )
     {
@@ -822,15 +830,29 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_START );
         if ( data_id_is_valid( &from_feature_id ) )
         {
-            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer),from_feature_id );
+            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), from_feature_id );
+        }
+        else if ( fake_property_ends )
+        {
+            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), relation_id );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_ID_FRAGMENT_SOURCE_END );
         }
         else
         {
-            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer),from_classifier_id );
+            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), from_classifier_id );
         }
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_END );
 
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
+        
+        if (( ! data_id_is_valid( &from_feature_id ) )&& fake_property_ends )
+        {
+            export_err |= xmi_element_writer_private_fake_memberend ( this_,
+                                                                      relation_id,
+                                                                      from_classifier_id,
+                                                                      false /* = is_target_end */
+                                                                    );
+        }
 
         /* destination */
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
@@ -845,16 +867,29 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_START );
         if ( data_id_is_valid( &to_feature_id ) )
         {
-            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer),to_feature_id );
+            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), to_feature_id );
+        }
+        else if ( fake_property_ends )
+        {
+            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), relation_id );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_ID_FRAGMENT_TARGET_END );
         }
         else
         {
-            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer),to_classifier_id );
+            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), to_classifier_id );
         }
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_END );
 
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
 
+        if (( ! data_id_is_valid( &to_feature_id ) )&& fake_property_ends )
+        {
+            export_err |= xmi_element_writer_private_fake_memberend ( this_,
+                                                                      relation_id,
+                                                                      to_classifier_id,
+                                                                      true /* = is_target_end */
+                                                                    );
+        }
     }
 
     TRACE_END_ERR( export_err );
@@ -885,7 +920,7 @@ int xmi_element_writer_end_relationship( xmi_element_writer_t *this_,
         if ( nesting_err != 0 )
         {
             /* use a fallback */
-            nesting_property = XMI_XML_FALLBACK_NESTING_ELEMENT;
+            nesting_property = XMI_ELEMENT_PART_ID_FRAGMENT_TARGET_END;
         }
 
         xml_writer_decrease_indent ( &((*this_).xml_writer) );

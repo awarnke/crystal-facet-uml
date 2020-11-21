@@ -15,6 +15,8 @@ const char XML_WRITER_END_TAG_END[2] = ">";
 const char XML_WRITER_EMPTY_TAG_START[2] = "<";
 const char XML_WRITER_EMPTY_TAG_END[3] = "/>";
 const char XML_WRITER_ATTR_SEPARATOR[2] = " ";
+const char XML_WRITER_ATTR_VALUE_START[3] = "=\"";
+const char XML_WRITER_ATTR_VALUE_END[2] = "\"";
 const char XML_WRITER_COMMENT_START[5] = "<!--";
 const char XML_WRITER_COMMENT_END[4] = "-->";
 const char XML_WRITER_NL[2] = "\n";

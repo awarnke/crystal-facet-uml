@@ -26,9 +26,6 @@ const char XMI_XML_ATTR_NAME_START[7]
 const char XMI_XML_ATTR_NAME_END[3]
     = "\" ";
 
-const char XMI_XML_FALLBACK_NESTING_ELEMENT[16]
-    = "packagedElement";
-
 /*
 Copyright 2020-2020 Andreas Warnke
 

@@ -1,5 +1,8 @@
 /* File: xmi_element_writer.inl; Copyright and License: see below */
 
+#include "xmi/xmi_element_part.h"
+#include "xmi/xmi_xml.h"
+
 static inline io_writer_pass_t xmi_element_writer_get_mode( xmi_element_writer_t *this_ )
 {
     return (*this_).mode;
@@ -29,6 +32,68 @@ static inline bool xmi_element_writer_can_classifier_nest_relationship ( xmi_ele
 {
     const bool result = xmi_type_converter_can_nest_relationship( &((*this_).xmi_types), parent_type, child_type );
     return result;
+}
+
+static inline int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
+                                                              data_id_t relationship_id,
+                                                              data_id_t classifier_id,
+                                                              bool is_target_end )
+{
+    int export_err = 0;
+    
+    /* begin start member-end element */
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_ELEMENT_OWNED_END );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+    
+    /* write type attribute */
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_TYPE_PROPERTY );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_END );
+
+    /* write id attribute */
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
+    export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), relationship_id );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
+                                           ( is_target_end
+                                           ? XMI_ELEMENT_PART_ID_FRAGMENT_TARGET_END
+                                           : XMI_ELEMENT_PART_ID_FRAGMENT_SOURCE_END ) );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
+
+    /* write association attribute */
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_ATTR_PROPERTY_ASSOCIATION );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_VALUE_START );
+    export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), relationship_id );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_VALUE_END );
+    
+    /* end start member-end element */
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
+    xml_writer_increase_indent ( &((*this_).xml_writer) );
+
+    /* start type element */
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_ELEMENT_PROPERTY_TYPE );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+    
+    /* write id-ref attribute */
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_START );
+    export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), classifier_id );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_END );
+
+    /* end type element */
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
+    
+    /* end member-end element */
+    xml_writer_decrease_indent ( &((*this_).xml_writer) );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_ELEMENT_OWNED_END );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
+
+    return export_err;
 }
 
 

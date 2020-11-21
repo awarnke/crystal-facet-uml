@@ -38,6 +38,8 @@ ideas for future versions:
   [ ] some way to compare two database files / and/or to merge
   [ ] No lifelines for comments
   [ ] No lifelines for interaction uses
+  [ ] links unclear: interactionuse(diag-reference)-to-fragment(diag); part-to-component, object-to-class
+  [ ] links unclear: provided/required-interface(feature)-to-interface(classifier)
   @ctrl
   @universal+utf8stringbuf
   [ ] combine the static string allocation with dynamic additional buffers for unexpectedly-long strings

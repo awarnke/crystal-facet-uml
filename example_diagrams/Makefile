@@ -1,4 +1,4 @@
-all: mouse_droid/mouse_droid.pdf mouse_droid/mouse_droid.xhtml quality/quality.pdf quality/quality.xhtml pencil_tests/pencil_tests.xhtml all_export_test
+all: all_export_test mouse_droid/mouse_droid.pdf mouse_droid/mouse_droid.xhtml quality/quality.pdf quality/quality.xhtml pencil_tests/pencil_tests.xhtml
 
 mouse_droid/mouse_droid.xhtml: mouse_droid.cfu1
 	mkdir -p mouse_droid
