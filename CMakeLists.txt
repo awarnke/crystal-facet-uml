@@ -46,6 +46,9 @@ INCLUDE_DIRECTORIES(${GTK3_INCLUDE_DIRS})
 #MESSAGE("GTK3:    ${GTK3_CFLAGS}")
 #MESSAGE("GTK3:    ${GTK3_CFLAGS_OTHER}")
 
+pkg_search_module(PANGOCAIRO REQUIRED pangocairo)
+INCLUDE_DIRECTORIES(${PANGOCAIRO_INCLUDE_DIRS})
+
 FILE(GLOB commonSource gui/source/*.c
                        gui/source/sketch_area/*.c
                        trace/source/*.c
@@ -95,7 +98,7 @@ SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal_facet_uml Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 ADD_EXECUTABLE(crystal_facet_uml ${appSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
-TARGET_LINK_LIBRARIES(crystal_facet_uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${SQLITE3_LIBRARIES} m)
+TARGET_LINK_LIBRARIES(crystal_facet_uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
