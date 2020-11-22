@@ -118,7 +118,7 @@ TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC io/unittest)
 TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC pencil/unittest)
 TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC universal/unittest)
 TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC utf8stringbuf/unittest)
-TARGET_LINK_LIBRARIES(unittest_crystal_facet_uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${SQLITE3_LIBRARIES} m)
+TARGET_LINK_LIBRARIES(unittest_crystal_facet_uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(unittest_crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Documentation Build Settings ==== ==== ==== ==== ==== ==== ==== ====

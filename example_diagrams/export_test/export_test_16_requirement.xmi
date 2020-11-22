@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xmi:XMI xmlns:uml="http://www.omg.org/spec/UML/20110701"
+         xmlns:StandardProfile="http://www.omg.org/spec/UML/20131001/StandardProfile"
+         xmlns:xmi="http://www.omg.org/spec/XMI/20110701"
+         xmlns:SysML="http://www.omg.org/spec/SysML/20131001/SysML.xmi">
+         <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->
+    <xmi:Documentation exporter="crystal_facet_uml" exporterVersion="1.26.0"/>
+    <uml:Model xmi:type="uml:Model" xmi:id="00000" name="export_test_16_requirement" >
+        <packagedElement xmi:type="uml:Class" xmi:id="60001" name="Startup Time" ><!--C0001-->
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="60003" name="Reboot Time" ><!--C0003-->
+        </packagedElement>
+        <packagedElement xmi:type="uml:Abstraction" xmi:id="80001" name="" >
+            <client xmi:idref="60003" />
+            <supplier xmi:idref="60001" />
+        </packagedElement>
+        <packagedElement xmi:type="uml:Package" xmi:id="60006" name="details" ><!--C0006-->
+            <packagedElement xmi:type="uml:Class" xmi:id="60002" name="HW-PowerUp Time" ><!--C0002-->
+            </packagedElement>
+            <packagedElement xmi:type="uml:Abstraction" xmi:id="80002" name="" >
+                <client xmi:idref="60002" />
+                <supplier xmi:idref="60001" />
+            </packagedElement>
+            <packagedElement xmi:type="uml:Class" xmi:id="60004" name="OS: Boot Time" ><!--C0004-->
+            </packagedElement>
+            <packagedElement xmi:type="uml:Abstraction" xmi:id="80004" name="" >
+                <client xmi:idref="60004" />
+                <supplier xmi:idref="60001" />
+            </packagedElement>
+            <packagedElement xmi:type="uml:Class" xmi:id="60005" name="App: Startup Time" ><!--C0005-->
+            </packagedElement>
+            <packagedElement xmi:type="uml:Abstraction" xmi:id="80003" name="" >
+                <client xmi:idref="60005" />
+                <supplier xmi:idref="60001" />
+            </packagedElement>
+        </packagedElement>
+    </uml:Model>
+    <SysML:Requirement xmi:id="160001" base_Class="60001" >
+        <id>160001</id>
+        <text>
+            The system shall start up in 3 seconds
+        </text>
+    </SysML:Requirement>
+    <SysML:Requirement xmi:id="160003" base_Class="60003" >
+        <id>160003</id>
+        <text>
+            The system shall reboot in 4 seconds
+        </text>
+    </SysML:Requirement>
+    <StandardProfile:Trace xmi:id="180001" base_Abstraction="80001" />
+    <SysML:Requirement xmi:id="160002" base_Class="60002" >
+        <id>160002</id>
+        <text>
+            The controller-hardware shall initialize in 1 second
+        </text>
+    </SysML:Requirement>
+    <StandardProfile:Refine xmi:id="180002" base_Abstraction="80002" />
+    <SysML:Requirement xmi:id="160004" base_Class="60004" >
+        <id>160004</id>
+        <text>
+            The operating system shall boot in 1 second
+        </text>
+    </SysML:Requirement>
+    <StandardProfile:Refine xmi:id="180004" base_Abstraction="80004" />
+    <SysML:Requirement xmi:id="160005" base_Class="60005" >
+        <id>160005</id>
+        <text>
+            The application shall start up in 1 second
+        </text>
+    </SysML:Requirement>
+    <StandardProfile:Refine xmi:id="180003" base_Abstraction="80003" />
+</xmi:XMI>

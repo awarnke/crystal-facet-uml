@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xmi:XMI xmlns:uml="http://www.omg.org/spec/UML/20110701"
+         xmlns:StandardProfile="http://www.omg.org/spec/UML/20131001/StandardProfile"
+         xmlns:xmi="http://www.omg.org/spec/XMI/20110701"
+         xmlns:SysML="http://www.omg.org/spec/SysML/20131001/SysML.xmi">
+         <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->
+    <xmi:Documentation exporter="crystal_facet_uml" exporterVersion="1.26.0"/>
+    <uml:Model xmi:type="uml:Model" xmi:id="00000" name="export_test_12_package" >
+        <packagedElement xmi:type="uml:Package" xmi:id="60001" name="Software Layers" ><!--C0001-->
+            <packagedElement xmi:type="uml:Package" xmi:id="60002" name="Applications" ><!--C0002-->
+                <packagedElement xmi:type="uml:Dependency" xmi:id="80004" name="" >
+                    <client xmi:idref="60002" />
+                    <supplier xmi:idref="60003" />
+                </packagedElement>
+            </packagedElement>
+            <packagedElement xmi:type="uml:Package" xmi:id="60003" name="Services" ><!--C0003-->
+                <packagedElement xmi:type="uml:Dependency" xmi:id="80005" name="" >
+                    <client xmi:idref="60003" />
+                    <supplier xmi:idref="60004" />
+                </packagedElement>
+            </packagedElement>
+            <packagedElement xmi:type="uml:Package" xmi:id="60004" name="Infrastructure" ><!--C0004-->
+            </packagedElement>
+            <ownedComment xmi:type="uml:Comment" xmi:id="60005" ><!--C0005-->
+                <ownedComment xmi:type="uml:Comment" xmi:id="60005#name" >
+                    <body>
+                        Layers may be passed-by
+                    </body>
+                    <annotatedElement xmi:idref="60005" />
+                </ownedComment>
+                <body>
+                    Layers in this context 
+                    may be passed-by:
+                    
+                    Applications may directly 
+                    use the functions of Infrastructure
+                </body>
+            </ownedComment>
+        </packagedElement>
+    </uml:Model>
+</xmi:XMI>

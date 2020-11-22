@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xmi:XMI xmlns:uml="http://www.omg.org/spec/UML/20110701"
+         xmlns:StandardProfile="http://www.omg.org/spec/UML/20131001/StandardProfile"
+         xmlns:xmi="http://www.omg.org/spec/XMI/20110701"
+         xmlns:SysML="http://www.omg.org/spec/SysML/20131001/SysML.xmi">
+         <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->
+    <xmi:Documentation exporter="crystal_facet_uml" exporterVersion="1.26.0"/>
+    <uml:Model xmi:type="uml:Model" xmi:id="00000" name="export_test_19_deployment" >
+        <packagedElement xmi:type="uml:Node" xmi:id="60001" name="The Cloud" ><!--C0001-->
+            <nestedClassifier xmi:type="uml:Artifact" xmi:id="60003" name="Web-App 1" ><!--C0003-->
+            </nestedClassifier>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Node" xmi:id="60002" name="Local Computer" ><!--C0002-->
+        </packagedElement>
+        <packagedElement xmi:type="uml:Artifact" xmi:id="60004" name="User Settings" ><!--C0004-->
+        </packagedElement>
+        <packagedElement xmi:type="uml:Deployment" xmi:id="80002" name="" >
+            <client xmi:idref="60004" />
+            <supplier xmi:idref="60001" />
+        </packagedElement>
+        <packagedElement xmi:type="uml:Deployment" xmi:id="80003" name="" >
+            <client xmi:idref="60004" />
+            <supplier xmi:idref="60002" />
+        </packagedElement>
+        <packagedElement xmi:type="uml:Component" xmi:id="60005" name="User-Settings App" ><!--C0005-->
+        </packagedElement>
+        <packagedElement xmi:type="uml:Manifestation" xmi:id="80004" name="" >
+            <client xmi:idref="60003" />
+            <supplier xmi:idref="60005" />
+        </packagedElement>
+        <packagedElement xmi:type="uml:Component" xmi:id="60006" name="Online Help App" ><!--C0006-->
+        </packagedElement>
+        <packagedElement xmi:type="uml:Manifestation" xmi:id="80005" name="" >
+            <client xmi:idref="60003" />
+            <supplier xmi:idref="60006" />
+        </packagedElement>
+    </uml:Model>
+</xmi:XMI>

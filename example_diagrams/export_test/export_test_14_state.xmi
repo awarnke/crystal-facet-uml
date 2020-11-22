@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xmi:XMI xmlns:uml="http://www.omg.org/spec/UML/20110701"
+         xmlns:StandardProfile="http://www.omg.org/spec/UML/20131001/StandardProfile"
+         xmlns:xmi="http://www.omg.org/spec/XMI/20110701"
+         xmlns:SysML="http://www.omg.org/spec/SysML/20131001/SysML.xmi">
+         <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->
+    <xmi:Documentation exporter="crystal_facet_uml" exporterVersion="1.26.0"/>
+    <uml:Model xmi:type="uml:Model" xmi:id="00000" name="export_test_14_state" >
+        <packagedElement xmi:type="uml:StateMachine" xmi:id="60001" name="Event Queue States" ><!--C0001-->
+            <region xmi:type="uml:Region" xmi:id="60001#region" >
+                <subvertex xmi:type="uml:State" xmi:id="60002" name="queue::idle" ><!--C0002-->
+                    <region xmi:type="uml:Region" xmi:id="60002#region" >
+                        <transition xmi:type="uml:Transition" xmi:id="80005" name="" >
+                            <source xmi:idref="60002" />
+                            <target xmi:idref="60004" />
+                        </transition>
+                    </region>
+                </subvertex>
+                <subvertex xmi:type="uml:Pseudostate" xmi:id="60003" name="queue::init" ><!--C0003-->
+                </subvertex>
+                <transition xmi:type="uml:Transition" xmi:id="80004" name="" >
+                    <source xmi:idref="60003" />
+                    <target xmi:idref="60002" />
+                </transition>
+                <subvertex xmi:type="uml:FinalState" xmi:id="60004" name="queue::end" ><!--C0004-->
+                </subvertex>
+            </region>
+        </packagedElement>
+    </uml:Model>
+</xmi:XMI>

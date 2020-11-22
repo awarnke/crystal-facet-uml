@@ -1,3 +1,19 @@
+crystal-facet-uml (1.26.0-1) UNRELEASED; urgency=medium
+
+  [ Olaf Hering ]
+  * CMakeLists adapted to find pangocairo (Closes: #2)
+
+  [ Mike Gabriel ]
+  * Grammar fixes in application messages
+
+  [ Andreas Warnke ]
+  * xmi export exports sequence, timing, communication and interaction overview
+  * xmi export creates property-elements at association-member-ends
+  * system boundary renamed to subsystem (to match uml 2.5.1 spec)
+  * The default relationship type between lifelines is a synchronous call
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 22 Nov 2020 16:30:00 +0100
+
 crystal-facet-uml (1.25.1-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

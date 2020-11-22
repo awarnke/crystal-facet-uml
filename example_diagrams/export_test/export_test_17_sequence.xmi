@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xmi:XMI xmlns:uml="http://www.omg.org/spec/UML/20110701"
+         xmlns:StandardProfile="http://www.omg.org/spec/UML/20131001/StandardProfile"
+         xmlns:xmi="http://www.omg.org/spec/XMI/20110701"
+         xmlns:SysML="http://www.omg.org/spec/SysML/20131001/SysML.xmi">
+         <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->
+    <xmi:Documentation exporter="crystal_facet_uml" exporterVersion="1.26.0"/>
+    <uml:Model xmi:type="uml:Model" xmi:id="00000" name="export_test_17_sequence" >
+        <packagedElement xmi:type="uml:Interaction" xmi:id="90001" name="The Sequence" ><!--D0001-->
+            <lifeline xmi:type="uml:Lifeline" xmi:id="40001" name="" >
+                <represents xmi:type="uml:Property" xmi:id="40001#ref" type="60001" />
+            </lifeline>
+            <message xmi:type="uml:Message" xmi:id="80001" name="move" messageSort="asynchSignal" >
+                <sendEvent xmi:type="uml:MessageOccurrenceSpecification" xmi:id="80001#source" covered="40001" enclosingInteraction="90001" />
+                <receiveEvent xmi:type="uml:MessageOccurrenceSpecification" xmi:id="80001#dest" covered="40002" enclosingInteraction="90001" />
+            </message>
+            <lifeline xmi:type="uml:Lifeline" xmi:id="40002" name="" >
+                <represents xmi:type="uml:Property" xmi:id="40002#ref" type="60002" />
+            </lifeline>
+            <message xmi:type="uml:Message" xmi:id="80002" name="update position" >
+                <sendEvent xmi:type="uml:MessageOccurrenceSpecification" xmi:id="80002#source" covered="40002" enclosingInteraction="90001" />
+                <receiveEvent xmi:type="uml:MessageOccurrenceSpecification" xmi:id="80002#dest" covered="40003" enclosingInteraction="90001" />
+            </message>
+            <message xmi:type="uml:Message" xmi:id="80005" name="ack" messageSort="reply" >
+                <sendEvent xmi:type="uml:MessageOccurrenceSpecification" xmi:id="80005#source" covered="40003" enclosingInteraction="90001" />
+                <receiveEvent xmi:type="uml:MessageOccurrenceSpecification" xmi:id="80005#dest" covered="40002" enclosingInteraction="90001" />
+            </message>
+            <lifeline xmi:type="uml:Lifeline" xmi:id="40003" name="" >
+                <represents xmi:type="uml:Property" xmi:id="40003#ref" type="60003" />
+            </lifeline>
+            <message xmi:type="uml:Message" xmi:id="80003" name="update attributes" >
+                <sendEvent xmi:type="uml:MessageOccurrenceSpecification" xmi:id="80003#source" covered="40003" enclosingInteraction="90001" />
+                <receiveEvent xmi:type="uml:MessageOccurrenceSpecification" xmi:id="80003#dest" covered="40004" enclosingInteraction="90001" />
+            </message>
+            <message xmi:type="uml:Message" xmi:id="80004" name="SUCCESS" messageSort="reply" >
+                <sendEvent xmi:type="uml:MessageOccurrenceSpecification" xmi:id="80004#source" covered="40004" enclosingInteraction="90001" />
+                <receiveEvent xmi:type="uml:MessageOccurrenceSpecification" xmi:id="80004#dest" covered="40003" enclosingInteraction="90001" />
+            </message>
+            <lifeline xmi:type="uml:Lifeline" xmi:id="40004" name="" >
+                <represents xmi:type="uml:Property" xmi:id="40004#ref" type="60004" />
+            </lifeline>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Actor" xmi:id="60001" name="User" ><!--C0001-->
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="60002" name="GUI" ><!--C0002-->
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="60003" name="Logic" ><!--C0003-->
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="60004" name="Database" ><!--C0004-->
+        </packagedElement>
+    </uml:Model>
+</xmi:XMI>
