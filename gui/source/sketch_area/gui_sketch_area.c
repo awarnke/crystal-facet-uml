@@ -777,8 +777,8 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     if ( action_button_id != GUI_SKETCH_ACTION_NONE )
                     {
                         /* create a new diagram */
-                        ctrl_error_t c_result;
-                        data_row_id_t new_diag_id;
+                        ctrl_error_t c_result = CTRL_ERROR_NONE;
+                        data_row_id_t new_diag_id = DATA_ROW_ID_VOID;
 
                         {
                             const data_diagram_t *selected_diag;
@@ -831,6 +831,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                                 {
                                     TSLOG_ERROR_INT("illegal action value in gui_sketch_action_t:",action_button_id);
                                     assert(false);
+                                    c_result = DATA_ERROR_INVALID_REQUEST;
                                 }
                                 break;
                             }

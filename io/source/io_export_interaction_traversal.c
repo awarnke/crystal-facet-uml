@@ -242,11 +242,10 @@ int io_export_interaction_traversal_private_look_for_focused_feature ( io_export
         /* get feature */
         const data_feature_t *feature;
         feature = data_visible_set_get_feature_const ( diagram_data, index );
-        
-        const data_id_t classifier_id = data_feature_get_classifier_data_id ( feature );
          
         if (( feature != NULL ) && ( data_feature_is_valid( feature ) ))
         {
+            const data_id_t classifier_id = data_feature_get_classifier_data_id ( feature );
             const data_id_t feat_id = data_feature_get_data_id( feature );
             if ( data_id_equals( &focused_feature_id, &feat_id ) )
             {

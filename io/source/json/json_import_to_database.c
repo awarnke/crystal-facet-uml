@@ -161,7 +161,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                                                       (CTRL_ERROR_NONE==write_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                                                     );
                                             }
-                                            else
+                                            else  /* lifeline */
                                             {
                                                 data_stat_inc_count ( io_stat,
                                                                       DATA_TABLE_FEATURE,
@@ -187,22 +187,10 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                                         );
                                     for ( int f_index = 0; f_index < feature_count; f_index ++ )
                                     {
-                                        data_feature_t *current_feature = &((*this_).temp_features[f_index]);
-                                        if ( ! data_rules_feature_is_scenario_cond( &((*this_).data_rules),
-                                                                                    data_feature_get_main_type( current_feature ) ) )
-                                        {
-                                            data_stat_inc_count ( io_stat,
-                                                                  DATA_TABLE_FEATURE,
-                                                                  DATA_STAT_SERIES_IGNORED /*DATA_STAT_SERIES_WARNING*/
-                                                                );
-                                        }
-                                        else  /* lifeline */
-                                        {
-                                            data_stat_inc_count ( io_stat,
-                                                                  DATA_TABLE_FEATURE,
-                                                                  DATA_STAT_SERIES_IGNORED
-                                                                );
-                                        }
+                                        data_stat_inc_count ( io_stat,
+                                                              DATA_TABLE_FEATURE,
+                                                              DATA_STAT_SERIES_IGNORED
+                                                            );
                                     }
                                     TRACE_INFO( "classifier did already exist, features dropped at json import." );
                                     /* set the the_classifier_id */
