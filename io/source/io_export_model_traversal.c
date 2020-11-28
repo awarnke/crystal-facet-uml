@@ -84,13 +84,15 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
                 }
                 else
                 {
+                    const data_id_t classifier_id = data_classifier_get_data_id( &((*this_).temp_classifier) );
+                    data_classifier_destroy( &((*this_).temp_classifier) );
+                    
                     write_err |= io_export_model_traversal_private_walk_node ( this_,
                                                                                DATA_CLASSIFIER_TYPE_PACKAGE, /* a uml:Model is a uml:Package*/
                                                                                DATA_ID_VOID,
-                                                                               data_classifier_get_data_id( &((*this_).temp_classifier) ),
+                                                                               classifier_id,
                                                                                0 /* initial recursion_depth */
                                                                              );
-                    data_classifier_destroy( &((*this_).temp_classifier) );
                 }
             }
         }
@@ -567,7 +569,103 @@ data_error_t io_export_model_traversal_private_get_relationship_end_types( io_ex
     data_feature_type_t to_f_type = DATA_FEATURE_TYPE_VOID;
     
     {
-        /* TODO */
+        /* get from classifier */
+        const data_row_id_t from_clcassifier_row_id = data_relationship_get_from_classifier_row_id ( relation );
+        bool from_classifier_found = false;
+        if ( node_data != NULL )
+        {
+            const data_classifier_t *node_classifier
+                = data_node_set_get_classifier_const( node_data );
+            if (( node_classifier != NULL )
+                &&( from_clcassifier_row_id == data_classifier_get_row_id ( node_classifier ) ))
+            {
+                from_c_type = data_classifier_get_main_type( node_classifier );
+                from_classifier_found = true;
+            }
+        }
+        if ( ! from_classifier_found )
+        {
+            data_classifier_init_empty( &((*this_).temp_classifier) );
+            data_err |=  data_database_reader_get_classifier_by_id ( (*this_).db_reader,
+                                                                     from_clcassifier_row_id, 
+                                                                     &((*this_).temp_classifier) 
+                                                                   );
+            from_c_type = data_classifier_get_main_type( &((*this_).temp_classifier) );
+            data_classifier_destroy( &((*this_).temp_classifier) );
+        }
+
+        /* get from feature */
+        const data_row_id_t from_feature_row_id = data_relationship_get_from_feature_row_id ( relation );
+        bool from_feature_found = ( from_feature_row_id == DATA_ROW_ID_VOID );
+        if (( node_data != NULL )&&( ! from_feature_found ))
+        {
+            const data_feature_t *node_feature
+                = data_node_set_get_feature_by_id_const ( node_data, from_feature_row_id );
+            if ( node_feature != NULL )
+            {
+                from_f_type = data_feature_get_main_type( node_feature );
+                from_feature_found = true;
+            }
+        }
+        if ( ! from_feature_found )
+        {
+            data_feature_init_empty( &((*this_).temp_feature) );
+            data_err |=  data_database_reader_get_feature_by_id ( (*this_).db_reader,
+                                                                  from_feature_row_id, 
+                                                                  &((*this_).temp_feature) 
+                                                                );
+            from_f_type = data_feature_get_main_type( &((*this_).temp_feature) );
+            data_feature_destroy( &((*this_).temp_feature) );
+        }
+
+        /* get to classifier */
+        const data_row_id_t to_classifier_row_id = data_relationship_get_to_classifier_row_id ( relation );
+        bool to_classifier_found = false;
+        if ( node_data != NULL )
+        {
+            const data_classifier_t *node_classifier
+                = data_node_set_get_classifier_const( node_data );
+            if (( node_classifier != NULL )
+                &&( to_classifier_row_id == data_classifier_get_row_id ( node_classifier ) ))
+            {
+                to_c_type = data_classifier_get_main_type( node_classifier );
+                to_classifier_found = true;
+            }
+        }
+        if ( ! to_classifier_found )
+        {
+            data_classifier_init_empty( &((*this_).temp_classifier) );
+            data_err |=  data_database_reader_get_classifier_by_id ( (*this_).db_reader,
+                                                                     to_classifier_row_id, 
+                                                                     &((*this_).temp_classifier) 
+                                                                   );
+            to_c_type = data_classifier_get_main_type( &((*this_).temp_classifier) );
+            data_classifier_destroy( &((*this_).temp_classifier) );
+        }
+
+        /* get to feature */
+        const data_row_id_t to_feature_row_id = data_relationship_get_to_feature_row_id ( relation );
+        bool to_feature_found = ( to_feature_row_id == DATA_ROW_ID_VOID );
+        if (( node_data != NULL )&&( ! to_feature_found ))
+        {
+            const data_feature_t *node_feature
+                = data_node_set_get_feature_by_id_const ( node_data, to_feature_row_id );
+            if ( node_feature != NULL )
+            {
+                to_f_type = data_feature_get_main_type( node_feature );
+                to_feature_found = true;
+            }
+        }
+        if ( ! to_feature_found )
+        {
+            data_feature_init_empty( &((*this_).temp_feature) );
+            data_err |=  data_database_reader_get_feature_by_id ( (*this_).db_reader,
+                                                                  to_feature_row_id, 
+                                                                  &((*this_).temp_feature) 
+                                                                );
+            to_f_type = data_feature_get_main_type( &((*this_).temp_feature) );
+            data_feature_destroy( &((*this_).temp_feature) );
+        }
     }
     
     *out_from_c_type = from_c_type;
