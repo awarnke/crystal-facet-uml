@@ -180,7 +180,7 @@ static inline layout_feature_t *layout_relationship_get_to_feature_ptr ( const l
 /*!
  *  \brief gets the row id of the relationship
  *
- *  This is a shortcut for data_relationship_get_id( layout_relationship_get_data_const ( X ) )
+ *  This is a shortcut for data_relationship_get_row_id( layout_relationship_get_data_const ( X ) )
  *
  *  \param this_ pointer to own object attributes
  *  \return id of the relationship

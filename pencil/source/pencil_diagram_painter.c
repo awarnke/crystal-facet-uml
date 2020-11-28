@@ -59,7 +59,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
 
     /* draw diagram border and name */
     {
-        TRACE_INFO_INT("drawing diagram id",data_diagram_get_id(the_diagram));
+        TRACE_INFO_INT("drawing diagram id",data_diagram_get_row_id(the_diagram));
 
         double std_line_width = pencil_size_get_standard_line_width( pencil_size );
         cairo_set_line_width( cr, std_line_width );

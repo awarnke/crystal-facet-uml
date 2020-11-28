@@ -97,7 +97,7 @@ static inline const data_diagram_t *layout_diagram_get_data_const ( const layout
 /*!
  *  \brief gets the row id of the diagram
  *
- *  This is a shortcut for data_diagram_get_id( layout_diagram_get_data_const ( X ) )
+ *  This is a shortcut for data_diagram_get_row_id( layout_diagram_get_data_const ( X ) )
  *
  *  \param this_ pointer to own object attributes
  *  \return id of the diagram

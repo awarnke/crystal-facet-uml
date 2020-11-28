@@ -41,13 +41,13 @@ static void set_up(void)
     gui_resources_init ( &res );
     shape_int_rectangle_init( &bounds, LEFT, TOP, WIDTH, HEIGHT );
     data_diagram_init_empty( &parent );
-    data_diagram_set_id( &parent, 1000 );
+    data_diagram_set_row_id( &parent, 1000 );
     data_diagram_init_empty( &self );
-    data_diagram_set_id( &self, 1001 );
-    data_diagram_set_parent_id( &self, 1000 );
+    data_diagram_set_row_id( &self, 1001 );
+    data_diagram_set_parent_row_id( &self, 1000 );
     data_diagram_init_empty( &child );
-    data_diagram_set_id( &child, 1002 );
-    data_diagram_set_parent_id( &child, 1001 );
+    data_diagram_set_row_id( &child, 1002 );
+    data_diagram_set_parent_row_id( &child, 1001 );
 }
 
 static void tear_down(void)

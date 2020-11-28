@@ -129,7 +129,7 @@ int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction
 
         if ( is_interaction_type )
         {
-            TRACE_INFO_INT("exporting diagram as interaction, id:",data_diagram_get_id(diag_ptr));
+            TRACE_INFO_INT("exporting diagram as interaction, id:",data_diagram_get_row_id(diag_ptr));
 
             /* add this classifier to the already written elements */
             write_err |= universal_array_list_append( (*this_).written_id_set, &diagram_id );
@@ -251,7 +251,7 @@ int io_export_interaction_traversal_private_look_for_focused_feature ( io_export
             {
                 const bool is_visible = data_rules_diagram_shows_feature ( &((*this_).filter_rules),
                                                                            diagram_data,
-                                                                           data_feature_get_id( feature )
+                                                                           data_feature_get_row_id( feature )
                                                                          );
                 const bool is_lifeline
                     =( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( feature ) );

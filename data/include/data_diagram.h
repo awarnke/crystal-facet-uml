@@ -134,7 +134,7 @@ static inline void data_diagram_trace ( const data_diagram_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_id_t data_diagram_get_id ( const data_diagram_t *this_ );
+static inline data_row_id_t data_diagram_get_row_id ( const data_diagram_t *this_ );
 
 /*!
  *  \brief sets the attribute id
@@ -142,7 +142,7 @@ static inline data_row_id_t data_diagram_get_id ( const data_diagram_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param id new id of this object
  */
-static inline void data_diagram_set_id ( data_diagram_t *this_, data_row_id_t id );
+static inline void data_diagram_set_row_id ( data_diagram_t *this_, data_row_id_t id );
 
 /*!
  *  \brief gets the data_id derived from the id attribute
@@ -158,7 +158,7 @@ static inline data_id_t data_diagram_get_data_id ( const data_diagram_t *this_ )
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_id_t data_diagram_get_parent_id ( const data_diagram_t *this_ );
+static inline data_row_id_t data_diagram_get_parent_row_id ( const data_diagram_t *this_ );
 
 /*!
  *  \brief sets the attribute parent_id
@@ -166,7 +166,15 @@ static inline data_row_id_t data_diagram_get_parent_id ( const data_diagram_t *t
  *  \param this_ pointer to own object attributes
  *  \param parent_id new parent_id of this object
  */
-static inline void data_diagram_set_parent_id ( data_diagram_t *this_, data_row_id_t parent_id );
+static inline void data_diagram_set_parent_row_id ( data_diagram_t *this_, data_row_id_t parent_id );
+
+/*!
+ *  \brief gets the data_id derived from the attribute parent_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return data_id of referenced parent diagram, DATA_ID_VOID if the referenced diagram is not valid
+ */
+static inline data_id_t data_diagram_get_parent_data_id ( const data_diagram_t *this_ );
 
 /*!
  *  \brief gets the attribute diagram_type

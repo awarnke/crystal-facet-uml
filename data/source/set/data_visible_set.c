@@ -178,8 +178,8 @@ void data_visible_set_private_update_containment_cache ( data_visible_set_t *thi
             {
                 data_row_id_t parent_id;
                 data_row_id_t child_id;
-                parent_id = data_relationship_get_from_classifier_id ( the_relationship );
-                child_id = data_relationship_get_to_classifier_id ( the_relationship );
+                parent_id = data_relationship_get_from_classifier_row_id ( the_relationship );
+                child_id = data_relationship_get_to_classifier_row_id ( the_relationship );
                 int32_t parent_index;
                 int32_t child_index;
                 parent_index = data_visible_set_get_classifier_index ( this_, parent_id );

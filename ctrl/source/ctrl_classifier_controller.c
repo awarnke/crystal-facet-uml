@@ -52,13 +52,13 @@ ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_cont
     data_row_id_t new_id;
 
     data_classifier_copy( &to_be_created, new_classifier );
-    data_classifier_set_id( &to_be_created, DATA_ROW_ID_VOID );
+    data_classifier_set_row_id( &to_be_created, DATA_ROW_ID_VOID );
 
     data_result = data_database_writer_create_classifier( (*this_).db_writer, &to_be_created, &new_id );
     if ( DATA_ERROR_NONE == data_result )
     {
         /* store new id to data_classifier_t object */
-        data_classifier_set_id( &to_be_created, new_id );
+        data_classifier_set_row_id( &to_be_created, new_id );
 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set )
@@ -159,7 +159,7 @@ ctrl_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_contr
 
                 if (( DATA_ERROR_ARRAY_BUFFER_EXCEEDED == data_result ) || ( out_feature_count == 1 ))
                 {
-                    data_result = data_database_writer_delete_feature( (*this_).db_writer, data_feature_get_id( &(out_feature[0]) ), NULL );
+                    data_result = data_database_writer_delete_feature( (*this_).db_writer, data_feature_get_row_id( &(out_feature[0]) ), NULL );
 
                     result |= (ctrl_error_t) data_result;
                     if ( DATA_ERROR_NONE == data_result )
@@ -196,7 +196,7 @@ ctrl_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_contr
 
                 if (( DATA_ERROR_ARRAY_BUFFER_EXCEEDED == data_result ) || ( out_relationship_count == 1 ))
                 {
-                    data_result = data_database_writer_delete_relationship( (*this_).db_writer, data_relationship_get_id( &(out_relationship[0]) ), NULL );
+                    data_result = data_database_writer_delete_relationship( (*this_).db_writer, data_relationship_get_row_id( &(out_relationship[0]) ), NULL );
 
                     result |= (ctrl_error_t) data_result;
 
@@ -504,13 +504,13 @@ ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_control
     data_row_id_t new_id;
 
     data_feature_copy( &to_be_created, new_feature );
-    data_feature_set_id( &to_be_created, DATA_ROW_ID_VOID );
+    data_feature_set_row_id( &to_be_created, DATA_ROW_ID_VOID );
 
     data_result = data_database_writer_create_feature( (*this_).db_writer, &to_be_created, &new_id );
     if ( DATA_ERROR_NONE == data_result )
     {
         /* store new id to data_feature_t object */
-        data_feature_set_id( &to_be_created, new_id );
+        data_feature_set_row_id( &to_be_created, new_id );
 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set )
@@ -577,7 +577,7 @@ ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_control
 
             if (( DATA_ERROR_ARRAY_BUFFER_EXCEEDED == data_result ) || ( out_relationship_count == 1 ))
             {
-                data_result = data_database_writer_delete_relationship( (*this_).db_writer, data_relationship_get_id( &(out_relationship[0]) ), NULL );
+                data_result = data_database_writer_delete_relationship( (*this_).db_writer, data_relationship_get_row_id( &(out_relationship[0]) ), NULL );
 
                 result |= (ctrl_error_t) data_result;
 
@@ -786,13 +786,13 @@ ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_co
     data_row_id_t new_id;
 
     data_relationship_copy( &to_be_created, new_relationship );
-    data_relationship_set_id( &to_be_created, DATA_ROW_ID_VOID );
+    data_relationship_set_row_id( &to_be_created, DATA_ROW_ID_VOID );
 
     data_result = data_database_writer_create_relationship( (*this_).db_writer, &to_be_created, &new_id );
     if ( DATA_ERROR_NONE == data_result )
     {
         /* store new id to data_relationship_t object */
-        data_relationship_set_id( &to_be_created, new_id );
+        data_relationship_set_row_id( &to_be_created, new_id );
 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set )

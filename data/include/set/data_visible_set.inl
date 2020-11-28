@@ -114,7 +114,7 @@ static inline const data_visible_classifier_t *data_visible_set_get_visible_clas
 
         const data_diagramelement_t *diagramelement;
         diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier );
-        if ( data_diagramelement_get_id( diagramelement ) == diagramelement_id )
+        if ( data_diagramelement_get_row_id( diagramelement ) == diagramelement_id )
         {
             result = visible_classifier;
             break;
@@ -138,7 +138,7 @@ static inline data_visible_classifier_t *data_visible_set_get_visible_classifier
 
         data_diagramelement_t *diagramelement;
         diagramelement = data_visible_classifier_get_diagramelement_ptr( visible_classifier );
-        if ( data_diagramelement_get_id( diagramelement ) == diagramelement_id )
+        if ( data_diagramelement_get_row_id( diagramelement ) == diagramelement_id )
         {
             result = visible_classifier;
             break;
@@ -161,7 +161,7 @@ static inline const data_classifier_t *data_visible_set_get_classifier_by_id_con
 
         const data_classifier_t *probe;
         probe = data_visible_classifier_get_classifier_const( visible_classifier );
-        if ( row_id == data_classifier_get_id( probe ) )
+        if ( row_id == data_classifier_get_row_id( probe ) )
         {
             result = probe;
             break;
@@ -184,7 +184,7 @@ static inline data_classifier_t *data_visible_set_get_classifier_by_id_ptr ( dat
 
         data_classifier_t *probe;
         probe = data_visible_classifier_get_classifier_ptr( visible_classifier );
-        if ( row_id == data_classifier_get_id( probe ) )
+        if ( row_id == data_classifier_get_row_id( probe ) )
         {
             result = probe;
             break;
@@ -203,7 +203,7 @@ static inline int32_t data_visible_set_get_classifier_index ( const data_visible
     {
         const data_classifier_t *probe;
         probe = data_visible_classifier_get_classifier_const( &((*this_).visible_classifiers[index]) );
-        if ( row_id == data_classifier_get_id( probe ) )
+        if ( row_id == data_classifier_get_row_id( probe ) )
         {
             result = index;
             break;
@@ -273,7 +273,7 @@ static inline const data_feature_t *data_visible_set_get_feature_by_id_const ( c
     {
         const data_feature_t *probe;
         probe = &((*this_).features[index]);
-        if ( row_id == data_feature_get_id( probe ) )
+        if ( row_id == data_feature_get_row_id( probe ) )
         {
             result = probe;
             break;
@@ -292,7 +292,7 @@ static inline data_feature_t *data_visible_set_get_feature_by_id_ptr ( data_visi
     {
         data_feature_t *probe;
         probe = &((*this_).features[index]);
-        if ( row_id == data_feature_get_id( probe ) )
+        if ( row_id == data_feature_get_row_id( probe ) )
         {
             result = probe;
             break;
@@ -358,7 +358,7 @@ static inline const data_relationship_t *data_visible_set_get_relationship_by_id
     {
         const data_relationship_t *probe;
         probe = &((*this_).relationships[index]);
-        if ( row_id == data_relationship_get_id( probe ) )
+        if ( row_id == data_relationship_get_row_id( probe ) )
         {
             result = probe;
             break;
@@ -377,7 +377,7 @@ static inline data_relationship_t *data_visible_set_get_relationship_by_id_ptr (
     {
         data_relationship_t *probe;
         probe = &((*this_).relationships[index]);
-        if ( row_id == data_relationship_get_id( probe ) )
+        if ( row_id == data_relationship_get_row_id( probe ) )
         {
             result = probe;
             break;

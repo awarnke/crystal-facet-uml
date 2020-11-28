@@ -213,7 +213,7 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, data_row_id_t
         }
         else
         {
-            main_diagram_id = data_diagram_get_id( &((*this_).private_temp_diagram_buf[0]) );
+            main_diagram_id = data_diagram_get_row_id( &((*this_).private_temp_diagram_buf[0]) );
             TRACE_INFO_INT( "main_diagram_id:", main_diagram_id );
         }
 
@@ -243,9 +243,9 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, data_row_id_t
         data_row_id_t parent_diagram_id;
         data_diagram_t *selected_diag;
         selected_diag = gui_sketch_area_get_focused_diagram_ptr( this_ );
-        selected_diagram_id = data_diagram_get_id( selected_diag );
+        selected_diagram_id = data_diagram_get_row_id( selected_diag );
         TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
-        parent_diagram_id = data_diagram_get_parent_id( selected_diag );
+        parent_diagram_id = data_diagram_get_parent_row_id( selected_diag );
         TRACE_INFO_INT( "parent_diagram_id:", parent_diagram_id );
 
         /* load parent even if there is no parent (-->VOID) */
@@ -276,7 +276,7 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, data_row_id_t
                 if ( (*this_).card_num < GUI_SKETCH_AREA_CONST_MAX_CARDS )
                 {
                     data_row_id_t current_child_id;
-                    current_child_id = data_diagram_get_id( &((*this_).private_temp_diagram_buf[index]) );
+                    current_child_id = data_diagram_get_row_id( &((*this_).private_temp_diagram_buf[index]) );
                     gui_sketch_card_init( &((*this_).cards[(*this_).card_num]) );
                     gui_sketch_card_load_data( &((*this_).cards[(*this_).card_num]), current_child_id, (*this_).db_reader );
                     (*this_).card_num ++;
@@ -305,8 +305,8 @@ void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ 
     {
         data_diagram_t *former_diagram;
         former_diagram = gui_sketch_area_get_focused_diagram_ptr ( this_ );
-        former_diagram_id = data_diagram_get_id( former_diagram );
-        former_parent_diagram_id = data_diagram_get_parent_id( former_diagram );
+        former_diagram_id = data_diagram_get_row_id( former_diagram );
+        former_parent_diagram_id = data_diagram_get_parent_row_id( former_diagram );
         TRACE_INFO_INT_INT( "former_diagram_id, former_parent_diagram_id:", former_diagram_id, former_parent_diagram_id );
         //former_focused_element = gui_marked_set_get_focused( (*this_).marker );
     }
@@ -789,7 +789,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                                 {
                                     assert( data_diagram_is_valid( selected_diag ) );
                                     data_row_id_t parent_diagram_id;
-                                    parent_diagram_id = data_diagram_get_parent_id( selected_diag );
+                                    parent_diagram_id = data_diagram_get_parent_row_id( selected_diag );
                                     int32_t list_order;
                                     list_order = gui_sketch_nav_tree_get_siblings_highest_order ( &((*this_).nav_tree) );
 
@@ -806,7 +806,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                                 {
                                     assert( data_diagram_is_valid( selected_diag ) );
                                     data_row_id_t selected_diagram_id;
-                                    selected_diagram_id = data_diagram_get_id( selected_diag );
+                                    selected_diagram_id = data_diagram_get_row_id( selected_diag );
                                     int32_t list_order;
                                     list_order = gui_sketch_nav_tree_get_children_highest_order ( &((*this_).nav_tree) );
                                     c_result = gui_sketch_object_creator_create_diagram ( &((*this_).object_creator),
@@ -966,7 +966,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
 
                         /* create a new classifier */
                         data_diagram_t *target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
-                        data_row_id_t selected_diagram_id = data_diagram_get_id( target_diag );
+                        data_row_id_t selected_diagram_id = data_diagram_get_row_id( target_diag );
                         TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
 
                         data_id_t dummy_classifier;

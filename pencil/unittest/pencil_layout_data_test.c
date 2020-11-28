@@ -183,8 +183,8 @@ static void test_normal_model(void)
     fake_input_data = init_fake_input_data(15,30,20);
     /* make the 0-th relation a from-feature-to-feature relation: */
     data_relationship_t *linked_rel = data_visible_set_get_relationship_ptr ( fake_input_data, 0 /*index*/ );
-    data_relationship_set_from_feature_id ( linked_rel, 0 /* not DATA_ROW_ID_VOID */ );
-    data_relationship_set_to_feature_id ( linked_rel, 0 /* not DATA_ROW_ID_VOID */ );
+    data_relationship_set_from_feature_row_id ( linked_rel, 0 /* not DATA_ROW_ID_VOID */ );
+    data_relationship_set_to_feature_row_id ( linked_rel, 0 /* not DATA_ROW_ID_VOID */ );
 
     static pencil_layout_data_t testee;
     pencil_layout_data_init( &testee, fake_input_data );
@@ -222,14 +222,14 @@ static void test_inconsistent_model(void)
     fake_input_data = init_fake_input_data(5,5,5);
     /* make some wrong ids and links */
     data_feature_t *illegal_feat1 = data_visible_set_get_feature_ptr ( fake_input_data, 4 /*index*/ );
-    data_feature_set_classifier_id ( illegal_feat1, 12000 /*non-existing classifier_id*/ );
+    data_feature_set_classifier_row_id ( illegal_feat1, 12000 /*non-existing classifier_id*/ );
     data_relationship_t *illegal_rel1 = data_visible_set_get_relationship_ptr ( fake_input_data, 0 /*index*/ );
-    data_relationship_set_from_feature_id ( illegal_rel1, 1 /* feature id 1 does not belong to from classifier */ );
-    data_relationship_set_to_feature_id ( illegal_rel1, 0 /* not DATA_ROW_ID_VOID */ );
+    data_relationship_set_from_feature_row_id ( illegal_rel1, 1 /* feature id 1 does not belong to from classifier */ );
+    data_relationship_set_to_feature_row_id ( illegal_rel1, 0 /* not DATA_ROW_ID_VOID */ );
     data_relationship_t *illegal_rel2 = data_visible_set_get_relationship_ptr ( fake_input_data, 1 /*index*/ );
-    data_relationship_set_from_classifier_id ( illegal_rel2, 12000 /*non-existing classifier_id*/ );
+    data_relationship_set_from_classifier_row_id ( illegal_rel2, 12000 /*non-existing classifier_id*/ );
     data_relationship_t *illegal_rel3 = data_visible_set_get_relationship_ptr ( fake_input_data, 2 /*index*/ );
-    data_relationship_set_to_classifier_id ( illegal_rel3, 12000 /*non-existing classifier_id*/ );
+    data_relationship_set_to_classifier_row_id ( illegal_rel3, 12000 /*non-existing classifier_id*/ );
 
     static pencil_layout_data_t testee;
     pencil_layout_data_init( &testee, fake_input_data );

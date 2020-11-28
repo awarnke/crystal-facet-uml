@@ -169,7 +169,7 @@ static void lifeline_to_diagramelement_consistency(void)
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 1, feature_count );
         TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &(features[0]) ) );
-        lifeline_id = data_feature_get_id( &(features[0]) );
+        lifeline_id = data_feature_get_row_id( &(features[0]) );
         TEST_ASSERT( DATA_ROW_ID_VOID != lifeline_id );
     }
 
@@ -188,7 +188,7 @@ static void lifeline_to_diagramelement_consistency(void)
         data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, first_diag_element_id, &check_diagele2 );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagramelement_get_focused_feature_id( &check_diagele2 ) );
+        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagramelement_get_focused_feature_row_id( &check_diagele2 ) );
 
         data_diagramelement_destroy ( &check_diagele2 );
     }
@@ -220,7 +220,7 @@ static void lifeline_to_diagramelement_consistency(void)
         data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, first_diag_element_id, &check_diagele3 );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-        TEST_ASSERT_EQUAL_INT( lifeline_id, data_diagramelement_get_focused_feature_id( &check_diagele3 ) );
+        TEST_ASSERT_EQUAL_INT( lifeline_id, data_diagramelement_get_focused_feature_row_id( &check_diagele3 ) );
 
         data_diagramelement_destroy ( &check_diagele3 );
     }

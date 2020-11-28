@@ -49,7 +49,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
 
     if ( data_relationship_is_valid( the_relationship ) )
     {
-        TRACE_INFO_INT("drawing relationship id", data_relationship_get_id( the_relationship ) );
+        TRACE_INFO_INT("drawing relationship id", data_relationship_get_row_id( the_relationship ) );
 
         /* set the right line width */
         double std_line_width = pencil_size_get_standard_line_width( pencil_size );

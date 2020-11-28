@@ -337,7 +337,7 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( const pencil_layouter_t *t
         {
             data_id_pair_reinit_by_table_and_id ( out_selected_id,
                                                   DATA_TABLE_DIAGRAM,
-                                                  data_diagram_get_id(diagram_data),
+                                                  data_diagram_get_row_id(diagram_data),
                                                   DATA_TABLE_VOID,
                                                   DATA_ROW_ID_VOID
                                                 );
@@ -346,7 +346,7 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( const pencil_layouter_t *t
         {
             data_id_pair_reinit_by_table_and_id ( out_surrounding_id,
                                                   DATA_TABLE_DIAGRAM,
-                                                  data_diagram_get_id(diagram_data),
+                                                  data_diagram_get_row_id(diagram_data),
                                                   DATA_TABLE_VOID,
                                                   DATA_ROW_ID_VOID
                                                 );
@@ -478,7 +478,7 @@ pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( const pencil_layo
                                                       DATA_TABLE_FEATURE,
                                                       layout_feature_get_feature_id( the_feature ),
                                                       DATA_TABLE_CLASSIFIER,
-                                                      data_feature_get_classifier_id( data_feature )
+                                                      data_feature_get_classifier_row_id( data_feature )
                                                     );
             }
 
@@ -530,7 +530,7 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( const pencil
 
                 data_id_pair_reinit_by_table_and_id ( out_selected_id,
                                                       DATA_TABLE_RELATIONSHIP,
-                                                      data_relationship_get_id( relation_data ),
+                                                      data_relationship_get_row_id( relation_data ),
                                                       DATA_TABLE_VOID,
                                                       DATA_ROW_ID_VOID
                                                     );
@@ -650,7 +650,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
     data_row_id_t parent_classifier_id;
     data_feature_type_t feature_type;
     feature_type = data_feature_get_main_type ( feature_ptr );
-    parent_classifier_id = data_feature_get_classifier_id ( feature_ptr );
+    parent_classifier_id = data_feature_get_classifier_row_id ( feature_ptr );
 
     /* get the bounding box of the diagram */
     const layout_diagram_t *the_diagram;
@@ -725,7 +725,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
                             /* check if feature is not the moved one */
                             const data_feature_t *const data_feature
                                 = layout_feature_get_data_const ( the_feature );
-                            if ( data_feature_get_id ( feature_ptr ) != data_feature_get_id ( data_feature ) )
+                            if ( data_feature_get_row_id ( feature_ptr ) != data_feature_get_row_id ( data_feature ) )
                             {
                                 const int32_t list_order
                                     = data_feature_get_list_order( data_feature );

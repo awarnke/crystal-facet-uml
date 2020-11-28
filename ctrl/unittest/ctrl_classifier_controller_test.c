@@ -147,7 +147,7 @@ static void classifier_create_read_modify_read(void)
         data_classifier_init_empty( &read_classifier );
         data_err = data_database_reader_get_classifier_by_id ( &db_reader, classifier_id, &read_classifier );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( classifier_id, data_classifier_get_id( &read_classifier ) );
+        TEST_ASSERT_EQUAL_INT( classifier_id, data_classifier_get_row_id( &read_classifier ) );
         TEST_ASSERT_EQUAL_INT( DATA_CLASSIFIER_TYPE_COMPONENT, data_classifier_get_main_type( &read_classifier ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_classifier_get_stereotype_ptr( &read_classifier ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_component", data_classifier_get_name_ptr( &read_classifier ) ) );
@@ -189,7 +189,7 @@ static void classifier_create_read_modify_read(void)
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_ARRAY_BUFFER_EXCEEDED, data_err );
         TEST_ASSERT_EQUAL_INT( 0, read_vis_classifiers_count );
         /* check that old data is not overwritten: */
-        TEST_ASSERT_EQUAL_INT( 0x1234, data_classifier_get_id( first_classifier ) );
+        TEST_ASSERT_EQUAL_INT( 0x1234, data_classifier_get_row_id( first_classifier ) );
         TEST_ASSERT_EQUAL_INT( DATA_CLASSIFIER_TYPE_COMPONENT, data_classifier_get_main_type( first_classifier ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "stereo", data_classifier_get_stereotype_ptr( first_classifier ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_name", data_classifier_get_name_ptr( first_classifier ) ) );
@@ -205,7 +205,7 @@ static void classifier_create_read_modify_read(void)
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 1, read_vis_classifiers_count );
         /* check that new data is available */
-        TEST_ASSERT_EQUAL_INT( classifier_id, data_classifier_get_id( first_classifier ) );
+        TEST_ASSERT_EQUAL_INT( classifier_id, data_classifier_get_row_id( first_classifier ) );
         TEST_ASSERT_EQUAL_INT( DATA_CLASSIFIER_TYPE_NODE, data_classifier_get_main_type( first_classifier ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_new_stereotype", data_classifier_get_stereotype_ptr( first_classifier ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_node", data_classifier_get_name_ptr( first_classifier ) ) );
@@ -250,9 +250,9 @@ static void features_CRURDR(void)
         data_feature_t check;
         data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( new_feature_id, data_feature_get_id( &check ) );
+        TEST_ASSERT_EQUAL_INT( new_feature_id, data_feature_get_row_id( &check ) );
         TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_PROPERTY, data_feature_get_main_type( &check ) );
-        TEST_ASSERT_EQUAL_INT( 35000, data_feature_get_classifier_id( &check ) );
+        TEST_ASSERT_EQUAL_INT( 35000, data_feature_get_classifier_row_id( &check ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "startup_time", data_feature_get_key_ptr( &check ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "uint64_t", data_feature_get_value_ptr( &check ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "time in nano seconds to start", data_feature_get_description_ptr( &check ) ) );
@@ -297,9 +297,9 @@ static void features_CRURDR(void)
         data_feature_t check2;
         data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check2 );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( new_feature_id, data_feature_get_id( &check2 ) );
+        TEST_ASSERT_EQUAL_INT( new_feature_id, data_feature_get_row_id( &check2 ) );
         TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_OPERATION, data_feature_get_main_type( &check2 ) );
-        TEST_ASSERT_EQUAL_INT( 35000, data_feature_get_classifier_id( &check2 ) );
+        TEST_ASSERT_EQUAL_INT( 35000, data_feature_get_classifier_row_id( &check2 ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "get_startup_time()", data_feature_get_key_ptr( &check2 ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "(void)->(uint64_t)", data_feature_get_value_ptr( &check2 ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "gets the startup time in nanoseconds", data_feature_get_description_ptr( &check2 ) ) );
@@ -369,15 +369,15 @@ static void relationship_CRURDR(void)
         data_relationship_t check;
         data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( new_relationship_id, data_relationship_get_id( &check ) );
+        TEST_ASSERT_EQUAL_INT( new_relationship_id, data_relationship_get_row_id( &check ) );
         TEST_ASSERT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, data_relationship_get_main_type( &check ) );
-        TEST_ASSERT_EQUAL_INT( 86000, data_relationship_get_from_classifier_id( &check ) );
-        TEST_ASSERT_EQUAL_INT( 86001, data_relationship_get_to_classifier_id( &check ) );
+        TEST_ASSERT_EQUAL_INT( 86000, data_relationship_get_from_classifier_row_id( &check ) );
+        TEST_ASSERT_EQUAL_INT( 86001, data_relationship_get_to_classifier_row_id( &check ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "the composition is more", data_relationship_get_name_ptr( &check ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "than the sum of its parts", data_relationship_get_description_ptr( &check ) ) );
         TEST_ASSERT_EQUAL_INT( -66000, data_relationship_get_list_order( &check ) );
-        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_id( &check ) );
-        TEST_ASSERT_EQUAL_INT( 100666, data_relationship_get_to_feature_id( &check ) );
+        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_row_id( &check ) );
+        TEST_ASSERT_EQUAL_INT( 100666, data_relationship_get_to_feature_row_id( &check ) );
     }
 
     /* modify the relationship */
@@ -412,15 +412,15 @@ static void relationship_CRURDR(void)
         data_relationship_t check2;
         data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check2 );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( new_relationship_id, data_relationship_get_id( &check2 ) );
+        TEST_ASSERT_EQUAL_INT( new_relationship_id, data_relationship_get_row_id( &check2 ) );
         TEST_ASSERT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL, data_relationship_get_main_type( &check2 ) );
-        TEST_ASSERT_EQUAL_INT( 86000, data_relationship_get_from_classifier_id( &check2 ) );
-        TEST_ASSERT_EQUAL_INT( 86001, data_relationship_get_to_classifier_id( &check2 ) );
+        TEST_ASSERT_EQUAL_INT( 86000, data_relationship_get_from_classifier_row_id( &check2 ) );
+        TEST_ASSERT_EQUAL_INT( 86001, data_relationship_get_to_classifier_row_id( &check2 ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "async message", data_relationship_get_name_ptr( &check2 ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "good for modularization", data_relationship_get_description_ptr( &check2 ) ) );
         TEST_ASSERT_EQUAL_INT( -88000, data_relationship_get_list_order( &check2 ) );
-        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_id( &check2 ) );
-        TEST_ASSERT_EQUAL_INT( 100666, data_relationship_get_to_feature_id( &check2 ) );
+        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_row_id( &check2 ) );
+        TEST_ASSERT_EQUAL_INT( 100666, data_relationship_get_to_feature_row_id( &check2 ) );
     }
 
     /* delete the relationship from the database */

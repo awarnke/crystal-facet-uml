@@ -161,7 +161,7 @@ data_error_t json_serializer_append_classifier ( json_serializer_t *this_,
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_DEF );
         strerr |= utf8stringbuf_append_int( out,
-                                            data_classifier_get_id( object ));
+                                            data_classifier_get_row_id( object ));
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_NEXT_NL );
 
@@ -408,7 +408,7 @@ data_error_t json_serializer_append_diagram ( json_serializer_t *this_, data_dia
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_DEF );
         strerr |= utf8stringbuf_append_int( out,
-                                            data_diagram_get_id( object ));
+                                            data_diagram_get_row_id( object ));
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_NEXT_NL );
 
@@ -571,7 +571,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_DEF );
         strerr |= utf8stringbuf_append_int( out,
-                                            data_relationship_get_id( object ));
+                                            data_relationship_get_row_id( object ));
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_NEXT_NL );
 
@@ -661,7 +661,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_DEF );
         strerr |= utf8stringbuf_append_int( out,
-                                            data_relationship_get_from_classifier_id( object ));
+                                            data_relationship_get_from_classifier_row_id( object ));
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_NEXT_NL );
 
@@ -698,7 +698,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_DEF );
         strerr |= utf8stringbuf_append_int( out,
-                                            data_relationship_get_to_classifier_id( object ));
+                                            data_relationship_get_to_classifier_row_id( object ));
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_NEXT_NL );
 
@@ -725,7 +725,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
 
         /* from_feature_id */
         out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
-        const bool from_feat_valid = ( data_relationship_get_from_feature_id( object ) != DATA_ROW_ID_VOID );
+        const bool from_feat_valid = ( data_relationship_get_from_feature_row_id( object ) != DATA_ROW_ID_VOID );
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
@@ -736,7 +736,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_DEF );
         strerr |= utf8stringbuf_append_int( out,
-                                            data_relationship_get_from_feature_id( object ));
+                                            data_relationship_get_from_feature_row_id( object ));
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_NEXT_NL );
 
@@ -766,7 +766,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
 
         /* to_feature_id */
         out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
-        const bool to_feat_valid = ( data_relationship_get_to_feature_id( object ) != DATA_ROW_ID_VOID );
+        const bool to_feat_valid = ( data_relationship_get_to_feature_row_id( object ) != DATA_ROW_ID_VOID );
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
@@ -777,7 +777,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_DEF );
         strerr |= utf8stringbuf_append_int( out,
-                                            data_relationship_get_to_feature_id( object ));
+                                            data_relationship_get_to_feature_row_id( object ));
         strerr |= utf8stringbuf_append_str( out,
                                             to_feat_valid ? JSON_CONSTANTS_NEXT_NL : JSON_CONSTANTS_NL /* LAST, no NEXT */ );
 
@@ -860,7 +860,7 @@ utf8error_t json_serializer_private_append_feature ( json_serializer_t *this_, d
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     strerr |= utf8stringbuf_append_int( out,
-                                        data_feature_get_id( object ));
+                                        data_feature_get_row_id( object ));
     strerr |= utf8stringbuf_append_str( out,
                                         JSON_CONSTANTS_NEXT_NL );
 

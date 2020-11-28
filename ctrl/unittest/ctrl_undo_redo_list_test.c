@@ -200,8 +200,8 @@ static void undo_redo_classifier(void)
         data_diagram_t read_diagram;
         data_err = data_database_reader_get_diagram_by_id ( &db_reader, root_diagram_id, &read_diagram );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( root_diagram_id, data_diagram_get_id( &read_diagram ) );
-        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_id( &read_diagram ) );
+        TEST_ASSERT_EQUAL_INT( root_diagram_id, data_diagram_get_row_id( &read_diagram ) );
+        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_row_id( &read_diagram ) );
         TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, data_diagram_get_diagram_type( &read_diagram ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_root_diag", data_diagram_get_name_ptr( &read_diagram ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_ptr( &read_diagram ) ) );
@@ -243,7 +243,7 @@ static void undo_redo_classifier(void)
         data_classifier_t *first_classifier;
         first_classifier = data_visible_classifier_get_classifier_ptr( &(read_vis_classifiers[0]) );
 
-        TEST_ASSERT_EQUAL_INT( classifier_id, data_classifier_get_id( first_classifier ) );
+        TEST_ASSERT_EQUAL_INT( classifier_id, data_classifier_get_row_id( first_classifier ) );
         TEST_ASSERT_EQUAL_INT( DATA_CLASSIFIER_TYPE_NODE, data_classifier_get_main_type( first_classifier ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_stereo", data_classifier_get_stereotype_ptr( first_classifier ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_node", data_classifier_get_name_ptr( first_classifier ) ) );
@@ -255,10 +255,10 @@ static void undo_redo_classifier(void)
         data_diagramelement_t *first_diagele;
         first_diagele = data_visible_classifier_get_diagramelement_ptr( &(read_vis_classifiers[0]) );
 
-        TEST_ASSERT_EQUAL_INT( root_diagram_id, data_diagramelement_get_diagram_id( first_diagele ) );
-        TEST_ASSERT_EQUAL_INT( classifier_id, data_diagramelement_get_classifier_id( first_diagele ) );
+        TEST_ASSERT_EQUAL_INT( root_diagram_id, data_diagramelement_get_diagram_row_id( first_diagele ) );
+        TEST_ASSERT_EQUAL_INT( classifier_id, data_diagramelement_get_classifier_row_id( first_diagele ) );
         TEST_ASSERT_EQUAL_INT( DATA_DIAGRAMELEMENT_FLAG_EMPHASIS, data_diagramelement_get_display_flags( first_diagele ) );
-        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagramelement_get_focused_feature_id( first_diagele ) );
+        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagramelement_get_focused_feature_row_id( first_diagele ) );
     }
 }
 
@@ -548,9 +548,9 @@ static void undo_redo_feature_and_relationship(void)
     {
         data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( new_feature_id, data_feature_get_id( &check_f ) );
+        TEST_ASSERT_EQUAL_INT( new_feature_id, data_feature_get_row_id( &check_f ) );
         TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_OPERATION, data_feature_get_main_type( &check_f ) );
-        TEST_ASSERT_EQUAL_INT( 35000, data_feature_get_classifier_id( &check_f ) );
+        TEST_ASSERT_EQUAL_INT( 35000, data_feature_get_classifier_row_id( &check_f ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "startup_time", data_feature_get_key_ptr( &check_f ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "(void)->(uint64_t)", data_feature_get_value_ptr( &check_f ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "time in nano seconds to start", data_feature_get_description_ptr( &check_f ) ) );
@@ -558,15 +558,15 @@ static void undo_redo_feature_and_relationship(void)
 
         data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( new_relationship_id, data_relationship_get_id( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( new_relationship_id, data_relationship_get_row_id( &check_r ) );
         TEST_ASSERT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, data_relationship_get_main_type( &check_r ) );
-        TEST_ASSERT_EQUAL_INT( 86000, data_relationship_get_from_classifier_id( &check_r ) );
-        TEST_ASSERT_EQUAL_INT( 86001, data_relationship_get_to_classifier_id( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( 86000, data_relationship_get_from_classifier_row_id( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( 86001, data_relationship_get_to_classifier_row_id( &check_r ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "the composition is more", data_relationship_get_name_ptr( &check_r ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "good for modularization", data_relationship_get_description_ptr( &check_r ) ) );
         TEST_ASSERT_EQUAL_INT( -66000, data_relationship_get_list_order( &check_r ) );
-        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_id( &check_r ) );
-        TEST_ASSERT_EQUAL_INT( 150160, data_relationship_get_to_feature_id( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_row_id( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( 150160, data_relationship_get_to_feature_row_id( &check_r ) );
     }
 
     /* undo step 4 */
@@ -730,9 +730,9 @@ static void undo_redo_feature_and_relationship(void)
     {
         data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( new_feature_id, data_feature_get_id( &check_f ) );
+        TEST_ASSERT_EQUAL_INT( new_feature_id, data_feature_get_row_id( &check_f ) );
         TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_OPERATION, data_feature_get_main_type( &check_f ) );
-        TEST_ASSERT_EQUAL_INT( 35000, data_feature_get_classifier_id( &check_f ) );
+        TEST_ASSERT_EQUAL_INT( 35000, data_feature_get_classifier_row_id( &check_f ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "startup_time", data_feature_get_key_ptr( &check_f ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "(void)->(uint64_t)", data_feature_get_value_ptr( &check_f ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "time in nano seconds to start", data_feature_get_description_ptr( &check_f ) ) );
@@ -740,15 +740,15 @@ static void undo_redo_feature_and_relationship(void)
 
         data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( new_relationship_id, data_relationship_get_id( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( new_relationship_id, data_relationship_get_row_id( &check_r ) );
         TEST_ASSERT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, data_relationship_get_main_type( &check_r ) );
-        TEST_ASSERT_EQUAL_INT( 86000, data_relationship_get_from_classifier_id( &check_r ) );
-        TEST_ASSERT_EQUAL_INT( 86001, data_relationship_get_to_classifier_id( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( 86000, data_relationship_get_from_classifier_row_id( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( 86001, data_relationship_get_to_classifier_row_id( &check_r ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "the composition is more", data_relationship_get_name_ptr( &check_r ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "good for modularization", data_relationship_get_description_ptr( &check_r ) ) );
         TEST_ASSERT_EQUAL_INT( -66000, data_relationship_get_list_order( &check_r ) );
-        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_id( &check_r ) );
-        TEST_ASSERT_EQUAL_INT( 150160, data_relationship_get_to_feature_id( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_row_id( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( 150160, data_relationship_get_to_feature_row_id( &check_r ) );
     }
 
     /* redo step 5 */
@@ -888,8 +888,8 @@ static void undo_redo_update_diagram(void)
         data_diagram_t read_diagram;
         data_err = data_database_reader_get_diagram_by_id ( &db_reader, root_diagram_id, &read_diagram );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( root_diagram_id, data_diagram_get_id( &read_diagram ) );
-        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_id( &read_diagram ) );
+        TEST_ASSERT_EQUAL_INT( root_diagram_id, data_diagram_get_row_id( &read_diagram ) );
+        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_row_id( &read_diagram ) );
         TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_SYSML_REQUIREMENTS_DIAGRAM, data_diagram_get_diagram_type( &read_diagram ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "the_requirements", data_diagram_get_name_ptr( &read_diagram ) ) );
     }
@@ -899,9 +899,9 @@ static void undo_redo_update_diagram(void)
         data_diagramelement_t read_diagele;
         data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, diagele_id, &read_diagele );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( diagele_id, data_diagramelement_get_id( &read_diagele ) );
+        TEST_ASSERT_EQUAL_INT( diagele_id, data_diagramelement_get_row_id( &read_diagele ) );
         TEST_ASSERT_EQUAL_INT( DATA_DIAGRAMELEMENT_FLAG_EMPHASIS, data_diagramelement_get_display_flags( &read_diagele ) );
-        TEST_ASSERT_EQUAL_INT( 2044, data_diagramelement_get_focused_feature_id( &read_diagele ) );
+        TEST_ASSERT_EQUAL_INT( 2044, data_diagramelement_get_focused_feature_row_id( &read_diagele ) );
     }
 
     /* redo step 3a */
@@ -942,8 +942,8 @@ static void undo_redo_update_diagram(void)
         data_diagram_t read_diagram;
         data_err = data_database_reader_get_diagram_by_id ( &db_reader, root_diagram_id, &read_diagram );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( root_diagram_id, data_diagram_get_id( &read_diagram ) );
-        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_id( &read_diagram ) );
+        TEST_ASSERT_EQUAL_INT( root_diagram_id, data_diagram_get_row_id( &read_diagram ) );
+        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_row_id( &read_diagram ) );
         TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM, data_diagram_get_diagram_type( &read_diagram ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "MY_NEW_NAME", data_diagram_get_name_ptr( &read_diagram ) ) );
     }
@@ -953,9 +953,9 @@ static void undo_redo_update_diagram(void)
         data_diagramelement_t read_diagele;
         data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, diagele_id, &read_diagele );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( diagele_id, data_diagramelement_get_id( &read_diagele ) );
+        TEST_ASSERT_EQUAL_INT( diagele_id, data_diagramelement_get_row_id( &read_diagele ) );
         TEST_ASSERT_EQUAL_INT( DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE, data_diagramelement_get_display_flags( &read_diagele ) );
-        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagramelement_get_focused_feature_id( &read_diagele ) );
+        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagramelement_get_focused_feature_row_id( &read_diagele ) );
     }
 }
 

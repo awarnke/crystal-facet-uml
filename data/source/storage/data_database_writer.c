@@ -99,7 +99,7 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
 
     /* notify listeners */
     data_row_id_t parent_id;
-    parent_id = data_diagram_get_parent_id( diagram );
+    parent_id = data_diagram_get_parent_row_id( diagram );
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ),
                                       DATA_CHANGE_EVENT_TYPE_CREATE,
                                       DATA_TABLE_DIAGRAM,
@@ -735,7 +735,7 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
 
     /* notify listeners */
     data_row_id_t diagram_id;
-    diagram_id = data_diagramelement_get_diagram_id( diagramelement );
+    diagram_id = data_diagramelement_get_diagram_row_id( diagramelement );
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ),
                                       DATA_CHANGE_EVENT_TYPE_CREATE,
                                       DATA_TABLE_DIAGRAMELEMENT,
@@ -874,7 +874,7 @@ data_error_t data_database_writer_create_feature ( data_database_writer_t *this_
 
     /* notify listeners */
     data_row_id_t classifier_id;
-    classifier_id = data_feature_get_classifier_id( feature );
+    classifier_id = data_feature_get_classifier_row_id( feature );
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ),
                                       DATA_CHANGE_EVENT_TYPE_CREATE,
                                       DATA_TABLE_FEATURE,
@@ -1101,7 +1101,7 @@ data_error_t data_database_writer_create_relationship ( data_database_writer_t *
 
     /* notify listeners */
     data_row_id_t from_classifier_id;
-    from_classifier_id = data_relationship_get_from_classifier_id( relationship );
+    from_classifier_id = data_relationship_get_from_classifier_row_id( relationship );
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ),
                                       DATA_CHANGE_EVENT_TYPE_CREATE,
                                       DATA_TABLE_RELATIONSHIP,

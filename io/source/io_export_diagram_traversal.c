@@ -68,7 +68,7 @@ int io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_trave
         const data_diagram_t *diag_ptr = data_visible_set_get_diagram_const( (*this_).input_data );
         assert( diag_ptr != NULL );
         assert( data_diagram_is_valid( diag_ptr ) );
-        TRACE_INFO_INT("printing diagram with id",data_diagram_get_id(diag_ptr));
+        TRACE_INFO_INT("printing diagram with id",data_diagram_get_row_id(diag_ptr));
 
         /* write_err |= io_format_writer_write_header( (*this_).format_writer, "DUMMY_TITLE" ); */
         write_err |= io_format_writer_start_diagram( (*this_).format_writer, data_diagram_get_data_id(diag_ptr) );
@@ -182,7 +182,7 @@ int io_export_diagram_traversal_private_iterate_classifier_features ( io_export_
             {
                 const bool is_visible = data_rules_diagram_shows_feature ( &((*this_).filter_rules),
                                                                            diagram_data,
-                                                                           data_feature_get_id( feature )
+                                                                           data_feature_get_row_id( feature )
                                                                          );
                 const bool is_lifeline
                     =( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( feature ) );
@@ -235,7 +235,7 @@ int io_export_diagram_traversal_private_iterate_classifier_relationships ( io_ex
 
                 if ( is_visible /* no filter for duplicates */ )
                 {
-                    const data_row_id_t to_classifier_id = data_relationship_get_to_classifier_id( relation );
+                    const data_row_id_t to_classifier_id = data_relationship_get_to_classifier_row_id( relation );
                     const data_classifier_t *dest_classifier = data_visible_set_get_classifier_by_id_const ( diagram_data,
                                                                                                              to_classifier_id
                                                                                                            );

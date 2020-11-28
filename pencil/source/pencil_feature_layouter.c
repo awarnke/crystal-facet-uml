@@ -427,7 +427,7 @@ void pencil_feature_layouter_private_layout_prop_or_op ( pencil_feature_layouter
                 {
                     const bool is_above = (( data_feature_get_list_order( f_probe_data ) < data_feature_get_list_order( the_feature ))
                         || (( data_feature_get_list_order( f_probe_data ) == data_feature_get_list_order( the_feature ) )
-                            && ( data_feature_get_id( f_probe_data ) < data_feature_get_id( the_feature ) )));
+                            && ( data_feature_get_row_id( f_probe_data ) < data_feature_get_row_id( the_feature ) )));
                     if ( is_above )
                     {
                         count_features_above ++;

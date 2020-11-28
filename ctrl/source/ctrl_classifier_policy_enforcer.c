@@ -47,9 +47,9 @@ ctrl_error_t ctrl_classifier_policy_enforcer_private_unlink_lifeline ( ctrl_clas
     if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type ( deleted_feature ) )
     {
         data_row_id_t classifier_id;
-        classifier_id = data_feature_get_classifier_id ( deleted_feature );
+        classifier_id = data_feature_get_classifier_row_id ( deleted_feature );
         data_row_id_t deleted_feature_id;
-        deleted_feature_id = data_feature_get_id( deleted_feature );
+        deleted_feature_id = data_feature_get_row_id( deleted_feature );
 
         /* search all diagramelements of the classifier */
         uint32_t diagramelement_count;
@@ -69,12 +69,12 @@ ctrl_error_t ctrl_classifier_policy_enforcer_private_unlink_lifeline ( ctrl_clas
                 data_diagramelement_t *current_diagele;
                 current_diagele = &((*this_).private_temp_diagele_buf[index]);
                 data_row_id_t focused_feature;
-                focused_feature = data_diagramelement_get_focused_feature_id( current_diagele );
+                focused_feature = data_diagramelement_get_focused_feature_row_id( current_diagele );
 
                 if ( focused_feature == deleted_feature_id )
                 {
                     data_row_id_t diagele_id;
-                    diagele_id = data_diagramelement_get_id( current_diagele );
+                    diagele_id = data_diagramelement_get_row_id( current_diagele );
 
                     result |= ctrl_diagram_controller_update_diagramelement_focused_feature_id ( (*this_).diag_ctrl,
                                                                                                  diagele_id,

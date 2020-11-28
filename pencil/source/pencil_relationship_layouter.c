@@ -325,10 +325,10 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
             probe_relation_data = layout_relationship_get_data_const ( probe_relationship );
             const bool same_type = ( data_relationship_get_main_type( probe_relation_data )
                                      == data_relationship_get_main_type( current_relation_data ) );
-            const bool same_from = ( data_relationship_get_from_classifier_id( probe_relation_data )
-                                     == data_relationship_get_from_classifier_id( current_relation_data ) );
-            const bool same_to = ( data_relationship_get_to_classifier_id( probe_relation_data )
-                                     == data_relationship_get_to_classifier_id( current_relation_data ) );
+            const bool same_from = ( data_relationship_get_from_classifier_row_id( probe_relation_data )
+                                     == data_relationship_get_from_classifier_row_id( current_relation_data ) );
+            const bool same_to = ( data_relationship_get_to_classifier_row_id( probe_relation_data )
+                                     == data_relationship_get_to_classifier_row_id( current_relation_data ) );
             /* if probe and current have same type and (same source classifier or same destination classifier), overlaps are ok */
             if ( ! ( same_type && ( same_from || same_to ) ) )
             {

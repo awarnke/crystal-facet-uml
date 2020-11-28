@@ -202,7 +202,7 @@ static inline bool layout_visible_classifier_is_fix_sized_symbol ( const layout_
 /*!
  *  \brief gets the row id of the classifier
  *
- *  This is a shortcut for data_classifier_get_id( data_visible_classifier_get_classifier_const ( (*this_).data ) )
+ *  This is a shortcut for data_classifier_get_row_id( data_visible_classifier_get_classifier_const ( (*this_).data ) )
  *
  *  \param this_ pointer to own object attributes
  *  \return id of the classifier
@@ -212,7 +212,7 @@ static inline data_row_id_t layout_visible_classifier_get_classifier_id ( const 
 /*!
  *  \brief gets the row id of the diagramelement
  *
- *  This is a shortcut for data_diagramelement_get_id( data_visible_classifier_get_diagramelement_const ( (*this_).data ) )
+ *  This is a shortcut for data_diagramelement_get_row_id( data_visible_classifier_get_diagramelement_const ( (*this_).data ) )
  *
  *  \param this_ pointer to own object attributes
  *  \return id of the diagramelement

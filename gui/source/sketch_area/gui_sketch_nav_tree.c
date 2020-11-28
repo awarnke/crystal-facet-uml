@@ -88,7 +88,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
         }
         else
         {
-            id_to_load = data_diagram_get_parent_id( &((*this_).ancestor_diagrams[anc_index-1]) );
+            id_to_load = data_diagram_get_parent_row_id( &((*this_).ancestor_diagrams[anc_index-1]) );
         }
 
         if ( id_to_load != DATA_ROW_ID_VOID )
@@ -115,7 +115,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
     if ( db_err == DATA_ERROR_NONE )
     {
         data_row_id_t parent_id;
-        parent_id = data_diagram_get_parent_id( &((*this_).ancestor_diagrams[0]) );
+        parent_id = data_diagram_get_parent_row_id( &((*this_).ancestor_diagrams[0]) );
         db_err = data_database_reader_get_diagrams_by_parent_id ( db_reader,
                                                                   parent_id,
                                                                   GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS,
@@ -130,7 +130,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
             (*this_).siblings_self_index = -1;
             for ( int sib_index = 0; sib_index < (*this_).siblings_count; sib_index ++ )
             {
-                if ( diagram_id == data_diagram_get_id( &((*this_).sibling_diagrams[sib_index]) ) )
+                if ( diagram_id == data_diagram_get_row_id( &((*this_).sibling_diagrams[sib_index]) ) )
                 {
                     (*this_).siblings_self_index = sib_index;
                 }
@@ -308,7 +308,7 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( const gui_sketch_nav_tree_
 
             data_id_reinit( out_parent_id,
                             DATA_TABLE_DIAGRAM,
-                            data_diagram_get_parent_id( &((*this_).ancestor_diagrams[ancester_idx]) )
+                            data_diagram_get_parent_row_id( &((*this_).ancestor_diagrams[ancester_idx]) )
                           );
             *out_list_order = 0;
             ret_error = GUI_ERROR_NONE;
@@ -325,7 +325,7 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( const gui_sketch_nav_tree_
             /* use self as parent id because this shall work even if there are no children */
             data_id_reinit( out_parent_id,
                             DATA_TABLE_DIAGRAM,
-                            data_diagram_get_id( &((*this_).sibling_diagrams[(*this_).siblings_self_index]) )
+                            data_diagram_get_row_id( &((*this_).sibling_diagrams[(*this_).siblings_self_index]) )
                             );
             if ( (*this_).line_cnt_children == 0 )
             {
@@ -358,7 +358,7 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( const gui_sketch_nav_tree_
             uint32_t sibl1_idx = gap_index - (*this_).line_idx_siblings_start;
             data_id_reinit( out_parent_id,
                             DATA_TABLE_DIAGRAM,
-                            data_diagram_get_parent_id( &((*this_).sibling_diagrams[sibl1_idx]) )
+                            data_diagram_get_parent_row_id( &((*this_).sibling_diagrams[sibl1_idx]) )
                           );
             if ( sibl1_idx == 0 )
             {
@@ -384,7 +384,7 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( const gui_sketch_nav_tree_
             uint32_t sibl2_idx = gap_index - (*this_).line_idx_siblings_next_after_self + (*this_).line_cnt_siblings_to_incl_self;
             data_id_reinit( out_parent_id,
                             DATA_TABLE_DIAGRAM,
-                            data_diagram_get_parent_id( &((*this_).sibling_diagrams[sibl2_idx-1]) )
+                            data_diagram_get_parent_row_id( &((*this_).sibling_diagrams[sibl2_idx-1]) )
                           );
             if ( sibl2_idx == (*this_).siblings_count )
             {
@@ -461,7 +461,7 @@ void gui_sketch_nav_tree_get_object_id_at_pos ( const gui_sketch_nav_tree_t *thi
 
             data_id_reinit( out_selected_id,
                             DATA_TABLE_DIAGRAM,
-                            data_diagram_get_id( &((*this_).ancestor_diagrams[ancester_idx]) )
+                            data_diagram_get_row_id( &((*this_).ancestor_diagrams[ancester_idx]) )
                           );
         }
 
@@ -472,7 +472,7 @@ void gui_sketch_nav_tree_get_object_id_at_pos ( const gui_sketch_nav_tree_t *thi
             uint32_t child_idx = line_index - (*this_).line_idx_children_start;
             data_id_reinit( out_selected_id,
                             DATA_TABLE_DIAGRAM,
-                            data_diagram_get_id( &((*this_).child_diagrams[child_idx]) )
+                            data_diagram_get_row_id( &((*this_).child_diagrams[child_idx]) )
                           );
         }
 
@@ -483,7 +483,7 @@ void gui_sketch_nav_tree_get_object_id_at_pos ( const gui_sketch_nav_tree_t *thi
             uint32_t sibl1_idx = line_index - (*this_).line_idx_siblings_start;
             data_id_reinit( out_selected_id,
                             DATA_TABLE_DIAGRAM,
-                            data_diagram_get_id( &((*this_).sibling_diagrams[sibl1_idx]) )
+                            data_diagram_get_row_id( &((*this_).sibling_diagrams[sibl1_idx]) )
                           );
         }
 
@@ -494,7 +494,7 @@ void gui_sketch_nav_tree_get_object_id_at_pos ( const gui_sketch_nav_tree_t *thi
             uint32_t sibl2_idx = line_index - (*this_).line_idx_siblings_next_after_self + (*this_).line_cnt_siblings_to_incl_self;
             data_id_reinit( out_selected_id,
                             DATA_TABLE_DIAGRAM,
-                            data_diagram_get_id( &((*this_).sibling_diagrams[sibl2_idx]) )
+                            data_diagram_get_row_id( &((*this_).sibling_diagrams[sibl2_idx]) )
                           );
         }
     }
@@ -563,7 +563,7 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
 
                     gui_sketch_marker_prepare_draw( &((*this_).sketch_marker),
                                                     DATA_TABLE_DIAGRAM,
-                                                    data_diagram_get_id( &((*this_).ancestor_diagrams[anc_index]) ),
+                                                    data_diagram_get_row_id( &((*this_).ancestor_diagrams[anc_index]) ),
                                                     marker,
                                                     destination_rect,
                                                     cr
@@ -595,7 +595,7 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
 
                 gui_sketch_marker_prepare_draw( &((*this_).sketch_marker),
                                                 DATA_TABLE_DIAGRAM,
-                                                data_diagram_get_id( &((*this_).sibling_diagrams[sib_index]) ),
+                                                data_diagram_get_row_id( &((*this_).sibling_diagrams[sib_index]) ),
                                                 marker,
                                                 destination_rect,
                                                 cr
@@ -639,7 +639,7 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
 
                 gui_sketch_marker_prepare_draw( &((*this_).sketch_marker),
                                                 DATA_TABLE_DIAGRAM,
-                                                data_diagram_get_id( &((*this_).child_diagrams[chi_index]) ),
+                                                data_diagram_get_row_id( &((*this_).child_diagrams[chi_index]) ),
                                                 marker,
                                                 destination_rect,
                                                 cr

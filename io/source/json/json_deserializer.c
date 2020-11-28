@@ -241,7 +241,7 @@ data_error_t json_deserializer_get_next_classifier ( json_deserializer_t *this_,
                         {
                             int64_t parsed_integer;
                             result = json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
-                            data_classifier_set_id ( out_object, parsed_integer );
+                            data_classifier_set_row_id ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE ) )
                         {
@@ -399,7 +399,7 @@ data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, da
                         {
                             int64_t parsed_integer;
                             result = json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
-                            data_diagram_set_id ( out_object, parsed_integer );
+                            data_diagram_set_row_id ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE ) )
                         {
@@ -546,7 +546,7 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
                         {
                             int64_t parsed_integer;
                             result = json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
-                            data_relationship_set_id ( out_object, parsed_integer );
+                            data_relationship_set_row_id ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE ) )
                         {
@@ -574,7 +574,7 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
                         {
                             int64_t parsed_integer;
                             result = json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
-                            data_relationship_set_from_classifier_id ( out_object, parsed_integer );
+                            data_relationship_set_from_classifier_row_id ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_NAME ) )
                         {
@@ -584,7 +584,7 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
                         {
                             int64_t parsed_integer;
                             result = json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
-                            data_relationship_set_from_feature_id ( out_object, parsed_integer );
+                            data_relationship_set_from_feature_row_id ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_KEY ) )
                         {
@@ -594,7 +594,7 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
                         {
                             int64_t parsed_integer;
                             result = json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
-                            data_relationship_set_to_classifier_id ( out_object, parsed_integer );
+                            data_relationship_set_to_classifier_row_id ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_NAME ) )
                         {
@@ -604,7 +604,7 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
                         {
                             int64_t parsed_integer;
                             result = json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
-                            data_relationship_set_to_feature_id ( out_object, parsed_integer );
+                            data_relationship_set_to_feature_row_id ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_KEY ) )
                         {
@@ -936,7 +936,7 @@ data_error_t json_deserializer_private_get_next_feature ( json_deserializer_t *t
                         {
                             int64_t parsed_integer;
                             result = json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
-                            data_feature_set_id ( out_object, parsed_integer );
+                            data_feature_set_row_id ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE ) )
                         {

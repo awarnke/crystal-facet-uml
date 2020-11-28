@@ -175,7 +175,7 @@ static inline void data_classifier_trace ( const data_classifier_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_id_t data_classifier_get_id ( const data_classifier_t *this_ );
+static inline data_row_id_t data_classifier_get_row_id ( const data_classifier_t *this_ );
 
 /*!
  *  \brief sets the attribute id
@@ -183,7 +183,7 @@ static inline data_row_id_t data_classifier_get_id ( const data_classifier_t *th
  *  \param this_ pointer to own object attributes
  *  \param id new id of this object
  */
-static inline void data_classifier_set_id ( data_classifier_t *this_, data_row_id_t id );
+static inline void data_classifier_set_row_id ( data_classifier_t *this_, data_row_id_t id );
 
 /*!
  *  \brief gets the data_id derived from the id attribute

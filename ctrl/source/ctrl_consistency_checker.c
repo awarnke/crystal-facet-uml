@@ -145,7 +145,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_
         for ( int list_pos = 0; list_pos < out_diagram_count; list_pos ++ )
         {
             utf8stringbuf_append_str( out_report, "    INFO: Root diagram: " );
-            utf8stringbuf_append_int( out_report, data_diagram_get_id( &((*this_).temp_diagram_buffer[list_pos]) ) );
+            utf8stringbuf_append_int( out_report, data_diagram_get_row_id( &((*this_).temp_diagram_buffer[list_pos]) ) );
             utf8stringbuf_append_str( out_report, ": " );
             utf8stringbuf_append_str( out_report, data_diagram_get_name_ptr( &((*this_).temp_diagram_buffer[list_pos]) ) );
             utf8stringbuf_append_str( out_report, "\n" );
@@ -158,7 +158,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_
         else if ( out_diagram_count > 1 )
         {
             (*io_err) += (out_diagram_count-1) ;
-            data_row_id_t proposed_root_diagram_id = data_diagram_get_id( &((*this_).temp_diagram_buffer[0]) );
+            data_row_id_t proposed_root_diagram_id = data_diagram_get_row_id( &((*this_).temp_diagram_buffer[0]) );
             if ( ! modify_db )
             {
                 utf8stringbuf_append_str( out_report, "    PROPOSED FIX: Attach additional root diagrams below the first: " );
@@ -170,14 +170,14 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_
                 for ( int list_pos = 1; list_pos < out_diagram_count; list_pos ++ )
                 {
                     data_err = data_database_writer_update_diagram_parent_id ( (*this_).db_writer,
-                                                                               data_diagram_get_id( &((*this_).temp_diagram_buffer[list_pos]) ),
+                                                                               data_diagram_get_row_id( &((*this_).temp_diagram_buffer[list_pos]) ),
                                                                                proposed_root_diagram_id,
                                                                                NULL
                                                                              );
                     if ( DATA_ERROR_NONE == data_err )
                     {
                         utf8stringbuf_append_str( out_report, "    FIX: Diagram " );
-                        utf8stringbuf_append_int( out_report, data_diagram_get_id( &((*this_).temp_diagram_buffer[list_pos]) ) );
+                        utf8stringbuf_append_int( out_report, data_diagram_get_row_id( &((*this_).temp_diagram_buffer[list_pos]) ) );
                         utf8stringbuf_append_str( out_report, " attached to " );
                         utf8stringbuf_append_int( out_report, proposed_root_diagram_id);
                         utf8stringbuf_append_str( out_report, "\n" );
@@ -243,7 +243,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctr
                 );
                 if (( DATA_ERROR_NONE == data_err )&&( out_diagram_count > 0 ))
                 {
-                    root_diag_id = data_diagram_get_id( &((*this_).temp_diagram_buffer[0]) );
+                    root_diag_id = data_diagram_get_row_id( &((*this_).temp_diagram_buffer[0]) );
                 }
             }
 

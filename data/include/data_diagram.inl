@@ -140,12 +140,12 @@ static inline void data_diagram_trace ( const data_diagram_t *this_ )
     TRACE_INFO_INT( "- list_order:", (*this_).list_order );
 }
 
-static inline data_row_id_t data_diagram_get_id ( const data_diagram_t *this_ )
+static inline data_row_id_t data_diagram_get_row_id ( const data_diagram_t *this_ )
 {
     return (*this_).id;
 }
 
-static inline void data_diagram_set_id ( data_diagram_t *this_, data_row_id_t id )
+static inline void data_diagram_set_row_id ( data_diagram_t *this_, data_row_id_t id )
 {
     (*this_).id = id;
 }
@@ -157,15 +157,21 @@ static inline data_id_t data_diagram_get_data_id ( const data_diagram_t *this_ )
     return result;
 }
 
-
-static inline data_row_id_t data_diagram_get_parent_id ( const data_diagram_t *this_ )
+static inline data_row_id_t data_diagram_get_parent_row_id ( const data_diagram_t *this_ )
 {
     return (*this_).parent_id;
 }
 
-static inline void data_diagram_set_parent_id ( data_diagram_t *this_, data_row_id_t parent_id )
+static inline void data_diagram_set_parent_row_id ( data_diagram_t *this_, data_row_id_t parent_id )
 {
     (*this_).parent_id = parent_id;
+}
+
+static inline data_id_t data_diagram_get_parent_data_id ( const data_diagram_t *this_ )
+{
+    data_id_t result;
+    data_id_init ( &result, DATA_TABLE_DIAGRAM, (*this_).parent_id );
+    return result;
 }
 
 static inline data_diagram_type_t data_diagram_get_diagram_type ( const data_diagram_t *this_ )

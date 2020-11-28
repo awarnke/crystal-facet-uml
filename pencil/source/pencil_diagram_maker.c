@@ -37,9 +37,9 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
     const data_diagram_t *diag = data_visible_set_get_diagram_const( (*this_).input_data );
     pencil_diagram_painter_draw ( &((*this_).diagram_painter),
                                   diagram_layout,
-                                  data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) ),
-                                  data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) ),
-                                  data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) ),
+                                  data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAM, data_diagram_get_row_id(diag) ),
+                                  data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAM, data_diagram_get_row_id(diag) ),
+                                  data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAM, data_diagram_get_row_id(diag) ),
                                   pencil_size,
                                   layout,
                                   cr
@@ -192,9 +192,9 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
         show_relation = layout_relationship_get_visibility ( relationship_layout );
         if ( PENCIL_VISIBILITY_IMPLICIT == show_relation )
         {
-            if ( data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) )
-                || data_id_equals_id( &mark_highlighted, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) )
-                || data_small_set_contains_row_id( mark_selected, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) ) )
+            if ( data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_row_id(the_relationship) )
+                || data_id_equals_id( &mark_highlighted, DATA_TABLE_RELATIONSHIP, data_relationship_get_row_id(the_relationship) )
+                || data_small_set_contains_row_id( mark_selected, DATA_TABLE_RELATIONSHIP, data_relationship_get_row_id(the_relationship) ) )
             {
                 /* the implicit relationship is focused or marked or highlighted */
                 show_relation = PENCIL_VISIBILITY_SHOW;
@@ -210,8 +210,8 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
                         if ( data_visible_classifier_is_valid( visible_clsfy ) )
                         {
                             const data_classifier_t *classifier = data_visible_classifier_get_classifier_const( visible_clsfy );
-                            if (( data_classifier_get_id( classifier ) == data_relationship_get_from_classifier_id( the_relationship ) )
-                                ||( data_classifier_get_id( classifier ) == data_relationship_get_to_classifier_id( the_relationship ) ))
+                            if (( data_classifier_get_row_id( classifier ) == data_relationship_get_from_classifier_row_id( the_relationship ) )
+                                ||( data_classifier_get_row_id( classifier ) == data_relationship_get_to_classifier_row_id( the_relationship ) ))
                             {
                                 /* the implicit relationship has highlighted from or to classifier */
                                 show_relation = PENCIL_VISIBILITY_SHOW;
@@ -227,9 +227,9 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
             pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
             pencil_relationship_painter_draw ( &((*this_).relationship_painter),
                                                relationship_layout,
-                                               data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) ),
-                                               data_id_equals_id( &mark_highlighted, DATA_TABLE_RELATIONSHIP, data_relationship_get_id( the_relationship ) ),
-                                               data_small_set_contains_row_id( mark_selected, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) ),
+                                               data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_row_id(the_relationship) ),
+                                               data_id_equals_id( &mark_highlighted, DATA_TABLE_RELATIONSHIP, data_relationship_get_row_id( the_relationship ) ),
+                                               data_small_set_contains_row_id( mark_selected, DATA_TABLE_RELATIONSHIP, data_relationship_get_row_id(the_relationship) ),
                                                pencil_size,
                                                layout,
                                                cr

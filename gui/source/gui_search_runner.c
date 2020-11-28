@@ -102,10 +102,10 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                                    );
                     if ( d_err == DATA_ERROR_NONE )
                     {
-                        data_row_id_t classifier_id = data_feature_get_classifier_id( &((*this_).temp_feature) );
+                        data_row_id_t classifier_id = data_feature_get_classifier_row_id( &((*this_).temp_feature) );
                         data_search_result_t half_initialized;
                         data_search_result_init_feature( &half_initialized,
-                                                         data_feature_get_id( &((*this_).temp_feature) ),
+                                                         data_feature_get_row_id( &((*this_).temp_feature) ),
                                                          data_feature_get_main_type( &((*this_).temp_feature) ),
                                                          data_feature_get_key_ptr( &((*this_).temp_feature) ),
                                                          classifier_id,
@@ -131,14 +131,14 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                                         );
                     if ( d_err == DATA_ERROR_NONE )
                     {
-                        data_row_id_t classifier_id = data_relationship_get_from_classifier_id( &((*this_).temp_relationship) );
+                        data_row_id_t classifier_id = data_relationship_get_from_classifier_row_id( &((*this_).temp_relationship) );
                         data_search_result_t half_initialized;
                         data_search_result_init_relationship( &half_initialized,
-                                                              data_relationship_get_id( &((*this_).temp_relationship) ),
+                                                              data_relationship_get_row_id( &((*this_).temp_relationship) ),
                                                               data_relationship_get_main_type( &((*this_).temp_relationship) ),
                                                               data_relationship_get_name_ptr( &((*this_).temp_relationship) ),
                                                               classifier_id,
-                                                              data_relationship_get_to_classifier_id( &((*this_).temp_relationship) ),
+                                                              data_relationship_get_to_classifier_row_id( &((*this_).temp_relationship) ),
                                                               DATA_ROW_ID_VOID /* diagram_id */
                                                             );
                         gui_search_runner_private_add_diagrams_of_classifier( this_, &half_initialized, &((*this_).temp_result_list) );
@@ -163,10 +163,10 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                     {
                         data_search_result_t half_initialized;
                         data_search_result_init_classifier( &half_initialized,
-                                                            data_diagramelement_get_classifier_id(&((*this_).temp_diagramelement)),
+                                                            data_diagramelement_get_classifier_row_id(&((*this_).temp_diagramelement)),
                                                             0 /* match_type is unknown */,
                                                             "" /* match_name */,
-                                                            data_diagramelement_get_diagram_id(&((*this_).temp_diagramelement))
+                                                            data_diagramelement_get_diagram_row_id(&((*this_).temp_diagramelement))
                                                           );
                         int err = data_search_result_list_add( &((*this_).temp_result_list), &half_initialized );
                         if ( err != 0 )
@@ -283,7 +283,7 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
         assert ( diagram_count <= GUI_SEARCH_RUNNER_MAX_DIAGRAMS );
         for ( uint32_t idx = 0; idx < diagram_count; idx ++ )
         {
-            const data_row_id_t diagram_row_id = data_diagram_get_id ( &((*this_).temp_diagrams[idx]) );
+            const data_row_id_t diagram_row_id = data_diagram_get_row_id ( &((*this_).temp_diagrams[idx]) );
             data_id_reinit( data_search_result_get_diagram_id_ptr( classifier_template ), DATA_TABLE_DIAGRAM, diagram_row_id );
 
             bool filter = false;

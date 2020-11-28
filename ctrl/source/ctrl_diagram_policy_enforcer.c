@@ -54,7 +54,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_lifelines ( ctrl_diagra
         /* this diagram type needs lifelines */
 
         data_row_id_t diagram_id;
-        diagram_id = data_diagram_get_id ( updated_diagram );
+        diagram_id = data_diagram_get_row_id ( updated_diagram );
 
         /* search all contained diagramelements */
         uint32_t diagramelement_count;
@@ -74,7 +74,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_lifelines ( ctrl_diagra
                 data_diagramelement_t *current_diagele;
                 current_diagele = &((*this_).private_temp_diagele_buf[index]);
                 data_row_id_t focused_feature;
-                focused_feature = data_diagramelement_get_focused_feature_id( current_diagele );
+                focused_feature = data_diagramelement_get_focused_feature_row_id( current_diagele );
 
                 if ( DATA_ROW_ID_VOID == focused_feature )
                 {
@@ -100,7 +100,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_a_lifeline ( ctrl_diagr
     /* load the diagram and check the type */
     data_diagram_t the_diag;
     data_result = data_database_reader_get_diagram_by_id ( (*this_).db_reader,
-                                                           data_diagramelement_get_diagram_id( new_diagramelement ),
+                                                           data_diagramelement_get_diagram_row_id( new_diagramelement ),
                                                            &the_diag
                                                          );
 
@@ -137,7 +137,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_one_lifeline ( ctrl_dia
     data_result = data_feature_init ( &new_lifeline,
                                       DATA_ROW_ID_VOID,
                                       DATA_FEATURE_TYPE_LIFELINE,
-                                      data_diagramelement_get_classifier_id( the_diagramelement ),
+                                      data_diagramelement_get_classifier_row_id( the_diagramelement ),
                                       "",  /* key */
                                       "",  /* value or type */
                                       "",  /* description */
@@ -155,7 +155,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_one_lifeline ( ctrl_dia
 
     /* the newly create lifeline is the focused feature */
     data_row_id_t diagramelement_id;
-    diagramelement_id = data_diagramelement_get_id( the_diagramelement );
+    diagramelement_id = data_diagramelement_get_row_id( the_diagramelement );
     result |= ctrl_diagram_controller_update_diagramelement_focused_feature_id ( (*this_).diag_ctrl,
                                                                                  diagramelement_id,
                                                                                  new_feature_id,
@@ -178,7 +178,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_a_lifeline ( ctrl_diagr
 
     /* delete the lifeline of the already deleted data_diagramelement_t */
     data_row_id_t focused_feature_id;
-    focused_feature_id = data_diagramelement_get_focused_feature_id( deleted_diagramelement );
+    focused_feature_id = data_diagramelement_get_focused_feature_row_id( deleted_diagramelement );
     if ( DATA_ROW_ID_VOID != focused_feature_id )
     {
         result |= ctrl_classifier_controller_delete_feature ( (*this_).clfy_ctrl,
@@ -204,7 +204,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_unreferenced_classifier
     ctrl_error_t my_ctrl_result;
 
     my_ctrl_result = ctrl_classifier_controller_delete_classifier( (*this_).clfy_ctrl,
-                                                                   data_diagramelement_get_classifier_id( deleted_diagramelement ),
+                                                                   data_diagramelement_get_classifier_row_id( deleted_diagramelement ),
                                                                    true /* = add_to_latest_undo_set */
                                                                  );
 

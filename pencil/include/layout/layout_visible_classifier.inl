@@ -148,12 +148,12 @@ static inline bool layout_visible_classifier_is_fix_sized_symbol ( const layout_
 
 static inline data_row_id_t layout_visible_classifier_get_classifier_id ( const layout_visible_classifier_t *this_ )
 {
-    return data_classifier_get_id( data_visible_classifier_get_classifier_const ( (*this_).data ) );
+    return data_classifier_get_row_id( data_visible_classifier_get_classifier_const ( (*this_).data ) );
 }
 
 static inline data_row_id_t layout_visible_classifier_get_diagramelement_id ( const layout_visible_classifier_t *this_ )
 {
-    return data_diagramelement_get_id( data_visible_classifier_get_diagramelement_const ( (*this_).data ) );
+    return data_diagramelement_get_row_id( data_visible_classifier_get_diagramelement_const ( (*this_).data ) );
 }
 
 static inline bool layout_visible_classifier_is_equal_diagramelement_id ( const layout_visible_classifier_t *this_,

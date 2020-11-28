@@ -44,7 +44,7 @@ struct io_export_model_traversal_struct {
     universal_array_list_t written_id_set;  /*!< list of already exported element ids (extended when starting to export an element), used for classifiers and relationships and lifelines(which are features) */
 
     data_classifier_t temp_classifier;  /*!< own buffer for private use as data cache */
-    //data_feature_t temp_feature;  /*!< own buffer for private use as data cache */
+    data_feature_t temp_feature;  /*!< own buffer for private use as data cache */
     data_node_set_t temp_node_data;  /*!< own buffer for private use as data cache */
 };
 

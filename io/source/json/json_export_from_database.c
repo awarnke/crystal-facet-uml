@@ -168,7 +168,7 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
 
                 if ( read_error == DATA_ERROR_NONE )
                 {
-                    classifier_id = data_diagramelement_get_classifier_id( &out_diagramelement );
+                    classifier_id = data_diagramelement_get_classifier_row_id( &out_diagramelement );
 
                     read_error = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
                                                                              classifier_id,
@@ -289,34 +289,34 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
 
                     /* get source */
                     read_error |= data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                              data_relationship_get_from_classifier_id( &out_relation ),
+                                                                              data_relationship_get_from_classifier_row_id( &out_relation ),
                                                                               &from_classifier
                                                                             );
-                    if ( DATA_ROW_ID_VOID == data_relationship_get_from_feature_id( &out_relation ) )
+                    if ( DATA_ROW_ID_VOID == data_relationship_get_from_feature_row_id( &out_relation ) )
                     {
                         data_feature_init_empty( &((*this_).temp_features[0]) );
                     }
                     else
                     {
                         read_error |= data_database_reader_get_feature_by_id ( (*this_).db_reader,
-                                                                               data_relationship_get_from_feature_id( &out_relation ),
+                                                                               data_relationship_get_from_feature_row_id( &out_relation ),
                                                                                &((*this_).temp_features[0])
                                                                              );
                     }
 
                     /* get destination */
                     read_error |= data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                              data_relationship_get_to_classifier_id( &out_relation ),
+                                                                              data_relationship_get_to_classifier_row_id( &out_relation ),
                                                                               &to_classifier
                                                                             );
-                    if ( DATA_ROW_ID_VOID == data_relationship_get_to_feature_id( &out_relation ) )
+                    if ( DATA_ROW_ID_VOID == data_relationship_get_to_feature_row_id( &out_relation ) )
                     {
                         data_feature_init_empty( &((*this_).temp_features[1]) );
                     }
                     else
                     {
                         read_error |= data_database_reader_get_feature_by_id ( (*this_).db_reader,
-                                                                               data_relationship_get_to_feature_id( &out_relation ),
+                                                                               data_relationship_get_to_feature_row_id( &out_relation ),
                                                                                &((*this_).temp_features[1])
                                                                              );
                     }

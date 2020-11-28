@@ -465,9 +465,9 @@ static inline bool data_rules_vis_classifier_has_feature ( const data_rules_t *t
     const data_diagramelement_t *diagele = data_visible_classifier_get_diagramelement_const ( vis_classifier );
     assert( clasfy != NULL );
     assert( diagele != NULL );
-    const bool belongs = ( data_feature_get_classifier_id( feature ) == data_classifier_get_id( clasfy ) );
+    const bool belongs = ( data_feature_get_classifier_row_id( feature ) == data_classifier_get_row_id( clasfy ) );
     const bool scenario = data_rules_feature_is_scenario_cond( this_, data_feature_get_main_type( feature ) );
-    const bool focused = ( data_diagramelement_get_focused_feature_id( diagele ) == data_feature_get_id( feature ) );
+    const bool focused = ( data_diagramelement_get_focused_feature_row_id( diagele ) == data_feature_get_row_id( feature ) );
     const bool visible = data_rules_classifier_has_uncond_features( this_, data_classifier_get_main_type( clasfy ) );
     return valid && belongs && (((!scenario)&&visible) || (scenario&&focused));
 }

@@ -50,13 +50,13 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
     data_row_id_t new_id;
 
     data_diagram_copy( &to_be_created, new_diagram );
-    data_diagram_set_id( &to_be_created, DATA_ROW_ID_VOID );
+    data_diagram_set_row_id( &to_be_created, DATA_ROW_ID_VOID );
 
     data_result = data_database_writer_create_diagram( (*this_).db_writer, &to_be_created, &new_id );
     if ( DATA_ERROR_NONE == data_result )
     {
         /* store new id to diagram object */
-        data_diagram_set_id( &to_be_created, new_id );
+        data_diagram_set_row_id( &to_be_created, new_id );
 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set )
@@ -105,7 +105,7 @@ ctrl_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram
     if ( DATA_ERROR_NONE == data_result )
     {
         /* store new id to diagram object */
-        data_diagram_set_id( &to_be_created, new_id );
+        data_diagram_set_row_id( &to_be_created, new_id );
 
         /* store the new diagram to the undo redo list */
         ctrl_undo_redo_list_add_create_diagram( (*this_).undo_redo_list, &to_be_created );
@@ -224,7 +224,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_con
         /* prepare the new diagram */
         data_diagram_t new_diagram;
         data_diagram_copy( &new_diagram, &old_diagram );
-        data_diagram_set_parent_id( &new_diagram, new_diagram_parent_id );
+        data_diagram_set_parent_row_id( &new_diagram, new_diagram_parent_id );
 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set )
@@ -390,13 +390,13 @@ ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_contro
     data_row_id_t new_id;
 
     data_diagramelement_copy( &to_be_created, new_diagramelement );
-    data_diagramelement_set_id( &to_be_created, DATA_ROW_ID_VOID );
+    data_diagramelement_set_row_id( &to_be_created, DATA_ROW_ID_VOID );
 
     data_result = data_database_writer_create_diagramelement( (*this_).db_writer, &to_be_created, &new_id );
     if ( DATA_ERROR_NONE == data_result )
     {
         /* store new id to data_diagramelement_t object */
-        data_diagramelement_set_id( &to_be_created, new_id );
+        data_diagramelement_set_row_id( &to_be_created, new_id );
 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set )
@@ -549,7 +549,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id ( 
         /* prepare the new diagram */
         data_diagramelement_t new_diagramelement;
         data_diagramelement_copy( &new_diagramelement, &old_diagramelement );
-        data_diagramelement_set_focused_feature_id( &new_diagramelement, new_diagramelement_focused_feature_id );
+        data_diagramelement_set_focused_feature_row_id( &new_diagramelement, new_diagramelement_focused_feature_id );
 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set )

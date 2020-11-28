@@ -97,7 +97,7 @@ static inline const data_feature_t *data_node_set_get_feature_by_id_const ( cons
     {
         const data_feature_t *probe;
         probe = &((*this_).features[index]);
-        if ( row_id == data_feature_get_id( probe ) )
+        if ( row_id == data_feature_get_row_id( probe ) )
         {
             result = probe;
             break;
@@ -116,7 +116,7 @@ static inline data_feature_t *data_node_set_get_feature_by_id_ptr ( data_node_se
     {
         data_feature_t *probe;
         probe = &((*this_).features[index]);
-        if ( row_id == data_feature_get_id( probe ) )
+        if ( row_id == data_feature_get_row_id( probe ) )
         {
             result = probe;
             break;
@@ -182,7 +182,7 @@ static inline const data_relationship_t *data_node_set_get_relationship_by_id_co
     {
         const data_relationship_t *probe;
         probe = &((*this_).relationships[index]);
-        if ( row_id == data_relationship_get_id( probe ) )
+        if ( row_id == data_relationship_get_row_id( probe ) )
         {
             result = probe;
             break;
@@ -201,7 +201,7 @@ static inline data_relationship_t *data_node_set_get_relationship_by_id_ptr ( da
     {
         data_relationship_t *probe;
         probe = &((*this_).relationships[index]);
-        if ( row_id == data_relationship_get_id( probe ) )
+        if ( row_id == data_relationship_get_row_id( probe ) )
         {
             result = probe;
             break;

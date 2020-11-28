@@ -52,7 +52,7 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
 
     if ( data_feature_is_valid( the_feature ) )
     {
-        TRACE_INFO_INT("drawing feature id", data_feature_get_id( the_feature ) );
+        TRACE_INFO_INT("drawing feature id", data_feature_get_row_id( the_feature ) );
 
         /* select color */
         GdkRGBA foreground_color;
@@ -351,7 +351,7 @@ void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_
 
     if ( data_feature_is_valid( the_feature ) )
     {
-        TRACE_INFO_INT("calculating minimum bounds of feature id", data_feature_get_id( the_feature ) );
+        TRACE_INFO_INT("calculating minimum bounds of feature id", data_feature_get_row_id( the_feature ) );
 
 
         /* layout text */

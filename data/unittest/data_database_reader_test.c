@@ -363,7 +363,7 @@ static void test_search_classifiers(void)
                                                              &out_classifier
                                                            );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 12, data_classifier_get_id( &out_classifier ) );
+    TEST_ASSERT_EQUAL_INT( 12, data_classifier_get_row_id( &out_classifier ) );
 
     /* test 4 */
     data_err = data_database_reader_get_classifier_by_name ( &db_reader,
@@ -454,14 +454,14 @@ static void test_iterate_over_classifiers(void)
     TEST_ASSERT( has_next );
     data_err = data_database_iterator_classifiers_next( &classifier_iterator, &out_classifier );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 12, data_classifier_get_id( &out_classifier ) );
+    TEST_ASSERT_EQUAL_INT( 12, data_classifier_get_row_id( &out_classifier ) );
 
     /* test the iterator, step 2 */
     has_next = data_database_iterator_classifiers_has_next( &classifier_iterator );
     TEST_ASSERT( has_next );
     data_err = data_database_iterator_classifiers_next( &classifier_iterator, &out_classifier );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 13, data_classifier_get_id( &out_classifier ) );
+    TEST_ASSERT_EQUAL_INT( 13, data_classifier_get_row_id( &out_classifier ) );
 
     /* test the iterator, step 3 */
     has_next = data_database_iterator_classifiers_has_next( &classifier_iterator );

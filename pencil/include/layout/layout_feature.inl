@@ -34,7 +34,7 @@ static inline bool layout_feature_is_valid ( const layout_feature_t *this_ )
     {
         result = data_feature_is_valid( (*this_).data )
             && layout_visible_classifier_is_valid( (*this_).classifier )
-            && ( data_feature_get_classifier_id( (*this_).data ) == layout_visible_classifier_get_classifier_id( (*this_).classifier ));
+            && ( data_feature_get_classifier_row_id( (*this_).data ) == layout_visible_classifier_get_classifier_id( (*this_).classifier ));
     }
     return result;
 }
@@ -106,7 +106,7 @@ static inline const layout_visible_classifier_t *layout_feature_get_classifier_c
 
 static inline data_row_id_t layout_feature_get_feature_id ( const layout_feature_t *this_ )
 {
-    return data_feature_get_id( (*this_).data );
+    return data_feature_get_row_id( (*this_).data );
 }
 
 

@@ -119,7 +119,7 @@ static inline void data_relationship_destroy ( data_relationship_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_id_t data_relationship_get_id ( const data_relationship_t *this_ );
+static inline data_row_id_t data_relationship_get_row_id ( const data_relationship_t *this_ );
 
 /*!
  *  \brief sets the attribute id
@@ -127,7 +127,7 @@ static inline data_row_id_t data_relationship_get_id ( const data_relationship_t
  *  \param this_ pointer to own object attributes
  *  \param id new id of this object
  */
-static inline void data_relationship_set_id ( data_relationship_t *this_, data_row_id_t id );
+static inline void data_relationship_set_row_id ( data_relationship_t *this_, data_row_id_t id );
 
 /*!
  *  \brief gets the data_id derived from the id attribute
@@ -143,7 +143,7 @@ static inline data_id_t data_relationship_get_data_id ( const data_relationship_
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_id_t data_relationship_get_from_classifier_id ( const data_relationship_t *this_ );
+static inline data_row_id_t data_relationship_get_from_classifier_row_id ( const data_relationship_t *this_ );
 
 /*!
  *  \brief sets the attribute from_classifier_id
@@ -151,7 +151,7 @@ static inline data_row_id_t data_relationship_get_from_classifier_id ( const dat
  *  \param this_ pointer to own object attributes
  *  \param from_classifier_id new from_classifier_id of this object
  */
-static inline void data_relationship_set_from_classifier_id ( data_relationship_t *this_, data_row_id_t from_classifier_id );
+static inline void data_relationship_set_from_classifier_row_id ( data_relationship_t *this_, data_row_id_t from_classifier_id );
 
 /*!
  *  \brief gets the data_id derived from the from_classifier_id attribute
@@ -167,7 +167,7 @@ static inline data_id_t data_relationship_get_from_classifier_data_id ( const da
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_id_t data_relationship_get_from_feature_id ( const data_relationship_t *this_ );
+static inline data_row_id_t data_relationship_get_from_feature_row_id ( const data_relationship_t *this_ );
 
 /*!
  *  \brief sets the attribute from_feature_id
@@ -175,7 +175,7 @@ static inline data_row_id_t data_relationship_get_from_feature_id ( const data_r
  *  \param this_ pointer to own object attributes
  *  \param from_feature_id new from_feature_id of this object
  */
-static inline void data_relationship_set_from_feature_id ( data_relationship_t *this_, data_row_id_t from_feature_id );
+static inline void data_relationship_set_from_feature_row_id ( data_relationship_t *this_, data_row_id_t from_feature_id );
 
 /*!
  *  \brief gets the data_id derived from the from_feature_id attribute
@@ -191,7 +191,7 @@ static inline data_id_t data_relationship_get_from_feature_data_id ( const data_
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_id_t data_relationship_get_to_classifier_id ( const data_relationship_t *this_ );
+static inline data_row_id_t data_relationship_get_to_classifier_row_id ( const data_relationship_t *this_ );
 
 /*!
  *  \brief sets the attribute to_classifier_id
@@ -199,7 +199,7 @@ static inline data_row_id_t data_relationship_get_to_classifier_id ( const data_
  *  \param this_ pointer to own object attributes
  *  \param to_classifier_id new to_classifier_id of this object
  */
-static inline void data_relationship_set_to_classifier_id ( data_relationship_t *this_, data_row_id_t to_classifier_id );
+static inline void data_relationship_set_to_classifier_row_id ( data_relationship_t *this_, data_row_id_t to_classifier_id );
 
 /*!
  *  \brief gets the data_id derived from the to_classifier_id attribute
@@ -215,7 +215,7 @@ static inline data_id_t data_relationship_get_to_classifier_data_id ( const data
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_id_t data_relationship_get_to_feature_id ( const data_relationship_t *this_ );
+static inline data_row_id_t data_relationship_get_to_feature_row_id ( const data_relationship_t *this_ );
 
 /*!
  *  \brief sets the attribute to_feature_id
@@ -223,7 +223,7 @@ static inline data_row_id_t data_relationship_get_to_feature_id ( const data_rel
  *  \param this_ pointer to own object attributes
  *  \param to_feature_id new to_feature_id of this object
  */
-static inline void data_relationship_set_to_feature_id ( data_relationship_t *this_, data_row_id_t to_feature_id );
+static inline void data_relationship_set_to_feature_row_id ( data_relationship_t *this_, data_row_id_t to_feature_id );
 
 /*!
  *  \brief gets the data_id derived from the to_feature_id attribute

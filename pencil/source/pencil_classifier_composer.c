@@ -82,7 +82,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
         data_diagramelement_flag_t display_flags;
         display_flags = data_diagramelement_get_display_flags( diagramelement );
 
-        TRACE_INFO_INT("drawing classifier id", data_classifier_get_id( classifier ) );
+        TRACE_INFO_INT("drawing classifier id", data_classifier_get_row_id( classifier ) );
 
         double std_line_width = pencil_size_get_standard_line_width( pencil_size );
         cairo_set_line_width( cr, std_line_width );
@@ -90,7 +90,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
         /* set color */
         GdkRGBA foreground_color;
         {
-            if ( data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id( diagramelement ) ) )
+            if ( data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_row_id( diagramelement ) ) )
             {
                 foreground_color = pencil_size_get_highlight_color( pencil_size );
             }
@@ -402,12 +402,12 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
         }
 #endif
 
-        if ( data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id(diagramelement) ) )
+        if ( data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_row_id(diagramelement) ) )
         {
             pencil_marker_mark_selected_rectangle( &((*this_).marker), *classifier_symbol_box, cr );
         }
 
-        if ( data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id(diagramelement) ) )
+        if ( data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_row_id(diagramelement) ) )
         {
             pencil_marker_mark_focused_rectangle( &((*this_).marker), *classifier_symbol_box, cr );
         }
@@ -450,7 +450,7 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
     geometry_rectangle_t *const out_classifier_label_box
         = layout_visible_classifier_get_label_box_ptr( io_classifier_layout );
 
-    TRACE_INFO_INT("calculating minimum bounds of classifier id", data_classifier_get_id( classifier ) );
+    TRACE_INFO_INT("calculating minimum bounds of classifier id", data_classifier_get_row_id( classifier ) );
 
     /* determine border sizes of the classifier-shape */
     double top_border;
@@ -581,7 +581,7 @@ void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_co
     geometry_rectangle_t *const out_classifier_label_box
         = layout_visible_classifier_get_label_box_ptr( io_classifier_layout );
 
-    TRACE_INFO_INT("calculating minimum bounds of classifier id", data_classifier_get_id( classifier ) );
+    TRACE_INFO_INT("calculating minimum bounds of classifier id", data_classifier_get_row_id( classifier ) );
 
     /* determine border sizes of the classifier-shape */
     double top_border;

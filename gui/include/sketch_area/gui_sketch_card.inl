@@ -262,7 +262,7 @@ static inline int32_t gui_sketch_card_get_highest_feat_list_order( const gui_ske
             if (( f_type != DATA_FEATURE_TYPE_PORT )&&( f_type != DATA_FEATURE_TYPE_PROVIDED_INTERFACE )
                 &&( f_type != DATA_FEATURE_TYPE_REQUIRED_INTERFACE ))
             {
-                if ( data_feature_get_classifier_id( feat ) == classifier_id )
+                if ( data_feature_get_classifier_row_id( feat ) == classifier_id )
                 {
                     if ( data_feature_get_list_order( feat ) > result )
                     {

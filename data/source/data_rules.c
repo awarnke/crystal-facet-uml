@@ -21,7 +21,7 @@ bool data_rules_diagram_shows_feature ( const data_rules_t *this_, const data_vi
     const data_feature_t *feat_ptr = data_visible_set_get_feature_by_id_const ( diagram_set, feature_id );  /* SEARCH */
     assert( feat_ptr != NULL );
     assert( data_feature_is_valid( feat_ptr ) );
-    const data_row_id_t classifier_id = data_feature_get_classifier_id( feat_ptr );
+    const data_row_id_t classifier_id = data_feature_get_classifier_row_id( feat_ptr );
     const data_feature_type_t feature_type = data_feature_get_main_type ( feat_ptr );
 
     const data_classifier_t *classifier_ptr = data_visible_set_get_classifier_by_id_const ( diagram_set, classifier_id );  /* SEARCH */
@@ -42,7 +42,7 @@ bool data_rules_diagram_shows_feature ( const data_rules_t *this_, const data_vi
                 assert ( NULL != vc_probe );
                 const data_diagramelement_t *diag_ele = data_visible_classifier_get_diagramelement_const ( vc_probe );
                 assert ( NULL != diag_ele );
-                const data_row_id_t diag_ele_feat_id = data_diagramelement_get_focused_feature_id( diag_ele );
+                const data_row_id_t diag_ele_feat_id = data_diagramelement_get_focused_feature_row_id( diag_ele );
                 if ( feature_id == diag_ele_feat_id )
                 {
                     is_foreign_scenario = false;
@@ -88,10 +88,10 @@ bool data_rules_diagram_shows_relationship ( const data_rules_t *this_, const da
     const data_relationship_t *relation_ptr = data_visible_set_get_relationship_by_id_const ( diagram_set, relationship_id );  /* SEARCH */
     assert( relation_ptr != NULL );
     assert( data_relationship_is_valid( relation_ptr ) );
-    const data_row_id_t from_classifier_id = data_relationship_get_from_classifier_id( relation_ptr );
-    const data_row_id_t from_feat_id = data_relationship_get_from_feature_id( relation_ptr );
-    const data_row_id_t to_classifier_id = data_relationship_get_to_classifier_id( relation_ptr );
-    const data_row_id_t to_feat_id = data_relationship_get_to_feature_id( relation_ptr );
+    const data_row_id_t from_classifier_id = data_relationship_get_from_classifier_row_id( relation_ptr );
+    const data_row_id_t from_feat_id = data_relationship_get_from_feature_row_id( relation_ptr );
+    const data_row_id_t to_classifier_id = data_relationship_get_to_classifier_row_id( relation_ptr );
+    const data_row_id_t to_feat_id = data_relationship_get_to_feature_row_id( relation_ptr );
 
     const data_classifier_t *from_classifier_or_null = data_visible_set_get_classifier_by_id_const( diagram_set, from_classifier_id );  /* SEARCH */
     const data_classifier_t *to_classifier_or_null = data_visible_set_get_classifier_by_id_const( diagram_set, to_classifier_id );  /* SEARCH */
@@ -119,7 +119,7 @@ bool data_rules_diagram_shows_relationship ( const data_rules_t *this_, const da
                 assert ( NULL != vc_probe );
                 const data_diagramelement_t *diag_ele = data_visible_classifier_get_diagramelement_const ( vc_probe );
                 assert ( NULL != diag_ele );
-                const data_row_id_t diag_ele_feat_id = data_diagramelement_get_focused_feature_id( diag_ele );
+                const data_row_id_t diag_ele_feat_id = data_diagramelement_get_focused_feature_row_id( diag_ele );
                 if ( from_feat_id == diag_ele_feat_id )
                 {
                     is_from_foreign_scenario = false;
