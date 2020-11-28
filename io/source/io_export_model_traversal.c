@@ -498,10 +498,40 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                     /* add the relationship to the duplicates list */
                     write_err |= universal_array_list_append( &((*this_).written_id_set), &relation_id );
 
-                    /* destination classifier found, print the relation */
-                    write_err |= xmi_element_writer_start_relationship( (*this_).element_writer, nesting_type, relation );
-                    write_err |= xmi_element_writer_assemble_relationship( (*this_).element_writer, nesting_type, local_ok, relation );
-                    write_err |= xmi_element_writer_end_relationship( (*this_).element_writer, nesting_type, relation );
+                    /* get the element types at both ends of the relationship */
+                    data_classifier_type_t from_c_type;
+                    data_feature_type_t from_f_type;
+                    data_classifier_type_t to_c_type;
+                    data_feature_type_t to_f_type;
+                    const data_error_t d_err 
+                        = io_export_model_traversal_private_get_relationship_end_types( this_,
+                                                                                        relation,
+                                                                                        node_data,
+                                                                                        &from_c_type,
+                                                                                        &from_f_type,
+                                                                                        &to_c_type,
+                                                                                        &to_f_type 
+                                                                                      );
+                        
+                    if ( d_err == DATA_ERROR_NONE )
+                    {
+                        /* destination classifier found, print the relation */
+                        write_err |= xmi_element_writer_start_relationship( (*this_).element_writer, nesting_type, relation );
+                        write_err |= xmi_element_writer_assemble_relationship( (*this_).element_writer, 
+                                                                               nesting_type, 
+                                                                               local_ok, 
+                                                                               relation,
+                                                                               from_c_type,
+                                                                               from_f_type,
+                                                                               to_c_type,
+                                                                               to_f_type 
+                                                                            );
+                        write_err |= xmi_element_writer_end_relationship( (*this_).element_writer, nesting_type, relation );
+                    }
+                    else
+                    {
+                        write_err |= -1;
+                    }
                 }
             }
         }
@@ -513,6 +543,40 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
 
     TRACE_END_ERR( write_err );
     return write_err;
+}
+
+data_error_t io_export_model_traversal_private_get_relationship_end_types( io_export_model_traversal_t *this_,
+                                                                           const data_relationship_t *relation,
+                                                                           const data_node_set_t *node_data,
+                                                                           data_classifier_type_t * out_from_c_type,
+                                                                           data_feature_type_t * out_from_f_type,
+                                                                           data_classifier_type_t * out_to_c_type,
+                                                                           data_feature_type_t * out_to_f_type )
+{
+    TRACE_BEGIN();
+    assert( relation != NULL );
+    assert( out_from_c_type != NULL );
+    assert( out_from_f_type != NULL );
+    assert( out_to_c_type != NULL );
+    assert( out_to_f_type != NULL );
+    data_error_t data_err = DATA_ERROR_NONE;
+
+    data_classifier_type_t from_c_type = DATA_CLASSIFIER_TYPE_COMPONENT;
+    data_feature_type_t from_f_type = DATA_FEATURE_TYPE_VOID;
+    data_classifier_type_t to_c_type = DATA_CLASSIFIER_TYPE_COMPONENT;
+    data_feature_type_t to_f_type = DATA_FEATURE_TYPE_VOID;
+    
+    {
+        /* TODO */
+    }
+    
+    *out_from_c_type = from_c_type;
+    *out_from_f_type = from_f_type;
+    *out_to_c_type = to_c_type;
+    *out_to_f_type = to_f_type;
+    
+    TRACE_END_ERR( data_err );
+    return data_err;
 }
 
 int io_export_model_traversal_private_fake_interactions_of_node ( io_export_model_traversal_t *this_,

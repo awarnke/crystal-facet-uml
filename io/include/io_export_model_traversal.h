@@ -44,6 +44,7 @@ struct io_export_model_traversal_struct {
     universal_array_list_t written_id_set;  /*!< list of already exported element ids (extended when starting to export an element), used for classifiers and relationships and lifelines(which are features) */
 
     data_classifier_t temp_classifier;  /*!< own buffer for private use as data cache */
+    //data_feature_t temp_feature;  /*!< own buffer for private use as data cache */
     data_node_set_t temp_node_data;  /*!< own buffer for private use as data cache */
 };
 
@@ -193,6 +194,27 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                                                                    data_classifier_type_t nesting_type,
                                                                    const data_node_set_t *node_data
                                                                  );
+
+/*!
+ *  \brief determines the types of the end-object of a relationship 
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param relation pointer to relationship that shall be analyzed, not NULL
+ *  \param node_data the data set of a model-node where to look for already loaded data (otherwise, load from database)
+ *  \param out_from_c_type the type of classifier at source end
+ *  \param out_from_f_type the type of feature at source end; DATA_FEATURE_TYPE_VOID if no feature specified
+ *  \param out_to_c_type the type of classifier at target end
+ *  \param out_to_f_type the type of feature at target end; DATA_FEATURE_TYPE_VOID if no feature specified
+ *  \result DATA_ERROR_NONE in case of success
+ */
+data_error_t io_export_model_traversal_private_get_relationship_end_types( io_export_model_traversal_t *this_,
+                                                                           const data_relationship_t *relation,
+                                                                           const data_node_set_t *node_data,
+                                                                           data_classifier_type_t * out_from_c_type,
+                                                                           data_feature_type_t * out_from_f_type,
+                                                                           data_classifier_type_t * out_to_c_type,
+                                                                           data_feature_type_t * out_to_f_type
+                                                                         );
 
 /*!
  *  \brief checks in which interaction-diagrams the node is used and fakes interaction-model-objects.

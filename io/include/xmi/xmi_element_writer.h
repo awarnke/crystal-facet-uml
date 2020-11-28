@@ -235,16 +235,20 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
  *  \param parent_type type of the parent classifier, needed for xmi export
  *  \param parent_is_source indicates if the parent/hosting classifier is the source end of the relationship
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
+ *  \param from_c_type the type of classifier at source end
+ *  \param from_f_type the type of feature at source end; DATA_FEATURE_TYPE_VOID if no feature specified
+ *  \param to_c_type the type of classifier at target end
+ *  \param to_f_type the type of feature at target end; DATA_FEATURE_TYPE_VOID if no feature specified
  *  \result 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
                                               data_classifier_type_t parent_type,
                                               bool parent_is_source,
-                                              const data_relationship_t *relation_ptr
-                                              /* TODO
-                                              ,int src_type
-                                              ,int dst_type
-                                              */
+                                              const data_relationship_t *relation_ptr,
+                                              data_classifier_type_t from_c_type,
+                                              data_feature_type_t from_f_type,
+                                              data_classifier_type_t to_c_type,
+                                              data_feature_type_t to_f_type 
                                             );
 
 /*!

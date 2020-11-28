@@ -791,7 +791,11 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
 int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
                                               data_classifier_type_t parent_type,
                                               bool parent_is_source,
-                                              const data_relationship_t *relation_ptr )
+                                              const data_relationship_t *relation_ptr,
+                                              data_classifier_type_t from_c_type,
+                                              data_feature_type_t from_f_type,
+                                              data_classifier_type_t to_c_type,
+                                              data_feature_type_t to_f_type )
 {
     TRACE_BEGIN();
     assert ( NULL != relation_ptr );
