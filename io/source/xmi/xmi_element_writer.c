@@ -264,6 +264,11 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_END );
         }
+        else
+        {
+            /* only comments do not have names */
+            assert( classifier_type == DATA_CLASSIFIER_TYPE_COMMENT );
+        }
 
         if ( NULL != xmi_element_info_get_additional_properties( classifier_info ) )
         {
@@ -290,19 +295,16 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
 /* TODO */                                                                 classifier_stereo
 /* TODO */                                                               );
         }
-        if ( ! xmi_element_info_is_a_named_element( classifier_info ) )
-        {
-            export_err |= xmi_atom_writer_write_xmi_comment( &((*this_).atom_writer),
-                                                             classifier_id,
-                                                             "name",
-                                                             classifier_name
-                                                           );
-        }
         if ( classifier_type == DATA_CLASSIFIER_TYPE_COMMENT )
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_COMMENT_BODY_START );
             xml_writer_increase_indent ( &((*this_).xml_writer) );
 
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- -->" );
+            
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_descr );
 

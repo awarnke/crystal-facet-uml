@@ -673,6 +673,12 @@ data_error_t io_export_model_traversal_private_get_relationship_end_types( io_ex
     *out_to_c_type = to_c_type;
     *out_to_f_type = to_f_type;
     
+    if ( data_err != DATA_ERROR_NONE )
+    {
+        TSLOG_ERROR_INT( "A relationship references classifier(s) and/or feature(s) that do not exist:",
+                         data_relationship_get_row_id ( relation )
+                       );
+    }
     TRACE_END_ERR( data_err );
     return data_err;
 }
