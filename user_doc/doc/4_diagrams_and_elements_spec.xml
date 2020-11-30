@@ -91,7 +91,7 @@
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_subsystem.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_subsystem.png"/></imageobject></mediaobject>
-                                Subsystem</para></entry>
+                                Subsystem/Boundary</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>Use Case / unconditional features</para></entry>
                             <entry><para>A subsystem is a component with stereotype subsystem</para></entry>

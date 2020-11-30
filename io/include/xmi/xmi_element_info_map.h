@@ -100,7 +100,7 @@ extern const xmi_element_info_map_t xmi_element_info_map_standard;
  *  \param this_ pointer to own object attributes; use e.g. the global &xmi_element_info_map_standard
  *  \param c_type selects the xmi_element_info_t
  *  \param statemachine_context for some classifiers, the result depends on the used context, e.g. statemachine or activities
- *  \return pointer to the selected xmi_element_info_t
+ *  \return pointer to the selected xmi_element_info_t (or NULL in case of illegal c_type)
  */
 static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( const xmi_element_info_map_t *this_,
                                                                                data_classifier_type_t c_type,
@@ -112,7 +112,7 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( c
  *
  *  \param this_ pointer to own object attributes; use e.g. the global &xmi_element_info_map_standard
  *  \param f_type selects the xmi_element_info_t
- *  \return pointer to the selected xmi_element_info_t
+ *  \return pointer to the selected xmi_element_info_t (or NULL in case of illegal f_type)
  */
 static inline const xmi_element_info_t * xmi_element_info_map_get_feature ( const xmi_element_info_map_t *this_,
                                                                             data_feature_type_t f_type
@@ -124,7 +124,7 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_feature ( cons
  *  \param this_ pointer to own object attributes; use e.g. the global &xmi_element_info_map_standard
  *  \param r_type selects the xmi_element_info_t
  *  \param statemachine_context for some relationships, the result depends on the used context, e.g. statemachine or activities
- *  \return pointer to the selected xmi_element_info_t
+ *  \return pointer to the selected xmi_element_info_t (or NULL in case of illegal r_type)
  */
 static inline const xmi_element_info_t * xmi_element_info_map_get_relationship ( const xmi_element_info_map_t *this_,
                                                                                  data_relationship_type_t r_type,

@@ -182,11 +182,12 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
     if ( (*this_).mode == IO_WRITER_PASS_BASE )
     {
         /* determine nesting tag */
+        const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier_ptr);
         const char* nesting_property;
         const int nesting_err
             = xmi_type_converter_get_xmi_nesting_property_of_classifier( &((*this_).xmi_types),
                                                                          parent_type,
-                                                                         data_classifier_get_main_type(classifier_ptr),
+                                                                         classifier_type,
                                                                          &nesting_property
                                                                        );
         if ( nesting_err != 0 )
@@ -199,12 +200,11 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
             const data_id_t classifier_id = data_classifier_get_data_id(classifier_ptr);
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- COMMENT ON UML-CONFORMANCE: Unsuitable nested type of " );
-            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->" );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- PROPOSAL: Pack the " );
-            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " into a more suitable container or change its type -->" );
+            export_err |= xmi_atom_writer_report_illegal_container( &((*this_).atom_writer),
+                                                                    classifier_id,
+                                                                    classifier_type,
+                                                                    parent_type
+                                                                  );
             /* use a fallback */
             nesting_property = XMI_ELEMENT_PART_FALLBACK_NESTING_ELEMENT;
         }
@@ -303,7 +303,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
 
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- -->" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n" );
             
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_descr );

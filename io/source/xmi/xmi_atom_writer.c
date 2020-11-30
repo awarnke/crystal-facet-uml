@@ -1,6 +1,8 @@
 /* File: xmi_atom_writer.c; Copyright and License: see below */
 
 #include "xmi/xmi_atom_writer.h"
+#include "xmi/xmi_element_info.h"
+#include "xmi/xmi_element_info_map.h"
 #include "xmi/xmi_xml.h"
 #include "util/string/utf8string.h"
 #include "data_id.h"
@@ -57,7 +59,6 @@ int xmi_atom_writer_write_xmi_comment( xmi_atom_writer_t *this_,
                                        data_id_t element_id,
                                        const char *comment_type,
                                        const char *comment )
-
 {
     TRACE_BEGIN();
     assert( NULL != comment_type );
@@ -120,6 +121,7 @@ int xmi_atom_writer_encode_xmi_id( xmi_atom_writer_t *this_,
 
         case DATA_TABLE_CLASSIFIER:
         {
+                                
             export_err |= xml_writer_write_plain ( (*this_).xml_writer, "6" /* instead of C */ );
         }
         break;
@@ -188,6 +190,110 @@ int xmi_atom_writer_encode_xmi_id( xmi_atom_writer_t *this_,
         }
         export_err |= xml_writer_write_int ( (*this_).xml_writer, data_id_get_row_id(&element_id) );
     }
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int xmi_atom_writer_report_issue( xmi_atom_writer_t *this_,
+                                  data_id_t fact_subject_id,
+                                  const char* fact_subject_type,
+                                  const char* fact_relation,
+                                  data_id_t fact_object_id,
+                                  const char* fact_object_type,
+                                  const char* problem_description,
+                                  const char *solution_proposal )
+{
+    TRACE_BEGIN();
+    assert( NULL != fact_subject_type );
+    assert( NULL != fact_relation );
+    assert( NULL != fact_object_type );
+    assert( NULL != fact_relation );
+    assert( NULL != solution_proposal );
+    int export_err = 0;
+
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
+    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_subject_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
+    export_err |= xmi_atom_writer_encode_xmi_id( this_, fact_subject_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") of type " );
+    export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, fact_subject_type );
+    export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, " " );
+    export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, fact_relation );
+    export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, " " );
+    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_object_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
+    export_err |= xmi_atom_writer_encode_xmi_id( this_, fact_object_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") of type " );
+    export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, fact_object_type );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
+    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, problem_description );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
+    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, solution_proposal );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int xmi_atom_writer_report_illegal_container( xmi_atom_writer_t *this_,
+                                              data_id_t fact_classifier_id,
+                                              data_classifier_type_t fact_classifier_type,
+                                              data_classifier_type_t fact_parent_type )
+{
+    TRACE_BEGIN();
+    int export_err = 0;
+    
+    const xmi_element_info_t *parent_info = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
+                                                                                 fact_parent_type,
+                                                                                 false /*guess, only used for an error message */
+                                                                               );
+    const xmi_element_info_t *classifier_info = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
+                                                                                     fact_classifier_type,
+                                                                                     (fact_parent_type==DATA_CLASSIFIER_TYPE_STATE)
+                                                                                   );
+    
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
+    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_classifier_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
+    export_err |= xmi_atom_writer_encode_xmi_id( this_, fact_classifier_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") of type " );
+    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_classifier_type );
+    if ( classifier_info != NULL ) 
+    {
+        const char * classifier_type_name = xmi_element_info_get_name ( classifier_info );
+        if ( classifier_type_name != NULL )
+        {
+            export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (" );
+            export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, classifier_type_name );
+            export_err |= xml_writer_write_plain ( (*this_).xml_writer, ")" );
+        }
+    }
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " is nested in a container of type " );
+    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_parent_type );
+    if ( parent_info != NULL ) 
+    {
+        const char * parent_type_name = xmi_element_info_get_name ( parent_info );
+        if ( parent_type_name != NULL )
+        {
+            export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (" );
+            export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, parent_type_name );
+            export_err |= xml_writer_write_plain ( (*this_).xml_writer, ")" );
+        }
+    }
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
+    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Unsuitable nested type to container type" );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
+    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Pack the nested element into a suitable container or change its type" );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
     TRACE_END_ERR( export_err );
     return export_err;

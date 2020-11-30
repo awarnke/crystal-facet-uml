@@ -98,7 +98,7 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_NODE, "Node", icon_clas_node );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_clas_subsystem = gui_resources_get_type_clas_subsystem( (*this_).resources );
-        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_SUBSYSTEM, "Subsystem", icon_clas_subsystem );
+        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_SUBSYSTEM, "Subsystem/Boundary", icon_clas_subsystem );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_clas_component = gui_resources_get_type_clas_component( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_COMPONENT, "Component", icon_clas_component );

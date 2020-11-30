@@ -65,6 +65,14 @@ static inline const char * xmi_element_info_get_profile_name ( const xmi_element
 static inline const char * xmi_element_info_get_base_name ( const xmi_element_info_t *this_ );
 
 /*!
+ *  \brief gets the profile_name if not NULL, the base_name otherwise.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return profile_name or base_name
+ */
+static inline const char * xmi_element_info_get_name ( const xmi_element_info_t *this_ );
+
+/*!
  *  \brief gets the property_from.
  *
  *  \param this_ pointer to own object attributes

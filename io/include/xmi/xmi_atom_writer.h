@@ -73,6 +73,54 @@ int xmi_atom_writer_encode_xmi_id( xmi_atom_writer_t *this_,
                                    data_id_t element_id
                                  );
 
+/*!
+ *  \brief reports an issue as comment in xmi output
+ * 
+ *  The report consists of three sentences:
+ *  A fact that is observed,
+ *  a rule that is not adhered,
+ *  a solution that is proposed.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param fact_subject_id the id of actor/parent/container/sender/active object
+ *  \param fact_subject_type type of the subject as string
+ *  \param fact_relation action/relation of the subject to the object
+ *  \param fact_object_id the id of used/related/child/contained/receiving/passive object
+ *  \param fact_object_type type of the object as string
+ *  \param problem_description english sentence, what is wrong
+ *  \param solution_proposal english sentence what to modify, may contain alternatives
+ *  \result 0 in case of success, -1 otherwise
+ */
+int xmi_atom_writer_report_issue( xmi_atom_writer_t *this_,
+                                  data_id_t fact_subject_id,
+                                  const char* fact_subject_type,
+                                  const char* fact_relation,
+                                  data_id_t fact_object_id,
+                                  const char* fact_object_type,
+                                  const char* problem_description,
+                                  const char *solution_proposal
+                                );
+
+/*!
+ *  \brief reports an issue as comment in xmi output: a container shall not contain the classifier of given type
+ * 
+ *  The report consists of three sentences:
+ *  A fact that is observed,
+ *  a rule that is not adhered,
+ *  a solution that is proposed.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param fact_classifier_id the id of contained/nested classifier object
+ *  \param fact_classifier_type type of the container/host classifier object
+ *  \param fact_parent_type type of the object as string
+ *  \result 0 in case of success, -1 otherwise
+ */
+int xmi_atom_writer_report_illegal_container( xmi_atom_writer_t *this_,
+                                              data_id_t fact_classifier_id,
+                                              data_classifier_type_t fact_classifier_type,
+                                              data_classifier_type_t fact_parent_type
+                                            );
+
 #endif  /* XMI_ATOM_WRITER_H */
 
 

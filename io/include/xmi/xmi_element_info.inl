@@ -1,5 +1,7 @@
 /* File: xmi_element_info.inl; Copyright and License: see below */
 
+#include <stddef.h>
+
 static inline int xmi_element_info_get_data_type_checksum ( const xmi_element_info_t *this_ )
 {
     return (*this_).data_type_checksum;
@@ -18,6 +20,20 @@ static inline const char * xmi_element_info_get_profile_name ( const xmi_element
 static inline const char * xmi_element_info_get_base_name ( const xmi_element_info_t *this_ )
 {
     return (*this_).base_name;
+}
+
+static inline const char * xmi_element_info_get_name ( const xmi_element_info_t *this_ )
+{
+    const char* result;
+    if ( (*this_).profile_name == NULL )
+    {
+        result = (*this_).base_name;
+    }
+    else
+    {
+        result = (*this_).profile_name;
+    }
+    return result;
 }
 
 static inline const char * xmi_element_info_get_property_from ( const xmi_element_info_t *this_ )

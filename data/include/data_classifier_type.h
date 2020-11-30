@@ -60,7 +60,6 @@ enum data_classifier_type_enum {
 
 typedef enum data_classifier_type_enum data_classifier_type_t;
 
-
 #endif  /* DATA_CLASSIFIER_TYPE_H */
 
 
