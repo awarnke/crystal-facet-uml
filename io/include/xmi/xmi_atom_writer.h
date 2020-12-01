@@ -74,34 +74,6 @@ int xmi_atom_writer_encode_xmi_id( xmi_atom_writer_t *this_,
                                  );
 
 /*!
- *  \brief reports an issue as comment in xmi output
- * 
- *  The report consists of three sentences:
- *  A fact that is observed,
- *  a rule that is not adhered,
- *  a solution that is proposed.
- *
- *  \param this_ pointer to own object attributes
- *  \param fact_subject_id the id of actor/parent/container/sender/active object
- *  \param fact_subject_type type of the subject as string
- *  \param fact_relation action/relation of the subject to the object
- *  \param fact_object_id the id of used/related/child/contained/receiving/passive object
- *  \param fact_object_type type of the object as string
- *  \param problem_description english sentence, what is wrong
- *  \param solution_proposal english sentence what to modify, may contain alternatives
- *  \result 0 in case of success, -1 otherwise
- */
-int xmi_atom_writer_report_issue( xmi_atom_writer_t *this_,
-                                  data_id_t fact_subject_id,
-                                  const char* fact_subject_type,
-                                  const char* fact_relation,
-                                  data_id_t fact_object_id,
-                                  const char* fact_object_type,
-                                  const char* problem_description,
-                                  const char *solution_proposal
-                                );
-
-/*!
  *  \brief reports an issue as comment in xmi output: a container shall not contain the classifier of given type
  * 
  *  The report consists of three sentences:
@@ -112,7 +84,7 @@ int xmi_atom_writer_report_issue( xmi_atom_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param fact_classifier_id the id of contained/nested classifier object
  *  \param fact_classifier_type type of the container/host classifier object
- *  \param fact_parent_type type of the object as string
+ *  \param fact_parent_type type of the container/host object
  *  \result 0 in case of success, -1 otherwise
  */
 int xmi_atom_writer_report_illegal_container( xmi_atom_writer_t *this_,
@@ -120,6 +92,46 @@ int xmi_atom_writer_report_illegal_container( xmi_atom_writer_t *this_,
                                               data_classifier_type_t fact_classifier_type,
                                               data_classifier_type_t fact_parent_type
                                             );
+
+/*!
+ *  \brief reports an issue as comment in xmi output: a parent shall not contain the feature of given type
+ * 
+ *  The report consists of three sentences:
+ *  A fact that is observed,
+ *  a rule that is not adhered,
+ *  a solution that is proposed.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param fact_feature_id the id of child feature object
+ *  \param fact_feature_type type of the child feature object
+ *  \param fact_parent_type type of the parent object
+ *  \result 0 in case of success, -1 otherwise
+ */
+int xmi_atom_writer_report_illegal_parent( xmi_atom_writer_t *this_,
+                                           data_id_t fact_feature_id,
+                                           data_feature_type_t fact_feature_type,
+                                           data_classifier_type_t fact_parent_type
+                                         );
+
+/*!
+ *  \brief reports an issue as comment in xmi output: the relationship of given type cannot be put to a location
+ * 
+ *  The report consists of three sentences:
+ *  A fact that is observed,
+ *  a rule that is not adhered,
+ *  a solution that is proposed.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param fact_relationship_id the id of child feature object
+ *  \param fact_relationship_type type of the child feature object
+ *  \param fact_parent_type type of the location/host object
+ *  \result 0 in case of success, -1 otherwise
+ */
+int xmi_atom_writer_report_illegal_location( xmi_atom_writer_t *this_,
+                                             data_id_t fact_relationship_id,
+                                             data_relationship_type_t fact_relationship_type,
+                                             data_classifier_type_t fact_parent_type
+                                           );
 
 #endif  /* XMI_ATOM_WRITER_H */
 

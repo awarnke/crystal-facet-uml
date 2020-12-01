@@ -508,12 +508,11 @@ int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
             /* update export statistics */
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- COMMENT ON UML-CONFORMANCE: Unsuitable parent type of " );
-            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), feature_id );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->" );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- PROPOSAL: Pack the " );
-            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), feature_id );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " into a more suitable container or change its type -->" );
+            export_err |= xmi_atom_writer_report_illegal_parent( &((*this_).atom_writer),
+                                                                 feature_id,
+                                                                 feature_type,
+                                                                 parent_type
+                                                               );
         }
 
         /* write nesting tag */
@@ -534,7 +533,7 @@ int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
 
         /* write id attribute */
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
-        export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer),feature_id );
+        export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), feature_id );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
 
         /* write name attribute */
@@ -677,15 +676,11 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
             /* update export statistics */
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- COMMENT ON UML-CONFORMANCE: Unsuitable parent type of " );
-            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), relation_id );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " -->" );
-            {
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n<!-- PROPOSAL: Change either the " );
-                export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), relation_id );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), " or the classifier at its source end to a more suitable type -->" );
-                /* classifier types at target end are not yet checked */
-            }
+            export_err |= xmi_atom_writer_report_illegal_location( &((*this_).atom_writer),
+                                                                   relation_id,
+                                                                   relation_type,
+                                                                   parent_type
+                                                                 );
             /* use a fallback */
             nesting_property = XMI_ELEMENT_PART_FALLBACK_NESTING_ELEMENT;
         }

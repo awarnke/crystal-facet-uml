@@ -195,51 +195,6 @@ int xmi_atom_writer_encode_xmi_id( xmi_atom_writer_t *this_,
     return export_err;
 }
 
-int xmi_atom_writer_report_issue( xmi_atom_writer_t *this_,
-                                  data_id_t fact_subject_id,
-                                  const char* fact_subject_type,
-                                  const char* fact_relation,
-                                  data_id_t fact_object_id,
-                                  const char* fact_object_type,
-                                  const char* problem_description,
-                                  const char *solution_proposal )
-{
-    TRACE_BEGIN();
-    assert( NULL != fact_subject_type );
-    assert( NULL != fact_relation );
-    assert( NULL != fact_object_type );
-    assert( NULL != fact_relation );
-    assert( NULL != solution_proposal );
-    int export_err = 0;
-
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
-    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_subject_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
-    export_err |= xmi_atom_writer_encode_xmi_id( this_, fact_subject_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") of type " );
-    export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, fact_subject_type );
-    export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, " " );
-    export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, fact_relation );
-    export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, " " );
-    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_object_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
-    export_err |= xmi_atom_writer_encode_xmi_id( this_, fact_object_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") of type " );
-    export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, fact_object_type );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
-    
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
-    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, problem_description );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
-    
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
-    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, solution_proposal );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
-
-    TRACE_END_ERR( export_err );
-    return export_err;
-}
-
 int xmi_atom_writer_report_illegal_container( xmi_atom_writer_t *this_,
                                               data_id_t fact_classifier_id,
                                               data_classifier_type_t fact_classifier_type,
@@ -293,6 +248,124 @@ int xmi_atom_writer_report_illegal_container( xmi_atom_writer_t *this_,
     
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
     export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Pack the nested element into a suitable container or change its type" );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int xmi_atom_writer_report_illegal_parent( xmi_atom_writer_t *this_,
+                                           data_id_t fact_feature_id,
+                                           data_feature_type_t fact_feature_type,
+                                           data_classifier_type_t fact_parent_type )
+{
+    TRACE_BEGIN();
+    int export_err = 0;
+    
+    const xmi_element_info_t *parent_info = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
+                                                                                 fact_parent_type,
+                                                                                 false /*guess, only used for an error message */
+                                                                               );
+    const xmi_element_info_t *feature_info = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
+                                                                               fact_feature_type
+                                                                             );
+    
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
+    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_feature_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
+    export_err |= xmi_atom_writer_encode_xmi_id( this_, fact_feature_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") of type " );
+    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_feature_type );
+    if ( feature_info != NULL ) 
+    {
+        const char * feature_type_name = xmi_element_info_get_name ( feature_info );
+        if ( feature_type_name != NULL )
+        {
+            export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (" );
+            export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, feature_type_name );
+            export_err |= xml_writer_write_plain ( (*this_).xml_writer, ")" );
+        }
+    }
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " is child to classifier of type " );
+    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_parent_type );
+    if ( parent_info != NULL ) 
+    {
+        const char * parent_type_name = xmi_element_info_get_name ( parent_info );
+        if ( parent_type_name != NULL )
+        {
+            export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (" );
+            export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, parent_type_name );
+            export_err |= xml_writer_write_plain ( (*this_).xml_writer, ")" );
+        }
+    }
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
+    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Unsuitable child type to parent type" );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
+    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Change the type of the child feature or the parent element" );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int xmi_atom_writer_report_illegal_location( xmi_atom_writer_t *this_,
+                                             data_id_t fact_relationship_id,
+                                             data_relationship_type_t fact_relationship_type,
+                                             data_classifier_type_t fact_parent_type
+                                           )
+{
+    TRACE_BEGIN();
+    int export_err = 0;
+    
+    const xmi_element_info_t *parent_info = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
+                                                                                 fact_parent_type,
+                                                                                 false /*guess, only used for an error message */
+                                                                               );
+    const xmi_element_info_t *relation_info = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
+                                                                                     fact_relationship_type,
+                                                                                     (fact_parent_type==DATA_CLASSIFIER_TYPE_STATE)
+                                                                                   );
+    
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
+    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_relationship_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
+    export_err |= xmi_atom_writer_encode_xmi_id( this_, fact_relationship_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") of type " );
+    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_relationship_type );
+    if ( relation_info != NULL ) 
+    {
+        const char * relationship_type_name = xmi_element_info_get_name ( relation_info );
+        if ( relationship_type_name != NULL )
+        {
+            export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (" );
+            export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, relationship_type_name );
+            export_err |= xml_writer_write_plain ( (*this_).xml_writer, ")" );
+        }
+    }
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " is located in classifier of type " );
+    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_parent_type );
+    if ( parent_info != NULL ) 
+    {
+        const char * parent_type_name = xmi_element_info_get_name ( parent_info );
+        if ( parent_type_name != NULL )
+        {
+            export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (" );
+            export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, parent_type_name );
+            export_err |= xml_writer_write_plain ( (*this_).xml_writer, ")" );
+        }
+    }
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
+    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Unsuitable relationship type to hosting location type" );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
+    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Change the type of the relationship" );
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
     TRACE_END_ERR( export_err );

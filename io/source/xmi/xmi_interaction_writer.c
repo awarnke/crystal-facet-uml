@@ -78,9 +78,11 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
             /* update export statistics */
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- COMMENT ON UML-CONFORMANCE: Unsuitable nested type of " );
-            export_err |= xml_writer_write_plain_id( (*this_).xml_writer, diagram_id );
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+            export_err |= xmi_atom_writer_report_illegal_container( &((*this_).atom_writer),
+                                                                    diagram_id,
+                                                                    DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake child type */
+                                                                    parent_type
+                                                                  );
             /* use a fallback */
             nesting_property = XMI_ELEMENT_PART_FALLBACK_NESTING_ELEMENT;
         }
@@ -130,8 +132,8 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
                                                            );
         }
 
-        /* update export statistics */
-        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED );
+        /* update export statistics, report as classifier because DATA_CLASSIFIER_TYPE_INTERACTION is a classifier */
+        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED );
     }
 
     TRACE_END_ERR( export_err );
@@ -322,7 +324,7 @@ int xmi_ineraction_writer_assemble_relationship( xmi_interaction_writer_t *this_
 
         /* write lifeline id attribute */
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, "enclosingInteraction=\"" );
-        export_err |= xml_writer_write_plain ( (*this_).xml_writer, "90001" );
+        export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), interaction_id );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\" " );
 
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_EMPTY_TAG_END );

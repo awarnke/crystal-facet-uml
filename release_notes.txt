@@ -1,10 +1,17 @@
+crystal-facet-uml (1.26.1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * destination end of messages had fix ref to enclosingInteraction=90001
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 05 Dec 2020 16:30:00 +0100
+
 crystal-facet-uml (1.26.0) UNRELEASED; urgency=medium
 
   [ Olaf Hering ]
   * CMakeLists adapted to find pangocairo (Closes: #2)
 
   [ Mike Gabriel ]
-  * Grammar fixes in application messages
+  * Grammar fixes in applicatenclosingInteractionion messages
 
   [ Andreas Warnke ]
   * xmi export exports sequence, timing, communication and interaction overview
