@@ -48,6 +48,7 @@ INCLUDE_DIRECTORIES(${GTK3_INCLUDE_DIRS})
 
 pkg_search_module(PANGOCAIRO REQUIRED pangocairo)
 INCLUDE_DIRECTORIES(${PANGOCAIRO_INCLUDE_DIRS})
+#MESSAGE("PANGOCAIRO: ${PANGOCAIRO_INCLUDE_DIRS}")
 
 FILE(GLOB commonSource gui/source/*.c
                        gui/source/sketch_area/*.c

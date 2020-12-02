@@ -628,14 +628,12 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .profile_name             = NULL,
         .base_name                = "ControlFlow",
         .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY_EDGE),
-        .property_from            = "source",
-        .property_to              = "target",
 #ifdef NDEBUG
         .property_from            = "source",
         .property_to              = "target",
         .additional_properties    = NULL,
 #else
-        /* the xmi validator does not like the tags aource and target */
+        /* the xmi validator does not like the tags source and target */
         .property_from            = "x-source",
         .property_to              = "x-target",
         .additional_properties    = "weight=\"1\" guard=\"true\"",

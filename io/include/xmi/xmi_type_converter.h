@@ -191,42 +191,60 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
  *  \brief gets a string representation of the from property of a data_relationship_type_t
  *
  *  \param this_ pointer to own object attributes
- *  \param hosting_type data_classifier_type_t of the host of which the nesting-type shall be determined
- *  \param r_type data_relationship_type_t for which to define the from property
- *  \result string representation of the from property of the r_type
+ *  \param hosting_type data_classifier_type_t of the host
+ *  \param rel_type data_relationship_type_t for which to determine the from property
+ *  \param from_classifier_type the type of classifier at relationship-end
+ *  \param from_feature_type the type of feature at relationship-end; DATA_FEATURE_TYPE_VOID if no feature specified
+ *  \param out_xmi_name string representation of the from property of the rel_type, empty string if not available
+ *  \result 0 in case of success
  */
-static inline const char* xmi_type_converter_get_xmi_from_property_of_relationship ( xmi_type_converter_t *this_,
-                                                                                     data_classifier_type_t hosting_type,
-                                                                                     data_relationship_type_t r_type
-                                                                                   );
+static inline int xmi_type_converter_get_xmi_from_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                             data_classifier_type_t hosting_type,
+                                                                             data_relationship_type_t rel_type,
+                                                                             data_classifier_type_t from_classifier_type,
+                                                                             data_feature_type_t from_feature_type,
+                                                                             char const * *out_xmi_name
+                                                                           );
 
 /*!
  *  \brief gets a string representation of the to property of a data_relationship_type_t
  *
  *  \param this_ pointer to own object attributes
- *  \param hosting_type data_classifier_type_t of the host of which the nesting-type shall be determined
- *  \param r_type data_relationship_type_t for which to define the to property
- *  \result string representation of the to property of the r_type
+ *  \param hosting_type data_classifier_type_t of the host
+ *  \param rel_type data_relationship_type_t for which to determine the to property
+ *  \param to_classifier_type the type of classifier at relationship-end
+ *  \param to_feature_type the type of feature at relationship-end; DATA_FEATURE_TYPE_VOID if no feature specified
+ *  \param out_xmi_name string representation of the to property of the rel_type, empty string if not available
+ *  \result 0 in case of success
  */
-static inline const char* xmi_type_converter_get_xmi_to_property_of_relationship ( xmi_type_converter_t *this_,
-                                                                                   data_classifier_type_t hosting_type,
-                                                                                   data_relationship_type_t r_type
-                                                                                 );
+static inline int xmi_type_converter_get_xmi_to_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                           data_classifier_type_t hosting_type,
+                                                                           data_relationship_type_t rel_type,
+                                                                           data_classifier_type_t to_classifier_type,
+                                                                           data_feature_type_t to_feature_type,
+                                                                           char const * *out_xmi_name
+                                                                         );
 
 /*!
  *  \brief gets a string representation of an end property of a data_relationship_type_t
  *
  *  \param this_ pointer to own object attributes
- *  \param hosting_type data_classifier_type_t of the host of which the nesting-type shall be determined
- *  \param r_type data_relationship_type_t for which to define the end property
+ *  \param hosting_type data_classifier_type_t of the host 
+ *  \param rel_type data_relationship_type_t of the nested relationship 
  *  \param from_end true if the source(from) end, is requested, false if the target(to) end is requested.
- *  \result string representation of the from property of the r_type
+ *  \param end_classifier_type the type of classifier at relationship-end
+ *  \param end_feature_type the type of feature at relationship-end; DATA_FEATURE_TYPE_VOID if no feature specified
+ *  \param out_xmi_name string representation of the end property of the rel_type, empty string if not available
+ *  \result 0 in case of success
  */
-const char* xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_converter_t *this_,
-                                                                              data_classifier_type_t hosting_type,
-                                                                              data_relationship_type_t r_type,
-                                                                              bool from_end
-                                                                            );
+int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                      data_classifier_type_t hosting_type,
+                                                                      data_relationship_type_t rel_type,
+                                                                      bool from_end,
+                                                                      data_classifier_type_t end_classifier_type,
+                                                                      data_feature_type_t end_feature_type,
+                                                                      char const * *out_xmi_name
+                                                                    );
 
 #include "xmi_type_converter.inl"
 

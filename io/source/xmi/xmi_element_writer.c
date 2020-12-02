@@ -835,13 +835,20 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
         /* source */
         if ( ! suppress_source )
         {
+            /* determine from type tag */
+            const char* from_type_tag;
+            const int from_type_err
+                = xmi_type_converter_get_xmi_from_property_of_relationship ( &((*this_).xmi_types),
+                                                                             parent_type,
+                                                                             relation_type,
+                                                                             from_c_type,
+                                                                             from_f_type,
+                                                                             &from_type_tag
+                                                                           );
+            
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
-            const char* from_type = xmi_type_converter_get_xmi_from_property_of_relationship ( &((*this_).xmi_types),
-                                                                                               parent_type,
-                                                                                               relation_type
-                                                                                             );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), from_type );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), from_type_tag );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_START );
@@ -876,13 +883,20 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
         }
 
         /* destination */
+        /* determine from type tag */
+        const char* to_type_tag;
+        const int to_type_err
+            = xmi_type_converter_get_xmi_to_property_of_relationship ( &((*this_).xmi_types),
+                                                                       parent_type,
+                                                                       relation_type,
+                                                                       to_c_type,
+                                                                       to_f_type,
+                                                                       &to_type_tag
+                                                                     );
+            
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
-        const char* to_type = xmi_type_converter_get_xmi_to_property_of_relationship ( &((*this_).xmi_types),
-                                                                                       parent_type,
-                                                                                       relation_type
-                                                                                     );
-        export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), to_type );
+        export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), to_type_tag );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
 
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_START );

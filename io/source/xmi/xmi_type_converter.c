@@ -390,16 +390,21 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
     return result;
 }
 
-const char* xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_converter_t *this_,
-                                                                              data_classifier_type_t hosting_type,
-                                                                              data_relationship_type_t r_type,
-                                                                              bool from_end )
+int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                      data_classifier_type_t hosting_type,
+                                                                      data_relationship_type_t rel_type,
+                                                                      bool from_end,
+                                                                      data_classifier_type_t end_classifier_type,
+                                                                      data_feature_type_t end_feature_type,
+                                                                      char const * *out_xmi_name )
 {
     TRACE_BEGIN();
+    assert( out_xmi_name != NULL );
+    int err = 0;
 
     const bool host_is_state = ( hosting_type == DATA_CLASSIFIER_TYPE_STATE );
     const xmi_element_info_t *e_info
-        = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard, r_type, host_is_state );
+        = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard, rel_type, host_is_state );
     assert ( e_info != NULL );
     const char* result
         = ( from_end )
@@ -407,8 +412,13 @@ const char* xmi_type_converter_private_get_xmi_end_property_of_relationship ( xm
         : (*e_info).property_to;
     assert ( result != NULL );
 
-    TRACE_END();
-    return result;
+    *out_xmi_name = ( result == NULL ) ? "" : result;
+    err = ( result == NULL ) ? -1 : 0;
+    
+    /* TODO there are more error cases */
+    
+    TRACE_END_ERR( err );
+    return err;
 }
 
 

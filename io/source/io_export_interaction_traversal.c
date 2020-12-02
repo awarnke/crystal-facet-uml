@@ -362,11 +362,15 @@ int io_export_interaction_traversal_private_iterate_feature_relationships ( io_e
                                                                       );
                     if ( is_message )
                     {
-                        write_err |= xmi_ineraction_writer_assemble_relationship( &((*this_).interaction_writer), 
-                                                                                  interaction_id,
-                                                                                  DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
-                                                                                  relation
-                                                                                );
+                        write_err |= xmi_interaction_writer_assemble_relationship( &((*this_).interaction_writer), 
+                                                                                   interaction_id,
+                                                                                   DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
+                                                                                   relation,
+                                                                                   DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake from classifier type */
+                                                                                   DATA_FEATURE_TYPE_LIFELINE,  /* guess from feature type */
+                                                                                   DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake to classifier type */
+                                                                                   DATA_FEATURE_TYPE_LIFELINE  /* guess to feature type */
+                                                                                 );
                     }
                     else
                     {
