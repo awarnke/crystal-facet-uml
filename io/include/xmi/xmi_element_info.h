@@ -248,6 +248,14 @@ static inline bool xmi_element_info_is_a_interaction_fragment ( const xmi_elemen
  */
 static inline bool xmi_element_info_is_a_association ( const xmi_element_info_t *this_ );
 
+/*!
+ *  \brief checks if the type is a dependency (which includes aggegation, composition, communication path).
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if is_a has XMI_ELEMENT_IS_A_DEPENDENCY bits set
+ */
+static inline bool xmi_element_info_is_a_dependency ( const xmi_element_info_t *this_ );
+
 #include "xmi_element_info.inl"
 
 #endif  /* XMI_ELEMENT_INFO_H */

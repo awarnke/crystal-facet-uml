@@ -23,6 +23,12 @@ const char * const XMI_ELEMENT_PART_PROPERTY_ASSOCIATION_ATTRIBUTE
 const char * const XMI_ELEMENT_PART_PROPERTY_TYPE_ELEMENT
     = "type";
 
+const char * const XMI_ELEMENT_PART_PROPERTY_CLASS_ELEMENT
+    = "class";
+
+const char * const XMI_ELEMENT_PART_PROPERTY_INTERFACE_ELEMENT
+    = "interface";
+
 const char * const XMI_ELEMENT_PART_PROPERTY_AGGREGATION_ATTRIBUTE
     = "aggregation";
 
@@ -31,6 +37,12 @@ const char * const XMI_ELEMENT_PART_PROPERTY_AGGREGATION_SHARED
 
 const char * const XMI_ELEMENT_PART_PROPERTY_AGGREGATION_COMPOSITE
     = "composite";
+
+const char * const XMI_ELEMENT_PART_TYPE_MSG_OCCURRENCE_SPEC
+    = "MessageOccurrenceSpecification";
+
+const char * const XMI_ELEMENT_PART_PROPERTY_OCCURRENCE_SPEC_COVERED
+    = "covered";
 
 
 /*

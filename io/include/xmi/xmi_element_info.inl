@@ -146,6 +146,11 @@ static inline bool xmi_element_info_is_a_association ( const xmi_element_info_t 
     return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_ASSOCIATION ) == XMI_ELEMENT_IS_A_ASSOCIATION;
 }
 
+static inline bool xmi_element_info_is_a_dependency ( const xmi_element_info_t *this_ )
+{
+    return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_DEPENDENCY ) == XMI_ELEMENT_IS_A_DEPENDENCY;
+}
+
 
 /*
 Copyright 2020-2020 Andreas Warnke

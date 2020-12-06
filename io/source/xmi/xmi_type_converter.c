@@ -26,11 +26,11 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_classifier ( xmi_type_converter_t 
 {
     TRACE_BEGIN();
 
-    const xmi_element_info_t *e_info
+    const xmi_element_info_t *classifier_info
         = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, c_type, false /*this parameter does not matter for this use case*/ );
-    assert ( e_info != NULL );
+    assert ( classifier_info != NULL );
     const xmi_spec_t result
-        = (*e_info).specification;
+        = (*classifier_info).specification;
 
     TRACE_END();
     return result;
@@ -43,13 +43,13 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
 {
     TRACE_BEGIN();
 
-    const xmi_element_info_t *e_info
+    const xmi_element_info_t *classifier_info
         = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, c_type, (parent_type==DATA_CLASSIFIER_TYPE_STATE) );
-    assert ( e_info != NULL );
+    assert ( classifier_info != NULL );
     const char* result
-        = (( (spec & (XMI_SPEC_SYSML|XMI_SPEC_STANDARD)) != 0 )&&( (*e_info).profile_name != NULL ))
-        ? (*e_info).profile_name
-        : (*e_info).base_name;
+        = (( (spec & (XMI_SPEC_SYSML|XMI_SPEC_STANDARD)) != 0 )&&( (*classifier_info).profile_name != NULL ))
+        ? (*classifier_info).profile_name
+        : (*classifier_info).base_name;
     assert ( result != NULL );
 
     TRACE_END();
@@ -340,13 +340,13 @@ const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *t
 {
     TRACE_BEGIN();
 
-    const xmi_element_info_t *e_info
+    const xmi_element_info_t *feature_info
         = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, f_type );
-    assert ( e_info != NULL );
+    assert ( feature_info != NULL );
     const char* result
-        = (( (spec & (XMI_SPEC_SYSML|XMI_SPEC_STANDARD)) != 0 )&&( (*e_info).profile_name != NULL ))
-        ? (*e_info).profile_name
-        : (*e_info).base_name;
+        = (( (spec & (XMI_SPEC_SYSML|XMI_SPEC_STANDARD)) != 0 )&&( (*feature_info).profile_name != NULL ))
+        ? (*feature_info).profile_name
+        : (*feature_info).base_name;
     assert ( result != NULL );
 
     TRACE_END();
@@ -359,11 +359,11 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_relationship ( xmi_type_converter_
 {
     TRACE_BEGIN();
 
-    const xmi_element_info_t *e_info
+    const xmi_element_info_t *rel_info
         = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard, r_type, false /*this parameter does not matter for this use case*/ );
-    assert ( e_info != NULL );
+    assert ( rel_info != NULL );
     const xmi_spec_t result
-        = (*e_info).specification;
+        = (*rel_info).specification;
 
     TRACE_END();
     return result;
@@ -377,13 +377,13 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
     TRACE_BEGIN();
 
     const bool host_is_state = ( hosting_type == DATA_CLASSIFIER_TYPE_STATE );
-    const xmi_element_info_t *e_info
+    const xmi_element_info_t *rel_info
         = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard, r_type, host_is_state );
-    assert ( e_info != NULL );
+    assert ( rel_info != NULL );
     const char* result
-        = (( (spec & (XMI_SPEC_SYSML|XMI_SPEC_STANDARD)) != 0 )&&( (*e_info).profile_name != NULL ))
-        ? (*e_info).profile_name
-        : (*e_info).base_name;
+        = (( (spec & (XMI_SPEC_SYSML|XMI_SPEC_STANDARD)) != 0 )&&( (*rel_info).profile_name != NULL ))
+        ? (*rel_info).profile_name
+        : (*rel_info).base_name;
     assert ( result != NULL );
 
     TRACE_END();
@@ -403,19 +403,128 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
     int err = 0;
 
     const bool host_is_state = ( hosting_type == DATA_CLASSIFIER_TYPE_STATE );
-    const xmi_element_info_t *e_info
+    const xmi_element_info_t *rel_info
         = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard, rel_type, host_is_state );
-    assert ( e_info != NULL );
+    assert ( rel_info != NULL );
     const char* result
         = ( from_end )
-        ? (*e_info).property_from
-        : (*e_info).property_to;
+        ? (*rel_info).property_from
+        : (*rel_info).property_to;
     assert ( result != NULL );
 
     *out_xmi_name = ( result == NULL ) ? "" : result;
     err = ( result == NULL ) ? -1 : 0;
     
-    /* TODO there are more error cases */
+    const xmi_element_info_t *classifier_info
+        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, end_classifier_type, host_is_state );
+    assert ( classifier_info != NULL );
+    
+    if ( end_feature_type == DATA_FEATURE_TYPE_VOID )
+    {
+        /* relationship end is at a classifier */
+        
+        /* DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW and DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW */
+        if ( xmi_element_info_is_a_transition( rel_info ) && xmi_element_info_is_a_vertex( classifier_info ) )
+        {
+            /* valid relationship according to uml 2.5.1 spec, chapter 14.5.11 */
+        }
+        else if ( xmi_element_info_is_a_activity_edge( rel_info ) && xmi_element_info_is_a_activity_node( classifier_info ) )
+        {
+            /* valid relationship according to uml 2.5.1 spec, chapter 15.7.2 */
+        }
+
+        /* DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY, DATA_RELATIONSHIP_TYPE_UML_REALIZATION, DATA_RELATIONSHIP_TYPE_UML_MANIFEST, */
+        /* DATA_RELATIONSHIP_TYPE_UML_DEPLOY */
+        else if ( xmi_element_info_is_a_dependency( rel_info ) && xmi_element_info_is_a_named_element( classifier_info ) )
+        {
+            /* a dependency can connect any named elements according to uml 2.5.1 spec, chapter 7.8.4  */
+        }
+        
+        /* DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION, DATA_RELATIONSHIP_TYPE_UML_AGGREGATION, DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, */
+        /* DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH, DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT */
+        else if ( xmi_element_info_is_a_association( rel_info ) && xmi_element_info_is_a_class( classifier_info ) )
+        {
+            /* an association can connect to a propoerty according to uml 2.5.1 spec, chapter 11.8.1  */
+            /* a property can connect a class according to uml 2.5.1 spec, chapter 9.9.17  */
+        }
+        else if ( xmi_element_info_is_a_association( rel_info ) && ( end_classifier_type == DATA_CLASSIFIER_TYPE_INTERFACE ))
+        {
+            /* an association can connect to a propoerty according to uml 2.5.1 spec, chapter 11.8.1  */
+            /* a property can connect an interface according to uml 2.5.1 spec, chapter 9.9.17  */
+        }
+        else if ( xmi_element_info_is_a_association( rel_info ) && xmi_element_info_is_a_classifier( classifier_info ) )
+        {
+            /* an association can connect to a propoerty according to uml 2.5.1 spec, chapter 11.8.1  */
+            /* a property is a typedelelemnt and can therefore connect a classifier(type) according to uml 2.5.1 spec, chapter 7.8.22  */
+        }
+        
+        else
+        {
+            /* no valid end type for given relationship type */
+            err = -1;
+        }
+        /* TODO: rule set above is nice - user doc should be updated */
+        /*
+            
+            DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION:
+            
+            DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
+            
+            DATA_RELATIONSHIP_TYPE_UML_EXTEND:
+            
+            DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
+            
+            DATA_RELATIONSHIP_TYPE_UML_REFINE:
+            
+            DATA_RELATIONSHIP_TYPE_UML_TRACE:
+        */
+    }
+    else
+    {
+        /* relationship end is at feature */
+        const xmi_element_info_t *feature_info
+            = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, end_feature_type );
+        assert ( feature_info != NULL );
+
+        /* DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL or DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL or DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL */
+        if ( xmi_element_info_is_a_message ( rel_info ) && ( end_feature_type == DATA_FEATURE_TYPE_LIFELINE ))
+        {
+            /* valid relationship according to uml 2.5.1 spec, chapter 17.12.23 */
+        }
+        
+        /* DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY, DATA_RELATIONSHIP_TYPE_UML_REALIZATION, DATA_RELATIONSHIP_TYPE_UML_MANIFEST, */
+        /* DATA_RELATIONSHIP_TYPE_UML_DEPLOY */
+        else if ( xmi_element_info_is_a_dependency( rel_info ) && xmi_element_info_is_a_named_element( feature_info ) )
+        {
+            /* a dependency can connect any named elements according to uml 2.5.1 spec, chapter 7.8.4  */
+        }
+        
+        /* DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION, DATA_RELATIONSHIP_TYPE_UML_AGGREGATION, DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, */
+        /* DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH, DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT */
+        else if ( xmi_element_info_is_a_association( rel_info ) && xmi_element_info_is_a_class( feature_info ) )
+        {
+            /* an association can connect to a propoerty according to uml 2.5.1 spec, chapter 11.8.1  */
+            /* a property can connect a class according to uml 2.5.1 spec, chapter 9.9.17  */
+        }
+        else if ( xmi_element_info_is_a_association( rel_info ) 
+            && (( end_feature_type ==  DATA_FEATURE_TYPE_PROVIDED_INTERFACE )||( end_feature_type == DATA_FEATURE_TYPE_REQUIRED_INTERFACE )))
+        {
+            /* an association can connect to a propoerty according to uml 2.5.1 spec, chapter 11.8.1  */
+            /* a property can connect an interface according to uml 2.5.1 spec, chapter 9.9.17  */
+        }
+        else if ( xmi_element_info_is_a_association( rel_info ) && xmi_element_info_is_a_classifier( feature_info ) )
+        {
+            /* an association can connect to a propoerty according to uml 2.5.1 spec, chapter 11.8.1  */
+            /* a property is a typedelelemnt and can therefore connect a classifier(type) according to uml 2.5.1 spec, chapter 7.8.22  */
+        }
+        
+        else
+        {
+            /* no valid end type for given relationship type */
+            err = -1;
+        }
+        
+    }
     
     TRACE_END_ERR( err );
     return err;

@@ -271,17 +271,18 @@ int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this
         /* write type attribute */
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_TYPE_START );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_NS_UML );
-        export_err |= xml_writer_write_plain ( (*this_).xml_writer, "MessageOccurrenceSpecification" );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_ELEMENT_PART_TYPE_MSG_OCCURRENCE_SPEC );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_TYPE_END );
 
         /* write id attribute */
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_ID_START );
         export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), relation_id );
-        export_err |= xml_writer_write_plain ( (*this_).xml_writer, "#source" );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_ELEMENT_PART_ID_FRAGMENT_SOURCE_END );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_ID_END );
 
         /* write lifeline id attribute */
-        export_err |= xml_writer_write_plain ( (*this_).xml_writer, "covered=\"" );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_ELEMENT_PART_PROPERTY_OCCURRENCE_SPEC_COVERED );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_ATTR_VALUE_START );
         if ( data_id_is_valid( &from_feature_id ) )
         {
             export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), from_feature_id );
@@ -290,7 +291,8 @@ int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this
         {
             export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), from_classifier_id );
         }
-        export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\" " );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_ATTR_VALUE_END );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_ATTR_SEPARATOR );
 
         /* write lifeline id attribute */
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, "enclosingInteraction=\"" );
@@ -319,17 +321,18 @@ int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this
         /* write type attribute */
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_TYPE_START );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_NS_UML );
-        export_err |= xml_writer_write_plain ( (*this_).xml_writer, "MessageOccurrenceSpecification" );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_ELEMENT_PART_TYPE_MSG_OCCURRENCE_SPEC );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_TYPE_END );
 
         /* write id attribute */
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_ID_START );
         export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), relation_id );
-        export_err |= xml_writer_write_plain ( (*this_).xml_writer, "#dest" );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_ELEMENT_PART_ID_FRAGMENT_TARGET_END );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_ID_END );
 
         /* write lifeline id attribute */
-        export_err |= xml_writer_write_plain ( (*this_).xml_writer, "covered=\"" );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_ELEMENT_PART_PROPERTY_OCCURRENCE_SPEC_COVERED );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_ATTR_VALUE_START );
         if ( data_id_is_valid( &to_feature_id ) )
         {
             export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), to_feature_id );
@@ -338,7 +341,8 @@ int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this
         {
             export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), to_classifier_id );
         }
-        export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\" " );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_ATTR_VALUE_END );
+        export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_ATTR_SEPARATOR );
 
         /* write lifeline id attribute */
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, "enclosingInteraction=\"" );
