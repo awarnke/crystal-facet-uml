@@ -434,7 +434,7 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
         }
 
         /* DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY, DATA_RELATIONSHIP_TYPE_UML_REALIZATION, DATA_RELATIONSHIP_TYPE_UML_MANIFEST, */
-        /* DATA_RELATIONSHIP_TYPE_UML_DEPLOY */
+        /* DATA_RELATIONSHIP_TYPE_UML_DEPLOY, DATA_RELATIONSHIP_TYPE_UML_REFINE,  DATA_RELATIONSHIP_TYPE_UML_TRACE */
         else if ( xmi_element_info_is_a_dependency( rel_info ) && xmi_element_info_is_a_named_element( classifier_info ) )
         {
             /* a dependency can connect any named elements according to uml 2.5.1 spec, chapter 7.8.4  */
@@ -458,26 +458,27 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
             /* a property is a typedelelemnt and can therefore connect a classifier(type) according to uml 2.5.1 spec, chapter 7.8.22  */
         }
         
+        /* DATA_RELATIONSHIP_TYPE_UML_EXTEND and DATA_RELATIONSHIP_TYPE_UML_INCLUDE */
+        else if (( rel_type == DATA_RELATIONSHIP_TYPE_UML_EXTEND ) && ( end_classifier_type == DATA_CLASSIFIER_TYPE_USE_CASE ))
+        {
+            /* an extend directed relationship can connect to a use case according to uml 2.5.1 spec, chapter 18.2.2  */
+        }
+        else if (( rel_type == DATA_RELATIONSHIP_TYPE_UML_INCLUDE ) && ( end_classifier_type == DATA_CLASSIFIER_TYPE_USE_CASE ))
+        {
+            /* an include directed relationship can connect to a use case according to uml 2.5.1 spec, chapter 18.2.4  */
+        }
+        
+        /* DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION */
+        else if (( rel_type == DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION ) && xmi_element_info_is_a_classifier( classifier_info ) )
+        {
+            /* a generalization can connect any classifiers according to uml 2.5.1 spec, chapter 9.9.7  */
+        }
+
         else
         {
             /* no valid end type for given relationship type */
             err = -1;
         }
-        /* TODO: rule set above is nice - user doc should be updated */
-        /*
-            
-            DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION:
-            
-            DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
-            
-            DATA_RELATIONSHIP_TYPE_UML_EXTEND:
-            
-            DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
-            
-            DATA_RELATIONSHIP_TYPE_UML_REFINE:
-            
-            DATA_RELATIONSHIP_TYPE_UML_TRACE:
-        */
     }
     else
     {
@@ -493,7 +494,7 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
         }
         
         /* DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY, DATA_RELATIONSHIP_TYPE_UML_REALIZATION, DATA_RELATIONSHIP_TYPE_UML_MANIFEST, */
-        /* DATA_RELATIONSHIP_TYPE_UML_DEPLOY */
+        /* DATA_RELATIONSHIP_TYPE_UML_DEPLOY, DATA_RELATIONSHIP_TYPE_UML_REFINE,  DATA_RELATIONSHIP_TYPE_UML_TRACE */
         else if ( xmi_element_info_is_a_dependency( rel_info ) && xmi_element_info_is_a_named_element( feature_info ) )
         {
             /* a dependency can connect any named elements according to uml 2.5.1 spec, chapter 7.8.4  */

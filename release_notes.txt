@@ -1,7 +1,8 @@
 crystal-facet-uml (1.26.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * destination end of messages had fix ref to enclosingInteraction=90001
+  * XMI Export: destination end of messages had fix enclosingInteraction=90001
+  * XMI Export: Properties have attributes class and interface if applicable
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 05 Dec 2020 16:30:00 +0100
 
