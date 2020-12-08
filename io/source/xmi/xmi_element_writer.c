@@ -658,6 +658,8 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
                                                  relation_type,
                                                  (parent_type==DATA_CLASSIFIER_TYPE_STATE)
                                                );
+    const bool is_annotated_element 
+        = (( parent_type == DATA_CLASSIFIER_TYPE_COMMENT )&&( relation_type == DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY ));
 
     if ( (*this_).mode == IO_WRITER_PASS_BASE )
     {
@@ -690,36 +692,55 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), nesting_property );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
 
-        /* write type attribute */
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
-        const char* r_type = xmi_type_converter_get_xmi_type_of_relationship ( &((*this_).xmi_types),
-                                                                               parent_type,
-                                                                               relation_type,
-                                                                               XMI_SPEC_UML
-                                                                             );
-        export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), r_type );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_END );
-
-        /* write id attribute */
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
-        export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer),relation_id );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
-
-        /* write name attribute */
-        if ( xmi_element_info_is_a_named_element( relation_info ) )
+        if ( is_annotated_element )
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_START );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_END );
+            const data_id_t to_classifier_id = data_relationship_get_to_classifier_data_id( relation_ptr );
+            const data_id_t to_feature_id = data_relationship_get_to_feature_data_id( relation_ptr );
+            
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_START );
+            if ( data_id_is_valid( &to_feature_id ) )
+            {
+                export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), to_feature_id );
+            }
+            else
+            {
+                export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), to_classifier_id );
+            }
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_END );
         }
-
-        if ( NULL != xmi_element_info_get_additional_properties( relation_info ) )
+        else
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
-                                                   xmi_element_info_get_additional_properties( relation_info )
-                                                 );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+            /* write type attribute */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
+            const char* r_type = xmi_type_converter_get_xmi_type_of_relationship ( &((*this_).xmi_types),
+                                                                                   parent_type,
+                                                                                   relation_type,
+                                                                                   XMI_SPEC_UML
+                                                                                 );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), r_type );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_END );
+
+            /* write id attribute */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
+            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer),relation_id );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
+
+            /* write name attribute */
+            if ( xmi_element_info_is_a_named_element( relation_info ) )
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_START );
+                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_END );
+            }
+
+            if ( NULL != xmi_element_info_get_additional_properties( relation_info ) )
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
+                                                       xmi_element_info_get_additional_properties( relation_info )
+                                                     );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+            }
         }
 
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
@@ -820,8 +841,10 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
         || ( relation_type == DATA_RELATIONSHIP_TYPE_UML_EXTEND ) 
         || ( relation_type == DATA_RELATIONSHIP_TYPE_UML_INCLUDE ))
         && parent_is_source;
+    const bool is_annotated_element 
+        = (( parent_type == DATA_CLASSIFIER_TYPE_COMMENT )&&( relation_type == DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY ));
 
-    if ( (*this_).mode == IO_WRITER_PASS_BASE )
+    if (( (*this_).mode == IO_WRITER_PASS_BASE )&&( ! is_annotated_element ))
     {
         if ( 0 != relation_descr_len )
         {
@@ -845,6 +868,22 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
                                                                              from_f_type,
                                                                              &from_type_tag
                                                                            );
+            if ( from_type_err != 0 )
+            {
+                /* The caller requested to write a relationship of illegal source end type */
+                TRACE_INFO("xmi_element_writer: request to write a relationship connecting an illegal source end type!")
+                /* update export statistics */
+                data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+                /* inform the user via an XML comment: */
+                export_err |= xmi_atom_writer_report_illegal_relationship_end ( &((*this_).atom_writer),
+                                                                                relation_id,
+                                                                                relation_type,
+                                                                                parent_type,
+                                                                                true /* = from_end */,
+                                                                                from_c_type,
+                                                                                from_f_type
+                                                                              );                
+            }
             
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
@@ -895,6 +934,22 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
                                                                        to_f_type,
                                                                        &to_type_tag
                                                                      );
+        if ( to_type_err != 0 )
+        {
+            /* The caller requested to write a relationship of illegal target end type */
+            TRACE_INFO("xmi_element_writer: request to write a relationship connecting an illegal target end type!")
+            /* update export statistics */
+            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+            /* inform the user via an XML comment: */
+            export_err |= xmi_atom_writer_report_illegal_relationship_end ( &((*this_).atom_writer),
+                                                                            relation_id,
+                                                                            relation_type,
+                                                                            parent_type,
+                                                                            false /* = from_end */,
+                                                                            to_c_type,
+                                                                            to_f_type
+                                                                          );                
+        }
             
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );

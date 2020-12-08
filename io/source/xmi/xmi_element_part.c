@@ -2,6 +2,8 @@
 
 #include "xmi/xmi_element_part.h"
 
+/* constants naming scheme: XMI_ELEMENT_PART_<XMI-CONTEXT>_<LITERAL> */
+
 const char * const XMI_ELEMENT_PART_FALLBACK_NESTING_ELEMENT
     = "packagedElement";
 

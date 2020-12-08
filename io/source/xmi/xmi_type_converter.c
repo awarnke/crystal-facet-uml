@@ -262,6 +262,7 @@ int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_conve
     const bool host_is_usecase = ( hosting_type == DATA_CLASSIFIER_TYPE_USE_CASE );
     const bool host_is_state = ( hosting_type == DATA_CLASSIFIER_TYPE_STATE );
     const bool host_is_interaction = ( hosting_type == DATA_CLASSIFIER_TYPE_INTERACTION );
+    const bool host_is_comment = ( hosting_type == DATA_CLASSIFIER_TYPE_COMMENT );
     const xmi_element_info_t *child_info
         = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard, child_type, host_is_state );
     assert ( child_info != NULL );
@@ -315,6 +316,11 @@ int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_conve
     {
         /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 17.4 */
         result = "message";
+    }
+    else if ( host_is_comment && (child_type==DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY) )
+    {
+        /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.2 */
+        result = "annotatedElement";
     }
 
     *out_xmi_name = (result==NULL) ? "" : result;

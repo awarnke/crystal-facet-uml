@@ -90,6 +90,7 @@ int xmi_atom_writer_write_xmi_comment( xmi_atom_writer_t *this_,
     xml_writer_decrease_indent ( (*this_).xml_writer );
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI2_UML_COMMENT_BODY_END );
 
+    /* TODO: annotatedElement is not mandatory - refers to explicitly drawn relationships */
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI2_UML_ANNOTATED_ELEMENT_START );
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_IDREF_START );
     export_err |= xmi_atom_writer_encode_xmi_id( this_, element_id );
@@ -315,19 +316,19 @@ int xmi_atom_writer_report_illegal_parent( xmi_atom_writer_t *this_,
 int xmi_atom_writer_report_illegal_location( xmi_atom_writer_t *this_,
                                              data_id_t fact_relationship_id,
                                              data_relationship_type_t fact_relationship_type,
-                                             data_classifier_type_t fact_parent_type
+                                             data_classifier_type_t fact_hosting_type
                                            )
 {
     TRACE_BEGIN();
     int export_err = 0;
     
-    const xmi_element_info_t *parent_info = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
-                                                                                 fact_parent_type,
-                                                                                 false /*guess, only used for an error message */
-                                                                               );
+    const xmi_element_info_t *host_info = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
+                                                                               fact_hosting_type,
+                                                                               false /*guess, only used for an error message */
+                                                                             );
     const xmi_element_info_t *relation_info = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
                                                                                      fact_relationship_type,
-                                                                                     (fact_parent_type==DATA_CLASSIFIER_TYPE_STATE)
+                                                                                     (fact_hosting_type==DATA_CLASSIFIER_TYPE_STATE)
                                                                                    );
     
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
@@ -347,10 +348,10 @@ int xmi_atom_writer_report_illegal_location( xmi_atom_writer_t *this_,
         }
     }
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, " is located in classifier of type " );
-    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_parent_type );
-    if ( parent_info != NULL ) 
+    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_hosting_type );
+    if ( host_info != NULL ) 
     {
-        const char * parent_type_name = xmi_element_info_get_name ( parent_info );
+        const char * parent_type_name = xmi_element_info_get_name ( host_info );
         if ( parent_type_name != NULL )
         {
             export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (" );
@@ -362,6 +363,97 @@ int xmi_atom_writer_report_illegal_location( xmi_atom_writer_t *this_,
     
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
     export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Unsuitable relationship type to hosting location type" );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
+    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Change the type of the relationship" );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int xmi_atom_writer_report_illegal_relationship_end ( xmi_atom_writer_t *this_,
+                                                      data_id_t fact_relationship_id,
+                                                      data_relationship_type_t fact_relationship_type,
+                                                      data_classifier_type_t fact_hosting_type,
+                                                      bool fact_from_end,
+                                                      data_classifier_type_t fact_end_classifier_type,
+                                                      data_feature_type_t fact_end_feature_type )
+{
+    TRACE_BEGIN();
+    int export_err = 0;
+    
+    const xmi_element_info_t *relation_info = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
+                                                                                     fact_relationship_type,
+                                                                                     (fact_hosting_type==DATA_CLASSIFIER_TYPE_STATE)
+                                                                                   );
+    
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
+    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_relationship_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
+    export_err |= xmi_atom_writer_encode_xmi_id( this_, fact_relationship_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") of type " );
+    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_relationship_type );
+    if ( relation_info != NULL ) 
+    {
+        const char * relationship_type_name = xmi_element_info_get_name ( relation_info );
+        if ( relationship_type_name != NULL )
+        {
+            export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (" );
+            export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, relationship_type_name );
+            export_err |= xml_writer_write_plain ( (*this_).xml_writer, ")" );
+        }
+    }
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, fact_from_end
+                                                                ? " has source of type "
+                                                                : " has target of type " );
+    if ( fact_end_feature_type == DATA_FEATURE_TYPE_VOID )
+    {
+        export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_end_classifier_type );
+        
+        const xmi_element_info_t *classifier_info 
+            = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
+                                                   fact_end_classifier_type,
+                                                   (fact_hosting_type==DATA_CLASSIFIER_TYPE_STATE)
+                                                 );
+        if ( classifier_info != NULL ) 
+        {
+            const char * end_type_name = xmi_element_info_get_name ( classifier_info );
+            if ( end_type_name != NULL )
+            {
+                export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (" );
+                export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, end_type_name );
+                export_err |= xml_writer_write_plain ( (*this_).xml_writer, ")" );
+            }
+        }
+    }
+    else
+    {
+        export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_end_feature_type );
+        
+        const xmi_element_info_t *feature_info 
+            = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
+                                                fact_end_feature_type
+                                              );
+        if ( feature_info != NULL ) 
+        {
+            const char * end_type_name = xmi_element_info_get_name ( feature_info );
+            if ( end_type_name != NULL )
+            {
+                export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (" );
+                export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, end_type_name );
+                export_err |= xml_writer_write_plain ( (*this_).xml_writer, ")" );
+            }
+        }
+    }
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
+    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Unsuitable relationship type connecting to " );
+    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, fact_from_end
+                                                                 ? " source end type"
+                                                                 : " target end type" );
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
     
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );

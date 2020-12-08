@@ -73,8 +73,8 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
  *  \param this_ pointer to own object attributes
  *  \param parent_type data_classifier_type_t of the parent of which the nesting-type shall be determined
  *  \param child_type data_classifier_type_t of the nested child of which the nesting-type shall be determined
- *  \param out_xmi_name representation of the nesting-link type, empty string if not available
- *  \result 0 in case of success
+ *  \param out_xmi_name representation of the nesting-link type, empty string if not available (result != 0)
+ *  \result 0 in case of success, -1 in case of error. 
  */
 int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_converter_t *this_,
                                                                 data_classifier_type_t parent_type,
@@ -115,7 +115,7 @@ int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t
  *  \param this_ pointer to own object attributes
  *  \param hosting_type data_classifier_type_t of the host of which the nesting-type shall be determined
  *  \param child_type data_relationship_type_t of the nested child of which the nesting-type shall be determined
- *  \param out_xmi_name representation of the nesting-link type, empty string if not available
+ *  \param out_xmi_name representation of the nesting-link type, empty string if not available (result != 0)
  *  \result 0 in case of success
  */
 int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_converter_t *this_,
@@ -196,7 +196,7 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
  *  \param from_classifier_type the type of classifier at relationship-end
  *  \param from_feature_type the type of feature at relationship-end; DATA_FEATURE_TYPE_VOID if no feature specified
  *  \param out_xmi_name string representation of the from property of the rel_type, empty string if not available
- *  \result 0 in case of success
+ *  \result 0 in case of success, -1 in case of error. Even in case of error, a non-empty out_xmi_name may be returned.
  */
 static inline int xmi_type_converter_get_xmi_from_property_of_relationship ( xmi_type_converter_t *this_,
                                                                              data_classifier_type_t hosting_type,
@@ -215,7 +215,7 @@ static inline int xmi_type_converter_get_xmi_from_property_of_relationship ( xmi
  *  \param to_classifier_type the type of classifier at relationship-end
  *  \param to_feature_type the type of feature at relationship-end; DATA_FEATURE_TYPE_VOID if no feature specified
  *  \param out_xmi_name string representation of the to property of the rel_type, empty string if not available
- *  \result 0 in case of success
+ *  \result 0 in case of success, -1 in case of error. Even in case of error, a non-empty out_xmi_name may be returned.
  */
 static inline int xmi_type_converter_get_xmi_to_property_of_relationship ( xmi_type_converter_t *this_,
                                                                            data_classifier_type_t hosting_type,
@@ -235,7 +235,7 @@ static inline int xmi_type_converter_get_xmi_to_property_of_relationship ( xmi_t
  *  \param end_classifier_type the type of classifier at relationship-end
  *  \param end_feature_type the type of feature at relationship-end; DATA_FEATURE_TYPE_VOID if no feature specified
  *  \param out_xmi_name string representation of the end property of the rel_type, empty string if not available
- *  \result 0 in case of success
+ *  \result 0 in case of success, -1 in case of error. Even in case of error, a non-empty out_xmi_name may be returned.
  */
 int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_converter_t *this_,
                                                                       data_classifier_type_t hosting_type,

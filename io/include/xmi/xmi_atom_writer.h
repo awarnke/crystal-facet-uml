@@ -124,14 +124,40 @@ int xmi_atom_writer_report_illegal_parent( xmi_atom_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param fact_relationship_id the id of child feature object
  *  \param fact_relationship_type type of the child feature object
- *  \param fact_parent_type type of the location/host object
+ *  \param fact_hosting_type type of the location/host object
  *  \result 0 in case of success, -1 otherwise
  */
 int xmi_atom_writer_report_illegal_location( xmi_atom_writer_t *this_,
                                              data_id_t fact_relationship_id,
                                              data_relationship_type_t fact_relationship_type,
-                                             data_classifier_type_t fact_parent_type
+                                             data_classifier_type_t fact_hosting_type
                                            );
+
+/*!
+ *  \brief reports an issue as comment in xmi output: the relationship of given type cannot end at given type
+ *
+ *  The report consists of three sentences:
+ *  A fact that is observed,
+ *  a rule that is not adhered,
+ *  a solution that is proposed.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param fact_relationship_id the id of child feature object
+ *  \param fact_relationship_type type of the child feature object
+ *  \param fact_hosting_type type of the location/host object
+ *  \param fact_from_end true if the source(from) end, is requested, false if the target(to) end is requested.
+ *  \param fact_end_classifier_type the type of classifier at relationship-end
+ *  \param fact_end_feature_type the type of feature at relationship-end; DATA_FEATURE_TYPE_VOID if no feature specified
+ *  \result 0 in case of success, -1 in case of write error
+ */
+int xmi_atom_writer_report_illegal_relationship_end ( xmi_atom_writer_t *this_,
+                                                      data_id_t fact_relationship_id,
+                                                      data_relationship_type_t fact_relationship_type,
+                                                      data_classifier_type_t fact_hosting_type,
+                                                      bool fact_from_end,
+                                                      data_classifier_type_t fact_end_classifier_type,
+                                                      data_feature_type_t fact_end_feature_type
+                                                    );
 
 #endif  /* XMI_ATOM_WRITER_H */
 

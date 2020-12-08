@@ -97,6 +97,7 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
         /* write type attribute */
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_TYPE_START );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_NS_UML );
+        /* TODO possibly a uml:Collaboration needs to be placed arounf the DATA_CLASSIFIER_TYPE_INTERACTION? */
         const char* c_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
                                                                              parent_type,
                                                                              DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake child type */
@@ -262,6 +263,22 @@ int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this
                                                                          from_f_type,
                                                                          &from_type_tag
                                                                        );
+        if ( from_type_err != 0 )
+        {
+            /* The caller requested to write a relationship of illegal source end type */
+            TRACE_INFO("xmi_interaction_writer: request to write a relationship connecting an illegal source end type!")
+            /* update export statistics */
+            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+            /* inform the user via an XML comment: */
+            export_err |= xmi_atom_writer_report_illegal_relationship_end ( &((*this_).atom_writer),
+                                                                            relation_id,
+                                                                            relation_type,
+                                                                            parent_type,
+                                                                            true /* = from_end */,
+                                                                            from_c_type,
+                                                                            from_f_type
+                                                                          );                
+        }
 
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_NL );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_EMPTY_TAG_START );
@@ -312,6 +329,22 @@ int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this
                                                                        to_f_type,
                                                                        &to_type_tag
                                                                      );
+        if ( to_type_err != 0 )
+        {
+            /* The caller requested to write a relationship of illegal target end type */
+            TRACE_INFO("xmi_interaction_writer: request to write a relationship connecting an illegal target end type!")
+            /* update export statistics */
+            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+            /* inform the user via an XML comment: */
+            export_err |= xmi_atom_writer_report_illegal_relationship_end ( &((*this_).atom_writer),
+                                                                            relation_id,
+                                                                            relation_type,
+                                                                            parent_type,
+                                                                            false /* = from_end */,
+                                                                            to_c_type,
+                                                                            to_f_type
+                                                                          );                
+        }
             
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_NL );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_EMPTY_TAG_START );

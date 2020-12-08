@@ -4,7 +4,7 @@
          xmlns:xmi="http://www.omg.org/spec/XMI/20110701"
          xmlns:SysML="http://www.omg.org/spec/SysML/20131001/SysML.xmi">
          <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->
-    <xmi:Documentation exporter="crystal_facet_uml" exporterVersion="1.26.0"/>
+    <xmi:Documentation exporter="crystal_facet_uml" exporterVersion="1.26.1"/>
     <uml:Model xmi:type="uml:Model" xmi:id="00000" name="export_test_12_package" >
         <packagedElement xmi:type="uml:Package" xmi:id="60001" name="Software Layers" ><!--C0001-->
             <packagedElement xmi:type="uml:Package" xmi:id="60002" name="Applications" ><!--C0002-->
@@ -22,13 +22,9 @@
             <packagedElement xmi:type="uml:Package" xmi:id="60004" name="Infrastructure" ><!--C0004-->
             </packagedElement>
             <ownedComment xmi:type="uml:Comment" xmi:id="60005" ><!--C0005-->
-                <ownedComment xmi:type="uml:Comment" xmi:id="60005#name" >
-                    <body>
-                        Layers may be passed-by
-                    </body>
-                    <annotatedElement xmi:idref="60005" />
-                </ownedComment>
                 <body>
+                    Layers may be passed-by
+                    
                     Layers in this context 
                     may be passed-by:
                     
