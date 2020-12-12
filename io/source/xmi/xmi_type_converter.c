@@ -27,7 +27,7 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_classifier ( xmi_type_converter_t 
     TRACE_BEGIN();
 
     const xmi_element_info_t *classifier_info
-        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, c_type, false /*this parameter does not matter for this use case*/ );
+        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, c_type, DATA_CLASSIFIER_TYPE_PACKAGE /*this parameter does not matter for this use case*/ );
     assert ( classifier_info != NULL );
     const xmi_spec_t result
         = (*classifier_info).specification;
@@ -44,7 +44,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
     TRACE_BEGIN();
 
     const xmi_element_info_t *classifier_info
-        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, c_type, (parent_type==DATA_CLASSIFIER_TYPE_STATE) );
+        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, c_type, parent_type );
     assert ( classifier_info != NULL );
     const char* result
         = (( (spec & (XMI_SPEC_SYSML|XMI_SPEC_STANDARD)) != 0 )&&( (*classifier_info).profile_name != NULL ))
@@ -66,14 +66,14 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
     const char* result = NULL;
 
     const xmi_element_info_t *parent_info
-        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, parent_type, false /*TODO: fix guess*/ );
+        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, parent_type, DATA_CLASSIFIER_TYPE_PACKAGE /*TODO: fix guess*/ );
     assert ( parent_info != NULL );
     const bool p_is_state = ( parent_type == DATA_CLASSIFIER_TYPE_STATE );
     const bool p_is_activity = ( parent_type == DATA_CLASSIFIER_TYPE_ACTIVITY );
     const bool p_is_interruptable_region = ( parent_type == DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION );
     const bool p_is_interaction = ( parent_type == DATA_CLASSIFIER_TYPE_INTERACTION );
     const xmi_element_info_t *child_info
-        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, child_type, p_is_state );
+        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, child_type, parent_type );
     assert ( child_info != NULL );
 
     if ( xmi_element_info_is_a_package(parent_info) &&  xmi_element_info_is_a_packageable_element(child_info) )
@@ -155,7 +155,7 @@ int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t
     int result_err = -1;
 
     const xmi_element_info_t *parent_info
-        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, parent_type, false /*TODO: fix guess*/ );
+        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, parent_type, DATA_CLASSIFIER_TYPE_PACKAGE /*TODO: fix guess*/ );
     assert ( parent_info != NULL );
 
     switch ( f_type )
@@ -254,7 +254,7 @@ int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_conve
     const char* result = NULL;
 
     const xmi_element_info_t *host_info
-        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, hosting_type, false /*TODO: fix guess*/ );
+        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, hosting_type, DATA_CLASSIFIER_TYPE_PACKAGE /*TODO: fix guess*/ );
     assert ( host_info != NULL );
     const bool host_is_activity = ( hosting_type == DATA_CLASSIFIER_TYPE_ACTIVITY );
     /*const bool host_is_interface = ( hosting_type == DATA_CLASSIFIER_TYPE_INTERFACE );*/
@@ -422,7 +422,7 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
     err = ( result == NULL ) ? -1 : 0;
     
     const xmi_element_info_t *classifier_info
-        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, end_classifier_type, host_is_state );
+        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, end_classifier_type, hosting_type );
     assert ( classifier_info != NULL );
     
     if ( end_feature_type == DATA_FEATURE_TYPE_VOID )
@@ -437,6 +437,10 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
         else if ( xmi_element_info_is_a_activity_edge( rel_info ) && xmi_element_info_is_a_activity_node( classifier_info ) )
         {
             /* valid relationship according to uml 2.5.1 spec, chapter 15.7.2 */
+        }
+        else if ( xmi_element_info_is_a_activity_edge( rel_info ) && ( end_classifier_type == DATA_CLASSIFIER_TYPE_ACTIVITY ))
+        {
+            /* valid relationship according to uml 2.5.1 spec, chapter 16.14.55 */
         }
 
         /* DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY, DATA_RELATIONSHIP_TYPE_UML_REALIZATION, DATA_RELATIONSHIP_TYPE_UML_MANIFEST, */

@@ -28,6 +28,7 @@ enum xmi_element_info_map_index_enum {
     XMI_ELEMENT_INFO_MAP_INDEX_USE_CASE,
     XMI_ELEMENT_INFO_MAP_INDEX_SUBSYSTEM,
     XMI_ELEMENT_INFO_MAP_INDEX_ACTIVITY,
+    XMI_ELEMENT_INFO_MAP_INDEX_STRUCTURED_ACTIVITY_NODE,  /*!< Nested activities */
     XMI_ELEMENT_INFO_MAP_INDEX_STATEMACHINE,  /*!< The outermost state is a statemachine */
     XMI_ELEMENT_INFO_MAP_INDEX_STATE,
     XMI_ELEMENT_INFO_MAP_INDEX_INTERACTION_USE,  /*!< equals diagram reference */
@@ -88,46 +89,46 @@ enum xmi_element_info_map_index_enum {
 
 typedef enum xmi_element_info_map_index_enum xmi_element_info_map_index_t;
 
-#define XMI_ELEMENT_INFO_MAP_INDEX_MAX (59)
+#define XMI_ELEMENT_INFO_MAP_INDEX_MAX (60)
 
 typedef xmi_element_info_t xmi_element_info_map_t[XMI_ELEMENT_INFO_MAP_INDEX_MAX];
 
 extern const xmi_element_info_map_t xmi_element_info_map_standard;
 
 /*!
- *  \brief returns a pointer to the xmi_element_info_t struct identified by c_type.
+ *  \brief returns a pointer to the xmi_element_info_t struct identified by classifier_type.
  *
  *  \param this_ pointer to own object attributes; use e.g. the global &xmi_element_info_map_standard
- *  \param c_type selects the xmi_element_info_t
- *  \param statemachine_context for some classifiers, the result depends on the used context, e.g. statemachine or activities
- *  \return pointer to the selected xmi_element_info_t (or NULL in case of illegal c_type)
+ *  \param classifier_type selects the xmi_element_info_t
+ *  \param parent_type for some classifiers, the result depends on the used context, therefore the parent type is needed to select the xmi_element_info_t
+ *  \return pointer to the selected xmi_element_info_t (or NULL in case of illegal classifier_type)
  */
 static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( const xmi_element_info_map_t *this_,
-                                                                               data_classifier_type_t c_type,
-                                                                               bool statemachine_context
+                                                                               data_classifier_type_t classifier_type,
+                                                                               data_classifier_type_t parent_type
                                                                              );
 
 /*!
- *  \brief returns a pointer to the xmi_element_info_t struct identified by f_type.
+ *  \brief returns a pointer to the xmi_element_info_t struct identified by feat_type.
  *
  *  \param this_ pointer to own object attributes; use e.g. the global &xmi_element_info_map_standard
- *  \param f_type selects the xmi_element_info_t
- *  \return pointer to the selected xmi_element_info_t (or NULL in case of illegal f_type)
+ *  \param feat_type selects the xmi_element_info_t
+ *  \return pointer to the selected xmi_element_info_t (or NULL in case of illegal feat_type)
  */
 static inline const xmi_element_info_t * xmi_element_info_map_get_feature ( const xmi_element_info_map_t *this_,
-                                                                            data_feature_type_t f_type
+                                                                            data_feature_type_t feat_type
                                                                           );
 
 /*!
- *  \brief returns a pointer to the xmi_element_info_t struct identified by r_type.
+ *  \brief returns a pointer to the xmi_element_info_t struct identified by rel_type.
  *
  *  \param this_ pointer to own object attributes; use e.g. the global &xmi_element_info_map_standard
- *  \param r_type selects the xmi_element_info_t
- *  \param statemachine_context for some relationships, the result depends on the used context, e.g. statemachine or activities
- *  \return pointer to the selected xmi_element_info_t (or NULL in case of illegal r_type)
+ *  \param rel_type selects the xmi_element_info_t
+ *  \param statemachine_context for some relationships, the result depends on the used context, e.g. transition in statemachine or control flow in activities
+ *  \return pointer to the selected xmi_element_info_t (or NULL in case of illegal rel_type)
  */
 static inline const xmi_element_info_t * xmi_element_info_map_get_relationship ( const xmi_element_info_map_t *this_,
-                                                                                 data_relationship_type_t r_type,
+                                                                                 data_relationship_type_t rel_type,
                                                                                  bool statemachine_context
                                                                                );
 

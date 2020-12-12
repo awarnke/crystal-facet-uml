@@ -239,7 +239,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
     const xmi_element_info_t *classifier_info
         = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
                                                classifier_type,
-                                               (parent_type==DATA_CLASSIFIER_TYPE_STATE)
+                                               parent_type
                                              );
 
     if ( (*this_).mode == IO_WRITER_PASS_BASE )
@@ -1071,7 +1071,7 @@ int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
     const xmi_element_info_t *classifier_info
         = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, 
                                                end_classifier_type, 
-                                               false /* if state context does not matter here */ 
+                                               DATA_CLASSIFIER_TYPE_PACKAGE /* if state or activity context does not matter here */ 
                                              );
     assert ( classifier_info != NULL );
         

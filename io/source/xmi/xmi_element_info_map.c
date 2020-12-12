@@ -95,6 +95,17 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .property_to              = NULL,
         .additional_properties    = NULL,
     },
+    [XMI_ELEMENT_INFO_MAP_INDEX_STRUCTURED_ACTIVITY_NODE] = {
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 16.14.55 */
+        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_ACTIVITY,
+        .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
+        .profile_name             = NULL,
+        .base_name                = "StructuredActivityNode",
+        .is_a                     = (XMI_ELEMENT_IS_A_BEHAVIOR|XMI_ELEMENT_IS_A_ACTIVITY_NODE),
+        .property_from            = NULL,
+        .property_to              = NULL,
+        .additional_properties    = NULL,
+    },
     [XMI_ELEMENT_INFO_MAP_INDEX_STATEMACHINE] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: StateMachines */
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 14.5.10 */
@@ -628,16 +639,9 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .profile_name             = NULL,
         .base_name                = "ControlFlow",
         .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY_EDGE),
-#ifdef NDEBUG
         .property_from            = "source",
         .property_to              = "target",
-        .additional_properties    = NULL,
-#else
-        /* the xmi validator does not like the tags source and target */
-        .property_from            = "x-source",
-        .property_to              = "x-target",
         .additional_properties    = "weight=\"1\" guard=\"true\"",
-#endif
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_OBJECT_FLOW] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
@@ -649,16 +653,9 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .profile_name             = NULL,
         .base_name                = "ObjectFlow",
         .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY_EDGE),
-#ifdef NDEBUG
         .property_from            = "source",
         .property_to              = "target",
-        .additional_properties    = NULL,
-#else
-        /* the xmi validator does not like the tags source and target */
-        .property_from            = "x-source",
-        .property_to              = "x-target",
         .additional_properties    = "weight=\"1\" guard=\"true\"",
-#endif
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_TRANSITION] = {
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 14.5.11 */

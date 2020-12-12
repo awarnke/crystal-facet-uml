@@ -6,12 +6,16 @@
 #include <stdlib.h>
 
 static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( const xmi_element_info_map_t *this_,
-                                                                               data_classifier_type_t c_type,
-                                                                               bool statemachine_context )
+                                                                               data_classifier_type_t classifier_type,
+                                                                               data_classifier_type_t parent_type )
 {
     const xmi_element_info_t * result = NULL;
 
-    switch ( c_type )
+    const bool statemachine_context = ( parent_type == DATA_CLASSIFIER_TYPE_STATE );
+    const bool activity_context
+        = ( parent_type == DATA_CLASSIFIER_TYPE_ACTIVITY )||( parent_type == DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION );
+    
+    switch ( classifier_type )
     {
         case DATA_CLASSIFIER_TYPE_BLOCK:
         {
@@ -57,8 +61,16 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( c
 
         case DATA_CLASSIFIER_TYPE_ACTIVITY:
         {
-            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_ACTIVITY]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_ACTIVITY );
+            if ( activity_context )
+            {
+                result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_STRUCTURED_ACTIVITY_NODE]);
+                assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_ACTIVITY );
+            }
+            else
+            {
+                result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_ACTIVITY]);
+                assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_ACTIVITY );
+            }
         }
         break;
 
@@ -266,7 +278,7 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( c
         
         default:
         {
-            TSLOG_ERROR_INT( "switch case statement for data_classifier_type_t incomplete", c_type );
+            TSLOG_ERROR_INT( "switch case statement for data_classifier_type_t incomplete", classifier_type );
             assert( 0 );
         }
         break;
@@ -276,11 +288,11 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( c
 }
 
 static inline const xmi_element_info_t * xmi_element_info_map_get_feature ( const xmi_element_info_map_t *this_,
-                                                                            data_feature_type_t f_type )
+                                                                            data_feature_type_t feat_type )
 {
     const xmi_element_info_t * result = NULL;
 
-    switch ( f_type )
+    switch ( feat_type )
     {
         case DATA_FEATURE_TYPE_PROPERTY:
         {
@@ -335,7 +347,7 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_feature ( cons
 
         default:
         {
-            TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", f_type );
+            TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", feat_type );
             assert( 0 );
         }
         break;
@@ -345,12 +357,12 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_feature ( cons
 }
 
 static inline const xmi_element_info_t * xmi_element_info_map_get_relationship ( const xmi_element_info_map_t *this_,
-                                                                                 data_relationship_type_t r_type,
+                                                                                 data_relationship_type_t rel_type,
                                                                                  bool statemachine_context )
 {
     const xmi_element_info_t * result = NULL;
 
-    switch ( r_type )
+    switch ( rel_type )
     {
         case DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY:
         {
@@ -503,7 +515,7 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_relationship (
 
         default:
         {
-            TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", r_type );
+            TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", rel_type );
             assert( 0 );
         }
         break;

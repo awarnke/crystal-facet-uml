@@ -206,11 +206,11 @@ int xmi_atom_writer_report_illegal_container( xmi_atom_writer_t *this_,
     
     const xmi_element_info_t *parent_info = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
                                                                                  fact_parent_type,
-                                                                                 false /*guess, only used for an error message */
+                                                                                 DATA_CLASSIFIER_TYPE_PACKAGE /*guess, only used for an error message */
                                                                                );
     const xmi_element_info_t *classifier_info = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
                                                                                      fact_classifier_type,
-                                                                                     (fact_parent_type==DATA_CLASSIFIER_TYPE_STATE)
+                                                                                     fact_parent_type
                                                                                    );
     
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
@@ -265,7 +265,7 @@ int xmi_atom_writer_report_illegal_parent( xmi_atom_writer_t *this_,
     
     const xmi_element_info_t *parent_info = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
                                                                                  fact_parent_type,
-                                                                                 false /*guess, only used for an error message */
+                                                                                 DATA_CLASSIFIER_TYPE_PACKAGE /*guess, only used for an error message */
                                                                                );
     const xmi_element_info_t *feature_info = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
                                                                                fact_feature_type
@@ -324,7 +324,7 @@ int xmi_atom_writer_report_illegal_location( xmi_atom_writer_t *this_,
     
     const xmi_element_info_t *host_info = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
                                                                                fact_hosting_type,
-                                                                               false /*guess, only used for an error message */
+                                                                               DATA_CLASSIFIER_TYPE_PACKAGE /*guess, only used for an error message */
                                                                              );
     const xmi_element_info_t *relation_info = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
                                                                                      fact_relationship_type,
@@ -415,7 +415,7 @@ int xmi_atom_writer_report_illegal_relationship_end ( xmi_atom_writer_t *this_,
         const xmi_element_info_t *classifier_info 
             = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
                                                    fact_end_classifier_type,
-                                                   (fact_hosting_type==DATA_CLASSIFIER_TYPE_STATE)
+                                                   fact_hosting_type
                                                  );
         if ( classifier_info != NULL ) 
         {
