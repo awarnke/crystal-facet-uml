@@ -34,21 +34,21 @@
             <edge xmi:type="uml:ControlFlow" xmi:id="80006" name="" >
                 <source xmi:idref="60002" />
                 <!-- STATUS:      R0006 (aka 80006) of type 240 (ControlFlow) has target of type 110 (Activity) -->
-                <!-- CONFORMANCE: Unsuitable relationship type connecting to  target end type -->
+                <!-- CONFORMANCE: Unsuitable relationship type connecting to target end type -->
                 <!-- PROPOSAL:    Change the type of the relationship -->
                 <target xmi:idref="60004" />
             </edge>
             <edge xmi:type="uml:ControlFlow" xmi:id="80007" name="" >
                 <source xmi:idref="60002" />
                 <!-- STATUS:      R0007 (aka 80007) of type 240 (ControlFlow) has target of type 110 (Activity) -->
-                <!-- CONFORMANCE: Unsuitable relationship type connecting to  target end type -->
+                <!-- CONFORMANCE: Unsuitable relationship type connecting to target end type -->
                 <!-- PROPOSAL:    Change the type of the relationship -->
                 <target xmi:idref="60005" />
             </edge>
         </packagedElement>
         <packagedElement xmi:type="uml:Association" xmi:id="80002" name="" >
             <!-- STATUS:      R0002 (aka 80002) of type 300 (Association) has source of type 150 (InterruptibleActivityRegion) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to  source end type -->
+            <!-- CONFORMANCE: Unsuitable relationship type connecting to source end type -->
             <!-- PROPOSAL:    Change the type of the relationship -->
             <memberEnd xmi:idref="80002#sourceend" />
             <ownedEnd xmi:type="uml:Property" xmi:id="80002#sourceend" association="80002" >
@@ -61,7 +61,7 @@
         </packagedElement>
         <packagedElement xmi:type="uml:Association" xmi:id="80003" name="" >
             <!-- STATUS:      R0003 (aka 80003) of type 300 (Association) has source of type 150 (InterruptibleActivityRegion) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to  source end type -->
+            <!-- CONFORMANCE: Unsuitable relationship type connecting to source end type -->
             <!-- PROPOSAL:    Change the type of the relationship -->
             <memberEnd xmi:idref="80003#sourceend" />
             <ownedEnd xmi:type="uml:Property" xmi:id="80003#sourceend" association="80003" >
@@ -86,21 +86,21 @@
             <edge xmi:type="uml:ControlFlow" xmi:id="80023" name="" >
                 <source xmi:idref="60010" />
                 <!-- STATUS:      R0023 (aka 80023) of type 240 (ControlFlow) has target of type 110 (Activity) -->
-                <!-- CONFORMANCE: Unsuitable relationship type connecting to  target end type -->
+                <!-- CONFORMANCE: Unsuitable relationship type connecting to target end type -->
                 <!-- PROPOSAL:    Change the type of the relationship -->
                 <target xmi:idref="60011" />
             </edge>
             <edge xmi:type="uml:ObjectFlow" xmi:id="80028" name="" >
                 <source xmi:idref="60010" />
                 <!-- STATUS:      R0028 (aka 80028) of type 241 (ObjectFlow) has target of type 125 (Class) -->
-                <!-- CONFORMANCE: Unsuitable relationship type connecting to  target end type -->
+                <!-- CONFORMANCE: Unsuitable relationship type connecting to target end type -->
                 <!-- PROPOSAL:    Change the type of the relationship -->
                 <target xmi:idref="60016" />
             </edge>
             <ownedBehavior xmi:type="uml:Activity" xmi:id="60011" name="read mail" ><!--C0011-->
                 <edge xmi:type="uml:ControlFlow" xmi:id="80030" name="" >
                     <!-- STATUS:      R0030 (aka 80030) of type 240 (ControlFlow) has source of type 110 (Activity) -->
-                    <!-- CONFORMANCE: Unsuitable relationship type connecting to  source end type -->
+                    <!-- CONFORMANCE: Unsuitable relationship type connecting to source end type -->
                     <!-- PROPOSAL:    Change the type of the relationship -->
                     <source xmi:idref="60011" />
                     <target xmi:idref="60012" />
@@ -111,28 +111,28 @@
             <edge xmi:type="uml:ControlFlow" xmi:id="80020" name="unimportant" >
                 <source xmi:idref="60012" />
                 <!-- STATUS:      R0020 (aka 80020) of type 240 (ControlFlow) has target of type 110 (Activity) -->
-                <!-- CONFORMANCE: Unsuitable relationship type connecting to  target end type -->
+                <!-- CONFORMANCE: Unsuitable relationship type connecting to target end type -->
                 <!-- PROPOSAL:    Change the type of the relationship -->
                 <target xmi:idref="60013" />
             </edge>
             <edge xmi:type="uml:ControlFlow" xmi:id="80021" name="information to be kept" >
                 <source xmi:idref="60012" />
                 <!-- STATUS:      R0021 (aka 80021) of type 240 (ControlFlow) has target of type 110 (Activity) -->
-                <!-- CONFORMANCE: Unsuitable relationship type connecting to  target end type -->
+                <!-- CONFORMANCE: Unsuitable relationship type connecting to target end type -->
                 <!-- PROPOSAL:    Change the type of the relationship -->
                 <target xmi:idref="60014" />
             </edge>
             <edge xmi:type="uml:ControlFlow" xmi:id="80022" name="question/task to be answered" >
                 <source xmi:idref="60012" />
                 <!-- STATUS:      R0022 (aka 80022) of type 240 (ControlFlow) has target of type 110 (Activity) -->
-                <!-- CONFORMANCE: Unsuitable relationship type connecting to  target end type -->
+                <!-- CONFORMANCE: Unsuitable relationship type connecting to target end type -->
                 <!-- PROPOSAL:    Change the type of the relationship -->
                 <target xmi:idref="60015" />
             </edge>
             <ownedBehavior xmi:type="uml:Activity" xmi:id="60013" name="delete" ><!--C0013-->
                 <edge xmi:type="uml:ControlFlow" xmi:id="80025" name="" >
                     <!-- STATUS:      R0025 (aka 80025) of type 240 (ControlFlow) has source of type 110 (Activity) -->
-                    <!-- CONFORMANCE: Unsuitable relationship type connecting to  source end type -->
+                    <!-- CONFORMANCE: Unsuitable relationship type connecting to source end type -->
                     <!-- PROPOSAL:    Change the type of the relationship -->
                     <source xmi:idref="60013" />
                     <target xmi:idref="60010" />
@@ -141,7 +141,7 @@
             <ownedBehavior xmi:type="uml:Activity" xmi:id="60014" name="archive" ><!--C0014-->
                 <edge xmi:type="uml:ControlFlow" xmi:id="80027" name="" >
                     <!-- STATUS:      R0027 (aka 80027) of type 240 (ControlFlow) has source of type 110 (Activity) -->
-                    <!-- CONFORMANCE: Unsuitable relationship type connecting to  source end type -->
+                    <!-- CONFORMANCE: Unsuitable relationship type connecting to source end type -->
                     <!-- PROPOSAL:    Change the type of the relationship -->
                     <source xmi:idref="60014" />
                     <target xmi:idref="60010" />
@@ -150,7 +150,7 @@
             <ownedBehavior xmi:type="uml:Activity" xmi:id="60015" name="answer mail" ><!--C0015-->
                 <edge xmi:type="uml:ControlFlow" xmi:id="80026" name="" >
                     <!-- STATUS:      R0026 (aka 80026) of type 240 (ControlFlow) has source of type 110 (Activity) -->
-                    <!-- CONFORMANCE: Unsuitable relationship type connecting to  source end type -->
+                    <!-- CONFORMANCE: Unsuitable relationship type connecting to source end type -->
                     <!-- PROPOSAL:    Change the type of the relationship -->
                     <source xmi:idref="60015" />
                     <target xmi:idref="60010" />
@@ -174,11 +174,11 @@
         <!-- PROPOSAL:    Change the type of the relationship -->
         <packagedElement xmi:type="uml:ObjectFlow" xmi:id="80029" name="" >
             <!-- STATUS:      R0029 (aka 80029) of type 241 (ObjectFlow) has source of type 125 (Class) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to  source end type -->
+            <!-- CONFORMANCE: Unsuitable relationship type connecting to source end type -->
             <!-- PROPOSAL:    Change the type of the relationship -->
             <source xmi:idref="60016" />
             <!-- STATUS:      R0029 (aka 80029) of type 241 (ObjectFlow) has target of type 110 (Activity) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to  target end type -->
+            <!-- CONFORMANCE: Unsuitable relationship type connecting to target end type -->
             <!-- PROPOSAL:    Change the type of the relationship -->
             <target xmi:idref="60014" />
         </packagedElement>

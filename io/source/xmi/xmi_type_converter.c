@@ -524,6 +524,12 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
             /* an association can connect to a propoerty according to uml 2.5.1 spec, chapter 11.8.1  */
             /* a property is a typedelelemnt and can therefore connect a classifier(type) according to uml 2.5.1 spec, chapter 7.8.22  */
         }
+        else if ( xmi_element_info_is_a_association( rel_info ) 
+            && (( end_feature_type ==  DATA_FEATURE_TYPE_PROPERTY )||( end_feature_type == DATA_FEATURE_TYPE_PORT )))
+        {
+            /* an association can connect to a propoerty according to uml 2.5.1 spec, chapter 11.8.1  */
+            /* a port is a property */
+        }
         
         else
         {

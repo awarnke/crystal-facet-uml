@@ -169,6 +169,12 @@ int main (int argc, char *argv[]) {
                 data_stat_t export_stat;
                 data_stat_init ( &export_stat );
                 export_err = io_exporter_export_files( &exporter, export_format, export_directory, document_filename, &export_stat );
+                {
+                    const unsigned int stat_ok = data_stat_get_series_count (  &export_stat, DATA_STAT_SERIES_EXPORTED );
+                    const unsigned int stat_warn = data_stat_get_series_count (  &export_stat, DATA_STAT_SERIES_WARNING );
+                    const unsigned int stat_err = data_stat_get_series_count (  &export_stat, DATA_STAT_SERIES_ERROR );
+                    fprintf( stdout, "\nexported: %d; warnings: %d; errors: %d\n", stat_ok, stat_warn, stat_err );
+                }
                 data_stat_trace( &export_stat );
                 data_stat_destroy ( &export_stat );
             }

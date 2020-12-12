@@ -452,8 +452,8 @@ int xmi_atom_writer_report_illegal_relationship_end ( xmi_atom_writer_t *this_,
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
     export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Unsuitable relationship type connecting to " );
     export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, fact_from_end
-                                                                 ? " source end type"
-                                                                 : " target end type" );
+                                                                 ? "source end type"
+                                                                 : "target end type" );
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
     
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );

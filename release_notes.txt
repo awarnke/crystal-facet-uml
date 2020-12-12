@@ -5,6 +5,7 @@ crystal-facet-uml (1.26.1) UNRELEASED; urgency=medium
   * XMI Export: Properties have attributes class and interface if applicable
   * XMI Export: Warnings are issued at illegal relationship end types
   * XMI Export: dependencies of comments to annotatedElements conform to spec
+  * XMI Export: associations and communication paths can connect to ports
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 05 Dec 2020 16:30:00 +0100
 

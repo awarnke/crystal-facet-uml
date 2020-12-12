@@ -825,8 +825,10 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
     const size_t relation_descr_len = utf8string_get_length(relation_descr);
     const data_id_t from_classifier_id = data_relationship_get_from_classifier_data_id( relation_ptr );
     const data_id_t from_feature_id = data_relationship_get_from_feature_data_id( relation_ptr );
+    const data_id_t from_end_id = data_id_is_valid( &from_feature_id ) ? from_feature_id : from_classifier_id;
     const data_id_t to_classifier_id = data_relationship_get_to_classifier_data_id( relation_ptr );
     const data_id_t to_feature_id = data_relationship_get_to_feature_data_id( relation_ptr );
+    const data_id_t to_end_id = data_id_is_valid( &to_feature_id ) ? to_feature_id : to_classifier_id;
     const data_relationship_type_t relation_type = data_relationship_get_main_type( relation_ptr );
     const xmi_element_info_t *relation_info
         = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
@@ -835,6 +837,10 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
                                                );
     /* evaluate if xmi requires to generate fake properties */
     const bool fake_property_ends = xmi_element_info_is_a_association( relation_info );
+    const bool fake_property_at_from_end 
+        = fake_property_ends && (( from_f_type !=  DATA_FEATURE_TYPE_PROPERTY )&&( from_f_type != DATA_FEATURE_TYPE_PORT ));
+    const bool fake_property_at_to_end 
+        = fake_property_ends && (( to_f_type != DATA_FEATURE_TYPE_PROPERTY )&&( to_f_type != DATA_FEATURE_TYPE_PORT ));
     /* check if suppress source end */
     const bool suppress_source 
         = (( relation_type == DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION ) 
@@ -891,31 +897,25 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_START );
-            if ( data_id_is_valid( &from_feature_id ) )
-            {
-                export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), from_feature_id );
-            }
-            else if ( fake_property_ends )
+            if ( fake_property_at_from_end )
             {
                 export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), relation_id );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_ID_FRAGMENT_SOURCE_END );
             }
             else
             {
-                export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), from_classifier_id );
+                export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), from_end_id );
             }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_END );
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
             
-            if ( ( ! data_id_is_valid( &from_feature_id ) ) && fake_property_ends )
+            if ( fake_property_at_from_end )
             {
                 export_err |= xmi_element_writer_private_fake_memberend ( this_,
                                                                           relation_id,
                                                                           relation_type,
-                                                                          data_id_is_valid( &from_feature_id )
-                                                                          ? from_feature_id
-                                                                          : from_classifier_id,
+                                                                          from_end_id,
                                                                           from_c_type,
                                                                           from_f_type,
                                                                           false /* = is_target_end */
@@ -957,31 +957,25 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
 
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_START );
-        if ( data_id_is_valid( &to_feature_id ) )
-        {
-            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), to_feature_id );
-        }
-        else if ( fake_property_ends )
+        if ( fake_property_at_to_end )
         {
             export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), relation_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_ID_FRAGMENT_TARGET_END );
         }
         else
         {
-            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), to_classifier_id );
+            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), to_end_id );
         }
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_END );
 
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
 
-        if ( ( ! data_id_is_valid( &to_feature_id ) ) && fake_property_ends )
+        if ( fake_property_at_to_end )
         {
             export_err |= xmi_element_writer_private_fake_memberend ( this_,
                                                                       relation_id,
                                                                       relation_type,
-                                                                      data_id_is_valid( &to_feature_id ) 
-                                                                      ? to_feature_id
-                                                                      : to_classifier_id,
+                                                                      to_end_id,
                                                                       to_c_type,
                                                                       to_f_type,
                                                                       true /* = is_target_end */

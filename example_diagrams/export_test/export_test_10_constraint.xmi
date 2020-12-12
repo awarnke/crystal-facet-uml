@@ -63,9 +63,6 @@
             <ownedEnd xmi:type="uml:Property" xmi:id="80002#sourceend" association="80002" >
                 <class xmi:idref="60002" />
             </ownedEnd>
-            <!-- STATUS:      R0002 (aka 80002) of type 200 (Association) has target of type 2 (Port) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to  target end type -->
-            <!-- PROPOSAL:    Change the type of the relationship -->
             <memberEnd xmi:idref="40002" />
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="60003" name="config:max" ><!--C0003-->
@@ -75,9 +72,6 @@
             <ownedEnd xmi:type="uml:Property" xmi:id="80001#sourceend" association="80001" >
                 <class xmi:idref="60003" />
             </ownedEnd>
-            <!-- STATUS:      R0001 (aka 80001) of type 200 (Association) has target of type 2 (Port) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to  target end type -->
-            <!-- PROPOSAL:    Change the type of the relationship -->
             <memberEnd xmi:idref="40003" />
         </packagedElement>
     </uml:Model>

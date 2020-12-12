@@ -60,16 +60,13 @@
             </nestedClassifier>
         </packagedElement>
         <packagedElement xmi:type="uml:CommunicationPath" xmi:id="80002" name="" >
-            <memberEnd xmi:idref="40001" />
-            <!-- STATUS:      R0002 (aka 80002) of type 230 (CommunicationPath) has target of type 2 (Port) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to  target end type -->
-            <!-- PROPOSAL:    Change the type of the relationship -->
+            <memberEnd xmi:idref="80002#sourceend" />
+            <ownedEnd xmi:type="uml:Property" xmi:id="80002#sourceend" association="80002" >
+                <interface xmi:idref="40001" />
+            </ownedEnd>
             <memberEnd xmi:idref="40005" />
         </packagedElement>
         <packagedElement xmi:type="uml:CommunicationPath" xmi:id="80004" name="" >
-            <!-- STATUS:      R0004 (aka 80004) of type 230 (CommunicationPath) has source of type 2 (Port) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to  source end type -->
-            <!-- PROPOSAL:    Change the type of the relationship -->
             <memberEnd xmi:idref="40005" />
             <memberEnd xmi:idref="80004#targetend" />
             <ownedEnd xmi:type="uml:Property" xmi:id="80004#targetend" association="80004" >
@@ -81,22 +78,16 @@
             <ownedEnd xmi:type="uml:Property" xmi:id="80007#sourceend" association="80007" >
                 <class xmi:idref="60004" />
             </ownedEnd>
-            <!-- STATUS:      R0007 (aka 80007) of type 230 (CommunicationPath) has target of type 2 (Port) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to  target end type -->
-            <!-- PROPOSAL:    Change the type of the relationship -->
             <memberEnd xmi:idref="40007" />
         </packagedElement>
         <packagedElement xmi:type="uml:CommunicationPath" xmi:id="80008" name="" >
-            <memberEnd xmi:idref="40008" />
-            <!-- STATUS:      R0008 (aka 80008) of type 230 (CommunicationPath) has target of type 2 (Port) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to  target end type -->
-            <!-- PROPOSAL:    Change the type of the relationship -->
+            <memberEnd xmi:idref="80008#sourceend" />
+            <ownedEnd xmi:type="uml:Property" xmi:id="80008#sourceend" association="80008" >
+                <interface xmi:idref="40008" />
+            </ownedEnd>
             <memberEnd xmi:idref="40007" />
         </packagedElement>
         <packagedElement xmi:type="uml:CommunicationPath" xmi:id="80011" name="" >
-            <!-- STATUS:      R0011 (aka 80011) of type 230 (CommunicationPath) has source of type 2 (Port) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to  source end type -->
-            <!-- PROPOSAL:    Change the type of the relationship -->
             <memberEnd xmi:idref="40004" />
             <memberEnd xmi:idref="80011#targetend" />
             <ownedEnd xmi:type="uml:Property" xmi:id="80011#targetend" association="80011" >
@@ -104,10 +95,10 @@
             </ownedEnd>
         </packagedElement>
         <packagedElement xmi:type="uml:CommunicationPath" xmi:id="80012" name="" >
-            <memberEnd xmi:idref="40002" />
-            <!-- STATUS:      R0012 (aka 80012) of type 230 (CommunicationPath) has target of type 2 (Port) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to  target end type -->
-            <!-- PROPOSAL:    Change the type of the relationship -->
+            <memberEnd xmi:idref="80012#sourceend" />
+            <ownedEnd xmi:type="uml:Property" xmi:id="80012#sourceend" association="80012" >
+                <interface xmi:idref="40002" />
+            </ownedEnd>
             <memberEnd xmi:idref="40004" />
         </packagedElement>
         <packagedElement xmi:type="uml:Component" xmi:id="60003" name="Monitor" ><!--C0003-->
@@ -142,17 +133,17 @@
             </required>
         </packagedElement>
         <packagedElement xmi:type="uml:CommunicationPath" xmi:id="80009" name="" >
-            <memberEnd xmi:idref="40010" />
-            <!-- STATUS:      R0009 (aka 80009) of type 230 (CommunicationPath) has target of type 2 (Port) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to  target end type -->
-            <!-- PROPOSAL:    Change the type of the relationship -->
+            <memberEnd xmi:idref="80009#sourceend" />
+            <ownedEnd xmi:type="uml:Property" xmi:id="80009#sourceend" association="80009" >
+                <interface xmi:idref="40010" />
+            </ownedEnd>
             <memberEnd xmi:idref="40009" />
         </packagedElement>
         <packagedElement xmi:type="uml:CommunicationPath" xmi:id="80010" name="" >
-            <memberEnd xmi:idref="40003" />
-            <!-- STATUS:      R0010 (aka 80010) of type 230 (CommunicationPath) has target of type 2 (Port) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to  target end type -->
-            <!-- PROPOSAL:    Change the type of the relationship -->
+            <memberEnd xmi:idref="80010#sourceend" />
+            <ownedEnd xmi:type="uml:Property" xmi:id="80010#sourceend" association="80010" >
+                <interface xmi:idref="40003" />
+            </ownedEnd>
             <memberEnd xmi:idref="40006" />
         </packagedElement>
         <packagedElement xmi:type="uml:CommunicationPath" xmi:id="80006" name="" >

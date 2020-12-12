@@ -29,13 +29,7 @@
             </ownedPort>
         </packagedElement>
         <packagedElement xmi:type="uml:CommunicationPath" xmi:id="80004" name="" >
-            <!-- STATUS:      R0004 (aka 80004) of type 230 (CommunicationPath) has source of type 2 (Port) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to  source end type -->
-            <!-- PROPOSAL:    Change the type of the relationship -->
             <memberEnd xmi:idref="40004" />
-            <!-- STATUS:      R0004 (aka 80004) of type 230 (CommunicationPath) has target of type 2 (Port) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to  target end type -->
-            <!-- PROPOSAL:    Change the type of the relationship -->
             <memberEnd xmi:idref="40003" />
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="60003" name="Microcontroller" isEncapsulated="false" ><!--C0003-->
@@ -65,13 +59,7 @@
             </nestedClassifier>
         </packagedElement>
         <packagedElement xmi:type="uml:CommunicationPath" xmi:id="80005" name="" >
-            <!-- STATUS:      R0005 (aka 80005) of type 230 (CommunicationPath) has source of type 2 (Port) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to  source end type -->
-            <!-- PROPOSAL:    Change the type of the relationship -->
             <memberEnd xmi:idref="40002" />
-            <!-- STATUS:      R0005 (aka 80005) of type 230 (CommunicationPath) has target of type 2 (Port) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to  target end type -->
-            <!-- PROPOSAL:    Change the type of the relationship -->
             <memberEnd xmi:idref="40001" />
         </packagedElement>
         <packagedElement xmi:type="uml:CommunicationPath" xmi:id="80006" name="" >

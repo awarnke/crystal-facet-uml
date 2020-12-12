@@ -27,7 +27,7 @@
                 <type xmi:idref="60006" />
             </ownedEnd>
             <!-- STATUS:      R0009 (aka 80009) of type 300 (Association) has target of type 112 (InteractionUse) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to  target end type -->
+            <!-- CONFORMANCE: Unsuitable relationship type connecting to target end type -->
             <!-- PROPOSAL:    Change the type of the relationship -->
             <memberEnd xmi:idref="80009#targetend" />
             <ownedEnd xmi:type="uml:Property" xmi:id="80009#targetend" association="80009" aggregation="composite" >
@@ -40,7 +40,7 @@
                 <type xmi:idref="60006" />
             </ownedEnd>
             <!-- STATUS:      R0010 (aka 80010) of type 300 (Association) has target of type 112 (InteractionUse) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to  target end type -->
+            <!-- CONFORMANCE: Unsuitable relationship type connecting to target end type -->
             <!-- PROPOSAL:    Change the type of the relationship -->
             <memberEnd xmi:idref="80010#targetend" />
             <ownedEnd xmi:type="uml:Property" xmi:id="80010#targetend" association="80010" aggregation="composite" >
