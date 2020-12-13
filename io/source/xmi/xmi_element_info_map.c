@@ -469,6 +469,28 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .property_to              = NULL,
         .additional_properties    = "aggregation=\"composite\"",
     },
+    [XMI_ELEMENT_INFO_MAP_INDEX_INPUT_PIN] = {
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 16.14.24 */
+        .data_type_checksum       = (int) DATA_FEATURE_TYPE_PORT,
+        .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
+        .profile_name             = NULL,
+        .base_name                = "InputPin",
+        .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY_NODE),
+        .property_from            = NULL,
+        .property_to              = NULL,
+        .additional_properties    = NULL,
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_OUTPUT_PIN] = {
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 16.14.32 */
+        .data_type_checksum       = (int) DATA_FEATURE_TYPE_PORT,
+        .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
+        .profile_name             = NULL,
+        .base_name                = "OutputPin",
+        .is_a                     = (XMI_ELEMENT_IS_A_ACTIVITY_NODE),
+        .property_from            = NULL,
+        .property_to              = NULL,
+        .additional_properties    = NULL,
+    },
     [XMI_ELEMENT_INFO_MAP_INDEX_LIFELINE] = {
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 17.12.17 */
         .data_type_checksum       = (int) DATA_FEATURE_TYPE_LIFELINE,

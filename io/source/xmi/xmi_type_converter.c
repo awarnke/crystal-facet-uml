@@ -182,10 +182,22 @@ int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t
 
         case DATA_FEATURE_TYPE_PORT:
         {
-            /* spec: https://www.omg.org/spec/UML/2.5.1/PDF ch 11.8.13.5 */
-            result = "ownedPort";
-            result_err = xmi_element_info_is_a_encapsulated_classifier(parent_info) ? 0 : -1;
-            /*TODO ownedPort is a derived value*/
+            const bool is_behavioral_parent = data_classifier_type_is_behavioral( parent_type );
+            if ( is_behavioral_parent )
+            {
+                const bool p_is_activity_or_group 
+                    = ( parent_type == DATA_CLASSIFIER_TYPE_ACTIVITY )||( parent_type == DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION );
+                /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 15.7.1.5 */
+                result = "node";
+                result_err = p_is_activity_or_group ? 0 : -1;
+            }
+            else
+            {
+                /* spec: https://www.omg.org/spec/UML/2.5.1/PDF ch 11.8.13.5 */
+                result = "ownedPort";
+                result_err = xmi_element_info_is_a_encapsulated_classifier(parent_info) ? 0 : -1;
+                /*TODO ownedPort is a derived value*/
+            }
         }
         break;
 
@@ -503,8 +515,13 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
                                               );
         assert ( feature_info != NULL );
 
+        if ( xmi_element_info_is_a_activity_edge( rel_info ) && xmi_element_info_is_a_activity_node( feature_info ) )
+        {
+            /* valid relationship according to uml 2.5.1 spec, chapter 15.7.2 */
+        }
+
         /* DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL or DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL or DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL */
-        if ( xmi_element_info_is_a_message ( rel_info ) && ( end_feature_type == DATA_FEATURE_TYPE_LIFELINE ))
+        else if ( xmi_element_info_is_a_message ( rel_info ) && ( end_feature_type == DATA_FEATURE_TYPE_LIFELINE ))
         {
             /* valid relationship according to uml 2.5.1 spec, chapter 17.12.23 */
         }

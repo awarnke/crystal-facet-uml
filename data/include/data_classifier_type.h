@@ -8,6 +8,8 @@
  *  \brief Defines types of classifiers
  */
 
+#include <stdbool.h>
+
 /*!
  *  \brief enumeration of all classifier types
  *
@@ -59,6 +61,17 @@ enum data_classifier_type_enum {
 };
 
 typedef enum data_classifier_type_enum data_classifier_type_t;
+
+/*!
+ *  \brief checks if the classifier type is intended for use in a behavioral context
+ *
+ *  \param this_ enumeration value
+ *  \return true if intended use is solely for state, activity, interaction, use-case contexts
+ *          false otherwise, especially excluded are requirements, actors, constraint-blocks, comments
+ */
+static inline bool data_classifier_type_is_behavioral( data_classifier_type_t this_ );
+
+#include "data_classifier_type.inl"
 
 #endif  /* DATA_CLASSIFIER_TYPE_H */
 
