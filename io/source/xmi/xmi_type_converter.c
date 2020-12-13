@@ -146,7 +146,7 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
 
 int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t *this_,
                                                             data_classifier_type_t parent_type,
-                                                            data_feature_type_t f_type,
+                                                            data_feature_type_t feature_type,
                                                             char const * *out_xmi_name )
 {
     TRACE_BEGIN();
@@ -158,7 +158,7 @@ int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t
         = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, parent_type, DATA_CLASSIFIER_TYPE_PACKAGE /*TODO: fix guess*/ );
     assert ( parent_info != NULL );
 
-    switch ( f_type )
+    switch ( feature_type )
     {
         case DATA_FEATURE_TYPE_PROPERTY:
         {
@@ -233,7 +233,7 @@ int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t
 
         default:
         {
-            TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", f_type );
+            TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", feature_type );
             assert( 0 );
         }
         break;
@@ -331,7 +331,7 @@ int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_conve
 
 /* ================================ FEATURE ================================ */
 
-xmi_spec_t xmi_type_converter_get_xmi_spec_of_feature ( xmi_type_converter_t *this_, data_feature_type_t f_type )
+xmi_spec_t xmi_type_converter_get_xmi_spec_of_feature ( xmi_type_converter_t *this_, data_feature_type_t feature_type )
 {
     TRACE_BEGIN();
     xmi_spec_t result = XMI_SPEC_UML;  /* all currently known features are defined in the uml specification */
@@ -341,13 +341,15 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_feature ( xmi_type_converter_t *th
 }
 
 const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *this_,
-                                                         data_feature_type_t f_type,
+                                                         data_classifier_type_t parent_type,
+                                                         data_feature_type_t feature_type,
+                                                         xmi_direction_t flow_direction,
                                                          xmi_spec_t spec )
 {
     TRACE_BEGIN();
 
     const xmi_element_info_t *feature_info
-        = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, f_type );
+        = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, feature_type, flow_direction, parent_type );
     assert ( feature_info != NULL );
     const char* result
         = (( (spec & (XMI_SPEC_SYSML|XMI_SPEC_STANDARD)) != 0 )&&( (*feature_info).profile_name != NULL ))
@@ -494,7 +496,11 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
     {
         /* relationship end is at feature */
         const xmi_element_info_t *feature_info
-            = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, end_feature_type );
+            = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, 
+                                                end_feature_type, 
+                                                XMI_DIRECTION_UNSPECIFIED /*doe not matter here*/, 
+                                                end_classifier_type 
+                                              );
         assert ( feature_info != NULL );
 
         /* DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL or DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL or DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL */

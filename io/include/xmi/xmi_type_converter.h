@@ -10,6 +10,7 @@
  */
 
 #include "xmi/xmi_spec.h"
+#include "xmi/xmi_direction.h"
 #include "data_diagram_type.h"
 #include "data_classifier_type.h"
 #include "data_feature_type.h"
@@ -98,14 +99,14 @@ static inline bool xmi_type_converter_can_nest_classifier ( xmi_type_converter_t
  *  \brief gets a string representation of a classifiers owning-type of a feature
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type data_classifier_type_t of the parent of which the nesting-type shall be determined
- *  \param f_type data_feature_type_t of the child of which the owning-type shall be determined
+ *  \param parent_type data_classifier_type_t of the parent of which the owning-type shall be determined
+ *  \param feature_type data_feature_type_t of the child of which the owning-type shall be determined
  *  \param out_xmi_name representation of the owning-link type, even in case of a type mismatch a string is provided
  *  \result 0 in case of success, -1 in case of type mismatch between parent and owned-child
  */
 int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t *this_,
                                                             data_classifier_type_t parent_type,
-                                                            data_feature_type_t f_type,
+                                                            data_feature_type_t feature_type,
                                                             char const * *out_xmi_name
                                                           );
 
@@ -143,21 +144,25 @@ static inline bool xmi_type_converter_can_nest_relationship ( xmi_type_converter
  *  \brief gets the xmi specification bitset for data_classifier_type_t types
  *
  *  \param this_ pointer to own object attributes
- *  \param f_type data_feature_type_t to evaluate
+ *  \param feature_type data_feature_type_t to evaluate
  *  \result xmi specification bitset
  */
-xmi_spec_t xmi_type_converter_get_xmi_spec_of_feature ( xmi_type_converter_t *this_, data_feature_type_t f_type );
+xmi_spec_t xmi_type_converter_get_xmi_spec_of_feature ( xmi_type_converter_t *this_, data_feature_type_t feature_type );
 
 /*!
  *  \brief gets a string representation of a data_feature_type_t
  *
  *  \param this_ pointer to own object attributes
- *  \param f_type data_feature_type_t to convert to a string
+ *  \param parent_type data_classifier_type_t of the parent of which the owning-type shall be determined
+ *  \param feature_type data_feature_type_t to convert to a string
+ *  \param flow_direction flow direction in case the feature is a port/pin
  *  \param spec control, according to which specification the xmi type shall be returned. profiles define extensions to base types in mof+uml.
- *  \result string representation of f_type, empty string if not available
+ *  \result string representation of feature_type, empty string if not available
  */
 const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *this_,
-                                                         data_feature_type_t f_type,
+                                                         data_classifier_type_t parent_type,
+                                                         data_feature_type_t feature_type,
+                                                         xmi_direction_t flow_direction,
                                                          xmi_spec_t spec
                                                        );
 

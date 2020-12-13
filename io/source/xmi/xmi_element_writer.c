@@ -489,7 +489,7 @@ int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
     const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
     const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
     const xmi_element_info_t *feature_info
-        = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, feature_type );
+        = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, feature_type, XMI_DIRECTION_UNSPECIFIED, parent_type );
 
     if ( (*this_).mode == IO_WRITER_PASS_BASE )
     {
@@ -525,7 +525,9 @@ int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
         const char* f_type = xmi_type_converter_get_xmi_type_of_feature ( &((*this_).xmi_types),
+                                                                          parent_type,
                                                                           feature_type,
+                                                                          XMI_DIRECTION_UNSPECIFIED,
                                                                           XMI_SPEC_UML
                                                                         );
         export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), f_type );

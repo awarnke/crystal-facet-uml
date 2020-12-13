@@ -288,11 +288,13 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( c
 }
 
 static inline const xmi_element_info_t * xmi_element_info_map_get_feature ( const xmi_element_info_map_t *this_,
-                                                                            data_feature_type_t feat_type )
+                                                                            data_feature_type_t feature_type,
+                                                                            xmi_direction_t flow_direction,
+                                                                            data_classifier_type_t parent_type )
 {
     const xmi_element_info_t * result = NULL;
 
-    switch ( feat_type )
+    switch ( feature_type )
     {
         case DATA_FEATURE_TYPE_PROPERTY:
         {
@@ -347,7 +349,7 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_feature ( cons
 
         default:
         {
-            TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", feat_type );
+            TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", feature_type );
             assert( 0 );
         }
         break;

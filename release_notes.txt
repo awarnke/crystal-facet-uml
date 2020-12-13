@@ -7,6 +7,7 @@ crystal-facet-uml (1.26.1) UNRELEASED; urgency=medium
   * XMI Export: dependencies of comments to annotatedElements conform to spec
   * XMI Export: associations and communication paths can connect to ports
   * XMI Export: nested activities are exported as StructuredActivityNode
+  * Activity Pins supported
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 05 Dec 2020 16:30:00 +0100
 
