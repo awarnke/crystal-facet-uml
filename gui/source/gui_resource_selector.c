@@ -137,7 +137,7 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE, "Interaction Diagram Reference", icon_clas_diagram );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_clas_state = gui_resources_get_type_clas_state( (*this_).resources );
-        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_ACTIVITY, "Activity", icon_clas_state );
+        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_ACTIVITY, "Activity/Action", icon_clas_state );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_clas_region = gui_resources_get_type_clas_region( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION, "Interruptable Region", icon_clas_region );
@@ -187,7 +187,7 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_OPERATION, "Operation", icon_feat_operation );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_feat_port = gui_resources_get_type_feat_port( (*this_).resources );
-        gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_PORT, "Port", icon_feat_port );
+        gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_PORT, "Port/Pin", icon_feat_port );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_feat_life = gui_resources_get_type_feat_life( (*this_).resources );
         gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_LIFELINE, "Lifeline", icon_feat_life );

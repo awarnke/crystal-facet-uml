@@ -223,8 +223,21 @@ void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *th
     list_order = data_feature_get_list_order( the_feature );
 
     /* position the port icon */
+    const bool is_sysml_constraint_block = (classifier_type == DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK);
+    const bool is_activity_or_action 
+        = (classifier_type == DATA_CLASSIFIER_TYPE_ACTIVITY)
+        ||(classifier_type == DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION)
+        ||(classifier_type == DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE)
+        ||(classifier_type == DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE)
+        ||(classifier_type == DATA_CLASSIFIER_TYPE_DYN_FORK_NODE)
+        ||(classifier_type == DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE)
+        ||(classifier_type == DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE)
+        ||(classifier_type == DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT)
+        ||(classifier_type == DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT)
+        ||(classifier_type == DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL);
+
     const double outwards_distance 
-        = (classifier_type == DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK) ? 0 : (0.5*port_icon_size);
+        = is_sysml_constraint_block ? 0.0 : is_activity_or_action ? port_icon_size : (0.5*port_icon_size);
     double port_icon_left;
     double port_icon_top;
     if ( list_order < 0 )

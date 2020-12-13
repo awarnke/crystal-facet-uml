@@ -211,16 +211,20 @@
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_state.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_state.png"/></imageobject></mediaobject>
-                                Activity</para></entry>
+                                Activity/Action
+                                </para>
+                            </entry>
                             <entry><para>UML 2.5 (ch15.2)</para></entry>
                             <entry><para>Activity / -</para></entry>
-                            <entry><para>Limitations: Object Node Pin notation not supported, draw the object between activities</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_region.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_region.png"/></imageobject></mediaobject>
-                                Interruptable Region</para></entry>
+                                Interruptable Region
+                                </para>
+                            </entry>
                             <entry><para>UML</para></entry>
                             <entry><para>Activity / unconditional features</para></entry>
                             <entry>
@@ -488,7 +492,9 @@
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_feat_property.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_feat_property.png"/></imageobject></mediaobject>
-                                    Property</para></entry>
+                                    Property
+                                </para>
+                            </entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 9.2.1--></para></entry>
                             <entry><para>unconditional</para></entry>
                             <entry><para>Limitations: no SysML Flow-Properties refinement.</para></entry>
@@ -497,7 +503,9 @@
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_feat_operation.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_feat_operation.png"/></imageobject></mediaobject>
-                                    Operation</para></entry>
+                                    Operation
+                                </para>
+                            </entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para>unconditional</para></entry>
                             <entry><para></para></entry>
@@ -506,7 +514,9 @@
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_feat_port.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_feat_port.png"/></imageobject></mediaobject>
-                                    Port</para></entry>
+                                    Port/Pin
+                                </para>
+                            </entry>
                             <entry><para>UML<!--spec 2.5 chapter 11.3-->, SysML<!--spec 1.5 chapter 9.2.1--></para></entry>
                             <entry><para>unconditional</para></entry>
                             <entry><para>Limitations: no SysML-compartment Notation supported.</para>
@@ -519,7 +529,9 @@
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_feat_provide.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_feat_provide.png"/></imageobject></mediaobject>
-                                    Provided Interface</para></entry>
+                                    Provided Interface
+                                </para>
+                            </entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 9.2.1--></para></entry>
                             <entry><para>unconditional</para></entry>
                             <entry><para></para></entry>
@@ -528,7 +540,9 @@
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_feat_require.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_feat_require.png"/></imageobject></mediaobject>
-                                    Required Interface</para></entry>
+                                    Required Interface
+                                </para>
+                            </entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 9.2.1--></para></entry>
                             <entry><para>unconditional</para></entry>
                             <entry><para></para></entry>
@@ -537,7 +551,9 @@
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_feat_life.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_feat_life.png"/></imageobject></mediaobject>
-                                    Lifeline</para></entry>
+                                    Lifeline
+                                </para>
+                            </entry>
                             <entry><para>UML 2.5 (ch17.2), SysML</para></entry>
                             <entry><para>scenario, 1 per diagram</para></entry>
                             <entry><para>Limitations: One lifeline is visible only in one diagram.</para>

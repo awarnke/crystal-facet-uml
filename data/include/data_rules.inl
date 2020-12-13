@@ -288,6 +288,14 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
         break;
 
         case DATA_CLASSIFIER_TYPE_ACTIVITY:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
+        {
+            result = DATA_FEATURE_TYPE_PORT; /* Pin */
+        }
+        break;
+        
         case DATA_CLASSIFIER_TYPE_STATE:  /* and */
         case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:  /* and */
@@ -297,10 +305,7 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
         case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:  /* and */
-        case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:  /* and */
-        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT:  /* and */
-        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:  /* and */
-        case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
+        case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
         {
             result = DATA_FEATURE_TYPE_OPERATION;
         }
