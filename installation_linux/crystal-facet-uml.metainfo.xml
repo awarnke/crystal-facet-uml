@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>crystal-facet-uml.desktop</id>
+  <metadata_license>Apache-2.0</metadata_license>
+  <name>crystal_facet_uml</name>
+  <summary>crystal_facet_uml creates diagrams to document system and software architecture</summary>
+  <project_license>Apache-2.0</project_license>
+  <icon type="local">/usr/share/pixmaps/crystal-facet-uml.png</icon>
+  <description>
+    <p>
+      As software architect, you create a set of diagrams describing
+      use-cases, requirements, structural views, behavioral and deployment views.
+    </p>
+    <p>
+      crystal_facet_uml keeps element names and element hierarchies consistent.
+      It exports diagrams in svg, pdf, ps and png formats
+      to be used in text processing systems like docbook, html, latex.
+      crystal_facet_uml exports the model to xmi format.
+    </p>
+  </description>
+  <categories>
+    <category>Development</category>
+    <category>Documentation</category>
+  </categories>
+  <url type="homepage">http://andreaswarnke.de/crystal_facet_uml/html/index.html</url>
+  <url type="bugtracker">https://github.com/awarnke/crystal_facet_uml</url>
+  <launchable type="desktop-id">crystal-facet-uml.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image type="source" width="920" height="637">https://raw.githubusercontent.com/awarnke/crystal_facet_uml/master/user_doc/doc/screenshot_1.png</image>
+      <caption/>
+    </screenshot>
+  </screenshots>
+  <translation/>
+  <developer_name>Andreas Warnke</developer_name>
+  <update_contact>cfu@andreaswarnke.de</update_contact>
+</component>

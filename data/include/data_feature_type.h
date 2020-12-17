@@ -18,9 +18,11 @@ enum data_feature_type_enum {
     DATA_FEATURE_TYPE_OPERATION = 1,
     DATA_FEATURE_TYPE_PORT = 2,
     DATA_FEATURE_TYPE_LIFELINE = 3,  /* for sequence, timing, communication and interaction-overview diagrams */
-    DATA_FEATURE_TYPE_PROVIDED_INTERFACE = 4,
-    DATA_FEATURE_TYPE_REQUIRED_INTERFACE = 5,
-    /* DATA_FEATURE_TYPE_TESTCASE = 6, */  /* for SysML requirements diagram */
+    DATA_FEATURE_TYPE_PROVIDED_INTERFACE = 4,  /* service */
+    DATA_FEATURE_TYPE_REQUIRED_INTERFACE = 5,  /* client */
+    /* DATA_FEATURE_TYPE_IN_PORT_PIN_ENTRY = 6, */  /* for component ports, activity pins and state entry */
+    /* DATA_FEATURE_TYPE_OUT_PORT_PIN_EXIT = 7, */  /* for component ports, activity pins and state exit */
+    /* DATA_FEATURE_TYPE_TAG = 8, */  /* for tagged values, distinguish types int, string, ... ? */
 };
 
 typedef enum data_feature_type_enum data_feature_type_t;

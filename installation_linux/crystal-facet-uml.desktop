@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=crystal_facet_uml
 GenericName=UML Drawing Tool
-Icon=crystal_facet_uml
+Icon=crystal-facet-uml
 Comment=Create a set of consistent uml diagrams
 Exec=/usr/bin/crystal_facet_uml -u %f
 Terminal=false

@@ -34,6 +34,7 @@
             crystal_facet_uml keeps element names and element hierarchies consistent.
             It exports diagrams in svg, pdf, ps and png formats
             to be used in text processing systems like docbook, html, latex.
+            crystal_facet_uml exports the model to xmi format.
             This tool runs on your local PC and is based on glib, gdk, gtk, cairo, pango, sqlite.
         </para>
     </section>

@@ -8,6 +8,7 @@ ideas for future versions:
   [ ] show a progress bar while exporting diagrams
   [ ] update seach result view when changing the database (e.g. by undo)
   [ ] enlarge the initial default window size, not even the quick-intro screen is visible.
+  [ ] when selecting a search result, not only jump to the diagram but also focus on the result
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   @pencil

@@ -129,8 +129,9 @@ MESSAGE( "Note: update the user docs via 'cd user_doc && make' before running ma
 # ==== ==== ==== ==== ==== ==== ==== ==== Install Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 INSTALL(TARGETS crystal_facet_uml DESTINATION "/usr/bin/")
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation_linux/config/crystal_facet_uml.desktop" DESTINATION "/usr/share/applications/")
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gui/source/resources/crystal_facet_uml_80x80.png" DESTINATION "/usr/share/pixmaps/" RENAME "crystal_facet_uml.png")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation_linux/crystal-facet-uml.desktop" DESTINATION "/usr/share/applications/")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation_linux/crystal-facet-uml.metainfo.xml" DESTINATION "/usr/share/metainfo/")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gui/source/resources/crystal_facet_uml_80x80.png" DESTINATION "/usr/share/pixmaps/" RENAME "crystal-facet-uml.png")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/user_doc/crystal_facet_uml.1.gz" DESTINATION "/usr/share/man/man1/")
 
 
