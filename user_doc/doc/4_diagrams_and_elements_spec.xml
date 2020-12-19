@@ -514,7 +514,7 @@
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_feat_port.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_feat_port.png"/></imageobject></mediaobject>
-                                    Port/Pin
+                                    Port
                                 </para>
                             </entry>
                             <entry><para>UML<!--spec 2.5 chapter 11.3-->, SysML<!--spec 1.5 chapter 9.2.1--></para></entry>

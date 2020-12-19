@@ -13,11 +13,11 @@
    height="32"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.5 r10040"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
    sodipodi:docname="message_info.svg"
-   inkscape:export-filename="/home/andi/Code/crystal-facet-uml-code/gui/source/resources/message_info.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-filename="/home/andi/Code/crystal_facet_uml/gui/source/resources/message_info.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -27,16 +27,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="10.66"
-     inkscape:cx="15.575431"
+     inkscape:zoom="21.32"
+     inkscape:cx="14.618484"
      inkscape:cy="15.768602"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1109"
-     inkscape:window-height="905"
-     inkscape:window-x="330"
-     inkscape:window-y="39"
+     inkscape:window-width="1824"
+     inkscape:window-height="1438"
+     inkscape:window-x="1236"
+     inkscape:window-y="120"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
@@ -63,22 +63,21 @@
        sodipodi:cy="16.321121"
        sodipodi:rx="15.67888"
        sodipodi:ry="15.67888"
-       d="m 31.788793,16.321121 a 15.67888,15.67888 0 1 1 -31.35775987,0 15.67888,15.67888 0 1 1 31.35775987,0 z"
+       d="M 31.788793,16.321121 A 15.67888,15.67888 0 0 1 16.109913,32.000001 15.67888,15.67888 0 0 1 0.43103313,16.321121 15.67888,15.67888 0 0 1 16.109913,0.64224148 15.67888,15.67888 0 0 1 31.788793,16.321121 Z"
        transform="matrix(-1,0,0,1,32.219826,1020.1467)" />
-    <path
-       sodipodi:type="arc"
-       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.25;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+    <ellipse
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path4498"
-       sodipodi:cx="17.776735"
-       sodipodi:cy="8.219512"
-       sodipodi:rx="3.705441"
-       sodipodi:ry="3.2363977"
-       d="m 21.482176,8.219512 a 3.705441,3.2363977 0 1 1 -7.410882,0 3.705441,3.2363977 0 1 1 7.410882,0 z"
-       transform="matrix(-1,0,0,1,34.565042,1019.7055)" />
+       transform="scale(-1,1)"
+       cx="-16.27236"
+       cy="1028.3237"
+       rx="3.0556405"
+       ry="3.1259968" />
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 18.24234,1034.3509 -6.003752,0 0,3.471 2.157598,-0.2815 0,6.6604 -1.500938,0.2815 -0.09381,2.6266 7.692307,0.2814 -0.375234,-3.2833 -2.532833,0.1877 z"
+       d="m 18.195436,1034.0226 h -6.003752 v 3.471 l 1.782363,-10e-5 0.04691,6.0038 -1.73546,0.516 -0.0469,2.9549 8.208254,0.094 1e-6,-3.7992 -2.345216,0.2346 z"
        id="path4500"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccccc" />
   </g>
 </svg>

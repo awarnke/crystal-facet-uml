@@ -13,13 +13,24 @@
    height="32"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.5 r10040"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
    sodipodi:docname="edit_instantiate.svg"
-   inkscape:export-filename="/home/andi/Code/crystal-facet-uml-code/gui/source/resources/edit_instantiate.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-filename="/home/andi/Code/crystal_facet_uml/gui/source/resources/edit_instantiate.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
-     id="defs4" />
+     id="defs4">
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect4600"
+       is_visible="true"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -27,16 +38,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="10.66"
-     inkscape:cx="13.920133"
+     inkscape:zoom="21.32"
+     inkscape:cx="9.7563673"
      inkscape:cy="15.862411"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1347"
-     inkscape:window-height="905"
-     inkscape:window-x="57"
-     inkscape:window-y="58"
+     inkscape:window-width="2152"
+     inkscape:window-height="1744"
+     inkscape:window-x="398"
+     inkscape:window-y="133"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
@@ -55,30 +66,6 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-1020.3622)">
-    <path
-       style="fill:#ff3cd2;fill-opacity:1;stroke:none"
-       d="M 0.02374358,1028.6614 8.1613505,1020.4759 3.9212007e-8,1020.4469 z"
-       id="path3079"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc" />
-    <path
-       style="fill:#ff3cd2;fill-opacity:1;stroke:none"
-       d="m 8.0472132,1052.3853 -8.18550045,-8.1376 -0.029,8.1613 z"
-       id="path3079-5"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc" />
-    <path
-       style="fill:#ff3cd2;fill-opacity:1;stroke:none"
-       d="m 32.081341,1044.3531 -8.137601,8.1855 8.161301,0.029 z"
-       id="path3079-0"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc" />
-    <path
-       style="fill:#ff3cd2;fill-opacity:1;stroke:none"
-       d="m 23.823332,1020.4822 8.1855,8.1376 0.029,-8.1613 z"
-       id="path3079-1"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc" />
     <path
        style="fill:#00ffac;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
        d="m 23.733584,1042.1371 -18.5741093,-6.7543 2.9080676,-3.7523 6.6604127,2.439 c 0,0 1.712349,-7.9083 3.189494,-9.0056 1.477145,-1.0973 4.227005,-0.054 4.409005,1.97 0.182,2.0241 -4.315196,8.2551 -4.315196,8.2551 l 6.378985,2.439 z"
@@ -104,5 +91,13 @@
        id="path4001-0-2"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccc" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#ff3cd2;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 0.46930786,1049.4702 c 0.69648764,0.807 1.39298694,1.6141 2.08948044,2.4211 0,0 27.0305817,0 27.0305817,0 0,0 2.023148,-2.3548 2.023148,-2.3548"
+       id="path4598"
+       inkscape:connector-curvature="0"
+       inkscape:path-effect="#path-effect4600"
+       inkscape:original-d="m 0.46930786,1049.4702 c 0.69756124,0.8061 2.08948044,2.4211 2.08948044,2.4211 H 29.58937 l 2.023148,-2.3548"
+       sodipodi:nodetypes="cccc" />
   </g>
 </svg>

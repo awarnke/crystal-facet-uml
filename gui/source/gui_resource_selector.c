@@ -187,7 +187,7 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_OPERATION, "Operation", icon_feat_operation );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_feat_port = gui_resources_get_type_feat_port( (*this_).resources );
-        gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_PORT, "Port/Pin", icon_feat_port );
+        gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_PORT, "Port", icon_feat_port );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_feat_life = gui_resources_get_type_feat_life( (*this_).resources );
         gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_LIFELINE, "Lifeline", icon_feat_life );
