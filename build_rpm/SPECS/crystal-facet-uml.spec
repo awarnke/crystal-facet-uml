@@ -1,7 +1,7 @@
 #
 # spec file for package crystal-facet-uml
 #
-# Copyright (c) 2019 SUSE LLC
+# Copyright (c) 2019-2020 SUSE LLC
 # Copyright (c) 2017-2020 Andreas Warnke cfu@andreaswarnke.de
 #
 # All modifications and additions to the file contributed by third parties
@@ -27,7 +27,6 @@ URL:            https://github.com/awarnke/crystal_facet_uml
 Source:         crystal-facet-uml_%{version}.orig.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
-BuildRequires:  gcc-c++
 BuildRequires:  gtk3-devel
 BuildRequires:  sqlite3-devel
 BuildRequires:  tar
@@ -48,8 +47,13 @@ It runs on your local linux PC and is based on glib, gdk, gtk, cairo, pango, sql
 %build
 %cmake \
   -DCMAKE_BUILD_TYPE=Release
+%if 0%{?cmake_build:1}
+# cmake_build works with openSuSE_TumbleWeed and openSuSE_Leap_15.1
+%cmake_build
+%else
+# fallback for old openSUSE_Leap_42.3:
 %make_jobs
-# %cmake_build -- Works with openSuSE_TumbleWeed but not with openSuSE_Leap_15.0
+%endif
 
 %install
 %cmake_install
@@ -59,8 +63,8 @@ It runs on your local linux PC and is based on glib, gdk, gtk, cairo, pango, sql
 ./build/test_crystal-facet-uml -a
 
 %files
-%license ./license.txt
-%doc ./readme.markdown ./release_notes.txt ./user_doc/crystal-facet-uml_documentation.pdf
+%license license.txt
+%doc readme.markdown ChangeLog user_doc/crystal-facet-uml_documentation.pdf
 %{_bindir}/crystal-facet-uml
 %{_datadir}/pixmaps/crystal-facet-uml.png
 %{_datadir}/applications/crystal-facet-uml.desktop
