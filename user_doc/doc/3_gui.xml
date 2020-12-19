@@ -14,12 +14,12 @@
             <listitem><para>an optional notification bar at the bottom.</para></listitem>
             </itemizedlist>
 
-            <mediaobject>
-                <imageobject><imagedata fileref="screenshot_1.png"/></imageobject>
-            </mediaobject>
-
         </para>
-
+        <para>
+            <mediaobject>
+                <imageobject><imagedata fileref="screenshot_2.png" width="16cm"/></imageobject>
+            </mediaobject>
+        </para>
     </section>
     <section>
         <title>Tool Bar</title>
@@ -280,6 +280,12 @@
                 </itemizedlist>
             </para>
 
+            <para>
+                <mediaobject>
+                    <imageobject><imagedata fileref="screenshot_3.png" width="16cm"/></imageobject>
+                </mediaobject>
+            </para>
+
         </section>
     </section>
     <section>
@@ -386,7 +392,6 @@
     <section>
         <title>Element Configuration Area</title>
         <para>
-
             <mediaobject>
                 <imageobject><imagedata fileref="3_main_window_sketch_3.pdf" width="4cm"/></imageobject>
                 <imageobject><imagedata fileref="3_main_window_sketch_3.png"/></imageobject>

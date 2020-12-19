@@ -9,13 +9,15 @@
         <!-- What is it? -->
         crystal-facet-uml creates diagrams to document system and software architecture.
 
-        <mediaobject>
-            <imageobject><imagedata fileref="screenshot_1.png"/></imageobject>
-        </mediaobject>
     </para>
     <para>
         Like a crystal shows different facets of the same thing, this application
         shows different views of the same system.
+    </para>
+    <para>
+        <mediaobject>
+            <imageobject><imagedata fileref="screenshot_1.png" width="16cm"/></imageobject>
+        </mediaobject>
     </para>
 
     <section>
