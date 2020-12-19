@@ -1,5 +1,5 @@
 /*!
- *  \page cfu-programming-guidelines-page crystal_facet_uml programming guidelines
+ *  \page cfu-programming-guidelines-page crystal-facet-uml programming guidelines
  *
  *  \image html crystal_facet_uml.png
  *  \image latex crystal_facet_uml.pdf "" width=3cm
@@ -8,7 +8,7 @@
  *
  *  The software consists of several modules.
  *  \n Some are external modules and may therefore not follow the rules listed below.
- *  \n The others belong to the crystal_facet_uml application.
+ *  \n The others belong to the crystal-facet-uml application.
  *
  *  \subsection cfu-folder-structure Folder Structure
  *
@@ -148,7 +148,7 @@
  *  The term \c ((char*)buf)+len looks simple - but adds value \c len*sizeof(char) to the pointer \c buf and returns a pointer of type \c char*.
  *  These c-magic pointer-to-array conversions get confusing if types are more complicated than a simple char, e.g. \c ((char(*)[][7])buf)+len .
  *
- *  In crystal_facet_uml, the preferred term is \c &((*((char(*)[])buf))[len]) - which is identical to \c ((char*)buf)+len.
+ *  In crystal-facet-uml, the preferred term is \c &((*((char(*)[])buf))[len]) - which is identical to \c ((char*)buf)+len.
  *  There is no magic: \c buf is cast to pointer-to-array \c char(*)[] . The pointer is dereferenced, the array-element \c len is selected,
  *  the address of that element is determined.
  *

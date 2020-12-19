@@ -1,13 +1,13 @@
-all: crystal_facet_uml_user_documentation.pdf html crystal_facet_uml.1.gz
+all: crystal-facet-uml_documentation.pdf html crystal-facet-uml.1.gz
 
-crystal_facet_uml_user_documentation.pdf: doc/*.xml doc/2_feature_gallery_export/*.pdf doc/*.pdf doc/*.png
+crystal-facet-uml_documentation.pdf: doc/*.xml doc/2_feature_gallery_export/*.pdf doc/*.pdf doc/*.png
 	cd doc &&\
-	dblatex --type=pdf crystal_facet_uml_user_documentation.xml &&\
+	dblatex --type=pdf crystal-facet-uml_documentation.xml &&\
 	cd .. &&\
-	mv doc/crystal_facet_uml_user_documentation.pdf .
+	mv doc/crystal-facet-uml_documentation.pdf .
 
 html: doc/*.xml doc/2_feature_gallery_export/*.png doc/*.png
-	xmlto --stringparam html.stylesheet=html.css -o html/ xhtml doc/crystal_facet_uml_user_documentation.xml &&\
+	xmlto --stringparam html.stylesheet=html.css -o html/ xhtml doc/crystal-facet-uml_documentation.xml &&\
 	echo relocate image files &&\
 	cd doc &&\
 	cat *.xml | grep -e 'fileref.*png' | sed -e 's/^[^"]*"\([^"]*\)".*/\1/' | xargs cp --target-directory=../html &&\
@@ -24,9 +24,9 @@ MAN_STYLESHEET_ROOT=`find /usr/share/xml/docbook/stylesheet -name manpages`
 #MAN_STYLESHEET_0="/usr/share/xml/docbook/stylesheet/nwalsh/1.78.1/manpages/docbook.xsl"
 #MAN_STYLESHEET_1="/usr/share/xml/docbook/stylesheet/suse/manpages/docbook.xsl"
 #MAN_STYLESHEET_2="/usr/share/xml/docbook/stylesheet/docbook-xsl/manpages/docbook.xsl"
-MANPAGE_FILE="crystal_facet_uml.1"
+MANPAGE_FILE="crystal-facet-uml.1"
 
-crystal_facet_uml.1.gz: doc/manpage.xml doc/1_non_tech_intro_para.xml
+crystal-facet-uml.1.gz: doc/manpage.xml doc/1_non_tech_intro_para.xml
 	rm -f ${MANPAGE_FILE}.gz ${MAPGAPE_FILE}i &&\
 	if [ -e "${MAN_STYLESHEET_ROOT}/docbook.xsl" ] ; then\
 	  echo "using ${MAN_STYLESHEET_ROOT}/docbook.xsl ...\n" &&\
@@ -38,8 +38,7 @@ crystal_facet_uml.1.gz: doc/manpage.xml doc/1_non_tech_intro_para.xml
         echo "to view the output, gunzip --keep ${MANPAGE_FILE}.gz && man --local-file ${MANPAGE_FILE}"
 
 clean:
-	rm -f crystal_facet_uml_user_documentation.pdf &&\
-	rm -f crystal_facet_uml_installation_win.pdf &&\
+	rm -f crystal-facet-uml_documentation.pdf &&\
 	rm -fr html &&\
 	rm -f ${MANPAGE_FILE}.gz
 

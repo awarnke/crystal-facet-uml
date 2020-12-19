@@ -6,7 +6,7 @@
         <title>Window Area Overview</title>
         <para>
 
-            If started in graphical mode, crystal_facet_uml shows a window with
+            If started in graphical mode, crystal-facet-uml shows a window with
             <itemizedlist>
             <listitem><para>toolbar on top,</para></listitem>
             <listitem><para>drawing area in the center,</para></listitem>

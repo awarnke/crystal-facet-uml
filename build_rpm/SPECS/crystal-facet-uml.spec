@@ -33,15 +33,14 @@ BuildRequires:  sqlite3-devel
 BuildRequires:  tar
 
 %description
-crystal_facet_uml creates sysml/uml diagrams to document system and software architecture.
+crystal-facet-uml creates sysml/uml diagrams to document system and software architecture.
 As software architect, you can create a set of diagrams describing
 use-cases, requirements, structural views, behavioral and deployment views.
-crystal_facet_uml keeps element names and element hierarchies consistent.
+crystal-facet-uml keeps element names and element hierarchies consistent.
 The tool exports diagrams as svg, pdf, ps and png formats
 to be used in text processing systems as docbook, html, latex.
-crystal_facet_uml exports the model to xmi format.
+crystal-facet-uml exports the model to xmi format.
 It runs on your local linux PC and is based on glib, gdk, gtk, cairo, pango, sqlite.
-crystal_facet_uml draws UML diagrams.
 
 %prep
 %setup -q -n crystal-facet-uml-%{version}
@@ -56,16 +55,16 @@ crystal_facet_uml draws UML diagrams.
 %cmake_install
 
 %check
-./build/crystal_facet_uml -v
-./build/unittest_crystal_facet_uml -a
+./build/crystal-facet-uml -v
+./build/unittest_crystal-facet-uml -a
 
 %files
 %license ./license.txt
-%doc ./readme.markdown ./release_notes.txt ./user_doc/crystal_facet_uml_user_documentation.pdf
-%{_bindir}/crystal_facet_uml
-%{_datadir}/pixmaps/crystal_facet_uml.png
-%{_datadir}/applications/crystal_facet_uml.desktop
-%{_datadir}/metainfo/crystal_facet_uml/crystal-facet-uml.metainfo.xml
-%{_mandir}/man1/crystal_facet_uml.1%{?ext_man}
+%doc ./readme.markdown ./release_notes.txt ./user_doc/crystal-facet-uml_documentation.pdf
+%{_bindir}/crystal-facet-uml
+%{_datadir}/pixmaps/crystal-facet-uml.png
+%{_datadir}/applications/crystal-facet-uml.desktop
+%{_datadir}/metainfo/crystal-facet-uml.metainfo.xml
+%{_mandir}/man1/crystal-facet-uml.1%{?ext_man}
 
 %changelog

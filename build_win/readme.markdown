@@ -1,5 +1,5 @@
 
-crystal_facet_uml - build for windows/wine
+crystal-facet-uml - build for windows/wine
 =============
 
 How to prepare for build from source using mingw and wine
@@ -47,5 +47,5 @@ How to build and pack
 How to run
 -----------
 
-> wine crystal_facet_uml.exe
+> wine crystal-facet-uml.exe
 

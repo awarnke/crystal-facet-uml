@@ -2,13 +2,13 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
 "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
 <article lang="en">
-    <title>crystal_facet_uml user documentation</title>
+    <title>crystal-facet-uml documentation</title>
     <articleinfo>
         <author>
             <firstname>Andreas</firstname>
             <surname>Warnke</surname>
         </author>
-        <date>2020-11-22</date>
+        <date>2020-12-20</date>
     </articleinfo>
 
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="1_introduction.xml" />

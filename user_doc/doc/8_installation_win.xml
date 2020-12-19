@@ -35,7 +35,7 @@ libpangowin32-1.0-?.dll
 
     </para>
     <para>
-        Move <computeroutput>crystal_facet_uml.exe</computeroutput>
+        Move <computeroutput>crystal-facet-uml.exe</computeroutput>
         into the same folder as above listed <computeroutput>lib*.dll</computeroutput>files.
     </para>
 -->
@@ -44,8 +44,8 @@ libpangowin32-1.0-?.dll
             <imageobject><imagedata fileref="8_installation_wine.png"/></imageobject>
         </mediaobject>
         <itemizedlist>
-            <listitem><para>On windows, doubleclick on <userinput>crystal_facet_uml.exe</userinput>,</para></listitem>
-            <listitem><para>or using the wine emulation, call <userinput>wine crystal_facet_uml.exe</userinput> to start.</para></listitem>
+            <listitem><para>On windows, doubleclick on <userinput>crystal-facet-uml.exe</userinput>,</para></listitem>
+            <listitem><para>or using the wine emulation, call <userinput>wine crystal-facet-uml.exe</userinput> to start.</para></listitem>
         </itemizedlist>
     </para>
 </section>

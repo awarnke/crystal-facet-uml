@@ -1,7 +1,7 @@
 <!DOCTYPE para>
 <para>
 
-crystal_facet_uml provides a graphical user interface to
+crystal-facet-uml provides a graphical user interface to
 
 <itemizedlist>
     <listitem><para>create diagrams</para>
@@ -21,12 +21,12 @@ crystal_facet_uml provides a graphical user interface to
 Diagrams are layouted part-automatically:
 <itemizedlist>
     <listitem><para>The user chooses the relative location of uml elements towards others</para></listitem>
-    <listitem><para>crystal_facet_uml selects the exact locations of uml elements</para></listitem>
+    <listitem><para>crystal-facet-uml selects the exact locations of uml elements</para></listitem>
     <listitem><para>The user controls the positions of messages/transitions in sequence and timing diagrams</para></listitem>
-    <listitem><para>crystal_facet_uml auto-layouts relationships in other diagrams</para></listitem>
+    <listitem><para>crystal-facet-uml auto-layouts relationships in other diagrams</para></listitem>
 </itemizedlist>
 
-crystal_facet_uml manages a meta model:
+crystal-facet-uml manages a meta model:
 
 <itemizedlist>
     <listitem><para>Diagrams are organized as a tree, similar to a book's table-of-contents</para></listitem>
@@ -36,16 +36,16 @@ crystal_facet_uml manages a meta model:
         <para>(sequence, communication, timing)</para></listitem>
 </itemizedlist>
 
-crystal_facet_uml exports diagrams as
+crystal-facet-uml exports diagrams as
 
 <itemizedlist>
     <listitem><para>vector graphics</para><para>(pdf, ps, svg)</para></listitem>
     <listitem><para>pixel graphics</para><para>(png)</para></listitem>
     <listitem><para>textual representation</para><para>(utf-8-txt, docbook, xhtml)</para></listitem>
-    <listitem><para>machine-readable model</para><para>(xmi(TM))</para></listitem>
+    <listitem><para>machine-readable model</para><para>(xmi)</para></listitem>
 </itemizedlist>
 
-crystal_facet_uml can also be started from command line
+crystal-facet-uml can also be started from command line
 to export all diagrams automatically or
 to check and repair database files.
 

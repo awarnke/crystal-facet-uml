@@ -1,9 +1,9 @@
 
-Release crystal_facet_uml
+Release crystal-facet-uml
 =============
 
 This section is for developers.
-It describes packaging and releasing a version of crystal_facet_uml.
+It describes packaging and releasing a version of crystal-facet-uml.
 
 Pack
 -----------

@@ -1,18 +1,19 @@
 
-crystal_facet_uml
+crystal-facet-uml
 =============
 
 <!-- What is it? -->
-crystal_facet_uml creates sysml/uml diagrams to document system and software architecture.
+crystal-facet-uml creates sysml/uml diagrams to document system and software architecture.
 
 <!-- For Whom? What can one do with it? Why does it help? -->
 As software architect, you create a set of diagrams describing
 use-cases, requirements, structural views, behavioral and deployment views.
 
 <!-- How does the tool solve the task? What is the data flow? Is it interoperable? input/output formats. required Environment? -->
-crystal_facet_uml keeps element names and element hierarchies consistent.
+crystal-facet-uml keeps element names and element hierarchies consistent.
 It exports diagrams in svg, pdf, ps and png formats
 to be used in text processing systems like docbook, html, latex.
+crystal-facet-uml exports the model to xmi format.
 This tool runs on your local linux PC and is based on glib, gdk, gtk, cairo, pango, sqlite.
 
 ![ScreenShot](user_doc/doc/screenshot_1.png)
@@ -22,9 +23,9 @@ This tool runs on your local linux PC and is based on glib, gdk, gtk, cairo, pan
 ![ScreenShot](user_doc/doc/screenshot_2.png)
 
 
-[User Manual](user_doc/crystal_facet_uml_user_documentation.pdf)
+[User Manual](user_doc/crystal-facet-uml_documentation.pdf)
 
-Install crystal_facet_uml
+Install crystal-facet-uml
 -----------
 
 This section describes how to install a binary package.
@@ -74,9 +75,9 @@ debian/ubuntu/raspbian:
 
 > mkdir my_build && cd my_build
 >
-> cmake -DCMAKE_BUILD_TYPE=Release ../crystal_facet_uml/       # adapt the source directory name
+> cmake -DCMAKE_BUILD_TYPE=Release ../crystal-facet-uml/       # adapt the source directory name
 >
-> make crystal_facet_uml
+> make crystal-facet-uml
 
 
 openSuSE:
@@ -104,9 +105,9 @@ openSuSE:
 
 > mkdir my_build && cd my_build
 >
-> cmake -DCMAKE_BUILD_TYPE=Release ../crystal_facet_uml/       # adapt the source directory name
+> cmake -DCMAKE_BUILD_TYPE=Release ../crystal-facet-uml/       # adapt the source directory name
 >
-> make crystal_facet_uml
+> make crystal-facet-uml
 
 
 wine:
@@ -117,7 +118,7 @@ wine:
 How to run
 -----------
 
-> ./crystal_facet_uml
+> ./crystal-facet-uml
 
 How to install
 -----------
@@ -129,11 +130,11 @@ How to use
 
 See user documentation:
 
-> cd ../crystal_facet_uml/user_doc
+> cd ../crystal-facet-uml/user_doc
 >
 > make
 >
-> evince crystal_facet_uml_user_documentation.pdf &
+> evince crystal-facet-uml_documentation.pdf &
 
 Meta-Information
 -----------

@@ -1,4 +1,4 @@
-PROJECT(crystal_facet_uml LANGUAGES C)
+PROJECT(crystal-facet-uml LANGUAGES C)
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
 
 #helper to find include directories and libraries:
@@ -10,7 +10,7 @@ set(COMPILE_IN_INCLUDE_DIR "" CACHE FILEPATH "Path to additional include directo
 set(COMPILE_IN_SOURCE_FILE "" CACHE FILEPATH "Path to additional source file, e.g. sqlite3.c")
 INCLUDE_DIRECTORIES(${COMPILE_IN_INCLUDE_DIR})
 
-# crystal_facet_uml
+# crystal-facet-uml
 
 INCLUDE_DIRECTORIES(gui/include)
 INCLUDE_DIRECTORIES(main/include)
@@ -79,7 +79,7 @@ FILE(GLOB utestSource  main/unittest/*.c
                        universal/unittest/*.c
                        utf8stringbuf/unittest/*.c)
 
-# ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal_facet_uml Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
+# ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal-facet-uml Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 if(NOT CMAKE_BUILD_TYPE)
   message( "Warn: CMAKE_BUILD_TYPE no set!                 setting(CMAKE_BUILD_TYPE \"Release\")")
@@ -96,11 +96,11 @@ MESSAGE( "Note: to install, run                          sudo make install" )
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Werror -Wno-overlength-strings ${GTK3_CFLAGS_OTHER}" )
 # Note: The GIMP-generated images are longer that 4095 characters, therefore -Wno-overlength-strings is required here.
 
-# ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal_facet_uml Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
+# ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal-facet-uml Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-ADD_EXECUTABLE(crystal_facet_uml ${appSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
-TARGET_LINK_LIBRARIES(crystal_facet_uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
-SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
+ADD_EXECUTABLE(crystal-facet-uml ${appSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
+TARGET_LINK_LIBRARIES(crystal-facet-uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
+SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
 
@@ -110,17 +110,17 @@ SET(CMAKE_C_FLAGS "-std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Wno-over
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-ADD_EXECUTABLE(unittest_crystal_facet_uml ${utestSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
-TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC test_fw/include)
-TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC data/unittest)
-TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC ctrl/unittest)
-TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC gui/unittest)
-TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC io/unittest)
-TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC pencil/unittest)
-TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC universal/unittest)
-TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC utf8stringbuf/unittest)
-TARGET_LINK_LIBRARIES(unittest_crystal_facet_uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
-SET_TARGET_PROPERTIES(unittest_crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
+ADD_EXECUTABLE(unittest_crystal-facet-uml ${utestSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
+TARGET_INCLUDE_DIRECTORIES(unittest_crystal-facet-uml PUBLIC test_fw/include)
+TARGET_INCLUDE_DIRECTORIES(unittest_crystal-facet-uml PUBLIC data/unittest)
+TARGET_INCLUDE_DIRECTORIES(unittest_crystal-facet-uml PUBLIC ctrl/unittest)
+TARGET_INCLUDE_DIRECTORIES(unittest_crystal-facet-uml PUBLIC gui/unittest)
+TARGET_INCLUDE_DIRECTORIES(unittest_crystal-facet-uml PUBLIC io/unittest)
+TARGET_INCLUDE_DIRECTORIES(unittest_crystal-facet-uml PUBLIC pencil/unittest)
+TARGET_INCLUDE_DIRECTORIES(unittest_crystal-facet-uml PUBLIC universal/unittest)
+TARGET_INCLUDE_DIRECTORIES(unittest_crystal-facet-uml PUBLIC utf8stringbuf/unittest)
+TARGET_LINK_LIBRARIES(unittest_crystal-facet-uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
+SET_TARGET_PROPERTIES(unittest_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Documentation Build Settings ==== ==== ==== ==== ==== ==== ==== ====
 
@@ -128,10 +128,10 @@ MESSAGE( "Note: update the user docs via 'cd user_doc && make' before running ma
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Install Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-INSTALL(TARGETS crystal_facet_uml DESTINATION "/usr/bin/")
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation_linux/crystal_facet_uml.desktop" DESTINATION "/usr/share/applications/")
+INSTALL(TARGETS crystal-facet-uml DESTINATION "/usr/bin/")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation_linux/crystal-facet-uml.desktop" DESTINATION "/usr/share/applications/")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation_linux/crystal-facet-uml.metainfo.xml" DESTINATION "/usr/share/metainfo/")
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gui/source/resources/crystal_facet_uml_80x80.png" DESTINATION "/usr/share/pixmaps/" RENAME "crystal_facet_uml.png")
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/user_doc/crystal_facet_uml.1.gz" DESTINATION "/usr/share/man/man1/")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gui/source/resources/crystal_facet_uml_80x80.png" DESTINATION "/usr/share/pixmaps/" RENAME "crystal-facet-uml.png")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/user_doc/crystal-facet-uml.1.gz" DESTINATION "/usr/share/man/man1/")
 
 

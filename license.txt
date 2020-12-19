@@ -1,9 +1,9 @@
 
-crystal_facet_uml
+crystal-facet-uml
 
 is provided under the Apache-2.0 License. See below.
 
-crystal_facet_uml dynamically links to libraries
+crystal-facet-uml dynamically links to libraries
 - glib
 - gdk
 - gtk

@@ -1,7 +1,7 @@
 
 
-start crystal_facet_uml by a doubleclick on
-crstal_facet_uml.bat
+start crystal-facet-uml by a doubleclick on
+crystal-facet-uml.bat
 
 
 This archive contains
@@ -35,7 +35,7 @@ https://github.com/GNOME/libcroco
 - lzma (Public Domain)
 http://tukaani.org/xz/
 
-- crystal_facet_uml
+- crystal-facet-uml
 (Apache 2.0 License)
 - including sqlite3
 (Public Domain)

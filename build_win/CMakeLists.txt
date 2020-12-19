@@ -3,7 +3,7 @@ SET(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Build Environment Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-PROJECT(crystal_facet_uml)
+PROJECT(crystal-facet-uml)
 
 INCLUDE_DIRECTORIES(../gui/include)
 INCLUDE_DIRECTORIES(../main/include)
@@ -18,7 +18,7 @@ INCLUDE_DIRECTORIES(../universal/include)
 
 SET(THIRD_PARTY_BASE "${CMAKE_BINARY_DIR}")
 SET(SQLITE_BASE "${CMAKE_BINARY_DIR}/sqlite-amalgamation-3300100/sqlite-amalgamation-3300100")
-SET(GTK_BUNDLE_BASE "${CMAKE_BINARY_DIR}/crystal_facet_uml")
+SET(GTK_BUNDLE_BASE "${CMAKE_BINARY_DIR}/crystal-facet-uml")
 MESSAGE("SQLITE_BASE:      ${SQLITE_BASE}")
 MESSAGE("GTK_BUNDLE_BASE:  ${GTK_BUNDLE_BASE}")
 
@@ -92,7 +92,7 @@ FIND_LIBRARY( PANGOFT_LIB pangoft2-1.0 "${GTK_BUNDLE_BASE}/lib/" )
 FIND_LIBRARY( PANGOWIN_LIB pangowin32-1.0 "${GTK_BUNDLE_BASE}/lib/" )
 MESSAGE("gtk found at ${GTK_LIB}")
 
-# ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal_facet_uml Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
+# ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal-facet-uml Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 if(NOT CMAKE_BUILD_TYPE)
   message( "Warn: CMAKE_BUILD_TYPE no set!                 setting(CMAKE_BUILD_TYPE \"Release\")")
@@ -112,11 +112,11 @@ SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -
 
 LIST(APPEND applicationSource ${commonSource} ${appSource})
 
-# ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal_facet_uml Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
+# ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal-facet-uml Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-ADD_EXECUTABLE(crystal_facet_uml ${applicationSource})
-TARGET_LINK_LIBRARIES(crystal_facet_uml ${ATK_LIB} ${CAIRO_LIB} ${FONTCNF_LIB} ${GAIL_LIB} ${GDKPIX_LIB} ${GDKWIN_LIB} ${GIO_LIB} ${GLIB_LIB} ${GMOD_LIB} ${GOBJ_LIB} ${GTHREAD_LIB} ${GTK_LIB} ${PANGO_LIB} ${PANGOCAIRO_LIB} ${PANGOFT_LIB} ${PANGOWIN_LIB} )
-SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
+ADD_EXECUTABLE(crystal-facet-uml ${applicationSource})
+TARGET_LINK_LIBRARIES(crystal-facet-uml ${ATK_LIB} ${CAIRO_LIB} ${FONTCNF_LIB} ${GAIL_LIB} ${GDKPIX_LIB} ${GDKWIN_LIB} ${GIO_LIB} ${GLIB_LIB} ${GMOD_LIB} ${GOBJ_LIB} ${GTHREAD_LIB} ${GTK_LIB} ${PANGO_LIB} ${PANGOCAIRO_LIB} ${PANGOFT_LIB} ${PANGOWIN_LIB} )
+SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
 
@@ -137,9 +137,9 @@ LIST(APPEND unittestSource ${commonSource} ${utestSource})
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-ADD_EXECUTABLE(unittest_crystal_facet_uml ${unittestSource})
-TARGET_LINK_LIBRARIES(unittest_crystal_facet_uml ${ATK_LIB} ${CAIRO_LIB} ${FONTCNF_LIB} ${GAIL_LIB} ${GDKPIX_LIB} ${GDKWIN_LIB} ${GIO_LIB} ${GLIB_LIB} ${GMOD_LIB} ${GOBJ_LIB} ${GTHREAD_LIB} ${GTK_LIB} ${PANGO_LIB} ${PANGOCAIRO_LIB} ${PANGOFT_LIB} ${PANGOWIN_LIB} )
-SET_TARGET_PROPERTIES(unittest_crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
+ADD_EXECUTABLE(unittest_crystal-facet-uml ${unittestSource})
+TARGET_LINK_LIBRARIES(unittest_crystal-facet-uml ${ATK_LIB} ${CAIRO_LIB} ${FONTCNF_LIB} ${GAIL_LIB} ${GDKPIX_LIB} ${GDKWIN_LIB} ${GIO_LIB} ${GLIB_LIB} ${GMOD_LIB} ${GOBJ_LIB} ${GTHREAD_LIB} ${GTK_LIB} ${PANGO_LIB} ${PANGOCAIRO_LIB} ${PANGOFT_LIB} ${PANGOWIN_LIB} )
+SET_TARGET_PROPERTIES(unittest_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
 
 

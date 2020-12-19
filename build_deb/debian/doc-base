@@ -1,10 +1,10 @@
-Document: crystal-facet-uml-user-documentation
-Title: crystal_facet_uml User Documentation
+Document: crystal-facet-uml_documentation
+Title: crystal-facet-uml User Documentation
 Author: Andreas Warnke
 Abstract: This manual describes
- the features of crystal_facet_uml
+ the features of crystal-facet-uml
  and how to use these.
 Section: Science/Engineering
 
 Format: PDF
-Files: /usr/share/doc/crystal-facet-uml/crystal_facet_uml_user_documentation.pdf.gz
+Files: /usr/share/doc/crystal-facet-uml/crystal-facet-uml_documentation.pdf.gz

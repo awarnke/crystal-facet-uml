@@ -24,7 +24,7 @@
         </itemizedlist>
     </para>
     <para>
-        This section gives an overview on standards and implementation-status of crystal_facet_uml. It may be incomplete.
+        This section gives an overview on standards and implementation-status of crystal-facet-uml. It may be incomplete.
     </para>
 
     <section>
@@ -35,7 +35,7 @@
         <para>
             The table shows the classifier types introduced by different specifications,
             if they filter/hide their features
-            and a comment stating how this is implemented in crystal_facet_uml.
+            and a comment stating how this is implemented in crystal-facet-uml.
         </para>
         <para>
             <informaltable frame='all' pgwide="1">
@@ -454,7 +454,7 @@
         </para>
         <para>
             An InstanceSpecification (UML<!--spec 2.5 chapter 9.8.4, 11.2.5-->) denotes an instantiation of a classifier.
-            crystal_facet_uml allows any classifier to appear in different diagrams
+            crystal-facet-uml allows any classifier to appear in different diagrams
             as classifier, as anonymous InstanceSpecification or as named InstanceSpecification.
             (Rationale: If a classifier is an instance may depend on the context:
             An M1-class may be an instance if shown in an M2-meta-class diagram,
@@ -470,7 +470,7 @@
         <para>
             The table shows the feature types introduced by different specifications,
             if they are visible in any diagram or just once,
-            and a comment stating how this is implemented in crystal_facet_uml.
+            and a comment stating how this is implemented in crystal-facet-uml.
         </para>
         <para>
             <informaltable frame='all' pgwide="1">
@@ -583,7 +583,7 @@
         <para>
             The table shows the relationship types introduced by different specifications,
             a classification in which diagram type to use them preferably,
-            and a comment stating how this is implemented in crystal_facet_uml.
+            and a comment stating how this is implemented in crystal-facet-uml.
         </para>
         <para>
             <informaltable frame='all' pgwide="1">
@@ -843,7 +843,7 @@
         <para>
             The table shows the diagram types introduced by different specifications,
             if they filter/hide their features and/or relationships
-            and a comment stating how this is implemented in crystal_facet_uml.
+            and a comment stating how this is implemented in crystal-facet-uml.
         </para>
         <para>
             <informaltable frame='all' pgwide="1">

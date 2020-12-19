@@ -1,12 +1,12 @@
 /*!
- *  \mainpage crystal_facet_uml source code doc
+ *  \mainpage crystal-facet-uml source code doc
  *
  *  \image html crystal_facet_uml_80x80.png
- *  \image latex crystal_facet_uml.pdf "" width=3cm
+ *  \image latex crystal-facet-uml.pdf "" width=3cm
  *
  *  \section cfu-intro Introduction
  *
- *  crystal_facet_uml is a uml diagram drawing tool
+ *  crystal-facet-uml is a uml diagram drawing tool
  *  that creates a set of consistent uml diagrams.
  *
  *  \image html screenshot_1.png
@@ -15,7 +15,7 @@
  *  \section cfu-info Further Information
  *
  *  \subsection cfu-license License
- *  License of crystal_facet_uml is Apache-2.0.
+ *  License of crystal-facet-uml is Apache-2.0.
  *
  *  \author Copyright 2016-2020 Andreas Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
  */

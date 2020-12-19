@@ -1,9 +1,9 @@
 
-Release crystal_facet_uml
+Release crystal-facet-uml
 =============
 
 This section is for developers.
-It describes packaging and releasing a version of crystal_facet_uml.
+It describes packaging and releasing a version of crystal-facet-uml.
 
 Prepare
 -----------
@@ -11,7 +11,7 @@ Prepare
 Update all version numbers:
 
 >       build_deb/debian/changelog : new entry
->       build_rpm/SPECS/crystal_facet_uml.spec : Version
+>       build_rpm/SPECS/crystal-facet-uml.spec : Version
 >       main/include/meta/meta_version.inl : META_VERSION_STR
 >       release_notes.txt : new entry
 >       user_doc/doc/crystal_facet_user_documentation.xml : date

@@ -32,7 +32,7 @@ cd ../..
 
 echo "runing unit tests"
 cd crystal-facet-uml-$VERSIONSTR/cmake_build
-./unittest_crystal_facet_uml -a || echo "ERROR == ERROR == ERROR == ERROR"
+./unittest_crystal-facet-uml -a || echo "ERROR == ERROR == ERROR == ERROR"
 cd ../..
 
 echo "clean up test"

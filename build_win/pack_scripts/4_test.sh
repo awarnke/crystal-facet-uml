@@ -1,4 +1,4 @@
 #!/bin/sh
-cd crystal_facet_uml/bin/
-wine unittest_crystal_facet_uml.exe -a
+cd crystal-facet-uml/bin/
+wine unittest_crystal-facet-uml.exe -a
 cd ../..

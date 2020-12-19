@@ -7,7 +7,7 @@
             <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml_80x80.png"/></imageobject>
         </mediaobject>
         <!-- What is it? -->
-        crystal_facet_uml creates diagrams to document system and software architecture.
+        crystal-facet-uml creates diagrams to document system and software architecture.
 
         <mediaobject>
             <imageobject><imagedata fileref="screenshot_1.png"/></imageobject>
@@ -31,10 +31,10 @@
         </para>
         <para>
             <!-- How does the tool solve the task? What is the data flow? Is it interoperable? input/output formats. required Environment? -->
-            crystal_facet_uml keeps element names and element hierarchies consistent.
+            crystal-facet-uml keeps element names and element hierarchies consistent.
             It exports diagrams in svg, pdf, ps and png formats
             to be used in text processing systems like docbook, html, latex.
-            crystal_facet_uml exports the model to xmi format.
+            crystal-facet-uml exports the model to xmi format.
             This tool runs on your local PC and is based on glib, gdk, gtk, cairo, pango, sqlite.
         </para>
     </section>
@@ -57,8 +57,8 @@
                 <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.pdf" width="1cm"/></imageobject>
                 <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.png"/></imageobject>
             </mediaobject>
-            crystal_facet_uml can be started in graphical mode (see <xref linkend="gui_main"/>)
-            or from command line (for help run <userinput>crystal_facet_uml -h</userinput>).
+            crystal-facet-uml can be started in graphical mode (see <xref linkend="gui_main"/>)
+            or from command line (for help run <userinput>crystal-facet-uml -h</userinput>).
         </para>
     </section>
 </section>
