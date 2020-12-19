@@ -6,24 +6,88 @@
          <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->
     <xmi:Documentation exporter="crystal_facet_uml" exporterVersion="1.26.1"/>
     <uml:Model xmi:type="uml:Model" xmi:id="00000" name="export_test_15_activity" >
+        <packagedElement xmi:type="uml:Activity" xmi:id="60005" name="read emails" ><!--C0005-->
+            <node xmi:type="uml:InitialNode" xmi:id="60009" name="start" ><!--C0009-->
+            </node>
+            <edge xmi:type="uml:ControlFlow" xmi:id="80018" name="" weight="1" guard="true" >
+                <source xmi:idref="60009" />
+                <target xmi:idref="60010" />
+            </edge>
+            <node xmi:type="uml:AcceptEventAction" xmi:id="60010" name="wait for next mail" ><!--C0010-->
+            </node>
+            <edge xmi:type="uml:ControlFlow" xmi:id="80028" name="" weight="1" guard="true" >
+                <source xmi:idref="60010" />
+                <target xmi:idref="60016" />
+            </edge>
+            <node xmi:type="uml:StructuredActivityNode" xmi:id="60011" name="read mail" ><!--C0011-->
+                <node xmi:type="uml:OutputPin" xmi:id="40002" name="mail" >
+                </node>
+                <edge xmi:type="uml:ControlFlow" xmi:id="80030" name="" weight="1" guard="true" >
+                    <source xmi:idref="60011" />
+                    <target xmi:idref="60012" />
+                </edge>
+            </node>
+            <node xmi:type="uml:DecisionNode" xmi:id="60012" name="decision" ><!--C0012-->
+            </node>
+            <edge xmi:type="uml:ControlFlow" xmi:id="80020" name="unimportant" weight="1" guard="true" >
+                <source xmi:idref="60012" />
+                <target xmi:idref="60013" />
+            </edge>
+            <edge xmi:type="uml:ControlFlow" xmi:id="80021" name="keep" weight="1" guard="true" >
+                <source xmi:idref="60012" />
+                <target xmi:idref="60014" />
+            </edge>
+            <edge xmi:type="uml:ControlFlow" xmi:id="80022" name="answer" weight="1" guard="true" >
+                <source xmi:idref="60012" />
+                <target xmi:idref="60015" />
+            </edge>
+            <node xmi:type="uml:StructuredActivityNode" xmi:id="60013" name="delete" ><!--C0013-->
+                <edge xmi:type="uml:ControlFlow" xmi:id="80025" name="" weight="1" guard="true" >
+                    <source xmi:idref="60013" />
+                    <target xmi:idref="60010" />
+                </edge>
+            </node>
+            <node xmi:type="uml:StructuredActivityNode" xmi:id="60014" name="archive" ><!--C0014-->
+                <edge xmi:type="uml:ControlFlow" xmi:id="80027" name="" weight="1" guard="true" >
+                    <source xmi:idref="60014" />
+                    <target xmi:idref="60010" />
+                </edge>
+            </node>
+            <node xmi:type="uml:StructuredActivityNode" xmi:id="60015" name="reply mail" ><!--C0015-->
+                <edge xmi:type="uml:ControlFlow" xmi:id="80026" name="" weight="1" guard="true" >
+                    <source xmi:idref="60015" />
+                    <target xmi:idref="60010" />
+                </edge>
+            </node>
+            <node xmi:type="uml:StructuredActivityNode" xmi:id="60016" name="fetch mail" ><!--C0016-->
+                <node xmi:type="uml:OutputPin" xmi:id="40001" name="mail" >
+                </node>
+            </node>
+            <edge xmi:type="uml:ObjectFlow" xmi:id="80036" name="" weight="1" guard="true" >
+                <source xmi:idref="40001" />
+                <target xmi:idref="40002" />
+            </edge>
+        </packagedElement>
         <packagedElement xmi:type="uml:Activity" xmi:id="60017" name="all" ><!--C0017-->
             <group xmi:type="uml:InterruptibleActivityRegion" xmi:id="60003" name="while there is time" ><!--C0003-->
+                <node xmi:type="uml:StructuredActivityNode" xmi:id="60004" name="listen to music" ><!--C0004-->
+                </node>
                 <node xmi:type="uml:AcceptEventAction" xmi:id="60006" name="timeout" ><!--C0006-->
                 </node>
             </group>
             <node xmi:type="uml:InitialNode" xmi:id="60001" name="begin" ><!--C0001-->
             </node>
-            <edge xmi:type="uml:ControlFlow" xmi:id="80005" name="" >
+            <edge xmi:type="uml:ControlFlow" xmi:id="80005" name="" weight="1" guard="true" >
                 <source xmi:idref="60001" />
                 <target xmi:idref="60002" />
             </edge>
             <node xmi:type="uml:JoinNode" xmi:id="60007" name="end parallel" ><!--C0007-->
             </node>
-            <edge xmi:type="uml:ControlFlow" xmi:id="80008" name="" >
+            <edge xmi:type="uml:ControlFlow" xmi:id="80008" name="" weight="1" guard="true" >
                 <source xmi:idref="60006" />
                 <target xmi:idref="60007" />
             </edge>
-            <edge xmi:type="uml:ControlFlow" xmi:id="80009" name="" >
+            <edge xmi:type="uml:ControlFlow" xmi:id="80009" name="" weight="1" guard="true" >
                 <source xmi:idref="60007" />
                 <target xmi:idref="60008" />
             </edge>
@@ -31,156 +95,14 @@
             </node>
             <node xmi:type="uml:ForkNode" xmi:id="60002" name="begin_parallel" ><!--C0002-->
             </node>
-            <edge xmi:type="uml:ControlFlow" xmi:id="80006" name="" >
+            <edge xmi:type="uml:ControlFlow" xmi:id="80006" name="" weight="1" guard="true" >
                 <source xmi:idref="60002" />
-                <!-- STATUS:      R0006 (aka 80006) of type 240 (ControlFlow) has target of type 110 (Activity) -->
-                <!-- CONFORMANCE: Unsuitable relationship type connecting to target end type -->
-                <!-- PROPOSAL:    Change the type of the relationship -->
                 <target xmi:idref="60004" />
             </edge>
-            <edge xmi:type="uml:ControlFlow" xmi:id="80007" name="" >
+            <edge xmi:type="uml:ControlFlow" xmi:id="80007" name="" weight="1" guard="true" >
                 <source xmi:idref="60002" />
-                <!-- STATUS:      R0007 (aka 80007) of type 240 (ControlFlow) has target of type 110 (Activity) -->
-                <!-- CONFORMANCE: Unsuitable relationship type connecting to target end type -->
-                <!-- PROPOSAL:    Change the type of the relationship -->
                 <target xmi:idref="60005" />
             </edge>
-        </packagedElement>
-        <packagedElement xmi:type="uml:Association" xmi:id="80002" name="" >
-            <!-- STATUS:      R0002 (aka 80002) of type 300 (Association) has source of type 150 (InterruptibleActivityRegion) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to source end type -->
-            <!-- PROPOSAL:    Change the type of the relationship -->
-            <memberEnd xmi:idref="80002#sourceend" />
-            <ownedEnd xmi:type="uml:Property" xmi:id="80002#sourceend" association="80002" >
-                <type xmi:idref="60003" />
-            </ownedEnd>
-            <memberEnd xmi:idref="80002#targetend" />
-            <ownedEnd xmi:type="uml:Property" xmi:id="80002#targetend" association="80002" aggregation="composite" >
-                <type xmi:idref="60004" />
-            </ownedEnd>
-        </packagedElement>
-        <packagedElement xmi:type="uml:Association" xmi:id="80003" name="" >
-            <!-- STATUS:      R0003 (aka 80003) of type 300 (Association) has source of type 150 (InterruptibleActivityRegion) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to source end type -->
-            <!-- PROPOSAL:    Change the type of the relationship -->
-            <memberEnd xmi:idref="80003#sourceend" />
-            <ownedEnd xmi:type="uml:Property" xmi:id="80003#sourceend" association="80003" >
-                <type xmi:idref="60003" />
-            </ownedEnd>
-            <memberEnd xmi:idref="80003#targetend" />
-            <ownedEnd xmi:type="uml:Property" xmi:id="80003#targetend" association="80003" aggregation="composite" >
-                <type xmi:idref="60005" />
-            </ownedEnd>
-        </packagedElement>
-        <packagedElement xmi:type="uml:Activity" xmi:id="60004" name="listen to music" ><!--C0004-->
-        </packagedElement>
-        <packagedElement xmi:type="uml:Activity" xmi:id="60005" name="read emails" ><!--C0005-->
-            <node xmi:type="uml:InitialNode" xmi:id="60009" name="start" ><!--C0009-->
-            </node>
-            <edge xmi:type="uml:ControlFlow" xmi:id="80018" name="" >
-                <source xmi:idref="60009" />
-                <target xmi:idref="60010" />
-            </edge>
-            <node xmi:type="uml:AcceptEventAction" xmi:id="60010" name="fetch next mail" ><!--C0010-->
-            </node>
-            <edge xmi:type="uml:ControlFlow" xmi:id="80023" name="" >
-                <source xmi:idref="60010" />
-                <!-- STATUS:      R0023 (aka 80023) of type 240 (ControlFlow) has target of type 110 (Activity) -->
-                <!-- CONFORMANCE: Unsuitable relationship type connecting to target end type -->
-                <!-- PROPOSAL:    Change the type of the relationship -->
-                <target xmi:idref="60011" />
-            </edge>
-            <edge xmi:type="uml:ObjectFlow" xmi:id="80028" name="" >
-                <source xmi:idref="60010" />
-                <!-- STATUS:      R0028 (aka 80028) of type 241 (ObjectFlow) has target of type 125 (Class) -->
-                <!-- CONFORMANCE: Unsuitable relationship type connecting to target end type -->
-                <!-- PROPOSAL:    Change the type of the relationship -->
-                <target xmi:idref="60016" />
-            </edge>
-            <ownedBehavior xmi:type="uml:Activity" xmi:id="60011" name="read mail" ><!--C0011-->
-                <edge xmi:type="uml:ControlFlow" xmi:id="80030" name="" >
-                    <!-- STATUS:      R0030 (aka 80030) of type 240 (ControlFlow) has source of type 110 (Activity) -->
-                    <!-- CONFORMANCE: Unsuitable relationship type connecting to source end type -->
-                    <!-- PROPOSAL:    Change the type of the relationship -->
-                    <source xmi:idref="60011" />
-                    <target xmi:idref="60012" />
-                </edge>
-            </ownedBehavior>
-            <node xmi:type="uml:DecisionNode" xmi:id="60012" name="decision" ><!--C0012-->
-            </node>
-            <edge xmi:type="uml:ControlFlow" xmi:id="80020" name="unimportant" >
-                <source xmi:idref="60012" />
-                <!-- STATUS:      R0020 (aka 80020) of type 240 (ControlFlow) has target of type 110 (Activity) -->
-                <!-- CONFORMANCE: Unsuitable relationship type connecting to target end type -->
-                <!-- PROPOSAL:    Change the type of the relationship -->
-                <target xmi:idref="60013" />
-            </edge>
-            <edge xmi:type="uml:ControlFlow" xmi:id="80021" name="information to be kept" >
-                <source xmi:idref="60012" />
-                <!-- STATUS:      R0021 (aka 80021) of type 240 (ControlFlow) has target of type 110 (Activity) -->
-                <!-- CONFORMANCE: Unsuitable relationship type connecting to target end type -->
-                <!-- PROPOSAL:    Change the type of the relationship -->
-                <target xmi:idref="60014" />
-            </edge>
-            <edge xmi:type="uml:ControlFlow" xmi:id="80022" name="question/task to be answered" >
-                <source xmi:idref="60012" />
-                <!-- STATUS:      R0022 (aka 80022) of type 240 (ControlFlow) has target of type 110 (Activity) -->
-                <!-- CONFORMANCE: Unsuitable relationship type connecting to target end type -->
-                <!-- PROPOSAL:    Change the type of the relationship -->
-                <target xmi:idref="60015" />
-            </edge>
-            <ownedBehavior xmi:type="uml:Activity" xmi:id="60013" name="delete" ><!--C0013-->
-                <edge xmi:type="uml:ControlFlow" xmi:id="80025" name="" >
-                    <!-- STATUS:      R0025 (aka 80025) of type 240 (ControlFlow) has source of type 110 (Activity) -->
-                    <!-- CONFORMANCE: Unsuitable relationship type connecting to source end type -->
-                    <!-- PROPOSAL:    Change the type of the relationship -->
-                    <source xmi:idref="60013" />
-                    <target xmi:idref="60010" />
-                </edge>
-            </ownedBehavior>
-            <ownedBehavior xmi:type="uml:Activity" xmi:id="60014" name="archive" ><!--C0014-->
-                <edge xmi:type="uml:ControlFlow" xmi:id="80027" name="" >
-                    <!-- STATUS:      R0027 (aka 80027) of type 240 (ControlFlow) has source of type 110 (Activity) -->
-                    <!-- CONFORMANCE: Unsuitable relationship type connecting to source end type -->
-                    <!-- PROPOSAL:    Change the type of the relationship -->
-                    <source xmi:idref="60014" />
-                    <target xmi:idref="60010" />
-                </edge>
-            </ownedBehavior>
-            <ownedBehavior xmi:type="uml:Activity" xmi:id="60015" name="answer mail" ><!--C0015-->
-                <edge xmi:type="uml:ControlFlow" xmi:id="80026" name="" >
-                    <!-- STATUS:      R0026 (aka 80026) of type 240 (ControlFlow) has source of type 110 (Activity) -->
-                    <!-- CONFORMANCE: Unsuitable relationship type connecting to source end type -->
-                    <!-- PROPOSAL:    Change the type of the relationship -->
-                    <source xmi:idref="60015" />
-                    <target xmi:idref="60010" />
-                </edge>
-            </ownedBehavior>
-        </packagedElement>
-        <packagedElement xmi:type="uml:Association" xmi:id="80017" name="" >
-            <memberEnd xmi:idref="80017#sourceend" />
-            <ownedEnd xmi:type="uml:Property" xmi:id="80017#sourceend" association="80017" >
-                <type xmi:idref="60005" />
-            </ownedEnd>
-            <memberEnd xmi:idref="80017#targetend" />
-            <ownedEnd xmi:type="uml:Property" xmi:id="80017#targetend" association="80017" aggregation="composite" >
-                <class xmi:idref="60016" />
-            </ownedEnd>
-        </packagedElement>
-        <packagedElement xmi:type="uml:Class" xmi:id="60016" name="Mail" ><!--C0016-->
-        </packagedElement>
-        <!-- STATUS:      R0029 (aka 80029) of type 241 (ObjectFlow) is located in classifier of type 124 (Package) -->
-        <!-- CONFORMANCE: Unsuitable relationship type to hosting location type -->
-        <!-- PROPOSAL:    Change the type of the relationship -->
-        <packagedElement xmi:type="uml:ObjectFlow" xmi:id="80029" name="" >
-            <!-- STATUS:      R0029 (aka 80029) of type 241 (ObjectFlow) has source of type 125 (Class) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to source end type -->
-            <!-- PROPOSAL:    Change the type of the relationship -->
-            <source xmi:idref="60016" />
-            <!-- STATUS:      R0029 (aka 80029) of type 241 (ObjectFlow) has target of type 110 (Activity) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to target end type -->
-            <!-- PROPOSAL:    Change the type of the relationship -->
-            <target xmi:idref="60014" />
         </packagedElement>
     </uml:Model>
 </xmi:XMI>

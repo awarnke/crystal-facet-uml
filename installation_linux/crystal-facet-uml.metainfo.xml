@@ -5,7 +5,7 @@
   <name>crystal_facet_uml</name>
   <summary>crystal_facet_uml creates diagrams to document system and software architecture</summary>
   <project_license>Apache-2.0</project_license>
-  <icon type="local">/usr/share/pixmaps/crystal-facet-uml.png</icon>
+  <icon type="local">/usr/share/pixmaps/crystal_facet_uml.png</icon>
   <description>
     <p>
       As software architect, you create a set of diagrams describing
@@ -24,7 +24,7 @@
   </categories>
   <url type="homepage">http://andreaswarnke.de/crystal_facet_uml/html/index.html</url>
   <url type="bugtracker">https://github.com/awarnke/crystal_facet_uml</url>
-  <launchable type="desktop-id">crystal-facet-uml.desktop</launchable>
+  <launchable type="desktop-id">crystal_facet_uml.desktop</launchable>
   <screenshots>
     <screenshot type="default">
       <image type="source" width="920" height="637">https://raw.githubusercontent.com/awarnke/crystal_facet_uml/master/user_doc/doc/screenshot_1.png</image>

@@ -18,8 +18,7 @@
 
 
 Name:           crystal-facet-uml
-#Name of the contained application: crystal_facet_uml
-Version:        1.26.0
+Version:        1.26.1
 Release:        0
 Summary:        Draws UML/SysML Diagrams
 License:        Apache-2.0
@@ -40,6 +39,7 @@ use-cases, requirements, structural views, behavioral and deployment views.
 crystal_facet_uml keeps element names and element hierarchies consistent.
 The tool exports diagrams as svg, pdf, ps and png formats
 to be used in text processing systems as docbook, html, latex.
+crystal_facet_uml exports the model to xmi format.
 It runs on your local linux PC and is based on glib, gdk, gtk, cairo, pango, sqlite.
 crystal_facet_uml draws UML diagrams.
 
@@ -65,6 +65,7 @@ crystal_facet_uml draws UML diagrams.
 %{_bindir}/crystal_facet_uml
 %{_datadir}/pixmaps/crystal_facet_uml.png
 %{_datadir}/applications/crystal_facet_uml.desktop
+%{_datadir}/metainfo/crystal_facet_uml/crystal-facet-uml.metainfo.xml
 %{_mandir}/man1/crystal_facet_uml.1%{?ext_man}
 
 %changelog
