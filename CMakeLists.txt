@@ -110,17 +110,17 @@ SET(CMAKE_C_FLAGS "-std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Wno-over
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-ADD_EXECUTABLE(unittest_crystal-facet-uml ${utestSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
-TARGET_INCLUDE_DIRECTORIES(unittest_crystal-facet-uml PUBLIC test_fw/include)
-TARGET_INCLUDE_DIRECTORIES(unittest_crystal-facet-uml PUBLIC data/unittest)
-TARGET_INCLUDE_DIRECTORIES(unittest_crystal-facet-uml PUBLIC ctrl/unittest)
-TARGET_INCLUDE_DIRECTORIES(unittest_crystal-facet-uml PUBLIC gui/unittest)
-TARGET_INCLUDE_DIRECTORIES(unittest_crystal-facet-uml PUBLIC io/unittest)
-TARGET_INCLUDE_DIRECTORIES(unittest_crystal-facet-uml PUBLIC pencil/unittest)
-TARGET_INCLUDE_DIRECTORIES(unittest_crystal-facet-uml PUBLIC universal/unittest)
-TARGET_INCLUDE_DIRECTORIES(unittest_crystal-facet-uml PUBLIC utf8stringbuf/unittest)
-TARGET_LINK_LIBRARIES(unittest_crystal-facet-uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
-SET_TARGET_PROPERTIES(unittest_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
+ADD_EXECUTABLE(test_crystal-facet-uml ${utestSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC test_fw/include)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC data/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ctrl/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC gui/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC io/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC pencil/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC universal/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC utf8stringbuf/unittest)
+TARGET_LINK_LIBRARIES(test_crystal-facet-uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
+SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Documentation Build Settings ==== ==== ==== ==== ==== ==== ==== ====
 

@@ -56,7 +56,7 @@ It runs on your local linux PC and is based on glib, gdk, gtk, cairo, pango, sql
 
 %check
 ./build/crystal-facet-uml -v
-./build/unittest_crystal-facet-uml -a
+./build/test_crystal-facet-uml -a
 
 %files
 %license ./license.txt

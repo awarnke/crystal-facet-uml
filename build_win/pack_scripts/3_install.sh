@@ -1,5 +1,5 @@
 #!/bin/sh
-mv unittest_crystal-facet-uml.exe crystal-facet-uml/bin/
+mv test_crystal-facet-uml.exe crystal-facet-uml/bin/
 mv crystal-facet-uml.exe crystal-facet-uml/bin/
 cp ../../installation_win/crystal-facet-uml.bat crystal-facet-uml
 cp ../../installation_win/crystal-facet-uml_readme.txt crystal-facet-uml

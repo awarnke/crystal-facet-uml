@@ -1,3 +1,17 @@
+crystal-facet-uml (1.26.1-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * XMI Export: destination end of messages had fix enclosingInteraction=90001
+  * XMI Export: Properties have attributes class and interface if applicable
+  * XMI Export: Warnings are issued at illegal relationship end types
+  * XMI Export: dependencies of comments to annotatedElements conform to spec
+  * XMI Export: associations and communication paths can connect to ports
+  * XMI Export: nested activities are exported as StructuredActivityNode
+  * icons beautified
+  * program renamed from crystal_facet_uml to crystal-facet-uml
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 05 Dec 2020 16:30:00 +0100
+
 crystal-facet-uml (1.26.0-1) UNRELEASED; urgency=medium
 
   [ Olaf Hering ]

@@ -137,9 +137,9 @@ LIST(APPEND unittestSource ${commonSource} ${utestSource})
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-ADD_EXECUTABLE(unittest_crystal-facet-uml ${unittestSource})
-TARGET_LINK_LIBRARIES(unittest_crystal-facet-uml ${ATK_LIB} ${CAIRO_LIB} ${FONTCNF_LIB} ${GAIL_LIB} ${GDKPIX_LIB} ${GDKWIN_LIB} ${GIO_LIB} ${GLIB_LIB} ${GMOD_LIB} ${GOBJ_LIB} ${GTHREAD_LIB} ${GTK_LIB} ${PANGO_LIB} ${PANGOCAIRO_LIB} ${PANGOFT_LIB} ${PANGOWIN_LIB} )
-SET_TARGET_PROPERTIES(unittest_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
+ADD_EXECUTABLE(test_crystal-facet-uml ${unittestSource})
+TARGET_LINK_LIBRARIES(test_crystal-facet-uml ${ATK_LIB} ${CAIRO_LIB} ${FONTCNF_LIB} ${GAIL_LIB} ${GDKPIX_LIB} ${GDKWIN_LIB} ${GIO_LIB} ${GLIB_LIB} ${GMOD_LIB} ${GOBJ_LIB} ${GTHREAD_LIB} ${GTK_LIB} ${PANGO_LIB} ${PANGOCAIRO_LIB} ${PANGOFT_LIB} ${PANGOWIN_LIB} )
+SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
 
 

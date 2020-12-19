@@ -8,7 +8,7 @@ rm ../crystal-facet-uml_*.orig.tar.gz
 rm -fr CMakeCache.txt CMakeFiles/ cmake_install.cmake Makefile
 rm -r install_manifest.txt
 rm -fr architecture CMakeLists.txt ctrl data doxygen_build gui installation_linux io license.txt main pencil readme.markdown release_notes.txt test_fw todo.txt trace tslog universal user_doc utf8stringbuf
-rm -f crystal-facet-uml unittest_crystal-facet-uml
+rm -f crystal-facet-uml test_crystal-facet-uml
 echo fetching sources
 debian/rules get-orig-source
 (cd .. && tar --strip=1 --one-top-level=crystal-facet-uml -xzf crystal-facet-uml_*.orig.tar.gz)
