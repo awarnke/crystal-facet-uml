@@ -2,7 +2,7 @@
  *  \mainpage crystal-facet-uml source code doc
  *
  *  \image html crystal_facet_uml_80x80.png
- *  \image latex crystal-facet-uml.pdf "" width=3cm
+ *  \image latex crystal_facet_uml.pdf "" width=3cm
  *
  *  \section cfu-intro Introduction
  *
