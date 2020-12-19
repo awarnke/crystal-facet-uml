@@ -27,7 +27,7 @@
   <launchable type="desktop-id">crystal-facet-uml.desktop</launchable>
   <screenshots>
     <screenshot type="default">
-      <image type="source" width="920" height="637">https://raw.githubusercontent.com/awarnke/crystal_facet_uml/master/user_doc/doc/screenshot_1.png</image>
+      <image type="source" width="1120" height="630">https://raw.githubusercontent.com/awarnke/crystal_facet_uml/master/user_doc/doc/screenshot_1.png</image>
       <caption/>
     </screenshot>
   </screenshots>

@@ -31,7 +31,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     window_title = data_database_get_filename_ptr( database );
     gtk_window_set_title(GTK_WINDOW( (*this_).window ), ( window_title == NULL ) ? META_INFO_PROGRAM_NAME_STR : window_title );
     gtk_widget_set_size_request((*this_).window, 800, 400);
-    gtk_window_set_default_size(GTK_WINDOW( (*this_).window ), 16*69, 9*69);
+    gtk_window_set_default_size(GTK_WINDOW( (*this_).window ), 16*70, 9*70);
 
     /* init the message widgets */
 
