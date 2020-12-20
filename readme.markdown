@@ -18,9 +18,9 @@ This tool runs on your local linux PC and is based on glib, gdk, gtk, cairo, pan
 
 ![ScreenShot](user_doc/doc/screenshot_1.png)
 
-![ScreenShot](user_doc/doc/screenshot_3.png)
-
 ![ScreenShot](user_doc/doc/screenshot_2.png)
+
+![ScreenShot](user_doc/doc/screenshot_3.png)
 
 
 [User Manual](user_doc/crystal-facet-uml_documentation.pdf)
