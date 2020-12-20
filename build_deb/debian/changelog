@@ -10,7 +10,7 @@ crystal-facet-uml (1.26.1-1) UNRELEASED; urgency=medium
   * icons beautified
   * program renamed from crystal_facet_uml to crystal-facet-uml
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 05 Dec 2020 16:30:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 20 Dec 2020 16:30:00 +0100
 
 crystal-facet-uml (1.26.0-1) UNRELEASED; urgency=medium
 

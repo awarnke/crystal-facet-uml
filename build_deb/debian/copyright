@@ -3,13 +3,12 @@ Upstream-Name: crystal-facet-uml
 Source: https://github.com/awarnke/crystal_facet_uml
 
 Files: *
-Copyright: 2016-2020 Andreas Warnke <cfu@andreaswarnke.de>
+Copyright: 2016-2020, Andreas Warnke <cfu@andreaswarnke.de>
 License: Apache-2.0
- see http://www.apache.org/licenses/
- or /usr/share/common-licenses/Apache-2.0
 
 Files: debian/*
-Copyright: 2018-2020 Andreas Warnke <cfu@andreaswarnke.de>
+Copyright: 2018-2020, Andreas Warnke <cfu@andreaswarnke.de>
+           2019-2020, Mike Gabriel <mike.gabriel@das-netzwerkteam.de>
 License: Apache-2.0
 
 License: Apache-2.0
