@@ -14,6 +14,11 @@ crystal-facet-uml (1.26.1-1) UNRELEASED; urgency=medium
 
 crystal-facet-uml (1.26.0-1) UNRELEASED; urgency=medium
 
+  [ Helmut Grohne ]
+  * debian/rules:
+    + Fix FTCBFS: Let dh_auto_configure pass cross flags to cmake. (Closes:
+      #973980).
+
   [ Olaf Hering ]
   * CMakeLists adapted to find pangocairo (Closes: #2)
 
