@@ -6,7 +6,7 @@ Build-Depends:
  cmake, 
  debhelper (>= 10),
  gcc,
- libsqlite3-dev
+ libsqlite3-dev,
  libgtk-3-dev
 Standards-Version: 4.1.2
 Homepage: http://andreaswarnke.de/crystal_facet_uml/html/index.html
