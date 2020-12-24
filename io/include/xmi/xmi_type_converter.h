@@ -10,7 +10,6 @@
  */
 
 #include "xmi/xmi_spec.h"
-#include "xmi/xmi_direction.h"
 #include "data_diagram_type.h"
 #include "data_classifier_type.h"
 #include "data_feature_type.h"
@@ -155,14 +154,12 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_feature ( xmi_type_converter_t *th
  *  \param this_ pointer to own object attributes
  *  \param parent_type data_classifier_type_t of the parent of which the owning-type shall be determined
  *  \param feature_type data_feature_type_t to convert to a string
- *  \param flow_direction flow direction in case the feature is a port/pin
  *  \param spec control, according to which specification the xmi type shall be returned. profiles define extensions to base types in mof+uml.
  *  \result string representation of feature_type, empty string if not available
  */
 const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *this_,
                                                          data_classifier_type_t parent_type,
                                                          data_feature_type_t feature_type,
-                                                         xmi_direction_t flow_direction,
                                                          xmi_spec_t spec
                                                        );
 

@@ -355,13 +355,12 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_feature ( xmi_type_converter_t *th
 const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *this_,
                                                          data_classifier_type_t parent_type,
                                                          data_feature_type_t feature_type,
-                                                         xmi_direction_t flow_direction,
                                                          xmi_spec_t spec )
 {
     TRACE_BEGIN();
 
     const xmi_element_info_t *feature_info
-        = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, feature_type, flow_direction, parent_type );
+        = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, feature_type, parent_type );
     assert ( feature_info != NULL );
     const char* result
         = (( (spec & (XMI_SPEC_SYSML|XMI_SPEC_STANDARD)) != 0 )&&( (*feature_info).profile_name != NULL ))
@@ -510,7 +509,6 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
         const xmi_element_info_t *feature_info
             = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, 
                                                 end_feature_type, 
-                                                XMI_DIRECTION_UNSPECIFIED /*doe not matter here*/, 
                                                 end_classifier_type 
                                               );
         assert ( feature_info != NULL );

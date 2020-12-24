@@ -269,7 +269,6 @@ int xmi_atom_writer_report_illegal_parent( xmi_atom_writer_t *this_,
                                                                                );
     const xmi_element_info_t *feature_info = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
                                                                                fact_feature_type,
-                                                                               XMI_DIRECTION_UNSPECIFIED,
                                                                                fact_parent_type
                                                                              );
     
@@ -437,7 +436,6 @@ int xmi_atom_writer_report_illegal_relationship_end ( xmi_atom_writer_t *this_,
         const xmi_element_info_t *feature_info 
             = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
                                                 fact_end_feature_type,
-                                                fact_from_end ? XMI_DIRECTION_OUT : XMI_DIRECTION_IN,  /* guess, valid if other end is outside */
                                                 fact_end_classifier_type
                                               );
         if ( feature_info != NULL ) 

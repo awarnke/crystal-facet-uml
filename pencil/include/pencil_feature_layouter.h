@@ -96,7 +96,7 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
                                                      );
 
 /*!
- *  \brief determines the symbol box of a port
+ *  \brief determines the symbol box of a port or action-pin or entry/exit state
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_type type of the parent classifier

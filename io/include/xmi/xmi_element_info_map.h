@@ -10,7 +10,6 @@
  */
 
 #include "xmi/xmi_spec.h"
-#include "xmi/xmi_direction.h"
 #include "xmi/xmi_element_info.h"
 #include "data_classifier_type.h"
 #include "data_feature_type.h"
@@ -116,13 +115,11 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( c
  *
  *  \param this_ pointer to own object attributes; use e.g. the global &xmi_element_info_map_standard
  *  \param feature_type selects the xmi_element_info_t
- *  \param flow_direction flow direction in case the feature is a port/pin
  *  \param parent_type data_classifier_type_t of the parent of which the feature type shall be determined
  *  \return pointer to the selected xmi_element_info_t (or NULL in case of illegal feat_type)
  */
 static inline const xmi_element_info_t * xmi_element_info_map_get_feature ( const xmi_element_info_map_t *this_,
                                                                             data_feature_type_t feature_type,
-                                                                            xmi_direction_t flow_direction,
                                                                             data_classifier_type_t parent_type
                                                                           );
 

@@ -76,7 +76,11 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
             }
             break;
 
-            case DATA_FEATURE_TYPE_PORT:
+            case DATA_FEATURE_TYPE_PORT:  /* or */
+            case DATA_FEATURE_TYPE_IN_PORT_PIN:  /* or */
+            case DATA_FEATURE_TYPE_OUT_PORT_PIN:  /* or */
+            case DATA_FEATURE_TYPE_ENTRY:  /* or */
+            case DATA_FEATURE_TYPE_EXIT:
             {
                 /* layout port feature onto parent classifier box */
                 const data_classifier_t *const classifier

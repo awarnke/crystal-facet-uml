@@ -774,7 +774,11 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
 
                 case DATA_FEATURE_TYPE_PORT:  /* or */
                 case DATA_FEATURE_TYPE_PROVIDED_INTERFACE:  /* or */
-                case DATA_FEATURE_TYPE_REQUIRED_INTERFACE:
+                case DATA_FEATURE_TYPE_REQUIRED_INTERFACE:  /* or */
+                case DATA_FEATURE_TYPE_IN_PORT_PIN:  /* or */
+                case DATA_FEATURE_TYPE_OUT_PORT_PIN:  /* or */
+                case DATA_FEATURE_TYPE_ENTRY:  /* or */
+                case DATA_FEATURE_TYPE_EXIT:
                 {
                     const geometry_rectangle_t *const closest_parent_symbol_box
                         = layout_visible_classifier_get_symbol_box_const ( closest_parent_instance );

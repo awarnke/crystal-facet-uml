@@ -289,7 +289,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( c
 
 static inline const xmi_element_info_t * xmi_element_info_map_get_feature ( const xmi_element_info_map_t *this_,
                                                                             data_feature_type_t feature_type,
-                                                                            xmi_direction_t flow_direction,
                                                                             data_classifier_type_t parent_type )
 {
     const xmi_element_info_t * result = NULL;
@@ -315,19 +314,10 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_feature ( cons
             const bool is_behavioral_parent = data_classifier_type_is_behavioral( parent_type );
             if ( is_behavioral_parent )
             {
-                if ( flow_direction == XMI_DIRECTION_IN )
-                {
-                    result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_INPUT_PIN]);
-                }
-                else if ( flow_direction == XMI_DIRECTION_OUT )
-                {
-                    result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_OUTPUT_PIN]);
-                }
-                else
-                {
-                    result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_OUTPUT_PIN]);
-                    TSLOG_ANOMALY("xmi_element_info_map_get_feature cannot decide if the pin is input or output, default to output");
-                }
+                /*
+                result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_INPUT_PIN]);
+                */
+                result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_OUTPUT_PIN]);
             }
             else
             {

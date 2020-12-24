@@ -1,27 +1,27 @@
-/* File: xmi_direction.h; Copyright and License: see below */
+/* File: pencil_direction.h; Copyright and License: see below */
 
-#ifndef XMI_DIRECTION_H
-#define XMI_DIRECTION_H
+#ifndef PENCIL_DIRECTION_H
+#define PENCIL_DIRECTION_H
 
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Defines the flow direction of ports and pins
+ *  \brief Defines the flow direction of ports and pins and entry/exit states
  */
 
 /*!
  *  \brief control flow and data flow directions
  */
-enum xmi_direction_enum {
+enum pencil_direction_enum {
     XMI_DIRECTION_UNSPECIFIED,
     XMI_DIRECTION_IN,
     XMI_DIRECTION_OUT,
     XMI_DIRECTION_IN_OUT,
 };
 
-typedef enum xmi_direction_enum xmi_direction_t;
+typedef enum pencil_direction_enum pencil_direction_t;
 
-#endif  /* XMI_DIRECTION_H */
+#endif  /* PENCIL_DIRECTION_H */
 
 
 /*

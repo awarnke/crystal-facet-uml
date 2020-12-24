@@ -76,7 +76,31 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
         {
             case DATA_FEATURE_TYPE_PORT:
             {
-                pencil_feature_painter_private_draw_port_icon ( this_, layouted_feature, pencil_size, foreground_color, cr );
+                pencil_feature_painter_private_draw_port_pin_icon ( this_, layouted_feature, XMI_DIRECTION_UNSPECIFIED, pencil_size, foreground_color, cr );
+            }
+            break;
+            
+            case DATA_FEATURE_TYPE_IN_PORT_PIN:
+            {
+                pencil_feature_painter_private_draw_port_pin_icon ( this_, layouted_feature, XMI_DIRECTION_IN, pencil_size, foreground_color, cr );
+            }
+            break;
+            
+            case DATA_FEATURE_TYPE_OUT_PORT_PIN:
+            {
+                pencil_feature_painter_private_draw_port_pin_icon ( this_, layouted_feature, XMI_DIRECTION_OUT, pencil_size, foreground_color, cr );
+            }
+            break;
+            
+            case DATA_FEATURE_TYPE_ENTRY:
+            {
+                pencil_feature_painter_private_draw_entry_exit_icon ( this_, layouted_feature, XMI_DIRECTION_IN, pencil_size, foreground_color, cr );
+            }
+            break;
+            
+            case DATA_FEATURE_TYPE_EXIT:
+            {
+                pencil_feature_painter_private_draw_entry_exit_icon ( this_, layouted_feature, XMI_DIRECTION_OUT, pencil_size, foreground_color, cr );
             }
             break;
 
@@ -217,11 +241,12 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
     TRACE_END();
 }
 
-void pencil_feature_painter_private_draw_port_icon ( pencil_feature_painter_t *this_,
-                                                     layout_feature_t *layouted_feature,
-                                                     pencil_size_t *pencil_size,
-                                                     GdkRGBA foreground_color,
-                                                     cairo_t *cr )
+void pencil_feature_painter_private_draw_port_pin_icon ( pencil_feature_painter_t *this_,
+                                                         layout_feature_t *layouted_feature,
+                                                         pencil_direction_t direction,
+                                                         pencil_size_t *pencil_size,
+                                                         GdkRGBA foreground_color,
+                                                         cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != pencil_size );
@@ -235,9 +260,57 @@ void pencil_feature_painter_private_draw_port_icon ( pencil_feature_painter_t *t
     const double width = geometry_rectangle_get_width ( symbol_box_bounds );
     const double height = geometry_rectangle_get_height ( symbol_box_bounds );
 
-    //double gap = pencil_size_get_standard_object_border( pencil_size );
-
     cairo_rectangle ( cr, left, top, width, height );
+
+    /* Note: It is possible to read out the current color and set it again */
+    /* but the interface for that looks like this might result in 1 additional memory allocation */
+    /* which shall be avoided */
+    /* cairo_pattern_t *const defined_color = cairo_get_source( cr ); */
+    /* cairo_pattern_reference( defined_color );                      */
+    /* ...                                                            */
+    /* cairo_set_source( cr, defined_color );                         */
+    /* cairo_pattern_destroy( defined_color );                        */
+    
+    cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );  /* white background */
+    cairo_fill_preserve (cr);
+    cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
+    cairo_stroke (cr);
+
+    TRACE_END();
+}
+
+void pencil_feature_painter_private_draw_entry_exit_icon ( pencil_feature_painter_t *this_,
+                                                           layout_feature_t *layouted_feature,
+                                                           pencil_direction_t direction,
+                                                           pencil_size_t *pencil_size,
+                                                           GdkRGBA foreground_color,
+                                                           cairo_t *cr )
+{
+    TRACE_BEGIN();
+    assert( NULL != pencil_size );
+    assert( NULL != layouted_feature );
+    assert( NULL != cr );
+
+    const geometry_rectangle_t *const symbol_box_bounds = layout_feature_get_symbol_box_const( layouted_feature );
+
+    const double left = geometry_rectangle_get_left ( symbol_box_bounds );
+    const double top = geometry_rectangle_get_top ( symbol_box_bounds );
+    const double width = geometry_rectangle_get_width ( symbol_box_bounds );
+    const double height = geometry_rectangle_get_height ( symbol_box_bounds );
+    const double center_x = geometry_rectangle_get_center_x( symbol_box_bounds );
+    const double center_y = geometry_rectangle_get_center_y( symbol_box_bounds );
+    const double circle_x_radius = center_x - left;
+    const double circle_y_radius = center_y - top;
+    const double bottom = geometry_rectangle_get_bottom( symbol_box_bounds );
+    const double right = geometry_rectangle_get_right( symbol_box_bounds );
+    const double ctrl_x_offset = circle_x_radius * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
+    const double ctrl_y_offset = circle_y_radius * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
+
+    cairo_move_to ( cr, center_x, bottom );
+    cairo_curve_to ( cr, left + ctrl_x_offset, bottom, left, bottom - ctrl_y_offset, left /* end point x */, center_y /* end point y */ );
+    cairo_curve_to ( cr, left, top + ctrl_y_offset, left + ctrl_x_offset, top, center_x /* end point x */, top /* end point y */ );
+    cairo_curve_to ( cr, right - ctrl_x_offset, top, right, top + ctrl_y_offset, right /* end point x */, center_y /* end point y */ );
+    cairo_curve_to ( cr, right, bottom - ctrl_y_offset, right - ctrl_x_offset, bottom, center_x /* end point x */, bottom /* end point y */ );
 
     cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );  /* white background */
     cairo_fill_preserve (cr);
