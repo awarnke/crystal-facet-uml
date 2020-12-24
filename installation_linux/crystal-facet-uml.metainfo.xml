@@ -14,7 +14,7 @@
     <p>
       crystal-facet-uml keeps element names and element hierarchies consistent.
       It exports diagrams in svg, pdf, ps and png formats
-      to be used in text processing systems like docbook, html, latex.
+      to be used in text processing systems like DocBook, html, LaTeX.
       crystal-facet-uml exports the model to xmi format.
     </p>
   </description>

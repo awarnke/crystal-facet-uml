@@ -7,7 +7,7 @@ echo cleaning up previous downloads and builds
 rm ../crystal-facet-uml_*.orig.tar.gz
 rm -fr CMakeCache.txt CMakeFiles/ cmake_install.cmake Makefile
 rm -r install_manifest.txt
-rm -fr architecture CMakeLists.txt ctrl data doxygen_build gui installation_linux io license.txt main pencil readme.markdown release_notes.txt test_fw todo.txt trace tslog universal user_doc utf8stringbuf
+rm -fr architecture CMakeLists.txt ctrl data doxygen_build gui installation_linux io license.txt main pencil readme.markdown ChangeLog test_fw todo.txt trace tslog universal user_doc utf8stringbuf
 rm -f crystal-facet-uml test_crystal-facet-uml
 echo fetching sources
 debian/rules get-orig-source

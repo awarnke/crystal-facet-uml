@@ -21,7 +21,7 @@
  *  \brief enumeration on tools
  */
 enum gui_resource_selector_max_enum {
-    GUI_RESOURCE_SELECTOR_MAX_TYPES = 73,
+    GUI_RESOURCE_SELECTOR_MAX_TYPES = 77,
 };
 
 /*!

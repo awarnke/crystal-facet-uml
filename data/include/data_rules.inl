@@ -292,11 +292,16 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
         {
-            result = DATA_FEATURE_TYPE_PORT; /* Pin */
+            result = DATA_FEATURE_TYPE_OUT_PORT_PIN; /* Out Pin */
         }
         break;
         
-        case DATA_CLASSIFIER_TYPE_STATE:  /* and */
+        case DATA_CLASSIFIER_TYPE_STATE:
+        {
+            result = DATA_FEATURE_TYPE_EXIT;
+        }
+        break;
+        
         case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:  /* and */

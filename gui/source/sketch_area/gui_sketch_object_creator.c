@@ -427,7 +427,11 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
     int32_t list_order;
     if ( ( DATA_FEATURE_TYPE_PROVIDED_INTERFACE == new_feature_type )
         || ( DATA_FEATURE_TYPE_REQUIRED_INTERFACE == new_feature_type )
-        || ( DATA_FEATURE_TYPE_PORT == new_feature_type ) )
+        || ( DATA_FEATURE_TYPE_PORT == new_feature_type )
+        || ( DATA_FEATURE_TYPE_IN_PORT_PIN == new_feature_type )
+        || ( DATA_FEATURE_TYPE_OUT_PORT_PIN == new_feature_type )
+        || ( DATA_FEATURE_TYPE_ENTRY == new_feature_type )
+        || ( DATA_FEATURE_TYPE_EXIT == new_feature_type ) )
     {
         list_order = port_list_order;
     }
@@ -670,7 +674,10 @@ void gui_sketch_object_creator_private_propose_feature_name( gui_sketch_object_c
     static char *(OPERATION_TYPES[8]) = {"uint32_t()(void)","uint32_t(*)(enum)","","","enum","","uint32_t(*)(uint8_t[4])","bool"};
     static char *(PORT_NAMES[8]) = {"new_in_a","new_in_b","new_in_c","new_out_a","new_out_b","new_out_c","new_out_error","new_in_reset"};
     static char *(PORT_TYPES[8]) = {"","signal","uint16_t","IP-socket","signal","","","bool"};
+    static char *(IO_PORT_NAMES[8]) = {"new_order","new_item","new_error","new_report","new_audio_file","new_video_file","new_plan","new_status"};
     static char *(IF_NAMES[8]) = {"New Auth_IF","New Log_IF","New Trace_IF","New Update_IF","New Sync_IF","New Link_IF","New Alive_IF","New Power_IF"};
+    static char *(ENTRY_NAMES[8]) = {"new_again","new_first_time","new_error_case","new_std_entry","new_retries_exceeded","new_debug","new_rookie_mode","new_last_try"};
+    static char *(EXIT_NAMES[8]) = {"new_abort","new_std_exit","new_precondition_failed","new_warning","new_error","new_retry","new_ok","new_repair_request"};
 
     cycle_names ++;
 
@@ -717,7 +724,25 @@ void gui_sketch_object_creator_private_propose_feature_name( gui_sketch_object_c
             utf8stringbuf_clear( out_type );
         }
         break;
-
+        case DATA_FEATURE_TYPE_IN_PORT_PIN:
+        case DATA_FEATURE_TYPE_OUT_PORT_PIN:
+        {
+            utf8stringbuf_copy_str( out_name, IO_PORT_NAMES[cycle_names&0x07] );
+            utf8stringbuf_clear( out_type );
+        }
+        break;
+        case DATA_FEATURE_TYPE_ENTRY:
+        {
+            utf8stringbuf_copy_str( out_name, ENTRY_NAMES[cycle_names&0x07] );
+            utf8stringbuf_clear( out_type );
+        }
+        break;
+        case DATA_FEATURE_TYPE_EXIT:
+        {
+            utf8stringbuf_copy_str( out_name, EXIT_NAMES[cycle_names&0x07] );
+            utf8stringbuf_clear( out_type );
+        }
+        break;
         default:
         {
             TSLOG_ERROR("data_feature_type_t out of range in gui_sketch_object_creator_private_propose_feature_name");

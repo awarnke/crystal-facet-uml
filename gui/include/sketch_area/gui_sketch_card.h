@@ -53,10 +53,10 @@ void gui_sketch_card_destroy ( gui_sketch_card_t *this_ );
  *  \brief fetches the diagram data from the database
  *
  *  \param this_ pointer to own object attributes
- *  \param diagram_id id of the diagram to load
+ *  \param diagram_row_id id of the diagram to load
  *  \param db_reader pointer to a database reader object
  */
-static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader );
+static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_, data_row_id_t diagram_row_id, data_database_reader_t *db_reader );
 
 /*!
  *  \brief marks the diagram data as invalid
@@ -240,15 +240,15 @@ static inline int32_t gui_sketch_card_get_highest_rel_list_order( const gui_sket
 /*!
  *  \brief determines the highest list order of features in the current diagram.
  *
- *  Features of type DATA_FEATURE_TYPE_PORT, DATA_FEATURE_TYPE_PROVIDED_INTERFACE and DATA_FEATURE_TYPE_REQUIRED_INTERFACE
- *  are not taken into account because their order ids reflect a coordiante
- *  instead of a list position
+ *  only Features of type DATA_FEATURE_TYPE_PROPERTY, DATA_FEATURE_TYPE_OPERATION
+ *  are taken into account because their order ids reflect list position,
+ *  neither a coordiante (e.g. a PORT) nor irrelevant (e.g. LIFELINES) 
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier_id only features of this classifier are taken into account
+ *  \param classifier_row_id only features of this classifier are taken into account
  *  \result highest list order. May be used to append a new item to the end of the list.
  */
-static inline int32_t gui_sketch_card_get_highest_feat_list_order( const gui_sketch_card_t *this_, data_row_id_t classifier_id );
+static inline int32_t gui_sketch_card_get_highest_feat_list_order( const gui_sketch_card_t *this_, data_row_id_t classifier_row_id );
 
 #include "gui_sketch_card.inl"
 

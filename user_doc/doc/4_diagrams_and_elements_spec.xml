@@ -512,21 +512,6 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_feat_port.pdf" width="1cm"/></imageobject>
-                                <imageobject><imagedata fileref="../../gui/source/resources/type_feat_port.png"/></imageobject></mediaobject>
-                                    Port
-                                </para>
-                            </entry>
-                            <entry><para>UML<!--spec 2.5 chapter 11.3-->, SysML<!--spec 1.5 chapter 9.2.1--></para></entry>
-                            <entry><para>unconditional</para></entry>
-                            <entry><para>Limitations: no SysML-compartment Notation supported.</para>
-                                <para>Limitations: no SysML-nested-ports, SysML-proxy-port, SysML full-ports supported.</para>
-                                <para>Limitations: no flow property, no compartment notation, no port-compartments.</para>
-                                <para>Limitations: no UML behavior ports.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_feat_provide.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_feat_provide.png"/></imageobject></mediaobject>
                                     Provided Interface
@@ -546,6 +531,69 @@
                             <entry><para>UML, SysML<!--spec 1.5 chapter 9.2.1--></para></entry>
                             <entry><para>unconditional</para></entry>
                             <entry><para></para></entry>
+                        </row>
+                        <row>
+                            <entry><para>
+                                <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_feat_port.pdf" width="1cm"/></imageobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/type_feat_port.png"/></imageobject></mediaobject>
+                                    Port
+                                </para>
+                            </entry>
+                            <entry><para>UML<!--spec 2.5 chapter 11.3-->, SysML<!--spec 1.5 chapter 9.2.1--></para></entry>
+                            <entry><para>unconditional</para></entry>
+                            <entry><para>Limitations: no SysML-compartment Notation supported.</para>
+                                <para>Limitations: no SysML-nested-ports, SysML-proxy-port, SysML full-ports supported.</para>
+                                <para>Limitations: no flow property, no compartment notation, no port-compartments.</para>
+                                <para>Limitations: no UML behavior ports.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><para>
+                                <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_feat_rx.pdf" width="1cm"/></imageobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/type_feat_rx.png"/></imageobject></mediaobject>
+                                    Input Port/Pin
+                                </para>
+                            </entry>
+                            <entry><para>UML, SysML<!--spec 1.6 chapter 9.2--></para></entry>
+                            <entry><para>unconditional</para></entry>
+                            <entry><para>Limitations: not yet implemented.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><para>
+                                <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_feat_tx.pdf" width="1cm"/></imageobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/type_feat_tx.png"/></imageobject></mediaobject>
+                                    Output Port/Pin
+                                </para>
+                            </entry>
+                            <entry><para>UML, SysML<!--spec 1.6 chapter 9.2--></para></entry>
+                            <entry><para>unconditional</para></entry>
+                            <entry><para>Limitations: not yet implemented.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><para>
+                                <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_feat_entry.pdf" width="1cm"/></imageobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/type_feat_entry.png"/></imageobject></mediaobject>
+                                    State Entry
+                                </para>
+                            </entry>
+                            <entry><para>UML, SysML<!--spec 1.6 chapter 13.2--></para></entry>
+                            <entry><para>unconditional</para></entry>
+                            <entry><para>Limitations: not yet implemented.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><para>
+                                <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_feat_exit.pdf" width="1cm"/></imageobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/type_feat_exit.png"/></imageobject></mediaobject>
+                                    State Exit
+                                </para>
+                            </entry>
+                            <entry><para>UML, SysML<!--spec 1.6 chapter 13.2--></para></entry>
+                            <entry><para>unconditional</para></entry>
+                            <entry><para>Limitations: not yet implemented.</para>
+                            </entry>
                         </row>
                         <row>
                             <entry><para>

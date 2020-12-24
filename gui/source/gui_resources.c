@@ -90,12 +90,16 @@
 #include "resources/type_clas_time.c"
 #include "resources/type_clas_usecase.c"
 
+#include "resources/type_feat_entry.c"
+#include "resources/type_feat_exit.c"
 #include "resources/type_feat_life.c"
 #include "resources/type_feat_operation.c"
 #include "resources/type_feat_port.c"
 #include "resources/type_feat_property.c"
 #include "resources/type_feat_provide.c"
 #include "resources/type_feat_require.c"
+#include "resources/type_feat_rx.c"
+#include "resources/type_feat_tx.c"
 
 #include "resources/type_rel_aggregate.c"
 #include "resources/type_rel_associate.c"
@@ -213,12 +217,16 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).type_clas_time = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_time ) );
     (*this_).type_clas_usecase = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_usecase ) );
 
+    (*this_).type_feat_entry = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_entry ) );
+    (*this_).type_feat_exit = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_exit ) );
     (*this_).type_feat_life = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_life ) );
     (*this_).type_feat_operation = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_operation ) );
     (*this_).type_feat_port = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_port ) );
     (*this_).type_feat_property = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_property ) );
     (*this_).type_feat_provide = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_provide ) );
     (*this_).type_feat_require = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_require ) );
+    (*this_).type_feat_rx = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_rx ) );
+    (*this_).type_feat_tx = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_tx ) );
 
     (*this_).type_rel_aggregate = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_aggregate ) );
     (*this_).type_rel_associate = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_associate ) );
@@ -334,12 +342,16 @@ void gui_resources_destroy ( gui_resources_t *this_ )
     g_object_unref ((*this_).type_clas_time);
     g_object_unref ((*this_).type_clas_usecase);
 
+    g_object_unref ((*this_).type_feat_entry);
+    g_object_unref ((*this_).type_feat_exit);
     g_object_unref ((*this_).type_feat_life);
     g_object_unref ((*this_).type_feat_operation);
     g_object_unref ((*this_).type_feat_port);
     g_object_unref ((*this_).type_feat_property);
     g_object_unref ((*this_).type_feat_provide);
     g_object_unref ((*this_).type_feat_require);
+    g_object_unref ((*this_).type_feat_rx);
+    g_object_unref ((*this_).type_feat_tx);
 
     g_object_unref ((*this_).type_rel_aggregate);
     g_object_unref ((*this_).type_rel_associate);
