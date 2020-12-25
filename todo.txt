@@ -5,12 +5,14 @@ ideas for future versions:
   [ ] a "saveAs" or export-as-cfu1 command should allow to copy the current db
   [ ] next to the about button, a help button is needed that can provide context-sensitive information.
   [ ] when opening the second database, the root diagram cannot be focused immediately
+  [ ] when opening the second database, switch back to nav view
   [ ] show a progress bar while exporting diagrams
   [ ] update seach result view when changing the database (e.g. by undo)
   [ ] enlarge the initial default window size, not even the quick-intro screen is visible.
   [ ] when selecting a search result, not only jump to the diagram but also focus on the result
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
+  [ ] When pasting a new diagram, witch to the new diagram in nav view to see the changes
   @pencil
   [ ] Support Diagram-Types: Profile
   [ ] exception+error flows to leave an interruptable area (activity diagrams)

@@ -13,10 +13,10 @@
  *  \brief control flow and data flow directions
  */
 enum pencil_direction_enum {
-    XMI_DIRECTION_UNSPECIFIED,
-    XMI_DIRECTION_IN,
-    XMI_DIRECTION_OUT,
-    XMI_DIRECTION_IN_OUT,
+    PENCIL_DIRECTION_UNSPECIFIED,
+    PENCIL_DIRECTION_IN,
+    PENCIL_DIRECTION_OUT,
+    PENCIL_DIRECTION_IN_OUT,
 };
 
 typedef enum pencil_direction_enum pencil_direction_t;

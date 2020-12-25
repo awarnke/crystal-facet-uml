@@ -10,6 +10,7 @@
 
 /*! where to place the control points of a bezier curve to get a good approximation for a 90 degree curve */
 const static double BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE = 0.552284749831;
+const static double SINE_OF_45_DEGREE = 0.707106781187;
 
 void pencil_feature_painter_init( pencil_feature_painter_t *this_ )
 {
@@ -76,31 +77,31 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
         {
             case DATA_FEATURE_TYPE_PORT:
             {
-                pencil_feature_painter_private_draw_port_pin_icon ( this_, layouted_feature, XMI_DIRECTION_UNSPECIFIED, pencil_size, foreground_color, cr );
+                pencil_feature_painter_private_draw_port_pin_icon ( this_, layouted_feature, PENCIL_DIRECTION_UNSPECIFIED, pencil_size, foreground_color, cr );
             }
             break;
-            
+
             case DATA_FEATURE_TYPE_IN_PORT_PIN:
             {
-                pencil_feature_painter_private_draw_port_pin_icon ( this_, layouted_feature, XMI_DIRECTION_IN, pencil_size, foreground_color, cr );
+                pencil_feature_painter_private_draw_port_pin_icon ( this_, layouted_feature, PENCIL_DIRECTION_IN, pencil_size, foreground_color, cr );
             }
             break;
-            
+
             case DATA_FEATURE_TYPE_OUT_PORT_PIN:
             {
-                pencil_feature_painter_private_draw_port_pin_icon ( this_, layouted_feature, XMI_DIRECTION_OUT, pencil_size, foreground_color, cr );
+                pencil_feature_painter_private_draw_port_pin_icon ( this_, layouted_feature, PENCIL_DIRECTION_OUT, pencil_size, foreground_color, cr );
             }
             break;
-            
+
             case DATA_FEATURE_TYPE_ENTRY:
             {
-                pencil_feature_painter_private_draw_entry_exit_icon ( this_, layouted_feature, XMI_DIRECTION_IN, pencil_size, foreground_color, cr );
+                pencil_feature_painter_private_draw_entry_exit_icon ( this_, layouted_feature, PENCIL_DIRECTION_IN, pencil_size, foreground_color, cr );
             }
             break;
-            
+
             case DATA_FEATURE_TYPE_EXIT:
             {
-                pencil_feature_painter_private_draw_entry_exit_icon ( this_, layouted_feature, XMI_DIRECTION_OUT, pencil_size, foreground_color, cr );
+                pencil_feature_painter_private_draw_entry_exit_icon ( this_, layouted_feature, PENCIL_DIRECTION_OUT, pencil_size, foreground_color, cr );
             }
             break;
 
@@ -270,7 +271,7 @@ void pencil_feature_painter_private_draw_port_pin_icon ( pencil_feature_painter_
     /* ...                                                            */
     /* cairo_set_source( cr, defined_color );                         */
     /* cairo_pattern_destroy( defined_color );                        */
-    
+
     cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );  /* white background */
     cairo_fill_preserve (cr);
     cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
@@ -295,8 +296,6 @@ void pencil_feature_painter_private_draw_entry_exit_icon ( pencil_feature_painte
 
     const double left = geometry_rectangle_get_left ( symbol_box_bounds );
     const double top = geometry_rectangle_get_top ( symbol_box_bounds );
-    const double width = geometry_rectangle_get_width ( symbol_box_bounds );
-    const double height = geometry_rectangle_get_height ( symbol_box_bounds );
     const double center_x = geometry_rectangle_get_center_x( symbol_box_bounds );
     const double center_y = geometry_rectangle_get_center_y( symbol_box_bounds );
     const double circle_x_radius = center_x - left;
@@ -316,6 +315,21 @@ void pencil_feature_painter_private_draw_entry_exit_icon ( pencil_feature_painte
     cairo_fill_preserve (cr);
     cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
     cairo_stroke (cr);
+
+    if ( direction == PENCIL_DIRECTION_OUT )
+    {
+        const double half_width = geometry_rectangle_get_width ( symbol_box_bounds )/2.0;
+        const double half_height = geometry_rectangle_get_height ( symbol_box_bounds )/2.0;
+        const double cross_end_dx = half_width * SINE_OF_45_DEGREE;
+        const double cross_end_dy = half_height * SINE_OF_45_DEGREE;
+
+        cairo_move_to ( cr, center_x + cross_end_dx, center_y - cross_end_dy );
+        cairo_line_to ( cr, center_x - cross_end_dx, center_y + cross_end_dy );
+        cairo_move_to ( cr, center_x - cross_end_dx, center_y - cross_end_dy );
+        cairo_line_to ( cr, center_x + cross_end_dx, center_y + cross_end_dy );
+
+        cairo_stroke (cr);
+    }
 
     TRACE_END();
 }
