@@ -87,13 +87,13 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
                     = layout_visible_classifier_get_classifier_const( layout_classifier );
                 const data_classifier_type_t classifier_type
                     = data_classifier_get_main_type( classifier );
-                pencil_feature_layouter_private_layout_port ( this_,
-                                                              classifier_type,
-                                                              c_symbol_box,
-                                                              the_feature,
-                                                              font_layout,
-                                                              feature_layout
-                                                            );
+                pencil_feature_layouter_private_layout_port_pin ( this_,
+                                                                  classifier_type,
+                                                                  c_symbol_box,
+                                                                  the_feature,
+                                                                  font_layout,
+                                                                  feature_layout
+                                                                );
             }
             break;
 
@@ -197,12 +197,12 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
     TRACE_END();
 }
 
-void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *this_,
-                                                   data_classifier_type_t classifier_type,
-                                                   const geometry_rectangle_t *classifier_symbol_box,
-                                                   const data_feature_t *the_feature,
-                                                   PangoLayout *font_layout,
-                                                   layout_feature_t *out_feature_layout )
+void pencil_feature_layouter_private_layout_port_pin ( pencil_feature_layouter_t *this_,
+                                                       data_classifier_type_t classifier_type,
+                                                       const geometry_rectangle_t *classifier_symbol_box,
+                                                       const data_feature_t *the_feature,
+                                                       PangoLayout *font_layout,
+                                                       layout_feature_t *out_feature_layout )
 {
     TRACE_BEGIN();
     assert ( NULL != classifier_symbol_box );
@@ -229,10 +229,16 @@ void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *th
     /* position the port icon */
     const bool is_sysml_constraint_block = (classifier_type == DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK);
     const bool is_behavioral = data_classifier_type_is_behavioral( classifier_type );
-    const double outwards_distance 
-        = is_sysml_constraint_block ? 0.0 : is_behavioral ? port_icon_size : (0.5*port_icon_size);
+    const data_feature_type_t feat_type = data_feature_get_main_type( the_feature );
+    const bool is_state_entry_exit
+        = (( feat_type == DATA_FEATURE_TYPE_ENTRY )||( feat_type == DATA_FEATURE_TYPE_EXIT ));
+    const double outwards_distance
+        = is_sysml_constraint_block ? 0.0 : (is_behavioral&&(!is_state_entry_exit)) ? port_icon_size : (0.5*port_icon_size);
     double port_icon_left;
     double port_icon_top;
+    const double show_arrow_in = ( feat_type == DATA_FEATURE_TYPE_IN_PORT_PIN );
+    const double show_arrow_out = ( feat_type == DATA_FEATURE_TYPE_OUT_PORT_PIN );
+    geometry_direction_t arrow_dir = GEOMETRY_DIRECTION_CENTER;
     if ( list_order < 0 )
     {
         static const int32_t INT32_MIN_HALF = INT32_MIN/2;
@@ -242,6 +248,7 @@ void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *th
                 = (list_order - INT32_MIN_HALF) / ((double)(INT32_MIN_HALF));
             port_icon_left = geometry_rectangle_get_right( &classifier_box ) - port_icon_size + outwards_distance;
             port_icon_top = geometry_rectangle_get_top( &classifier_box ) + y_pos_rel * ( geometry_rectangle_get_height( &classifier_box ) - port_icon_size );
+            arrow_dir = show_arrow_in ? GEOMETRY_DIRECTION_LEFT : show_arrow_out ? GEOMETRY_DIRECTION_RIGHT : GEOMETRY_DIRECTION_CENTER;
         }
         else  /* SHOW ON TOP BORDER */
         {
@@ -249,6 +256,7 @@ void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *th
                 = (list_order) / ((double)(INT32_MIN_HALF));
             port_icon_left = geometry_rectangle_get_left( &classifier_box ) + x_pos_rel * ( geometry_rectangle_get_width( &classifier_box ) - port_icon_size );
             port_icon_top = geometry_rectangle_get_top( &classifier_box ) - outwards_distance;
+            arrow_dir = show_arrow_in ? GEOMETRY_DIRECTION_DOWN : show_arrow_out ? GEOMETRY_DIRECTION_UP : GEOMETRY_DIRECTION_CENTER;
         }
     }
     else
@@ -260,6 +268,7 @@ void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *th
                 = (list_order) / ((double)(INT32_MAX_HALF));
             port_icon_left = geometry_rectangle_get_left( &classifier_box ) - outwards_distance;
             port_icon_top = geometry_rectangle_get_top( &classifier_box ) + y_pos_rel * ( geometry_rectangle_get_height( &classifier_box ) - port_icon_size );
+            arrow_dir = show_arrow_in ? GEOMETRY_DIRECTION_RIGHT : show_arrow_out ? GEOMETRY_DIRECTION_LEFT : GEOMETRY_DIRECTION_CENTER;
         }
         else  /* SHOW ON BOTTOM BORDER */
         {
@@ -267,6 +276,7 @@ void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *th
                 = (list_order - INT32_MAX_HALF) / ((double)(INT32_MAX_HALF));
             port_icon_left = geometry_rectangle_get_left( &classifier_box ) + x_pos_rel * ( geometry_rectangle_get_width( &classifier_box ) - port_icon_size );
             port_icon_top = geometry_rectangle_get_bottom( &classifier_box ) - port_icon_size + outwards_distance;
+            arrow_dir = show_arrow_in ? GEOMETRY_DIRECTION_UP : show_arrow_out ? GEOMETRY_DIRECTION_DOWN : GEOMETRY_DIRECTION_CENTER;
         }
     }
 
@@ -280,7 +290,7 @@ void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *th
                             );
     layout_feature_set_symbol_box ( out_feature_layout, &f_bounds );
     layout_feature_set_label_box ( out_feature_layout, &f_bounds );
-    layout_feature_set_icon_direction ( out_feature_layout, GEOMETRY_DIRECTION_CENTER );
+    layout_feature_set_icon_direction ( out_feature_layout, arrow_dir );
 
     TRACE_END();
 }

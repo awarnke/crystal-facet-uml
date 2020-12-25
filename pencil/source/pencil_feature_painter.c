@@ -277,6 +277,80 @@ void pencil_feature_painter_private_draw_port_pin_icon ( pencil_feature_painter_
     cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
     cairo_stroke (cr);
 
+    /* draw the arrow */
+    const double center_x = geometry_rectangle_get_center_x ( symbol_box_bounds );
+    const double center_y = geometry_rectangle_get_center_y ( symbol_box_bounds );
+    const double h_arrow_left = left + 0.25*width;
+    const double h_arrow_right = left + 0.75*width;
+    const double h_arrow_top = top + 0.25*height;
+    const double h_arrow_bottom = top + 0.75*height;
+    const double v_arrow_left = left + 0.25*width;
+    const double v_arrow_right = left + 0.75*width;
+    const double v_arrow_top = top + 0.25*height;
+    const double v_arrow_bottom = top + 0.75*height;
+    switch ( layout_feature_get_icon_direction( layouted_feature ) )
+    {
+        case GEOMETRY_DIRECTION_LEFT:
+        {
+            cairo_move_to ( cr, h_arrow_left, center_y );
+            cairo_line_to ( cr, h_arrow_right, center_y );
+            cairo_move_to ( cr, h_arrow_right, h_arrow_top );
+            cairo_line_to ( cr, h_arrow_left, center_y );
+            cairo_line_to ( cr, h_arrow_right, h_arrow_bottom );
+
+            cairo_stroke (cr);
+        }
+        break;
+
+        case GEOMETRY_DIRECTION_UP:
+        {
+            cairo_move_to ( cr, center_x, v_arrow_top );
+            cairo_line_to ( cr, center_x, v_arrow_bottom );
+            cairo_move_to ( cr, v_arrow_left, v_arrow_bottom );
+            cairo_line_to ( cr, center_x, v_arrow_top );
+            cairo_line_to ( cr, v_arrow_right, v_arrow_bottom );
+
+            cairo_stroke (cr);
+        }
+        break;
+
+        case GEOMETRY_DIRECTION_RIGHT:
+        {
+            cairo_move_to ( cr, h_arrow_right, center_y );
+            cairo_line_to ( cr, h_arrow_left, center_y );
+            cairo_move_to ( cr, h_arrow_left, h_arrow_top );
+            cairo_line_to ( cr, h_arrow_right, center_y );
+            cairo_line_to ( cr, h_arrow_left, h_arrow_bottom );
+
+            cairo_stroke (cr);
+        }
+        break;
+
+        case GEOMETRY_DIRECTION_DOWN:
+        {
+            cairo_move_to ( cr, center_x, v_arrow_bottom );
+            cairo_line_to ( cr, center_x, v_arrow_top );
+            cairo_move_to ( cr, v_arrow_left, v_arrow_top );
+            cairo_line_to ( cr, center_x, v_arrow_bottom );
+            cairo_line_to ( cr, v_arrow_right, v_arrow_top );
+
+            cairo_stroke (cr);
+        }
+        break;
+
+        case GEOMETRY_DIRECTION_CENTER:
+        {
+            /* no arrow */
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR( "unexpected value in geometry_direction_t." );
+        }
+        break;
+    }
+
     TRACE_END();
 }
 

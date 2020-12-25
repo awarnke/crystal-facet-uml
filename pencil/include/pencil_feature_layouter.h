@@ -105,13 +105,13 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param out_feature_layout output parameter: feature layout coordinates
  */
-void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *this_,
-                                                   data_classifier_type_t classifier_type,
-                                                   const geometry_rectangle_t *classifier_symbol_box,
-                                                   const data_feature_t *the_feature,
-                                                   PangoLayout *font_layout,
-                                                   layout_feature_t *out_feature_layout
-                                                 );
+void pencil_feature_layouter_private_layout_port_pin ( pencil_feature_layouter_t *this_,
+                                                       data_classifier_type_t classifier_type,
+                                                       const geometry_rectangle_t *classifier_symbol_box,
+                                                       const data_feature_t *the_feature,
+                                                       PangoLayout *font_layout,
+                                                       layout_feature_t *out_feature_layout
+                                                     );
 
 /*!
  *  \brief determines the symbol box of a provided or required interface
