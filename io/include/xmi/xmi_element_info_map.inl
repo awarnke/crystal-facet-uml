@@ -9,12 +9,12 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( c
                                                                                data_classifier_type_t classifier_type,
                                                                                data_classifier_type_t parent_type )
 {
-    const xmi_element_info_t * result = NULL;
+    const xmi_element_info_t * result = &xmi_element_info_map_unknown_type;
 
     const bool statemachine_context = ( parent_type == DATA_CLASSIFIER_TYPE_STATE );
     const bool activity_context
         = ( parent_type == DATA_CLASSIFIER_TYPE_ACTIVITY )||( parent_type == DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION );
-    
+
     switch ( classifier_type )
     {
         case DATA_CLASSIFIER_TYPE_BLOCK:
@@ -275,7 +275,7 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( c
             assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_INTERACTION );
         }
         break;
-        
+
         default:
         {
             TSLOG_ERROR_INT( "switch case statement for data_classifier_type_t incomplete", classifier_type );
@@ -291,7 +291,7 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_feature ( cons
                                                                             data_feature_type_t feature_type,
                                                                             data_classifier_type_t parent_type )
 {
-    const xmi_element_info_t * result = NULL;
+    const xmi_element_info_t * result = &xmi_element_info_map_unknown_type;
 
     switch ( feature_type )
     {
@@ -311,19 +311,54 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_feature ( cons
 
         case DATA_FEATURE_TYPE_PORT:
         {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_PORT]);
+            assert ( (*result).data_type_checksum == (int)DATA_FEATURE_TYPE_PORT );
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_IN_PORT_PIN:
+        {
             const bool is_behavioral_parent = data_classifier_type_is_behavioral( parent_type );
             if ( is_behavioral_parent )
             {
-                /*
                 result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_INPUT_PIN]);
-                */
-                result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_OUTPUT_PIN]);
+                assert ( (*result).data_type_checksum == (int)DATA_FEATURE_TYPE_IN_PORT_PIN );
             }
             else
             {
                 result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_PORT]);
+                assert ( (*result).data_type_checksum == (int)DATA_FEATURE_TYPE_PORT );
             }
-            assert ( (*result).data_type_checksum == (int)DATA_FEATURE_TYPE_PORT );
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_OUT_PORT_PIN:
+        {
+            const bool is_behavioral_parent = data_classifier_type_is_behavioral( parent_type );
+            if ( is_behavioral_parent )
+            {
+                result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_OUTPUT_PIN]);
+                assert ( (*result).data_type_checksum == (int)DATA_FEATURE_TYPE_OUT_PORT_PIN );
+            }
+            else
+            {
+                result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_PORT]);
+                assert ( (*result).data_type_checksum == (int)DATA_FEATURE_TYPE_PORT );
+            }
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_ENTRY:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_STATE_ENTRY]);
+            assert ( (*result).data_type_checksum == (int)DATA_FEATURE_TYPE_ENTRY );
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_EXIT:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_STATE_EXIT]);
+            assert ( (*result).data_type_checksum == (int)DATA_FEATURE_TYPE_EXIT );
         }
         break;
 
@@ -348,15 +383,6 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_feature ( cons
         }
         break;
 
-        /*
-        case DATA_FEATURE_TYPE_TESTCASE:
-        {
-            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_TESTCAS]);
-            assert ( (*result).data_type_checksum == (int)DATA_FEATURE_TYPE_TESTCASE );
-        }
-        break;
-        */
-
         default:
         {
             TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", feature_type );
@@ -372,7 +398,7 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_relationship (
                                                                                  data_relationship_type_t rel_type,
                                                                                  bool statemachine_context )
 {
-    const xmi_element_info_t * result = NULL;
+    const xmi_element_info_t * result = &xmi_element_info_map_unknown_type;
 
     switch ( rel_type )
     {

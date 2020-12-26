@@ -433,7 +433,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .property_to              = NULL,
         .additional_properties    = NULL,
     },
-    
+
     /* ================================ FEATURE ================================ */
 
     [XMI_ELEMENT_INFO_MAP_INDEX_PROPERTY] = {
@@ -442,7 +442,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
         .base_name                = "Property",
-        .is_a                     = (XMI_ELEMENT_IS_A_FEATURE|XMI_ELEMENT_IS_A_DEPLOYMENT_TARGET),
+        .is_a                     = (XMI_ELEMENT_IS_A_PROPERTY),
         .property_from            = NULL,
         .property_to              = NULL,
         .additional_properties    = "aggregation=\"composite\"",
@@ -464,14 +464,14 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
         .base_name                = "Port",
-        .is_a                     = (XMI_ELEMENT_IS_A_FEATURE|XMI_ELEMENT_IS_A_DEPLOYMENT_TARGET),
+        .is_a                     = (XMI_ELEMENT_IS_A_PROPERTY),
         .property_from            = NULL,
         .property_to              = NULL,
         .additional_properties    = "aggregation=\"composite\"",
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_INPUT_PIN] = {
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 16.14.24 */
-        .data_type_checksum       = (int) DATA_FEATURE_TYPE_PORT,
+        .data_type_checksum       = (int) DATA_FEATURE_TYPE_IN_PORT_PIN,
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
         .base_name                = "InputPin",
@@ -482,7 +482,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_OUTPUT_PIN] = {
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 16.14.32 */
-        .data_type_checksum       = (int) DATA_FEATURE_TYPE_PORT,
+        .data_type_checksum       = (int) DATA_FEATURE_TYPE_OUT_PORT_PIN,
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
         .base_name                = "OutputPin",
@@ -490,6 +490,28 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .property_from            = NULL,
         .property_to              = NULL,
         .additional_properties    = NULL,
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_STATE_ENTRY] = {
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 14.5.6 */
+        .data_type_checksum       = (int) DATA_FEATURE_TYPE_ENTRY,
+        .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
+        .profile_name             = NULL,
+        .base_name                = "Pseudostate",
+        .is_a                     = (XMI_ELEMENT_IS_A_VERTEX),
+        .property_from            = NULL,
+        .property_to              = NULL,
+        .additional_properties    = "kind=\"entryPoint\"",
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_STATE_EXIT] = {
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 14.5.6 */
+        .data_type_checksum       = (int) DATA_FEATURE_TYPE_EXIT,
+        .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
+        .profile_name             = NULL,
+        .base_name                = "Pseudostate",
+        .is_a                     = (XMI_ELEMENT_IS_A_VERTEX),
+        .property_from            = NULL,
+        .property_to              = NULL,
+        .additional_properties    = "kind=\"exitPoint\"",
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_LIFELINE] = {
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 17.12.17 */
@@ -770,6 +792,19 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .additional_properties    = NULL,
     },
 };
+
+const xmi_element_info_t xmi_element_info_map_unknown_type =
+{
+    /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.6 */
+    .data_type_checksum       = -1,
+    .specification            = (XMI_SPEC_UML),
+    .profile_name             = NULL,
+    .base_name                = "Element",
+    .is_a                     = (XMI_ELEMENT_IS_A_ELEMENT),
+    .property_from            = NULL,
+    .property_to              = NULL,
+    .additional_properties    = NULL,
+}
 
 
 /*

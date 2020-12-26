@@ -46,9 +46,9 @@ enum xmi_element_is_a_enum {
     XMI_ELEMENT_IS_A_NODE                    = 0x00100000 | XMI_ELEMENT_IS_A_CLASS
                                                           | XMI_ELEMENT_IS_A_DEPLOYMENT_TARGET,      /*!< the type is a decendant of uml:Node */
     XMI_ELEMENT_IS_A_ARTIFACT                = 0x00200000 | XMI_ELEMENT_IS_A_CLASSIFIER,             /*!< the type is a decendant of uml:Artifact */
-
     XMI_ELEMENT_IS_A_FEATURE                 = 0x00400000 | XMI_ELEMENT_IS_A_REDEFINEABLE_ELEMENT,   /*!< the type is a decendant of uml:Feature */
-
+    XMI_ELEMENT_IS_A_PROPERTY                = 0x00800000 | XMI_ELEMENT_IS_A_FEATURE
+                                                          | XMI_ELEMENT_IS_A_DEPLOYMENT_TARGET,      /*!< the type is a decendant of uml:Property */
     XMI_ELEMENT_IS_A_ASSOCIATION             = 0x01000000 | XMI_ELEMENT_IS_A_RELATIONSHIP
                                                           | XMI_ELEMENT_IS_A_CLASSIFIER,             /*!< the type is a decendant of uml:Association */
     XMI_ELEMENT_IS_A_DIRECTED_RELATIONSHIP   = 0x02000000 | XMI_ELEMENT_IS_A_RELATIONSHIP,           /*!< the type is a decendant of uml:DirectedRelationship */

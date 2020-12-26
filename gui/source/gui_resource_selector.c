@@ -202,11 +202,11 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_feat_rx = gui_resources_get_type_feat_rx( (*this_).resources );
-        gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_IN_PORT_PIN, "Input Port/Input Pin", icon_feat_rx );
+        gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_IN_PORT_PIN, "Input Pin/FlowPort(SysML)", icon_feat_rx );
         assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_feat_tx = gui_resources_get_type_feat_tx( (*this_).resources );
-        gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_OUT_PORT_PIN, "Output Port/Output Pin", icon_feat_tx );
+        gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_OUT_PORT_PIN, "Output Pin/FlowPort(SysML)", icon_feat_tx );
         assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_feat_entry = gui_resources_get_type_feat_entry( (*this_).resources );

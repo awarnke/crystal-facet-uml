@@ -75,33 +75,18 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
 
         switch ( data_feature_get_main_type (the_feature) )
         {
-            case DATA_FEATURE_TYPE_PORT:
-            {
-                pencil_feature_painter_private_draw_port_pin_icon ( this_, layouted_feature, PENCIL_DIRECTION_UNSPECIFIED, pencil_size, foreground_color, cr );
-            }
-            break;
-
-            case DATA_FEATURE_TYPE_IN_PORT_PIN:
-            {
-                pencil_feature_painter_private_draw_port_pin_icon ( this_, layouted_feature, PENCIL_DIRECTION_IN, pencil_size, foreground_color, cr );
-            }
-            break;
-
+            case DATA_FEATURE_TYPE_PORT:  /* or */
+            case DATA_FEATURE_TYPE_IN_PORT_PIN:  /* or */
             case DATA_FEATURE_TYPE_OUT_PORT_PIN:
             {
-                pencil_feature_painter_private_draw_port_pin_icon ( this_, layouted_feature, PENCIL_DIRECTION_OUT, pencil_size, foreground_color, cr );
+                pencil_feature_painter_private_draw_port_pin_icon ( this_, layouted_feature, pencil_size, foreground_color, cr );
             }
             break;
 
-            case DATA_FEATURE_TYPE_ENTRY:
-            {
-                pencil_feature_painter_private_draw_entry_exit_icon ( this_, layouted_feature, PENCIL_DIRECTION_IN, pencil_size, foreground_color, cr );
-            }
-            break;
-
+            case DATA_FEATURE_TYPE_ENTRY:  /* or */
             case DATA_FEATURE_TYPE_EXIT:
             {
-                pencil_feature_painter_private_draw_entry_exit_icon ( this_, layouted_feature, PENCIL_DIRECTION_OUT, pencil_size, foreground_color, cr );
+                pencil_feature_painter_private_draw_entry_exit_icon ( this_, layouted_feature, pencil_size, foreground_color, cr );
             }
             break;
 
@@ -244,7 +229,6 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
 
 void pencil_feature_painter_private_draw_port_pin_icon ( pencil_feature_painter_t *this_,
                                                          layout_feature_t *layouted_feature,
-                                                         pencil_direction_t direction,
                                                          pencil_size_t *pencil_size,
                                                          GdkRGBA foreground_color,
                                                          cairo_t *cr )
@@ -356,7 +340,6 @@ void pencil_feature_painter_private_draw_port_pin_icon ( pencil_feature_painter_
 
 void pencil_feature_painter_private_draw_entry_exit_icon ( pencil_feature_painter_t *this_,
                                                            layout_feature_t *layouted_feature,
-                                                           pencil_direction_t direction,
                                                            pencil_size_t *pencil_size,
                                                            GdkRGBA foreground_color,
                                                            cairo_t *cr )
@@ -366,6 +349,7 @@ void pencil_feature_painter_private_draw_entry_exit_icon ( pencil_feature_painte
     assert( NULL != layouted_feature );
     assert( NULL != cr );
 
+    const data_feature_t *the_feature = layout_feature_get_data_const( layouted_feature );
     const geometry_rectangle_t *const symbol_box_bounds = layout_feature_get_symbol_box_const( layouted_feature );
 
     const double left = geometry_rectangle_get_left ( symbol_box_bounds );
@@ -390,7 +374,8 @@ void pencil_feature_painter_private_draw_entry_exit_icon ( pencil_feature_painte
     cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
     cairo_stroke (cr);
 
-    if ( direction == PENCIL_DIRECTION_OUT )
+    /* draw X of exit icon */
+    if ( data_feature_get_main_type( the_feature ) == DATA_FEATURE_TYPE_EXIT )
     {
         const double half_width = geometry_rectangle_get_width ( symbol_box_bounds )/2.0;
         const double half_height = geometry_rectangle_get_height ( symbol_box_bounds )/2.0;

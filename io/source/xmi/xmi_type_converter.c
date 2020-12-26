@@ -180,12 +180,14 @@ int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t
         }
         break;
 
-        case DATA_FEATURE_TYPE_PORT:
+        case DATA_FEATURE_TYPE_PORT:  /* or */
+        case DATA_FEATURE_TYPE_IN_PORT_PIN:  /* or */
+        case DATA_FEATURE_TYPE_OUT_PORT_PIN:
         {
             const bool is_behavioral_parent = data_classifier_type_is_behavioral( parent_type );
             if ( is_behavioral_parent )
             {
-                const bool p_is_activity_or_group 
+                const bool p_is_activity_or_group
                     = ( parent_type == DATA_CLASSIFIER_TYPE_ACTIVITY )||( parent_type == DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION );
                 /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 15.7.1.5 */
                 result = "node";
@@ -234,14 +236,15 @@ int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t
         }
         break;
 
-        /*
-        case DATA_FEATURE_TYPE_TESTCASE:
+        case DATA_FEATURE_TYPE_ENTRY:  /* or */
+        case DATA_FEATURE_TYPE_EXIT:
         {
-            / * spec: https://www.omg.org/spec/UML/2.5.1/PDF (v1.6) pkg: Requirements * /
-            result = "ownedBehavior";
+            const bool p_is_state = ( parent_type == DATA_CLASSIFIER_TYPE_STATE );
+            /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 14.5.8 (note: states have an implicit Region) */
+            result = "subvertex";
+            result_err = ( p_is_state ) ? 0 : -1;
         }
         break;
-        */
 
         default:
         {
@@ -433,15 +436,15 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
 
     *out_xmi_name = ( result == NULL ) ? "" : result;
     err = ( result == NULL ) ? -1 : 0;
-    
+
     const xmi_element_info_t *classifier_info
         = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, end_classifier_type, hosting_type );
     assert ( classifier_info != NULL );
-    
+
     if ( end_feature_type == DATA_FEATURE_TYPE_VOID )
     {
         /* relationship end is at a classifier */
-        
+
         /* DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW and DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW */
         if ( xmi_element_info_is_a_transition( rel_info ) && xmi_element_info_is_a_vertex( classifier_info ) )
         {
@@ -462,7 +465,7 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
         {
             /* a dependency can connect any named elements according to uml 2.5.1 spec, chapter 7.8.4  */
         }
-        
+
         /* DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION, DATA_RELATIONSHIP_TYPE_UML_AGGREGATION, DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, */
         /* DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH, DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT */
         else if ( xmi_element_info_is_a_association( rel_info ) && xmi_element_info_is_a_class( classifier_info ) )
@@ -480,7 +483,7 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
             /* an association can connect to a propoerty according to uml 2.5.1 spec, chapter 11.8.1  */
             /* a property is a typedelelemnt and can therefore connect a classifier(type) according to uml 2.5.1 spec, chapter 7.8.22  */
         }
-        
+
         /* DATA_RELATIONSHIP_TYPE_UML_EXTEND and DATA_RELATIONSHIP_TYPE_UML_INCLUDE */
         else if (( rel_type == DATA_RELATIONSHIP_TYPE_UML_EXTEND ) && ( end_classifier_type == DATA_CLASSIFIER_TYPE_USE_CASE ))
         {
@@ -490,7 +493,7 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
         {
             /* an include directed relationship can connect to a use case according to uml 2.5.1 spec, chapter 18.2.4  */
         }
-        
+
         /* DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION */
         else if (( rel_type == DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION ) && xmi_element_info_is_a_classifier( classifier_info ) )
         {
@@ -507,13 +510,19 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
     {
         /* relationship end is at feature */
         const xmi_element_info_t *feature_info
-            = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, 
-                                                end_feature_type, 
-                                                end_classifier_type 
+            = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
+                                                end_feature_type,
+                                                end_classifier_type
                                               );
         assert ( feature_info != NULL );
 
-        if ( xmi_element_info_is_a_activity_edge( rel_info ) && xmi_element_info_is_a_activity_node( feature_info ) )
+        /* DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW and DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW */
+        if ( xmi_element_info_is_a_transition( rel_info )
+            && (( end_feature_type == DATA_FEATURE_TYPE_ENTRY )||( end_feature_type == DATA_FEATURE_TYPE_EXIT )))
+        {
+            /* valid relationship according to uml 2.5.1 spec, chapter 14.5.11 */
+        }
+        else if ( xmi_element_info_is_a_activity_edge( rel_info ) && xmi_element_info_is_a_activity_node( feature_info ) )
         {
             /* valid relationship according to uml 2.5.1 spec, chapter 15.7.2 */
         }
@@ -523,14 +532,14 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
         {
             /* valid relationship according to uml 2.5.1 spec, chapter 17.12.23 */
         }
-        
+
         /* DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY, DATA_RELATIONSHIP_TYPE_UML_REALIZATION, DATA_RELATIONSHIP_TYPE_UML_MANIFEST, */
         /* DATA_RELATIONSHIP_TYPE_UML_DEPLOY, DATA_RELATIONSHIP_TYPE_UML_REFINE,  DATA_RELATIONSHIP_TYPE_UML_TRACE */
         else if ( xmi_element_info_is_a_dependency( rel_info ) && xmi_element_info_is_a_named_element( feature_info ) )
         {
             /* a dependency can connect any named elements according to uml 2.5.1 spec, chapter 7.8.4  */
         }
-        
+
         /* DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION, DATA_RELATIONSHIP_TYPE_UML_AGGREGATION, DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, */
         /* DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH, DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT */
         else if ( xmi_element_info_is_a_association( rel_info ) && xmi_element_info_is_a_class( feature_info ) )
@@ -538,7 +547,7 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
             /* an association can connect to a propoerty according to uml 2.5.1 spec, chapter 11.8.1  */
             /* a property can connect a class according to uml 2.5.1 spec, chapter 9.9.17  */
         }
-        else if ( xmi_element_info_is_a_association( rel_info ) 
+        else if ( xmi_element_info_is_a_association( rel_info )
             && (( end_feature_type ==  DATA_FEATURE_TYPE_PROVIDED_INTERFACE )||( end_feature_type == DATA_FEATURE_TYPE_REQUIRED_INTERFACE )))
         {
             /* an association can connect to a propoerty according to uml 2.5.1 spec, chapter 11.8.1  */
@@ -549,21 +558,20 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
             /* an association can connect to a propoerty according to uml 2.5.1 spec, chapter 11.8.1  */
             /* a property is a typedelelemnt and can therefore connect a classifier(type) according to uml 2.5.1 spec, chapter 7.8.22  */
         }
-        else if ( xmi_element_info_is_a_association( rel_info ) 
-            && (( end_feature_type ==  DATA_FEATURE_TYPE_PROPERTY )||( end_feature_type == DATA_FEATURE_TYPE_PORT )))
+        else if ( xmi_element_info_is_a_association( rel_info ) && xmi_element_info_is_a_property( feature_info ) )
         {
             /* an association can connect to a propoerty according to uml 2.5.1 spec, chapter 11.8.1  */
             /* a port is a property */
         }
-        
+
         else
         {
             /* no valid end type for given relationship type */
             err = -1;
         }
-        
+
     }
-    
+
     TRACE_END_ERR( err );
     return err;
 }

@@ -116,7 +116,7 @@ void xmi_element_writer_init ( xmi_element_writer_t *this_,
     xml_writer_init( &((*this_).xml_writer), output );
     xmi_type_converter_init( &((*this_).xmi_types) );
     xmi_atom_writer_init( &((*this_).atom_writer), db_reader, &((*this_).xml_writer) );
-    
+
     TRACE_END();
 }
 
@@ -304,7 +304,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "\n" );
-            
+
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_descr );
 
@@ -629,7 +629,7 @@ int xmi_element_writer_end_feature( xmi_element_writer_t *this_,
             /* The caller requested to write a feature to an illegal place */
             TRACE_INFO("xmi_element_writer: request to write a feature to an illegal place!");
         }
-        
+
         xml_writer_decrease_indent ( &((*this_).xml_writer) );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
@@ -659,7 +659,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
                                                  relation_type,
                                                  (parent_type==DATA_CLASSIFIER_TYPE_STATE)
                                                );
-    const bool is_annotated_element 
+    const bool is_annotated_element
         = (( parent_type == DATA_CLASSIFIER_TYPE_COMMENT )&&( relation_type == DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY ));
 
     if ( (*this_).mode == IO_WRITER_PASS_BASE )
@@ -697,7 +697,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
         {
             const data_id_t to_classifier_id = data_relationship_get_to_classifier_data_id( relation_ptr );
             const data_id_t to_feature_id = data_relationship_get_to_feature_data_id( relation_ptr );
-            
+
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_START );
             if ( data_id_is_valid( &to_feature_id ) )
             {
@@ -757,7 +757,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
                                                              relation_name
                                                            );
         }
-        
+
         /* update export statistics */
         data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
     }
@@ -836,19 +836,30 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
                                                  relation_type,
                                                  (parent_type==DATA_CLASSIFIER_TYPE_STATE)
                                                );
+    const xmi_element_info_t *from_end_info
+        = (from_f_type == DATA_FEATURE_TYPE_VOID)
+        ? xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, from_c_type, parent_type /*wrong parent here*/ )
+        : xmi_element_info_map_get_feature( &xmi_element_info_map_standard, from_f_type, from_c_type );
+    assert ( from_end_info != NULL );
+    const xmi_element_info_t *to_end_info
+        = (to_f_type == DATA_FEATURE_TYPE_VOID)
+        ? xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, to_c_type, parent_type /*wrong parent here*/ )
+        : xmi_element_info_map_get_feature( &xmi_element_info_map_standard, to_f_type, to_c_type );
+    assert ( to_end_info != NULL );
+
     /* evaluate if xmi requires to generate fake properties */
     const bool fake_property_ends = xmi_element_info_is_a_association( relation_info );
-    const bool fake_property_at_from_end 
-        = fake_property_ends && (( from_f_type !=  DATA_FEATURE_TYPE_PROPERTY )&&( from_f_type != DATA_FEATURE_TYPE_PORT ));
-    const bool fake_property_at_to_end 
-        = fake_property_ends && (( to_f_type != DATA_FEATURE_TYPE_PROPERTY )&&( to_f_type != DATA_FEATURE_TYPE_PORT ));
+    const bool fake_property_at_from_end
+        = fake_property_ends && ( ! xmi_element_info_is_a_property( from_end_info ) );
+    const bool fake_property_at_to_end
+        = fake_property_ends && ( ! xmi_element_info_is_a_property( to_end_info ) );
     /* check if suppress source end */
-    const bool suppress_source 
-        = (( relation_type == DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION ) 
-        || ( relation_type == DATA_RELATIONSHIP_TYPE_UML_EXTEND ) 
+    const bool suppress_source
+        = (( relation_type == DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION )
+        || ( relation_type == DATA_RELATIONSHIP_TYPE_UML_EXTEND )
         || ( relation_type == DATA_RELATIONSHIP_TYPE_UML_INCLUDE ))
         && parent_is_source;
-    const bool is_annotated_element 
+    const bool is_annotated_element
         = (( parent_type == DATA_CLASSIFIER_TYPE_COMMENT )&&( relation_type == DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY ));
 
     if (( (*this_).mode == IO_WRITER_PASS_BASE )&&( ! is_annotated_element ))
@@ -889,9 +900,9 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
                                                                                 true /* = from_end */,
                                                                                 from_c_type,
                                                                                 from_f_type
-                                                                              );                
+                                                                              );
             }
-            
+
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), from_type_tag );
@@ -910,7 +921,7 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_END );
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
-            
+
             if ( fake_property_at_from_end )
             {
                 export_err |= xmi_element_writer_private_fake_memberend ( this_,
@@ -949,9 +960,9 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
                                                                             false /* = from_end */,
                                                                             to_c_type,
                                                                             to_f_type
-                                                                          );                
+                                                                          );
         }
-            
+
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
         export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), to_type_tag );
@@ -982,7 +993,7 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
                                                                       true /* = is_target_end */
                                                                     );
         }
-        
+
         /* TODO an Extend relationship needs an Extension point*/
     }
 
@@ -1062,26 +1073,26 @@ int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
 {
     TRACE_BEGIN();
     int export_err = 0;
-    
-    const bool is_composition 
+
+    const bool is_composition
         = ( relationship_type == DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT )  /* fallback relationship */
         ||( relationship_type == DATA_RELATIONSHIP_TYPE_UML_COMPOSITION );
-    const bool is_aggregation 
+    const bool is_aggregation
         = ( relationship_type == DATA_RELATIONSHIP_TYPE_UML_AGGREGATION );
 
     const xmi_element_info_t *classifier_info
-        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, 
-                                               end_classifier_type, 
-                                               DATA_CLASSIFIER_TYPE_PACKAGE /* if state or activity context does not matter here */ 
+        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
+                                               end_classifier_type,
+                                               DATA_CLASSIFIER_TYPE_PACKAGE /* if state or activity context does not matter here */
                                              );
     assert ( classifier_info != NULL );
-        
+
     /* begin start member-end element */
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_ELEMENT_OWNED_END );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
-    
+
     /* write type attribute */
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
@@ -1109,7 +1120,7 @@ int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
     {
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_PROPERTY_AGGREGATION_ATTRIBUTE );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_VALUE_START );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), 
+        export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
                                                is_composition
                                                ? XMI_ELEMENT_PART_PROPERTY_AGGREGATION_COMPOSITE
                                                : XMI_ELEMENT_PART_PROPERTY_AGGREGATION_SHARED
@@ -1117,7 +1128,7 @@ int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_VALUE_END );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
     }
-    
+
     /* end start member-end element */
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
     xml_writer_increase_indent ( &((*this_).xml_writer) );
@@ -1139,7 +1150,7 @@ int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_PROPERTY_TYPE_ELEMENT );
     }
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
-    
+
     /* write id-ref attribute */
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_START );
     export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), end_object_id );
@@ -1147,14 +1158,14 @@ int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
 
     /* end type element */
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
-    
+
     /* end member-end element */
     xml_writer_decrease_indent ( &((*this_).xml_writer) );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_ELEMENT_OWNED_END );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
-    
+
     TRACE_END_ERR( export_err );
     return export_err;
 }

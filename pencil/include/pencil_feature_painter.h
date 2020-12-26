@@ -13,7 +13,6 @@
 #include "pencil_size.h"
 #include "layout/layout_feature.h"
 #include "draw/draw_feature_label.h"
-#include "option/pencil_direction.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_dimensions.h"
 #include "data_diagram.h"
@@ -92,14 +91,12 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
  *
  *  \param this_ pointer to own object attributes
  *  \param layouted_feature pointer to the layout-information and data to be drawn
- *  \param direction in out or unknown direction
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param foreground_color color to restore after having drawn the white background
  *  \param cr a cairo drawing context
  */
 void pencil_feature_painter_private_draw_port_pin_icon ( pencil_feature_painter_t *this_,
                                                          layout_feature_t *layouted_feature,
-                                                         pencil_direction_t direction,
                                                          pencil_size_t *pencil_size,
                                                          GdkRGBA foreground_color,
                                                          cairo_t *cr
@@ -110,14 +107,12 @@ void pencil_feature_painter_private_draw_port_pin_icon ( pencil_feature_painter_
  *
  *  \param this_ pointer to own object attributes
  *  \param layouted_feature pointer to the layout-information and data to be drawn
- *  \param direction in out or unknown direction
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param foreground_color color to restore after having drawn the white background
  *  \param cr a cairo drawing context
  */
 void pencil_feature_painter_private_draw_entry_exit_icon ( pencil_feature_painter_t *this_,
                                                            layout_feature_t *layouted_feature,
-                                                           pencil_direction_t direction,
                                                            pencil_size_t *pencil_size,
                                                            GdkRGBA foreground_color,
                                                            cairo_t *cr

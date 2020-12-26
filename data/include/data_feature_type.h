@@ -20,8 +20,8 @@ enum data_feature_type_enum {
     DATA_FEATURE_TYPE_LIFELINE = 3,  /* for sequence, timing, communication and interaction-overview diagrams */
     DATA_FEATURE_TYPE_PROVIDED_INTERFACE = 4,  /* service */
     DATA_FEATURE_TYPE_REQUIRED_INTERFACE = 5,  /* client */
-    DATA_FEATURE_TYPE_IN_PORT_PIN = 6,  /* Rx for component ports, activity pins */
-    DATA_FEATURE_TYPE_OUT_PORT_PIN = 7,  /* Tx for component ports, activity pins */
+    DATA_FEATURE_TYPE_IN_PORT_PIN = 6,  /* port with SysML-ItemFlow, activity input pin */
+    DATA_FEATURE_TYPE_OUT_PORT_PIN = 7,  /* port with SysML-ItemFlow, activity output pin */
     DATA_FEATURE_TYPE_ENTRY = 8,  /* control flow pseudostate for state entry */
     DATA_FEATURE_TYPE_EXIT = 9,  /* control flow pseudostate for state exit */
 };
