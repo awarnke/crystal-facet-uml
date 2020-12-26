@@ -804,7 +804,7 @@ const xmi_element_info_t xmi_element_info_map_unknown_type =
     .property_from            = NULL,
     .property_to              = NULL,
     .additional_properties    = NULL,
-}
+};
 
 
 /*

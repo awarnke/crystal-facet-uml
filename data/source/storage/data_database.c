@@ -193,7 +193,7 @@ static const char *DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1 =
     "ALTER TABLE diagramelements "
     "ADD COLUMN focused_feature_id INTEGER DEFAULT NULL;";
 
-    data_error_t data_database_private_initialize_tables( data_database_t *this_ )
+data_error_t data_database_private_initialize_tables( data_database_t *this_ )
 {
     TRACE_BEGIN();
 
