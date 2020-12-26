@@ -57,7 +57,30 @@ void data_database_init ( data_database_t *this_ );
  *  \return DATA_ERROR_NO_DB or DATA_ERROR_AT_DB if file cannot be opened,
  *          DATA_ERROR_NONE in case of success
  */
-data_error_t data_database_open ( data_database_t *this_, const char* db_file_path );
+static inline data_error_t data_database_open ( data_database_t *this_, const char* db_file_path );
+
+/*!
+ *  \brief opens a database file in read only mode
+ *
+ *  Useful for exporting data.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param db_file_path a relative or absolute file path
+ *  \return DATA_ERROR_NO_DB or DATA_ERROR_AT_DB if file cannot be opened,
+ *          DATA_ERROR_NONE in case of success
+ */
+static inline data_error_t data_database_open_read_only ( data_database_t *this_, const char* db_file_path );
+
+/*!
+ *  \brief opens a new database in memory
+ *
+ *  Creates a new datanase in memory for testing purposes
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_NO_DB or DATA_ERROR_AT_DB if in-memory db cannot be created,
+ *          DATA_ERROR_NONE in case of success
+ */
+static inline data_error_t data_database_open_in_memory ( data_database_t *this_ );
 
 /*!
  *  \brief closes the current database file
@@ -73,6 +96,17 @@ data_error_t data_database_close ( data_database_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 void data_database_destroy ( data_database_t *this_ );
+
+/*!
+ *  \brief opens a database file
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param db_file_path a relative or absolute file path
+ *  \param sqlite3_flags sqlite3 flags as required for sqlite3_open_v2()
+ *  \return DATA_ERROR_NO_DB or DATA_ERROR_AT_DB if file cannot be opened,
+ *          DATA_ERROR_NONE in case of success
+ */
+data_error_t data_database_private_open ( data_database_t *this_, const char* db_file_path, int sqlite3_flags );
 
 /*!
  *  \brief returns a pointer to the sqlite database

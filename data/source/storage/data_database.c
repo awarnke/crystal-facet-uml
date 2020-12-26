@@ -494,7 +494,7 @@ void data_database_init ( data_database_t *this_ )
     TRACE_END();
 }
 
-data_error_t data_database_open ( data_database_t *this_, const char* db_file_path )
+data_error_t data_database_private_open ( data_database_t *this_, const char* db_file_path, int sqlite3_flags )
 {
     TRACE_BEGIN();
     assert( NULL != db_file_path );
@@ -513,12 +513,16 @@ data_error_t data_database_open ( data_database_t *this_, const char* db_file_pa
     {
         utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
 
-        TSLOG_EVENT_STR( "sqlite3_open:", utf8stringbuf_get_string( (*this_).db_file_name ) );
-        sqlite_err = sqlite3_open( utf8stringbuf_get_string( (*this_).db_file_name ), &((*this_).db) );
+        TSLOG_EVENT_STR( "sqlite3_open_v2:", utf8stringbuf_get_string( (*this_).db_file_name ) );
+        sqlite_err = sqlite3_open_v2( utf8stringbuf_get_string( (*this_).db_file_name ),
+                                      &((*this_).db),
+                                      sqlite3_flags,
+                                      NULL
+                                    );
         if ( SQLITE_OK != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_open() failed:", sqlite_err );
-            TSLOG_ERROR_STR( "sqlite3_open() failed:", utf8stringbuf_get_string( (*this_).db_file_name ) );
+            TSLOG_ERROR_INT( "sqlite3_open_v2() failed:", sqlite_err );
+            TSLOG_ERROR_STR( "sqlite3_open_v2() failed:", utf8stringbuf_get_string( (*this_).db_file_name ) );
             (*this_).is_open = false;
             result |= DATA_ERROR_NO_DB;  /* no db to use */
         }

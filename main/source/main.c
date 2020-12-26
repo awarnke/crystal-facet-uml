@@ -108,7 +108,14 @@ int main (int argc, char *argv[]) {
 
         TRACE_INFO("starting DB...");
         data_database_init( &database );
-        data_database_open( &database, database_file );
+        if ( do_repair )
+        {
+            data_database_open( &database, database_file );
+        }
+        else
+        {
+            data_database_open_read_only( &database, database_file );
+        }
 
         TRACE_INFO("initializing controller...");
         ctrl_controller_init( &controller, &database );
@@ -153,7 +160,7 @@ int main (int argc, char *argv[]) {
 
         TRACE_INFO("starting DB...");
         data_database_init( &database );
-        data_database_open( &database, database_file );
+        data_database_open_read_only( &database, database_file );
 
         TRACE_INFO("exporting DB...");
         int export_err;

@@ -2,6 +2,33 @@
 
 #include "tslog.h"
 
+static inline data_error_t data_database_open ( data_database_t *this_, const char* db_file_path )
+{
+    const data_error_t err
+        = data_database_private_open( this_,
+                                      db_file_path,
+                                      SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE
+                                    );
+    return err;
+}
+
+static inline data_error_t data_database_open_read_only ( data_database_t *this_, const char* db_file_path )
+{
+    const data_error_t err
+        = data_database_private_open( this_, db_file_path, SQLITE_OPEN_READONLY );
+    return err;
+}
+
+static inline data_error_t data_database_open_in_memory ( data_database_t *this_ )
+{
+    const data_error_t err
+        = data_database_private_open( this_,
+                                      "crystal-facet-uml_dummy_filename",
+                                      SQLITE_OPEN_MEMORY
+                                    );
+    return err;
+}
+
 static inline sqlite3 *data_database_get_database_ptr ( data_database_t *this_ )
 {
     return (*this_).db;
