@@ -21,10 +21,11 @@ static inline data_error_t data_database_open_read_only ( data_database_t *this_
 
 static inline data_error_t data_database_open_in_memory ( data_database_t *this_ )
 {
+    const char* const IN_MEMORY_FILENAME = ":memory:"; /* magic filename, see https://www.sqlite.org/c3ref/open.html */
     const data_error_t err
         = data_database_private_open( this_,
-                                      "crystal-facet-uml_dummy_filename",
-                                      SQLITE_OPEN_MEMORY
+                                      IN_MEMORY_FILENAME,
+                                      SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_MEMORY
                                     );
     return err;
 }

@@ -1,4 +1,4 @@
-/* File: unittest_main.c; Copyright and License: see below */
+/* File: test_main.c; Copyright and License: see below */
 
 #include "data_change_notifier_test.h"
 #include "data_small_set_test.h"

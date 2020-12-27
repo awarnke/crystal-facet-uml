@@ -20,6 +20,8 @@
  *    \n contains all module-internal interfaces, source codes and resources.
  *  - unittest/
  *    \n contains unit test cases for that software module
+ *  - test/
+ *    \n contains any test cases for that software module
  *  .
  *
  *  \subsection cfu-namespaces Namespaces

@@ -9,7 +9,6 @@
 #include "storage/data_database_reader.h"
 #include "trace.h"
 #include "test_assert.h"
-#include <stdio.h>
 
 static void set_up(void);
 static void tear_down(void);
@@ -30,11 +29,6 @@ static data_row_id_t create_root_diag();  /* helper function */
  *  \brief database instance on which the tests are performed
  */
 static data_database_t database;
-
-/*!
- *  \brief database filename on which the tests are performed and which is automatically deleted when finished
- */
-static const char* DATABASE_FILENAME = "unittest_crystal_facet_uml_json.cfu1";
 
 /*!
  *  \brief database reader to access the database
@@ -66,7 +60,7 @@ test_suite_t json_import_to_database_test_get_list(void)
 static void set_up(void)
 {
     data_database_init( &database );
-    data_database_open( &database, DATABASE_FILENAME );
+    data_database_open_in_memory( &database );
 
     data_database_reader_init( &db_reader, &database );
 
@@ -75,15 +69,12 @@ static void set_up(void)
 
 static void tear_down(void)
 {
-    int err;
     ctrl_controller_destroy( &controller );
 
     data_database_reader_destroy( &db_reader );
 
     data_database_close( &database );
     data_database_destroy( &database );
-    err = remove( DATABASE_FILENAME );
-    TEST_ENVIRONMENT_ASSERT ( 0 == err );
 }
 
 static data_row_id_t create_root_diag()

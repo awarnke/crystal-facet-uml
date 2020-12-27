@@ -70,7 +70,7 @@ FILE(GLOB commonSource gui/source/*.c
                        io/source/xmi/*.c
                        io/source/md/*.c)
 FILE(GLOB appSource    main/source/*.c)
-FILE(GLOB utestSource  main/unittest/*.c
+FILE(GLOB utestSource  main/test/*.c
                        data/unittest/*.c
                        ctrl/unittest/*.c
                        gui/unittest/*.c

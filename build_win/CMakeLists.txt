@@ -65,7 +65,7 @@ FILE(GLOB commonSource ../gui/source/*.c
                        ../io/source/md/*.c
                        ${SQLITE_BASE}/sqlite3.c)
 FILE(GLOB appSource    ../main/source/*.c)
-FILE(GLOB utestSource  ../main/unittest/*.c
+FILE(GLOB utestSource  ../main/test/*.c
                        ../data/unittest/*.c
                        ../ctrl/unittest/*.c
                        ../gui/unittest/*.c
