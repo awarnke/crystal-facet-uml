@@ -20,6 +20,7 @@
 #include "json_tokenizer_test.h"
 #include "json_import_to_database_test.h"
 #include "md_filter_test.h"
+#include "io_export_model_traversal_test.h"
 #include "pencil_layout_data_test.h"
 #include "universal_array_index_sorter_test.h"
 #include "universal_array_list_test.h"
@@ -134,6 +135,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, ctrl_classifier_policy_enforcer_test_get_list() );
         test_runner_run_suite( &runner, json_import_to_database_test_get_list() );
         test_runner_run_suite( &runner, md_filter_test_get_list() );
+        test_runner_run_suite( &runner, io_export_model_traversal_test_get_list() );
     }
 
     /* fetch failures */

@@ -11,7 +11,6 @@
 #include "data_feature.h"
 #include "data_relationship.h"
 #include "test_assert.h"
-#include <stdio.h>
 
 static void set_up(void);
 static void tear_down(void);
@@ -23,11 +22,6 @@ static void relationship_CRURDR(void);
  *  \brief database instance on which the tests are performed
  */
 static data_database_t database;
-
-/*!
- *  \brief database filename on which the tests are performed and which is automatically deleted when finished
- */
-static const char* DATABASE_FILENAME = "unittest_crystal_facet_uml_default.cfu1";
 
 /*!
  *  \brief database reader to access the database
@@ -52,7 +46,7 @@ test_suite_t ctrl_classifier_controller_test_get_list(void)
 static void set_up(void)
 {
     data_database_init( &database );
-    data_database_open( &database, DATABASE_FILENAME );
+    data_database_open_in_memory( &database );
 
     data_database_reader_init( &db_reader, &database );
 
@@ -61,15 +55,12 @@ static void set_up(void)
 
 static void tear_down(void)
 {
-    int err;
     ctrl_controller_destroy( &controller );
 
     data_database_reader_destroy( &db_reader );
 
     data_database_close( &database );
     data_database_destroy( &database );
-    err = remove( DATABASE_FILENAME );
-    TEST_ENVIRONMENT_ASSERT ( 0 == err );
 }
 
 static void classifier_create_read_modify_read(void)

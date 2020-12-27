@@ -5,10 +5,7 @@
 static inline data_error_t data_database_open ( data_database_t *this_, const char* db_file_path )
 {
     const data_error_t err
-        = data_database_private_open( this_,
-                                      db_file_path,
-                                      SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE
-                                    );
+        = data_database_private_open( this_, db_file_path, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE );
     return err;
 }
 
