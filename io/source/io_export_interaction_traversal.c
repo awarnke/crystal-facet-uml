@@ -338,11 +338,16 @@ int io_export_interaction_traversal_private_iterate_feature_relationships ( io_e
                     
                 /* is message */
                 const data_relationship_type_t relation_type = data_relationship_get_main_type( relation );
-                const xmi_element_info_t *relation_info
-                    = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
-                                                             relation_type,
-                                                             false /* interaction context, not state */
-                                                           );
+                const xmi_element_info_t *relation_info;
+                int map_err = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
+                                                                     false, /* interaction context, not state */
+                                                                     relation_type,
+                                                                     &relation_info
+                                                                   );
+                if ( map_err != 0 )
+                {
+                    TSLOG_WARNING_INT("xmi_element_info_map_get_relationship could not map type", relation_type );
+                }
                 const bool is_message = ( xmi_element_info_is_a_message ( relation_info ) );
 
 

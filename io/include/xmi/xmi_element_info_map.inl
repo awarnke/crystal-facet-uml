@@ -5,11 +5,16 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( const xmi_element_info_map_t *this_,
-                                                                               data_classifier_type_t classifier_type,
-                                                                               data_classifier_type_t parent_type )
+extern const xmi_element_info_t xmi_element_info_map_unknown_type;
+extern const xmi_element_info_t xmi_element_info_map_unknown_rel_type;
+
+static inline int xmi_element_info_map_get_classifier ( const xmi_element_info_map_t *this_,
+                                                        data_classifier_type_t parent_type,
+                                                        data_classifier_type_t classifier_type,
+                                                        const xmi_element_info_t **out_element_info )
 {
-    const xmi_element_info_t * result = &xmi_element_info_map_unknown_type;
+    assert( NULL != out_element_info );
+    const xmi_element_info_t * result = NULL;
 
     const bool statemachine_context = ( parent_type == DATA_CLASSIFIER_TYPE_STATE );
     const bool activity_context
@@ -284,14 +289,17 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( c
         break;
     }
 
-    return result;
+    *out_element_info = (result==NULL) ? &xmi_element_info_map_unknown_type : result;
+    return (result==NULL) ? -1 : 0;
 }
 
-static inline const xmi_element_info_t * xmi_element_info_map_get_feature ( const xmi_element_info_map_t *this_,
-                                                                            data_feature_type_t feature_type,
-                                                                            data_classifier_type_t parent_type )
+static inline int xmi_element_info_map_get_feature ( const xmi_element_info_map_t *this_,
+                                                     data_classifier_type_t parent_type,
+                                                     data_feature_type_t feature_type,
+                                                     const xmi_element_info_t **out_element_info )
 {
-    const xmi_element_info_t * result = &xmi_element_info_map_unknown_type;
+    assert( NULL != out_element_info );
+    const xmi_element_info_t * result = NULL;
 
     switch ( feature_type )
     {
@@ -391,14 +399,17 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_feature ( cons
         break;
     }
 
-    return result;
+    *out_element_info = (result==NULL) ? &xmi_element_info_map_unknown_type : result;
+    return (result==NULL) ? -1 : 0;
 }
 
-static inline const xmi_element_info_t * xmi_element_info_map_get_relationship ( const xmi_element_info_map_t *this_,
-                                                                                 data_relationship_type_t rel_type,
-                                                                                 bool statemachine_context )
+static inline int xmi_element_info_map_get_relationship ( const xmi_element_info_map_t *this_,
+                                                          bool statemachine_context,
+                                                          data_relationship_type_t rel_type,
+                                                          const xmi_element_info_t **out_element_info )
 {
-    const xmi_element_info_t * result = &xmi_element_info_map_unknown_type;
+    assert( NULL != out_element_info );
+    const xmi_element_info_t * result = NULL;
 
     switch ( rel_type )
     {
@@ -559,7 +570,8 @@ static inline const xmi_element_info_t * xmi_element_info_map_get_relationship (
         break;
     }
 
-    return result;
+    *out_element_info = (result==NULL) ? &xmi_element_info_map_unknown_rel_type : result;
+    return (result==NULL) ? -1 : 0;
 }
 
 

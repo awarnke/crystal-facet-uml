@@ -196,6 +196,66 @@ int xmi_atom_writer_encode_xmi_id( xmi_atom_writer_t *this_,
     return export_err;
 }
 
+int xmi_atom_writer_report_unknown_classifier( xmi_atom_writer_t *this_,
+                                               data_id_t fact_classifier_id,
+                                               data_classifier_type_t fact_classifier_type )
+{
+    TRACE_BEGIN();
+    int export_err = 0;
+
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
+    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_classifier_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
+    export_err |= xmi_atom_writer_encode_xmi_id( this_, fact_classifier_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") has type " );
+    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_classifier_type );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " which is unknown to this program version " );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+    
+int xmi_atom_writer_report_unknown_feature( xmi_atom_writer_t *this_,
+                                            data_id_t fact_feature_id,
+                                            data_feature_type_t fact_feature_type )
+{
+    TRACE_BEGIN();
+    int export_err = 0;
+
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
+    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_feature_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
+    export_err |= xmi_atom_writer_encode_xmi_id( this_, fact_feature_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") has type " );
+    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_feature_type );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " which is unknown to this program version " );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int xmi_atom_writer_report_unknown_relationship( xmi_atom_writer_t *this_,
+                                                 data_id_t fact_relationship_id,
+                                                 data_relationship_type_t fact_relationship_type )
+{
+    TRACE_BEGIN();
+    int export_err = 0;
+
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
+    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_relationship_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
+    export_err |= xmi_atom_writer_encode_xmi_id( this_, fact_relationship_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") has type " );
+    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_relationship_type );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " which is unknown to this program version " );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
 int xmi_atom_writer_report_illegal_container( xmi_atom_writer_t *this_,
                                               data_id_t fact_classifier_id,
                                               data_classifier_type_t fact_classifier_type,
@@ -204,14 +264,26 @@ int xmi_atom_writer_report_illegal_container( xmi_atom_writer_t *this_,
     TRACE_BEGIN();
     int export_err = 0;
     
-    const xmi_element_info_t *parent_info = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
-                                                                                 fact_parent_type,
-                                                                                 DATA_CLASSIFIER_TYPE_PACKAGE /*guess, only used for an error message */
-                                                                               );
-    const xmi_element_info_t *classifier_info = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
-                                                                                     fact_classifier_type,
-                                                                                     fact_parent_type
-                                                                                   );
+    const xmi_element_info_t *parent_info;
+    int map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
+                                                       DATA_CLASSIFIER_TYPE_PACKAGE, /*guess, only used for an error message */
+                                                       fact_parent_type,
+                                                       &parent_info
+                                                     );
+    if ( map_err != 0 )
+    {
+        TSLOG_WARNING("xmi_element_info_map_get_classifier could not map DATA_CLASSIFIER_TYPE_PACKAGE");
+    }
+    const xmi_element_info_t *classifier_info;
+    map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
+                                                   fact_parent_type,
+                                                   fact_classifier_type,
+                                                   &classifier_info
+                                                 );
+    if ( map_err != 0 )
+    {
+        TSLOG_WARNING_INT("xmi_element_info_map_get_classifier could not map type", fact_classifier_type );
+    }
     
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
     export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_classifier_id );
@@ -263,14 +335,26 @@ int xmi_atom_writer_report_illegal_parent( xmi_atom_writer_t *this_,
     TRACE_BEGIN();
     int export_err = 0;
     
-    const xmi_element_info_t *parent_info = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
-                                                                                 fact_parent_type,
-                                                                                 DATA_CLASSIFIER_TYPE_PACKAGE /*guess, only used for an error message */
-                                                                               );
-    const xmi_element_info_t *feature_info = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
-                                                                               fact_feature_type,
-                                                                               fact_parent_type
-                                                                             );
+    const xmi_element_info_t *parent_info;
+    int map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
+                                                       DATA_CLASSIFIER_TYPE_PACKAGE, /*guess, only used for an error message */
+                                                       fact_parent_type,
+                                                       &parent_info
+                                                     );
+    if ( map_err != 0 )
+    {
+        TSLOG_WARNING("xmi_element_info_map_get_classifier could not map DATA_CLASSIFIER_TYPE_PACKAGE");
+    }
+    const xmi_element_info_t *feature_info;
+    map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
+                                                fact_parent_type,
+                                                fact_feature_type,
+                                                &feature_info
+                                              );
+    if ( map_err != 0 )
+    {
+        TSLOG_WARNING_INT("xmi_element_info_map_get_feature could not map type", fact_feature_type );
+    }
     
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
     export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_feature_id );
@@ -323,14 +407,26 @@ int xmi_atom_writer_report_illegal_location( xmi_atom_writer_t *this_,
     TRACE_BEGIN();
     int export_err = 0;
     
-    const xmi_element_info_t *host_info = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
-                                                                               fact_hosting_type,
-                                                                               DATA_CLASSIFIER_TYPE_PACKAGE /*guess, only used for an error message */
-                                                                             );
-    const xmi_element_info_t *relation_info = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
-                                                                                     fact_relationship_type,
-                                                                                     (fact_hosting_type==DATA_CLASSIFIER_TYPE_STATE)
-                                                                                   );
+    const xmi_element_info_t *host_info;
+    int map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
+                                                       DATA_CLASSIFIER_TYPE_PACKAGE, /*guess, only used for an error message */
+                                                       fact_hosting_type,
+                                                       &host_info
+                                                     );
+    if ( map_err != 0 )
+    {
+        TSLOG_WARNING("xmi_element_info_map_get_classifier could not map DATA_CLASSIFIER_TYPE_PACKAGE");
+    }
+    const xmi_element_info_t *relation_info;
+    map_err = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
+                                                     (fact_hosting_type==DATA_CLASSIFIER_TYPE_STATE),
+                                                     fact_relationship_type,
+                                                     &relation_info
+                                                   );
+    if ( map_err != 0 )
+    {
+        TSLOG_WARNING_INT("xmi_element_info_map_get_relationship could not map type", fact_relationship_type );
+    }
     
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
     export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_relationship_id );
@@ -385,10 +481,16 @@ int xmi_atom_writer_report_illegal_relationship_end ( xmi_atom_writer_t *this_,
     TRACE_BEGIN();
     int export_err = 0;
     
-    const xmi_element_info_t *relation_info = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
-                                                                                     fact_relationship_type,
-                                                                                     (fact_hosting_type==DATA_CLASSIFIER_TYPE_STATE)
-                                                                                   );
+    const xmi_element_info_t *relation_info;
+    int map_err = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
+                                                         (fact_hosting_type==DATA_CLASSIFIER_TYPE_STATE),
+                                                         fact_relationship_type,
+                                                         &relation_info
+                                                       );
+    if ( map_err != 0 )
+    {
+        TSLOG_WARNING_INT("xmi_element_info_map_get_relationship could not map type", fact_relationship_type );
+    }
     
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
     export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_relationship_id );
@@ -413,11 +515,16 @@ int xmi_atom_writer_report_illegal_relationship_end ( xmi_atom_writer_t *this_,
     {
         export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_end_classifier_type );
         
-        const xmi_element_info_t *classifier_info 
-            = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
-                                                   fact_end_classifier_type,
-                                                   fact_hosting_type
-                                                 );
+        const xmi_element_info_t *classifier_info;
+        int map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
+                                                           fact_hosting_type,
+                                                           fact_end_classifier_type,
+                                                           &classifier_info
+                                                         );
+        if ( map_err != 0 )
+        {
+            TSLOG_WARNING_INT("xmi_element_info_map_get_classifier could not map type", fact_end_classifier_type );
+        }
         if ( classifier_info != NULL ) 
         {
             const char * end_type_name = xmi_element_info_get_name ( classifier_info );
@@ -433,11 +540,16 @@ int xmi_atom_writer_report_illegal_relationship_end ( xmi_atom_writer_t *this_,
     {
         export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_end_feature_type );
         
-        const xmi_element_info_t *feature_info 
-            = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
-                                                fact_end_feature_type,
-                                                fact_end_classifier_type
-                                              );
+        const xmi_element_info_t *feature_info;
+        int map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
+                                                        fact_end_classifier_type,
+                                                        fact_end_feature_type,
+                                                        &feature_info
+                                                      );
+        if ( map_err != 0 )
+        {
+            TSLOG_WARNING_INT("xmi_element_info_map_get_feature could not map type", fact_end_feature_type );
+        }
         if ( feature_info != NULL ) 
         {
             const char * end_type_name = xmi_element_info_get_name ( feature_info );

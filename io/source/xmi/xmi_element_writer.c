@@ -179,10 +179,31 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
     assert ( NULL != classifier_ptr );
     int export_err = 0;
 
+    const data_id_t classifier_id = data_classifier_get_data_id(classifier_ptr);
+    const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier_ptr);
+    const xmi_element_info_t *classifier_info;
+    int map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
+                                                       parent_type,
+                                                       classifier_type,
+                                                       &classifier_info
+                                                     );
+
     if ( (*this_).mode == IO_WRITER_PASS_BASE )
     {
+        if ( map_err != 0 )
+        {
+            /* The caller requested to write a classifier of unknown type */
+            TRACE_INFO("xmi_element_writer: request to write a classifier of unknown type!")
+            /* update export statistics */
+            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
+            /* inform the user via an XML comment: */
+            export_err |= xmi_atom_writer_report_unknown_classifier( &((*this_).atom_writer),
+                                                                     classifier_id,
+                                                                     classifier_type
+                                                                   );
+        }
+        
         /* determine nesting tag */
-        const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier_ptr);
         const char* nesting_property;
         const int nesting_err
             = xmi_type_converter_get_xmi_nesting_property_of_classifier( &((*this_).xmi_types),
@@ -199,7 +220,6 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
             /* update export statistics */
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
-            const data_id_t classifier_id = data_classifier_get_data_id(classifier_ptr);
             export_err |= xmi_atom_writer_report_illegal_container( &((*this_).atom_writer),
                                                                     classifier_id,
                                                                     classifier_type,
@@ -236,14 +256,21 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
     const size_t classifier_descr_len = utf8string_get_length(classifier_descr);
     const data_id_t classifier_id = data_classifier_get_data_id(classifier_ptr);
     const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier_ptr);
-    const xmi_element_info_t *classifier_info
-        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
-                                               classifier_type,
-                                               parent_type
-                                             );
+    const xmi_element_info_t *classifier_info;
+    int map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
+                                                       parent_type,
+                                                       classifier_type,
+                                                       &classifier_info
+                                                     );
 
     if ( (*this_).mode == IO_WRITER_PASS_BASE )
     {
+        if ( map_err != 0 )
+        {
+            /* The caller requested to write a classifier of unknown type, error was already logged at xmi_element_writer_start_classifier */
+            TRACE_INFO_INT("xmi_element_writer: request to write a classifier of unknown type", classifier_type );
+        }
+        
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
         const char* c_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
@@ -488,11 +515,28 @@ int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
     const char *const feature_key = data_feature_get_key_ptr( feature_ptr );
     const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
     const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
-    const xmi_element_info_t *feature_info
-        = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, feature_type, parent_type );
+    const xmi_element_info_t *feature_info;
+    int map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, 
+                                                    parent_type,
+                                                    feature_type, 
+                                                    &feature_info
+                                                  );
 
     if ( (*this_).mode == IO_WRITER_PASS_BASE )
     {
+        if ( map_err != 0 )
+        {
+            /* The caller requested to write a feature of unknown type */
+            TRACE_INFO("xmi_element_writer: request to write a feature of unknown type!")
+            /* update export statistics */
+            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+            /* inform the user via an XML comment: */
+            export_err |= xmi_atom_writer_report_unknown_feature( &((*this_).atom_writer),
+                                                                  feature_id,
+                                                                  feature_type
+                                                                );
+        }
+        
         /* determine nesting tag */
         const char* owning_type;
         const int owning_err
@@ -513,6 +557,7 @@ int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
                                                                  feature_type,
                                                                  parent_type
                                                                );
+            owning_type = XMI_ELEMENT_PART_FALLBACK_OWNED_FEATURE;
         }
 
         /* write nesting tag */
@@ -628,6 +673,7 @@ int xmi_element_writer_end_feature( xmi_element_writer_t *this_,
         {
             /* The caller requested to write a feature to an illegal place */
             TRACE_INFO("xmi_element_writer: request to write a feature to an illegal place!");
+            owning_type = XMI_ELEMENT_PART_FALLBACK_OWNED_FEATURE;
         }
 
         xml_writer_decrease_indent ( &((*this_).xml_writer) );
@@ -654,16 +700,30 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
     const size_t relation_name_len = utf8string_get_length(relation_name);
     const data_id_t relation_id = data_relationship_get_data_id( relation_ptr );
     const data_relationship_type_t relation_type = data_relationship_get_main_type( relation_ptr );
-    const xmi_element_info_t *relation_info
-        = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
-                                                 relation_type,
-                                                 (parent_type==DATA_CLASSIFIER_TYPE_STATE)
-                                               );
+    const xmi_element_info_t *relation_info;
+    int map_err = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
+                                                         (parent_type==DATA_CLASSIFIER_TYPE_STATE),
+                                                         relation_type,
+                                                         &relation_info
+                                                       );
     const bool is_annotated_element
         = (( parent_type == DATA_CLASSIFIER_TYPE_COMMENT )&&( relation_type == DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY ));
 
     if ( (*this_).mode == IO_WRITER_PASS_BASE )
     {
+        if ( map_err != 0 )
+        {
+            /* The caller requested to write a relationship of unknown type */
+            TRACE_INFO("xmi_element_writer: request to write a relationship of unknown type!")
+            /* update export statistics */
+            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+            /* inform the user via an XML comment: */
+            export_err |= xmi_atom_writer_report_unknown_relationship( &((*this_).atom_writer),
+                                                                       relation_id,
+                                                                       relation_type
+                                                                     );
+        }
+        
         /* determine nesting tag */
         const char* nesting_property;
         const int nesting_err
@@ -831,20 +891,54 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
     const data_id_t to_feature_id = data_relationship_get_to_feature_data_id( relation_ptr );
     const data_id_t to_end_id = data_id_is_valid( &to_feature_id ) ? to_feature_id : to_classifier_id;
     const data_relationship_type_t relation_type = data_relationship_get_main_type( relation_ptr );
-    const xmi_element_info_t *relation_info
-        = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
-                                                 relation_type,
-                                                 (parent_type==DATA_CLASSIFIER_TYPE_STATE)
-                                               );
-    const xmi_element_info_t *from_end_info
-        = (from_f_type == DATA_FEATURE_TYPE_VOID)
-        ? xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, from_c_type, parent_type /*wrong parent here*/ )
-        : xmi_element_info_map_get_feature( &xmi_element_info_map_standard, from_f_type, from_c_type );
+    const xmi_element_info_t *relation_info;
+    int map_err = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
+                                                         (parent_type==DATA_CLASSIFIER_TYPE_STATE),
+                                                         relation_type,
+                                                         &relation_info
+                                                       );
+    if ( map_err != 0 )
+    {
+        /* The caller requested to write a relationship of unknown type, error was already logged at xmi_element_writer_start_relationship */
+        TRACE_INFO_INT("xmi_element_writer: request to write a relationship of unknown type", relation_type );
+    }
+        
+    const xmi_element_info_t *from_end_info = NULL;
+    if (from_f_type == DATA_FEATURE_TYPE_VOID)
+    {
+        map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, parent_type /*wrong parent here*/, from_c_type, &from_end_info );
+        if ( map_err != 0 )
+        {
+            TRACE_INFO_INT("xmi_element_writer: request to write a relationship from-end of unknown c-type", from_c_type );
+        }
+    }
+    else
+    {
+        map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, from_c_type, from_f_type, &from_end_info );
+        if ( map_err != 0 )
+        {
+            TRACE_INFO_INT("xmi_element_writer: request to write a relationship from-end of unknown f-type", from_f_type );
+        }
+    }
     assert ( from_end_info != NULL );
-    const xmi_element_info_t *to_end_info
-        = (to_f_type == DATA_FEATURE_TYPE_VOID)
-        ? xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, to_c_type, parent_type /*wrong parent here*/ )
-        : xmi_element_info_map_get_feature( &xmi_element_info_map_standard, to_f_type, to_c_type );
+    
+    const xmi_element_info_t *to_end_info = NULL;
+    if (to_f_type == DATA_FEATURE_TYPE_VOID)
+    {
+        map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, parent_type /*wrong parent here*/, to_c_type, &to_end_info );
+        if ( map_err != 0 )
+        {
+            TRACE_INFO_INT("xmi_element_writer: request to write a relationship to-end of unknown c-type", to_c_type );
+        }
+    }
+    else
+    {
+        map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, to_c_type, to_f_type, &to_end_info );
+        if ( map_err != 0 )
+        {
+            TRACE_INFO_INT("xmi_element_writer: request to write a relationship to-end of unknown f-type", to_f_type );
+        }
+    }
     assert ( to_end_info != NULL );
 
     /* evaluate if xmi requires to generate fake properties */
@@ -1080,11 +1174,16 @@ int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
     const bool is_aggregation
         = ( relationship_type == DATA_RELATIONSHIP_TYPE_UML_AGGREGATION );
 
-    const xmi_element_info_t *classifier_info
-        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
-                                               end_classifier_type,
-                                               DATA_CLASSIFIER_TYPE_PACKAGE /* if state or activity context does not matter here */
-                                             );
+    const xmi_element_info_t *classifier_info;
+    int map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
+                                                       DATA_CLASSIFIER_TYPE_PACKAGE, /* if state or activity context does not matter here */
+                                                       end_classifier_type,
+                                                       &classifier_info
+                                                     );
+    if ( map_err != 0 )
+    {
+        TRACE_INFO_INT("xmi_element_writer: request to write a member end of unknown type", end_classifier_type )
+    }
     assert ( classifier_info != NULL );
 
     /* begin start member-end element */

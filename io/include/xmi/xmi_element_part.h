@@ -12,9 +12,16 @@
 /*!
  *  \brief fallback nesting type 
  * 
- * for the case that the outer model shall nest an element that is illegal according to uml/sysml spec
+ *  for the case that the outer model shall nest an element that is illegal according to uml/sysml spec
  */
 extern const char * const XMI_ELEMENT_PART_FALLBACK_NESTING_ELEMENT;
+
+/*!
+ *  \brief fallback owned-feature type 
+ * 
+ *  for the case that a classifier shall nest an feature of unknown type
+ */
+extern const char * const XMI_ELEMENT_PART_FALLBACK_OWNED_FEATURE;
 
 /*!
  *  \brief ownedEnd element of CommunicationPath and Association

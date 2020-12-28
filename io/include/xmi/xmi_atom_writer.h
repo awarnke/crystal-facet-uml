@@ -74,6 +74,51 @@ int xmi_atom_writer_encode_xmi_id( xmi_atom_writer_t *this_,
                                  );
 
 /*!
+ *  \brief reports an issue as comment in xmi output: a classifier has an unknown type
+ * 
+ *  This can happen if the database was created with a newer version of this program.
+ * 
+ *  \param this_ pointer to own object attributes
+ *  \param fact_classifier_id the id of classifier object
+ *  \param fact_classifier_type type of the classifier object
+ *  \result 0 in case of success, -1 otherwise
+ */
+int xmi_atom_writer_report_unknown_classifier( xmi_atom_writer_t *this_,
+                                               data_id_t fact_classifier_id,
+                                               data_classifier_type_t fact_classifier_type
+                                             );
+
+/*!
+ *  \brief reports an issue as comment in xmi output: a feature has an unknown type
+ * 
+ *  This can happen if the database was created with a newer version of this program.
+ * 
+ *  \param this_ pointer to own object attributes
+ *  \param fact_feature_id the id of feature object
+ *  \param fact_classifier_type type of the feature object
+ *  \result 0 in case of success, -1 otherwise
+ */
+int xmi_atom_writer_report_unknown_feature( xmi_atom_writer_t *this_,
+                                            data_id_t fact_feature_id,
+                                            data_feature_type_t fact_feature_type
+                                          );
+
+/*!
+ *  \brief reports an issue as comment in xmi output: a relationship has an unknown type
+ * 
+ *  This can happen if the database was created with a newer version of this program.
+ * 
+ *  \param this_ pointer to own object attributes
+ *  \param fact_relationship_id the id of relationship object
+ *  \param fact_relationship_type type of the relationship object
+ *  \result 0 in case of success, -1 otherwise
+ */
+int xmi_atom_writer_report_unknown_relationship( xmi_atom_writer_t *this_,
+                                                 data_id_t fact_relationship_id,
+                                                 data_relationship_type_t fact_relationship_type
+                                               );
+
+/*!
  *  \brief reports an issue as comment in xmi output: a container shall not contain the classifier of given type
  * 
  *  The report consists of three sentences:

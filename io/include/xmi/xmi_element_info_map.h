@@ -98,46 +98,51 @@ typedef enum xmi_element_info_map_index_enum xmi_element_info_map_index_t;
 typedef xmi_element_info_t xmi_element_info_map_t[XMI_ELEMENT_INFO_MAP_INDEX_MAX];
 
 extern const xmi_element_info_map_t xmi_element_info_map_standard;
-extern const xmi_element_info_t xmi_element_info_map_unknown_type;
 
 /*!
  *  \brief returns a pointer to the xmi_element_info_t struct identified by classifier_type.
  *
  *  \param this_ pointer to own object attributes; use e.g. the global &xmi_element_info_map_standard
- *  \param classifier_type selects the xmi_element_info_t
  *  \param parent_type for some classifiers, the result depends on the used context, therefore the parent type is needed to select the xmi_element_info_t
- *  \return pointer to the selected xmi_element_info_t (or &xmi_element_info_map_unknown_type in case of illegal classifier_type)
+ *  \param classifier_type selects the xmi_element_info_t
+ *  \param[out] out_element_info pointer to the selected xmi_element_info_t (or similar xmi_element_info_t in case of unexpected classifier_type)
+ *  \return 0 in case of success, -1 if no valid mapping found
  */
-static inline const xmi_element_info_t * xmi_element_info_map_get_classifier ( const xmi_element_info_map_t *this_,
-                                                                               data_classifier_type_t classifier_type,
-                                                                               data_classifier_type_t parent_type
-                                                                             );
+static inline int xmi_element_info_map_get_classifier ( const xmi_element_info_map_t *this_,
+                                                        data_classifier_type_t parent_type,
+                                                        data_classifier_type_t classifier_type,
+                                                        const xmi_element_info_t **out_element_info
+                                                      );
 
 /*!
  *  \brief returns a pointer to the xmi_element_info_t struct identified by feat_type.
  *
  *  \param this_ pointer to own object attributes; use e.g. the global &xmi_element_info_map_standard
- *  \param feature_type selects the xmi_element_info_t
  *  \param parent_type data_classifier_type_t of the parent of which the feature type shall be determined
- *  \return pointer to the selected xmi_element_info_t (or &xmi_element_info_map_unknown_type in case of illegal feat_type)
+ *  \param feature_type selects the xmi_element_info_t
+ *  \param[out] out_element_info pointer to the selected xmi_element_info_t (or similar xmi_element_info_t in case of unexpected classifier_type)
+ *  \return 0 in case of success, -1 if no valid mapping found
  */
-static inline const xmi_element_info_t * xmi_element_info_map_get_feature ( const xmi_element_info_map_t *this_,
-                                                                            data_feature_type_t feature_type,
-                                                                            data_classifier_type_t parent_type
-                                                                          );
+static inline int xmi_element_info_map_get_feature ( const xmi_element_info_map_t *this_,
+                                                     data_classifier_type_t parent_type,
+                                                     data_feature_type_t feature_type,
+                                                     const xmi_element_info_t **out_element_info
+                                                   );
 
 /*!
  *  \brief returns a pointer to the xmi_element_info_t struct identified by rel_type.
  *
  *  \param this_ pointer to own object attributes; use e.g. the global &xmi_element_info_map_standard
- *  \param rel_type selects the xmi_element_info_t
  *  \param statemachine_context for some relationships, the result depends on the used context, e.g. transition in statemachine or control flow in activities
- *  \return pointer to the selected xmi_element_info_t (or &xmi_element_info_map_unknown_type in case of illegal rel_type)
+ *  \param rel_type selects the xmi_element_info_t
+ *  \param[out] out_element_info pointer to the selected xmi_element_info_t (or similar xmi_element_info_t in case of unexpected classifier_type)
+ *  \return 0 in case of success, -1 if no valid mapping found
  */
-static inline const xmi_element_info_t * xmi_element_info_map_get_relationship ( const xmi_element_info_map_t *this_,
-                                                                                 data_relationship_type_t rel_type,
-                                                                                 bool statemachine_context
-                                                                               );
+static inline int xmi_element_info_map_get_relationship ( const xmi_element_info_map_t *this_,
+                                                          bool statemachine_context,
+                                                          data_relationship_type_t rel_type,
+                                                          const xmi_element_info_t **out_element_info
+                                                        );
 
 #include "xmi_element_info_map.inl"
 

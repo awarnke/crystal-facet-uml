@@ -4,6 +4,7 @@ crystal-facet-uml (1.27.0) UNRELEASED; urgency=medium
   * Tx/Rx for component ports and activity pins introduced
   * control flow pseudostate for state entry and exit added
   * risk of nullpointer errors reduced when opening new db with old program
+  * test case added to check for upwards compatibility of types at xmi export
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  ********************************
 

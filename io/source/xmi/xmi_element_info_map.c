@@ -803,7 +803,20 @@ const xmi_element_info_t xmi_element_info_map_unknown_type =
     .is_a                     = (XMI_ELEMENT_IS_A_ELEMENT),
     .property_from            = NULL,
     .property_to              = NULL,
-    .additional_properties    = NULL,
+    .additional_properties    = "error=\"unknown type\"",
+};
+
+const xmi_element_info_t xmi_element_info_map_unknown_rel_type =
+{
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.4 */
+        .data_type_checksum       = (int) DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+        .specification            = (XMI_SPEC_UML),
+        .profile_name             = NULL,
+        .base_name                = "Dependency",
+        .is_a                     = (XMI_ELEMENT_IS_A_DEPENDENCY),
+        .property_from            = "client",
+        .property_to              = "supplier",
+        .additional_properties    = "error=\"unknown type\"",
 };
 
 

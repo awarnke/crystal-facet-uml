@@ -6,6 +6,9 @@
 
 const char * const XMI_ELEMENT_PART_FALLBACK_NESTING_ELEMENT
     = "packagedElement";
+    
+const char * const XMI_ELEMENT_PART_FALLBACK_OWNED_FEATURE
+    = "ownedAttribute";
 
 const char * const XMI_ELEMENT_PART_ELEMENT_OWNED_END
     = "ownedEnd";
