@@ -2,6 +2,8 @@
 
 #include "io_export_model_traversal_test.h"
 #include "io_export_model_traversal.h"
+#include "test_env/test_env_setup_data.h"
+#include "test_env/test_env_check_xml.h"
 #include "xmi/xmi_element_writer.h"
 #include "stream/universal_memory_output_stream.h"
 #include "set/data_stat.h"
@@ -11,14 +13,14 @@
 #include "storage/data_database_reader.h"
 #include "trace.h"
 #include "test_assert.h"
-#include <glib.h>
         
 static void set_up(void);
 static void tear_down(void);
 static void iterate_types_on_mini_model(void);
 
-static data_row_id_t create_diagram();  /* helper function to initialize the database */
-static data_row_id_t create_classifier( data_row_id_t to_diagram, const char* name );  /* helper function to initialize the database */
+/*!
+ *  \brief helper function to initialize the database
+ */
 static void create_mini_model( data_row_id_t * out_root_diagram,
                                data_row_id_t * out_from_classifier_parent,
                                data_row_id_t * out_from_classifier,
@@ -26,9 +28,11 @@ static void create_mini_model( data_row_id_t * out_root_diagram,
                                data_row_id_t * out_to_classifier_parent,
                                data_row_id_t * out_to_classifier,
                                data_row_id_t * out_to_feature,
-                               data_row_id_t * out_relation
-                             );  /* helper function to initialize the database */
-static int check_if_xml_valid(const char* xml_string);  /* helper function to validate xml */
+                               data_row_id_t * out_relation_clas_clas,
+                               data_row_id_t * out_relation_clas_feat,
+                               data_row_id_t * out_relation_feat_clas,
+                               data_row_id_t * out_relation_feat_feat
+                             );
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -53,7 +57,7 @@ static universal_memory_output_stream_t mem_output_stream;
 /*!
  *  \brief mem-buffer to be written by mem_output_stream
  */
-static char mem_buffer[8192];
+static char mem_buffer[16384];
 
 test_suite_t io_export_model_traversal_test_get_list(void)
 {
@@ -74,109 +78,16 @@ static void set_up(void)
                                          &mem_buffer,
                                          sizeof(mem_buffer)
                                        );
-    universal_memory_output_stream_open( &mem_output_stream, "dummy_path" );
 }
 
 static void tear_down(void)
 {
-    universal_memory_output_stream_close( &mem_output_stream );
     universal_memory_output_stream_destroy( &mem_output_stream );
     
     ctrl_controller_destroy( &controller );
     data_database_reader_destroy( &db_reader );
     data_database_close( &database );
     data_database_destroy( &database );
-}
-
-static data_row_id_t create_diagram()
-{
-    ctrl_error_t ctrl_err;
-    data_error_t data_err;
-    ctrl_diagram_controller_t *diagram_ctrl;
-    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
-
-    /* create a diagram */
-    data_row_id_t root_diag_id;
-    {
-        data_diagram_t root_diagram;
-        data_err = data_diagram_init ( &root_diagram,
-                                    DATA_ROW_ID_VOID /*=diagram_id is ignored*/,
-                                    DATA_ROW_ID_VOID /*=parent_diagram_id*/,
-                                    DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,
-                                    "the_root_diag",
-                                    "diagram_description-root",
-                                    -13 /*=list_order*/
-                                    );
-        TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
-
-        root_diag_id = DATA_ROW_ID_VOID;
-        ctrl_err = ctrl_diagram_controller_create_diagram ( diagram_ctrl,
-                                                            &root_diagram,
-                                                            CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
-                                                            &root_diag_id
-                                                        );
-        TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == ctrl_err );
-        data_diagram_destroy ( &root_diagram );
-    }
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
-
-    return root_diag_id;
-}
-
-static data_row_id_t create_classifier( data_row_id_t to_diagram, const char* name )
-{
-    ctrl_error_t ctrl_err;
-    data_error_t data_err;
-    ctrl_classifier_controller_t *classifier_ctrl;
-    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
-    ctrl_diagram_controller_t *diagram_ctrl;
-    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
-    
-    /* create a record */
-    data_row_id_t classifier_id;
-    {
-        data_classifier_t new_classifier;
-        data_err = data_classifier_init_new ( &new_classifier,
-                                              DATA_CLASSIFIER_TYPE_COMPONENT,
-                                              "",  /* stereotype */
-                                              name,
-                                              "",  /* description */
-                                              45,
-                                              4500,
-                                              450000
-                                            );
-        TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
-        ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,
-                                                                  &new_classifier,
-                                                                  CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
-                                                                  &classifier_id
-                                                                );
-        TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == ctrl_err );
-        data_classifier_destroy ( &new_classifier );
-    }
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_id );
-
-    /* create a diagramelement */
-    data_row_id_t diagele_id;
-    {
-        data_diagramelement_t new_diagele;
-        data_diagramelement_init_new ( &new_diagele,
-                                       to_diagram,
-                                       classifier_id,
-                                       DATA_DIAGRAMELEMENT_FLAG_NONE,
-                                       DATA_ROW_ID_VOID
-                                     );
-        ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
-                                                                   &new_diagele,
-                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
-                                                                   &diagele_id
-                                                                 );
-        TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == ctrl_err );
-        data_diagramelement_destroy ( &new_diagele );
-    }
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != diagele_id );
-    
-    return classifier_id;
 }
 
 static void create_mini_model( data_row_id_t * out_root_diagram,
@@ -186,36 +97,148 @@ static void create_mini_model( data_row_id_t * out_root_diagram,
                                data_row_id_t * out_to_classifier_parent,
                                data_row_id_t * out_to_classifier,
                                data_row_id_t * out_to_feature,
-                               data_row_id_t * out_relation )
+                               data_row_id_t * out_relation_clas_clas,
+                               data_row_id_t * out_relation_clas_feat,
+                               data_row_id_t * out_relation_feat_clas,
+                               data_row_id_t * out_relation_feat_feat )
 {
-    data_row_id_t root_diag_id = create_diagram();
-    *out_from_classifier_parent = create_classifier( root_diag_id, "from parent" );
-    *out_from_classifier = create_classifier( root_diag_id, "from classifier" );
-    *out_to_classifier_parent = create_classifier( root_diag_id, "to parent" );
-    *out_to_classifier = create_classifier( root_diag_id, "to classifier" );
+    ctrl_classifier_controller_t *classifier_ctrl;
+    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
+    ctrl_error_t c_err;
     
-    *out_root_diagram = root_diag_id;
+    *out_root_diagram = test_env_setup_data_create_diagram( DATA_ROW_ID_VOID, "root diag", &controller );
+    *out_from_classifier_parent = test_env_setup_data_create_classifier( *out_root_diagram, "from parent", &controller );
+    *out_from_classifier = test_env_setup_data_create_classifier( *out_root_diagram, "from classifier", &controller );
+    *out_to_classifier_parent = test_env_setup_data_create_classifier( *out_root_diagram, "to parent", &controller );
+    *out_to_classifier = test_env_setup_data_create_classifier( *out_root_diagram, "to classifier", &controller );
+    *out_from_feature = test_env_setup_data_create_feature( *out_from_classifier, "from feature", &controller );
+    *out_to_feature = test_env_setup_data_create_feature( *out_to_classifier, "to feature", &controller );
+    /* from child has parent */
+    {
+        data_row_id_t from_parent_rel_id = test_env_setup_data_create_relationship( *out_from_classifier_parent, 
+                                                                                    DATA_ROW_ID_VOID,
+                                                                                    *out_from_classifier,
+                                                                                    DATA_ROW_ID_VOID,
+                                                                                    "from child rel", 
+                                                                                    &controller
+                                                                                  );
+        c_err = ctrl_classifier_controller_update_relationship_main_type ( classifier_ctrl,
+                                                                           from_parent_rel_id,
+                                                                           DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT
+                                                                         );
+        TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == c_err );
+    }
+    /* to child has parent */
+    {
+        data_row_id_t to_parent_rel_id = test_env_setup_data_create_relationship( *out_to_classifier_parent, 
+                                                                                  DATA_ROW_ID_VOID,
+                                                                                  *out_to_classifier,
+                                                                                  DATA_ROW_ID_VOID,
+                                                                                  "to child rel", 
+                                                                                  &controller
+                                                                                );
+        c_err = ctrl_classifier_controller_update_relationship_main_type ( classifier_ctrl,
+                                                                           to_parent_rel_id,
+                                                                           DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT
+                                                                         );
+        TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == c_err );
+    }
+    
+    *out_relation_clas_clas = test_env_setup_data_create_relationship( *out_from_classifier_parent, 
+                                                                       DATA_ROW_ID_VOID,
+                                                                       *out_to_classifier,
+                                                                       DATA_ROW_ID_VOID,
+                                                                       "from classifier to classifier", 
+                                                                       &controller
+                                                                     );
+    *out_relation_clas_feat = test_env_setup_data_create_relationship( *out_from_classifier_parent, 
+                                                                       DATA_ROW_ID_VOID,
+                                                                       *out_to_classifier,
+                                                                       *out_to_feature,
+                                                                       "from classifier to feature", 
+                                                                       &controller
+                                                                     );
+    *out_relation_feat_clas = test_env_setup_data_create_relationship( *out_from_classifier_parent, 
+                                                                       *out_from_feature,
+                                                                       *out_to_classifier,
+                                                                       DATA_ROW_ID_VOID,
+                                                                       "from feature to classifier", 
+                                                                       &controller
+                                                                     );
+    *out_relation_feat_feat = test_env_setup_data_create_relationship( *out_from_classifier_parent, 
+                                                                       *out_from_feature,
+                                                                       *out_to_classifier,
+                                                                       *out_to_feature,
+                                                                       "from feature to feature", 
+                                                                       &controller
+                                                                     );
 }
 
-static GMarkupParser DEV_NULL_PARSER = {
-  .start_element=NULL,
-  .end_element=NULL,
-  .text=NULL,
-  .passthrough=NULL,
-  .error=NULL
+static const data_classifier_type_t classifier_types[]
+={
+    DATA_CLASSIFIER_TYPE_BLOCK,
+    DATA_CLASSIFIER_TYPE_SUBSYSTEM, /* equivilent to DATA_CLASSIFIER_TYPE_COMPONENT */
+    DATA_CLASSIFIER_TYPE_ACTIVITY,
+    DATA_CLASSIFIER_TYPE_STATE,
+    DATA_CLASSIFIER_TYPE_NODE,
+    DATA_CLASSIFIER_TYPE_CLASS, /* equivilent to DATA_CLASSIFIER_TYPE_OBJECT */
+    DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION,
+    DATA_CLASSIFIER_TYPE_BLOCK,
+    DATA_CLASSIFIER_TYPE_PACKAGE,
+    /* unexpected */
+    DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK,
+    DATA_CLASSIFIER_TYPE_REQUIREMENT,
+    DATA_CLASSIFIER_TYPE_USE_CASE,
+    DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE,
+    DATA_CLASSIFIER_TYPE_INTERFACE,
+    DATA_CLASSIFIER_TYPE_ARTIFACT,
+    DATA_CLASSIFIER_TYPE_COMMENT,
+    DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE, /* equivilent to DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE, DATA_CLASSIFIER_TYPE_DYN_FORK_NODE */
+                                         /* DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE */
+    DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE,
+    DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY, /* equivilent to DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY */
+    DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT, /* equivilent to DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT, DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL */
+    DATA_CLASSIFIER_TYPE_INTERACTION,  /* is fake id only */
+    DATA_CLASSIFIER_TYPE_PART,
+    DATA_CLASSIFIER_TYPE_ACTOR,
+    470063,  /* downwards compatibility check, equivilent to DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE */
 };
 
-int check_if_xml_valid(const char* xml_string)
-{
-    bool success;
-    GMarkupParseContext *my_ctx = g_markup_parse_context_new ( &DEV_NULL_PARSER, 0, NULL, NULL );
-    TEST_ENVIRONMENT_ASSERT( NULL != my_ctx );
-    success = g_markup_parse_context_parse ( my_ctx, xml_string, strlen(xml_string), NULL );
-    success &= g_markup_parse_context_end_parse ( my_ctx, NULL );
-    g_markup_parse_context_free( my_ctx );
-    return ( success ? 0 : -1 );
-}
+static const data_feature_type_t feature_types[]
+={
+    DATA_FEATURE_TYPE_PROPERTY,
+    DATA_FEATURE_TYPE_OPERATION,
+    DATA_FEATURE_TYPE_PORT,
+    DATA_FEATURE_TYPE_LIFELINE,
+    DATA_FEATURE_TYPE_PROVIDED_INTERFACE,
+    DATA_FEATURE_TYPE_REQUIRED_INTERFACE,
+    DATA_FEATURE_TYPE_IN_PORT_PIN,
+    DATA_FEATURE_TYPE_OUT_PORT_PIN,
+    DATA_FEATURE_TYPE_ENTRY,
+    DATA_FEATURE_TYPE_EXIT,
+    /* unexpected */
+    470063,  /* downwards compatibility check, equivilent to DATA_FEATURE_TYPE_VOID */
+};
 
+static const data_relationship_type_t relationship_types[]
+={
+    DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+    DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION,
+    DATA_RELATIONSHIP_TYPE_UML_AGGREGATION, /* equivilent to DATA_RELATIONSHIP_TYPE_UML_COMPOSITION */
+    DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION,
+    DATA_RELATIONSHIP_TYPE_UML_REALIZATION,
+    DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL, /* equivilent to DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL, DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL */
+    DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH,
+    DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW,
+    DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW,
+    DATA_RELATIONSHIP_TYPE_UML_DEPLOY, /* equivilent to DATA_RELATIONSHIP_TYPE_UML_MANIFEST */
+    DATA_RELATIONSHIP_TYPE_UML_EXTEND, /* equivilent to DATA_RELATIONSHIP_TYPE_UML_INCLUDE */
+    DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
+    DATA_RELATIONSHIP_TYPE_UML_TRACE, /* equivilent to DATA_RELATIONSHIP_TYPE_UML_REFINE */
+    /* unexpected */
+    470063,  /* downwards compatibility check */
+};
+    
 static void iterate_types_on_mini_model(void)
 {
     /* fill database with mini model */
@@ -225,7 +248,10 @@ static void iterate_types_on_mini_model(void)
     data_row_id_t to_classifier_parent;
     data_row_id_t to_classifier;
     data_row_id_t to_feature;
-    data_row_id_t relation;
+    data_row_id_t relation_clas_clas;
+    data_row_id_t relation_clas_feat;
+    data_row_id_t relation_feat_clas;
+    data_row_id_t relation_feat_feat;
     data_row_id_t root_diag_id;
     create_mini_model( &root_diag_id,
                        &from_classifier_parent,
@@ -234,58 +260,114 @@ static void iterate_types_on_mini_model(void)
                        &to_classifier_parent,
                        &to_classifier,
                        &to_feature,
-                       &relation
+                       &relation_clas_clas,
+                       &relation_clas_feat,
+                       &relation_feat_clas,
+                       &relation_feat_feat
                      );
 
-    data_stat_t stat;
-    data_stat_init(&stat);
+    unsigned int clas_cnt = sizeof(classifier_types)/sizeof(classifier_types[0]) - 1; /* TODO */
+    unsigned int feat_cnt = sizeof(feature_types)/sizeof(feature_types[0]) - 1; /* TODO */
+    unsigned int rel_cnt = sizeof(relationship_types)/sizeof(relationship_types[0]) - 1; /* TODO */
+    for ( unsigned int rel1_idx = 0; rel1_idx < rel_cnt; rel1_idx ++ )
     {
-        data_visible_set_t temp_input_data;  /*!< buffer to cache the diagram data */
-        io_export_model_traversal_t temp_model_traversal;  /*!< own instance of a model_traversal for text export */
-        xmi_element_writer_t temp_xmi_writer;  /*!< memory for a temporary xmi writer */
-        
-        universal_output_stream_t* output = universal_memory_output_stream_get_output_stream( &mem_output_stream );
-        
+        TSLOG_ANOMALY_INT("rel1_idx",rel1_idx);
+    for ( unsigned int clas1_idx = 0; clas1_idx < clas_cnt; clas1_idx ++ )
+    {
+        TSLOG_ANOMALY_INT("clas1_idx",clas1_idx);
+    for ( unsigned int feat1_idx = 0; feat1_idx < feat_cnt; feat1_idx ++ )
+    {
+        TSLOG_ANOMALY_INT("feat1_idx",feat1_idx);
+    for ( unsigned int variation_idx = 0; variation_idx < 2; variation_idx ++ )
+    {
+        TSLOG_ANOMALY_INT("variation_idx",variation_idx);
+        /* update types in database */
         {
-            xmi_element_writer_init( &temp_xmi_writer, &db_reader, &stat, output );
-            /* init the model_traversal */
-            io_export_model_traversal_init( &temp_model_traversal,
-                                            &db_reader,
-                                            &temp_input_data,
-                                            &stat,
-                                            &temp_xmi_writer
-                                          );
-            /* write the document */
-            int export_err = 0;
-            export_err |= xmi_element_writer_write_header( &temp_xmi_writer, "document file name" );
-            export_err |= xmi_element_writer_start_main( &temp_xmi_writer, "document file name" );
-            xmi_element_writer_set_mode( &temp_xmi_writer, IO_WRITER_PASS_BASE );
-            export_err |= io_export_model_traversal_walk_model_nodes( &temp_model_traversal );
-            export_err |= xmi_element_writer_end_main( &temp_xmi_writer );
-            xmi_element_writer_set_mode( &temp_xmi_writer, IO_WRITER_PASS_PROFILE );
-            export_err |= io_export_model_traversal_walk_model_nodes( &temp_model_traversal );
-            export_err |= xmi_element_writer_write_footer( &temp_xmi_writer );
-
-            TEST_ASSERT_EQUAL_INT( 0, export_err );
+            ctrl_classifier_controller_t *c_ctrl;
+            c_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
+            ctrl_error_t c_err;
             
-            io_export_model_traversal_destroy( &temp_model_traversal );
-            xmi_element_writer_destroy( &temp_xmi_writer );
+            unsigned int rel2_idx = ( rel1_idx + variation_idx ) % rel_cnt;
+            unsigned int clas2_idx = ( clas1_idx + variation_idx ) % clas_cnt;
+            unsigned int feat2_idx = ( feat1_idx + variation_idx ) % feat_cnt;
+            
+            c_err  = ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_clas_clas, relationship_types[rel1_idx] );
+            c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_clas_feat, relationship_types[rel2_idx] );
+            c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_feat_clas, relationship_types[rel1_idx] );
+            c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_feat_feat, relationship_types[rel1_idx] );
+            c_err |= ctrl_classifier_controller_update_classifier_main_type ( c_ctrl, from_classifier_parent, classifier_types[clas1_idx] );
+            c_err |= ctrl_classifier_controller_update_classifier_main_type ( c_ctrl, from_classifier, classifier_types[clas1_idx] );
+            c_err |= ctrl_classifier_controller_update_classifier_main_type ( c_ctrl, to_classifier_parent, classifier_types[clas1_idx] );
+            c_err |= ctrl_classifier_controller_update_classifier_main_type ( c_ctrl, to_classifier, classifier_types[clas2_idx] );
+            c_err |= ctrl_classifier_controller_update_feature_main_type ( c_ctrl, from_feature, feature_types[feat1_idx] );
+            c_err |= ctrl_classifier_controller_update_feature_main_type ( c_ctrl, to_feature, feature_types[feat2_idx] );
+            TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == c_err );
         }
-
         
+        data_stat_t stat;
+        data_stat_init( &stat );
+        {
+            data_visible_set_t temp_input_data;  /*!< buffer to cache the diagram data */
+            io_export_model_traversal_t temp_model_traversal;  /*!< own instance of a model_traversal for text export */
+            xmi_element_writer_t temp_xmi_writer;  /*!< memory for a temporary xmi writer */
+            
+            universal_memory_output_stream_open( &mem_output_stream, "dummy_path" );
+            universal_output_stream_t* output = universal_memory_output_stream_get_output_stream( &mem_output_stream );
+            
+            {
+                xmi_element_writer_init( &temp_xmi_writer, &db_reader, &stat, output );
+                /* init the model_traversal */
+                io_export_model_traversal_init( &temp_model_traversal,
+                                                &db_reader,
+                                                &temp_input_data,
+                                                &stat,
+                                                &temp_xmi_writer
+                                            );
+                /* write the document */
+                int export_err = 0;
+                export_err |= xmi_element_writer_write_header( &temp_xmi_writer, "document file name" );
+                export_err |= xmi_element_writer_start_main( &temp_xmi_writer, "document file name" );
+                xmi_element_writer_set_mode( &temp_xmi_writer, IO_WRITER_PASS_BASE );
+                export_err |= io_export_model_traversal_walk_model_nodes( &temp_model_traversal );
+                export_err |= xmi_element_writer_end_main( &temp_xmi_writer );
+                xmi_element_writer_set_mode( &temp_xmi_writer, IO_WRITER_PASS_PROFILE );
+                export_err |= io_export_model_traversal_walk_model_nodes( &temp_model_traversal );
+                export_err |= xmi_element_writer_write_footer( &temp_xmi_writer );
+
+                TEST_ASSERT_EQUAL_INT( 0, export_err );
+                
+                io_export_model_traversal_destroy( &temp_model_traversal );
+                xmi_element_writer_destroy( &temp_xmi_writer );
+            }
+
+            
+        }
+        //static const char TERM2[4]="qQe\n";
+        //universal_memory_output_stream_write( &mem_output_stream, &TERM2, sizeof(TERM2) );
+        static const char TERM='\00';
+        int write_err = universal_memory_output_stream_write( &mem_output_stream, &TERM, sizeof(TERM) );
+        TEST_ENVIRONMENT_ASSERT( 0 == write_err );
+        universal_memory_output_stream_flush( &mem_output_stream );
+        universal_memory_output_stream_close( &mem_output_stream );
+        fprintf( stdout, "%s", &(mem_buffer[0]) );
+        
+        TEST_ASSERT_EQUAL_INT( 0, test_env_check_xml_is_valid( &(mem_buffer[0]) ) );
+        
+        data_stat_trace( &stat );
+        TEST_ASSERT_EQUAL_INT( 4, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED ) );
+        //TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED ) );
+        //TEST_ASSERT_EQUAL_INT( 4, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED ) );
+        //TEST_ASSERT_EQUAL_INT( 10, data_stat_get_series_count( &stat, DATA_STAT_SERIES_EXPORTED ) );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_MODIFIED ) );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_DELETED ) );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_IGNORED ) );
+        //TEST_ASSERT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_WARNING ) );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_ERROR ) );
+        data_stat_destroy( &stat );
     }
-    //static const char TERM2[4]="qQe\n";
-    //universal_memory_output_stream_write( &mem_output_stream, &TERM2, sizeof(TERM2) );
-    static const char TERM='\00';
-    int write_err = universal_memory_output_stream_write( &mem_output_stream, &TERM, sizeof(TERM) );
-    TEST_ENVIRONMENT_ASSERT( 0 == write_err );
-    universal_memory_output_stream_flush( &mem_output_stream );
-    fprintf( stdout, "%s", &(mem_buffer[0]) );
-    
-    TEST_ASSERT_EQUAL_INT( 0, check_if_xml_valid( &(mem_buffer[0]) ) );
-    
-    data_stat_trace(&stat);
-    data_stat_destroy(&stat);
+    }
+    }
+    }
 }
 
 
