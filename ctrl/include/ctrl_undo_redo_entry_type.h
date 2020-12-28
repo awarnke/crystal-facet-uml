@@ -9,11 +9,6 @@
  *  \brief Indentifies the type of action of an ctrl_undo_redo_entry_t that can be undone or redone
  */
 
-#include "ctrl_error.h"
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdint.h>
-
 /*!
  *  \brief list of actions that can be un-done and re-done
  */

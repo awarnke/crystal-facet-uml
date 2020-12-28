@@ -12,6 +12,7 @@
 #include "ctrl_error.h"
 #include "ctrl_undo_redo_list.h"
 #include "ctrl_diagram_policy_enforcer.h"
+#include "ctrl_undo_redo_action_boundary.h"
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
