@@ -556,7 +556,7 @@
                             </entry>
                             <entry><para>UML, SysML<!--spec 1.6 chapter 9.2--></para></entry>
                             <entry><para>unconditional</para></entry>
-                            <entry><para>Limitations: not yet implemented.</para>
+                            <entry><para>Exists since version 1.27.0; cannot be used in version 1.26.1 and older.</para>
                             </entry>
                         </row>
                         <row>
@@ -568,7 +568,7 @@
                             </entry>
                             <entry><para>UML, SysML<!--spec 1.6 chapter 9.2--></para></entry>
                             <entry><para>unconditional</para></entry>
-                            <entry><para>Limitations: not yet implemented.</para>
+                            <entry><para>Exists since version 1.27.0; cannot be used in version 1.26.1 and older.</para>
                             </entry>
                         </row>
                         <row>
@@ -580,7 +580,7 @@
                             </entry>
                             <entry><para>UML, SysML<!--spec 1.6 chapter 13.2--></para></entry>
                             <entry><para>unconditional</para></entry>
-                            <entry><para>Limitations: not yet implemented.</para>
+                            <entry><para>Exists since version 1.27.0; cannot be used in version 1.26.1 and older.</para>
                             </entry>
                         </row>
                         <row>
@@ -592,7 +592,7 @@
                             </entry>
                             <entry><para>UML, SysML<!--spec 1.6 chapter 13.2--></para></entry>
                             <entry><para>unconditional</para></entry>
-                            <entry><para>Limitations: not yet implemented.</para>
+                            <entry><para>Exists since version 1.27.0; cannot be used in version 1.26.1 and older.</para>
                             </entry>
                         </row>
                         <row>

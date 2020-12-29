@@ -5,6 +5,7 @@ crystal-facet-uml (1.27.0) UNRELEASED; urgency=medium
   * control flow pseudostate for state entry and exit added
   * risk of nullpointer errors reduced when opening new db with old program
   * test case added to check for upwards compatibility of types at xmi export
+  * use cases have uml:ExtensionPoints now
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  ********************************
 

@@ -4,20 +4,24 @@
          xmlns:xmi="http://www.omg.org/spec/XMI/20110701"
          xmlns:SysML="http://www.omg.org/spec/SysML/20131001/SysML.xmi">
          <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->
-    <xmi:Documentation exporter="crystal_facet_uml" exporterVersion="1.26.1"/>
+    <xmi:Documentation exporter="crystal-facet-uml" exporterVersion="1.27.0"/>
     <uml:Model xmi:type="uml:Model" xmi:id="00000" name="export_test_18_usecase" >
         <packagedElement xmi:type="uml:Component" xmi:id="60001" name="Customer Support" ><!--C0001-->
             <ownedUseCase xmi:type="uml:UseCase" xmi:id="60003" name="Complain" ><!--C0003-->
+                <extensionPoint xmi:type="uml:ExtensionPoint" xmi:id="60003#extensionpoint" name="" />
                 <include xmi:type="uml:Include" xmi:id="80006" >
                     <addition xmi:idref="60005" />
                 </include>
             </ownedUseCase>
             <ownedUseCase xmi:type="uml:UseCase" xmi:id="60004" name="Solve Complaint" ><!--C0004-->
+                <extensionPoint xmi:type="uml:ExtensionPoint" xmi:id="60004#extensionpoint" name="" />
                 <extend xmi:type="uml:Extend" xmi:id="80004" >
                     <extendedCase xmi:idref="60003" />
+                    <extensionLocation xmi:idref="60003#extensionpoint" />
                 </extend>
             </ownedUseCase>
             <ownedUseCase xmi:type="uml:UseCase" xmi:id="60005" name="Track Customer Satisfaction" ><!--C0005-->
+                <extensionPoint xmi:type="uml:ExtensionPoint" xmi:id="60005#extensionpoint" name="" />
             </ownedUseCase>
         </packagedElement>
         <packagedElement xmi:type="uml:Actor" xmi:id="60002" name="Customer" ><!--C0002-->

@@ -351,6 +351,29 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
                                                            );
         }
 
+        /* generate extension point for use cases */
+        if ( classifier_type == DATA_CLASSIFIER_TYPE_USE_CASE )
+        {
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "extensionPoint" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "ExtensionPoint" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_END );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
+            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer),classifier_id );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "#extensionpoint" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
+            
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), "" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
+        }
+        
         /* generate start of pseudo subelement region to statemachines and states */
         if ( classifier_type == DATA_CLASSIFIER_TYPE_STATE )
         {
@@ -1088,7 +1111,19 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
                                                                     );
         }
 
-        /* TODO an Extend relationship needs an Extension point*/
+        /* generate extension point for use cases */
+        if ( relation_type == DATA_RELATIONSHIP_TYPE_UML_EXTEND )
+        {
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "extensionLocation" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_START );
+            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), to_end_id );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "#extensionpoint" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_END );            
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
+        }
     }
 
     TRACE_END_ERR( export_err );
