@@ -1,19 +1,10 @@
 /* File: test_env_check_xml.c; Copyright and License: see below */
 
-#include "io_export_model_traversal_test.h"
-#include "io_export_model_traversal.h"
-#include "xmi/xmi_element_writer.h"
-#include "stream/universal_memory_output_stream.h"
-#include "set/data_stat.h"
-#include "ctrl_controller.h"
-#include "storage/data_database.h"
-#include "storage/data_database_writer.h"
-#include "storage/data_database_reader.h"
 #include "trace.h"
 #include "test_assert.h"
 #include <glib.h>
         
-int test_env_check_xml_is_valid(const char* xml_string)
+int test_env_check_validate_xml( const char* xml_string )
 {
     bool success;
     

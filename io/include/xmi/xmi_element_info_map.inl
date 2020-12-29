@@ -284,7 +284,8 @@ static inline int xmi_element_info_map_get_classifier ( const xmi_element_info_m
         default:
         {
             TSLOG_ERROR_INT( "switch case statement for data_classifier_type_t incomplete", classifier_type );
-            assert( 0 );
+            /* this is a possible error case that can happen when a database created with a newer version of the program is opened with this version */
+            result = NULL;
         }
         break;
     }
@@ -394,7 +395,8 @@ static inline int xmi_element_info_map_get_feature ( const xmi_element_info_map_
         default:
         {
             TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", feature_type );
-            assert( 0 );
+            /* this is a possible error case that can happen when a database created with a newer version of the program is opened with this version */
+            result = NULL;
         }
         break;
     }
@@ -565,7 +567,8 @@ static inline int xmi_element_info_map_get_relationship ( const xmi_element_info
         default:
         {
             TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", rel_type );
-            assert( 0 );
+            /* this is a possible error case that can happen when a database created with a newer version of the program is opened with this version */
+            result = NULL;
         }
         break;
     }

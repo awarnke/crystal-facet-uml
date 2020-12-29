@@ -4,75 +4,75 @@
          xmlns:xmi="http://www.omg.org/spec/XMI/20110701"
          xmlns:SysML="http://www.omg.org/spec/SysML/20131001/SysML.xmi">
          <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->
-    <xmi:Documentation exporter="crystal_facet_uml" exporterVersion="1.26.1"/>
+    <xmi:Documentation exporter="crystal-facet-uml" exporterVersion="1.27.0"/>
     <uml:Model xmi:type="uml:Model" xmi:id="00000" name="export_test_15_activity" >
-        <packagedElement xmi:type="uml:Activity" xmi:id="60005" name="read emails" ><!--C0005-->
-            <node xmi:type="uml:InitialNode" xmi:id="60009" name="start" ><!--C0009-->
-            </node>
-            <edge xmi:type="uml:ControlFlow" xmi:id="80018" name="" weight="1" guard="true" >
-                <source xmi:idref="60009" />
-                <target xmi:idref="60010" />
-            </edge>
-            <node xmi:type="uml:AcceptEventAction" xmi:id="60010" name="wait for next mail" ><!--C0010-->
-            </node>
-            <edge xmi:type="uml:ControlFlow" xmi:id="80028" name="" weight="1" guard="true" >
-                <source xmi:idref="60010" />
-                <target xmi:idref="60016" />
-            </edge>
-            <node xmi:type="uml:StructuredActivityNode" xmi:id="60011" name="read mail" ><!--C0011-->
-                <node xmi:type="uml:OutputPin" xmi:id="40002" name="mail" >
-                </node>
-                <edge xmi:type="uml:ControlFlow" xmi:id="80030" name="" weight="1" guard="true" >
-                    <source xmi:idref="60011" />
-                    <target xmi:idref="60012" />
-                </edge>
-            </node>
-            <node xmi:type="uml:DecisionNode" xmi:id="60012" name="decision" ><!--C0012-->
-            </node>
-            <edge xmi:type="uml:ControlFlow" xmi:id="80020" name="unimportant" weight="1" guard="true" >
-                <source xmi:idref="60012" />
-                <target xmi:idref="60013" />
-            </edge>
-            <edge xmi:type="uml:ControlFlow" xmi:id="80021" name="keep" weight="1" guard="true" >
-                <source xmi:idref="60012" />
-                <target xmi:idref="60014" />
-            </edge>
-            <edge xmi:type="uml:ControlFlow" xmi:id="80022" name="answer" weight="1" guard="true" >
-                <source xmi:idref="60012" />
-                <target xmi:idref="60015" />
-            </edge>
-            <node xmi:type="uml:StructuredActivityNode" xmi:id="60013" name="delete" ><!--C0013-->
-                <edge xmi:type="uml:ControlFlow" xmi:id="80025" name="" weight="1" guard="true" >
-                    <source xmi:idref="60013" />
-                    <target xmi:idref="60010" />
-                </edge>
-            </node>
-            <node xmi:type="uml:StructuredActivityNode" xmi:id="60014" name="archive" ><!--C0014-->
-                <edge xmi:type="uml:ControlFlow" xmi:id="80027" name="" weight="1" guard="true" >
-                    <source xmi:idref="60014" />
-                    <target xmi:idref="60010" />
-                </edge>
-            </node>
-            <node xmi:type="uml:StructuredActivityNode" xmi:id="60015" name="reply mail" ><!--C0015-->
-                <edge xmi:type="uml:ControlFlow" xmi:id="80026" name="" weight="1" guard="true" >
-                    <source xmi:idref="60015" />
-                    <target xmi:idref="60010" />
-                </edge>
-            </node>
-            <node xmi:type="uml:StructuredActivityNode" xmi:id="60016" name="fetch mail" ><!--C0016-->
-                <node xmi:type="uml:OutputPin" xmi:id="40001" name="mail" >
-                </node>
-            </node>
-            <edge xmi:type="uml:ObjectFlow" xmi:id="80036" name="" weight="1" guard="true" >
-                <source xmi:idref="40001" />
-                <target xmi:idref="40002" />
-            </edge>
-        </packagedElement>
         <packagedElement xmi:type="uml:Activity" xmi:id="60017" name="all" ><!--C0017-->
             <group xmi:type="uml:InterruptibleActivityRegion" xmi:id="60003" name="while there is time" ><!--C0003-->
                 <node xmi:type="uml:StructuredActivityNode" xmi:id="60004" name="listen to music" ><!--C0004-->
                 </node>
                 <node xmi:type="uml:AcceptEventAction" xmi:id="60006" name="timeout" ><!--C0006-->
+                </node>
+                <node xmi:type="uml:StructuredActivityNode" xmi:id="60005" name="read emails" ><!--C0005-->
+                    <node xmi:type="uml:InitialNode" xmi:id="60009" name="start" ><!--C0009-->
+                    </node>
+                    <edge xmi:type="uml:ControlFlow" xmi:id="80018" name="" weight="1" guard="true" >
+                        <source xmi:idref="60009" />
+                        <target xmi:idref="60010" />
+                    </edge>
+                    <node xmi:type="uml:AcceptEventAction" xmi:id="60010" name="wait for next mail" ><!--C0010-->
+                    </node>
+                    <edge xmi:type="uml:ControlFlow" xmi:id="80028" name="" weight="1" guard="true" >
+                        <source xmi:idref="60010" />
+                        <target xmi:idref="60016" />
+                    </edge>
+                    <node xmi:type="uml:StructuredActivityNode" xmi:id="60011" name="read mail" ><!--C0011-->
+                        <node xmi:type="uml:InputPin" xmi:id="40002" name="mail" >
+                        </node>
+                        <edge xmi:type="uml:ControlFlow" xmi:id="80030" name="" weight="1" guard="true" >
+                            <source xmi:idref="60011" />
+                            <target xmi:idref="60012" />
+                        </edge>
+                    </node>
+                    <node xmi:type="uml:DecisionNode" xmi:id="60012" name="decision" ><!--C0012-->
+                    </node>
+                    <edge xmi:type="uml:ControlFlow" xmi:id="80020" name="unimportant" weight="1" guard="true" >
+                        <source xmi:idref="60012" />
+                        <target xmi:idref="60013" />
+                    </edge>
+                    <edge xmi:type="uml:ControlFlow" xmi:id="80021" name="keep" weight="1" guard="true" >
+                        <source xmi:idref="60012" />
+                        <target xmi:idref="60014" />
+                    </edge>
+                    <edge xmi:type="uml:ControlFlow" xmi:id="80022" name="answer" weight="1" guard="true" >
+                        <source xmi:idref="60012" />
+                        <target xmi:idref="60015" />
+                    </edge>
+                    <node xmi:type="uml:StructuredActivityNode" xmi:id="60013" name="delete" ><!--C0013-->
+                        <edge xmi:type="uml:ControlFlow" xmi:id="80025" name="" weight="1" guard="true" >
+                            <source xmi:idref="60013" />
+                            <target xmi:idref="60010" />
+                        </edge>
+                    </node>
+                    <node xmi:type="uml:StructuredActivityNode" xmi:id="60014" name="archive" ><!--C0014-->
+                        <edge xmi:type="uml:ControlFlow" xmi:id="80027" name="" weight="1" guard="true" >
+                            <source xmi:idref="60014" />
+                            <target xmi:idref="60010" />
+                        </edge>
+                    </node>
+                    <node xmi:type="uml:StructuredActivityNode" xmi:id="60015" name="reply mail" ><!--C0015-->
+                        <edge xmi:type="uml:ControlFlow" xmi:id="80026" name="" weight="1" guard="true" >
+                            <source xmi:idref="60015" />
+                            <target xmi:idref="60010" />
+                        </edge>
+                    </node>
+                    <node xmi:type="uml:StructuredActivityNode" xmi:id="60016" name="fetch mail" ><!--C0016-->
+                        <node xmi:type="uml:OutputPin" xmi:id="40001" name="mail" >
+                        </node>
+                    </node>
+                    <edge xmi:type="uml:ObjectFlow" xmi:id="80036" name="" weight="1" guard="true" >
+                        <source xmi:idref="40001" />
+                        <target xmi:idref="40002" />
+                    </edge>
                 </node>
             </group>
             <node xmi:type="uml:InitialNode" xmi:id="60001" name="begin" ><!--C0001-->

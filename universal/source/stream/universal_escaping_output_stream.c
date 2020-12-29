@@ -88,6 +88,11 @@ int universal_escaping_output_stream_write ( universal_escaping_output_stream_t 
     {
         /* check if a pattern matches */
         int matching_pattern_idx = -1;
+        //const char chr_at_idx = (*char_buf)[index];
+        //if (( chr_at_idx & 0x60 )!= 0)
+        //if (( chr_at_idx == '\"' )||( chr_at_idx == '\'' )||( chr_at_idx == '&' )||( chr_at_idx == '<' )
+        //||( chr_at_idx == '>' )||( chr_at_idx == '\n' )||( chr_at_idx == '-' ))    
+        //  optimization -- influences appx. 5% of xml-export processing speed
         for ( unsigned int pattern_idx = 0; ( pattern_idx < pattern_count )&&( matching_pattern_idx == -1 ); pattern_idx++ )
         {
             const char * pattern = (*((*this_).patterns_and_replacements))[pattern_idx][0];

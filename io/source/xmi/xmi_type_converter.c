@@ -292,7 +292,8 @@ int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t
         default:
         {
             TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", feature_type );
-            assert( 0 );
+            /* this is a possible error case that can happen when a database created with a newer version of the program is opened with this version */
+            result = NULL;
         }
         break;
     }
@@ -559,10 +560,13 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
         {
             /* valid relationship according to uml 2.5.1 spec, chapter 15.7.2 */
         }
-        else if ( xmi_element_info_is_a_activity_edge( rel_info ) && ( end_classifier_type == DATA_CLASSIFIER_TYPE_ACTIVITY ))
-        {
+        //else if ( xmi_element_info_is_a_activity_edge( rel_info ) && ( end_classifier_type == DATA_CLASSIFIER_TYPE_ACTIVITY ))
+        //{
             /* valid relationship according to uml 2.5.1 spec, chapter 16.14.55 */
-        }
+            // this is duplicate for XMI_ELEMENT_INFO_MAP_INDEX_STRUCTURED_ACTIVITY_NODE
+            // this is not true for XMI_ELEMENT_INFO_MAP_INDEX_ACTIVITY
+            // see https://issues.omg.org/issues/lists/uml2-rtf#issue-47324
+        //}
 
         /* DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY, DATA_RELATIONSHIP_TYPE_UML_REALIZATION, DATA_RELATIONSHIP_TYPE_UML_MANIFEST, */
         /* DATA_RELATIONSHIP_TYPE_UML_DEPLOY, DATA_RELATIONSHIP_TYPE_UML_REFINE,  DATA_RELATIONSHIP_TYPE_UML_TRACE */

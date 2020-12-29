@@ -107,12 +107,21 @@ static void create_mini_model( data_row_id_t * out_root_diagram,
     ctrl_error_t c_err;
     
     *out_root_diagram = test_env_setup_data_create_diagram( DATA_ROW_ID_VOID, "root diag", &controller );
-    *out_from_classifier_parent = test_env_setup_data_create_classifier( *out_root_diagram, "from parent", &controller );
-    *out_from_classifier = test_env_setup_data_create_classifier( *out_root_diagram, "from classifier", &controller );
-    *out_to_classifier_parent = test_env_setup_data_create_classifier( *out_root_diagram, "to parent", &controller );
-    *out_to_classifier = test_env_setup_data_create_classifier( *out_root_diagram, "to classifier", &controller );
+    
+    *out_from_classifier_parent = test_env_setup_data_create_classifier( "from parent", &controller );
+    test_env_setup_data_create_diagramelement( *out_root_diagram, *out_from_classifier_parent, DATA_ROW_ID_VOID, &controller );
+    
+    *out_from_classifier = test_env_setup_data_create_classifier( "from classifier", &controller );
     *out_from_feature = test_env_setup_data_create_feature( *out_from_classifier, "from feature", &controller );
+    test_env_setup_data_create_diagramelement( *out_root_diagram, *out_from_classifier, *out_from_feature, &controller );
+    
+    *out_to_classifier_parent = test_env_setup_data_create_classifier( "to parent", &controller );
+    test_env_setup_data_create_diagramelement( *out_root_diagram, *out_to_classifier_parent, DATA_ROW_ID_VOID, &controller );
+    
+    *out_to_classifier = test_env_setup_data_create_classifier( "to classifier", &controller );
     *out_to_feature = test_env_setup_data_create_feature( *out_to_classifier, "to feature", &controller );
+    test_env_setup_data_create_diagramelement( *out_root_diagram, *out_to_classifier, *out_to_feature, &controller );
+    
     /* from child has parent */
     {
         data_row_id_t from_parent_rel_id = test_env_setup_data_create_relationship( *out_from_classifier_parent, 
@@ -128,6 +137,7 @@ static void create_mini_model( data_row_id_t * out_root_diagram,
                                                                          );
         TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == c_err );
     }
+    
     /* to child has parent */
     {
         data_row_id_t to_parent_rel_id = test_env_setup_data_create_relationship( *out_to_classifier_parent, 
@@ -271,13 +281,10 @@ static void iterate_types_on_mini_model(void)
     unsigned int rel_cnt = sizeof(relationship_types)/sizeof(relationship_types[0]);
     for ( unsigned int rel1_idx = 0; rel1_idx < rel_cnt; rel1_idx ++ )
     {
-        TSLOG_ANOMALY_INT("rel1_idx",rel1_idx);
         for ( unsigned int clas1_idx = 0; clas1_idx < clas_cnt; clas1_idx ++ )
         {
-            TSLOG_ANOMALY_INT("clas1_idx",clas1_idx);
             for ( unsigned int feat1_idx = 0; feat1_idx < feat_cnt; feat1_idx ++ )
             {
-                TSLOG_ANOMALY_INT("feat1_idx",feat1_idx);
                 for ( unsigned int variation_idx = 0; variation_idx < 2; variation_idx ++ )
                 {
                     TSLOG_ANOMALY_INT("variation_idx",variation_idx);
@@ -285,13 +292,26 @@ static void iterate_types_on_mini_model(void)
                     {
                         ctrl_classifier_controller_t *c_ctrl;
                         c_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
-                        ctrl_error_t c_err;
                         
-                        unsigned int rel2_idx = ( rel1_idx + variation_idx ) % rel_cnt;
-                        unsigned int clas2_idx = ( clas1_idx + variation_idx ) % clas_cnt;
-                        unsigned int feat2_idx = ( feat1_idx + variation_idx ) % feat_cnt;
                         
-                        c_err  = ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_clas_clas, relationship_types[rel1_idx] );
+                        /* determine if all 4 relationships between from_classifier and to_classifier shall have the same type */
+                        const unsigned int rel2_idx 
+                            = (variation_idx==0)
+                            ? rel1_idx  /* same relationship type for all relationships */
+                            : ( rel1_idx + clas1_idx + feat1_idx + variation_idx ) % rel_cnt;  /* high variation otherwise */
+                        /* determine if all 4 classifiers shall have the same type */
+                        const unsigned int clas2_idx 
+                            = (variation_idx==0)
+                            ? clas1_idx  /* same classifier type for all classifiers */
+                            :  ( rel1_idx + clas1_idx + feat1_idx + variation_idx ) % clas_cnt;  /* high variation otherwise */
+                        /* determine if both features at from_classifier and to_classifier shall have the same type */
+                        const unsigned int feat2_idx 
+                            = (variation_idx==0)
+                            ? feat1_idx  /* same feature type for all features */
+                            :  ( rel1_idx + clas1_idx + feat1_idx + variation_idx ) % feat_cnt;  /* high variation otherwise */
+                        
+                        ctrl_error_t c_err = CTRL_ERROR_NONE;
+                        c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_clas_clas, relationship_types[rel1_idx] );
                         c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_clas_feat, relationship_types[rel2_idx] );
                         c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_feat_clas, relationship_types[rel1_idx] );
                         c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_feat_feat, relationship_types[rel1_idx] );
@@ -349,12 +369,15 @@ static void iterate_types_on_mini_model(void)
                     TEST_ENVIRONMENT_ASSERT( 0 == write_err );
                     universal_memory_output_stream_flush( &mem_output_stream );
                     universal_memory_output_stream_close( &mem_output_stream );
-                    fprintf( stdout, "%s", &(mem_buffer[0]) );
+#ifndef NDEBUG
+                    fprintf( stdout, "\n%s\n", &(mem_buffer[0]) );
+#endif
                     
-                    TEST_ASSERT_EQUAL_INT( 0, test_env_check_xml_is_valid( &(mem_buffer[0]) ) );
+                    const int xml_is_error = test_env_check_validate_xml( &(mem_buffer[0]) );
+                    TEST_ASSERT_EQUAL_INT( 0, xml_is_error );
                     
                     data_stat_trace( &stat );
-                    TEST_ASSERT_EQUAL_INT( 4, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED ) );
+                    TEST_ASSERT_EQUAL_INT( 5, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED ) );
                     //TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED ) );
                     //TEST_ASSERT_EQUAL_INT( 4, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED ) );
                     //TEST_ASSERT_EQUAL_INT( 10, data_stat_get_series_count( &stat, DATA_STAT_SERIES_EXPORTED ) );

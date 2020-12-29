@@ -25,12 +25,26 @@ static data_row_id_t test_env_setup_data_create_diagram( data_row_id_t parent_di
 /*!
  *  \brief helper function to initialize the database
  * 
- *  \param into_diagram_id id of the parent diagram to which to attach the classifier
  *  \param name name of the newly created element
  *  \param controller controller object used to create the new element
  *  \return id of newly created classifier
  */
-static data_row_id_t test_env_setup_data_create_classifier( data_row_id_t into_diagram_id, const char* name, ctrl_controller_t *controller );
+static data_row_id_t test_env_setup_data_create_classifier( const char* name, ctrl_controller_t *controller );
+
+/*!
+ *  \brief helper function to initialize the database
+ * 
+ *  \param diagram_id id of the parent diagram to which to attach the classifier
+ *  \param classifier_id id of the classifier which to attach to the diagram
+ *  \param focused_feature_id id of the lifeline if applicable, DATA_ROW_ID_VOID otherwise
+ *  \param controller controller object used to create the new element
+ *  \return id of newly created diagramelement
+ */
+static data_row_id_t test_env_setup_data_create_diagramelement( data_row_id_t diagram_id, 
+                                                                data_row_id_t classifier_id, 
+                                                                data_row_id_t focused_feature_id, 
+                                                                ctrl_controller_t *controller
+                                                              );
 
 /*!
  *  \brief helper function to initialize the database

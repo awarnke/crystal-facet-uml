@@ -9,7 +9,6 @@
 #include "test_assert.h"
 #include <glib.h>
 #include <assert.h>
-        
 
 
 static data_row_id_t test_env_setup_data_create_diagram( data_row_id_t parent_diagram_id, const char* name, ctrl_controller_t *controller )
@@ -26,7 +25,7 @@ static data_row_id_t test_env_setup_data_create_diagram( data_row_id_t parent_di
         data_err = data_diagram_init ( &root_diagram,
                                        DATA_ROW_ID_VOID /* diagram_id is ignored */,
                                        parent_diagram_id,
-                                       DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,
+                                       DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,  /* default is an interaction diagram */
                                        name,
                                        "diagram_description-root",
                                        -13 /* list_order */
@@ -47,16 +46,13 @@ static data_row_id_t test_env_setup_data_create_diagram( data_row_id_t parent_di
     return root_diag_id;
 }
 
-static data_row_id_t test_env_setup_data_create_classifier( data_row_id_t into_diagram_id, 
-                                                            const char* name, 
+static data_row_id_t test_env_setup_data_create_classifier( const char* name, 
                                                             ctrl_controller_t *controller )
 {
     ctrl_error_t ctrl_err;
     data_error_t data_err;
     ctrl_classifier_controller_t *classifier_ctrl;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( controller );
-    ctrl_diagram_controller_t *diagram_ctrl;
-    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( controller );
     
     /* create a classifier */
     data_row_id_t classifier_id;
@@ -82,21 +78,33 @@ static data_row_id_t test_env_setup_data_create_classifier( data_row_id_t into_d
         data_classifier_destroy ( &new_classifier );
     }
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_id );
-
+    
+    return classifier_id;
+}
+    
+static data_row_id_t test_env_setup_data_create_diagramelement( data_row_id_t diagram_id, 
+                                                                data_row_id_t classifier_id, 
+                                                                data_row_id_t focused_feature_id, 
+                                                                ctrl_controller_t *controller )
+{
+    ctrl_error_t ctrl_err;
+    ctrl_diagram_controller_t *diagram_ctrl;
+    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( controller );
+    
     /* create a diagramelement */
     data_row_id_t diagele_id;
     {
         data_diagramelement_t new_diagele;
         data_diagramelement_init ( &new_diagele,
                                    DATA_ROW_ID_VOID /* diagramelement_id is ignored */,
-                                   into_diagram_id,
+                                   diagram_id,
                                    classifier_id,
                                    DATA_DIAGRAMELEMENT_FLAG_NONE,
                                    DATA_ROW_ID_VOID
                                  );
         ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                    &new_diagele,
-                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
+                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                                    &diagele_id
                                                                  );
         TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == ctrl_err );
@@ -104,7 +112,7 @@ static data_row_id_t test_env_setup_data_create_classifier( data_row_id_t into_d
     }
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != diagele_id );
     
-    return classifier_id;
+    return diagele_id;
 }
 
 static data_row_id_t test_env_setup_data_create_feature( data_row_id_t parent_classifier_id, 

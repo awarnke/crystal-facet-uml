@@ -9,15 +9,10 @@
  *  \brief Provides functions to check if test results are xml compliant
  */
 
-#include "set/data_visible_set.h"
-#include "data_classifier_type.h"
-#include "data_feature_type.h"
-#include "data_relationship_type.h"
-#include "data_diagram_type.h"
-#include "data_row_id.h"
-#include <stdbool.h>
-
-static int test_env_check_xml_is_valid(const char* xml_string);  /* helper function to validate xml */
+/*!
+ *  \brief helper function to validate xml
+ */
+static int test_env_check_validate_xml( const char* xml_string );
 
 #include "test_env_check_xml.inl"
 
