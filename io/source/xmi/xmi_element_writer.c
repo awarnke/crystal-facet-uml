@@ -425,6 +425,11 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
                                                                                     classifier_type,
                                                                                     XMI_SPEC_UML
                                                                                   );
+            if ( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
+            {
+                /* the base class is a Class, but the derived property name from AbstractRequirement is base_NamedElement */
+                base_type = "NamedElement";
+            }
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), base_type );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_MIDDLE );
             export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer),classifier_id );

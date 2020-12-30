@@ -10,6 +10,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
     /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF */
     /* note: if a property or association end starts with a slash(/),  */
     /*       it is a derived value and shall not be specified in xmi */
+    /* note: google search pattern for examples may help: filetype:xmi */
 
     /* ================================ CLASSIFIER ================================ */
 
@@ -39,13 +40,11 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */
         .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_REQUIREMENT,
         .specification            = XMI_SPEC_SYSML,
-#ifdef NDEBUG
         .profile_name             = "Requirement",
-#else
-        .profile_name             = "x-Requirement", /* the validation tool seems to not allow Requirement */
-#endif
         .base_name                = "Class",
         .is_a                     = (XMI_ELEMENT_IS_A_CLASS),
+        //.base_name                = "NamedElement",
+        //.is_a                     = (XMI_ELEMENT_IS_A_NAMED_ELEMENT),
         .property_from            = NULL,
         .property_to              = NULL,
         .additional_properties    = NULL,
