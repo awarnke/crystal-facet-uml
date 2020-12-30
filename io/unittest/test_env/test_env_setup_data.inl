@@ -21,7 +21,7 @@ static data_row_id_t test_env_setup_data_create_diagram( data_row_id_t parent_di
     /* create a diagram */
     data_row_id_t root_diag_id;
     {
-        static data_diagram_t root_diagram;  /* static ok for a simple test case and preserves stack space, which is important for win32 systems */
+        static data_diagram_t root_diagram;  /* static ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
         data_err = data_diagram_init ( &root_diagram,
                                        DATA_ROW_ID_VOID /* diagram_id is ignored */,
                                        parent_diagram_id,
@@ -57,7 +57,7 @@ static data_row_id_t test_env_setup_data_create_classifier( const char* name,
     /* create a classifier */
     data_row_id_t classifier_id;
     {
-        static data_classifier_t new_classifier;  /* static ok for a simple test case and preserves stack space, which is important for win32 systems */
+        static data_classifier_t new_classifier;  /* static ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
         data_err = data_classifier_init( &new_classifier,
                                          DATA_ROW_ID_VOID /* classifier_id is ignored */,
                                          DATA_CLASSIFIER_TYPE_COMPONENT,
@@ -94,7 +94,7 @@ static data_row_id_t test_env_setup_data_create_diagramelement( data_row_id_t di
     /* create a diagramelement */
     data_row_id_t diagele_id;
     {
-        static data_diagramelement_t new_diagele;  /* static ok for a simple test case and preserves stack space, which is important for win32 systems */
+        static data_diagramelement_t new_diagele;  /* static ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
         data_diagramelement_init ( &new_diagele,
                                    DATA_ROW_ID_VOID /* diagramelement_id is ignored */,
                                    diagram_id,
@@ -127,11 +127,11 @@ static data_row_id_t test_env_setup_data_create_feature( data_row_id_t parent_cl
     /* create a feature */
     data_row_id_t new_feature_id;
     {
-        static data_feature_t new_feature;  /* static ok for a simple test case and preserves stack space, which is important for win32 systems */
+        static data_feature_t new_feature;  /* static ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
         data_err = data_feature_init( &new_feature,
                                       DATA_ROW_ID_VOID, /* feature_id is ignored*/
                                       DATA_FEATURE_TYPE_PROPERTY, /* feature_main_type */
-                                      parent_classifier_id,  /* static ok for a simple test case and preserves stack space, which is important for win32 systems */
+                                      parent_classifier_id,
                                       name, /* feature_key */
                                       "uint64_t", /* feature_value */
                                       "time in nano seconds to start", /* feature_description */
@@ -167,7 +167,7 @@ static data_row_id_t test_env_setup_data_create_relationship( data_row_id_t from
     /* create a relationship */
     data_row_id_t new_relationship_id;
     {
-        static data_relationship_t new_relationship;  /* static ok for a simple test case and preserves stack space, which is important for win32 systems */
+        static data_relationship_t new_relationship;  /* static ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
         data_err = data_relationship_init( &new_relationship,
                                            DATA_ROW_ID_VOID, /* relationship_id is ignored */
                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */

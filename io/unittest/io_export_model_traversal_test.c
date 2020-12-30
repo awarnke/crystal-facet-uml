@@ -328,8 +328,9 @@ static void iterate_types_on_mini_model(void)
                     data_stat_t stat;
                     data_stat_init( &stat );
                     {
-                        data_visible_set_t temp_input_data;  /*!< buffer to cache the diagram data */
-                        io_export_model_traversal_t temp_model_traversal;  /*!< own instance of a model_traversal for text export */
+                        /* static variables are ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
+                        static data_visible_set_t temp_input_data;  /*!< buffer to cache the diagram data */
+                        static io_export_model_traversal_t temp_model_traversal;  /*!< own instance of a model_traversal for text export */
                         xmi_element_writer_t temp_xmi_writer;  /*!< memory for a temporary xmi writer */
                         
                         universal_memory_output_stream_open( &mem_output_stream, "dummy_path" );
