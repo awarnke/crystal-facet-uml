@@ -6,7 +6,7 @@ crystal-facet-uml (1.27.0) UNRELEASED; urgency=medium
   * risk of nullpointer errors reduced when opening new db with old program
   * test case added to check for upwards compatibility of types at xmi export
   * XMI Export: use cases have uml:ExtensionPoints now
-  * XMI Export: Requirement property base_class renamed to base_NamedElement
+  * XMI Export: Requirement property base_Class renamed to base_NamedElement
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  ********************************
 

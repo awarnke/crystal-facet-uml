@@ -249,6 +249,7 @@ static const data_relationship_type_t relationship_types[]
     470063,  /* downwards compatibility check */
 };
     
+//WARN: WIN32 crashes here with stack overflow ******************************************************************
 static void iterate_types_on_mini_model(void)
 {
     /* fill database with mini model */
