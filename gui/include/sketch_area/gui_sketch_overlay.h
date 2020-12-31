@@ -49,6 +49,7 @@ void gui_sketch_overlay_destroy( gui_sketch_overlay_t *this_ );
  *  \param drag_state current dragging status
  *  \param card_under_mouse the sketch card under the current mouse position or NULL if no card there
  *  \param nav_tree the navigation tree, not NULL
+ *  \param marked_objects the focused and highighted objects
  *  \param cr cairo drawing context
  */
 void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
@@ -56,6 +57,7 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
                               const gui_sketch_drag_state_t *drag_state,
                               const gui_sketch_card_t *card_under_mouse,
                               const gui_sketch_nav_tree_t *nav_tree,
+                              gui_marked_set_t *marked_objects,
                               cairo_t *cr
                             );
 
@@ -93,11 +95,13 @@ void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param drag_state current dragging status
  *  \param card_under_mouse the sketch card under the current mouse position or NULL if no card there
+ *  \param highlighted_object_table the object's type (table) the mouse is hovering on
  *  \param cr cairo drawing context
  */
 void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
                                                   const gui_sketch_drag_state_t *drag_state,
                                                   const gui_sketch_card_t *card_under_mouse,
+                                                  data_table_t highlighted_object_table,
                                                   cairo_t *cr
                                                 );
 

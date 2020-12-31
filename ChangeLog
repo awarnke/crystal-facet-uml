@@ -21,6 +21,7 @@ crystal-facet-uml (1.26.1) UNRELEASED; urgency=medium
   * XMI Export: nested activities are exported as StructuredActivityNode
   * icons beautified
   * program renamed from crystal_facet_uml to crystal-facet-uml
+  * in create mode, the mouse-tip-icon changed sepending on users options
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 19 Dec 2020 21:30:00 +0100
 

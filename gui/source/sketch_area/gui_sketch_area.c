@@ -525,6 +525,7 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
                              &((*this_).drag_state),
                              gui_sketch_area_get_card_at_pos ( this_, mouse_x, mouse_y ),
                              &((*this_).nav_tree),
+                             (*this_).marker,
                              cr
                            );
 

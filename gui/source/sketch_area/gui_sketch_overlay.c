@@ -29,6 +29,7 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
                               const gui_sketch_drag_state_t *drag_state,
                               const gui_sketch_card_t *card_under_mouse,
                               const gui_sketch_nav_tree_t *nav_tree,
+                              gui_marked_set_t *marked_objects,
                               cairo_t *cr )
 {
     TRACE_BEGIN();
@@ -52,7 +53,8 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
 
         case GUI_TOOLBOX_CREATE:
         {
-            gui_sketch_overlay_private_draw_create_mode( this_, drag_state, card_under_mouse, cr );
+            const data_id_t highlighted = gui_marked_set_get_highlighted( marked_objects );
+            gui_sketch_overlay_private_draw_create_mode( this_, drag_state, card_under_mouse, data_id_get_table(&highlighted), cr );
         }
         break;
 
@@ -202,6 +204,7 @@ void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
 void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
                                                   const gui_sketch_drag_state_t *drag_state,
                                                   const gui_sketch_card_t *card_under_mouse,
+                                                  data_table_t highlighted_object_table,
                                                   cairo_t *cr )
 {
     TRACE_BEGIN();
@@ -295,6 +298,11 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
     {
         if ( NULL != card_under_mouse )
         {
+            const bool draw_arrow 
+                = (( highlighted_object_table == DATA_TABLE_CLASSIFIER )
+                ||( highlighted_object_table == DATA_TABLE_FEATURE )
+                ||( highlighted_object_table == DATA_TABLE_DIAGRAMELEMENT ));
+            
             /* get coordinates */
             const int32_t cur_x = gui_sketch_drag_state_get_to_x ( drag_state );
             const int32_t cur_y = gui_sketch_drag_state_get_to_y ( drag_state );
@@ -307,13 +315,6 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
             static const int32_t ICON_UNIT = 2;
             static const int32_t DIST = 12;
 
-            /* box */
-            cairo_move_to ( cr, cur_x-4*ICON_UNIT, cur_y-DIST-6*ICON_UNIT );
-            cairo_line_to ( cr, cur_x-8*ICON_UNIT, cur_y-DIST-6*ICON_UNIT );
-            cairo_line_to ( cr, cur_x-8*ICON_UNIT, cur_y-DIST-0*ICON_UNIT );
-            cairo_line_to ( cr, cur_x-2*ICON_UNIT, cur_y-DIST-0*ICON_UNIT );
-            cairo_line_to ( cr, cur_x-2*ICON_UNIT, cur_y-DIST-2*ICON_UNIT );
-
             /* star */
             cairo_move_to ( cr, cur_x-2*ICON_UNIT, cur_y-DIST-4*ICON_UNIT );
             cairo_line_to ( cr, cur_x-2*ICON_UNIT, cur_y-DIST-8*ICON_UNIT );
@@ -322,12 +323,31 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
             cairo_move_to ( cr, cur_x-4*ICON_UNIT, cur_y-DIST-7*ICON_UNIT );
             cairo_line_to ( cr, cur_x-0*ICON_UNIT, cur_y-DIST-5*ICON_UNIT );
 
-            /* arrow */
-            cairo_move_to ( cr, cur_x+2*ICON_UNIT, cur_y-DIST-0*ICON_UNIT );
-            cairo_line_to ( cr, cur_x+8*ICON_UNIT, cur_y-DIST-6*ICON_UNIT );
-            cairo_line_to ( cr, cur_x+5*ICON_UNIT, cur_y-DIST-5*ICON_UNIT );
-            cairo_move_to ( cr, cur_x+8*ICON_UNIT, cur_y-DIST-6*ICON_UNIT );
-            cairo_line_to ( cr, cur_x+7*ICON_UNIT, cur_y-DIST-3*ICON_UNIT );
+            if ( draw_arrow )
+            {
+                /* small box */
+                cairo_move_to ( cr, cur_x-4*ICON_UNIT, cur_y-DIST-6*ICON_UNIT );
+                cairo_line_to ( cr, cur_x-8*ICON_UNIT, cur_y-DIST-6*ICON_UNIT );
+                cairo_line_to ( cr, cur_x-8*ICON_UNIT, cur_y-DIST-0*ICON_UNIT );
+                cairo_line_to ( cr, cur_x-2*ICON_UNIT, cur_y-DIST-0*ICON_UNIT );
+                cairo_line_to ( cr, cur_x-2*ICON_UNIT, cur_y-DIST-2*ICON_UNIT );
+
+                /* arrow */
+                cairo_move_to ( cr, cur_x+2*ICON_UNIT, cur_y-DIST-0*ICON_UNIT );
+                cairo_line_to ( cr, cur_x+8*ICON_UNIT, cur_y-DIST-6*ICON_UNIT );
+                cairo_line_to ( cr, cur_x+5*ICON_UNIT, cur_y-DIST-5*ICON_UNIT );
+                cairo_move_to ( cr, cur_x+8*ICON_UNIT, cur_y-DIST-6*ICON_UNIT );
+                cairo_line_to ( cr, cur_x+7*ICON_UNIT, cur_y-DIST-3*ICON_UNIT );
+            }
+            else
+            {
+                /* big box */
+                cairo_move_to ( cr, cur_x-4*ICON_UNIT, cur_y-DIST-6*ICON_UNIT );
+                cairo_line_to ( cr, cur_x-8*ICON_UNIT, cur_y-DIST-6*ICON_UNIT );
+                cairo_line_to ( cr, cur_x-8*ICON_UNIT, cur_y-DIST+3*ICON_UNIT );
+                cairo_line_to ( cr, cur_x+1*ICON_UNIT, cur_y-DIST+3*ICON_UNIT );
+                cairo_line_to ( cr, cur_x+1*ICON_UNIT, cur_y-DIST-4*ICON_UNIT );
+            }
 
             cairo_stroke (cr);
         }
