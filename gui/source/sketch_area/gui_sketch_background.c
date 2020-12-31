@@ -80,8 +80,12 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
 
         if ( height > icon_height ) 
         {
-            cairo_set_source_rgba( cr, DARK_R, DARK_G, DARK_B, DARK_A );
+            cairo_set_source_rgba( cr, 0.0, 0.4, 0.3, 1.0 );
             cairo_rectangle ( cr, left, top+icon_height, icon_width, height-icon_height );
+            cairo_fill (cr);
+            cairo_move_to( cr, left, top+icon_height );
+            cairo_line_to( cr, left+icon_width, top+icon_height );
+            cairo_line_to( cr, left, top+icon_height-(0.3*icon_width) );
             cairo_fill (cr);
         }
     }

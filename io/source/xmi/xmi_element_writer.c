@@ -429,6 +429,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
             {
                 /* the base class is a Class, but the derived property name from AbstractRequirement is base_NamedElement */
                 base_type = "NamedElement";
+                /* but: one could understand differently the SysML 1.6 chapter 16.3.2.5 Requirement */
             }
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), base_type );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_MIDDLE );
