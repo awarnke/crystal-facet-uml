@@ -163,6 +163,12 @@ void gui_simple_message_to_user_show_message ( gui_simple_message_to_user_t *thi
             utf8stringbuf_append_str( (*this_).private_temp_str, "The current classifier type does not allow one to remove the instance flag." );
         }
         break;
+        
+        case GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY:
+        {
+            utf8stringbuf_append_str( (*this_).private_temp_str, "The database file was opened in read only mode." );
+        }
+        break;
 
         default:
         {

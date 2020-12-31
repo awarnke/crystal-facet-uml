@@ -1167,7 +1167,7 @@ data_error_t data_database_consistency_checker_kill_classifier( data_database_co
         {
             TSLOG_ERROR_STR( "sqlite3_exec() failed:", utf8stringbuf_get_string(delete_statement) );
             TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
+            result |= (sqlite_err == SQLITE_READONLY) ? DATA_ERROR_READ_ONLY_DB : DATA_ERROR_AT_DB;
         }
         if ( error_msg != NULL )
         {

@@ -42,6 +42,7 @@ enum data_error_enum {
     DATA_ERROR_DUPLICATE_ID = 0x04000000,  /*!< unexpected internal error: an id is used twice */
     DATA_ERROR_DUPLICATE_NAME = 0x08000000,  /*!< internal error: a name is used twice */
     DATA_ERROR_VALUE_OUT_OF_RANGE = 0x10000000,  /*!< unexpected internal db error: enum/integer out of range */
+    DATA_ERROR_READ_ONLY_DB = 0x20000000,  /*!< data cannot be changed, database is read only */
     
     DATA_ERROR_NOT_YET_IMPLEMENTED = 0x40000000,  /*!< internal error: function not yet implemented */
 };

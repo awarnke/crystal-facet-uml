@@ -7,6 +7,7 @@ crystal-facet-uml (1.27.0) UNRELEASED; urgency=medium
   * test case added to check for upwards compatibility of types at xmi export
   * XMI Export: use cases have uml:ExtensionPoints now
   * XMI Export: Requirement property base_Class renamed to base_NamedElement
+  * in progress: reacting on changes in read-only database files
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  ********************************
 

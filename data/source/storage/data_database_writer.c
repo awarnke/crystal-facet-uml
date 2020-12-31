@@ -1321,7 +1321,7 @@ data_error_t data_database_writer_private_execute_create_command ( data_database
             TSLOG_ERROR( "sqlite3_exec() failed: sql_statement (see trace)" );
             TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
             TRACE_INFO_STR( "sqlite3_exec:", sql_statement );
-            result |= DATA_ERROR_AT_DB;
+            result |= (sqlite_err == SQLITE_READONLY) ? DATA_ERROR_READ_ONLY_DB : DATA_ERROR_AT_DB;
         }
         if ( error_msg != NULL )
         {
@@ -1462,7 +1462,7 @@ data_error_t data_database_writer_private_transaction_issue_command ( data_datab
             TSLOG_ERROR( "sqlite3_exec() failed: sql_statement (see trace)" );
             TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
             TRACE_INFO_STR( "sqlite3_exec() failed:", sql_statement );
-            result |= DATA_ERROR_AT_DB;
+            result |= (sqlite_err == SQLITE_READONLY) ? DATA_ERROR_READ_ONLY_DB : DATA_ERROR_AT_DB;
         }
         if ( error_msg != NULL )
         {

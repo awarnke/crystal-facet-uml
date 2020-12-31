@@ -151,14 +151,14 @@ static inline data_change_notifier_t *data_database_get_notifier_ptr ( data_data
 /*!
  *  \brief initializes the tables in the database if not yet existant
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_AT_DB if the current database is not a database or is encrypted
+ *  \return DATA_ERROR_AT_DB if the current database is not a database or is encrypted; DATA_ERROR_READ_ONLY_DB if read only
  */
 data_error_t data_database_private_initialize_tables( data_database_t *this_ );
 
 /*!
  *  \brief initializes the indexes in the database if not yet existant
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_AT_DB in case of an error
+ *  \return DATA_ERROR_AT_DB in case of an error; DATA_ERROR_READ_ONLY_DB if read only
  */
 data_error_t data_database_private_initialize_indexes( data_database_t *this_ );
 
@@ -166,7 +166,7 @@ data_error_t data_database_private_initialize_indexes( data_database_t *this_ );
  *  \brief upgrades old tables from oder versions to current database scheme
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_AT_DB if the current database is not a database or is encrypted
+ *  \return DATA_ERROR_AT_DB if the current database is not a database or is encrypted; DATA_ERROR_READ_ONLY_DB if read only
  */
 data_error_t data_database_upgrade_tables( data_database_t *this_ );
 

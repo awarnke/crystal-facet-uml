@@ -41,6 +41,7 @@ enum ctrl_error_enum {
     CTRL_ERROR_DUPLICATE_ID = DATA_ERROR_DUPLICATE_ID,  /*!< unexpected internal error: an id is used twice */
     CTRL_ERROR_DUPLICATE_NAME = DATA_ERROR_DUPLICATE_NAME,  /*!< internal error: a name is used twice */
     CTRL_ERROR_VALUE_OUT_OF_RANGE = DATA_ERROR_VALUE_OUT_OF_RANGE,  /*!< unexpected internal db error: enum/integer out of range */
+    CTRL_ERROR_READ_ONLY_DB = DATA_ERROR_READ_ONLY_DB,  /*!< data cannot be changed, database is read only */
     
     CTRL_ERROR_NOT_YET_IMPLEMENTED = DATA_ERROR_NOT_YET_IMPLEMENTED,  /*!< internal error: function not yet implemented */
 };

@@ -208,7 +208,7 @@ data_error_t data_database_private_initialize_tables( data_database_t *this_ )
     {
         TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_CLASSIFIERINSTANCE_TABLE );
         TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-        result = DATA_ERROR_AT_DB;
+        result |= (sqlite_err == SQLITE_READONLY) ? DATA_ERROR_READ_ONLY_DB : DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
@@ -223,7 +223,7 @@ data_error_t data_database_private_initialize_tables( data_database_t *this_ )
     {
         TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_RELATIONSHIPINSTANCE_TABLE );
         TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-        result = DATA_ERROR_AT_DB;
+        result |= (sqlite_err == SQLITE_READONLY) ? DATA_ERROR_READ_ONLY_DB : DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
@@ -238,7 +238,7 @@ data_error_t data_database_private_initialize_tables( data_database_t *this_ )
     {
         TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_FEATUREINSTANCE_TABLE );
         TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-        result = DATA_ERROR_AT_DB;
+        result |= (sqlite_err == SQLITE_READONLY) ? DATA_ERROR_READ_ONLY_DB : DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
@@ -253,7 +253,7 @@ data_error_t data_database_private_initialize_tables( data_database_t *this_ )
     {
         TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_DIAGRAM_TABLE );
         TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-        result = DATA_ERROR_AT_DB;
+        result |= (sqlite_err == SQLITE_READONLY) ? DATA_ERROR_READ_ONLY_DB : DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
@@ -268,7 +268,7 @@ data_error_t data_database_private_initialize_tables( data_database_t *this_ )
     {
         TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_DIAGRAMELEMENTS_TABLE );
         TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-        result = DATA_ERROR_AT_DB;
+        result |= (sqlite_err == SQLITE_READONLY) ? DATA_ERROR_READ_ONLY_DB : DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
@@ -297,7 +297,7 @@ data_error_t data_database_private_initialize_indexes( data_database_t *this_ )
     {
         TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_CLASSIFIERORDERING_INDEX );
         TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-        result = DATA_ERROR_AT_DB;
+        result |= (sqlite_err == SQLITE_READONLY) ? DATA_ERROR_READ_ONLY_DB : DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
@@ -312,7 +312,7 @@ data_error_t data_database_private_initialize_indexes( data_database_t *this_ )
     {
         TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_RELATIONSHIPORDERING_INDEX );
         TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-        result = DATA_ERROR_AT_DB;
+        result |= (sqlite_err == SQLITE_READONLY) ? DATA_ERROR_READ_ONLY_DB : DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
@@ -327,7 +327,7 @@ data_error_t data_database_private_initialize_indexes( data_database_t *this_ )
     {
         TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_FEATUREORDERING_INDEX );
         TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-        result = DATA_ERROR_AT_DB;
+        result |= (sqlite_err == SQLITE_READONLY) ? DATA_ERROR_READ_ONLY_DB : DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
@@ -342,7 +342,7 @@ data_error_t data_database_private_initialize_indexes( data_database_t *this_ )
     {
         TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_DIAGRAMORDERING_INDEX );
         TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-        result = DATA_ERROR_AT_DB;
+        result |= (sqlite_err == SQLITE_READONLY) ? DATA_ERROR_READ_ONLY_DB : DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
@@ -440,7 +440,7 @@ data_error_t data_database_upgrade_tables( data_database_t *this_ )
         {
             TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_UPDATE_DIAGRAM_ROOT_PARENT );
             TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
+            result |= (sqlite_err == SQLITE_READONLY) ? DATA_ERROR_READ_ONLY_DB : DATA_ERROR_AT_DB;
         }
         if ( error_msg != NULL )
         {

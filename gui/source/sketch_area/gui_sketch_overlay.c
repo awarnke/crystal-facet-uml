@@ -316,12 +316,14 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
             static const int32_t DIST = 12;
 
             /* star */
-            cairo_move_to ( cr, cur_x-2*ICON_UNIT, cur_y-DIST-4*ICON_UNIT );
-            cairo_line_to ( cr, cur_x-2*ICON_UNIT, cur_y-DIST-8*ICON_UNIT );
-            cairo_move_to ( cr, cur_x-4*ICON_UNIT, cur_y-DIST-5*ICON_UNIT );
-            cairo_line_to ( cr, cur_x-0*ICON_UNIT, cur_y-DIST-7*ICON_UNIT );
-            cairo_move_to ( cr, cur_x-4*ICON_UNIT, cur_y-DIST-7*ICON_UNIT );
-            cairo_line_to ( cr, cur_x-0*ICON_UNIT, cur_y-DIST-5*ICON_UNIT );
+            const int32_t star_center_x = cur_x+(draw_arrow?-2:1)*ICON_UNIT;
+            const int32_t star_center_y = cur_y-DIST-6*ICON_UNIT;
+            cairo_move_to ( cr, star_center_x, star_center_y-2*ICON_UNIT );
+            cairo_line_to ( cr, star_center_x, star_center_y+2*ICON_UNIT );
+            cairo_move_to ( cr, star_center_x-2*ICON_UNIT, star_center_y-1*ICON_UNIT );
+            cairo_line_to ( cr, star_center_x+2*ICON_UNIT, star_center_y+1*ICON_UNIT );
+            cairo_move_to ( cr, star_center_x-2*ICON_UNIT, star_center_y+1*ICON_UNIT );
+            cairo_line_to ( cr, star_center_x+2*ICON_UNIT, star_center_y-1*ICON_UNIT );
 
             if ( draw_arrow )
             {
@@ -342,11 +344,11 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
             else
             {
                 /* big box */
-                cairo_move_to ( cr, cur_x-4*ICON_UNIT, cur_y-DIST-6*ICON_UNIT );
+                cairo_move_to ( cr, cur_x-1*ICON_UNIT, cur_y-DIST-6*ICON_UNIT );
                 cairo_line_to ( cr, cur_x-8*ICON_UNIT, cur_y-DIST-6*ICON_UNIT );
                 cairo_line_to ( cr, cur_x-8*ICON_UNIT, cur_y-DIST+3*ICON_UNIT );
                 cairo_line_to ( cr, cur_x+1*ICON_UNIT, cur_y-DIST+3*ICON_UNIT );
-                cairo_line_to ( cr, cur_x+1*ICON_UNIT, cur_y-DIST-4*ICON_UNIT );
+                cairo_line_to ( cr, cur_x+1*ICON_UNIT, cur_y-DIST-2*ICON_UNIT );
             }
 
             cairo_stroke (cr);

@@ -150,7 +150,7 @@ data_error_t data_database_consistency_checker_find_invalid_relationship_feature
  *
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the classifier record to be deleted.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error; DATA_ERROR_READ_ONLY_DB if read only.
  */
 data_error_t data_database_consistency_checker_kill_classifier( data_database_consistency_checker_t *this_, data_row_id_t obj_id );
 

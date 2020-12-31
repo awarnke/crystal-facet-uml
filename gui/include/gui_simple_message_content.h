@@ -31,6 +31,7 @@ enum gui_simple_message_content_enum {
     GUI_SIMPLE_MESSAGE_CONTENT_NO_FEATURES,  /*!< current diagram type does not allow one to create features */
     GUI_SIMPLE_MESSAGE_CONTENT_FEATURELESS_CLASSIFIER,  /*!< current classifier type does not allow one to create features */
     GUI_SIMPLE_MESSAGE_CONTENT_IS_ALWAYS_INSTANCE,  /*!< current classifier type does not allow one to remove the instance flag */
+    GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY,  /*!< the database file is opened readonly, no modifications possible */
 };
 
 typedef enum gui_simple_message_content_enum gui_simple_message_content_t;

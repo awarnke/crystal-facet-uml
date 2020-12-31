@@ -444,7 +444,7 @@ data_error_t data_database_writer_update_relationship_list_order ( data_database
  *  \param this_ pointer to own object attributes
  *  \param sql_statement statement to be executed.
  *  \param out_new_id if fetch_new_id, the id of the newly created row is returned
- *  \return DATA_ERROR_NONE in case of success, an error id otherwise
+ *  \return DATA_ERROR_NONE in case of success, an error id otherwise; DATA_ERROR_READ_ONLY_DB if read only
  */
 data_error_t data_database_writer_private_execute_create_command ( data_database_writer_t *this_, const char* sql_statement, data_row_id_t* out_new_id );
 
@@ -475,7 +475,7 @@ data_error_t data_database_writer_private_transaction_commit ( data_database_wri
  *
  *  \param this_ pointer to own object attributes
  *  \param sql_statement statement to be executed.
- *  \return DATA_ERROR_NONE in case of success, an error id otherwise
+ *  \return DATA_ERROR_NONE in case of success, an error id otherwise; DATA_ERROR_READ_ONLY_DB if read only
  */
 data_error_t data_database_writer_private_transaction_issue_command ( data_database_writer_t *this_, const char* sql_statement );
 
