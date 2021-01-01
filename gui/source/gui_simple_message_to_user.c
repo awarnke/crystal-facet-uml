@@ -166,7 +166,7 @@ void gui_simple_message_to_user_show_message ( gui_simple_message_to_user_t *thi
         
         case GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY:
         {
-            utf8stringbuf_append_str( (*this_).private_temp_str, "The database file was opened in read only mode." );
+            utf8stringbuf_append_str( (*this_).private_temp_str, "The database file is open in read only mode." );
         }
         break;
 

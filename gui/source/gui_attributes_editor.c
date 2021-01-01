@@ -765,6 +765,14 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
+                else if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                {
+                    /* notify read-only warning to user */
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                        );
+                }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update name failed:", ctrl_err );
@@ -790,6 +798,14 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
+                else if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                {
+                    /* notify read-only warning to user */
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                        );
+                }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update key/name failed:", ctrl_err );
@@ -814,6 +830,14 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
+                }
+                else if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                {
+                    /* notify read-only warning to user */
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                        );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
@@ -846,6 +870,14 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
+                }
+                else if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                {
+                    /* notify read-only warning to user */
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                        );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
@@ -903,6 +935,14 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
+                else if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                {
+                    /* notify read-only warning to user */
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                        );
+                }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update stereotype failed:", ctrl_err );
@@ -927,6 +967,14 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
+                }
+                else if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                {
+                    /* notify read-only warning to user */
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                        );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
@@ -991,7 +1039,15 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_classifier_controller_update_classifier_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
-                if ( CTRL_ERROR_NONE != ctrl_err )
+                if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                {
+                    /* notify read-only warning to user */
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                        );
+                }
+                else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
                 }
@@ -1009,7 +1065,15 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_classifier_controller_update_feature_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
-                if ( CTRL_ERROR_NONE != ctrl_err )
+                if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                {
+                    /* notify read-only warning to user */
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                        );
+                }
+                else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
                 }
@@ -1027,7 +1091,15 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_classifier_controller_update_relationship_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
-                if ( CTRL_ERROR_NONE != ctrl_err )
+                if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                {
+                    /* notify read-only warning to user */
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                        );
+                }
+                else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
                 }
@@ -1052,7 +1124,15 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                 diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_diagram_controller_update_diagram_type ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
-                if ( CTRL_ERROR_NONE != ctrl_err )
+                if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                {
+                    /* notify read-only warning to user */
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                        );
+                }
+                else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update type failed:", ctrl_err );
                 }
@@ -1115,6 +1195,14 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
+                else if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                {
+                    /* notify read-only warning to user */
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                        );
+                }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update description failed:", ctrl_err );
@@ -1140,6 +1228,14 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
+                else if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                {
+                    /* notify read-only warning to user */
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                        );
+                }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update description failed:", ctrl_err );
@@ -1164,6 +1260,14 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
+                }
+                else if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                {
+                    /* notify read-only warning to user */
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                        );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
@@ -1196,6 +1300,14 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
+                }
+                else if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                {
+                    /* notify read-only warning to user */
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                        );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {

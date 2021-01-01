@@ -152,6 +152,14 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
         /* cleanup */
         data_diagramelement_destroy ( &new_diagele );
     }
+    else if ( CTRL_ERROR_READ_ONLY_DB == c_result )
+    {
+        /* notify read-only warning to user */
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                               );
+    }
 
     /* cleanup */
     data_classifier_destroy ( &((*this_).private_temp_classifier) );
@@ -261,6 +269,14 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
                                                         false,  /* add_to_latest_undo_set */
                                                         out_diagram_id
                                                       );
+    if ( CTRL_ERROR_READ_ONLY_DB == c_result )
+    {
+        /* notify read-only warning to user */
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                               );
+    }
 
     /* cleanup */
     if ( d_err == DATA_ERROR_NONE )
@@ -366,6 +382,14 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
                                                                     false, /*=add_to_latest_undo_set*/
                                                                     out_relationship_id
                                                                   );
+        if ( CTRL_ERROR_READ_ONLY_DB == c_result )
+        {
+            /* notify read-only warning to user */
+            gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                    GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                    GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                );
+        }
     }
     else
     {
@@ -479,6 +503,14 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
                                                                false, /*=add_to_latest_undo_set*/
                                                                out_feature_id
                                                              );
+        if ( CTRL_ERROR_READ_ONLY_DB == c_result )
+        {
+            /* notify read-only warning to user */
+            gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                    GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                    GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                );
+        }
     }
     else if ( ! classifier_ok )
     {
