@@ -238,7 +238,7 @@ static inline bool layout_visible_classifier_is_equal_diagramelement_id ( const 
 
 
 /*
-Copyright 2018-2020 Andreas Warnke
+Copyright 2018-2021 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

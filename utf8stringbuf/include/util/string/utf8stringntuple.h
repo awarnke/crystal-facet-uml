@@ -8,7 +8,7 @@
  *  \brief utf8stringNTuple provides types for pairs, triples and n-tuples of c-strings.
  *
  *  \note License: Use this code according to the license: Apache 2.0.
- *  \author Copyright 2012-2020 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
+ *  \author Copyright 2012-2021 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */
 
 #include "util/string/utf8error.h"
@@ -91,7 +91,7 @@ typedef struct utf8string5tuple_struct utf8string5tuple_t;
 
 
 /*
- * Copyright 2012-2020 Andreas Warnke
+ * Copyright 2012-2021 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

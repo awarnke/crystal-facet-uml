@@ -13,7 +13,7 @@
 #define META_INFO_PROGRAM_NAME_STR "crystal facet uml"
 /* machine readable version */
 #define META_INFO_PROGRAM_ID_STR "crystal-facet-uml"
-#define META_INFO_COPYRIGHT_STR /*Copyright*/ "2016-2020 Andreas Warnke"
+#define META_INFO_COPYRIGHT_STR /*Copyright*/ "2016-2021 Andreas Warnke"
 #ifdef __linux__
 #define META_INFO_LICENSE_STR "Apache-2.0"  /* sqlite3 linked dynamicyally */
 #else  /* __linux__ */
@@ -24,7 +24,7 @@
 
 
 /*
-Copyright 2016-2020 Andreas Warnke
+Copyright 2016-2021 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

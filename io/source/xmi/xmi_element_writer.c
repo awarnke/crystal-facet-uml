@@ -1312,7 +1312,7 @@ int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
 
 
 /*
-Copyright 2020-2020 Andreas Warnke
+Copyright 2020-2021 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

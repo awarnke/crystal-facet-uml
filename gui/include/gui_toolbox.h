@@ -209,7 +209,7 @@ void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_, const
 
 
 /*
-Copyright 2016-2020 Andreas Warnke
+Copyright 2016-2021 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

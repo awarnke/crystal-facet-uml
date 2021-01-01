@@ -63,7 +63,7 @@ static inline unsigned int test_result_get_failed( test_result_t *this_ );
 
 
 /*
-Copyright 2019-2020 Andreas Warnke
+Copyright 2019-2021 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
