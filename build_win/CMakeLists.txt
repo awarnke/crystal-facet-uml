@@ -106,7 +106,7 @@ MESSAGE( "Note: to build with asserts and traces, run    cmake -DCMAKE_BUILD_TYP
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Werror -Wno-overlength-strings ${GTK3_CFLAGS_OTHER}" )
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Wno-overlength-strings ${GTK3_CFLAGS_OTHER}" )
 # Note: The GIMP-generated images are longer that 4095 characters, therefore -Wno-overlength-strings is required here.
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal-facet-uml Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
@@ -118,14 +118,14 @@ SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 # ==== ==== ==== ==== ==== ==== ==== ==== test Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 ADD_EXECUTABLE(test_crystal-facet-uml ${commonSource} ${utestSource})
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC test_fw/include)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC data/unittest)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ctrl/unittest)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC gui/unittest)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC io/unittest)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC pencil/unittest)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC universal/unittest)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC utf8stringbuf/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../test_fw/include)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../data/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../ctrl/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../gui/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../io/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../pencil/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../universal/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../utf8stringbuf/unittest)
 TARGET_LINK_LIBRARIES(test_crystal-facet-uml ${ATK_LIB} ${CAIRO_LIB} ${FONTCNF_LIB} ${GAIL_LIB} ${GDKPIX_LIB} ${GDKWIN_LIB} ${GIO_LIB} ${GLIB_LIB} ${GMOD_LIB} ${GOBJ_LIB} ${GTHREAD_LIB} ${GTK_LIB} ${PANGO_LIB} ${PANGOCAIRO_LIB} ${PANGOFT_LIB} ${PANGOWIN_LIB} )
 SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
