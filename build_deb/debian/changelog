@@ -1,4 +1,13 @@
-crystal-facet-uml (1.26.1-1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.27.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * new upstream version 1.27.0
+  * metadata file has license MIT as requested by freedesktop.org
+  * CMakeLists has no separate compiler flags for testing executable anymore
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 02 Jan 2021 19:00:00 +0100
+
+ crystal-facet-uml (1.26.1-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * XMI Export: destination end of messages had fix enclosingInteraction=90001
