@@ -8,7 +8,7 @@
  *  \brief UNITTEST for txt_writer
  */
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t txt_writer_test_get_list(void);
 

@@ -8,7 +8,7 @@
  *  \brief UNITTEST for data_rules
  */
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t data_rules_test_get_list(void);
 

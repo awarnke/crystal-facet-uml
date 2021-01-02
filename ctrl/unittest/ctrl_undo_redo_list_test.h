@@ -9,7 +9,7 @@
  *                         data_database, data_database_reader, ctrl_undo_redo_list
  */
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t ctrl_undo_redo_list_test_get_list(void);
 

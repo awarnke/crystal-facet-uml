@@ -9,7 +9,7 @@
  *                         data_database, data_database_reader, ctrl_diagram_controller
  */
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t ctrl_diagram_controller_test_get_list(void);
 

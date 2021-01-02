@@ -35,9 +35,9 @@
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
 #include "util/string/utf8string.h"
+#include "test_runner.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
-#include <test_runner.h>
 
 /*!
  *  \brief main runs the unit tests

@@ -3,7 +3,7 @@
 #ifndef UTF8STRINGBUF_PERFORMANCE_H_
 #define UTF8STRINGBUF_PERFORMANCE_H_
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t utf8stringbuf_performance_get_list(void);
 

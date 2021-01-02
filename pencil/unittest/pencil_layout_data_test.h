@@ -8,7 +8,7 @@
  *  \brief UNITTEST for pencil_layout_data
  */
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t pencil_layout_data_test_get_list(void);
 

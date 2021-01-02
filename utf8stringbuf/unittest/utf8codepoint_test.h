@@ -3,7 +3,7 @@
 #ifndef UTF8CODEPOINT_TEST_H_
 #define UTF8CODEPOINT_TEST_H_
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t utf8codepoint_test_get_list(void);
 

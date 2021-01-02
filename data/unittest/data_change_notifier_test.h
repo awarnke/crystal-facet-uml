@@ -8,7 +8,7 @@
  *  \brief UNITTEST for data_change_notifier
  */
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t data_change_notifier_test_get_list(void);
 

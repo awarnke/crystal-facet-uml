@@ -12,7 +12,7 @@ crystal-facet-uml provides a graphical user interface to
     <listitem><para>create, modify and delete relationships</para>
         <para>(dependency, association, aggregation, composition, generalization, realization, contains, sync-call, return-call, async-message, communication-path, control-flow, object-flow, deployment, manifest, include, extend)</para></listitem>
     <listitem><para>create, modify and delete features </para>
-        <para>(port, field, operation)</para></listitem>
+        <para>(port, pin, property, operation)</para></listitem>
     <listitem><para>cut, copy, paste uml elements between diagrams</para></listitem>
     <listitem><para>undo and redo are supported</para></listitem>
     <listitem><para>multiple windows can show different or same parts of the uml model</para></listitem>
@@ -33,7 +33,7 @@ crystal-facet-uml manages a meta model:
     <listitem><para>Uml(TM)/SysML(TM) elements exist only once even if shown in many diagrams</para></listitem>
     <listitem><para>Relationships and features are consistent between all diagrams</para></listitem>
     <listitem><para>Diagram-local messages/transitions are supported in scenario-based diagrams</para>
-        <para>(sequence, communication, timing)</para></listitem>
+        <para>(sequence, communication, timing, interaction overview)</para></listitem>
 </itemizedlist>
 
 crystal-facet-uml exports diagrams as
@@ -41,7 +41,7 @@ crystal-facet-uml exports diagrams as
 <itemizedlist>
     <listitem><para>vector graphics</para><para>(pdf, ps, svg)</para></listitem>
     <listitem><para>pixel graphics</para><para>(png)</para></listitem>
-    <listitem><para>textual representation</para><para>(utf-8-txt, docbook, xhtml)</para></listitem>
+    <listitem><para>textual representation</para><para>(utf-8-txt, DocBook, xhtml)</para></listitem>
     <listitem><para>machine-readable model</para><para>(xmi)</para></listitem>
 </itemizedlist>
 

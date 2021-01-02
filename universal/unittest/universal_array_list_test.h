@@ -8,7 +8,7 @@
  *  \brief UNITTEST for universal_array_list
  */
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t universal_array_list_test_get_list(void);
 

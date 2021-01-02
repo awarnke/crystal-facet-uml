@@ -8,7 +8,7 @@
  *  \brief UNITTEST for gui_sketch_nav_tree
  */
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t gui_sketch_nav_tree_test_get_list(void);
 

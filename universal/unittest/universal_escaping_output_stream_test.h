@@ -8,7 +8,7 @@
  *  \brief UNITTEST for universal_escaping_output_stream
  */
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t universal_escaping_output_stream_test_get_list(void);
 

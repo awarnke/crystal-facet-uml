@@ -3,7 +3,7 @@
 #ifndef UTF8STRING_TEST_H_
 #define UTF8STRING_TEST_H_
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t utf8string_test_get_list(void);
 

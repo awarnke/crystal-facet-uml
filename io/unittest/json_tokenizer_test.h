@@ -8,7 +8,7 @@
  *  \brief UNITTEST for json_tokenizer
  */
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t json_tokenizer_test_get_list(void);
 

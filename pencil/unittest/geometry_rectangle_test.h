@@ -8,7 +8,7 @@
  *  \brief UNITTEST for geometry_rectangle
  */
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t geometry_rectangle_test_get_list(void);
 

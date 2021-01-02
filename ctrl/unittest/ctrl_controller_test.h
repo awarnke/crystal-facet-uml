@@ -9,7 +9,7 @@
  *  focussing on opening, switching and closing files
  */
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t ctrl_controller_test_get_list(void);
 

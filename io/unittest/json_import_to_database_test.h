@@ -8,7 +8,7 @@
  *  \brief MODULE TEST for json_import_to_database
  */
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t json_import_to_database_test_get_list(void);
 

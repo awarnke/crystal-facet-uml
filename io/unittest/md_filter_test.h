@@ -8,7 +8,7 @@
  *  \brief MODULE TEST for md_filter
  */
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t md_filter_test_get_list(void);
 

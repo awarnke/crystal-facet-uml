@@ -8,7 +8,7 @@
  *  \brief UNITTEST for geometry_non_linear_scale
  */
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t geometry_non_linear_scale_test_get_list(void);
 

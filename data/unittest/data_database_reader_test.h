@@ -8,7 +8,7 @@
  *  \brief MODULE TEST for data_database_writer, data_database_sql_builder, data_database and data_database_reader
  */
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t data_database_reader_test_get_list(void);
 

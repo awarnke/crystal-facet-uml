@@ -8,7 +8,7 @@
  *  \brief MODULE TEST for io_export_model_traversal
  */
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t io_export_model_traversal_test_get_list(void);
 

@@ -8,7 +8,7 @@
  *  \brief MODULE TEST for ctrl_classifier_policy_enforcer
  */
 
-#include <test_suite.h>
+#include "test_suite.h"
 
 test_suite_t ctrl_classifier_policy_enforcer_test_get_list(void);
 
