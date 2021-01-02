@@ -2,7 +2,7 @@ crystal-facet-uml (1.27.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Tx/Rx for component ports and activity pins introduced
-  * control flow pseudostate for state entry and exit added
+  * control flow pseudostate for state entry and state exit added
   * risk of nullpointer errors reduced when opening new db with old program
   * test case added to check for upwards compatibility of types at xmi export
   * XMI Export: use cases have uml:ExtensionPoints now
@@ -11,7 +11,7 @@ crystal-facet-uml (1.27.0) UNRELEASED; urgency=medium
   * in create mode, the mouse-tip-icon changes depending on users options
   * redesign of marker-icons for focused and selected elements
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  ********************************
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 02 Jan 2021 19:00:00 +0100
 
 crystal-facet-uml (1.26.1) UNRELEASED; urgency=medium
 
