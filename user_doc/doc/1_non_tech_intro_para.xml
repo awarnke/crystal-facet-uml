@@ -2,51 +2,70 @@
 <para>
 
 crystal-facet-uml provides a graphical user interface to
-
 <itemizedlist>
-    <listitem><para>create diagrams</para>
-        <para>(use-case, deployment, component, composite-structure, package, class, activity, state, timing, communication, sequence)</para></listitem>
-    <listitem><para>create uml elements</para>
-        <para>(actor, system-boundary, use-case, node, component, part, interface, package, class, activity, state, object, artifact, comment, requirement)</para></listitem>
-    <listitem><para>move, modify and delete uml elements</para></listitem>
-    <listitem><para>create, modify and delete relationships</para>
-        <para>(dependency, association, aggregation, composition, generalization, realization, contains, sync-call, return-call, async-message, communication-path, control-flow, object-flow, deployment, manifest, include, extend)</para></listitem>
-    <listitem><para>create, modify and delete features </para>
-        <para>(port, pin, property, operation)</para></listitem>
-    <listitem><para>cut, copy, paste uml elements between diagrams</para></listitem>
-    <listitem><para>undo and redo are supported</para></listitem>
-    <listitem><para>multiple windows can show different or same parts of the uml model</para></listitem>
+    <listitem><para>create diagrams,</para>
+    </listitem>
+    <listitem><para>create UML/SysML elements,</para>
+    </listitem>
+    <listitem><para>move, modify and delete elements,</para>
+    </listitem>
+    <listitem><para>create, modify and delete relationships,</para>
+    </listitem>
+    <listitem><para>cut, copy, paste elements between diagrams,</para>
+    </listitem>
+    <listitem><para>undo and redo are supported,</para>
+    </listitem>
+    <listitem><para>multiple windows can show different or same parts of the uml model,</para>
+    </listitem>
+    <listitem><para>search for elements.</para>
+    </listitem>
 </itemizedlist>
 
 Diagrams are layouted part-automatically:
 <itemizedlist>
-    <listitem><para>The user chooses the relative location of uml elements towards others</para></listitem>
-    <listitem><para>crystal-facet-uml selects the exact locations of uml elements</para></listitem>
-    <listitem><para>The user controls the positions of messages/transitions in sequence and timing diagrams</para></listitem>
-    <listitem><para>crystal-facet-uml auto-layouts relationships in other diagrams</para></listitem>
+    <listitem><para>The user chooses the relative location of uml elements towards others,</para>
+    </listitem>
+    <listitem><para>crystal-facet-uml selects the exact locations of uml elements.</para>
+    </listitem>
+    <listitem><para>The user controls the positions of messages/transitions in sequence and timing diagrams,</para>
+    </listitem>
+    <listitem><para>crystal-facet-uml auto-layouts relationships in other diagrams.</para>
+    </listitem>
 </itemizedlist>
 
 crystal-facet-uml manages a meta model:
-
 <itemizedlist>
-    <listitem><para>Diagrams are organized as a tree, similar to a book's table-of-contents</para></listitem>
-    <listitem><para>Uml(TM)/SysML(TM) elements exist only once even if shown in many diagrams</para></listitem>
-    <listitem><para>Relationships and features are consistent between all diagrams</para></listitem>
-    <listitem><para>Diagram-local messages/transitions are supported in scenario-based diagrams</para>
-        <para>(sequence, communication, timing, interaction overview)</para></listitem>
+    <listitem><para>Diagrams are organized as a tree, similar to a book's table-of-contents;</para>
+    </listitem>
+    <listitem><para>Uml(TM)/SysML(TM) elements exist only once even if shown in many diagrams;</para>
+    </listitem>
+    <listitem><para>Relationships and features are consistent between all diagrams;</para>
+    </listitem>
+    <listitem>
+        <para>Diagram-local messages/transitions are supported in scenario-based interaction diagrams:
+            sequence, communication, timing, interaction overview.
+        </para>
+    </listitem>
 </itemizedlist>
 
-crystal-facet-uml exports diagrams as
-
+Diagrams can be exported as
 <itemizedlist>
-    <listitem><para>vector graphics</para><para>(pdf, ps, svg)</para></listitem>
-    <listitem><para>pixel graphics</para><para>(png)</para></listitem>
-    <listitem><para>textual representation</para><para>(utf-8-txt, DocBook, xhtml)</para></listitem>
-    <listitem><para>machine-readable model</para><para>(xmi)</para></listitem>
+    <listitem><para>vector graphics: pdf, ps, svg,</para>
+    </listitem>
+    <listitem><para>pixel graphics: png,</para>
+    </listitem>
+    <listitem><para>textual representation: utf-8-txt, DocBook, xhtml,</para>
+    </listitem>
+    <listitem><para>machine-readable model: xmi(TM).</para>
+    </listitem>
 </itemizedlist>
 
 crystal-facet-uml can also be started from command line
-to export all diagrams automatically or
-to check and repair database files.
+<itemizedlist>
+    <listitem><para>to export all diagrams automatically or</para>
+    </listitem>
+    <listitem><para>to check and repair database files.</para>
+    </listitem>
+</itemizedlist>
 
 </para>

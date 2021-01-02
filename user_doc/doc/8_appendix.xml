@@ -1,34 +1,15 @@
 <!DOCTYPE appendix>
 <appendix>
-    <title>Configuration</title>
+    <title>Installation</title>
     <para>
+        This appendix shows where to get further documentation
+        and how to install the software.
     </para>
     <section>
-        <title>Download, Installation and License</title>
-        <para>
-        </para>
-            <section>
-            <title>Download Links</title>
+        <title>Download and Install</title>
+        <section>
+            <title>Documentation</title>
             <para>
-
-                Find the latest executable version of crystal-facet-uml at:
-                <itemizedlist>
-                <listitem><para><ulink url="https://www.heise.de/download/product/crystal-facet-uml/"/></para></listitem>
-                <listitem><para><ulink url="https://sourceforge.net/projects/crystal-facet-uml/"/></para></listitem>
-                <listitem><para><ulink url="https://build.opensuse.org/package/show/devel:tools/crystal_facet_uml"/></para></listitem>
-                <listitem><para><ulink url="https://tracker.debian.org/pkg/crystal-facet-uml"/></para></listitem>
-                </itemizedlist>
-
-                Find the latest source version of crystal-facet-uml at:
-                <itemizedlist>
-                <listitem><para><ulink url="https://sourceforge.net/projects/crystal-facet-uml/"/></para></listitem>
-                <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml"/></para></listitem>
-                <!--
-                <listitem><para><ulink url="https://build.opensuse.org/package/show/home:awarnke/crystal_facet_uml"/></para></listitem>
-                <listitem><para><ulink url="https://salsa.debian.org/debian-edu-pkg-team/crystal-facet-uml"/></para></listitem>
-                -->
-                </itemizedlist>
-
                 User documentation is available here:
                 <itemizedlist>
                 <listitem><para><ulink url="http://www.andreaswarnke.de/crystal_facet_uml/crystal-facet-uml_documentation.pdf"/></para></listitem>
@@ -41,9 +22,74 @@
                 </itemizedlist>
             </para>
         </section>
+        <section>
+            <title>Debian Linux</title>
+            <para>
+                Find the latest executable version of crystal-facet-uml at:
+                <itemizedlist>
+                    <listitem><para><ulink url="https://tracker.debian.org/pkg/crystal-facet-uml"/></para></listitem>
+                </itemizedlist>
 
-        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="8_installation_linux.xml" />
-        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="8_installation_win.xml" />
+                <programlisting>
+                    sudo apt edit-sources # add deb http://deb.debian.org/debian/ bullseye main
+                    sudo apt install crystal-facet-uml
+                </programlisting>
+
+            </para>
+            <para>
+                If you instead manually downloaded the .deb archive, you may e.g. invoke
+                <userinput>sudo dpkg --install &lt;filename.deb&gt;</userinput>
+            </para>
+        </section>
+
+        <section>
+            <title>SuSE Linux</title>
+            <para>
+                Check for rpm packages at:
+                <itemizedlist>
+                    <listitem><para><ulink url="https://build.opensuse.org/package/show/devel:tools/crystal_facet_uml"/></para></listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                Check which distro version fits best to your Linux installation; replace <userinput>openSUSE_Leap_15.1</userinput> accordingly.
+                <programlisting>
+                    sudo zypper addrepo https://download.opensuse.org/repositories/devel:/tools/openSUSE_Leap_15.1/devel:tools.repo
+                    sudo zypper install crystal-facet-uml
+                </programlisting>
+            </para>
+        </section>
+        
+        <section>
+            <title>Wine/Windows</title>
+            <para>
+                Find the latest executable version of crystal-facet-uml at:
+                <itemizedlist>
+                    <listitem><para><ulink url="https://www.heise.de/download/product/crystal-facet-uml/"/></para></listitem>
+                    <listitem><para><ulink url="https://sourceforge.net/projects/crystal-facet-uml/"/></para></listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                Unpack the zip archive.
+                <itemizedlist>
+                    <listitem><para>On windows, doubleclick on <userinput>crystal-facet-uml.bat</userinput>,</para></listitem>
+                    <listitem><para>or using the wine emulation, call <userinput>cd bin &amp;&amp; wine crystal-facet-uml.exe</userinput> to start.</para></listitem>
+                </itemizedlist>
+            </para>
+        </section>
+
+        <section>
+            <title>Build from Source</title>
+            <para>
+                Find the latest source version of crystal-facet-uml at:
+                <itemizedlist>
+                    <listitem><para><ulink url="https://sourceforge.net/projects/crystal-facet-uml/"/></para></listitem>
+                    <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml"/></para></listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                Follow the instructions in <userinput>/readme.markdown</userinput>.
+            </para>
+        </section>
 
         <section>
             <title>License</title>

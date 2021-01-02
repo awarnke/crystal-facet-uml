@@ -404,7 +404,7 @@
             <listitem><para>stereotype/valuetype of the focused object (deactivated depending on object-type)</para></listitem>
             <listitem><para>type of the focused object</para></listitem>
             <listitem><para>description of the focused object.</para>
-                <para>For xhtml and docbook export, use
+                <para>For xhtml and DocBook export, use
                     a double linebreak to create a new paragraph,
                     start lines with *, + or - to format a list,
                     use D0001#id and D0001#name to create a link to
@@ -461,7 +461,7 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/message_warn.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Informs on a possible problem</para></listitem>
+                <listitem><para>Informs on a possible problem, e.g. a read-only database file</para></listitem>
                 </itemizedlist>
             </para>
 
@@ -475,7 +475,7 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/message_error.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Informs on an error</para></listitem>
+                <listitem><para>Informs on an error, e.g. invalid data pasted from clipboard</para></listitem>
                 </itemizedlist>
             </para>
 
