@@ -1,9 +1,8 @@
+PROJECT(crystal-facet-uml LANGUAGES C)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
 SET(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Build Environment Settings ==== ==== ==== ==== ==== ==== ==== ====
-
-PROJECT(crystal-facet-uml)
 
 INCLUDE_DIRECTORIES(../gui/include)
 INCLUDE_DIRECTORIES(../main/include)
@@ -92,52 +91,41 @@ FIND_LIBRARY( PANGOFT_LIB pangoft2-1.0 "${GTK_BUNDLE_BASE}/lib/" )
 FIND_LIBRARY( PANGOWIN_LIB pangowin32-1.0 "${GTK_BUNDLE_BASE}/lib/" )
 MESSAGE("gtk found at ${GTK_LIB}")
 
-# ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal-facet-uml Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
+# ==== ==== ==== ==== ==== ==== ==== ==== Check if CMAKE_BUILD_TYPE is set ==== ==== ==== ==== ==== ==== ==== ====
 
-if(NOT CMAKE_BUILD_TYPE)
-  message( "Warn: CMAKE_BUILD_TYPE no set!                 setting(CMAKE_BUILD_TYPE \"Release\")")
-  set(CMAKE_BUILD_TYPE "Release")
-endif(NOT CMAKE_BUILD_TYPE)
+IF(NOT CMAKE_BUILD_TYPE)
+  MESSAGE( "Warn: CMAKE_BUILD_TYPE no set!                 setting(CMAKE_BUILD_TYPE \"Release\")")
+  SET(CMAKE_BUILD_TYPE "Release")
+ENDIF(NOT CMAKE_BUILD_TYPE)
 MESSAGE( "Note:                                          CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}" )
 MESSAGE( "Note:                                          CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}" )
 MESSAGE( "Note:                                          CMAKE_BUILD_DIR = ${CMAKE_BUILD_DIR}" )
 MESSAGE( "Note:                                          THIRD_PARTY_BASE = ${THIRD_PARTY_BASE}" )
 MESSAGE( "Note: to build a release, run                  cmake -DCMAKE_BUILD_TYPE=Release " ${CMAKE_CURRENT_SOURCE_DIR} )
 MESSAGE( "Note: to build with asserts and traces, run    cmake -DCMAKE_BUILD_TYPE=Debug " ${CMAKE_CURRENT_SOURCE_DIR} )
-MESSAGE( "Note: then, to build using 4 cores, run        make -j4" )
-MESSAGE( "Note: to install, run                          sudo make install" )
 
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Werror=format-security -Wall -Wno-overlength-strings" )
+# ==== ==== ==== ==== ==== ==== ==== ==== Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
+
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Werror -Wno-overlength-strings ${GTK3_CFLAGS_OTHER}" )
 # Note: The GIMP-generated images are longer that 4095 characters, therefore -Wno-overlength-strings is required here.
-
-LIST(APPEND applicationSource ${commonSource} ${appSource})
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal-facet-uml Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-ADD_EXECUTABLE(crystal-facet-uml ${applicationSource})
+ADD_EXECUTABLE(crystal-facet-uml ${commonSource} ${appSource})
 TARGET_LINK_LIBRARIES(crystal-facet-uml ${ATK_LIB} ${CAIRO_LIB} ${FONTCNF_LIB} ${GAIL_LIB} ${GDKPIX_LIB} ${GDKWIN_LIB} ${GIO_LIB} ${GLIB_LIB} ${GMOD_LIB} ${GOBJ_LIB} ${GTHREAD_LIB} ${GTK_LIB} ${PANGO_LIB} ${PANGOCAIRO_LIB} ${PANGOFT_LIB} ${PANGOWIN_LIB} )
 SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
-# ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
+# ==== ==== ==== ==== ==== ==== ==== ==== test Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-INCLUDE_DIRECTORIES(../test_fw/include)
-INCLUDE_DIRECTORIES(../data/unittest)
-INCLUDE_DIRECTORIES(../ctrl/unittest)
-INCLUDE_DIRECTORIES(../gui/unittest)
-INCLUDE_DIRECTORIES(../io/unittest)
-INCLUDE_DIRECTORIES(../pencil/unittest)
-INCLUDE_DIRECTORIES(../universal/unittest)
-INCLUDE_DIRECTORIES(../utf8stringbuf/unittest)
-
-# now the test cases. be less restrictive with errors.
-SET(CMAKE_C_FLAGS "-std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Wall -Wno-overlength-strings" )
-# Note: The GIMP-generated images are longer that 4095 characters, therefore -Wno-overlength-strings is required here.
-
-LIST(APPEND unittestSource ${commonSource} ${utestSource})
-
-# ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
-
-ADD_EXECUTABLE(test_crystal-facet-uml ${unittestSource})
+ADD_EXECUTABLE(test_crystal-facet-uml ${commonSource} ${utestSource})
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC test_fw/include)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC data/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ctrl/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC gui/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC io/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC pencil/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC universal/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC utf8stringbuf/unittest)
 TARGET_LINK_LIBRARIES(test_crystal-facet-uml ${ATK_LIB} ${CAIRO_LIB} ${FONTCNF_LIB} ${GAIL_LIB} ${GDKPIX_LIB} ${GDKWIN_LIB} ${GIO_LIB} ${GLIB_LIB} ${GMOD_LIB} ${GOBJ_LIB} ${GTHREAD_LIB} ${GTK_LIB} ${PANGO_LIB} ${PANGOCAIRO_LIB} ${PANGOFT_LIB} ${PANGOWIN_LIB} )
 SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 

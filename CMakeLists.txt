@@ -2,12 +2,12 @@ PROJECT(crystal-facet-uml LANGUAGES C)
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
 
 #helper to find include directories and libraries:
-find_package(PkgConfig REQUIRED)
+FIND_PACKAGE(PkgConfig REQUIRED)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Build Environment Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-set(COMPILE_IN_INCLUDE_DIR "" CACHE FILEPATH "Path to additional include directory")
-set(COMPILE_IN_SOURCE_FILE "" CACHE FILEPATH "Path to additional source file, e.g. sqlite3.c")
+SET(COMPILE_IN_INCLUDE_DIR "" CACHE FILEPATH "Path to additional include directory")
+SET(COMPILE_IN_SOURCE_FILE "" CACHE FILEPATH "Path to additional source file, e.g. sqlite3.c")
 INCLUDE_DIRECTORIES(${COMPILE_IN_INCLUDE_DIR})
 
 # crystal-facet-uml
@@ -25,17 +25,17 @@ INCLUDE_DIRECTORIES(universal/include)
 
 #sqlite3 dependencies
 
-pkg_search_module(SQLITE3 REQUIRED sqlite3)
+PKG_SEARCH_MODULE(SQLITE3 REQUIRED sqlite3)
 INCLUDE_DIRECTORIES(${SQLITE3_INCLUDE_DIRS})
 #MESSAGE("SQLITE3: ${SQLITE3_INCLUDE_DIRS}")
 
 #gtk3 dependencies
 
-pkg_search_module(GLIB2 REQUIRED glib-2.0)
+PKG_SEARCH_MODULE(GLIB2 REQUIRED glib-2.0)
 INCLUDE_DIRECTORIES(${GLIB2_INCLUDE_DIRS})
 #MESSAGE("GLIB2:   ${GLIB2_INCLUDE_DIRS}")
 
-pkg_search_module(GTK3 REQUIRED gtk+-3.0)
+PKG_SEARCH_MODULE(GTK3 REQUIRED gtk+-3.0)
 INCLUDE_DIRECTORIES(${GTK3_INCLUDE_DIRS})
 #MESSAGE("GTK3:    ${GTK3_INCLUDE_DIRS}")
 #MESSAGE("GTK3:    ${GTK3_FOUND}")
@@ -46,7 +46,7 @@ INCLUDE_DIRECTORIES(${GTK3_INCLUDE_DIRS})
 #MESSAGE("GTK3:    ${GTK3_CFLAGS}")
 #MESSAGE("GTK3:    ${GTK3_CFLAGS_OTHER}")
 
-pkg_search_module(PANGOCAIRO REQUIRED pangocairo)
+PKG_SEARCH_MODULE(PANGOCAIRO REQUIRED pangocairo)
 INCLUDE_DIRECTORIES(${PANGOCAIRO_INCLUDE_DIRS})
 #MESSAGE("PANGOCAIRO: ${PANGOCAIRO_INCLUDE_DIRS}")
 
@@ -79,36 +79,28 @@ FILE(GLOB utestSource  main/test/*.c
                        universal/unittest/*.c
                        utf8stringbuf/unittest/*.c)
 
-# ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal-facet-uml Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
+# ==== ==== ==== ==== ==== ==== ==== ==== Check if CMAKE_BUILD_TYPE is set ==== ==== ==== ==== ==== ==== ==== ====
 
-if(NOT CMAKE_BUILD_TYPE)
-  message( "Warn: CMAKE_BUILD_TYPE no set!                 setting(CMAKE_BUILD_TYPE \"Release\")")
-  set(CMAKE_BUILD_TYPE "Release")
-endif(NOT CMAKE_BUILD_TYPE)
+IF(NOT CMAKE_BUILD_TYPE)
+  MESSAGE( "Warn: CMAKE_BUILD_TYPE no set!                 setting(CMAKE_BUILD_TYPE \"Release\")")
+  SET(CMAKE_BUILD_TYPE "Release")
+ENDIF(NOT CMAKE_BUILD_TYPE)
 MESSAGE( "Note:                                          CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}" )
-#MESSAGE( "Note:                                          CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}" )
-#MESSAGE( "Note:                                          CMAKE_BUILD_DIR = ${CMAKE_BUILD_DIR}" )
 MESSAGE( "Note: to build a release, run                  cmake -DCMAKE_BUILD_TYPE=Release " ${CMAKE_CURRENT_SOURCE_DIR} )
 MESSAGE( "Note: to build with asserts and traces, run    cmake -DCMAKE_BUILD_TYPE=Debug " ${CMAKE_CURRENT_SOURCE_DIR} )
-MESSAGE( "Note: then, to build, run                      make -j4" )
-MESSAGE( "Note: to install, run                          sudo make install" )
+
+# ==== ==== ==== ==== ==== ==== ==== ==== Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Werror -Wno-overlength-strings ${GTK3_CFLAGS_OTHER}" )
 # Note: The GIMP-generated images are longer that 4095 characters, therefore -Wno-overlength-strings is required here.
 
-# ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal-facet-uml Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
+# ==== ==== ==== ==== ==== ==== ==== ==== Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 ADD_EXECUTABLE(crystal-facet-uml ${appSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
 TARGET_LINK_LIBRARIES(crystal-facet-uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
-# ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
-
-# for test cases, be less restrictive with errors.
-SET(CMAKE_C_FLAGS "-std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Wno-overlength-strings ${GTK3_CFLAGS_OTHER}" )
-# Note: The GIMP-generated images are longer that 4095 characters, therefore -Wno-overlength-strings is needed here.
-
-# ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
+# ==== ==== ==== ==== ==== ==== ==== ==== test Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 ADD_EXECUTABLE(test_crystal-facet-uml ${utestSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC test_fw/include)
@@ -121,10 +113,6 @@ TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC universal/unittest)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC utf8stringbuf/unittest)
 TARGET_LINK_LIBRARIES(test_crystal-facet-uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
-
-# ==== ==== ==== ==== ==== ==== ==== ==== Documentation Build Settings ==== ==== ==== ==== ==== ==== ==== ====
-
-MESSAGE( "Note: update the user docs via 'cd user_doc && make' before running make install")
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Install Settings ==== ==== ==== ==== ==== ==== ==== ====
 

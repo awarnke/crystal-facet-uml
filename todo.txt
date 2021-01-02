@@ -6,8 +6,8 @@ ideas for future versions:
   [ ] next to the about button, a help button is needed that can provide context-sensitive information.
   [ ] when opening the second database, the root diagram cannot be focused immediately
   [ ] when opening the second database, switch back to nav view
-  [ ] show a progress bar while exporting diagrams
-  [ ] update seach result view when changing the database (e.g. by undo)
+  [ ] show a progress bar while exporting diagrams (especially for png mode)
+  [ ] update search result view when changing the database (e.g. by undo)
   [ ] when selecting a search result, not only jump to the diagram but also focus on the result
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
@@ -46,6 +46,5 @@ ideas for future versions:
   @universal+utf8stringbuf
   [ ] combine the static string allocation with dynamic additional buffers for unexpectedly-long strings
   [ ] combine the static array allocation with dynamic additional buffers for arrays of unpredictable lengths
-data
   @main
   @ts_log/trace/test_fw

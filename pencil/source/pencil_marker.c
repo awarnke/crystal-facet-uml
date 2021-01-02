@@ -2,6 +2,7 @@
 
 #include "pencil_marker.h"
 #include "trace.h"
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -25,40 +26,48 @@ void pencil_marker_mark_focused_rectangle ( const pencil_marker_t *this_, geomet
     TRACE_BEGIN();
     assert( NULL != cr );
 
-    double left;
-    double top;
-    double right;
-    double bottom;
+    static const double YELLOW_BOX_SIZE = 8.0;
+    static const double TOTAL_SIZE = 9.0;
+    static const double LINE_WIDTH = 1.0;
+    static const double GAP = 1.0;
 
-    left = geometry_rectangle_get_left ( &rect );
-    top = geometry_rectangle_get_top ( &rect );
-    right = geometry_rectangle_get_right ( &rect );
-    bottom = geometry_rectangle_get_bottom ( &rect );
+    const double left = floor(geometry_rectangle_get_left ( &rect )); /* floor needed to position on pixel boundary*/
+    const double top = floor(geometry_rectangle_get_top ( &rect ));
+    const double right = floor(geometry_rectangle_get_right ( &rect ));
+    const double bottom = floor(geometry_rectangle_get_bottom ( &rect ));
 
-    cairo_set_source_rgba( cr, 0.9, 0.85, 0.0, 1.0 );
-
-    cairo_rectangle ( cr, left-8.0, top-8.0, 3.0, 7.0 );
+    /* gray lines */
+    cairo_set_source_rgba( cr, 0.55, 0.55, 0.55, 1.0 );
+    
+    cairo_rectangle ( cr, left-GAP-LINE_WIDTH, top-GAP-TOTAL_SIZE, LINE_WIDTH, YELLOW_BOX_SIZE );
+    cairo_rectangle ( cr, left-GAP-TOTAL_SIZE, top-GAP-LINE_WIDTH, TOTAL_SIZE, LINE_WIDTH );
     cairo_fill (cr);
 
-    cairo_rectangle ( cr, left-5.0, top-8.0, 4.0, 3.0 );
+    cairo_rectangle ( cr, right+GAP, top-GAP-TOTAL_SIZE, LINE_WIDTH, YELLOW_BOX_SIZE );
+    cairo_rectangle ( cr, right+GAP, top-GAP-LINE_WIDTH, TOTAL_SIZE, LINE_WIDTH );
     cairo_fill (cr);
 
-    cairo_rectangle ( cr, right+5.0, top-8.0, 3.0, 7.0 );
+    cairo_rectangle ( cr, right+GAP, bottom+GAP+LINE_WIDTH, LINE_WIDTH, YELLOW_BOX_SIZE );
+    cairo_rectangle ( cr, right+GAP, bottom+GAP, TOTAL_SIZE, LINE_WIDTH );
     cairo_fill (cr);
 
-    cairo_rectangle ( cr, right+1.0, top-8.0, 4.0, 3.0 );
+    cairo_rectangle ( cr, left-GAP-LINE_WIDTH, bottom+GAP+LINE_WIDTH, LINE_WIDTH, YELLOW_BOX_SIZE );
+    cairo_rectangle ( cr, left-GAP-TOTAL_SIZE, bottom+GAP, TOTAL_SIZE, LINE_WIDTH );
     cairo_fill (cr);
 
-    cairo_rectangle ( cr, left-8.0, bottom+1.0, 3.0, 7.0 );
+    /* yellow box */
+    cairo_set_source_rgba( cr, 0.95, 1.0, 0.0, 1.0 );
+
+    cairo_rectangle ( cr, left-GAP-TOTAL_SIZE, top-GAP-TOTAL_SIZE, YELLOW_BOX_SIZE, YELLOW_BOX_SIZE );
     cairo_fill (cr);
 
-    cairo_rectangle ( cr, left-5.0, bottom+5.0, 4.0, 3.0 );
+    cairo_rectangle ( cr, right+GAP+LINE_WIDTH, top-GAP-TOTAL_SIZE, YELLOW_BOX_SIZE, YELLOW_BOX_SIZE );
     cairo_fill (cr);
 
-    cairo_rectangle ( cr, right+5.0, bottom+1.0, 3.0, 7.0 );
+    cairo_rectangle ( cr, left-GAP-TOTAL_SIZE, bottom+GAP+LINE_WIDTH, YELLOW_BOX_SIZE, YELLOW_BOX_SIZE );
     cairo_fill (cr);
 
-    cairo_rectangle ( cr, right+1.0, bottom+5.0, 4.0, 3.0 );
+    cairo_rectangle ( cr, right+GAP+LINE_WIDTH, bottom+GAP+LINE_WIDTH, YELLOW_BOX_SIZE, YELLOW_BOX_SIZE );
     cairo_fill (cr);
 
     TRACE_END();
@@ -69,17 +78,13 @@ void pencil_marker_mark_selected_rectangle ( const pencil_marker_t *this_, geome
     TRACE_BEGIN();
     assert( NULL != cr );
 
-    double left;
-    double top;
-    double right;
-    double bottom;
     static const double EXPAND_OVER_BORDER = 2.0;
     static const double INNER_EDGE = 8.0;
 
-    left = geometry_rectangle_get_left ( &rect );
-    top = geometry_rectangle_get_top ( &rect );
-    right = geometry_rectangle_get_right ( &rect );
-    bottom = geometry_rectangle_get_bottom ( &rect );
+    const double left = floor(geometry_rectangle_get_left ( &rect )); /* floor needed to position on pixel boundary*/
+    const double top = floor(geometry_rectangle_get_top ( &rect ));
+    const double right = floor(geometry_rectangle_get_right ( &rect ));
+    const double bottom = floor(geometry_rectangle_get_bottom ( &rect ));
 
     cairo_set_source_rgba( cr, 1.0, 0.3, 0.8, 1.0 );
 
@@ -106,6 +111,29 @@ void pencil_marker_mark_selected_rectangle ( const pencil_marker_t *this_, geome
     cairo_line_to( cr, left+INNER_EDGE, bottom+EXPAND_OVER_BORDER );
     cairo_close_path( cr );
     cairo_fill (cr);
+
+    const double width = right-left;
+    static const double LINE_LENGTH = 16.0;
+    static const double LINE_WIDTH = 1.0;
+    if ( width > 2.0*EXPAND_OVER_BORDER + LINE_LENGTH )
+    {
+        cairo_rectangle ( cr, left, bottom + EXPAND_OVER_BORDER - LINE_WIDTH, LINE_LENGTH, LINE_WIDTH );
+        cairo_rectangle ( cr, right - LINE_LENGTH, bottom + EXPAND_OVER_BORDER - LINE_WIDTH, LINE_LENGTH, LINE_WIDTH );
+        cairo_fill (cr);
+        cairo_rectangle ( cr, left, top - EXPAND_OVER_BORDER, LINE_LENGTH, LINE_WIDTH );
+        cairo_rectangle ( cr, right - LINE_LENGTH, top - EXPAND_OVER_BORDER, LINE_LENGTH, LINE_WIDTH );
+        cairo_fill (cr);
+    }
+    const double height = bottom-top;
+    if ( height > 2.0*EXPAND_OVER_BORDER + LINE_LENGTH )
+    {
+        cairo_rectangle ( cr, left - EXPAND_OVER_BORDER, top, LINE_WIDTH, LINE_LENGTH );
+        cairo_rectangle ( cr, left - EXPAND_OVER_BORDER, bottom - LINE_LENGTH, LINE_WIDTH, LINE_LENGTH );
+        cairo_fill (cr);
+        cairo_rectangle ( cr, right + EXPAND_OVER_BORDER - LINE_WIDTH, top, LINE_WIDTH, LINE_LENGTH );
+        cairo_rectangle ( cr, right + EXPAND_OVER_BORDER - LINE_WIDTH, bottom - LINE_LENGTH, LINE_WIDTH, LINE_LENGTH );
+        cairo_fill (cr);
+    }
 
     TRACE_END();
 }
