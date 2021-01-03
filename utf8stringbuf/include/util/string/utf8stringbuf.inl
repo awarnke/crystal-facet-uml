@@ -333,15 +333,17 @@ static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t this_, const
         result = UTF8ERROR_NULL_PARAM;
     }
     else {
-        unsigned int start = strlen( this_.buf );
+        const unsigned int start = strlen( this_.buf );
 
-        unsigned int appLen = strlen( appendix );
+        const unsigned int appLen = strlen( appendix );
         if ( start + appLen < this_.size ) {
-            memcpy( &(this_.buf[start]), appendix, appLen+1 );
+            const size_t append_size = (size_t)(appLen+1);
+            memcpy( &(this_.buf[start]), appendix, append_size );
         }
         else {
-            unsigned int appPartLen = (this_.size-start)-1;
-            memcpy( &(this_.buf[start]), appendix, appPartLen );
+            const unsigned int appPartLen = (this_.size-start)-1;
+            const size_t append_part_size = (size_t)(appPartLen);
+            memcpy( &(this_.buf[start]), appendix, append_part_size );
             utf8_string_buf_private_make_null_termination( this_ );
             result = UTF8ERROR_TRUNCATED;
         }
@@ -353,15 +355,17 @@ static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t this_, const
 
 static inline utf8error_t utf8stringbuf_append_buf( utf8stringbuf_t this_, const utf8stringbuf_t appendix ) {
     utf8error_t result = UTF8ERROR_SUCCESS;
-    unsigned int start = strlen( this_.buf );
+    const unsigned int start = strlen( this_.buf );
 
-    unsigned int appLen = strlen( appendix.buf );
+    const unsigned int appLen = strlen( appendix.buf );
     if ( start + appLen < this_.size ) {
-        memcpy( &(this_.buf[start]), appendix.buf, appLen+1 );
+        const size_t append_size = (size_t)(appLen+1);
+        memcpy( &(this_.buf[start]), appendix.buf, append_size );
     }
     else {
-        unsigned int appPartLen = (this_.size-start)-1;
-        memcpy( &(this_.buf[start]), appendix.buf, appPartLen );
+        const unsigned int appPartLen = (this_.size-start)-1;
+        const size_t append_part_size = (size_t)(appPartLen);
+        memcpy( &(this_.buf[start]), appendix.buf, append_part_size );
         utf8_string_buf_private_make_null_termination( this_ );
         result = UTF8ERROR_TRUNCATED;
     }

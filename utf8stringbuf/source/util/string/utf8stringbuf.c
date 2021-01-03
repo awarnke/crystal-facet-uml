@@ -240,7 +240,8 @@ utf8error_t utf8_string_buf_private_replace_region_by_str( utf8stringbuf_t this_
         }
         /* replace string */
         if ( replaceLen > 0 ) {
-            memcpy ( &(this_.buf[start]), replacement, replaceLen );
+            const size_t replace_len = (size_t)(replaceLen);
+            memcpy ( &(this_.buf[start]), replacement, replace_len );
         }
         /* terminate string */
         if ( result != UTF8ERROR_SUCCESS ) {
@@ -638,7 +639,8 @@ void utf8stringbuf_join( utf8stringbuf_t this_ ) {
     }
 
     /* set all trailing characters to 0 */
-    memset( &(this_.buf[confirmedLength]), '\0', this_.size - confirmedLength );
+    const size_t trailing_space = (size_t)( this_.size - confirmedLength );
+    memset( &(this_.buf[confirmedLength]), '\0', trailing_space );
 }
 
 
