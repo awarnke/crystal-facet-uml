@@ -1,9 +1,16 @@
+crystal-facet-uml (1.27.2) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * compiler switch Werror removed; warnings should not cause build-breaks
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 03 Jan 2021 15:00:00 +0100
+
 crystal-facet-uml (1.27.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * compiler warning fixed: conversions from unsigned int to size_t explicit
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 03 Jan 2021 15:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 03 Jan 2021 09:00:00 +0100
 
 crystal-facet-uml (1.27.0) UNRELEASED; urgency=medium
 

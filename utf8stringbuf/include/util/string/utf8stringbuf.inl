@@ -82,7 +82,7 @@ static inline utf8stringbuf_t utf8stringbuf( char *that ) {
     return result;
 }
 
-static inline utf8stringbuf_t utf8stringbuf_init( unsigned int size, char *buf ) {
+static inline utf8stringbuf_t utf8stringbuf_init( size_t size, char *buf ) {
     utf8stringbuf_t result;
     if (( buf == NULL )||(size==0)) {
         result.size = 1;
@@ -103,7 +103,7 @@ static inline char* utf8stringbuf_get_string( const utf8stringbuf_t this_ ) {
     return this_.buf;
 }
 
-static inline unsigned int utf8stringbuf_get_size( const utf8stringbuf_t this_ ) {
+static inline size_t utf8stringbuf_get_size( const utf8stringbuf_t this_ ) {
     return this_.size;
 }
 
@@ -333,17 +333,22 @@ static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t this_, const
         result = UTF8ERROR_NULL_PARAM;
     }
     else {
-        const unsigned int start = strlen( this_.buf );
+        const size_t start = strlen( this_.buf );
 
-        const unsigned int appLen = strlen( appendix );
+        const size_t appLen = strlen( appendix );
         if ( start + appLen < this_.size ) {
-            const size_t append_size = (size_t)(appLen+1);
-            memcpy( &(this_.buf[start]), appendix, append_size );
+            memcpy( &(this_.buf[start]), appendix, appLen+1 );
         }
         else {
-            const unsigned int appPartLen = (this_.size-start)-1;
-            const size_t append_part_size = (size_t)(appPartLen);
-            memcpy( &(this_.buf[start]), appendix, append_part_size );
+            const size_t appPartLen = (this_.size-start)-1;
+            if (( appPartLen > 0 )&&( appPartLen <= PTRDIFF_MAX ))  /* check to suppress compiler warning */
+            {
+                memcpy( &(this_.buf[start]), appendix, appPartLen );
+            }
+            else
+            {
+                /* buffer full */
+            }
             utf8_string_buf_private_make_null_termination( this_ );
             result = UTF8ERROR_TRUNCATED;
         }
@@ -355,17 +360,22 @@ static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t this_, const
 
 static inline utf8error_t utf8stringbuf_append_buf( utf8stringbuf_t this_, const utf8stringbuf_t appendix ) {
     utf8error_t result = UTF8ERROR_SUCCESS;
-    const unsigned int start = strlen( this_.buf );
+    const size_t start = strlen( this_.buf );
 
-    const unsigned int appLen = strlen( appendix.buf );
+    const size_t appLen = strlen( appendix.buf );
     if ( start + appLen < this_.size ) {
-        const size_t append_size = (size_t)(appLen+1);
-        memcpy( &(this_.buf[start]), appendix.buf, append_size );
+        memcpy( &(this_.buf[start]), appendix.buf, appLen+1 );
     }
     else {
-        const unsigned int appPartLen = (this_.size-start)-1;
-        const size_t append_part_size = (size_t)(appPartLen);
-        memcpy( &(this_.buf[start]), appendix.buf, append_part_size );
+        const size_t appPartLen = (this_.size-start)-1;
+        if (( appPartLen > 0 )&&( appPartLen <= PTRDIFF_MAX ))  /* check to suppress compiler warning */
+        {
+            memcpy( &(this_.buf[start]), appendix.buf, appPartLen );
+        }
+        else
+        {
+            /* buffer full */
+        }
         utf8_string_buf_private_make_null_termination( this_ );
         result = UTF8ERROR_TRUNCATED;
     }

@@ -128,7 +128,7 @@ extern "C" {
  *             The array shall be valid and null-terminated and located on a writeable memory page (non-const).
  */
 struct utf8stringbuf_struct {
-    unsigned int size;
+    size_t size;
     char* buf;
 };
 
@@ -157,7 +157,7 @@ static inline utf8stringbuf_t utf8stringbuf( char *that );
  * \param buf pointer to a non-const byte array. buf must not be NULL.
  * \return A valid utf8stringbuf_t struct. Even if buf or size were NULL.
  */
-static inline utf8stringbuf_t utf8stringbuf_init( unsigned int size, char *buf );
+static inline utf8stringbuf_t utf8stringbuf_init( size_t size, char *buf );
 
 /*!
  * \brief utf8stringbuf_clear clears the contents of the string buffer.
@@ -184,7 +184,7 @@ static inline char* utf8stringbuf_get_string( const utf8stringbuf_t this_ );
  * \param this_ The string buffer object
  * \return Size of the character array. This is always positive, never 0.
  */
-static inline unsigned int utf8stringbuf_get_size( const utf8stringbuf_t this_ );
+static inline size_t utf8stringbuf_get_size( const utf8stringbuf_t this_ );
 
 /*!
  * \brief Gets the length of the string.
@@ -379,7 +379,7 @@ static inline int utf8stringbuf_find_next_str( const utf8stringbuf_t this_, cons
  *
  *  You can iterate over all code points:
  *  \code
- *      unsigned int byteSize = utf8stringbuf_get_size( testBuf );
+ *      size_t byteSize = utf8stringbuf_get_size( testBuf );
  *      unsigned int currentIndex = 0;
  *      for ( int loopCount = 0; loopCount < byteSize; loopCount ++ ) {
  *          result = utf8stringbuf_get_char_at( testBuf, currentIndex );

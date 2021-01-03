@@ -37,8 +37,8 @@ enum utf8string_bool_enum {UTF8STRING_FALSE=0, UTF8STRING_TRUE=1,};
 /*  enumeration for search pattern not found */
 enum utf8string_search_enum {UTF8STRING_NOT_FOUND=-1,};
 
-static inline unsigned int utf8string_get_size( const char *this_ ) {
-    unsigned int sizeResult = 0;
+static inline size_t utf8string_get_size( const char *this_ ) {
+    size_t sizeResult = 0;
     if ( this_ != NULL ) {
         sizeResult = strlen( this_ ) + 1; /* 1 for size of terminating 0 character */
     }

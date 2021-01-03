@@ -35,7 +35,7 @@ extern "C" {
  * \param this_ The string object
  * \return Size of the string. This is always positive, never 0.
  */
-static inline unsigned int utf8string_get_size( const char *this_ );
+static inline size_t utf8string_get_size( const char *this_ );
 
 /*!
  * \brief Gets the length of the string.
