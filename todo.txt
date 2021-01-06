@@ -9,6 +9,7 @@ ideas for future versions:
   [ ] show a progress bar while exporting diagrams (especially for png mode)
   [ ] update search result view when changing the database (e.g. by undo)
   [ ] when selecting a search result, not only jump to the diagram but also focus on the result
+  [ ] the list of search results partly disappers when database update is triggered by a 2nd window
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes

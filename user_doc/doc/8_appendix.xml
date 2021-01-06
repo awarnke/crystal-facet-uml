@@ -51,12 +51,22 @@ sudo apt install crystal-facet-uml
                 </itemizedlist>
             </para>
             <para>
-                Check which distro version fits best to your Linux installation; replace <userinput>openSUSE_Leap_15.1</userinput> accordingly.
+                To install, type on the command line:
                 <programlisting>
-sudo zypper addrepo https://download.opensuse.org/repositories/devel:/tools/openSUSE_Leap_15.1/devel:tools.repo
 sudo zypper install crystal-facet-uml
                 </programlisting>
             </para>
+            <!--
+            <para>
+                Check which distro version fits best to your Linux installation; replace <userinput>openSUSE_Leap_15.1</userinput> accordingly.
+                Try one of the following three lines:
+                <programlisting>
+sudo zypper install crystal-facet-uml
+sudo zypper install - -repo https://download.opensuse.org/repositories/devel:/tools/openSUSE_Leap_15.1 crystal-facet-uml
+sudo zypper install https://download.opensuse.org/repositories/devel:/tools/openSUSE_Leap_15.1/x86_64/crystal-facet-uml-1.27.2-1.d_t.1.x86_64.rpm
+                </programlisting>
+            </para>
+            -->
         </section>
         
         <section>

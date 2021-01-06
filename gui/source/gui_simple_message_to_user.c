@@ -376,7 +376,7 @@ void gui_simple_message_to_user_show_message_with_error ( gui_simple_message_to_
 }
 
 const char *const (gui_simple_message_to_user_private_table_name[DATA_STAT_TABLES_MAX])
-    = {"void","classifiers","features","relations","links2classifier","diagrams"};
+    = {"void","classifiers","features","relations","classifier-occurrences","diagrams"};
 const char *const (gui_simple_message_to_user_private_series_name4change[DATA_STAT_SERIES_MAX])
     = {"created","modified","deleted","ignored","warning","error"};
 const char *const (gui_simple_message_to_user_private_series_name4other[DATA_STAT_SERIES_MAX])

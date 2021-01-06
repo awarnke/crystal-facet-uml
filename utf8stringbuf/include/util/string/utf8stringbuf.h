@@ -135,6 +135,10 @@ struct utf8stringbuf_struct {
 /*!
  *  \typedef utf8stringbuf_t
  *  \brief The string buffer object
+ * 
+ *  It encapsulates memory-pointers (char*), memory-sizes (size_t) and indices (ptrdiff_t) 
+ *  so that the calling code only sees a pointer-like utf8stringbuf_t struct and integer-indices.
+ *  Errors are reported via an utf8error_t, in some exceptional cases via -1 as special-index.
  */
 typedef struct utf8stringbuf_struct utf8stringbuf_t;
 
