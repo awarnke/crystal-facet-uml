@@ -9,6 +9,7 @@ echo "----"
 echo "clean up possibly broken previous cov-build"
 test -d crystal-facet-uml-${VERSIONSTR} && rm -fr crystal-facet-uml-${VERSIONSTR}
 test -d lcov.info && rm -f lcov.info
+test -d lcov_filtered.info && rm -f lcov_filtered.info
 
 echo "extract archive"
 tar -xzf crystal-facet-uml_${VERSIONSTR}.orig.tar.gz
@@ -31,7 +32,8 @@ cd ../..
 
 echo "running lcov"
 lcov --capture --directory ./crystal-facet-uml-${VERSIONSTR}/cmake_build/CMakeFiles/gcov_crystal-facet-uml.dir --output-file lcov.info
-genhtml --prefix `pwd`/crystal-facet-uml-${VERSIONSTR} lcov.info --title crystal-facet-uml_v${VERSIONSTR} --output-directory crystal-facet-uml-${VERSIONSTR}_lcov
+lcov --remove lcov.info '*/unittest/*' '*/test/*' --output-file lcov_filtered.info
+genhtml --prefix `pwd`/crystal-facet-uml-${VERSIONSTR} lcov_filtered.info --title crystal-facet-uml_v${VERSIONSTR} --output-directory crystal-facet-uml-${VERSIONSTR}_lcov
 
 echo "clean up test"
 sleep 10
