@@ -94,13 +94,13 @@ MESSAGE( "Note: to build with asserts and traces, run    cmake -DCMAKE_BUILD_TYP
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Wno-overlength-strings ${GTK3_CFLAGS_OTHER}" )
 # Note: The GIMP-generated images are longer that 4095 characters, therefore -Wno-overlength-strings is required here.
 
-# ==== ==== ==== ==== ==== ==== ==== ==== Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
+# ==== ==== ==== ==== ==== ==== ==== ==== EXE Target Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 ADD_EXECUTABLE(crystal-facet-uml ${appSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
 TARGET_LINK_LIBRARIES(crystal-facet-uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
-# ==== ==== ==== ==== ==== ==== ==== ==== test Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
+# ==== ==== ==== ==== ==== ==== ==== ==== test Target Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 ADD_EXECUTABLE(test_crystal-facet-uml ${utestSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC test_fw/include)
@@ -122,4 +122,21 @@ INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation_linux/crystal-facet-uml.
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gui/source/resources/crystal_facet_uml_80x80.png" DESTINATION "/usr/share/pixmaps/" RENAME "crystal-facet-uml.png")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/user_doc/crystal-facet-uml.1.gz" DESTINATION "/usr/share/man/man1/")
 
+# ==== ==== ==== ==== ==== ==== ==== ==== test-coverage Target Settings ==== ==== ==== ==== ==== ==== ==== ====
 
+if(CMAKE_COMPILER_IS_GNUCC)
+    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage" )
+    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs" )
+    ADD_EXECUTABLE(gcov_crystal-facet-uml ${utestSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
+    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC test_fw/include)
+    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC data/unittest)
+    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC ctrl/unittest)
+    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC gui/unittest)
+    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC io/unittest)
+    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC pencil/unittest)
+    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC universal/unittest)
+    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC utf8stringbuf/unittest)
+    TARGET_LINK_LIBRARIES(gcov_crystal-facet-uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
+    SET_TARGET_PROPERTIES(gcov_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
+    SET_TARGET_PROPERTIES(gcov_crystal-facet-uml PROPERTIES EXCLUDE_FROM_ALL TRUE)
+endif(CMAKE_COMPILER_IS_GNUCC)
