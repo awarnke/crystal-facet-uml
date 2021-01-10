@@ -89,7 +89,7 @@ MESSAGE( "Note:                                          CMAKE_BUILD_TYPE = ${CM
 MESSAGE( "Note: to build a release, run                  cmake -DCMAKE_BUILD_TYPE=Release " ${CMAKE_CURRENT_SOURCE_DIR} )
 MESSAGE( "Note: to build with asserts and traces, run    cmake -DCMAKE_BUILD_TYPE=Debug " ${CMAKE_CURRENT_SOURCE_DIR} )
 
-# ==== ==== ==== ==== ==== ==== ==== ==== Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
+# ==== ==== ==== ==== ==== ==== ==== ==== Common Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Wno-overlength-strings ${GTK3_CFLAGS_OTHER}" )
 # Note: The GIMP-generated images are longer that 4095 characters, therefore -Wno-overlength-strings is required here.
@@ -122,7 +122,7 @@ INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation_linux/crystal-facet-uml.
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gui/source/resources/crystal_facet_uml_80x80.png" DESTINATION "/usr/share/pixmaps/" RENAME "crystal-facet-uml.png")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/user_doc/crystal-facet-uml.1.gz" DESTINATION "/usr/share/man/man1/")
 
-# ==== ==== ==== ==== ==== ==== ==== ==== test-coverage Target Settings ==== ==== ==== ==== ==== ==== ==== ====
+# ==== ==== ==== ==== ==== ==== ==== ==== gcov Target Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 if(CMAKE_COMPILER_IS_GNUCC)
     SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage" )
