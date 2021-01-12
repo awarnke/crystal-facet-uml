@@ -42,6 +42,7 @@ void io_export_interaction_traversal_destroy( io_export_interaction_traversal_t 
 {
     TRACE_BEGIN();
 
+    xmi_interaction_writer_destroy( &((*this_).interaction_writer) );
     data_rules_destroy ( &((*this_).filter_rules) );
     (*this_).input_data = NULL;
     (*this_).db_reader = NULL;
