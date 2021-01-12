@@ -25,54 +25,48 @@
         <section>
             <title>Debian Linux</title>
             <para>
-                Find the latest executable version of crystal-facet-uml at:
-                <itemizedlist>
-                    <listitem><para><ulink url="https://tracker.debian.org/pkg/crystal-facet-uml"/></para></listitem>
-                </itemizedlist>
-
+                You may install crystal-facet-uml by the following command:
                 <programlisting>
-sudo apt edit-sources # add deb http://deb.debian.org/debian/ bullseye main
 sudo apt install crystal-facet-uml
                 </programlisting>
 
             </para>
             <para>
-                If you instead manually downloaded the .deb archive, you may e.g. invoke
+                If you instead manually download the .deb archive, you may e.g. invoke
                 <userinput>sudo dpkg --install &lt;filename.deb&gt;</userinput>
+                .
+                
+                Find the latest executable version of crystal-facet-uml at:
+                <itemizedlist>
+                    <listitem><para><ulink url="https://tracker.debian.org/pkg/crystal-facet-uml"/></para></listitem>
+                </itemizedlist>
             </para>
         </section>
 
         <section>
             <title>SuSE Linux</title>
             <para>
-                Check for rpm packages at:
-                <itemizedlist>
-                    <listitem><para><ulink url="https://build.opensuse.org/package/show/devel:tools/crystal_facet_uml"/></para></listitem>
-                </itemizedlist>
-            </para>
-            <para>
                 To install, type on the command line:
                 <programlisting>
 sudo zypper install crystal-facet-uml
                 </programlisting>
             </para>
-            <!--
             <para>
-                Check which distro version fits best to your Linux installation; replace <userinput>openSUSE_Leap_15.1</userinput> accordingly.
-                Try one of the following three lines:
-                <programlisting>
-sudo zypper install crystal-facet-uml
-sudo zypper install - -repo https://download.opensuse.org/repositories/devel:/tools/openSUSE_Leap_15.1 crystal-facet-uml
-sudo zypper install https://download.opensuse.org/repositories/devel:/tools/openSUSE_Leap_15.1/x86_64/crystal-facet-uml-1.27.2-1.d_t.1.x86_64.rpm
-                </programlisting>
+                If you instead manually download the .rpm archive, you may e.g. invoke
+                <userinput>sudo zypper install &lt;filename.rpm&gt;</userinput>
+                .
+                
+                Check for rpm packages at:
+                <itemizedlist>
+                    <listitem><para><ulink url="https://build.opensuse.org/package/show/devel:tools/crystal_facet_uml"/></para></listitem>
+                </itemizedlist>
             </para>
-            -->
         </section>
         
         <section>
             <title>Wine/Windows</title>
             <para>
-                Find the latest executable version of crystal-facet-uml at:
+                Find the latest executable version of crystal-facet-uml at one of the following addresses:
                 <itemizedlist>
                     <listitem><para><ulink url="https://www.heise.de/download/product/crystal-facet-uml/"/></para></listitem>
                     <listitem><para><ulink url="https://sourceforge.net/projects/crystal-facet-uml/"/></para></listitem>
@@ -90,7 +84,7 @@ sudo zypper install https://download.opensuse.org/repositories/devel:/tools/open
         <section>
             <title>Build from Source</title>
             <para>
-                Find the latest source version of crystal-facet-uml at:
+                Find the latest source version of crystal-facet-uml at one of the following addresses:
                 <itemizedlist>
                     <listitem><para><ulink url="https://sourceforge.net/projects/crystal-facet-uml/"/></para></listitem>
                     <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml"/></para></listitem>
