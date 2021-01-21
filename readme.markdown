@@ -60,7 +60,7 @@ debian/ubuntu/raspbian:
 >
 > sudo apt install devscripts  # for debian build, includes possibly build-essential
 >
-> sudo apt install build-essential  # for debian build
+> sudo apt install build-essential  # for debian build, possibly outdated?
 >
 > sudo apt install yamllint    # for debian script checker
 >
