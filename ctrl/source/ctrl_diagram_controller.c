@@ -39,7 +39,7 @@ void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ )
 
 ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_,
                                                       const data_diagram_t *new_diagram,
-                                                      bool add_to_latest_undo_set,
+                                                      ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                       data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
@@ -59,7 +59,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
         data_diagram_set_row_id( &to_be_created, new_id );
 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
-        if ( add_to_latest_undo_set )
+        if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
             ctrl_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
@@ -169,7 +169,7 @@ ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_di
 
 ctrl_error_t ctrl_diagram_controller_delete_diagram ( ctrl_diagram_controller_t *this_,
                                                       data_row_id_t obj_id,
-                                                      bool add_to_latest_undo_set )
+                                                      ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
@@ -185,7 +185,7 @@ ctrl_error_t ctrl_diagram_controller_delete_diagram ( ctrl_diagram_controller_t 
     if ( DATA_ERROR_NONE == current_result3 )
     {
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
-        if ( add_to_latest_undo_set )
+        if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
             ctrl_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
@@ -211,7 +211,7 @@ ctrl_error_t ctrl_diagram_controller_delete_diagram ( ctrl_diagram_controller_t 
 ctrl_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_controller_t *this_,
                                                                 data_row_id_t diagram_id,
                                                                 data_row_id_t new_diagram_parent_id,
-                                                                bool add_to_latest_undo_set )
+                                                                ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
@@ -227,7 +227,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_con
         data_diagram_set_parent_row_id( &new_diagram, new_diagram_parent_id );
 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
-        if ( add_to_latest_undo_set )
+        if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
             ctrl_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
@@ -379,7 +379,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_co
 
 ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_controller_t *this_,
                                                              const data_diagramelement_t *new_diagramelement,
-                                                             bool add_to_latest_undo_set,
+                                                             ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                              data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
@@ -399,7 +399,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_contro
         data_diagramelement_set_row_id( &to_be_created, new_id );
 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
-        if ( add_to_latest_undo_set )
+        if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
             ctrl_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
@@ -437,7 +437,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_contro
 
 ctrl_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_controller_t *this_,
                                                              data_row_id_t obj_id,
-                                                             bool add_to_latest_undo_set )
+                                                             ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
@@ -453,7 +453,7 @@ ctrl_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_contro
     if ( DATA_ERROR_NONE == current_result )
     {
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
-        if ( add_to_latest_undo_set )
+        if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
             ctrl_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
@@ -486,7 +486,7 @@ ctrl_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_contro
 ctrl_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_diagram_controller_t *this_,
                                                                            data_row_id_t diagramelement_id,
                                                                            data_diagramelement_flag_t new_diagramelement_display_flags,
-                                                                           bool add_to_latest_undo_set )
+                                                                           ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
@@ -506,7 +506,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_
         data_diagramelement_set_display_flags( &new_diagramelement, new_diagramelement_display_flags );
 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
-        if ( add_to_latest_undo_set )
+        if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
             ctrl_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
@@ -532,7 +532,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_
 ctrl_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id ( ctrl_diagram_controller_t *this_,
                                                                                 data_row_id_t diagramelement_id,
                                                                                 data_row_id_t new_diagramelement_focused_feature_id,
-                                                                                bool add_to_latest_undo_set )
+                                                                                ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
@@ -552,7 +552,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id ( 
         data_diagramelement_set_focused_feature_row_id( &new_diagramelement, new_diagramelement_focused_feature_id );
 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
-        if ( add_to_latest_undo_set )
+        if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
             ctrl_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );

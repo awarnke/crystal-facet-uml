@@ -25,7 +25,7 @@
   </categories>
   <url type="homepage">http://andreaswarnke.de/crystal_facet_uml/html/index.html</url>
   <url type="bugtracker">https://github.com/awarnke/crystal_facet_uml</url>
-  <launchable type="desktop-id">crystal_facet_uml.desktop</launchable>
+  <launchable type="desktop-id">crystal-facet-uml.desktop</launchable>
   <screenshots>
     <screenshot type="default">
       <image type="source" width="1120" height="630">https://raw.githubusercontent.com/awarnke/crystal_facet_uml/master/user_doc/doc/screenshot_1.png</image>

@@ -129,7 +129,7 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
 
     c_result = ctrl_classifier_controller_create_classifier ( classifier_control,
                                                               &((*this_).private_temp_classifier),
-                                                              false,  /* add_to_latest_undo_set */
+                                                              CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                               out_classifier_id
                                                             );
 
@@ -145,7 +145,7 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
 
         c_result = ctrl_diagram_controller_create_diagramelement ( diagram_control,
                                                                    &new_diagele,
-                                                                   true,  /* add_to_latest_undo_set */
+                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                    out_diagramelement_id
                                                                  );
 
@@ -221,7 +221,7 @@ ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_o
         /* create relationship */
         c_result = ctrl_classifier_controller_create_relationship ( classifier_control,
                                                                     &((*this_).private_temp_relationship),
-                                                                    true, /*=add_to_latest_undo_set*/
+                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                     out_relationship_id
                                                                   );
 
@@ -266,7 +266,7 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
 
     c_result = ctrl_diagram_controller_create_diagram ( diag_control,
                                                         &((*this_).private_temp_diagram),
-                                                        false,  /* add_to_latest_undo_set */
+                                                        CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                         out_diagram_id
                                                       );
     if ( CTRL_ERROR_READ_ONLY_DB == c_result )
@@ -379,7 +379,7 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
         /* create relationship */
         c_result = ctrl_classifier_controller_create_relationship ( classifier_control,
                                                                     &((*this_).private_temp_relationship),
-                                                                    false, /*=add_to_latest_undo_set*/
+                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                                     out_relationship_id
                                                                   );
         if ( CTRL_ERROR_READ_ONLY_DB == c_result )
@@ -500,7 +500,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
         /* create feature */
         c_result = ctrl_classifier_controller_create_feature ( classifier_control,
                                                                &((*this_).private_temp_feature),
-                                                               false, /*=add_to_latest_undo_set*/
+                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                                out_feature_id
                                                              );
         if ( CTRL_ERROR_READ_ONLY_DB == c_result )

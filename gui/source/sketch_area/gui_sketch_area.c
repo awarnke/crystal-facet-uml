@@ -1138,7 +1138,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             c_err = ctrl_diagram_controller_update_diagram_parent_id( diag_control,
                                                                                       data_id_get_row_id( &dragged_diagram ),
                                                                                       data_id_get_row_id( &target_parent_id ),
-                                                                                      true /* add_to_latest_undo_set */
+                                                                                      CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                                                     );
                             if ( CTRL_ERROR_NONE != c_err )
                             {
@@ -1159,7 +1159,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                 c_err = ctrl_diagram_controller_update_diagram_parent_id( diag_control2,
                                                                                           data_id_get_row_id( &dragged_diagram ),
                                                                                           DATA_ROW_ID_VOID,
-                                                                                          false /* add_to_latest_undo_set */
+                                                                                          CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
                                                                                         );
                                 if ( CTRL_ERROR_NONE != c_err )
                                 {
@@ -1168,7 +1168,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                 c_err = ctrl_diagram_controller_update_diagram_parent_id( diag_control2,
                                                                                           root_id,
                                                                                           data_id_get_row_id( &dragged_diagram ),
-                                                                                          true /* add_to_latest_undo_set */
+                                                                                          CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                                                         );
                                 if ( CTRL_ERROR_NONE != c_err )
                                 {

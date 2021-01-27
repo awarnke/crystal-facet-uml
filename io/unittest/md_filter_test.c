@@ -115,7 +115,7 @@ static data_row_id_t create_root_diag()
     root_diag_id = DATA_ROW_ID_VOID;
     ctrl_err = ctrl_diagram_controller_create_diagram ( diagram_ctrl,
                                                         &root_diagram,
-                                                        false, /* add_to_latest_undo_set */
+                                                        CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                         &root_diag_id
                                                       );
     TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == ctrl_err );

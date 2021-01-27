@@ -89,7 +89,7 @@ static void lifeline_to_diagramelement_consistency(void)
         root_diag_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_diagram_controller_create_diagram ( diagram_ctrl,
                                                             &root_diagram,
-                                                            false, /* add_to_latest_undo_set */
+                                                            CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                             &root_diag_id
                                                           );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
@@ -115,7 +115,7 @@ static void lifeline_to_diagramelement_consistency(void)
         classifier_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,
                                                                   &new_classifier,
-                                                                  false,  /* add_to_latest_undo_set */
+                                                                  CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                                   &classifier_id
                                                                 );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
@@ -137,7 +137,7 @@ static void lifeline_to_diagramelement_consistency(void)
         first_diag_element_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                    &new_diagele,
-                                                                   true,  /* add_to_latest_undo_set */
+                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                    &first_diag_element_id
                                                                  );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
@@ -168,7 +168,7 @@ static void lifeline_to_diagramelement_consistency(void)
     {
         ctrl_err = ctrl_classifier_controller_delete_feature ( classifier_ctrl,
                                                                lifeline_id,
-                                                               false /* add_to_latest_undo_set */
+                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
                                                              );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     }

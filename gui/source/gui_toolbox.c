@@ -525,7 +525,9 @@ void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_, const
                 error |= ctrl_diagram_controller_update_diagramelement_display_flags( diag_ctrl,
                                                                                       diag_elem_id,
                                                                                       current_flags,
-                                                                                      ! is_first
+                                                                                      ( is_first
+                                                                                      ? CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
+                                                                                      : CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
                                                                                     );
                 is_first = false;
             }

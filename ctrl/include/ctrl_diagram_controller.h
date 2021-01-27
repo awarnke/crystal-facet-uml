@@ -67,14 +67,16 @@ void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param new_diagram data of the new diagram to be created; the id is ignored.
- *  \param add_to_latest_undo_set true if this add-action shall be merged to the last set of actions in the undo_redo_list_t,
- *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \param add_to_latest_undo_set CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND if this add-action shall be merged
+ *                                to the last set of actions in the undo_redo_list_t,
+ *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
+ *                                in the undo_redo_list_t.
  *  \param out_new_id id of the newly created diagram, NULL if the new id is not needed.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_,
                                                       const data_diagram_t *new_diagram,
-                                                      bool add_to_latest_undo_set,
+                                                      ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                       data_row_id_t* out_new_id
                                                     );
 
@@ -121,13 +123,15 @@ ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_di
  *
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the diagram record to be deleted.
- *  \param add_to_latest_undo_set true if this delete-action shall be merged to the last set of actions in the undo_redo_list_t,
- *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \param add_to_latest_undo_set CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND if this delete-action shall be merged
+ *                                to the last set of actions in the undo_redo_list_t,
+ *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
+ *                                in the undo_redo_list_t.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 ctrl_error_t ctrl_diagram_controller_delete_diagram ( ctrl_diagram_controller_t *this_,
                                                       data_row_id_t obj_id,
-                                                      bool add_to_latest_undo_set
+                                                      ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
                                                     );
 
 /*!
@@ -136,14 +140,16 @@ ctrl_error_t ctrl_diagram_controller_delete_diagram ( ctrl_diagram_controller_t 
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_parent_id new parent_id of the diagram
- *  \param add_to_latest_undo_set true if this update-action shall be merged to the last set of actions in the undo_redo_list_t,
- *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \param add_to_latest_undo_set CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND if this update-action shall be merged
+ *                                to the last set of actions in the undo_redo_list_t,
+ *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
+ *                                in the undo_redo_list_t.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_controller_t *this_,
                                                                 data_row_id_t diagram_id,
                                                                 data_row_id_t new_diagram_parent_id,
-                                                                bool add_to_latest_undo_set
+                                                                ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
                                                               );
 
 /*!
@@ -205,14 +211,16 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_co
  *
  *  \param this_ pointer to own object attributes
  *  \param new_diagramelement data of the new diagramelement to be created; the id is ignored.
- *  \param add_to_latest_undo_set true if this add-action shall be merged to the last set of actions in the undo_redo_list_t,
- *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \param add_to_latest_undo_set CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND if this add-action shall be merged
+ *                                to the last set of actions in the undo_redo_list_t,
+ *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
+ *                                in the undo_redo_list_t.
  *  \param out_new_id id of the newly created diagramelement, NULL if the new id is not needed.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_controller_t *this_,
                                                              const data_diagramelement_t *new_diagramelement,
-                                                             bool add_to_latest_undo_set,
+                                                             ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                              data_row_id_t* out_new_id
                                                            );
 
@@ -224,13 +232,15 @@ ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_contro
  *
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the diagramelement record to be deleted.
- *  \param add_to_latest_undo_set true if this delete-action shall be merged to the last set of actions in the undo_redo_list_t,
- *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \param add_to_latest_undo_set CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND if this delete-action shall be merged
+ *                                to the last set of actions in the undo_redo_list_t,
+ *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
+ *                                in the undo_redo_list_t.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 ctrl_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_controller_t *this_,
                                                              data_row_id_t obj_id,
-                                                             bool add_to_latest_undo_set
+                                                             ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
                                                            );
 
 /*!
@@ -239,14 +249,16 @@ ctrl_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_contro
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_id id of the diagramelement to be updated
  *  \param new_diagramelement_display_flags new display_flags of the diagramelement
- *  \param add_to_latest_undo_set true if this update-action shall be merged to the last set of actions in the undo_redo_list_t,
- *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \param add_to_latest_undo_set CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND if this update-action shall be merged
+ *                                to the last set of actions in the undo_redo_list_t,
+ *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
+ *                                in the undo_redo_list_t.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_diagram_controller_t *this_,
                                                                            data_row_id_t diagramelement_id,
                                                                            data_diagramelement_flag_t new_diagramelement_display_flags,
-                                                                           bool add_to_latest_undo_set
+                                                                           ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
                                                                          );
 
 /*!
@@ -255,14 +267,16 @@ ctrl_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_id id of the diagramelement to be updated
  *  \param new_diagramelement_focused_feature_id new focused_feature_id of the diagramelement
- *  \param add_to_latest_undo_set true if this update-action shall be merged to the last set of actions in the undo_redo_list_t,
- *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \param add_to_latest_undo_set CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND if this update-action shall be merged
+ *                                to the last set of actions in the undo_redo_list_t,
+ *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
+ *                                in the undo_redo_list_t.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id ( ctrl_diagram_controller_t *this_,
                                                                                 data_row_id_t diagramelement_id,
                                                                                 data_row_id_t new_diagramelement_focused_feature_id,
-                                                                                bool add_to_latest_undo_set
+                                                                                ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
                                                                               );
 
 #endif  /* CTRL_DIAGRAM_CONTROLLER_H */

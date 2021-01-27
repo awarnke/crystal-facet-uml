@@ -72,14 +72,16 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param new_classifier data of the new classifier to be created; the id is ignored.
- *  \param add_to_latest_undo_set true if this add-action shall be merged to the last set of actions in the undo_redo_list_t,
- *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \param add_to_latest_undo_set CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND if this add-action shall be merged
+ *                                to the last set of actions in the undo_redo_list_t,
+ *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
+ *                                in the undo_redo_list_t.
  *  \param out_new_id id of the newly created classifier.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_controller_t *this_,
                                                             const data_classifier_t *new_classifier,
-                                                            bool add_to_latest_undo_set,
+                                                            ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                             data_row_id_t* out_new_id
                                                           );
 
@@ -91,13 +93,15 @@ ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_cont
  *
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the classifier record to be deleted.
- *  \param add_to_latest_undo_set true if this delete-action shall be merged to the last set of actions in the undo_redo_list_t,
- *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \param add_to_latest_undo_set CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND if this delete-action shall be merged
+ *                                to the last set of actions in the undo_redo_list_t,
+ *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
+ *                                in the undo_redo_list_t.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 ctrl_error_t ctrl_classifier_controller_delete_classifier ( ctrl_classifier_controller_t *this_,
                                                             data_row_id_t obj_id,
-                                                            bool add_to_latest_undo_set
+                                                            ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
                                                           );
 
 /*!
@@ -213,14 +217,16 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_clas
  *
  *  \param this_ pointer to own object attributes
  *  \param new_feature data of the new feature to be created; the id is ignored.
- *  \param add_to_latest_undo_set true if this add-action shall be merged to the last set of actions in the undo_redo_list_t,
- *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \param add_to_latest_undo_set CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND if this add-action shall be merged
+ *                                to the last set of actions in the undo_redo_list_t,
+ *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
+ *                                in the undo_redo_list_t.
  *  \param out_new_id id of the newly created feature, NULL if the new id is not needed.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controller_t *this_,
                                                          const data_feature_t *new_feature,
-                                                         bool add_to_latest_undo_set,
+                                                         ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                          data_row_id_t* out_new_id
                                                        );
 
@@ -231,13 +237,15 @@ ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_control
  *
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the feature record to be deleted.
- *  \param add_to_latest_undo_set true if this delete-action shall be merged to the last set of actions in the undo_redo_list_t,
- *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \param add_to_latest_undo_set CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND if this delete-action shall be merged
+ *                                to the last set of actions in the undo_redo_list_t,
+ *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
+ *                                in the undo_redo_list_t.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controller_t *this_,
                                                          data_row_id_t obj_id,
-                                                         bool add_to_latest_undo_set
+                                                         ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
                                                        );
 
 /*!
@@ -312,14 +320,16 @@ ctrl_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classif
  *
  *  \param this_ pointer to own object attributes
  *  \param new_relationship data of the new relationship to be created; the id is ignored.
- *  \param add_to_latest_undo_set true if this add-action shall be merged to the last set of actions in the undo_redo_list_t,
- *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \param add_to_latest_undo_set CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND if this add-action shall be merged
+ *                                to the last set of actions in the undo_redo_list_t,
+ *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
+ *                                in the undo_redo_list_t.
  *  \param out_new_id id of the newly created relationship, NULL if the new id is not needed.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_controller_t *this_,
                                                               const data_relationship_t *new_relationship,
-                                                              bool add_to_latest_undo_set,
+                                                              ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                               data_row_id_t* out_new_id
                                                             );
 
@@ -329,13 +339,15 @@ ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_co
  *
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the relationship record to be deleted.
- *  \param add_to_latest_undo_set true if this delete-action shall be merged to the last set of actions in the undo_redo_list_t,
- *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \param add_to_latest_undo_set CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND if this delete-action shall be merged
+ *                                to the last set of actions in the undo_redo_list_t,
+ *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
+ *                                in the undo_redo_list_t.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 ctrl_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_controller_t *this_,
                                                               data_row_id_t obj_id,
-                                                              bool add_to_latest_undo_set
+                                                              ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
                                                             );
 
 /*!

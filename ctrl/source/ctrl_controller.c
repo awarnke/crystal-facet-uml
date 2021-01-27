@@ -94,7 +94,7 @@ ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
         int index;
 
         /* add a boundary to the undo redo list before all deletions */
-        /* every delete will move this boundary, because add_to_latest_undo_set=true */
+        /* every delete will move this boundary, because add_to_latest_undo_set is CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND */
         ctrl_undo_redo_list_add_boundary( &((*this_).undo_redo_list) );
 
         /* STEP ZERO: Delete all objects that can be immediately deleted */
@@ -115,7 +115,7 @@ ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
                 {
                     result |= ctrl_classifier_controller_delete_feature ( &((*this_).classifiers),
                                                                           data_id_get_row_id( &current_id ),
-                                                                          true /* add_to_latest_undo_set */
+                                                                          CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                                         );
                 }
                 break;
@@ -124,7 +124,7 @@ ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
                 {
                     result |= ctrl_classifier_controller_delete_relationship ( &((*this_).classifiers),
                                                                                 data_id_get_row_id( &current_id ),
-                                                                                true /* add_to_latest_undo_set */
+                                                                                CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                                               );
                 }
                 break;
@@ -179,7 +179,7 @@ ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
                 {
                     result |= ctrl_diagram_controller_delete_diagramelement ( &((*this_).diagrams),
                                                                               data_id_get_row_id( &current_id ),
-                                                                              true /* add_to_latest_undo_set */
+                                                                              CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                                             );
                 }
                 break;
@@ -210,7 +210,7 @@ ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
                 {
                     result |= ctrl_classifier_controller_delete_classifier( &((*this_).classifiers),
                                                                             data_id_get_row_id( &current_id ),
-                                                                            true /* add_to_latest_undo_set */
+                                                                            CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                                           );
                 }
                 break;
@@ -237,7 +237,7 @@ ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
                 {
                     result |= ctrl_diagram_controller_delete_diagram ( &((*this_).diagrams),
                                                                        data_id_get_row_id( &current_id ),
-                                                                       true /* add_to_latest_undo_set */
+                                                                       CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                                      );
                 }
                 break;

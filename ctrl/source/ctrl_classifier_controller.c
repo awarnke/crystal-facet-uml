@@ -41,7 +41,7 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ )
 
 ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_controller_t *this_,
                                                             const data_classifier_t *new_classifier,
-                                                            bool add_to_latest_undo_set,
+                                                            ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                             data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
@@ -61,7 +61,7 @@ ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_cont
         data_classifier_set_row_id( &to_be_created, new_id );
 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
-        if ( add_to_latest_undo_set )
+        if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
             ctrl_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
@@ -91,7 +91,7 @@ ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_cont
 
 ctrl_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_controller_t *this_,
                                                            data_row_id_t obj_id,
-                                                           bool add_to_latest_undo_set )
+                                                           ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
@@ -132,7 +132,7 @@ ctrl_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_contr
     else
     {
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
-        if ( add_to_latest_undo_set )
+        if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
             ctrl_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
@@ -493,7 +493,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_clas
 
 ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controller_t *this_,
                                                          const data_feature_t *new_feature,
-                                                         bool add_to_latest_undo_set,
+                                                         ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                          data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
@@ -513,7 +513,7 @@ ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_control
         data_feature_set_row_id( &to_be_created, new_id );
 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
-        if ( add_to_latest_undo_set )
+        if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
             ctrl_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
@@ -543,14 +543,14 @@ ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_control
 
 ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controller_t *this_,
                                                          data_row_id_t obj_id,
-                                                         bool add_to_latest_undo_set )
+                                                         ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
     /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
-    if ( add_to_latest_undo_set )
+    if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
     {
         ctrl_error_t internal_err;
         internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
@@ -775,7 +775,7 @@ ctrl_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classif
 
 ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_controller_t *this_,
                                                               const data_relationship_t *new_relationship,
-                                                              bool add_to_latest_undo_set,
+                                                              ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                               data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
@@ -795,7 +795,7 @@ ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_co
         data_relationship_set_row_id( &to_be_created, new_id );
 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
-        if ( add_to_latest_undo_set )
+        if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
             ctrl_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
@@ -825,7 +825,7 @@ ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_co
 
 ctrl_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_controller_t *this_,
                                                               data_row_id_t obj_id,
-                                                              bool add_to_latest_undo_set )
+                                                              ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
@@ -838,7 +838,7 @@ ctrl_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_co
     if ( DATA_ERROR_NONE == current_result5 )
     {
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
-        if ( add_to_latest_undo_set )
+        if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
             ctrl_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );

@@ -131,7 +131,9 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                     ctrl_error_t write_error;
                                     write_error = ctrl_classifier_controller_create_classifier( classifier_ctrl,
                                                                                                 &new_classifier,
-                                                                                                ! is_first,
+                                                                                                ( is_first
+                                                                                                ? CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
+                                                                                                : CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND ),
                                                                                                 &the_classifier_id
                                                                                               );
                                     data_stat_inc_count ( io_stat,
@@ -153,7 +155,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                             {
                                                 write_error |= ctrl_classifier_controller_create_feature ( classifier_ctrl,
                                                                                                            current_feature,
-                                                                                                           true, /* = bool add_to_latest_undo_set */
+                                                                                                           CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                                                            &new_feature_id
                                                                                                          );
                                                 data_stat_inc_count ( io_stat,
@@ -215,7 +217,9 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                                              );
                                 write_error2 = ctrl_diagram_controller_create_diagramelement ( diag_ctrl,
                                                                                                &diag_ele,
-                                                                                               ! is_first,
+                                                                                               ( is_first
+                                                                                               ? CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
+                                                                                               : CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND ),
                                                                                                &new_element_id
                                                                                              );
                                 data_stat_inc_count ( io_stat,
@@ -253,7 +257,9 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                             data_diagram_set_parent_row_id( &new_diagram, diagram_id );
                             write_error3 = ctrl_diagram_controller_create_diagram ( diag_ctrl,
                                                                                     &new_diagram,
-                                                                                    ! is_first,
+                                                                                    ( is_first
+                                                                                    ? CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
+                                                                                    : CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND ),
                                                                                     &new_diag_id
                                                                                   );
                             data_stat_inc_count ( io_stat,
@@ -487,7 +493,9 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                 data_row_id_t relationship_id;
                                 write_error4 = ctrl_classifier_controller_create_relationship ( classifier_control4,
                                                                                                 &new_relationship,
-                                                                                                ! is_first, /*=add_to_latest_undo_set*/
+                                                                                                ( is_first
+                                                                                                ? CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
+                                                                                                : CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND ),
                                                                                                 &relationship_id
                                                                                               );
                                 if ( CTRL_ERROR_NONE != write_error4 )

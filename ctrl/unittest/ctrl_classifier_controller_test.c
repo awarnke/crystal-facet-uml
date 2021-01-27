@@ -94,7 +94,7 @@ static void classifier_create_read_modify_read(void)
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,
                                                                   &new_classifier,
-                                                                  false,  /* add_to_latest_undo_set */
+                                                                  CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                                   &classifier_id
                                                                 );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
@@ -125,7 +125,7 @@ static void classifier_create_read_modify_read(void)
                                      );
         ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                    &new_diagele,
-                                                                   true,  /* add_to_latest_undo_set */
+                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                    &diagele_id
                                                                  );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
@@ -230,7 +230,7 @@ static void features_CRURDR(void)
 
         ctrl_err = ctrl_classifier_controller_create_feature ( classifier_ctrl,
                                                                &probe,
-                                                               false, /* add_to_latest_undo_set */
+                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                                &new_feature_id
                                                              );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
@@ -349,7 +349,7 @@ static void relationship_CRURDR(void)
 
         ctrl_err = ctrl_classifier_controller_create_relationship ( classifier_ctrl,
                                                                     &probe,
-                                                                    false, /* add_to_latest_undo_set */
+                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                                     &new_relationship_id
                                                                   );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );

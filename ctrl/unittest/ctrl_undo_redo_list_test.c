@@ -97,7 +97,7 @@ static void undo_redo_classifier(void)
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,
                                                               &new_classifier,
-                                                              false,  /* add_to_latest_undo_set */
+                                                              CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                               &classifier_id
                                                             );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
@@ -114,7 +114,7 @@ static void undo_redo_classifier(void)
                                 );
     ctrl_err = ctrl_diagram_controller_create_diagramelement ( diag_ctrl,
                                                                &new_diagele,
-                                                               true,  /* add_to_latest_undo_set */
+                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                &diagele_id
                                                              );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
@@ -448,7 +448,7 @@ static void undo_redo_feature_and_relationship(void)
     data_row_id_t new_feature_id;
     ctrl_err = ctrl_classifier_controller_create_feature ( classifier_ctrl,
                                                            &step1,
-                                                           false, /* add_to_latest_undo_set */
+                                                           CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                            &new_feature_id
                                                          );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
@@ -486,7 +486,7 @@ static void undo_redo_feature_and_relationship(void)
     data_row_id_t new_relationship_id;
     ctrl_err = ctrl_classifier_controller_create_relationship ( classifier_ctrl,
                                                                 &step3b,
-                                                                true, /* add_to_latest_undo_set */
+                                                                CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                 &new_relationship_id
                                                               );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
@@ -805,7 +805,7 @@ static void undo_redo_update_diagram(void)
                                  );
     ctrl_err = ctrl_diagram_controller_create_diagramelement ( diag_ctrl,
                                                                &new_diagele,
-                                                               true,  /* add_to_latest_undo_set */
+                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                &diagele_id
                                                              );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
@@ -830,7 +830,7 @@ static void undo_redo_update_diagram(void)
     ctrl_err = ctrl_diagram_controller_update_diagramelement_display_flags ( diag_ctrl,
                                                                              diagele_id,
                                                                              DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE,
-                                                                             false /* add_to_latest_undo_set */
+                                                                             CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
                                                                            );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
@@ -838,7 +838,7 @@ static void undo_redo_update_diagram(void)
     ctrl_err = ctrl_diagram_controller_update_diagramelement_focused_feature_id ( diag_ctrl,
                                                                                   diagele_id,
                                                                                   DATA_ROW_ID_VOID,
-                                                                                  true /* add_to_latest_undo_set */
+                                                                                  CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                                                 );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 

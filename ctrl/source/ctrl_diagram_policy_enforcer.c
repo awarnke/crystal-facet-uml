@@ -149,7 +149,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_one_lifeline ( ctrl_dia
     data_row_id_t new_feature_id;
     result |= ctrl_classifier_controller_create_feature ( (*this_).clfy_ctrl,
                                                           &new_lifeline,
-                                                          true, /* add_to_latest_undo_set */
+                                                          CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                           &new_feature_id
                                                         );
 
@@ -159,7 +159,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_one_lifeline ( ctrl_dia
     result |= ctrl_diagram_controller_update_diagramelement_focused_feature_id ( (*this_).diag_ctrl,
                                                                                  diagramelement_id,
                                                                                  new_feature_id,
-                                                                                 true /* add_to_latest_undo_set */
+                                                                                 CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                                                );
 
     /* cleanup */
@@ -183,7 +183,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_a_lifeline ( ctrl_diagr
     {
         result |= ctrl_classifier_controller_delete_feature ( (*this_).clfy_ctrl,
                                                               focused_feature_id,
-                                                              true /* add_to_latest_undo_set */
+                                                              CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                             );
     }
 
@@ -205,7 +205,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_unreferenced_classifier
 
     my_ctrl_result = ctrl_classifier_controller_delete_classifier( (*this_).clfy_ctrl,
                                                                    data_diagramelement_get_classifier_row_id( deleted_diagramelement ),
-                                                                   true /* = add_to_latest_undo_set */
+                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                                  );
 
     if ( CTRL_ERROR_NONE != ( my_ctrl_result & CTRL_ERROR_OBJECT_STILL_REFERENCED ))
