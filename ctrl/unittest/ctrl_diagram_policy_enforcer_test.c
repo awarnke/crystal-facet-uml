@@ -429,9 +429,8 @@ static void diagramelement_to_lifeline_consistency(void)
 static void no_hidden_relationships(void)
 {
     /* TODO */
-    ctrl_classifier_controller_t *classifier_ctrl;
-    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
-    ctrl_error_t c_err;
+    ctrl_diagram_controller_t *diagram_ctrl;
+    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
     
     /* create 2 diagrams */
     const data_row_id_t root_diagram = test_env_setup_data_create_diagram( DATA_ROW_ID_VOID, "root diag", &controller );
@@ -445,14 +444,10 @@ static void no_hidden_relationships(void)
     /* create 5 diagramelements */
     const data_row_id_t test_local_diagele 
         = test_env_setup_data_create_diagramelement( local_diagram, test_classifier, DATA_ROW_ID_VOID, &controller );
-    const data_row_id_t test_root_diagele 
-        = test_env_setup_data_create_diagramelement( root_diagram, test_classifier, DATA_ROW_ID_VOID, &controller );
-    const data_row_id_t omni_local_diagele
-        = test_env_setup_data_create_diagramelement( local_diagram, omni_classifier, DATA_ROW_ID_VOID, &controller );
-    const data_row_id_t omni_root_diagele
-        = test_env_setup_data_create_diagramelement( root_diagram, omni_classifier, DATA_ROW_ID_VOID, &controller );
-    const data_row_id_t local_local_diagele
-        = test_env_setup_data_create_diagramelement( local_diagram, local_classifier, DATA_ROW_ID_VOID, &controller );
+    test_env_setup_data_create_diagramelement( root_diagram, test_classifier, DATA_ROW_ID_VOID, &controller );
+    test_env_setup_data_create_diagramelement( local_diagram, omni_classifier, DATA_ROW_ID_VOID, &controller );
+    test_env_setup_data_create_diagramelement( root_diagram, omni_classifier, DATA_ROW_ID_VOID, &controller );
+    test_env_setup_data_create_diagramelement( local_diagram, local_classifier, DATA_ROW_ID_VOID, &controller );
 
     /* create 1 feature */
     const data_row_id_t test_feature = test_env_setup_data_create_feature( test_classifier, "test feature", &controller );
@@ -467,7 +462,21 @@ static void no_hidden_relationships(void)
                                                    local_classifier, DATA_ROW_ID_VOID,
                                                    "local relation", &controller );
     
+    /* delete the local diagramelement of the test classifier */
+    const ctrl_error_t c_err 
+        = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl, test_local_diagele, CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, c_err );
     
+    /* is local rel deleted? */
+    data_relationship_t probe;
+    const data_error_t local_err
+        = data_database_reader_get_relationship_by_id( &db_reader, local_rel, &probe );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, local_err );
+
+    /* is double rel existing? */
+    const data_error_t double_err
+        = data_database_reader_get_relationship_by_id( &db_reader, double_rel, &probe );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, double_err );
 }
 
 
