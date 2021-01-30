@@ -1,7 +1,7 @@
-/* File: test_env_check_xml.h; Copyright and License: see below */
+/* File: test_result_check_xml.h; Copyright and License: see below */
 
-#ifndef TEST_ENV_CHECK_XML_H
-#define TEST_ENV_CHECK_XML_H
+#ifndef TEST_RESULT_CHECK_XML_H
+#define TEST_RESULT_CHECK_XML_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -12,11 +12,11 @@
 /*!
  *  \brief helper function to validate xml
  */
-static int test_env_check_validate_xml( const char* xml_string );
+static int test_result_check_xml_validate_xml( const char* xml_string );
 
-#include "test_env_check_xml.inl"
+#include "test_result_check_xml.inl"
 
-#endif  /* TEST_ENV_CHECK_XML_H */
+#endif  /* TEST_RESULT_CHECK_XML_H */
 
 
 /*

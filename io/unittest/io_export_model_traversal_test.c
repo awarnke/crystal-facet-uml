@@ -3,7 +3,7 @@
 #include "io_export_model_traversal_test.h"
 #include "io_export_model_traversal.h"
 #include "test_env/test_env_setup_data.h"
-#include "test_env/test_env_check_xml.h"
+#include "test_result_check/test_result_check_xml.h"
 #include "xmi/xmi_element_writer.h"
 #include "stream/universal_memory_output_stream.h"
 #include "set/data_stat.h"
@@ -375,7 +375,7 @@ static void iterate_types_on_mini_model(void)
                     fprintf( stdout, "\n%s\n", &(mem_buffer[0]) );
 #endif
                     
-                    const int xml_is_error = test_env_check_validate_xml( &(mem_buffer[0]) );
+                    const int xml_is_error = test_result_check_xml_validate_xml( &(mem_buffer[0]) );
                     TEST_ASSERT_EQUAL_INT( 0, xml_is_error );
                     
                     data_stat_trace( &stat );

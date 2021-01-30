@@ -1,10 +1,10 @@
-/* File: test_env_check_xml.c; Copyright and License: see below */
+/* File: test_result_check_xml.c; Copyright and License: see below */
 
 #include "trace.h"
 #include "test_assert.h"
 #include <glib.h>
         
-int test_env_check_validate_xml( const char* xml_string )
+int test_result_check_xml_validate_xml( const char* xml_string )
 {
     bool success;
     

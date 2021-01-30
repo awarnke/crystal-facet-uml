@@ -2,6 +2,7 @@
 
 #include "ctrl_diagram_policy_enforcer_test.h"
 #include "ctrl_controller.h"
+#include "test_env/test_env_setup_data.h"
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
@@ -12,6 +13,7 @@ static void set_up(void);
 static void tear_down(void);
 static void diagram_to_lifeline_consistency(void);
 static void diagramelement_to_lifeline_consistency(void);
+static void no_hidden_relationships(void);
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -39,6 +41,7 @@ test_suite_t ctrl_diagram_policy_enforcer_test_get_list(void)
     test_suite_init( &result, "ctrl_diagram_policy_enforcer_test", &set_up, &tear_down );
     test_suite_add_test_case( &result, "diagram_to_lifeline_consistency", &diagram_to_lifeline_consistency );
     test_suite_add_test_case( &result, "diagramelement_to_lifeline_consistency", &diagramelement_to_lifeline_consistency );
+    test_suite_add_test_case( &result, "no_hidden_relationships", &no_hidden_relationships );
     return result;
 }
 
@@ -421,6 +424,50 @@ static void diagramelement_to_lifeline_consistency(void)
 
         data_diagramelement_destroy ( &check_diagele2 );
     }
+}
+
+static void no_hidden_relationships(void)
+{
+    /* TODO */
+    ctrl_classifier_controller_t *classifier_ctrl;
+    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
+    ctrl_error_t c_err;
+    
+    /* create 2 diagrams */
+    const data_row_id_t root_diagram = test_env_setup_data_create_diagram( DATA_ROW_ID_VOID, "root diag", &controller );
+    const data_row_id_t local_diagram = test_env_setup_data_create_diagram( root_diagram, "local diag", &controller );
+    
+    /* create 3 classifiers */
+    const data_row_id_t test_classifier = test_env_setup_data_create_classifier( "test classifier", &controller );
+    const data_row_id_t omni_classifier = test_env_setup_data_create_classifier( "omni classifier", &controller );
+    const data_row_id_t local_classifier = test_env_setup_data_create_classifier( "local classifier", &controller );
+    
+    /* create 5 diagramelements */
+    const data_row_id_t test_local_diagele 
+        = test_env_setup_data_create_diagramelement( local_diagram, test_classifier, DATA_ROW_ID_VOID, &controller );
+    const data_row_id_t test_root_diagele 
+        = test_env_setup_data_create_diagramelement( root_diagram, test_classifier, DATA_ROW_ID_VOID, &controller );
+    const data_row_id_t omni_local_diagele
+        = test_env_setup_data_create_diagramelement( local_diagram, omni_classifier, DATA_ROW_ID_VOID, &controller );
+    const data_row_id_t omni_root_diagele
+        = test_env_setup_data_create_diagramelement( root_diagram, omni_classifier, DATA_ROW_ID_VOID, &controller );
+    const data_row_id_t local_local_diagele
+        = test_env_setup_data_create_diagramelement( local_diagram, local_classifier, DATA_ROW_ID_VOID, &controller );
+
+    /* create 1 feature */
+    const data_row_id_t test_feature = test_env_setup_data_create_feature( test_classifier, "test feature", &controller );
+
+    /* create 2 relationships */
+    const data_row_id_t double_rel 
+        = test_env_setup_data_create_relationship( test_classifier, test_feature,
+                                                   omni_classifier, DATA_ROW_ID_VOID,
+                                                   "double relation", &controller );
+    const data_row_id_t local_rel 
+        = test_env_setup_data_create_relationship( test_classifier, test_feature,
+                                                   local_classifier, DATA_ROW_ID_VOID,
+                                                   "local relation", &controller );
+    
+    
 }
 
 

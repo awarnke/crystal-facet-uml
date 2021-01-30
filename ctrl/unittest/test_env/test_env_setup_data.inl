@@ -21,8 +21,8 @@ static data_row_id_t test_env_setup_data_create_diagram( data_row_id_t parent_di
     /* create a diagram */
     data_row_id_t root_diag_id;
     {
-        static data_diagram_t root_diagram;  /* static ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
-        data_err = data_diagram_init ( &root_diagram,
+        static data_diagram_t new_diagram;  /* static ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
+        data_err = data_diagram_init ( &new_diagram,
                                        DATA_ROW_ID_VOID /* diagram_id is ignored */,
                                        parent_diagram_id,
                                        DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,  /* default is an interaction diagram */
@@ -34,12 +34,12 @@ static data_row_id_t test_env_setup_data_create_diagram( data_row_id_t parent_di
 
         root_diag_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_diagram_controller_create_diagram ( diagram_ctrl,
-                                                            &root_diagram,
+                                                            &new_diagram,
                                                             CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                             &root_diag_id
                                                         );
         TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == ctrl_err );
-        data_diagram_destroy ( &root_diagram );
+        data_diagram_destroy ( &new_diagram );
     }
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
 
