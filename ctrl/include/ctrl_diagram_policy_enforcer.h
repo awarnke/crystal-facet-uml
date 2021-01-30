@@ -16,6 +16,7 @@
 
 #include "ctrl_error.h"
 #include "storage/data_database_reader.h"
+#include "set/data_node_set.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -28,6 +29,7 @@ struct ctrl_diagram_controller_struct;
  */
 enum ctrl_diagram_policy_enforcer_const_enum {
     CTRL_DIAGRAM_POLICY_ENFORCER_CONST_MAX_TEMP_DIAGELES = 128,  /*!< maximum number of diagramelements in a diagram */
+    CTRL_DIAGRAM_POLICY_ENFORCER_CONST_MAX_TEMP_RELATIONS = DATA_NODE_SET_MAX_RELATIONSHIPS,  /*!< maximum number of relationships attached to a classifier */
 };
 
 /*!
@@ -42,6 +44,7 @@ struct ctrl_diagram_policy_enforcer_struct {
     struct ctrl_diagram_controller_struct *diag_ctrl;  /*!< pointer to external diagram controller */
 
     data_diagramelement_t private_temp_diagele_buf[CTRL_DIAGRAM_POLICY_ENFORCER_CONST_MAX_TEMP_DIAGELES];
+    data_relationship_t private_temp_rel_buf[CTRL_DIAGRAM_POLICY_ENFORCER_CONST_MAX_TEMP_RELATIONS];
 };
 
 typedef struct ctrl_diagram_policy_enforcer_struct ctrl_diagram_policy_enforcer_t;
@@ -192,6 +195,38 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_a_lifeline ( ctrl_diagr
 ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_unreferenced_classifier ( ctrl_diagram_policy_enforcer_t *this_,
                                                                                    const data_diagramelement_t *deleted_diagramelement
                                                                                  );
+
+/* ================================ NO INVISIBLE RELATIONSHIPS ================================ */
+
+/*!
+ *  \brief executes policies involved in deleting a diagramelement.
+ *
+ *  Current rules are:
+ *  - after deleting a diagramelement,
+ *    delete relationships where from classifier and to classifier have no diagram in common
+ * 
+ *  \param this_ pointer to own object attributes
+ *  \param deleted_diagramelement data of the deleted diagramelement.
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_invisible_relationships ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                                   const data_diagramelement_t *deleted_diagramelement
+                                                                                 );
+
+/*!
+ *  \brief checks if a relationship is visible in a diagram.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param relation relationship to be checked for visibility.
+ *  \param[out] out_result true if the relatinoship end classifiers are visible in the same diagram
+ *                         (except diagram-type-specific filtering).
+ *  \return error id in case of an error, e.g. CTRL_ERROR_ARRAY_BUFFER_EXCEEDED; CTRL_ERROR_NONE in case of success
+ */
+ctrl_error_t ctrl_diagram_policy_enforcer_private_has_relationship_a_diagram ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                               const data_relationship_t *relation,
+                                                                               bool *out_result
+                                                                             );
+
 
 #include "ctrl_diagram_policy_enforcer.inl"
 

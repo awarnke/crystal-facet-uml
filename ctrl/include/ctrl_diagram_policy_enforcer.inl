@@ -18,6 +18,7 @@ static inline ctrl_error_t ctrl_diagram_policy_enforcer_post_delete_diagrameleme
     ctrl_error_t result_err = CTRL_ERROR_NONE;
     result_err |= ctrl_diagram_policy_enforcer_private_delete_a_lifeline ( this_, deleted_diagramelement );
     result_err |= ctrl_diagram_policy_enforcer_private_delete_unreferenced_classifier ( this_, deleted_diagramelement );
+    result_err |= ctrl_diagram_policy_enforcer_private_delete_invisible_relationships ( this_, deleted_diagramelement );
     return result_err;
 }
 

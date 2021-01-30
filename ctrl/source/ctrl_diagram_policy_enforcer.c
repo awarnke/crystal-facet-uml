@@ -222,6 +222,166 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_unreferenced_classifier
     return result;
 }
 
+/* ================================ NO INVISIBLE RELATIONSHIPS ================================ */
+
+ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_invisible_relationships ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                                   const data_diagramelement_t *deleted_diagramelement )
+{
+    TRACE_BEGIN();
+    assert( NULL != deleted_diagramelement );
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    
+    data_row_id_t classifier_id = data_diagramelement_get_classifier_row_id( deleted_diagramelement );
+    
+    /* load relationships to be checked */
+    uint32_t relationship_count = 0;
+    const data_error_t d_err 
+        = data_database_reader_get_relationships_by_classifier_id ( (*this_).db_reader,
+                                                                    classifier_id,
+                                                                    CTRL_DIAGRAM_POLICY_ENFORCER_CONST_MAX_TEMP_RELATIONS,
+                                                                    &((*this_).private_temp_rel_buf),
+                                                                    &relationship_count
+                                                                  );
+    if ( d_err == DATA_ERROR_ARRAY_BUFFER_EXCEEDED )
+    {
+        TSLOG_ANOMALY( "The dereferenced classifier has more relationships than can be checked for being superfluous now." );
+        TRACE_INFO_INT( "classifier has too many relationships:", classifier_id );
+        /* no further error propagation. */
+    }
+    else
+    {
+        result |= d_err;
+    }
+    
+    if ( result == CTRL_ERROR_NONE )
+    {
+        for ( uint_fast32_t rel_idx = 0; rel_idx < relationship_count; rel_idx ++ )
+        {
+            const data_relationship_t *relation = &((*this_).private_temp_rel_buf[rel_idx]);
+            
+            bool visible = true;
+            const ctrl_error_t vis_err 
+                = ctrl_diagram_policy_enforcer_private_has_relationship_a_diagram( this_, relation, &visible );
+            
+            if ( vis_err == CTRL_ERROR_ARRAY_BUFFER_EXCEEDED )
+            {
+                TSLOG_ANOMALY( "A relationship is connected to a classifier that is too often referenced to check for being superfluous now." );
+                TRACE_INFO_INT( "classifier or related classifier has too many diagramelements:", classifier_id );
+                /* no further error propagation. */
+            }
+            else if ( vis_err == CTRL_ERROR_NONE )
+            {
+                if ( ! visible )
+                {
+                    const data_row_id_t relation_id = data_relationship_get_row_id( relation );
+                    result |= ctrl_classifier_controller_delete_relationship ( (*this_).clfy_ctrl,
+                                                                               relation_id, 
+                                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
+                                                                             );
+                }
+            }
+            else
+            {
+                result |= vis_err;
+            }
+        }
+    }
+    
+    TRACE_END_ERR( result );
+    return result;
+}
+
+ctrl_error_t ctrl_diagram_policy_enforcer_private_has_relationship_a_diagram ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                               const data_relationship_t *relation,
+                                                                               bool *out_result )
+{
+    TRACE_BEGIN();
+    assert( NULL != relation );
+    assert( NULL != out_result );
+    ctrl_error_t result = CTRL_ERROR_NONE;
+
+    const data_row_id_t from_classifier_id = data_relationship_get_from_classifier_row_id( relation );
+    const data_row_id_t to_classifier_id = data_relationship_get_to_classifier_row_id( relation );
+            
+    if ( from_classifier_id == to_classifier_id )
+    {
+        /* relationship is visible in one diagram because source and destination are identical */
+        *out_result = true;
+    }
+    else
+    {
+        data_small_set_t from_diagrams;
+        data_small_set_init( &from_diagrams );
+        data_error_t from_err;
+        
+        /* load diagramelements that are referenced by the relationships from end */
+        {
+            uint32_t from_diagramelement_count = 0;
+            from_err
+                = data_database_reader_get_diagramelements_by_classifier_id ( (*this_).db_reader,
+                                                                              from_classifier_id,
+                                                                              CTRL_DIAGRAM_POLICY_ENFORCER_CONST_MAX_TEMP_DIAGELES,
+                                                                              &((*this_).private_temp_diagele_buf),
+                                                                              &from_diagramelement_count
+                                                                            );
+            if ( from_err == DATA_ERROR_NONE )
+            {
+                /* copy diagram ids to id-set */    
+                for ( uint_fast32_t from_idx = 0; from_idx < from_diagramelement_count; from_idx ++ )
+                {
+                    const data_id_t from_diag_id 
+                        = data_diagramelement_get_diagram_data_id ( &((*this_).private_temp_diagele_buf[from_idx]) );
+                    const data_error_t ins_err
+                        = data_small_set_add_obj( &from_diagrams, from_diag_id );
+                    if ( ins_err == DATA_ERROR_DUPLICATE_ID )
+                    {
+                        /* not an error */
+                    }
+                    else
+                    {
+                        from_err |= ins_err;
+                    }
+                }
+            }
+        }
+            
+        /* load diagramelements that are referenced by the relationships to end */
+        uint32_t to_diagramelement_count = 0;
+        const data_error_t to_err
+            = data_database_reader_get_diagramelements_by_classifier_id ( (*this_).db_reader,
+                                                                          to_classifier_id,
+                                                                          CTRL_DIAGRAM_POLICY_ENFORCER_CONST_MAX_TEMP_DIAGELES,
+                                                                          &((*this_).private_temp_diagele_buf),
+                                                                          &to_diagramelement_count
+                                                                        );
+        /* check for same diagram */    
+        if (( from_err == DATA_ERROR_NONE )&&( to_err == DATA_ERROR_NONE ))
+        {
+            bool same_diag = false;
+            for ( uint_fast32_t to_idx = 0; to_idx < to_diagramelement_count; to_idx ++ )
+            {
+                const data_id_t to_diag_id 
+                    = data_diagramelement_get_diagram_data_id ( &((*this_).private_temp_diagele_buf[to_idx]) );
+                if ( data_small_set_contains( &from_diagrams, to_diag_id ) )
+                {
+                    same_diag = true;
+                }
+            }
+            *out_result = same_diag;
+        }
+        else
+        {
+            result |= from_err;
+            result |= to_err;
+        }
+            
+        data_small_set_destroy( &from_diagrams );
+    }
+    
+    TRACE_END_ERR( result );
+    return result;
+}
+
 
 /*
 Copyright 2018-2021 Andreas Warnke

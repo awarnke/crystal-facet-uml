@@ -45,7 +45,6 @@ ideas for future versions:
   [ ] links unclear: interactionuse(diag-reference)-to-fragment(diag); part-to-component, object-to-class
   [ ] links unclear: provided/required-interface(feature)-to-interface(classifier)
   @ctrl
-  [ ] auto-delete relationships between classifiers that have no diagram in common (are invisible)
   @universal+utf8stringbuf
   [ ] combine the static string allocation with dynamic additional buffers for unexpectedly-long strings
   [ ] combine the static array allocation with dynamic additional buffers for arrays of unpredictable lengths

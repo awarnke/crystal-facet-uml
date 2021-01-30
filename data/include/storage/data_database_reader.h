@@ -103,7 +103,7 @@ static inline bool data_database_reader_is_open( data_database_reader_t *this_ )
  *
  *  \param this_ pointer to own object attributes
  *  \param id the diagram to be read from the database
- *  \param out_diagram the diagram read from the database (in case of success)
+ *  \param[out] out_diagram the diagram read from the database (in case of success)
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
@@ -115,10 +115,11 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
  *  \param this_ pointer to own object attributes
  *  \param parent_id id of the parent diagram, DATA_ROW_ID_VOID to get all root diagrams
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_diagram array of diagrams read from the database (in case of success)
- *  \param out_diagram_count number of diagram records stored in out_diagram
+ *  \param[out] out_diagram array of diagrams read from the database (in case of success)
+ *  \param[out] out_diagram_count number of diagram records stored in out_diagram
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ *          DATA_ERROR_NO_DB if the database is not open,
+ *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
 data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_,
                                                               data_row_id_t parent_id,
@@ -136,10 +137,11 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_diagram array of diagrams read from the database (in case of success)
- *  \param out_diagram_count number of diagram records stored in out_diagram
+ *  \param[out] out_diagram array of diagrams read from the database (in case of success)
+ *  \param[out] out_diagram_count number of diagram records stored in out_diagram
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ *          DATA_ERROR_NO_DB if the database is not open,
+ *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
 data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_reader_t *this_,
                                                                   data_row_id_t classifier_id,
@@ -154,7 +156,7 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_id id of the parent diagram, DATA_ROW_ID_VOID to get all root diagram ids
- *  \param out_diagram_ids set of diagram ids read from the database (in case of success). The provided set shall be initialized.
+ *  \param[out] out_diagram_ids set of diagram ids read from the database (in case of success). The provided set shall be initialized.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
@@ -170,7 +172,7 @@ data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_r
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier
- *  \param out_diagram_ids set of diagram ids read from the database (in case of success). The provided set shall be initialized.
+ *  \param[out] out_diagram_ids set of diagram ids read from the database (in case of success). The provided set shall be initialized.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
@@ -186,7 +188,7 @@ data_error_t data_database_reader_get_diagram_ids_by_classifier_id ( data_databa
  *
  *  \param this_ pointer to own object attributes
  *  \param id the classifier to be read from the database
- *  \param out_classifier the classifier read from the database (in case of success)
+ *  \param[out] out_classifier the classifier read from the database (in case of success)
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
@@ -197,7 +199,7 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
  *
  *  \param this_ pointer to own object attributes
  *  \param name the classifier to be read from the database
- *  \param out_classifier the classifier read from the database (in case of success)
+ *  \param[out] out_classifier the classifier read from the database (in case of success)
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_DB_STRUCTURE if name does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
@@ -211,10 +213,11 @@ data_error_t data_database_reader_get_classifier_by_name ( data_database_reader_
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the containing diagram
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_visible_classifier array of classifiers (and diagramelements) read from the database (in case of success)
- *  \param out_visible_classifier_count number of classifier records stored in out_visible_classifier
+ *  \param[out] out_visible_classifier array of classifiers (and diagramelements) read from the database (in case of success)
+ *  \param[out] out_visible_classifier_count number of classifier records stored in out_visible_classifier
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ *          DATA_ERROR_NO_DB if the database is not open,
+ *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
 data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_,
                                                                   data_row_id_t diagram_id,
@@ -245,7 +248,7 @@ data_error_t data_database_reader_get_all_classifiers_iterator ( data_database_r
  *
  *  \param this_ pointer to own object attributes
  *  \param id the diagramelement to be read from the database
- *  \param out_diagramelement the diagramelement read from the database (in case of success)
+ *  \param[out] out_diagramelement the diagramelement read from the database (in case of success)
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
@@ -257,10 +260,11 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_diagramelement array of diagramelements read from the database (in case of success)
- *  \param out_diagramelement_count number of diagramelement records stored in out_diagramelement
+ *  \param[out] out_diagramelement array of diagramelements read from the database (in case of success)
+ *  \param[out] out_diagramelement_count number of diagramelement records stored in out_diagramelement
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ *          DATA_ERROR_NO_DB if the database is not open,
+ *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
 data_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_database_reader_t *this_,
                                                                       data_row_id_t diagram_id,
@@ -275,10 +279,11 @@ data_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_datab
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the diagram
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_diagramelement array of diagramelements read from the database (in case of success)
- *  \param out_diagramelement_count number of diagramelement records stored in out_diagramelement
+ *  \param[out] out_diagramelement array of diagramelements read from the database (in case of success)
+ *  \param[out] out_diagramelement_count number of diagramelement records stored in out_diagramelement
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ *          DATA_ERROR_NO_DB if the database is not open,
+ *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
 data_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_database_reader_t *this_,
                                                                          data_row_id_t classifier_id,
@@ -294,7 +299,7 @@ data_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_da
  *
  *  \param this_ pointer to own object attributes
  *  \param id the feature to be read from the database
- *  \param out_feature the feature read from the database (in case of success)
+ *  \param[out] out_feature the feature read from the database (in case of success)
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
@@ -306,10 +311,11 @@ data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *th
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the parent classifier
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_feature array of features read from the database (in case of success)
- *  \param out_feature_count number of feature records stored in out_feature
+ *  \param[out] out_feature array of features read from the database (in case of success)
+ *  \param[out] out_feature_count number of feature records stored in out_feature
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ *          DATA_ERROR_NO_DB if the database is not open,
+ *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
 data_error_t data_database_reader_get_features_by_classifier_id ( data_database_reader_t *this_,
                                                                   data_row_id_t classifier_id,
@@ -326,10 +332,11 @@ data_error_t data_database_reader_get_features_by_classifier_id ( data_database_
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the containing diagram
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_feature array of features read from the database (in case of success)
- *  \param out_feature_count number of feature records stored in out_feature
+ *  \param[out] out_feature array of features read from the database (in case of success)
+ *  \param[out] out_feature_count number of feature records stored in out_feature
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ *          DATA_ERROR_NO_DB if the database is not open,
+ *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
 data_error_t data_database_reader_get_features_by_diagram_id ( data_database_reader_t *this_,
                                                                data_row_id_t diagram_id,
@@ -345,7 +352,7 @@ data_error_t data_database_reader_get_features_by_diagram_id ( data_database_rea
  *
  *  \param this_ pointer to own object attributes
  *  \param id the relationship to be read from the database
- *  \param out_relationship the relationship read from the database (in case of success)
+ *  \param[out] out_relationship the relationship read from the database (in case of success)
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
@@ -359,10 +366,11 @@ data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the source(from) or destination(to) classifier
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_relationship array of relationships read from the database (in case of success)
- *  \param out_relationship_count number of relationship records stored in out_relationship
+ *  \param[out] out_relationship array of relationships read from the database (in case of success)
+ *  \param[out] out_relationship_count number of relationship records stored in out_relationship
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ *          DATA_ERROR_NO_DB if the database is not open,
+ *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
 data_error_t data_database_reader_get_relationships_by_classifier_id ( data_database_reader_t *this_,
                                                                        data_row_id_t classifier_id,
@@ -379,10 +387,11 @@ data_error_t data_database_reader_get_relationships_by_classifier_id ( data_data
  *  \param this_ pointer to own object attributes
  *  \param feature_id id of the source(from) or destination(to) feature; must not be DATA_ROW_ID_VOID.
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_relationship array of relationships read from the database (in case of success)
- *  \param out_relationship_count number of relationship records stored in out_relationship
+ *  \param[out] out_relationship array of relationships read from the database (in case of success)
+ *  \param[out] out_relationship_count number of relationship records stored in out_relationship
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ *          DATA_ERROR_NO_DB if the database is not open,
+ *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
 data_error_t data_database_reader_get_relationships_by_feature_id ( data_database_reader_t *this_,
                                                                     data_row_id_t feature_id,
@@ -399,10 +408,11 @@ data_error_t data_database_reader_get_relationships_by_feature_id ( data_databas
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the containing diagram
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_relationship array of relationships read from the database (in case of success)
- *  \param out_relationship_count number of relationship records stored in out_relationship
+ *  \param[out] out_relationship array of relationships read from the database (in case of success)
+ *  \param[out] out_relationship_count number of relationship records stored in out_relationship
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ *          DATA_ERROR_NO_DB if the database is not open,
+ *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
 data_error_t data_database_reader_get_relationships_by_diagram_id ( data_database_reader_t *this_,
                                                                     data_row_id_t diagram_id,
@@ -435,7 +445,7 @@ data_error_t data_database_reader_private_close ( data_database_reader_t *this_ 
  *  \param this_ pointer to own object attributes
  *  \param string_statement statement as string to be prepared
  *  \param string_size size of string_statement in bytes, including the terminating zero
- *  \param out_statement_ptr address of a pointer. The pointer is modifies as to point to a statement object.
+ *  \param[out] out_statement_ptr address of a pointer. The pointer is modifies as to point to a statement object.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 static inline data_error_t data_database_reader_private_prepare_statement ( data_database_reader_t *this_,

@@ -74,7 +74,7 @@ void data_database_writer_db_change_callback ( data_database_writer_t *this_, da
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram data of the new diagram record to be created. The id should be DATA_ROW_ID_VOID unless a diagram with known, unique id shall be created.
- *  \param out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram, data_row_id_t* out_new_id );
@@ -86,7 +86,7 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
  *
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the diagram record to be deleted.
- *  \param out_old_diagram storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_diagram storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_, data_row_id_t obj_id, data_diagram_t *out_old_diagram );
@@ -97,7 +97,7 @@ data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_description new description text of the diagram
- *  \param out_old_diagram storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_diagram storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_diagram_description ( data_database_writer_t *this_, data_row_id_t diagram_id, const char* new_diagram_description, data_diagram_t *out_old_diagram );
@@ -108,7 +108,7 @@ data_error_t data_database_writer_update_diagram_description ( data_database_wri
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_name new name of the diagram
- *  \param out_old_diagram storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_diagram storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *this_, data_row_id_t diagram_id, const char* new_diagram_name, data_diagram_t *out_old_diagram );
@@ -119,7 +119,7 @@ data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_type new diagram_type of the diagram
- *  \param out_old_diagram storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_diagram storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *this_, data_row_id_t diagram_id, data_diagram_type_t new_diagram_type, data_diagram_t *out_old_diagram );
@@ -130,7 +130,7 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_list_order new list_order of the diagram
- *  \param out_old_diagram storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_diagram storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_diagram_list_order ( data_database_writer_t *this_, data_row_id_t diagram_id, int32_t new_diagram_list_order, data_diagram_t *out_old_diagram );
@@ -141,7 +141,7 @@ data_error_t data_database_writer_update_diagram_list_order ( data_database_writ
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_parent_id new parent diagram id of the diagram
- *  \param out_old_diagram storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_diagram storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_diagram_parent_id ( data_database_writer_t *this_, data_row_id_t diagram_id, data_row_id_t new_diagram_parent_id, data_diagram_t *out_old_diagram );
@@ -153,7 +153,7 @@ data_error_t data_database_writer_update_diagram_parent_id ( data_database_write
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier data of the new classifier record to be created. The id should be DATA_ROW_ID_VOID unless a classifier with known, unique id shall be created.
- *  \param out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_writer_create_classifier( data_database_writer_t *this_, const data_classifier_t *classifier, data_row_id_t* out_new_id );
@@ -165,7 +165,7 @@ data_error_t data_database_writer_create_classifier( data_database_writer_t *thi
  *
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the classifier record to be deleted.
- *  \param out_old_classifier storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_classifier storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_writer_delete_classifier( data_database_writer_t *this_, data_row_id_t obj_id, data_classifier_t *out_old_classifier );
@@ -176,7 +176,7 @@ data_error_t data_database_writer_delete_classifier( data_database_writer_t *thi
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_stereotype new stereotype text of the classifier
- *  \param out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_classifier_stereotype ( data_database_writer_t *this_, data_row_id_t classifier_id, const char* new_classifier_stereotype, data_classifier_t *out_old_classifier );
@@ -187,7 +187,7 @@ data_error_t data_database_writer_update_classifier_stereotype ( data_database_w
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_description new description text of the classifier
- *  \param out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_classifier_description ( data_database_writer_t *this_, data_row_id_t classifier_id, const char* new_classifier_description, data_classifier_t *out_old_classifier );
@@ -198,7 +198,7 @@ data_error_t data_database_writer_update_classifier_description ( data_database_
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_name new name of the classifier
- *  \param out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_classifier_name ( data_database_writer_t *this_, data_row_id_t classifier_id, const char* new_classifier_name, data_classifier_t *out_old_classifier );
@@ -209,7 +209,7 @@ data_error_t data_database_writer_update_classifier_name ( data_database_writer_
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_main_type new main_type of the classifier
- *  \param out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_classifier_main_type ( data_database_writer_t *this_, data_row_id_t classifier_id, data_classifier_type_t new_classifier_main_type, data_classifier_t *out_old_classifier );
@@ -220,7 +220,7 @@ data_error_t data_database_writer_update_classifier_main_type ( data_database_wr
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_x_order new x_order of the classifier
- *  \param out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_classifier_x_order ( data_database_writer_t *this_, data_row_id_t classifier_id, int32_t new_classifier_x_order, data_classifier_t *out_old_classifier );
@@ -231,7 +231,7 @@ data_error_t data_database_writer_update_classifier_x_order ( data_database_writ
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_y_order new y_order of the classifier
- *  \param out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_classifier_y_order ( data_database_writer_t *this_, data_row_id_t classifier_id, int32_t new_classifier_y_order, data_classifier_t *out_old_classifier );
@@ -242,7 +242,7 @@ data_error_t data_database_writer_update_classifier_y_order ( data_database_writ
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_list_order new list_order of the classifier
- *  \param out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_classifier_list_order ( data_database_writer_t *this_, data_row_id_t classifier_id, int32_t new_classifier_list_order, data_classifier_t *out_old_classifier );
@@ -254,7 +254,7 @@ data_error_t data_database_writer_update_classifier_list_order ( data_database_w
  *
  *  \param this_ pointer to own object attributes
  *  \param diagramelement data of the new diagramelement record to be created. The id should be DATA_ROW_ID_VOID unless a diagramelement with known, unique id shall be created.
- *  \param out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_writer_create_diagramelement( data_database_writer_t *this_, const data_diagramelement_t *diagramelement, data_row_id_t* out_new_id );
@@ -264,7 +264,7 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
  *
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the diagramelement record to be deleted.
- *  \param out_old_diagramelement storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_diagramelement storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_writer_delete_diagramelement( data_database_writer_t *this_, data_row_id_t obj_id, data_diagramelement_t *out_old_diagramelement );
@@ -275,7 +275,7 @@ data_error_t data_database_writer_delete_diagramelement( data_database_writer_t 
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_id id of the diagramelement to be updated
  *  \param new_display_flags new display flags of the diagramelement
- *  \param out_old_diagramelement storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_diagramelement storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_diagramelement_display_flags ( data_database_writer_t *this_, data_row_id_t diagramelement_id, data_diagramelement_flag_t new_display_flags, data_diagramelement_t *out_old_diagramelement );
@@ -286,7 +286,7 @@ data_error_t data_database_writer_update_diagramelement_display_flags ( data_dat
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_id id of the diagramelement to be updated
  *  \param new_focused_feature_id new focused_feature_id of the diagramelement
- *  \param out_old_diagramelement storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_diagramelement storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_diagramelement_focused_feature_id ( data_database_writer_t *this_, data_row_id_t diagramelement_id, data_row_id_t new_focused_feature_id, data_diagramelement_t *out_old_diagramelement );
@@ -298,7 +298,7 @@ data_error_t data_database_writer_update_diagramelement_focused_feature_id ( dat
  *
  *  \param this_ pointer to own object attributes
  *  \param feature data of the new feature record to be created. The id should be DATA_ROW_ID_VOID unless a feature with known, unique id shall be created.
- *  \param out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_writer_create_feature ( data_database_writer_t *this_, const data_feature_t *feature, data_row_id_t* out_new_id );
@@ -308,7 +308,7 @@ data_error_t data_database_writer_create_feature ( data_database_writer_t *this_
  *
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the feature record to be deleted.
- *  \param out_old_feature storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_feature storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_writer_delete_feature ( data_database_writer_t *this_, data_row_id_t obj_id, data_feature_t *out_old_feature );
@@ -319,7 +319,7 @@ data_error_t data_database_writer_delete_feature ( data_database_writer_t *this_
  *  \param this_ pointer to own object attributes
  *  \param feature_id id of the feature to be updated
  *  \param new_feature_type new feature_type of the feature
- *  \param out_old_feature storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_feature storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_feature_main_type ( data_database_writer_t *this_, data_row_id_t feature_id, data_feature_type_t new_feature_type, data_feature_t *out_old_feature );
@@ -330,7 +330,7 @@ data_error_t data_database_writer_update_feature_main_type ( data_database_write
  *  \param this_ pointer to own object attributes
  *  \param feature_id id of the feature to be updated
  *  \param new_feature_key new key/name of the feature
- *  \param out_old_feature storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_feature storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_feature_key ( data_database_writer_t *this_, data_row_id_t feature_id, const char* new_feature_key, data_feature_t *out_old_feature );
@@ -341,7 +341,7 @@ data_error_t data_database_writer_update_feature_key ( data_database_writer_t *t
  *  \param this_ pointer to own object attributes
  *  \param feature_id id of the feature to be updated
  *  \param new_feature_value new value/type of the feature
- *  \param out_old_feature storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_feature storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_feature_value ( data_database_writer_t *this_, data_row_id_t feature_id, const char* new_feature_value, data_feature_t *out_old_feature );
@@ -352,7 +352,7 @@ data_error_t data_database_writer_update_feature_value ( data_database_writer_t 
  *  \param this_ pointer to own object attributes
  *  \param feature_id id of the feature to be updated
  *  \param new_feature_description new description text of the feature
- *  \param out_old_feature storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_feature storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_feature_description ( data_database_writer_t *this_, data_row_id_t feature_id, const char* new_feature_description, data_feature_t *out_old_feature );
@@ -363,7 +363,7 @@ data_error_t data_database_writer_update_feature_description ( data_database_wri
  *  \param this_ pointer to own object attributes
  *  \param feature_id id of the feature to be updated
  *  \param new_feature_list_order new list_order of the feature
- *  \param out_old_feature storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_feature storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_feature_list_order ( data_database_writer_t *this_, data_row_id_t feature_id, int32_t new_feature_list_order, data_feature_t *out_old_feature );
@@ -375,7 +375,7 @@ data_error_t data_database_writer_update_feature_list_order ( data_database_writ
  *
  *  \param this_ pointer to own object attributes
  *  \param relationship data of the new relationship record to be created. The id should be DATA_ROW_ID_VOID unless a relationship with known, unique id shall be created.
- *  \param out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_writer_create_relationship ( data_database_writer_t *this_, const data_relationship_t *relationship, data_row_id_t* out_new_id );
@@ -385,7 +385,7 @@ data_error_t data_database_writer_create_relationship ( data_database_writer_t *
  *
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the relationship record to be deleted.
- *  \param out_old_relationship storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_relationship storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_writer_delete_relationship ( data_database_writer_t *this_, data_row_id_t obj_id, data_relationship_t *out_old_relationship );
@@ -396,7 +396,7 @@ data_error_t data_database_writer_delete_relationship ( data_database_writer_t *
  *  \param this_ pointer to own object attributes
  *  \param relationship_id id of the relationship to be updated
  *  \param new_relationship_type new relationship_type of the relationship
- *  \param out_old_relationship storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_relationship storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_relationship_main_type ( data_database_writer_t *this_, data_row_id_t relationship_id, data_relationship_type_t new_relationship_type, data_relationship_t *out_old_relationship );
@@ -407,7 +407,7 @@ data_error_t data_database_writer_update_relationship_main_type ( data_database_
  *  \param this_ pointer to own object attributes
  *  \param relationship_id id of the relationship to be updated
  *  \param new_relationship_name new name of the relationship
- *  \param out_old_relationship storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_relationship storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_relationship_name ( data_database_writer_t *this_, data_row_id_t relationship_id, const char* new_relationship_name, data_relationship_t *out_old_relationship );
@@ -418,7 +418,7 @@ data_error_t data_database_writer_update_relationship_name ( data_database_write
  *  \param this_ pointer to own object attributes
  *  \param relationship_id id of the relationship to be updated
  *  \param new_relationship_description new description text of the relationship
- *  \param out_old_relationship storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_relationship storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_relationship_description ( data_database_writer_t *this_, data_row_id_t relationship_id, const char* new_relationship_description, data_relationship_t *out_old_relationship );
@@ -429,7 +429,7 @@ data_error_t data_database_writer_update_relationship_description ( data_databas
  *  \param this_ pointer to own object attributes
  *  \param relationship_id id of the relationship to be updated
  *  \param new_relationship_list_order new list_order of the relationship
- *  \param out_old_relationship storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_relationship storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_relationship_list_order ( data_database_writer_t *this_, data_row_id_t relationship_id, int32_t new_relationship_list_order, data_relationship_t *out_old_relationship );
@@ -443,7 +443,7 @@ data_error_t data_database_writer_update_relationship_list_order ( data_database
  *
  *  \param this_ pointer to own object attributes
  *  \param sql_statement statement to be executed.
- *  \param out_new_id if fetch_new_id, the id of the newly created row is returned
+ *  \param[out] out_new_id if fetch_new_id, the id of the newly created row is returned
  *  \return DATA_ERROR_NONE in case of success, an error id otherwise; DATA_ERROR_READ_ONLY_DB if read only
  */
 data_error_t data_database_writer_private_execute_create_command ( data_database_writer_t *this_, const char* sql_statement, data_row_id_t* out_new_id );
