@@ -73,10 +73,10 @@ static inline ctrl_diagram_controller_t *ctrl_controller_get_diagram_control_ptr
  *  \brief un-does a set of actions.
  *
  *  \param this_ pointer to own object attributes
- *  \param io_stat Statistics on DATA_STAT_SERIES_CREATED, DATA_STAT_SERIES_MODIFIED,
- *                 DATA_STAT_SERIES_DELETED and
- *                 DATA_STAT_SERIES_ERROR (e.g. if name not unique due to parallel working on same db).
- *                 *io_stat shall be initialized by caller, statistics are added to initial values.
+ *  \param[in,out] io_stat Statistics on DATA_STAT_SERIES_CREATED, DATA_STAT_SERIES_MODIFIED,
+ *                         DATA_STAT_SERIES_DELETED and
+ *                         DATA_STAT_SERIES_ERROR (e.g. if name not unique due to parallel working on same db).
+ *                         *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if there is no more complete set of actions to be un-done due to limits of buffer.
  *          CTRL_ERROR_INVALID_REQUEST if there is no more set of actions to be un-done
  *          CTRL_ERROR_NONE otherwise.
@@ -87,10 +87,10 @@ static inline ctrl_error_t ctrl_controller_undo ( ctrl_controller_t *this_, data
  *  \brief re-does a set of actions.
  *
  *  \param this_ pointer to own object attributes
- *  \param io_stat Statistics on DATA_STAT_SERIES_CREATED, DATA_STAT_SERIES_MODIFIED,
- *                 DATA_STAT_SERIES_DELETED and
- *                 DATA_STAT_SERIES_ERROR (e.g. if name not unique due to parallel working on same db).
- *                 *io_stat shall be initialized by caller, statistics are added to initial values.
+ *  \param[in,out] io_stat Statistics on DATA_STAT_SERIES_CREATED, DATA_STAT_SERIES_MODIFIED,
+ *                         DATA_STAT_SERIES_DELETED and
+ *                         DATA_STAT_SERIES_ERROR (e.g. if name not unique due to parallel working on same db).
+ *                         *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return CTRL_ERROR_INVALID_REQUEST if there is no more set of actions to be re-done.
  *          CTRL_ERROR_NONE otherwise.
  */
@@ -113,9 +113,9 @@ ctrl_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const c
  *
  *  \param this_ pointer to own object attributes
  *  \param modify_db true if the database shall be repaired and modified
- *  \param out_err number of errors detected (NULL if not requested)
- *  \param out_fix number of errors fixed (NULL if not requested)
- *  \param out_report english text stating what was checked and the results and what was reparied and the results
+ *  \param[out] out_err number of errors detected (NULL if not requested)
+ *  \param[out] out_fix number of errors fixed (NULL if not requested)
+ *  \param[out] out_report english text stating what was checked and the results and what was reparied and the results
  *  \return CTRL_ERROR_NONE in case of success,
  *          CTRL_ERROR_NO_DB if database not open/loaded,
  *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
@@ -134,9 +134,9 @@ static inline ctrl_error_t ctrl_controller_repair_database ( ctrl_controller_t *
  *
  *  \param this_ pointer to own object attributes
  *  \param objects set of object ids to be deleted
- *  \param io_stat Statistics on DATA_STAT_SERIES_DELETED and
- *                 DATA_STAT_SERIES_ERROR (e.g. if a diagram still contains objects).
- *                 *io_stat shall be initialized by caller, statistics are added to initial values.
+ *  \param[in,out] io_stat Statistics on DATA_STAT_SERIES_DELETED and
+ *                         DATA_STAT_SERIES_ERROR (e.g. if a diagram still contains objects).
+ *                         *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return error id in case of an error, e.g. CTRL_ERROR_INPUT_EMPTY in case of empty set, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,

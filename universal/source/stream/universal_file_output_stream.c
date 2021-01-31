@@ -62,7 +62,7 @@ int universal_file_output_stream_open ( universal_file_output_stream_t *this_, c
 
 int universal_file_output_stream_write ( universal_file_output_stream_t *this_, const void *start, size_t length )
 {
-    TRACE_BEGIN();
+    /*TRACE_BEGIN();*/
     assert( (*this_).output != NULL );
     int err = 0;
 
@@ -82,7 +82,7 @@ int universal_file_output_stream_write ( universal_file_output_stream_t *this_, 
         }
     }
 
-    TRACE_END_ERR(err);
+    /*TRACE_END_ERR(err);*/
     return err;
 }
 

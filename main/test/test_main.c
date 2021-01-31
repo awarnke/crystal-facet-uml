@@ -38,6 +38,7 @@
 #include "test_runner.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 /*!
  *  \brief main runs the unit tests
@@ -48,7 +49,7 @@ int main (int argc, char *argv[]) {
     TRACE_INFO( "--------------------" );
     int exit_code = 0;
     TSLOG_INIT(META_INFO_PROGRAM_ID_STR);
-
+    
     /* print id, license and copyrights */
     {
         fprintf( stdout, "    + %s %s\n", META_INFO_PROGRAM_ID_STR, META_VERSION_STR );

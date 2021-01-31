@@ -76,7 +76,7 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ );
  *                                to the last set of actions in the undo_redo_list_t,
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
- *  \param out_new_id id of the newly created classifier.
+ *  \param[out] out_new_id id of the newly created classifier.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_controller_t *this_,
@@ -221,7 +221,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_clas
  *                                to the last set of actions in the undo_redo_list_t,
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
- *  \param out_new_id id of the newly created feature, NULL if the new id is not needed.
+ *  \param[out] out_new_id id of the newly created feature, NULL if the new id is not needed.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controller_t *this_,
@@ -324,7 +324,7 @@ ctrl_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classif
  *                                to the last set of actions in the undo_redo_list_t,
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
- *  \param out_new_id id of the newly created relationship, NULL if the new id is not needed.
+ *  \param[out] out_new_id id of the newly created relationship, NULL if the new id is not needed.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_controller_t *this_,

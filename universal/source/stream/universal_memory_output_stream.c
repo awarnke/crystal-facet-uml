@@ -59,7 +59,7 @@ int universal_memory_output_stream_open ( universal_memory_output_stream_t *this
 
 int universal_memory_output_stream_write ( universal_memory_output_stream_t *this_, const void *start, size_t length )
 {
-    TRACE_BEGIN();
+    /*TRACE_BEGIN();*/
     assert( start != NULL );
     assert( (*this_).mem_buf_start != NULL );
     int err = 0;
@@ -79,7 +79,7 @@ int universal_memory_output_stream_write ( universal_memory_output_stream_t *thi
         err = -1;
     }
 
-    TRACE_END_ERR(err);
+    /*TRACE_END_ERR(err);*/
     return err;
 }
 

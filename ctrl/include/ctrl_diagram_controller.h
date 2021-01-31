@@ -71,7 +71,7 @@ void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ );
  *                                to the last set of actions in the undo_redo_list_t,
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
- *  \param out_new_id id of the newly created diagram, NULL if the new id is not needed.
+ *  \param[out] out_new_id id of the newly created diagram, NULL if the new id is not needed.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_,
@@ -87,7 +87,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
  *  \param parent_diagram_id id of the parent diagram for which a child is created
  *  \param diagram_type type of the new diagram
  *  \param diagram_name name of the new diagram
- *  \param out_new_id id of the newly created diagram, NULL if the new id is not needed.
+ *  \param[out] out_new_id id of the newly created diagram, NULL if the new id is not needed.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram_controller_t *this_,
@@ -103,7 +103,7 @@ ctrl_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram
  *  \param this_ pointer to own object attributes
  *  \param diagram_type type of the root diagram
  *  \param diagram_name name of the root diagram
- *  \param out_new_id id of the created root diagram or DATA_ROW_ID_VOID if a root diagram already existed, NULL if the new id is not needed.
+ *  \param[out] out_new_id id of the created root diagram or DATA_ROW_ID_VOID if a root diagram already existed, NULL if the new id is not needed.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_diagram_controller_t *this_,
@@ -114,7 +114,7 @@ ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_di
 
 /*!
  *  \brief deletes a diagram record
- *         TODO: and associated diagramelements (see ctrl_diagram_controller_delete_diagramelement for additional actions)
+ *         if no diagramelements contained
  *         and stores all actions in the undo redo list.
  *
  *  Note: The diagram is not deleted if still referenced by other diagrams.
@@ -215,7 +215,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_co
  *                                to the last set of actions in the undo_redo_list_t,
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
- *  \param out_new_id id of the newly created diagramelement, NULL if the new id is not needed.
+ *  \param[out] out_new_id id of the newly created diagramelement, NULL if the new id is not needed.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_controller_t *this_,

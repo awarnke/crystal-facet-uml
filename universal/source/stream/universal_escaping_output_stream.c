@@ -68,19 +68,32 @@ int universal_escaping_output_stream_open ( universal_escaping_output_stream_t *
 
 int universal_escaping_output_stream_write ( universal_escaping_output_stream_t *this_, const void *start, size_t length )
 {
-    TRACE_BEGIN();
+    /*TRACE_BEGIN();*/
     assert( start != NULL );
     assert( (*this_).patterns_and_replacements != NULL );
     assert( (*this_).sink != NULL );
     int err = 0;
     const char (*char_buf)[] = (void*)start;
     
-    /* count input patterns */
+    /* count and analyze input patterns */
     unsigned int pattern_count = 0;
+    char head_common_bits = '\x00';  /* optimization, improves xml export by 5% */
+    char head_common_pattern = '\x00';  /* optimization, improves xml export by 5% */
     for ( unsigned int pattern_idx = 0; (*((*this_).patterns_and_replacements))[pattern_idx][0] != NULL; pattern_idx++ )
     {
         pattern_count++;
+        if ( pattern_idx == 0 )
+        {
+            head_common_bits = '\xff';
+            head_common_pattern = *((*((*this_).patterns_and_replacements))[pattern_idx][0]);
+        }
+        else
+        {
+            const char unequal_bits = head_common_pattern ^ *((*((*this_).patterns_and_replacements))[pattern_idx][0]);
+            head_common_bits = head_common_bits & ( ~ unequal_bits );
+        }
     };
+    head_common_pattern &= head_common_bits;
 
     /* search and replace patterns */
     size_t bytes_already_written = 0;
@@ -88,21 +101,20 @@ int universal_escaping_output_stream_write ( universal_escaping_output_stream_t 
     {
         /* check if a pattern matches */
         int matching_pattern_idx = -1;
-        //const char chr_at_idx = (*char_buf)[index];
-        //if (( chr_at_idx & 0x60 )!= 0)
-        //if (( chr_at_idx == '\"' )||( chr_at_idx == '\'' )||( chr_at_idx == '&' )||( chr_at_idx == '<' )
-        //||( chr_at_idx == '>' )||( chr_at_idx == '\n' )||( chr_at_idx == '-' ))    
-        //  optimization -- influences appx. 5% of xml-export processing speed
-        for ( unsigned int pattern_idx = 0; ( pattern_idx < pattern_count )&&( matching_pattern_idx == -1 ); pattern_idx++ )
+        const char chr_at_idx = (*char_buf)[index];
+        if (( chr_at_idx & head_common_bits ) == head_common_pattern )
         {
-            const char * pattern = (*((*this_).patterns_and_replacements))[pattern_idx][0];
-            const unsigned int pattern_len = strlen( pattern );
-            if (( index + pattern_len <= length )&&( pattern_len > 0 ))
+            for ( unsigned int pattern_idx = 0; ( pattern_idx < pattern_count )&&( matching_pattern_idx == -1 ); pattern_idx++ )
             {
-                if ( 0 == memcmp( &((*char_buf)[index]), pattern, pattern_len ) )
+                const char * pattern = (*((*this_).patterns_and_replacements))[pattern_idx][0];
+                const unsigned int pattern_len = strlen( pattern );
+                if (( index + pattern_len <= length )&&( pattern_len > 0 ))
                 {
-                    matching_pattern_idx = pattern_idx;
-                    /*fprintf(stderr,"found pattern %d at pos %zd\n",matching_pattern_idx,index);*/
+                    if ( 0 == memcmp( &((*char_buf)[index]), pattern, pattern_len ) )
+                    {
+                        matching_pattern_idx = pattern_idx;
+                        /*fprintf(stderr,"found pattern %d at pos %zd\n",matching_pattern_idx,index);*/
+                    }
                 }
             }
         }
@@ -135,7 +147,7 @@ int universal_escaping_output_stream_write ( universal_escaping_output_stream_t 
         }
     }
 
-    TRACE_END_ERR(err);
+    /*TRACE_END_ERR(err);*/
     return err;
 }
 

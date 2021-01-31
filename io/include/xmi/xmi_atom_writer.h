@@ -95,7 +95,7 @@ int xmi_atom_writer_report_unknown_classifier( xmi_atom_writer_t *this_,
  * 
  *  \param this_ pointer to own object attributes
  *  \param fact_feature_id the id of feature object
- *  \param fact_classifier_type type of the feature object
+ *  \param fact_feature_type type of the feature object
  *  \result 0 in case of success, -1 otherwise
  */
 int xmi_atom_writer_report_unknown_feature( xmi_atom_writer_t *this_,

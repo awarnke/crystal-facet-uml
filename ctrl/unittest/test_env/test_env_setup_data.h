@@ -63,7 +63,7 @@ static data_row_id_t test_env_setup_data_create_feature( data_row_id_t parent_cl
  *  \brief helper function to initialize the database
  * 
  *  \param from_classifier_id id of the source classifier from which the relation starts
- *  \param from_classifier_id id of the source feature from which the relation starts or DATA_ROW_ID_VOID if directly conected to classifier
+ *  \param from_feature_id id of the source feature from which the relation starts or DATA_ROW_ID_VOID if directly conected to classifier
  *  \param to_classifier_id id of the target classifier to which the relation goes to
  *  \param to_feature_id id of the target feature at which the relation ends or DATA_ROW_ID_VOID if directly conected to classifier
  *  \param name name of the newly created element
