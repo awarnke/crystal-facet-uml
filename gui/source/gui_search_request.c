@@ -142,7 +142,19 @@ void gui_search_request_search_start_callback( GtkWidget* trigger_widget, gpoint
 void gui_search_request_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data )
 {
     TRACE_BEGIN();
-    TRACE_INFO("callback not yet implemented.");
+    assert( NULL != msg );
+    gui_search_request_t *this_ = user_data;
+    assert( NULL != this_ );
+    assert ( NULL != widget );
+    
+    data_change_event_type_t evt_type;
+    evt_type = data_change_message_get_event ( msg );
+
+    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_OPENED )
+    {
+        gtk_entry_set_text ( GTK_ENTRY( (*this_).search_entry ), "" );
+    }
+    
     TRACE_END();
 }
 
