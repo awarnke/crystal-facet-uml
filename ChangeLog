@@ -4,6 +4,7 @@ crystal-facet-uml (1.27.3) UNRELEASED; urgency=medium
   * fixed most metainfo.xml warnings 
   * build target for gcov measurement added
   * auto-delete relationships between classifiers that have no common diagram
+  * when opening the second database, view switches back to navigation mode
 
 -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 06 Feb 2021 15:00:00 +0100
 

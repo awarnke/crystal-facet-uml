@@ -241,7 +241,7 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, data_row_id_t
     gui_marked_set_set_focused_diagram( (*this_).marker, main_diagram_id );
 
     gui_tool_t selected_tool;
-    selected_tool = gui_toolbox_get_selected_tool( (*this_).toolbox );
+    selected_tool = gui_sketch_request_get_tool_mode( &((*this_).request) );
     if ( GUI_TOOL_NAVIGATE == selected_tool )
     {
         /* determine ids */
@@ -411,7 +411,7 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
     assert((*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS);
 
     gui_tool_t selected_tool;
-    selected_tool = gui_toolbox_get_selected_tool( (*this_).toolbox );
+    selected_tool = gui_sketch_request_get_tool_mode( &((*this_).request) );
 
     /* fetch area bounds */
     const uint32_t width = shape_int_rectangle_get_width( &area_bounds );
@@ -466,7 +466,7 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
     assert( NULL != cr );
 
     gui_tool_t selected_tool;
-    selected_tool = gui_toolbox_get_selected_tool( (*this_).toolbox );
+    selected_tool = gui_sketch_request_get_tool_mode( &((*this_).request) );
 
     /* draw background */
     switch( selected_tool )
@@ -586,7 +586,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
 
     /* do highlight */
     gui_tool_t selected_tool;
-    selected_tool = gui_toolbox_get_selected_tool( (*this_).toolbox );
+    selected_tool = gui_sketch_request_get_tool_mode( &((*this_).request) );
     switch ( selected_tool )
     {
         case GUI_TOOL_SEARCH:  /* or */
@@ -757,7 +757,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
 
         /* do action */
         gui_tool_t selected_tool;
-        selected_tool = gui_toolbox_get_selected_tool( (*this_).toolbox );
+        selected_tool = gui_sketch_request_get_tool_mode( &((*this_).request) );
         switch ( selected_tool )
         {
             case GUI_TOOL_NAVIGATE:
@@ -1086,7 +1086,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
 
         /* do action */
         gui_tool_t selected_tool;
-        selected_tool = gui_toolbox_get_selected_tool( (*this_).toolbox );
+        selected_tool = gui_sketch_request_get_tool_mode( &((*this_).request) );
         switch ( selected_tool )
         {
             case GUI_TOOL_NAVIGATE:
@@ -1665,6 +1665,11 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_messa
         gui_sketch_result_list_invalidate_data( &((*this_).result_list) );
     }
 
+    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_OPENED )
+    {
+        gui_toolbox_set_selected_tool( (*this_).toolbox, GUI_TOOL_NAVIGATE );
+    }
+                            
     /* load/reload data to be drawn */
     gui_sketch_area_private_refocus_and_reload_data( this_ );
 
@@ -1681,39 +1686,8 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_tool_t tool, 
     assert( NULL != this_ );
     assert ( NULL != widget );
 
-    switch ( tool )
-    {
-        case GUI_TOOL_NAVIGATE:
-        {
-            TRACE_INFO("GUI_TOOL_NAVIGATE");
-        }
-        break;
-
-        case GUI_TOOL_EDIT:
-        {
-            TRACE_INFO("GUI_TOOL_EDIT");
-        }
-        break;
-
-        case GUI_TOOL_SEARCH:
-        {
-            TRACE_INFO("GUI_TOOL_SEARCH");
-        }
-        break;
-
-        case GUI_TOOL_CREATE:
-        {
-            TRACE_INFO("GUI_TOOL_CREATE");
-        }
-        break;
-
-        default:
-        {
-            TSLOG_ERROR("selected_tool is out of range");
-        }
-        break;
-    }
-
+    gui_sketch_request_set_tool_mode( &((*this_).request), tool );
+    
     /* load/reload data to be drawn - depending on the tool, other data may be needed */
     gui_sketch_area_private_refocus_and_reload_data( this_ );
 

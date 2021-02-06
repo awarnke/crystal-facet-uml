@@ -17,7 +17,7 @@
  *  \brief attributes of the request: tool-mode and diagram ids.
  */
 struct gui_sketch_request_struct {
-    gui_tool_t selected_tool;  /*!< the mode */
+    gui_tool_t tool_mode;  /*!< the tool mode */
     data_id_t focused_diagram;  /*!< the focused diagram to display (except in search mode) */
     data_id_t parent_diagram;  /*!< the fallback diagram to display in case the focused_diagram is deleted */
     data_small_set_t search_result_diagrams;  /*!< the set of diagrams to display in search mode */
@@ -45,6 +45,70 @@ static inline void gui_sketch_request_reinit( gui_sketch_request_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 static inline void gui_sketch_request_destroy( gui_sketch_request_t *this_ );
+
+/*!
+ *  \brief gets the attribute tool_mode
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the requested attribute
+ */
+static inline gui_tool_t gui_sketch_request_get_tool_mode( const gui_sketch_request_t *this_ );
+
+/*!
+ *  \brief sets the attribute tool_mode
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param tool_mode the new attribute value
+ */
+static inline void gui_sketch_request_set_tool_mode( gui_sketch_request_t *this_, gui_tool_t tool_mode );
+
+/*!
+ *  \brief gets the attribute focused_diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the requested attribute
+ */
+static inline data_id_t gui_sketch_request_get_focused_diagram( const gui_sketch_request_t *this_ );
+
+/*!
+ *  \brief sets the attribute focused_diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param focused_diagram the new attribute value
+ */
+static inline void gui_sketch_request_set_focused_diagram( gui_sketch_request_t *this_, data_id_t focused_diagram );
+
+/*!
+ *  \brief gets the attribute parent_diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the requested attribute
+ */
+static inline data_id_t gui_sketch_request_get_parent_diagram( const gui_sketch_request_t *this_ );
+
+/*!
+ *  \brief sets the attribute parent_diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_diagram the new attribute value
+ */
+static inline void gui_sketch_request_set_parent_diagram( gui_sketch_request_t *this_, data_id_t parent_diagram );
+
+/*!
+ *  \brief gets the attribute search_result_diagrams as const pointer
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the requested attribute
+ */
+static inline const data_small_set_t * gui_sketch_request_get_search_result_diagrams_const( const gui_sketch_request_t *this_ );
+
+/*!
+ *  \brief gets the attribute search_result_diagrams as pointer
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the requested attribute
+ */
+static inline data_small_set_t * gui_sketch_request_get_search_result_diagrams_ptr( gui_sketch_request_t *this_ );
 
 
 #include "gui_sketch_request.inl"

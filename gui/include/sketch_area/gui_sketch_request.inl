@@ -7,7 +7,7 @@
 
 static inline void gui_sketch_request_init( gui_sketch_request_t *this_ )
 {
-    (*this_).selected_tool = GUI_TOOL_NAVIGATE;
+    (*this_).tool_mode = GUI_TOOL_NAVIGATE;
     data_id_init_void ( &((*this_).focused_diagram) );
     data_id_init_void ( &((*this_).parent_diagram) );
     data_small_set_init( &((*this_).search_result_diagrams) );
@@ -15,7 +15,7 @@ static inline void gui_sketch_request_init( gui_sketch_request_t *this_ )
 
 static inline void gui_sketch_request_reinit( gui_sketch_request_t *this_ )
 {
-    (*this_).selected_tool = GUI_TOOL_NAVIGATE;
+    (*this_).tool_mode = GUI_TOOL_NAVIGATE;
     data_id_reinit_void ( &((*this_).focused_diagram) );
     data_id_reinit_void ( &((*this_).parent_diagram) );
     data_small_set_reinit( &((*this_).search_result_diagrams) );
@@ -23,10 +23,83 @@ static inline void gui_sketch_request_reinit( gui_sketch_request_t *this_ )
 
 static inline void gui_sketch_request_destroy( gui_sketch_request_t *this_ )
 {
-    (*this_).selected_tool = GUI_TOOL_NAVIGATE;
+    (*this_).tool_mode = GUI_TOOL_NAVIGATE;
     data_id_destroy ( &((*this_).focused_diagram) );
     data_id_destroy ( &((*this_).parent_diagram) );
     data_small_set_destroy( &((*this_).search_result_diagrams) );
+}
+
+static inline gui_tool_t gui_sketch_request_get_tool_mode( const gui_sketch_request_t *this_ )
+{
+    return (*this_).tool_mode;
+}
+
+static inline void gui_sketch_request_set_tool_mode( gui_sketch_request_t *this_, gui_tool_t tool_mode )
+{
+    switch ( tool_mode )
+    {
+        case GUI_TOOL_NAVIGATE:
+        {
+            TRACE_INFO("GUI_TOOL_NAVIGATE");
+        }
+        break;
+
+        case GUI_TOOL_EDIT:
+        {
+            TRACE_INFO("GUI_TOOL_EDIT");
+        }
+        break;
+
+        case GUI_TOOL_SEARCH:
+        {
+            TRACE_INFO("GUI_TOOL_SEARCH");
+        }
+        break;
+
+        case GUI_TOOL_CREATE:
+        {
+            TRACE_INFO("GUI_TOOL_CREATE");
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR("selected_tool is out of range");
+        }
+        break;
+    }
+
+    (*this_).tool_mode = tool_mode;
+}
+
+static inline data_id_t gui_sketch_request_get_focused_diagram( const gui_sketch_request_t *this_ )
+{
+    return (*this_).focused_diagram;
+}
+
+static inline void gui_sketch_request_set_focused_diagram( gui_sketch_request_t *this_, data_id_t focused_diagram )
+{
+    (*this_).focused_diagram = focused_diagram;
+}
+
+static inline data_id_t gui_sketch_request_get_parent_diagram( const gui_sketch_request_t *this_ )
+{
+    return (*this_).parent_diagram;
+}
+
+static inline void gui_sketch_request_set_parent_diagram( gui_sketch_request_t *this_, data_id_t parent_diagram )
+{
+    (*this_).parent_diagram = parent_diagram;
+}
+
+static inline const data_small_set_t * gui_sketch_request_get_search_result_diagrams_const( const gui_sketch_request_t *this_ )
+{
+    return &((*this_).search_result_diagrams);
+}
+
+static inline data_small_set_t * gui_sketch_request_get_search_result_diagrams_ptr( gui_sketch_request_t *this_ )
+{
+    return &((*this_).search_result_diagrams);
 }
 
 
