@@ -6,6 +6,8 @@ crystal-facet-uml (1.27.3) UNRELEASED; urgency=medium
   * auto-delete relationships between classifiers that have no common diagram
   * when opening the second database, view switches back to navigation mode
   * when opening the second database, search entry field is cleared
+  * search result view is updated when changing the database (e.g. by undo)
+  * search result view stays when database update is triggered by a 2nd window
 
 -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 06 Feb 2021 15:00:00 +0100
 

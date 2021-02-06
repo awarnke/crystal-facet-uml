@@ -122,18 +122,44 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_sea
 {
     TRACE_BEGIN();
     assert( NULL != result_list );
+    
+    data_search_result_list_trace(result_list);
 
+    /* copy non-duplicate diagram ids to request list */
+    data_small_set_t* requested_diagrams = gui_sketch_request_get_search_result_diagrams_ptr( &((*this_).request) );
+    data_small_set_clear( requested_diagrams );
+    unsigned int dropped_duplicates = 0;
+    unsigned int dropped_too_many = 0;
+    const uint_fast32_t d_count = data_search_result_list_get_length( result_list );
+    for ( uint_fast32_t index = 0; index < d_count; index ++ )
+    {
+        const data_search_result_t *diag_rec = data_search_result_list_get_const( result_list, index );
+        const data_id_t diag_id = data_search_result_get_diagram_id( diag_rec );
+        const data_error_t d_err = data_small_set_add_obj( requested_diagrams, diag_id );
+        if ( d_err == DATA_ERROR_DUPLICATE_ID )
+        {
+            dropped_duplicates ++;
+        }
+        else if ( d_err == DATA_ERROR_ARRAY_BUFFER_EXCEEDED )
+        {
+            dropped_too_many ++;
+        }
+    }
+    if ( (dropped_duplicates + dropped_too_many) > 0 )
+    {
+        TRACE_INFO_INT_INT( "dropped_duplicates, dropped_too_many:", dropped_duplicates, dropped_too_many );
+    }
+    
     /* load new data */
+    gui_sketch_area_private_load_cards_data ( this_ );
+    
+    /* load new data in subwidgets */
     gui_sketch_result_list_load_data( &((*this_).result_list), result_list, (*this_).db_reader );
-    data_row_id_t go_back_id = gui_sketch_area_get_focused_diagram_id( this_ );
-    gui_sketch_area_private_load_data_list ( this_, result_list, go_back_id );
 
     /* notify listener */
-    data_id_t void_id;
-    data_id_init_void(&void_id);
-    gui_marked_set_set_focused( (*this_).marker, void_id );
+    gui_marked_set_set_focused( (*this_).marker, DATA_ID_VOID );
     gui_marked_set_set_focused_diagram( (*this_).marker, DATA_ROW_ID_VOID );
-    gui_sketch_area_private_notify_listeners( this_, void_id );
+    gui_sketch_area_private_notify_listeners( this_, DATA_ID_VOID );
     gui_marked_set_clear_selected_set( (*this_).marker );
 
     /* mark dirty rect */
@@ -181,7 +207,6 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
 void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, data_row_id_t main_diagram_id )
 {
     TRACE_BEGIN();
-    data_error_t db_err;
 
     /* destroy _all_ old cards */
     for ( int idx = 0; idx < (*this_).card_num; idx ++ )
@@ -195,12 +220,13 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, data_row_id_t
     {
         /* load all without parent */
         uint32_t count;
-        db_err = data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
-                                                                 DATA_ROW_ID_VOID,
-                                                                 GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS,
-                                                                 &((*this_).private_temp_diagram_buf),
-                                                                 &count
-                                                               );
+        const data_error_t db_err
+            = data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
+                                                              DATA_ROW_ID_VOID,
+                                                              GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS,
+                                                              &((*this_).private_temp_diagram_buf),
+                                                              &count
+                                                            );
         if ( DATA_ERROR_NONE != ( db_err & DATA_ERROR_NO_DB ) )
         {
             TRACE_INFO( "database not open.");
@@ -233,72 +259,12 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, data_row_id_t
         }
     }
 
+    /* store request */
+    gui_sketch_request_set_focused_diagram_row_id( &((*this_).request), main_diagram_id );
+    
     /* load data to be drawn */
-    gui_sketch_card_init( &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]) );
-    gui_sketch_card_load_data( &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]), main_diagram_id, (*this_).db_reader );
-    (*this_).card_num = 1;
-    gui_sketch_nav_tree_load_data( &((*this_).nav_tree), main_diagram_id, (*this_).db_reader );
-    gui_marked_set_set_focused_diagram( (*this_).marker, main_diagram_id );
-
-    gui_tool_t selected_tool;
-    selected_tool = gui_sketch_request_get_tool_mode( &((*this_).request) );
-    if ( GUI_TOOL_NAVIGATE == selected_tool )
-    {
-        /* determine ids */
-        data_row_id_t selected_diagram_id;
-        data_row_id_t parent_diagram_id;
-        data_diagram_t *selected_diag;
-        selected_diag = gui_sketch_area_get_focused_diagram_ptr( this_ );
-        selected_diagram_id = data_diagram_get_row_id( selected_diag );
-        TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
-        parent_diagram_id = data_diagram_get_parent_row_id( selected_diag );
-        TRACE_INFO_INT( "parent_diagram_id:", parent_diagram_id );
-
-        /* load parent even if there is no parent (-->VOID) */
-        gui_sketch_card_init( &((*this_).cards[GUI_SKETCH_AREA_CONST_PARENT_CARD]) );
-        gui_sketch_card_load_data( &((*this_).cards[GUI_SKETCH_AREA_CONST_PARENT_CARD]), parent_diagram_id, (*this_).db_reader );
-        (*this_).card_num = 2;
-
-        /* load all children (up to GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS)*/
-        uint32_t c_count;
-        db_err = data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
-                                                                 selected_diagram_id,
-                                                                 GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS,
-                                                                 &((*this_).private_temp_diagram_buf),
-                                                                 &c_count
-                                                               );
-        if ( DATA_ERROR_NONE != ( db_err & DATA_ERROR_NO_DB ) )
-        {
-            TRACE_INFO( "database not open.");
-        }
-        else if ( DATA_ERROR_NONE != db_err )
-        {
-            TSLOG_ERROR_HEX( "data_database_reader_get_diagrams_by_parent_id failed.", db_err );
-        }
-        else
-        {
-            for ( uint32_t index = 0; index < c_count; index ++ )
-            {
-                if ( (*this_).card_num < GUI_SKETCH_AREA_CONST_MAX_CARDS )
-                {
-                    data_row_id_t current_child_id;
-                    current_child_id = data_diagram_get_row_id( &((*this_).private_temp_diagram_buf[index]) );
-                    gui_sketch_card_init( &((*this_).cards[(*this_).card_num]) );
-                    gui_sketch_card_load_data( &((*this_).cards[(*this_).card_num]), current_child_id, (*this_).db_reader );
-                    (*this_).card_num ++;
-                    /* cleanup */
-                    data_diagram_destroy( &((*this_).private_temp_diagram_buf[index]) );
-                }
-                else
-                {
-                    TSLOG_ERROR_INT( "more diagrams loaded than fit into cards array!", c_count );
-                }
-            }
-        }
-    }
-    /* TODO else if GUI_TOOL_SEARCH ... */
-    /* possibly one should remove all semantics from the card indices and extract a gui_sketch_mission_t struct */
-
+    gui_sketch_area_private_load_cards_data ( this_ );
+    
     TRACE_END();
 }
 
@@ -347,57 +313,115 @@ void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ 
     TRACE_END();
 }
 
-void gui_sketch_area_private_load_data_list ( gui_sketch_area_t *this_, const data_search_result_list_t *result_list, data_row_id_t back_diagram_id )
+void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
 {
     TRACE_BEGIN();
-    assert( NULL != result_list );
 
-    data_search_result_list_trace(result_list);
-
-    /* even in search mode, load the focused card which is not displayed */
-    gui_sketch_area_private_load_data ( this_, back_diagram_id );
-
-    assert ( (*this_).card_num == GUI_SKETCH_AREA_CONST_FIRST_RESULT_CARD );
-
-    data_small_set_t duplicate_filter;
-    data_small_set_init( &duplicate_filter );
-    unsigned int dropped_duplicates = 0;
-    unsigned int dropped_too_many = 0;
-
-    const uint32_t d_count = data_search_result_list_get_length( result_list );
-    for ( uint32_t index = 0; index < d_count; index ++ )
+    switch ( gui_sketch_request_get_tool_mode( &((*this_).request) ) )
     {
-        if ( (*this_).card_num < GUI_SKETCH_AREA_CONST_MAX_CARDS )
+        case GUI_TOOL_SEARCH:
         {
-            const data_search_result_t *diag_rec = data_search_result_list_get_const( result_list, index );
-            const data_id_t diag_id = data_search_result_get_diagram_id( diag_rec );
-            if ( data_small_set_contains( &duplicate_filter, diag_id ) )
+            const data_small_set_t* requested_diagrams 
+                = gui_sketch_request_get_search_result_diagrams_const( &((*this_).request) );
+            
+            (*this_).card_num = 0;
+            const uint_fast32_t d_count = data_small_set_get_count( requested_diagrams );
+            for ( uint_fast32_t index = 0; index < d_count; index ++ )
             {
-                dropped_duplicates ++;
-            }
-            else
-            {
-                data_row_id_t diag_row_id = data_id_get_row_id( &diag_id );
+                const data_id_t diag_id = data_small_set_get_id( requested_diagrams, index );
+                if ( (*this_).card_num < GUI_SKETCH_AREA_CONST_MAX_CARDS )
                 {
                     gui_sketch_card_init( &((*this_).cards[(*this_).card_num]) );
-                    gui_sketch_card_load_data( &((*this_).cards[(*this_).card_num]), diag_row_id, (*this_).db_reader );
+                    gui_sketch_card_load_data( &((*this_).cards[(*this_).card_num]), data_id_get_row_id(&diag_id), (*this_).db_reader );
+                    if ( gui_sketch_card_is_valid( &((*this_).cards[(*this_).card_num]) ) )
+                    {
+                        (*this_).card_num ++;
+                    }
+                    else
+                    {
+                        TRACE_INFO_INT( "could not load diagram:", data_id_get_row_id(&diag_id) );
+                    }
                 }
-                (*this_).card_num ++;
-                data_small_set_add_obj( &duplicate_filter, diag_id );
+                else
+                {
+                    TRACE_INFO_INT( "max diagramx esxeeded, dropping diagram:", data_id_get_row_id(&diag_id) );
+                }
             }
         }
-        else
+        break;
+        
+        default:
         {
-            dropped_too_many ++;
+            data_row_id_t main_diagram_id = gui_sketch_request_get_focused_diagram_row_id( &((*this_).request) );
+            
+            gui_sketch_card_init( &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]) );
+            gui_sketch_card_load_data( &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]), main_diagram_id, (*this_).db_reader );
+            (*this_).card_num = 1;
+            gui_sketch_nav_tree_load_data( &((*this_).nav_tree), main_diagram_id, (*this_).db_reader );
+            gui_marked_set_set_focused_diagram( (*this_).marker, main_diagram_id );
+
+            gui_tool_t selected_tool;
+            selected_tool = gui_sketch_request_get_tool_mode( &((*this_).request) );
+            if ( GUI_TOOL_NAVIGATE == selected_tool )
+            {
+                /* determine ids */
+                data_row_id_t selected_diagram_id;
+                data_row_id_t parent_diagram_id;
+                data_diagram_t *selected_diag;
+                selected_diag = gui_sketch_area_get_focused_diagram_ptr( this_ );
+                selected_diagram_id = data_diagram_get_row_id( selected_diag );
+                TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
+                parent_diagram_id = data_diagram_get_parent_row_id( selected_diag );
+                TRACE_INFO_INT( "parent_diagram_id:", parent_diagram_id );
+
+                /* load parent even if there is no parent (-->VOID) */
+                gui_sketch_card_init( &((*this_).cards[GUI_SKETCH_AREA_CONST_PARENT_CARD]) );
+                gui_sketch_card_load_data( &((*this_).cards[GUI_SKETCH_AREA_CONST_PARENT_CARD]), parent_diagram_id, (*this_).db_reader );
+                (*this_).card_num = 2;
+
+                /* load all children (up to GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS)*/
+                uint32_t c_count;
+                const data_error_t db_err
+                    = data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
+                                                                      selected_diagram_id,
+                                                                      GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS,
+                                                                      &((*this_).private_temp_diagram_buf),
+                                                                      &c_count
+                                                                    );
+                if ( DATA_ERROR_NONE != ( db_err & DATA_ERROR_NO_DB ) )
+                {
+                    TRACE_INFO( "database not open.");
+                }
+                else if ( DATA_ERROR_NONE != db_err )
+                {
+                    TSLOG_ERROR_HEX( "data_database_reader_get_diagrams_by_parent_id failed.", db_err );
+                }
+                else
+                {
+                    for ( uint32_t index = 0; index < c_count; index ++ )
+                    {
+                        if ( (*this_).card_num < GUI_SKETCH_AREA_CONST_MAX_CARDS )
+                        {
+                            data_row_id_t current_child_id;
+                            current_child_id = data_diagram_get_row_id( &((*this_).private_temp_diagram_buf[index]) );
+                            gui_sketch_card_init( &((*this_).cards[(*this_).card_num]) );
+                            gui_sketch_card_load_data( &((*this_).cards[(*this_).card_num]), current_child_id, (*this_).db_reader );
+                            (*this_).card_num ++;
+                            /* cleanup */
+                            data_diagram_destroy( &((*this_).private_temp_diagram_buf[index]) );
+                        }
+                        else
+                        {
+                            TSLOG_ERROR_INT( "more diagrams loaded than fit into cards array!", c_count );
+                        }
+                    }
+                }
+            }
+            
         }
+        break;
     }
-
-    if ( (dropped_duplicates + dropped_too_many) > 0 )
-    {
-        TRACE_INFO_INT_INT( "dropped_duplicates, dropped_too_many:", dropped_duplicates, dropped_too_many );
-    }
-    data_small_set_destroy( &duplicate_filter );
-
+ 
     TRACE_END();
 }
 

@@ -71,23 +71,14 @@ void gui_sketch_card_layouter_layout ( gui_sketch_card_layouter_t *this_,
         {
             shape_int_rectangle_t card_bounds;
 
-            /* self: exists - but is not shown */
-            assert(cards_num >= GUI_SKETCH_AREA_CONST_FOCUSED_CARD);
-            {
-                shape_int_rectangle_init( &card_bounds, left+width, top, 0, 0 );
-                gui_sketch_card_set_bounds( &(io_cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]), card_bounds );
-                gui_sketch_card_set_visible( &(io_cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]), false );
-            }
-
             /* search results */
-            assert(cards_num >= GUI_SKETCH_AREA_CONST_FIRST_RESULT_CARD);
             {
                 shape_int_rectangle_init( &card_bounds, left, top, width, height );
                 gui_sketch_card_layouter_private_layout_to_grid( this_,
                                                                  &card_bounds,
                                                                  focus_card_height,
-                                                                 &(io_cards[GUI_SKETCH_AREA_CONST_FIRST_RESULT_CARD]),
-                                                                 cards_num-GUI_SKETCH_AREA_CONST_FIRST_RESULT_CARD,
+                                                                 io_cards,
+                                                                 cards_num,
                                                                  cr
                                                                );
             }
