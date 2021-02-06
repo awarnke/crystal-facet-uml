@@ -4,10 +4,10 @@
 #include "trace.h"
 #include <assert.h>
 
-static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_, data_row_id_t diagram_row_id, data_database_reader_t *db_reader )
+static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_, data_id_t diagram_id, data_database_reader_t *db_reader )
 {
     /* load data to be drawn */
-    const data_error_t d_err = data_visible_set_load( &((*this_).painter_input_data), diagram_row_id, db_reader );
+    const data_error_t d_err = data_visible_set_load( &((*this_).painter_input_data), data_id_get_row_id( &diagram_id ), db_reader );
     if ( d_err != DATA_ERROR_NONE )
     {
         TRACE_INFO( "gui_sketch_card_load_data called on invalid database." );
@@ -248,7 +248,7 @@ static inline int32_t gui_sketch_card_get_highest_rel_list_order( const gui_sket
     return result;
 }
 
-static inline int32_t gui_sketch_card_get_highest_feat_list_order( const gui_sketch_card_t *this_, data_row_id_t classifier_row_id )
+static inline int32_t gui_sketch_card_get_highest_feat_list_order( const gui_sketch_card_t *this_, data_id_t classifier_id )
 {
     int32_t result = 0;
 
@@ -261,7 +261,7 @@ static inline int32_t gui_sketch_card_get_highest_feat_list_order( const gui_ske
             const data_feature_type_t f_type = data_feature_get_main_type( feat );
             if (( f_type == DATA_FEATURE_TYPE_PROPERTY )||( f_type == DATA_FEATURE_TYPE_OPERATION ))
             {
-                if ( data_feature_get_classifier_row_id( feat ) == classifier_row_id )
+                if ( data_feature_get_classifier_row_id( feat ) == data_id_get_row_id( &classifier_id ) )
                 {
                     if ( data_feature_get_list_order( feat ) > result )
                     {

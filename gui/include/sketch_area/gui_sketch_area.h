@@ -44,7 +44,6 @@ enum gui_sketch_area_const_enum {
     GUI_SKETCH_AREA_CONST_PARENT_CARD = 1,  /*!< index of the card showing the parent diagram */
     GUI_SKETCH_AREA_CONST_FOCUSED_CARD = 0,  /*!< index of the card showing the currently focused diagram */
     GUI_SKETCH_AREA_CONST_FIRST_CHILD_CARD = 2,  /*!< index of the card showing the first child diagram */
-    GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS = 20,  /*!< maximum size of temporary diagram buffer */
 };
 
 /*!
@@ -76,7 +75,6 @@ struct gui_sketch_area_struct {
     gui_sketch_result_list_t result_list;  /*!< own instance of a search result list sub-widget */
 
     /* internal data structures */
-    data_diagram_t private_temp_diagram_buf[GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS];
     data_feature_t private_temp_fake_feature;
 };
 
@@ -127,7 +125,7 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_sea
  *  \param this_ pointer to own object attributes
  *  \param main_diagram_id id of the main diagram to be shown or DATA_ROW_ID_VOID for root diagram
  */
-void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, data_row_id_t main_diagram_id );
+void gui_sketch_area_show_diagram ( gui_sketch_area_t *this_, data_id_t main_diagram_id );
 
 /*!
  *  \brief loads the cards and result_list data to be shown in search mode

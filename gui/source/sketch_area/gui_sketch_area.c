@@ -77,7 +77,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
     }
 
     /* fetch initial data from the database */
-    gui_sketch_area_private_load_data( this_, DATA_ROW_ID_VOID );
+    gui_sketch_area_show_diagram( this_, DATA_ID_VOID );
 
     TRACE_END();
 }
@@ -204,29 +204,24 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
     return FALSE;
 }
 
-void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, data_row_id_t main_diagram_id )
+void gui_sketch_area_show_diagram ( gui_sketch_area_t *this_, data_id_t main_diagram_id )
 {
     TRACE_BEGIN();
-
-    /* destroy _all_ old cards */
-    for ( int idx = 0; idx < (*this_).card_num; idx ++ )
-    {
-        gui_sketch_card_destroy( &((*this_).cards[idx]) );
-    }
-    (*this_).card_num = 0;
+    
+    data_id_trace( &main_diagram_id );
 
     /* determine diagram id of root diagram */
-    if ( DATA_ROW_ID_VOID == main_diagram_id )
+    if ( ! data_id_is_valid( &main_diagram_id ) )
     {
         /* load all without parent */
-        uint32_t count;
+        data_small_set_t roots;
+        data_small_set_init( &roots );
         const data_error_t db_err
-            = data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
-                                                              DATA_ROW_ID_VOID,
-                                                              GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS,
-                                                              &((*this_).private_temp_diagram_buf),
-                                                              &count
-                                                            );
+            = data_database_reader_get_diagram_ids_by_parent_id( (*this_).db_reader,
+                                                                 DATA_ROW_ID_VOID,
+                                                                 &roots
+                                                               );
+        const uint32_t count = data_small_set_get_count( &roots );
         if ( DATA_ERROR_NONE != ( db_err & DATA_ERROR_NO_DB ) )
         {
             TRACE_INFO( "database not open.");
@@ -245,22 +240,16 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, data_row_id_t
         }
         else
         {
-            main_diagram_id = data_diagram_get_row_id( &((*this_).private_temp_diagram_buf[0]) );
-            TRACE_INFO_INT( "main_diagram_id:", main_diagram_id );
+            main_diagram_id = data_small_set_get_id( &roots, 0 );
+            TRACE_INFO_INT( "main_diagram_id:", data_id_get_row_id( &main_diagram_id ));
         }
 
         /* cleanup */
-        if ( DATA_ERROR_NONE == db_err )
-        {
-            for ( uint32_t index = 0; index < count; index ++ )
-            {
-                data_diagram_destroy( &((*this_).private_temp_diagram_buf[index]) );
-            }
-        }
+        data_small_set_destroy( &roots );
     }
 
     /* store request */
-    gui_sketch_request_set_focused_diagram_row_id( &((*this_).request), main_diagram_id );
+    gui_sketch_request_set_focused_diagram( &((*this_).request), main_diagram_id );
     
     /* load data to be drawn */
     gui_sketch_area_private_load_cards_data ( this_ );
@@ -273,41 +262,30 @@ void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ 
     TRACE_BEGIN();
 
     /* determine currently selected diagram id and parent id from cache for emergency-fallback */
-    data_row_id_t former_diagram_id;
-    data_row_id_t former_parent_diagram_id;
-    //data_id_t former_focused_element;
-    {
-        data_diagram_t *former_diagram;
-        former_diagram = gui_sketch_area_get_focused_diagram_ptr ( this_ );
-        former_diagram_id = data_diagram_get_row_id( former_diagram );
-        former_parent_diagram_id = data_diagram_get_parent_row_id( former_diagram );
-        TRACE_INFO_INT_INT( "former_diagram_id, former_parent_diagram_id:", former_diagram_id, former_parent_diagram_id );
-        //former_focused_element = gui_marked_set_get_focused( (*this_).marker );
-    }
+    const data_id_t former_diagram_id = gui_sketch_request_get_focused_diagram( &((*this_).request) );
+    const data_id_t former_parent_diagram_id = gui_sketch_request_get_parent_diagram( &((*this_).request) );
 
     /* reload diagram data */
-    gui_sketch_area_private_load_data( this_, former_diagram_id );
+    gui_sketch_area_show_diagram( this_, former_diagram_id );
 
-    if (( DATA_ROW_ID_VOID != former_diagram_id )
-        &&( DATA_ROW_ID_VOID == gui_sketch_area_get_focused_diagram_id( this_ ) ))
+    if ( GUI_TOOL_SEARCH != gui_sketch_request_get_tool_mode( &((*this_).request) ) )
     {
-        /* the requested diagram was not loaded, try the parent: */
-        gui_sketch_area_private_load_data( this_, former_parent_diagram_id );
-
-        if (( DATA_ROW_ID_VOID != former_parent_diagram_id )
+        if ( data_id_is_valid( &former_diagram_id )
             &&( DATA_ROW_ID_VOID == gui_sketch_area_get_focused_diagram_id( this_ ) ))
         {
-            /* the requested diagram was not loaded, go back to root diagram: */
-            gui_sketch_area_private_load_data( this_, DATA_ROW_ID_VOID );
-        }
+            /* the requested diagram was not loaded, try the parent: */
+            gui_sketch_area_show_diagram( this_, former_parent_diagram_id );
 
-        /* clear the selected set */
-        gui_marked_set_clear_selected_set( (*this_).marker );
-    }
-    else
-    {
-        /* restore the focused element */
-        //vi gui_marked_set_set_focused( (*this_).marker, former_focused_element );
+            if ( data_id_is_valid( &former_parent_diagram_id )
+                &&( DATA_ROW_ID_VOID == gui_sketch_area_get_focused_diagram_id( this_ ) ))
+            {
+                /* the requested diagram was not loaded, go back to root diagram: */
+                gui_sketch_area_show_diagram( this_, DATA_ID_VOID );
+            }
+
+            /* clear the selected set */
+            gui_marked_set_clear_selected_set( (*this_).marker );
+        }
     }
 
     TRACE_END();
@@ -316,7 +294,15 @@ void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ 
 void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
 {
     TRACE_BEGIN();
+    
+    /* destroy _all_ old cards */
+    for ( uint_fast32_t idx = 0; idx < (*this_).card_num; idx ++ )
+    {
+        gui_sketch_card_destroy( &((*this_).cards[idx]) );
+    }
+    (*this_).card_num = 0;
 
+    /* load new cards */
     switch ( gui_sketch_request_get_tool_mode( &((*this_).request) ) )
     {
         case GUI_TOOL_SEARCH:
@@ -324,7 +310,6 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
             const data_small_set_t* requested_diagrams 
                 = gui_sketch_request_get_search_result_diagrams_const( &((*this_).request) );
             
-            (*this_).card_num = 0;
             const uint_fast32_t d_count = data_small_set_get_count( requested_diagrams );
             for ( uint_fast32_t index = 0; index < d_count; index ++ )
             {
@@ -332,7 +317,7 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
                 if ( (*this_).card_num < GUI_SKETCH_AREA_CONST_MAX_CARDS )
                 {
                     gui_sketch_card_init( &((*this_).cards[(*this_).card_num]) );
-                    gui_sketch_card_load_data( &((*this_).cards[(*this_).card_num]), data_id_get_row_id(&diag_id), (*this_).db_reader );
+                    gui_sketch_card_load_data( &((*this_).cards[(*this_).card_num]), diag_id, (*this_).db_reader );
                     if ( gui_sketch_card_is_valid( &((*this_).cards[(*this_).card_num]) ) )
                     {
                         (*this_).card_num ++;
@@ -352,27 +337,27 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
         
         default:
         {
-            data_row_id_t main_diagram_id = gui_sketch_request_get_focused_diagram_row_id( &((*this_).request) );
+            data_id_t main_diagram_id = gui_sketch_request_get_focused_diagram( &((*this_).request) );
             
             gui_sketch_card_init( &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]) );
             gui_sketch_card_load_data( &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]), main_diagram_id, (*this_).db_reader );
             (*this_).card_num = 1;
-            gui_sketch_nav_tree_load_data( &((*this_).nav_tree), main_diagram_id, (*this_).db_reader );
-            gui_marked_set_set_focused_diagram( (*this_).marker, main_diagram_id );
+            gui_sketch_nav_tree_load_data( &((*this_).nav_tree), data_id_get_row_id( &main_diagram_id ), (*this_).db_reader );
+            gui_marked_set_set_focused_diagram( (*this_).marker, data_id_get_row_id( &main_diagram_id ) );
 
-            gui_tool_t selected_tool;
-            selected_tool = gui_sketch_request_get_tool_mode( &((*this_).request) );
+            /* determine ids */
+            const data_diagram_t *selected_diag = gui_sketch_area_get_focused_diagram_ptr( this_ );
+            const data_row_id_t selected_diagram_row_id = data_diagram_get_row_id( selected_diag );
+            TRACE_INFO_INT( "selected_diagram_row_id:", selected_diagram_row_id );
+            const data_id_t parent_diagram_id = data_diagram_get_parent_data_id( selected_diag );
+            TRACE_INFO_INT( "parent_diagram_id:", data_id_get_row_id( &parent_diagram_id ) );
+            
+            gui_sketch_request_set_parent_diagram( &((*this_).request), parent_diagram_id );
+                
+            const gui_tool_t selected_tool
+                = gui_sketch_request_get_tool_mode( &((*this_).request) );
             if ( GUI_TOOL_NAVIGATE == selected_tool )
             {
-                /* determine ids */
-                data_row_id_t selected_diagram_id;
-                data_row_id_t parent_diagram_id;
-                data_diagram_t *selected_diag;
-                selected_diag = gui_sketch_area_get_focused_diagram_ptr( this_ );
-                selected_diagram_id = data_diagram_get_row_id( selected_diag );
-                TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
-                parent_diagram_id = data_diagram_get_parent_row_id( selected_diag );
-                TRACE_INFO_INT( "parent_diagram_id:", parent_diagram_id );
 
                 /* load parent even if there is no parent (-->VOID) */
                 gui_sketch_card_init( &((*this_).cards[GUI_SKETCH_AREA_CONST_PARENT_CARD]) );
@@ -380,42 +365,40 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
                 (*this_).card_num = 2;
 
                 /* load all children (up to GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS)*/
-                uint32_t c_count;
+                data_small_set_t children;
+                data_small_set_init( &children );
                 const data_error_t db_err
-                    = data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
-                                                                      selected_diagram_id,
-                                                                      GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS,
-                                                                      &((*this_).private_temp_diagram_buf),
-                                                                      &c_count
-                                                                    );
+                    = data_database_reader_get_diagram_ids_by_parent_id( (*this_).db_reader,
+                                                                         selected_diagram_row_id,
+                                                                         &children
+                                                                       );
                 if ( DATA_ERROR_NONE != ( db_err & DATA_ERROR_NO_DB ) )
                 {
                     TRACE_INFO( "database not open.");
                 }
                 else if ( DATA_ERROR_NONE != db_err )
                 {
-                    TSLOG_ERROR_HEX( "data_database_reader_get_diagrams_by_parent_id failed.", db_err );
+                    TSLOG_ERROR_HEX( "data_database_reader_get_diagram_ids_by_parent_id failed.", db_err );
                 }
                 else
                 {
-                    for ( uint32_t index = 0; index < c_count; index ++ )
+                    for ( uint_fast32_t index = 0; index < data_small_set_get_count( &children ); index ++ )
                     {
+                        const data_id_t child = data_small_set_get_id( &children, index );
                         if ( (*this_).card_num < GUI_SKETCH_AREA_CONST_MAX_CARDS )
                         {
-                            data_row_id_t current_child_id;
-                            current_child_id = data_diagram_get_row_id( &((*this_).private_temp_diagram_buf[index]) );
                             gui_sketch_card_init( &((*this_).cards[(*this_).card_num]) );
-                            gui_sketch_card_load_data( &((*this_).cards[(*this_).card_num]), current_child_id, (*this_).db_reader );
+                            gui_sketch_card_load_data( &((*this_).cards[(*this_).card_num]), child, (*this_).db_reader );
                             (*this_).card_num ++;
-                            /* cleanup */
-                            data_diagram_destroy( &((*this_).private_temp_diagram_buf[index]) );
                         }
                         else
                         {
-                            TSLOG_ERROR_INT( "more diagrams loaded than fit into cards array!", c_count );
+                            TSLOG_ERROR_INT( "more children diagrams exist than fit into cards array:", data_id_get_row_id( &child ) );
                         }
                     }
                 }
+                /* cleanup */
+                data_small_set_destroy( &children );
             }
             
         }
@@ -876,12 +859,13 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                         }
                         else
                         {
-                            /* load/reload data to be drawn */
-                            gui_sketch_area_private_load_data( this_, new_diag_id );
-
-                            /* notify listener */
                             data_id_t focused_id;
                             data_id_init( &focused_id, DATA_TABLE_DIAGRAM, new_diag_id );
+                            
+                            /* load/reload data to be drawn */
+                            gui_sketch_area_show_diagram( this_, focused_id );
+
+                            /* notify listener */
                             gui_marked_set_set_focused( (*this_).marker, focused_id );
                             gui_sketch_area_private_notify_listeners( this_, focused_id );
                             gui_marked_set_clear_selected_set( (*this_).marker );
@@ -1242,7 +1226,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                         else
                         {
                             /* load/reload data to be drawn */
-                            gui_sketch_area_private_load_data( this_, drag_id );
+                            gui_sketch_area_show_diagram( this_, dragged_diagram );
 
                             /* notify listener */
                             gui_marked_set_set_focused( (*this_).marker, dragged_diagram );
@@ -1388,10 +1372,8 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     dragged_diagram = data_id_pair_get_primary_id( dragged_object );
                     if ( DATA_TABLE_DIAGRAM == data_id_get_table( &dragged_diagram ) )
                     {
-                        const data_row_id_t drag_id = data_id_get_row_id( &dragged_diagram );
-
                         /* load/reload data to be drawn */
-                        gui_sketch_area_private_load_data( this_, drag_id );
+                        gui_sketch_area_show_diagram( this_, dragged_diagram );
 
                         /* notify listener */
                         gui_marked_set_set_focused( (*this_).marker, dragged_diagram );
@@ -1540,7 +1522,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
 
                             /* propose a list_order for the feature */
                             int32_t std_list_order_proposal = 0;
-                            std_list_order_proposal = gui_sketch_card_get_highest_feat_list_order( target_card, classifier_id ) + 32768;
+                            std_list_order_proposal = gui_sketch_card_get_highest_feat_list_order( target_card, dragged_classifier ) + 32768;
                             int32_t port_list_order_proposal = 0;
                             {
                                 data_feature_init ( &((*this_).private_temp_fake_feature),
