@@ -39,26 +39,26 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
 
     switch ( selected_tool )
     {
-        case GUI_TOOLBOX_NAVIGATE:
+        case GUI_TOOL_NAVIGATE:
         {
             gui_sketch_overlay_private_draw_nav_mode( this_, drag_state, nav_tree, cr );
         }
         break;
 
-        case GUI_TOOLBOX_EDIT:
+        case GUI_TOOL_EDIT:
         {
             gui_sketch_overlay_private_draw_edit_mode( this_, drag_state, card_under_mouse, cr );
         }
         break;
 
-        case GUI_TOOLBOX_CREATE:
+        case GUI_TOOL_CREATE:
         {
             const data_id_t highlighted = gui_marked_set_get_highlighted( marked_objects );
             gui_sketch_overlay_private_draw_create_mode( this_, drag_state, card_under_mouse, data_id_get_table(&highlighted), cr );
         }
         break;
 
-        case GUI_TOOLBOX_SEARCH:
+        case GUI_TOOL_SEARCH:
         {
         }
         break;

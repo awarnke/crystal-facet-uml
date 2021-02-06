@@ -62,7 +62,7 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
                             );
 
 /*!
- *  \brief draws overlay graphics for GUI_TOOLBOX_NAVIGATE mode to the cairo context
+ *  \brief draws overlay graphics for GUI_TOOL_NAVIGATE mode to the cairo context
  *
  *  \param this_ pointer to own object attributes
  *  \param drag_state current dragging status
@@ -76,7 +76,7 @@ void gui_sketch_overlay_private_draw_nav_mode( gui_sketch_overlay_t *this_,
                                              );
 
 /*!
- *  \brief draws overlay graphics for GUI_TOOLBOX_EDIT mode to the cairo context
+ *  \brief draws overlay graphics for GUI_TOOL_EDIT mode to the cairo context
  *
  *  \param this_ pointer to own object attributes
  *  \param drag_state current dragging status
@@ -90,7 +90,7 @@ void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
                                               );
 
 /*!
- *  \brief draws overlay graphics for GUI_TOOLBOX_CREATE mode to the cairo context
+ *  \brief draws overlay graphics for GUI_TOOL_CREATE mode to the cairo context
  *
  *  \param this_ pointer to own object attributes
  *  \param drag_state current dragging status

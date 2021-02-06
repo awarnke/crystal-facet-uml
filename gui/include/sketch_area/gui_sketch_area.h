@@ -15,6 +15,7 @@
 #include "sketch_area/gui_sketch_object_creator.h"
 #include "sketch_area/gui_sketch_overlay.h"
 #include "sketch_area/gui_sketch_background.h"
+#include "sketch_area/gui_sketch_request.h"
 #include "gui_toolbox.h"
 #include "gui_marked_set.h"
 #include "gui_resources.h"
@@ -59,6 +60,9 @@ struct gui_sketch_area_struct {
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
     gui_marked_set_t *marker;  /*!< pointer to external marker */
     GtkWidget *drawing_area;  /*!< pointer to the gtk drawing area, used as origin for selected-object-changed signals */
+
+    /* the quest */
+    gui_sketch_request_t request;  /*!< own instance of the requested tool-mode and diagram-ids */
 
     /* helper objects */
     gui_sketch_drag_state_t drag_state;  /*!< own instance of the drag state */
@@ -127,7 +131,7 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_sea
 void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, data_row_id_t main_diagram_id );
 
 /*!
- *  \brief loads the cards and result_list data to be shown in seach mode
+ *  \brief loads the cards and result_list data to be shown in search mode
  *
  *  \param this_ pointer to own object attributes
  *  \param result_list list of search results including their diagram ids to be displayed

@@ -9,25 +9,25 @@ static inline void gui_toolbox_set_selected_tool ( gui_toolbox_t *this_, gui_too
 {
     switch ( tool )
     {
-        case GUI_TOOLBOX_NAVIGATE:
+        case GUI_TOOL_NAVIGATE:
         {
             gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_navigate ), true );
         }
         break;
 
-        case GUI_TOOLBOX_EDIT:
+        case GUI_TOOL_EDIT:
         {
             gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_edit ), true );
         }
         break;
 
-        case GUI_TOOLBOX_SEARCH:
+        case GUI_TOOL_SEARCH:
         {
             gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_search ), true );
         }
         break;
 
-        case GUI_TOOLBOX_CREATE:
+        case GUI_TOOL_CREATE:
         {
             gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_create ), true );
         }

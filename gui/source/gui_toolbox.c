@@ -35,7 +35,7 @@ void gui_toolbox_init ( gui_toolbox_t *this_,
     assert( NULL != db_reader );
     assert( NULL != controller );
 
-    (*this_).selected_tool = GUI_TOOLBOX_NAVIGATE;
+    (*this_).selected_tool = GUI_TOOL_NAVIGATE;
 #if 0
     (*this_).listener = NULL;
 #endif
@@ -107,7 +107,7 @@ void gui_toolbox_navigate_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    (*this_).selected_tool = GUI_TOOLBOX_NAVIGATE;
+    (*this_).selected_tool = GUI_TOOL_NAVIGATE;
 
     gui_toolbox_private_notify_listeners( this_ );
 
@@ -122,7 +122,7 @@ void gui_toolbox_edit_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    (*this_).selected_tool = GUI_TOOLBOX_EDIT;
+    (*this_).selected_tool = GUI_TOOL_EDIT;
 
     gui_toolbox_private_notify_listeners( this_ );
 
@@ -137,7 +137,7 @@ void gui_toolbox_create_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    (*this_).selected_tool = GUI_TOOLBOX_CREATE;
+    (*this_).selected_tool = GUI_TOOL_CREATE;
 
     gui_toolbox_private_notify_listeners( this_ );
 
@@ -152,7 +152,7 @@ void gui_toolbox_search_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    (*this_).selected_tool = GUI_TOOLBOX_SEARCH;
+    (*this_).selected_tool = GUI_TOOL_SEARCH;
 
     gui_toolbox_private_notify_listeners( this_ );
 

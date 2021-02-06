@@ -68,23 +68,23 @@ void gui_search_request_tool_changed_callback( GtkWidget *widget, gui_tool_t too
 
     switch ( tool )
     {
-        case GUI_TOOLBOX_NAVIGATE:
+        case GUI_TOOL_NAVIGATE:
         {
-            TRACE_INFO("GUI_TOOLBOX_NAVIGATE");
+            TRACE_INFO("GUI_TOOL_NAVIGATE");
             gui_search_request_hide( this_ );
         }
         break;
 
-        case GUI_TOOLBOX_EDIT:
+        case GUI_TOOL_EDIT:
         {
-            TRACE_INFO("GUI_TOOLBOX_EDIT");
+            TRACE_INFO("GUI_TOOL_EDIT");
             gui_search_request_hide( this_ );
         }
         break;
 
-        case GUI_TOOLBOX_SEARCH:
+        case GUI_TOOL_SEARCH:
         {
-            TRACE_INFO("GUI_TOOLBOX_SEARCH");
+            TRACE_INFO("GUI_TOOL_SEARCH");
             gui_search_request_show( this_ );
 
             /* re-trigger the last search - otherwise the screen stays empty */
@@ -100,9 +100,9 @@ void gui_search_request_tool_changed_callback( GtkWidget *widget, gui_tool_t too
         }
         break;
 
-        case GUI_TOOLBOX_CREATE:
+        case GUI_TOOL_CREATE:
         {
-            TRACE_INFO("GUI_TOOLBOX_CREATE");
+            TRACE_INFO("GUI_TOOL_CREATE");
             gui_search_request_hide( this_ );
         }
         break;

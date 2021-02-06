@@ -269,6 +269,7 @@ static inline bool data_rules_diagram_shows_scenario_relationships ( const data_
  *  \param to_f_type the type of feature at target end; DATA_FEATURE_TYPE_VOID if no feature specified
  *  \return true if relationship type betweeen classifiers is compliant to spec, false otherwise.
  */
+/*
 static inline bool data_rules_is_relationship_compliant ( const data_rules_t *this_,
                                                           data_relationship_type_t relation_type,
                                                           data_classifier_type_t from_c_type,
@@ -276,6 +277,7 @@ static inline bool data_rules_is_relationship_compliant ( const data_rules_t *th
                                                           data_classifier_type_t to_c_type,
                                                           data_feature_type_t to_f_type
                                                         );
+*/
 
 #include "data_rules.inl"
 

@@ -14,10 +14,10 @@
  *  \brief enumeration on tools
  */
 enum gui_tool_enum {
-    GUI_TOOLBOX_NAVIGATE,
-    GUI_TOOLBOX_EDIT,
-    GUI_TOOLBOX_CREATE,
-    GUI_TOOLBOX_SEARCH,
+    GUI_TOOL_NAVIGATE,
+    GUI_TOOL_EDIT,
+    GUI_TOOL_CREATE,
+    GUI_TOOL_SEARCH,
 };
 
 typedef enum gui_tool_enum gui_tool_t;

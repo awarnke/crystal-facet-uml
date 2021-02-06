@@ -9,6 +9,11 @@ static inline void data_small_set_init ( data_small_set_t *this_ )
     (*this_).count = 0;
 }
 
+static inline void data_small_set_reinit ( data_small_set_t *this_ )
+{
+    data_small_set_clear( this_ );
+}
+
 static inline void data_small_set_destroy ( data_small_set_t *this_ )
 {
     assert( (*this_).count <= DATA_SMALL_SET_MAX_SET_SIZE );

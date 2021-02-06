@@ -428,7 +428,6 @@ static void diagramelement_to_lifeline_consistency(void)
 
 static void no_hidden_relationships(void)
 {
-    /* TODO */
     ctrl_diagram_controller_t *diagram_ctrl;
     diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
     

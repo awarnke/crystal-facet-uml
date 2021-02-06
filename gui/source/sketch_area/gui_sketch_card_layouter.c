@@ -67,7 +67,7 @@ void gui_sketch_card_layouter_layout ( gui_sketch_card_layouter_t *this_,
     /* layout cards */
     switch( selected_tool )
     {
-        case GUI_TOOLBOX_SEARCH:
+        case GUI_TOOL_SEARCH:
         {
             shape_int_rectangle_t card_bounds;
 
@@ -94,7 +94,7 @@ void gui_sketch_card_layouter_layout ( gui_sketch_card_layouter_t *this_,
         }
         break;
 
-        case GUI_TOOLBOX_NAVIGATE:
+        case GUI_TOOL_NAVIGATE:
         {
             shape_int_rectangle_t card_bounds;
 
@@ -141,8 +141,8 @@ void gui_sketch_card_layouter_layout ( gui_sketch_card_layouter_t *this_,
         }
         break;
 
-        case GUI_TOOLBOX_EDIT:  /* or */
-        case GUI_TOOLBOX_CREATE:
+        case GUI_TOOL_EDIT:  /* or */
+        case GUI_TOOL_CREATE:
         {
             shape_int_rectangle_t card_bounds;
 

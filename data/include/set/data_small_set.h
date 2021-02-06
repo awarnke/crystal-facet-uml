@@ -45,6 +45,13 @@ typedef struct data_small_set_struct data_small_set_t;
 static inline void data_small_set_init ( data_small_set_t *this_ );
 
 /*!
+ *  \brief reinitializes the data_small_set_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void data_small_set_reinit ( data_small_set_t *this_ );
+
+/*!
  *  \brief destroys the data_small_set_t struct
  *
  *  \param this_ pointer to own object attributes
