@@ -209,6 +209,8 @@ void gui_sketch_area_show_diagram ( gui_sketch_area_t *this_, data_id_t main_dia
     TRACE_BEGIN();
     
     data_id_trace( &main_diagram_id );
+    uint32_t src_results_cnt = data_small_set_get_count( gui_sketch_request_get_search_result_diagrams_const( &((*this_).request) ) );
+    TRACE_INFO_INT( "src_results_cnt:", src_results_cnt );
 
     /* determine diagram id of root diagram */
     if ( ! data_id_is_valid( &main_diagram_id ) )
@@ -1674,6 +1676,7 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_messa
     if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_OPENED )
     {
         /* go to navigation mode, show root */
+        gui_sketch_request_reinit( &((*this_).request) );
         gui_toolbox_set_selected_tool( (*this_).toolbox, GUI_TOOL_NAVIGATE );
         gui_sketch_area_show_diagram( this_, DATA_ID_VOID );
     }

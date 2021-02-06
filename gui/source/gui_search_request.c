@@ -86,17 +86,6 @@ void gui_search_request_tool_changed_callback( GtkWidget *widget, gui_tool_t too
         {
             TRACE_INFO("GUI_TOOL_SEARCH");
             gui_search_request_show( this_ );
-
-            /* re-trigger the last search - otherwise the screen stays empty */
-            /* would the sketch area store the result list, old search results would be displayed */
-            const char *text = gtk_entry_get_text( GTK_ENTRY( (*this_).search_entry ) );
-            if ( text != NULL )
-            {
-                if ( 0 != utf8string_get_length( text ) )
-                {
-                    gui_search_runner_run ( (*this_).search_runner, text );
-                }
-            }
         }
         break;
 
