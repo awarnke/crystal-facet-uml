@@ -1673,7 +1673,9 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_messa
 
     if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_OPENED )
     {
+        /* go to navigation mode, show root */
         gui_toolbox_set_selected_tool( (*this_).toolbox, GUI_TOOL_NAVIGATE );
+        gui_sketch_area_show_diagram( this_, DATA_ID_VOID );
     }
                             
     /* load/reload data to be drawn */
@@ -1694,7 +1696,7 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_tool_t tool, 
 
     gui_sketch_request_set_tool_mode( &((*this_).request), tool );
     
-    /* load/reload data to be drawn - depending on the tool, other data may be needed */
+    /* load/reload data to be drawn */
     gui_sketch_area_private_refocus_and_reload_data( this_ );
 
     /* mark dirty rect */
