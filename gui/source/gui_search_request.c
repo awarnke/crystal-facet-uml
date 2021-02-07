@@ -66,6 +66,8 @@ void gui_search_request_tool_changed_callback( GtkWidget *widget, gui_tool_t too
     gui_search_request_t *this_ = data;
     assert( NULL != this_ );
 
+    /* info: This function is called once for activating a tool and once for deactiaving it! */
+    
     switch ( tool )
     {
         case GUI_TOOL_NAVIGATE:

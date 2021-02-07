@@ -407,7 +407,8 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             pencil_marker_mark_selected_rectangle( &((*this_).marker), *classifier_symbol_box, cr );
         }
 
-        if ( data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_row_id(diagramelement) ) )
+        if ( data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_row_id(diagramelement) )
+            ||  data_id_equals_id( &mark_focused, DATA_TABLE_CLASSIFIER, data_classifier_get_row_id(classifier) ) )
         {
             pencil_marker_mark_focused_rectangle( &((*this_).marker), *classifier_symbol_box, cr );
         }

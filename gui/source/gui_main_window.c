@@ -281,7 +281,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_icon_view_set_margin( GTK_ICON_VIEW((*this_).type_icon_grid), 0 );
     gtk_icon_view_set_column_spacing( GTK_ICON_VIEW((*this_).type_icon_grid), 4 );
     gtk_icon_view_set_row_spacing( GTK_ICON_VIEW((*this_).type_icon_grid), 0 );
-    gtk_icon_view_set_columns( GTK_ICON_VIEW((*this_).type_icon_grid), 8 );
+    gtk_icon_view_set_columns( GTK_ICON_VIEW((*this_).type_icon_grid), 7 );
 
     gui_attributes_editor_init( &((*this_).attributes_editor),
                                 GTK_LABEL( (*this_).id_label ),

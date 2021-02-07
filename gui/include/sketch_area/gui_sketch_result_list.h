@@ -31,6 +31,14 @@ enum gui_sketch_result_list__max_enum {
 
 /*!
  *  \brief attributes of the result list
+ * 
+ * The result list is a subwidget to the gui_sketch_area:
+ * - it knows its data to draw (list of search results)
+ * - it layouts the data to show
+ * - it draws the data
+ * - it answers which data-object is layouted to which position
+ * This subwidget does not get or respond-to user actions or listens to events of other widget;
+ * also it does not trigger events to other widgets
  */
 struct gui_sketch_result_list_struct {
     bool visible;  /*!< is the result list visible */
@@ -136,6 +144,22 @@ static inline void gui_sketch_result_list_get_diagram_id_at_pos ( gui_sketch_res
                                                                   int32_t y,
                                                                   data_id_t* out_selected_id
                                                                 );
+
+/*!
+ *  \brief determines the object at a given position and returns its id. The object can be a diagram.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x-position
+ *  \param y y-position
+ *  \param out_selected_id the object id of the object at the given location. The id is invalid if there is no object at the given location.
+ *  \param out_diagram_id the diagram id of the object at the given location. The id is invalid if there is no object at the given location.
+ */
+static inline void gui_sketch_result_list_get_object_id_at_pos ( gui_sketch_result_list_t *this_,
+                                                                 int32_t x,
+                                                                 int32_t y,
+                                                                 data_id_t* out_selected_id,
+                                                                 data_id_t* out_diagram_id
+                                                               );
 
 /*!
  *  \brief draws a type-icon and a result-label

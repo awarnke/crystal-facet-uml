@@ -64,6 +64,38 @@ static inline void gui_sketch_result_list_get_diagram_id_at_pos ( gui_sketch_res
     }
 }
 
+static inline void gui_sketch_result_list_get_object_id_at_pos ( gui_sketch_result_list_t *this_,
+                                                                 int32_t x,
+                                                                 int32_t y,
+                                                                 data_id_t* out_selected_id,
+                                                                 data_id_t* out_diagram_id )
+{
+    assert( out_selected_id != NULL );
+    assert( out_diagram_id != NULL );
+
+    if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
+    {
+        int line = y - shape_int_rectangle_get_top ( &((*this_).bounds) );
+        line = line / 28;  /* = line height */
+        if (( line >= 0 )&&( line < data_search_result_list_get_length( &((*this_).result_list) ) ))
+        {
+            const data_search_result_t *const at_pos = data_search_result_list_get_const( &((*this_).result_list), line );
+            data_id_copy( out_selected_id, data_search_result_get_match_id_const( at_pos ) );
+            data_id_copy( out_diagram_id, data_search_result_get_diagram_id_const( at_pos ) );
+        }
+        else
+        {
+            data_id_init_void( out_selected_id );
+            data_id_init_void( out_diagram_id );
+        }
+    }
+    else
+    {
+        data_id_init_void( out_selected_id );
+        data_id_init_void( out_diagram_id );
+    }
+}
+
 
 /*
 Copyright 2018-2021 Andreas Warnke

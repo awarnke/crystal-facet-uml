@@ -8,6 +8,14 @@ static inline void gui_marked_set_init ( gui_marked_set_t *this_ )
     (*this_).focused_diagram = DATA_ROW_ID_VOID;
 }
 
+static inline void gui_marked_set_reinit ( gui_marked_set_t *this_ )
+{
+    data_id_reinit_void( &((*this_).focused) );
+    data_id_reinit_void( &((*this_).highlighted) );
+    data_small_set_reinit( &((*this_).selected_set) );
+    (*this_).focused_diagram = DATA_ROW_ID_VOID;
+}
+
 static inline void gui_marked_set_destroy ( gui_marked_set_t *this_ )
 {
     data_id_destroy( &((*this_).focused) );

@@ -885,15 +885,13 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 data_id_pair_t focused_object;
                 gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, PENCIL_TYPE_FILTER_LIFELINE, &focused_object );
                 data_id_pair_trace( &focused_object );
-                data_id_t focused_object_visible;
-                focused_object_visible = data_id_pair_get_primary_id( &focused_object );
+                const data_id_t focused_object_visible = data_id_pair_get_primary_id( &focused_object );
 
                 /* update drag state */
                 gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), focused_object );
 
                 /* which object is currently focused? */
-                data_id_t focused_visible_before;
-                focused_visible_before = gui_marked_set_get_focused ( (*this_).marker );
+                const data_id_t focused_visible_before = gui_marked_set_get_focused ( (*this_).marker );
 
                 if ( data_id_equals ( &focused_object_visible, &focused_visible_before ) )
                 {
@@ -902,10 +900,8 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 }
                 else
                 {
-                    /* store focused object and notify listener */
-                    gui_marked_set_set_focused ( (*this_).marker,
-                                                 focused_object_visible
-                                               );
+                    /* set focused object and notify listener */
+                    gui_marked_set_set_focused ( (*this_).marker, focused_object_visible );
 
                     data_id_t real_object = focused_object_visible;
                     if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &real_object ) )
@@ -925,9 +921,11 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 TRACE_INFO( "GUI_TOOL_SEARCH" );
 
                 /* search selected diagram */
-                data_id_t clicked_diagram_id;
-                clicked_diagram_id = gui_sketch_area_get_diagram_id_at_pos ( this_, x, y );
+                data_id_t clicked_diagram_id = DATA_ID_VOID;
+                data_id_t clicked_object_id = DATA_ID_VOID;
+                gui_sketch_area_get_diagram_and_object_id_at_pos ( this_, x, y, &clicked_diagram_id, &clicked_object_id );
                 data_id_trace( &clicked_diagram_id );
+                data_id_trace( &clicked_object_id );
 
                 /* store diagram id to drag_state */
                 if ( data_id_is_valid( &clicked_diagram_id ) )
@@ -936,6 +934,21 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     data_id_pair_t dragged_object;
                     data_id_pair_init_solo ( &dragged_object, clicked_diagram_id );
                     gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), dragged_object );
+                }
+                
+                /* which object is currently focused? */
+                const data_id_t focused_before = gui_marked_set_get_focused ( (*this_).marker );
+                
+                if ( data_id_equals ( &clicked_object_id, &focused_before ) )
+                {
+                    /* the clicked object is already focused */
+                }
+                else
+                {
+                    /* set focused object and notify listener */
+                    gui_marked_set_set_focused ( (*this_).marker, clicked_object_id );
+                    assert( DATA_TABLE_DIAGRAMELEMENT != data_id_get_table( &clicked_object_id ) );
+                    gui_sketch_area_private_notify_listeners( this_, clicked_object_id );
                 }
             }
             break;
@@ -1377,12 +1390,10 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                         /* load/reload data to be drawn */
                         gui_sketch_area_show_diagram( this_, dragged_diagram );
 
-                        /* notify listener */
-                        gui_marked_set_set_focused( (*this_).marker, dragged_diagram );
-                        gui_sketch_area_private_notify_listeners( this_, dragged_diagram );
+                        /* clear selected set but do not change focused object */
                         gui_marked_set_clear_selected_set( (*this_).marker );
-
-                        /* if clicked diagram is already the focused diagram, switch to edit mode */
+    
+                        /* switch to edit mode */
                         gui_toolbox_set_selected_tool( (*this_).toolbox, GUI_TOOL_EDIT );
                     }
                     else
@@ -1670,7 +1681,11 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_messa
 
     if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
     {
+        /* do not keep search results */
         gui_sketch_result_list_invalidate_data( &((*this_).result_list) );
+        
+        /* do not keep selected or focued objects */
+        gui_marked_set_reinit( (*this_).marker );
     }
 
     if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_OPENED )
@@ -1697,13 +1712,21 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_tool_t tool, 
     assert( NULL != this_ );
     assert ( NULL != widget );
 
-    gui_sketch_request_set_tool_mode( &((*this_).request), tool );
-    
-    /* load/reload data to be drawn */
-    gui_sketch_area_private_refocus_and_reload_data( this_ );
+    /* info: This function is called once for activating a tool and once for deactiaving it! */
+    if ( gui_sketch_request_get_tool_mode( &((*this_).request) ) != tool )
+    {
+        gui_sketch_request_set_tool_mode( &((*this_).request), tool );
+        
+        /* load/reload data to be drawn */
+        gui_sketch_area_private_refocus_and_reload_data( this_ );
 
-    /* mark dirty rect */
-    gtk_widget_queue_draw( (*this_).drawing_area );
+        /* mark dirty rect */
+        gtk_widget_queue_draw( (*this_).drawing_area );
+    }
+    else
+    {
+        /* either the already selected tool is selected again or it is unselected */
+    }
 
     TRACE_END();
 }

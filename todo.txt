@@ -5,7 +5,6 @@ ideas for future versions:
   [ ] a "saveAs" or export-as-cfu1 command should allow to copy the current db
   [ ] next to the about button, a help button is needed that can provide context-sensitive information.
   [ ] show a progress bar while exporting diagrams (especially for png mode)
-  [ ] when selecting a search result, not only jump to the diagram but also focus on the result
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes

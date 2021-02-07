@@ -34,6 +34,14 @@ enum gui_sketch_nav_tree_const_enum {
 
 /*!
  *  \brief attributes of the nav tree
+ * 
+ * The nav tree is a subwidget to the gui_sketch_area:
+ * - it knows its data to draw (tree-parts of diagrams)
+ * - it layouts the data to show
+ * - it draws the data
+ * - it answers which data-object is layouted to which position
+ * This subwidget does not get or respond-to user actions or listens to events of other widgets;
+ * also it does not trigger events to other widgets
  */
 struct gui_sketch_nav_tree_struct {
     bool visible;  /*!< is the nav tree visible */

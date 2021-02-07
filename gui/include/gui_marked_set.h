@@ -32,6 +32,13 @@ typedef struct gui_marked_set_struct gui_marked_set_t;
 static inline void gui_marked_set_init ( gui_marked_set_t *this_ );
 
 /*!
+ *  \brief re-initializes the gui_marked_set_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void gui_marked_set_reinit ( gui_marked_set_t *this_ );
+
+/*!
  *  \brief destroys the gui_marked_set_t struct
  *
  *  \param this_ pointer to own object attributes
