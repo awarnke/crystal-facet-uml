@@ -1,3 +1,32 @@
+crystal-facet-uml (1.27.3-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * fixed most metainfo.xml warnings 
+  * build target for gcov measurement added
+  * auto-delete relationships between classifiers that have no common diagram
+  * when opening the second database, view switches back to navigation mode
+  * when opening the second database, search entry field is cleared
+  * when opening the second database, set of marked elements is cleared
+  * search result view is updated when changing the database (e.g. by undo)
+  * search result view stays when database update is triggered by a 2nd window
+  * when clicking on a search result, the element is focused
+
+-- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 09 Feb 2021 21:30:00 +0100
+
+crystal-facet-uml (1.27.2-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * compiler switch Werror removed; warnings should not cause build-breaks
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 03 Jan 2021 15:00:00 +0100
+
+crystal-facet-uml (1.27.1-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * compiler warning fixed: conversions from unsigned int to size_t explicit
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 03 Jan 2021 09:00:00 +0100
+
 crystal-facet-uml (1.27.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
