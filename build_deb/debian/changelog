@@ -11,7 +11,7 @@ crystal-facet-uml (1.27.3-1) UNRELEASED; urgency=medium
   * search result view stays when database update is triggered by a 2nd window
   * when clicking on a search result, the element is focused
 
--- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 09 Feb 2021 21:30:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 09 Feb 2021 21:30:00 +0100
 
 crystal-facet-uml (1.27.2-1) UNRELEASED; urgency=medium
 
@@ -36,7 +36,7 @@ crystal-facet-uml (1.27.0-1) UNRELEASED; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 02 Jan 2021 19:00:00 +0100
 
- crystal-facet-uml (1.26.1-1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.26.1-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * XMI Export: destination end of messages had fix enclosingInteraction=90001
