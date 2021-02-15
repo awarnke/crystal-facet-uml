@@ -65,13 +65,13 @@ FILE(GLOB commonSource ../gui/source/*.c
                        ${SQLITE_BASE}/sqlite3.c)
 FILE(GLOB appSource    ../main/source/*.c)
 FILE(GLOB utestSource  ../main/test/*.c
-                       ../data/unittest/*.c
-                       ../ctrl/unittest/*.c
-                       ../gui/unittest/*.c
-                       ../io/unittest/*.c
-                       ../pencil/unittest/*.c
-                       ../universal/unittest/*.c
-                       ../utf8stringbuf/unittest/*.c)
+                       ../data/test/unit/*.c
+                       ../ctrl/test/unit/*.c
+                       ../gui/test/unit/*.c
+                       ../io/test/unit/*.c
+                       ../pencil/test/unit/*.c
+                       ../universal/test/unit/*.c
+                       ../utf8stringbuf/test/unit/*.c)
 
 FIND_LIBRARY( ATK_LIB atk-1.0 "${GTK_BUNDLE_BASE}/lib/")
 FIND_LIBRARY( CAIRO_LIB cairo "${GTK_BUNDLE_BASE}/lib/" )
@@ -119,13 +119,13 @@ SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
 ADD_EXECUTABLE(test_crystal-facet-uml ${commonSource} ${utestSource})
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../test_fw/include)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../data/unittest)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../ctrl/unittest)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../gui/unittest)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../io/unittest)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../pencil/unittest)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../universal/unittest)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../utf8stringbuf/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../data/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../ctrl/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../gui/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../io/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../pencil/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../universal/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../utf8stringbuf/test)
 TARGET_LINK_LIBRARIES(test_crystal-facet-uml ${ATK_LIB} ${CAIRO_LIB} ${FONTCNF_LIB} ${GAIL_LIB} ${GDKPIX_LIB} ${GDKWIN_LIB} ${GIO_LIB} ${GLIB_LIB} ${GMOD_LIB} ${GOBJ_LIB} ${GTHREAD_LIB} ${GTK_LIB} ${PANGO_LIB} ${PANGOCAIRO_LIB} ${PANGOFT_LIB} ${PANGOWIN_LIB} )
 SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 

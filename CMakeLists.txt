@@ -71,13 +71,13 @@ FILE(GLOB commonSource gui/source/*.c
                        io/source/md/*.c)
 FILE(GLOB appSource    main/source/*.c)
 FILE(GLOB utestSource  main/test/*.c
-                       data/unittest/*.c
-                       ctrl/unittest/*.c
-                       gui/unittest/*.c
-                       io/unittest/*.c
-                       pencil/unittest/*.c
-                       universal/unittest/*.c
-                       utf8stringbuf/unittest/*.c)
+                       data/test/unit/*.c
+                       ctrl/test/unit/*.c
+                       gui/test/unit/*.c
+                       io/test/unit/*.c
+                       pencil/test/unit/*.c
+                       universal/test/unit/*.c
+                       utf8stringbuf/test/unit/*.c)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Check if CMAKE_BUILD_TYPE is set ==== ==== ==== ==== ==== ==== ==== ====
 
@@ -104,13 +104,13 @@ SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
 ADD_EXECUTABLE(test_crystal-facet-uml ${utestSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC test_fw/include)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC data/unittest)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ctrl/unittest)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC gui/unittest)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC io/unittest)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC pencil/unittest)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC universal/unittest)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC utf8stringbuf/unittest)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC data/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ctrl/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC gui/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC io/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC pencil/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC universal/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC utf8stringbuf/test)
 TARGET_LINK_LIBRARIES(test_crystal-facet-uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
@@ -129,13 +129,13 @@ if(CMAKE_COMPILER_IS_GNUCC)
     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs" )
     ADD_EXECUTABLE(gcov_crystal-facet-uml ${utestSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
     TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC test_fw/include)
-    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC data/unittest)
-    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC ctrl/unittest)
-    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC gui/unittest)
-    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC io/unittest)
-    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC pencil/unittest)
-    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC universal/unittest)
-    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC utf8stringbuf/unittest)
+    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC data/test)
+    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC ctrl/test)
+    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC gui/test)
+    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC io/test)
+    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC pencil/test)
+    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC universal/test)
+    TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC utf8stringbuf/test)
     TARGET_LINK_LIBRARIES(gcov_crystal-facet-uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
     SET_TARGET_PROPERTIES(gcov_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
     SET_TARGET_PROPERTIES(gcov_crystal-facet-uml PROPERTIES EXCLUDE_FROM_ALL TRUE)
