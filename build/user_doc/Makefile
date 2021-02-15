@@ -1,20 +1,17 @@
 all: crystal-facet-uml_documentation.pdf html crystal-facet-uml.1.gz
 
-crystal-facet-uml_documentation.pdf: doc/*.xml doc/2_feature_gallery_export/*.pdf doc/*.pdf doc/*.png
-	cd doc &&\
-	dblatex --type=pdf crystal-facet-uml_documentation.xml &&\
-	cd .. &&\
-	mv doc/crystal-facet-uml_documentation.pdf .
+SOURCE="../../user_doc"
 
-html: doc/*.xml doc/2_feature_gallery_export/*.png doc/*.png
-	xmlto --stringparam html.stylesheet=html.css -o html/ xhtml doc/crystal-facet-uml_documentation.xml &&\
+crystal-facet-uml_documentation.pdf: ../../user_doc/doc/*.xml ../../user_doc/doc/2_feature_gallery_export/*.pdf ../../user_doc/doc/*.pdf ../../user_doc/doc/*.png
+	dblatex --type=pdf ${SOURCE}/doc/crystal-facet-uml_documentation.xml --output=./crystal-facet-uml_documentation.pdf
+
+html: ../../user_doc/doc/*.xml ../../user_doc/doc/2_feature_gallery_export/*.png ../../user_doc/doc/*.png
+	xmlto --stringparam html.stylesheet=html.css -o ./html/ xhtml ${SOURCE}/doc/crystal-facet-uml_documentation.xml &&\
 	echo relocate image files &&\
-	cd doc &&\
-	cat *.xml | grep -e 'fileref.*png' | sed -e 's/^[^"]*"\([^"]*\)".*/\1/' | xargs cp --target-directory=../html &&\
-	cp html.css ../html &&\
-	cd .. &&\
-	find html -name '*.html' | xargs sed -i -e 's/\.\.\/\.\.\/gui\/source\/resources\///g' &&\
-	find html -name '*.html' | xargs sed -i -e 's/2_feature_gallery_export\///g'
+	cat ${SOURCE}/doc/*.xml | grep -e 'fileref.*png' | sed -e 's/^[^"]*"\([^"]*\)".*/..\/..\/user_doc\/doc\/\1/' | xargs cp --target-directory=./html &&\
+	cp ${SOURCE}/doc/html.css ./html &&\
+	find ./html -name '*.html' | xargs sed -i -e 's/\.\.\/\.\.\/gui\/source\/resources\///g' &&\
+	find ./html -name '*.html' | xargs sed -i -e 's/2_feature_gallery_export\///g'
 
 # xmlto chosen:
 # daps exists only on opensuse, not on ubuntu
@@ -26,11 +23,11 @@ MAN_STYLESHEET_ROOT=`find /usr/share/xml/docbook/stylesheet -name manpages`
 #MAN_STYLESHEET_2="/usr/share/xml/docbook/stylesheet/docbook-xsl/manpages/docbook.xsl"
 MANPAGE_FILE="crystal-facet-uml.1"
 
-crystal-facet-uml.1.gz: doc/manpage.xml doc/1_non_tech_intro_para.xml
+crystal-facet-uml.1.gz: ../../user_doc/doc/manpage.xml ../../user_doc/doc/1_non_tech_intro_para.xml
 	rm -f ${MANPAGE_FILE}.gz ${MAPGAPE_FILE}i &&\
 	if [ -e "${MAN_STYLESHEET_ROOT}/docbook.xsl" ] ; then\
 	  echo "using ${MAN_STYLESHEET_ROOT}/docbook.xsl ...\n" &&\
-	  xsltproc --nonet --param man.charmap.use.subset "0" --xinclude "${MAN_STYLESHEET_ROOT}/docbook.xsl" doc/manpage.xml &&\
+	  xsltproc --nonet --param man.charmap.use.subset "0" --xinclude "${MAN_STYLESHEET_ROOT}/docbook.xsl" ${SOURCE}/doc/manpage.xml &&\
 	  gzip --quiet ${MANPAGE_FILE} ;\
 	else \
 	  echo "ERROR: find an appropriate xsl file for the manapge at /usr/share/xml/docbook/stylesheet" ;\
