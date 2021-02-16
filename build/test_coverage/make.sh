@@ -5,7 +5,7 @@ VERSIONSTR=${META_VERSION_STR}
 echo "pack src archive"
 cd ../..
 git archive --format tar.gz --prefix=crystal-facet-uml-$VERSIONSTR/ --output=build/test_coverage/crystal-facet-uml_$VERSIONSTR.orig.tar.gz master
-cd build/deb
+cd build/test_coverage
 
 echo "Cov-Measurement Source Package Version ${VERSIONSTR}"
 if [ -z $VERSIONSTR]; then exit; fi
@@ -23,7 +23,7 @@ echo "building binary"
 cd crystal-facet-uml-${VERSIONSTR}
 mkdir cmake_build
 cd cmake_build
-cmake -DCMAKE_BUILD_TYPE=Release ../..
+cmake -DCMAKE_BUILD_TYPE=Release ..
 make -j4 gcov_crystal-facet-uml  # start up to 4 parallel processes to make use of quad-core processors
 cd ../..
 
