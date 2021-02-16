@@ -39,3 +39,6 @@ clean:
 	rm -fr html &&\
 	rm -f ${MANPAGE_FILE}.gz
 
+install: crystal-facet-uml_documentation.pdf crystal-facet-uml.1.gz
+	cp crystal-facet-uml_documentation.pdf ../../user_doc/ &&\
+	cp ${MANPAGE_FILE}.gz ../../user_doc/
