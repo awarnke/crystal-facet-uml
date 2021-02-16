@@ -753,19 +753,19 @@ WARN_LOGFILE           =
 # spaces.
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = ../gui \
-                         ../tslog \
-                         ../trace \
-                         ../main \
-                         ../ctrl \
-                         ../data \
-                         ../utf8stringbuf \
-                         ../pencil \
-                         ../io \
-                         ../test \
-                         ../universal \
+INPUT                  = ../../gui \
+                         ../../tslog \
+                         ../../trace \
+                         ../../main \
+                         ../../ctrl \
+                         ../../data \
+                         ../../utf8stringbuf \
+                         ../../pencil \
+                         ../../io \
+                         ../../test \
+                         ../../universal \
                          ./source_code_doc.txt \
-                         ../architecture/doc/programming_guidelines.txt
+                         ../../architecture/doc/programming_guidelines.txt
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -854,7 +854,7 @@ EXAMPLE_RECURSIVE      = NO
 # that contain images that are to be included in the documentation (see the
 # \image command).
 
-IMAGE_PATH             = ../user_doc/doc ../gui/source
+IMAGE_PATH             = ../../user_doc/doc ../../gui/source
 
 # The INPUT_FILTER tag can be used to specify a program that doxygen should
 # invoke to filter for each input file. Doxygen will invoke the filter program
