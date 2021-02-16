@@ -11,7 +11,7 @@ test -e crystal-facet-uml_$VERSIONSTR.orig.tar.gz && rm crystal-facet-uml_$VERSI
 
 echo "pack archive"
 cd ../..
-git archive --format tar.gz --prefix=crystal-facet-uml-$VERSIONSTR/ --output=build_package/crystal-facet-uml_$VERSIONSTR.orig.tar.gz master
+git archive --format tar.gz --prefix=crystal-facet-uml-$VERSIONSTR/ --output=build/package/crystal-facet-uml_$VERSIONSTR.orig.tar.gz master
 cd build/package
 
 echo "----"

@@ -1,5 +1,5 @@
 #!/bin/sh
-. ../main/include/meta/meta_version.inl
+. ../../main/include/meta/meta_version.inl
 VERSIONSTR=${META_VERSION_STR}
 
 echo "Building Archive Version $VERSIONSTR"
@@ -9,9 +9,9 @@ echo "clean old files and directories"
 test -e crystal-facet-uml_$VERSIONSTR.orig.tar.gz && rm crystal-facet-uml_$VERSIONSTR.orig.tar.gz
 test -d crystal-facet-uml-$VERSIONSTR && rm -r crystal-facet-uml-$VERSIONSTR
 echo "pack src archive"
-cd ..
-git archive --format tar.gz --prefix=crystal-facet-uml-$VERSIONSTR/ --output=build_deb/crystal-facet-uml_$VERSIONSTR.orig.tar.gz master
-cd build_deb
+cd ../..
+git archive --format tar.gz --prefix=crystal-facet-uml-$VERSIONSTR/ --output=build/deb/crystal-facet-uml_$VERSIONSTR.orig.tar.gz master
+cd build/deb
 tar -xzf crystal-facet-uml_$VERSIONSTR.orig.tar.gz
 cp -r debian crystal-facet-uml-$VERSIONSTR/
 # note _ is not allowed in debian package names

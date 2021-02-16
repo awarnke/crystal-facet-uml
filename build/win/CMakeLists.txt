@@ -4,16 +4,16 @@ SET(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Build Environment Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-INCLUDE_DIRECTORIES(../gui/include)
-INCLUDE_DIRECTORIES(../main/include)
-INCLUDE_DIRECTORIES(../tslog/include)
-INCLUDE_DIRECTORIES(../trace/include)
-INCLUDE_DIRECTORIES(../ctrl/include)
-INCLUDE_DIRECTORIES(../data/include)
-INCLUDE_DIRECTORIES(../utf8stringbuf/include)
-INCLUDE_DIRECTORIES(../pencil/include)
-INCLUDE_DIRECTORIES(../io/include)
-INCLUDE_DIRECTORIES(../universal/include)
+INCLUDE_DIRECTORIES(../../gui/include)
+INCLUDE_DIRECTORIES(../../main/include)
+INCLUDE_DIRECTORIES(../../tslog/include)
+INCLUDE_DIRECTORIES(../../trace/include)
+INCLUDE_DIRECTORIES(../../ctrl/include)
+INCLUDE_DIRECTORIES(../../data/include)
+INCLUDE_DIRECTORIES(../../utf8stringbuf/include)
+INCLUDE_DIRECTORIES(../../pencil/include)
+INCLUDE_DIRECTORIES(../../io/include)
+INCLUDE_DIRECTORIES(../../universal/include)
 
 SET(THIRD_PARTY_BASE "${CMAKE_BINARY_DIR}")
 SET(SQLITE_BASE "${CMAKE_BINARY_DIR}/sqlite-amalgamation-3300100/sqlite-amalgamation-3300100")
@@ -43,35 +43,35 @@ INCLUDE_DIRECTORIES("${GTK_BUNDLE_BASE}/include/librsvg-2.0")
 INCLUDE_DIRECTORIES("${GTK_BUNDLE_BASE}/include/pixman-1")
 INCLUDE_DIRECTORIES("${GTK_BUNDLE_BASE}/include/freetype2")
 
-FILE(GLOB commonSource ../gui/source/*.c
-                       ../gui/source/sketch_area/*.c
-                       ../trace/source/*.c
-                       ../ctrl/source/*.c
-                       ../data/source/*.c
-                       ../data/source/storage/*.c
-                       ../data/source/set/*.c
-                       ../utf8stringbuf/source/util/string/*.c
-                       ../universal/source/stream/*.c
-                       ../pencil/source/*.c
-                       ../pencil/source/util/geometry/*.c
-                       ../pencil/source/draw/*.c
-                       ../io/source/*.c
-                       ../io/source/image/*.c
-                       ../io/source/json/*.c
-                       ../io/source/xml/*.c
-                       ../io/source/txt/*.c
-                       ../io/source/xmi/*.c
-                       ../io/source/md/*.c
+FILE(GLOB commonSource ../../gui/source/*.c
+                       ../../gui/source/sketch_area/*.c
+                       ../../trace/source/*.c
+                       ../../ctrl/source/*.c
+                       ../../data/source/*.c
+                       ../../data/source/storage/*.c
+                       ../../data/source/set/*.c
+                       ../../utf8stringbuf/source/util/string/*.c
+                       ../../universal/source/stream/*.c
+                       ../../pencil/source/*.c
+                       ../../pencil/source/util/geometry/*.c
+                       ../../pencil/source/draw/*.c
+                       ../../io/source/*.c
+                       ../../io/source/image/*.c
+                       ../../io/source/json/*.c
+                       ../../io/source/xml/*.c
+                       ../../io/source/txt/*.c
+                       ../../io/source/xmi/*.c
+                       ../../io/source/md/*.c
                        ${SQLITE_BASE}/sqlite3.c)
-FILE(GLOB appSource    ../main/source/*.c)
-FILE(GLOB utestSource  ../main/test/*.c
-                       ../data/test/unit/*.c
-                       ../ctrl/test/unit/*.c
-                       ../gui/test/unit/*.c
-                       ../io/test/unit/*.c
-                       ../pencil/test/unit/*.c
-                       ../universal/test/unit/*.c
-                       ../utf8stringbuf/test/unit/*.c)
+FILE(GLOB appSource    ../../main/source/*.c)
+FILE(GLOB utestSource  ../../main/test/*.c
+                       ../../data/test/unit/*.c
+                       ../../ctrl/test/unit/*.c
+                       ../../gui/test/unit/*.c
+                       ../../io/test/unit/*.c
+                       ../../pencil/test/unit/*.c
+                       ../../universal/test/unit/*.c
+                       ../../utf8stringbuf/test/unit/*.c)
 
 FIND_LIBRARY( ATK_LIB atk-1.0 "${GTK_BUNDLE_BASE}/lib/")
 FIND_LIBRARY( CAIRO_LIB cairo "${GTK_BUNDLE_BASE}/lib/" )
@@ -118,14 +118,14 @@ SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 # ==== ==== ==== ==== ==== ==== ==== ==== test Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 ADD_EXECUTABLE(test_crystal-facet-uml ${commonSource} ${utestSource})
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../test_fw/include)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../data/test)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../ctrl/test)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../gui/test)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../io/test)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../pencil/test)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../universal/test)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../utf8stringbuf/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../../test_fw/include)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../../data/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../../ctrl/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../../gui/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../../io/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../../pencil/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../../universal/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../../utf8stringbuf/test)
 TARGET_LINK_LIBRARIES(test_crystal-facet-uml ${ATK_LIB} ${CAIRO_LIB} ${FONTCNF_LIB} ${GAIL_LIB} ${GDKPIX_LIB} ${GDKWIN_LIB} ${GIO_LIB} ${GLIB_LIB} ${GMOD_LIB} ${GOBJ_LIB} ${GTHREAD_LIB} ${GTK_LIB} ${PANGO_LIB} ${PANGOCAIRO_LIB} ${PANGOFT_LIB} ${PANGOWIN_LIB} )
 SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 

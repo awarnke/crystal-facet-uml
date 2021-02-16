@@ -2,6 +2,11 @@
 . ../../main/include/meta/meta_version.inl
 VERSIONSTR=${META_VERSION_STR}
 
+echo "pack src archive"
+cd ../..
+git archive --format tar.gz --prefix=crystal-facet-uml-$VERSIONSTR/ --output=build/test_coverage/crystal-facet-uml_$VERSIONSTR.orig.tar.gz master
+cd build/deb
+
 echo "Cov-Measurement Source Package Version ${VERSIONSTR}"
 if [ -z $VERSIONSTR]; then exit; fi
 echo "based on crystal-facet-uml_${VERSIONSTR}.orig.tar.gz"
