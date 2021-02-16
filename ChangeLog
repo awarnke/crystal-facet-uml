@@ -11,7 +11,7 @@ crystal-facet-uml (1.27.3) UNRELEASED; urgency=medium
   * search result view stays when database update is triggered by a 2nd window
   * when clicking on a search result, the element is focused
 
--- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 09 Feb 2021 21:30:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 09 Feb 2021 21:30:00 +0100
 
 crystal-facet-uml (1.27.2) UNRELEASED; urgency=medium
 

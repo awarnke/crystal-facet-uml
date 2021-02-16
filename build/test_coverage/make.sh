@@ -1,5 +1,5 @@
 #!/bin/sh
-. ../main/include/meta/meta_version.inl
+. ../../main/include/meta/meta_version.inl
 VERSIONSTR=${META_VERSION_STR}
 
 echo "Cov-Measurement Source Package Version ${VERSIONSTR}"
@@ -18,7 +18,7 @@ echo "building binary"
 cd crystal-facet-uml-${VERSIONSTR}
 mkdir cmake_build
 cd cmake_build
-cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake -DCMAKE_BUILD_TYPE=Release ../..
 make -j4 gcov_crystal-facet-uml  # start up to 4 parallel processes to make use of quad-core processors
 cd ../..
 

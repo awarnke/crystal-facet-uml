@@ -48,6 +48,7 @@ sudo apt install crystal-facet-uml
             <para>
                 To install, type on the command line:
                 <programlisting>
+sudo zypper refresh
 sudo zypper install crystal-facet-uml
                 </programlisting>
             </para>

@@ -1,5 +1,5 @@
 #!/bin/sh
-. ../main/include/meta/meta_version.inl
+. ../../main/include/meta/meta_version.inl
 VERSIONSTR=${META_VERSION_STR}
 
 echo "Testing Source Package Version $VERSIONSTR"
@@ -13,14 +13,14 @@ echo "test archive"
 tar -xzf crystal-facet-uml_$VERSIONSTR.orig.tar.gz
 
 echo "building doc"
-cd crystal-facet-uml-$VERSIONSTR/build_doxygen
+cd crystal-facet-uml-$VERSIONSTR/build/doxygen
 ./make.sh
-cd ../..
+cd ../../..
 
 echo "building user doc and man page"
-cd crystal-facet-uml-$VERSIONSTR/user_doc
+cd crystal-facet-uml-$VERSIONSTR/build/user_doc
 make
-cd ../..
+cd ../../..
 
 echo "building binary"
 cd crystal-facet-uml-$VERSIONSTR
