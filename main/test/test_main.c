@@ -20,8 +20,9 @@
 #include "unit/json_tokenizer_test.h"
 #include "unit/json_import_to_database_test.h"
 #include "unit/md_filter_test.h"
-#include "unit/io_export_model_traversal_test.h"
+#include "integration/io_export_model_traversal_test.h"
 #include "unit/pencil_layout_data_test.h"
+#include "integration/pencil_layouter_test.h"
 #include "unit/universal_array_index_sorter_test.h"
 #include "unit/universal_array_list_test.h"
 #include "unit/universal_memory_output_stream_test.h"
@@ -58,7 +59,7 @@ int main (int argc, char *argv[]) {
     }
 
     bool do_unit_tests = false;
-    bool do_module_tests = false;
+    bool do_integration_tests = false;
 
     /* handle options */
     if ( argc == 2 )
@@ -67,22 +68,26 @@ int main (int argc, char *argv[]) {
         {
             fprintf( stdout, "\nUsage:\n" );
             fprintf( stdout, "    %s -h for help\n", argv[0] );
-            fprintf( stdout, "    %s -u to run the unit-tests (on single software units)\n", argv[0] );
-            fprintf( stdout, "    %s -m to run the module tests (focusing on interaction between several units)\n", argv[0] );
+            fprintf( stdout, "    %s -u to run the unit-tests (test functions of single software units)\n", argv[0] );
+            fprintf( stdout, "    %s -i to run the integration tests (test interactions between several units)\n", argv[0] );
             fprintf( stdout, "    %s -a to run all tests\n", argv[0] );
         }
         if ( utf8string_equals_str( argv[1], "-u" ) )
         {
             do_unit_tests = true;
         }
-        if ( utf8string_equals_str( argv[1], "-m" ) )
+        if ( utf8string_equals_str( argv[1], "-i" ) )
         {
-            do_module_tests = true;
+            do_integration_tests = true;
+        }
+        if ( utf8string_equals_str( argv[1], "-m" ) )  /* compatibility to 1.27.3 and older */
+        {
+            do_integration_tests = true;
         }
         if ( utf8string_equals_str( argv[1], "-a" ) )
         {
             do_unit_tests = true;
-            do_module_tests = true;
+            do_integration_tests = true;
         }
     }
 
@@ -123,8 +128,8 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, gui_sketch_nav_tree_test_get_list() );
     }
 
-    /* module tests which involve multiple software units */
-    if ( do_module_tests )
+    /* integration tests which involve multiple software units */
+    if ( do_integration_tests )
     {
         test_runner_run_suite( &runner, data_database_reader_test_get_list() );
         test_runner_run_suite( &runner, ctrl_controller_test_get_list() );
@@ -134,6 +139,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, ctrl_undo_redo_list_test_get_list() );
         test_runner_run_suite( &runner, ctrl_diagram_policy_enforcer_test_get_list() );
         test_runner_run_suite( &runner, ctrl_classifier_policy_enforcer_test_get_list() );
+        test_runner_run_suite( &runner, pencil_layouter_test_get_list() );
         test_runner_run_suite( &runner, json_import_to_database_test_get_list() );
         test_runner_run_suite( &runner, md_filter_test_get_list() );
         test_runner_run_suite( &runner, io_export_model_traversal_test_get_list() );

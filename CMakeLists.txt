@@ -75,7 +75,9 @@ FILE(GLOB utestSource  main/test/*.c
                        ctrl/test/unit/*.c
                        gui/test/unit/*.c
                        io/test/unit/*.c
+                       io/test/integration/*.c
                        pencil/test/unit/*.c
+                       pencil/test/integration/*.c
                        universal/test/unit/*.c
                        utf8stringbuf/test/unit/*.c)
 

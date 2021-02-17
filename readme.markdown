@@ -112,7 +112,7 @@ openSuSE:
 
 wine:
 
-> see build_win/readme.markdown
+> see build/win/readme.markdown
 
 
 How to run
