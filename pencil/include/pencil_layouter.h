@@ -105,12 +105,19 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_, geometry_rectangle_
  */
 void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *font_layout );
 
-/*!
+/* !
  *  \brief returns the pencil_layout_data_t object
  *
  *  \param this_ pointer to own object attributes
  */
 static inline pencil_layout_data_t *pencil_layouter_get_layout_data_ptr ( pencil_layouter_t *this_ );
+
+/*!
+ *  \brief returns the pencil_layout_data_t object
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const pencil_layout_data_t *pencil_layouter_get_layout_data_const ( const pencil_layouter_t *this_ );
 
 /*!
  *  \brief returns the pencil size object

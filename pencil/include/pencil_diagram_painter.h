@@ -56,7 +56,7 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ );
  *  \param cr a cairo drawing context
  */
 void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
-                                   layout_diagram_t *layouted_diagram,
+                                   const layout_diagram_t *layouted_diagram,
                                    bool mark_focused,
                                    bool mark_highlighted,
                                    bool mark_selected,

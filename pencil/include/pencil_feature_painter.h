@@ -60,12 +60,12 @@ void pencil_feature_painter_destroy( pencil_feature_painter_t *this_ );
  *  \param cr a cairo drawing context
  */
 void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
-                                   layout_feature_t *layouted_feature,
+                                   const layout_feature_t *layouted_feature,
                                    bool mark_focused,
                                    bool mark_highlighted,
                                    bool mark_selected,
                                    bool gray_out,
-                                   pencil_size_t *pencil_size,
+                                   const pencil_size_t *pencil_size,
                                    PangoLayout *layout,
                                    cairo_t *cr
                                  );
@@ -80,9 +80,9 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
  *  \param cr a cairo drawing context
  */
 void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_t *this_,
-                                                         layout_feature_t *layouted_feature,
+                                                         const layout_feature_t *layouted_feature,
                                                          bool marked,
-                                                         pencil_size_t *pencil_size,
+                                                         const pencil_size_t *pencil_size,
                                                          cairo_t *cr
                                                        );
 
@@ -96,8 +96,8 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
  *  \param cr a cairo drawing context
  */
 void pencil_feature_painter_private_draw_port_pin_icon ( pencil_feature_painter_t *this_,
-                                                         layout_feature_t *layouted_feature,
-                                                         pencil_size_t *pencil_size,
+                                                         const layout_feature_t *layouted_feature,
+                                                         const pencil_size_t *pencil_size,
                                                          GdkRGBA foreground_color,
                                                          cairo_t *cr
                                                        );
@@ -112,8 +112,8 @@ void pencil_feature_painter_private_draw_port_pin_icon ( pencil_feature_painter_
  *  \param cr a cairo drawing context
  */
 void pencil_feature_painter_private_draw_entry_exit_icon ( pencil_feature_painter_t *this_,
-                                                           layout_feature_t *layouted_feature,
-                                                           pencil_size_t *pencil_size,
+                                                           const layout_feature_t *layouted_feature,
+                                                           const pencil_size_t *pencil_size,
                                                            GdkRGBA foreground_color,
                                                            cairo_t *cr
                                                          );
@@ -127,8 +127,8 @@ void pencil_feature_painter_private_draw_entry_exit_icon ( pencil_feature_painte
  *  \param cr a cairo drawing context
  */
 void pencil_feature_painter_private_draw_interface_icon ( pencil_feature_painter_t *this_,
-                                                          layout_feature_t *layouted_feature,
-                                                          pencil_size_t *pencil_size,
+                                                          const layout_feature_t *layouted_feature,
+                                                          const pencil_size_t *pencil_size,
                                                           cairo_t *cr
                                                         );
 

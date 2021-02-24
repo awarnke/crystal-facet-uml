@@ -70,11 +70,11 @@ void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ );
  *  \param cr a cairo drawing context
  */
 void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_,
-                                       layout_visible_classifier_t *layouted_classifier,
+                                       const layout_visible_classifier_t *layouted_classifier,
                                        data_id_t mark_focused,
                                        data_id_t mark_highlighted,
                                        const data_small_set_t *mark_selected,
-                                       pencil_layout_data_t *layout_data,
+                                       const pencil_layout_data_t *layout_data,
                                        const pencil_size_t *pencil_size,
                                        PangoLayout *font_layout,
                                        cairo_t *cr
@@ -136,8 +136,8 @@ void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_co
  *  \param cr a cairo drawing context
  */
 void pencil_classifier_composer_private_draw_feature_compartments ( const pencil_classifier_composer_t *this_,
-                                                                    layout_visible_classifier_t *layouted_classifier,
-                                                                    pencil_layout_data_t *layout_data,
+                                                                    const layout_visible_classifier_t *layouted_classifier,
+                                                                    const pencil_layout_data_t *layout_data,
                                                                     const pencil_size_t *pencil_size,
                                                                     cairo_t *cr
                                                                   );

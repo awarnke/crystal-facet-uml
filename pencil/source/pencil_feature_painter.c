@@ -33,12 +33,12 @@ void pencil_feature_painter_destroy( pencil_feature_painter_t *this_ )
 }
 
 void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
-                                   layout_feature_t *layouted_feature,
+                                   const layout_feature_t *layouted_feature,
                                    bool mark_focused,
                                    bool mark_highlighted,
                                    bool mark_selected,
                                    bool gray_out,
-                                   pencil_size_t *pencil_size,
+                                   const pencil_size_t *pencil_size,
                                    PangoLayout *layout,
                                    cairo_t *cr )
 {
@@ -120,7 +120,7 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
         /* draw the label */
         draw_feature_label_draw_key_and_value ( &((*this_).draw_feature_label),
                                                 layout_feature_get_data_const( layouted_feature ),
-                                                layout_feature_get_label_box_ptr( layouted_feature ),
+                                                layout_feature_get_label_box_const( layouted_feature ),
                                                 pencil_size,
                                                 layout,
                                                 cr
@@ -168,9 +168,9 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
 }
 
 void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_t *this_,
-                                                         layout_feature_t *layouted_feature,
+                                                         const layout_feature_t *layouted_feature,
                                                          bool marked,
-                                                         pencil_size_t *pencil_size,
+                                                         const pencil_size_t *pencil_size,
                                                          cairo_t *cr )
 {
     TRACE_BEGIN();
@@ -228,8 +228,8 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
 }
 
 void pencil_feature_painter_private_draw_port_pin_icon ( pencil_feature_painter_t *this_,
-                                                         layout_feature_t *layouted_feature,
-                                                         pencil_size_t *pencil_size,
+                                                         const layout_feature_t *layouted_feature,
+                                                         const pencil_size_t *pencil_size,
                                                          GdkRGBA foreground_color,
                                                          cairo_t *cr )
 {
@@ -339,8 +339,8 @@ void pencil_feature_painter_private_draw_port_pin_icon ( pencil_feature_painter_
 }
 
 void pencil_feature_painter_private_draw_entry_exit_icon ( pencil_feature_painter_t *this_,
-                                                           layout_feature_t *layouted_feature,
-                                                           pencil_size_t *pencil_size,
+                                                           const layout_feature_t *layouted_feature,
+                                                           const pencil_size_t *pencil_size,
                                                            GdkRGBA foreground_color,
                                                            cairo_t *cr )
 {
@@ -394,8 +394,8 @@ void pencil_feature_painter_private_draw_entry_exit_icon ( pencil_feature_painte
 }
 
 void pencil_feature_painter_private_draw_interface_icon ( pencil_feature_painter_t *this_,
-                                                          layout_feature_t *layouted_feature,
-                                                          pencil_size_t *pencil_size,
+                                                          const layout_feature_t *layouted_feature,
+                                                          const pencil_size_t *pencil_size,
                                                           cairo_t *cr )
 {
     TRACE_BEGIN();

@@ -21,17 +21,15 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
     layout = pango_cairo_create_layout (cr);
 
     /* get layout data object */
-    pencil_layout_data_t *layout_data;
-    layout_data = pencil_layouter_get_layout_data_ptr ( &((*this_).layouter) );
+    const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const ( &((*this_).layouter) );
 
     /* get diagram bounds */
-    layout_diagram_t *diagram_layout;
-    diagram_layout = pencil_layout_data_get_diagram_ptr( layout_data );
-    geometry_rectangle_t *diagram_bounds = layout_diagram_get_bounds_ptr ( diagram_layout );
+    const layout_diagram_t *const diagram_layout = pencil_layout_data_get_diagram_const( layout_data );
+    const geometry_rectangle_t *const diagram_bounds = layout_diagram_get_bounds_const ( diagram_layout );
     double width = geometry_rectangle_get_width ( diagram_bounds );
     double height = geometry_rectangle_get_height ( diagram_bounds );
 
-    pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
+    const pencil_size_t *const pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
 
     /* draw diagram */
     const data_diagram_t *diag = data_visible_set_get_diagram_const( (*this_).input_data );
@@ -91,18 +89,15 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
     assert( NULL != mark_selected );
     assert( NULL != cr );
 
-    pencil_layout_data_t *layout_data;
-    layout_data = pencil_layouter_get_layout_data_ptr ( &((*this_).layouter) );
+    const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const ( &((*this_).layouter) );
 
     /* iterate over all classifiers */
-    uint32_t count;
-    count = pencil_layout_data_get_visible_classifier_count ( layout_data );
+    const uint32_t count = pencil_layout_data_get_visible_classifier_count ( layout_data );
     for ( uint32_t index = 0; index < count; index ++ )
     {
-        layout_visible_classifier_t *classifier_layout;
-        classifier_layout = pencil_layout_data_get_visible_classifier_ptr( layout_data, index );
+        const layout_visible_classifier_t *const classifier_layout = pencil_layout_data_get_visible_classifier_const( layout_data, index );
 
-        pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
+        const pencil_size_t *const pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
 
         pencil_classifier_composer_draw( &((*this_).classifier_painter),
                                          classifier_layout,
@@ -130,25 +125,19 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
     assert( NULL != mark_selected );
     assert( NULL != cr );
 
-    pencil_layout_data_t *layout_data;
-    layout_data = pencil_layouter_get_layout_data_ptr ( &((*this_).layouter) );
+    const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const ( &((*this_).layouter) );
 
     /* iterate over all features */
-    uint32_t count;
-    count = pencil_layout_data_get_feature_count ( layout_data );
+    const uint32_t count = pencil_layout_data_get_feature_count ( layout_data );
     for ( uint32_t f_idx = 0; f_idx < count; f_idx ++ )
     {
         /* get feature */
-        layout_feature_t *the_feature;
-        the_feature = pencil_layout_data_get_feature_ptr( layout_data, f_idx );
+        const layout_feature_t *const the_feature = pencil_layout_data_get_feature_const( layout_data, f_idx );
 
         /* determine display flags of diagramelement */
-        layout_visible_classifier_t *classifier_layout;
-        classifier_layout = layout_feature_get_classifier_ptr ( the_feature );
-        const data_diagramelement_t *diagramelement;
-        diagramelement = layout_visible_classifier_get_diagramelement_const( classifier_layout );
-        data_diagramelement_flag_t display_flags;
-        display_flags = data_diagramelement_get_display_flags( diagramelement );
+        const layout_visible_classifier_t *const classifier_layout = layout_feature_get_classifier_const ( the_feature );
+        const data_diagramelement_t *const diagramelement = layout_visible_classifier_get_diagramelement_const( classifier_layout );
+        const data_diagramelement_flag_t display_flags = data_diagramelement_get_display_flags( diagramelement );
 
         /* draw features */
         pencil_feature_painter_draw ( &((*this_).feature_painter),
@@ -177,18 +166,14 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
     assert( NULL != mark_selected );
     assert( NULL != cr );
 
-    pencil_layout_data_t *layout_data;
-    layout_data = pencil_layouter_get_layout_data_ptr ( &((*this_).layouter) );
+    const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const ( &((*this_).layouter) );
 
-    uint32_t rel_count;
-    rel_count = pencil_layout_data_get_relationship_count ( layout_data );
+    const uint32_t rel_count = pencil_layout_data_get_relationship_count ( layout_data );
     for ( uint32_t index = 0; index < rel_count; index ++ )
     {
         pencil_visibility_t show_relation;
-        const data_relationship_t *the_relationship;
-        layout_relationship_t *relationship_layout;
-        relationship_layout = pencil_layout_data_get_relationship_ptr ( layout_data, index );
-        the_relationship = layout_relationship_get_data_const ( relationship_layout );
+        const layout_relationship_t *const relationship_layout = pencil_layout_data_get_relationship_const ( layout_data, index );
+        const data_relationship_t *const the_relationship = layout_relationship_get_data_const ( relationship_layout );
         show_relation = layout_relationship_get_visibility ( relationship_layout );
         if ( PENCIL_VISIBILITY_IMPLICIT == show_relation )
         {
@@ -203,7 +188,7 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
             {
                 if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &mark_highlighted ) )
                 {
-                    data_row_id_t diagramelement_id = data_id_get_row_id( &mark_highlighted );
+                    const data_row_id_t diagramelement_id = data_id_get_row_id( &mark_highlighted );
                     const data_visible_classifier_t *visible_clsfy = data_visible_set_get_visible_classifier_by_id_const ( (*this_).input_data, diagramelement_id );
                     if ( visible_clsfy != NULL )
                     {
@@ -224,7 +209,7 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
         }
         if (( PENCIL_VISIBILITY_SHOW == show_relation )||( PENCIL_VISIBILITY_GRAY_OUT == show_relation ))
         {
-            pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
+            const pencil_size_t *const pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
             pencil_relationship_painter_draw ( &((*this_).relationship_painter),
                                                relationship_layout,
                                                data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_row_id(the_relationship) ),

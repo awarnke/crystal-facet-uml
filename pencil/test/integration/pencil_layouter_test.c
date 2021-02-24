@@ -62,6 +62,14 @@ static void iterate_mini_models(void)
         pencil_layouter_layout_elements ( &layouter, font_layout );
         
         /* check result */
+        const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const( &layouter );
+        TEST_ASSERT( NULL != layout_data );
+        const uint32_t class_cnt = pencil_layout_data_get_visible_classifier_count( layout_data );
+        TEST_ASSERT_EQUAL_INT( 0, class_cnt );
+        const uint32_t feat_cnt = pencil_layout_data_get_feature_count( layout_data );
+        TEST_ASSERT_EQUAL_INT( 0, feat_cnt );
+        const uint32_t rel_cnt = pencil_layout_data_get_relationship_count( layout_data );
+        TEST_ASSERT_EQUAL_INT( 0, rel_cnt );
     }
 }
 

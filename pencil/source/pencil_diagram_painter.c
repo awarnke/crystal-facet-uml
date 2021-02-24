@@ -26,7 +26,7 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ )
 }
 
 void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
-                                   layout_diagram_t *layouted_diagram,
+                                   const layout_diagram_t *layouted_diagram,
                                    bool mark_focused,
                                    bool mark_highlighted,
                                    bool mark_selected,
@@ -40,8 +40,8 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
     assert( NULL != font_layout );
     assert( NULL != cr );
 
-    const data_diagram_t *the_diagram = layout_diagram_get_data_const( layouted_diagram );
-    const geometry_rectangle_t *diagram_bounds = layout_diagram_get_bounds_ptr( layouted_diagram );
+    const data_diagram_t *const the_diagram = layout_diagram_get_data_const( layouted_diagram );
+    const geometry_rectangle_t *const diagram_bounds = layout_diagram_get_bounds_const( layouted_diagram );
 
     double left = geometry_rectangle_get_left ( diagram_bounds );
     double top = geometry_rectangle_get_top ( diagram_bounds );

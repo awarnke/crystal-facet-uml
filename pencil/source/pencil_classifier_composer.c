@@ -36,11 +36,11 @@ void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ )
 }
 
 void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_,
-                                       layout_visible_classifier_t *layouted_classifier,
+                                       const layout_visible_classifier_t *layouted_classifier,
                                        data_id_t mark_focused,
                                        data_id_t mark_highlighted,
                                        const data_small_set_t *mark_selected,
-                                       pencil_layout_data_t *layout_data,
+                                       const pencil_layout_data_t *layout_data,
                                        const pencil_size_t *pencil_size,
                                        PangoLayout *font_layout,
                                        cairo_t *cr )
@@ -110,7 +110,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
         {
             GdkRGBA emph_color = pencil_size_get_emphasized_color( pencil_size );
             cairo_set_source_rgba( cr, emph_color.red, emph_color.green, emph_color.blue, emph_color.alpha );
-            const geometry_rectangle_t *box = layout_visible_classifier_get_label_box_ptr( layouted_classifier );
+            const geometry_rectangle_t *const box = layout_visible_classifier_get_label_box_const( layouted_classifier );
             cairo_rectangle ( cr,
                               geometry_rectangle_get_left(box),
                               geometry_rectangle_get_top(box),
@@ -123,12 +123,12 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
 
         /* draw label */
         draw_classifier_label_draw_stereotype_and_name( &((*this_).draw_classifier_label),
-                                             visible_classifier,
-                                             layout_visible_classifier_get_label_box_ptr( layouted_classifier ),
-                                             pencil_size,
-                                             font_layout,
-                                             cr
-                                           );
+                                                        visible_classifier,
+                                                        layout_visible_classifier_get_label_box_const( layouted_classifier ),
+                                                        pencil_size,
+                                                        font_layout,
+                                                        cr
+                                                      );
 
         /* draw rectangle */
         const int border_left = left + gap;
@@ -375,9 +375,9 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
         /* draw the rectangles */
         {
             const geometry_rectangle_t *const classifier_space
-                = layout_visible_classifier_get_space_ptr( layouted_classifier );
+                = layout_visible_classifier_get_space_const( layouted_classifier );
             const geometry_rectangle_t *const classifier_label_box
-                = layout_visible_classifier_get_label_box_ptr( layouted_classifier );
+                = layout_visible_classifier_get_label_box_const( layouted_classifier );
 
             cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
             cairo_rectangle ( cr,
@@ -685,8 +685,8 @@ void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_co
 }
 
 void pencil_classifier_composer_private_draw_feature_compartments ( const pencil_classifier_composer_t *this_,
-                                                                    layout_visible_classifier_t *layouted_classifier,
-                                                                    pencil_layout_data_t *layout_data,
+                                                                    const layout_visible_classifier_t *layouted_classifier,
+                                                                    const pencil_layout_data_t *layout_data,
                                                                     const pencil_size_t *pencil_size,
                                                                     cairo_t *cr )
 {
@@ -706,11 +706,9 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
         const uint32_t num_features = pencil_layout_data_get_feature_count ( layout_data );
         for ( uint32_t f_probe_idx = 0; f_probe_idx < num_features; f_probe_idx ++ )
         {
-            const layout_feature_t *f_probe_layout;
-            f_probe_layout = pencil_layout_data_get_feature_ptr ( layout_data, f_probe_idx );
+            const layout_feature_t *const f_probe_layout = pencil_layout_data_get_feature_const ( layout_data, f_probe_idx );
             assert ( NULL != f_probe_layout );
-            const layout_visible_classifier_t *probe_vis_classfy;
-            probe_vis_classfy = layout_feature_get_classifier_const ( f_probe_layout );
+            const layout_visible_classifier_t *const probe_vis_classfy = layout_feature_get_classifier_const ( f_probe_layout );
             assert ( NULL != probe_vis_classfy );
 
             /* check if this f_probe_layout has the same diagram element id as the_feature */
@@ -718,8 +716,7 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
             {
                 /* this is a feature of the current layouted_classifier */
                 /* define names for input data */
-                const data_feature_t *f_probe_data;
-                f_probe_data = layout_feature_get_data_const ( f_probe_layout );
+                const data_feature_t *const f_probe_data = layout_feature_get_data_const ( f_probe_layout );
                 assert ( NULL != f_probe_data );
                 const data_feature_type_t f_probe_type = data_feature_get_main_type ( f_probe_data );
 
@@ -741,8 +738,8 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
         /* define names for input data */
         const geometry_rectangle_t *const classifier_symbol_box
             = layout_visible_classifier_get_symbol_box_const( layouted_classifier );
-        const geometry_rectangle_t *classifier_space;
-        classifier_space = layout_visible_classifier_get_space_ptr( layouted_classifier );
+        const geometry_rectangle_t *const classifier_space
+            = layout_visible_classifier_get_space_const( layouted_classifier );
         const double feature_height = pencil_size_get_standard_font_size( pencil_size )
             + pencil_size_get_font_line_gap( pencil_size );
         const double gap = pencil_size_get_standard_object_border( pencil_size );

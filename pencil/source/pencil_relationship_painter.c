@@ -30,11 +30,11 @@ void pencil_relationship_painter_destroy( pencil_relationship_painter_t *this_ )
 }
 
 void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
-                                        layout_relationship_t *layouted_relationship,
+                                        const layout_relationship_t *layouted_relationship,
                                         bool mark_focused,
                                         bool mark_highlighted,
                                         bool mark_selected,
-                                        pencil_size_t *pencil_size,
+                                        const pencil_size_t *pencil_size,
                                         PangoLayout *layout,
                                         cairo_t *cr )
 {
@@ -45,7 +45,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
     assert( NULL != cr );
 
     const data_relationship_t *the_relationship = layout_relationship_get_data_const( layouted_relationship );
-    const geometry_connector_t *connector_shape = layout_relationship_get_shape_ptr( layouted_relationship );
+    const geometry_connector_t *connector_shape = layout_relationship_get_shape_const( layouted_relationship );
 
     if ( data_relationship_is_valid( the_relationship ) )
     {
@@ -590,7 +590,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
         /* draw the label */
         draw_relationship_label_draw_type_and_name ( &((*this_).draw_relationship_label),
                                                      the_relationship,
-                                                     layout_relationship_get_label_box_ptr( layouted_relationship ),
+                                                     layout_relationship_get_label_box_const( layouted_relationship ),
                                                      pencil_size,
                                                      layout,
                                                      cr
@@ -602,7 +602,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
             geometry_rectangle_t bounds;
             bounds = geometry_connector_get_bounding_rectangle( connector_shape );
             const geometry_rectangle_t *relation_label_box;
-            relation_label_box = layout_relationship_get_label_box_ptr( layouted_relationship );
+            relation_label_box = layout_relationship_get_label_box_const( layouted_relationship );
 
             cairo_set_source_rgba( cr, 0.5, 1.0, 0.6, 0.5 );
             cairo_rectangle ( cr,

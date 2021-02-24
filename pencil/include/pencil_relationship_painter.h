@@ -58,11 +58,11 @@ void pencil_relationship_painter_destroy( pencil_relationship_painter_t *this_ )
  *  \param cr a cairo drawing context
  */
 void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
-                                        layout_relationship_t *layouted_relationship,
+                                        const layout_relationship_t *layouted_relationship,
                                         bool mark_focused,
                                         bool mark_highlighted,
                                         bool mark_selected,
-                                        pencil_size_t *pencil_size,
+                                        const pencil_size_t *pencil_size,
                                         PangoLayout *layout,
                                         cairo_t *cr
                                     );
