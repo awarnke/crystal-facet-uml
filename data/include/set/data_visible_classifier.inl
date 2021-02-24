@@ -6,6 +6,18 @@ static inline void data_visible_classifier_init_empty ( data_visible_classifier_
     data_diagramelement_init_empty( &((*this_).diagramelement) );
 }
 
+static inline void data_visible_classifier_copy ( data_visible_classifier_t *this_, const data_visible_classifier_t *original )
+{
+    data_classifier_copy( &((*this_).classifier), &((*original).classifier) );
+    data_diagramelement_copy( &((*this_).diagramelement), &((*original).diagramelement) );
+}
+
+static inline void data_visible_classifier_replace ( data_visible_classifier_t *this_, const data_visible_classifier_t *that )
+{
+    data_classifier_replace( &((*this_).classifier), &((*that).classifier) );
+    data_diagramelement_replace( &((*this_).diagramelement), &((*that).diagramelement) );
+}
+
 static inline void data_visible_classifier_destroy ( data_visible_classifier_t *this_ )
 {
     data_classifier_destroy( &((*this_).classifier) );

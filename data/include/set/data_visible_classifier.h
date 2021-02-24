@@ -30,6 +30,22 @@ typedef struct data_visible_classifier_struct data_visible_classifier_t;
 static inline void data_visible_classifier_init_empty ( data_visible_classifier_t *this_ );
 
 /*!
+ *  \brief initializes the data_visible_classifier_t struct with a copy
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param original pointer to object attributes to copy
+ */
+static inline void data_visible_classifier_copy ( data_visible_classifier_t *this_, const data_visible_classifier_t *original );
+
+/*!
+ *  \brief overwrites the data_visible_classifier_t struct with a copy
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to object attributes to copy
+ */
+static inline void data_visible_classifier_replace ( data_visible_classifier_t *this_, const data_visible_classifier_t *that );
+
+/*!
  *  \brief destroys the data_visible_classifier_t struct
  *
  *  \param this_ pointer to own object attributes

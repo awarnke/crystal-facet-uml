@@ -88,6 +88,15 @@ static inline const data_diagram_t *data_visible_set_get_diagram_const ( const d
  */
 static inline data_diagram_t *data_visible_set_get_diagram_ptr ( data_visible_set_t *this_ );
 
+/*!
+ *  \brief exchanges the diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param new_diagram pointer to diagram record that shall be copied
+ *  \return DATA_ERROR_NONE in case of success
+ */
+static inline data_error_t data_visible_set_set_diagram( data_visible_set_t *this_, const data_diagram_t *new_diagram );
+
 /* ================================ classifiers ================================ */
 
 /*!
@@ -171,6 +180,15 @@ static inline uint32_t data_visible_set_get_classifier_index_from_pointer ( cons
                                                                             const data_visible_classifier_t *classifier_ptr
                                                                           );
 
+/*!
+ *  \brief appends a visible_classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param new_classifier pointer to visible_classifier record that shall be copied
+ *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_ARRAY_BUFFER_EXCEEDED if array is full
+ */
+static inline data_error_t data_visible_set_append_classifier( data_visible_set_t *this_, const data_visible_classifier_t *new_classifier );
+
 /* ================================ features ================================ */
 
 /*!
@@ -223,6 +241,15 @@ static inline data_feature_t *data_visible_set_get_feature_by_id_ptr ( data_visi
  *  \return pointer to data_feature_t[] otherwise.
  */
 static inline data_feature_t *data_visible_set_get_feature_list_ptr ( data_visible_set_t *this_ );
+
+/*!
+ *  \brief appends a feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param new_feature pointer to feature record that shall be copied
+ *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_ARRAY_BUFFER_EXCEEDED if array is full
+ */
+static inline data_error_t data_visible_set_append_feature( data_visible_set_t *this_, const data_feature_t *new_feature );
 
 /* ================================ relationships ================================ */
 
@@ -296,6 +323,15 @@ static inline uint32_t data_visible_set_count_ancestors_of_index ( const data_vi
  *  \return number of descendants of classifier_index which are listed in this_.
  */
 static inline uint32_t data_visible_set_count_descendants_of_index ( const data_visible_set_t *this_, uint32_t classifier_index );
+
+/*!
+ *  \brief appends a relationship
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param new_relationship pointer to relationship record that shall be copied
+ *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_ARRAY_BUFFER_EXCEEDED if array is full
+ */
+static inline data_error_t data_visible_set_append_relationship( data_visible_set_t *this_, const data_relationship_t *new_relationship );
 
 /* ================================ misc ================================ */
 

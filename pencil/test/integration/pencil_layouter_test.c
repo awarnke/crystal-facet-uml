@@ -52,15 +52,17 @@ static void tear_down(void)
     
 static void iterate_mini_models(void)
 {
-    /* setup */
-    
-    /* perform test */
-    pencil_layouter_prepare ( &layouter );
-    pencil_layouter_define_grid ( &layouter, diagram_bounds );
-    pencil_layouter_layout_elements ( &layouter, font_layout );
-    
-    /* check result */
-    
+    for ( unsigned int variant = 0; variant < 1; variant ++ )
+    {
+        /* setup */
+        
+        /* perform test */
+        pencil_layouter_prepare ( &layouter );
+        pencil_layouter_define_grid ( &layouter, diagram_bounds );
+        pencil_layouter_layout_elements ( &layouter, font_layout );
+        
+        /* check result */
+    }
 }
 
 
