@@ -53,6 +53,13 @@ enum data_relationship_type_enum {
 
 typedef enum data_relationship_type_enum data_relationship_type_t;
 
+#define DATA_RELATIONSHIP_TYPE_COUNT (19)
+
+/*!
+ *  \brief lists all values of data_relationship_type_t, excluding DATA_RELATIONSHIP_TYPE_VOID
+ */
+extern data_relationship_type_t const DATA_RELATIONSHIP_TYPE_ARRAY [DATA_RELATIONSHIP_TYPE_COUNT];
+
 #endif  /* DATA_RELATIONSHIP_TYPE_H */
 
 

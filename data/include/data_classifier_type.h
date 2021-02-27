@@ -62,6 +62,13 @@ enum data_classifier_type_enum {
 
 typedef enum data_classifier_type_enum data_classifier_type_t;
 
+#define DATA_CLASSIFIER_TYPE_COUNT (31)
+
+/*!
+ *  \brief lists all values of data_classifier_type_t, excluding DATA_CLASSIFIER_TYPE_VOID
+ */
+extern data_classifier_type_t const DATA_CLASSIFIER_TYPE_ARRAY [DATA_CLASSIFIER_TYPE_COUNT];
+
 /*!
  *  \brief checks if the classifier type is intended for use in a behavioral context
  *

@@ -54,6 +54,13 @@ typedef struct data_visible_set_struct data_visible_set_t;
 void data_visible_set_init( data_visible_set_t *this_ );
 
 /*!
+ *  \brief re-initializes the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void data_visible_set_reinit( data_visible_set_t *this_ );
+
+/*!
  *  \brief destroys the painter input data
  *
  *  \param this_ pointer to own object attributes

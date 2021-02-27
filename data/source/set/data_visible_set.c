@@ -19,6 +19,19 @@ void data_visible_set_init( data_visible_set_t *this_ )
     TRACE_END();
 }
 
+void data_visible_set_reinit( data_visible_set_t *this_ )
+{
+    TRACE_BEGIN();
+
+    data_diagram_reinit_empty( &((*this_).diagram) );
+    data_visible_set_private_destroy_visible_classifiers( this_ );
+    data_visible_set_private_destroy_features( this_ );
+    data_visible_set_private_destroy_relationships( this_ );
+
+    TRACE_END();
+    
+}
+
 void data_visible_set_destroy( data_visible_set_t *this_ )
 {
     TRACE_BEGIN();

@@ -1,5 +1,13 @@
 /* File: data_visible_classifier.inl; Copyright and License: see below */
 
+static inline void data_visible_classifier_init ( data_visible_classifier_t *this_, 
+                                                  const data_classifier_t *classifier, 
+                                                  const data_diagramelement_t *diagramelement  )
+{
+    data_classifier_copy( &((*this_).classifier), classifier );
+    data_diagramelement_copy( &((*this_).diagramelement), diagramelement );
+}
+
 static inline void data_visible_classifier_init_empty ( data_visible_classifier_t *this_ )
 {
     data_classifier_init_empty( &((*this_).classifier) );

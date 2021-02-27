@@ -39,6 +39,13 @@ enum data_diagram_type_enum {
 
 typedef enum data_diagram_type_enum data_diagram_type_t;
 
+#define DATA_DIAGRAM_TYPE_COUNT (20)
+
+/*!
+ *  \brief lists all values of data_diagram_type_t, excluding DATA_DIAGRAM_TYPE_VOID
+ */
+extern data_diagram_type_t const DATA_DIAGRAM_TYPE_ARRAY [DATA_DIAGRAM_TYPE_COUNT];
+
 #endif  /* DATA_DIAGRAM_TYPE_H */
 
 

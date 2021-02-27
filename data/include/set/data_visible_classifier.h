@@ -26,6 +26,18 @@ typedef struct data_visible_classifier_struct data_visible_classifier_t;
  *  \brief initializes the data_visible_classifier_t struct.
  *
  *  \param this_ pointer to own object attributes
+ *  \param classifier pointer to classifier that shall be copied
+ *  \param diagramelement pointer to diagramelement that shall be copied
+ */
+static inline void data_visible_classifier_init ( data_visible_classifier_t *this_, 
+                                                  const data_classifier_t *classifier, 
+                                                  const data_diagramelement_t *diagramelement 
+                                                );
+
+/*!
+ *  \brief initializes the data_visible_classifier_t struct.
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline void data_visible_classifier_init_empty ( data_visible_classifier_t *this_ );
 

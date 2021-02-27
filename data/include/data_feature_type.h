@@ -28,6 +28,13 @@ enum data_feature_type_enum {
 
 typedef enum data_feature_type_enum data_feature_type_t;
 
+#define DATA_FEATURE_TYPE_COUNT (10)
+
+/*!
+ *  \brief lists all values of data_feature_type_t, excluding DATA_FEATURE_TYPE_VOID
+ */
+extern data_feature_type_t const DATA_FEATURE_TYPE_ARRAY [DATA_FEATURE_TYPE_COUNT];
+
 #endif  /* DATA_FEATURE_TYPE_H */
 
 
