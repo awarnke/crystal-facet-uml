@@ -4,12 +4,15 @@
 #include "test_assert.h"
 #include "assert.h"
         
-#define TEST_DATA_SETUP_DIAG_VARIANTS (6)
-#define TEST_DATA_SETUP_CLASS_VARIANTS (6)
-#define TEST_DATA_SETUP_FEAT_VARIANTS (6)
+#define TEST_DATA_SETUP_REL_SAME_GROUP (1)
 #define TEST_DATA_SETUP_REL_VARIANTS (6)
-#define TEST_DATA_SETUP_VARIANTS (\
-    TEST_DATA_SETUP_DIAG_VARIANTS * TEST_DATA_SETUP_CLASS_VARIANTS * TEST_DATA_SETUP_FEAT_VARIANTS  * TEST_DATA_SETUP_REL_VARIANTS )
+#define TEST_DATA_SETUP_FEAT_SAME_GROUP ( TEST_DATA_SETUP_REL_VARIANTS )
+#define TEST_DATA_SETUP_FEAT_VARIANTS (4)
+#define TEST_DATA_SETUP_CLASS_SAME_GROUP ( TEST_DATA_SETUP_FEAT_SAME_GROUP * TEST_DATA_SETUP_FEAT_VARIANTS )
+#define TEST_DATA_SETUP_CLASS_VARIANTS (6)
+#define TEST_DATA_SETUP_DIAG_SAME_GROUP ( TEST_DATA_SETUP_CLASS_SAME_GROUP * TEST_DATA_SETUP_CLASS_VARIANTS )
+#define TEST_DATA_SETUP_DIAG_VARIANTS (6)
+#define TEST_DATA_SETUP_VARIANTS ( TEST_DATA_SETUP_DIAG_SAME_GROUP * TEST_DATA_SETUP_DIAG_VARIANTS )
 
 static inline void test_data_setup_init( test_data_setup_t *this_, test_data_setup_mode_t mode )
 {
@@ -37,6 +40,16 @@ static inline bool test_data_setup_is_valid_variant( const test_data_setup_t *th
     return ( (*this_).variant < TEST_DATA_SETUP_VARIANTS );
 }
 
+static inline unsigned int test_data_setup_get_variant( const test_data_setup_t *this_ )
+{
+    return (*this_).variant;
+}
+
+static inline test_data_setup_mode_t test_data_setup_get_mode( const test_data_setup_t *this_ )
+{
+    return (*this_).mode;
+}
+
 static inline void test_data_setup_get_variant_data( const test_data_setup_t *this_, data_visible_set_t *io_data_set )
 {
     data_visible_set_reinit( io_data_set );
@@ -51,7 +64,7 @@ static const char *const NARROW_STR = "i";
 static const char *const STANDARD_STR = "Hello World";
 static const char *const LONG_NAME = u8"Input-Devices::360" u8"\u00B0" u8"SurroundView::Settings";
 static const char *const WIDE_NAME = "WWWWWWWWWW" "WWWWWWWWWW" "WWWWWWWWWW" "WWWWWWWWWW" "WWWWWWW";
-#define TEST_DATA_SETUP_NORMAL_TEXT "This software component shall implement the following interfaces:\\n"
+#define TEST_DATA_SETUP_NORMAL_TEXT "This software component shall implement the following interfaces:\n"
 static const char *const NORMAL_DESCRIPTION = TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT;
 static const char *const LONG_DESCRIPTION
     = TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT
@@ -71,10 +84,11 @@ static const char *const LONG_DESCRIPTION
 
 static inline void test_data_setup_private_set_diagram( const test_data_setup_t *this_, data_visible_set_t *io_data_set )
 {
-    /*data_diagram_type_t const mod_type = DATA_DIAGRAM_TYPE_ARRAY [ (*this_).variant %  DATA_DIAGRAM_TYPE_COUNT ];*/
 
     data_diagram_type_t diagram_type;
-    switch ( (*this_).variant % TEST_DATA_SETUP_DIAG_VARIANTS )
+    /* const uint32_t pseudo_random = ((*this_).variant + index)*11;  / * = this shall be variable/dynamic but not really random */
+    /*data_diagram_type_t const diagram_type = DATA_DIAGRAM_TYPE_ARRAY [ pseudo_random %  DATA_DIAGRAM_TYPE_COUNT ];*/
+    switch ( ( (*this_).variant / TEST_DATA_SETUP_DIAG_SAME_GROUP ) % TEST_DATA_SETUP_DIAG_VARIANTS )
     {
         default:
         case 0:
@@ -139,7 +153,6 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
             diagram_description = LONG_DESCRIPTION;
         }
         break;
-
     }
     
     data_diagram_t *diag = data_visible_set_get_diagram_ptr( io_data_set );
@@ -154,11 +167,30 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
     TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == d_err );
 }
 
-
-
 static inline void test_data_setup_private_add_classifiers( const test_data_setup_t *this_, data_visible_set_t *io_data_set )
 {
-    const uint32_t count = 13;
+    uint32_t count = 0;
+    switch ( (*this_).mode )
+    {
+        default:
+        case TEST_DATA_SETUP_MODE_GOOD_CASES:
+        {
+            count = ( ((*this_).variant / TEST_DATA_SETUP_CLASS_SAME_GROUP ) % TEST_DATA_SETUP_CLASS_VARIANTS );
+        }
+        break;
+
+        case TEST_DATA_SETUP_MODE_CHALLENGING_CASES:
+        {
+            count = TEST_DATA_SETUP_CLASS_VARIANTS + 4*( ((*this_).variant / TEST_DATA_SETUP_CLASS_SAME_GROUP ) % TEST_DATA_SETUP_CLASS_VARIANTS );
+        }
+        break;
+
+        case TEST_DATA_SETUP_MODE_EDGE_CASES:
+        {
+            count = DATA_VISIBLE_SET_MAX_CLASSIFIERS;
+        }
+        break;
+    }
     for ( uint32_t index = 0; index < count; index ++ )
     {
         data_visible_classifier_t vis_classfy;
@@ -166,8 +198,35 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
         data_classifier_t *classifier = data_visible_classifier_get_classifier_ptr ( &vis_classfy );
         data_diagramelement_t *diagramelement = data_visible_classifier_get_diagramelement_ptr ( &vis_classfy );
         
-        const data_classifier_type_t class_type = DATA_CLASSIFIER_TYPE_ARRAY [ (*this_).variant % DATA_CLASSIFIER_TYPE_COUNT ];
+        const uint32_t pseudo_random = ((*this_).variant + index)*23;  /* = this shall be variable/dynamic but not really random */
+        const data_classifier_type_t class_type = DATA_CLASSIFIER_TYPE_ARRAY [ pseudo_random % DATA_CLASSIFIER_TYPE_COUNT ];
 
+        /*
+        switch ( (*this_).mode )
+        {
+            default:
+            case TEST_DATA_SETUP_MODE_GOOD_CASES:
+            {
+                diagram_name = (((*this_).variant % 2)==0) ? NARROW_STR : STANDARD_STR;
+                diagram_description = NORMAL_DESCRIPTION;
+            }
+            break;
+
+            case TEST_DATA_SETUP_MODE_CHALLENGING_CASES:
+            {
+                diagram_name = (((*this_).variant % 2)==0) ? EMPTY_STR : LONG_NAME;
+                diagram_description = NORMAL_DESCRIPTION;
+            }
+            break;
+
+            case TEST_DATA_SETUP_MODE_EDGE_CASES:
+            {
+                diagram_name = WIDE_NAME;
+                diagram_description = LONG_DESCRIPTION;
+            }
+            break;
+        }
+        */
         const char* stereotype = "";
         const char* name = "";
         const char* description = "";
@@ -213,10 +272,32 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
 
 static inline void test_data_setup_private_add_features( const test_data_setup_t *this_, data_visible_set_t *io_data_set )
 {
-    const uint32_t count = 13;
+    uint32_t count = 0;
+    switch ( (*this_).mode )
+    {
+        default:
+        case TEST_DATA_SETUP_MODE_GOOD_CASES:
+        {
+            count = ( ((*this_).variant / TEST_DATA_SETUP_FEAT_SAME_GROUP ) % TEST_DATA_SETUP_FEAT_VARIANTS );
+        }
+        break;
+
+        case TEST_DATA_SETUP_MODE_CHALLENGING_CASES:
+        {
+            count = TEST_DATA_SETUP_FEAT_VARIANTS + 4*( ((*this_).variant / TEST_DATA_SETUP_FEAT_SAME_GROUP ) % TEST_DATA_SETUP_FEAT_VARIANTS );
+        }
+        break;
+
+        case TEST_DATA_SETUP_MODE_EDGE_CASES:
+        {
+            count = DATA_VISIBLE_SET_MAX_FEATURES;
+        }
+        break;
+    }
     for ( uint32_t index = 0; index < count; index ++ )
     {
-        const data_feature_type_t feat_type = DATA_FEATURE_TYPE_ARRAY [ (*this_).variant % DATA_FEATURE_TYPE_COUNT ];
+        const uint32_t pseudo_random = ((*this_).variant + index)*7;  /* = this shall be variable/dynamic but not really random */
+        const data_feature_type_t feat_type = DATA_FEATURE_TYPE_ARRAY [ pseudo_random % DATA_FEATURE_TYPE_COUNT ];
 
         const char* feature_key = "";
         const char* feature_value = "";
@@ -244,10 +325,32 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
 
 static inline void test_data_setup_private_add_relationships( const test_data_setup_t *this_, data_visible_set_t *io_data_set )
 {
-    const uint32_t count = 13;
+    uint32_t count = 0;
+    switch ( (*this_).mode )
+    {
+        default:
+        case TEST_DATA_SETUP_MODE_GOOD_CASES:
+        {
+            count = ( ((*this_).variant / TEST_DATA_SETUP_REL_SAME_GROUP ) % TEST_DATA_SETUP_REL_VARIANTS );
+        }
+        break;
+
+        case TEST_DATA_SETUP_MODE_CHALLENGING_CASES:
+        {
+            count = TEST_DATA_SETUP_REL_VARIANTS + 4*( ((*this_).variant / TEST_DATA_SETUP_REL_SAME_GROUP ) % TEST_DATA_SETUP_REL_VARIANTS );
+        }
+        break;
+
+        case TEST_DATA_SETUP_MODE_EDGE_CASES:
+        {
+            count = DATA_VISIBLE_SET_MAX_RELATIONSHIPS;
+        }
+        break;
+    }
     for ( uint32_t index = 0; index < count; index ++ )
     {
-        const data_relationship_type_t rel_type = DATA_RELATIONSHIP_TYPE_ARRAY [ (*this_).variant %  DATA_RELATIONSHIP_TYPE_COUNT ]; 
+        const uint32_t pseudo_random = ((*this_).variant + index)*17;  /* = this shall be variable/dynamic but not really random */
+        const data_relationship_type_t rel_type = DATA_RELATIONSHIP_TYPE_ARRAY [ pseudo_random %  DATA_RELATIONSHIP_TYPE_COUNT ]; 
 
         const char* relationship_name = "";
         const char* relationship_description = "";

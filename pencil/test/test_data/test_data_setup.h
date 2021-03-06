@@ -71,6 +71,22 @@ static inline void test_data_setup_next_variant( test_data_setup_t *this_ );
 static inline bool test_data_setup_is_valid_variant( const test_data_setup_t *this_ );
 
 /*!
+ *  \brief gets the current variant
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return variant attribute
+ */
+static inline unsigned int test_data_setup_get_variant( const test_data_setup_t *this_ );
+
+/*!
+ *  \brief gets the current mode
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return mode attribute
+ */
+static inline test_data_setup_mode_t test_data_setup_get_mode( const test_data_setup_t *this_ );
+
+/*!
  *  \brief initializes the data_visible_set_t according to the mode and the set variant
  *
  *  \param this_ pointer to own object attributes

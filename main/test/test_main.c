@@ -23,6 +23,7 @@
 #include "integration/io_export_model_traversal_test.h"
 #include "unit/pencil_layout_data_test.h"
 #include "integration/pencil_layouter_test.h"
+#include "integration/pencil_diagram_maker_test.h"
 #include "unit/universal_array_index_sorter_test.h"
 #include "unit/universal_array_list_test.h"
 #include "unit/universal_memory_output_stream_test.h"
@@ -140,6 +141,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, ctrl_diagram_policy_enforcer_test_get_list() );
         test_runner_run_suite( &runner, ctrl_classifier_policy_enforcer_test_get_list() );
         test_runner_run_suite( &runner, pencil_layouter_test_get_list() );
+        test_runner_run_suite( &runner, pencil_diagram_maker_test_get_list() );
         test_runner_run_suite( &runner, json_import_to_database_test_get_list() );
         test_runner_run_suite( &runner, md_filter_test_get_list() );
         test_runner_run_suite( &runner, io_export_model_traversal_test_get_list() );

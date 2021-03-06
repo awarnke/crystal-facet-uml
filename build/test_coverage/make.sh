@@ -23,7 +23,7 @@ echo "building binary"
 cd crystal-facet-uml-${VERSIONSTR}
 mkdir cmake_build
 cd cmake_build
-cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake -DCMAKE_BUILD_TYPE=Release -DCFU_ADD_GCOV_TARGET=ON ..
 make -j4 gcov_crystal-facet-uml  # start up to 4 parallel processes to make use of quad-core processors
 cd ../..
 

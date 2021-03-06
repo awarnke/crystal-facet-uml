@@ -2,6 +2,7 @@
 
 #include "pencil_layouter_test.h"
 #include "pencil_layouter.h"
+#include "pencil_diagram_maker.h"
 #include "test_data/test_data_setup.h"
 #include "trace.h"
 #include "test_assert.h"
@@ -26,14 +27,14 @@ static data_visible_set_t data_set;
 static pencil_layouter_t layouter;
 static cairo_surface_t *surface;
 static cairo_t *cr;
-geometry_rectangle_t diagram_bounds;
-PangoLayout *font_layout;
+static geometry_rectangle_t diagram_bounds;
+static PangoLayout *font_layout;
 
 static void set_up(void)
 {
     data_visible_set_init( &data_set );
     pencil_layouter_init( &layouter, &data_set );
-    geometry_rectangle_init( &diagram_bounds, 0.0, 0.0, 320.0, 240.0 );
+    geometry_rectangle_init( &diagram_bounds, 0.0, 0.0, 640.0, 480.0 );
     surface = cairo_image_surface_create( CAIRO_FORMAT_ARGB32, 
                                           (uint32_t) geometry_rectangle_get_width( &diagram_bounds ),
                                           (uint32_t) geometry_rectangle_get_height( &diagram_bounds )
@@ -54,7 +55,7 @@ static void tear_down(void)
     pencil_layouter_destroy( &layouter );
     data_visible_set_destroy( &data_set );
 }
-    
+ 
 static void layout_good_cases(void)
 {
     test_data_setup_t ts_setup;

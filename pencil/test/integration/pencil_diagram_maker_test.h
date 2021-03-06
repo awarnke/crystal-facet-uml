@@ -1,18 +1,18 @@
-/* File: pencil_layouter_test.h; Copyright and License: see below */
+/* File: pencil_diagram_maker_test.h; Copyright and License: see below */
 
-#ifndef PENCIL_LAYOUTER_TEST_H
-#define PENCIL_LAYOUTER_TEST_H
+#ifndef PENCIL_DIAGRAM_MAKER_TEST_H
+#define PENCIL_DIAGRAM_MAKER_TEST_H
 
 /*!
  *  \file
- *  \brief MODULE TEST for pencil_layouter
+ *  \brief MODULE TEST for pencil_diagram_maker
  */
 
 #include "test_suite.h"
 
-test_suite_t pencil_layouter_test_get_list(void);
+test_suite_t pencil_diagram_maker_test_get_list(void);
 
-#endif  /* PENCIL_LAYOUTER_TEST_H */
+#endif  /* PENCIL_DIAGRAM_MAKER_TEST_H */
 
 
 /*
