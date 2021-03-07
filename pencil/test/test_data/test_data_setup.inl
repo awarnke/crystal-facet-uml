@@ -283,32 +283,33 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
             break;
         }
 
-        /*
         switch ( (*this_).mode )
         {
             default:
             case TEST_DATA_SETUP_MODE_GOOD_CASES:
             {
-                diagram_name = (((*this_).variant % 2)==0) ? NARROW_STR : STANDARD_STR;
-                diagram_description = NORMAL_DESCRIPTION;
+                stereotype = ((pseudo_random_1 % 2)==0) ? NARROW_STR : STANDARD_STR;
+                name = ((pseudo_random_2 % 2)==0) ? NARROW_STR : STANDARD_STR;
+                description = NORMAL_DESCRIPTION;
             }
             break;
 
             case TEST_DATA_SETUP_MODE_CHALLENGING_CASES:
             {
-                diagram_name = (((*this_).variant % 2)==0) ? EMPTY_STR : LONG_NAME;
-                diagram_description = NORMAL_DESCRIPTION;
+                stereotype = ((pseudo_random_1 % 2)==0) ? EMPTY_STR : LONG_NAME;
+                name = ((pseudo_random_2 % 2)==0) ? EMPTY_STR : LONG_NAME;
+                description = NORMAL_DESCRIPTION;
             }
             break;
 
             case TEST_DATA_SETUP_MODE_EDGE_CASES:
             {
-                diagram_name = WIDE_NAME;
-                diagram_description = LONG_DESCRIPTION;
+                stereotype = WIDE_NAME;
+                name = WIDE_NAME;
+                description = LONG_DESCRIPTION;
             }
             break;
         }
-        */
         
         const data_error_t d1_err = data_classifier_init( classifier,
                                                           index+1,  /* = id */
@@ -320,7 +321,7 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
                                                           y_order,
                                                           list_order
                                                         );       
-        TEST_ENVIRONMENT_ASSERT ( d1_err == DATA_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( DATA_ERROR_NONE, d1_err&(~DATA_ERROR_STRING_BUFFER_EXCEEDED) );
     
         //    DATA_DIAGRAMELEMENT_FLAG_NONE = 0x0,  /*!< no flags set */
         //DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE = 0x01,  /*!< the classifier shall be drawn as a named instance (underline) */
@@ -370,6 +371,7 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
         }
         break;
     }
+    
     for ( uint32_t index = 0; index < count; index ++ )
     {
         const uint32_t pseudo_random = ((*this_).variant + index)*7;  /* = this shall be variable/dynamic but not really random */
@@ -412,6 +414,34 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
             break;
         }
         
+        switch ( (*this_).mode )
+        {
+            default:
+            case TEST_DATA_SETUP_MODE_GOOD_CASES:
+            {
+                feature_key = ((pseudo_random % 2)==0) ? NARROW_STR : STANDARD_STR;
+                feature_description = NORMAL_DESCRIPTION;
+                feature_value = ((pseudo_random % 2)==0) ? NARROW_STR : STANDARD_STR;
+            }
+            break;
+
+            case TEST_DATA_SETUP_MODE_CHALLENGING_CASES:
+            {
+                feature_key = ((pseudo_random % 2)==0) ? EMPTY_STR : LONG_NAME;
+                feature_description = NORMAL_DESCRIPTION;
+                feature_value = ((pseudo_random % 2)==0) ? EMPTY_STR : LONG_NAME;
+            }
+            break;
+
+            case TEST_DATA_SETUP_MODE_EDGE_CASES:
+            {
+                feature_key = WIDE_NAME;
+                feature_description = LONG_DESCRIPTION;
+                feature_value = WIDE_NAME;
+            }
+            break;
+        }
+
         data_feature_t feat;
         const data_error_t d1_err = data_feature_init( &feat,
                                                        index+1,  /* = feature_id */
@@ -422,7 +452,7 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
                                                        feature_description,
                                                        list_order
                                                      );
-        TEST_ENVIRONMENT_ASSERT ( d1_err == DATA_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( DATA_ERROR_NONE, d1_err&(~DATA_ERROR_STRING_BUFFER_EXCEEDED) );
         
         const data_error_t d2_err = data_visible_set_append_feature( io_data_set, &feat );
         TEST_ENVIRONMENT_ASSERT ( d2_err == DATA_ERROR_NONE );
@@ -455,6 +485,7 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
         }
         break;
     }
+    
     for ( uint32_t index = 0; index < count; index ++ )
     {
         const uint32_t pseudo_random = ((*this_).variant + index)*17;  /* = this shall be variable/dynamic but not really random */
@@ -510,6 +541,31 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
             break;
         }
         
+        switch ( (*this_).mode )
+        {
+            default:
+            case TEST_DATA_SETUP_MODE_GOOD_CASES:
+            {
+                relationship_name = ((pseudo_random % 2)==0) ? NARROW_STR : STANDARD_STR;
+                relationship_description = NORMAL_DESCRIPTION;
+            }
+            break;
+
+            case TEST_DATA_SETUP_MODE_CHALLENGING_CASES:
+            {
+                relationship_name = ((pseudo_random % 2)==0) ? EMPTY_STR : LONG_NAME;
+                relationship_description = NORMAL_DESCRIPTION;
+            }
+            break;
+
+            case TEST_DATA_SETUP_MODE_EDGE_CASES:
+            {
+                relationship_name = WIDE_NAME;
+                relationship_description = LONG_DESCRIPTION;
+            }
+            break;
+        }
+
         data_relationship_t rel;
         const data_error_t d1_err = data_relationship_init( &rel,
                                                             index+1,  /* =  relationship_id */
@@ -522,7 +578,7 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
                                                             index+1,  /* = from_feature_id */
                                                             index+1  /* = to_feature_id */
                                                           );
-        TEST_ENVIRONMENT_ASSERT ( d1_err == DATA_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( DATA_ERROR_NONE, d1_err&(~DATA_ERROR_STRING_BUFFER_EXCEEDED) );
         
         const data_error_t d2_err = data_visible_set_append_relationship( io_data_set, &rel );
         TEST_ENVIRONMENT_ASSERT ( d2_err == DATA_ERROR_NONE );
