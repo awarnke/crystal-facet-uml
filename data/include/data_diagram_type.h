@@ -9,6 +9,8 @@
  *  \brief Defines types of diagrams
  */
 
+#include <stdbool.h>
+
 /*!
  *  \brief enumeration of all diagram types
  */
@@ -45,6 +47,17 @@ typedef enum data_diagram_type_enum data_diagram_type_t;
  *  \brief lists all values of data_diagram_type_t, excluding DATA_DIAGRAM_TYPE_VOID
  */
 extern data_diagram_type_t const DATA_DIAGRAM_TYPE_ARRAY [DATA_DIAGRAM_TYPE_COUNT];
+
+/*!
+ *  \brief checks if the diagram type is an interaction diagram
+ *
+ *  \param this_ enumeration value
+ *  \return true if sequence, timing, communication or interaction overview
+ *          false otherwise
+ */
+static inline bool data_diagram_type_is_interaction( data_diagram_type_t this_ );
+
+#include "data_diagram_type.inl"
 
 #endif  /* DATA_DIAGRAM_TYPE_H */
 

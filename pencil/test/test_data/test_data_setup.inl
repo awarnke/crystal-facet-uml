@@ -4,14 +4,23 @@
 #include "test_assert.h"
 #include "assert.h"
         
+/* number of same relationships in variant/variant-group size (the division-denominator): TEST_DATA_SETUP_REL_SAME_GROUP */        
 #define TEST_DATA_SETUP_REL_SAME_GROUP (1)
+/* number of relationship variants (the modulo-result): TEST_DATA_SETUP_REL_VARIANTS */        
 #define TEST_DATA_SETUP_REL_VARIANTS (6)
+/* number of same feature in variant/variant-group size (the division-denominator): TEST_DATA_SETUP_FEAT_SAME_GROUP */        
 #define TEST_DATA_SETUP_FEAT_SAME_GROUP ( TEST_DATA_SETUP_REL_VARIANTS )
+/* number of feature variants (the modulo-result): TEST_DATA_SETUP_FEAT_VARIANTS */        
 #define TEST_DATA_SETUP_FEAT_VARIANTS (4)
+/* number of same classifier in variant/variant-group size (the division-denominator): TEST_DATA_SETUP_CLASS_SAME_GROUP */        
 #define TEST_DATA_SETUP_CLASS_SAME_GROUP ( TEST_DATA_SETUP_FEAT_SAME_GROUP * TEST_DATA_SETUP_FEAT_VARIANTS )
+/* number of classifier variants (the modulo-result): TEST_DATA_SETUP_CLASS_VARIANTS */        
 #define TEST_DATA_SETUP_CLASS_VARIANTS (6)
+/* number of same diagram in variant/variant-group size (the division-denominator): TEST_DATA_SETUP_DIAG_SAME_GROUP */        
 #define TEST_DATA_SETUP_DIAG_SAME_GROUP ( TEST_DATA_SETUP_CLASS_SAME_GROUP * TEST_DATA_SETUP_CLASS_VARIANTS )
+/* number of diagram variants (the modulo-result): TEST_DATA_SETUP_DIAG_VARIANTS */        
 #define TEST_DATA_SETUP_DIAG_VARIANTS (6)
+/* number of total variants */        
 #define TEST_DATA_SETUP_VARIANTS ( TEST_DATA_SETUP_DIAG_SAME_GROUP * TEST_DATA_SETUP_DIAG_VARIANTS )
 
 static inline void test_data_setup_init( test_data_setup_t *this_, test_data_setup_mode_t mode )
@@ -86,8 +95,9 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
 {
 
     data_diagram_type_t diagram_type;
-    /* const uint32_t pseudo_random = ((*this_).variant + index)*11;  / * = this shall be variable/dynamic but not really random */
-    /*data_diagram_type_t const diagram_type = DATA_DIAGRAM_TYPE_ARRAY [ pseudo_random %  DATA_DIAGRAM_TYPE_COUNT ];*/
+    
+    const uint32_t pseudo_random = (*this_).variant;  /* = this shall be variable/dynamic but not really random */
+    const data_diagram_type_t proposal_type = DATA_DIAGRAM_TYPE_ARRAY [ pseudo_random %  DATA_DIAGRAM_TYPE_COUNT ];
     switch ( ( (*this_).variant / TEST_DATA_SETUP_DIAG_SAME_GROUP ) % TEST_DATA_SETUP_DIAG_VARIANTS )
     {
         default:
@@ -105,7 +115,12 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
         
         case 2:
         {
-            diagram_type = DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM;
+            /* select any normal/std diagram type */
+            const bool proposal_is_not_std 
+                = data_diagram_type_is_interaction( proposal_type )
+                || ( proposal_type == DATA_DIAGRAM_TYPE_LIST )
+                || ( proposal_type == DATA_DIAGRAM_TYPE_BOX_DIAGRAM );
+            diagram_type = (proposal_is_not_std) ? DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM : proposal_type;
         }
         break;
         
@@ -123,7 +138,8 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
         
         case 5:
         {
-            diagram_type = DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM;
+            /* select a remaining interaction diagram type */
+            diagram_type = ((pseudo_random % 2)==0) ? DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM : DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM;
         }
         break;
     }
@@ -135,14 +151,14 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
         default:
         case TEST_DATA_SETUP_MODE_GOOD_CASES:
         {
-            diagram_name = (((*this_).variant % 2)==0) ? NARROW_STR : STANDARD_STR;
+            diagram_name = ((pseudo_random % 2)==0) ? NARROW_STR : STANDARD_STR;
             diagram_description = NORMAL_DESCRIPTION;
         }
         break;
 
         case TEST_DATA_SETUP_MODE_CHALLENGING_CASES:
         {
-            diagram_name = (((*this_).variant % 2)==0) ? EMPTY_STR : LONG_NAME;
+            diagram_name = ((pseudo_random % 2)==0) ? EMPTY_STR : LONG_NAME;
             diagram_description = NORMAL_DESCRIPTION;
         }
         break;
@@ -198,8 +214,74 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
         data_classifier_t *classifier = data_visible_classifier_get_classifier_ptr ( &vis_classfy );
         data_diagramelement_t *diagramelement = data_visible_classifier_get_diagramelement_ptr ( &vis_classfy );
         
-        const uint32_t pseudo_random = ((*this_).variant + index)*23;  /* = this shall be variable/dynamic but not really random */
-        const data_classifier_type_t class_type = DATA_CLASSIFIER_TYPE_ARRAY [ pseudo_random % DATA_CLASSIFIER_TYPE_COUNT ];
+        const uint32_t pseudo_random_1 = ((*this_).variant + index)*23;  /* = this shall be variable/dynamic but not really random */
+        const uint32_t pseudo_random_2 = ((*this_).variant + index + 8)*29;  /* = this shall be variable/dynamic but not really random */
+        const data_classifier_type_t class_type = DATA_CLASSIFIER_TYPE_ARRAY [ pseudo_random_1 % DATA_CLASSIFIER_TYPE_COUNT ];
+
+        const char* stereotype = "";
+        const char* name = "";
+        const char* description = "";
+        int32_t x_order;
+        int32_t y_order;
+        int32_t list_order;
+        
+        switch ( ( (*this_).variant / TEST_DATA_SETUP_CLASS_SAME_GROUP ) % TEST_DATA_SETUP_CLASS_VARIANTS )
+        {
+            default:
+            case 0:
+            {
+                /* all zero */
+                x_order = 0;
+                y_order = 0;
+                list_order = 0;
+            }
+            break;
+            
+            case 1:
+            {
+                /* all different */
+                x_order = pseudo_random_1;
+                y_order = pseudo_random_2;
+                list_order = pseudo_random_1;
+            }
+            break;
+            
+            case 2:
+            {
+                /* all 5x5 grid */
+                x_order = ((pseudo_random_1)%5)*1000;
+                y_order = ((pseudo_random_2)%5)*1000;
+                list_order = ((pseudo_random_1)%5)*1000;
+            }
+            break;
+            
+            case 3:
+            {
+                /* all 3x3 grid */
+                x_order = ((pseudo_random_1)%3)*1000;
+                y_order = ((pseudo_random_2)%3)*1000;
+                list_order = ((pseudo_random_1)%3)*1000;
+            }
+            break;
+            
+            case 4:
+            {
+                /* all 17x17 grid */
+                x_order = ((pseudo_random_1)%17)*1000;
+                y_order = ((pseudo_random_2)%17)*1000;
+                list_order = ((pseudo_random_1)%17)*1000;
+            }
+            break;
+            
+            case 5:
+            {
+                /* all diagnonal */
+                x_order = pseudo_random_1;
+                y_order = pseudo_random_1;
+                list_order = pseudo_random_1;
+            }
+            break;
+        }
 
         /*
         switch ( (*this_).mode )
@@ -227,12 +309,6 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
             break;
         }
         */
-        const char* stereotype = "";
-        const char* name = "";
-        const char* description = "";
-        int32_t x_order = 0;
-        int32_t y_order = 0;
-        int32_t list_order = 0;
         
         const data_error_t d1_err = data_classifier_init( classifier,
                                                           index+1,  /* = id */
@@ -302,8 +378,40 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
         const char* feature_key = "";
         const char* feature_value = "";
         const char* feature_description = "";
-        int32_t list_order = 0;
+        int32_t list_order;
        
+        switch ( ( (*this_).variant / TEST_DATA_SETUP_FEAT_SAME_GROUP ) % TEST_DATA_SETUP_FEAT_VARIANTS )
+        {
+            default:
+            case 0:
+            {
+                /* all zero */
+                list_order = 0;
+            }
+            break;
+            
+            case 1:
+            {
+                /* all extreme */
+                list_order = ((pseudo_random % 2)==0) ? INT32_MIN : INT32_MAX;
+            }
+            break;
+            
+            case 2:
+            {
+                /* all random */
+                list_order = pseudo_random;
+            }
+            break;
+            
+            case 3:
+            {
+                /* all 5 grid */
+                list_order = (pseudo_random % 5)*65536;
+            }
+            break;
+        }
+        
         data_feature_t feat;
         const data_error_t d1_err = data_feature_init( &feat,
                                                        index+1,  /* = feature_id */
@@ -354,8 +462,54 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
 
         const char* relationship_name = "";
         const char* relationship_description = "";
-        int32_t list_order = 0;
+        int32_t list_order;
 
+        switch ( ( (*this_).variant / TEST_DATA_SETUP_REL_SAME_GROUP ) % TEST_DATA_SETUP_REL_VARIANTS )
+        {
+            default:
+            case 0:
+            {
+                /* all zero */
+                list_order = 0;
+            }
+            break;
+            
+            case 1:
+            {
+                /* all extreme */
+                list_order = ((pseudo_random % 2)==0) ? INT32_MIN : INT32_MAX;
+            }
+            break;
+            
+            case 2:
+            {
+                /* all random */
+                list_order = pseudo_random;
+            }
+            break;
+            
+            case 3:
+            {
+                /* all 5 grid */
+                list_order = (pseudo_random % 5)*65536;
+            }
+            break;
+            
+            case 4:
+            {
+                /* all 3 grid */
+                list_order = (pseudo_random % 3)*65536;
+            }
+            break;
+            
+            case 5:
+            {
+                /* all 19 grid */
+                list_order = (pseudo_random % 19)*65536;
+            }
+            break;
+        }
+        
         data_relationship_t rel;
         const data_error_t d1_err = data_relationship_init( &rel,
                                                             index+1,  /* =  relationship_id */

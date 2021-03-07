@@ -24,7 +24,7 @@ static inline bool data_classifier_type_is_behavioral( data_classifier_type_t th
 
 
 /*
-Copyright 2016-2021 Andreas Warnke
+Copyright 2020-2021 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
