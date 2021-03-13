@@ -53,12 +53,16 @@ static inline void pencil_diagram_maker_define_grid ( pencil_diagram_maker_t *th
     pencil_layouter_define_grid ( &((*this_).layouter), diagram_bounds );
 }
 
-static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t *this_, cairo_t *cr )
+static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t *this_, 
+                                                          cairo_t *cr, 
+                                                          data_stat_t *io_layout_stat )
 {
+    assert( cr != NULL );
+    
     PangoLayout *font_layout;
     font_layout = pango_cairo_create_layout (cr);
 
-    pencil_layouter_layout_elements ( &((*this_).layouter), font_layout );
+    pencil_layouter_layout_elements ( &((*this_).layouter), font_layout, io_layout_stat );
 
     g_object_unref (font_layout);
 }

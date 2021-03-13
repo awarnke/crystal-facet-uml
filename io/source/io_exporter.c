@@ -192,7 +192,8 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
             result = image_format_writer_render_diagram_to_file( &((*this_).temp_image_format_exporter ),
                                                                  diagram_id,
                                                                  export_type,
-                                                                 utf8stringbuf_get_string( (*this_).temp_filename )
+                                                                 utf8stringbuf_get_string( (*this_).temp_filename ),
+                                                                 io_export_stat
                                                                );
             image_format_writer_destroy( &((*this_).temp_image_format_exporter ) );
         }

@@ -202,22 +202,16 @@ static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t 
     if ( gui_sketch_card_is_valid( this_ ) )
     {
         /* layout loaded classifiers */
-        int32_t left;
-        int32_t top;
-        uint32_t width;
-        uint32_t height;
-
-        left = shape_int_rectangle_get_left( &((*this_).bounds) );
-        top = shape_int_rectangle_get_top( &((*this_).bounds) );
-        width = shape_int_rectangle_get_width( &((*this_).bounds) );
-        height = shape_int_rectangle_get_height( &((*this_).bounds) );
+        const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+        const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
+        const uint32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
+        const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
 
         geometry_rectangle_t destination;
         geometry_rectangle_init( &destination, left, top, width, height );
-        pencil_diagram_maker_define_grid ( &((*this_).painter),
-                                           destination
-                                         );
-        pencil_diagram_maker_layout_elements ( &((*this_).painter), cr );
+        
+        pencil_diagram_maker_define_grid ( &((*this_).painter), destination );
+        pencil_diagram_maker_layout_elements ( &((*this_).painter), cr, NULL );
         (*this_).dirty_elements_layout = false;
 
         geometry_rectangle_destroy( &destination );

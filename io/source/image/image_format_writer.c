@@ -50,10 +50,12 @@ void image_format_writer_destroy( image_format_writer_t *this_ )
 int image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
                                                 data_id_t diagram_id,
                                                 io_file_format_t export_type,
-                                                const char* target_filename )
+                                                const char* target_filename,
+                                                data_stat_t *io_render_stat )
 {
     TRACE_BEGIN();
     assert( NULL != target_filename );
+    assert( NULL != io_render_stat );
     assert( IO_FILE_FORMAT_TXT != export_type );
     assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
     const data_row_id_t diagram_row_id = data_id_get_row_id( &diagram_id );
@@ -67,7 +69,7 @@ int image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
         assert(false);
     }
     assert( data_visible_set_is_valid ( (*this_).input_data ) );
-    result |= image_format_writer_private_render_surface_to_file( this_, export_type, target_filename );
+    result |= image_format_writer_private_render_surface_to_file( this_, export_type, target_filename, io_render_stat );
     data_visible_set_destroy( (*this_).input_data );
 
     TRACE_END_ERR( result );
@@ -76,7 +78,8 @@ int image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
 
 int image_format_writer_private_render_surface_to_file( image_format_writer_t *this_,
                                                         io_file_format_t export_type,
-                                                        const char* target_filename )
+                                                        const char* target_filename,
+                                                        data_stat_t *io_render_stat )
 {
     TRACE_BEGIN();
     assert( NULL != target_filename );
@@ -137,10 +140,8 @@ int image_format_writer_private_render_surface_to_file( image_format_writer_t *t
         cairo_fill (cr);
 
         /* layout diagram */
-        pencil_diagram_maker_define_grid ( &((*this_).painter),
-                                           (*this_).bounds
-                                         );
-        pencil_diagram_maker_layout_elements ( &((*this_).painter), cr );
+        pencil_diagram_maker_define_grid ( &((*this_).painter), (*this_).bounds );
+        pencil_diagram_maker_layout_elements ( &((*this_).painter), cr, io_render_stat );
 
         /* draw the current diagram */
         data_id_t void_id;

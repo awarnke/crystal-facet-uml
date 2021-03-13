@@ -12,6 +12,7 @@
 #include "io_file_format.h"
 #include "pencil_diagram_maker.h"
 #include "set/data_visible_set.h"
+#include "set/data_stat.h"
 #include "util/geometry/geometry_rectangle.h"
 #include <gtk/gtk.h>
 
@@ -52,12 +53,14 @@ void image_format_writer_destroy( image_format_writer_t *this_ );
  *  \param diagram_id id of the diagram which to process for export
  *  \param export_type image file format
  *  \param target_filename path name of the file to store the cairo surface
+ *  \param io_render_stat pointer to already initialized statistics object where rendering statistics are added
  *  \result 0 in case of success, -1 otherwise
  */
 int image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
                                                 data_id_t diagram_id,
                                                 io_file_format_t export_type,
-                                                const char* target_filename
+                                                const char* target_filename,
+                                                data_stat_t *io_render_stat
                                               );
 
 /*!
@@ -65,11 +68,13 @@ int image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param export_type image file format
  *  \param target_filename path name of the file to store the cairo surface
+ *  \param io_render_stat pointer to already initialized statistics object where rendering statistics are added
  *  \result 0 in case of success, -1 otherwise
  */
 int image_format_writer_private_render_surface_to_file( image_format_writer_t *this_,
                                                         io_file_format_t export_type,
-                                                        const char* target_filename
+                                                        const char* target_filename,
+                                                        data_stat_t *io_render_stat
                                                       );
 
 #endif  /* IMAGE_FORMAT_WRITER_H */

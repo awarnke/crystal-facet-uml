@@ -141,9 +141,10 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_, geometry_rectangle_
     TRACE_END();
 }
 
-void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *font_layout )
+void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *font_layout, data_stat_t *io_layout_stat )
 {
     TRACE_BEGIN();
+    assert( font_layout != NULL );
 
     /* get the diagram data */
     layout_diagram_t *the_diagram;

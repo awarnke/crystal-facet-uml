@@ -24,6 +24,9 @@
 /* number of total variants */        
 #define TEST_DATA_SETUP_VARIANTS ( TEST_DATA_SETUP_DIAG_SAME_GROUP * TEST_DATA_SETUP_DIAG_VARIANTS )
 
+/* spread range of a pseude random byte to full integer range */
+#define SPREAD_RANGE(x) (memset(&x,(char)(x),sizeof(x)))
+
 static inline void test_data_setup_init( test_data_setup_t *this_, test_data_setup_mode_t mode )
 {
     (*this_).variant = 0;
@@ -296,9 +299,9 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
 
             case TEST_DATA_SETUP_MODE_EDGE_CASES:
             {
-                stereotype = WIDE_NAME;
-                name = WIDE_NAME;
-                description = LONG_DESCRIPTION;
+                stereotype = ((pseudo_random_1 % 2)==0) ? EMPTY_STR : WIDE_NAME;
+                name = ((pseudo_random_2 % 2)==0) ? STANDARD_STR : WIDE_NAME;
+                description = ((pseudo_random_1 % 2)==0) ? NORMAL_DESCRIPTION : LONG_DESCRIPTION;
             }
             break;
         }
@@ -423,6 +426,7 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
             {
                 /* all random */
                 list_order = pseudo_random;
+                SPREAD_RANGE(list_order);
             }
             break;
             
@@ -437,6 +441,7 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
             {
                 /* all 5 grid */
                 list_order = (pseudo_random % 5)*65536;
+                SPREAD_RANGE(list_order);
             }
             break;
         }
@@ -462,9 +467,9 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
 
             case TEST_DATA_SETUP_MODE_EDGE_CASES:
             {
-                feature_key = WIDE_NAME;
+                feature_key = ((pseudo_random % 2)==0) ? STANDARD_STR : WIDE_NAME;
                 feature_description = LONG_DESCRIPTION;
-                feature_value = WIDE_NAME;
+                feature_value = ((pseudo_random % 2)==0) ? EMPTY_STR : WIDE_NAME;
             }
             break;
         }
@@ -490,6 +495,7 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
 
 static inline void test_data_setup_private_add_relationships( const test_data_setup_t *this_, data_visible_set_t *io_data_set )
 {
+    const data_diagram_type_t diag_type = data_diagram_get_diagram_type( data_visible_set_get_diagram_const( io_data_set ) );
     const uint_fast32_t rel_variant = ( (*this_).variant / TEST_DATA_SETUP_REL_SAME_GROUP ) % TEST_DATA_SETUP_REL_VARIANTS;
     uint_fast32_t count = 0;
     switch ( (*this_).mode )
@@ -509,7 +515,7 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
 
         case TEST_DATA_SETUP_MODE_EDGE_CASES:
         {
-            count = (rel_variant==2)
+            count = (rel_variant==0)
             ? (DATA_VISIBLE_SET_MAX_RELATIONSHIPS)      /* variants wit MAX relationships */
             : (DATA_VISIBLE_SET_MAX_RELATIONSHIPS/4);   /* variants wit MAX/4 relationships */
         }
@@ -520,7 +526,24 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
     {
         const uint_fast32_t pseudo_random_1 = ((*this_).variant + index)*17;  /* = this shall be variable/dynamic but not really random */
         const uint_fast32_t pseudo_random_2 = ((*this_).variant + index + 8)*19;  /* = this shall be variable/dynamic but not really random */
-        const data_relationship_type_t rel_type = DATA_RELATIONSHIP_TYPE_ARRAY [ pseudo_random_1 %  DATA_RELATIONSHIP_TYPE_COUNT ]; 
+        
+        data_relationship_type_t rel_type = DATA_RELATIONSHIP_TYPE_ARRAY [ pseudo_random_1 %  DATA_RELATIONSHIP_TYPE_COUNT ]; 
+        if ( data_diagram_type_is_interaction( diag_type ) )
+        {
+            /* in interaction diagrams, most relationships shall be DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL */
+            if ((pseudo_random_2 % 4) != 0)
+            {
+                rel_type = DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL;
+            }
+        }
+        else
+        {
+            /* in non-interaction diagrams, many relationships shall be DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT */
+            if ((pseudo_random_2 % 4) == 0)
+            {
+                rel_type = DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT;
+            }
+        }
 
         const char* relationship_name = "";
         const char* relationship_description = "";
@@ -562,8 +585,9 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
             default:
             case 0:
             {
-                /* all zero */
-                list_order = 0;
+                /* all random */
+                list_order = pseudo_random_1;
+                SPREAD_RANGE(list_order);
             }
             break;
             
@@ -576,8 +600,8 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
             
             case 2:
             {
-                /* all random */
-                list_order = pseudo_random_1;
+                /* all zero */
+                list_order = 0;
             }
             break;
             
@@ -585,6 +609,7 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
             {
                 /* all 19 grid */
                 list_order = (pseudo_random_1 % 19)*65536;
+                SPREAD_RANGE(list_order);
             }
             break;
             
@@ -592,6 +617,7 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
             {
                 /* all 3 grid */
                 list_order = (pseudo_random_1 % 3)*65536;
+                SPREAD_RANGE(list_order);
             }
             break;
             
@@ -599,6 +625,7 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
             {
                 /* all 5 grid */
                 list_order = (pseudo_random_1 % 5)*65536;
+                SPREAD_RANGE(list_order);
             }
             break;
         }
@@ -622,7 +649,7 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
 
             case TEST_DATA_SETUP_MODE_EDGE_CASES:
             {
-                relationship_name = WIDE_NAME;
+                relationship_name = ((pseudo_random_2 % 2)==0) ? STANDARD_STR : WIDE_NAME;
                 relationship_description = LONG_DESCRIPTION;
             }
             break;

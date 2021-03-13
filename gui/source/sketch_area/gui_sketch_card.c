@@ -38,20 +38,15 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, 
 
     if ( (*this_).visible )
     {
-        int32_t left;
-        int32_t top;
-        uint32_t width;
-        uint32_t height;
-
-        left = shape_int_rectangle_get_left( &((*this_).bounds) );
-        top = shape_int_rectangle_get_top( &((*this_).bounds) );
-        width = shape_int_rectangle_get_width( &((*this_).bounds) );
-        height = shape_int_rectangle_get_height( &((*this_).bounds) );
+        const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+        const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
+        const uint32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
+        const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
 
         /* layout elements if necessary */
         if ( (*this_).dirty_elements_layout )
         {
-            pencil_diagram_maker_layout_elements ( &((*this_).painter), cr );
+            pencil_diagram_maker_layout_elements ( &((*this_).painter), cr, NULL );
             (*this_).dirty_elements_layout = false;
         }
 
@@ -94,8 +89,8 @@ void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_,
             {
                 case DATA_TABLE_CLASSIFIER:
                 {
-                    int32_t x_order = layout_order_get_first( order );
-                    int32_t y_order = layout_order_get_second( order );
+                    const int32_t x_order = layout_order_get_first( order );
+                    const int32_t y_order = layout_order_get_second( order );
 
                     data_classifier_t *move_me = data_visible_set_get_classifier_by_id_ptr( &((*this_).painter_input_data), row_id );
                     if ( move_me == NULL )
@@ -154,7 +149,7 @@ void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_,
             {
                 case DATA_TABLE_CLASSIFIER:
                 {
-                    int32_t list_order = layout_order_get_first( order );
+                    const int32_t list_order = layout_order_get_first( order );
 
                     data_classifier_t *move_me = data_visible_set_get_classifier_by_id_ptr( &((*this_).painter_input_data), row_id );
                     if ( move_me == NULL )
@@ -174,7 +169,7 @@ void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_,
 
                 case DATA_TABLE_FEATURE:
                 {
-                    int32_t list_order = layout_order_get_first( order );
+                    const int32_t list_order = layout_order_get_first( order );
 
                     data_feature_t *move_me = data_visible_set_get_feature_by_id_ptr( &((*this_).painter_input_data), row_id );
                     if ( move_me == NULL )
@@ -194,7 +189,7 @@ void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_,
 
                 case DATA_TABLE_RELATIONSHIP:
                 {
-                    int32_t list_order = layout_order_get_first( order );
+                    const int32_t list_order = layout_order_get_first( order );
 
                     data_relationship_t *move_me = data_visible_set_get_relationship_by_id_ptr( &((*this_).painter_input_data), row_id );
                     if ( move_me == NULL )

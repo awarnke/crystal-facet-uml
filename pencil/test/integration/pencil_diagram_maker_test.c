@@ -124,8 +124,10 @@ static void layout_good_cases(void)
         data_id_init_void( &void_id );
         data_small_set_t void_set;
         data_small_set_init( &void_set );
+        data_stat_t layout_stats;
+        data_stat_init( &layout_stats );
         pencil_diagram_maker_define_grid( &painter, diagram_bounds );
-        pencil_diagram_maker_layout_elements( &painter, cr );
+        pencil_diagram_maker_layout_elements( &painter, cr, &layout_stats );
         pencil_diagram_maker_draw ( &painter,
                                     void_id,
                                     void_id,
@@ -134,10 +136,11 @@ static void layout_good_cases(void)
                                   );
         
         /* check result */
-        /* TODO, manual chack for now */
+        /* TODO, manual check for now */
 #ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
         render_to_file( &ts_setup );
 #endif
+        data_stat_destroy( &layout_stats );
     }
     test_data_setup_destroy( &ts_setup );
 }
@@ -157,8 +160,10 @@ static void layout_challenging_cases(void)
         data_id_init_void( &void_id );
         data_small_set_t void_set;
         data_small_set_init( &void_set );
+        data_stat_t layout_stats;
+        data_stat_init( &layout_stats );
         pencil_diagram_maker_define_grid( &painter, diagram_bounds );
-        pencil_diagram_maker_layout_elements( &painter, cr );
+        pencil_diagram_maker_layout_elements( &painter, cr, &layout_stats );
         pencil_diagram_maker_draw ( &painter,
                                     void_id,
                                     void_id,
@@ -171,6 +176,7 @@ static void layout_challenging_cases(void)
 #ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
         render_to_file( &ts_setup );
 #endif
+        data_stat_destroy( &layout_stats );
     }
     test_data_setup_destroy( &ts_setup );
 }
@@ -190,8 +196,10 @@ static void layout_edge_cases(void)
         data_id_init_void( &void_id );
         data_small_set_t void_set;
         data_small_set_init( &void_set );
+        data_stat_t layout_stats;
+        data_stat_init( &layout_stats );
         pencil_diagram_maker_define_grid( &painter, diagram_bounds );
-        pencil_diagram_maker_layout_elements( &painter, cr );
+        pencil_diagram_maker_layout_elements( &painter, cr, &layout_stats );
         pencil_diagram_maker_draw ( &painter,
                                     void_id,
                                     void_id,
@@ -204,6 +212,7 @@ static void layout_edge_cases(void)
 #ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
         render_to_file( &ts_setup );
 #endif
+        data_stat_destroy( &layout_stats );
     }
     test_data_setup_destroy( &ts_setup );
 }

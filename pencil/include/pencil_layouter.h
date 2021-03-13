@@ -29,6 +29,7 @@
 #include "util/geometry/geometry_non_linear_scale.h"
 #include "data_diagram.h"
 #include "set/data_small_set.h"
+#include "set/data_stat.h"
 #include "data_id.h"
 #include "set/data_visible_set.h"
 #include "universal_int32_pair.h"
@@ -102,8 +103,10 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_, geometry_rectangle_
  *
  *  \param this_ pointer to own object attributes
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
+ *  \param io_layout_stat pointer to already initialized statistics object where layouting statistics are added
+ *                        or NULL if no statistics of interest
  */
-void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *font_layout );
+void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *font_layout, data_stat_t *io_layout_stat );
 
 /* !
  *  \brief returns the pencil_layout_data_t object

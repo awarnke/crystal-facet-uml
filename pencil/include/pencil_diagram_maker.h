@@ -23,6 +23,7 @@
 #include "util/geometry/geometry_non_linear_scale.h"
 #include "data_diagram.h"
 #include "set/data_small_set.h"
+#include "set/data_stat.h"
 #include "data_id.h"
 #include "set/data_visible_set.h"
 #include "universal_int32_pair.h"
@@ -88,8 +89,13 @@ static inline void pencil_diagram_maker_define_grid ( pencil_diagram_maker_t *th
  *
  *  \param this_ pointer to own object attributes
  *  \param cr a cairo drawing context, used to determine the font metrics in the given drawing context
+ *  \param io_layout_stat pointer to already initialized statistics object where layouting statistics are added
+ *                        or NULL if no statistics of interest
  */
-static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t *this_, cairo_t *cr );
+static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t *this_, 
+                                                          cairo_t *cr, 
+                                                          data_stat_t *io_layout_stat
+                                                        );
 
 /*!
  *  \brief draws the chosen diagram contents into the diagram_bounds area of the cairo drawing context
