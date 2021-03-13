@@ -2,6 +2,7 @@ crystal-facet-uml (1.27.4) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * gcov target is only build if -DCFU_ADD_GCOV_TARGET=ON (Closes: #983836)
+  + exporting image-file types shows statistics on exported elements
   
  -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 09 Mar 2021 21:30:00 +0100
 

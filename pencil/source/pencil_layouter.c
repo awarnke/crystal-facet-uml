@@ -242,6 +242,10 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
 
     }
 
+    if ( io_layout_stat != NULL )
+    {
+        pencil_layout_data_get_statistics( &((*this_).layout_data), io_layout_stat );
+    }
     TRACE_END();
 }
 

@@ -541,12 +541,29 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
         
         for ( uint_fast32_t c_idx = 0; c_idx < (*this_).visible_classifier_count; c_idx ++ )
         {
+            
             const geometry_rectangle_t *symbox 
                 = layout_visible_classifier_get_symbol_box_const( &((*this_).visible_classifier_layout[c_idx]) );
             const geometry_rectangle_t *space
                = layout_visible_classifier_get_space_const( &((*this_).visible_classifier_layout[c_idx]) );
             const geometry_rectangle_t *label
                = layout_visible_classifier_get_label_box_const( &((*this_).visible_classifier_layout[c_idx]) );
+               
+            if ( geometry_rectangle_is_containing( diag_bounds, symbox )
+                && geometry_rectangle_is_containing( diag_bounds, label ) )
+            {
+                data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_EXPORTED );
+                
+                const bool is_ancestor = pencil_layout_data_is_ancestor( this_,
+                                                                         &((*this_).visible_classifier_layout[c_idx]), /* ancestor */
+                                                                         &((*this_).visible_classifier_layout[c_idx]) /* descendant */
+                                                                        );
+            }
+            else
+            {
+                data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR );
+            }
+
         }
 
         for ( uint_fast32_t f_idx = 0; f_idx < (*this_).feature_count; f_idx ++ )
@@ -555,6 +572,17 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                 = layout_feature_get_symbol_box_const( &((*this_).feature_layout[f_idx]) );
             const geometry_rectangle_t *label 
                 = layout_feature_get_label_box_const( &((*this_).feature_layout[f_idx]) );
+                
+            if ( geometry_rectangle_is_containing( diag_bounds, symbox )
+                && geometry_rectangle_is_containing( diag_bounds, label ) )
+            {
+                data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
+                
+            }
+            else
+            {
+                data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_ERROR );
+            }
         }
 
         for ( uint_fast32_t r_idx = 0; r_idx < (*this_).relationship_count; r_idx ++ )
@@ -563,6 +591,18 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                 = layout_relationship_get_label_box_const( &((*this_).relationship_layout[r_idx]) );
             const geometry_connector_t *shape
                 = layout_relationship_get_shape_const( &((*this_).relationship_layout[r_idx]) );
+            const geometry_rectangle_t bounds = geometry_connector_get_bounding_rectangle( shape );
+                
+            if ( geometry_rectangle_is_containing( diag_bounds, &bounds )
+                && geometry_rectangle_is_containing( diag_bounds, label ) )
+            {
+                data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
+                
+            }
+            else
+            {
+                data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
+            }
         }
     }
     else
