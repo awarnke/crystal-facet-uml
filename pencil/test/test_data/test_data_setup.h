@@ -90,7 +90,7 @@ static inline test_data_setup_mode_t test_data_setup_get_mode( const test_data_s
  *  \brief initializes the data_visible_set_t according to the mode and the set variant
  *
  *  \param this_ pointer to own object attributes
- *  \param io_data_set pointer to the data_visible_set_t whic shall be partily initialized
+ *  \param io_data_set pointer to the data_visible_set_t which shall be partily initialized
  */
 static inline void test_data_setup_get_variant_data( const test_data_setup_t *this_, data_visible_set_t *io_data_set );
 
@@ -98,7 +98,7 @@ static inline void test_data_setup_get_variant_data( const test_data_setup_t *th
  *  \brief initializes the diagram in the data_visible_set_t according to the set variant
  *
  *  \param this_ pointer to own object attributes
- *  \param io_data_set pointer to the data_visible_set_t whic shall be partily initialized
+ *  \param io_data_set pointer to the data_visible_set_t which shall be partily initialized
  */
 static inline void test_data_setup_private_set_diagram( const test_data_setup_t *this_, data_visible_set_t *io_data_set );
 
@@ -106,15 +106,23 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
  *  \brief adds visibla_classifiers to the data_visible_set_t according to the set variant
  *
  *  \param this_ pointer to own object attributes
- *  \param io_data_set pointer to the data_visible_set_t whic shall be partily initialized
+ *  \param io_data_set pointer to the data_visible_set_t which shall be partily initialized
  */
 static inline void test_data_setup_private_add_classifiers( const test_data_setup_t *this_, data_visible_set_t *io_data_set );
+
+/*!
+ *  \brief  adds lifelines to the data_visible_set_t, one per visible classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param io_data_set pointer to the data_visible_set_t which contains visible classifiers and which shall be partily initialized
+ */
+static inline void test_data_setup_private_add_lifelines( const test_data_setup_t *this_, data_visible_set_t *io_data_set );
 
 /*!
  *  \brief  adds features to the data_visible_set_t according to the set variant
  *
  *  \param this_ pointer to own object attributes
- *  \param io_data_set pointer to the data_visible_set_t whic shall be partily initialized
+ *  \param io_data_set pointer to the data_visible_set_t which contains visible classifiers and which shall be partily initialized
  */
 static inline void test_data_setup_private_add_features( const test_data_setup_t *this_, data_visible_set_t *io_data_set );
 
@@ -122,7 +130,7 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
  *  \brief  adds relationships to the data_visible_set_t according to the set variant
  *
  *  \param this_ pointer to own object attributes
- *  \param io_data_set pointer to the data_visible_set_t whic shall be partily initialized
+ *  \param io_data_set pointer to the data_visible_set_t which contains visible classifiers and which shall be partily initialized
  */
 static inline void test_data_setup_private_add_relationships( const test_data_setup_t *this_, data_visible_set_t *io_data_set );
 
