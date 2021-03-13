@@ -2,7 +2,8 @@
 
 #include "trace.h"
 #include "test_assert.h"
-#include "assert.h"
+#include <assert.h>
+#include <stdint.h>
         
 /* number of same relationships in variant/variant-group size (the division-denominator): TEST_DATA_SETUP_REL_SAME_GROUP */        
 #define TEST_DATA_SETUP_REL_SAME_GROUP (1)
@@ -103,7 +104,8 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
     
     const uint32_t pseudo_random = (*this_).variant;  /* = this shall be variable/dynamic but not really random */
     const data_diagram_type_t proposal_type = DATA_DIAGRAM_TYPE_ARRAY [ pseudo_random %  DATA_DIAGRAM_TYPE_COUNT ];
-    switch ( ( (*this_).variant / TEST_DATA_SETUP_DIAG_SAME_GROUP ) % TEST_DATA_SETUP_DIAG_VARIANTS )
+    const uint_fast32_t diag_variant = ( (*this_).variant / TEST_DATA_SETUP_DIAG_SAME_GROUP ) % TEST_DATA_SETUP_DIAG_VARIANTS;
+    switch ( diag_variant )
     {
         default:
         case 0:
@@ -190,6 +192,7 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
 
 static inline void test_data_setup_private_add_classifiers( const test_data_setup_t *this_, data_visible_set_t *io_data_set )
 {
+    const uint_fast32_t class_variant = ( (*this_).variant / TEST_DATA_SETUP_CLASS_SAME_GROUP ) % TEST_DATA_SETUP_CLASS_VARIANTS;
     uint32_t count = 0;
     switch ( (*this_).mode )
     {
@@ -208,7 +211,7 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
 
         case TEST_DATA_SETUP_MODE_EDGE_CASES:
         {
-            count = (((*this_).variant==0)||((*this_).variant==1))
+            count = (class_variant==0)
             ? (DATA_VISIBLE_SET_MAX_CLASSIFIERS)     /* variants wit MAX classifiers */
             : (DATA_VISIBLE_SET_MAX_CLASSIFIERS/4);  /* variants wit MAX/4 classifiers */
         }
@@ -232,24 +235,24 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
         int32_t y_order;
         int32_t list_order;
         
-        switch ( ( (*this_).variant / TEST_DATA_SETUP_CLASS_SAME_GROUP ) % TEST_DATA_SETUP_CLASS_VARIANTS )
+        switch ( class_variant )
         {
             default:
             case 0:
-            {
-                /* all zero */
-                x_order = 0;
-                y_order = 0;
-                list_order = 0;
-            }
-            break;
-            
-            case 1:
             {
                 /* all different */
                 x_order = pseudo_random_1;
                 y_order = pseudo_random_2;
                 list_order = pseudo_random_1;
+            }
+            break;
+            
+            case 1:
+            {
+                /* all zero */
+                x_order = 0;
+                y_order = 0;
+                list_order = 0;
             }
             break;
             
@@ -394,26 +397,27 @@ static inline void test_data_setup_private_add_lifelines( const test_data_setup_
 
 static inline void test_data_setup_private_add_features( const test_data_setup_t *this_, data_visible_set_t *io_data_set )
 {
+    const uint_fast32_t feat_variant = ( (*this_).variant / TEST_DATA_SETUP_FEAT_SAME_GROUP ) % TEST_DATA_SETUP_FEAT_VARIANTS;
     uint32_t count = 0;
     switch ( (*this_).mode )
     {
         default:
         case TEST_DATA_SETUP_MODE_GOOD_CASES:
         {
-            count = ( ((*this_).variant / TEST_DATA_SETUP_FEAT_SAME_GROUP ) % TEST_DATA_SETUP_FEAT_VARIANTS );
+            count = feat_variant;
         }
         break;
 
         case TEST_DATA_SETUP_MODE_CHALLENGING_CASES:
         {
-            count = TEST_DATA_SETUP_FEAT_VARIANTS + 4*( ((*this_).variant / TEST_DATA_SETUP_FEAT_SAME_GROUP ) % TEST_DATA_SETUP_FEAT_VARIANTS );
+            count = TEST_DATA_SETUP_FEAT_VARIANTS + 4*( feat_variant );
         }
         break;
 
         case TEST_DATA_SETUP_MODE_EDGE_CASES:
         {
             const uint32_t lifeline_count = data_visible_set_get_feature_count( io_data_set );
-            count = (((*this_).variant==0)||((*this_).variant==2))
+            count = (feat_variant==0)
             ? ((DATA_VISIBLE_SET_MAX_FEATURES - lifeline_count))      /* variants wit MAX features */
             : ((DATA_VISIBLE_SET_MAX_FEATURES - lifeline_count)/4);   /* variants wit MAX/4 features */
         }
@@ -430,20 +434,20 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
         const char* feature_description = "";
         int32_t list_order;
        
-        switch ( ( (*this_).variant / TEST_DATA_SETUP_FEAT_SAME_GROUP ) % TEST_DATA_SETUP_FEAT_VARIANTS )
+        switch ( feat_variant )
         {
             default:
             case 0:
             {
-                /* all extreme */
-                list_order = ((pseudo_random % 2)==0) ? INT32_MIN : INT32_MAX;
+                /* all random */
+                list_order = pseudo_random;
             }
             break;
             
             case 1:
             {
-                /* all random */
-                list_order = pseudo_random;
+                /* all extreme */
+                list_order = ((pseudo_random % 2)==0) ? INT32_MIN : INT32_MAX;
             }
             break;
             
@@ -504,25 +508,26 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
 
 static inline void test_data_setup_private_add_relationships( const test_data_setup_t *this_, data_visible_set_t *io_data_set )
 {
+    const uint_fast32_t rel_variant = ( (*this_).variant / TEST_DATA_SETUP_REL_SAME_GROUP ) % TEST_DATA_SETUP_REL_VARIANTS;
     uint32_t count = 0;
     switch ( (*this_).mode )
     {
         default:
         case TEST_DATA_SETUP_MODE_GOOD_CASES:
         {
-            count = ( ((*this_).variant / TEST_DATA_SETUP_REL_SAME_GROUP ) % TEST_DATA_SETUP_REL_VARIANTS );
+            count = rel_variant;
         }
         break;
 
         case TEST_DATA_SETUP_MODE_CHALLENGING_CASES:
         {
-            count = TEST_DATA_SETUP_REL_VARIANTS + 4*( ((*this_).variant / TEST_DATA_SETUP_REL_SAME_GROUP ) % TEST_DATA_SETUP_REL_VARIANTS );
+            count = TEST_DATA_SETUP_REL_VARIANTS + 4*( rel_variant );
         }
         break;
 
         case TEST_DATA_SETUP_MODE_EDGE_CASES:
         {
-            count = (((*this_).variant==0)||((*this_).variant==3))
+            count = (rel_variant==2)
             ? (DATA_VISIBLE_SET_MAX_RELATIONSHIPS)      /* variants wit MAX relationships */
             : (DATA_VISIBLE_SET_MAX_RELATIONSHIPS/4);   /* variants wit MAX/4 relationships */
         }
@@ -570,7 +575,7 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
             to_classifier_row_id = data_feature_get_classifier_row_id( to_feature );
         }
 
-        switch ( ( (*this_).variant / TEST_DATA_SETUP_REL_SAME_GROUP ) % TEST_DATA_SETUP_REL_VARIANTS )
+        switch ( rel_variant )
         {
             default:
             case 0:
