@@ -16,6 +16,7 @@
 #include "layout/layout_relationship.h"
 #include "layout/layout_visible_classifier.h"
 #include "set/data_visible_set.h"
+#include "set/data_stat.h"
 #include "option/pencil_visibility.h"
 #include "data_rules.h"
 #include <cairo.h>
@@ -271,6 +272,16 @@ static inline uint32_t pencil_layout_data_count_descendants ( const pencil_layou
  *  \return true if this_ contains valid data for sketching a diagram
  */
 bool pencil_layout_data_is_valid ( const pencil_layout_data_t *this_ );
+
+/*!
+ *  \brief gets statistics on pencil_layout_data.
+ * 
+ *  This encompasses number of objects, number of overlaps (warnings), number of objects outside diagram (errors).
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param io_layout_stat pointer to already initialized statistics object where layouting statistics are added
+ */
+void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data_stat_t *io_layout_stat );
 
 /*!
  *  \brief initializes the diagram_layout member

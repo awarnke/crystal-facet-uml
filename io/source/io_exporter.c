@@ -236,8 +236,9 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
             }
 
             result |= universal_file_output_stream_destroy( &text_output );
+            
+            data_stat_inc_count ( io_export_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED );
         }
-        data_stat_inc_count ( io_export_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED );
     }
 
     /* recursion to children */

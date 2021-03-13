@@ -51,11 +51,11 @@ void pencil_layout_data_private_init_classifiers( pencil_layout_data_t *this_ )
     TRACE_BEGIN();
     assert ( NULL != (*this_).input_data );
 
-    const uint32_t data_classifier_count = data_visible_set_get_visible_classifier_count( (*this_).input_data );
+    const uint_fast32_t data_classifier_count = data_visible_set_get_visible_classifier_count( (*this_).input_data );
     (*this_).visible_classifier_count = 0;
     assert ( data_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
 
-    for ( uint32_t c_idx = 0; c_idx < data_classifier_count; c_idx ++ )
+    for ( uint_fast32_t c_idx = 0; c_idx < data_classifier_count; c_idx ++ )
     {
         const data_visible_classifier_t *classifier_data;
         classifier_data = data_visible_set_get_visible_classifier_const( (*this_).input_data, c_idx );
@@ -86,18 +86,18 @@ void pencil_layout_data_private_init_features( pencil_layout_data_t *this_ )
     TRACE_BEGIN();
     assert ( NULL != (*this_).input_data );
 
-    const uint32_t data_feature_count = data_visible_set_get_feature_count( (*this_).input_data );
-    uint32_t debug_dropped_features;
+    const uint_fast32_t data_feature_count = data_visible_set_get_feature_count( (*this_).input_data );
+    uint_fast32_t debug_dropped_features;
     debug_dropped_features = 0;
-    uint32_t warn_dropped_features;
+    uint_fast32_t warn_dropped_features;
     warn_dropped_features = 0;
     (*this_).feature_count = 0;
 
-    for ( uint32_t f_idx = 0; f_idx < data_feature_count; f_idx ++ )
+    for ( uint_fast32_t f_idx = 0; f_idx < data_feature_count; f_idx ++ )
     {
         const data_feature_t *feature_data;
         feature_data = data_visible_set_get_feature_const( (*this_).input_data, f_idx );
-        uint32_t layout_feature_count = 0;
+        uint_fast32_t layout_feature_count = 0;
 
         if ( ( NULL != feature_data ) && data_feature_is_valid( feature_data ) )
         {
@@ -109,7 +109,7 @@ void pencil_layout_data_private_init_features( pencil_layout_data_t *this_ )
 
             if ( show )
             {
-                for ( uint32_t c_idx2 = 0; c_idx2 < (*this_).visible_classifier_count; c_idx2 ++ )
+                for ( uint_fast32_t c_idx2 = 0; c_idx2 < (*this_).visible_classifier_count; c_idx2 ++ )
                 {
                     layout_visible_classifier_t *parent_classifier;
                     parent_classifier = &((*this_).visible_classifier_layout[c_idx2]);
@@ -417,17 +417,17 @@ void pencil_layout_data_destroy( pencil_layout_data_t *this_ )
         layout_diagram_destroy ( &((*this_).diagram_layout) );
     }
 
-    for ( uint32_t c_idx = 0; c_idx < (*this_).visible_classifier_count; c_idx ++ )
+    for ( uint_fast32_t c_idx = 0; c_idx < (*this_).visible_classifier_count; c_idx ++ )
     {
         layout_visible_classifier_destroy( &((*this_).visible_classifier_layout[c_idx]) );
     }
 
-    for ( uint32_t f_idx = 0; f_idx < (*this_).feature_count; f_idx ++ )
+    for ( uint_fast32_t f_idx = 0; f_idx < (*this_).feature_count; f_idx ++ )
     {
         layout_feature_destroy( &((*this_).feature_layout[f_idx]) );
     }
 
-    for ( uint32_t r_idx = 0; r_idx < (*this_).relationship_count; r_idx ++ )
+    for ( uint_fast32_t r_idx = 0; r_idx < (*this_).relationship_count; r_idx ++ )
     {
         layout_relationship_destroy( &((*this_).relationship_layout[r_idx]) );
     }
@@ -522,6 +522,55 @@ bool pencil_layout_data_is_valid ( const pencil_layout_data_t *this_ )
     }
 
     return result;
+}
+
+void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data_stat_t *io_layout_stat )
+{
+    TRACE_BEGIN();
+    assert( (*this_).visible_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
+    assert( (*this_).feature_count <= PENCIL_LAYOUT_DATA_MAX_FEATURES );
+    assert( (*this_).relationship_count <= PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
+    assert( io_layout_stat != NULL );
+
+    if ( (*this_).diagram_valid )
+    {
+        data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED );
+        
+        const geometry_rectangle_t *diag_bounds = layout_diagram_get_bounds_const( &((*this_).diagram_layout) );
+        const geometry_rectangle_t *diag_space = layout_diagram_get_draw_area_const( &((*this_).diagram_layout) );
+        
+        for ( uint_fast32_t c_idx = 0; c_idx < (*this_).visible_classifier_count; c_idx ++ )
+        {
+            const geometry_rectangle_t *symbox 
+                = layout_visible_classifier_get_symbol_box_const( &((*this_).visible_classifier_layout[c_idx]) );
+            const geometry_rectangle_t *space
+               = layout_visible_classifier_get_space_const( &((*this_).visible_classifier_layout[c_idx]) );
+            const geometry_rectangle_t *label
+               = layout_visible_classifier_get_label_box_const( &((*this_).visible_classifier_layout[c_idx]) );
+        }
+
+        for ( uint_fast32_t f_idx = 0; f_idx < (*this_).feature_count; f_idx ++ )
+        { 
+            const geometry_rectangle_t *symbox
+                = layout_feature_get_symbol_box_const( &((*this_).feature_layout[f_idx]) );
+            const geometry_rectangle_t *label 
+                = layout_feature_get_label_box_const( &((*this_).feature_layout[f_idx]) );
+        }
+
+        for ( uint_fast32_t r_idx = 0; r_idx < (*this_).relationship_count; r_idx ++ )
+        {
+            const geometry_rectangle_t *label 
+                = layout_relationship_get_label_box_const( &((*this_).relationship_layout[r_idx]) );
+            const geometry_connector_t *shape
+                = layout_relationship_get_shape_const( &((*this_).relationship_layout[r_idx]) );
+        }
+    }
+    else
+    {
+        data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR );
+    }
+
+    TRACE_END();
 }
 
 
