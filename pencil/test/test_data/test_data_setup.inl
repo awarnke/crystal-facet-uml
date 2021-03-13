@@ -16,7 +16,7 @@
 /* number of same classifier in variant/variant-group size (the division-denominator): TEST_DATA_SETUP_CLASS_SAME_GROUP */        
 #define TEST_DATA_SETUP_CLASS_SAME_GROUP ( TEST_DATA_SETUP_FEAT_SAME_GROUP * TEST_DATA_SETUP_FEAT_VARIANTS )
 /* number of classifier variants (the modulo-result): TEST_DATA_SETUP_CLASS_VARIANTS */        
-#define TEST_DATA_SETUP_CLASS_VARIANTS (6)
+#define TEST_DATA_SETUP_CLASS_VARIANTS (4)
 /* number of same diagram in variant/variant-group size (the division-denominator): TEST_DATA_SETUP_DIAG_SAME_GROUP */        
 #define TEST_DATA_SETUP_DIAG_SAME_GROUP ( TEST_DATA_SETUP_CLASS_SAME_GROUP * TEST_DATA_SETUP_CLASS_VARIANTS )
 /* number of diagram variants (the modulo-result): TEST_DATA_SETUP_DIAG_VARIANTS */        
@@ -102,8 +102,7 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
 
     data_diagram_type_t diagram_type;
     
-    const uint32_t pseudo_random = (*this_).variant;  /* = this shall be variable/dynamic but not really random */
-    const data_diagram_type_t proposal_type = DATA_DIAGRAM_TYPE_ARRAY [ pseudo_random %  DATA_DIAGRAM_TYPE_COUNT ];
+    const uint_fast32_t pseudo_random = (*this_).variant;  /* = this shall be variable/dynamic but not really random */
     const uint_fast32_t diag_variant = ( (*this_).variant / TEST_DATA_SETUP_DIAG_SAME_GROUP ) % TEST_DATA_SETUP_DIAG_VARIANTS;
     switch ( diag_variant )
     {
@@ -123,6 +122,7 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
         case 2:
         {
             /* select any normal/std diagram type */
+            const data_diagram_type_t proposal_type = DATA_DIAGRAM_TYPE_ARRAY [ pseudo_random %  DATA_DIAGRAM_TYPE_COUNT ];
             const bool proposal_is_not_std 
                 = data_diagram_type_is_interaction( proposal_type )
                 || ( proposal_type == DATA_DIAGRAM_TYPE_LIST )
@@ -193,19 +193,19 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
 static inline void test_data_setup_private_add_classifiers( const test_data_setup_t *this_, data_visible_set_t *io_data_set )
 {
     const uint_fast32_t class_variant = ( (*this_).variant / TEST_DATA_SETUP_CLASS_SAME_GROUP ) % TEST_DATA_SETUP_CLASS_VARIANTS;
-    uint32_t count = 0;
+    uint_fast32_t count = 0;
     switch ( (*this_).mode )
     {
         default:
         case TEST_DATA_SETUP_MODE_GOOD_CASES:
         {
-            count = ( ((*this_).variant / TEST_DATA_SETUP_CLASS_SAME_GROUP ) % TEST_DATA_SETUP_CLASS_VARIANTS );
+            count = class_variant;
         }
         break;
 
         case TEST_DATA_SETUP_MODE_CHALLENGING_CASES:
         {
-            count = TEST_DATA_SETUP_CLASS_VARIANTS + 4*( ((*this_).variant / TEST_DATA_SETUP_CLASS_SAME_GROUP ) % TEST_DATA_SETUP_CLASS_VARIANTS );
+            count = (2*TEST_DATA_SETUP_CLASS_VARIANTS) + (4*class_variant);
         }
         break;
 
@@ -217,15 +217,15 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
         }
         break;
     }
-    for ( uint32_t index = 0; index < count; index ++ )
+    for ( uint_fast32_t index = 0; index < count; index ++ )
     {
         data_visible_classifier_t vis_classfy;
         data_visible_classifier_init_empty ( &vis_classfy );
         data_classifier_t *classifier = data_visible_classifier_get_classifier_ptr ( &vis_classfy );
         data_diagramelement_t *diagramelement = data_visible_classifier_get_diagramelement_ptr ( &vis_classfy );
         
-        const uint32_t pseudo_random_1 = ((*this_).variant + index)*23;  /* = this shall be variable/dynamic but not really random */
-        const uint32_t pseudo_random_2 = ((*this_).variant + index + 8)*29;  /* = this shall be variable/dynamic but not really random */
+        const uint_fast32_t pseudo_random_1 = ((*this_).variant + index)*23;  /* = this shall be variable/dynamic but not really random */
+        const uint_fast32_t pseudo_random_2 = ((*this_).variant + index + 8)*29;  /* = this shall be variable/dynamic but not really random */
         const data_classifier_type_t class_type = DATA_CLASSIFIER_TYPE_ARRAY [ pseudo_random_1 % DATA_CLASSIFIER_TYPE_COUNT ];
 
         const char* stereotype = "";
@@ -266,24 +266,6 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
             break;
             
             case 3:
-            {
-                /* all 3x3 grid */
-                x_order = ((pseudo_random_1)%3)*1000;
-                y_order = ((pseudo_random_2)%3)*1000;
-                list_order = ((pseudo_random_1)%3)*1000;
-            }
-            break;
-            
-            case 4:
-            {
-                /* all 17x17 grid */
-                x_order = ((pseudo_random_1)%17)*1000;
-                y_order = ((pseudo_random_2)%17)*1000;
-                list_order = ((pseudo_random_1)%17)*1000;
-            }
-            break;
-            
-            case 5:
             {
                 /* all diagnonal */
                 x_order = pseudo_random_1;
@@ -364,8 +346,8 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
 
 static inline void test_data_setup_private_add_lifelines( const test_data_setup_t *this_, data_visible_set_t *io_data_set )
 {
-    const uint32_t count = data_visible_set_get_visible_classifier_count( io_data_set );
-    for ( uint32_t index = 0; index < count; index ++ )
+    const uint_fast32_t count = data_visible_set_get_visible_classifier_count( io_data_set );
+    for ( uint_fast32_t index = 0; index < count; index ++ )
     {
         const data_visible_classifier_t *const visclas = data_visible_set_get_visible_classifier_const ( io_data_set, index );
         const data_diagramelement_t *const diagele = data_visible_classifier_get_diagramelement_const ( visclas );
@@ -398,7 +380,7 @@ static inline void test_data_setup_private_add_lifelines( const test_data_setup_
 static inline void test_data_setup_private_add_features( const test_data_setup_t *this_, data_visible_set_t *io_data_set )
 {
     const uint_fast32_t feat_variant = ( (*this_).variant / TEST_DATA_SETUP_FEAT_SAME_GROUP ) % TEST_DATA_SETUP_FEAT_VARIANTS;
-    uint32_t count = 0;
+    uint_fast32_t count = 0;
     switch ( (*this_).mode )
     {
         default:
@@ -410,13 +392,13 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
 
         case TEST_DATA_SETUP_MODE_CHALLENGING_CASES:
         {
-            count = TEST_DATA_SETUP_FEAT_VARIANTS + 4*( feat_variant );
+            count = (2*TEST_DATA_SETUP_FEAT_VARIANTS) + (4*feat_variant);
         }
         break;
 
         case TEST_DATA_SETUP_MODE_EDGE_CASES:
         {
-            const uint32_t lifeline_count = data_visible_set_get_feature_count( io_data_set );
+            const uint_fast32_t lifeline_count = data_visible_set_get_feature_count( io_data_set );
             count = (feat_variant==0)
             ? ((DATA_VISIBLE_SET_MAX_FEATURES - lifeline_count))      /* variants wit MAX features */
             : ((DATA_VISIBLE_SET_MAX_FEATURES - lifeline_count)/4);   /* variants wit MAX/4 features */
@@ -424,9 +406,9 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
         break;
     }
     
-    for ( uint32_t index = 0; index < count; index ++ )
+    for ( uint_fast32_t index = 0; index < count; index ++ )
     {
-        const uint32_t pseudo_random = ((*this_).variant + index)*7;  /* = this shall be variable/dynamic but not really random */
+        const uint_fast32_t pseudo_random = ((*this_).variant + index)*7;  /* = this shall be variable/dynamic but not really random */
         const data_feature_type_t feat_type = DATA_FEATURE_TYPE_ARRAY [ pseudo_random % DATA_FEATURE_TYPE_COUNT ];
 
         const char* feature_key = "";
@@ -509,7 +491,7 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
 static inline void test_data_setup_private_add_relationships( const test_data_setup_t *this_, data_visible_set_t *io_data_set )
 {
     const uint_fast32_t rel_variant = ( (*this_).variant / TEST_DATA_SETUP_REL_SAME_GROUP ) % TEST_DATA_SETUP_REL_VARIANTS;
-    uint32_t count = 0;
+    uint_fast32_t count = 0;
     switch ( (*this_).mode )
     {
         default:
@@ -521,7 +503,7 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
 
         case TEST_DATA_SETUP_MODE_CHALLENGING_CASES:
         {
-            count = TEST_DATA_SETUP_REL_VARIANTS + 4*( rel_variant );
+            count = (2*TEST_DATA_SETUP_REL_VARIANTS) + (4*rel_variant);
         }
         break;
 
@@ -534,10 +516,10 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
         break;
     }
     
-    for ( uint32_t index = 0; index < count; index ++ )
+    for ( uint_fast32_t index = 0; index < count; index ++ )
     {
-        const uint32_t pseudo_random_1 = ((*this_).variant + index)*17;  /* = this shall be variable/dynamic but not really random */
-        const uint32_t pseudo_random_2 = ((*this_).variant + index + 8)*19;  /* = this shall be variable/dynamic but not really random */
+        const uint_fast32_t pseudo_random_1 = ((*this_).variant + index)*17;  /* = this shall be variable/dynamic but not really random */
+        const uint_fast32_t pseudo_random_2 = ((*this_).variant + index + 8)*19;  /* = this shall be variable/dynamic but not really random */
         const data_relationship_type_t rel_type = DATA_RELATIONSHIP_TYPE_ARRAY [ pseudo_random_1 %  DATA_RELATIONSHIP_TYPE_COUNT ]; 
 
         const char* relationship_name = "";
@@ -548,8 +530,8 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
         data_row_id_t from_feature_row_id = DATA_ROW_ID_VOID;
         data_row_id_t to_feature_row_id = DATA_ROW_ID_VOID;
         
-        const uint32_t c_count = data_visible_set_get_visible_classifier_count( io_data_set );
-        const uint32_t f_count = data_visible_set_get_feature_count( io_data_set );
+        const uint_fast32_t c_count = data_visible_set_get_visible_classifier_count( io_data_set );
+        const uint_fast32_t f_count = data_visible_set_get_feature_count( io_data_set );
         if (( c_count != 0 )&&( (pseudo_random_1 % 2) == 0 ))
         {
             const data_visible_classifier_t *const from_vis_clas = data_visible_set_get_visible_classifier_const( io_data_set, pseudo_random_1 % c_count );
