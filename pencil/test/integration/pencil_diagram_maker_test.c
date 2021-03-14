@@ -70,7 +70,7 @@ static void draw_background()
     cairo_fill (cr);
 }
 
-static void render_to_file( const test_data_setup_t *ts_case_setup )
+static void render_to_file( const test_data_setup_t *ts_case_setup, data_stat_t *render_stats )
 {
     /* create filename */
     char filename_buf[32]="";
@@ -99,6 +99,13 @@ static void render_to_file( const test_data_setup_t *ts_case_setup )
         }
         break;
     }
+    utf8stringbuf_append_str( filename, "E=" );
+    utf8stringbuf_append_int( filename, data_stat_get_series_count( render_stats, DATA_STAT_SERIES_ERROR ) );
+    utf8stringbuf_append_str( filename, "-W=" );
+    utf8stringbuf_append_int( filename, data_stat_get_series_count( render_stats, DATA_STAT_SERIES_WARNING ) );
+    utf8stringbuf_append_str( filename, "-Ok=" );
+    utf8stringbuf_append_int( filename, data_stat_get_series_count( render_stats, DATA_STAT_SERIES_EXPORTED ) );
+    utf8stringbuf_append_str( filename, "_" );
     utf8stringbuf_append_int( filename, variant );
     utf8stringbuf_append_str( filename, ".png" );
     
@@ -107,6 +114,7 @@ static void render_to_file( const test_data_setup_t *ts_case_setup )
         = cairo_surface_write_to_png ( surface, utf8stringbuf_get_string( filename ) );
     TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == png_result );
 }
+
 #endif
 
 static void layout_good_cases(void)
@@ -138,7 +146,7 @@ static void layout_good_cases(void)
         /* check result */
         /* TODO, manual check for now */
 #ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
-        render_to_file( &ts_setup );
+        render_to_file( &ts_setup, &layout_stats );
 #endif
         data_stat_destroy( &layout_stats );
     }
@@ -174,7 +182,7 @@ static void layout_challenging_cases(void)
         /* check result */
         /* TODO, manual chack for now */
 #ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
-        render_to_file( &ts_setup );
+        render_to_file( &ts_setup, &layout_stats );
 #endif
         data_stat_destroy( &layout_stats );
     }
@@ -210,7 +218,7 @@ static void layout_edge_cases(void)
         /* check result */
         /* TODO, manual chack for now */
 #ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
-        render_to_file( &ts_setup );
+        render_to_file( &ts_setup, &layout_stats );
 #endif
         data_stat_destroy( &layout_stats );
     }

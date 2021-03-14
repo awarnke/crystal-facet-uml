@@ -531,6 +531,8 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
     assert( (*this_).feature_count <= PENCIL_LAYOUT_DATA_MAX_FEATURES );
     assert( (*this_).relationship_count <= PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
     assert( io_layout_stat != NULL );
+    
+    /* check if diagram is valid */
 
     if ( (*this_).diagram_valid )
     {
@@ -538,6 +540,8 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
         
         const geometry_rectangle_t *diag_bounds = layout_diagram_get_bounds_const( &((*this_).diagram_layout) );
         const geometry_rectangle_t *diag_space = layout_diagram_get_draw_area_const( &((*this_).diagram_layout) );
+        
+        /* check classifiers against diagram */
         
         for ( uint_fast32_t c_idx = 0; c_idx < (*this_).visible_classifier_count; c_idx ++ )
         {
@@ -549,15 +553,22 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
             const geometry_rectangle_t *label
                = layout_visible_classifier_get_label_box_const( &((*this_).visible_classifier_layout[c_idx]) );
                
-            if ( geometry_rectangle_is_containing( diag_bounds, symbox )
-                && geometry_rectangle_is_containing( diag_bounds, label ) )
+            if ( geometry_rectangle_is_containing( diag_space, symbox )
+                && geometry_rectangle_is_containing( diag_space, label ) )
             {
                 data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_EXPORTED );
+                
                 
                 const bool is_ancestor = pencil_layout_data_is_ancestor( this_,
                                                                          &((*this_).visible_classifier_layout[c_idx]), /* ancestor */
                                                                          &((*this_).visible_classifier_layout[c_idx]) /* descendant */
-                                                                        );
+                                                                       );
+            }
+            else if ( geometry_rectangle_is_containing( diag_bounds, symbox )
+                && geometry_rectangle_is_containing( diag_bounds, label ) )
+            {
+                data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_EXPORTED );
+                data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_WARNING );
             }
             else
             {
@@ -566,6 +577,8 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
 
         }
 
+        /* check features against diagram */
+
         for ( uint_fast32_t f_idx = 0; f_idx < (*this_).feature_count; f_idx ++ )
         { 
             const geometry_rectangle_t *symbox
@@ -573,11 +586,17 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
             const geometry_rectangle_t *label 
                 = layout_feature_get_label_box_const( &((*this_).feature_layout[f_idx]) );
                 
-            if ( geometry_rectangle_is_containing( diag_bounds, symbox )
-                && geometry_rectangle_is_containing( diag_bounds, label ) )
+            if ( geometry_rectangle_is_containing( diag_space, symbox )
+                && geometry_rectangle_is_containing( diag_space, label ) )
             {
                 data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
                 
+            }
+            else if ( geometry_rectangle_is_containing( diag_bounds, symbox )
+                && geometry_rectangle_is_containing( diag_bounds, label ) )
+            {
+                data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
+                data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
             }
             else
             {
@@ -585,6 +604,8 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
             }
         }
 
+        /* check relationships against diagram */
+        
         for ( uint_fast32_t r_idx = 0; r_idx < (*this_).relationship_count; r_idx ++ )
         {
             const geometry_rectangle_t *label 
@@ -593,11 +614,17 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                 = layout_relationship_get_shape_const( &((*this_).relationship_layout[r_idx]) );
             const geometry_rectangle_t bounds = geometry_connector_get_bounding_rectangle( shape );
                 
-            if ( geometry_rectangle_is_containing( diag_bounds, &bounds )
-                && geometry_rectangle_is_containing( diag_bounds, label ) )
+            if ( geometry_rectangle_is_containing( diag_space, &bounds )
+                && geometry_rectangle_is_containing( diag_space, label ) )
             {
                 data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
                 
+            }
+            else if ( geometry_rectangle_is_containing( diag_bounds, &bounds )
+                && geometry_rectangle_is_containing( diag_bounds, label ) )
+            {
+                data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
+                data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
             }
             else
             {

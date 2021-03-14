@@ -8,7 +8,7 @@ git archive --format tar.gz --prefix=crystal-facet-uml-$VERSIONSTR/ --output=bui
 cd build/test_coverage
 
 echo "Cov-Measurement Source Package Version ${VERSIONSTR}"
-if [ -z $VERSIONSTR]; then exit; fi
+if [ -z $VERSIONSTR ]; then exit; fi
 echo "based on crystal-facet-uml_${VERSIONSTR}.orig.tar.gz"
 echo "----"
 echo "clean up possibly broken previous cov-build"
