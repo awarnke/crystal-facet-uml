@@ -31,6 +31,9 @@ static geometry_rectangle_t diagram_bounds;
 
 #ifndef NDEBUG                
 #define PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
+#else
+/* REMOVE ME */
+#define PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
 #endif
 
 static void set_up(void)

@@ -99,6 +99,14 @@ static inline void data_stat_add_count ( data_stat_t *this_,
                                        );
 
 /*!
+ *  \brief adds all values of a stat
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that the values to add 
+ */
+static inline void data_stat_add ( data_stat_t *this_, const data_stat_t *that );
+
+/*!
  *  \brief gets the sum of all data entities of one series
  *
  *  \param this_ pointer to own object attributes

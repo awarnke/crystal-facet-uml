@@ -6,7 +6,8 @@
 #include "test_data/test_data_setup.h"
 #include "trace.h"
 #include "test_assert.h"
-        
+#include <inttypes.h>
+ 
 static void set_up(void);
 static void tear_down(void);
 static void layout_good_cases(void);
@@ -58,6 +59,9 @@ static void tear_down(void)
  
 static void layout_good_cases(void)
 {
+    data_stat_t total_stats;
+    data_stat_init( &total_stats );
+        
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_GOOD_CASES );
     for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )
@@ -83,13 +87,28 @@ static void layout_good_cases(void)
         const uint32_t rel_cnt = pencil_layout_data_get_relationship_count( layout_data );
         TEST_ASSERT_EQUAL_INT( 0, rel_cnt );
         */
+        data_stat_add( &total_stats, &layout_stats );
         data_stat_destroy( &layout_stats );
     }
     test_data_setup_destroy( &ts_setup );
+    
+    fprintf( stdout,
+             "    #Diag=%" PRIuFAST32 ", total=%" PRIuFAST32 " |  ERR=%" PRIuFAST32 ", W/C=%" PRIuFAST32 ", W/F=%" PRIuFAST32 ", W/R=%" PRIuFAST32 "\n",
+             data_stat_get_count( &total_stats, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED ),
+             data_stat_get_series_count( &total_stats, DATA_STAT_SERIES_EXPORTED ),
+             data_stat_get_series_count( &total_stats, DATA_STAT_SERIES_ERROR ),
+             data_stat_get_count( &total_stats, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_WARNING ),
+             data_stat_get_count( &total_stats, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING ),
+             data_stat_get_count( &total_stats, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING )
+           );
+    data_stat_destroy( &total_stats );
 }
 
 static void layout_challenging_cases(void)
 {
+    data_stat_t total_stats;
+    data_stat_init( &total_stats );
+    
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_CHALLENGING_CASES );
     for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )
@@ -115,9 +134,20 @@ static void layout_challenging_cases(void)
         const uint32_t rel_cnt = pencil_layout_data_get_relationship_count( layout_data );
         TEST_ASSERT_EQUAL_INT( 0, rel_cnt );
         */
+        data_stat_add( &total_stats, &layout_stats );
         data_stat_destroy( &layout_stats );
     }
     test_data_setup_destroy( &ts_setup );
+    fprintf( stdout,
+             "    #Diag=%" PRIuFAST32 ", total=%" PRIuFAST32 " |  ERR=%" PRIuFAST32 ", W/C=%" PRIuFAST32 ", W/F=%" PRIuFAST32 ", W/R=%" PRIuFAST32 "\n",
+             data_stat_get_count( &total_stats, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED ),
+             data_stat_get_series_count( &total_stats, DATA_STAT_SERIES_EXPORTED ),
+             data_stat_get_series_count( &total_stats, DATA_STAT_SERIES_ERROR ),
+             data_stat_get_count( &total_stats, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_WARNING ),
+             data_stat_get_count( &total_stats, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING ),
+             data_stat_get_count( &total_stats, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING )
+           );
+    data_stat_destroy( &total_stats );
 }
 
 static void layout_edge_cases(void)

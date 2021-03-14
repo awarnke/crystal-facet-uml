@@ -524,9 +524,12 @@ bool pencil_layout_data_is_valid ( const pencil_layout_data_t *this_ )
     return result;
 }
 
-#ifndef NDEBUG                
-#endif
+#ifndef NDEBUG       
 #define PENCIL_LAYOUT_DATA_STATS_WITH_WARNINGS
+#else
+/* REMOVE ME */
+#define PENCIL_LAYOUT_DATA_STATS_WITH_WARNINGS
+#endif
 
 void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data_stat_t *io_layout_stat )
 {
@@ -578,13 +581,14 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                         = layout_visible_classifier_get_space_const( probe );
                
                     const bool symbox_overlaps 
-                        = ( geometry_rectangle_is_intersecting( c_symbox, probe_symbox )
-                        || geometry_rectangle_is_intersecting( c_symbox, probe_label ) );
+                        = geometry_rectangle_is_intersecting( c_symbox, probe_symbox );
+                    const bool mixed_overlaps 
+                        = ( geometry_rectangle_is_intersecting( c_symbox, probe_label ) 
+                        || geometry_rectangle_is_intersecting( c_label, probe_symbox ) );
                     const bool label_overlaps 
-                        = ( geometry_rectangle_is_intersecting( c_label, probe_symbox )
-                        || geometry_rectangle_is_intersecting( c_label, probe_label ) );
+                        = geometry_rectangle_is_intersecting( c_label, probe_label );
                         
-                    if ( symbox_overlaps || label_overlaps )
+                    if ( symbox_overlaps || mixed_overlaps || label_overlaps )
                     {
                         const bool probe_is_ancestor 
                             = pencil_layout_data_is_ancestor( this_,
@@ -659,13 +663,18 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                         = layout_visible_classifier_get_label_box_const( probe );
                
                     const bool symbox_overlaps 
-                        = ( geometry_rectangle_is_intersecting( f_symbox, probe_symbox )
-                        || geometry_rectangle_is_intersecting( f_symbox, probe_label ) );
+                        = geometry_rectangle_is_intersecting( f_symbox, probe_symbox );
+                    const bool mixed_overlaps 
+                        = ( geometry_rectangle_is_intersecting( f_symbox, probe_label ) 
+                        || geometry_rectangle_is_intersecting( f_label, probe_symbox ) );
                     const bool label_overlaps 
-                        = ( geometry_rectangle_is_intersecting( f_label, probe_symbox )
-                        || geometry_rectangle_is_intersecting( f_label, probe_label ) );
+                        = geometry_rectangle_is_intersecting( f_label, probe_label );
                         
-                    if ( symbox_overlaps || label_overlaps )
+                    if ( mixed_overlaps || label_overlaps )
+                    {
+                        data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+                    }
+                    else if ( symbox_overlaps  )
                     {
                         const layout_visible_classifier_t *const f_parent
                             = layout_feature_get_classifier_const ( feature );
@@ -693,13 +702,18 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                         = layout_feature_get_label_box_const( probe );
                
                     const bool symbox_overlaps 
-                        = ( geometry_rectangle_is_intersecting( f_symbox, probe_symbox )
-                        || geometry_rectangle_is_intersecting( f_symbox, probe_label ) );
+                        = geometry_rectangle_is_intersecting( f_symbox, probe_symbox );
+                    const bool mixed_overlaps 
+                        = ( geometry_rectangle_is_intersecting( f_symbox, probe_label )
+                        || geometry_rectangle_is_intersecting( f_label, probe_symbox ) );
                     const bool label_overlaps 
-                        = ( geometry_rectangle_is_intersecting( f_label, probe_symbox )
-                        || geometry_rectangle_is_intersecting( f_label, probe_label ) );
+                        = geometry_rectangle_is_intersecting( f_label, probe_label );
                         
-                    if ( symbox_overlaps || label_overlaps )
+                    if ( mixed_overlaps || label_overlaps )
+                    {
+                        data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+                    }
+                    else if ( symbox_overlaps )
                     {
                         const layout_visible_classifier_t *const f_parent
                             = layout_feature_get_classifier_const ( feature );
@@ -762,23 +776,17 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                     const geometry_rectangle_t *const probe_space 
                         = layout_visible_classifier_get_space_const( probe );
                
-                    const bool label_overlaps 
+                    const bool label_overlaps_label 
+                        = geometry_rectangle_is_intersecting( r_label, probe_label );
+                    const bool label_overlaps_symbox 
                         = ( geometry_rectangle_is_intersecting( r_label, probe_symbox )
-                        || geometry_rectangle_is_intersecting( r_label, probe_label ) );
-                    /* TODO; check for overlaps between r_shape and probe_symbox */
+                        && ! geometry_rectangle_is_containing( probe_space, r_label ) );
+                    const bool shape_overlaps_label 
+                        = geometry_connector_is_intersecting_rectangle( r_shape, probe_label );
                         
-                    if ( label_overlaps )
+                    if ( label_overlaps_label || label_overlaps_symbox || shape_overlaps_label )
                     {
-                        const bool label_is_in_space
-                            = geometry_rectangle_is_containing( probe_space, r_label );
-                        if ( label_is_in_space )
-                        {
-                            /* ok */
-                        }
-                        else 
-                        {
-                            data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
-                        }
+                        data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
                     }
                 }    
                 
@@ -792,12 +800,14 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                     const geometry_rectangle_t *const probe_label
                         = layout_feature_get_label_box_const( probe );
                
-                    const bool label_overlaps 
-                        = ( geometry_rectangle_is_intersecting( r_label, probe_symbox )
-                        || geometry_rectangle_is_intersecting( r_label, probe_label ) );
-                    /* TODO; check for overlaps between r_shape and probe_symbox */
+                    const bool label_overlaps_label 
+                        = geometry_rectangle_is_intersecting( r_label, probe_label );
+                    const bool label_overlaps_symbox 
+                        = geometry_rectangle_is_intersecting( r_label, probe_symbox );
+                    const bool shape_overlaps_label 
+                        = geometry_connector_is_intersecting_rectangle( r_shape, probe_label );
                         
-                    if ( label_overlaps )
+                    if (  label_overlaps_label || label_overlaps_symbox || shape_overlaps_label )
                     {
                         data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
                     }
@@ -810,17 +820,16 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                     const layout_relationship_t *const probe = &((*this_).relationship_layout[probe_idx]);
                     const geometry_rectangle_t *const probe_label 
                         = layout_relationship_get_label_box_const( probe );
-                    /*
                     const geometry_connector_t *const probe_shape
                         = layout_relationship_get_shape_const( probe );
-                    const geometry_rectangle_t probe_bounds = geometry_connector_get_bounding_rectangle( probe_shape );
-                    */
                
                     const bool label_overlaps 
-                        = ( geometry_rectangle_is_intersecting( r_label, probe_label ) );
-                    /* TODO; check for overlaps between r_shape and probe_shape */
+                        = geometry_rectangle_is_intersecting( r_label, probe_label );
+                    const bool mixed_overlaps
+                        = ( geometry_connector_is_intersecting_rectangle( r_shape, probe_label )
+                        || geometry_connector_is_intersecting_rectangle( probe_shape, r_label ) );
                         
-                    if ( label_overlaps )
+                    if ( label_overlaps || mixed_overlaps )
                     {
                         data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
                     }

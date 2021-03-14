@@ -56,6 +56,18 @@ static inline void data_stat_add_count ( data_stat_t *this_,
     (*this_).data[table][series] += increment;
 }
 
+static inline void data_stat_add ( data_stat_t *this_, const data_stat_t *that )
+{
+    assert( that != NULL );
+    for ( int series_idx = 0; series_idx < DATA_STAT_SERIES_MAX; series_idx ++ )
+    {
+        for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLES_MAX; tables_idx ++ )
+        {
+            (*this_).data[tables_idx][series_idx] += (*that).data[tables_idx][series_idx];
+        }
+    }
+}
+
 static inline uint_fast32_t data_stat_get_series_count ( const data_stat_t *this_,
                                                          data_stat_series_t series )
 {
