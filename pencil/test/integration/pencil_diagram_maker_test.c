@@ -29,7 +29,9 @@ static cairo_surface_t *surface;
 static cairo_t *cr;
 static geometry_rectangle_t diagram_bounds;
 
+#ifndef NDEBUG                
 #define PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
+#endif
 
 static void set_up(void)
 {
@@ -55,8 +57,6 @@ static void tear_down(void)
     data_visible_set_destroy( &data_set );
 }
  
-#ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
-
 static void draw_background()
 {
     /* draw paper */
@@ -70,10 +70,12 @@ static void draw_background()
     cairo_fill (cr);
 }
 
+#ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
+
 static void render_to_file( const test_data_setup_t *ts_case_setup, data_stat_t *render_stats )
 {
     /* create filename */
-    char filename_buf[32]="";
+    char filename_buf[48]="";
     utf8stringbuf_t filename = UTF8STRINGBUF(filename_buf);
     utf8stringbuf_append_str( filename, "test_pencil" );
     
