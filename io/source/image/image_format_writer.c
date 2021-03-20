@@ -140,12 +140,16 @@ int image_format_writer_private_render_surface_to_file( image_format_writer_t *t
         cairo_fill (cr);
 
         /* layout diagram */
+        data_stat_t temp_stat;
+        data_stat_init( &temp_stat );
         pencil_diagram_maker_define_grid ( &((*this_).painter), (*this_).bounds );
-        pencil_diagram_maker_layout_elements ( &((*this_).painter), cr, io_render_stat );
-#ifndef NDEBUG
+        pencil_diagram_maker_layout_elements ( &((*this_).painter), cr, &temp_stat );
+#ifdef NDEBUG
         /* in release mode, do not report layouting warnings to the user */
-        data_stat_reset_series( io_render_stat, DATA_STAT_SERIES_WARNING );
+        data_stat_reset_series( &temp_stat, DATA_STAT_SERIES_WARNING );
 #endif
+        data_stat_add( io_render_stat, &temp_stat );
+        data_stat_destroy( &temp_stat );
         
         /* draw the current diagram */
         data_id_t void_id;
