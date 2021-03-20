@@ -67,26 +67,26 @@ void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *
 
         /* set the bounds, space and label_box of the classifier layout */
         {
-            geometry_dimensions_t features_bounds;
-            geometry_dimensions_init_empty( &features_bounds );
+            geometry_dimensions_t features_dim;
+            geometry_dimensions_init_empty( &features_dim );
             pencil_feature_layouter_calculate_features_bounds ( (*this_).feature_layouter,
                                                                 layout_visible_classifier_get_diagramelement_id( classifier_layout ),
                                                                 font_layout,
-                                                                &features_bounds
+                                                                &features_dim
                                                               );
 
             const bool has_contained_children = false;  /* if classifier has children, this will be updated later when calling pencil_classifier_composer_set_space_and_label */
             pencil_classifier_composer_set_all_bounds ( &((*this_).classifier_composer),
                                                         visible_classifier2,
                                                         (*this_).default_classifier_size,
-                                                        &features_bounds,
+                                                        &features_dim,
                                                         has_contained_children,  
                                                         (*this_).pencil_size,
                                                         font_layout,
                                                         classifier_layout
                                                       );
 
-            geometry_dimensions_destroy( &features_bounds );
+            geometry_dimensions_destroy( &features_dim );
         }
 
         /* move the classifier rectangles to the target location */
@@ -1060,55 +1060,92 @@ void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *t
 {
     TRACE_BEGIN();
 
+    /* get preferred object distance */
+    const double obj_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+    /* const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size ); */
+
+    /* get the draw coordinates */
+    geometry_rectangle_t draw_area;
+    geometry_rectangle_copy( &draw_area, (*this_).diagram_draw_area );
+    geometry_rectangle_expand( &draw_area, 0.0, (- obj_dist) );
+    double diag_cx = geometry_rectangle_get_center_x( &draw_area );
+    double diag_y = geometry_rectangle_get_top( &draw_area );
+    double diag_w = geometry_rectangle_get_width( &draw_area );
+    double diag_h = geometry_rectangle_get_height( &draw_area );
+
+    const double phi = 1.618; /* b=0.618, a=1.0, a+b=1.618 => ((a+b)/a)==(a/b) */
+    const double golden_cut_width = diag_w/phi;
+    const double golden_cut_height = diag_h/phi;
+
+    /* calculate preferred classifier bounds/envelopes */
+    double total_wish_height = 0.0;
+    const uint32_t c_count = pencil_layout_data_get_visible_classifier_count( (*this_).layout_data );
+    for ( uint32_t plain_idx = 0; plain_idx < c_count; plain_idx ++ )
+    {
+        layout_visible_classifier_t *visible_classifier1;
+        visible_classifier1 = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, plain_idx );
+        
+        /* set the preferred bounds, space and label_box of the classifier layout */
+        {
+            const data_visible_classifier_t *const visible_classifier_data
+                = layout_visible_classifier_get_data_const ( visible_classifier1 );
+            geometry_dimensions_t preferred_dim;
+            geometry_dimensions_init( &preferred_dim, golden_cut_width, (golden_cut_height/c_count) );
+            geometry_dimensions_t features_dim;
+            geometry_dimensions_init_empty( &features_dim );
+
+            const bool has_contained_children = false;  /* this diagram type does not embrace children */
+            pencil_classifier_composer_set_all_bounds( &((*this_).classifier_composer),
+                                                       visible_classifier_data,
+                                                       &preferred_dim,
+                                                       &features_dim,
+                                                       has_contained_children,  
+                                                       (*this_).pencil_size,
+                                                       font_layout,
+                                                       visible_classifier1
+                                                     );
+
+            geometry_dimensions_destroy( &features_dim );
+            geometry_dimensions_destroy( &preferred_dim );
+        }
+        
+        const geometry_rectangle_t envelope
+            = layout_visible_classifier_calc_envelope_box( visible_classifier1 );
+        total_wish_height += geometry_rectangle_get_height( &envelope );
+    }
+    
     /* sort the classifiers according to their list_order */
     universal_array_index_sorter_t sorted_classifiers;
     universal_array_index_sorter_init( &sorted_classifiers );
     pencil_classifier_layouter_private_sort_classifiers_by_list_order( this_, &sorted_classifiers );
 
-    /* get the diagram coordinates */
-    double diag_x = geometry_rectangle_get_left ( (*this_).diagram_draw_area );
-    double diag_y = geometry_rectangle_get_top ( (*this_).diagram_draw_area );
-    double diag_w = geometry_rectangle_get_width ( (*this_).diagram_draw_area );
-    double diag_h = geometry_rectangle_get_height ( (*this_).diagram_draw_area );
-
-    /* get preferred object distance */
-    const double obj_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
-
-    /* adapt drawing area */
-    diag_x += obj_dist;
-    diag_w -= 2.0 * obj_dist;
-    diag_h -= obj_dist;
-
     /* store the classifier symbol_box into input_data_layouter_t */
-    const uint32_t count_clasfy = universal_array_index_sorter_get_count ( &sorted_classifiers );
-    for ( uint32_t sort_idx = 0; sort_idx < count_clasfy; sort_idx ++ )
+    double current_y = diag_y;
+    const uint32_t count_classifiers = universal_array_index_sorter_get_count ( &sorted_classifiers );
+    for ( uint32_t sort_idx = 0; sort_idx < count_classifiers; sort_idx ++ )
     {
         uint32_t index = universal_array_index_sorter_get_array_index( &sorted_classifiers, sort_idx );
 
         layout_visible_classifier_t *visible_classifier2;
         visible_classifier2 = pencil_layout_data_get_visible_classifier_ptr ( (*this_).layout_data, index );
 
-        /* get the symbol_box to modify */
-        geometry_rectangle_t *classifier_symbol_box
-            = layout_visible_classifier_get_symbol_box_ptr( visible_classifier2 );
-
-        /* define the bounding box */
-        geometry_rectangle_init( classifier_symbol_box,
-                                 diag_x,
-                                 diag_y+((sort_idx*diag_h)/count_clasfy),
-                                 diag_w,
-                                 (diag_h/count_clasfy)
-                               );
-
-        /* update inner space and label_box */
-        const bool has_contained_children = false;
-        pencil_classifier_composer_set_space_and_label ( &((*this_).classifier_composer),
-                                                         layout_visible_classifier_get_data_const( visible_classifier2 ),
-                                                         has_contained_children,
-                                                         (*this_).pencil_size,
-                                                         font_layout,
-                                                         visible_classifier2
-                                                       );
+        const geometry_rectangle_t envelope
+            = layout_visible_classifier_calc_envelope_box( visible_classifier2 );
+        const double envelope_top = geometry_rectangle_get_top( &envelope );
+        const double envelope_height = geometry_rectangle_get_height( &envelope );
+        
+        /* const double wish2avail_ratio = (diag_h == 0.0) ? 1.0 : (total_wish_height/diag_h); */
+        const double avail2wish_ratio = (total_wish_height == 0.0) ? 1.0 : (diag_h/total_wish_height);
+        const double available_height = envelope_height * avail2wish_ratio;
+        const double y_align_ratio = (count_classifiers==1) ? 0.5 : sort_idx/(count_classifiers-1.0);
+        const double y_align_envelope = envelope_height * y_align_ratio;
+        const double y_align_available = available_height * y_align_ratio;
+        
+        const double delta_y = (current_y+y_align_available) - (envelope_top+y_align_envelope);
+        const double delta_x = diag_cx - geometry_rectangle_get_center_x ( &envelope );
+        layout_visible_classifier_shift( visible_classifier2, delta_x, delta_y );
+        
+        current_y += available_height;
     }
 
     /* cleanup sorted array indices */
@@ -1121,28 +1158,60 @@ void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_
 {
     TRACE_BEGIN();
 
+    /* get preferred object distance */
+    const double obj_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+    /* const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size ); */
+
+    /* get the diagram coordinates */
+    geometry_rectangle_t draw_area;
+    geometry_rectangle_copy( &draw_area, (*this_).diagram_draw_area );
+    geometry_rectangle_shift( &draw_area, obj_dist, 0.0 );
+    geometry_rectangle_expand( &draw_area, (-2.0 * obj_dist), (- obj_dist) );
+    double diag_x = geometry_rectangle_get_left( &draw_area );
+    double diag_y = geometry_rectangle_get_top( &draw_area );
+    double diag_w = geometry_rectangle_get_width( &draw_area );
+    double diag_h = geometry_rectangle_get_height( &draw_area );
+
+    /* calculate preferred classifier bounds */
+    const uint32_t c_count = pencil_layout_data_get_visible_classifier_count( (*this_).layout_data );
+    for ( uint32_t plain_idx = 0; plain_idx < c_count; plain_idx ++ )
+    {
+        layout_visible_classifier_t *visible_classifier1;
+        visible_classifier1 = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, plain_idx );
+        
+        /* set the preferred bounds, space and label_box of the classifier layout */
+        {
+            const data_visible_classifier_t *const visible_classifier_data
+                = layout_visible_classifier_get_data_const ( visible_classifier1 );
+            geometry_dimensions_t preferred_dim;
+            geometry_dimensions_init( &preferred_dim, (diag_w/c_count), (diag_h/10.0) );
+            geometry_dimensions_t features_dim;
+            geometry_dimensions_init_empty( &features_dim );
+
+            const bool has_contained_children = false;  /* this diagram type does not embrace children */
+            pencil_classifier_composer_set_all_bounds( &((*this_).classifier_composer),
+                                                       visible_classifier_data,
+                                                       &preferred_dim,
+                                                       &features_dim,
+                                                       has_contained_children,  
+                                                       (*this_).pencil_size,
+                                                       font_layout,
+                                                       visible_classifier1
+                                                     );
+
+            geometry_dimensions_destroy( &features_dim );
+            geometry_dimensions_destroy( &preferred_dim );
+        }
+    }
+    
     /* sort the classifiers according to their list_order */
     universal_array_index_sorter_t sorted_classifiers;
     universal_array_index_sorter_init( &sorted_classifiers );
     pencil_classifier_layouter_private_sort_classifiers_by_list_order( this_, &sorted_classifiers );
 
-    /* get the diagram coordinates */
-    double diag_x = geometry_rectangle_get_left ( (*this_).diagram_draw_area );
-    double diag_y = geometry_rectangle_get_top ( (*this_).diagram_draw_area );
-    double diag_w = geometry_rectangle_get_width ( (*this_).diagram_draw_area );
-    double diag_h = geometry_rectangle_get_height ( (*this_).diagram_draw_area );
-
-    /* get preferred object distance */
-    const double obj_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
-
-    /* adapt drawing area */
-    diag_x += obj_dist;
-    diag_w -= 2.0 * obj_dist;
-    diag_h -= obj_dist;
-
     /* store the classifier bounds into input_data_layouter_t */
-    const uint32_t count_clasfy = universal_array_index_sorter_get_count ( &sorted_classifiers );
-    for ( uint32_t sort_idx = 0; sort_idx < count_clasfy; sort_idx ++ )
+    const uint32_t count_classifiers = universal_array_index_sorter_get_count ( &sorted_classifiers );
+    for ( uint32_t sort_idx = 0; sort_idx < count_classifiers; sort_idx ++ )
     {
         uint32_t index = universal_array_index_sorter_get_array_index( &sorted_classifiers, sort_idx );
 
@@ -1155,9 +1224,9 @@ void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_
 
         /* define the bounding box */
         geometry_rectangle_init( classifier_symbol_box,
-                                 diag_x+((sort_idx*diag_w)/count_clasfy),
+                                 diag_x+((sort_idx*diag_w)/count_classifiers),
                                  diag_y,
-                                 (diag_w/count_clasfy),
+                                 (diag_w/count_classifiers),
                                  diag_h/8
                                );
 
@@ -1182,28 +1251,60 @@ void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t 
 {
     TRACE_BEGIN();
 
+    /* get preferred object distance */
+    const double obj_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+    /* const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size ); */
+
+    /* get the diagram coordinates */
+    geometry_rectangle_t draw_area;
+    geometry_rectangle_copy( &draw_area, (*this_).diagram_draw_area );
+    geometry_rectangle_shift( &draw_area, obj_dist, 0.0 );
+    geometry_rectangle_expand( &draw_area, (-2.0 * obj_dist), (- obj_dist) );
+    double diag_x = geometry_rectangle_get_left( &draw_area );
+    double diag_y = geometry_rectangle_get_top( &draw_area );
+    double diag_w = geometry_rectangle_get_width( &draw_area );
+    double diag_h = geometry_rectangle_get_height( &draw_area );
+
+    /* calculate preferred classifier bounds */
+    const uint32_t c_count = pencil_layout_data_get_visible_classifier_count( (*this_).layout_data );
+    for ( uint32_t plain_idx = 0; plain_idx < c_count; plain_idx ++ )
+    {
+        layout_visible_classifier_t *visible_classifier1;
+        visible_classifier1 = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, plain_idx );
+        
+        /* set the preferred bounds, space and label_box of the classifier layout */
+        {
+            const data_visible_classifier_t *const visible_classifier_data
+                = layout_visible_classifier_get_data_const ( visible_classifier1 );
+            geometry_dimensions_t preferred_dim;
+            geometry_dimensions_init( &preferred_dim, diag_w/5.0, (diag_h/c_count) );
+            geometry_dimensions_t features_dim;
+            geometry_dimensions_init_empty( &features_dim );
+
+            const bool has_contained_children = false;  /* this diagram type does not embrace children */
+            pencil_classifier_composer_set_all_bounds( &((*this_).classifier_composer),
+                                                       visible_classifier_data,
+                                                       &preferred_dim,
+                                                       &features_dim,
+                                                       has_contained_children,  
+                                                       (*this_).pencil_size,
+                                                       font_layout,
+                                                       visible_classifier1
+                                                     );
+
+            geometry_dimensions_destroy( &features_dim );
+            geometry_dimensions_destroy( &preferred_dim );
+        }
+    }
+    
     /* sort the classifiers according to their list_order */
     universal_array_index_sorter_t sorted_classifiers;
     universal_array_index_sorter_init( &sorted_classifiers );
     pencil_classifier_layouter_private_sort_classifiers_by_list_order( this_, &sorted_classifiers );
 
-    /* get the diagram coordinates */
-    double diag_x = geometry_rectangle_get_left ( (*this_).diagram_draw_area );
-    double diag_y = geometry_rectangle_get_top ( (*this_).diagram_draw_area );
-    double diag_w = geometry_rectangle_get_width ( (*this_).diagram_draw_area );
-    double diag_h = geometry_rectangle_get_height ( (*this_).diagram_draw_area );
-
-    /* get preferred object distance */
-    const double obj_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
-
-    /* adapt drawing area */
-    diag_x += obj_dist;
-    diag_w -= 2.0 * obj_dist;
-    diag_h -= obj_dist;
-
     /* store the classifier symbol_box into input_data_layouter_t */
-    const uint32_t count_clasfy = universal_array_index_sorter_get_count ( &sorted_classifiers );
-    for ( uint32_t sort_idx = 0; sort_idx < count_clasfy; sort_idx ++ )
+    const uint32_t count_classifiers = universal_array_index_sorter_get_count ( &sorted_classifiers );
+    for ( uint32_t sort_idx = 0; sort_idx < count_classifiers; sort_idx ++ )
     {
         uint32_t index = universal_array_index_sorter_get_array_index( &sorted_classifiers, sort_idx );
 
@@ -1217,9 +1318,9 @@ void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t 
         /* define the bounding box */
         geometry_rectangle_init( classifier_symbol_box,
                                  diag_x,
-                                 diag_y+((sort_idx*diag_h)/count_clasfy),
+                                 diag_y+((sort_idx*diag_h)/count_classifiers),
                                  diag_w/4,
-                                 (diag_h/count_clasfy)
+                                 (diag_h/count_classifiers)
                                );
 
         /* update inner space and label_box */

@@ -106,6 +106,15 @@ static inline uint_fast32_t data_stat_get_total_count ( const data_stat_t *this_
     return result;
 }
 
+static void inline data_stat_reset_series( data_stat_t *this_, data_stat_series_t series )
+{
+    assert( series < DATA_STAT_SERIES_MAX );
+    for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLES_MAX; tables_idx ++ )
+    {
+        (*this_).data[tables_idx][series] = 0;
+    }
+}
+
 static inline void data_stat_trace ( const data_stat_t *this_ )
 {
     for ( int series_idx = 0; series_idx < DATA_STAT_SERIES_MAX; series_idx ++ )

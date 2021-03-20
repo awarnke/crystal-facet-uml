@@ -142,7 +142,11 @@ int image_format_writer_private_render_surface_to_file( image_format_writer_t *t
         /* layout diagram */
         pencil_diagram_maker_define_grid ( &((*this_).painter), (*this_).bounds );
         pencil_diagram_maker_layout_elements ( &((*this_).painter), cr, io_render_stat );
-
+#ifndef NDEBUG
+        /* in release mode, do not report layouting warnings to the user */
+        data_stat_reset_series( io_render_stat, DATA_STAT_SERIES_WARNING );
+#endif
+        
         /* draw the current diagram */
         data_id_t void_id;
         data_id_init_void( &void_id );

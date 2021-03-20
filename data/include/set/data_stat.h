@@ -137,6 +137,14 @@ static inline uint_fast32_t data_stat_get_table_count ( const data_stat_t *this_
 static inline uint_fast32_t data_stat_get_total_count ( const data_stat_t *this_ );
 
 /*!
+ *  \brief gets the sum of all data entities
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the sum of all data entities
+ */
+static void inline data_stat_reset_series( data_stat_t *this_, data_stat_series_t series );
+
+/*!
  *  \brief traces data_stat_t
  *
  *  \param this_ pointer to own object attributes

@@ -160,7 +160,7 @@ static inline double pencil_size_get_bold_line_width( const pencil_size_t *this_
 static inline double pencil_size_get_line_dash_length( const pencil_size_t *this_ );
 
 /*!
- *  \brief gets the attribute of pencil_size_t: standard_object_border
+ *  \brief gets the attribute of pencil_size_t: standard_object_border aka gap
  *
  *  \param this_ pointer to own object attributes
  */

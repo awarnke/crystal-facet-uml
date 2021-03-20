@@ -85,7 +85,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
  *
  *  without contained features, without contained classifiers.
  *
- *  This method returns values assuming title and ornaments are included.
+ *  This method returns values to embrace title and ornaments.
  *
  *  \param this_ pointer to own object attributes
  *  \param visible_classifier pointer to the data to be drawn
@@ -109,7 +109,7 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
 /*!
  *  \brief determines the inner drawing space for contained classifiers and features - and the label_box
  *
- *  This method returns values assuming title and ornaments are included. classifier_symbol_box is expected to be fix.
+ *  This method returns values to embrace title and ornaments. classifier_symbol_box is expected to be fix.
  *
  *  \param this_ pointer to own object attributes
  *  \param visible_classifier pointer to the data to be drawn
