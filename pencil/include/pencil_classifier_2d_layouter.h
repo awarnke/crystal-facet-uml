@@ -16,8 +16,6 @@
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_dimensions.h"
 #include "util/geometry/geometry_non_linear_scale.h"
-#include "util/geometry/geometry_h_align.h"
-#include "util/geometry/geometry_v_align.h"
 #include "data_diagram.h"
 #include "set/data_small_set.h"
 #include "data_id.h"

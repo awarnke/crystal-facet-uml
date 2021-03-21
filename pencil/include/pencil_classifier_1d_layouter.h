@@ -12,18 +12,13 @@
 #include "pencil_classifier_composer.h"
 #include "pencil_size.h"
 #include "pencil_layout_data.h"
-#include "pencil_feature_layouter.h"
 #include "util/geometry/geometry_rectangle.h"
-#include "util/geometry/geometry_dimensions.h"
-#include "util/geometry/geometry_non_linear_scale.h"
 #include "util/geometry/geometry_h_align.h"
 #include "util/geometry/geometry_v_align.h"
 #include "data_diagram.h"
 #include "set/data_small_set.h"
 #include "data_id.h"
 #include "set/data_visible_set.h"
-#include "universal_int32_pair.h"
-#include "universal_bool_list.h"
 #include "universal_array_index_sorter.h"
 #include <cairo.h>
 #include <stdint.h>
@@ -86,16 +81,6 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
 void pencil_classifier_1d_layouter_layout_for_timing( pencil_classifier_1d_layouter_t *this_, PangoLayout *font_layout );
 
 /*!
- *  \brief sorts the classifiers by list order
- *
- *  \param this_ pointer to own object attributes
- *  \param out_sorted_classifiers an array sorter object
- */
-static inline void pencil_classifier_1d_layouter_private_sort_classifiers_by_list_order( const pencil_classifier_1d_layouter_t *this_,
-                                                                                         universal_array_index_sorter_t *out_sorted_classifiers
-                                                                                       );
-
-/*!
  *  \brief positions the already composed classifiers as horizontal list to a target rectangle
  *
  *  \param this_ pointer to own object attributes
@@ -122,35 +107,6 @@ void pencil_classifier_1d_layouter_private_layout_vertical( const pencil_classif
                                                             const geometry_rectangle_t *dest_rect,
                                                             geometry_h_align_t h_alignment
                                                           );
-
-
-/* ================================ TODO: move inline function ================================ */
-
-static inline void pencil_classifier_1d_layouter_private_sort_classifiers_by_list_order( const pencil_classifier_1d_layouter_t *this_,
-                                                                                         universal_array_index_sorter_t *out_sorted_classifiers )
-{
-    assert ( ((uint32_t)UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE) >= ((uint32_t)DATA_VISIBLE_SET_MAX_CLASSIFIERS) );
-
-    universal_array_index_sorter_reinit( out_sorted_classifiers );
-    const uint32_t count_clasfy = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
-    for ( uint32_t c_idx = 0; c_idx < count_clasfy; c_idx ++ )
-    {
-        const layout_visible_classifier_t *const visible_classifier_probe
-            = pencil_layout_data_get_visible_classifier_ptr ( (*this_).layout_data, c_idx );
-
-        const data_classifier_t *const classifier_probe
-            = layout_visible_classifier_get_classifier_const( visible_classifier_probe );
-
-        const double weight = (const double) data_classifier_get_list_order( classifier_probe );
-        const int err = universal_array_index_sorter_insert( out_sorted_classifiers, c_idx, weight );
-        if ( 0 != err )
-        {
-            TSLOG_ERROR ( "universal_array_index_sorter_t list is full." );
-        }
-    }
-}
-
-
 
 #endif  /* PENCIL_CLASSIFIER_1D_LAYOUTER_H */
 

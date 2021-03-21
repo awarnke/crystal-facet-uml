@@ -6,7 +6,7 @@ crystal-facet-uml (1.28.0) UNRELEASED; urgency=medium
   * exporting image-file types shows statistics on exported elements
   * list layout improved, golden ratio is applied
   * timing and sequence diagram layouting improved
-  * version compatibility in debug mode: 
+  * version compatibility also in debug mode: 
     newer database-files can be opened with older programs; asserts removed
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 09 Mar 2021 21:30:00 +0100
