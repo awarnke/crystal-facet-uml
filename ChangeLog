@@ -5,7 +5,8 @@ crystal-facet-uml (1.28.0) UNRELEASED; urgency=medium
   * test coverage on pencil package increased
   * exporting image-file types shows statistics on exported elements
   * list layout improved, golden ratio is applied
-  * timing and sequence diagram layouting improved
+  * timing and sequence diagram layouting improved;
+    special handling for comments in timing and sequence diagrams
   * version compatibility also in debug mode: 
     newer database-files can be opened with older programs; asserts removed
 

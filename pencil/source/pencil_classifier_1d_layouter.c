@@ -69,6 +69,7 @@ void pencil_classifier_1d_layouter_layout_for_list( pencil_classifier_1d_layoute
             = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, plain_idx );
         const data_visible_classifier_t *const visible_classifier_data
             = layout_visible_classifier_get_data_const ( visible_classifier1 );
+        const data_classifier_t *const classifier1 = data_visible_classifier_get_classifier_const( visible_classifier_data );
         
         /* set the preferred bounds, space and label_box of the classifier layout */
         {
@@ -94,9 +95,7 @@ void pencil_classifier_1d_layouter_layout_for_list( pencil_classifier_1d_layoute
         
         /* sort the classifiers according to their list_order */
         {
-            const data_classifier_t *const classifier1 = data_visible_classifier_get_classifier_const( visible_classifier_data );
             const double weight = (const double) data_classifier_get_list_order( classifier1 );
-            
             const int insert_err = universal_array_index_sorter_insert( &sorted_classifiers, plain_idx, weight );
             if ( 0 != insert_err )
             {
@@ -112,7 +111,7 @@ void pencil_classifier_1d_layouter_layout_for_list( pencil_classifier_1d_layoute
                                                            GEOMETRY_H_ALIGN_CENTER
                                                          );
     
-    /* cleanup sorted array indices */
+    /* cleanup sorted array indices and area-rectangles */
     universal_array_index_sorter_destroy( &sorted_classifiers );
     geometry_rectangle_destroy( &draw_area );
 
@@ -136,8 +135,20 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
     double diag_h = geometry_rectangle_get_height( &draw_area );
 
     const double phi = 1.6180339; /* minor=0.618, major=1.0, sum=1.618 => (sum/major)==(major/minor) */
+    const double minor_ratio = (1.0 - 0.6180339);
     const double golden_ratio_width = diag_w/phi;
     const double golden_ratio_height = diag_h/phi;
+    const double minor_minor_width = diag_w * minor_ratio * minor_ratio;
+    const double minor_minor_height = diag_h * minor_ratio * minor_ratio;
+
+    geometry_rectangle_t left_area;
+    geometry_rectangle_copy( &left_area, &draw_area );
+    geometry_rectangle_expand( &left_area, (- minor_minor_width), 0.0 );
+
+    geometry_rectangle_t right_column;
+    geometry_rectangle_copy( &right_column, &draw_area );
+    geometry_rectangle_shift( &right_column, (diag_w-minor_minor_width), minor_minor_height );
+    geometry_rectangle_expand( &right_column, (minor_minor_width-diag_w), (- minor_minor_height) );
     
     /* sort the classifiers according to their list_order */
     universal_array_index_sorter_t sorted_notes_reqs;
@@ -155,11 +166,13 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
             = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, plain_idx );
         const data_visible_classifier_t *const visible_classifier_data
             = layout_visible_classifier_get_data_const ( visible_classifier1 );
+        const data_classifier_t *const classifier1 = data_visible_classifier_get_classifier_const( visible_classifier_data );
+        const data_classifier_type_t c1_type = data_classifier_get_main_type ( classifier1 );
         
         /* set the preferred bounds, space and label_box of the classifier layout */
         {
             geometry_dimensions_t preferred_dim;
-            geometry_dimensions_init( &preferred_dim, (golden_ratio_width/c_count), ((diag_h-golden_ratio_height)/2.0) );
+            geometry_dimensions_init( &preferred_dim, (golden_ratio_width/c_count), minor_minor_height );
             geometry_dimensions_t features_dim;
             geometry_dimensions_init_empty( &features_dim );
 
@@ -178,13 +191,10 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
             geometry_dimensions_destroy( &preferred_dim );
         }
         
-        /* collect classifier type statistics */
+        /* check classifier type and sort into corresponding list */
         {
-            const data_classifier_t *const classifier1 = data_visible_classifier_get_classifier_const( visible_classifier_data );
-            const double weight = (const double) data_classifier_get_list_order( classifier1 );
-            const data_classifier_type_t c1_type = data_classifier_get_main_type ( classifier1 );
             int insert_err = 0;
-            
+            const double weight = (const double) data_classifier_get_list_order( classifier1 );
             if (( c1_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
                 || ( c1_type == DATA_CLASSIFIER_TYPE_COMMENT ))
             {
@@ -212,28 +222,30 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
     /* layout acting classifiers */
     pencil_classifier_1d_layouter_private_layout_horizontal( this_,
                                                              &sorted_acting_classifiers,
-                                                             &draw_area,
+                                                             &left_area,
                                                              GEOMETRY_V_ALIGN_TOP
                                                            );
     /* layout digram references */
     pencil_classifier_1d_layouter_private_layout_vertical( this_,
                                                            &sorted_diag_refs,
-                                                           &draw_area,
+                                                           &left_area,
                                                            GEOMETRY_H_ALIGN_LEFT
                                                          );
     /* layout notes/comments and requirements */
     pencil_classifier_1d_layouter_private_layout_vertical( this_,
                                                            &sorted_notes_reqs,
-                                                           &draw_area,
+                                                           &right_column,
                                                            GEOMETRY_H_ALIGN_RIGHT
                                                          );
 
-    /* cleanup sorted array indices */
+    /* cleanup sorted array indices and area-rectangles */
     universal_array_index_sorter_destroy( &sorted_acting_classifiers );
     universal_array_index_sorter_destroy( &sorted_diag_refs );
     universal_array_index_sorter_destroy( &sorted_notes_reqs );
+    geometry_rectangle_destroy( &right_column );
+    geometry_rectangle_destroy( &left_area );
     geometry_rectangle_destroy( &draw_area );
-
+    
     TRACE_END();
 }
 
@@ -271,6 +283,8 @@ void pencil_classifier_1d_layouter_layout_for_timing( pencil_classifier_1d_layou
             = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, plain_idx );
         const data_visible_classifier_t *const visible_classifier_data
             = layout_visible_classifier_get_data_const ( visible_classifier1 );
+        const data_classifier_t *const classifier1 = data_visible_classifier_get_classifier_const( visible_classifier_data );
+        const data_classifier_type_t c1_type = data_classifier_get_main_type ( classifier1 );
         
         /* set the preferred bounds, space and label_box of the classifier layout */
         {
@@ -294,13 +308,10 @@ void pencil_classifier_1d_layouter_layout_for_timing( pencil_classifier_1d_layou
             geometry_dimensions_destroy( &preferred_dim );
         }
         
-        /* collect classifier type statistics */
+        /* check classifier type and sort into corresponding list */
         {
-            const data_classifier_t *const classifier1 = data_visible_classifier_get_classifier_const( visible_classifier_data );
-            const double weight = (const double) data_classifier_get_list_order( classifier1 );
-            const data_classifier_type_t c1_type = data_classifier_get_main_type ( classifier1 );
             int insert_err = 0;
-            
+            const double weight = (const double) data_classifier_get_list_order( classifier1 );
             if (( c1_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
                 || ( c1_type == DATA_CLASSIFIER_TYPE_COMMENT ))
             {
@@ -333,7 +344,7 @@ void pencil_classifier_1d_layouter_layout_for_timing( pencil_classifier_1d_layou
                                                              GEOMETRY_V_ALIGN_TOP
                                                            );
 
-    /* cleanup sorted array indices */
+    /* cleanup sorted array indices and area-rectangles */
     universal_array_index_sorter_destroy( &sorted_acting_classifiers );
     universal_array_index_sorter_destroy( &sorted_notes_reqs );
     geometry_rectangle_destroy( &draw_area );
