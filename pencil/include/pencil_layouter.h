@@ -19,7 +19,8 @@
 #include "pencil_feat_label_layouter.h"
 #include "pencil_relationship_layouter.h"
 #include "pencil_rel_label_layouter.h"
-#include "pencil_classifier_layouter.h"
+#include "pencil_classifier_2d_layouter.h"
+#include "pencil_classifier_1d_layouter.h"
 #include "pencil_error.h"
 #include "option/pencil_type_filter.h"
 #include "layout/layout_order.h"
@@ -51,7 +52,8 @@ struct pencil_layouter_struct {
 
     pencil_diagram_painter_t diagram_painter;  /*!< own instance of a painter object to ask for display dimensions */
 
-    pencil_classifier_layouter_t pencil_classifier_layouter;  /*!< own instance of a helper object to layout classifiers */
+    pencil_classifier_2d_layouter_t pencil_classifier_2d_layouter;  /*!< own instance of a helper object to layout classifiers */
+    pencil_classifier_1d_layouter_t pencil_classifier_1d_layouter;  /*!< own instance of a helper object to layout classifiers */
     pencil_feature_layouter_t feature_layouter;  /*!< own instance of a helper object to layout features */
     pencil_feat_label_layouter_t feature_label_layouter;  /*!< own instance of a helper object to layout feature labels */
     pencil_relationship_layouter_t pencil_relationship_layouter;  /*!< own instance of a helper object to layout relationships */

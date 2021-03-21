@@ -33,7 +33,7 @@ static geometry_rectangle_t diagram_bounds;
 #define PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
 #else
 /* REMOVE ME */
-#define PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
+/* #define PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES */
 #endif
 
 static void set_up(void)
@@ -74,7 +74,6 @@ static void draw_background()
 }
 
 #ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
-
 static void render_to_file( const test_data_setup_t *ts_case_setup, data_stat_t *render_stats )
 {
     /* create filename */
@@ -119,7 +118,6 @@ static void render_to_file( const test_data_setup_t *ts_case_setup, data_stat_t 
         = cairo_surface_write_to_png ( surface, utf8stringbuf_get_string( filename ) );
     TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == png_result );
 }
-
 #endif
 
 static void layout_good_cases(void)

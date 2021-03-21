@@ -158,13 +158,11 @@ static void layout_edge_cases(void)
     {
         /* setup */
         test_data_setup_get_variant_data( &ts_setup, &data_set );
-        data_stat_t layout_stats;
-        data_stat_init( &layout_stats );
         
         /* perform test */
         pencil_layouter_prepare ( &layouter );
         pencil_layouter_define_grid ( &layouter, diagram_bounds );
-        pencil_layouter_layout_elements ( &layouter, font_layout, &layout_stats );
+        pencil_layouter_layout_elements ( &layouter, font_layout, NULL );
         
         /* check result */
         const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const( &layouter );
@@ -177,7 +175,6 @@ static void layout_edge_cases(void)
         const uint32_t rel_cnt = pencil_layout_data_get_relationship_count( layout_data );
         TEST_ASSERT_EQUAL_INT( 0, rel_cnt );
         */
-        data_stat_destroy( &layout_stats );
     }
     test_data_setup_destroy( &ts_setup );
 }

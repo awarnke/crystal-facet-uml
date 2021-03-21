@@ -1,7 +1,7 @@
-/* File: pencil_classifier_layouter.h; Copyright and License: see below */
+/* File: pencil_classifier_2d_layouter.h; Copyright and License: see below */
 
-#ifndef PENCIL_CLASSIFIER_LAYOUTER_H
-#define PENCIL_CLASSIFIER_LAYOUTER_H
+#ifndef PENCIL_CLASSIFIER_2D_LAYOUTER_H
+#define PENCIL_CLASSIFIER_2D_LAYOUTER_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -31,7 +31,7 @@
 /*!
  *  \brief attributes of the classifier layouter
  */
-struct pencil_classifier_layouter_struct {
+struct pencil_classifier_2d_layouter_struct {
     pencil_layout_data_t *layout_data;  /* pointer to external layout data */
 
     const pencil_size_t *pencil_size;  /*!< pointer to an external pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
@@ -45,7 +45,7 @@ struct pencil_classifier_layouter_struct {
     pencil_feature_layouter_t *feature_layouter;  /*!< pointer or an external helper to layout features */
 };
 
-typedef struct pencil_classifier_layouter_struct pencil_classifier_layouter_t;
+typedef struct pencil_classifier_2d_layouter_struct pencil_classifier_2d_layouter_t;
 
 /*!
  *  \brief initializes the classifier layouter
@@ -58,7 +58,7 @@ typedef struct pencil_classifier_layouter_struct pencil_classifier_layouter_t;
  *  \param y_scale pointer to the scale object for the y-axis
  *  \param feature_layouter pointer to a feature layout helper
  */
-void pencil_classifier_layouter_init( pencil_classifier_layouter_t *this_,
+void pencil_classifier_2d_layouter_init( pencil_classifier_2d_layouter_t *this_,
                                       pencil_layout_data_t *layout_data,
                                       const pencil_size_t *pencil_size,
                                       geometry_dimensions_t *default_classifier_size,
@@ -72,7 +72,7 @@ void pencil_classifier_layouter_init( pencil_classifier_layouter_t *this_,
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_classifier_layouter_destroy( pencil_classifier_layouter_t *this_ );
+void pencil_classifier_2d_layouter_destroy( pencil_classifier_2d_layouter_t *this_ );
 
 /* ================================ INITIAL LAYOUT ================================ */
 
@@ -82,7 +82,7 @@ void pencil_classifier_layouter_destroy( pencil_classifier_layouter_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  */
-void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *this_, PangoLayout *font_layout );
+void pencil_classifier_2d_layouter_estimate_bounds ( pencil_classifier_2d_layouter_t *this_, PangoLayout *font_layout );
 
 /* ================================ MOVE TO AVOID OVERLAPS ================================ */
 
@@ -91,7 +91,7 @@ void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layouter_t *this_ );
+void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d_layouter_t *this_ );
 
 /*!
  *  \brief determine order by which to move classifiers
@@ -99,7 +99,7 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
  *  \param this_ pointer to own object attributes
  *  \param out_sorted sorting order by which to move classifiers; must not be NULL, shall be initialized to empty.
  */
-void pencil_classifier_layouter_private_propose_move_processing_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
+void pencil_classifier_2d_layouter_private_propose_move_processing_order ( pencil_classifier_2d_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
 
 /*!
  *  \brief propose multiple solutions to move one classifier up/down/left/right
@@ -112,7 +112,7 @@ void pencil_classifier_layouter_private_propose_move_processing_order ( pencil_c
  *  \param out_solution_move_dy array of solutions: proposal to move in y direction
  *  \param out_solutions_count number of proposed solutions; 1 &lt;= out_solutions_count &lt; solutions_max
  */
-void pencil_classifier_layouter_private_propose_4dir_move_solutions ( pencil_classifier_layouter_t *this_,
+void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions ( pencil_classifier_2d_layouter_t *this_,
                                                                       const universal_array_index_sorter_t *sorted,
                                                                       uint32_t sort_index,
                                                                       uint32_t solutions_max,
@@ -130,7 +130,7 @@ void pencil_classifier_layouter_private_propose_4dir_move_solutions ( pencil_cla
  *  \param out_solution_move_dx proposal to move in x direction
  *  \param out_solution_move_dy proposal to move in y direction
  */
-void pencil_classifier_layouter_private_propose_anchored_solution ( pencil_classifier_layouter_t *this_,
+void pencil_classifier_2d_layouter_private_propose_anchored_solution ( pencil_classifier_2d_layouter_t *this_,
                                                                     const universal_array_index_sorter_t *sorted,
                                                                     uint32_t sort_index,
                                                                     double * out_solution_move_dx,
@@ -148,7 +148,7 @@ void pencil_classifier_layouter_private_propose_anchored_solution ( pencil_class
  *  \param solution_move_dy array of solutions: proposal to move in y direction
  *  \param out_index_of_best index (of solution) of the best solution; must not be NULL.
  */
-void pencil_classifier_layouter_private_select_move_solution ( pencil_classifier_layouter_t *this_,
+void pencil_classifier_2d_layouter_private_select_move_solution ( pencil_classifier_2d_layouter_t *this_,
                                                                const universal_array_index_sorter_t *sorted,
                                                                uint32_t sort_index,
                                                                uint32_t solutions_count,
@@ -165,7 +165,7 @@ void pencil_classifier_layouter_private_select_move_solution ( pencil_classifier
  *  \param this_ pointer to own object attributes
  *  \param font_layout pango layout object to determine the font metrics if re-layouting titles
  */
-void pencil_classifier_layouter_embrace_children( pencil_classifier_layouter_t *this_, PangoLayout *font_layout );
+void pencil_classifier_2d_layouter_embrace_children( pencil_classifier_2d_layouter_t *this_, PangoLayout *font_layout );
 
 /*!
  *  \brief determine order by which to embrace classifiers
@@ -173,7 +173,7 @@ void pencil_classifier_layouter_embrace_children( pencil_classifier_layouter_t *
  *  \param this_ pointer to own object attributes
  *  \param out_sorted sorting order of relationships by which to adapt classifiers; must not be NULL, shall be initialized to empty.
  */
-void pencil_classifier_layouter_private_propose_embracing_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
+void pencil_classifier_2d_layouter_private_propose_embracing_order ( pencil_classifier_2d_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
 
 /*!
  *  \brief try to resize classifiers so that they embrace their children
@@ -183,7 +183,7 @@ void pencil_classifier_layouter_private_propose_embracing_order ( pencil_classif
  *  \param move true if the containing parent classifier may move to the child, false if it shall expand only
  *  \return 0 in case of success, -1 if embracing was not possible
  */
-int pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_layouter_t *this_, layout_relationship_t *the_relationship, bool move );
+int pencil_classifier_2d_layouter_private_try_embrace_child( pencil_classifier_2d_layouter_t *this_, layout_relationship_t *the_relationship, bool move );
 
 /* ================================ EMBRACE CHILDREN COMMON ================================ */
 
@@ -192,7 +192,7 @@ int pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_layo
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_classifier_layouter_hide_relations_of_embraced_children( pencil_classifier_layouter_t *this_ );
+void pencil_classifier_2d_layouter_hide_relations_of_embraced_children( pencil_classifier_2d_layouter_t *this_ );
 
 /* ================================ EMBRACE AND MOVE CHILDREN TOGETHER ================================ */
 
@@ -202,7 +202,7 @@ void pencil_classifier_layouter_hide_relations_of_embraced_children( pencil_clas
  *  \param this_ pointer to own object attributes
  *  \param font_layout pango layout object to determine the font metrics if re-layouting titles
  */
-void pencil_classifier_layouter_move_and_embrace_children( pencil_classifier_layouter_t *this_, PangoLayout *font_layout );
+void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_2d_layouter_t *this_, PangoLayout *font_layout );
 
 /*!
  *  \brief determine order by which to move and embrace child classifiers
@@ -210,7 +210,7 @@ void pencil_classifier_layouter_move_and_embrace_children( pencil_classifier_lay
  *  \param this_ pointer to own object attributes
  *  \param out_sorted sorting order by which to grow classifiers; must not be NULL, shall be initialized to empty.
  */
-void pencil_classifier_layouter_private_propose_move_embrace_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
+void pencil_classifier_2d_layouter_private_propose_move_embrace_order ( pencil_classifier_2d_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
 
 /*!
  *  \brief calculates the envelope hull of all descendants (excluding self).
@@ -220,7 +220,7 @@ void pencil_classifier_layouter_private_propose_move_embrace_order ( pencil_clas
  *  \param this_ pointer to own object attributes
  *  \param ancestor_classifier the classifier of whichs children to determine the envelope
  */
-static inline geometry_rectangle_t pencil_classifier_layouter_private_calc_descendant_envelope( pencil_classifier_layouter_t *this_,
+static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_descendant_envelope( pencil_classifier_2d_layouter_t *this_,
                                                                                                 const layout_visible_classifier_t *ancestor_classifier
                                                                                               );
 
@@ -231,7 +231,7 @@ static inline geometry_rectangle_t pencil_classifier_layouter_private_calc_desce
  *  \param start_rect rectangle for which to explore and determine the outer space
  *  \param the_classifier the classifier of which descendants, ancesters and self shall be ignored
  */
-static inline geometry_rectangle_t pencil_classifier_layouter_private_calc_outer_space( pencil_classifier_layouter_t *this_,
+static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_outer_space( pencil_classifier_2d_layouter_t *this_,
                                                                                         const geometry_rectangle_t *start_rect,
                                                                                         const layout_visible_classifier_t *the_classifier
                                                                                       );
@@ -244,79 +244,16 @@ static inline geometry_rectangle_t pencil_classifier_layouter_private_calc_outer
  *  \param delta_x distance to move in x direction
  *  \param delta_y distance to move in y direction
  */
-static inline void pencil_classifier_layouter_private_move_descendants( pencil_classifier_layouter_t *this_,
+static inline void pencil_classifier_2d_layouter_private_move_descendants( pencil_classifier_2d_layouter_t *this_,
                                                                         const layout_visible_classifier_t *ancestor_classifier,
                                                                         double delta_x,
                                                                         double delta_y
                                                                       );
 
-/* ================================ LAYOUT FOR SCENARIO ================================ */
 
-/*!
- *  \brief defines classifier bounds for list diagrams
- *
- *  \param this_ pointer to own object attributes
- *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- */
-void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *this_, PangoLayout *font_layout );
+#include "pencil_classifier_2d_layouter.inl"
 
-/*!
- *  \brief defines classifier bounds for sequence diagrams
- *
- *  \param this_ pointer to own object attributes
- *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- */
-void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_t *this_, PangoLayout *font_layout );
-
-/*!
- *  \brief defines classifier bounds for timing diagrams
- *
- *  \param this_ pointer to own object attributes
- *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- */
-void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t *this_, PangoLayout *font_layout );
-
-/*!
- *  \brief sorts the classifiers by list order
- *
- *  \param this_ pointer to own object attributes
- *  \param out_sorted_classifiers an array sorter object
- */
-static inline void pencil_classifier_layouter_private_sort_classifiers_by_list_order( const pencil_classifier_layouter_t *this_,
-                                                                                      universal_array_index_sorter_t *out_sorted_classifiers
-                                                                                    );
-
-/*!
- *  \brief positions the already composed classifiers as horizontal list to a target rectangle
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_list an array sorter object
- *  \param dest_rect an array sorter object
- *  \param v_alignment GEOMETRY_V_ALIGN_TOP, GEOMETRY_V_ALIGN_CENTER or GEOMETRY_V_ALIGN_BOTTOM
- */
-void pencil_classifier_layouter_private_layout_horizontal( const pencil_classifier_layouter_t *this_,
-                                                           const universal_array_index_sorter_t *classifier_list,
-                                                           const geometry_rectangle_t *dest_rect,
-                                                           geometry_v_align_t v_alignment
-                                                         );
-
-/*!
- *  \brief positions the already composed classifiers as vertical list to a target rectangle
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_list an array sorter object
- *  \param dest_rect an array sorter object
- *  \param h_alignment GEOMETRY_H_ALIGN_LEFT, GEOMETRY_H_ALIGN_CENTER or GEOMETRY_H_ALIGN_RIGHT
- */
-void pencil_classifier_layouter_private_layout_vertical( const pencil_classifier_layouter_t *this_,
-                                                         const universal_array_index_sorter_t *classifier_list,
-                                                         const geometry_rectangle_t *dest_rect,
-                                                         geometry_h_align_t h_alignment
-                                                       );
-
-#include "pencil_classifier_layouter.inl"
-
-#endif  /* PENCIL_CLASSIFIER_LAYOUTER_H */
+#endif  /* PENCIL_CLASSIFIER_2D_LAYOUTER_H */
 
 
 /*

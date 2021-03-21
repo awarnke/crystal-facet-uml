@@ -29,14 +29,18 @@ void pencil_layouter_init( pencil_layouter_t *this_, const data_visible_set_t *i
                                      &((*this_).layout_data),
                                      &((*this_).pencil_size)
                                    );
-    pencil_classifier_layouter_init( &((*this_).pencil_classifier_layouter),
-                                     &((*this_).layout_data),
-                                     &((*this_).pencil_size),
-                                     &((*this_).default_classifier_size),
-                                     &((*this_).x_scale),
-                                     &((*this_).y_scale),
-                                     &((*this_).feature_layouter)
-                                   );
+    pencil_classifier_2d_layouter_init( &((*this_).pencil_classifier_2d_layouter),
+                                        &((*this_).layout_data),
+                                        &((*this_).pencil_size),
+                                        &((*this_).default_classifier_size),
+                                        &((*this_).x_scale),
+                                        &((*this_).y_scale),
+                                        &((*this_).feature_layouter)
+                                      );
+    pencil_classifier_1d_layouter_init( &((*this_).pencil_classifier_1d_layouter),
+                                        &((*this_).layout_data),
+                                        &((*this_).pencil_size)
+                                      );
     pencil_relationship_layouter_init( &((*this_).pencil_relationship_layouter),
                                        &((*this_).layout_data),
                                        &((*this_).pencil_size)
@@ -65,7 +69,8 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ )
 
     pencil_rel_label_layouter_destroy( &((*this_).relationship_label_layouter) );
     pencil_relationship_layouter_destroy( &((*this_).pencil_relationship_layouter) );
-    pencil_classifier_layouter_destroy( &((*this_).pencil_classifier_layouter) );
+    pencil_classifier_1d_layouter_destroy( &((*this_).pencil_classifier_1d_layouter) );
+    pencil_classifier_2d_layouter_destroy( &((*this_).pencil_classifier_2d_layouter) );
     pencil_feat_label_layouter_destroy( &((*this_).feature_label_layouter) );
     pencil_feature_layouter_destroy( &((*this_).feature_layouter) );
 
@@ -161,7 +166,7 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
     if ( DATA_DIAGRAM_TYPE_LIST == diag_type )
     {
         /* calculate the classifier shapes */
-        pencil_classifier_layouter_layout_for_list( &((*this_).pencil_classifier_layouter), font_layout );
+        pencil_classifier_1d_layouter_layout_for_list( &((*this_).pencil_classifier_1d_layouter), font_layout );
 
         /* calculate the feature shapes */
         pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
@@ -175,7 +180,7 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
     else if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type )
     {
         /* calculate the classifier shapes */
-        pencil_classifier_layouter_layout_for_sequence( &((*this_).pencil_classifier_layouter), font_layout );
+        pencil_classifier_1d_layouter_layout_for_sequence( &((*this_).pencil_classifier_1d_layouter), font_layout );
 
         /* calculate the feature shapes */
         pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
@@ -189,7 +194,7 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
     else if ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type )
     {
         /* calculate the classifier shapes */
-        pencil_classifier_layouter_layout_for_timing( &((*this_).pencil_classifier_layouter), font_layout );
+        pencil_classifier_1d_layouter_layout_for_timing( &((*this_).pencil_classifier_1d_layouter), font_layout );
 
         /* calculate the feature shapes */
         pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
@@ -203,16 +208,16 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
     else
     {
         /* store the classifier bounds into input_data_layouter_t */
-        pencil_classifier_layouter_estimate_bounds( &((*this_).pencil_classifier_layouter), font_layout );
+        pencil_classifier_2d_layouter_estimate_bounds( &((*this_).pencil_classifier_2d_layouter), font_layout );
 
         /* move the classifiers to avoid overlaps */
-        pencil_classifier_layouter_move_to_avoid_overlaps( &((*this_).pencil_classifier_layouter) );
+        pencil_classifier_2d_layouter_move_to_avoid_overlaps( &((*this_).pencil_classifier_2d_layouter) );
 
         /* parent classifiers embrace their children step by step */
-        pencil_classifier_layouter_embrace_children( &((*this_).pencil_classifier_layouter), font_layout );
+        pencil_classifier_2d_layouter_embrace_children( &((*this_).pencil_classifier_2d_layouter), font_layout );
 
         /* classifiers embrace all children at once and move them if there is space available */
-        pencil_classifier_layouter_move_and_embrace_children( &((*this_).pencil_classifier_layouter), font_layout );
+        pencil_classifier_2d_layouter_move_and_embrace_children( &((*this_).pencil_classifier_2d_layouter), font_layout );
 
         /* calculate the feature shapes */
         pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
@@ -234,7 +239,7 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
         }
 
         /* hide containment relationships if children are embraced */
-        pencil_classifier_layouter_hide_relations_of_embraced_children( &((*this_).pencil_classifier_layouter) );
+        pencil_classifier_2d_layouter_hide_relations_of_embraced_children( &((*this_).pencil_classifier_2d_layouter) );
 
         /* layout labels of features and relationships */
         pencil_feat_label_layouter_do_layout( &((*this_).feature_label_layouter), font_layout );

@@ -1,4 +1,4 @@
-/* File: pencil_classifier_layouter.inl; Copyright and License: see below */
+/* File: pencil_classifier_2d_layouter.inl; Copyright and License: see below */
 
 #include "tslog.h"
 #include <assert.h>
@@ -13,7 +13,7 @@
 
 /* ================================ EMBRACE AND MOVE CHILDREN TOGETHER ================================ */
 
-static inline geometry_rectangle_t pencil_classifier_layouter_private_calc_descendant_envelope( pencil_classifier_layouter_t *this_,
+static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_descendant_envelope( pencil_classifier_2d_layouter_t *this_,
                                                                                                 const layout_visible_classifier_t *ancestor_classifier
                                                                                               )
 {
@@ -48,7 +48,7 @@ static inline geometry_rectangle_t pencil_classifier_layouter_private_calc_desce
     return descendant_envelope;
 }
 
-static inline geometry_rectangle_t pencil_classifier_layouter_private_calc_outer_space( pencil_classifier_layouter_t *this_,
+static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_outer_space( pencil_classifier_2d_layouter_t *this_,
                                                                                         const geometry_rectangle_t *start_rect,
                                                                                         const layout_visible_classifier_t *the_classifier )
 {
@@ -102,7 +102,7 @@ static inline geometry_rectangle_t pencil_classifier_layouter_private_calc_outer
     return outer_space;
 }
 
-static inline void pencil_classifier_layouter_private_move_descendants( pencil_classifier_layouter_t *this_,
+static inline void pencil_classifier_2d_layouter_private_move_descendants( pencil_classifier_2d_layouter_t *this_,
                                                                         const layout_visible_classifier_t *ancestor_classifier,
                                                                         double delta_x,
                                                                         double delta_y )
@@ -118,33 +118,6 @@ static inline void pencil_classifier_layouter_private_move_descendants( pencil_c
         if ( is_descendant )
         {
             layout_visible_classifier_shift ( probe_classifier, delta_x, delta_y );
-        }
-    }
-}
-
-/* ================================ LAYOUT FOR SCENARIO ================================ */
-
-static inline void pencil_classifier_layouter_private_sort_classifiers_by_list_order( const pencil_classifier_layouter_t *this_,
-                                                                                      universal_array_index_sorter_t *out_sorted_classifiers )
-{
-    assert ( ((uint32_t)UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE) >= ((uint32_t)DATA_VISIBLE_SET_MAX_CLASSIFIERS) );
-
-    universal_array_index_sorter_reinit( out_sorted_classifiers );
-    const uint32_t count_clasfy = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
-    for ( uint32_t c_idx = 0; c_idx < count_clasfy; c_idx ++ )
-    {
-        const layout_visible_classifier_t *const visible_classifier_probe
-            = pencil_layout_data_get_visible_classifier_ptr ( (*this_).layout_data, c_idx );
-
-        const data_classifier_t *const classifier_probe
-            = layout_visible_classifier_get_classifier_const( visible_classifier_probe );
-
-        int err;
-        const double weight = (const double) data_classifier_get_list_order( classifier_probe );
-        err = universal_array_index_sorter_insert( out_sorted_classifiers, c_idx, weight );
-        if ( 0 != err )
-        {
-            TSLOG_ERROR ( "universal_array_index_sorter_t list is full." );
         }
     }
 }
