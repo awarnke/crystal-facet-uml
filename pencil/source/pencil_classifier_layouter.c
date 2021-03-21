@@ -1068,17 +1068,14 @@ void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *t
     geometry_rectangle_t draw_area;
     geometry_rectangle_copy( &draw_area, (*this_).diagram_draw_area );
     geometry_rectangle_expand( &draw_area, 0.0, (- obj_dist) );
-    double diag_cx = geometry_rectangle_get_center_x( &draw_area );
-    double diag_y = geometry_rectangle_get_top( &draw_area );
     double diag_w = geometry_rectangle_get_width( &draw_area );
     double diag_h = geometry_rectangle_get_height( &draw_area );
 
-    const double phi = 1.618; /* b=0.618, a=1.0, a+b=1.618 => ((a+b)/a)==(a/b) */
+    const double phi = 1.6180339; /* b=0.618, a=1.0, a+b=1.618 => ((a+b)/a)==(a/b) */
     const double golden_ratio_width = diag_w/phi;
     const double golden_ratio_height = diag_h/phi;
 
     /* calculate preferred classifier bounds/envelopes */
-    double total_wish_height = 0.0;
     const uint_fast32_t c_count = pencil_layout_data_get_visible_classifier_count( (*this_).layout_data );
     for ( uint_fast32_t plain_idx = 0; plain_idx < c_count; plain_idx ++ )
     {
@@ -1108,49 +1105,23 @@ void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *t
             geometry_dimensions_destroy( &features_dim );
             geometry_dimensions_destroy( &preferred_dim );
         }
-        
-        /* update sum of wished envelope heights */
-        const geometry_rectangle_t envelope
-            = layout_visible_classifier_calc_envelope_box( visible_classifier1 );
-        total_wish_height += geometry_rectangle_get_height( &envelope );
     }
     
     /* sort the classifiers according to their list_order */
     universal_array_index_sorter_t sorted_classifiers;
     universal_array_index_sorter_init( &sorted_classifiers );
     pencil_classifier_layouter_private_sort_classifiers_by_list_order( this_, &sorted_classifiers );
-
-    /* store the classifier symbol_box into input_data_layouter_t */
-    double current_y = diag_y;
-    const uint_fast32_t count_classifiers = universal_array_index_sorter_get_count ( &sorted_classifiers );
-    for ( uint_fast32_t sort_idx = 0; sort_idx < count_classifiers; sort_idx ++ )
-    {
-        uint_fast32_t index = universal_array_index_sorter_get_array_index( &sorted_classifiers, sort_idx );
-
-        layout_visible_classifier_t *visible_classifier2;
-        visible_classifier2 = pencil_layout_data_get_visible_classifier_ptr ( (*this_).layout_data, index );
-
-        const geometry_rectangle_t envelope
-            = layout_visible_classifier_calc_envelope_box( visible_classifier2 );
-        const double envelope_top = geometry_rectangle_get_top( &envelope );
-        const double envelope_height = geometry_rectangle_get_height( &envelope );
-        
-        /* const double wish2avail_ratio = (diag_h == 0.0) ? 1.0 : (total_wish_height/diag_h); */
-        const double avail2wish_ratio = (total_wish_height == 0.0) ? 1.0 : (diag_h/total_wish_height);
-        const double available_height = envelope_height * avail2wish_ratio;
-        const double y_align_ratio = (count_classifiers==1) ? 0.5 : sort_idx/(count_classifiers-1.0);
-        const double y_align_envelope = envelope_height * y_align_ratio;
-        const double y_align_available = available_height * y_align_ratio;
-        
-        const double delta_y = (current_y+y_align_available) - (envelope_top+y_align_envelope);
-        const double delta_x = diag_cx - geometry_rectangle_get_center_x ( &envelope );
-        layout_visible_classifier_shift( visible_classifier2, delta_x, delta_y );
-        
-        current_y += available_height;
-    }
-
+    
+    /* layout list */
+    pencil_classifier_layouter_private_layout_vertical( this_,
+                                                        &sorted_classifiers,
+                                                        &draw_area,
+                                                        GEOMETRY_H_ALIGN_CENTER
+                                                      );
+    
     /* cleanup sorted array indices */
     universal_array_index_sorter_destroy( &sorted_classifiers );
+    geometry_rectangle_destroy( &draw_area );
 
     TRACE_END();
 }
@@ -1173,6 +1144,10 @@ void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_
     double diag_w = geometry_rectangle_get_width( &draw_area );
     double diag_h = geometry_rectangle_get_height( &draw_area );
 
+    const double phi = 1.6180339; /* b=0.618, a=1.0, a+b=1.618 => ((a+b)/a)==(a/b) */
+    const double golden_ratio_width = diag_w/phi;
+    const double golden_ratio_height = diag_h/phi;
+    
     /* calculate preferred classifier bounds */
     uint_fast32_t cnt_notes_reqs = 0;  /* comments and requirements */
     uint_fast32_t cnt_diag_refs = 0;  /* interaction diagram references */
@@ -1265,6 +1240,7 @@ void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_
 
     /* cleanup sorted array indices */
     universal_array_index_sorter_destroy( &sorted_classifiers );
+    geometry_rectangle_destroy( &draw_area );
 
     TRACE_END();
 }
@@ -1282,11 +1258,13 @@ void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t 
     geometry_rectangle_copy( &draw_area, (*this_).diagram_draw_area );
     geometry_rectangle_shift( &draw_area, obj_dist, 0.0 );
     geometry_rectangle_expand( &draw_area, (-2.0 * obj_dist), (- obj_dist) );
-    double diag_x = geometry_rectangle_get_left( &draw_area );
-    double diag_y = geometry_rectangle_get_top( &draw_area );
     double diag_w = geometry_rectangle_get_width( &draw_area );
     double diag_h = geometry_rectangle_get_height( &draw_area );
 
+    const double phi = 1.6180339; /* b=0.618, a=1.0, a+b=1.618 => ((a+b)/a)==(a/b) */
+    const double golden_ratio_width = diag_w/phi;
+    const double golden_ratio_height = diag_h/phi;
+    
     /* calculate preferred classifier bounds */
     uint_fast32_t cnt_notes_reqs = 0;  /* comments and requirements */
     uint_fast32_t cnt_diag_refs = 0;  /* interaction diagram references */
@@ -1302,7 +1280,7 @@ void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t 
         /* set the preferred bounds, space and label_box of the classifier layout */
         {
             geometry_dimensions_t preferred_dim;
-            geometry_dimensions_init( &preferred_dim, diag_w/5.0, (diag_h/c_count) );
+            geometry_dimensions_init( &preferred_dim, (diag_w-golden_ratio_width)/2.0, (golden_ratio_height/c_count) );
             geometry_dimensions_t features_dim;
             geometry_dimensions_init_empty( &features_dim );
 
@@ -1344,41 +1322,93 @@ void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t 
     universal_array_index_sorter_t sorted_classifiers;
     universal_array_index_sorter_init( &sorted_classifiers );
     pencil_classifier_layouter_private_sort_classifiers_by_list_order( this_, &sorted_classifiers );
-
-    /* store the classifier symbol_box into input_data_layouter_t */
-    const uint_fast32_t count_classifiers = universal_array_index_sorter_get_count ( &sorted_classifiers );
-    for ( uint_fast32_t sort_idx = 0; sort_idx < count_classifiers; sort_idx ++ )
-    {
-        uint_fast32_t index = universal_array_index_sorter_get_array_index( &sorted_classifiers, sort_idx );
-
-        layout_visible_classifier_t *visible_classifier2;
-        visible_classifier2 = pencil_layout_data_get_visible_classifier_ptr ( (*this_).layout_data, index );
-
-        /* get the symbol_box and inner space rectangles to modify */
-        geometry_rectangle_t *classifier_symbol_box
-            = layout_visible_classifier_get_symbol_box_ptr( visible_classifier2 );
-
-        /* define the bounding box */
-        geometry_rectangle_init( classifier_symbol_box,
-                                 diag_x,
-                                 diag_y+((sort_idx*diag_h)/count_classifiers),
-                                 diag_w/4,
-                                 (diag_h/count_classifiers)
-                               );
-
-        /* update inner space and label_box */
-        const bool has_contained_children = false;
-        pencil_classifier_composer_set_space_and_label ( &((*this_).classifier_composer),
-                                                         layout_visible_classifier_get_data_const( visible_classifier2 ),
-                                                         has_contained_children,
-                                                         (*this_).pencil_size,
-                                                         font_layout,
-                                                         visible_classifier2
-                                                       );
-    }
+    
+    /* layout list */
+    pencil_classifier_layouter_private_layout_vertical( this_,
+                                                        &sorted_classifiers,
+                                                        &draw_area,
+                                                        GEOMETRY_H_ALIGN_LEFT
+                                                      );
 
     /* cleanup sorted array indices */
     universal_array_index_sorter_destroy( &sorted_classifiers );
+    geometry_rectangle_destroy( &draw_area );
+
+    TRACE_END();
+}
+
+void pencil_classifier_layouter_private_layout_horizontal( const pencil_classifier_layouter_t *this_,
+                                                           const universal_array_index_sorter_t *classifier_list,
+                                                           const geometry_rectangle_t *dest_rect,
+                                                           geometry_v_align_t v_alignment )
+{
+    TRACE_BEGIN();
+
+
+    TRACE_END();
+}
+
+void pencil_classifier_layouter_private_layout_vertical( const pencil_classifier_layouter_t *this_,
+                                                         const universal_array_index_sorter_t *classifier_list,
+                                                         const geometry_rectangle_t *dest_rect,
+                                                         geometry_h_align_t h_alignment )
+{
+    TRACE_BEGIN();
+
+    /* get the destination rectangle coordinates */
+    double diag_y = geometry_rectangle_get_top( dest_rect );
+    double diag_h = geometry_rectangle_get_height( dest_rect );
+
+    /* calculate sum of wished envelope heights */
+    double total_wish_height = 0.0;
+    const uint_fast32_t count_classifiers = universal_array_index_sorter_get_count ( classifier_list );
+    for ( uint_fast32_t sort_idx = 0; sort_idx < count_classifiers; sort_idx ++ )
+    {
+        uint_fast32_t index = universal_array_index_sorter_get_array_index( classifier_list, sort_idx );
+        const layout_visible_classifier_t *const visible_classifier1
+            = pencil_layout_data_get_visible_classifier_const( (*this_).layout_data, index );
+        
+        /* update sum of wished envelope heights */
+        const geometry_rectangle_t envelope
+            = layout_visible_classifier_calc_envelope_box( visible_classifier1 );
+        total_wish_height += geometry_rectangle_get_height( &envelope );
+    }
+    
+    /* store the classifier symbol_box into input_data_layouter_t */
+    double current_y = diag_y;
+    for ( uint_fast32_t sort_idx = 0; sort_idx < count_classifiers; sort_idx ++ )
+    {
+        uint_fast32_t index = universal_array_index_sorter_get_array_index( classifier_list, sort_idx );
+        layout_visible_classifier_t *const visible_classifier2
+            = pencil_layout_data_get_visible_classifier_ptr ( (*this_).layout_data, index );
+
+        const geometry_rectangle_t envelope
+            = layout_visible_classifier_calc_envelope_box( visible_classifier2 );
+        const double envelope_top = geometry_rectangle_get_top( &envelope );
+        const double envelope_height = geometry_rectangle_get_height( &envelope );
+        const double envelope_left = geometry_rectangle_get_left( &envelope );
+        const double envelope_width = geometry_rectangle_get_width( &envelope );
+        
+        /* const double wish2avail_ratio = (diag_h == 0.0) ? 1.0 : (total_wish_height/diag_h); */
+        const double avail2wish_ratio = (total_wish_height == 0.0) ? 1.0 : (diag_h/total_wish_height);
+        const double available_height = envelope_height * avail2wish_ratio;
+        const double y_align_ratio = (count_classifiers==1) ? 0.5 : sort_idx/(count_classifiers-1.0);
+        const double y_align_envelope = envelope_height * y_align_ratio;
+        const double y_align_available = available_height * y_align_ratio;
+        
+        const double delta_y = (current_y+y_align_available) - (envelope_top+y_align_envelope);
+        
+        const double dest_left = geometry_h_align_get_left( &h_alignment, 
+                                                            envelope_width,
+                                                            geometry_rectangle_get_left( dest_rect ),
+                                                            geometry_rectangle_get_width( dest_rect )
+                                                          );
+        const double delta_x = dest_left - envelope_left;
+        
+        layout_visible_classifier_shift( visible_classifier2, delta_x, delta_y );
+        
+        current_y += available_height;
+    }
 
     TRACE_END();
 }

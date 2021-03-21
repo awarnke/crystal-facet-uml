@@ -16,6 +16,8 @@
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_dimensions.h"
 #include "util/geometry/geometry_non_linear_scale.h"
+#include "util/geometry/geometry_h_align.h"
+#include "util/geometry/geometry_v_align.h"
 #include "data_diagram.h"
 #include "set/data_small_set.h"
 #include "data_id.h"
@@ -283,6 +285,34 @@ void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t 
 static inline void pencil_classifier_layouter_private_sort_classifiers_by_list_order( const pencil_classifier_layouter_t *this_,
                                                                                       universal_array_index_sorter_t *out_sorted_classifiers
                                                                                     );
+
+/*!
+ *  \brief positions the already composed classifiers as horizontal list to a target rectangle
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_list an array sorter object
+ *  \param dest_rect an array sorter object
+ *  \param v_alignment GEOMETRY_V_ALIGN_TOP, GEOMETRY_V_ALIGN_CENTER or GEOMETRY_V_ALIGN_BOTTOM
+ */
+void pencil_classifier_layouter_private_layout_horizontal( const pencil_classifier_layouter_t *this_,
+                                                           const universal_array_index_sorter_t *classifier_list,
+                                                           const geometry_rectangle_t *dest_rect,
+                                                           geometry_v_align_t v_alignment
+                                                         );
+
+/*!
+ *  \brief positions the already composed classifiers as vertical list to a target rectangle
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_list an array sorter object
+ *  \param dest_rect an array sorter object
+ *  \param h_alignment GEOMETRY_H_ALIGN_LEFT, GEOMETRY_H_ALIGN_CENTER or GEOMETRY_H_ALIGN_RIGHT
+ */
+void pencil_classifier_layouter_private_layout_vertical( const pencil_classifier_layouter_t *this_,
+                                                         const universal_array_index_sorter_t *classifier_list,
+                                                         const geometry_rectangle_t *dest_rect,
+                                                         geometry_h_align_t h_alignment
+                                                       );
 
 #include "pencil_classifier_layouter.inl"
 
