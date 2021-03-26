@@ -209,6 +209,8 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( const pencil
  *  \brief gets the layout order for a classifier at a given position
  *
  *  \param this_ pointer to own object attributes
+ * 
+ *  \param c_type classifier type for which to determine the order
  *  \param x x-position
  *  \param y y-position
  *  \param snap_distance maximum distance to the next grid line when to snap to a grid position
@@ -216,6 +218,7 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( const pencil
  *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram
  */
 pencil_error_t pencil_layouter_get_classifier_order_at_pos ( const pencil_layouter_t *this_,
+                                                             data_classifier_type_t c_type,
                                                              double x,
                                                              double y,
                                                              double snap_distance,
@@ -244,7 +247,6 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
  *  \brief gets the layout order for a relationship at a given position
  *
  *  \param this_ pointer to own object attributes
- *  \param relationship_id relationship id for which to determine the layout order
  *  \param x x-position
  *  \param y y-position
  *  \param out_layout_order order at given position
@@ -252,7 +254,6 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
  *          PENCIL_ERROR_UNKNOWN_OBJECT if the object is not in the diagram or has unsupported type
  */
 pencil_error_t pencil_layouter_get_relationship_order_at_pos ( const pencil_layouter_t *this_,
-                                                               data_row_id_t relationship_id,
                                                                double x,
                                                                double y,
                                                                layout_order_t* out_layout_order

@@ -241,24 +241,38 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
 
     pencil_error_t result = PENCIL_ERROR_NONE;
 
-    data_table_t table = data_id_get_table ( &obj_id );
+    const data_table_t table = data_id_get_table ( &obj_id );
     switch ( table )
     {
         case DATA_TABLE_CLASSIFIER:
         {
-            result = pencil_layouter_get_classifier_order_at_pos ( &((*this_).layouter),
-                                                                   x,
-                                                                   y,
-                                                                   snap_to_grid_distance_for_dropping,
-                                                                   out_layout_order
-                                                                 );
+            const data_row_id_t classifier_id = data_id_get_row_id ( &obj_id );
+            const data_classifier_t *const the_classifier
+                = data_visible_set_get_classifier_by_id_const ( (*this_).input_data, classifier_id );
+            if( NULL != the_classifier )
+            {
+                result = pencil_layouter_get_classifier_order_at_pos ( &((*this_).layouter),
+                                                                       data_classifier_get_main_type( the_classifier ),
+                                                                       x,
+                                                                       y,
+                                                                       snap_to_grid_distance_for_dropping,
+                                                                       out_layout_order
+                                                                     );
+            }
+            else
+            {
+                TSLOG_ANOMALY( "feature to move does not exist in input_data." );
+                layout_order_init_empty( out_layout_order );
+                result = PENCIL_ERROR_UNKNOWN_OBJECT;
+            }
         }
         break;
 
         case DATA_TABLE_FEATURE:
         {
-            data_row_id_t feature_id = data_id_get_row_id ( &obj_id );
-            const data_feature_t *the_feature = data_visible_set_get_feature_by_id_const ( (*this_).input_data, feature_id );
+            const data_row_id_t feature_id = data_id_get_row_id ( &obj_id );
+            const data_feature_t *const the_feature
+                = data_visible_set_get_feature_by_id_const ( (*this_).input_data, feature_id );
             if( NULL != the_feature )
             {
                 result = pencil_layouter_get_feature_order_at_pos ( &((*this_).layouter),
@@ -279,9 +293,7 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            data_row_id_t relationship_id = data_id_get_row_id ( &obj_id );
             result = pencil_layouter_get_relationship_order_at_pos ( &((*this_).layouter),
-                                                                     relationship_id,
                                                                      x,
                                                                      y,
                                                                      out_layout_order

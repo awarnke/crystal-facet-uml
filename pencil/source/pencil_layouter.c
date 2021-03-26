@@ -555,6 +555,7 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( const pencil
 }
 
 pencil_error_t pencil_layouter_get_classifier_order_at_pos ( const pencil_layouter_t *this_,
+                                                             data_classifier_type_t c_type,
                                                              double x,
                                                              double y,
                                                              double snap_distance,
@@ -865,7 +866,6 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
 }
 
 pencil_error_t pencil_layouter_get_relationship_order_at_pos ( const pencil_layouter_t *this_,
-                                                               data_row_id_t relationship_id,
                                                                double x,
                                                                double y,
                                                                layout_order_t* out_layout_order )
