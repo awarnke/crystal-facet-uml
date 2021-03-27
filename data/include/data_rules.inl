@@ -491,8 +491,8 @@ static inline bool data_rules_classifier_has_scenario_semantics ( const data_rul
         || ( classifier_type == DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE )
         || ( classifier_type == DATA_CLASSIFIER_TYPE_COMMENT )
         || (( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
-        & ( classifier_type == DATA_CLASSIFIER_TYPE_INTERACTION )
-        & ( classifier_type == DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE ));
+        && (( classifier_type == DATA_CLASSIFIER_TYPE_INTERACTION )
+        || ( classifier_type == DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE )));
     return ( ! lifeline_has_no_semantics);
 }
 

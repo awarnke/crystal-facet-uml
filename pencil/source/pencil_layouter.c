@@ -16,6 +16,7 @@ void pencil_layouter_init( pencil_layouter_t *this_, const data_visible_set_t *i
     geometry_non_linear_scale_init( &((*this_).x_scale), 0.0, 1.0 );
     geometry_non_linear_scale_init( &((*this_).y_scale), 0.0, 1.0 );
     geometry_dimensions_init_empty( &((*this_).default_classifier_size) );
+    data_rules_init( &((*this_).rules) );
 
     pencil_layout_data_init( &((*this_).layout_data), input_data );
 
@@ -80,6 +81,7 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ )
     geometry_non_linear_scale_destroy( &((*this_).x_scale) );
     geometry_non_linear_scale_destroy( &((*this_).y_scale) );
     geometry_dimensions_destroy( &((*this_).default_classifier_size) );
+    data_rules_destroy( &((*this_).rules) );
 
     pencil_layout_data_destroy( &((*this_).layout_data) );
 
@@ -567,18 +569,25 @@ pencil_error_t pencil_layouter_get_classifier_order_at_pos ( const pencil_layout
     pencil_error_t result = PENCIL_ERROR_NONE;
 
     /* get the bounding box of the diagram */
-    const layout_diagram_t *the_diagram;
-    the_diagram = pencil_layout_data_get_diagram_const( &((*this_).layout_data) );
-    const geometry_rectangle_t *diagram_bounds;
-    diagram_bounds = layout_diagram_get_bounds_const( the_diagram );
-    const geometry_rectangle_t *diagram_draw_area;
-    diagram_draw_area = layout_diagram_get_draw_area_const( the_diagram );
+    const layout_diagram_t *const the_diagram
+        = pencil_layout_data_get_diagram_const( &((*this_).layout_data) );
+    const geometry_rectangle_t *const diagram_bounds
+        = layout_diagram_get_bounds_const( the_diagram );
+    const geometry_rectangle_t *const diagram_draw_area
+        = layout_diagram_get_draw_area_const( the_diagram );
 
     /* get the diagram type */
-    const data_diagram_t *diagram_data;
-    diagram_data = layout_diagram_get_data_const ( the_diagram );
-    data_diagram_type_t diag_type;
-    diag_type = data_diagram_get_diagram_type ( diagram_data );
+    const data_diagram_t *const diagram_data
+        = layout_diagram_get_data_const ( the_diagram );
+    const data_diagram_type_t diag_type
+        = data_diagram_get_diagram_type ( diagram_data );
+        
+    /* get the classifier type */
+    const bool scenario_semantics 
+        = data_rules_classifier_has_scenario_semantics( &((*this_).rules), 
+                                                        diag_type, 
+                                                        c_type 
+                                                      );
 
     if ( ! geometry_rectangle_contains( diagram_bounds, x, y ) )
     {
@@ -587,7 +596,8 @@ pencil_error_t pencil_layouter_get_classifier_order_at_pos ( const pencil_layout
     }
     else
     {
-        if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type )
+        if ((( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type )&& scenario_semantics)
+            || (( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type)&&( ! scenario_semantics)))
         {
             /* classifiers are a horizontal list */
             double draw_left = geometry_rectangle_get_left(diagram_draw_area);
@@ -608,8 +618,9 @@ pencil_error_t pencil_layouter_get_classifier_order_at_pos ( const pencil_layout
             }
             layout_order_init_list( out_layout_order, list_order );
         }
-        else if (( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type )
-            || ( DATA_DIAGRAM_TYPE_LIST == diag_type ))
+        else if ((( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type )&& scenario_semantics)
+            || ( DATA_DIAGRAM_TYPE_LIST == diag_type )
+            || (( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type)&&( ! scenario_semantics)))
         {
             /* classifiers are a vertical list */
             double draw_top = geometry_rectangle_get_top(diagram_draw_area);

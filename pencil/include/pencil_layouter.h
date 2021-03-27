@@ -32,6 +32,7 @@
 #include "set/data_small_set.h"
 #include "set/data_stat.h"
 #include "data_id.h"
+#include "data_rules.h"
 #include "set/data_visible_set.h"
 #include "universal_int32_pair.h"
 #include "universal_bool_list.h"
@@ -49,6 +50,7 @@ struct pencil_layouter_struct {
     geometry_non_linear_scale_t x_scale;  /*!< own instance of a scale object for the x-axis */
     geometry_non_linear_scale_t y_scale;  /*!< own instance of a scale object for the y-axis */
     geometry_dimensions_t default_classifier_size;  /*!< own instance of a classifier default size */
+    data_rules_t rules;  /*!< own instance of modelling rules */
 
     pencil_diagram_painter_t diagram_painter;  /*!< own instance of a painter object to ask for display dimensions */
 
