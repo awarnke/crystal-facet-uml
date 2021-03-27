@@ -17,6 +17,7 @@ void pencil_feature_layouter_init( pencil_feature_layouter_t *this_,
 
     (*this_).layout_data = layout_data;
     (*this_).pencil_size = pencil_size;
+    data_rules_init( &((*this_).rules) );
     pencil_feature_painter_init( &((*this_).feature_painter) );
 
     TRACE_END();
@@ -26,6 +27,7 @@ void pencil_feature_layouter_destroy( pencil_feature_layouter_t *this_ )
 {
     TRACE_BEGIN();
 
+    data_rules_destroy( &((*this_).rules) );
     pencil_feature_painter_destroy( &((*this_).feature_painter) );
 
     TRACE_END();
@@ -55,10 +57,14 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
     {
         layout_feature_t *feature_layout;
         feature_layout = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, f_idx );
-        const data_feature_t *the_feature;
-        the_feature = layout_feature_get_data_const ( feature_layout );
-        layout_visible_classifier_t *layout_classifier;
-        layout_classifier = layout_feature_get_classifier_ptr ( feature_layout );
+        const data_feature_t *const the_feature
+            = layout_feature_get_data_const ( feature_layout );
+        const layout_visible_classifier_t *const layout_classifier
+            = layout_feature_get_classifier_ptr ( feature_layout );
+        const data_classifier_t *const classifier
+            = layout_visible_classifier_get_classifier_const( layout_classifier );
+        const data_classifier_type_t classifier_type
+            = data_classifier_get_main_type( classifier );
 
         const geometry_rectangle_t *const c_symbol_box
             = layout_visible_classifier_get_symbol_box_const ( layout_classifier );
@@ -70,6 +76,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
                 pencil_feature_layouter_private_layout_lifeline ( this_,
                                                                   diagram_draw_area,
                                                                   diag_type,
+                                                                  classifier_type,
                                                                   c_symbol_box,
                                                                   feature_layout
                                                                 );
@@ -83,10 +90,6 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
             case DATA_FEATURE_TYPE_EXIT:
             {
                 /* layout port feature onto parent classifier box */
-                const data_classifier_t *const classifier
-                    = layout_visible_classifier_get_classifier_const( layout_classifier );
-                const data_classifier_type_t classifier_type
-                    = data_classifier_get_main_type( classifier );
                 pencil_feature_layouter_private_layout_port_pin ( this_,
                                                                   classifier_type,
                                                                   c_symbol_box,
@@ -114,7 +117,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
             case DATA_FEATURE_TYPE_OPERATION:
             {
                 /* layout property or operation feature within the space area */
-                geometry_rectangle_t *c_space = layout_visible_classifier_get_space_ptr ( layout_classifier );
+                const geometry_rectangle_t *const c_space = layout_visible_classifier_get_space_const ( layout_classifier );
                 pencil_feature_layouter_private_layout_prop_or_op ( this_,
                                                                     c_space,
                                                                     the_feature,
@@ -141,6 +144,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
 void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t *this_,
                                                        const geometry_rectangle_t *diagram_space,
                                                        data_diagram_type_t diagram_type,
+                                                       data_classifier_type_t classifier_type,
                                                        const geometry_rectangle_t *classifier_symbol_box,
                                                        layout_feature_t *out_feature_layout )
 {
@@ -152,8 +156,14 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
     /* get preferred object distance */
     double obj_dist;
     obj_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+    
+    const bool lifeline_has_semantics 
+        = data_rules_classifier_has_scenario_semantics( &((*this_).rules), 
+                                                        diagram_type, 
+                                                        classifier_type 
+                                                      );
 
-    if ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diagram_type )
+    if (( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diagram_type ) && lifeline_has_semantics )
     {
         layout_feature_set_icon_direction ( out_feature_layout, GEOMETRY_DIRECTION_RIGHT );
         double c_right = geometry_rectangle_get_right( classifier_symbol_box );
@@ -170,7 +180,7 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
         layout_feature_set_symbol_box ( out_feature_layout, &lifeline_bounds );
         layout_feature_set_label_box ( out_feature_layout, &lifeline_bounds );
     }
-    else if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diagram_type )
+    else if (( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diagram_type ) && lifeline_has_semantics )
     {
         layout_feature_set_icon_direction ( out_feature_layout, GEOMETRY_DIRECTION_DOWN );
         double c_bottom = geometry_rectangle_get_bottom( classifier_symbol_box );

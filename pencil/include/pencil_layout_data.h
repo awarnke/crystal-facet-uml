@@ -15,9 +15,9 @@
 #include "layout/layout_feature.h"
 #include "layout/layout_relationship.h"
 #include "layout/layout_visible_classifier.h"
+#include "option/pencil_visibility.h"
 #include "set/data_visible_set.h"
 #include "set/data_stat.h"
-#include "option/pencil_visibility.h"
 #include "data_rules.h"
 #include <cairo.h>
 #include <stdint.h>

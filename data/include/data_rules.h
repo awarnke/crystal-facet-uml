@@ -168,7 +168,7 @@ static inline bool data_rules_diagram_is_scenario ( const data_rules_t *this_, d
 static inline bool data_rules_classifier_has_uncond_features ( const data_rules_t *this_, data_classifier_type_t classifier_type );
 
 /*!
- *  \brief determines if the feature type is scenario-conditional
+ *  \brief determines if the feature type is scenario-conditional (applicable only to the 4 interaction diagram types)
  *
  *  This method implements a definition of "scenario".
  *
@@ -218,6 +218,28 @@ static inline bool data_rules_vis_classifier_has_feature ( const data_rules_t *t
                                                            const data_visible_classifier_t *vis_classifier,
                                                            const data_feature_t *feature
                                                          );
+
+/*!
+ *  \brief determines if lifelines have semantics
+ * 
+ *  In a scenario-typed diagram, every visible classifier has a lifeline.
+ *  This is necessary because the classifier type can be changed (which shall not invalidate relationships).
+ *  But a lifeline does not make sense for comments, requirements and in sequences also diagram-references.
+ *
+ *  This method implements a guideline.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_type the feature type
+ *  \return true if the classifier type is DATA_CLASSIFIER_TYPE_REQUIREMENT 
+ *          or DATA_CLASSIFIER_TYPE_COMMENT
+ *          or DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE
+ *          or ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM
+ *          and ( DATA_CLASSIFIER_TYPE_INTERACTION or DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE )).
+ */
+static inline bool data_rules_classifier_has_scenario_semantics ( const data_rules_t *this_, 
+                                                                  data_diagram_type_t diagram_type, 
+                                                                  data_classifier_type_t classifier_type 
+                                                                );
 
 /* ================================ RELATIONSHIP ================================ */
 

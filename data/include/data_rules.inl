@@ -482,6 +482,20 @@ static inline bool data_rules_vis_classifier_has_feature ( const data_rules_t *t
     return valid && belongs && (((!scenario)&&visible) || (scenario&&focused));
 }
 
+static inline bool data_rules_classifier_has_scenario_semantics ( const data_rules_t *this_, 
+                                                                  data_diagram_type_t diagram_type, 
+                                                                  data_classifier_type_t classifier_type )
+{
+    const bool lifeline_has_no_semantics
+        = ( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
+        || ( classifier_type == DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE )
+        || ( classifier_type == DATA_CLASSIFIER_TYPE_COMMENT )
+        || (( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
+        & ( classifier_type == DATA_CLASSIFIER_TYPE_INTERACTION )
+        & ( classifier_type == DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE ));
+    return ( ! lifeline_has_no_semantics);
+}
+
 /* ================================ RELATIONSHIP ================================ */
 
 static inline bool data_rules_relationship_is_scenario_cond ( const data_rules_t *this_,
