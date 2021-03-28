@@ -137,8 +137,6 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
     const double phi = 1.6180339; /* minor=0.618, major=1.0, sum=1.618 => (sum/major)==(major/minor) */
     const double minor_ratio = (1.0 - 0.6180339);
     const double golden_ratio_width = diag_w/phi;
-    /* const double golden_ratio_height = diag_h/phi; */
-    /* const double minor_minor_width = diag_w * minor_ratio * minor_ratio; */
     const double minor_minor_height = diag_h * minor_ratio * minor_ratio;
     const double half_minor_width = diag_w * minor_ratio * 0.5;
 

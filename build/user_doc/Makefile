@@ -1,4 +1,4 @@
-all: crystal-facet-uml_documentation.pdf html crystal-facet-uml.1.gz
+all: crystal-facet-uml_documentation.pdf html crystal-facet-uml.1.gz info
 
 SOURCE="../../user_doc"
 
@@ -33,6 +33,9 @@ crystal-facet-uml.1.gz: ../../user_doc/doc/manpage.xml ../../user_doc/doc/1_non_
 	  echo "ERROR: find an appropriate xsl file for the manapge at /usr/share/xml/docbook/stylesheet" ;\
 	fi &&\
         echo "to view the output, gunzip --keep ${MANPAGE_FILE}.gz && man --local-file ${MANPAGE_FILE}"
+
+info:
+	echo "== call make install to update the files in folder ../../user_doc =="
 
 clean:
 	rm -f crystal-facet-uml_documentation.pdf &&\

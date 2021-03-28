@@ -19,7 +19,9 @@ test_suite_t pencil_diagram_maker_test_get_list(void)
     test_suite_init( &result, "pencil_diagram_maker_test_get_list", &set_up, &tear_down );
     test_suite_add_test_case( &result, "layout_good_cases", &layout_good_cases );
     test_suite_add_test_case( &result, "layout_challenging_cases", &layout_challenging_cases );
+#ifndef NDEBUG                
     test_suite_add_test_case( &result, "layout_edge_cases", &layout_edge_cases );
+#endif
     return result;
 }
 
@@ -32,8 +34,6 @@ static geometry_rectangle_t diagram_bounds;
 #ifndef NDEBUG                
 #define PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
 #else
-/* REMOVE ME */
-/* #define PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES */
 #endif
 
 static void set_up(void)

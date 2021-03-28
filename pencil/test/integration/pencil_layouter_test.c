@@ -20,7 +20,9 @@ test_suite_t pencil_layouter_test_get_list(void)
     test_suite_init( &result, "pencil_layouter_test_get_list", &set_up, &tear_down );
     test_suite_add_test_case( &result, "layout_good_cases", &layout_good_cases );
     test_suite_add_test_case( &result, "layout_challenging_cases", &layout_challenging_cases );
+#ifndef NDEBUG                
     test_suite_add_test_case( &result, "layout_edge_cases", &layout_edge_cases );
+#endif
     return result;
 }
 
