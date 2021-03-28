@@ -138,17 +138,18 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
     const double minor_ratio = (1.0 - 0.6180339);
     const double golden_ratio_width = diag_w/phi;
     /* const double golden_ratio_height = diag_h/phi; */
-    const double minor_minor_width = diag_w * minor_ratio * minor_ratio;
+    /* const double minor_minor_width = diag_w * minor_ratio * minor_ratio; */
     const double minor_minor_height = diag_h * minor_ratio * minor_ratio;
+    const double half_minor_width = diag_w * minor_ratio * 0.5;
 
     geometry_rectangle_t left_area;
     geometry_rectangle_copy( &left_area, &draw_area );
-    geometry_rectangle_expand( &left_area, (- minor_minor_width), 0.0 );
+    geometry_rectangle_expand( &left_area, (- half_minor_width), 0.0 );
 
     geometry_rectangle_t right_column;
     geometry_rectangle_copy( &right_column, &draw_area );
-    geometry_rectangle_shift( &right_column, (diag_w-minor_minor_width), minor_minor_height );
-    geometry_rectangle_expand( &right_column, (minor_minor_width-diag_w), (- minor_minor_height) );
+    geometry_rectangle_shift( &right_column, (diag_w-half_minor_width), minor_minor_height );
+    geometry_rectangle_expand( &right_column, (half_minor_width-diag_w), (- minor_minor_height) );
     
     /* sort the classifiers according to their list_order */
     universal_array_index_sorter_t sorted_notes_reqs;
@@ -197,7 +198,7 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
             geometry_dimensions_t preferred_dim;
             if ( c1_type == DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE )
             {
-                geometry_dimensions_init( &preferred_dim, (diag_w-minor_minor_width), (minor_minor_height/2.0) );
+                geometry_dimensions_init( &preferred_dim, (diag_w-half_minor_width), (minor_minor_height/2.0) );
             }
             else
             {
@@ -233,13 +234,13 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
                                                              GEOMETRY_V_ALIGN_TOP
                                                            );
     /* layout digram references */
-    pencil_classifier_1d_layouter_private_layout_vertical( this_,
+    pencil_classifier_1d_layouter_private_linear_vertical( this_,
                                                            &sorted_diag_refs,
                                                            &left_area,
                                                            GEOMETRY_H_ALIGN_LEFT
                                                          );
     /* layout notes/comments and requirements */
-    pencil_classifier_1d_layouter_private_layout_vertical( this_,
+    pencil_classifier_1d_layouter_private_linear_vertical( this_,
                                                            &sorted_notes_reqs,
                                                            &right_column,
                                                            GEOMETRY_H_ALIGN_RIGHT
@@ -358,7 +359,7 @@ void pencil_classifier_1d_layouter_layout_for_timing( pencil_classifier_1d_layou
                                                            GEOMETRY_H_ALIGN_LEFT
                                                          );
     /* layout notes/comments and requirements */
-    pencil_classifier_1d_layouter_private_layout_horizontal( this_,
+    pencil_classifier_1d_layouter_private_linear_horizontal( this_,
                                                              &sorted_notes_reqs,
                                                              &top_row,
                                                              GEOMETRY_V_ALIGN_TOP
@@ -526,6 +527,127 @@ void pencil_classifier_1d_layouter_private_layout_vertical( const pencil_classif
             
             current_y += available_height;
         }
+    }
+
+    TRACE_END();
+}
+
+void pencil_classifier_1d_layouter_private_linear_horizontal( const pencil_classifier_1d_layouter_t *this_,
+                                                              const universal_array_index_sorter_t *classifier_list,
+                                                              const geometry_rectangle_t *dest_rect,
+                                                              geometry_v_align_t v_alignment )
+{
+    TRACE_BEGIN();
+
+    /* get the destination rectangle coordinates */
+    double diag_x = geometry_rectangle_get_left( (*this_).diagram_draw_area );
+    double diag_w = geometry_rectangle_get_width( (*this_).diagram_draw_area );
+    double dest_left = geometry_rectangle_get_left( dest_rect );
+    double dest_right = geometry_rectangle_get_right( dest_rect );
+
+    /* update the classifier coordinates */
+    const uint_fast32_t count_classifiers = universal_array_index_sorter_get_count ( classifier_list );
+    for ( uint_fast32_t sort_idx = 0; sort_idx < count_classifiers; sort_idx ++ )
+    {
+        uint_fast32_t index = universal_array_index_sorter_get_array_index( classifier_list, sort_idx );
+        layout_visible_classifier_t *const visible_classifier2
+            = pencil_layout_data_get_visible_classifier_ptr ( (*this_).layout_data, index );
+
+        /* get envelope */
+        const geometry_rectangle_t envelope
+            = layout_visible_classifier_calc_envelope_box( visible_classifier2 );
+        const double envelope_top = geometry_rectangle_get_top( &envelope );
+        const double envelope_height = geometry_rectangle_get_height( &envelope );
+        const double envelope_left = geometry_rectangle_get_left( &envelope );
+        const double envelope_width = geometry_rectangle_get_width( &envelope );
+        
+        /* calc x */
+        const data_visible_classifier_t *const visible_classifier_data
+            = layout_visible_classifier_get_data_const ( visible_classifier2 );
+        const data_classifier_t *const classifier2 = data_visible_classifier_get_classifier_const( visible_classifier_data );
+        const int32_t list_order = data_classifier_get_list_order( classifier2 );
+        const double x_value_rel = (list_order/((double)UINT32_MAX))+0.5;
+        double new_left = diag_x + (diag_w-envelope_width)*x_value_rel;
+        if ( (new_left+envelope_width) > dest_right )
+        {
+            new_left = dest_right - envelope_width;
+        }
+        if ( new_left < dest_left )
+        {
+            new_left = dest_left;
+        }
+        const double delta_x = new_left - envelope_left;
+        
+        /* calc y */
+        const double dest_top = geometry_v_align_get_top( &v_alignment, 
+                                                          envelope_height,
+                                                          geometry_rectangle_get_top( dest_rect ),
+                                                          geometry_rectangle_get_height( dest_rect )
+                                                        );
+        const double delta_y = dest_top - envelope_top;
+        
+        layout_visible_classifier_shift( visible_classifier2, delta_x, delta_y );
+    }
+
+    TRACE_END();
+}
+
+void pencil_classifier_1d_layouter_private_linear_vertical( const pencil_classifier_1d_layouter_t *this_,
+                                                            const universal_array_index_sorter_t *classifier_list,
+                                                            const geometry_rectangle_t *dest_rect,
+                                                            geometry_h_align_t h_alignment )
+{
+    TRACE_BEGIN();
+
+    /* get the destination rectangle coordinates */
+    double diag_y = geometry_rectangle_get_top( (*this_).diagram_draw_area );
+    double diag_h = geometry_rectangle_get_height( (*this_).diagram_draw_area );
+    double dest_top = geometry_rectangle_get_top( dest_rect );
+    double dest_bottom = geometry_rectangle_get_bottom( dest_rect );
+
+    /* update the classifier coordinates */
+    const uint_fast32_t count_classifiers = universal_array_index_sorter_get_count ( classifier_list );
+    for ( uint_fast32_t sort_idx = 0; sort_idx < count_classifiers; sort_idx ++ )
+    {
+        uint_fast32_t index = universal_array_index_sorter_get_array_index( classifier_list, sort_idx );
+        layout_visible_classifier_t *const visible_classifier2
+            = pencil_layout_data_get_visible_classifier_ptr ( (*this_).layout_data, index );
+
+        /* get envelope */
+        const geometry_rectangle_t envelope
+            = layout_visible_classifier_calc_envelope_box( visible_classifier2 );
+        const double envelope_top = geometry_rectangle_get_top( &envelope );
+        const double envelope_height = geometry_rectangle_get_height( &envelope );
+        const double envelope_left = geometry_rectangle_get_left( &envelope );
+        const double envelope_width = geometry_rectangle_get_width( &envelope );
+        
+        /* calc x */
+        const double dest_left = geometry_h_align_get_left( &h_alignment, 
+                                                            envelope_width,
+                                                            geometry_rectangle_get_left( dest_rect ),
+                                                            geometry_rectangle_get_width( dest_rect )
+                                                          );
+        const double delta_x = dest_left - envelope_left;
+        
+        /* calc y */
+        const data_visible_classifier_t *const visible_classifier_data
+            = layout_visible_classifier_get_data_const ( visible_classifier2 );
+        const data_classifier_t *const classifier2 = data_visible_classifier_get_classifier_const( visible_classifier_data );
+        const int32_t list_order = data_classifier_get_list_order( classifier2 );
+        const double y_value_rel = (list_order/((double)UINT32_MAX))+0.5;
+        double new_top = diag_y + (diag_h-envelope_height)*y_value_rel;
+        if ( (new_top+envelope_height) > dest_bottom )
+        {
+            new_top = dest_bottom - envelope_height;
+        }
+        if ( new_top < dest_top )
+        {
+            new_top = dest_top;
+        }
+        const double delta_y = new_top - envelope_top;
+        
+        layout_visible_classifier_shift( visible_classifier2, delta_x, delta_y );
+        
     }
 
     TRACE_END();

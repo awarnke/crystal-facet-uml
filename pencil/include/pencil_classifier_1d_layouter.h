@@ -81,7 +81,7 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
 void pencil_classifier_1d_layouter_layout_for_timing( pencil_classifier_1d_layouter_t *this_, PangoLayout *font_layout );
 
 /*!
- *  \brief positions the already composed classifiers as horizontal list to a target rectangle
+ *  \brief positions the already composed classifiers as equally-spaced horizontal list to a target rectangle
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_list an array sorter object
@@ -95,7 +95,7 @@ void pencil_classifier_1d_layouter_private_layout_horizontal( const pencil_class
                                                             );
 
 /*!
- *  \brief positions the already composed classifiers as vertical list to a target rectangle
+ *  \brief positions the already composed classifiers as equally-spaced vertical list to a target rectangle
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_list an array sorter object
@@ -103,6 +103,34 @@ void pencil_classifier_1d_layouter_private_layout_horizontal( const pencil_class
  *  \param h_alignment GEOMETRY_H_ALIGN_LEFT, GEOMETRY_H_ALIGN_CENTER or GEOMETRY_H_ALIGN_RIGHT
  */
 void pencil_classifier_1d_layouter_private_layout_vertical( const pencil_classifier_1d_layouter_t *this_,
+                                                            const universal_array_index_sorter_t *classifier_list,
+                                                            const geometry_rectangle_t *dest_rect,
+                                                            geometry_h_align_t h_alignment
+                                                          );
+
+/*!
+ *  \brief positions the already composed classifiers linear to list_order horizontally to a target rectangle
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_list an array sorter object
+ *  \param dest_rect an array sorter object
+ *  \param v_alignment GEOMETRY_V_ALIGN_TOP, GEOMETRY_V_ALIGN_CENTER or GEOMETRY_V_ALIGN_BOTTOM
+ */
+void pencil_classifier_1d_layouter_private_linear_horizontal( const pencil_classifier_1d_layouter_t *this_,
+                                                              const universal_array_index_sorter_t *classifier_list,
+                                                              const geometry_rectangle_t *dest_rect,
+                                                              geometry_v_align_t v_alignment
+                                                            );
+
+/*!
+ *  \brief positions the already composed classifiers as linear to list_order vertically to a target rectangle
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_list an array sorter object
+ *  \param dest_rect an array sorter object
+ *  \param h_alignment GEOMETRY_H_ALIGN_LEFT, GEOMETRY_H_ALIGN_CENTER or GEOMETRY_H_ALIGN_RIGHT
+ */
+void pencil_classifier_1d_layouter_private_linear_vertical( const pencil_classifier_1d_layouter_t *this_,
                                                             const universal_array_index_sorter_t *classifier_list,
                                                             const geometry_rectangle_t *dest_rect,
                                                             geometry_h_align_t h_alignment
