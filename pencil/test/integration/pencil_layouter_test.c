@@ -12,8 +12,19 @@ static void set_up(void);
 static void tear_down(void);
 static void layout_good_cases(void);
 static void layout_challenging_cases(void);
+#ifndef NDEBUG                
 static void layout_edge_cases(void);
+#endif
 
+/*
+STATISTICS OF VERSION: 1.28.0
+test suite: pencil_layouter_test_get_list
+  test case: layout_good_cases
+    #Diag=432, total=1624 |  ERR=0, W/C=10, W/F=349, W/R=125
+  test case: layout_challenging_cases
+    #Diag=432, total=11793 |  ERR=617, W/C=7901, W/F=12080, W/R=12037
+*/
+    
 test_suite_t pencil_layouter_test_get_list(void)
 {
     test_suite_t result;
@@ -152,6 +163,7 @@ static void layout_challenging_cases(void)
     data_stat_destroy( &total_stats );
 }
 
+#ifndef NDEBUG                
 static void layout_edge_cases(void)
 {
     test_data_setup_t ts_setup;
@@ -180,6 +192,7 @@ static void layout_edge_cases(void)
     }
     test_data_setup_destroy( &ts_setup );
 }
+#endif
 
 
 /*

@@ -11,7 +11,9 @@ static void set_up(void);
 static void tear_down(void);
 static void layout_good_cases(void);
 static void layout_challenging_cases(void);
+#ifndef NDEBUG                
 static void layout_edge_cases(void);
+#endif
 
 test_suite_t pencil_diagram_maker_test_get_list(void)
 {
@@ -192,6 +194,7 @@ static void layout_challenging_cases(void)
     test_data_setup_destroy( &ts_setup );
 }
 
+#ifndef NDEBUG                
 static void layout_edge_cases(void)
 {
     test_data_setup_t ts_setup;
@@ -227,6 +230,7 @@ static void layout_edge_cases(void)
     }
     test_data_setup_destroy( &ts_setup );
 }
+#endif
 
 
 /*

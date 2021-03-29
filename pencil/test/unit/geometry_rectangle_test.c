@@ -104,6 +104,24 @@ static void test_intersect(void)
     geometry_rectangle_destroy ( &rect_b );
     geometry_rectangle_destroy ( &intersect_rect );
 
+    /* touch */
+    geometry_rectangle_init ( &rect_a, 10.0, 10.0, 10.0 /*width*/, 10.0 /*height*/ );
+    geometry_rectangle_init ( &rect_b, 20.0, 10.0, 10.0 /*width*/, 10.0 /*height*/ );
+    err = geometry_rectangle_init_by_intersect( &intersect_rect, &rect_a, &rect_b );
+    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_area( &intersect_rect ) );
+
+    intersects = geometry_rectangle_is_intersecting( &rect_a, &rect_b );
+    TEST_ASSERT_EQUAL_INT( false, intersects );
+
+    intersects = geometry_rectangle_is_contiguous( &rect_a, &rect_b );
+    TEST_ASSERT_EQUAL_INT( true, intersects );
+
+    /* clean up */
+    geometry_rectangle_destroy ( &rect_a );
+    geometry_rectangle_destroy ( &rect_b );
+    geometry_rectangle_destroy ( &intersect_rect );
+
     /* part intersect */
     geometry_rectangle_init ( &rect_a, 10.0, 10.0, 10.0 /*width*/, 10.0 /*height*/ );
     geometry_rectangle_init ( &rect_b, 15.0, 15.0, 10.0 /*width*/, 10.0 /*height*/ );

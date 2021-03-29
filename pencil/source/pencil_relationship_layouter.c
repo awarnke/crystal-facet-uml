@@ -795,7 +795,7 @@ void pencil_relationship_layouter_private_find_space_for_line ( pencil_relations
             const geometry_rectangle_t *const classifier_symbol_box
                 = layout_visible_classifier_get_symbol_box_const( the_classifier );
 
-            if ( geometry_rectangle_is_intersecting( search_rect, classifier_symbol_box ) )
+            if ( geometry_rectangle_is_contiguous( search_rect, classifier_symbol_box ) )
             {
                 if ( horizontal_line )
                 {

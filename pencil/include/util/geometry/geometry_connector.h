@@ -230,7 +230,7 @@ static inline double geometry_connector_get_length ( const geometry_connector_t 
 static inline bool geometry_connector_is_close ( const geometry_connector_t *this_, double x, double y, double max_distance );
 
 /*!
- *  \brief determines if a given rectangle is overlapped
+ *  \brief determines if a given rectangle is overlapped (touching excluded)
  *
  *  \param this_ pointer to own object attributes
  *  \param rect rectangle that is checked for overlaps

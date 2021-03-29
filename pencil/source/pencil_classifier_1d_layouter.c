@@ -220,10 +220,11 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
             geometry_dimensions_destroy( &preferred_dim );
         }
     }
-    const uint_fast32_t cnt_notes_reqs = universal_array_index_sorter_get_count( &sorted_notes_reqs );  /* comments and requirements */
-    const uint_fast32_t cnt_diag_refs = universal_array_index_sorter_get_count( &sorted_diag_refs );  /* interaction diagram references */
-    const uint_fast32_t cnt_acting = universal_array_index_sorter_get_count( &sorted_acting_classifiers );  /* acting classifiers */
-    assert( cnt_notes_reqs + cnt_diag_refs + cnt_acting == c_count );
+    assert( c_count
+            == universal_array_index_sorter_get_count( &sorted_notes_reqs )
+            + universal_array_index_sorter_get_count( &sorted_diag_refs )
+            + universal_array_index_sorter_get_count( &sorted_acting_classifiers )
+          );
     
     /* layout acting classifiers */
     pencil_classifier_1d_layouter_private_layout_horizontal( this_,
@@ -346,9 +347,10 @@ void pencil_classifier_1d_layouter_layout_for_timing( pencil_classifier_1d_layou
             geometry_dimensions_destroy( &preferred_dim );
         }
     }
-    const uint_fast32_t cnt_notes_reqs = universal_array_index_sorter_get_count( &sorted_notes_reqs );  /* comments and requirements */
-    const uint_fast32_t cnt_acting = universal_array_index_sorter_get_count( &sorted_acting_classifiers );  /* acting classifiers */
-    assert( cnt_notes_reqs + cnt_acting == c_count );
+    assert( c_count
+            == universal_array_index_sorter_get_count( &sorted_notes_reqs )
+            + universal_array_index_sorter_get_count( &sorted_acting_classifiers )
+          );
     
     /* layout acting classifiers */
     pencil_classifier_1d_layouter_private_layout_vertical( this_,

@@ -429,7 +429,7 @@ static inline uint32_t geometry_connector_count_connector_intersects ( const geo
     this_bounds = geometry_connector_get_bounding_rectangle( this_ );
     that_bounds = geometry_connector_get_bounding_rectangle( that );
 
-    if ( geometry_rectangle_is_intersecting( &this_bounds, &that_bounds ) )
+    if ( geometry_rectangle_is_contiguous( &this_bounds, &that_bounds ) )
     {
         /* do some more complicated checks */
         geometry_rectangle_t this_source_end;
@@ -458,39 +458,39 @@ static inline uint32_t geometry_connector_count_connector_intersects ( const geo
                                             (*that).destination_end_x, (*that).destination_end_y, (*that).main_line_destination_x, (*that).main_line_destination_y
                                           );
 
-        if ( geometry_rectangle_is_intersecting( &this_source_end, &that_source_end ) )
+        if ( geometry_rectangle_is_contiguous( &this_source_end, &that_source_end ) )
         {
             result += 1;
         }
-        if ( geometry_rectangle_is_intersecting( &this_main_line, &that_source_end ) )
+        if ( geometry_rectangle_is_contiguous( &this_main_line, &that_source_end ) )
         {
             result += 1;
         }
-        if ( geometry_rectangle_is_intersecting( &this_destination_end, &that_source_end ) )
+        if ( geometry_rectangle_is_contiguous( &this_destination_end, &that_source_end ) )
         {
             result += 1;
         }
-        if ( geometry_rectangle_is_intersecting( &this_source_end, &that_main_line ) )
+        if ( geometry_rectangle_is_contiguous( &this_source_end, &that_main_line ) )
         {
             result += 1;
         }
-        if ( geometry_rectangle_is_intersecting( &this_main_line, &that_main_line ) )
+        if ( geometry_rectangle_is_contiguous( &this_main_line, &that_main_line ) )
         {
             result += 1;
         }
-        if ( geometry_rectangle_is_intersecting( &this_destination_end, &that_main_line ) )
+        if ( geometry_rectangle_is_contiguous( &this_destination_end, &that_main_line ) )
         {
             result += 1;
         }
-        if ( geometry_rectangle_is_intersecting( &this_source_end, &that_destination_end ) )
+        if ( geometry_rectangle_is_contiguous( &this_source_end, &that_destination_end ) )
         {
             result += 1;
         }
-        if ( geometry_rectangle_is_intersecting( &this_main_line, &that_destination_end ) )
+        if ( geometry_rectangle_is_contiguous( &this_main_line, &that_destination_end ) )
         {
             result += 1;
         }
-        if ( geometry_rectangle_is_intersecting( &this_destination_end, &that_destination_end ) )
+        if ( geometry_rectangle_is_contiguous( &this_destination_end, &that_destination_end ) )
         {
             result += 1;
         }

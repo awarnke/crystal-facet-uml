@@ -231,13 +231,22 @@ static inline bool geometry_rectangle_contains ( const geometry_rectangle_t *thi
 static inline bool geometry_rectangle_is_empty ( const geometry_rectangle_t *this_ );
 
 /*!
- *  \brief determines if the given rectangle intersects the other
+ *  \brief determines if the given rectangle intersects the other (not just touching)
  *
  *  \param this_ pointer to own object attributes
  *  \param that pointer to others object attributes
  *  \return false if the rectangle does not intersect the other. (touching is intersecting)
  */
 static inline bool geometry_rectangle_is_intersecting ( const geometry_rectangle_t *this_, const geometry_rectangle_t *that );
+
+/*!
+ *  \brief determines if the given rectangle touches or intersects the other
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to others object attributes
+ *  \return false if the rectangle does not intersect the other. (touching is intersecting)
+ */
+static inline bool geometry_rectangle_is_contiguous ( const geometry_rectangle_t *this_, const geometry_rectangle_t *that );
 
 /*!
  *  \brief determines if the given rectangle contains the other

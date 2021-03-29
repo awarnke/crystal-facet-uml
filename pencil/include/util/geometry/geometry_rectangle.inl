@@ -114,15 +114,41 @@ static inline bool geometry_rectangle_is_intersecting ( const geometry_rectangle
 
     bool result;
 
-    const double rect_this_right = (*this_).left + (*this_).width + 0.000000001;  /* touching is intersecting */
-    const double rect_this_bottom = (*this_).top + (*this_).height + 0.000000001;
-    const double rect_that_right = (*that).left + (*that).width + 0.000000001;
-    const double rect_that_bottom = (*that).top + (*that).height + 0.000000001;
+    const double rect_this_right = (*this_).left + (*this_).width;
+    const double rect_this_bottom = (*this_).top + (*this_).height;
+    const double rect_that_right = (*that).left + (*that).width;
+    const double rect_that_bottom = (*that).top + (*that).height;
 
-    if ( ( rect_this_right < (*that).left )
-        || ( rect_this_bottom < (*that).top )
-        || ( (*this_).left > rect_that_right )
-        || ( (*this_).top > rect_that_bottom ) )
+    if ( ( rect_this_right < (*that).left + 0.000000001 )
+        || ( rect_this_bottom < (*that).top + 0.000000001 )
+        || ( (*this_).left + 0.000000001 > rect_that_right )
+        || ( (*this_).top + 0.000000001 > rect_that_bottom ) )
+    {
+        result = false;
+    }
+    else
+    {
+        result = true;
+    }
+
+    return result;
+}
+
+static inline bool geometry_rectangle_is_contiguous ( const geometry_rectangle_t *this_, const geometry_rectangle_t *that )
+{
+    assert( NULL != that );
+
+    bool result;
+
+    const double rect_this_right = (*this_).left + (*this_).width; 
+    const double rect_this_bottom = (*this_).top + (*this_).height;
+    const double rect_that_right = (*that).left + (*that).width;
+    const double rect_that_bottom = (*that).top + (*that).height;
+
+    if ( ( rect_this_right + 0.000000001 < (*that).left )
+        || ( rect_this_bottom + 0.000000001 < (*that).top )
+        || ( (*this_).left > rect_that_right + 0.000000001 )
+        || ( (*this_).top > rect_that_bottom + 0.000000001 ) )
     {
         result = false;
     }
