@@ -1726,6 +1726,10 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_tool_t tool, 
     else
     {
         /* either the already selected tool is selected again or it is unselected */
+        /* or the clear selection button was pressed */
+        
+        /* mark dirty rect */
+        gtk_widget_queue_draw( (*this_).drawing_area );
     }
 
     TRACE_END();

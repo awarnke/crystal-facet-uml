@@ -19,10 +19,10 @@ static void layout_edge_cases(void);
 /*
 STATISTICS OF VERSION: 1.28.0
 test suite: pencil_layouter_test_get_list
-  test case: layout_good_cases
-    #Diag=432, total=1624 |  ERR=0, W/C=10, W/F=349, W/R=125
+    test case: layout_good_cases
+    #Diag=432, total=1624 |  ERR=0, W/C=10, W/F=181, W/R=125
   test case: layout_challenging_cases
-    #Diag=432, total=11793 |  ERR=617, W/C=7901, W/F=12080, W/R=12037
+    #Diag=432, total=11793 |  ERR=617, W/C=7833, W/F=9706, W/R=11167
 */
     
 test_suite_t pencil_layouter_test_get_list(void)
@@ -100,6 +100,21 @@ static void layout_good_cases(void)
         const uint32_t rel_cnt = pencil_layout_data_get_relationship_count( layout_data );
         TEST_ASSERT_EQUAL_INT( 0, rel_cnt );
         */
+
+        /*  
+        const unsigned int variant = test_data_setup_get_variant( &ts_setup );
+        fprintf( stdout,
+             "    v=%i, #Diag=%" PRIuFAST32 ", total=%" PRIuFAST32 " |  ERR=%" PRIuFAST32 ", W/C=%" PRIuFAST32 ", W/F=%" PRIuFAST32 ", W/R=%" PRIuFAST32 "\n",
+             variant,
+             data_stat_get_count( &layout_stats, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED ),
+             data_stat_get_series_count( &layout_stats, DATA_STAT_SERIES_EXPORTED ),
+             data_stat_get_series_count( &layout_stats, DATA_STAT_SERIES_ERROR ),
+             data_stat_get_count( &layout_stats, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_WARNING ),
+             data_stat_get_count( &layout_stats, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING ),
+             data_stat_get_count( &layout_stats, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING )
+           );
+        */
+    
         data_stat_add( &total_stats, &layout_stats );
         data_stat_destroy( &layout_stats );
     }

@@ -20,7 +20,7 @@
  *  \brief constants for max string sizes
  */
 enum gui_simple_message_to_user_max_enum {
-    GUI_SIMPLE_MESSAGE_TO_USER_MAX_CONTENT_SIZE = 256,
+    GUI_SIMPLE_MESSAGE_TO_USER_MAX_CONTENT_SIZE = 512,
 };
 
 /*!

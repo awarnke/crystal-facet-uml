@@ -9,6 +9,8 @@ crystal-facet-uml (1.28.0) UNRELEASED; urgency=medium
     special handling for comments/reqs in timing and sequence diagrams
   * version compatibility also in debug mode: 
     newer database-files can be opened with older programs; asserts removed
+  * Messages are not cut off after 255 characters (511 now)
+  * When resetting selection, diagram is redrawn
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 09 Mar 2021 21:30:00 +0100
 
