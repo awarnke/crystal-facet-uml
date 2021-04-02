@@ -224,12 +224,13 @@ static inline bool data_rules_vis_classifier_has_feature ( const data_rules_t *t
  * 
  *  In a scenario-typed diagram, every visible classifier has a lifeline.
  *  This is necessary because the classifier type can be changed (which shall not invalidate relationships).
- *  But a lifeline does not make sense for comments, requirements and in sequences also diagram-references.
+ *  But a lifeline does not make sense for comments, requirements and (in sequences) also diagram-references.
  *
  *  This method implements a guideline.
  *
  *  \param this_ pointer to own object attributes
- *  \param feature_type the feature type
+ *  \param diagram_type the diagram type
+ *  \param classifier_type the classifier type
  *  \return true if the classifier type is DATA_CLASSIFIER_TYPE_REQUIREMENT 
  *          or DATA_CLASSIFIER_TYPE_COMMENT
  *          or DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE

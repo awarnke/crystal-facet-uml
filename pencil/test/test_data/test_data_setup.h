@@ -38,6 +38,7 @@ typedef struct test_data_setup_struct test_data_setup_t;
  *  \brief initializes the test_data_setup_t
  *
  *  \param this_ pointer to own object attributes
+ *  \param mode the mode attribute
  */
 static inline void test_data_setup_init( test_data_setup_t *this_, test_data_setup_mode_t mode );
 
