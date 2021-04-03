@@ -1072,7 +1072,6 @@
                                 Sequence Diagram</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para>unconditional relationships (Scenario), unconditional features</para></entry>
-                            <entry><para>Limitations: Comments not supported</para></entry>
                         </row>
                         <row>
                             <entry><para>
@@ -1081,7 +1080,6 @@
                                 Timing Diagram</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>unconditional relationships (Scenario), unconditional features</para></entry>
-                            <entry><para>Limitations: Comments not supported</para></entry>
                         </row>
                     </tbody>
                 </tgroup>

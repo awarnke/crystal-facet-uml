@@ -1,7 +1,5 @@
 /* File: test_result.inl; Copyright and License: see below */
 
-#include <assert.h>
-
 static inline void test_result_init( test_result_t *this_ )
 {
     (*this_).total = 0;

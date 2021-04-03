@@ -35,8 +35,8 @@ crystal-facet-uml.1.gz: ../../user_doc/doc/manpage.xml ../../user_doc/doc/1_non_
         echo "to view the output, gunzip --keep ${MANPAGE_FILE}.gz && man --local-file ${MANPAGE_FILE}"
 
 info:
-	@printf "== call \\e[33;1m make install\\e[0m to update the files in folder ../../user_doc =="
-
+	@printf "== call \\e[33;1m make install \\e[0m to update the files in folder ../../user_doc ==\n"
+	
 clean:
 	rm -f crystal-facet-uml_documentation.pdf &&\
 	rm -fr html &&\

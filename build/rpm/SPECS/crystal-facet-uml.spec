@@ -30,6 +30,7 @@ BuildRequires:  gcc
 BuildRequires:  gtk3-devel
 BuildRequires:  sqlite3-devel
 BuildRequires:  tar
+BuildRequires:  xorg-x11-fonts-core
 
 %description
 crystal-facet-uml creates sysml/uml diagrams to document system and software architecture.

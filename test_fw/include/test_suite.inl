@@ -1,16 +1,16 @@
 /* File: test_suite.inl; Copyright and License: see below */
 
+#include "test_assert.h"
 #include "tslog.h"
-#include <assert.h>
 
 static inline void test_suite_init( test_suite_t *this_,
                                     const char *name,
                                     void (*setup) (void),
                                     void (*teardown) (void) )
 {
-    assert( NULL != name );
-    assert( NULL != setup );
-    assert( NULL != teardown );
+    TEST_ENVIRONMENT_ASSERT( NULL != name );
+    TEST_ENVIRONMENT_ASSERT( NULL != setup );
+    TEST_ENVIRONMENT_ASSERT( NULL != teardown );
     (*this_).name = name;
     (*this_).setup = setup;
     (*this_).teardown = teardown;
@@ -29,8 +29,8 @@ static inline void test_suite_add_test_case( test_suite_t *this_,
                                              const char *name,
                                              void (*test_case) (void) )
 {
-    assert( (*this_).test_case_count < TEST_SUITE_MAX_TEST_CASES );
-    assert( NULL != test_case );
+    TEST_ENVIRONMENT_ASSERT( (*this_).test_case_count < TEST_SUITE_MAX_TEST_CASES );
+    TEST_ENVIRONMENT_ASSERT( NULL != test_case );
     (*this_).test_case_name[(*this_).test_case_count] = name;
     (*this_).test_case[(*this_).test_case_count] = test_case;
     (*this_).test_case_count ++;
@@ -38,14 +38,14 @@ static inline void test_suite_add_test_case( test_suite_t *this_,
 
 static inline unsigned int test_suite_get_test_case_count( test_suite_t *this_ )
 {
-    assert( (*this_).test_case_count <= TEST_SUITE_MAX_TEST_CASES );
+    TEST_ENVIRONMENT_ASSERT( (*this_).test_case_count <= TEST_SUITE_MAX_TEST_CASES );
     return (*this_).test_case_count;
 }
 
 static inline bool test_suite_run_test_case( test_suite_t *this_, unsigned int index )
 {
-    assert( (*this_).test_case_count <= TEST_SUITE_MAX_TEST_CASES );
-    assert( index < (*this_).test_case_count );
+    TEST_ENVIRONMENT_ASSERT( (*this_).test_case_count <= TEST_SUITE_MAX_TEST_CASES );
+    TEST_ENVIRONMENT_ASSERT( index < (*this_).test_case_count );
     bool success = true;
     (*((*this_).setup))();
     (*((*this_).test_case[index]))();
@@ -60,8 +60,8 @@ static inline const char* test_suite_get_name( test_suite_t *this_ )
 
 static inline const char* test_suite_get_test_case_name( test_suite_t *this_, unsigned int index )
 {
-    assert( (*this_).test_case_count <= TEST_SUITE_MAX_TEST_CASES );
-    assert( index < (*this_).test_case_count );
+    TEST_ENVIRONMENT_ASSERT( (*this_).test_case_count <= TEST_SUITE_MAX_TEST_CASES );
+    TEST_ENVIRONMENT_ASSERT( index < (*this_).test_case_count );
     return (*this_).test_case_name[index];
 }
 
