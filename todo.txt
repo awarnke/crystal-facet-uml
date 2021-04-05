@@ -15,31 +15,32 @@ ideas for future versions:
   [ ] exception+error flows to leave an interruptable area (activity diagrams)
   [ ] activity bars on lifelines missing
   [ ] feature compartments in use-cases look ugly
-  [ ] more relationship types needed: undirected ---- and one-way x--> and no x--x dependency (non-navigateable ends)
-  [ ] more relationship types needed: undirected ---- and one-way x--> and no x--x association
-  [ ] sequence diagrams need if/loop-boxes
-  [ ] activity diagrams need swimlanes/partitions
+  [?] more relationship types needed: undirected ---- and one-way x--> and no x--x dependency (non-navigateable ends)
+  [?] more relationship types needed: undirected ---- and one-way x--> and no x--x association
+  [?] sequence diagrams need if/loop-boxes
+  [?] activity diagrams need swimlanes/partitions
   [ ] deployment arrows shall be shown like contaiments (check what to do in case of multiple depoyment targets...)
   @io
   [ ] export formats: enhance xmi standard compliance
-  [ ] how to exclude diagrams from export? some are unimportant and exist just for completeness
+  [?] how to exclude diagrams from export? some are unimportant and exist just for completeness
   [ ] import XMI format
   [ ] validate export XMI format at http://validator.omg.org/se-interop/tools/validator
       using mof 2.5.1: https://www.omg.org/spec/MOF/20131001/MOF.xmi
       using uml 2.5.1: https://www.omg.org/spec/UML/20161101/StandardProfile.xmi
       using sysml 1.6: https://www.omg.org/spec/SysML/20181001/SysML.xmi
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
-  [ ] xmi export: adapt stereotypes and value types to spec
+  [?] xmi export: adapt stereotypes and value types to spec
   [ ] xmi export: improve error message if exported file exists and is read-only
   @data
-  [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
+  [?] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> add a "display_flags" field to "diagrams"
   [ ] performance optimization: possibly the feature and relationship filter on a visible_set is slow?
-  [ ] diagrams need some kind of classification/stereotype like idea-for-future, rejected-alternative, ...
+  [?] diagrams need some kind of classification/stereotype like idea-for-future, rejected-alternative, ...
       --> add a "stereotype" field to "diagrams"
   [ ] some way to compare two database files / and/or to merge
   [ ] links unclear: interactionuse(diag-reference)-to-fragment(diag); part-to-component, object-to-class
   [ ] links unclear: provided/required-interface(feature)-to-interface(classifier)
+  [?] features can have stereotypes, see UML spec 2.5.1 chapter 11.4.5
   @ctrl
   @universal+utf8stringbuf
   [ ] combine the static string allocation with dynamic additional buffers for unexpectedly-long strings

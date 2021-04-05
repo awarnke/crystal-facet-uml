@@ -1,6 +1,14 @@
 crystal-facet-uml (1.28.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
+  * return arrows in sequences have filled arrow tip,
+    distinguishable from dependencies
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 09 Apr 2021 08:00:00 +0200
+
+crystal-facet-uml (1.28.0) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
   * gcov target is only build if -DCFU_ADD_GCOV_TARGET=ON (Closes: #983836)
   * test coverage on pencil package increased
   * exporting image-file types shows statistics on exported elements

@@ -296,7 +296,8 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                     }
                     break;
                 }
-                if ( data_relationship_get_main_type( the_relationship ) == DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL )
+                if (( data_relationship_get_main_type( the_relationship ) == DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL )
+                    || ( data_relationship_get_main_type( the_relationship ) == DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL ))
                 {
                     cairo_fill (cr);
                 }
