@@ -2,6 +2,7 @@
 all: all_export_test mouse_droid/mouse_droid.pdf mouse_droid/mouse_droid.xhtml quality/quality.pdf quality/quality.xhtml pencil_tests/pencil_tests.xhtml info
 
 SRCDIR=../../example_diagrams
+INSTALLDIR=../../example_diagrams
 
 mouse_droid/mouse_droid.xhtml: $(SRCDIR)/mouse_droid.cfu1
 	mkdir -p mouse_droid
@@ -81,11 +82,11 @@ export_test/export_test_17_interaction.xmi: $(SRCDIR)/export_test_17_interaction
 .PHONY: info
 info:
 	@printf "== call \\e[33;1m make install \\e[0m to update the files in folder ../../example_diagrams ==\n"
-	
+
 .PHONY: install
-install:
-	cp -fr mouse_droid quality pencil_tests export_test ../../example_diagrams/
+install: all_export_test
+	cp -fr export_test $(INSTALLDIR)/
 
 .PHONY: clean
 clean:
-	rm -fr mouse_droid/ quality/ pencil_tests/ export_test/
+	rm -fr mouse_droid quality pencil_tests export_test

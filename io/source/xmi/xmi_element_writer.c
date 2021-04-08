@@ -479,6 +479,17 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), profile_type );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
         }
+        
+        if ( 0 != classifier_stereo_len )
+        {
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
+                                                   "\n<!-- stereotypes: "
+                                                 );
+            export_err |= xml_writer_write_xml_comment ( &((*this_).xml_writer), classifier_stereo );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
+                                                   " -->"
+                                                 );
+        }
     }
 
     TRACE_END_ERR( export_err );
@@ -1193,6 +1204,7 @@ int xmi_element_writer_write_footer( xmi_element_writer_t *this_ )
 
     xml_writer_decrease_indent ( &((*this_).xml_writer) );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_DOC_END );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
 
     TRACE_END_ERR( export_err );
     return export_err;
