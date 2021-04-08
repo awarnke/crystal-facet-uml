@@ -399,7 +399,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
     }
     else if ( (*this_).mode == IO_WRITER_PASS_PROFILE )
     {
-        /* write profile tag if sysml/standardprofile-only extention */
+        /* write profile tag if sysml/standardprofile-only extension */
         if ( xmi_type_converter_get_xmi_spec_of_classifier( &((*this_).xmi_types), classifier_type ) == XMI_SPEC_SYSML )
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );

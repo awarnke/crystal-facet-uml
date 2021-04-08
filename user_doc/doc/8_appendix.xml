@@ -46,8 +46,7 @@ sudo apt install crystal-facet-uml
         <para>
             To install, type on the command line:
             <programlisting>
-sudo zypper refresh
-sudo zypper install crystal-facet-uml
+zypper addrepo http://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Leap_15.2/ repo-update-test
             </programlisting>
         </para>
         <para>

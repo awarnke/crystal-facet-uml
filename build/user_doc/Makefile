@@ -1,3 +1,4 @@
+.PHONY: all
 all: crystal-facet-uml_documentation.pdf html crystal-facet-uml.1.gz info
 
 SOURCE="../../user_doc"
@@ -32,16 +33,19 @@ crystal-facet-uml.1.gz: ../../user_doc/doc/manpage.xml ../../user_doc/doc/1_non_
 	else \
 	  echo "ERROR: find an appropriate xsl file for the manapge at /usr/share/xml/docbook/stylesheet" ;\
 	fi &&\
-        echo "to view the output, gunzip --keep ${MANPAGE_FILE}.gz && man --local-file ${MANPAGE_FILE}"
+	echo "to view the output, gunzip --keep ${MANPAGE_FILE}.gz && man --local-file ${MANPAGE_FILE}"
 
+.PHONY: info
 info:
 	@printf "== call \\e[33;1m make install \\e[0m to update the files in folder ../../user_doc ==\n"
-	
+
+.PHONY: clean
 clean:
 	rm -f crystal-facet-uml_documentation.pdf &&\
 	rm -fr html &&\
 	rm -f ${MANPAGE_FILE}.gz
 
+.PHONY: install
 install: crystal-facet-uml_documentation.pdf crystal-facet-uml.1.gz
 	cp crystal-facet-uml_documentation.pdf ../../user_doc/ &&\
 	cp ${MANPAGE_FILE}.gz ../../user_doc/
