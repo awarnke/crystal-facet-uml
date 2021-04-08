@@ -6,6 +6,7 @@
 #include "xmi/xmi_element_part.h"
 #include "xmi/xmi_xml.h"
 #include "util/string/utf8string.h"
+#include "util/string/utf8stringview.h"
 #include "data_id.h"
 #include "meta/meta_version.h"
 #include "meta/meta_info.h"
@@ -485,6 +486,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
                                                    "\n<!-- stereotypes: "
                                                  );
+            utf8stringview_t my_view = UTF8STRINGVIEW_STR(classifier_stereo);
             export_err |= xml_writer_write_xml_comment ( &((*this_).xml_writer), classifier_stereo );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
                                                    " -->"

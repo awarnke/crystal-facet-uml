@@ -21,6 +21,14 @@
 extern "C" {
 #endif
 
+/*!
+ *  \typedef utf8string_t
+ *  \brief The string object: A const char pointer.
+ * 
+ *  utf8string_t objects are immutable, use a utf8stringbuf_t to modify the string object.
+ */
+typedef const char* utf8string_t;
+    
 /* Note: If optimization level is zero, inline might not work. */
 /*       You possibly have to append the following string      */
 /*       after every function prototype for gcc:               */

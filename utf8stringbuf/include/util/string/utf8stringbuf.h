@@ -118,7 +118,7 @@ extern "C" {
  *  \n
  *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
  */
-#define UTF8STRINGBUF(charArr) {sizeof(charArr),charArr}
+#define UTF8STRINGBUF(charArr) {.size=sizeof(charArr),.buf=charArr}
 
 /*!
  *  \brief A string buffer is a pair of size and an array of that size.
