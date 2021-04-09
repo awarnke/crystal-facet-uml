@@ -172,6 +172,7 @@ static void testLength(void)
     len = utf8string_get_length( "123456789 123456789" );
     TEST_ASSERT_EQUAL_INT( 19, len );
 }
+
 static void testStartsWith(void) {
     //  prepare
     int matches;

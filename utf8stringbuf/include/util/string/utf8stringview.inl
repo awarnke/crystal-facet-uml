@@ -11,12 +11,46 @@
 extern "C" {
 #endif
 
+static inline utf8stringview_t utf8stringview_init( const char* start, size_t length )
+{
+    return (utf8stringview_t){.start=start,.length=length};
+}
+
+static inline utf8stringview_t utf8stringview_init_str( const char* cstring )
+{
+    return (utf8stringview_t){.start=cstring,.length=(cstring==NULL)?0:strlen(cstring)};
+}
+
+static inline utf8stringview_t utf8stringview_init_region( const char* string, size_t start_idx, size_t length )
+{
+    return (utf8stringview_t){.start=(string+start_idx),.length=(string==NULL)?0:length};
+}
+
 static inline const char* utf8stringview_get_start( const utf8stringview_t this_ ) {
     return this_.start;
 }
 
 static inline size_t utf8stringview_get_length( const utf8stringview_t this_ ) {
     return this_.length;
+}
+
+static inline int utf8stringview_find_first_str( const utf8stringview_t this_, const char *pattern ) {
+    int result = -1;
+    if (( pattern != NULL )&&( this_.start != NULL )) {
+        const size_t pattern_len = strlen( pattern );
+        if ( pattern_len != 0 ) 
+        {
+            const char *const end = this_.start + this_.length;
+            for ( const char* pos = this_.start; ( pos + pattern_len <= end )&&( result == -1 ); pos ++ )
+            {
+                if ( 0 == memcmp( pos, pattern, pattern_len ) )
+                {
+                    result = ( pos - this_.start );
+                }
+            }
+        }
+    }
+    return result;
 }
 
 #ifdef __cplusplus

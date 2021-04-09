@@ -32,6 +32,8 @@
 #include "unit/utf8codepoint_test.h"
 #include "unit/utf8string_test.h"
 /* #include "unit/utf8stringbuf_performance.h" -- performance measurements are not reliable - depend on system config+load */
+#include "unit/utf8stringview_test.h"
+#include "unit/utf8stringviewiterator_test.h"
 #include "trace.h"
 #include "tslog.h"
 #include "meta/meta_info.h"
@@ -126,6 +128,8 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, utf8stringbuf_test_get_list() );
         test_runner_run_suite( &runner, utf8string_test_get_list() );
         /* test_runner_run_suite( &runner, utf8stringbuf_performance_get_list() ); -- performance measurements are not reliable - depend on system config+load */
+        test_runner_run_suite( &runner, utf8stringview_test_get_list() );
+        test_runner_run_suite( &runner, utf8stringviewiterator_test_get_list() );
         test_runner_run_suite( &runner, gui_sketch_nav_tree_test_get_list() );
     }
 

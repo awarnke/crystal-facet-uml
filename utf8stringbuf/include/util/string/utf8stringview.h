@@ -27,22 +27,31 @@ extern "C" {
 #endif
 
 /*!
- *  \def UTF8STRINGVIEW_STR(string_param)
- *  \brief Macro to facilitate static initialisation of an utf8stringview_t from a null-terminated string
- *
- *  \n
- *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
- */
-#define UTF8STRINGVIEW_STR(string_param) {.start=string_param,.length=(string_param==NULL)?0:strlen(string_param)}
-
-/*!
  *  \def UTF8STRINGVIEW(start_param,length_param)
  *  \brief Macro to facilitate static initialisation of an utf8stringview_t
  *
  *  \n
  *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
  */
-#define UTF8STRINGVIEW(start_param,length_param) {.start=start_param,.length=length_param}
+#define UTF8STRINGVIEW(start_param,length_param) (utf8stringview_t){.start=start_param,.length=length_param}
+
+/*!
+ *  \def UTF8STRINGVIEW_STR(string_param)
+ *  \brief Macro to facilitate static initialisation of an utf8stringview_t from a null-terminated string
+ *
+ *  \n
+ *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ */
+#define UTF8STRINGVIEW_STR(string_param) (utf8stringview_t){.start=string_param,.length=(string_param==NULL)?0:strlen(string_param)}
+
+/*!
+ *  \def UTF8STRINGVIEW_NULL
+ *  \brief Macro to facilitate static initialisation of an utf8stringview_t
+ *
+ *  \n
+ *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ */
+#define UTF8STRINGVIEW_NULL (utf8stringview_t){.start=NULL,.length=0}
 
 /*!
  *  \brief A string view is a pair of start pointer and length in bytes.
@@ -63,6 +72,36 @@ struct utf8stringview_struct {
 typedef struct utf8stringview_struct utf8stringview_t;
 
 /*!
+ * \brief utf8stringview_init returns a stringview struct
+ *
+ * \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ * \param start pointer to a byte array.
+ * \param length length of the byte array. In case start is NULL, length must be 0.
+ * \return A valid utf8stringview_t struct.
+ */
+static inline utf8stringview_t utf8stringview_init( const char* start, size_t length );
+
+/*!
+ * \brief utf8stringview_init returns a stringview struct
+ *
+ * \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ * \param cstring a 0-terminated string.
+ * \return A valid utf8stringview_t struct.
+ */
+static inline utf8stringview_t utf8stringview_init_str( const char* cstring );
+
+/*!
+ * \brief utf8stringview_init returns a stringview struct
+ *
+ * \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ * \param string a pointer to a character array. NULL is not allowed.
+ * \param start_idx the start index from where the stringview shall start.
+ * \param length length of the stringview.
+ * \return A valid utf8stringview_t struct.
+ */
+static inline utf8stringview_t utf8stringview_init_region( const char* string, size_t start_idx, size_t length );
+
+/*!
  * \brief Gets the pointer to the start of the character array
  * \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
  * \param this_ The string view object
@@ -77,6 +116,16 @@ static inline const char* utf8stringview_get_start( const utf8stringview_t this_
  * \return Length of the character array.
  */
 static inline size_t utf8stringview_get_length( const utf8stringview_t this_ );
+
+/*!
+ * \brief Searches a pattern within a stringview
+ * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
+ * \param this_ The 0-terminated string within which to search
+ * \param pattern The 0-terminated string to search
+ * \return Index of the first occurrence within the stringview.
+ *         -1 if there is no match.
+ */
+static inline int utf8stringview_find_first_str( const utf8stringview_t this_, const char *pattern );
 
 #ifdef __cplusplus
 }
