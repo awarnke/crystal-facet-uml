@@ -20,7 +20,8 @@
  *  while ( hasNext() ) { element = next() };
  */
 struct utf8stringviewiterator_struct {
-    bool has_next;  /*!< triue if there is a next stringview-element */
+    bool has_next;  /*!< true if there is a next stringview-element, even in case of a possibly empty end */
+    bool next_is_end;  /*!< true if next stringview-element is the last one */
     utf8stringview_t next;  /*!< the next stringview-element */
     utf8stringview_t remaining;  /*!< remaining part of the element_list which is not yet processed */
     utf8string_t separator;  /*!< character-sequence that separates the stringviews */
@@ -35,14 +36,14 @@ typedef struct utf8stringviewiterator_struct utf8stringviewiterator_t;
  *  \param element_list character-separated list of stringviews
  *  \param separator character-sequence that separates the stringviews to retrieve; length must not be 0
  */
-void utf8stringviewiterator_init ( utf8stringviewiterator_t *this_, utf8stringview_t element_list, utf8string_t separator );
+static inline void utf8stringviewiterator_init ( utf8stringviewiterator_t *this_, utf8stringview_t element_list, utf8string_t separator );
 
 /*!
  *  \brief destroys the utf8stringviewiterator_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-void utf8stringviewiterator_destroy ( utf8stringviewiterator_t *this_ );
+static inline void utf8stringviewiterator_destroy ( utf8stringviewiterator_t *this_ );
 
 /*!
  *  \brief checks if a next stringview-element exists in the iterator - does not modify the iterator state
@@ -51,7 +52,7 @@ void utf8stringviewiterator_destroy ( utf8stringviewiterator_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  */
-bool utf8stringviewiterator_has_next ( const utf8stringviewiterator_t *this_ );
+static inline bool utf8stringviewiterator_has_next ( const utf8stringviewiterator_t *this_ );
 
 /*!
  *  \brief reads the next stringview-element from the character-separated list of stringviews.
@@ -62,14 +63,14 @@ bool utf8stringviewiterator_has_next ( const utf8stringviewiterator_t *this_ );
  *  \return the next stringview-element parsed from the character-separated list of stringviews, 
  *          in case there is no next stringview-element, utf8stringview_get_length() of the result is 0
  */
-utf8stringview_t utf8stringviewiterator_next ( utf8stringviewiterator_t *this_ );
+static inline utf8stringview_t utf8stringviewiterator_next ( utf8stringviewiterator_t *this_ );
 
 /*!
  *  \brief moves the iterator to the next stringview-element, updates (*this_).next and (*this_).has_next
  *
  *  \param this_ pointer to own object attributes
  */
-void utf8stringviewiterator_private_step_to_next ( utf8stringviewiterator_t *this_ );
+static inline void utf8stringviewiterator_private_step_to_next ( utf8stringviewiterator_t *this_ );
 
 #include "utf8stringviewiterator.inl"
 

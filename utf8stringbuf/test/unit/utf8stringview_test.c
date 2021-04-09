@@ -2,23 +2,23 @@
 
 #include "utf8string_test.h"
 #include "util/string/utf8string.h"
-#include "util/string/utf8stringbuf.h"
+#include "util/string/utf8stringview.h"
 #include "test_assert.h"
 #include <string.h>
 #include <assert.h>
 
 static void setUp(void);
 static void tearDown(void);
-static void testSize(void);
-static void testLength(void);
+static void testInitMacros(void);
+static void testInitFunctions(void);
 static void testFindFirst(void);
 
 test_suite_t utf8stringview_test_get_list(void)
 {
     test_suite_t result;
     test_suite_init( &result, "utf8StringViewTest", &setUp, &tearDown );
-    test_suite_add_test_case( &result, "testSize", &testSize );
-    test_suite_add_test_case( &result, "testLength", &testLength );
+    test_suite_add_test_case( &result, "testInitMacros", &testInitMacros );
+    test_suite_add_test_case( &result, "testInitFunctions", &testInitFunctions );
     test_suite_add_test_case( &result, "testFindFirst", &testFindFirst );
     return result;
 }
@@ -31,85 +31,119 @@ static void tearDown(void)
 {
 }
 
-static void testSize(void)
+static void testInitMacros(void)
 {
-    unsigned int size;
+    const char* start;
+    size_t len;
+    utf8stringview_t my_view;
+    static const char *const my_txt = "txt";
 
-    /* check size */
-    size = utf8string_get_size( NULL );
-    TEST_ASSERT_EQUAL_INT( 0, size );
-
-    size = utf8string_get_size( "" );
-    TEST_ASSERT_EQUAL_INT( 1, size );
-
-    size = utf8string_get_size( "123456789 123456789" );
-    TEST_ASSERT_EQUAL_INT( 20, size );
-
-    size = utf8string_get_size( "ab\xC2\xA2\0" "efg" );
-    TEST_ASSERT_EQUAL_INT( 5, size );
+    /* check anonymous struct usage of UTF8STRINGVIEW_NULL macro */
+    start = utf8stringview_get_start( UTF8STRINGVIEW_NULL );
+    TEST_ASSERT_EQUAL_PTR( NULL, start );
+    len = utf8stringview_get_length( UTF8STRINGVIEW_NULL );
+    TEST_ASSERT_EQUAL_INT( 0, len );
+    
+    /* check initialization by UTF8STRINGVIEW_NULL macro */
+    my_view = UTF8STRINGVIEW_NULL;
+    start = utf8stringview_get_start( my_view );
+    TEST_ASSERT_EQUAL_PTR( NULL, start );
+    len = utf8stringview_get_length( my_view );
+    TEST_ASSERT_EQUAL_INT( 0, len );
+    
+    /* check anonymous struct usage of UTF8STRINGVIEW_STR macro */
+    start = utf8stringview_get_start( UTF8STRINGVIEW_STR( my_txt ) );
+    TEST_ASSERT_EQUAL_PTR( my_txt, start );
+    len = utf8stringview_get_length( UTF8STRINGVIEW_STR( my_txt ) );
+    TEST_ASSERT_EQUAL_INT( strlen( my_txt ), len );
+    
+    /* check initialization by UTF8STRINGVIEW_STR macro */
+    my_view = UTF8STRINGVIEW_STR( my_txt );
+    start = utf8stringview_get_start( my_view );
+    TEST_ASSERT_EQUAL_PTR( my_txt, start );
+    len = utf8stringview_get_length( my_view );
+    TEST_ASSERT_EQUAL_INT( strlen( my_txt ), len );
+    
+    /* check anonymous struct usage of UTF8STRINGVIEW macro */
+    start = utf8stringview_get_start( UTF8STRINGVIEW( my_txt, 2 ) );
+    TEST_ASSERT_EQUAL_PTR( my_txt, start );
+    len = utf8stringview_get_length( UTF8STRINGVIEW( my_txt, 2 ) );
+    TEST_ASSERT_EQUAL_INT( 2, len );
+    
+    /* check initialization by UTF8STRINGVIEW macro */
+    const utf8stringview_t my_view_2 = UTF8STRINGVIEW( my_txt, 2 );
+    start = utf8stringview_get_start( my_view_2 );
+    TEST_ASSERT_EQUAL_PTR( my_txt, start );
+    len = utf8stringview_get_length( my_view_2 );
+    TEST_ASSERT_EQUAL_INT( 2, len );
 }
 
 
-static void testLength(void)
+static void testInitFunctions(void)
 {
-    int len;
+    static const char *const my_txt = "txt";
 
-    /* check utf8string_get_length */
-    len = utf8string_get_length( NULL );
-    TEST_ASSERT_EQUAL_INT( 0, len );
-    len = utf8string_get_length( "" );
-    TEST_ASSERT_EQUAL_INT( 0, len );
-    len = utf8string_get_length( "12" );
-    TEST_ASSERT_EQUAL_INT( 2, len );
-    len = utf8string_get_length( "123456789 123456789" );
-    TEST_ASSERT_EQUAL_INT( 19, len );
+    /* check initialization with utf8stringview_init function */
+    utf8stringview_t my_view_1 = utf8stringview_init( NULL, 0 );
+    TEST_ASSERT_EQUAL_PTR( NULL, utf8stringview_get_start( my_view_1 ) );
+    TEST_ASSERT_EQUAL_INT( 0, utf8stringview_get_length( my_view_1 ) );
+
+    const utf8stringview_t my_view_2 = utf8stringview_init( my_txt, 4 );
+    TEST_ASSERT_EQUAL_PTR( my_txt, utf8stringview_get_start( my_view_2 ) );
+    TEST_ASSERT_EQUAL_INT( 4, utf8stringview_get_length( my_view_2 ) );
+
+    /* check initialization with utf8stringview_init_str function */
+    utf8stringview_t my_view_3 = utf8stringview_init_str( NULL );
+    TEST_ASSERT_EQUAL_PTR( NULL, utf8stringview_get_start( my_view_3 ) );
+    TEST_ASSERT_EQUAL_INT( 0, utf8stringview_get_length( my_view_3 ) );
+
+    const utf8stringview_t my_view_4 = utf8stringview_init_str( my_txt );
+    TEST_ASSERT_EQUAL_PTR( my_txt, utf8stringview_get_start( my_view_4 ) );
+    TEST_ASSERT_EQUAL_INT( strlen( my_txt ), utf8stringview_get_length( my_view_4 ) );
+
+    /* check initialization with utf8stringview_init_region function */
+    utf8stringview_t my_view_5 = utf8stringview_init_region( NULL, 0, 0 );
+    TEST_ASSERT_EQUAL_PTR( NULL, utf8stringview_get_start( my_view_5 ) );
+    TEST_ASSERT_EQUAL_INT( 0, utf8stringview_get_length( my_view_5 ) );
+
+    const utf8stringview_t my_view_6 = utf8stringview_init_region( my_txt, 1, 3 );
+    TEST_ASSERT_EQUAL_PTR( (my_txt+1), utf8stringview_get_start( my_view_6 ) );
+    TEST_ASSERT_EQUAL_INT( 3, utf8stringview_get_length( my_view_6 ) );
 }
 
 static void testFindFirst(void)
 {
     int pos;
-    char srchArr3[] = "N/A";
-    utf8stringbuf_t srchBuf3 = UTF8STRINGBUF(srchArr3);
+    char srchArr[] = "beforeHELLO ANANASafter";
+    utf8stringview_t srchView = utf8stringview_init_region( srchArr, 6, 12 );
 
-    pos = utf8string_find_first_str( NULL, srchArr3);
+    /* check search with utf8stringview_find_first_str function */
+    pos = utf8stringview_find_first_str( srchView, NULL );
     TEST_ASSERT_EQUAL_INT( -1, pos );
 
-    pos = utf8string_find_first_str( NULL, "");
+    pos = utf8stringview_find_first_str( UTF8STRINGVIEW_NULL, "HELLO" );
     TEST_ASSERT_EQUAL_INT( -1, pos );
 
-    pos = utf8string_find_first_str( NULL, NULL);
+    pos = utf8stringview_find_first_str( UTF8STRINGVIEW_STR(""), "" );
+    TEST_ASSERT_EQUAL_INT( -1, pos );
+    
+    pos = utf8stringview_find_first_str( srchView, "eHELLO" );
     TEST_ASSERT_EQUAL_INT( -1, pos );
 
-    pos = utf8string_find_first_str( srchArr3, srchArr3);
+    pos = utf8stringview_find_first_str( srchView, "HELLO" );
     TEST_ASSERT_EQUAL_INT( 0, pos );
 
-    pos = utf8string_find_first_str( "", srchArr3);
+    pos = utf8stringview_find_first_str( srchView, "ANANASa" );
+    TEST_ASSERT_EQUAL_INT( -1, pos );
+    
+    pos = utf8stringview_find_first_str( srchView, "ANAS" );
+    TEST_ASSERT_EQUAL_INT( 8, pos );
+
+    pos = utf8stringview_find_first_str( srchView, "" );
     TEST_ASSERT_EQUAL_INT( -1, pos );
 
-    pos = utf8string_find_first_str( "_N/A_N/A", srchArr3);
-    TEST_ASSERT_EQUAL_INT( 1, pos );
-
-    pos = utf8string_find_first_str( "_n/a_n/a", srchArr3);
-    TEST_ASSERT_EQUAL_INT( -1, pos );
-
-
-    pos = utf8string_find_first_buf( NULL, srchBuf3);
-    TEST_ASSERT_EQUAL_INT( -1, pos );
-
-    pos = utf8string_find_first_buf( NULL, utf8stringbuf( "" ) );
-    TEST_ASSERT_EQUAL_INT( -1, pos );
-
-    pos = utf8string_find_first_buf( srchArr3, srchBuf3);
-    TEST_ASSERT_EQUAL_INT( 0, pos );
-
-    pos = utf8string_find_first_buf( "", srchBuf3);
-    TEST_ASSERT_EQUAL_INT( -1, pos );
-
-    pos = utf8string_find_first_buf( "_N/A_N/A", srchBuf3);
-    TEST_ASSERT_EQUAL_INT( 1, pos );
-
-    pos = utf8string_find_first_buf( "_n/a_n/a", srchBuf3);
-    TEST_ASSERT_EQUAL_INT( -1, pos );
+    pos = utf8stringview_find_first_str( srchView, " " );
+    TEST_ASSERT_EQUAL_INT( 5, pos );
 }
 
 
