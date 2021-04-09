@@ -2,6 +2,8 @@
 
 #include "utf8stringbuf_cross_language.h"
 
+#ifdef __cplusplus
+
 static char unitTestResultArr[512];
 static utf8stringbuf_t unitTestResultBuf = UTF8STRINGBUF( unitTestResultArr );
 
@@ -50,6 +52,8 @@ int utf8stringbufCrossLanguage::CompareCodePoint( utf8codepoint_t theChar, const
     utf8codepoint_t test = utf8codepoint_init( charSequence, strlen(charSequence) );
     return ( utf8codepoint_get_char(theChar) == utf8codepoint_get_char(test) ) ? (1) : (0);
 }
+
+#endif
 
 
 /*

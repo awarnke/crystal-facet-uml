@@ -11,11 +11,11 @@
 extern "C" {
 #endif
 
-static inline const char* utf8stringview_get_start( utf8stringview_t this_ ) {
+static inline const char* utf8stringview_get_start( const utf8stringview_t this_ ) {
     return this_.start;
 }
 
-static inline size_t utf8stringview_get_length( utf8stringview_t this_ ) {
+static inline size_t utf8stringview_get_length( const utf8stringview_t this_ ) {
     return this_.length;
 }
 

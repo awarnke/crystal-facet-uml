@@ -5,7 +5,7 @@
 
 /*!
  *  \file utf8stringview.h
- *  \brief utf8stringview provides functions to build and search unmodifyable, non-terminated char sequences.
+ *  \brief utf8stringview provides functions to search and compare non-terminated char sequences.
  *
  *  utf8stringview provides a struct consisting of
  *  \li a pointer to an character array (non null-terminated) and
@@ -27,8 +27,8 @@ extern "C" {
 #endif
 
 /*!
- *  \def UTF8STRINGVIEW(start_param,length_param)
- *  \brief Macro to facilitate static initialisation of an utf8stringview_t
+ *  \def UTF8STRINGVIEW_STR(string_param)
+ *  \brief Macro to facilitate static initialisation of an utf8stringview_t from a null-terminated string
  *
  *  \n
  *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
@@ -60,7 +60,7 @@ struct utf8stringview_struct {
  * 
  *  It represents a non-null terminated immutable sequence of utf8 characters.
  */
-typedef const struct utf8stringview_struct utf8stringview_t;
+typedef struct utf8stringview_struct utf8stringview_t;
 
 /*!
  * \brief Gets the pointer to the start of the character array
@@ -68,7 +68,7 @@ typedef const struct utf8stringview_struct utf8stringview_t;
  * \param this_ The string view object
  * \return Pointer to the start of the character array
  */
-static inline const char* utf8stringview_get_start( utf8stringview_t this_ );
+static inline const char* utf8stringview_get_start( const utf8stringview_t this_ );
 
 /*!
  * \brief Gets the length of the character array
@@ -76,7 +76,7 @@ static inline const char* utf8stringview_get_start( utf8stringview_t this_ );
  * \param this_ The string view object
  * \return Length of the character array.
  */
-static inline size_t utf8stringview_get_length( utf8stringview_t this_ );
+static inline size_t utf8stringview_get_length( const utf8stringview_t this_ );
 
 #ifdef __cplusplus
 }

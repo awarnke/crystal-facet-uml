@@ -5,6 +5,7 @@
 #include "xmi/xmi_element_info.h"
 #include "xmi/xmi_element_part.h"
 #include "xmi/xmi_xml.h"
+#include "xmi/xmi_iterator_stereotypes.h"
 #include "util/string/utf8string.h"
 #include "util/string/utf8stringview.h"
 #include "data_id.h"
@@ -486,8 +487,17 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
                                                    "\n<!-- stereotypes: "
                                                  );
-            utf8stringview_t my_view = UTF8STRINGVIEW_STR(classifier_stereo);
+            
+            xmi_iterator_stereotypes_t stereo_iterator;
+            xmi_iterator_stereotypes_init( &stereo_iterator, classifier_stereo );
+            while( xmi_iterator_stereotypes_has_next( &stereo_iterator ) )
+            {
+                const utf8stringview_t stereotype = xmi_iterator_stereotypes_next( &stereo_iterator );
+            }
+            xmi_iterator_stereotypes_destroy( &stereo_iterator );
+            
             export_err |= xml_writer_write_xml_comment ( &((*this_).xml_writer), classifier_stereo );
+            
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
                                                    " -->"
                                                  );

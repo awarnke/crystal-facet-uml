@@ -22,10 +22,19 @@ extern "C" {
 #endif
 
 /*!
+ *  \def UTF8STRING_NULL
+ *  \brief NULL value of an utf8string_t
+ *
+ *  \n
+ *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ */
+#define UTF8STRING_NULL (NULL)
+
+/*!
  *  \typedef utf8string_t
  *  \brief The string object: A const char pointer.
  * 
- *  utf8string_t objects are immutable, use a utf8stringbuf_t to modify the string object.
+ *  utf8string_t objects point to immutable strings, use a utf8stringbuf_t to modify the string object.
  */
 typedef const char* utf8string_t;
     
