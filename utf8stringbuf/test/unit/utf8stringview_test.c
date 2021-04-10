@@ -114,8 +114,8 @@ static void testInitFunctions(void)
 static void testFindFirst(void)
 {
     int pos;
-    char srchArr[] = "beforeHELLO ANANASafter";
-    utf8stringview_t srchView = utf8stringview_init_region( srchArr, 6, 12 );
+    char memoryArr[] = "beforeHELLO ANANASafter";
+    utf8stringview_t srchView = utf8stringview_init_region( memoryArr, 6, 12 );
 
     /* check search with utf8stringview_find_first_str function */
     pos = utf8stringview_find_first_str( srchView, NULL );

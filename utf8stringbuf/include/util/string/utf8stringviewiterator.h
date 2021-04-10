@@ -32,6 +32,7 @@ typedef struct utf8stringviewiterator_struct utf8stringviewiterator_t;
 /*!
  *  \brief initializes the utf8stringviewiterator_t struct
  *
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:element_list_len, m:separator_len
  *  \param this_ pointer to own object attributes
  *  \param element_list character-separated list of stringviews
  *  \param separator character-sequence that separates the stringviews to retrieve; length must not be 0
@@ -41,6 +42,7 @@ static inline void utf8stringviewiterator_init ( utf8stringviewiterator_t *this_
 /*!
  *  \brief destroys the utf8stringviewiterator_t struct
  *
+ *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
  *  \param this_ pointer to own object attributes
  */
 static inline void utf8stringviewiterator_destroy ( utf8stringviewiterator_t *this_ );
@@ -50,7 +52,9 @@ static inline void utf8stringviewiterator_destroy ( utf8stringviewiterator_t *th
  * 
  *  Note that even an empty string contains one empty stringview-element
  *
+ *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
  *  \param this_ pointer to own object attributes
+ *  \return true if there is a next element in the iterator
  */
 static inline bool utf8stringviewiterator_has_next ( const utf8stringviewiterator_t *this_ );
 
@@ -59,6 +63,7 @@ static inline bool utf8stringviewiterator_has_next ( const utf8stringviewiterato
  * 
  *  Internally advances to the stringview-element after next.
  *
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:remaining_len, m:separator_len
  *  \param this_ pointer to own object attributes
  *  \return the next stringview-element parsed from the character-separated list of stringviews, 
  *          in case there is no next stringview-element, utf8stringview_get_length() of the result is 0
@@ -68,6 +73,7 @@ static inline utf8stringview_t utf8stringviewiterator_next ( utf8stringviewitera
 /*!
  *  \brief moves the iterator to the next stringview-element, updates (*this_).next and (*this_).has_next
  *
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:remaining_len, m:separator_len
  *  \param this_ pointer to own object attributes
  */
 static inline void utf8stringviewiterator_private_step_to_next ( utf8stringviewiterator_t *this_ );

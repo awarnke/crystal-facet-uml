@@ -84,7 +84,7 @@ static inline utf8stringview_t utf8stringview_init( const char* start, size_t le
 /*!
  * \brief utf8stringview_init returns a stringview struct
  *
- * \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  * \param cstring a 0-terminated string.
  * \return A valid utf8stringview_t struct.
  */

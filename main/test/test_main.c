@@ -30,6 +30,7 @@
 #include "unit/universal_escaping_output_stream_test.h"
 #include "unit/utf8stringbuf_test.h"
 #include "unit/utf8codepoint_test.h"
+#include "unit/utf8codepointiterator_test.h"
 #include "unit/utf8string_test.h"
 /* #include "unit/utf8stringbuf_performance.h" -- performance measurements are not reliable - depend on system config+load */
 #include "unit/utf8stringview_test.h"
@@ -125,6 +126,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, universal_memory_output_stream_test_get_list() );
         test_runner_run_suite( &runner, universal_escaping_output_stream_test_get_list() );
         test_runner_run_suite( &runner, utf8codepoint_test_get_list() );
+        test_runner_run_suite( &runner, utf8codepointiterator_test_get_list() );
         test_runner_run_suite( &runner, utf8stringbuf_test_get_list() );
         test_runner_run_suite( &runner, utf8string_test_get_list() );
         /* test_runner_run_suite( &runner, utf8stringbuf_performance_get_list() ); -- performance measurements are not reliable - depend on system config+load */
