@@ -10,24 +10,16 @@
 static void setUp(void);
 static void tearDown(void);
 static void testStandardUseCase(void);
-static void testNoSeparatorUseCase(void);
-static void testEmptyElementsUseCase(void);
-static void testEmptyListUseCase(void);
-static void testEmptySeparatorUseCase(void);
-static void testNullListUseCase(void);
-static void testNullSeparatorUseCase(void);
+static void testEmptyUseCase(void);
+static void testIllegalUseCase(void);
 
 test_suite_t utf8codepointiterator_test_get_list(void)
 {
     test_suite_t result;
     test_suite_init( &result, "utf8CodePointIteratorTest", &setUp, &tearDown );
     test_suite_add_test_case( &result, "testStandardUseCase", &testStandardUseCase );
-    test_suite_add_test_case( &result, "testNoSeparatorUseCase", &testNoSeparatorUseCase );
-    test_suite_add_test_case( &result, "testEmptyElementsUseCase", &testEmptyElementsUseCase );
-    test_suite_add_test_case( &result, "testEmptyListUseCase", &testEmptyListUseCase );
-    test_suite_add_test_case( &result, "testEmptySeparatorUseCase", &testEmptySeparatorUseCase );
-    test_suite_add_test_case( &result, "testNullListUseCase", &testNullListUseCase );
-    test_suite_add_test_case( &result, "testNullSeparatorUseCase", &testNullSeparatorUseCase );
+    test_suite_add_test_case( &result, "testEmptyUseCase", &testEmptyUseCase );
+    test_suite_add_test_case( &result, "testIllegalUseCase", &testIllegalUseCase );
     return result;
 }
 
@@ -42,226 +34,108 @@ static void tearDown(void)
 static void testStandardUseCase(void)
 {
     bool has_next;
-    utf8stringview_t next;
-    static const char *const my_list = "23,, 24";
+    utf8codepoint_t next;
+    static const char my_string[] = "a" "\0" "\xC3\xA4" "\xE2\x82\xAC" "\xF0\x9D\x84\x9E";
     
     /* init */
     utf8codepointiterator_t it;
-    utf8codepointiterator_init( &it, UTF8STRINGVIEW_STR( my_list ), ", " );
+    utf8codepointiterator_init( &it, UTF8STRINGVIEW( my_string, sizeof(my_string)-1 ) );
     
     has_next = utf8codepointiterator_has_next( &it );
     TEST_ASSERT_EQUAL_INT( true, has_next );
     
     next = utf8codepointiterator_next( &it );
-    TEST_ASSERT_EQUAL_PTR( (my_list+0), utf8stringview_get_start( next ) );
-    TEST_ASSERT_EQUAL_INT( 3, utf8stringview_get_length( next ) );
-    
+    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_get_length( next ) );
+    TEST_ASSERT_EQUAL_INT( 97, utf8codepoint_get_char( next ) );  /* a == 97 */
+    TEST_ASSERT_EQUAL_INT( true, utf8codepoint_is_valid( next ) );
+
     has_next = utf8codepointiterator_has_next( &it );
     TEST_ASSERT_EQUAL_INT( true, has_next );
     
     next = utf8codepointiterator_next( &it );
-    TEST_ASSERT_EQUAL_PTR( (my_list+5), utf8stringview_get_start( next ) );
-    TEST_ASSERT_EQUAL_INT( 2, utf8stringview_get_length( next ) );
+    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_get_length( next ) );
+    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_get_char( next ) );  /* 0 == 0 */
+    TEST_ASSERT_EQUAL_INT( true, utf8codepoint_is_valid( next ) );
+
+    has_next = utf8codepointiterator_has_next( &it );
+    TEST_ASSERT_EQUAL_INT( true, has_next );
+    
+    next = utf8codepointiterator_next( &it );
+    TEST_ASSERT_EQUAL_INT( 2, utf8codepoint_get_length( next ) );
+    TEST_ASSERT_EQUAL_INT( 0x00e4, utf8codepoint_get_char( next ) );
+    TEST_ASSERT_EQUAL_INT( true, utf8codepoint_is_valid( next ) );
+
+    has_next = utf8codepointiterator_has_next( &it );
+    TEST_ASSERT_EQUAL_INT( true, has_next );
+    
+    next = utf8codepointiterator_next( &it );
+    TEST_ASSERT_EQUAL_INT( 3, utf8codepoint_get_length( next ) );
+    TEST_ASSERT_EQUAL_INT( 0x20ac, utf8codepoint_get_char( next ) );
+    TEST_ASSERT_EQUAL_INT( true, utf8codepoint_is_valid( next ) );
+
+    has_next = utf8codepointiterator_has_next( &it );
+    TEST_ASSERT_EQUAL_INT( true, has_next );
+    
+    next = utf8codepointiterator_next( &it );
+    TEST_ASSERT_EQUAL_INT( 4, utf8codepoint_get_length( next ) );
+    TEST_ASSERT_EQUAL_INT( 0x1d11e, utf8codepoint_get_char( next ) );  /* a == 97 */
+    TEST_ASSERT_EQUAL_INT( true, utf8codepoint_is_valid( next ) );
     
     has_next = utf8codepointiterator_has_next( &it );
     TEST_ASSERT_EQUAL_INT( false, has_next );
-    
+
     next = utf8codepointiterator_next( &it );
-    TEST_ASSERT_EQUAL_PTR( NULL, utf8stringview_get_start( next ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
+    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_get_length( next ) );
+    TEST_ASSERT_EQUAL_INT( false, utf8codepoint_is_valid( next ) );
     
     /* finish */
     utf8codepointiterator_destroy( &it );
 }
 
-static void testNoSeparatorUseCase(void)
+static void testEmptyUseCase(void)
 {
     bool has_next;
-    utf8stringview_t next;
-    static const char *const my_list = "23,, 24";
+    utf8codepoint_t next;
+    static const char *const my_string = "\xF0\x9D\x84\x9E";
     
     /* init */
     utf8codepointiterator_t it;
-    utf8codepointiterator_init( &it, UTF8STRINGVIEW_STR( my_list ), ",, 24567" );
-    
-    has_next = utf8codepointiterator_has_next( &it );
-    TEST_ASSERT_EQUAL_INT( true, has_next );
-    
-    next = utf8codepointiterator_next( &it );
-    TEST_ASSERT_EQUAL_PTR( (my_list+0), utf8stringview_get_start( next ) );
-    TEST_ASSERT_EQUAL_INT( strlen( my_list ), utf8stringview_get_length( next ) );
+    utf8codepointiterator_init( &it, UTF8STRINGVIEW( my_string, 0 ) );
     
     has_next = utf8codepointiterator_has_next( &it );
     TEST_ASSERT_EQUAL_INT( false, has_next );
     
     next = utf8codepointiterator_next( &it );
-    TEST_ASSERT_EQUAL_PTR( NULL, utf8stringview_get_start( next ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
+    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_get_length( next ) );
+    TEST_ASSERT_EQUAL_INT( false, utf8codepoint_is_valid( next ) );
     
     /* finish */
     utf8codepointiterator_destroy( &it );
 }
 
-static void testEmptyElementsUseCase(void)
+static void testIllegalUseCase(void)
 {
     bool has_next;
-    utf8stringview_t next;
-    static const char *const my_list = ",23,, 24,";
+    utf8codepoint_t next;
+    static const char *const my_string = "\xF0\x9D\x84\x9E";
     
     /* init */
     utf8codepointiterator_t it;
-    utf8codepointiterator_init( &it, UTF8STRINGVIEW_STR( my_list ), "," );
-    
-    has_next = utf8codepointiterator_has_next( &it );
-    TEST_ASSERT_EQUAL_INT( true, has_next );
-    
-    next = utf8codepointiterator_next( &it );
-    TEST_ASSERT_EQUAL_PTR( (my_list+0), utf8stringview_get_start( next ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-    
-    has_next = utf8codepointiterator_has_next( &it );
-    TEST_ASSERT_EQUAL_INT( true, has_next );
-    
-    next = utf8codepointiterator_next( &it );
-    TEST_ASSERT_EQUAL_PTR( (my_list+1), utf8stringview_get_start( next ) );
-    TEST_ASSERT_EQUAL_INT( 2, utf8stringview_get_length( next ) );
-    
-    has_next = utf8codepointiterator_has_next( &it );
-    TEST_ASSERT_EQUAL_INT( true, has_next );
-    
-    next = utf8codepointiterator_next( &it );
-    TEST_ASSERT_EQUAL_PTR( (my_list+4), utf8stringview_get_start( next ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-    
-    has_next = utf8codepointiterator_has_next( &it );
-    TEST_ASSERT_EQUAL_INT( true, has_next );
-    
-    next = utf8codepointiterator_next( &it );
-    TEST_ASSERT_EQUAL_PTR( (my_list+5), utf8stringview_get_start( next ) );
-    TEST_ASSERT_EQUAL_INT( 3, utf8stringview_get_length( next ) );
-    
-    has_next = utf8codepointiterator_has_next( &it );
-    TEST_ASSERT_EQUAL_INT( true, has_next );
-    
-    next = utf8codepointiterator_next( &it );
-    TEST_ASSERT_EQUAL_PTR( (my_list+9), utf8stringview_get_start( next ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
+    utf8codepointiterator_init( &it, UTF8STRINGVIEW( my_string, 1 ) );
     
     has_next = utf8codepointiterator_has_next( &it );
     TEST_ASSERT_EQUAL_INT( false, has_next );
     
     next = utf8codepointiterator_next( &it );
-    TEST_ASSERT_EQUAL_PTR( NULL, utf8stringview_get_start( next ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-    
-    /* finish */
-    utf8codepointiterator_destroy( &it );
-}
-
-static void testEmptyListUseCase(void)
-{
-    bool has_next;
-    utf8stringview_t next;
-    static const char *const my_list = "";
-    
-    /* init */
-    utf8codepointiterator_t it;
-    utf8codepointiterator_init( &it, UTF8STRINGVIEW_STR( my_list ), "," );
-    
-    has_next = utf8codepointiterator_has_next( &it );
-    TEST_ASSERT_EQUAL_INT( true, has_next );
-    
-    next = utf8codepointiterator_next( &it );
-    TEST_ASSERT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
+    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_get_length( next ) );
+    TEST_ASSERT_EQUAL_INT( false, utf8codepoint_is_valid( next ) );
     
     has_next = utf8codepointiterator_has_next( &it );
     TEST_ASSERT_EQUAL_INT( false, has_next );
     
     next = utf8codepointiterator_next( &it );
-    TEST_ASSERT_EQUAL_PTR( NULL, utf8stringview_get_start( next ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-    
-    /* finish */
-    utf8codepointiterator_destroy( &it );
-}
-
-static void testEmptySeparatorUseCase(void)
-{
-    bool has_next;
-    utf8stringview_t next;
-    static const char *const my_list = "1,2,3";
-    
-    /* init */
-    utf8codepointiterator_t it;
-    utf8codepointiterator_init( &it, UTF8STRINGVIEW_STR( my_list ), "" );  /* unspecified case */
-    
-    has_next = utf8codepointiterator_has_next( &it );
-    TEST_ASSERT_EQUAL_INT( true, has_next );
-    
-    next = utf8codepointiterator_next( &it );
-    TEST_ASSERT_EQUAL_PTR( my_list, utf8stringview_get_start( next ) );
-    TEST_ASSERT_EQUAL_INT( strlen( my_list ), utf8stringview_get_length( next ) );
-    
-    has_next = utf8codepointiterator_has_next( &it );
-    TEST_ASSERT_EQUAL_INT( false, has_next );
-    
-    next = utf8codepointiterator_next( &it );
-    TEST_ASSERT_EQUAL_PTR( NULL, utf8stringview_get_start( next ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-    
-    /* finish */
-    utf8codepointiterator_destroy( &it );
-}
-
-static void testNullListUseCase(void)
-{
-    bool has_next;
-    utf8stringview_t next;
-    
-    /* init */
-    utf8codepointiterator_t it;
-    utf8codepointiterator_init( &it, UTF8STRINGVIEW_NULL, "" );  /* unspecified case */
-    
-    has_next = utf8codepointiterator_has_next( &it );
-    TEST_ASSERT_EQUAL_INT( true, has_next );
-    
-    next = utf8codepointiterator_next( &it );
-    TEST_ASSERT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-    
-    has_next = utf8codepointiterator_has_next( &it );
-    TEST_ASSERT_EQUAL_INT( false, has_next );
-    
-    next = utf8codepointiterator_next( &it );
-    TEST_ASSERT_EQUAL_PTR( NULL, utf8stringview_get_start( next ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-    
-    /* finish */
-    utf8codepointiterator_destroy( &it );
-}
-
-static void testNullSeparatorUseCase(void)
-{
-    bool has_next;
-    utf8stringview_t next;
-    static const char *const my_list = "1,2,3";
-    
-    /* init */
-    utf8codepointiterator_t it;
-    utf8codepointiterator_init( &it, UTF8STRINGVIEW_STR( my_list ), NULL );  /* unspecified case */
-    
-    has_next = utf8codepointiterator_has_next( &it );
-    TEST_ASSERT_EQUAL_INT( true, has_next );
-    
-    next = utf8codepointiterator_next( &it );
-    TEST_ASSERT_EQUAL_PTR( my_list, utf8stringview_get_start( next ) );
-    TEST_ASSERT_EQUAL_INT( strlen( my_list ), utf8stringview_get_length( next ) );
-    
-    has_next = utf8codepointiterator_has_next( &it );
-    TEST_ASSERT_EQUAL_INT( false, has_next );
-    
-    next = utf8codepointiterator_next( &it );
-    TEST_ASSERT_EQUAL_PTR( NULL, utf8stringview_get_start( next ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
+    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_get_length( next ) );
+    TEST_ASSERT_EQUAL_INT( false, utf8codepoint_is_valid( next ) );
     
     /* finish */
     utf8codepointiterator_destroy( &it );
