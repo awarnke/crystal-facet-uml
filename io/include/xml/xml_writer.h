@@ -12,7 +12,8 @@
 #include "data_diagram.h"
 #include "data_classifier.h"
 #include "data_table.h"
-#include "util/string/utf8stringbuf.h"
+#include "util/string/utf8string.h"
+#include "util/string/utf8stringview.h"
 #include "stream/universal_output_stream.h"
 #include "stream/universal_escaping_output_stream.h"
 
@@ -78,17 +79,16 @@ void xml_writer_destroy( xml_writer_t *this_ );
  *  \param text string to write
  *  \result 0 in case of success, -1 otherwise
  */
-static inline int xml_writer_write_plain ( xml_writer_t *this_, const char *text );
+static inline int xml_writer_write_plain ( xml_writer_t *this_, utf8string_t text );
 
 /*!
- *  \brief writes buffer (stringview) to a file, unencoded
+ *  \brief writes stringview to a file, unencoded
  *
  *  \param this_ pointer to own object attributes
- *  \param start buffer to write, not 0-terminated
- *  \param length length of the buffer to write
+ *  \param string_view stringview to write, not 0-terminated
  *  \result 0 in case of success, -1 otherwise
  */
-static inline int xml_writer_write_plain_buf ( xml_writer_t *this_, const char *start, size_t length );
+static inline int xml_writer_write_plain_view ( xml_writer_t *this_, utf8stringview_t string_view );
 
 /*!
  *  \brief prints an id
@@ -117,17 +117,16 @@ int xml_writer_write_int ( xml_writer_t *this_, int64_t number );
  *  \param text string to write
  *  \result 0 in case of success, -1 otherwise
  */
-static inline int xml_writer_write_xml_enc ( xml_writer_t *this_, const char *text );
+static inline int xml_writer_write_xml_enc ( xml_writer_t *this_, utf8string_t text );
 
 /*!
- *  \brief writes a buffer (stringview) to a file, xml encoded
+ *  \brief writes a stringview to a file, xml encoded
  *
  *  \param this_ pointer to own object attributes
- *  \param start buffer to write, not 0-terminated
- *  \param length length of the buffer to write
+ *  \param string_view stringview to write, not 0-terminated
  *  \result 0 in case of success, -1 otherwise
  */
-static inline int xml_writer_write_xml_enc_buf ( xml_writer_t *this_, const char *start, size_t length );
+static inline int xml_writer_write_xml_enc_view ( xml_writer_t *this_, utf8stringview_t string_view );
 
 /*!
  *  \brief writes a string to a file, xml encoded and double-minus gets space-separated
@@ -136,7 +135,16 @@ static inline int xml_writer_write_xml_enc_buf ( xml_writer_t *this_, const char
  *  \param text string to write, encoded for xml comments
  *  \result 0 in case of success, -1 otherwise
  */
-static inline int xml_writer_write_xml_comment ( xml_writer_t *this_, const char *text );
+static inline int xml_writer_write_xml_comment ( xml_writer_t *this_, utf8string_t text );
+
+/*!
+ *  \brief writes a stringview to a file, xml encoded and double-minus gets space-separated
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param string_view stringview to write, not 0-terminated
+ *  \result 0 in case of success, -1 otherwise
+ */
+static inline int xml_writer_write_xml_comment_view ( xml_writer_t *this_, utf8stringview_t string_view );
 
 /*!
  *  \brief resets the indentation level to 0

@@ -482,12 +482,8 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
         }
         
-        if ( 0 != classifier_stereo_len )
+        /* write user-defined stereotypes */
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
-                                                   "\n<!-- stereotypes: "
-                                                 );
-            
             utf8stringviewiterator_t stereo_iterator;
             utf8stringviewiterator_init( &stereo_iterator, 
                                          UTF8STRINGVIEW_STR(classifier_stereo),
@@ -495,14 +491,21 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
                                        );
             while( utf8stringviewiterator_has_next( &stereo_iterator ) )
             {
-                const utf8stringview_t stereotype = utf8stringviewiterator_next( &stereo_iterator );
+                const utf8stringview_t stereotype_view = utf8stringviewiterator_next( &stereo_iterator );
+                size_t stereotype_len = utf8stringview_get_length( stereotype_view );
+                if ( stereotype_len != 0 )
+                {
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
+                                                        "\n<!-- stereotypes: "
+                                                        );
+
+                    export_err |= xml_writer_write_xml_comment_view ( &((*this_).xml_writer), stereotype_view );
+
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
+                                                        " -->"
+                                                        );
+                }
             }
-            
-            export_err |= xml_writer_write_xml_comment ( &((*this_).xml_writer), classifier_stereo );
-            
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
-                                                   " -->"
-                                                 );
         }
     }
 
