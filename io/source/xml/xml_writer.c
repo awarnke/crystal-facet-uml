@@ -359,7 +359,7 @@ int xml_writer_write_int ( xml_writer_t *this_, int64_t number )
     return result;
 }
 
-void xml_writer_update_encoding_tables ( xml_writer_t *this_ )
+void xml_writer_private_update_encoding_tables ( xml_writer_t *this_ )
 {
     TRACE_BEGIN();
 

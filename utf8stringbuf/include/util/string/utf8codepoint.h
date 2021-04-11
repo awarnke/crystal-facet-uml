@@ -22,6 +22,11 @@
 extern "C" {
 #endif
 
+struct utf8codepointseq_struct {
+    char seq[4];
+};
+typedef struct utf8codepointseq_struct utf8codepointseq_t;
+
 /*!
  *  \brief A character is a codepoint and a utf8-byte-count.
  *
@@ -69,6 +74,14 @@ static inline uint32_t utf8codepoint_get_char( const utf8codepoint_t this_ );
  * \return length of the utf8 encoded character in bytes. 0 if the code point is invalid.
  */
 static inline unsigned int utf8codepoint_get_length( const utf8codepoint_t this_ );
+
+/*!
+ * \brief Gets the utf8 sequence
+ * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ * \param this_ The code point object
+ * \return utf8 sequence, unused bytes filled with 0
+ */
+static inline utf8codepointseq_t utf8codepoint_get_utf8( const utf8codepoint_t this_ );
 
 /*!
  * \brief Determines if this_ object is a valid unicode codepoint.

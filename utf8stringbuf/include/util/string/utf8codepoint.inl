@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include <string.h>
+#include <assert.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -130,6 +131,64 @@ static inline uint32_t utf8codepoint_get_char( const utf8codepoint_t this_ ) {
 
 static inline unsigned int utf8codepoint_get_length( const utf8codepoint_t this_ ) {
     return this_.byte_length;
+}
+
+static inline utf8codepointseq_t utf8codepoint_get_utf8( const utf8codepoint_t this_ ) {
+    utf8codepointseq_t result;
+    const uint32_t code_point = this_.code_point;
+    
+    if ( code_point <= 0x7ff )
+    {
+        if ( code_point <= 0x7f )
+        {
+            result.seq[0] = code_point;
+            result.seq[1] = '\0';
+            result.seq[2] = '\0';
+            result.seq[3] = '\0';
+            assert( this_.byte_length == 1 );
+        }
+        else
+        {
+            result.seq[0] = (0xc0 | (code_point>>6));
+            result.seq[1] = (0x80 | (code_point&0x3f));
+            result.seq[2] = '\0';
+            result.seq[3] = '\0';
+            assert( this_.byte_length == 2 );
+        }
+    }
+    else
+    {
+        if ( code_point <= 0x10ffff )
+        {
+            if ( code_point <= 0xffff )
+            {
+                result.seq[0] = (0xe0 | (code_point>>12));
+                result.seq[1] = (0x80 | ((code_point>>6)&0x3f));
+                result.seq[2] = (0x80 | (code_point&0x3f));
+                result.seq[3] = '\0';
+                assert( this_.byte_length == 3 );
+            }
+            else
+            {
+                result.seq[0] = (0xf0 | (code_point>>18));
+                result.seq[1] = (0x80 | ((code_point>>12)&0x3f));
+                result.seq[2] = (0x80 | ((code_point>>6)&0x3f));
+                result.seq[3] = (0x80 | (code_point&0x3f));
+                assert( this_.byte_length == 4 );
+            }
+        }
+        else
+        {
+            /* UTF8CODEPOINT_INVALID_LEN */
+            result.seq[0] = '\0';
+            result.seq[1] = '\0';
+            result.seq[2] = '\0';
+            result.seq[3] = '\0';
+            assert( this_.byte_length == 0 );
+        }
+    }
+
+    return result;
 }
 
 static inline int utf8codepoint_is_valid( const utf8codepoint_t this_ ) {
