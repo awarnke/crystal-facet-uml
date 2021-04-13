@@ -139,6 +139,24 @@ int xmi_atom_writer_report_illegal_container( xmi_atom_writer_t *this_,
                                             );
 
 /*!
+ *  \brief reports an issue as comment in xmi output: a stereotype has no valid tag-name characters
+ * 
+ *  The report consists of three sentences:
+ *  A fact that is observed,
+ *  a rule that is not adhered,
+ *  a solution that is proposed.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param element_id the id of the element
+ *  \param stereotype stereotype of the element
+ *  \result 0 in case of success, -1 otherwise
+ */
+int xmi_atom_writer_report_illegal_stereotype( xmi_atom_writer_t *this_,
+                                               data_id_t element_id,
+                                               utf8stringview_t stereotype
+                                             );
+
+/*!
  *  \brief reports an issue as comment in xmi output: a parent shall not contain the feature of given type
  * 
  *  The report consists of three sentences:

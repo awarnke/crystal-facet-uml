@@ -1493,7 +1493,6 @@ static void testAppendChar(void) {
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_NOT_A_CODEPOINT, error );
     equal = utf8stringbuf_equals_str( dynTestBuf1, "" );
     TEST_ASSERT_EQUAL_INT( 1, equal );
-
 }
 
 static void testAppendWStr(void) {

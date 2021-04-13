@@ -253,7 +253,6 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
 
     const char *const classifier_name = data_classifier_get_name_ptr(classifier_ptr);
     const char *const classifier_stereo = data_classifier_get_stereotype_ptr(classifier_ptr);
-    const size_t classifier_stereo_len = utf8string_get_length(classifier_stereo);
     const char *const classifier_descr = data_classifier_get_description_ptr(classifier_ptr);
     const size_t classifier_descr_len = utf8string_get_length(classifier_descr);
     const data_id_t classifier_id = data_classifier_get_data_id(classifier_ptr);
@@ -284,7 +283,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_END );
 
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
-        export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer),classifier_id );
+        export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), classifier_id );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
 
         if ( xmi_element_info_is_a_named_element( classifier_info ) )
@@ -313,17 +312,6 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
         export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_COMMENT_END );
 
-        if ( 0 != classifier_stereo_len )
-        {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
-                                                   "\n<!-- note: export of stereotypes is subject to change -->"
-                                                 );
-/* TODO */                export_err |= xmi_atom_writer_write_xmi_comment( &((*this_).atom_writer),
-/* TODO */                                                                 classifier_id,
-/* TODO */                                                                 "stereotype",
-/* TODO */                                                                 classifier_stereo
-/* TODO */                                                               );
-        }
         if ( classifier_type == DATA_CLASSIFIER_TYPE_COMMENT )
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_COMMENT_BODY_START );
@@ -366,7 +354,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_END );
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
-            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer),classifier_id );
+            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), classifier_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "#extensionpoint" );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
             
@@ -390,7 +378,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_END );
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
-            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer),classifier_id );
+            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), classifier_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "#region" );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
@@ -417,7 +405,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "1" );
-            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer),classifier_id );
+            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), classifier_id );
             /*export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), "#profile" );*/
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
 
@@ -435,7 +423,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
             }
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), base_type );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_MIDDLE );
-            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer),classifier_id );
+            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), classifier_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_END );
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
@@ -446,7 +434,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<id>" );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "1" );
-                export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer),classifier_id );
+                export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), classifier_id );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "</id>" );
 
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
@@ -495,15 +483,26 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
                 size_t stereotype_len = utf8stringview_get_length( stereotype_view );
                 if ( stereotype_len != 0 )
                 {
-                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
-                                                        "\n<!-- stereotypes: "
-                                                        );
-
-                    export_err |= xml_writer_write_xml_comment_view ( &((*this_).xml_writer), stereotype_view );
-
-                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
-                                                        " -->"
-                                                        );
+                    bool is_name = xml_writer_contains_xml_tag_name_characters( &((*this_).xml_writer), stereotype_view );
+                    if ( is_name )
+                    {
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
+                                                            "\n<!-- stereotype: "
+                                                            );
+                        export_err |= xml_writer_write_xml_tag_name_characters ( &((*this_).xml_writer), stereotype_view );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
+                                                            " -->"
+                                                            );
+                    }
+                    else
+                    {
+                        export_err |= xmi_atom_writer_report_illegal_stereotype( &((*this_).atom_writer),
+                                                                                 classifier_id,
+                                                                                 stereotype_view
+                                                                               );
+                        /* update export statistics */
+                        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
+                    }
                 }
             }
         }

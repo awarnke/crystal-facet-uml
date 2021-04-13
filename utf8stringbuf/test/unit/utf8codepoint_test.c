@@ -12,6 +12,7 @@ static void tearDown(void);
 static void testInit1(void);
 static void testInit2(void);
 static void testIntToUtf8ToInt(void);
+static void testIntToUtf8(void);
 static void testUnicode(void);
 
 test_suite_t utf8codepoint_test_get_list(void)
@@ -21,6 +22,7 @@ test_suite_t utf8codepoint_test_get_list(void)
     test_suite_add_test_case( &result, "testInit1", &testInit1 );
     test_suite_add_test_case( &result, "testInit2", &testInit2 );
     test_suite_add_test_case( &result, "testIntToUtf8ToInt", &testIntToUtf8ToInt );
+    test_suite_add_test_case( &result, "testIntToUtf8", &testIntToUtf8 );
     test_suite_add_test_case( &result, "testUnicode", &testUnicode );
     return result;
 }
@@ -223,6 +225,61 @@ static void testIntToUtf8ToInt(void) {
     TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_valid(result) );
     TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_get_length(result) );
     TEST_ASSERT_EQUAL_INT( 0x1fffff, utf8codepoint_get_char(result) );
+}
+
+static void testIntToUtf8(void) {
+    utf8codepoint_t probe;
+    utf8codepointseq_t expect;
+    utf8codepointseq_t result;
+
+    /* check to convert a character to utf8 */
+    /* 0 */
+    probe = utf8codepoint( 0 );
+    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(probe) );
+    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_get_length(probe) );
+    result = utf8codepoint_get_utf8( probe );
+    expect = (utf8codepointseq_t){.seq={'\0', '\0', '\0', '\0'}};
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
+
+    /* 1 byte code points */
+    probe = utf8codepoint( 0x24 );
+    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(probe) );
+    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_get_length(probe) );
+    result = utf8codepoint_get_utf8( probe );
+    expect = (utf8codepointseq_t){.seq={'\x24', '\0', '\0', '\0'}};
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
+    
+    /* 2 byte code points */
+    probe = utf8codepoint( 0xa2 );
+    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(probe) );
+    TEST_ASSERT_EQUAL_INT( 2, utf8codepoint_get_length(probe) );
+    result = utf8codepoint_get_utf8( probe );
+    expect = (utf8codepointseq_t){.seq={'\xc2', '\xa2', '\0', '\0'}};
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
+    
+    /* 3 byte code points */
+    probe = utf8codepoint( 0x20ac );
+    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(probe) );
+    TEST_ASSERT_EQUAL_INT( 3, utf8codepoint_get_length(probe) );
+    result = utf8codepoint_get_utf8( probe );
+    expect = (utf8codepointseq_t){.seq={'\xe2', '\x82', '\xac', '\0'}};
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
+
+    /* 4 byte code points */
+    probe = utf8codepoint( 0x10348 );
+    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(probe) );
+    TEST_ASSERT_EQUAL_INT( 4, utf8codepoint_get_length(probe) );
+    result = utf8codepoint_get_utf8( probe );
+    expect = (utf8codepointseq_t){.seq={'\xf0', '\x90', '\x8d', '\x88'}};
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
+
+    /* invalid */
+    probe = utf8codepoint( 0x110000 );
+    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_valid(probe) );
+    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_get_length(probe) );
+    result = utf8codepoint_get_utf8( probe );
+    expect = (utf8codepointseq_t){.seq={'\0', '\0', '\0', '\0'}};
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
 }
 
 static void testUnicode(void)

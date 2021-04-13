@@ -327,6 +327,33 @@ int xmi_atom_writer_report_illegal_container( xmi_atom_writer_t *this_,
     return export_err;
 }
 
+int xmi_atom_writer_report_illegal_stereotype( xmi_atom_writer_t *this_,
+                                               data_id_t element_id,
+                                               utf8stringview_t stereotype )
+{
+    TRACE_BEGIN();
+    int export_err = 0;
+    
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
+    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, element_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
+    export_err |= xmi_atom_writer_encode_xmi_id( this_, element_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") has stereotype " );
+    export_err |= xml_writer_write_xml_comment_view( (*this_).xml_writer, stereotype );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
+    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Stereotype unsuitable as xml tag name" );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
+    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Change the name of the stereotype" );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
 int xmi_atom_writer_report_illegal_parent( xmi_atom_writer_t *this_,
                                            data_id_t fact_feature_id,
                                            data_feature_type_t fact_feature_type,

@@ -105,7 +105,7 @@ static inline int xml_writer_write_xml_tag_name_characters ( xml_writer_t *this_
 
     utf8codepointiterator_t it;
     utf8codepointiterator_init( &it, string_view );
-    while( utf8codepointiterator_has_next( &it ) && ( ! result ) )
+    while( utf8codepointiterator_has_next( &it ) )
     {
         utf8codepoint_t next = utf8codepointiterator_next( &it );
         if ( xml_writer_private_is_xml_tag_name_character( this_, utf8codepoint_get_char( next ), is_start ) )
