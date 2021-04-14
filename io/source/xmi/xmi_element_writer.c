@@ -48,8 +48,8 @@ static const char XMI2_DOC_START[]
     = "\n<xmi:XMI xmlns:uml=\"http://www.omg.org/spec/UML/20110701\""
       "\n         xmlns:StandardProfile=\"http://www.omg.org/spec/UML/20131001/StandardProfile\""
       "\n         xmlns:xmi=\"http://www.omg.org/spec/XMI/20110701\""
-      "\n         xmlns:SysML=\"http://www.omg.org/spec/SysML/20131001/SysML.xmi\">"
-      /*"\n         xmlns:SysML=\"http://www.omg.org/spec/SysML/20120322/SysML\">"*/
+      "\n         xmlns:SysML=\"http://www.omg.org/spec/SysML/20131001/SysML.xmi\""
+      "\n         xmlns:LocalProfile=\"https://github.com/awarnke/crystal_facet_uml/2021\">"
       "\n         <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->";
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.1 : 1,1a */
 static const char XMI2_DOC_END[]
@@ -486,13 +486,37 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
                     bool is_name = xml_writer_contains_xml_tag_name_characters( &((*this_).xml_writer), stereotype_view );
                     if ( is_name )
                     {
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
-                                                            "\n<!-- stereotype: "
-                                                            );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_LOCALPROF );
                         export_err |= xml_writer_write_xml_tag_name_characters ( &((*this_).xml_writer), stereotype_view );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
-                                                            " -->"
-                                                            );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "1" );
+                        export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), classifier_id );
+                        export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), "#" );
+                        export_err |= xml_writer_write_xml_enc_view ( &((*this_).xml_writer), stereotype_view );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
+
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_START );
+                        const char* base_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
+                                                                                                parent_type,
+                                                                                                classifier_type,
+                                                                                                XMI_SPEC_UML
+                                                                                              );
+                        if ( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
+                        {
+                            /* the base class is a Class, but the derived property name from AbstractRequirement is base_NamedElement */
+                            base_type = "NamedElement";
+                            /* but: one could understand differently the SysML 1.6 chapter 16.3.2.5 Requirement */
+                        }
+                        export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), base_type );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_MIDDLE );
+                        export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), classifier_id );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_END );
+
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
                     }
                     else
                     {

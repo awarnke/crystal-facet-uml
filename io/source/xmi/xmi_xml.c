@@ -8,6 +8,8 @@ const char XMI_XML_NS_SYSML[7]
     = "SysML:";
 const char XMI_XML_NS_STDPROF[17]
     = "StandardProfile:";
+const char XMI_XML_NS_LOCALPROF[14]
+    = "LocalProfile:";
 
 const char XMI_XML_ATTR_ID_START[9]
     = "xmi:id=\"";

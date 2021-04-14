@@ -24,6 +24,11 @@ extern const char XMI_XML_NS_SYSML[7];
  */
 extern const char XMI_XML_NS_STDPROF[17];
    
+/*!
+ *  \brief namespace for the model-local profile elements and attributes
+ */
+extern const char XMI_XML_NS_LOCALPROF[14];
+   
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.2 : 2e */
 extern const char XMI_XML_ATTR_ID_START[9];
 extern const char XMI_XML_ATTR_ID_END[3];
