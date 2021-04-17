@@ -137,6 +137,14 @@ static inline bool xmi_element_info_is_a_behavior ( const xmi_element_info_t *th
 static inline bool xmi_element_info_is_a_named_element ( const xmi_element_info_t *this_ );
 
 /*!
+ *  \brief checks if the type is a named_element.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if is_a has XMI_ELEMENT_IS_A_TYPED_ELEMENT bits set
+ */
+static inline bool xmi_element_info_is_a_typed_element ( const xmi_element_info_t *this_ );
+
+/*!
  *  \brief checks if the type is a package.
  *
  *  \param this_ pointer to own object attributes

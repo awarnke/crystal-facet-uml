@@ -17,10 +17,11 @@
  */
 enum xmi_element_is_a_enum {
     /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF */
-    XMI_ELEMENT_IS_A_ELEMENT                 = 0x00000001,                                           /*!< the type is a decendant of uml:Element */
+    XMI_ELEMENT_IS_A_ELEMENT                 = 0x00000000,                                           /*!< anything is a decendant of uml:Element */
 
-    XMI_ELEMENT_IS_A_COMMENT                 = 0x00000002 | XMI_ELEMENT_IS_A_ELEMENT,                /*!< the type is a decendant of uml:Comment */
-    XMI_ELEMENT_IS_A_NAMED_ELEMENT           = 0x00000004 | XMI_ELEMENT_IS_A_ELEMENT,                /*!< the type is a decendant of uml:NamedElement */
+    XMI_ELEMENT_IS_A_COMMENT                 = 0x00000001 | XMI_ELEMENT_IS_A_ELEMENT,                /*!< the type is a decendant of uml:Comment */
+    XMI_ELEMENT_IS_A_NAMED_ELEMENT           = 0x00000002 | XMI_ELEMENT_IS_A_ELEMENT,                /*!< the type is a decendant of uml:NamedElement */
+    XMI_ELEMENT_IS_A_TYPED_ELEMENT           = 0x00000004 | XMI_ELEMENT_IS_A_NAMED_ELEMENT,          /*!< the type is a decendant of uml:TypedElement */
     XMI_ELEMENT_IS_A_RELATIONSHIP            = 0x00000008 | XMI_ELEMENT_IS_A_ELEMENT,                /*!< the type is a decendant of uml:Relationship */
 
     XMI_ELEMENT_IS_A_INTERACTION_FRAGMENT    = 0x00000010 | XMI_ELEMENT_IS_A_NAMED_ELEMENT,          /*!< the type is a decendant of uml:InteractionFragment */
@@ -48,7 +49,8 @@ enum xmi_element_is_a_enum {
     XMI_ELEMENT_IS_A_ARTIFACT                = 0x00200000 | XMI_ELEMENT_IS_A_CLASSIFIER,             /*!< the type is a decendant of uml:Artifact */
     XMI_ELEMENT_IS_A_FEATURE                 = 0x00400000 | XMI_ELEMENT_IS_A_REDEFINEABLE_ELEMENT,   /*!< the type is a decendant of uml:Feature */
     XMI_ELEMENT_IS_A_PROPERTY                = 0x00800000 | XMI_ELEMENT_IS_A_FEATURE
-                                                          | XMI_ELEMENT_IS_A_DEPLOYMENT_TARGET,      /*!< the type is a decendant of uml:Property */
+                                                          | XMI_ELEMENT_IS_A_DEPLOYMENT_TARGET       /*!< the type is a decendant of uml:Property */
+                                                          | XMI_ELEMENT_IS_A_TYPED_ELEMENT,          /*!< the type is a decendant of uml:ConnectableElement */
     XMI_ELEMENT_IS_A_ASSOCIATION             = 0x01000000 | XMI_ELEMENT_IS_A_RELATIONSHIP
                                                           | XMI_ELEMENT_IS_A_CLASSIFIER,             /*!< the type is a decendant of uml:Association */
     XMI_ELEMENT_IS_A_DIRECTED_RELATIONSHIP   = 0x02000000 | XMI_ELEMENT_IS_A_RELATIONSHIP,           /*!< the type is a decendant of uml:DirectedRelationship */

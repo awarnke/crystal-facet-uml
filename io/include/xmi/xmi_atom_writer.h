@@ -157,6 +157,24 @@ int xmi_atom_writer_report_illegal_stereotype( xmi_atom_writer_t *this_,
                                              );
 
 /*!
+ *  \brief reports an issue as comment in xmi output: an element has a datatype/valuetype but is not a typed element
+ * 
+ *  The report consists of three sentences:
+ *  A fact that is observed,
+ *  a rule that is not adhered,
+ *  a solution that is proposed.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_id the id of the feature
+ *  \param datatype datatype/valuetype of the feature
+ *  \result 0 in case of success, -1 otherwise
+ */
+int xmi_atom_writer_report_illegal_datatype( xmi_atom_writer_t *this_,
+                                             data_id_t feature_id,
+                                             const char * datatype
+                                           );
+
+/*!
  *  \brief reports an issue as comment in xmi output: a parent shall not contain the feature of given type
  * 
  *  The report consists of three sentences:

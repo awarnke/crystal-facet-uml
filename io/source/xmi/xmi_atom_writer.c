@@ -354,6 +354,33 @@ int xmi_atom_writer_report_illegal_stereotype( xmi_atom_writer_t *this_,
     return export_err;
 }
 
+int xmi_atom_writer_report_illegal_datatype( xmi_atom_writer_t *this_,
+                                             data_id_t feature_id,
+                                             const char * datatype )
+{
+    TRACE_BEGIN();
+    int export_err = 0;
+    
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
+    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, feature_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
+    export_err |= xmi_atom_writer_encode_xmi_id( this_, feature_id );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") has valuetype/datatype " );
+    export_err |= xml_writer_write_xml_comment( (*this_).xml_writer, datatype );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
+    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Feature is not a TypedElement" );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
+    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Clear the valuetype/datatype or change the type of the feature" );
+    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
 int xmi_atom_writer_report_illegal_parent( xmi_atom_writer_t *this_,
                                            data_id_t fact_feature_id,
                                            data_feature_type_t fact_feature_type,

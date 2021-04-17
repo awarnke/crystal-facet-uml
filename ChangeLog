@@ -4,6 +4,7 @@ crystal-facet-uml (1.28.0) UNRELEASED; urgency=medium
   * return arrows in sequences have filled arrow tips,
     distinguishable from dependencies
   * stereotypes are xmi-exported to LocalProfile namespace
+  * valuetypes are xmi-exported to DataTypes
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 09 Apr 2021 08:00:00 +0200
 

@@ -49,7 +49,7 @@ static const char XMI2_DOC_START[]
       "\n         xmlns:StandardProfile=\"http://www.omg.org/spec/UML/20131001/StandardProfile\""
       "\n         xmlns:xmi=\"http://www.omg.org/spec/XMI/20110701\""
       "\n         xmlns:SysML=\"http://www.omg.org/spec/SysML/20131001/SysML.xmi\""
-      "\n         xmlns:LocalProfile=\"https://github.com/awarnke/crystal_facet_uml/2021\">"
+      "\n         xmlns:LocalProfile=\"http://localhost/crystal-facet-uml/298b72db-cc85-4ed0-bd7b-01dc4efd52b4\">"
       "\n         <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->";
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.1 : 1,1a */
 static const char XMI2_DOC_END[]
@@ -73,21 +73,11 @@ static const char XMI2_UML_MODEL_MIDDLE[]
 static const char XMI2_UML_MODEL_END[]
     = "\n</uml:Model>";
 
-    /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.2 */
+/* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 7.8.2 */
 static const char XMI2_UML_COMMENT_BODY_START[]
     = "\n<body>";
 static const char XMI2_UML_COMMENT_BODY_END[]
     = "\n</body>";
-
-/* spec-ref: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Packages */
-/*
-static const char XMI2_UML_STEREOTYPE_START[]
-    = "\n<ownedStereotype ";
-static const char XMI2_UML_STEREOTYPE_MIDDLE[]
-    = ">";
-static const char XMI2_UML_STEREOTYPE_END[]
-    = "\n</ownedStereotype>";
-*/
 
 /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: all */
 static const char XMI2_EXT_BASE_ELEMENT_START[]
@@ -700,19 +690,48 @@ int xmi_element_writer_assemble_feature( xmi_element_writer_t *this_,
     const char *const feature_descr = data_feature_get_description_ptr( feature_ptr );
     const size_t feature_descr_len = utf8string_get_length(feature_descr);
     const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
+    const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
+    const xmi_element_info_t *feature_info;
+    int map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, 
+                                                    parent_type,
+                                                    feature_type, 
+                                                    &feature_info
+                                                  );
 
     if ( (*this_).mode == IO_WRITER_PASS_BASE )
     {
         if ( 0 != feature_value_len )
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
-                                                   "\n<!-- note: export of valuetypes is subject to change -->"
-                                                 );
-            export_err |= xmi_atom_writer_write_xmi_comment( &((*this_).atom_writer),
-                                                             feature_id,
-                                                             "valuetype",
-                                                             feature_value
-                                                           );
+            if (( map_err == 0 )&&( xmi_element_info_is_a_typed_element( feature_info ) ))
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "type" );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "DataType" );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_END );
+
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
+                export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), feature_id );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "#type" );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
+
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_START );
+                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_END );
+
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
+            }
+            else
+            {
+                export_err |= xmi_atom_writer_report_illegal_datatype( &((*this_).atom_writer),
+                                                                       feature_id,
+                                                                       feature_value
+                                                                     );
+            }
         }
 
         if ( 0 != feature_descr_len )

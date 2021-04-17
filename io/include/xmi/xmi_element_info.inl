@@ -76,6 +76,11 @@ static inline bool xmi_element_info_is_a_named_element ( const xmi_element_info_
     return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_NAMED_ELEMENT ) == XMI_ELEMENT_IS_A_NAMED_ELEMENT;
 }
 
+static inline bool xmi_element_info_is_a_typed_element ( const xmi_element_info_t *this_ )
+{
+    return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_TYPED_ELEMENT ) == XMI_ELEMENT_IS_A_TYPED_ELEMENT;
+}
+
 static inline bool xmi_element_info_is_a_package ( const xmi_element_info_t *this_ )
 {
     return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_PACKAGE ) == XMI_ELEMENT_IS_A_PACKAGE;
