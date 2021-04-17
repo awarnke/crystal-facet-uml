@@ -112,8 +112,8 @@
         <para>
             There are further examples available as html:
             <itemizedlist>
-            <listitem><para><ulink url="http://www.awarnke.keepfree.de/crystal_facet_uml/mouse_droid/mouse_droid.xhtml"/></para></listitem>
-            <listitem><para><ulink url="http://www.awarnke.keepfree.de/crystal_facet_uml/quality/quality.xhtml"/></para></listitem>
+            <listitem><para><ulink url="https://andreaswarnke.de/crystal-facet-uml/mouse_droid/mouse_droid.xhtml"/></para></listitem>
+            <listitem><para><ulink url="https://andreaswarnke.de/crystal-facet-uml/quality/quality.xhtml"/></para></listitem>
             </itemizedlist>
             And in crystal-facet-uml binary format:
             <itemizedlist>

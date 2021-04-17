@@ -5,12 +5,13 @@
         This appendix shows where to get further documentation
         and how to install the software.
     </para>
+    
     <section>
         <title>Documentation</title>
         <para>
             User documentation is available here:
             <itemizedlist>
-            <listitem><para><ulink url="http://www.andreaswarnke.de/crystal_facet_uml/crystal-facet-uml_documentation.pdf"/></para></listitem>
+            <listitem><para><ulink url="https://andreaswarnke.de/crystal-facet-uml/crystal-facet-uml_documentation.pdf"/></para></listitem>
             <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml/blob/master/user_doc/crystal-facet-uml_documentation.pdf"/></para></listitem>
             </itemizedlist>
 
@@ -20,6 +21,7 @@
             </itemizedlist>
         </para>
     </section>
+    
     <section>
         <title>Debian Linux</title>
         <para>
@@ -62,7 +64,7 @@ zypper addrepo http://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Leap_15.2
     </section>
     
     <section>
-        <title>Wine/Windows</title>
+        <title>Windows/Wine</title>
         <para>
             Find the latest executable version of crystal-facet-uml at one of the following addresses:
             <itemizedlist>
