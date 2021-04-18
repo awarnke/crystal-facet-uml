@@ -71,7 +71,7 @@ static void test_get_object_at_pos_on_no_diagram(void)
 
     /* test button type */
     gui_sketch_action_t action_id;
-    const static int button_dy = FIRST_LINE*GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
+    const int button_dy = FIRST_LINE*GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
     
     gui_sketch_nav_tree_get_button_at_pos ( &testee, LEFT, TOP+button_dy, &action_id );
     TEST_ASSERT_EQUAL_INT( action_id, GUI_SKETCH_ACTION_NEW_ROOT_DIAGRAM );

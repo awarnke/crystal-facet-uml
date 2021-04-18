@@ -183,9 +183,6 @@ static inline const data_diagram_t *gui_sketch_nav_tree_get_diagram_ptr ( const 
     return &((*this_).ancestor_diagrams[0]);
 }
 
-static const int GUI_SKETCH_NAV_TREE_LINE_HEIGHT = 16;
-static const int GUI_SKETCH_NAV_TREE_INDENT = 12;
-
 static inline void gui_sketch_nav_tree_get_button_at_pos ( const gui_sketch_nav_tree_t *this_,
                                                            int32_t x,
                                                            int32_t y,

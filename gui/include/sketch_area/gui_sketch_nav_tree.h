@@ -23,6 +23,9 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+extern const int GUI_SKETCH_NAV_TREE_LINE_HEIGHT;  /*!< height of a diagram-name/entry in pixels */
+extern const int GUI_SKETCH_NAV_TREE_INDENT;  /*!< left indentation space of a diagram-name/entry in pixels */
+
 /*!
  *  \brief constants of gui_sketch_nav_tree_t
  */

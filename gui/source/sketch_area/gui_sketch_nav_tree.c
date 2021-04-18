@@ -9,6 +9,9 @@
 static const int STANDARD_FONT_SIZE = 12;
 static const char *STANDARD_FONT_FAMILY = "Sans";
 static const uint32_t NAV_TREE_FIRST_LINE = 1;
+const int GUI_SKETCH_NAV_TREE_LINE_HEIGHT = 20;
+const int GUI_SKETCH_NAV_TREE_INDENT = 12;
+static const int OBJ_GAP = 4;
 
 void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_, gui_resources_t *resources )
 {
@@ -694,7 +697,7 @@ void gui_sketch_nav_tree_private_draw_icon_and_label( gui_sketch_nav_tree_t *thi
     double icon_height = gdk_pixbuf_get_height ( icon_1 );
 
     /* draw text first, use the pre-set color and font */
-    cairo_move_to ( cr, x+icon_width, y );
+    cairo_move_to ( cr, x+icon_width+OBJ_GAP, y );
     pango_layout_set_text ( layout, label_1, -1 );
     pango_cairo_show_layout ( cr, layout );
 

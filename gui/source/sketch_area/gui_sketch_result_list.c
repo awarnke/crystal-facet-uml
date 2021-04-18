@@ -9,6 +9,8 @@
 
 static const int STANDARD_FONT_SIZE = 12;
 static const char *STANDARD_FONT_FAMILY = "Sans";
+const int GUI_SKETCH_RESULT_LIST_LINE_HEIGHT = 28;  /*!< height of an element-name/entry in pixels */
+static const int OBJ_GAP = 4;
 
 void gui_sketch_result_list_init( gui_sketch_result_list_t *this_, gui_resources_t *resources )
 {
@@ -114,8 +116,8 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_s
                 gui_sketch_result_list_private_draw_icon_and_label( this_,
                                                                     icon,
                                                                     data_search_result_get_match_name_const( result ),
-                                                                    4,
-                                                                    4+28*idx,
+                                                                    OBJ_GAP,
+                                                                    OBJ_GAP+GUI_SKETCH_RESULT_LIST_LINE_HEIGHT*idx,
                                                                     layout,
                                                                     cr
                                                                   );
@@ -147,7 +149,7 @@ void gui_sketch_result_list_private_draw_icon_and_label( gui_sketch_result_list_
     double icon_height = gdk_pixbuf_get_height ( icon_1 );
 
     /* draw text first, use the pre-set color and font */
-    cairo_move_to ( cr, x+icon_width, y );
+    cairo_move_to ( cr, x+icon_width+OBJ_GAP, y );
     pango_layout_set_text ( layout, label_1, -1 );
     pango_cairo_show_layout ( cr, layout );
 

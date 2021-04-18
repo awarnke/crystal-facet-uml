@@ -22,6 +22,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+extern const int GUI_SKETCH_RESULT_LIST_LINE_HEIGHT;  /*!< height of an element-name/entry in pixels */
+
 /*!
  *  \brief constants for maximum values of gui_sketch_result_list_t
  */

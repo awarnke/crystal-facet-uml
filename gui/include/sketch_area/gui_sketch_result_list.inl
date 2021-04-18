@@ -47,7 +47,7 @@ static inline void gui_sketch_result_list_get_diagram_id_at_pos ( gui_sketch_res
     if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
     {
         int line = y - shape_int_rectangle_get_top ( &((*this_).bounds) );
-        line = line / 28;  /* = line height */
+        line = line / GUI_SKETCH_RESULT_LIST_LINE_HEIGHT;  /* = line height */
         if (( line >= 0 )&&( line < data_search_result_list_get_length( &((*this_).result_list) ) ))
         {
             const data_search_result_t * at_pos = data_search_result_list_get_const( &((*this_).result_list), line );
@@ -76,7 +76,7 @@ static inline void gui_sketch_result_list_get_object_id_at_pos ( gui_sketch_resu
     if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
     {
         int line = y - shape_int_rectangle_get_top ( &((*this_).bounds) );
-        line = line / 28;  /* = line height */
+        line = line / GUI_SKETCH_RESULT_LIST_LINE_HEIGHT;
         if (( line >= 0 )&&( line < data_search_result_list_get_length( &((*this_).result_list) ) ))
         {
             const data_search_result_t *const at_pos = data_search_result_list_get_const( &((*this_).result_list), line );
