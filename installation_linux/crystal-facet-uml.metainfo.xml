@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
+  <!-- file format specification available at https://www.freedesktop.org/software/appstream/docs/ -->
   <id>crystal-facet-uml.desktop</id>
   <metadata_license>MIT</metadata_license>
+  <!-- MIT and Expat License are expected to be synonyms. If not, choose one. -->
   <name>crystal-facet-uml</name>
   <summary>crystal-facet-uml creates diagrams to document system and software architecture</summary>
   <project_license>Apache-2.0</project_license>

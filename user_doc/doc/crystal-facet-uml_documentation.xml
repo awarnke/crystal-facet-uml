@@ -8,8 +8,13 @@
             <firstname>Andreas</firstname>
             <surname>Warnke</surname>
         </author>
-        <date>2021-04-05</date>
+        <date>2021-04-24</date>
     </articleinfo>
+    
+    <mediaobject>
+        <imageobject><imagedata fileref="1_introduction_banner.pdf" width="16cm"/></imageobject>
+        <imageobject><imagedata fileref="1_introduction_banner.png"/></imageobject>
+    </mediaobject>
 
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="1_introduction.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="2_feature_gallery.xml" />

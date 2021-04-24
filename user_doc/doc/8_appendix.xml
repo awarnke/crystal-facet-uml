@@ -14,11 +14,6 @@
             <listitem><para><ulink url="https://andreaswarnke.de/crystal-facet-uml/crystal-facet-uml_documentation.pdf"/></para></listitem>
             <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml/blob/master/user_doc/crystal-facet-uml_documentation.pdf"/></para></listitem>
             </itemizedlist>
-
-            Static code analysis results are available here:
-            <itemizedlist>
-            <listitem><para><ulink url="https://scan.coverity.com/projects/awarnke-crystal_facet_uml"/></para></listitem>
-            </itemizedlist>
         </para>
     </section>
     
@@ -96,13 +91,26 @@ zypper addrepo http://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Leap_15.2
     </section>
 
     <section>
+        <title>Further Links</title>
+        <para>
+            Static code analysis results are available here:
+            <itemizedlist>
+            <listitem><para><ulink url="https://scan.coverity.com/projects/awarnke-crystal_facet_uml"/></para></listitem>
+            </itemizedlist>
+        </para>
+        <para>
+            Validate your XMI exports at:
+            <itemizedlist>
+                <listitem><para><ulink url="http://validator.omg.org/se-interop/"/></para></listitem>
+            </itemizedlist>
+        </para>
+    </section>
+    
+    <section>
         <title>License</title>
         <para>
-
             License of crystal-facet-uml is Apache-2.0.
-
             Copyright 2016-2021 Andreas Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
         </para>
-
     </section>
 </section>
