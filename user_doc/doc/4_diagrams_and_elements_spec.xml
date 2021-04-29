@@ -204,7 +204,7 @@
                             <entry><para>Interaction Overview / unconditional features</para></entry>
                             <entry>
                                 <para>Hint: To easily find the referenced diagram, name the reference identical to the diagram.</para>
-                                <para>XMI-Export: For xmi export, this object may only occur in scenario-typed diagrams.</para>
+                                <para>XMI-Export: For xmi export, this object may only occur in scenario/interaction diagrams.</para>
                             </entry>
                         </row>
                         <row>
@@ -603,7 +603,7 @@
                                 </para>
                             </entry>
                             <entry><para>UML 2.5 (ch17.2), SysML</para></entry>
-                            <entry><para>scenario, 1 per diagram</para></entry>
+                            <entry><para>interaction scenario, 1 per diagram</para></entry>
                             <entry><para>Limitations: One lifeline is visible only in one diagram.</para>
                                 <para>Limitations: Lifelines start and end only at diagram border.</para>
                                 <para>Limitations: ExecutionSpecification (ActivityBar) are not supported.</para>
@@ -618,7 +618,7 @@
                 <title>Legend</title>
                 <varlistentry>
                     <term>Scope</term>
-                    <listitem><para>scope is unconditional if a feature belongs to a classifier unconditionally, scenario if only applicable in 1 diagram</para></listitem>
+                    <listitem><para>scope is unconditional if a feature belongs to a classifier unconditionally, scenario if only applicable in 1 interaction diagram</para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -1032,7 +1032,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_diag_overview.png"/></imageobject></mediaobject>
                                 Interaction Overview Diagram</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>unconditional relationships (Scenario), unconditional feature</para></entry>
+                            <entry><para>unconditional relationships (non-scenario), unconditional feature</para></entry>
                             <entry>
                                 <para>Limitations: There is no link from Diagram-References to referenced Diagrams</para>
                                 <para>Containments cannot be shown in this diagram type</para>
@@ -1062,7 +1062,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_diag_communication.png"/></imageobject></mediaobject>
                                 Communication Diagram</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>unconditional relationships (Scenario), unconditional features</para></entry>
+                            <entry><para>unconditional relationships (non-scenario), unconditional features</para></entry>
                             <entry><para>Containments cannot be shown in this diagram type</para></entry>
                         </row>
                         <row>
@@ -1071,7 +1071,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_diag_sequence.png"/></imageobject></mediaobject>
                                 Sequence Diagram</para></entry>
                             <entry><para>UML, SysML</para></entry>
-                            <entry><para>unconditional relationships (Scenario), unconditional features</para></entry>
+                            <entry><para>unconditional relationships (non-scenario), unconditional features</para></entry>
                         </row>
                         <row>
                             <entry><para>
@@ -1079,7 +1079,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_diag_timing.png"/></imageobject></mediaobject>
                                 Timing Diagram</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>unconditional relationships (Scenario), unconditional features</para></entry>
+                            <entry><para>unconditional relationships (non-scenario), unconditional features</para></entry>
                         </row>
                     </tbody>
                 </tgroup>
@@ -1094,7 +1094,7 @@
                 </varlistentry>
                 <varlistentry>
                     <term>Scenario</term>
-                    <listitem><para>Diagrams show only relationships associated with a lifeline of a visible classifier.</para></listitem>
+                    <listitem><para>Interaction diagrams show only relationships associated with a lifeline of a visible classifier.</para></listitem>
                 </varlistentry>
             </variablelist>
         </para>

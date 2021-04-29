@@ -3,11 +3,9 @@
 
 crystal-facet-uml provides a graphical user interface to
 <itemizedlist>
-    <listitem><para>create diagrams,</para>
+    <listitem><para>create, modify and delete diagrams,</para>
     </listitem>
-    <listitem><para>create UML/SysML elements,</para>
-    </listitem>
-    <listitem><para>move, modify and delete elements,</para>
+    <listitem><para>create, modify and delete UML/SysML elements,</para>
     </listitem>
     <listitem><para>create, modify and delete relationships,</para>
     </listitem>
@@ -23,9 +21,9 @@ crystal-facet-uml provides a graphical user interface to
 
 Diagrams are layouted part-automatically:
 <itemizedlist>
-    <listitem><para>The user chooses the relative location of uml elements towards others,</para>
+    <listitem><para>The user chooses the relative location of elements towards others,</para>
     </listitem>
-    <listitem><para>crystal-facet-uml selects the exact locations of uml elements.</para>
+    <listitem><para>crystal-facet-uml selects the exact locations of shown elements.</para>
     </listitem>
     <listitem><para>The user controls the positions of messages/transitions in sequence and timing diagrams,</para>
     </listitem>
@@ -50,11 +48,9 @@ crystal-facet-uml manages a meta model:
 
 Diagrams can be exported as
 <itemizedlist>
-    <listitem><para>vector graphics: pdf, ps, svg,</para>
+    <listitem><para>images: pdf, ps, svg, png,</para>
     </listitem>
-    <listitem><para>pixel graphics: png,</para>
-    </listitem>
-    <listitem><para>textual representation: utf-8-txt, DocBook, xhtml,</para>
+    <listitem><para>text: utf-8, DocBook, xhtml,</para>
     </listitem>
     <listitem><para>machine-readable model: xmi(TM).</para>
     </listitem>

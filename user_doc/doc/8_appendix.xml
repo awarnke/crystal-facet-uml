@@ -18,7 +18,7 @@
     </section>
     
     <section>
-        <title>Debian Linux</title>
+        <title>Debian/Ubuntu Linux</title>
         <para>
             You may install crystal-facet-uml by the following command:
             <programlisting>
@@ -43,7 +43,8 @@ sudo apt install crystal-facet-uml
         <para>
             To install, type on the command line:
             <programlisting>
-zypper addrepo http://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Leap_15.2/ repo-update-test
+sudo zypper refresh
+sudo zypper install crystal-facet-uml
             </programlisting>
         </para>
         <para>
@@ -96,6 +97,12 @@ zypper addrepo http://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Leap_15.2
             Static code analysis results are available here:
             <itemizedlist>
             <listitem><para><ulink url="https://scan.coverity.com/projects/awarnke-crystal_facet_uml"/></para></listitem>
+            </itemizedlist>
+        </para>
+        <para>
+            Test coverage report is available here:
+            <itemizedlist>
+            <listitem><para><ulink url="https://andreaswarnke.de/crystal-facet-uml/test_coverage/index.html"/></para></listitem>
             </itemizedlist>
         </para>
         <para>
