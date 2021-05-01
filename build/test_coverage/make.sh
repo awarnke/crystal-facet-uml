@@ -44,5 +44,6 @@ echo "clean up test"
 sleep 10
 rm -fr crystal-facet-uml-${VERSIONSTR}
 
+zip -r crystal-facet-uml-${VERSIONSTR}_test_coverage.zip crystal-facet-uml-${VERSIONSTR}_test_coverage
 echo "output written to crystal-facet-uml-${VERSIONSTR}_test_coverage"
 
