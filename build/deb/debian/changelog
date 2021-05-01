@@ -1,4 +1,18 @@
-crystal-facet-uml (1.28.0-1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.29.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * return arrows in sequences have filled arrow tips,
+    distinguishable from dependencies
+  * stereotypes are xmi-exported to LocalProfile namespace
+  * valuetypes are xmi-exported to DataTypes
+  * metainfo.xml references homepage which is now tls-authenticated
+  * nav-tree and search result lists draw a bit more space around texts
+  * A white line is drawn around highlighted diagrams 
+    (additional to green marker)
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 01 May 2021 22:00:00 +0200
+
+ crystal-facet-uml (1.28.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * gcov target is only build if -DCFU_ADD_GCOV_TARGET=ON (Closes: #983836)

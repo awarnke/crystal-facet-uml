@@ -23,7 +23,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .is_a                     = (XMI_ELEMENT_IS_A_CLASS),
         .property_from            = NULL,
         .property_to              = NULL,
-        .additional_properties    = "isEncapsulated=\"false\"",
+        .additional_properties    = NULL,
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_CONSTRAINT_BLOCK] = {
         /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: ConstraintBlocks */
@@ -34,7 +34,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .is_a                     = (XMI_ELEMENT_IS_A_CLASS),
         .property_from            = NULL,
         .property_to              = NULL,
-        .additional_properties    = "isEncapsulated=\"false\"",
+        .additional_properties    = NULL,
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_REQUIREMENT] = {
         /* spec: https://www.omg.org/spec/SysML/20181001/SysML.xmi (v1.6) pkg: Requirements */

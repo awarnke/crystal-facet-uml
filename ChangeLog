@@ -10,7 +10,7 @@ crystal-facet-uml (1.29.0) UNRELEASED; urgency=medium
   * A white line is drawn around highlighted diagrams 
     (additional to green marker)
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 07 May 2021 08:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 01 May 2021 22:00:00 +0200
 
 crystal-facet-uml (1.28.0) UNRELEASED; urgency=medium
 

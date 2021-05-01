@@ -26,7 +26,7 @@ Pack
 >       ./source_test.sh
 
 
-Document
+Tag and Push
 -----------
 
 >       # add a version tag to the git revision:
