@@ -108,7 +108,7 @@ sudo zypper install crystal-facet-uml
         <para>
             Validate your XMI exports at:
             <itemizedlist>
-                <listitem><para><ulink url="http://validator.omg.org/se-interop/"/></para></listitem>
+                <listitem><para><ulink url="http://validator.omg.org/se-interop/tools/validator"/></para></listitem>
             </itemizedlist>
         </para>
     </section>
