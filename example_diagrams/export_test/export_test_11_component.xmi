@@ -3,57 +3,25 @@
          xmlns:StandardProfile="http://www.omg.org/spec/UML/20131001/StandardProfile"
          xmlns:xmi="http://www.omg.org/spec/XMI/20110701"
          xmlns:SysML="http://www.omg.org/spec/SysML/20131001/SysML.xmi"
-         xmlns:LocalProfile="https://github.com/awarnke/crystal_facet_uml/2021">
+         xmlns:LocalProfile="http://localhost/crystal-facet-uml/298b72db-cc85-4ed0-bd7b-01dc4efd52b4">
          <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->
-    <xmi:Documentation exporter="crystal-facet-uml" exporterVersion="1.28.1"/>
+    <xmi:Documentation exporter="crystal-facet-uml" exporterVersion="1.29.0"/>
     <uml:Model xmi:type="uml:Model" xmi:id="00000" name="export_test_11_component" >
         <packagedElement xmi:type="uml:Component" xmi:id="60001" name="AngleSteering" ><!--C0001-->
             <provided xmi:type="uml:Interface" xmi:id="40008" name="Motor Control" >
-                <!-- note: export of valuetypes is subject to change -->
-                <ownedComment xmi:type="uml:Comment" xmi:id="40008#valuetype" >
-                    <body>
-                        double
-                    </body>
-                    <annotatedElement xmi:idref="40008" />
-                </ownedComment>
             </provided>
             <ownedPort xmi:type="uml:Port" xmi:id="40007" name="8851" aggregation="composite" >
-                <!-- note: export of valuetypes is subject to change -->
-                <ownedComment xmi:type="uml:Comment" xmi:id="40007#valuetype" >
-                    <body>
-                        IP-Port
-                    </body>
-                    <annotatedElement xmi:idref="40007" />
-                </ownedComment>
+                <type xmi:type="uml:DataType" xmi:id="40007#type" name="IP-Port" />
             </ownedPort>
             <required xmi:type="uml:Interface" xmi:id="40001" name="in_direction" >
             </required>
             <ownedPort xmi:type="uml:Port" xmi:id="40005" name="8443" aggregation="composite" >
-                <!-- note: export of valuetypes is subject to change -->
-                <ownedComment xmi:type="uml:Comment" xmi:id="40005#valuetype" >
-                    <body>
-                        IP-Port
-                    </body>
-                    <annotatedElement xmi:idref="40005" />
-                </ownedComment>
+                <type xmi:type="uml:DataType" xmi:id="40005#type" name="IP-Port" />
             </ownedPort>
             <ownedPort xmi:type="uml:Port" xmi:id="40004" name="8847" aggregation="composite" >
-                <!-- note: export of valuetypes is subject to change -->
-                <ownedComment xmi:type="uml:Comment" xmi:id="40004#valuetype" >
-                    <body>
-                        IP-Port
-                    </body>
-                    <annotatedElement xmi:idref="40004" />
-                </ownedComment>
+                <type xmi:type="uml:DataType" xmi:id="40004#type" name="IP-Port" />
             </ownedPort>
             <required xmi:type="uml:Interface" xmi:id="40002" name="actual_time" >
-                <!-- note: export of valuetypes is subject to change -->
-                <ownedComment xmi:type="uml:Comment" xmi:id="40002#valuetype" >
-                    <body>
-                        bool
-                    </body>
-                    <annotatedElement xmi:idref="40002" />
-                </ownedComment>
             </required>
             <nestedClassifier xmi:type="uml:Component" xmi:id="60002" name="InputValidation 3" ><!--C0002-->
             </nestedClassifier>
@@ -104,31 +72,12 @@
         </packagedElement>
         <packagedElement xmi:type="uml:Component" xmi:id="60003" name="Monitor" ><!--C0003-->
             <ownedPort xmi:type="uml:Port" xmi:id="40009" name="8852" aggregation="composite" >
-                <!-- note: export of valuetypes is subject to change -->
-                <ownedComment xmi:type="uml:Comment" xmi:id="40009#valuetype" >
-                    <body>
-                        IP-Port
-                    </body>
-                    <annotatedElement xmi:idref="40009" />
-                </ownedComment>
+                <type xmi:type="uml:DataType" xmi:id="40009#type" name="IP-Port" />
             </ownedPort>
             <provided xmi:type="uml:Interface" xmi:id="40010" name="Emergency Stop" >
-                <!-- note: export of valuetypes is subject to change -->
-                <ownedComment xmi:type="uml:Comment" xmi:id="40010#valuetype" >
-                    <body>
-                        bool
-                    </body>
-                    <annotatedElement xmi:idref="40010" />
-                </ownedComment>
             </provided>
             <ownedPort xmi:type="uml:Port" xmi:id="40006" name="9000" aggregation="composite" >
-                <!-- note: export of valuetypes is subject to change -->
-                <ownedComment xmi:type="uml:Comment" xmi:id="40006#valuetype" >
-                    <body>
-                        IP-Port
-                    </body>
-                    <annotatedElement xmi:idref="40006" />
-                </ownedComment>
+                <type xmi:type="uml:DataType" xmi:id="40006#type" name="IP-Port" />
             </ownedPort>
             <required xmi:type="uml:Interface" xmi:id="40003" name="in_direction" >
             </required>

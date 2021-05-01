@@ -3,9 +3,9 @@
          xmlns:StandardProfile="http://www.omg.org/spec/UML/20131001/StandardProfile"
          xmlns:xmi="http://www.omg.org/spec/XMI/20110701"
          xmlns:SysML="http://www.omg.org/spec/SysML/20131001/SysML.xmi"
-         xmlns:LocalProfile="https://github.com/awarnke/crystal_facet_uml/2021">
+         xmlns:LocalProfile="http://localhost/crystal-facet-uml/298b72db-cc85-4ed0-bd7b-01dc4efd52b4">
          <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->
-    <xmi:Documentation exporter="crystal-facet-uml" exporterVersion="1.28.1"/>
+    <xmi:Documentation exporter="crystal-facet-uml" exporterVersion="1.29.0"/>
     <uml:Model xmi:type="uml:Model" xmi:id="00000" name="export_test_10_constraint" >
         <packagedElement xmi:type="uml:Class" xmi:id="60001" name="Emergency Cutoff" isEncapsulated="false" ><!--C0001-->
             <ownedComment xmi:type="uml:Comment" xmi:id="60001#specification" >
@@ -21,40 +21,16 @@
             <ownedPort xmi:type="uml:Port" xmi:id="40005" name="out_emergency_off" aggregation="composite" >
             </ownedPort>
             <ownedPort xmi:type="uml:Port" xmi:id="40002" name="config_min" aggregation="composite" >
-                <!-- note: export of valuetypes is subject to change -->
-                <ownedComment xmi:type="uml:Comment" xmi:id="40002#valuetype" >
-                    <body>
-                        uint16_t
-                    </body>
-                    <annotatedElement xmi:idref="40002" />
-                </ownedComment>
+                <type xmi:type="uml:DataType" xmi:id="40002#type" name="uint16_t" />
             </ownedPort>
             <ownedPort xmi:type="uml:Port" xmi:id="40003" name="config_max" aggregation="composite" >
-                <!-- note: export of valuetypes is subject to change -->
-                <ownedComment xmi:type="uml:Comment" xmi:id="40003#valuetype" >
-                    <body>
-                        uint16_t
-                    </body>
-                    <annotatedElement xmi:idref="40003" />
-                </ownedComment>
+                <type xmi:type="uml:DataType" xmi:id="40003#type" name="uint16_t" />
             </ownedPort>
             <ownedPort xmi:type="uml:Port" xmi:id="40004" name="in_actual_value" aggregation="composite" >
-                <!-- note: export of valuetypes is subject to change -->
-                <ownedComment xmi:type="uml:Comment" xmi:id="40004#valuetype" >
-                    <body>
-                        uint16_t
-                    </body>
-                    <annotatedElement xmi:idref="40004" />
-                </ownedComment>
+                <type xmi:type="uml:DataType" xmi:id="40004#type" name="uint16_t" />
             </ownedPort>
             <ownedPort xmi:type="uml:Port" xmi:id="40001" name="in_acceleration" aggregation="composite" >
-                <!-- note: export of valuetypes is subject to change -->
-                <ownedComment xmi:type="uml:Comment" xmi:id="40001#valuetype" >
-                    <body>
-                        int32_t
-                    </body>
-                    <annotatedElement xmi:idref="40001" />
-                </ownedComment>
+                <type xmi:type="uml:DataType" xmi:id="40001#type" name="int32_t" />
             </ownedPort>
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="60002" name="config:min" ><!--C0002-->
