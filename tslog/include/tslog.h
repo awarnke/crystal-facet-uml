@@ -44,7 +44,7 @@
 #define TSLOG_NORM "\033[0m"
 #define TSLOG_PREFIX_ERR TSLOG_RED "\nERR " TSLOG_NORM ": "
 #define TSLOG_PREFIX_WARN TSLOG_YELLOW "\nWARN" TSLOG_NORM ": "
-#define TSLOG_PREFIX_ANON TSLOG_CYAN "\nANON" TSLOG_NORM ": "
+#define TSLOG_PREFIX_ANOM TSLOG_CYAN "\nANOM" TSLOG_NORM ": "
 #define TSLOG_PREFIX_EVT TSLOG_INVERSE "\nEVT " TSLOG_NORM ": "
 
 /*!
@@ -100,22 +100,22 @@
 /*!
  *  \brief logs an anomaly string
  */
-#define TSLOG_ANOMALY(x) { const char *string_test = (x); fprintf(TSLOG_OUT_STREAM, TSLOG_PREFIX_ANON "%s\n", string_test); }
+#define TSLOG_ANOMALY(x) { const char *string_test = (x); fprintf(TSLOG_OUT_STREAM, TSLOG_PREFIX_ANOM "%s\n", string_test); }
 
 /*!
  *  \brief logs an anomaly string and an integer
  */
-#define TSLOG_ANOMALY_INT(x,i) { const char *string_test = (x); const int int_test = (i); fprintf(TSLOG_OUT_STREAM, TSLOG_PREFIX_ANON "%s %i\n", string_test, int_test); }
+#define TSLOG_ANOMALY_INT(x,i) { const char *string_test = (x); const int int_test = (i); fprintf(TSLOG_OUT_STREAM, TSLOG_PREFIX_ANOM "%s %i\n", string_test, int_test); }
 
 /*!
  *  \brief logs an anomaly string and a hexadecimal integer
  */
-#define TSLOG_ANOMALY_HEX(x,i) { const char *string_test = (x); const unsigned int int_test = (i); fprintf(TSLOG_OUT_STREAM, TSLOG_PREFIX_ANON "%s 0x%x\n", string_test, int_test); }
+#define TSLOG_ANOMALY_HEX(x,i) { const char *string_test = (x); const unsigned int int_test = (i); fprintf(TSLOG_OUT_STREAM, TSLOG_PREFIX_ANOM "%s 0x%x\n", string_test, int_test); }
 
 /*!
  *  \brief logs an anomaly string and an information string
  */
-#define TSLOG_ANOMALY_STR(x,s) { const char *string_test = (x); const char *string2_test = (s); fprintf(TSLOG_OUT_STREAM, TSLOG_PREFIX_ANON "%s %s\n", string_test, string2_test); }
+#define TSLOG_ANOMALY_STR(x,s) { const char *string_test = (x); const char *string2_test = (s); fprintf(TSLOG_OUT_STREAM, TSLOG_PREFIX_ANOM "%s %s\n", string_test, string2_test); }
 
 /*!
  *  \brief logs an event string

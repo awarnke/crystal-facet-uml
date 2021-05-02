@@ -249,22 +249,17 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
             const data_row_id_t classifier_id = data_id_get_row_id ( &obj_id );
             const data_classifier_t *const the_classifier
                 = data_visible_set_get_classifier_by_id_const ( (*this_).input_data, classifier_id );
-            if( NULL != the_classifier )
-            {
-                result = pencil_layouter_get_classifier_order_at_pos ( &((*this_).layouter),
-                                                                       data_classifier_get_main_type( the_classifier ),
-                                                                       x,
-                                                                       y,
-                                                                       snap_to_grid_distance_for_dropping,
-                                                                       out_layout_order
-                                                                     );
-            }
-            else
-            {
-                TSLOG_ANOMALY( "feature to move does not exist in input_data." );
-                layout_order_init_empty( out_layout_order );
-                result = PENCIL_ERROR_UNKNOWN_OBJECT;
-            }
+            const data_classifier_type_t c_type 
+                = (NULL == the_classifier) 
+                ? DATA_CLASSIFIER_TYPE_CLASS /* for new or unknown objects, assume class */
+                : data_classifier_get_main_type( the_classifier );
+            result = pencil_layouter_get_classifier_order_at_pos ( &((*this_).layouter),
+                                                                   c_type,
+                                                                   x,
+                                                                   y,
+                                                                   snap_to_grid_distance_for_dropping,
+                                                                   out_layout_order
+                                                                 );
         }
         break;
 
