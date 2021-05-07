@@ -608,19 +608,7 @@ data_error_t data_database_close ( data_database_t *this_ )
         if ( SQLITE_OK != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_close() failed:", sqlite_err );
-        }
-
-        if ( SQLITE_BUSY == sqlite_err )
-        {
-            /* retry */
-            sleep (1);
-
-            TSLOG_EVENT_STR( "sqlite3_close_v2:", utf8stringbuf_get_string( (*this_).db_file_name ) );
-            sqlite_err = sqlite3_close_v2( (*this_).db );
-            if ( SQLITE_OK != sqlite_err )
-            {
-                TSLOG_ERROR_INT( "sqlite3_close_v2() failed:", sqlite_err );
-            }
+            result |= DATA_ERROR_AT_DB;
         }
 
         utf8stringbuf_clear( (*this_).db_file_name );
