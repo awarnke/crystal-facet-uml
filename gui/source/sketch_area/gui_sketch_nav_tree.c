@@ -47,7 +47,7 @@ void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_, gui_resources_t *re
     pango_font_description_set_stretch ( (*this_).standard_font_description, PANGO_STRETCH_NORMAL );
     pango_font_description_set_size ( (*this_).standard_font_description, STANDARD_FONT_SIZE * PANGO_SCALE );
 
-    gui_sketch_marker_init( &((*this_).sketch_marker) );
+    gui_sketch_marker_init( &((*this_).sketch_marker), true );
     (*this_).resources = resources;
 
     TRACE_END();

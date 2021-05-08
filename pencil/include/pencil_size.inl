@@ -34,8 +34,8 @@ static inline void pencil_size_init_empty( pencil_size_t *this_ )
     (*this_).select_color.alpha = 1.0;
 
     (*this_).highlight_color.red = 0.0;
-    (*this_).highlight_color.green = 0.8;
-    (*this_).highlight_color.blue = 0.6;
+    (*this_).highlight_color.green = 0.6;
+    (*this_).highlight_color.blue = 0.4;
     (*this_).highlight_color.alpha = 1.0;
 
     (*this_).focus_color.red = 0.9;

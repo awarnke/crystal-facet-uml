@@ -22,6 +22,7 @@
  *  \brief attributes of the marker
  */
 struct gui_sketch_marker_struct {
+    bool with_pencil_markers;
     pencil_marker_t pencil_marker;
 };
 
@@ -31,8 +32,10 @@ typedef struct gui_sketch_marker_struct gui_sketch_marker_t;
  *  \brief initializes the marker
  *
  *  \param this_ pointer to own object attributes
+ *  \param with_pencil_markers true if pencil markers shall also be drawn,
+ *                             false if not, e.g. when pencil is called anyway.
  */
-static inline void gui_sketch_marker_init( gui_sketch_marker_t *this_ );
+static inline void gui_sketch_marker_init( gui_sketch_marker_t *this_, bool with_pencil_markers );
 
 /*!
  *  \brief destroys the marker
@@ -52,13 +55,13 @@ static inline void gui_sketch_marker_destroy( gui_sketch_marker_t *this_ );
  *  \param rect the rectangle which to mark. Drawings may be done outside.
  *  \param cr a cairo drawing context
  */
-static inline void gui_sketch_marker_prepare_draw ( const gui_sketch_marker_t *this_,
-                                                    data_table_t table,
-                                                    data_row_id_t row_id,
-                                                    gui_marked_set_t *marked_set,
-                                                    shape_int_rectangle_t rect,
-                                                    cairo_t *cr
-                                                  );
+void gui_sketch_marker_prepare_draw ( const gui_sketch_marker_t *this_,
+                                      data_table_t table,
+                                      data_row_id_t row_id,
+                                      gui_marked_set_t *marked_set,
+                                      shape_int_rectangle_t rect,
+                                      cairo_t *cr
+                                    );
 
 #include "gui_sketch_marker.inl"
 

@@ -8,6 +8,7 @@
  *  \brief Caches diagram data and draws a diagram
  */
 
+#include "sketch_area/gui_sketch_marker.h"
 #include "gui_marked_set.h"
 #include "util/shape/shape_int_rectangle.h"
 #include "storage/data_database.h"
@@ -31,6 +32,9 @@ struct gui_sketch_card_struct {
     data_visible_set_t painter_input_data;  /*!< caches the diagram data */
     pencil_diagram_maker_t painter;  /*!< own instance of a diagram painter */
     bool dirty_elements_layout;  /*!< marker that elements need to be layouted */
+    
+    /* helper classes to perform drawing */
+    gui_sketch_marker_t sketch_marker;
 };
 
 typedef struct gui_sketch_card_struct gui_sketch_card_t;

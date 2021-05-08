@@ -16,6 +16,7 @@ void gui_sketch_card_init( gui_sketch_card_t *this_ )
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
     data_visible_set_init( &((*this_).painter_input_data) );
     pencil_diagram_maker_init( &((*this_).painter), &((*this_).painter_input_data) );
+    gui_sketch_marker_init( &((*this_).sketch_marker), false );
 
     TRACE_END();
 }
@@ -24,12 +25,18 @@ void gui_sketch_card_destroy( gui_sketch_card_t *this_ )
 {
     TRACE_BEGIN();
 
+    gui_sketch_marker_destroy( &((*this_).sketch_marker) );
     pencil_diagram_maker_destroy( &((*this_).painter) );
     data_visible_set_destroy( &((*this_).painter_input_data) );
     shape_int_rectangle_destroy(&((*this_).bounds));
 
     TRACE_END();
 }
+
+static const double WHITE_R = 1.0;
+static const double WHITE_G = 1.0;
+static const double WHITE_B = 1.0;
+static const double WHITE_A = 1.0;
 
 void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, cairo_t *cr )
 {
@@ -56,21 +63,20 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, 
         }
 
         /* draw paper */
-        const data_diagram_t *const diag = data_visible_set_get_diagram_const ( &((*this_).painter_input_data) );
-        const data_id_t diag_id = data_diagram_get_data_id( diag );
-        if ( data_id_equals( &diag_id, &mark_highlighted ) )
-        {
-            const double LINE_W = 1.0;
-            cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );
-            cairo_rectangle ( cr, left-2, top-1, LINE_W, height+2 );
-            cairo_rectangle ( cr, left-2, top-2, width+4, LINE_W );
-            cairo_rectangle ( cr, left+width+1, top-1, LINE_W, height+2 );
-            cairo_rectangle ( cr, left-2, top+height+1, width+4, LINE_W );
-            cairo_fill (cr);
-        }
-        cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );
+        cairo_set_source_rgba( cr, WHITE_R, WHITE_G, WHITE_B, WHITE_A );
         cairo_rectangle ( cr, left, top, width, height );
         cairo_fill (cr);
+        
+        /* draw highlighting */
+        const data_diagram_t *const diag = data_visible_set_get_diagram_const ( &((*this_).painter_input_data) );
+        const data_id_t diag_id = data_diagram_get_data_id( diag );
+        gui_sketch_marker_prepare_draw( &((*this_).sketch_marker),
+                                        DATA_TABLE_DIAGRAM,
+                                        data_id_get_row_id( &diag_id ),
+                                        marker,
+                                        (*this_).bounds,
+                                        cr 
+                                      );
 
         /* draw the current diagram */
         pencil_diagram_maker_draw ( &((*this_).painter),
