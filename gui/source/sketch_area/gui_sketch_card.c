@@ -71,8 +71,7 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, 
         const data_diagram_t *const diag = data_visible_set_get_diagram_const ( &((*this_).painter_input_data) );
         const data_id_t diag_id = data_diagram_get_data_id( diag );
         gui_sketch_marker_prepare_draw( &((*this_).sketch_marker),
-                                        DATA_TABLE_DIAGRAM,
-                                        data_id_get_row_id( &diag_id ),
+                                        diag_id,
                                         marker,
                                         (*this_).bounds,
                                         cr 

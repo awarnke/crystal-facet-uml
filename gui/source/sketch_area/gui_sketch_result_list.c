@@ -96,31 +96,52 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_s
         }
         else
         {
-            data_id_t highlighted = gui_marked_set_get_highlighted( marker );
+            const data_id_t highlighted = gui_marked_set_get_highlighted( marker );
+
             for ( unsigned int idx = 0; idx < count; idx ++ )
             {
                 const data_search_result_t *result = data_search_result_list_get_const( &((*this_).result_list), idx );
-                //const GdkPixbuf *undef_icon = gui_resources_get_type_undef( (*this_).resources );
                 const int type = data_search_result_get_match_type( result );
                 const data_table_t table = data_id_get_table( data_search_result_get_match_id_const( result ) );
+
+                shape_int_rectangle_t destination_rect;
+                shape_int_rectangle_init( &destination_rect,
+                                          left+OBJ_GAP,
+                                          top+OBJ_GAP+GUI_SKETCH_RESULT_LIST_LINE_HEIGHT*idx,
+                                          width-OBJ_GAP,
+                                          GUI_SKETCH_RESULT_LIST_LINE_HEIGHT-2*OBJ_GAP
+                                        );
+
+                gui_sketch_marker_prepare_draw( &((*this_).sketch_marker),
+                                                data_search_result_get_match_id( result ),
+                                                marker,
+                                                destination_rect,
+                                                cr
+                                              );
+
                 if ( data_id_equals( &highlighted, data_search_result_get_diagram_id_const( result ) ) )
                 {
                     /* use same color as in pencil_size.inl */
-                    cairo_set_source_rgba( cr, 0.0, 0.8, 0.6, 1.0 );
+                    cairo_set_source_rgba( cr, 0.0, 0.6, 0.4, 1.0 );
                 }
+                /*
                 else
                 {
                     cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
                 }
+                */
+
                 const GdkPixbuf *icon = gui_resource_selector_get_icon ( &((*this_).selector), table, type );
                 gui_sketch_result_list_private_draw_icon_and_label( this_,
                                                                     icon,
                                                                     data_search_result_get_match_name_const( result ),
-                                                                    OBJ_GAP,
-                                                                    OBJ_GAP+GUI_SKETCH_RESULT_LIST_LINE_HEIGHT*idx,
+                                                                    left+OBJ_GAP,
+                                                                    top+OBJ_GAP+GUI_SKETCH_RESULT_LIST_LINE_HEIGHT*idx,
                                                                     layout,
                                                                     cr
                                                                   );
+
+                shape_int_rectangle_destroy( &destination_rect );
             }
         }
 

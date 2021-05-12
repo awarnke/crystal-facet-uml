@@ -565,8 +565,7 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
                     destination_rect = gui_sketch_nav_tree_private_get_ancestor_bounds( this_, anc_index );
 
                     gui_sketch_marker_prepare_draw( &((*this_).sketch_marker),
-                                                    DATA_TABLE_DIAGRAM,
-                                                    data_diagram_get_row_id( &((*this_).ancestor_diagrams[anc_index]) ),
+                                                    data_diagram_get_data_id( &((*this_).ancestor_diagrams[anc_index]) ),
                                                     marker,
                                                     destination_rect,
                                                     cr
@@ -597,8 +596,7 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
                 destination_rect = gui_sketch_nav_tree_private_get_sibling_bounds( this_, sib_index );
 
                 gui_sketch_marker_prepare_draw( &((*this_).sketch_marker),
-                                                DATA_TABLE_DIAGRAM,
-                                                data_diagram_get_row_id( &((*this_).sibling_diagrams[sib_index]) ),
+                                                data_diagram_get_data_id( &((*this_).sibling_diagrams[sib_index]) ),
                                                 marker,
                                                 destination_rect,
                                                 cr
@@ -641,8 +639,7 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
                 destination_rect = gui_sketch_nav_tree_private_get_child_bounds( this_, chi_index );
 
                 gui_sketch_marker_prepare_draw( &((*this_).sketch_marker),
-                                                DATA_TABLE_DIAGRAM,
-                                                data_diagram_get_row_id( &((*this_).child_diagrams[chi_index]) ),
+                                                data_diagram_get_data_id( &((*this_).child_diagrams[chi_index]) ),
                                                 marker,
                                                 destination_rect,
                                                 cr

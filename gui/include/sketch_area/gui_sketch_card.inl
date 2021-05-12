@@ -44,14 +44,20 @@ static inline void gui_sketch_card_set_visible( gui_sketch_card_t *this_, bool v
     (*this_).visible = visible;
 }
 
+static inline const data_diagram_t * gui_sketch_card_get_diagram_const ( const gui_sketch_card_t *this_ )
+{
+    return data_visible_set_get_diagram_const( &((*this_).painter_input_data) );
+}
+
 static inline data_diagram_t * gui_sketch_card_get_diagram_ptr ( gui_sketch_card_t *this_ )
 {
     return data_visible_set_get_diagram_ptr( &((*this_).painter_input_data) );
 }
 
-static inline const data_diagram_t * gui_sketch_card_get_diagram_const ( const gui_sketch_card_t *this_ )
+static inline data_id_t gui_sketch_card_get_diagram_id ( const gui_sketch_card_t *this_ )
 {
-    return data_visible_set_get_diagram_const( &((*this_).painter_input_data) );
+    const data_diagram_t *const diag = gui_sketch_card_get_diagram_const( this_ );
+    return (diag==NULL) ? DATA_ID_VOID : data_diagram_get_data_id(diag);
 }
 
 static inline void gui_sketch_card_get_object_id_at_pos ( const gui_sketch_card_t *this_,

@@ -136,6 +136,14 @@ static inline const data_diagram_t * gui_sketch_card_get_diagram_const ( const g
 static inline data_diagram_t * gui_sketch_card_get_diagram_ptr ( gui_sketch_card_t *this_ );
 
 /*!
+ * \brief gets the id of the diagram shown in gui_sketch_card_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return id of diagram, DATA_ID_VOID if none
+ */
+static inline data_id_t gui_sketch_card_get_diagram_id ( const gui_sketch_card_t *this_ );
+
+/*!
  *  \brief gets the object-id of the object at a given position.
  *
  *  Either it gets the real, de-referenced object at a given position, e.g. a diagram_t or a classifier_t,

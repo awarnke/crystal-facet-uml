@@ -49,15 +49,13 @@ static inline void gui_sketch_marker_destroy( gui_sketch_marker_t *this_ );
  *         and sets the drawing color of the cairo drawing context
  *
  *  \param this_ pointer to own object attributes
- *  \param table table of the object to draw
- *  \param row_id row_id of the object to draw
+ *  \param element_id id of the object to draw
  *  \param marked_set set of objects to be marked
  *  \param rect the rectangle which to mark. Drawings may be done outside.
  *  \param cr a cairo drawing context
  */
 void gui_sketch_marker_prepare_draw ( const gui_sketch_marker_t *this_,
-                                      data_table_t table,
-                                      data_row_id_t row_id,
+                                      data_id_t element_id,
                                       gui_marked_set_t *marked_set,
                                       shape_int_rectangle_t rect,
                                       cairo_t *cr

@@ -239,10 +239,10 @@ void gui_sketch_area_private_notify_listeners( gui_sketch_area_t *this_, data_id
 static inline data_id_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y );
 
 /*!
- *  \brief gets the diagram-id of the diagram and  the obect-if of the object at a given position
+ *  \brief gets the diagram-id of the diagram and the object-id of the object at a given position
  *
- *  Object IDs are only returned for positions in Result-List; 
- *  objects on cards are ignored because these are to small to cklick on them.
+ *  Object IDs are only returned for positions in the search-result-list; 
+ *  objects on cards are ignored because these are to small to click on them.
  *  This function is intended for use in SEARCH mode.
  * 
  *  \param this_ pointer to own object attributes
@@ -277,13 +277,15 @@ static inline gui_sketch_card_t *gui_sketch_area_get_card_at_pos ( gui_sketch_ar
  *  \param x x-position
  *  \param y y-position
  *  \param filter a filter for object types. E.g. PENCIL_TYPE_FILTER_LIFELINE will return the classifier instead of the lifeline-feature.
- *  \param[out] out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
+ *  \param[out] out_object_id the object id at the given location. The id is invalid if there is no object at the given location.
+ *  \param[out] out_diagram_id the diagram id at given location. The id is invalid if there is no diagram.
  */
 static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_area_t *this_,
                                                                   int32_t x,
                                                                   int32_t y,
                                                                   pencil_type_filter_t filter,
-                                                                  data_id_pair_t* out_selected_id
+                                                                  data_id_pair_t* out_object_id,
+                                                                  data_id_t* out_diagram_id                                                               
                                                                 );
 
 /*!
@@ -295,15 +297,17 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
  *  \param x x-position
  *  \param y y-position
  *  \param filter a filter for object types. E.g. PENCIL_TYPE_FILTER_LIFELINE will return the classifier instead of the lifeline-feature.
- *  \param[out] out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
+ *  \param[out] out_object_id the object id at the given location. The id is invalid if there is no object at the given location.
  *  \param[out] out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object embracing the given location.
+ *  \param[out] out_diagram_id the diagram id at given location. The id is invalid if there is no diagram.
  */
 static inline void gui_sketch_area_private_get_object_ids_at_pos ( gui_sketch_area_t *this_,
                                                                    int32_t x,
                                                                    int32_t y,
                                                                    pencil_type_filter_t filter,
-                                                                   data_id_pair_t* out_selected_id,
-                                                                   data_id_pair_t* out_surrounding_id
+                                                                   data_id_pair_t* out_object_id,
+                                                                   data_id_pair_t* out_surrounding_id,
+                                                                   data_id_t* out_diagram_id
                                                                  );
 
 #include "gui_sketch_area.inl"

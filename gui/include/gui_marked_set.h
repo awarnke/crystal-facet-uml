@@ -17,9 +17,10 @@
  */
 struct gui_marked_set_struct {
     data_id_t focused;  /*!<  references the one focused visible object, e.g. a data_diagram_t or a data_diagramelement_t (yellow corners) */
+    data_id_t focused_diagram;  /*!< the focused diagram, the place where to e.g. insert pasted objects */
     data_id_t highlighted;  /*!<  references the one highlighted/mouse over object */
+    data_id_t highlighted_diagram;  /*!< the highlighted diagram, the diagram to zoom in when clicking on the highlighted id */
     data_small_set_t selected_set;  /*!<  references all selected objects (pink corners) */
-    data_row_id_t focused_diagram;  /*!< the focused diagram, the place where to e.g. insert pasted objects */
 };
 
 typedef struct gui_marked_set_struct gui_marked_set_t;
@@ -57,20 +58,31 @@ static inline data_id_t gui_marked_set_get_focused ( const gui_marked_set_t *thi
  *  \brief gets the focused_diagram id
  *
  *  \param this_ pointer to own object attributes
+ *  \return id of the focused diagram.
  */
-static inline data_row_id_t gui_marked_set_get_focused_diagram ( const gui_marked_set_t *this_ );
+static inline data_id_t gui_marked_set_get_focused_diagram ( const gui_marked_set_t *this_ );
 
 /*!
  *  \brief gets the highlighted object id
  *
  *  \param this_ pointer to own object attributes
+ *  \return id of the highlighted object.
  */
 static inline data_id_t gui_marked_set_get_highlighted ( const gui_marked_set_t *this_ );
+
+/*!
+ *  \brief gets the highlighted_diagram id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return id of the highlighted diagram, DATA_ID_VOID if no diagram was set.
+ */
+static inline data_id_t gui_marked_set_get_highlighted_diagram ( const gui_marked_set_t *this_ );
 
 /*!
  *  \brief gets the selected object ids.
  *
  *  \param this_ pointer to own object attributes
+ *  \return pointer to immutable selected set.
  */
 static inline const data_small_set_t *gui_marked_set_get_selected_set_ptr ( gui_marked_set_t *this_ );
 
@@ -90,28 +102,44 @@ static inline void gui_marked_set_toggle_selected_obj ( gui_marked_set_t *this_,
 static inline void gui_marked_set_clear_selected_set ( gui_marked_set_t *this_ );
 
 /*!
- *  \brief sets the focused object id
+ *  \brief sets the focused object id and focused_diagram id
  *
  *  \param this_ pointer to own object attributes
  *  \param obj_id the id of the visible object to set as focused
+ *  \param diagram_id the id of the focused diagram
  */
-static inline void gui_marked_set_set_focused ( gui_marked_set_t *this_, data_id_t obj_id );
+static inline void gui_marked_set_set_focused ( gui_marked_set_t *this_,
+                                                data_id_t obj_id,
+                                                data_id_t diagram_id
+                                              );
 
 /*!
- *  \brief sets the focused_diagram id
+ *  \brief sets the focused object id and focused_diagram id
  *
  *  \param this_ pointer to own object attributes
  *  \param diag_id the id of the focused diagram
  */
-static inline void gui_marked_set_set_focused_diagram ( gui_marked_set_t *this_, data_row_id_t diag_id );
+static inline void gui_marked_set_set_focused_diagram ( gui_marked_set_t *this_, data_id_t diag_id );
 
 /*!
- *  \brief sets the highlighted object id
+ *  \brief sets the highlighted object id and the highlighted_diagram id
  *
  *  \param this_ pointer to own object attributes
  *  \param obj_id the id to set as highlighted
+ *  \param diagram_id the id of the highlighted diagram
  */
-static inline void gui_marked_set_set_highlighted ( gui_marked_set_t *this_, data_id_t obj_id );
+static inline void gui_marked_set_set_highlighted ( gui_marked_set_t *this_,
+                                                    data_id_t obj_id,
+                                                    data_id_t diagram_id
+                                                  );
+
+/*!
+ *  \brief sets the highlighted object id and the highlighted_diagram id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diag_id the id of the highlighted diagram
+ */
+static inline void gui_marked_set_set_highlighted_diagram ( gui_marked_set_t *this_, data_id_t diag_id );
 
 /*!
  *  \brief un-sets the focused object id
