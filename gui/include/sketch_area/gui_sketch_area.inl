@@ -17,41 +17,11 @@ static inline data_row_id_t gui_sketch_area_get_focused_diagram_id ( gui_sketch_
     return focused_diagram_id;
 }
 
-static inline data_id_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y )
-{
-    assert( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
-    data_id_t result;
-    data_id_init_void( &result );
-
-    if ( gui_sketch_nav_tree_is_visible( &((*this_).nav_tree) ) )
-    {
-        gui_sketch_nav_tree_get_object_id_at_pos( &((*this_).nav_tree), x, y, &result );
-    }
-    else if ( gui_sketch_result_list_is_visible( &((*this_).result_list) ) )
-    {
-        gui_sketch_result_list_get_diagram_id_at_pos ( &((*this_).result_list), x, y, &result );
-    }
-
-    for ( int idx = 0; idx < (*this_).card_num; idx ++ )
-    {
-        const gui_sketch_card_t *card = &((*this_).cards[idx]);
-        const shape_int_rectangle_t card_bounds = gui_sketch_card_get_bounds( card );
-        if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
-        {
-            const data_diagram_t *selected_diag
-                = gui_sketch_card_get_diagram_const( card );
-            data_id_reinit( &result, DATA_TABLE_DIAGRAM, data_diagram_get_row_id( selected_diag ) );
-            break;
-        }
-    }
-    return result;
-}
-
-static inline void gui_sketch_area_get_diagram_and_object_id_at_pos ( gui_sketch_area_t *this_, 
-                                                                      int32_t x, 
-                                                                      int32_t y,
-                                                                      data_id_t* out_diagram_id,
-                                                                      data_id_t* out_object_id )
+static inline void gui_sketch_area_private_get_diagram_and_object_id_at_pos ( gui_sketch_area_t *this_,
+                                                                              int32_t x,
+                                                                              int32_t y,
+                                                                              data_id_t* out_diagram_id,
+                                                                              data_id_t* out_object_id )
 {
     assert( NULL != out_diagram_id );
     assert( NULL != out_object_id );
@@ -62,12 +32,13 @@ static inline void gui_sketch_area_get_diagram_and_object_id_at_pos ( gui_sketch
     if ( gui_sketch_nav_tree_is_visible( &((*this_).nav_tree) ) )
     {
         gui_sketch_nav_tree_get_object_id_at_pos( &((*this_).nav_tree), x, y, out_diagram_id );
+        data_id_replace( out_object_id, out_diagram_id );
     }
     else if ( gui_sketch_result_list_is_visible( &((*this_).result_list) ) )
     {
-        gui_sketch_result_list_get_object_id_at_pos ( &((*this_).result_list), 
+        gui_sketch_result_list_get_object_id_at_pos ( &((*this_).result_list),
                                                       x,
-                                                      y, 
+                                                      y,
                                                       out_object_id,  /* = out_selected_id */
                                                       out_diagram_id  /* = out_diagram_id */
                                                     );
@@ -82,6 +53,7 @@ static inline void gui_sketch_area_get_diagram_and_object_id_at_pos ( gui_sketch
             const data_diagram_t *selected_diag
                  = gui_sketch_card_get_diagram_const( card );
             data_id_reinit( out_diagram_id, DATA_TABLE_DIAGRAM, data_diagram_get_row_id( selected_diag ) );
+            data_id_replace( out_object_id, out_diagram_id );
             break;
         }
     }

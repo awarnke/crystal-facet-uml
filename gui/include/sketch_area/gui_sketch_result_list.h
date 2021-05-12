@@ -33,7 +33,7 @@ enum gui_sketch_result_list__max_enum {
 
 /*!
  *  \brief attributes of the result list
- * 
+ *
  * The result list is a subwidget to the gui_sketch_area:
  * - it knows its data to draw (list of search results)
  * - it layouts the data to show
@@ -132,20 +132,6 @@ static inline void gui_sketch_result_list_set_visible( gui_sketch_result_list_t 
  *  \param cr cairo drawing context
  */
 void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_set_t *marker, cairo_t *cr );
-
-/*!
- *  \brief determines the object at a given position and returns the diagram-id in which it appears.
- *
- *  \param this_ pointer to own object attributes
- *  \param x x-position
- *  \param y y-position
- *  \param out_selected_id the diagram id of the object at the given location. The id is invalid if there is no object at the given location.
- */
-static inline void gui_sketch_result_list_get_diagram_id_at_pos ( gui_sketch_result_list_t *this_,
-                                                                  int32_t x,
-                                                                  int32_t y,
-                                                                  data_id_t* out_selected_id
-                                                                );
 
 /*!
  *  \brief determines the object at a given position and returns its id. The object can be a diagram.

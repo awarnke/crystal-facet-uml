@@ -37,33 +37,6 @@ static inline void gui_sketch_result_list_set_visible( gui_sketch_result_list_t 
     (*this_).visible = visible;
 }
 
-static inline void gui_sketch_result_list_get_diagram_id_at_pos ( gui_sketch_result_list_t *this_,
-                                                                  int32_t x,
-                                                                  int32_t y,
-                                                                  data_id_t* out_selected_id )
-{
-    assert( out_selected_id != NULL );
-
-    if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
-    {
-        int line = y - shape_int_rectangle_get_top ( &((*this_).bounds) );
-        line = line / GUI_SKETCH_RESULT_LIST_LINE_HEIGHT;  /* = line height */
-        if (( line >= 0 )&&( line < data_search_result_list_get_length( &((*this_).result_list) ) ))
-        {
-            const data_search_result_t * at_pos = data_search_result_list_get_const( &((*this_).result_list), line );
-            data_id_copy( out_selected_id, data_search_result_get_diagram_id_const( at_pos ) );
-        }
-        else
-        {
-            data_id_init_void( out_selected_id );
-        }
-    }
-    else
-    {
-        data_id_init_void( out_selected_id );
-    }
-}
-
 static inline void gui_sketch_result_list_get_object_id_at_pos ( gui_sketch_result_list_t *this_,
                                                                  int32_t x,
                                                                  int32_t y,

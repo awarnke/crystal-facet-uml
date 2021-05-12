@@ -603,19 +603,29 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
             }
             else /* not dragging */
             {
-                data_id_t object_under_mouse;
-                object_under_mouse = gui_sketch_area_get_diagram_id_at_pos ( this_, x, y );
-                data_id_t object_highlighted;
-                object_highlighted = gui_marked_set_get_highlighted( (*this_).marker );
-                if ( ! data_id_equals( &object_under_mouse, &object_highlighted ) )
-                {
-                    if ( data_id_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
-                    {
-                        gui_marked_set_set_highlighted_diagram( (*this_).marker, object_under_mouse );
+                data_id_t object_under_mouse = DATA_ID_VOID;
+                data_id_t diag_under_mouse = DATA_ID_VOID;
+                gui_sketch_area_private_get_diagram_and_object_id_at_pos ( this_, x, y, &diag_under_mouse, &object_under_mouse );
 
-                        /* mark dirty rect */
-                        gtk_widget_queue_draw( widget );
-                    }
+                const data_id_t object_highlighted
+                    = gui_marked_set_get_highlighted( (*this_).marker );
+                const data_id_t diag_highlighted
+                    = gui_marked_set_get_highlighted_diagram( (*this_).marker );
+                const bool obj_both_void
+                    = ( ! data_id_is_valid( &object_under_mouse ) )&&( ! data_id_is_valid( &object_highlighted ) );
+                const bool obj_equal_or_both_void
+                    = data_id_equals( &object_under_mouse, &object_highlighted ) || obj_both_void;
+                const bool diag_both_void
+                    = ( ! data_id_is_valid( &diag_under_mouse ) )&&( ! data_id_is_valid( &diag_highlighted ) );
+                const bool diag_equal_or_both_void
+                    = data_id_equals( &diag_under_mouse, &diag_highlighted ) || diag_both_void;
+                if (( ! obj_equal_or_both_void )||( ! diag_equal_or_both_void ))
+                {
+                    /* highlight changed */
+                    gui_marked_set_set_highlighted( (*this_).marker, object_under_mouse, diag_under_mouse );
+
+                    /* mark dirty rect */
+                    gtk_widget_queue_draw( widget );
                 }
             }
         }
@@ -684,6 +694,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
                 {
                     if ( data_id_pair_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
                     {
+                        /* highlight changed */
                         gui_marked_set_set_highlighted( (*this_).marker, mouseover_element, diag_id );
 
                         /* mark dirty rect */
@@ -787,10 +798,12 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
             {
                 TRACE_INFO( "GUI_TOOL_NAVIGATE" );
 
-                /* search selected diagram */
-                data_id_t clicked_diagram_id;
-                clicked_diagram_id = gui_sketch_area_get_diagram_id_at_pos ( this_, x, y );
+                /* determine clicked diagram */
+                data_id_t clicked_diagram_id = DATA_ID_VOID;
+                data_id_t clicked_object_id = DATA_ID_VOID;
+                gui_sketch_area_private_get_diagram_and_object_id_at_pos ( this_, x, y, &clicked_diagram_id, &clicked_object_id );
                 data_id_trace( &clicked_diagram_id );
+                data_id_trace( &clicked_object_id );
 
                 /* load diagram */
                 if ( data_id_is_valid( &clicked_diagram_id ) )
@@ -941,10 +954,10 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
             {
                 TRACE_INFO( "GUI_TOOL_SEARCH" );
 
-                /* search selected diagram */
+                /* determine clicked diagram */
                 data_id_t clicked_diagram_id = DATA_ID_VOID;
                 data_id_t clicked_object_id = DATA_ID_VOID;
-                gui_sketch_area_get_diagram_and_object_id_at_pos ( this_, x, y, &clicked_diagram_id, &clicked_object_id );
+                gui_sketch_area_private_get_diagram_and_object_id_at_pos ( this_, x, y, &clicked_diagram_id, &clicked_object_id );
                 data_id_trace( &clicked_diagram_id );
                 data_id_trace( &clicked_object_id );
 

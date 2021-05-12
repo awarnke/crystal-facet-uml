@@ -227,36 +227,20 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_tool_t tool, 
 void gui_sketch_area_private_notify_listeners( gui_sketch_area_t *this_, data_id_t modified_real_object_id );
 
 /*!
- *  \brief gets the diagram-id of the diagram at a given position
- *
- *  This function is intended for use in NAV and SEARCH modes.
- *
- *  \param this_ pointer to own object attributes
- *  \param x x-position
- *  \param y y-position
- *  \return a diagram id. The id is invalid if there is no diagram at the given location.
- */
-static inline data_id_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y );
-
-/*!
  *  \brief gets the diagram-id of the diagram and the object-id of the object at a given position
  *
- *  Object IDs are only returned for positions in the search-result-list; 
- *  objects on cards are ignored because these are to small to click on them.
- *  This function is intended for use in SEARCH mode.
- * 
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
  *  \param[out] out_diagram_id a diagram id. The id is invalid if there is no diagram at the given location.
  *  \param[out] out_object_id an object id. This may refer to a diagram. The id is invalid if there is no diagram at the given location.
  */
-static inline void gui_sketch_area_get_diagram_and_object_id_at_pos ( gui_sketch_area_t *this_, 
-                                                                      int32_t x, 
-                                                                      int32_t y,
-                                                                      data_id_t* out_diagram_id,
-                                                                      data_id_t* out_object_id 
-                                                                    );
+static inline void gui_sketch_area_private_get_diagram_and_object_id_at_pos ( gui_sketch_area_t *this_,
+                                                                              int32_t x,
+                                                                              int32_t y,
+                                                                              data_id_t* out_diagram_id,
+                                                                              data_id_t* out_object_id
+                                                                            );
 
 /*!
  *  \brief gets the gui_sketch_card_t at a given position
@@ -270,7 +254,7 @@ static inline gui_sketch_card_t *gui_sketch_area_get_card_at_pos ( gui_sketch_ar
 
 /*!
  *  \brief gets the object-id of the object at a given position
- * 
+ *
  *  Nav-Tree and Result-List objects are ignored; this function is intended for use in EDIT and CREATE modes.
  *
  *  \param this_ pointer to own object attributes
@@ -285,14 +269,14 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
                                                                   int32_t y,
                                                                   pencil_type_filter_t filter,
                                                                   data_id_pair_t* out_object_id,
-                                                                  data_id_t* out_diagram_id                                                               
+                                                                  data_id_t* out_diagram_id
                                                                 );
 
 /*!
  *  \brief gets the object-id of the surrounding object and a selected-part-info at a given position
  *
  *  Nav-Tree and Result-List objects are ignored; this function is intended for use in EDIT and CREATE modes.
- * 
+ *
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
