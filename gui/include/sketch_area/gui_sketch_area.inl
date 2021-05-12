@@ -115,7 +115,7 @@ static inline void gui_sketch_area_private_get_object_ids_at_pos ( gui_sketch_ar
     }
 }
 
-static inline gui_sketch_card_t *gui_sketch_area_get_card_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y )
+static inline gui_sketch_card_t *gui_sketch_area_private_get_card_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y )
 {
     assert( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
     gui_sketch_card_t *result = NULL;

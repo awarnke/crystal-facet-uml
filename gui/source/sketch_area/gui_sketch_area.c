@@ -535,7 +535,7 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
     gui_sketch_overlay_draw( &((*this_).overlay),
                              selected_tool,
                              &((*this_).drag_state),
-                             gui_sketch_area_get_card_at_pos ( this_, mouse_x, mouse_y ),
+                             gui_sketch_area_private_get_card_at_pos ( this_, mouse_x, mouse_y ),
                              &((*this_).nav_tree),
                              (*this_).marker,
                              cr
@@ -645,7 +645,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
 
 
                 /* what is the target location? */
-                gui_sketch_card_t *target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
+                gui_sketch_card_t *target_card = gui_sketch_area_private_get_card_at_pos ( this_, x, y );
                 if ( NULL != target_card )
                 {
                     /* mark again - in case the marker was lost when mouse was outside window */
@@ -992,7 +992,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 TRACE_INFO( "GUI_TOOL_CREATE" );
 
                 /* what is the target location? */
-                gui_sketch_card_t *target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
+                gui_sketch_card_t *target_card = gui_sketch_area_private_get_card_at_pos ( this_, x, y );
 
                 if ( NULL == target_card )
                 {
@@ -1318,7 +1318,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     dragged_classifier = data_id_pair_get_secondary_id( dragged_object );
 
                     /* what is the target location? */
-                    gui_sketch_card_t *target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
+                    gui_sketch_card_t *target_card = gui_sketch_area_private_get_card_at_pos ( this_, x, y );
                     if ( NULL == target_card )
                     {
                         TRACE_INFO_INT_INT("No card at",x,y);
@@ -1478,7 +1478,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     data_id_t destination_classifier;
                     destination_classifier = data_id_pair_get_secondary_id( &destination_object );
 
-                    gui_sketch_card_t *target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
+                    gui_sketch_card_t *target_card = gui_sketch_area_private_get_card_at_pos ( this_, x, y );
                     if ( data_id_is_valid( &dragged_classifier ) && data_id_is_valid( &destination_classifier ) && ( NULL != target_card ))
                     {
                         if ( ( DATA_TABLE_CLASSIFIER == data_id_get_table( &dragged_classifier ) )
@@ -1570,7 +1570,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     dragged_classifier = data_id_pair_get_secondary_id( dragged_object );
 
                     const gui_sketch_card_t *const target_card
-                        = gui_sketch_area_get_card_at_pos ( this_, x, y );
+                        = gui_sketch_area_private_get_card_at_pos ( this_, x, y );
                     if ( data_id_is_valid( &dragged_classifier ) && ( NULL != target_card ) )
                     {
                         const data_id_t diag_id = gui_sketch_card_get_diagram_id( target_card );

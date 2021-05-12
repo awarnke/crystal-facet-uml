@@ -37,7 +37,7 @@ enum gui_sketch_nav_tree_const_enum {
 
 /*!
  *  \brief attributes of the nav tree
- * 
+ *
  * The nav tree is a subwidget to the gui_sketch_area:
  * - it knows its data to draw (tree-parts of diagrams)
  * - it layouts the data to show
