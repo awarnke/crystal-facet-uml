@@ -165,16 +165,20 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
 /*!
  *  \brief gets the currently focused diagram
  *
+ *  \note {DOES NOT WORK IN SEARCH MODE}
+ *
  *  \param this_ pointer to own object attributes
  */
-static inline data_diagram_t *gui_sketch_area_get_focused_diagram_ptr ( gui_sketch_area_t *this_ );
+static inline data_diagram_t *gui_sketch_area_private_get_focused_diagram_ptr ( gui_sketch_area_t *this_ );
 
 /*!
  *  \brief gets the currently focused diagram id
  *
+ *  \note {DOES NOT WORK IN SEARCH MODE}
+ *
  *  \param this_ pointer to own object attributes
  */
-static inline data_row_id_t gui_sketch_area_get_focused_diagram_id ( gui_sketch_area_t *this_ );
+static inline data_row_id_t gui_sketch_area_private_get_focused_diagram_id ( gui_sketch_area_t *this_ );
 
 /*!
  *  \brief callback that redraws the sketch_area widget

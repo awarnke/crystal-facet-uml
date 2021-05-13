@@ -3,16 +3,16 @@
 #include "tslog.h"
 #include <assert.h>
 
-static inline data_diagram_t *gui_sketch_area_get_focused_diagram_ptr ( gui_sketch_area_t *this_ )
+static inline data_diagram_t *gui_sketch_area_private_get_focused_diagram_ptr ( gui_sketch_area_t *this_ )
 {
     gui_sketch_card_t *result_card;
     result_card = &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]);
     return gui_sketch_card_get_diagram_ptr( result_card );
 }
 
-static inline data_row_id_t gui_sketch_area_get_focused_diagram_id ( gui_sketch_area_t *this_ )
+static inline data_row_id_t gui_sketch_area_private_get_focused_diagram_id ( gui_sketch_area_t *this_ )
 {
-    const data_diagram_t *focused_diag = gui_sketch_area_get_focused_diagram_ptr( this_ );
+    const data_diagram_t *focused_diag = gui_sketch_area_private_get_focused_diagram_ptr( this_ );
     const data_row_id_t focused_diagram_id = data_diagram_get_row_id( focused_diag );
     return focused_diagram_id;
 }

@@ -148,27 +148,27 @@ static inline int xml_writer_write_xml_comment_view ( xml_writer_t *this_, utf8s
 
 /*!
  *  \brief checks if the stringview contains valid characters to form an xml-tag-name.
- * 
+ *
  *  Checks for characters according to Extensible Markup Language (XML) 1.1, chapter 2.3, Names and Tokens.
- * 
+ *
  *  Excludes the colon ":" because this is the namespace separator.
  *
  *  \param this_ pointer to own object attributes
- *  \param text string_view to check
+ *  \param string_view string_view to check
  *  \result true if string_view contains characters of which a valid xml-tag-name can be constructed
  */
 static inline bool xml_writer_contains_xml_tag_name_characters ( xml_writer_t *this_, utf8stringview_t string_view );
 
 /*!
  *  \brief writes a valid xml-tag-name.
- * 
+ *
  *  Writes valid characters according to Extensible Markup Language (XML) 1.1, chapter 2.3, Names and Tokens
  *  to the writer. Invalid ones are filtered. E.g. ", Design Decsisions" is transformed to "DesignDecisions"
  *
  *  Excludes the colon ":" because this is the namespace separator.
  *
  *  \param this_ pointer to own object attributes
- *  \param text string_view to 1) filter and 2) write
+ *  \param string_view string_view to 1) filter and 2) write
  *  \result 0 in case of success, -1 otherwise
  */
 static inline int xml_writer_write_xml_tag_name_characters ( xml_writer_t *this_, utf8stringview_t string_view );
@@ -205,7 +205,7 @@ void xml_writer_private_update_encoding_tables ( xml_writer_t *this_ );
 
 /*!
  *  \brief checks if the codepoint is a valid character in an xml name
- * 
+ *
  *  Checks for characters according to Extensible Markup Language (XML) 1.1, chapter 2.3, Names and Tokens
  *
  *  Excludes the colon ":" because this is the namespace separator.

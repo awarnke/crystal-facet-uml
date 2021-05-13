@@ -172,13 +172,11 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
     TRACE_BEGIN();
     assert( NULL != cr );
 
-    guint width;
-    guint height;
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
 
-    width = gtk_widget_get_allocated_width (widget);
-    height = gtk_widget_get_allocated_height (widget);
+    const guint width = gtk_widget_get_allocated_width (widget);
+    const guint height = gtk_widget_get_allocated_height (widget);
 
     if ( ! data_database_reader_is_open( (*this_).db_reader ) )
     {
@@ -208,7 +206,8 @@ void gui_sketch_area_show_diagram ( gui_sketch_area_t *this_, data_id_t main_dia
     TRACE_BEGIN();
 
     data_id_trace( &main_diagram_id );
-    uint32_t src_results_cnt = data_small_set_get_count( gui_sketch_request_get_search_result_diagrams_const( &((*this_).request) ) );
+    const uint32_t src_results_cnt
+        = data_small_set_get_count( gui_sketch_request_get_search_result_diagrams_const( &((*this_).request) ) );
     TRACE_INFO_INT( "src_results_cnt:", src_results_cnt );
 
     /* determine diagram id of root diagram */
@@ -272,13 +271,13 @@ void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ 
     if ( GUI_TOOL_SEARCH != gui_sketch_request_get_tool_mode( &((*this_).request) ) )
     {
         if ( data_id_is_valid( &former_diagram_id )
-            &&( DATA_ROW_ID_VOID == gui_sketch_area_get_focused_diagram_id( this_ ) ))
+            &&( DATA_ROW_ID_VOID == gui_sketch_area_private_get_focused_diagram_id( this_ ) ))
         {
             /* the requested diagram was not loaded, try the parent: */
             gui_sketch_area_show_diagram( this_, former_parent_diagram_id );
 
             if ( data_id_is_valid( &former_parent_diagram_id )
-                &&( DATA_ROW_ID_VOID == gui_sketch_area_get_focused_diagram_id( this_ ) ))
+                &&( DATA_ROW_ID_VOID == gui_sketch_area_private_get_focused_diagram_id( this_ ) ))
             {
                 /* the requested diagram was not loaded, go back to root diagram: */
                 gui_sketch_area_show_diagram( this_, DATA_ID_VOID );
@@ -338,7 +337,7 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
 
         default:
         {
-            data_id_t main_diagram_id = gui_sketch_request_get_focused_diagram( &((*this_).request) );
+            const data_id_t main_diagram_id = gui_sketch_request_get_focused_diagram( &((*this_).request) );
 
             gui_sketch_card_init( &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]) );
             gui_sketch_card_load_data( &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]), main_diagram_id, (*this_).db_reader );
@@ -346,7 +345,7 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
             gui_sketch_nav_tree_load_data( &((*this_).nav_tree), data_id_get_row_id( &main_diagram_id ), (*this_).db_reader );
 
             /* determine ids */
-            const data_diagram_t *selected_diag = gui_sketch_area_get_focused_diagram_ptr( this_ );
+            const data_diagram_t *selected_diag = gui_sketch_area_private_get_focused_diagram_ptr( this_ );
             const data_row_id_t selected_diagram_row_id = data_diagram_get_row_id( selected_diag );
             TRACE_INFO_INT( "selected_diagram_row_id:", selected_diagram_row_id );
             const data_id_t parent_diagram_id = data_diagram_get_parent_data_id( selected_diag );
@@ -472,8 +471,7 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
     TRACE_BEGIN();
     assert( NULL != cr );
 
-    gui_tool_t selected_tool;
-    selected_tool = gui_sketch_request_get_tool_mode( &((*this_).request) );
+    const gui_tool_t selected_tool = gui_sketch_request_get_tool_mode( &((*this_).request) );
 
     /* draw background */
     switch( selected_tool )
@@ -486,10 +484,10 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
 
         case GUI_TOOL_NAVIGATE:
         {
-            unsigned int depth;
-            unsigned int children;
-            depth = ( gui_sketch_card_is_valid( &((*this_).cards[GUI_SKETCH_AREA_CONST_PARENT_CARD]) ) ) ? 1 : 0;  /* currently, only root and non-root can be distinguished */
-            children = (*this_).card_num-2;  /* concept of card numbers to be updated in the future */
+            const unsigned int depth
+                = ( gui_sketch_card_is_valid( &((*this_).cards[GUI_SKETCH_AREA_CONST_PARENT_CARD]) ) ) ? 1 : 0;  /* currently, only root and non-root can be distinguished */
+            const unsigned int children
+                = (*this_).card_num-2;
             gui_sketch_background_draw_navigation( &((*this_).background), depth, children, cr );
         }
         break;
@@ -530,8 +528,8 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
     }
 
     /* overlay tool-helper lines */
-    int32_t mouse_x = gui_sketch_drag_state_get_to_x ( &((*this_).drag_state) );
-    int32_t mouse_y = gui_sketch_drag_state_get_to_y ( &((*this_).drag_state) );
+    const int32_t mouse_x = gui_sketch_drag_state_get_to_x ( &((*this_).drag_state) );
+    const int32_t mouse_y = gui_sketch_drag_state_get_to_y ( &((*this_).drag_state) );
     gui_sketch_overlay_draw( &((*this_).overlay),
                              selected_tool,
                              &((*this_).drag_state),
@@ -571,13 +569,9 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
 
-    int32_t x;
-    int32_t y;
-    GdkModifierType state;
-
-    x = (int32_t) (*evt).x;
-    y = (int32_t) (*evt).y;
-    state = (GdkModifierType) (*evt).state;
+    const int32_t x = (int32_t) (*evt).x;
+    const int32_t y = (int32_t) (*evt).y;
+    const GdkModifierType state = (GdkModifierType) (*evt).state;
     TRACE_INFO_INT_INT( "x/y", x, y );
 
     /* update drag coordinates */
@@ -589,8 +583,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     }
 
     /* do highlight */
-    gui_tool_t selected_tool;
-    selected_tool = gui_sketch_request_get_tool_mode( &((*this_).request) );
+    const gui_tool_t selected_tool = gui_sketch_request_get_tool_mode( &((*this_).request) );
     switch ( selected_tool )
     {
         case GUI_TOOL_SEARCH:  /* or */
@@ -772,10 +765,8 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
         gtk_widget_grab_focus( widget );
 
         /* get position */
-        int32_t x;
-        int32_t y;
-        x = (int32_t) (*evt).x;
-        y = (int32_t) (*evt).y;
+        const int32_t x = (int32_t) (*evt).x;
+        const int32_t y = (int32_t) (*evt).y;
         TRACE_INFO_INT_INT( "x/y", x, y );
 
         /* check that drag state is false */
@@ -790,8 +781,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
         gui_sketch_drag_state_set_to ( &((*this_).drag_state), x, y );
 
         /* do action */
-        gui_tool_t selected_tool;
-        selected_tool = gui_sketch_request_get_tool_mode( &((*this_).request) );
+        const gui_tool_t selected_tool = gui_sketch_request_get_tool_mode( &((*this_).request) );
         switch ( selected_tool )
         {
             case GUI_TOOL_NAVIGATE:
@@ -1017,10 +1007,10 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                                                                  );
                     data_id_pair_trace( &clicked_object );
                     data_id_pair_trace( &surrounding_object );
-                    data_id_t *clicked_classifier;
-                    data_id_t *surrounding_classifier;
-                    clicked_classifier = data_id_pair_get_secondary_id_ptr( &clicked_object );
-                    surrounding_classifier = data_id_pair_get_secondary_id_ptr( &surrounding_object );
+                    const data_id_t *const clicked_classifier
+                        = data_id_pair_get_secondary_id_ptr( &clicked_object );
+                    const data_id_t *const surrounding_classifier
+                        = data_id_pair_get_secondary_id_ptr( &surrounding_object );
 
                     if ( DATA_TABLE_CLASSIFIER == data_id_get_table( clicked_classifier ) )
                     {
@@ -1040,15 +1030,15 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                         gui_sketch_drag_state_stop_dragging ( &((*this_).drag_state) );
 
                         /* create a new classifier */
-                        data_diagram_t *target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
-                        data_row_id_t selected_diagram_id = data_diagram_get_row_id( target_diag );
+                        const data_diagram_t *const target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
+                        const data_row_id_t selected_diagram_id = data_diagram_get_row_id( target_diag );
                         TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
 
                         data_id_t dummy_classifier;
                         data_id_init( &dummy_classifier, DATA_TABLE_CLASSIFIER, DATA_ROW_ID_VOID );
                         layout_order_t layout_order = gui_sketch_card_get_order_at_pos( target_card, dummy_classifier, x, y );
-                        int32_t x_order = layout_order_get_first( &layout_order );
-                        int32_t y_order = layout_order_get_second( &layout_order );
+                        const int32_t x_order = layout_order_get_first( &layout_order );
+                        const int32_t y_order = layout_order_get_second( &layout_order );
                         TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
 
                         /* create a classifier or a child-classifier */
@@ -1134,10 +1124,8 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
         TRACE_INFO("release");
 
         /* get position */
-        int32_t x;
-        int32_t y;
-        x = (int32_t) (*evt).x;
-        y = (int32_t) (*evt).y;
+        const int32_t x = (int32_t) (*evt).x;
+        const int32_t y = (int32_t) (*evt).y;
         TRACE_INFO_INT_INT("x/y",x,y);
 
         /* update drag coordinates */
@@ -1151,8 +1139,8 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
         }
 
         /* do action */
-        gui_tool_t selected_tool;
-        selected_tool = gui_sketch_request_get_tool_mode( &((*this_).request) );
+        const gui_tool_t selected_tool
+            = gui_sketch_request_get_tool_mode( &((*this_).request) );
         switch ( selected_tool )
         {
             case GUI_TOOL_NAVIGATE:
@@ -1222,11 +1210,11 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                         else if ( DATA_ROW_ID_VOID == data_id_get_row_id( &target_parent_id ) )
                         {
                             /* a diagram is dragged to the root location */
-                            ctrl_diagram_controller_t *diag_control2;
-                            diag_control2 = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
+                            ctrl_diagram_controller_t *const diag_control2
+                                = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
-                            data_row_id_t root_id;
-                            root_id = gui_sketch_nav_tree_get_root_diagram_id ( &((*this_).nav_tree) );
+                            const data_row_id_t root_id
+                                = gui_sketch_nav_tree_get_root_diagram_id ( &((*this_).nav_tree) );
                             if (( root_id != DATA_ROW_ID_VOID )&&( root_id != data_id_get_row_id( &dragged_diagram ) ))
                             {
                                 ctrl_error_t c_err;
@@ -1268,14 +1256,14 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                 else if ( gui_sketch_drag_state_is_waiting_for_move( &((*this_).drag_state) ) )
                 {
                     /* click on diagram without drag */
-                    data_id_pair_t *dragged_object;
-                    dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
-                    data_id_t dragged_diagram;
-                    dragged_diagram = data_id_pair_get_primary_id( dragged_object );
+                    const data_id_pair_t *const dragged_object
+                        = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
+                    const data_id_t dragged_diagram
+                        = data_id_pair_get_primary_id( dragged_object );
                     if ( DATA_TABLE_DIAGRAM == data_id_get_table( &dragged_diagram ) )
                     {
                         const data_row_id_t drag_id = data_id_get_row_id( &dragged_diagram );
-                        const data_row_id_t focus_id = gui_sketch_area_get_focused_diagram_id( this_ );
+                        const data_row_id_t focus_id = gui_sketch_area_private_get_focused_diagram_id( this_ );
                         if ( ( focus_id != DATA_ROW_ID_VOID )&&( focus_id == drag_id ) )
                         {
                             /* if clicked diagram is already the focused diagram, switch to edit mode */
@@ -1310,15 +1298,15 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                 if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
                 {
                     /* which object is selected? */
-                    data_id_pair_t *dragged_object;
-                    dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
-                    data_id_t dragged_element;
-                    dragged_element = data_id_pair_get_primary_id( dragged_object );
-                    data_id_t dragged_classifier;
-                    dragged_classifier = data_id_pair_get_secondary_id( dragged_object );
+                    const data_id_pair_t *const dragged_object
+                        = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
+                    const data_id_t dragged_element
+                        = data_id_pair_get_primary_id( dragged_object );
+                    const data_id_t dragged_classifier
+                        = data_id_pair_get_secondary_id( dragged_object );
 
                     /* what is the target location? */
-                    gui_sketch_card_t *target_card = gui_sketch_area_private_get_card_at_pos ( this_, x, y );
+                    const gui_sketch_card_t *const target_card = gui_sketch_area_private_get_card_at_pos ( this_, x, y );
                     if ( NULL == target_card )
                     {
                         TRACE_INFO_INT_INT("No card at",x,y);
@@ -1332,13 +1320,13 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             TRACE_INFO_INT( "list_order", list_order );
 
                             /* update db */
-                            ctrl_classifier_controller_t *classifier_control;
-                            classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-                            ctrl_error_t mov_result;
-                            mov_result = ctrl_classifier_controller_update_classifier_list_order ( classifier_control,
-                                                                                                   data_id_get_row_id( &dragged_classifier ),
-                                                                                                   list_order
-                                                                                                 );
+                            ctrl_classifier_controller_t *const classifier_control
+                                = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+                            const ctrl_error_t mov_result
+                                = ctrl_classifier_controller_update_classifier_list_order( classifier_control,
+                                                                                           data_id_get_row_id( &dragged_classifier ),
+                                                                                           list_order
+                                                                                         );
                             if ( CTRL_ERROR_NONE != mov_result )
                             {
                                 TSLOG_ERROR( "changing order failed: ctrl_classifier_controller_update_classifier_list_order" );
@@ -1351,14 +1339,14 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
 
                             /* update db */
-                            ctrl_classifier_controller_t *classifier_control;
-                            classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-                            ctrl_error_t mov_result;
-                            mov_result = ctrl_classifier_controller_update_classifier_x_order_y_order ( classifier_control,
-                                                                                                        data_id_get_row_id( &dragged_classifier ),
-                                                                                                        x_order,
-                                                                                                        y_order
-                                                                                                    );
+                            ctrl_classifier_controller_t *const classifier_control
+                                = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+                            const ctrl_error_t mov_result
+                                = ctrl_classifier_controller_update_classifier_x_order_y_order( classifier_control,
+                                                                                                data_id_get_row_id( &dragged_classifier ),
+                                                                                                x_order,
+                                                                                                y_order
+                                                                                              );
                             if ( CTRL_ERROR_NONE != mov_result )
                             {
                                 TSLOG_ERROR( "changing order failed: ctrl_classifier_controller_update_classifier_x_order_y_order" );
@@ -1374,13 +1362,13 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             TRACE_INFO_INT( "list_order", list_order );
 
                             /* update db */
-                            ctrl_classifier_controller_t *classifier_control;
-                            classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-                            ctrl_error_t mov_result;
-                            mov_result = ctrl_classifier_controller_update_relationship_list_order ( classifier_control,
-                                                                                                     data_id_get_row_id( &dragged_element ),
-                                                                                                     list_order
-                                                                                                   );
+                            ctrl_classifier_controller_t *const classifier_control
+                                = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+                            const ctrl_error_t mov_result
+                                = ctrl_classifier_controller_update_relationship_list_order( classifier_control,
+                                                                                             data_id_get_row_id( &dragged_element ),
+                                                                                             list_order
+                                                                                           );
                             if ( CTRL_ERROR_NONE != mov_result )
                             {
                                 TSLOG_ERROR( "changing order failed: ctrl_classifier_controller_update_relationship_list_order" );
@@ -1396,13 +1384,13 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             TRACE_INFO_INT( "list_order", list_order );
 
                             /* update db */
-                            ctrl_classifier_controller_t *classifier_control;
-                            classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-                            ctrl_error_t mov_result;
-                            mov_result = ctrl_classifier_controller_update_feature_list_order ( classifier_control,
-                                                                                                data_id_get_row_id( &dragged_element ),
-                                                                                                list_order
-                                                                                              );
+                            ctrl_classifier_controller_t *const classifier_control
+                                = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+                            const ctrl_error_t mov_result
+                                = ctrl_classifier_controller_update_feature_list_order( classifier_control,
+                                                                                        data_id_get_row_id( &dragged_element ),
+                                                                                        list_order
+                                                                                      );
                             if ( CTRL_ERROR_NONE != mov_result )
                             {
                                 TSLOG_ERROR( "changing order failed: ctrl_classifier_controller_update_feature_list_order" );
@@ -1424,10 +1412,10 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                 if ( gui_sketch_drag_state_is_waiting_for_move( &((*this_).drag_state) ) )
                 {
                     /* click on diagram without drag */
-                    data_id_pair_t *dragged_object;
-                    dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
-                    data_id_t dragged_diagram;
-                    dragged_diagram = data_id_pair_get_primary_id( dragged_object );
+                    const data_id_pair_t *const dragged_object
+                        = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
+                    const data_id_t dragged_diagram
+                        = data_id_pair_get_primary_id( dragged_object );
                     if ( DATA_TABLE_DIAGRAM == data_id_get_table( &dragged_diagram ) )
                     {
                         /* load/reload data to be drawn */
@@ -1454,13 +1442,13 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                 if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
                 {
                     /* which object is selected? */
-                    data_id_pair_t *dragged_object;
-                    dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
+                    const data_id_pair_t *const dragged_object
+                        = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
                     data_id_pair_trace( dragged_object );
-                    data_id_t dragged_element;
-                    dragged_element = data_id_pair_get_primary_id( dragged_object );
-                    data_id_t dragged_classifier;
-                    dragged_classifier = data_id_pair_get_secondary_id( dragged_object );
+                    const data_id_t dragged_element
+                        = data_id_pair_get_primary_id( dragged_object );
+                    const data_id_t dragged_classifier
+                        = data_id_pair_get_secondary_id( dragged_object );
 
                     /* which object is at the target location? */
                     data_id_pair_t destination_object;
@@ -1473,10 +1461,10 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                                                   &diag_id
                                                                 );
                     data_id_pair_trace( &destination_object );
-                    data_id_t destination_element;
-                    destination_element = data_id_pair_get_primary_id( &destination_object );
-                    data_id_t destination_classifier;
-                    destination_classifier = data_id_pair_get_secondary_id( &destination_object );
+                    const data_id_t destination_element
+                        = data_id_pair_get_primary_id( &destination_object );
+                    const data_id_t destination_classifier
+                        = data_id_pair_get_secondary_id( &destination_object );
 
                     gui_sketch_card_t *target_card = gui_sketch_area_private_get_card_at_pos ( this_, x, y );
                     if ( data_id_is_valid( &dragged_classifier ) && data_id_is_valid( &destination_classifier ) && ( NULL != target_card ))
@@ -1485,7 +1473,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             && ( DATA_TABLE_CLASSIFIER == data_id_get_table( &destination_classifier ) ) )
                         {
                             /* get the diagram type */
-                            const data_diagram_t *target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
+                            const data_diagram_t *const target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
                             assert ( target_diag != NULL );
                             data_diagram_type_t diag_type = data_diagram_get_diagram_type ( target_diag );
 
@@ -1519,10 +1507,10 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             int32_t list_order_proposal = 0;
                             {
                                 /* propose a list order */
-                                layout_order_t layout_order;
                                 data_id_t fake_relationship;
                                 data_id_init ( &fake_relationship, DATA_TABLE_RELATIONSHIP, DATA_ROW_ID_VOID );
-                                layout_order = gui_sketch_card_get_order_at_pos( target_card, fake_relationship, x, y );
+                                const layout_order_t layout_order
+                                    = gui_sketch_card_get_order_at_pos( target_card, fake_relationship, x, y );
                                 if ( PENCIL_LAYOUT_ORDER_TYPE_LIST == layout_order_get_order_type( &layout_order ) )
                                 {
                                     list_order_proposal = layout_order_get_first( &layout_order );
@@ -1534,16 +1522,16 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             }
 
                             data_row_id_t new_relationship_id;
-                            ctrl_error_t c_result;
-                            c_result = gui_sketch_object_creator_create_relationship ( &((*this_).object_creator),
-                                                                                       diag_type,
-                                                                                       new_from_classifier_id,
-                                                                                       new_from_feature_id,
-                                                                                       new_to_classifier_id,
-                                                                                       new_to_feature_id,
-                                                                                       list_order_proposal,
-                                                                                       &new_relationship_id
-                                                                                     );
+                            const ctrl_error_t c_result
+                                = gui_sketch_object_creator_create_relationship( &((*this_).object_creator),
+                                                                                 diag_type,
+                                                                                 new_from_classifier_id,
+                                                                                 new_from_feature_id,
+                                                                                 new_to_classifier_id,
+                                                                                 new_to_feature_id,
+                                                                                 list_order_proposal,
+                                                                                 &new_relationship_id
+                                                                               );
 
                             if ( CTRL_ERROR_NONE != c_result )
                             {
@@ -1564,10 +1552,10 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                 else if ( gui_sketch_drag_state_is_waiting_for_move( &((*this_).drag_state) ) )
                 {
                     /* click on classifier without drag */
-                    data_id_pair_t *dragged_object;
-                    dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
-                    data_id_t dragged_classifier;
-                    dragged_classifier = data_id_pair_get_secondary_id( dragged_object );
+                    const data_id_pair_t *const dragged_object
+                        = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
+                    const data_id_t dragged_classifier
+                        = data_id_pair_get_secondary_id( dragged_object );
 
                     const gui_sketch_card_t *const target_card
                         = gui_sketch_area_private_get_card_at_pos ( this_, x, y );
@@ -1580,7 +1568,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             const data_diagram_t *const target_diag
                                 = gui_sketch_card_get_diagram_const ( target_card );
                             assert ( target_diag != NULL );
-                            data_diagram_type_t diag_type = data_diagram_get_diagram_type ( target_diag );
+                            const data_diagram_type_t diag_type = data_diagram_get_diagram_type ( target_diag );
 
                             /* determine id of classifier to which the clicked object belongs */
                             const data_row_id_t classifier_id = data_id_get_row_id( &dragged_classifier );
@@ -1609,14 +1597,14 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
 
                             /* create a feature */
                             data_row_id_t new_feature_id;
-                            ctrl_error_t ctrl_err;
-                            ctrl_err = gui_sketch_object_creator_create_feature ( &((*this_).object_creator),
-                                                                                  diag_type,
-                                                                                  classifier_id,
-                                                                                  std_list_order_proposal,
-                                                                                  port_list_order_proposal,
-                                                                                  &new_feature_id
-                                                                                );
+                            const ctrl_error_t ctrl_err
+                                = gui_sketch_object_creator_create_feature( &((*this_).object_creator),
+                                                                            diag_type,
+                                                                            classifier_id,
+                                                                            std_list_order_proposal,
+                                                                            port_list_order_proposal,
+                                                                            &new_feature_id
+                                                                          );
 
                             if ( CTRL_ERROR_NONE != ctrl_err )
                             {
@@ -1728,8 +1716,7 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_messa
     assert( NULL != this_ );
     assert ( NULL != widget );
 
-    data_change_event_type_t evt_type;
-    evt_type = data_change_message_get_event ( msg );
+    const data_change_event_type_t evt_type = data_change_message_get_event ( msg );
 
     if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
     {
