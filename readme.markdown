@@ -1,5 +1,5 @@
 
-![ScreenShot](user_doc/doc/introduction_banner.png)
+![ScreenShot](user_doc/doc/1_introduction_banner.png)
 
 crystal-facet-uml
 =============
@@ -26,7 +26,7 @@ This tool runs on your local linux PC and is based on glib, gdk, gtk, cairo, pan
 
 ![ScreenShot](user_doc/doc/screenshot_3.png)
 
-[User Manual](user_doc/crystal-facet-uml_documentation.pdf)
+How to use this program is described in the [User Manual](user_doc/crystal-facet-uml_documentation.pdf) .
 
 Install crystal-facet-uml
 -----------
@@ -48,7 +48,7 @@ Windows/wine:
 How to build from source
 -----------
 
-Building from source is described in [build](build)
+Building from source is described in [./build](build) .
 
 How to run
 -----------
