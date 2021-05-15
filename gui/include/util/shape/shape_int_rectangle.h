@@ -38,6 +38,21 @@ typedef struct shape_int_rectangle_struct shape_int_rectangle_t;
 static inline void shape_int_rectangle_init ( shape_int_rectangle_t *this_, int32_t left, int32_t top, uint32_t width, uint32_t height );
 
 /*!
+ *  \brief initializes the shape_int_rectangle_t struct to zeros
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void shape_int_rectangle_init_empty ( shape_int_rectangle_t *this_ );
+
+/*!
+ *  \brief overwrites the shape_int_rectangle_t struct to that
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that shape_int_rectangle_t top copy
+ */
+static inline void shape_int_rectangle_replace ( shape_int_rectangle_t *this_, const shape_int_rectangle_t *that );
+
+/*!
  *  \brief destroys the shape_int_rectangle_t struct
  *
  *  \param this_ pointer to own object attributes

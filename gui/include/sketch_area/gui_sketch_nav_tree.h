@@ -14,6 +14,7 @@
 #include "gui_resources.h"
 #include "gui_error.h"
 #include "util/shape/shape_int_rectangle.h"
+#include "pos/pos_diagram.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
 #include "layout/layout_order.h"

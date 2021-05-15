@@ -1,6 +1,7 @@
 /* File: shape_int_rectangle.inl; Copyright and License: see below */
 
 #include "trace.h"
+#include <assert.h>
 
 static inline void shape_int_rectangle_init ( shape_int_rectangle_t *this_, int32_t left, int32_t top, uint32_t width, uint32_t height )
 {
@@ -8,6 +9,20 @@ static inline void shape_int_rectangle_init ( shape_int_rectangle_t *this_, int3
     (*this_).top = top;
     (*this_).width = width;
     (*this_).height = height;
+}
+
+static inline void shape_int_rectangle_init_empty ( shape_int_rectangle_t *this_ )
+{
+    (*this_).left = 0;
+    (*this_).top = 0;
+    (*this_).width = 0;
+    (*this_).height = 0;
+}
+
+static inline void shape_int_rectangle_replace ( shape_int_rectangle_t *this_, const shape_int_rectangle_t *that )
+{
+    assert( that != NULL );
+    *this_ = *that;
 }
 
 static inline void shape_int_rectangle_destroy ( shape_int_rectangle_t *this_ )
