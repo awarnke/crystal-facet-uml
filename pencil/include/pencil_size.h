@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Provides a set of size values used to draw one diagram
+ *  \brief Provides a set of size values used to draw a diagram
  */
 
 #include <pango/pangocairo.h>
@@ -14,13 +14,6 @@
 #include <gdk/gdk.h>
 #include <stdint.h>
 #include <stdbool.h>
-
-/*!
- *  \brief constants for values of pencil_size_t
- */
-enum pencil_size_const_enum {
-    PENCIL_SIZE_CONST_ASCENT_PERCENT = 75,  /*!< percent of ascent above the baseline relative to total font-size */
-};
 
 /*!
  *  \brief attributes of the pencil_size_t
@@ -94,7 +87,7 @@ static inline double pencil_size_get_footnote_font_size( const pencil_size_t *th
  *
  *  \param this_ pointer to own object attributes
  */
-static inline PangoFontDescription *pencil_size_get_footnote_font_description( const pencil_size_t *this_ );
+static inline const PangoFontDescription *pencil_size_get_footnote_font_description( const pencil_size_t *this_ );
 
 /*!
  *  \brief gets the attribute of pencil_size_t: standard_font_size
@@ -108,7 +101,7 @@ static inline double pencil_size_get_standard_font_size( const pencil_size_t *th
  *
  *  \param this_ pointer to own object attributes
  */
-static inline PangoFontDescription *pencil_size_get_standard_font_description( const pencil_size_t *this_ );
+static inline const PangoFontDescription *pencil_size_get_standard_font_description( const pencil_size_t *this_ );
 
 /*!
  *  \brief gets the attribute of pencil_size_t: title_font_size
@@ -122,7 +115,7 @@ static inline double pencil_size_get_title_font_size( const pencil_size_t *this_
  *
  *  \param this_ pointer to own object attributes
  */
-static inline PangoFontDescription *pencil_size_get_title_font_description( const pencil_size_t *this_ );
+static inline const PangoFontDescription *pencil_size_get_title_font_description( const pencil_size_t *this_ );
 
 /*!
  *  \brief proposes a tab size

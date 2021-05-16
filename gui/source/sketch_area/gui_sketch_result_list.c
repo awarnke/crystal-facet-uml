@@ -7,8 +7,6 @@
 #include "tslog.h"
 #include <gdk/gdk.h>
 
-static const int STANDARD_FONT_SIZE = 12;
-static const char *STANDARD_FONT_FAMILY = "Sans";
 const int GUI_SKETCH_RESULT_LIST_LINE_HEIGHT = 28;  /*!< height of an element-name/entry in pixels */
 static const int OBJ_GAP = 4;
 
@@ -22,14 +20,7 @@ void gui_sketch_result_list_init( gui_sketch_result_list_t *this_, gui_resources
     (*this_).visible = false;
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
 
-    /* init the pango font renering engine stuff: */
-    (*this_).standard_font_description = pango_font_description_new ();
-    pango_font_description_set_family_static ( (*this_).standard_font_description, STANDARD_FONT_FAMILY );
-    pango_font_description_set_style ( (*this_).standard_font_description, PANGO_STYLE_NORMAL );
-    pango_font_description_set_weight ( (*this_).standard_font_description, PANGO_WEIGHT_MEDIUM );
-    pango_font_description_set_stretch ( (*this_).standard_font_description, PANGO_STRETCH_NORMAL );
-    pango_font_description_set_size ( (*this_).standard_font_description, STANDARD_FONT_SIZE * PANGO_SCALE );
-
+    gui_sketch_style_init( &((*this_).sketch_style) );
     gui_sketch_marker_init( &((*this_).sketch_marker), true );
     (*this_).resources = resources;
     gui_resource_selector_init( &((*this_).selector), resources );
@@ -44,10 +35,7 @@ void gui_sketch_result_list_destroy( gui_sketch_result_list_t *this_ )
     gui_resource_selector_destroy( &((*this_).selector) );
     (*this_).resources = NULL;
     gui_sketch_marker_destroy( &((*this_).sketch_marker) );
-
-    /* destroy the pango font renering engine stuff: */
-    pango_font_description_free ( (*this_).standard_font_description );
-    (*this_).standard_font_description = NULL;
+    gui_sketch_style_destroy( &((*this_).sketch_style) );
 
     data_search_result_list_destroy( &((*this_).result_list) );
 
@@ -81,7 +69,9 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_s
     if ( (*this_).visible )
     {
         PangoLayout *layout = pango_cairo_create_layout (cr);
-        pango_layout_set_font_description ( layout, (*this_).standard_font_description );
+        const PangoFontDescription *const std_font
+            = gui_sketch_style_get_standard_font_description( &((*this_).sketch_style ) );
+        pango_layout_set_font_description ( layout, std_font );
 
         const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
         const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );

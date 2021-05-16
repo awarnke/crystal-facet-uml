@@ -6,8 +6,6 @@
 #include "tslog.h"
 #include <gdk/gdk.h>
 
-static const int STANDARD_FONT_SIZE = 12;
-static const char *STANDARD_FONT_FAMILY = "Sans";
 static const uint32_t NAV_TREE_FIRST_LINE = 1;
 const int GUI_SKETCH_NAV_TREE_LINE_HEIGHT = 20;
 const int GUI_SKETCH_NAV_TREE_INDENT = 12;
@@ -39,14 +37,7 @@ void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_, gui_resources_t *re
     (*this_).visible = false;
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
 
-    /* init the pango font renering engine stuff: */
-    (*this_).standard_font_description = pango_font_description_new ();
-    pango_font_description_set_family_static ( (*this_).standard_font_description, STANDARD_FONT_FAMILY );
-    pango_font_description_set_style ( (*this_).standard_font_description, PANGO_STYLE_NORMAL );
-    pango_font_description_set_weight ( (*this_).standard_font_description, PANGO_WEIGHT_MEDIUM );
-    pango_font_description_set_stretch ( (*this_).standard_font_description, PANGO_STRETCH_NORMAL );
-    pango_font_description_set_size ( (*this_).standard_font_description, STANDARD_FONT_SIZE * PANGO_SCALE );
-
+    gui_sketch_style_init( &((*this_).sketch_style) );
     gui_sketch_marker_init( &((*this_).sketch_marker), true );
     (*this_).resources = resources;
 
@@ -59,10 +50,7 @@ void gui_sketch_nav_tree_destroy( gui_sketch_nav_tree_t *this_ )
 
     (*this_).resources = NULL;
     gui_sketch_marker_destroy( &((*this_).sketch_marker) );
-
-    /* destroy the pango font renering engine stuff: */
-    pango_font_description_free ( (*this_).standard_font_description );
-    (*this_).standard_font_description = NULL;
+    gui_sketch_style_destroy( &((*this_).sketch_style) );
 
     gui_sketch_nav_tree_invalidate_data( this_ );
 
@@ -537,7 +525,7 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
         /* draw the background */
         {
             cairo_set_source_rgba( cr, GREY_R, GREY_G, GREY_B, GREY_A );
-            cairo_rectangle ( cr, left, top, width, height );
+            cairo_rectangle( cr, left, top, width, height );
             cairo_fill (cr);
         }
 
@@ -545,14 +533,16 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
         {
             PangoLayout *layout;
             layout = pango_cairo_create_layout (cr);
-            pango_layout_set_font_description ( layout, (*this_).standard_font_description );
+            const PangoFontDescription *const std_font
+                = gui_sketch_style_get_standard_font_description( &((*this_).sketch_style ) );
+            pango_layout_set_font_description( layout, std_font );
 
             /* EXAMPLE: precalculate text dimensions to vertically center the text */
             /*
-            pango_layout_set_text ( layout, "PANGO Demo", -1 );
+            pango_layout_set_text( layout, "PANGO Demo", -1 );
             int text2_width;
             int text2_height;
-            pango_layout_get_pixel_size (layout, &text2_width, &text2_height);
+            pango_layout_get_pixel_size(layout, &text2_width, &text2_height);
             double y_adjust = ( height - text2_height ) / 2.0;
             */
 

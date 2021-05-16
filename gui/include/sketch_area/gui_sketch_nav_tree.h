@@ -76,7 +76,7 @@ struct gui_sketch_nav_tree_struct {
     int32_t line_idx_new_root;  /*! 0 equals line of new root button; -1 if there is no such button */
 
     /* helper classes to perform drawing */
-    PangoFontDescription *standard_font_description;  /*!< text description of standard text */
+    gui_sketch_style_t sketch_style;
     gui_sketch_marker_t sketch_marker;
     gui_resources_t *resources;  /*!< pointer to external resources */
 };

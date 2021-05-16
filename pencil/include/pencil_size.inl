@@ -128,7 +128,7 @@ static inline double pencil_size_get_footnote_font_size( const pencil_size_t *th
     return (*this_).footnote_font_size;
 }
 
-static inline PangoFontDescription *pencil_size_get_footnote_font_description( const pencil_size_t *this_ )
+static inline const PangoFontDescription *pencil_size_get_footnote_font_description( const pencil_size_t *this_ )
 {
     return (*this_).footnote_font_description;
 }
@@ -138,7 +138,7 @@ static inline double pencil_size_get_standard_font_size( const pencil_size_t *th
     return (*this_).standard_font_size;
 }
 
-static inline PangoFontDescription *pencil_size_get_standard_font_description( const pencil_size_t *this_ )
+static inline const PangoFontDescription *pencil_size_get_standard_font_description( const pencil_size_t *this_ )
 {
     return (*this_).standard_font_description;
 }
@@ -148,7 +148,7 @@ static inline double pencil_size_get_title_font_size( const pencil_size_t *this_
     return (*this_).title_font_size;
 }
 
-static inline PangoFontDescription *pencil_size_get_title_font_description( const pencil_size_t *this_ )
+static inline const PangoFontDescription *pencil_size_get_title_font_description( const pencil_size_t *this_ )
 {
     return (*this_).title_font_description;
 }
