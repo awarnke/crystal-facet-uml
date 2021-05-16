@@ -9,6 +9,7 @@
  */
 
 #include "sketch_area/gui_sketch_marker.h"
+#include "sketch_area/gui_sketch_style.h"
 #include "gui_marked_set.h"
 #include "gui_resources.h"
 #include "gui_resource_selector.h"
@@ -28,8 +29,8 @@ extern const int GUI_SKETCH_RESULT_LIST_LINE_HEIGHT;  /*!< height of an element-
 /*!
  *  \brief constants for maximum values of gui_sketch_result_list_t
  */
-enum gui_sketch_result_list__max_enum {
-    GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE = 64,  /*!< maximum number of search results */
+enum gui_sketch_result_list_max_enum {
+    GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE = 128,  /*!< maximum number of search results */
 };
 
 /*!
@@ -126,7 +127,14 @@ static inline bool gui_sketch_result_list_is_visible( gui_sketch_result_list_t *
 static inline void gui_sketch_result_list_set_visible( gui_sketch_result_list_t *this_, bool visible );
 
 /*!
- *  \brief draws a single diagram
+ *  \brief calculates the coordinates of the search result list entries
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void gui_sketch_result_list_private_do_layout( gui_sketch_result_list_t *this_ );
+
+/*!
+ *  \brief draws the search result list
  *
  *  \param this_ pointer to own object attributes
  *  \param marker set of all objects to be marked

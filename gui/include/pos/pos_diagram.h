@@ -10,6 +10,7 @@
  */
 
 #include "util/shape/shape_int_rectangle.h"
+#include "pos/pos_nav_tree_node_type.h"
 #include "data_diagram.h"
 
 /*!
@@ -18,6 +19,7 @@
 struct pos_diagram_struct {
     shape_int_rectangle_t icon_box;  /*!< The rectangle where the icon of the diagram is drawn */
     shape_int_rectangle_t label_box;  /*!< bounding box of the label of the diagram. */
+    pos_nav_tree_node_type_t node_type;  /*!< type of the nav tree node. */
     const data_diagram_t *data;  /*!< pointer to the data object of the diagram */
 };
 

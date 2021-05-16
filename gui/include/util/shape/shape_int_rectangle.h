@@ -45,7 +45,15 @@ static inline void shape_int_rectangle_init ( shape_int_rectangle_t *this_, int3
 static inline void shape_int_rectangle_init_empty ( shape_int_rectangle_t *this_ );
 
 /*!
- *  \brief overwrites the shape_int_rectangle_t struct to that
+ *  \brief copies a data_id_t struct to this uninitialized data_id_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to original object attributes
+ */
+static inline void shape_int_rectangle_copy ( shape_int_rectangle_t *this_, const shape_int_rectangle_t *that );
+
+/*!
+ *  \brief overwrites the shape_int_rectangle_t struct by that
  *
  *  \param this_ pointer to own object attributes
  *  \param that shape_int_rectangle_t top copy

@@ -19,6 +19,12 @@ static inline void shape_int_rectangle_init_empty ( shape_int_rectangle_t *this_
     (*this_).height = 0;
 }
 
+static inline void shape_int_rectangle_copy ( shape_int_rectangle_t *this_, const shape_int_rectangle_t *that )
+{
+    assert( that != NULL );
+    *this_ = *that;
+}
+
 static inline void shape_int_rectangle_replace ( shape_int_rectangle_t *this_, const shape_int_rectangle_t *that )
 {
     assert( that != NULL );

@@ -56,6 +56,13 @@ void gui_sketch_result_list_destroy( gui_sketch_result_list_t *this_ )
     TRACE_END();
 }
 
+void gui_sketch_result_list_private_do_layout( gui_sketch_result_list_t *this_ )
+{
+    TRACE_BEGIN();
+
+    TRACE_END();
+}
+
 static const double BLACK_R = 0.0;
 static const double BLACK_G = 0.0;
 static const double BLACK_B = 0.0;
