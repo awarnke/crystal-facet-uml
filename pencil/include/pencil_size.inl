@@ -43,10 +43,10 @@ static inline void pencil_size_init_empty( pencil_size_t *this_ )
     (*this_).focus_color.blue = 0.0;
     (*this_).focus_color.alpha = 1.0;
 
-    (*this_).emphasized_color.red = 1.0;
-    (*this_).emphasized_color.green = 1.0;
-    (*this_).emphasized_color.blue = 0.3;
-    (*this_).emphasized_color.alpha = 1.0;
+    (*this_).emphasized_bgcolor.red = 1.0;
+    (*this_).emphasized_bgcolor.green = 1.0;
+    (*this_).emphasized_bgcolor.blue = 0.3;
+    (*this_).emphasized_bgcolor.alpha = 1.0;
 
     (*this_).gray_out_color.red = 0.7;
     (*this_).gray_out_color.green = 0.7;
@@ -223,9 +223,9 @@ static inline GdkRGBA pencil_size_get_focus_color( const pencil_size_t *this_ )
     return (*this_).focus_color;
 }
 
-static inline GdkRGBA pencil_size_get_emphasized_color( const pencil_size_t *this_ )
+static inline GdkRGBA pencil_size_get_emphasized_bgcolor( const pencil_size_t *this_ )
 {
-    return (*this_).emphasized_color;
+    return (*this_).emphasized_bgcolor;
 }
 
 static inline GdkRGBA pencil_size_get_gray_out_color( const pencil_size_t *this_ )

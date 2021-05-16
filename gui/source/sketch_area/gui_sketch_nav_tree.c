@@ -497,10 +497,6 @@ void gui_sketch_nav_tree_get_object_id_at_pos ( const gui_sketch_nav_tree_t *thi
     TRACE_END();
 }
 
-static const double BLACK_R = 0.0;
-static const double BLACK_G = 0.0;
-static const double BLACK_B = 0.0;
-static const double BLACK_A = 1.0;
 static const double GREY_R = 0.8;
 static const double GREY_G = 0.8;
 static const double GREY_B = 0.8;
@@ -613,7 +609,8 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
             if ( (*this_).ancestors_count != 1 )  /* create sibling if not root diagram */
             {
                 destination_rect = gui_sketch_nav_tree_private_get_sibling_bounds( this_, (*this_).siblings_count );
-                cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
+                const GdkRGBA std_color = gui_sketch_style_get_standard_color( &((*this_).sketch_style) );
+                cairo_set_source_rgba( cr, std_color.red, std_color.green, std_color.blue, std_color.alpha );
                 gui_sketch_nav_tree_private_draw_icon_and_label( this_,
                                                                  gui_resources_get_navigate_create_sibling( (*this_).resources ),
                                                                  "",
@@ -647,7 +644,8 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
             if ( (*this_).ancestors_count != 0 )  /* create children if parent exists */
             {
                 destination_rect = gui_sketch_nav_tree_private_get_child_bounds( this_, (*this_).children_count );
-                cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
+                const GdkRGBA std_color = gui_sketch_style_get_standard_color( &((*this_).sketch_style) );
+                cairo_set_source_rgba( cr, std_color.red, std_color.green, std_color.blue, std_color.alpha );
                 gui_sketch_nav_tree_private_draw_icon_and_label( this_,
                                                                  gui_resources_get_navigate_create_child( (*this_).resources ),
                                                                  "",

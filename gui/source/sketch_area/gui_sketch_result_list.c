@@ -51,10 +51,6 @@ void gui_sketch_result_list_private_do_layout( gui_sketch_result_list_t *this_ )
     TRACE_END();
 }
 
-static const double BLACK_R = 0.0;
-static const double BLACK_G = 0.0;
-static const double BLACK_B = 0.0;
-static const double BLACK_A = 1.0;
 static const double GREY_R = 0.8;
 static const double GREY_G = 0.8;
 static const double GREY_B = 0.8;
@@ -88,7 +84,8 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_s
         if ( count == 0 )
         {
             const GdkPixbuf *undef_icon = gui_resources_get_type_undef( (*this_).resources );
-            cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
+            const GdkRGBA std_color = gui_sketch_style_get_standard_color( &((*this_).sketch_style) );
+            cairo_set_source_rgba( cr, std_color.red, std_color.green, std_color.blue, std_color.alpha );
             gui_sketch_result_list_private_draw_icon_and_label( this_, undef_icon, "n/a", 8, 8, layout, cr );
         }
         else
@@ -115,18 +112,11 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_s
                                                 destination_rect,
                                                 cr
                                               );
-
-                if ( data_id_equals( &highlighted, data_search_result_get_diagram_id_const( result ) ) )
+               if ( data_id_equals( &highlighted, data_search_result_get_diagram_id_const( result ) ) )
                 {
-                    /* use same color as in pencil_size.inl */
-                    cairo_set_source_rgba( cr, 0.0, 0.6, 0.4, 1.0 );
+                    const GdkRGBA high_color = gui_sketch_style_get_highlight_color( &((*this_).sketch_style) );
+                    cairo_set_source_rgba( cr, high_color.red, high_color.green, high_color.blue, high_color.alpha );
                 }
-                /*
-                else
-                {
-                    cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
-                }
-                */
 
                 const GdkPixbuf *icon = gui_resource_selector_get_icon ( &((*this_).selector), table, type );
                 gui_sketch_result_list_private_draw_icon_and_label( this_,

@@ -152,11 +152,11 @@ static inline GdkRGBA gui_sketch_style_get_highlight_color( const gui_sketch_sty
 static inline GdkRGBA gui_sketch_style_get_focus_color( const gui_sketch_style_t *this_ );
 
 /*!
- *  \brief gets the attribute of gui_sketch_style_t: emphasized_color
+ *  \brief gets the background-color attribute of gui_sketch_style_t: emphasized_bgcolor
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkRGBA gui_sketch_style_get_emphasized_color( const gui_sketch_style_t *this_ );
+static inline GdkRGBA gui_sketch_style_get_emphasized_bgcolor( const gui_sketch_style_t *this_ );
 
 /*!
  *  \brief gets the attribute of gui_sketch_style_t: gray_out_color

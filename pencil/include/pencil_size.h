@@ -37,7 +37,7 @@ struct pencil_size_struct {
     GdkRGBA select_color;  /*!< foreground color of all currently selected objects (user selected set): pink */
     GdkRGBA highlight_color;  /*!< foreground color of the current highlighted/mouse over object: turquoise */
     GdkRGBA focus_color;  /*!< foreground color of the one currently focused object: yellow */
-    GdkRGBA emphasized_color;  /*!< background color of the durable-emphasized objects: yellow */
+    GdkRGBA emphasized_bgcolor;  /*!< background color of the durable-emphasized objects: yellow */
     GdkRGBA gray_out_color;  /*!< foreground color of the durable-greyed_out objects: gray */
 };
 
@@ -216,11 +216,11 @@ static inline GdkRGBA pencil_size_get_highlight_color( const pencil_size_t *this
 static inline GdkRGBA pencil_size_get_focus_color( const pencil_size_t *this_ );
 
 /*!
- *  \brief gets the attribute of pencil_size_t: emphasized_color
+ *  \brief gets the attribute of pencil_size_t: emphasized_bgcolor
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkRGBA pencil_size_get_emphasized_color( const pencil_size_t *this_ );
+static inline GdkRGBA pencil_size_get_emphasized_bgcolor( const pencil_size_t *this_ );
 
 /*!
  *  \brief gets the attribute of pencil_size_t: gray_out_color

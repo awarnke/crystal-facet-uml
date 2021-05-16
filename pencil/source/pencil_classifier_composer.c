@@ -108,7 +108,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
         /* highlight */
         if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_EMPHASIS ))
         {
-            GdkRGBA emph_color = pencil_size_get_emphasized_color( pencil_size );
+            const GdkRGBA emph_color = pencil_size_get_emphasized_bgcolor( pencil_size );
             cairo_set_source_rgba( cr, emph_color.red, emph_color.green, emph_color.blue, emph_color.alpha );
             const geometry_rectangle_t *const box = layout_visible_classifier_get_label_box_const( layouted_classifier );
             cairo_rectangle ( cr,
@@ -349,11 +349,11 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             {
                 const geometry_rectangle_t *const classifier_label_box
                     = layout_visible_classifier_get_label_box_const( layouted_classifier );
-                draw_classifier_contour_draw_package ( &((*this_).draw_classifier_contour), 
-                                                       classifier_symbol_box, 
-                                                       classifier_label_box, 
+                draw_classifier_contour_draw_package ( &((*this_).draw_classifier_contour),
+                                                       classifier_symbol_box,
+                                                       classifier_label_box,
                                                        pencil_size,
-                                                       cr 
+                                                       cr
                                                      );
             }
             break;
@@ -470,9 +470,9 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
     const geometry_dimensions_t icon_dim
         = draw_classifier_symbol_get_icon_dimensions( &((*this_).draw_classifier_symbol),
                                                        classifier_type,
-                                                       pencil_size 
+                                                       pencil_size
                                                     );
-    
+
     /* determine stereotype and name dimensions */
     double text_width;
     double text_height;
@@ -601,7 +601,7 @@ void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_co
     const geometry_dimensions_t icon_dim
         = draw_classifier_symbol_get_icon_dimensions( &((*this_).draw_classifier_symbol),
                                                       classifier_type,
-                                                      pencil_size 
+                                                      pencil_size
                                                     );
 
     /* calculate the result */
@@ -616,9 +616,9 @@ void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_co
     double text_width;
     double text_height;
     geometry_dimensions_t proposed_bounds;
-    geometry_dimensions_init( &proposed_bounds, 
-                              width - left_border - geometry_dimensions_get_width( &icon_dim ) - right_border, 
-                              height 
+    geometry_dimensions_init( &proposed_bounds,
+                              width - left_border - geometry_dimensions_get_width( &icon_dim ) - right_border,
+                              height
                             );
     draw_classifier_label_get_stereotype_and_name_dimensions( &((*this_).draw_classifier_label),
                                                               visible_classifier,
@@ -628,7 +628,7 @@ void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_co
                                                               &text_width,
                                                               &text_height
                                                             );
-    
+
     const bool is_fix_sized_symbol
         = layout_visible_classifier_is_fix_sized_symbol( io_classifier_layout );
     if ( ! is_fix_sized_symbol )

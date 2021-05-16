@@ -95,9 +95,9 @@ static inline GdkRGBA gui_sketch_style_get_focus_color( const gui_sketch_style_t
     return pencil_size_get_focus_color( &((*this_).pencil_size) );
 }
 
-static inline GdkRGBA gui_sketch_style_get_emphasized_color( const gui_sketch_style_t *this_ )
+static inline GdkRGBA gui_sketch_style_get_emphasized_bgcolor( const gui_sketch_style_t *this_ )
 {
-    return pencil_size_get_emphasized_color( &((*this_).pencil_size) );
+    return pencil_size_get_emphasized_bgcolor( &((*this_).pencil_size) );
 }
 
 static inline GdkRGBA gui_sketch_style_get_gray_out_color( const gui_sketch_style_t *this_ )
