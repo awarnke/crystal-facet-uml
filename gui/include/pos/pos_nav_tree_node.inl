@@ -1,8 +1,8 @@
-/* File: pos_diagram.inl; Copyright and License: see below */
+/* File: pos_nav_tree_node.inl; Copyright and License: see below */
 
 #include <assert.h>
 
-static inline void pos_diagram_init ( pos_diagram_t *this_, const data_diagram_t *diagram_data )
+static inline void pos_nav_tree_node_init ( pos_nav_tree_node_t *this_, const data_diagram_t *diagram_data )
 {
     assert ( NULL != diagram_data );
 
@@ -11,14 +11,14 @@ static inline void pos_diagram_init ( pos_diagram_t *this_, const data_diagram_t
     (*this_).data = diagram_data;
 }
 
-static inline void pos_diagram_destroy ( pos_diagram_t *this_ )
+static inline void pos_nav_tree_node_destroy ( pos_nav_tree_node_t *this_ )
 {
     shape_int_rectangle_destroy( &((*this_).icon_box) );
     shape_int_rectangle_destroy( &((*this_).label_box) );
     (*this_).data = NULL;
 }
 
-static inline bool pos_diagram_is_valid ( const pos_diagram_t *this_ )
+static inline bool pos_nav_tree_node_is_valid ( const pos_nav_tree_node_t *this_ )
 {
     bool result;
     if ( (*this_).data == NULL )
@@ -33,43 +33,43 @@ static inline bool pos_diagram_is_valid ( const pos_diagram_t *this_ )
     return result;
 }
 
-static inline shape_int_rectangle_t *pos_diagram_get_icon_box_ptr ( pos_diagram_t *this_ )
+static inline shape_int_rectangle_t *pos_nav_tree_node_get_icon_box_ptr ( pos_nav_tree_node_t *this_ )
 {
     return &((*this_).icon_box);
 }
 
-static inline const shape_int_rectangle_t *pos_diagram_get_icon_box_const ( const pos_diagram_t *this_ )
+static inline const shape_int_rectangle_t *pos_nav_tree_node_get_icon_box_const ( const pos_nav_tree_node_t *this_ )
 {
     return &((*this_).icon_box);
 }
 
-static inline void pos_diagram_set_icon_box ( pos_diagram_t *this_, const shape_int_rectangle_t *icon_box )
+static inline void pos_nav_tree_node_set_icon_box ( pos_nav_tree_node_t *this_, const shape_int_rectangle_t *icon_box )
 {
     shape_int_rectangle_replace( &((*this_).icon_box), icon_box );
 }
 
-static inline shape_int_rectangle_t *pos_diagram_get_label_box_ptr ( pos_diagram_t *this_ )
+static inline shape_int_rectangle_t *pos_nav_tree_node_get_label_box_ptr ( pos_nav_tree_node_t *this_ )
 {
     return &((*this_).label_box);
 }
 
-static inline const shape_int_rectangle_t *pos_diagram_get_label_box_const ( const pos_diagram_t *this_ )
+static inline const shape_int_rectangle_t *pos_nav_tree_node_get_label_box_const ( const pos_nav_tree_node_t *this_ )
 {
     return &((*this_).label_box);
 }
 
-static inline void pos_diagram_set_label_box ( pos_diagram_t *this_, const shape_int_rectangle_t *label_box )
+static inline void pos_nav_tree_node_set_label_box ( pos_nav_tree_node_t *this_, const shape_int_rectangle_t *label_box )
 {
     shape_int_rectangle_replace( &((*this_).label_box), label_box );
 }
 
-static inline const data_diagram_t *pos_diagram_get_data_const ( const pos_diagram_t *this_ )
+static inline const data_diagram_t *pos_nav_tree_node_get_data_const ( const pos_nav_tree_node_t *this_ )
 {
     assert ( NULL != (*this_).data );
     return (*this_).data;
 }
 
-static inline data_row_id_t pos_diagram_get_diagram_id ( const pos_diagram_t *this_ )
+static inline data_row_id_t pos_nav_tree_node_get_diagram_id ( const pos_nav_tree_node_t *this_ )
 {
     return data_diagram_get_row_id( (*this_).data );
 }

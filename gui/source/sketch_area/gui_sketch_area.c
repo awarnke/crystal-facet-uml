@@ -433,6 +433,10 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
         shape_int_rectangle_init( &result_list_bounds, left, top, RESULT_LIST_WIDTH, height );
         gui_sketch_result_list_set_bounds( &((*this_).result_list ), result_list_bounds );
         gui_sketch_result_list_set_visible( &((*this_).result_list), result_list_visible );
+        if ( result_list_visible )
+        {
+            gui_sketch_result_list_do_layout( &((*this_).result_list), cr );
+        }
     }
 
     /* layout nav tree */
@@ -442,6 +446,10 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
         shape_int_rectangle_init( &nav_tree_bounds, left, top, NAV_TREE_WIDTH, height );
         gui_sketch_nav_tree_set_bounds( &((*this_).nav_tree), nav_tree_bounds );
         gui_sketch_nav_tree_set_visible( &((*this_).nav_tree), nav_tree_visible );
+        if ( nav_tree_visible )
+        {
+            gui_sketch_nav_tree_do_layout( &((*this_).nav_tree), cr );
+        }
     }
 
     /* layout cards */

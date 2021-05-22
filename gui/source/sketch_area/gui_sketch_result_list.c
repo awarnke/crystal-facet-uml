@@ -20,6 +20,8 @@ void gui_sketch_result_list_init( gui_sketch_result_list_t *this_, gui_resources
     (*this_).visible = false;
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
 
+    (*this_).element_count = 0;
+
     gui_sketch_style_init( &((*this_).sketch_style) );
     gui_sketch_marker_init( &((*this_).sketch_marker), true );
     (*this_).resources = resources;
@@ -44,9 +46,18 @@ void gui_sketch_result_list_destroy( gui_sketch_result_list_t *this_ )
     TRACE_END();
 }
 
-void gui_sketch_result_list_private_do_layout( gui_sketch_result_list_t *this_ )
+void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t *cr )
 {
     TRACE_BEGIN();
+
+    const unsigned int count = data_search_result_list_get_length( &((*this_).result_list) );
+    assert( count <= GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS );
+    (*this_).element_count = count;
+    for ( unsigned int idx = 0; idx < count; idx ++ )
+    {
+        const data_search_result_t *result = data_search_result_list_get_const( &((*this_).result_list), idx );
+        pos_search_result_init( &((*this_).element_pos[idx]), result );
+    }
 
     TRACE_END();
 }

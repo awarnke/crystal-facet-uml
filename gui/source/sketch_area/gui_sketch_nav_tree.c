@@ -34,6 +34,8 @@ void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_, gui_resources_t *re
     (*this_).line_cnt_siblings_after_self = 0;
     (*this_).line_cnt_children = 0;
 
+    (*this_).node_count = 0;
+
     (*this_).visible = false;
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
 
@@ -141,17 +143,35 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
                                                                 );
     }
 
-    gui_sketch_nav_tree_private_do_layout( this_ );
+    /* invalidate layout positions*/
+    {
+        (*this_).line_idx_new_child = -1;
+        (*this_).line_idx_new_sibling = -1;
+        (*this_).line_idx_new_root = -1;
+        (*this_).line_idx_ancestors_start = NAV_TREE_FIRST_LINE;
+        (*this_).line_idx_siblings_start = NAV_TREE_FIRST_LINE;
+        (*this_).line_idx_siblings_next_after_self = NAV_TREE_FIRST_LINE;
+        (*this_).line_idx_self = NAV_TREE_FIRST_LINE;
+        (*this_).line_idx_children_start = NAV_TREE_FIRST_LINE;
+        (*this_).line_cnt_ancestors = 0;
+        (*this_).line_cnt_siblings_to_incl_self = 0;
+        (*this_).line_cnt_siblings_after_self = 0;
+        (*this_).line_cnt_children = 0;
+
+        (*this_).node_count = 0;
+    }
 
     TRACE_END();
 }
 
-void gui_sketch_nav_tree_private_do_layout( gui_sketch_nav_tree_t *this_ )
+void gui_sketch_nav_tree_do_layout( gui_sketch_nav_tree_t *this_, cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( (*this_).ancestors_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS );
     assert( (*this_).siblings_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS );
     assert( (*this_).children_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN );
+
+    (*this_).node_count = 0;
 
     /* calculate the "new" button positions */
     if ( (*this_).ancestors_count == 0 )

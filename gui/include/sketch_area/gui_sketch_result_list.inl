@@ -10,11 +10,16 @@ static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *t
     assert( db_reader != NULL );
     data_search_result_list_clear( &((*this_).result_list) );
     data_search_result_list_add_all( &((*this_).result_list), result_list );
+
+    /* invalidate layout positions*/
+    (*this_).element_count = 0;
 }
 
 static inline void gui_sketch_result_list_invalidate_data( gui_sketch_result_list_t *this_ )
 {
     data_search_result_list_clear( &((*this_).result_list) );
+
+    (*this_).element_count = 0;
 }
 
 static inline shape_int_rectangle_t gui_sketch_result_list_get_bounds( gui_sketch_result_list_t *this_ )

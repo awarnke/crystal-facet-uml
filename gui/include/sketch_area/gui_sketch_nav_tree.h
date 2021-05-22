@@ -15,7 +15,7 @@
 #include "gui_resources.h"
 #include "gui_error.h"
 #include "util/shape/shape_int_rectangle.h"
-#include "pos/pos_diagram.h"
+#include "pos/pos_nav_tree_node.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
 #include "layout/layout_order.h"
@@ -35,6 +35,9 @@ enum gui_sketch_nav_tree_const_enum {
     GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS = 16,  /*!< maximum number of parents/grand-partents/grand-grand-parents */
     GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS = 96,  /*!< maximum number of sisters/brothers */
     GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN = 96,  /*!< maximum number of daughters/sons */
+    GUI_SKETCH_NAV_TREE_CONST_MAX_NODES = ( GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS
+                                          + GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS
+                                          + GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN ),  /*!< max diagrams */
 };
 
 /*!
@@ -62,18 +65,22 @@ struct gui_sketch_nav_tree_struct {
     data_diagram_t child_diagrams[GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN];
 
     /* layout information, what is shown where, initialized by gui_sketch_nav_tree_private_do_layout */
-    uint32_t line_idx_ancestors_start;  /*! always 0, even if there are no ancestors */
+    uint32_t line_idx_ancestors_start;  /*!< always 0, even if there are no ancestors */
     uint32_t line_cnt_ancestors;  /*!< number of ancestors, excluding self */
-    uint32_t line_idx_siblings_start;  /*! line of first sibling; undefined in case of program-internal error */
-    uint32_t line_cnt_siblings_to_incl_self;  /*! lines of siblings to and including self */
-    uint32_t line_idx_siblings_next_after_self;  /*! line of next sibling after self; undefined if there is no next sibling */
-    uint32_t line_cnt_siblings_after_self;  /*! lines of siblings after self, excluding self */
-    uint32_t line_idx_self;  /*! line of self; undefined in case of program-internal error */
-    uint32_t line_idx_children_start;  /*! line of first child; undefined if there are no children */
-    uint32_t line_cnt_children;  /*! identical to children_count */
-    int32_t line_idx_new_child;  /*! line of new child button; -1 if there is no such button */
-    int32_t line_idx_new_sibling;  /*! line of new sibling button; -1 if there is no such button */
-    int32_t line_idx_new_root;  /*! 0 equals line of new root button; -1 if there is no such button */
+    uint32_t line_idx_siblings_start;  /*!< line of first sibling; undefined in case of program-internal error */
+    uint32_t line_cnt_siblings_to_incl_self;  /*!< lines of siblings to and including self */
+    uint32_t line_idx_siblings_next_after_self;  /*!< line of next sibling after self; undefined if there is no next sibling */
+    uint32_t line_cnt_siblings_after_self;  /*!< lines of siblings after self, excluding self */
+    uint32_t line_idx_self;  /*!< line of self; undefined in case of program-internal error */
+    uint32_t line_idx_children_start;  /*!< line of first child; undefined if there are no children */
+    uint32_t line_cnt_children;  /*!< identical to children_count */
+    int32_t line_idx_new_child;  /*!< line of new child button; -1 if there is no such button */
+    int32_t line_idx_new_sibling;  /*!< line of new sibling button; -1 if there is no such button */
+    int32_t line_idx_new_root;  /*!< 0 equals line of new root button; -1 if there is no such button */
+
+    /* refactored layout information */
+    pos_nav_tree_node_t node_pos[GUI_SKETCH_NAV_TREE_CONST_MAX_NODES];  /*!< layout positions of diagrams and create-buttons */
+    uint32_t node_count;  /*!< number of layout positions in node_pos list */
 
     /* helper classes to perform drawing */
     gui_sketch_style_t sketch_style;
@@ -152,8 +159,9 @@ static inline gui_error_t gui_sketch_nav_tree_is_descendant ( const gui_sketch_n
  *  \brief calculates the layout-line indices
  *
  *  \param this_ pointer to own object attributes
+ *  \param cr cairo drawing context
  */
-void gui_sketch_nav_tree_private_do_layout( gui_sketch_nav_tree_t *this_ );
+void gui_sketch_nav_tree_do_layout( gui_sketch_nav_tree_t *this_, cairo_t *cr );
 
 /*!
  *  \brief marks the diagram data as invalid

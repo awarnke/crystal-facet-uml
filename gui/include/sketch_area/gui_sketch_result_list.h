@@ -30,7 +30,8 @@ extern const int GUI_SKETCH_RESULT_LIST_LINE_HEIGHT;  /*!< height of an element-
  *  \brief constants for maximum values of gui_sketch_result_list_t
  */
 enum gui_sketch_result_list_max_enum {
-    GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE = 128,  /*!< maximum number of search results */
+    GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE = 128,  /*!< maximum number of total search results */
+    GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS = 128,  /*!< maximum number of displayed search results on current page */
 };
 
 /*!
@@ -50,6 +51,10 @@ struct gui_sketch_result_list_struct {
 
     data_search_result_t result_list_buf[GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE];  /*!< list of results */
     data_search_result_list_t result_list;
+
+    /* layout information */
+    pos_search_result_t element_pos[GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS];  /*!< layout positions of search results */
+    uint32_t element_count;  /*!< number of layout positions in element_pos list */
 
     /* helper classes to perform drawing */
     gui_sketch_style_t sketch_style;
@@ -130,8 +135,9 @@ static inline void gui_sketch_result_list_set_visible( gui_sketch_result_list_t 
  *  \brief calculates the coordinates of the search result list entries
  *
  *  \param this_ pointer to own object attributes
+ *  \param cr cairo drawing context
  */
-void gui_sketch_result_list_private_do_layout( gui_sketch_result_list_t *this_ );
+void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t *cr );
 
 /*!
  *  \brief draws the search result list
