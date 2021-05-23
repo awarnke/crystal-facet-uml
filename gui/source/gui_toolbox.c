@@ -181,7 +181,7 @@ void gui_toolbox_cut( gui_toolbox_t *this_ )
     data_stat_t stat;
     data_stat_init(&stat);
 
-    const data_small_set_t *const set_to_be_cut = gui_marked_set_get_selected_set_ptr( (*this_).marker );
+    const data_small_set_t *const set_to_be_cut = gui_marked_set_get_selected_set_const( (*this_).marker );
 
     /* do not check if set is empty; gui_clipboard_copy_set_to_clipboard will do this */
 
@@ -244,7 +244,7 @@ void gui_toolbox_copy( gui_toolbox_t *this_ )
     data_stat_t stat;
     data_stat_init(&stat);
 
-    const data_small_set_t *const set_to_be_copied = gui_marked_set_get_selected_set_ptr( (*this_).marker );
+    const data_small_set_t *const set_to_be_copied = gui_marked_set_get_selected_set_const( (*this_).marker );
 
     /* even in case data_small_set_is_empty( set_to_be_copied ),
      * it is possible to copy an empty set to the clipboard
@@ -329,7 +329,7 @@ void gui_toolbox_delete( gui_toolbox_t *this_ )
     data_stat_t stat;
     data_stat_init(&stat);
 
-    const data_small_set_t *const set_to_be_deleted = gui_marked_set_get_selected_set_ptr( (*this_).marker );
+    const data_small_set_t *const set_to_be_deleted = gui_marked_set_get_selected_set_const( (*this_).marker );
 
     /* do not check if set is empty; gui_toolbox_private_delete_set will do this */
 
@@ -391,7 +391,7 @@ void gui_toolbox_highlight_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    const data_small_set_t *const set_to_be_highlighted = gui_marked_set_get_selected_set_ptr( (*this_).marker );
+    const data_small_set_t *const set_to_be_highlighted = gui_marked_set_get_selected_set_const( (*this_).marker );
 
     /* do not check if set is empty; gui_toolbox_private_toggle_display_flag_in_set will do this */
 
@@ -411,7 +411,7 @@ void gui_toolbox_instantiate_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    const data_small_set_t *const set_to_be_instantiated = gui_marked_set_get_selected_set_ptr( (*this_).marker );
+    const data_small_set_t *const set_to_be_instantiated = gui_marked_set_get_selected_set_const( (*this_).marker );
 
     /* do not check if set is empty; gui_toolbox_private_toggle_display_flag_in_set will do this */
 

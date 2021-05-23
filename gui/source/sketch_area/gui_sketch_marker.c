@@ -19,14 +19,14 @@ static const double LINE_W = 1.0;
 
 void gui_sketch_marker_prepare_draw ( const gui_sketch_marker_t *this_,
                                       data_id_t element_id,
-                                      gui_marked_set_t *marked_set,
+                                      const gui_marked_set_t *marked_set,
                                       shape_int_rectangle_t rect,
                                       cairo_t *cr )
 {
     const data_id_t focused_id = gui_marked_set_get_focused ( marked_set );
     const data_id_t highlighted_id = gui_marked_set_get_highlighted ( marked_set );
     const data_id_t highlighted_diag_id = gui_marked_set_get_highlighted_diagram ( marked_set );
-    const data_small_set_t *const selected_set = gui_marked_set_get_selected_set_ptr ( marked_set );
+    const data_small_set_t *const selected_set = gui_marked_set_get_selected_set_const ( marked_set );
 
     const int32_t left = shape_int_rectangle_get_left( &rect );
     const int32_t top = shape_int_rectangle_get_top( &rect );

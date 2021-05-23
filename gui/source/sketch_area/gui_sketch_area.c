@@ -408,7 +408,7 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
 }
 
 static const uint32_t NAV_TREE_WIDTH = 224;
-static const uint32_t RESULT_LIST_WIDTH = 192;
+static const uint32_t RESULT_LIST_WIDTH = 240;
 
 void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr )
 {

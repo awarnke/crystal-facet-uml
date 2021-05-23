@@ -11,7 +11,9 @@
 #include <stdlib.h>
 #include <assert.h>
 
-static const int DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH = -1;
+static const int DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH = -1;
+#define DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "\xc2\xab"
+#define DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS "\xc2\xbb"
 
 void draw_relationship_label_get_type_and_name_dimensions ( const draw_relationship_label_t *this_,
                                                             const data_relationship_t *relationship,
@@ -42,37 +44,37 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
             {
                 case DATA_RELATIONSHIP_TYPE_UML_EXTEND:
                 {
-                    type_text = "<<extends>>";
+                    type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "extends" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
                 }
                 break;
 
                 case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
                 {
-                    type_text = "<<includes>>";
+                    type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "includes" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
                 }
                 break;
 
                 case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
                 {
-                    type_text = "<<deploy>>";
+                    type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "deploy" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
                 }
                 break;
 
                 case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:
                 {
-                    type_text = "<<manifest>>";
+                    type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "manifest" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
                 }
                 break;
 
                 case DATA_RELATIONSHIP_TYPE_UML_REFINE:
                 {
-                    type_text = "<<refine>>";
+                    type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "refine" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
                 }
                 break;
 
                 case DATA_RELATIONSHIP_TYPE_UML_TRACE:
                 {
-                    type_text = "<<trace>>";
+                    type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "trace" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
                 }
                 break;
 
@@ -87,7 +89,7 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
             if ( NULL != type_text )
             {
                 pango_layout_set_font_description (font_layout, pencil_size_get_footnote_font_description(pencil_size) );
-                pango_layout_set_text (font_layout, type_text, DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH);
+                pango_layout_set_text (font_layout, type_text, DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH);
                 pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
             }
         }
@@ -98,7 +100,10 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
         if ( 0 != utf8string_get_length( data_relationship_get_name_ptr( relationship ) ))
         {
             pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-            pango_layout_set_text (font_layout, data_relationship_get_name_ptr( relationship ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH);
+            pango_layout_set_text( font_layout,
+                                   data_relationship_get_name_ptr( relationship ),
+                                   DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH
+                                 );
             pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
         }
 
@@ -142,37 +147,37 @@ void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_
         {
             case DATA_RELATIONSHIP_TYPE_UML_EXTEND:
             {
-                type_text = "<<extends>>";
+                type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "extends" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
             }
             break;
 
             case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
             {
-                type_text = "<<includes>>";
+                type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "includes" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
             }
             break;
 
             case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
             {
-                type_text = "<<deploy>>";
+                type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "deploy" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
             }
             break;
 
             case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:
             {
-                type_text = "<<manifest>>";
+                type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "manifest" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
             }
             break;
 
             case DATA_RELATIONSHIP_TYPE_UML_REFINE:
             {
-                type_text = "<<refine>>";
+                type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "refine" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
             }
             break;
 
             case DATA_RELATIONSHIP_TYPE_UML_TRACE:
             {
-                type_text = "<<trace>>";
+                type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "trace" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
             }
             break;
 
@@ -188,7 +193,7 @@ void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_
         {
             int text3_width;
             pango_layout_set_font_description (font_layout, pencil_size_get_footnote_font_description(pencil_size) );
-            pango_layout_set_text (font_layout, type_text, DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH);
+            pango_layout_set_text (font_layout, type_text, DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH);
             pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
 
             /* draw text */
@@ -203,7 +208,10 @@ void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_
         int text2_height;
         int text2_width;
         pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-        pango_layout_set_text (font_layout, data_relationship_get_name_ptr( relationship ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH);
+        pango_layout_set_text( font_layout,
+                               data_relationship_get_name_ptr( relationship ),
+                               DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH
+                             );
         pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
 
         /* draw text */

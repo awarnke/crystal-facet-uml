@@ -11,8 +11,11 @@
 #include <stdlib.h>
 #include <assert.h>
 
-static const int DRAW_LABEL_PANGO_UNLIMITED_WIDTH = -1;
-static const int DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH = -1;
+static const int DRAW_CLASSIFIER_PANGO_UNLIMITED_WIDTH = -1;
+static const int DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH = -1;
+#define DRAW_CLASSIFIER_LEFT_POINTING_GUILLEMENTS "\xc2\xab"
+#define DRAW_CLASSIFIER_RIGHT_POINTING_GUILLEMENTS "\xc2\xbb"
+#define DRAW_CLASSIFIER_COLON ":"
 
 void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classifier_label_t *this_,
                                                                const data_visible_classifier_t *visible_classifier,
@@ -48,13 +51,13 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
                 /* prepare text */
                 char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
                 utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
-                utf8stringbuf_copy_str( stereotype_buf, "<<" );
+                utf8stringbuf_copy_str( stereotype_buf, DRAW_CLASSIFIER_LEFT_POINTING_GUILLEMENTS );
                 utf8stringbuf_append_str( stereotype_buf, data_classifier_get_stereotype_ptr( classifier ) );
-                utf8stringbuf_append_str( stereotype_buf, ">>" );
+                utf8stringbuf_append_str( stereotype_buf, DRAW_CLASSIFIER_RIGHT_POINTING_GUILLEMENTS );
 
                 /* determine text width and height */
                 pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-                pango_layout_set_text (font_layout, utf8stringbuf_get_string( stereotype_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
+                pango_layout_set_text (font_layout, utf8stringbuf_get_string( stereotype_buf ), DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH );
                 pango_layout_get_pixel_size (font_layout, &text1_width, &text1_height);
             }
         }
@@ -71,7 +74,7 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
             utf8stringbuf_t name_buf = UTF8STRINGBUF(name_text);
             if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE ) )
             {
-                utf8stringbuf_copy_str( name_buf, ":" );
+                utf8stringbuf_copy_str( name_buf, DRAW_CLASSIFIER_COLON );
             }
             else
             {
@@ -81,12 +84,15 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
 
             /* determine text width and height */
             pango_layout_set_font_description (font_layout, pencil_size_get_title_font_description(pencil_size) );
-            pango_layout_set_text (font_layout, utf8stringbuf_get_string( name_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
+            pango_layout_set_text ( font_layout,
+                                    utf8stringbuf_get_string( name_buf ),
+                                    DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH
+                                  );
             pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE );
             pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
 
             /* restore pango context */
-            pango_layout_set_width(font_layout, DRAW_LABEL_PANGO_UNLIMITED_WIDTH );
+            pango_layout_set_width(font_layout, DRAW_CLASSIFIER_PANGO_UNLIMITED_WIDTH );
 
             /* for space between stereotype and name */
             text2_height += pencil_size_get_font_line_gap( pencil_size );
@@ -101,7 +107,10 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
         if ( DATA_CLASSIFIER_TYPE_COMMENT == data_classifier_get_main_type ( classifier ) )
         {
             pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-            pango_layout_set_text (font_layout, data_classifier_get_description_ptr( classifier ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
+            pango_layout_set_text ( font_layout,
+                                    data_classifier_get_description_ptr( classifier ),
+                                    DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH
+                                  );
             pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
         }
 
@@ -154,13 +163,16 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
             /* prepare text */
             char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
             utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
-            utf8stringbuf_copy_str( stereotype_buf, "<<" );
+            utf8stringbuf_copy_str( stereotype_buf, DRAW_CLASSIFIER_LEFT_POINTING_GUILLEMENTS );
             utf8stringbuf_append_str( stereotype_buf, data_classifier_get_stereotype_ptr( classifier ) );
-            utf8stringbuf_append_str( stereotype_buf, ">>" );
+            utf8stringbuf_append_str( stereotype_buf, DRAW_CLASSIFIER_RIGHT_POINTING_GUILLEMENTS );
 
             int text1_width;
             pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-            pango_layout_set_text (font_layout, utf8stringbuf_get_string( stereotype_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
+            pango_layout_set_text ( font_layout,
+                                    utf8stringbuf_get_string( stereotype_buf ),
+                                    DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH
+                                  );
             pango_layout_get_pixel_size (font_layout, &text1_width, &text1_height);
             cairo_move_to ( cr, left + 0.5*( width - text1_width ), top );
             pango_cairo_show_layout (cr, font_layout);
@@ -175,7 +187,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
         utf8stringbuf_t name_buf = UTF8STRINGBUF(name_text);
         if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE ) )
         {
-            utf8stringbuf_copy_str( name_buf, ":" );
+            utf8stringbuf_copy_str( name_buf, DRAW_CLASSIFIER_COLON );
         }
         else
         {
@@ -186,7 +198,10 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
         int text2_width;
         double f_size = pencil_size_get_standard_font_size( pencil_size );
         pango_layout_set_font_description (font_layout, pencil_size_get_title_font_description(pencil_size) );
-        pango_layout_set_text (font_layout, utf8stringbuf_get_string( name_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
+        pango_layout_set_text ( font_layout,
+                                utf8stringbuf_get_string( name_buf ),
+                                DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH
+                              );
         pango_layout_set_width(font_layout, (width+f_size) * PANGO_SCALE );  /* add gap to avoid line breaks by rounding errors and whitespace character widths */
         pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
 
@@ -195,7 +210,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
         pango_cairo_show_layout (cr, font_layout);
 
         /* restore pango context */
-        pango_layout_set_width(font_layout, DRAW_LABEL_PANGO_UNLIMITED_WIDTH);
+        pango_layout_set_width(font_layout, DRAW_CLASSIFIER_PANGO_UNLIMITED_WIDTH);
 
         /* underline instances */
         if ( 0 != ( display_flags & ( DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE ) ) )
@@ -212,7 +227,10 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
         int text3_width;
         int text3_height;
         pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-        pango_layout_set_text (font_layout, data_classifier_get_description_ptr( classifier ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
+        pango_layout_set_text ( font_layout,
+                                data_classifier_get_description_ptr( classifier ),
+                                DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH
+                              );
         pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
 
         /* draw text */

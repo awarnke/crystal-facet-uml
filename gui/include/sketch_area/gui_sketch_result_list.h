@@ -24,8 +24,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-extern const int GUI_SKETCH_RESULT_LIST_LINE_HEIGHT;  /*!< height of an element-name/entry in pixels */
-
 /*!
  *  \brief constants for maximum values of gui_sketch_result_list_t
  */
@@ -49,11 +47,11 @@ struct gui_sketch_result_list_struct {
     bool visible;  /*!< is the result list visible */
     shape_int_rectangle_t bounds;  /*!< bounding box of the result list */
 
-    data_search_result_t result_list_buf[GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE];  /*!< list of results */
+    data_search_result_t result_list_buf[GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE];  /*!< list of all results */
     data_search_result_list_t result_list;
 
     /* layout information */
-    pos_search_result_t element_pos[GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS];  /*!< layout positions of search results */
+    pos_search_result_t element_pos[GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS];  /*!< layout positions of search results on current visible page */
     uint32_t element_count;  /*!< number of layout positions in element_pos list */
 
     /* helper classes to perform drawing */
@@ -146,7 +144,7 @@ void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t 
  *  \param marker set of all objects to be marked
  *  \param cr cairo drawing context
  */
-void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_set_t *marker, cairo_t *cr );
+void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, const gui_marked_set_t *marker, cairo_t *cr );
 
 /*!
  *  \brief determines the object at a given position and returns its id. The object can be a diagram.
@@ -157,7 +155,7 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_s
  *  \param out_selected_id the object id of the object at the given location. The id is invalid if there is no object at the given location.
  *  \param out_diagram_id the diagram id of the object at the given location. The id is invalid if there is no object at the given location.
  */
-static inline void gui_sketch_result_list_get_object_id_at_pos ( gui_sketch_result_list_t *this_,
+static inline void gui_sketch_result_list_get_object_id_at_pos ( const gui_sketch_result_list_t *this_,
                                                                  int32_t x,
                                                                  int32_t y,
                                                                  data_id_t* out_selected_id,
@@ -165,22 +163,18 @@ static inline void gui_sketch_result_list_get_object_id_at_pos ( gui_sketch_resu
                                                                );
 
 /*!
- *  \brief draws a type-icon and a result-label
+ *  \brief draws a type-icon and a label
  *
  *  \param this_ pointer to own object attributes
- *  \param icon_1 the icon to draw
- *  \param label_1 the label to draw - using the pango library for i18n suppoprt
- *  \param x abscissae
- *  \param y ordinate
- *  \param layout the pango font rendering object for i18n suppoprt
+ *  \param element pointer to the pos_search_result_t of which to draw icon and label
+ *  \param marker set of all objects to be marked
+ *  \param font_layout the pango font rendering object for i18n suppoprt
  *  \param cr the cairo drawing engine
  */
 void gui_sketch_result_list_private_draw_icon_and_label( gui_sketch_result_list_t *this_,
-                                                         const GdkPixbuf *icon_1,
-                                                         const char *label_1,
-                                                         int x,
-                                                         int y,
-                                                         PangoLayout *layout,
+                                                         const pos_search_result_t *element,
+                                                         const gui_marked_set_t *marker,
+                                                         PangoLayout *font_layout,
                                                          cairo_t *cr
                                                        );
 

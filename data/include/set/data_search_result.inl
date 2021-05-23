@@ -143,6 +143,12 @@ static inline const data_id_t *data_search_result_get_match_id_const ( const dat
     return &((*this_).match_object_id);
 }
 
+static inline data_table_t data_search_result_get_match_table ( const data_search_result_t *this_ )
+{
+    const data_table_t match_table = data_id_get_table( &((*this_).match_object_id) );
+    return match_table;
+}
+
 static inline int data_search_result_get_match_type ( const data_search_result_t *this_ )
 {
     return (*this_).match_type;

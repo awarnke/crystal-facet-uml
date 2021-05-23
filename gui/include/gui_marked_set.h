@@ -84,7 +84,7 @@ static inline data_id_t gui_marked_set_get_highlighted_diagram ( const gui_marke
  *  \param this_ pointer to own object attributes
  *  \return pointer to immutable selected set.
  */
-static inline const data_small_set_t *gui_marked_set_get_selected_set_ptr ( gui_marked_set_t *this_ );
+static inline const data_small_set_t *gui_marked_set_get_selected_set_const ( const gui_marked_set_t *this_ );
 
 /*!
  *  \brief adds or removes the object id from the selected set.

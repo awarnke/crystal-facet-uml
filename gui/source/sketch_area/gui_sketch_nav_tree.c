@@ -553,15 +553,6 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
                 = gui_sketch_style_get_standard_font_description( &((*this_).sketch_style ) );
             pango_layout_set_font_description( layout, std_font );
 
-            /* EXAMPLE: precalculate text dimensions to vertically center the text */
-            /*
-            pango_layout_set_text( layout, "PANGO Demo", -1 );
-            int text2_width;
-            int text2_height;
-            pango_layout_get_pixel_size(layout, &text2_width, &text2_height);
-            double y_adjust = ( height - text2_height ) / 2.0;
-            */
-
             shape_int_rectangle_t destination_rect;
             if ( (*this_).ancestors_count >= 2 )
             {

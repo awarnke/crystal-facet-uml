@@ -8,7 +8,11 @@
 #include <gdk/gdk.h>
 
 const int GUI_SKETCH_RESULT_LIST_LINE_HEIGHT = 28;  /*!< height of an element-name/entry in pixels */
+const int GUI_SKETCH_RESULT_LIST_PANGO_AUTO_DETECT_LENGTH = -1;  /*!< pango automatically determines the string length */
+const int GUI_SKETCH_RESULT_LIST_PANGO_UNLIMITED_WIDTH = -1;
 static const int OBJ_GAP = 4;
+
+#define GUI_SKETCH_RESULT_MAX(a,b) ((a) > (b) ? (a) : (b))
 
 void gui_sketch_result_list_init( gui_sketch_result_list_t *this_, gui_resources_t *resources )
 {
@@ -50,6 +54,19 @@ void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t 
 {
     TRACE_BEGIN();
 
+    /* create the font_layout */
+    PangoLayout *font_layout;
+    {
+        font_layout = pango_cairo_create_layout (cr);
+        const PangoFontDescription *const std_font
+            = gui_sketch_style_get_standard_font_description( &((*this_).sketch_style ) );
+        pango_layout_set_font_description( font_layout, std_font );
+    }
+
+    int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+    uint_fast32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
+    int_fast32_t y_pos = shape_int_rectangle_get_top( &((*this_).bounds) );
+
     const unsigned int count = data_search_result_list_get_length( &((*this_).result_list) );
     assert( count <= GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS );
     (*this_).element_count = count;
@@ -57,7 +74,42 @@ void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t 
     {
         const data_search_result_t *result = data_search_result_list_get_const( &((*this_).result_list), idx );
         pos_search_result_init( &((*this_).element_pos[idx]), result );
+
+        /* determine icon dimensions */
+        shape_int_rectangle_t *icon_box = pos_search_result_get_icon_box_ptr( &((*this_).element_pos[idx]) );
+        {
+            const data_table_t result_table = data_search_result_get_match_table( result );
+            const int result_type = data_search_result_get_match_type( result );
+            const GdkPixbuf *icon = gui_resource_selector_get_icon ( &((*this_).selector), result_table, result_type );
+            const double icon_width = gdk_pixbuf_get_width( icon );
+            const double icon_height = gdk_pixbuf_get_height( icon );
+
+            shape_int_rectangle_init( icon_box, left+OBJ_GAP, y_pos+OBJ_GAP, icon_width+0.999, icon_height+0.999 );
+        }
+
+        /* determine label dimensions */
+        shape_int_rectangle_t *label_box = pos_search_result_get_label_box_ptr( &((*this_).element_pos[idx]) );
+        {
+            int_fast32_t proposed_pango_width = width - shape_int_rectangle_get_width(icon_box) - (4*OBJ_GAP);
+            pango_layout_set_text( font_layout,
+                                   data_search_result_get_match_name_const( result ),
+                                   GUI_SKETCH_RESULT_LIST_PANGO_AUTO_DETECT_LENGTH
+                                 );
+            pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE );
+            int text_width;
+            int text_height;
+            pango_layout_get_pixel_size(font_layout, &text_width, &text_height);
+
+            int_fast32_t x_pos = shape_int_rectangle_get_right(icon_box);
+            shape_int_rectangle_init( label_box, x_pos+OBJ_GAP, y_pos+OBJ_GAP, text_width, text_height );
+        }
+
+        y_pos = GUI_SKETCH_RESULT_MAX( shape_int_rectangle_get_bottom(icon_box), shape_int_rectangle_get_bottom(label_box) )
+                + OBJ_GAP;
     }
+
+    /* release the font_layout */
+    g_object_unref(font_layout);
 
     TRACE_END();
 }
@@ -67,7 +119,7 @@ static const double GREY_G = 0.8;
 static const double GREY_B = 0.8;
 static const double GREY_A = 1.0;
 
-void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_set_t *marker, cairo_t *cr )
+void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, const gui_marked_set_t *marker, cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != marker );
@@ -75,107 +127,142 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_s
 
     if ( (*this_).visible )
     {
-        PangoLayout *layout = pango_cairo_create_layout (cr);
-        const PangoFontDescription *const std_font
-            = gui_sketch_style_get_standard_font_description( &((*this_).sketch_style ) );
-        pango_layout_set_font_description ( layout, std_font );
-
-        const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
-        const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
-        const uint32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
-        const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
+        PangoLayout *font_layout = pango_cairo_create_layout (cr);
+        {
+            const PangoFontDescription *const std_font
+                = gui_sketch_style_get_standard_font_description( &((*this_).sketch_style ) );
+            pango_layout_set_font_description ( font_layout, std_font );
+        }
 
         /* draw background */
-        cairo_set_source_rgba( cr, GREY_R, GREY_G, GREY_B, GREY_A );
-        cairo_rectangle ( cr, left, top, width, height );
-        cairo_fill (cr);
+        {
+            const int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+            const int_fast32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
+            const uint_fast32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
+            const uint_fast32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
+
+            cairo_set_source_rgba( cr, GREY_R, GREY_G, GREY_B, GREY_A );
+            cairo_rectangle ( cr, left, top, width, height );
+            cairo_fill (cr);
+        }
 
         /* draw icons and text */
-        const unsigned int count = data_search_result_list_get_length( &((*this_).result_list) );
+        const unsigned int count = (*this_).element_count;
+        assert( count <= GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS );
         if ( count == 0 )
         {
+            const int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+            const int_fast32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
             const GdkPixbuf *undef_icon = gui_resources_get_type_undef( (*this_).resources );
+            double icon_width = gdk_pixbuf_get_width ( undef_icon );
+            double icon_height = gdk_pixbuf_get_height ( undef_icon );
+
+            /* draw text first, use the above set color and font */
             const GdkRGBA std_color = gui_sketch_style_get_standard_color( &((*this_).sketch_style) );
             cairo_set_source_rgba( cr, std_color.red, std_color.green, std_color.blue, std_color.alpha );
-            gui_sketch_result_list_private_draw_icon_and_label( this_, undef_icon, "n/a", 8, 8, layout, cr );
+            cairo_move_to( cr, left+OBJ_GAP+icon_width, top+OBJ_GAP );
+            pango_layout_set_text( font_layout, "no results", GUI_SKETCH_RESULT_LIST_PANGO_AUTO_DETECT_LENGTH );
+            pango_layout_set_width(font_layout, GUI_SKETCH_RESULT_LIST_PANGO_UNLIMITED_WIDTH );
+            pango_cairo_show_layout( cr, font_layout );
+
+            /* draw the icon */
+            const int x = left+OBJ_GAP;
+            const int y = top+OBJ_GAP;
+            gdk_cairo_set_source_pixbuf( cr, undef_icon, x, y );
+            cairo_rectangle ( cr, x, y, x+icon_width, y+icon_height );
+            cairo_fill (cr);
         }
         else
         {
-            const data_id_t highlighted = gui_marked_set_get_highlighted( marker );
-
             for ( unsigned int idx = 0; idx < count; idx ++ )
             {
-                const data_search_result_t *result = data_search_result_list_get_const( &((*this_).result_list), idx );
-                const int type = data_search_result_get_match_type( result );
-                const data_table_t table = data_id_get_table( data_search_result_get_match_id_const( result ) );
-
-                shape_int_rectangle_t destination_rect;
-                shape_int_rectangle_init( &destination_rect,
-                                          left+OBJ_GAP,
-                                          top+OBJ_GAP+GUI_SKETCH_RESULT_LIST_LINE_HEIGHT*idx,
-                                          width-OBJ_GAP,
-                                          GUI_SKETCH_RESULT_LIST_LINE_HEIGHT-2*OBJ_GAP
-                                        );
-
-                gui_sketch_marker_prepare_draw( &((*this_).sketch_marker),
-                                                data_search_result_get_match_id( result ),
-                                                marker,
-                                                destination_rect,
-                                                cr
-                                              );
-               if ( data_id_equals( &highlighted, data_search_result_get_diagram_id_const( result ) ) )
-                {
-                    const GdkRGBA high_color = gui_sketch_style_get_highlight_color( &((*this_).sketch_style) );
-                    cairo_set_source_rgba( cr, high_color.red, high_color.green, high_color.blue, high_color.alpha );
-                }
-
-                const GdkPixbuf *icon = gui_resource_selector_get_icon ( &((*this_).selector), table, type );
-                gui_sketch_result_list_private_draw_icon_and_label( this_,
-                                                                    icon,
-                                                                    data_search_result_get_match_name_const( result ),
-                                                                    left+OBJ_GAP,
-                                                                    top+OBJ_GAP+GUI_SKETCH_RESULT_LIST_LINE_HEIGHT*idx,
-                                                                    layout,
-                                                                    cr
-                                                                  );
-
-                shape_int_rectangle_destroy( &destination_rect );
+                const pos_search_result_t *const element = &((*this_).element_pos[idx]);
+                gui_sketch_result_list_private_draw_icon_and_label( this_, element, marker, font_layout, cr );
             }
         }
 
-        g_object_unref(layout);
+        g_object_unref(font_layout);
     }
 
     TRACE_END();
 }
 
 void gui_sketch_result_list_private_draw_icon_and_label( gui_sketch_result_list_t *this_,
-                                                         const GdkPixbuf *icon_1,
-                                                         const char *label_1,
-                                                         int x,
-                                                         int y,
-                                                         PangoLayout *layout,
+                                                         const pos_search_result_t *element,
+                                                         const gui_marked_set_t *marker,
+                                                         PangoLayout *font_layout,
                                                          cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != cr );
-    assert( NULL != layout );
-    assert( NULL != icon_1 );
-    assert( NULL != label_1 );
+    assert( NULL != element );
+    assert( NULL != font_layout );
 
-    /* determine coodinates */
-    double icon_width = gdk_pixbuf_get_width ( icon_1 );
-    double icon_height = gdk_pixbuf_get_height ( icon_1 );
+    const data_search_result_t *const result = pos_search_result_get_data_const( element );
 
-    /* draw text first, use the pre-set color and font */
-    cairo_move_to ( cr, x+icon_width+OBJ_GAP, y );
-    pango_layout_set_text ( layout, label_1, -1 );
-    pango_cairo_show_layout ( cr, layout );
+    /* draw marker and set color */
+    {
+        shape_int_rectangle_t destination_rect;
+        shape_int_rectangle_init_by_bounds( &destination_rect,
+                                            pos_search_result_get_icon_box_const(element),
+                                            pos_search_result_get_label_box_const(element)
+                                          );
+
+        const data_id_t highlighted = gui_marked_set_get_highlighted( marker );
+        gui_sketch_marker_prepare_draw( &((*this_).sketch_marker),
+                                        data_search_result_get_match_id( result ),
+                                        marker,
+                                        destination_rect,
+                                        cr
+                                      );
+        if ( data_id_equals( &highlighted, data_search_result_get_diagram_id_const( result ) ) )
+        {
+            const GdkRGBA high_color = gui_sketch_style_get_highlight_color( &((*this_).sketch_style) );
+            cairo_set_source_rgba( cr, high_color.red, high_color.green, high_color.blue, high_color.alpha );
+        }
+
+        shape_int_rectangle_destroy( &destination_rect );
+    }
+
+    /* draw text first, use the above set color and font */
+    {
+        /* what to draw */
+        const char *const label = data_search_result_get_match_name_const( result );
+
+        /* where to draw to */
+        const shape_int_rectangle_t *const label_box
+            = pos_search_result_get_label_box_const( element );
+
+        /* do draw */
+        cairo_move_to( cr, shape_int_rectangle_get_left(label_box), shape_int_rectangle_get_top(label_box) );
+        pango_layout_set_text( font_layout, label, GUI_SKETCH_RESULT_LIST_PANGO_AUTO_DETECT_LENGTH );
+        const unsigned int text_width
+            = shape_int_rectangle_get_width(label_box)
+            +(2.0*OBJ_GAP);  /* add gap to avoid line breaks by rounding errors and whitespace character widths */
+        pango_layout_set_width(font_layout, text_width * PANGO_SCALE );
+        pango_cairo_show_layout( cr, font_layout );
+    }
 
     /* draw the icon */
-    gdk_cairo_set_source_pixbuf( cr, icon_1, x, y );
-    cairo_rectangle ( cr, x, y, x+icon_width, y+icon_height );
-    cairo_fill (cr);
+    {
+        /* what to draw */
+        const data_table_t result_table = data_search_result_get_match_table( result );
+        const int result_type = data_search_result_get_match_type( result );
+        const GdkPixbuf *icon = gui_resource_selector_get_icon ( &((*this_).selector), result_table, result_type );
+
+        /* where to draw to */
+        const shape_int_rectangle_t *const icon_box
+            = pos_search_result_get_icon_box_const( element );
+        const int x = shape_int_rectangle_get_left(icon_box);
+        const int y = shape_int_rectangle_get_top(icon_box);
+        double icon_width = gdk_pixbuf_get_width ( icon );
+        double icon_height = gdk_pixbuf_get_height ( icon );
+
+        /* do draw */
+        gdk_cairo_set_source_pixbuf( cr, icon, x, y );
+        cairo_rectangle ( cr, x, y, x+icon_width, y+icon_height );
+        cairo_fill (cr);
+    }
 
     TRACE_END();
 }

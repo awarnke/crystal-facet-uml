@@ -3,6 +3,9 @@
 #include "trace.h"
 #include <assert.h>
 
+#define SHAPE_INT_RECTANGLE_MAX(a,b) ((a) > (b) ? (a) : (b))
+#define SHAPE_INT_RECTANGLE_MIN(a,b) ((a) < (b) ? (a) : (b))
+
 static inline void shape_int_rectangle_init ( shape_int_rectangle_t *this_, int32_t left, int32_t top, uint32_t width, uint32_t height )
 {
     (*this_).left = left;
@@ -29,6 +32,24 @@ static inline void shape_int_rectangle_replace ( shape_int_rectangle_t *this_, c
 {
     assert( that != NULL );
     *this_ = *that;
+}
+
+static inline void shape_int_rectangle_init_by_bounds ( shape_int_rectangle_t *this_,
+                                                        const shape_int_rectangle_t *rect_a,
+                                                        const shape_int_rectangle_t *rect_b )
+{
+    assert( NULL != rect_a );
+    assert( NULL != rect_b );
+
+    const int32_t rect_a_right = (*rect_a).left + (*rect_a).width;
+    const int32_t rect_a_bottom = (*rect_a).top + (*rect_a).height;
+    const int32_t rect_b_right = (*rect_b).left + (*rect_b).width;
+    const int32_t rect_b_bottom = (*rect_b).top + (*rect_b).height;
+
+    (*this_).left = SHAPE_INT_RECTANGLE_MIN( (*rect_a).left, (*rect_b).left );
+    (*this_).top = SHAPE_INT_RECTANGLE_MIN( (*rect_a).top, (*rect_b).top );
+    (*this_).width = SHAPE_INT_RECTANGLE_MAX( rect_a_right, rect_b_right ) - (*this_).left;
+    (*this_).height = SHAPE_INT_RECTANGLE_MAX( rect_a_bottom, rect_b_bottom ) - (*this_).top;
 }
 
 static inline void shape_int_rectangle_destroy ( shape_int_rectangle_t *this_ )

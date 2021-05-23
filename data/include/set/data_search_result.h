@@ -143,6 +143,14 @@ static inline data_id_t *data_search_result_get_match_id_ptr ( data_search_resul
 static inline const data_id_t *data_search_result_get_match_id_const ( const data_search_result_t *this_ );
 
 /*!
+ *  \brief gets the table of the match object from its id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the table of the match object
+ */
+static inline data_table_t data_search_result_get_match_table ( const data_search_result_t *this_ );
+
+/*!
  *  \brief gets the match object type
  *
  *  \param this_ pointer to own object attributes

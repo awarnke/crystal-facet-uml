@@ -42,7 +42,7 @@ static inline void gui_sketch_result_list_set_visible( gui_sketch_result_list_t 
     (*this_).visible = visible;
 }
 
-static inline void gui_sketch_result_list_get_object_id_at_pos ( gui_sketch_result_list_t *this_,
+static inline void gui_sketch_result_list_get_object_id_at_pos ( const gui_sketch_result_list_t *this_,
                                                                  int32_t x,
                                                                  int32_t y,
                                                                  data_id_t* out_selected_id,
@@ -51,26 +51,30 @@ static inline void gui_sketch_result_list_get_object_id_at_pos ( gui_sketch_resu
     assert( out_selected_id != NULL );
     assert( out_diagram_id != NULL );
 
-    if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
-    {
-        int line = y - shape_int_rectangle_get_top ( &((*this_).bounds) );
-        line = line / GUI_SKETCH_RESULT_LIST_LINE_HEIGHT;
-        if (( line >= 0 )&&( line < data_search_result_list_get_length( &((*this_).result_list) ) ))
-        {
-            const data_search_result_t *const at_pos = data_search_result_list_get_const( &((*this_).result_list), line );
-            data_id_copy( out_selected_id, data_search_result_get_match_id_const( at_pos ) );
-            data_id_copy( out_diagram_id, data_search_result_get_diagram_id_const( at_pos ) );
-        }
-        else
-        {
-            data_id_init_void( out_selected_id );
-            data_id_init_void( out_diagram_id );
-        }
-    }
-    else
+    /* default in case no object found */
     {
         data_id_init_void( out_selected_id );
         data_id_init_void( out_diagram_id );
+    }
+
+    /* search object */
+    if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
+    {
+        const unsigned int count = (*this_).element_count;
+        assert( count <= GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS );
+        for ( unsigned int idx = 0; idx < count; idx ++ )
+        {
+            const pos_search_result_t *const element = &((*this_).element_pos[idx]);
+            const shape_int_rectangle_t *icon_box = pos_search_result_get_icon_box_const( element );
+            const shape_int_rectangle_t *label_box = pos_search_result_get_label_box_const( element );
+
+            if ( shape_int_rectangle_contains( icon_box, x, y ) || shape_int_rectangle_contains( label_box, x, y ) )
+            {
+                const data_search_result_t *const at_pos = pos_search_result_get_data_const( element );
+                data_id_copy( out_selected_id, data_search_result_get_match_id_const( at_pos ) );
+                data_id_copy( out_diagram_id, data_search_result_get_diagram_id_const( at_pos ) );
+            }
+        }
     }
 }
 
