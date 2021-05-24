@@ -435,6 +435,77 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( const gui_sketch_nav_tree_
     assert ( NULL != out_parent_id );
     assert ( NULL != out_list_order );
     assert ( NULL != out_gap_line );
+
+    gui_error_t ret_error;
+
+    /* default in case no object found */
+    {
+        ret_error = GUI_ERROR_OUT_OF_BOUNDS;
+    }
+
+    /* search object */
+    if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
+    {
+        const pos_nav_tree_node_t *closest_above = NULL;
+        uint32_t closest_above_dist = UINT32_MAX;
+        const pos_nav_tree_node_t *closest_below = NULL;
+        uint32_t closest_below_dist = UINT32_MAX;
+
+        /* search closest_above and closest_below */
+        const unsigned int count = (*this_).node_count;
+        assert( count <= GUI_SKETCH_NAV_TREE_CONST_MAX_NODES );
+        for ( unsigned int idx = 0; idx < count; idx ++ )
+        {
+            const pos_nav_tree_node_t *const node = &((*this_).node_pos[idx]);
+            const shape_int_rectangle_t *icon_box = pos_nav_tree_node_get_icon_box_const( node );
+            const shape_int_rectangle_t *label_box = pos_nav_tree_node_get_label_box_const( node );
+
+            const int32_t top
+                = universal_int_min_i32( shape_int_rectangle_get_top(icon_box), shape_int_rectangle_get_top(label_box) );
+            const int32_t bottom
+                = universal_int_max_i32( shape_int_rectangle_get_bottom(icon_box), shape_int_rectangle_get_bottom(label_box) );
+            const int32_t center_y = ( top + bottom ) / 2;
+            if ( y > center_y )
+            {
+                const uint32_t above_dist = (y - center_y);
+                if ( above_dist < closest_above_dist )
+                {
+                    closest_above_dist = above_dist;
+                    closest_above = node;
+                }
+            }
+            else
+            {
+                const uint32_t below_dist = (center_y - y);
+                if ( below_dist < closest_below_dist )
+                {
+                    closest_below_dist = below_dist;
+                    closest_below = node;
+                }
+            }
+
+            /*
+            if ( shape_int_rectangle_contains( icon_box, x, y ) || shape_int_rectangle_contains( label_box, x, y ) )
+            {
+                const data_diagram_t *const data_or_null = pos_nav_tree_node_get_data_const( node );
+                if ( data_or_null != NULL )
+                {
+                    *out_selected_id = data_diagram_get_data_id( data_or_null );
+                    break;
+                }
+            }
+            */
+        }
+
+        /* search closest_above and closest_below */
+
+        ret_error = GUI_ERROR_NONE;
+    }
+
+
+
+
+
     assert( (*this_).ancestors_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS );
     assert( (*this_).line_cnt_ancestors <= (*this_).ancestors_count );
     assert( (*this_).siblings_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS );
@@ -442,7 +513,6 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( const gui_sketch_nav_tree_
     assert( (*this_).children_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN );
     assert( (*this_).line_cnt_children == (*this_).children_count );
 
-    gui_error_t ret_error;
 
     const int GUI_SKETCH_NAV_TREE_LINE_HEIGHT = 20;
 
