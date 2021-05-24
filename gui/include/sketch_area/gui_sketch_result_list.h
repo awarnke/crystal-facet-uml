@@ -138,13 +138,18 @@ static inline void gui_sketch_result_list_set_visible( gui_sketch_result_list_t 
 void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t *cr );
 
 /*!
- *  \brief draws the search result list
+ *  \brief positions the type-icon and the label
  *
  *  \param this_ pointer to own object attributes
- *  \param marker set of all objects to be marked
- *  \param cr cairo drawing context
+ *  \param element pointer to the pos_search_result_t which to position
+ *  \param[in,out] io_y_pos top position of the current element to be layouted; out: pos of next element
+ *  \param font_layout the pango font rendering object for i18n suppoprt
  */
-void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, const gui_marked_set_t *marker, cairo_t *cr );
+void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *this_,
+                                                     pos_search_result_t *element,
+                                                     int32_t *io_y_pos,
+                                                     PangoLayout *font_layout
+                                                   );
 
 /*!
  *  \brief determines the object at a given position and returns its id. The object can be a diagram.
@@ -163,18 +168,13 @@ static inline void gui_sketch_result_list_get_object_id_at_pos ( const gui_sketc
                                                                );
 
 /*!
- *  \brief positions the type-icon and the label
+ *  \brief draws the search result list
  *
  *  \param this_ pointer to own object attributes
- *  \param element pointer to the pos_search_result_t which to position
- *  \param[in,out] io_y_pos top position of the current element to be layouted; out: pos of next element
- *  \param font_layout the pango font rendering object for i18n suppoprt
+ *  \param marker set of all objects to be marked
+ *  \param cr cairo drawing context
  */
-void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *this_,
-                                                     pos_search_result_t *element,
-                                                     int32_t *io_y_pos,
-                                                     PangoLayout *font_layout
-                                                   );
+void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, const gui_marked_set_t *marker, cairo_t *cr );
 
 /*!
  *  \brief draws a type-icon and a label

@@ -2,12 +2,15 @@
 
 #include <assert.h>
 
-static inline void pos_nav_tree_node_init ( pos_nav_tree_node_t *this_, const data_diagram_t *diagram_data )
+static inline void pos_nav_tree_node_init ( pos_nav_tree_node_t *this_,
+                                            pos_nav_tree_node_type_t node_type,
+                                            const data_diagram_t *diagram_data )
 {
     assert ( NULL != diagram_data );
 
     shape_int_rectangle_init_empty( &((*this_).icon_box) );
     shape_int_rectangle_init_empty( &((*this_).label_box) );
+    (*this_).node_type = node_type;
     (*this_).data = diagram_data;
 }
 
@@ -61,6 +64,11 @@ static inline const shape_int_rectangle_t *pos_nav_tree_node_get_label_box_const
 static inline void pos_nav_tree_node_set_label_box ( pos_nav_tree_node_t *this_, const shape_int_rectangle_t *label_box )
 {
     shape_int_rectangle_replace( &((*this_).label_box), label_box );
+}
+
+static inline pos_nav_tree_node_type_t pos_nav_tree_node_get_type ( const pos_nav_tree_node_t *this_ )
+{
+    return (*this_).node_type;
 }
 
 static inline const data_diagram_t *pos_nav_tree_node_get_data_const ( const pos_nav_tree_node_t *this_ )

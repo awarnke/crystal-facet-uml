@@ -2,6 +2,7 @@
 
 #include "sketch_area/gui_sketch_nav_tree.h"
 #include "util/geometry/geometry_rectangle.h"
+#include "universal_int.h"
 #include "trace.h"
 #include "tslog.h"
 #include <gdk/gdk.h>
@@ -10,6 +11,7 @@ static const uint32_t NAV_TREE_FIRST_LINE = 1;
 const int GUI_SKETCH_NAV_TREE_LINE_HEIGHT = 20;
 const int GUI_SKETCH_NAV_TREE_INDENT = 12;
 static const int OBJ_GAP = 4;
+static const int GUI_SKETCH_NAV_TREE_PANGO_AUTO_DETECT_LENGTH = -1;  /*!< pango automatically determines the string length */
 
 void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_, gui_resources_t *resources )
 {
@@ -171,8 +173,6 @@ void gui_sketch_nav_tree_do_layout( gui_sketch_nav_tree_t *this_, cairo_t *cr )
     assert( (*this_).siblings_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS );
     assert( (*this_).children_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN );
 
-    (*this_).node_count = 0;
-
     /* calculate the "new" button positions */
     if ( (*this_).ancestors_count == 0 )
     {
@@ -239,20 +239,98 @@ void gui_sketch_nav_tree_do_layout( gui_sketch_nav_tree_t *this_, cairo_t *cr )
 
     int32_t y_pos = shape_int_rectangle_get_top( &((*this_).bounds) );
 
-    /*
-    const unsigned int count = data_search_result_list_get_length( &((*this_).result_list) );
-    assert( count <= GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS );
-    (*this_).element_count = count;
-    for ( unsigned int idx = 0; idx < count; idx ++ )
+    (*this_).node_count = 0;
+
+    if ( (*this_).ancestors_count == 0 )
     {
-        const data_search_result_t *result = data_search_result_list_get_const( &((*this_).result_list), idx );
-        pos_search_result_init( &((*this_).element_pos[idx]), result );
-        gui_sketch_result_list_private_layout_element( this_, &((*this_).element_pos[idx]), &y_pos, font_layout );
+        /* show only a new root button */
+        assert( 1 <= GUI_SKETCH_NAV_TREE_CONST_MAX_NODES );
+        pos_nav_tree_node_t *const new_root_node = &((*this_).node_pos[0]);
+        pos_nav_tree_node_init( new_root_node, POS_NAV_TREE_NODE_TYPE_NEW_ROOT, NULL );
+        (*this_).node_count = 1;
     }
-    */
+    else
+    {
+        /* layout ancestors excluding self (at index 0 in ancestor_diagrams) */
+        const unsigned int anc_count = (*this_).ancestors_count;
+        assert( anc_count > 0 );
+        assert( anc_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS );
+        assert( (*this_).node_count + (anc_count-1) <= GUI_SKETCH_NAV_TREE_CONST_MAX_NODES );
+        for ( unsigned int anc_idx = 1; anc_idx < anc_count; anc_idx ++ )
+        {
+            const data_diagram_t *const anc_diag = &((*this_).ancestor_diagrams[anc_count-anc_idx]);
+            const unsigned int node_idx = (*this_).node_count;
+            pos_nav_tree_node_t *const anc_node = &((*this_).node_pos[node_idx]);
+            pos_nav_tree_node_init( anc_node, POS_NAV_TREE_NODE_TYPE_ANCESTOR, anc_diag );
+            (*this_).node_count ++;
+            gui_sketch_nav_tree_private_layout_node( this_, anc_node, (anc_idx-1), &y_pos, font_layout );
+        }
+
+        const unsigned int tree_depth = (*this_).ancestors_count-1;
+
+        /* TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO     */
+
+        /* layout siblings including self */
+        /* show only a new root button */
+    }
 
     /* release the font_layout */
     g_object_unref(font_layout);
+
+    TRACE_END();
+}
+
+void gui_sketch_nav_tree_private_layout_node ( gui_sketch_nav_tree_t *this_,
+                                               pos_nav_tree_node_t *node,
+                                               uint32_t tree_depth,
+                                               int32_t *io_y_pos,
+                                               PangoLayout *font_layout )
+{
+    TRACE_BEGIN();
+    assert( NULL != node );
+    assert( NULL != io_y_pos );
+    assert( NULL != font_layout );
+
+    int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+    uint_fast32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
+    uint_fast32_t indent = tree_depth*GUI_SKETCH_NAV_TREE_INDENT;
+    const data_diagram_t *data_or_null = pos_nav_tree_node_get_data_const( node );
+
+    /* determine icon dimensions */
+    shape_int_rectangle_t *icon_box = pos_nav_tree_node_get_icon_box_ptr( node );
+    {
+        const pos_nav_tree_node_type_t node_type = pos_nav_tree_node_get_type( node );
+        const GdkPixbuf *icon = pos_nav_tree_node_type_get_icon( node_type, (*this_).resources );
+        const double icon_width = gdk_pixbuf_get_width( icon );
+        const double icon_height = gdk_pixbuf_get_height( icon );
+
+        shape_int_rectangle_init( icon_box, left+indent+OBJ_GAP, (*io_y_pos)+OBJ_GAP, icon_width+0.999, icon_height+0.999 );
+    }
+
+    /* determine label dimensions */
+    shape_int_rectangle_t *label_box = pos_nav_tree_node_get_label_box_ptr( node );
+    if ( data_or_null == NULL )
+    {
+        shape_int_rectangle_init( label_box, shape_int_rectangle_get_right(icon_box), (*io_y_pos), 0, 0 );
+    }
+    else
+    {
+        int_fast32_t proposed_pango_width = width - indent - shape_int_rectangle_get_width(icon_box) - (4*OBJ_GAP);
+        pango_layout_set_text( font_layout,
+                               data_diagram_get_name_ptr( data_or_null ),
+                               GUI_SKETCH_NAV_TREE_PANGO_AUTO_DETECT_LENGTH
+                             );
+        pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE );
+        int text_width;
+        int text_height;
+        pango_layout_get_pixel_size(font_layout, &text_width, &text_height);
+
+        int_fast32_t x_pos = shape_int_rectangle_get_right(icon_box);
+        shape_int_rectangle_init( label_box, x_pos+OBJ_GAP, (*io_y_pos)+OBJ_GAP, text_width, text_height );
+    }
+
+    *io_y_pos = universal_int_max_i32( shape_int_rectangle_get_bottom(icon_box), shape_int_rectangle_get_bottom(label_box) )
+              + OBJ_GAP;
 
     TRACE_END();
 }

@@ -3,16 +3,14 @@
 #include "sketch_area/gui_sketch_result_list.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/string/utf8stringbuf.h"
+#include "universal_int.h"
 #include "trace.h"
 #include "tslog.h"
 #include <gdk/gdk.h>
 
-const int GUI_SKETCH_RESULT_LIST_LINE_HEIGHT = 28;  /*!< height of an element-name/entry in pixels */
-const int GUI_SKETCH_RESULT_LIST_PANGO_AUTO_DETECT_LENGTH = -1;  /*!< pango automatically determines the string length */
-const int GUI_SKETCH_RESULT_LIST_PANGO_UNLIMITED_WIDTH = -1;
+static const int GUI_SKETCH_RESULT_LIST_PANGO_AUTO_DETECT_LENGTH = -1;  /*!< pango automatically determines the string length */
+static const int GUI_SKETCH_RESULT_LIST_PANGO_UNLIMITED_WIDTH = -1;
 static const int OBJ_GAP = 4;
-
-#define GUI_SKETCH_RESULT_MAX(a,b) ((a) > (b) ? (a) : (b))
 
 void gui_sketch_result_list_init( gui_sketch_result_list_t *this_, gui_resources_t *resources )
 {
@@ -77,6 +75,55 @@ void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t 
 
     /* release the font_layout */
     g_object_unref(font_layout);
+
+    TRACE_END();
+}
+
+void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *this_,
+                                                     pos_search_result_t *element,
+                                                     int32_t *io_y_pos,
+                                                     PangoLayout *font_layout )
+{
+    TRACE_BEGIN();
+    assert( NULL != element );
+    assert( NULL != io_y_pos );
+    assert( NULL != font_layout );
+
+    int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+    uint_fast32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
+    const data_search_result_t *result = pos_search_result_get_data_const( element );
+
+    /* determine icon dimensions */
+    shape_int_rectangle_t *icon_box = pos_search_result_get_icon_box_ptr( element );
+    {
+        const data_table_t result_table = data_search_result_get_match_table( result );
+        const int result_type = data_search_result_get_match_type( result );
+        const GdkPixbuf *icon = gui_resource_selector_get_icon ( &((*this_).selector), result_table, result_type );
+        const double icon_width = gdk_pixbuf_get_width( icon );
+        const double icon_height = gdk_pixbuf_get_height( icon );
+
+        shape_int_rectangle_init( icon_box, left+OBJ_GAP, (*io_y_pos)+OBJ_GAP, icon_width+0.999, icon_height+0.999 );
+    }
+
+    /* determine label dimensions */
+    shape_int_rectangle_t *label_box = pos_search_result_get_label_box_ptr( element );
+    {
+        int_fast32_t proposed_pango_width = width - shape_int_rectangle_get_width(icon_box) - (4*OBJ_GAP);
+        pango_layout_set_text( font_layout,
+                                data_search_result_get_match_name_const( result ),
+                                GUI_SKETCH_RESULT_LIST_PANGO_AUTO_DETECT_LENGTH
+                                );
+        pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE );
+        int text_width;
+        int text_height;
+        pango_layout_get_pixel_size(font_layout, &text_width, &text_height);
+
+        int_fast32_t x_pos = shape_int_rectangle_get_right(icon_box);
+        shape_int_rectangle_init( label_box, x_pos+OBJ_GAP, (*io_y_pos)+OBJ_GAP, text_width, text_height );
+    }
+
+    *io_y_pos = universal_int_max_i32( shape_int_rectangle_get_bottom(icon_box), shape_int_rectangle_get_bottom(label_box) )
+              + OBJ_GAP;
 
     TRACE_END();
 }
@@ -150,54 +197,6 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, const gui_ma
 
         g_object_unref(font_layout);
     }
-
-    TRACE_END();
-}
-
-void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *this_,
-                                                     pos_search_result_t *element,
-                                                     int32_t *io_y_pos,
-                                                     PangoLayout *font_layout )
-{
-    TRACE_BEGIN();
-    assert( NULL != element );
-    assert( NULL != font_layout );
-
-    int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
-    uint_fast32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
-    const data_search_result_t *result = pos_search_result_get_data_const( element );
-
-    /* determine icon dimensions */
-    shape_int_rectangle_t *icon_box = pos_search_result_get_icon_box_ptr( element );
-    {
-        const data_table_t result_table = data_search_result_get_match_table( result );
-        const int result_type = data_search_result_get_match_type( result );
-        const GdkPixbuf *icon = gui_resource_selector_get_icon ( &((*this_).selector), result_table, result_type );
-        const double icon_width = gdk_pixbuf_get_width( icon );
-        const double icon_height = gdk_pixbuf_get_height( icon );
-
-        shape_int_rectangle_init( icon_box, left+OBJ_GAP, (*io_y_pos)+OBJ_GAP, icon_width+0.999, icon_height+0.999 );
-    }
-
-    /* determine label dimensions */
-    shape_int_rectangle_t *label_box = pos_search_result_get_label_box_ptr( element );
-    {
-        int_fast32_t proposed_pango_width = width - shape_int_rectangle_get_width(icon_box) - (4*OBJ_GAP);
-        pango_layout_set_text( font_layout,
-                                data_search_result_get_match_name_const( result ),
-                                GUI_SKETCH_RESULT_LIST_PANGO_AUTO_DETECT_LENGTH
-                                );
-        pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE );
-        int text_width;
-        int text_height;
-        pango_layout_get_pixel_size(font_layout, &text_width, &text_height);
-
-        int_fast32_t x_pos = shape_int_rectangle_get_right(icon_box);
-        shape_int_rectangle_init( label_box, x_pos+OBJ_GAP, (*io_y_pos)+OBJ_GAP, text_width, text_height );
-    }
-
-    *io_y_pos = GUI_SKETCH_RESULT_MAX( shape_int_rectangle_get_bottom(icon_box), shape_int_rectangle_get_bottom(label_box) )
-              + OBJ_GAP;
 
     TRACE_END();
 }

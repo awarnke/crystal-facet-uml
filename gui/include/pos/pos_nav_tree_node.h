@@ -20,7 +20,7 @@ struct pos_nav_tree_node_struct {
     shape_int_rectangle_t icon_box;  /*!< The rectangle where the icon of the diagram is drawn */
     shape_int_rectangle_t label_box;  /*!< bounding box of the label of the diagram. */
     pos_nav_tree_node_type_t node_type;  /*!< type of the nav tree node. */
-    const data_diagram_t *data;  /*!< pointer to the data object of the diagram */
+    const data_diagram_t *data;  /*!< pointer to the data object of the diagram, NULL if no diagram attached */
 };
 
 typedef struct pos_nav_tree_node_struct pos_nav_tree_node_t;
@@ -29,9 +29,12 @@ typedef struct pos_nav_tree_node_struct pos_nav_tree_node_t;
  *  \brief initializes the pos_nav_tree_node_t struct with a pointer to diagram_data.
  *
  *  \param this_ pointer to own object attributes
- *  \param diagram_data pointer to data object which is layouted
+ *  \param node_type type of the nav tree node
+ *  \param diagram_data pointer to data object which is layouted, NULL if no diagram attached
  */
-static inline void pos_nav_tree_node_init ( pos_nav_tree_node_t *this_, const data_diagram_t *diagram_data );
+static inline void pos_nav_tree_node_init ( pos_nav_tree_node_t *this_,
+                                            pos_nav_tree_node_type_t node_type,
+                                            const data_diagram_t *diagram_data );
 
 /*!
  *  \brief destroys the pos_nav_tree_node_t struct
@@ -97,10 +100,18 @@ static inline const shape_int_rectangle_t *pos_nav_tree_node_get_label_box_const
 static inline void pos_nav_tree_node_set_label_box ( pos_nav_tree_node_t *this_, const shape_int_rectangle_t *label_box );
 
 /*!
+ *  \brief gets the node type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return type of node
+ */
+static inline pos_nav_tree_node_type_t pos_nav_tree_node_get_type ( const pos_nav_tree_node_t *this_ );
+
+/*!
  *  \brief gets the data_diagram_t object
  *
  *  \param this_ pointer to own object attributes
- *  \return a pointer to the corresponding data_diagram_t object
+ *  \return a pointer to the corresponding data_diagram_t object, NULL if no diagram attached
  */
 static inline const data_diagram_t *pos_nav_tree_node_get_data_const ( const pos_nav_tree_node_t *this_ );
 

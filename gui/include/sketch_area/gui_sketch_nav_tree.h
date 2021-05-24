@@ -156,12 +156,28 @@ static inline gui_error_t gui_sketch_nav_tree_is_descendant ( const gui_sketch_n
                                                             );
 
 /*!
- *  \brief calculates the layout-line indices
+ *  \brief calculates the layout-line indices / layouts the tree nodes
  *
  *  \param this_ pointer to own object attributes
  *  \param cr cairo drawing context
  */
 void gui_sketch_nav_tree_do_layout( gui_sketch_nav_tree_t *this_, cairo_t *cr );
+
+/*!
+ *  \brief layouts icon and label of a tree node
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param node the pos_nav_tree_node_t to layout
+ *  \param tree_depth the depth in the tree / used for the indentation width
+ *  \param[in,out] io_y_pos top position of the current node to be layouted; out: pos of next node
+ *  \param font_layout the pango font rendering object
+ */
+void gui_sketch_nav_tree_private_layout_node ( gui_sketch_nav_tree_t *this_,
+                                               pos_nav_tree_node_t *node,
+                                               uint32_t tree_depth,
+                                               int32_t *io_y_pos,
+                                               PangoLayout *font_layout
+                                             );
 
 /*!
  *  \brief marks the diagram data as invalid
