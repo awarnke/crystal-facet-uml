@@ -73,6 +73,7 @@ static inline void gui_sketch_result_list_get_object_id_at_pos ( const gui_sketc
                 const data_search_result_t *const at_pos = pos_search_result_get_data_const( element );
                 data_id_copy( out_selected_id, data_search_result_get_match_id_const( at_pos ) );
                 data_id_copy( out_diagram_id, data_search_result_get_diagram_id_const( at_pos ) );
+                break;
             }
         }
     }

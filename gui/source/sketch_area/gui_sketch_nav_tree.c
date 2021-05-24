@@ -226,6 +226,34 @@ void gui_sketch_nav_tree_do_layout( gui_sketch_nav_tree_t *this_, cairo_t *cr )
     }
     (*this_).line_cnt_children = (*this_).children_count;
 
+    /* TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO     */
+
+    /* create the font_layout */
+    PangoLayout *font_layout;
+    {
+        font_layout = pango_cairo_create_layout (cr);
+        const PangoFontDescription *const std_font
+            = gui_sketch_style_get_standard_font_description( &((*this_).sketch_style ) );
+        pango_layout_set_font_description( font_layout, std_font );
+    }
+
+    int32_t y_pos = shape_int_rectangle_get_top( &((*this_).bounds) );
+
+    /*
+    const unsigned int count = data_search_result_list_get_length( &((*this_).result_list) );
+    assert( count <= GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS );
+    (*this_).element_count = count;
+    for ( unsigned int idx = 0; idx < count; idx ++ )
+    {
+        const data_search_result_t *result = data_search_result_list_get_const( &((*this_).result_list), idx );
+        pos_search_result_init( &((*this_).element_pos[idx]), result );
+        gui_sketch_result_list_private_layout_element( this_, &((*this_).element_pos[idx]), &y_pos, font_layout );
+    }
+    */
+
+    /* release the font_layout */
+    g_object_unref(font_layout);
+
     TRACE_END();
 }
 
@@ -577,7 +605,7 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
                     {
                         ancestors_folder_icon = gui_resources_get_navigate_breadcrumb_folder( (*this_).resources );
                     }
-                    gui_sketch_nav_tree_private_draw_icon_and_label( this_,
+                    gui_sketch_nav_tree_private_draw_node( this_,
                                                                      ancestors_folder_icon,
                                                                      data_diagram_get_name_ptr( &((*this_).ancestor_diagrams[anc_index]) ),
                                                                      shape_int_rectangle_get_left( &destination_rect ),
@@ -608,7 +636,7 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
                 {
                     siblings_folder_icon = gui_resources_get_navigate_closed_folder( (*this_).resources );
                 }
-                gui_sketch_nav_tree_private_draw_icon_and_label( this_,
+                gui_sketch_nav_tree_private_draw_node( this_,
                                                                  siblings_folder_icon,
                                                                  data_diagram_get_name_ptr( &((*this_).sibling_diagrams[sib_index]) ),
                                                                  shape_int_rectangle_get_left( &destination_rect ),
@@ -622,14 +650,14 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
                 destination_rect = gui_sketch_nav_tree_private_get_sibling_bounds( this_, (*this_).siblings_count );
                 const GdkRGBA std_color = gui_sketch_style_get_standard_color( &((*this_).sketch_style) );
                 cairo_set_source_rgba( cr, std_color.red, std_color.green, std_color.blue, std_color.alpha );
-                gui_sketch_nav_tree_private_draw_icon_and_label( this_,
-                                                                 gui_resources_get_navigate_create_sibling( (*this_).resources ),
-                                                                 "",
-                                                                 shape_int_rectangle_get_left( &destination_rect ),
-                                                                 shape_int_rectangle_get_top( &destination_rect ),
-                                                                 layout,
-                                                                 cr
-                                                               );
+                gui_sketch_nav_tree_private_draw_node( this_,
+                                                       gui_resources_get_navigate_create_sibling( (*this_).resources ),
+                                                       "",
+                                                       shape_int_rectangle_get_left( &destination_rect ),
+                                                       shape_int_rectangle_get_top( &destination_rect ),
+                                                       layout,
+                                                       cr
+                                                     );
             }
 
             for ( int chi_index = 0; chi_index < (*this_).children_count; chi_index ++ )
@@ -643,28 +671,28 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
                                                 cr
                                               );
 
-                gui_sketch_nav_tree_private_draw_icon_and_label( this_,
-                                                                 gui_resources_get_navigate_closed_folder( (*this_).resources ),
-                                                                 data_diagram_get_name_ptr( &((*this_).child_diagrams[chi_index]) ),
-                                                                 shape_int_rectangle_get_left( &destination_rect ),
-                                                                 shape_int_rectangle_get_top( &destination_rect ),
-                                                                 layout,
-                                                                 cr
-                                                               );
+                gui_sketch_nav_tree_private_draw_node( this_,
+                                                       gui_resources_get_navigate_closed_folder( (*this_).resources ),
+                                                       data_diagram_get_name_ptr( &((*this_).child_diagrams[chi_index]) ),
+                                                       shape_int_rectangle_get_left( &destination_rect ),
+                                                       shape_int_rectangle_get_top( &destination_rect ),
+                                                       layout,
+                                                       cr
+                                                     );
             }
             if ( (*this_).ancestors_count != 0 )  /* create children if parent exists */
             {
                 destination_rect = gui_sketch_nav_tree_private_get_child_bounds( this_, (*this_).children_count );
                 const GdkRGBA std_color = gui_sketch_style_get_standard_color( &((*this_).sketch_style) );
                 cairo_set_source_rgba( cr, std_color.red, std_color.green, std_color.blue, std_color.alpha );
-                gui_sketch_nav_tree_private_draw_icon_and_label( this_,
-                                                                 gui_resources_get_navigate_create_child( (*this_).resources ),
-                                                                 "",
-                                                                 shape_int_rectangle_get_left( &destination_rect ),
-                                                                 shape_int_rectangle_get_top( &destination_rect ),
-                                                                 layout,
-                                                                 cr
-                                                               );
+                gui_sketch_nav_tree_private_draw_node( this_,
+                                                       gui_resources_get_navigate_create_child( (*this_).resources ),
+                                                       "",
+                                                       shape_int_rectangle_get_left( &destination_rect ),
+                                                       shape_int_rectangle_get_top( &destination_rect ),
+                                                       layout,
+                                                       cr
+                                                      );
             }
 
             g_object_unref(layout);
@@ -674,13 +702,13 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
     TRACE_END();
 }
 
-void gui_sketch_nav_tree_private_draw_icon_and_label( gui_sketch_nav_tree_t *this_,
-                                                      const GdkPixbuf *icon_1,
-                                                      const char *label_1,
-                                                      int x,
-                                                      int y,
-                                                      PangoLayout *layout,
-                                                      cairo_t *cr )
+void gui_sketch_nav_tree_private_draw_node( gui_sketch_nav_tree_t *this_,
+                                            const GdkPixbuf *icon_1,
+                                            const char *label_1,
+                                            int x,
+                                            int y,
+                                            PangoLayout *layout,
+                                            cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != cr );

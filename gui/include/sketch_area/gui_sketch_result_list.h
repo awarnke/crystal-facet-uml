@@ -163,6 +163,20 @@ static inline void gui_sketch_result_list_get_object_id_at_pos ( const gui_sketc
                                                                );
 
 /*!
+ *  \brief positions the type-icon and the label
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param element pointer to the pos_search_result_t which to position
+ *  \param[in,out] io_y_pos top position of the current element to be layouted; out: pos of next element
+ *  \param font_layout the pango font rendering object for i18n suppoprt
+ */
+void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *this_,
+                                                     pos_search_result_t *element,
+                                                     int32_t *io_y_pos,
+                                                     PangoLayout *font_layout
+                                                   );
+
+/*!
  *  \brief draws a type-icon and a label
  *
  *  \param this_ pointer to own object attributes
@@ -171,7 +185,7 @@ static inline void gui_sketch_result_list_get_object_id_at_pos ( const gui_sketc
  *  \param font_layout the pango font rendering object for i18n suppoprt
  *  \param cr the cairo drawing engine
  */
-void gui_sketch_result_list_private_draw_icon_and_label( gui_sketch_result_list_t *this_,
+void gui_sketch_result_list_private_draw_element ( gui_sketch_result_list_t *this_,
                                                          const pos_search_result_t *element,
                                                          const gui_marked_set_t *marker,
                                                          PangoLayout *font_layout,

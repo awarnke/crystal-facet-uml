@@ -313,14 +313,14 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
  *  \param layout the pango font rendering object for i18n suppoprt
  *  \param cr the cairo drawing engine
  */
-void gui_sketch_nav_tree_private_draw_icon_and_label( gui_sketch_nav_tree_t *this_,
-                                                      const GdkPixbuf *icon_1,
-                                                      const char *label_1,
-                                                      int x,
-                                                      int y,
-                                                      PangoLayout *layout,
-                                                      cairo_t *cr
-                                                    );
+void gui_sketch_nav_tree_private_draw_node( gui_sketch_nav_tree_t *this_,
+                                            const GdkPixbuf *icon_1,
+                                            const char *label_1,
+                                            int x,
+                                            int y,
+                                            PangoLayout *layout,
+                                            cairo_t *cr
+                                          );
 
 #include "gui_sketch_nav_tree.inl"
 
