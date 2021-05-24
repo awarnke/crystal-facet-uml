@@ -8,7 +8,6 @@
 #include <gdk/gdk.h>
 
 static const uint32_t NAV_TREE_FIRST_LINE = 1;
-const int GUI_SKETCH_NAV_TREE_LINE_HEIGHT = 20;
 const int GUI_SKETCH_NAV_TREE_INDENT = 12;
 static const int OBJ_GAP = 4;
 static const int GUI_SKETCH_NAV_TREE_PANGO_AUTO_DETECT_LENGTH = -1;  /*!< pango automatically determines the string length */
@@ -307,12 +306,15 @@ void gui_sketch_nav_tree_do_layout( gui_sketch_nav_tree_t *this_, cairo_t *cr )
                 gui_sketch_nav_tree_private_layout_node( this_, new_chld_node, tree_depth+1, &y_pos, font_layout );
             }
         }
-        /* show a new sibling button */
-        const unsigned int node_idx = (*this_).node_count;
-        pos_nav_tree_node_t *const new_sibl_node = &((*this_).node_pos[node_idx]);
-        pos_nav_tree_node_init( new_sibl_node, POS_NAV_TREE_NODE_TYPE_NEW_SIBLING, NULL );
-        (*this_).node_count ++;
-        gui_sketch_nav_tree_private_layout_node( this_, new_sibl_node, tree_depth, &y_pos, font_layout );
+        /* show a new sibling button unless root */
+        if ( (*this_).ancestors_count > 1 )
+        {
+            const unsigned int node_idx = (*this_).node_count;
+            pos_nav_tree_node_t *const new_sibl_node = &((*this_).node_pos[node_idx]);
+            pos_nav_tree_node_init( new_sibl_node, POS_NAV_TREE_NODE_TYPE_NEW_SIBLING, NULL );
+            (*this_).node_count ++;
+            gui_sketch_nav_tree_private_layout_node( this_, new_sibl_node, tree_depth, &y_pos, font_layout );
+        }
     }
 
     /* release the font_layout */
@@ -441,6 +443,8 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( const gui_sketch_nav_tree_
     assert( (*this_).line_cnt_children == (*this_).children_count );
 
     gui_error_t ret_error;
+
+    const int GUI_SKETCH_NAV_TREE_LINE_HEIGHT = 20;
 
     if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
     {
@@ -592,75 +596,34 @@ void gui_sketch_nav_tree_get_object_id_at_pos ( const gui_sketch_nav_tree_t *thi
 {
     TRACE_BEGIN();
     assert ( NULL != out_selected_id );
-    assert( (*this_).ancestors_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS );
-    assert( (*this_).line_cnt_ancestors <= (*this_).ancestors_count );
-    assert( (*this_).siblings_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS );
-    assert( (*this_).line_cnt_siblings_to_incl_self + (*this_).line_cnt_siblings_after_self == (*this_).siblings_count );
-    assert( (*this_).children_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN );
-    assert( (*this_).line_cnt_children == (*this_).children_count );
 
+    /* default in case no object found */
+    {
+        data_id_reinit_void( out_selected_id );
+    }
+
+    /* search object */
     if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
     {
-        /* determine index of line, top linie has index 0 */
-        uint32_t line_index;
+        const unsigned int count = (*this_).node_count;
+        assert( count <= GUI_SKETCH_NAV_TREE_CONST_MAX_NODES );
+        for ( unsigned int idx = 0; idx < count; idx ++ )
         {
-            int32_t top;
-            top = shape_int_rectangle_get_top( &((*this_).bounds) );
-            line_index = ( y - top ) / GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
+            const pos_nav_tree_node_t *const node = &((*this_).node_pos[idx]);
+            const shape_int_rectangle_t *icon_box = pos_nav_tree_node_get_icon_box_const( node );
+            const shape_int_rectangle_t *label_box = pos_nav_tree_node_get_label_box_const( node );
+
+            if ( shape_int_rectangle_contains( icon_box, x, y ) || shape_int_rectangle_contains( label_box, x, y ) )
+            {
+                /* const pos_nav_tree_node_type_t node_type = pos_nav_tree_node_get_type( node ); */
+                const data_diagram_t *const data_or_null = pos_nav_tree_node_get_data_const( node );
+                if ( data_or_null != NULL )
+                {
+                    *out_selected_id = data_diagram_get_data_id( data_or_null );
+                    break;
+                }
+            }
         }
-
-        /* default: no line */
-        data_id_reinit_void( out_selected_id );
-
-        /* is this the ancester region ? */
-        if ( ( line_index >= (*this_).line_idx_ancestors_start )
-            && ( line_index < (*this_).line_idx_ancestors_start + (*this_).line_cnt_ancestors ))
-        {
-            /* formula differs from others because backwards order and index 0 reserved or self: */
-            uint32_t ancester_idx = (*this_).ancestors_count - 1 - (line_index - (*this_).line_idx_ancestors_start);
-
-            data_id_reinit( out_selected_id,
-                            DATA_TABLE_DIAGRAM,
-                            data_diagram_get_row_id( &((*this_).ancestor_diagrams[ancester_idx]) )
-                          );
-        }
-
-        /* is this the children region */
-        else if ( ( line_index >= (*this_).line_idx_children_start )
-            && ( line_index < (*this_).line_idx_children_start + (*this_).line_cnt_children ))
-        {
-            uint32_t child_idx = line_index - (*this_).line_idx_children_start;
-            data_id_reinit( out_selected_id,
-                            DATA_TABLE_DIAGRAM,
-                            data_diagram_get_row_id( &((*this_).child_diagrams[child_idx]) )
-                          );
-        }
-
-        /* is this the first half of the siblings region ? */
-        else if ( ( line_index >= (*this_).line_idx_siblings_start )
-            && ( line_index < (*this_).line_idx_siblings_start + (*this_).line_cnt_siblings_to_incl_self ))
-        {
-            uint32_t sibl1_idx = line_index - (*this_).line_idx_siblings_start;
-            data_id_reinit( out_selected_id,
-                            DATA_TABLE_DIAGRAM,
-                            data_diagram_get_row_id( &((*this_).sibling_diagrams[sibl1_idx]) )
-                          );
-        }
-
-        /* is this the second half of the siblings region ? */
-        else if ( ( line_index >= (*this_).line_idx_siblings_next_after_self )
-            && ( line_index < (*this_).line_idx_siblings_next_after_self + (*this_).line_cnt_siblings_after_self ))
-        {
-            uint32_t sibl2_idx = line_index - (*this_).line_idx_siblings_next_after_self + (*this_).line_cnt_siblings_to_incl_self;
-            data_id_reinit( out_selected_id,
-                            DATA_TABLE_DIAGRAM,
-                            data_diagram_get_row_id( &((*this_).sibling_diagrams[sibl2_idx]) )
-                          );
-        }
-    }
-    else
-    {
-        data_id_reinit_void( out_selected_id );
     }
 
     TRACE_END();

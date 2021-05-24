@@ -81,6 +81,8 @@ static void tear_down(void)
     }
 }
 
+static const unsigned int GUI_SKETCH_NAV_TREE_LINE_HEIGHT = 2*4+16/*16=image height*/;
+
 static void test_get_object_at_pos_on_no_diagram(void)
 {
     /* init the testee, because a gui_sketch_nav_tree_t contains some hundred diagrams, each abobe 10kB */

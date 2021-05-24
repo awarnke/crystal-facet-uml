@@ -190,35 +190,51 @@ static inline void gui_sketch_nav_tree_get_button_at_pos ( const gui_sketch_nav_
 {
     assert ( NULL != out_action_id );
 
+    /* default in case no object found */
+    {
+        *out_action_id = GUI_SKETCH_ACTION_NONE;
+    }
+
+    /* search object */
     if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
     {
-        /* determine index of line, top linie has index 0 */
-        int32_t top;
-        top = shape_int_rectangle_get_top( &((*this_).bounds) );
-        uint32_t line_index;
-        line_index = ( y - top ) / GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
+        const unsigned int count = (*this_).node_count;
+        assert( count <= GUI_SKETCH_NAV_TREE_CONST_MAX_NODES );
+        for ( unsigned int idx = 0; idx < count; idx ++ )
+        {
+            const pos_nav_tree_node_t *const node = &((*this_).node_pos[idx]);
+            const shape_int_rectangle_t *icon_box = pos_nav_tree_node_get_icon_box_const( node );
+            const shape_int_rectangle_t *label_box = pos_nav_tree_node_get_label_box_const( node );
 
-        if ( line_index == (*this_).line_idx_new_root )
-        {
-            *out_action_id = GUI_SKETCH_ACTION_NEW_ROOT_DIAGRAM;
+            if ( shape_int_rectangle_contains( icon_box, x, y ) || shape_int_rectangle_contains( label_box, x, y ) )
+            {
+                const pos_nav_tree_node_type_t node_type = pos_nav_tree_node_get_type( node );
+                switch( node_type )
+                {
+                    case POS_NAV_TREE_NODE_TYPE_NEW_ROOT:
+                    {
+                        *out_action_id = GUI_SKETCH_ACTION_NEW_ROOT_DIAGRAM;
+                    }
+                    break;
+
+                    case POS_NAV_TREE_NODE_TYPE_NEW_SIBLING:
+                    {
+                        *out_action_id = GUI_SKETCH_ACTION_NEW_SIBLING_DIAGRAM;
+                    }
+                    break;
+
+                    case POS_NAV_TREE_NODE_TYPE_NEW_CHILD:
+                    {
+                        *out_action_id = GUI_SKETCH_ACTION_NEW_CHILD_DIAGRAM;
+                    }
+                    break;
+
+                    default:
+                    {
+                    }
+                }
+            }
         }
-        else if ( line_index == (*this_).line_idx_new_child )
-        {
-            *out_action_id = GUI_SKETCH_ACTION_NEW_CHILD_DIAGRAM;
-        }
-        else if ( line_index == (*this_).line_idx_new_sibling )
-        {
-            *out_action_id = GUI_SKETCH_ACTION_NEW_SIBLING_DIAGRAM;
-        }
-        else
-        {
-            *out_action_id = GUI_SKETCH_ACTION_NONE;
-        }
-    }
-    else
-    {
-        /* position out of bounding box */
-        *out_action_id = GUI_SKETCH_ACTION_NONE;
     }
 }
 
