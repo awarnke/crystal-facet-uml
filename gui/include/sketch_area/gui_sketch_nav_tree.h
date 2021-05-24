@@ -278,39 +278,6 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( const gui_sketch_nav_tree_
                                                     );
 
 /*!
- *  \brief gets the bounding box of a diagram name
- *
- *  \param this_ pointer to own object attributes
- *  \param ancestor_index index of the ancestor
- *  \return bounding box of the diagram name
- */
-static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_ancestor_bounds ( const gui_sketch_nav_tree_t *this_,
-                                                                                      uint32_t ancestor_index
-                                                                                    );
-
-/*!
- *  \brief gets the bounding box of a diagram name
- *
- *  \param this_ pointer to own object attributes
- *  \param sibling_index index of the sibling. siblings_count if the position after the last sibling shall be returned (for e.g. a "new" button).
- *  \return bounding box of the diagram name
- */
-static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_sibling_bounds ( const gui_sketch_nav_tree_t *this_,
-                                                                                     uint32_t sibling_index
-                                                                                   );
-
-/*!
- *  \brief gets the bounding box of a diagram name
- *
- *  \param this_ pointer to own object attributes
- *  \param child_index index of the child. children_count if the position after the last child shall be returned (for e.g. a "new" button).
- *  \return bounding box of the diagram name
- */
-static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_child_bounds ( const gui_sketch_nav_tree_t *this_,
-                                                                                   uint32_t child_index
-                                                                                 );
-
-/*!
  *  \brief draws a single diagram
  *
  *  \param this_ pointer to own object attributes
