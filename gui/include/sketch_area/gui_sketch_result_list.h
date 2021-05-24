@@ -186,11 +186,11 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, const gui_ma
  *  \param cr the cairo drawing engine
  */
 void gui_sketch_result_list_private_draw_element ( gui_sketch_result_list_t *this_,
-                                                         const pos_search_result_t *element,
-                                                         const gui_marked_set_t *marker,
-                                                         PangoLayout *font_layout,
-                                                         cairo_t *cr
-                                                       );
+                                                   const pos_search_result_t *element,
+                                                   const gui_marked_set_t *marker,
+                                                   PangoLayout *font_layout,
+                                                   cairo_t *cr
+                                                 );
 
 #include "gui_sketch_result_list.inl"
 

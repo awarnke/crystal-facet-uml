@@ -6,8 +6,6 @@ static inline void pos_nav_tree_node_init ( pos_nav_tree_node_t *this_,
                                             pos_nav_tree_node_type_t node_type,
                                             const data_diagram_t *diagram_data )
 {
-    assert ( NULL != diagram_data );
-
     shape_int_rectangle_init_empty( &((*this_).icon_box) );
     shape_int_rectangle_init_empty( &((*this_).label_box) );
     (*this_).node_type = node_type;
@@ -73,7 +71,6 @@ static inline pos_nav_tree_node_type_t pos_nav_tree_node_get_type ( const pos_na
 
 static inline const data_diagram_t *pos_nav_tree_node_get_data_const ( const pos_nav_tree_node_t *this_ )
 {
-    assert ( NULL != (*this_).data );
     return (*this_).data;
 }
 

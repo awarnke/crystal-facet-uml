@@ -210,6 +210,7 @@ void gui_sketch_result_list_private_draw_element( gui_sketch_result_list_t *this
     TRACE_BEGIN();
     assert( NULL != cr );
     assert( NULL != element );
+    assert( NULL != marker );
     assert( NULL != font_layout );
 
     const data_search_result_t *const result = pos_search_result_get_data_const( element );

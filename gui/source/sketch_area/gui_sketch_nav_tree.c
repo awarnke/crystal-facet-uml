@@ -268,10 +268,51 @@ void gui_sketch_nav_tree_do_layout( gui_sketch_nav_tree_t *this_, cairo_t *cr )
 
         const unsigned int tree_depth = (*this_).ancestors_count-1;
 
-        /* TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO     */
-
         /* layout siblings including self */
-        /* show only a new root button */
+        const unsigned int sibl_count = (*this_).siblings_count;
+        assert( sibl_count > 0 );
+        assert( sibl_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS );
+        const unsigned int child_count = (*this_).children_count;
+        assert( child_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN );
+        assert( (*this_).node_count + sibl_count + child_count + 2 <= GUI_SKETCH_NAV_TREE_CONST_MAX_NODES );
+        for ( unsigned int sibl_idx = 0; sibl_idx < sibl_count; sibl_idx ++ )
+        {
+            const data_diagram_t *const sibl_diag = &((*this_).sibling_diagrams[sibl_idx]);
+            const unsigned int node_idx = (*this_).node_count;
+            pos_nav_tree_node_t *const sibl_node = &((*this_).node_pos[node_idx]);
+            const bool self = ( sibl_idx == (*this_).siblings_self_index );
+            const pos_nav_tree_node_type_t n_type = self ? POS_NAV_TREE_NODE_TYPE_OPEN : POS_NAV_TREE_NODE_TYPE_CLOSED;
+            pos_nav_tree_node_init( sibl_node, n_type, sibl_diag );
+            (*this_).node_count ++;
+            gui_sketch_nav_tree_private_layout_node( this_, sibl_node, tree_depth, &y_pos, font_layout );
+
+            /* layout children */
+            if ( self )
+            {
+                for ( unsigned int chld_idx = 0; chld_idx < child_count; chld_idx ++ )
+                {
+                    const data_diagram_t *const chld_diag = &((*this_).child_diagrams[chld_idx]);
+                    const unsigned int node_idx = (*this_).node_count;
+                    pos_nav_tree_node_t *const chld_node = &((*this_).node_pos[node_idx]);
+                    pos_nav_tree_node_init( chld_node, POS_NAV_TREE_NODE_TYPE_CLOSED, chld_diag );
+                    (*this_).node_count ++;
+                    gui_sketch_nav_tree_private_layout_node( this_, chld_node, tree_depth+1, &y_pos, font_layout );
+                }
+
+                /* add a new child button */
+                const unsigned int node_idx = (*this_).node_count;
+                pos_nav_tree_node_t *const new_chld_node = &((*this_).node_pos[node_idx]);
+                pos_nav_tree_node_init( new_chld_node, POS_NAV_TREE_NODE_TYPE_NEW_CHILD, NULL );
+                (*this_).node_count ++;
+                gui_sketch_nav_tree_private_layout_node( this_, new_chld_node, tree_depth+1, &y_pos, font_layout );
+            }
+        }
+        /* show a new sibling button */
+        const unsigned int node_idx = (*this_).node_count;
+        pos_nav_tree_node_t *const new_sibl_node = &((*this_).node_pos[node_idx]);
+        pos_nav_tree_node_init( new_sibl_node, POS_NAV_TREE_NODE_TYPE_NEW_SIBLING, NULL );
+        (*this_).node_count ++;
+        gui_sketch_nav_tree_private_layout_node( this_, new_sibl_node, tree_depth, &y_pos, font_layout );
     }
 
     /* release the font_layout */
@@ -375,6 +416,8 @@ void gui_sketch_nav_tree_invalidate_data( gui_sketch_nav_tree_t *this_ )
     (*this_).line_cnt_siblings_after_self = 0;
     (*this_).line_cnt_children = 0;
     (*this_).line_cnt_ancestors = 0;
+
+    (*this_).node_count = 0;
 
     TRACE_END();
 }
@@ -633,180 +676,120 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
     TRACE_BEGIN();
     assert( NULL != marker );
     assert( NULL != cr );
-    assert( (*this_).ancestors_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS );
-    assert( (*this_).siblings_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS );
-    assert( (*this_).children_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN );
 
     if ( (*this_).visible )
     {
-        const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
-        const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
-        const uint32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
-        const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
-
-        /* draw the background */
+        PangoLayout *font_layout = pango_cairo_create_layout (cr);
         {
+            const PangoFontDescription *const std_font
+                = gui_sketch_style_get_standard_font_description( &((*this_).sketch_style ) );
+            pango_layout_set_font_description ( font_layout, std_font );
+        }
+
+        /* draw background */
+        {
+            const int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+            const int_fast32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
+            const uint_fast32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
+            const uint_fast32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
+
             cairo_set_source_rgba( cr, GREY_R, GREY_G, GREY_B, GREY_A );
-            cairo_rectangle( cr, left, top, width, height );
+            cairo_rectangle ( cr, left, top, width, height );
             cairo_fill (cr);
         }
 
-        /* draw the elements */
+        /* draw icons and text */
+        const unsigned int count = (*this_).node_count;
+        assert( count <= GUI_SKETCH_NAV_TREE_CONST_MAX_NODES );
+        for ( unsigned int idx = 0; idx < count; idx ++ )
         {
-            PangoLayout *layout;
-            layout = pango_cairo_create_layout (cr);
-            const PangoFontDescription *const std_font
-                = gui_sketch_style_get_standard_font_description( &((*this_).sketch_style ) );
-            pango_layout_set_font_description( layout, std_font );
-
-            shape_int_rectangle_t destination_rect;
-            if ( (*this_).ancestors_count >= 2 )
-            {
-                /* there is at least one ancestor (and self) */
-                for ( int anc_index = (*this_).ancestors_count-1; anc_index > 0 /* 0 equals self */; anc_index -- )
-                {
-                    destination_rect = gui_sketch_nav_tree_private_get_ancestor_bounds( this_, anc_index );
-
-                    gui_sketch_marker_prepare_draw( &((*this_).sketch_marker),
-                                                    data_diagram_get_data_id( &((*this_).ancestor_diagrams[anc_index]) ),
-                                                    marker,
-                                                    destination_rect,
-                                                    cr
-                                                  );
-
-                    const GdkPixbuf *ancestors_folder_icon;
-                    if ( anc_index == 1 )
-                    {
-                        ancestors_folder_icon = gui_resources_get_navigate_open_folder( (*this_).resources );
-                    }
-                    else
-                    {
-                        ancestors_folder_icon = gui_resources_get_navigate_breadcrumb_folder( (*this_).resources );
-                    }
-                    gui_sketch_nav_tree_private_draw_node( this_,
-                                                                     ancestors_folder_icon,
-                                                                     data_diagram_get_name_ptr( &((*this_).ancestor_diagrams[anc_index]) ),
-                                                                     shape_int_rectangle_get_left( &destination_rect ),
-                                                                     shape_int_rectangle_get_top( &destination_rect ),
-                                                                     layout,
-                                                                     cr
-                                                                   );
-                }
-            }
-
-            for ( int sib_index = 0; sib_index < (*this_).siblings_count; sib_index ++ )
-            {
-                destination_rect = gui_sketch_nav_tree_private_get_sibling_bounds( this_, sib_index );
-
-                gui_sketch_marker_prepare_draw( &((*this_).sketch_marker),
-                                                data_diagram_get_data_id( &((*this_).sibling_diagrams[sib_index]) ),
-                                                marker,
-                                                destination_rect,
-                                                cr
-                                              );
-
-                const GdkPixbuf *siblings_folder_icon;
-                if ( sib_index == (*this_).siblings_self_index )
-                {
-                    siblings_folder_icon = gui_resources_get_navigate_open_folder( (*this_).resources );
-                }
-                else
-                {
-                    siblings_folder_icon = gui_resources_get_navigate_closed_folder( (*this_).resources );
-                }
-                gui_sketch_nav_tree_private_draw_node( this_,
-                                                                 siblings_folder_icon,
-                                                                 data_diagram_get_name_ptr( &((*this_).sibling_diagrams[sib_index]) ),
-                                                                 shape_int_rectangle_get_left( &destination_rect ),
-                                                                 shape_int_rectangle_get_top( &destination_rect ),
-                                                                 layout,
-                                                                 cr
-                                                               );
-            }
-            if ( (*this_).ancestors_count != 1 )  /* create sibling if not root diagram */
-            {
-                destination_rect = gui_sketch_nav_tree_private_get_sibling_bounds( this_, (*this_).siblings_count );
-                const GdkRGBA std_color = gui_sketch_style_get_standard_color( &((*this_).sketch_style) );
-                cairo_set_source_rgba( cr, std_color.red, std_color.green, std_color.blue, std_color.alpha );
-                gui_sketch_nav_tree_private_draw_node( this_,
-                                                       gui_resources_get_navigate_create_sibling( (*this_).resources ),
-                                                       "",
-                                                       shape_int_rectangle_get_left( &destination_rect ),
-                                                       shape_int_rectangle_get_top( &destination_rect ),
-                                                       layout,
-                                                       cr
-                                                     );
-            }
-
-            for ( int chi_index = 0; chi_index < (*this_).children_count; chi_index ++ )
-            {
-                destination_rect = gui_sketch_nav_tree_private_get_child_bounds( this_, chi_index );
-
-                gui_sketch_marker_prepare_draw( &((*this_).sketch_marker),
-                                                data_diagram_get_data_id( &((*this_).child_diagrams[chi_index]) ),
-                                                marker,
-                                                destination_rect,
-                                                cr
-                                              );
-
-                gui_sketch_nav_tree_private_draw_node( this_,
-                                                       gui_resources_get_navigate_closed_folder( (*this_).resources ),
-                                                       data_diagram_get_name_ptr( &((*this_).child_diagrams[chi_index]) ),
-                                                       shape_int_rectangle_get_left( &destination_rect ),
-                                                       shape_int_rectangle_get_top( &destination_rect ),
-                                                       layout,
-                                                       cr
-                                                     );
-            }
-            if ( (*this_).ancestors_count != 0 )  /* create children if parent exists */
-            {
-                destination_rect = gui_sketch_nav_tree_private_get_child_bounds( this_, (*this_).children_count );
-                const GdkRGBA std_color = gui_sketch_style_get_standard_color( &((*this_).sketch_style) );
-                cairo_set_source_rgba( cr, std_color.red, std_color.green, std_color.blue, std_color.alpha );
-                gui_sketch_nav_tree_private_draw_node( this_,
-                                                       gui_resources_get_navigate_create_child( (*this_).resources ),
-                                                       "",
-                                                       shape_int_rectangle_get_left( &destination_rect ),
-                                                       shape_int_rectangle_get_top( &destination_rect ),
-                                                       layout,
-                                                       cr
-                                                      );
-            }
-
-            g_object_unref(layout);
+            const pos_nav_tree_node_t *const node = &((*this_).node_pos[idx]);
+            gui_sketch_nav_tree_private_draw_node( this_, node, marker, font_layout, cr );
         }
+
+        g_object_unref(font_layout);
     }
 
     TRACE_END();
 }
 
 void gui_sketch_nav_tree_private_draw_node( gui_sketch_nav_tree_t *this_,
-                                            const GdkPixbuf *icon_1,
-                                            const char *label_1,
-                                            int x,
-                                            int y,
-                                            PangoLayout *layout,
+                                            const pos_nav_tree_node_t *node,
+                                            const gui_marked_set_t *marker,
+                                            PangoLayout *font_layout,
                                             cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != cr );
-    assert( NULL != layout );
-    assert( NULL != icon_1 );
-    assert( NULL != label_1 );
+    assert( NULL != node );
+    assert( NULL != marker );
+    assert( NULL != font_layout );
 
-    /* determine coodinates */
-    double icon_width = gdk_pixbuf_get_width ( icon_1 );
-    double icon_height = gdk_pixbuf_get_height ( icon_1 );
+    const data_diagram_t *const diag_or_null = pos_nav_tree_node_get_data_const( node );
 
-    /* draw text first, use the pre-set color and font */
-    cairo_move_to ( cr, x+icon_width+OBJ_GAP, y );
-    pango_layout_set_text ( layout, label_1, -1 );
-    pango_cairo_show_layout ( cr, layout );
+    /* draw marker and set color */
+    if ( diag_or_null != NULL )
+    {
+        shape_int_rectangle_t destination_rect;
+        shape_int_rectangle_init_by_bounds( &destination_rect,
+                                            pos_nav_tree_node_get_icon_box_const(node),
+                                            pos_nav_tree_node_get_label_box_const(node)
+                                          );
+
+        gui_sketch_marker_prepare_draw( &((*this_).sketch_marker),
+                                        data_diagram_get_data_id( diag_or_null ),
+                                        marker,
+                                        destination_rect,
+                                        cr
+                                      );
+
+        shape_int_rectangle_destroy( &destination_rect );
+    }
+    else
+    {
+        const GdkRGBA std_color = gui_sketch_style_get_standard_color( &((*this_).sketch_style) );
+        cairo_set_source_rgba( cr, std_color.red, std_color.green, std_color.blue, std_color.alpha );
+    }
+
+    /* draw text first, use the above set color and font */
+    if ( diag_or_null != NULL )
+    {
+        /* what to draw */
+        const char *const label = data_diagram_get_name_ptr( diag_or_null );
+
+        /* where to draw to */
+        const shape_int_rectangle_t *const label_box
+            = pos_nav_tree_node_get_label_box_const( node );
+
+        /* do draw */
+        cairo_move_to( cr, shape_int_rectangle_get_left(label_box), shape_int_rectangle_get_top(label_box) );
+        pango_layout_set_text( font_layout, label, GUI_SKETCH_NAV_TREE_PANGO_AUTO_DETECT_LENGTH );
+        const unsigned int text_width
+            = shape_int_rectangle_get_width(label_box)
+            +(2.0*OBJ_GAP);  /* add gap to avoid line breaks by rounding errors and whitespace character widths */
+        pango_layout_set_width(font_layout, text_width * PANGO_SCALE );
+        pango_cairo_show_layout( cr, font_layout );
+    }
 
     /* draw the icon */
-    gdk_cairo_set_source_pixbuf( cr, icon_1, x, y );
-    cairo_rectangle ( cr, x, y, x+icon_width, y+icon_height );
-    cairo_fill (cr);
+    {
+        /* what to draw */
+        const pos_nav_tree_node_type_t node_type = pos_nav_tree_node_get_type( node );
+        const GdkPixbuf *icon = pos_nav_tree_node_type_get_icon( node_type, (*this_).resources );
+
+        /* where to draw to */
+        const shape_int_rectangle_t *const icon_box
+            = pos_nav_tree_node_get_icon_box_const( node );
+        const int x = shape_int_rectangle_get_left(icon_box);
+        const int y = shape_int_rectangle_get_top(icon_box);
+        double icon_width = gdk_pixbuf_get_width ( icon );
+        double icon_height = gdk_pixbuf_get_height ( icon );
+
+        /* do draw */
+        gdk_cairo_set_source_pixbuf( cr, icon, x, y );
+        cairo_rectangle ( cr, x, y, x+icon_width, y+icon_height );
+        cairo_fill (cr);
+    }
 
     TRACE_END();
 }

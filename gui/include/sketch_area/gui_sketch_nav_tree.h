@@ -37,7 +37,8 @@ enum gui_sketch_nav_tree_const_enum {
     GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN = 96,  /*!< maximum number of daughters/sons */
     GUI_SKETCH_NAV_TREE_CONST_MAX_NODES = ( GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS
                                           + GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS
-                                          + GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN ),  /*!< max diagrams */
+                                          + GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN
+                                          + 1),  /*!< max diagrams, minus 1 for duplicate self plus 2 for new buttons */
 };
 
 /*!
@@ -322,19 +323,15 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
  *  \brief draws an icon and a label
  *
  *  \param this_ pointer to own object attributes
- *  \param icon_1 the icon to draw
- *  \param label_1 the label to draw - using the pango library for i18n suppoprt
- *  \param x abscissae
- *  \param y ordinate
- *  \param layout the pango font rendering object for i18n suppoprt
+ *  \param node the pos_nav_tree_node_t to draw
+ *  \param marker set of all objects to be marked
+ *  \param font_layout the pango font rendering object for i18n suppoprt
  *  \param cr the cairo drawing engine
  */
 void gui_sketch_nav_tree_private_draw_node( gui_sketch_nav_tree_t *this_,
-                                            const GdkPixbuf *icon_1,
-                                            const char *label_1,
-                                            int x,
-                                            int y,
-                                            PangoLayout *layout,
+                                            const pos_nav_tree_node_t *node,
+                                            const gui_marked_set_t *marker,
+                                            PangoLayout *font_layout,
                                             cairo_t *cr
                                           );
 
