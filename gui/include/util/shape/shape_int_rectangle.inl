@@ -34,6 +34,14 @@ static inline void shape_int_rectangle_replace ( shape_int_rectangle_t *this_, c
     *this_ = *that;
 }
 
+static inline void shape_int_rectangle_reinit ( shape_int_rectangle_t *this_, int32_t left, int32_t top, uint32_t width, uint32_t height )
+{
+    (*this_).left = left;
+    (*this_).top = top;
+    (*this_).width = width;
+    (*this_).height = height;
+}
+
 static inline void shape_int_rectangle_init_by_bounds ( shape_int_rectangle_t *this_,
                                                         const shape_int_rectangle_t *rect_a,
                                                         const shape_int_rectangle_t *rect_b )

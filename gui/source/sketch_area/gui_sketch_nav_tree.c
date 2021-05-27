@@ -9,7 +9,8 @@
 
 static const uint32_t NAV_TREE_FIRST_LINE = 1;
 const int GUI_SKETCH_NAV_TREE_INDENT = 12;
-static const int OBJ_GAP = 4;
+static const int OBJ_GAP = 3;
+static const int GAP_HEIGHT = 2;
 static const int GUI_SKETCH_NAV_TREE_PANGO_AUTO_DETECT_LENGTH = -1;  /*!< pango automatically determines the string length */
 
 void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_, gui_resources_t *resources )
@@ -36,6 +37,7 @@ void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_, gui_resources_t *re
     (*this_).line_cnt_children = 0;
 
     (*this_).node_count = 0;
+    (*this_).gap_count = 0;
 
     (*this_).visible = false;
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
@@ -160,6 +162,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
         (*this_).line_cnt_children = 0;
 
         (*this_).node_count = 0;
+        (*this_).gap_count = 0;
     }
 
     TRACE_END();
@@ -236,9 +239,12 @@ void gui_sketch_nav_tree_do_layout( gui_sketch_nav_tree_t *this_, cairo_t *cr )
         pango_layout_set_font_description( font_layout, std_font );
     }
 
-    int32_t y_pos = shape_int_rectangle_get_top( &((*this_).bounds) );
+    int32_t y_pos = shape_int_rectangle_get_top( &((*this_).bounds) ) + OBJ_GAP;
+    const int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+    const uint_fast32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
 
     (*this_).node_count = 0;
+    (*this_).gap_count = 0;
 
     if ( (*this_).ancestors_count == 0 )
     {
@@ -247,6 +253,8 @@ void gui_sketch_nav_tree_do_layout( gui_sketch_nav_tree_t *this_, cairo_t *cr )
         pos_nav_tree_node_t *const new_root_node = &((*this_).node_pos[0]);
         pos_nav_tree_node_init( new_root_node, POS_NAV_TREE_NODE_TYPE_NEW_ROOT, NULL );
         (*this_).node_count = 1;
+
+        /* no gaps in this case */
     }
     else
     {
@@ -258,11 +266,28 @@ void gui_sketch_nav_tree_do_layout( gui_sketch_nav_tree_t *this_, cairo_t *cr )
         for ( unsigned int anc_idx = 1; anc_idx < anc_count; anc_idx ++ )
         {
             const data_diagram_t *const anc_diag = &((*this_).ancestor_diagrams[anc_count-anc_idx]);
-            const unsigned int node_idx = (*this_).node_count;
-            pos_nav_tree_node_t *const anc_node = &((*this_).node_pos[node_idx]);
-            pos_nav_tree_node_init( anc_node, POS_NAV_TREE_NODE_TYPE_ANCESTOR, anc_diag );
-            (*this_).node_count ++;
-            gui_sketch_nav_tree_private_layout_node( this_, anc_node, (anc_idx-1), &y_pos, font_layout );
+
+            /* layout upper-gap of ancestor */
+            {
+                pos_nav_tree_gap_t *const upper_gap = &((*this_).gap_pos[(*this_).gap_count]);
+                (*this_).gap_count ++;
+
+                pos_nav_tree_gap_init( upper_gap, data_diagram_get_parent_data_id(anc_diag), 0 );
+                const int indent = (anc_idx-1) * GUI_SKETCH_NAV_TREE_INDENT;
+                pos_nav_tree_gap_set_gap_box_coords( upper_gap, left+indent, y_pos, width-indent, GAP_HEIGHT );
+                y_pos += GAP_HEIGHT;
+            }
+
+            /* layout ancestor node */
+            {
+                pos_nav_tree_node_t *const anc_node = &((*this_).node_pos[(*this_).node_count]);
+                (*this_).node_count ++;
+
+                const pos_nav_tree_node_type_t n_type
+                    = ((anc_idx+1)==anc_count) ? POS_NAV_TREE_NODE_TYPE_OPEN : POS_NAV_TREE_NODE_TYPE_ANCESTOR;
+                pos_nav_tree_node_init( anc_node, n_type, anc_diag );
+                gui_sketch_nav_tree_private_layout_node( this_, anc_node, (anc_idx-1), &y_pos, font_layout );
+            }
         }
 
         const unsigned int tree_depth = (*this_).ancestors_count-1;
@@ -274,45 +299,113 @@ void gui_sketch_nav_tree_do_layout( gui_sketch_nav_tree_t *this_, cairo_t *cr )
         const unsigned int child_count = (*this_).children_count;
         assert( child_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN );
         assert( (*this_).node_count + sibl_count + child_count + 2 <= GUI_SKETCH_NAV_TREE_CONST_MAX_NODES );
+        int32_t previous_sibl_order = INT32_MIN;
         for ( unsigned int sibl_idx = 0; sibl_idx < sibl_count; sibl_idx ++ )
         {
             const data_diagram_t *const sibl_diag = &((*this_).sibling_diagrams[sibl_idx]);
-            const unsigned int node_idx = (*this_).node_count;
-            pos_nav_tree_node_t *const sibl_node = &((*this_).node_pos[node_idx]);
-            const bool self = ( sibl_idx == (*this_).siblings_self_index );
-            const pos_nav_tree_node_type_t n_type = self ? POS_NAV_TREE_NODE_TYPE_OPEN : POS_NAV_TREE_NODE_TYPE_CLOSED;
-            pos_nav_tree_node_init( sibl_node, n_type, sibl_diag );
-            (*this_).node_count ++;
-            gui_sketch_nav_tree_private_layout_node( this_, sibl_node, tree_depth, &y_pos, font_layout );
+            const bool is_self = ( sibl_idx == (*this_).siblings_self_index );
+
+            /* layout upper-gap of sibling */
+            {
+                pos_nav_tree_gap_t *const upper_gap = &((*this_).gap_pos[(*this_).gap_count]);
+                (*this_).gap_count ++;
+
+                const int32_t gap_sibl_order
+                    = (previous_sibl_order/2)+(data_diagram_get_list_order( sibl_diag )/2);  /* no overrun */
+                pos_nav_tree_gap_init( upper_gap, data_diagram_get_parent_data_id(sibl_diag), gap_sibl_order );
+                const int indent = tree_depth * GUI_SKETCH_NAV_TREE_INDENT;
+                pos_nav_tree_gap_set_gap_box_coords( upper_gap, left+indent, y_pos, width-indent, GAP_HEIGHT );
+                y_pos += GAP_HEIGHT;
+            }
+
+            /* layout sibling node */
+            {
+                pos_nav_tree_node_t *const sibl_node = &((*this_).node_pos[(*this_).node_count]);
+                (*this_).node_count ++;
+
+                const pos_nav_tree_node_type_t n_type = is_self ? POS_NAV_TREE_NODE_TYPE_OPEN : POS_NAV_TREE_NODE_TYPE_CLOSED;
+                pos_nav_tree_node_init( sibl_node, n_type, sibl_diag );
+                gui_sketch_nav_tree_private_layout_node( this_, sibl_node, tree_depth, &y_pos, font_layout );
+            }
 
             /* layout children */
-            if ( self )
+            if ( is_self )
             {
+                int32_t prev_child_order = INT32_MIN;
                 for ( unsigned int chld_idx = 0; chld_idx < child_count; chld_idx ++ )
                 {
                     const data_diagram_t *const chld_diag = &((*this_).child_diagrams[chld_idx]);
-                    const unsigned int node_idx = (*this_).node_count;
-                    pos_nav_tree_node_t *const chld_node = &((*this_).node_pos[node_idx]);
-                    pos_nav_tree_node_init( chld_node, POS_NAV_TREE_NODE_TYPE_CLOSED, chld_diag );
-                    (*this_).node_count ++;
-                    gui_sketch_nav_tree_private_layout_node( this_, chld_node, tree_depth+1, &y_pos, font_layout );
+
+                    /* layout upper-gap of child */
+                    {
+                        pos_nav_tree_gap_t *const upper_gap = &((*this_).gap_pos[(*this_).gap_count]);
+                        (*this_).gap_count ++;
+
+                        const int32_t gap_child_order
+                            = (prev_child_order/2)+(data_diagram_get_list_order( chld_diag )/2);  /* no overrun */
+                        pos_nav_tree_gap_init( upper_gap, data_diagram_get_parent_data_id(chld_diag), gap_child_order );
+                        const int indent = (tree_depth+1) * GUI_SKETCH_NAV_TREE_INDENT;
+                        pos_nav_tree_gap_set_gap_box_coords( upper_gap, left+indent, y_pos, width-indent, GAP_HEIGHT );
+                        y_pos += GAP_HEIGHT;
+                    }
+
+                    /* layout child node */
+                    {
+                        pos_nav_tree_node_t *const chld_node = &((*this_).node_pos[(*this_).node_count]);
+                        (*this_).node_count ++;
+
+                        pos_nav_tree_node_init( chld_node, POS_NAV_TREE_NODE_TYPE_CLOSED, chld_diag );
+                        gui_sketch_nav_tree_private_layout_node( this_, chld_node, tree_depth+1, &y_pos, font_layout );
+                    }
+
+                    prev_child_order = data_diagram_get_list_order( sibl_diag );
+                }
+
+                /* layout lower-gap of child (if any) */
+                {
+                    pos_nav_tree_gap_t *const lower_gap = &((*this_).gap_pos[(*this_).gap_count]);
+                    (*this_).gap_count ++;
+
+                    const int32_t gap_child_order = (prev_child_order/2)+(INT32_MAX/2);  /* no overrun */
+                    pos_nav_tree_gap_init( lower_gap, data_diagram_get_data_id(sibl_diag), gap_child_order );
+                    const int indent = (tree_depth+1) * GUI_SKETCH_NAV_TREE_INDENT;
+                    pos_nav_tree_gap_set_gap_box_coords( lower_gap, left+indent, y_pos, width-indent, GAP_HEIGHT );
+                    y_pos += GAP_HEIGHT;
                 }
 
                 /* add a new child button */
-                const unsigned int node_idx = (*this_).node_count;
-                pos_nav_tree_node_t *const new_chld_node = &((*this_).node_pos[node_idx]);
-                pos_nav_tree_node_init( new_chld_node, POS_NAV_TREE_NODE_TYPE_NEW_CHILD, NULL );
-                (*this_).node_count ++;
-                gui_sketch_nav_tree_private_layout_node( this_, new_chld_node, tree_depth+1, &y_pos, font_layout );
+                {
+                    pos_nav_tree_node_t *const new_chld_node = &((*this_).node_pos[(*this_).node_count]);
+                    (*this_).node_count ++;
+
+                    pos_nav_tree_node_init( new_chld_node, POS_NAV_TREE_NODE_TYPE_NEW_CHILD, NULL );
+                    gui_sketch_nav_tree_private_layout_node( this_, new_chld_node, tree_depth+1, &y_pos, font_layout );
+                }
             }
+
+            previous_sibl_order = data_diagram_get_list_order( sibl_diag );
         }
+
+        /* layout lower-gap of siblings */
+        const data_diagram_t *const self_diag = &((*this_).ancestor_diagrams[0]);
+        {
+            pos_nav_tree_gap_t *const lower_gap = &((*this_).gap_pos[(*this_).gap_count]);
+            (*this_).gap_count ++;
+
+            const int32_t gap_sibl_order = (previous_sibl_order/2)+(INT32_MAX/2);  /* no overrun */
+            pos_nav_tree_gap_init( lower_gap, data_diagram_get_parent_data_id(self_diag), gap_sibl_order );
+            const int indent = tree_depth * GUI_SKETCH_NAV_TREE_INDENT;
+            pos_nav_tree_gap_set_gap_box_coords( lower_gap, left+indent, y_pos, width-indent, GAP_HEIGHT );
+            y_pos += GAP_HEIGHT;
+        }
+
         /* show a new sibling button unless root */
         if ( (*this_).ancestors_count > 1 )
         {
-            const unsigned int node_idx = (*this_).node_count;
-            pos_nav_tree_node_t *const new_sibl_node = &((*this_).node_pos[node_idx]);
-            pos_nav_tree_node_init( new_sibl_node, POS_NAV_TREE_NODE_TYPE_NEW_SIBLING, NULL );
+            pos_nav_tree_node_t *const new_sibl_node = &((*this_).node_pos[(*this_).node_count]);
             (*this_).node_count ++;
+
+            pos_nav_tree_node_init( new_sibl_node, POS_NAV_TREE_NODE_TYPE_NEW_SIBLING, NULL );
             gui_sketch_nav_tree_private_layout_node( this_, new_sibl_node, tree_depth, &y_pos, font_layout );
         }
     }
@@ -334,9 +427,9 @@ void gui_sketch_nav_tree_private_layout_node ( gui_sketch_nav_tree_t *this_,
     assert( NULL != io_y_pos );
     assert( NULL != font_layout );
 
-    int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
-    uint_fast32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
-    uint_fast32_t indent = tree_depth*GUI_SKETCH_NAV_TREE_INDENT;
+    const int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+    const uint_fast32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
+    const uint_fast32_t indent = tree_depth*GUI_SKETCH_NAV_TREE_INDENT;
     const data_diagram_t *data_or_null = pos_nav_tree_node_get_data_const( node );
 
     /* determine icon dimensions */
@@ -420,6 +513,7 @@ void gui_sketch_nav_tree_invalidate_data( gui_sketch_nav_tree_t *this_ )
     (*this_).line_cnt_ancestors = 0;
 
     (*this_).node_count = 0;
+    (*this_).gap_count = 0;
 
     TRACE_END();
 }
@@ -438,216 +532,39 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( const gui_sketch_nav_tree_
 
     gui_error_t ret_error;
 
-    /* default in case no object found */
-    {
-        ret_error = GUI_ERROR_OUT_OF_BOUNDS;
-    }
-
-    /* search object */
+    /* search closest gap */
     if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
     {
-        const pos_nav_tree_node_t *closest_above = NULL;
-        uint32_t closest_above_dist = UINT32_MAX;
-        const pos_nav_tree_node_t *closest_below = NULL;
-        uint32_t closest_below_dist = UINT32_MAX;
-
-        /* search closest_above and closest_below */
-        const unsigned int count = (*this_).node_count;
-        assert( count <= GUI_SKETCH_NAV_TREE_CONST_MAX_NODES );
-        for ( unsigned int idx = 0; idx < count; idx ++ )
+        const unsigned int gap_count = (*this_).gap_count;
+        assert( gap_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_GAPS );
+        if ( gap_count == 0 )
         {
-            const pos_nav_tree_node_t *const node = &((*this_).node_pos[idx]);
-            const shape_int_rectangle_t *icon_box = pos_nav_tree_node_get_icon_box_const( node );
-            const shape_int_rectangle_t *label_box = pos_nav_tree_node_get_label_box_const( node );
-
-            const int32_t top
-                = universal_int_min_i32( shape_int_rectangle_get_top(icon_box), shape_int_rectangle_get_top(label_box) );
-            const int32_t bottom
-                = universal_int_max_i32( shape_int_rectangle_get_bottom(icon_box), shape_int_rectangle_get_bottom(label_box) );
-            const int32_t center_y = ( top + bottom ) / 2;
-            if ( y > center_y )
+            ret_error = GUI_ERROR_OUT_OF_BOUNDS;
+        }
+        else
+        {
+            const pos_nav_tree_gap_t *closest = &((*this_).gap_pos[0]);
+            int closest_dist = INT32_MAX;
+            for ( unsigned int idx = 0; idx < gap_count; idx ++ )
             {
-                const uint32_t above_dist = (y - center_y);
-                if ( above_dist < closest_above_dist )
+                const pos_nav_tree_gap_t *const current = &((*this_).gap_pos[idx]);
+                const shape_int_rectangle_t *const current_box = pos_nav_tree_gap_get_gap_box_const( current );
+                const int current_dist
+                    = ( y < shape_int_rectangle_get_top( current_box ) )
+                    ? ( shape_int_rectangle_get_top( current_box ) - y )
+                    : (( y > shape_int_rectangle_get_bottom( current_box ) )
+                    ? ( y - shape_int_rectangle_get_bottom( current_box ) )
+                    : 0 );
+                if ( current_dist < closest_dist )
                 {
-                    closest_above_dist = above_dist;
-                    closest_above = node;
+                    closest = current;
+                    closest_dist = current_dist;
                 }
             }
-            else
-            {
-                const uint32_t below_dist = (center_y - y);
-                if ( below_dist < closest_below_dist )
-                {
-                    closest_below_dist = below_dist;
-                    closest_below = node;
-                }
-            }
-
-            /*
-            if ( shape_int_rectangle_contains( icon_box, x, y ) || shape_int_rectangle_contains( label_box, x, y ) )
-            {
-                const data_diagram_t *const data_or_null = pos_nav_tree_node_get_data_const( node );
-                if ( data_or_null != NULL )
-                {
-                    *out_selected_id = data_diagram_get_data_id( data_or_null );
-                    break;
-                }
-            }
-            */
-        }
-
-        /* search closest_above and closest_below */
-
-        ret_error = GUI_ERROR_NONE;
-    }
-
-
-
-
-
-    assert( (*this_).ancestors_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS );
-    assert( (*this_).line_cnt_ancestors <= (*this_).ancestors_count );
-    assert( (*this_).siblings_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS );
-    assert( (*this_).line_cnt_siblings_to_incl_self + (*this_).line_cnt_siblings_after_self == (*this_).siblings_count );
-    assert( (*this_).children_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN );
-    assert( (*this_).line_cnt_children == (*this_).children_count );
-
-
-    const int GUI_SKETCH_NAV_TREE_LINE_HEIGHT = 20;
-
-    if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
-    {
-        /* determine index of line, top linie has index 0 */
-        int32_t top;
-        top = shape_int_rectangle_get_top( &((*this_).bounds) );
-        uint32_t gap_index;  /* index of the top-most border is 0, index of the first gap is 1 */
-        {
-            uint32_t half_line_height = (GUI_SKETCH_NAV_TREE_LINE_HEIGHT/2);
-            gap_index = ( y + half_line_height - top ) / GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
-        }
-        uint32_t gap_depth = 0;  /* tree depth at gap position */
-
-        /* default: no gap */
-        ret_error = GUI_ERROR_OUT_OF_BOUNDS;
-
-        /* is this the ancester region ? - note: ancestors have gaps only on top of an ancestor */
-        if ( ( gap_index >= (*this_).line_idx_ancestors_start )
-            && ( gap_index < (*this_).line_idx_ancestors_start + (*this_).line_cnt_ancestors ))
-        {
-            gap_depth = gap_index - (*this_).line_idx_ancestors_start;
-
-            /* formula differs from others because backwards order and index 0 reserved or self: */
-            uint32_t ancester_idx = (*this_).ancestors_count - 1 - (gap_index - (*this_).line_idx_ancestors_start);
-
-            data_id_reinit( out_parent_id,
-                            DATA_TABLE_DIAGRAM,
-                            data_diagram_get_parent_row_id( &((*this_).ancestor_diagrams[ancester_idx]) )
-                          );
-            *out_list_order = 0;
+            *out_parent_id = pos_nav_tree_gap_get_parent_id( closest );
+            *out_list_order = pos_nav_tree_gap_get_list_order( closest );
+            shape_int_rectangle_replace( out_gap_line, pos_nav_tree_gap_get_gap_box_const( closest ) );
             ret_error = GUI_ERROR_NONE;
-        }
-
-        /* is this the children region ? - note: every child has a gap before and after itself */
-        else if ( ( gap_index >= (*this_).line_idx_children_start )
-            && ( gap_index <= (*this_).line_idx_children_start + (*this_).line_cnt_children )
-            && ( (*this_).siblings_self_index >= 0 ) /* self exists */ )
-        {
-            gap_depth = (*this_).line_cnt_ancestors + 1;
-
-            uint32_t child_idx = gap_index - (*this_).line_idx_children_start;
-            /* use self as parent id because this shall work even if there are no children */
-            data_id_reinit( out_parent_id,
-                            DATA_TABLE_DIAGRAM,
-                            data_diagram_get_row_id( &((*this_).sibling_diagrams[(*this_).siblings_self_index]) )
-                            );
-            if ( (*this_).line_cnt_children == 0 )
-            {
-                *out_list_order = 0;
-            }
-            else if ( child_idx == 0 )
-            {
-                *out_list_order = data_diagram_get_list_order( &((*this_).child_diagrams[child_idx]) ) - 32768;
-            }
-            else if ( child_idx == (*this_).children_count )
-            {
-                *out_list_order = data_diagram_get_list_order( &((*this_).child_diagrams[child_idx-1]) ) + 32768;
-            }
-            else
-            {
-                *out_list_order = (
-                    data_diagram_get_list_order( &((*this_).child_diagrams[child_idx-1]) )
-                    + data_diagram_get_list_order( &((*this_).child_diagrams[child_idx]) )
-                    ) / 2;
-            }
-            ret_error = GUI_ERROR_NONE;
-        }
-
-        /* is this the first half of the siblings region ? - note: gaps exist on top of each sibling-before-and-self */
-        else if ( ( gap_index >= (*this_).line_idx_siblings_start )
-            && ( gap_index < (*this_).line_idx_siblings_start + (*this_).line_cnt_siblings_to_incl_self ))
-        {
-            gap_depth = (*this_).line_cnt_ancestors;
-
-            uint32_t sibl1_idx = gap_index - (*this_).line_idx_siblings_start;
-            data_id_reinit( out_parent_id,
-                            DATA_TABLE_DIAGRAM,
-                            data_diagram_get_parent_row_id( &((*this_).sibling_diagrams[sibl1_idx]) )
-                          );
-            if ( sibl1_idx == 0 )
-            {
-                *out_list_order = data_diagram_get_list_order( &((*this_).sibling_diagrams[sibl1_idx]) ) - 32768;
-            }
-            else
-            {
-                *out_list_order = (
-                    data_diagram_get_list_order( &((*this_).sibling_diagrams[sibl1_idx-1]) )
-                    + data_diagram_get_list_order( &((*this_).sibling_diagrams[sibl1_idx]) )
-                    ) / 2;
-            }
-            ret_error = GUI_ERROR_NONE;
-        }
-
-        /* is this the second half of the siblings region ? - note: gaps exist on top and bottom of each sibling-after */
-        else if ( ( gap_index >= (*this_).line_idx_siblings_next_after_self )
-            && ( gap_index <= (*this_).line_idx_siblings_next_after_self + (*this_).line_cnt_siblings_after_self )
-            && ( (*this_).line_cnt_siblings_to_incl_self > 0) /* otherwise no self */ )
-        {
-            gap_depth = (*this_).line_cnt_ancestors;
-
-            uint32_t sibl2_idx = gap_index - (*this_).line_idx_siblings_next_after_self + (*this_).line_cnt_siblings_to_incl_self;
-            data_id_reinit( out_parent_id,
-                            DATA_TABLE_DIAGRAM,
-                            data_diagram_get_parent_row_id( &((*this_).sibling_diagrams[sibl2_idx-1]) )
-                          );
-            if ( sibl2_idx == (*this_).siblings_count )
-            {
-                *out_list_order = data_diagram_get_list_order( &((*this_).sibling_diagrams[sibl2_idx-1]) ) + 32768;
-            }
-            else
-            {
-                *out_list_order = (
-                    data_diagram_get_list_order( &((*this_).sibling_diagrams[sibl2_idx-1]) )
-                    + data_diagram_get_list_order( &((*this_).sibling_diagrams[sibl2_idx]) )
-                    ) / 2;
-            }
-            ret_error = GUI_ERROR_NONE;
-        }
-
-        /* finally, initialize the gap box */
-        {
-            int32_t gap_y_top = gap_index*GUI_SKETCH_NAV_TREE_LINE_HEIGHT-1;
-            if ( gap_y_top < top )
-            {
-                gap_y_top = top;
-            }
-            int32_t gap_x_left = gap_depth * GUI_SKETCH_NAV_TREE_INDENT;
-            shape_int_rectangle_init( out_gap_line,
-                                      shape_int_rectangle_get_left( &((*this_).bounds) ) + gap_x_left,
-                                      gap_y_top,
-                                      shape_int_rectangle_get_width( &((*this_).bounds) ) - gap_x_left,
-                                      2
-                                    );
         }
     }
     else

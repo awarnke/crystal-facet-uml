@@ -61,6 +61,17 @@ static inline void shape_int_rectangle_copy ( shape_int_rectangle_t *this_, cons
 static inline void shape_int_rectangle_replace ( shape_int_rectangle_t *this_, const shape_int_rectangle_t *that );
 
 /*!
+ *  \brief re-initializes the shape_int_rectangle_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param left left coordinate of the rectangle
+ *  \param top top coordinate of the rectangle
+ *  \param width width of the rectangle in pixels
+ *  \param height height of the rectangle in pixels
+ */
+static inline void shape_int_rectangle_reinit ( shape_int_rectangle_t *this_, int32_t left, int32_t top, uint32_t width, uint32_t height );
+
+/*!
  *  \brief initializes the shape_int_rectangle_t struct by the minimum bounding box of a and b (similar to a convex hull)
  *
  *  It is valid if parameters this_ and/or rect_a and/or rect_b are identical (same pointer).

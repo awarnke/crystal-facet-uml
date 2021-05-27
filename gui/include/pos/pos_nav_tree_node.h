@@ -68,7 +68,7 @@ static inline shape_int_rectangle_t *pos_nav_tree_node_get_icon_box_ptr ( pos_na
 static inline const shape_int_rectangle_t *pos_nav_tree_node_get_icon_box_const ( const pos_nav_tree_node_t *this_ );
 
 /*!
- *  \brief gets the icon box of the diagram
+ *  \brief sets the icon box of the diagram
  *
  *  \param this_ pointer to own object attributes
  *  \param icon_box coordinates of new icon_box
@@ -92,7 +92,7 @@ static inline shape_int_rectangle_t *pos_nav_tree_node_get_label_box_ptr ( pos_n
 static inline const shape_int_rectangle_t *pos_nav_tree_node_get_label_box_const ( const pos_nav_tree_node_t *this_ );
 
 /*!
- *  \brief gets the label_box of the diagram
+ *  \brief sets the label_box of the diagram
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_bounds coordinates of new label_box

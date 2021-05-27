@@ -16,6 +16,7 @@
 #include "gui_error.h"
 #include "util/shape/shape_int_rectangle.h"
 #include "pos/pos_nav_tree_node.h"
+#include "pos/pos_nav_tree_gap.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
 #include "layout/layout_order.h"
@@ -38,6 +39,7 @@ enum gui_sketch_nav_tree_const_enum {
                                           + GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS
                                           + GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN
                                           + 1),  /*!< max diagrams, minus 1 for duplicate self plus 2 for new buttons */
+    GUI_SKETCH_NAV_TREE_CONST_MAX_GAPS = GUI_SKETCH_NAV_TREE_CONST_MAX_NODES + 1,  /* 1 gap more than nodes */
 };
 
 /*!
@@ -81,6 +83,8 @@ struct gui_sketch_nav_tree_struct {
     /* refactored layout information */
     pos_nav_tree_node_t node_pos[GUI_SKETCH_NAV_TREE_CONST_MAX_NODES];  /*!< layout positions of diagrams and create-buttons */
     uint32_t node_count;  /*!< number of layout positions in node_pos list */
+    pos_nav_tree_gap_t gap_pos[GUI_SKETCH_NAV_TREE_CONST_MAX_GAPS];  /*!< logical positions of gaps between diagrams */
+    uint32_t gap_count;  /*!< number of logical positions in gap_pos list */
 
     /* helper classes to perform drawing */
     gui_sketch_style_t sketch_style;
