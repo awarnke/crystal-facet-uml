@@ -7,8 +7,7 @@
 #include "tslog.h"
 #include <gdk/gdk.h>
 
-static const uint32_t NAV_TREE_FIRST_LINE = 1;
-const int GUI_SKETCH_NAV_TREE_INDENT = 12;
+static const int GUI_SKETCH_NAV_TREE_INDENT = 12;
 static const int OBJ_GAP = 3;
 static const int GAP_HEIGHT = 2;
 static const int GUI_SKETCH_NAV_TREE_PANGO_AUTO_DETECT_LENGTH = -1;  /*!< pango automatically determines the string length */
@@ -22,19 +21,6 @@ void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_, gui_resources_t *re
     (*this_).siblings_count = 0;
     (*this_).children_count = 0;
     (*this_).siblings_self_index = -1;
-
-    (*this_).line_idx_new_child = -1;
-    (*this_).line_idx_new_sibling = -1;
-    (*this_).line_idx_new_root = -1;
-    (*this_).line_idx_ancestors_start = NAV_TREE_FIRST_LINE;
-    (*this_).line_idx_siblings_start = NAV_TREE_FIRST_LINE;
-    (*this_).line_idx_siblings_next_after_self = NAV_TREE_FIRST_LINE;
-    (*this_).line_idx_self = NAV_TREE_FIRST_LINE;
-    (*this_).line_idx_children_start = NAV_TREE_FIRST_LINE;
-    (*this_).line_cnt_ancestors = 0;
-    (*this_).line_cnt_siblings_to_incl_self = 0;
-    (*this_).line_cnt_siblings_after_self = 0;
-    (*this_).line_cnt_children = 0;
 
     (*this_).node_count = 0;
     (*this_).gap_count = 0;
@@ -146,21 +132,8 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
                                                                 );
     }
 
-    /* invalidate layout positions*/
+    /* invalidate layout positions */
     {
-        (*this_).line_idx_new_child = -1;
-        (*this_).line_idx_new_sibling = -1;
-        (*this_).line_idx_new_root = -1;
-        (*this_).line_idx_ancestors_start = NAV_TREE_FIRST_LINE;
-        (*this_).line_idx_siblings_start = NAV_TREE_FIRST_LINE;
-        (*this_).line_idx_siblings_next_after_self = NAV_TREE_FIRST_LINE;
-        (*this_).line_idx_self = NAV_TREE_FIRST_LINE;
-        (*this_).line_idx_children_start = NAV_TREE_FIRST_LINE;
-        (*this_).line_cnt_ancestors = 0;
-        (*this_).line_cnt_siblings_to_incl_self = 0;
-        (*this_).line_cnt_siblings_after_self = 0;
-        (*this_).line_cnt_children = 0;
-
         (*this_).node_count = 0;
         (*this_).gap_count = 0;
     }
@@ -174,61 +147,6 @@ void gui_sketch_nav_tree_do_layout( gui_sketch_nav_tree_t *this_, cairo_t *cr )
     assert( (*this_).ancestors_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS );
     assert( (*this_).siblings_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS );
     assert( (*this_).children_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN );
-
-    /* calculate the "new" button positions */
-    if ( (*this_).ancestors_count == 0 )
-    {
-        /* cannot create a child without a parent */
-        (*this_).line_idx_new_child = -1;
-        /* cannot create a sibling without a root */
-        (*this_).line_idx_new_sibling = -1;
-        /* show only a new root button */
-        (*this_).line_idx_new_root = NAV_TREE_FIRST_LINE;
-
-    }
-    else
-    {
-        (*this_).line_idx_new_child = NAV_TREE_FIRST_LINE + (*this_).ancestors_count - 1
-                + (*this_).siblings_self_index + 1 + (*this_).children_count;
-        (*this_).line_idx_new_root = -1;
-        if ( (*this_).ancestors_count == 1 )
-        {
-            /* cannot create a sibling to the root */
-            (*this_).line_idx_new_sibling = -1;
-        }
-        else
-        {
-            (*this_).line_idx_new_sibling = NAV_TREE_FIRST_LINE + (*this_).ancestors_count - 1
-                    + (*this_).siblings_count + (*this_).children_count + 1;  /* +1 for the new_child_line */
-        }
-    }
-
-    (*this_).line_idx_ancestors_start = NAV_TREE_FIRST_LINE;
-    (*this_).line_cnt_ancestors = ( (*this_).ancestors_count == 0 ) ? 0 : ( (*this_).ancestors_count-1 );
-    (*this_).line_idx_siblings_start = ( (*this_).ancestors_count == 0 )
-            ? NAV_TREE_FIRST_LINE
-            : ( NAV_TREE_FIRST_LINE + (*this_).ancestors_count - 1 );
-
-    if (( (*this_).siblings_self_index != -1 ) && ( (*this_).siblings_count > (*this_).siblings_self_index ))
-    {
-        (*this_).line_idx_self = (*this_).line_idx_siblings_start + (*this_).siblings_self_index;
-        (*this_).line_idx_siblings_next_after_self = (*this_).line_idx_self + (*this_).children_count + 1 + 1;  /* +1 for new child button */
-        (*this_).line_idx_children_start = (*this_).line_idx_self + 1;
-        (*this_).line_cnt_siblings_to_incl_self = (*this_).siblings_self_index + 1;
-        (*this_).line_cnt_siblings_after_self = (*this_).siblings_count - 1 - (*this_).siblings_self_index;
-    }
-    else
-    {
-        TRACE_INFO("there is no self diagram in the current diagram tree!")
-        (*this_).line_idx_self = NAV_TREE_FIRST_LINE;
-        (*this_).line_idx_siblings_next_after_self = NAV_TREE_FIRST_LINE;
-        (*this_).line_idx_children_start = NAV_TREE_FIRST_LINE;
-        (*this_).line_cnt_siblings_to_incl_self = 0;
-        (*this_).line_cnt_siblings_after_self = 0;
-    }
-    (*this_).line_cnt_children = (*this_).children_count;
-
-    /* TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO    TODO     */
 
     /* create the font_layout */
     PangoLayout *font_layout;
@@ -499,19 +417,6 @@ void gui_sketch_nav_tree_invalidate_data( gui_sketch_nav_tree_t *this_ )
     (*this_).children_count = 0;
 
     /* clear layout infos */
-    (*this_).line_idx_new_child = -1;
-    (*this_).line_idx_new_sibling = -1;
-    (*this_).line_idx_new_root = -1;
-    (*this_).line_idx_ancestors_start = NAV_TREE_FIRST_LINE;
-    (*this_).line_idx_siblings_start = NAV_TREE_FIRST_LINE;
-    (*this_).line_idx_siblings_next_after_self = NAV_TREE_FIRST_LINE;
-    (*this_).line_idx_self = NAV_TREE_FIRST_LINE;
-    (*this_).line_idx_children_start = NAV_TREE_FIRST_LINE;
-    (*this_).line_cnt_siblings_to_incl_self = 0;
-    (*this_).line_cnt_siblings_after_self = 0;
-    (*this_).line_cnt_children = 0;
-    (*this_).line_cnt_ancestors = 0;
-
     (*this_).node_count = 0;
     (*this_).gap_count = 0;
 

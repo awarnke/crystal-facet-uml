@@ -26,8 +26,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-extern const int GUI_SKETCH_NAV_TREE_INDENT;  /*!< left indentation space of a diagram-name/entry in pixels */
-
 /*!
  *  \brief constants of gui_sketch_nav_tree_t
  */
@@ -66,21 +64,7 @@ struct gui_sketch_nav_tree_struct {
     uint32_t children_count;
     data_diagram_t child_diagrams[GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN];
 
-    /* layout information, what is shown where, initialized by gui_sketch_nav_tree_private_do_layout */
-    uint32_t line_idx_ancestors_start;  /*!< always 0, even if there are no ancestors */
-    uint32_t line_cnt_ancestors;  /*!< number of ancestors, excluding self */
-    uint32_t line_idx_siblings_start;  /*!< line of first sibling; undefined in case of program-internal error */
-    uint32_t line_cnt_siblings_to_incl_self;  /*!< lines of siblings to and including self */
-    uint32_t line_idx_siblings_next_after_self;  /*!< line of next sibling after self; undefined if there is no next sibling */
-    uint32_t line_cnt_siblings_after_self;  /*!< lines of siblings after self, excluding self */
-    uint32_t line_idx_self;  /*!< line of self; undefined in case of program-internal error */
-    uint32_t line_idx_children_start;  /*!< line of first child; undefined if there are no children */
-    uint32_t line_cnt_children;  /*!< identical to children_count */
-    int32_t line_idx_new_child;  /*!< line of new child button; -1 if there is no such button */
-    int32_t line_idx_new_sibling;  /*!< line of new sibling button; -1 if there is no such button */
-    int32_t line_idx_new_root;  /*!< 0 equals line of new root button; -1 if there is no such button */
-
-    /* refactored layout information */
+    /* layout information */
     pos_nav_tree_node_t node_pos[GUI_SKETCH_NAV_TREE_CONST_MAX_NODES];  /*!< layout positions of diagrams and create-buttons */
     uint32_t node_count;  /*!< number of layout positions in node_pos list */
     pos_nav_tree_gap_t gap_pos[GUI_SKETCH_NAV_TREE_CONST_MAX_GAPS];  /*!< logical positions of gaps between diagrams */
