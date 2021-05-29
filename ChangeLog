@@ -4,6 +4,7 @@ crystal-facet-uml (1.30.0) UNRELEASED; urgency=medium
   * in search mode, objects are highlighted individually
     (not all per diagram)
   * in search result list, long names have nice linebreaks
+  * in navigation tree, long names have nice linebreaks
   * Guillements characters surround stereoptypes
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, XX May 2021 16:00:00 +0200

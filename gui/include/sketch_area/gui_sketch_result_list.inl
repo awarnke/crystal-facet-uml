@@ -8,17 +8,20 @@ static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *t
 {
     assert( result_list != NULL );
     assert( db_reader != NULL );
-    data_search_result_list_clear( &((*this_).result_list) );
+    gui_sketch_result_list_invalidate_data( this_ );
     data_search_result_list_add_all( &((*this_).result_list), result_list );
-
-    /* invalidate layout positions*/
-    (*this_).element_count = 0;
 }
 
 static inline void gui_sketch_result_list_invalidate_data( gui_sketch_result_list_t *this_ )
 {
     data_search_result_list_clear( &((*this_).result_list) );
 
+    /* clear layout infos */
+    assert( (*this_).element_count <= GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS );
+    for ( int ele_index = 0; ele_index < (*this_).element_count; ele_index ++ )
+    {
+        pos_search_result_destroy( &((*this_).element_pos[ele_index]) );
+    }
     (*this_).element_count = 0;
 }
 

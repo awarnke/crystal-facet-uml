@@ -426,7 +426,18 @@ void gui_sketch_nav_tree_invalidate_data( gui_sketch_nav_tree_t *this_ )
     (*this_).children_count = 0;
 
     /* clear layout infos */
+    assert( (*this_).node_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_NODES );
+    for ( int node_index = 0; node_index < (*this_).node_count; node_index ++ )
+    {
+        pos_nav_tree_node_destroy( &((*this_).node_pos[node_index]) );
+    }
     (*this_).node_count = 0;
+
+    assert( (*this_).gap_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_GAPS );
+    for ( int gap_index = 0; gap_index < (*this_).gap_count; gap_index ++ )
+    {
+        pos_nav_tree_gap_destroy( &((*this_).gap_pos[gap_index]) );
+    }
     (*this_).gap_count = 0;
 
     TRACE_END();
@@ -646,8 +657,8 @@ void gui_sketch_nav_tree_private_draw_node( gui_sketch_nav_tree_t *this_,
             = pos_nav_tree_node_get_icon_box_const( node );
         const int x = shape_int_rectangle_get_left(icon_box);
         const int y = shape_int_rectangle_get_top(icon_box);
-        double icon_width = gdk_pixbuf_get_width ( icon );
-        double icon_height = gdk_pixbuf_get_height ( icon );
+        const double icon_width = gdk_pixbuf_get_width ( icon );
+        const double icon_height = gdk_pixbuf_get_height ( icon );
 
         /* do draw */
         gdk_cairo_set_source_pixbuf( cr, icon, x, y );

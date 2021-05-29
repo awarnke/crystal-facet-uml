@@ -41,7 +41,7 @@ void gui_sketch_result_list_destroy( gui_sketch_result_list_t *this_ )
     gui_sketch_marker_destroy( &((*this_).sketch_marker) );
     gui_sketch_style_destroy( &((*this_).sketch_style) );
 
-    data_search_result_list_destroy( &((*this_).result_list) );
+    gui_sketch_result_list_invalidate_data( this_ );
 
     shape_int_rectangle_destroy( &((*this_).bounds) );
 
