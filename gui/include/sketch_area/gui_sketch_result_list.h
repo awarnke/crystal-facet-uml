@@ -168,6 +168,25 @@ static inline void gui_sketch_result_list_get_object_id_at_pos ( const gui_sketc
                                                                );
 
 /*!
+ * \brief gets the pos_search_result_t position object at index
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param index 0 &lt;= index &lt; element_count &lt;=  GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS
+ *  \return pointer to const pos_search_result_t
+ */
+static inline const pos_search_result_t *gui_sketch_result_list_get_element_pos_const ( const gui_sketch_result_list_t *this_,
+                                                                                        uint32_t index
+                                                                                      );
+
+/*!
+ * \brief gets the number of position objects
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return element_count
+ */
+static inline uint32_t gui_sketch_result_list_get_element_count ( const gui_sketch_result_list_t *this_ );
+
+/*!
  *  \brief draws the search result list
  *
  *  \param this_ pointer to own object attributes

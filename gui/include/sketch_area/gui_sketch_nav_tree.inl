@@ -238,6 +238,32 @@ static inline void gui_sketch_nav_tree_get_button_at_pos ( const gui_sketch_nav_
     }
 }
 
+static inline const pos_nav_tree_node_t *gui_sketch_nav_tree_get_node_pos_const ( const gui_sketch_nav_tree_t *this_,
+                                                                                  uint32_t index )
+{
+    assert( index < (*this_).node_count );
+    return &((*this_).node_pos[index]);
+}
+
+static inline uint32_t gui_sketch_nav_tree_get_node_count ( const gui_sketch_nav_tree_t *this_ )
+{
+    assert( (*this_).node_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_NODES );
+    return (*this_).node_count;
+}
+
+static inline const pos_nav_tree_gap_t *gui_sketch_nav_tree_get_gap_pos_const ( const gui_sketch_nav_tree_t *this_,
+                                                                                uint32_t index )
+{
+    assert( index < (*this_).gap_count );
+    return &((*this_).gap_pos[index]);
+}
+
+static inline uint32_t gui_sketch_nav_tree_get_gap_count ( const gui_sketch_nav_tree_t *this_ )
+{
+    assert( (*this_).gap_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_GAPS );
+    return (*this_).gap_count;
+}
+
 
 /*
 Copyright 2018-2021 Andreas Warnke

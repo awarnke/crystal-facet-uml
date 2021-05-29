@@ -37,7 +37,7 @@ enum gui_sketch_nav_tree_const_enum {
                                           + GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS
                                           + GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN
                                           + 1),  /*!< max diagrams, minus 1 for duplicate self plus 2 for new buttons */
-    GUI_SKETCH_NAV_TREE_CONST_MAX_GAPS = GUI_SKETCH_NAV_TREE_CONST_MAX_NODES + 1,  /* 1 gap more than nodes */
+    GUI_SKETCH_NAV_TREE_CONST_MAX_GAPS = GUI_SKETCH_NAV_TREE_CONST_MAX_NODES,  /* same as nodes, see do_layout */
 };
 
 /*!
@@ -263,6 +263,44 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( const gui_sketch_nav_tree_
                                                       int32_t *out_list_order,
                                                       shape_int_rectangle_t *out_gap_line
                                                     );
+
+/*!
+ * \brief gets the pos_nav_tree_node_t position object at index
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param index 0 &lt;= index &lt; node_count &lt;= GUI_SKETCH_NAV_TREE_CONST_MAX_NODES
+ *  \return pointer to const pos_nav_tree_node_t
+ */
+static inline const pos_nav_tree_node_t *gui_sketch_nav_tree_get_node_pos_const ( const gui_sketch_nav_tree_t *this_,
+                                                                                  uint32_t index
+                                                                                );
+
+/*!
+ * \brief gets the number of node position objects
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return node_count
+ */
+static inline uint32_t gui_sketch_nav_tree_get_node_count ( const gui_sketch_nav_tree_t *this_ );
+
+/*!
+ * \brief gets the pos_nav_tree_gap_t position object at index
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param index 0 &lt;= index &lt; gap_count &lt;= GUI_SKETCH_NAV_TREE_CONST_MAX_GAPS
+ *  \return pointer to const pos_nav_tree_gap_t
+ */
+static inline const pos_nav_tree_gap_t *gui_sketch_nav_tree_get_gap_pos_const ( const gui_sketch_nav_tree_t *this_,
+                                                                                uint32_t index
+                                                                              );
+
+/*!
+ * \brief gets the number of gap position objects
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return gap_count
+ */
+static inline uint32_t gui_sketch_nav_tree_get_gap_count ( const gui_sketch_nav_tree_t *this_ );
 
 /*!
  *  \brief draws a single diagram

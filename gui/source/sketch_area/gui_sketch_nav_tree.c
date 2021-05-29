@@ -166,13 +166,17 @@ void gui_sketch_nav_tree_do_layout( gui_sketch_nav_tree_t *this_, cairo_t *cr )
 
     if ( (*this_).ancestors_count == 0 )
     {
-        /* show only a new root button */
-        assert( 1 <= GUI_SKETCH_NAV_TREE_CONST_MAX_NODES );
         pos_nav_tree_node_t *const new_root_node = &((*this_).node_pos[0]);
-        pos_nav_tree_node_init( new_root_node, POS_NAV_TREE_NODE_TYPE_NEW_ROOT, NULL );
         (*this_).node_count = 1;
 
+        /* show only a new root button */
+        assert( 1 <= GUI_SKETCH_NAV_TREE_CONST_MAX_NODES );
+        pos_nav_tree_node_init( new_root_node, POS_NAV_TREE_NODE_TYPE_NEW_ROOT, NULL );
+        gui_sketch_nav_tree_private_layout_node( this_, new_root_node, 0, &y_pos, font_layout );
+
         /* no gaps in this case */
+        assert( 0 == (*this_).gap_count );
+        assert( 1 == (*this_).node_count );
     }
     else
     {
@@ -304,28 +308,33 @@ void gui_sketch_nav_tree_do_layout( gui_sketch_nav_tree_t *this_, cairo_t *cr )
             previous_sibl_order = data_diagram_get_list_order( sibl_diag );
         }
 
-        /* layout lower-gap of siblings */
-        const data_diagram_t *const self_diag = &((*this_).ancestor_diagrams[0]);
+        const bool self_is_root = ( (*this_).ancestors_count == 1 );
+        if ( ! self_is_root )
         {
-            pos_nav_tree_gap_t *const lower_gap = &((*this_).gap_pos[(*this_).gap_count]);
-            (*this_).gap_count ++;
+            /* layout lower-gap of siblings */
+            const data_diagram_t *const self_diag = &((*this_).ancestor_diagrams[0]);
+            {
+                pos_nav_tree_gap_t *const lower_gap = &((*this_).gap_pos[(*this_).gap_count]);
+                (*this_).gap_count ++;
 
-            const int32_t gap_sibl_order = (previous_sibl_order/2)+(INT32_MAX/2);  /* no overrun */
-            pos_nav_tree_gap_init( lower_gap, data_diagram_get_parent_data_id(self_diag), gap_sibl_order );
-            const int indent = tree_depth * GUI_SKETCH_NAV_TREE_INDENT;
-            pos_nav_tree_gap_set_gap_box_coords( lower_gap, left+indent, y_pos, width-indent, GAP_HEIGHT );
-            y_pos += GAP_HEIGHT;
+                const int32_t gap_sibl_order = (previous_sibl_order/2)+(INT32_MAX/2);  /* no overrun */
+                pos_nav_tree_gap_init( lower_gap, data_diagram_get_parent_data_id(self_diag), gap_sibl_order );
+                const int indent = tree_depth * GUI_SKETCH_NAV_TREE_INDENT;
+                pos_nav_tree_gap_set_gap_box_coords( lower_gap, left+indent, y_pos, width-indent, GAP_HEIGHT );
+                y_pos += GAP_HEIGHT;
+            }
+
+            /* show a new sibling button unless root */
+            {
+                pos_nav_tree_node_t *const new_sibl_node = &((*this_).node_pos[(*this_).node_count]);
+                (*this_).node_count ++;
+
+                pos_nav_tree_node_init( new_sibl_node, POS_NAV_TREE_NODE_TYPE_NEW_SIBLING, NULL );
+                gui_sketch_nav_tree_private_layout_node( this_, new_sibl_node, tree_depth, &y_pos, font_layout );
+            }
         }
 
-        /* show a new sibling button unless root */
-        if ( (*this_).ancestors_count > 1 )
-        {
-            pos_nav_tree_node_t *const new_sibl_node = &((*this_).node_pos[(*this_).node_count]);
-            (*this_).node_count ++;
-
-            pos_nav_tree_node_init( new_sibl_node, POS_NAV_TREE_NODE_TYPE_NEW_SIBLING, NULL );
-            gui_sketch_nav_tree_private_layout_node( this_, new_sibl_node, tree_depth, &y_pos, font_layout );
-        }
+        assert( (*this_).gap_count == (*this_).node_count );
     }
 
     /* release the font_layout */

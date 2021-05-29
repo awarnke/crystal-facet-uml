@@ -79,6 +79,19 @@ static inline void gui_sketch_result_list_get_object_id_at_pos ( const gui_sketc
     }
 }
 
+static inline const pos_search_result_t *gui_sketch_result_list_get_element_pos_const ( const gui_sketch_result_list_t *this_,
+                                                                                        uint32_t index )
+{
+    assert( index < (*this_).element_count );
+    return &((*this_).element_pos[index]);
+}
+
+static inline uint32_t gui_sketch_result_list_get_element_count ( const gui_sketch_result_list_t *this_ )
+{
+    assert( (*this_).element_count <= GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS );
+    return (*this_).element_count;
+}
+
 
 /*
 Copyright 2018-2021 Andreas Warnke
