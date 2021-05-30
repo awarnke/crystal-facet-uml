@@ -93,7 +93,7 @@ void get_node_coords( const gui_sketch_nav_tree_t *testee, uint32_t idx, int32_t
     const shape_int_rectangle_t *pos_icon = pos_nav_tree_node_get_icon_box_const( pos );
     *out_x = shape_int_rectangle_get_left(pos_icon) + 1;
     *out_y = shape_int_rectangle_get_top(pos_icon) + 1;
-    printf("x:%d,y:%d\n",*out_x,*out_y);
+    /* printf("x:%d,y:%d\n",*out_x,*out_y); */
 }
 
 static void test_get_object_at_pos_on_no_diagram(void)

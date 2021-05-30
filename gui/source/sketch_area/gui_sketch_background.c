@@ -78,7 +78,7 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
 
         text_area_start = left+icon_width;
 
-        if ( height > icon_height ) 
+        if ( height > icon_height )
         {
             cairo_set_source_rgba( cr, 0.0, 0.4, 0.3, 1.0 );
             cairo_rectangle ( cr, left, top+icon_height, icon_width, height-icon_height );
@@ -276,7 +276,7 @@ void gui_sketch_background_private_draw_quick_introduction( gui_sketch_backgroun
     gui_sketch_background_private_draw_icon_and_message( this_,
                                                          gui_resources_get_file_export( (*this_).resources ),
                                                          "Select the output folder",
-                                                         "to export all(!) diagrams.",
+                                                         "to export all diagrams.",
                                                          TAB_COL2_X,
                                                          TAB_ROW1_Y,
                                                          cr

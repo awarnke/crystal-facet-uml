@@ -33,27 +33,30 @@ void gui_sketch_marker_prepare_draw ( const gui_sketch_marker_t *this_,
     const uint32_t width = shape_int_rectangle_get_width( &rect );
     const uint32_t height = shape_int_rectangle_get_height( &rect );
 
-    /* mark focused diagram */
-    if ( data_id_equals( &element_id, &focused_id ) )
-    {
-        cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
-        cairo_rectangle ( cr, left, top, width, height );
-        cairo_stroke (cr);
-    }
-
-    /* set color to mark highlighted */
+    /* mark highlighted */
     if (( data_id_equals( &element_id, &highlighted_id ) )
         ||( data_id_equals( &element_id, &highlighted_diag_id ) ))
     {
         /* draw a white border around the target rectangle */
         {
             cairo_set_source_rgba( cr, WHITE_R, WHITE_G, WHITE_B, WHITE_A );
-            cairo_rectangle ( cr, left-2, top-1, LINE_W, height+2 );
-            cairo_rectangle ( cr, left-2, top-2, width+4, LINE_W );
-            cairo_rectangle ( cr, left+width+1, top-1, LINE_W, height+2 );
-            cairo_rectangle ( cr, left-2, top+height+1, width+4, LINE_W );
+            cairo_rectangle ( cr, left-3, top-1, 2.0*LINE_W, height+2 );
+            cairo_rectangle ( cr, left-3, top-3, width+6, 2.0*LINE_W );
+            cairo_rectangle ( cr, left+width+1, top-1, 2.0*LINE_W, height+2 );
+            cairo_rectangle ( cr, left-3, top+height+1, width+6, 2.0*LINE_W );
             cairo_fill (cr);
         }
+    }
+
+    /* mark focused diagram */
+    if ( data_id_equals( &element_id, &focused_id ) )
+    {
+        cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
+        cairo_rectangle ( cr, left-2, top-1, LINE_W, height+2 );
+        cairo_rectangle ( cr, left-2, top-2, width+4, LINE_W );
+        cairo_rectangle ( cr, left+width+1, top-1, LINE_W, height+2 );
+        cairo_rectangle ( cr, left-2, top+height+1, width+4, LINE_W );
+        cairo_fill (cr);
     }
 
     /* mark focused */
