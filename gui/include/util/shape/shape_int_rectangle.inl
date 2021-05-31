@@ -97,7 +97,14 @@ static inline uint32_t shape_int_rectangle_get_height ( const shape_int_rectangl
 static inline bool shape_int_rectangle_contains ( const shape_int_rectangle_t *this_, int32_t x, int32_t y )
 {
     bool result;
-    result = ( x >= (*this_).left )&&( y >= (*this_).top )&&( x < (*this_).left+(*this_).width )&&( y < (*this_).top+(*this_).height );
+    const int32_t right = (*this_).left + (*this_).width;
+    const int32_t bottom = (*this_).top + (*this_).height;
+    /*
+     * warning: assuming signed overflow does not occur when assuming that (X + c) >= X is always true [-Wstrict-overflow]
+     *
+    result = ( x >= (*this_).left )&&( y >= (*this_).top )&&( x < right )&&( y < bottom );
+    */
+    result = ( x-(*this_).left >= 0 )&&( y-(*this_).top >= 0 )&&( x-right < 0 )&&( y-bottom < 0 );
     return result;
 }
 
