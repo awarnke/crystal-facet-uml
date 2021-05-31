@@ -100,9 +100,10 @@ static inline bool shape_int_rectangle_contains ( const shape_int_rectangle_t *t
     const int32_t right = (*this_).left + (*this_).width;
     const int32_t bottom = (*this_).top + (*this_).height;
     /*
-     * warning: assuming signed overflow does not occur when assuming that (X + c) >= X is always true [-Wstrict-overflow]
-     *
     result = ( x >= (*this_).left )&&( y >= (*this_).top )&&( x < right )&&( y < bottom );
+    causes (depending on compiler, architecture and optimization level):
+    warning: assuming signed overflow does not occur when assuming that (X + c) >= X is always true [-Wstrict-overflow]
+    fix:
     */
     result = ( x-(*this_).left >= 0 )&&( y-(*this_).top >= 0 )&&( x-right < 0 )&&( y-bottom < 0 );
     return result;
