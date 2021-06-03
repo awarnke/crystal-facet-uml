@@ -5,18 +5,18 @@
         This appendix shows where to get further documentation
         and how to install the software.
     </para>
-    
+
     <section>
         <title>Documentation</title>
         <para>
             User documentation is available here:
             <itemizedlist>
             <listitem><para><ulink url="https://andreaswarnke.de/crystal-facet-uml/crystal-facet-uml_documentation.pdf"/></para></listitem>
-            <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml/blob/master/user_doc/crystal-facet-uml_documentation.pdf"/></para></listitem>
+            <listitem><para><ulink url="https://github.com/awarnke/crystal-facet-uml/blob/master/user_doc/crystal-facet-uml_documentation.pdf"/></para></listitem>
             </itemizedlist>
         </para>
     </section>
-    
+
     <section>
         <title>Debian/Ubuntu Linux</title>
         <para>
@@ -30,7 +30,7 @@ sudo apt install crystal-facet-uml
             If you instead manually download the .deb archive, you may e.g. invoke
             <userinput>sudo dpkg --install &lt;filename.deb&gt;</userinput>
             .
-            
+
             Find the latest executable version of crystal-facet-uml at:
             <itemizedlist>
                 <listitem><para><ulink url="https://tracker.debian.org/pkg/crystal-facet-uml"/></para></listitem>
@@ -51,14 +51,14 @@ sudo zypper install crystal-facet-uml
             If you instead manually download the .rpm archive, you may e.g. invoke
             <userinput>sudo zypper install &lt;filename.rpm&gt;</userinput>
             .
-            
+
             Check for rpm packages at:
             <itemizedlist>
                 <listitem><para><ulink url="https://build.opensuse.org/package/show/devel:tools/crystal_facet_uml"/></para></listitem>
             </itemizedlist>
         </para>
     </section>
-    
+
     <section>
         <title>Windows/Wine</title>
         <para>
@@ -83,7 +83,7 @@ sudo zypper install crystal-facet-uml
             Find the latest source version of crystal-facet-uml at one of the following addresses:
             <itemizedlist>
                 <listitem><para><ulink url="https://sourceforge.net/projects/crystal-facet-uml/"/></para></listitem>
-                <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml"/></para></listitem>
+                <listitem><para><ulink url="https://github.com/awarnke/crystal-facet-uml"/></para></listitem>
             </itemizedlist>
         </para>
         <para>
@@ -112,7 +112,7 @@ sudo zypper install crystal-facet-uml
             </itemizedlist>
         </para>
     </section>
-    
+
     <section>
         <title>License</title>
         <para>

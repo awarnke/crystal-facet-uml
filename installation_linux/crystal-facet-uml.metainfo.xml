@@ -25,7 +25,7 @@
     <category>Documentation</category>
   </categories>
   <url type="homepage">https://andreaswarnke.de/crystal-facet-uml/html/index.html</url>
-  <url type="bugtracker">https://github.com/awarnke/crystal_facet_uml</url>
+  <url type="bugtracker">https://github.com/awarnke/crystal-facet-uml/issues</url>
   <launchable type="desktop-id">crystal-facet-uml.desktop</launchable>
   <screenshots>
     <screenshot type="default">

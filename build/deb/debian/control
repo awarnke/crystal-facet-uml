@@ -2,23 +2,23 @@ Source: crystal-facet-uml
 Section: devel
 Priority: optional
 Maintainer: Andreas Warnke <cfu@andreaswarnke.de>
-Build-Depends: 
- cmake, 
+Build-Depends:
+ cmake,
  debhelper (>= 10),
  gcc,
  libsqlite3-dev,
  libgtk-3-dev
 Standards-Version: 4.1.2
 Homepage: http://andreaswarnke.de/crystal_facet_uml/html/index.html
-Vcs-Git: https://github.com/awarnke/crystal_facet_uml.git
-Vcs-Browser: https://github.com/awarnke/crystal_facet_uml
+Vcs-Git: https://github.com/awarnke/crystal-facet-uml.git
+Vcs-Browser: https://github.com/awarnke/crystal-facet-uml
 
 Package: crystal-facet-uml
 Architecture: any
 Depends:
- libgtk-3-0, 
- libsqlite3-0, 
- ${shlibs:Depends}, 
+ libgtk-3-0,
+ libsqlite3-0,
+ ${shlibs:Depends},
  ${misc:Depends}
 Description: Diagram documentation tool for system and software architecture:
  crystal-facet-uml creates sysml/uml diagrams to document system and software

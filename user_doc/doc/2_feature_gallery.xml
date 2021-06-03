@@ -116,8 +116,8 @@
             </itemizedlist>
             And in crystal-facet-uml binary format:
             <itemizedlist>
-            <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml/tree/master/example_diagrams"/></para></listitem>
-            <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml/tree/master/architecture/doc"/></para></listitem>
+            <listitem><para><ulink url="https://github.com/awarnke/crystal-facet-uml/tree/master/example_diagrams"/></para></listitem>
+            <listitem><para><ulink url="https://github.com/awarnke/crystal-facet-uml/tree/master/architecture/doc"/></para></listitem>
             </itemizedlist>
         </para>
     </section>

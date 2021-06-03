@@ -95,7 +95,7 @@ static inline const shape_int_rectangle_t *pos_nav_tree_node_get_label_box_const
  *  \brief sets the label_box of the diagram
  *
  *  \param this_ pointer to own object attributes
- *  \param diagram_bounds coordinates of new label_box
+ *  \param label_box coordinates of new label_box
  */
 static inline void pos_nav_tree_node_set_label_box ( pos_nav_tree_node_t *this_, const shape_int_rectangle_t *label_box );
 

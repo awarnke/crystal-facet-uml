@@ -1,6 +1,6 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: crystal-facet-uml
-Source: https://github.com/awarnke/crystal_facet_uml
+Source: https://github.com/awarnke/crystal-facet-uml
 
 Files: *
 Copyright: 2016-2020, Andreas Warnke <cfu@andreaswarnke.de>
