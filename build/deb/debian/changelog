@@ -1,3 +1,14 @@
+crystal-facet-uml (1.30.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * in search mode, objects are highlighted individually
+    (not all per diagram)
+  * in search result list, long names have nice linebreaks
+  * in navigation tree, long names have nice linebreaks
+  * Guillements characters surround stereoptypes
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 05 Jun 2021 08:00:00 +0200
+
 crystal-facet-uml (1.29.1-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
@@ -15,7 +26,7 @@ crystal-facet-uml (1.29.0-1) UNRELEASED; urgency=medium
   * valuetypes are xmi-exported to DataTypes
   * metainfo.xml references homepage which is now tls-authenticated
   * nav-tree and search result lists draw a bit more space around texts
-  * A white line is drawn around highlighted diagrams 
+  * A white line is drawn around highlighted diagrams
     (additional to green marker)
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 01 May 2021 22:00:00 +0200
@@ -29,7 +40,7 @@ crystal-facet-uml (1.29.0-1) UNRELEASED; urgency=medium
   * list layout improved, golden ratio is applied
   * timing and sequence diagram layouting improved;
     special handling for comments/reqs in timing and sequence diagrams
-  * version compatibility also in debug mode: 
+  * version compatibility also in debug mode:
     newer database-files can be opened with older programs; asserts removed
   * Messages are not cut off after 255 characters (511 now)
   * When resetting selection, diagram is redrawn
@@ -39,7 +50,7 @@ crystal-facet-uml (1.29.0-1) UNRELEASED; urgency=medium
 crystal-facet-uml (1.27.3-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * fixed most metainfo.xml warnings 
+  * fixed most metainfo.xml warnings
   * build target for gcov measurement added
   * auto-delete relationships between classifiers that have no common diagram
   * when opening the second database, view switches back to navigation mode

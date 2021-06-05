@@ -538,7 +538,7 @@ static const char DATA_DATABASE_READER_SELECT_ALL_CLASSIFIERS[] =
         "AND (relationships.main_type=300)) AS cnt "
     "FROM classifiers "
     "ORDER BY cnt ASC;";
-    
+
 /*!
  *  \brief the column id of the result where this parameter is stored: id
  */
@@ -1349,7 +1349,7 @@ static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID[] =
     "INNER JOIN diagramelements AS source "
     "ON source.classifier_id=relationships.from_classifier_id "
     "INNER JOIN diagramelements AS dest "
-    "ON (dest.classifier_id=relationships.to_classifier_id)AND(dest.diagram_id==source.diagram_id) "
+    "ON (dest.classifier_id=relationships.to_classifier_id)AND(dest.diagram_id=source.diagram_id) "
     "WHERE source.diagram_id=? "
     "GROUP BY relationships.id "
     "ORDER BY relationships.list_order ASC;";
