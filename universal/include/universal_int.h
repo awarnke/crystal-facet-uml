@@ -23,7 +23,7 @@ static inline int32_t universal_int_min_i32 ( int32_t this_, int32_t that );
 /*!
  *  \brief determines the maximum of two signed 32 bit integers
  *
- *  \param first this_ signed integer
+ *  \param this_ first signed integer
  *  \param that second signed integer
  *  \return maximum of two signed integer
  */
