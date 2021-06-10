@@ -31,6 +31,10 @@ debian/ubuntu/raspbian:
 > sudo apt install xmlto       # for user documentation
 >
 > sudo apt install doxygen     # for source code documentation
+>
+> sudo apt install inkscape    # for generation of pdf and png icons from svg
+>
+> sudo apt install lcov        # for reporting test coverage
 
 
 > mkdir my_build && cd my_build
@@ -63,6 +67,10 @@ openSuSE:
 > sudo zypper install fakeroot    # to build debian archives
 >
 > sudo zypper install debhelper   # to build debian archives
+>
+> sudo zypper install inkscape    # for generation of pdf and png icons from svg
+>
+> sudo zypper install lcov        # for reporting test coverage
 
 
 > mkdir my_build && cd my_build
