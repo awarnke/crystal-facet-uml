@@ -35,9 +35,18 @@ This section describes how to install a binary package.
 
 Debian/Ubuntu/Raspbian:
 
+>       sudo apt install crystal-facet-uml
+
+or
+
 >       sudo dpkg -i crystal-facet-uml_1.x.0-1_amd64.deb
 
 openSuSE:
+
+>       sudo zypper addrepo https://download.opensuse.org/repositories/devel:/tools/openSUSE_Leap_15.3 devel_tools_15.3
+>       sudo zypper install crystal-facet-uml
+
+or
 
 >       sudo zypper install crystal-facet-uml-1.x.0-1.1.x86_64.rpm
 
@@ -49,11 +58,6 @@ How to build from source
 -----------
 
 Building from source is described in [./build](build) .
-
-How to run
------------
-
-> ./crystal-facet-uml
 
 About
 -----------

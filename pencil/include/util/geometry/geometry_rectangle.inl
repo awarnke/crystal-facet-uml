@@ -27,10 +27,22 @@ static inline void geometry_rectangle_copy ( geometry_rectangle_t *this_, const 
     (*this_) = (*original);
 }
 
+static inline void geometry_rectangle_move ( geometry_rectangle_t *this_, geometry_rectangle_t *that )
+{
+    assert( NULL != that );
+    (*this_) = (*that);
+}
+
 static inline void geometry_rectangle_replace ( geometry_rectangle_t *this_, const geometry_rectangle_t *original )
 {
     assert( NULL != original );
     (*this_) = (*original);
+}
+
+static inline void geometry_rectangle_replacemove ( geometry_rectangle_t *this_, geometry_rectangle_t *that )
+{
+    assert( NULL != that );
+    (*this_) = (*that);
 }
 
 static inline void geometry_rectangle_init_empty ( geometry_rectangle_t *this_ )
@@ -140,7 +152,7 @@ static inline bool geometry_rectangle_is_contiguous ( const geometry_rectangle_t
 
     bool result;
 
-    const double rect_this_right = (*this_).left + (*this_).width; 
+    const double rect_this_right = (*this_).left + (*this_).width;
     const double rect_this_bottom = (*this_).top + (*this_).height;
     const double rect_that_right = (*that).left + (*that).width;
     const double rect_that_bottom = (*that).top + (*that).height;

@@ -8,12 +8,12 @@
 #include <math.h>
 
 void pencil_classifier_2d_layouter_init( pencil_classifier_2d_layouter_t *this_,
-                                      pencil_layout_data_t *layout_data,
-                                      const pencil_size_t *pencil_size,
-                                      geometry_dimensions_t *default_classifier_size,
-                                      geometry_non_linear_scale_t *x_scale,
-                                      geometry_non_linear_scale_t *y_scale,
-                                      pencil_feature_layouter_t *feature_layouter )
+                                         pencil_layout_data_t *layout_data,
+                                         const pencil_size_t *pencil_size,
+                                         geometry_dimensions_t *default_classifier_size,
+                                         geometry_non_linear_scale_t *x_scale,
+                                         geometry_non_linear_scale_t *y_scale,
+                                         pencil_feature_layouter_t *feature_layouter )
 {
     TRACE_BEGIN();
     assert( NULL != layout_data );
@@ -52,7 +52,7 @@ void pencil_classifier_2d_layouter_destroy( pencil_classifier_2d_layouter_t *thi
 
 /* ================================ INITIAL LAYOUT ================================ */
 
-void pencil_classifier_2d_layouter_estimate_bounds ( pencil_classifier_2d_layouter_t *this_, PangoLayout *font_layout )
+void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layouter_t *this_, PangoLayout *font_layout )
 {
     TRACE_BEGIN();
 
@@ -69,22 +69,23 @@ void pencil_classifier_2d_layouter_estimate_bounds ( pencil_classifier_2d_layout
         {
             geometry_dimensions_t features_dim;
             geometry_dimensions_init_empty( &features_dim );
-            pencil_feature_layouter_calculate_features_bounds ( (*this_).feature_layouter,
-                                                                layout_visible_classifier_get_diagramelement_id( classifier_layout ),
-                                                                font_layout,
-                                                                &features_dim
-                                                              );
+            pencil_feature_layouter_calculate_features_bounds( (*this_).feature_layouter,
+                                                               layout_visible_classifier_get_diagramelement_id( classifier_layout ),
+                                                               font_layout,
+                                                               &features_dim
+                                                             );
 
-            const bool has_contained_children = false;  /* if classifier has children, this will be updated later when calling pencil_classifier_composer_set_space_and_label */
-            pencil_classifier_composer_set_all_bounds ( &((*this_).classifier_composer),
-                                                        visible_classifier2,
-                                                        (*this_).default_classifier_size,
-                                                        &features_dim,
-                                                        has_contained_children,  
-                                                        (*this_).pencil_size,
-                                                        font_layout,
-                                                        classifier_layout
-                                                      );
+            const bool has_contained_children = false;  /* if classifier has children, this will be updated later */
+                                                        /* when calling pencil_classifier_composer_set_space_and_label */
+            pencil_classifier_composer_set_all_bounds( &((*this_).classifier_composer),
+                                                       visible_classifier2,
+                                                       (*this_).default_classifier_size,
+                                                       &features_dim,
+                                                       has_contained_children,
+                                                       (*this_).pencil_size,
+                                                       font_layout,
+                                                       classifier_layout
+                                                     );
 
             geometry_dimensions_destroy( &features_dim );
         }
@@ -134,21 +135,21 @@ void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d
         double solution_move_dy[6];
 
         /* propose options of moving left/right/up/down */
-        pencil_classifier_2d_layouter_private_propose_4dir_move_solutions ( this_,
+        pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( this_,
+                                                                           &sorted,
+                                                                           sort_index,
+                                                                           SOLUTIONS_MAX-1,
+                                                                           solution_move_dx,
+                                                                           solution_move_dy,
+                                                                           &solutions_count
+                                                                         );
+        /* propose options of moving close at origin-area */
+        pencil_classifier_2d_layouter_private_propose_anchored_solution( this_,
                                                                          &sorted,
                                                                          sort_index,
-                                                                         SOLUTIONS_MAX-1,
-                                                                         solution_move_dx,
-                                                                         solution_move_dy,
-                                                                         &solutions_count
+                                                                         &(solution_move_dx[solutions_count]),
+                                                                         &(solution_move_dy[solutions_count])
                                                                        );
-        /* propose options of moving close at origin-area */
-        pencil_classifier_2d_layouter_private_propose_anchored_solution ( this_,
-                                                                       &sorted,
-                                                                       sort_index,
-                                                                       &(solution_move_dx[solutions_count]),
-                                                                       &(solution_move_dy[solutions_count])
-                                                                     );
         solutions_count ++;
 
         /* select best option */
@@ -159,14 +160,14 @@ void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d
         }
         else
         {
-            pencil_classifier_2d_layouter_private_select_move_solution ( this_,
-                                                                      &sorted,
-                                                                      sort_index,
-                                                                      solutions_count,
-                                                                      solution_move_dx,
-                                                                      solution_move_dy,
-                                                                      &index_of_best
-                                                                    );
+            pencil_classifier_2d_layouter_private_select_move_solution( this_,
+                                                                        &sorted,
+                                                                        sort_index,
+                                                                        solutions_count,
+                                                                        solution_move_dx,
+                                                                        solution_move_dy,
+                                                                        &index_of_best
+                                                                      );
         }
 
         /* perform best option */
@@ -281,13 +282,13 @@ enum pencil_classifier_2d_layouter_private_move_enum {
     PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_MAX = 5,  /*!< constant defining the total number of available options */
 };
 
-void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions ( pencil_classifier_2d_layouter_t *this_,
-                                                                      const universal_array_index_sorter_t *sorted,
-                                                                      uint32_t sort_index,
-                                                                      uint32_t solutions_max,
-                                                                      double out_solution_move_dx[],
-                                                                      double out_solution_move_dy[],
-                                                                      uint32_t *out_solutions_count )
+void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( pencil_classifier_2d_layouter_t *this_,
+                                                                        const universal_array_index_sorter_t *sorted,
+                                                                        uint32_t sort_index,
+                                                                        uint32_t solutions_max,
+                                                                        double out_solution_move_dx[],
+                                                                        double out_solution_move_dy[],
+                                                                        uint32_t *out_solutions_count )
 {
     TRACE_BEGIN();
     assert ( NULL != sorted );
@@ -451,11 +452,11 @@ void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions ( pencil_
     TRACE_END();
 }
 
-void pencil_classifier_2d_layouter_private_propose_anchored_solution ( pencil_classifier_2d_layouter_t *this_,
-                                                                    const universal_array_index_sorter_t *sorted,
-                                                                    uint32_t sort_index,
-                                                                    double * out_solution_move_dx,
-                                                                    double * out_solution_move_dy )
+void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_classifier_2d_layouter_t *this_,
+                                                                      const universal_array_index_sorter_t *sorted,
+                                                                      uint32_t sort_index,
+                                                                      double * out_solution_move_dx,
+                                                                      double * out_solution_move_dy )
 {
     TRACE_BEGIN();
     assert ( NULL != sorted );
@@ -571,13 +572,13 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution ( pencil_cl
     TRACE_END();
 }
 
-void pencil_classifier_2d_layouter_private_select_move_solution ( pencil_classifier_2d_layouter_t *this_,
-                                                               const universal_array_index_sorter_t *sorted,
-                                                               uint32_t sort_index,
-                                                               uint32_t solutions_count,
-                                                               const double solution_move_dx[],
-                                                               const double solution_move_dy[],
-                                                               uint32_t *out_index_of_best )
+void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifier_2d_layouter_t *this_,
+                                                                 const universal_array_index_sorter_t *sorted,
+                                                                 uint32_t sort_index,
+                                                                 uint32_t solutions_count,
+                                                                 const double solution_move_dx[],
+                                                                 const double solution_move_dy[],
+                                                                 uint32_t *out_index_of_best )
 {
     TRACE_BEGIN();
     assert ( NULL != sorted );
@@ -715,24 +716,14 @@ void pencil_classifier_2d_layouter_embrace_children( pencil_classifier_2d_layout
 
         const int failure
             = pencil_classifier_2d_layouter_private_try_embrace_child( this_,
-                                                                    the_relationship,
-                                                                    ! data_small_set_contains( &has_embraced_children, rel_from_id )
-                                                                  );
+                                                                       the_relationship,
+                                                                       ! data_small_set_contains( &has_embraced_children, rel_from_id ),
+                                                                       font_layout
+                                                                     );
         if ( ! failure )
         {
+            /* only in case of success, children are counted as embraced */
             data_small_set_add_obj( &has_embraced_children, rel_from_id );
-
-            /* re-calculate the label-box and thereby update the space-box of the parent */
-            layout_visible_classifier_t *const from_classifier
-                = layout_relationship_get_from_classifier_ptr( the_relationship );
-            const bool has_contained_children = true;
-            pencil_classifier_composer_set_space_and_label( &((*this_).classifier_composer),
-                                                            layout_visible_classifier_get_data_const( from_classifier ),
-                                                            has_contained_children,
-                                                            (*this_).pencil_size,
-                                                            font_layout,
-                                                            from_classifier
-                                                          );
         }
     }
 
@@ -773,7 +764,10 @@ void pencil_classifier_2d_layouter_private_propose_embracing_order ( pencil_clas
     TRACE_END();
 }
 
-int pencil_classifier_2d_layouter_private_try_embrace_child( pencil_classifier_2d_layouter_t *this_, layout_relationship_t *the_relationship, bool move )
+int pencil_classifier_2d_layouter_private_try_embrace_child( pencil_classifier_2d_layouter_t *this_,
+                                                             layout_relationship_t *the_relationship,
+                                                             bool move,
+                                                             PangoLayout *font_layout )
 {
     TRACE_BEGIN();
     assert( NULL != the_relationship );
@@ -790,43 +784,31 @@ int pencil_classifier_2d_layouter_private_try_embrace_child( pencil_classifier_2
             = layout_relationship_get_to_classifier_ptr( the_relationship );
         if ( from_classifier != to_classifier )
         {
-            const geometry_rectangle_t parent_envelope = layout_visible_classifier_calc_envelope_box( from_classifier );
-            const geometry_rectangle_t *const parent_space
-                = layout_visible_classifier_get_space_const ( from_classifier );
+            layout_visible_classifier_t probe_parent_layout;
+            layout_visible_classifier_copy( &probe_parent_layout, from_classifier );
+            const geometry_rectangle_t * parent_space
+                = layout_visible_classifier_get_space_const( &probe_parent_layout );
             const geometry_rectangle_t child_envelope = layout_visible_classifier_calc_envelope_box( to_classifier );
-
-            /* try embrace child */
-            geometry_rectangle_t probe_parent_envelope;  /* try out a new parent symbol_box rectangle */
-            geometry_rectangle_copy( &probe_parent_envelope, &parent_envelope );
-            double extend_to_left = 0.0;
-            double extend_to_right = 0.0;
-            double extend_to_top = 0.0;
-            double extend_to_bottom = 0.0;
-            extend_to_left = geometry_rectangle_get_left( parent_space ) - geometry_rectangle_get_left( &child_envelope );
-            extend_to_top = geometry_rectangle_get_top( parent_space ) - geometry_rectangle_get_top( &child_envelope );
-            extend_to_right = geometry_rectangle_get_right( &child_envelope ) - geometry_rectangle_get_right( parent_space );
-            extend_to_bottom = geometry_rectangle_get_bottom( &child_envelope ) - geometry_rectangle_get_bottom( parent_space );
-            if ( ! move )
+            geometry_rectangle_t probe_space;
+            if ( move )
             {
-                if ( extend_to_left < 0.0 )
-                {
-                    extend_to_left = 0.0;
-                }
-                if ( extend_to_top < 0.0 )
-                {
-                    extend_to_top = 0.0;
-                }
-                if ( extend_to_right < 0.0 )
-                {
-                    extend_to_right = 0.0;
-                }
-                if ( extend_to_bottom < 0.0 )
-                {
-                    extend_to_bottom = 0.0;
-                }
+                geometry_rectangle_copy( &probe_space, &child_envelope );
             }
-            geometry_rectangle_expand( &probe_parent_envelope, extend_to_left+extend_to_right, extend_to_top+extend_to_bottom );
-            geometry_rectangle_shift( &probe_parent_envelope, -extend_to_left, -extend_to_top );
+            else
+            {
+                geometry_rectangle_init_by_bounds( &probe_space, parent_space, &child_envelope );
+            }
+
+            pencil_classifier_composer_expand_inner_space( &((*this_).classifier_composer),
+                                                           &probe_space,
+                                                           true,  /* = has_contained_children */
+                                                           (*this_).pencil_size,
+                                                           font_layout,
+                                                           &probe_parent_layout
+                                                         );
+
+            const geometry_rectangle_t probe_parent_envelope
+                = layout_visible_classifier_calc_envelope_box( &probe_parent_layout );
 
             /* check what else would be embraced */
             bool illegal_overlap = false;
@@ -839,11 +821,11 @@ int pencil_classifier_2d_layouter_private_try_embrace_child( pencil_classifier_2
 
                 if (( probe_classifier != from_classifier )&&( probe_classifier != to_classifier ))
                 {
-                    if ( pencil_layout_data_is_ancestor ( (*this_).layout_data, from_classifier, probe_classifier ) )
+                    if ( pencil_layout_data_is_ancestor( (*this_).layout_data, from_classifier, probe_classifier ) )
                     {
                         /* it is ok to embrace also other children, no illegal_overlap */
                     }
-                    else if ( pencil_layout_data_is_ancestor ( (*this_).layout_data, probe_classifier, from_classifier ) )
+                    else if ( pencil_layout_data_is_ancestor( (*this_).layout_data, probe_classifier, from_classifier ) )
                     {
                         /* it is ok if parent is already contained in grand-parent classifier, no illegal_overlap */
                     }
@@ -864,13 +846,16 @@ int pencil_classifier_2d_layouter_private_try_embrace_child( pencil_classifier_2
             /* cancel or commit */
             if ( ! illegal_overlap )
             {
-                layout_visible_classifier_expand( from_classifier, extend_to_left+extend_to_right, extend_to_top+extend_to_bottom );
-                layout_visible_classifier_shift( from_classifier, -extend_to_left, -extend_to_top );
+                layout_visible_classifier_replacemove( from_classifier, &probe_parent_layout );
                 result_err = 0;
+            }
+            else
+            {
+                layout_visible_classifier_destroy( &probe_parent_layout );
             }
 
             /* cleanup */
-            geometry_rectangle_destroy( &probe_parent_envelope );
+            geometry_rectangle_destroy( &probe_space );
         }
         else
         {
@@ -995,11 +980,12 @@ void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_
                     - 2.0*LEAVE_RATIO*outer_border_y;
 
                 /* move+expand the parent */
-                layout_visible_classifier_shift ( the_classifier, delta_x, delta_y );
-                layout_visible_classifier_expand ( the_classifier, delta_width, delta_height );
+                layout_visible_classifier_shift( the_classifier, delta_x, delta_y );
+                layout_visible_classifier_expand( the_classifier, delta_width, delta_height );
 
                 /* re-calculate the label-box and thereby update the space-box of the parent */
                 const bool has_contained_children = true;
+                /* TODO: use pencil_classifier_composer_expand_inner_space () which is more suitable */
                 pencil_classifier_composer_set_space_and_label( &((*this_).classifier_composer),
                                                                 layout_visible_classifier_get_data_const( the_classifier ),
                                                                 has_contained_children,

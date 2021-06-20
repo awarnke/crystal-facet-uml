@@ -37,6 +37,38 @@ typedef struct layout_visible_classifier_struct layout_visible_classifier_t;
 static inline void layout_visible_classifier_init ( layout_visible_classifier_t *this_, const data_visible_classifier_t *visible_classifier_data );
 
 /*!
+ *  \brief copies a layout_visible_classifier_t struct to this uninitialized layout_visible_classifier_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param original pointer to original object attributes
+ */
+static inline void layout_visible_classifier_copy ( layout_visible_classifier_t *this_, const layout_visible_classifier_t *original );
+
+/*!
+ *  \brief moves a layout_visible_classifier_t struct to this uninitialized layout_visible_classifier_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to original object attributes to be moved
+ */
+static inline void layout_visible_classifier_move ( layout_visible_classifier_t *this_, layout_visible_classifier_t *that );
+
+/*!
+ *  \brief copies a layout_visible_classifier_t struct to this already initialized layout_visible_classifier_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param original pointer to original object attributes
+ */
+static inline void layout_visible_classifier_replace ( layout_visible_classifier_t *this_, const layout_visible_classifier_t *original );
+
+/*!
+ *  \brief moves a layout_visible_classifier_t struct to this already initialized layout_visible_classifier_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to original object attributes to be moved
+ */
+static inline void layout_visible_classifier_replacemove ( layout_visible_classifier_t *this_, layout_visible_classifier_t *that );
+
+/*!
  *  \brief destroys the layout_visible_classifier_t struct
  *
  *  \param this_ pointer to own object attributes

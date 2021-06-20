@@ -14,6 +14,62 @@ static inline void layout_visible_classifier_init ( layout_visible_classifier_t 
     (*this_).data = visible_classifier_data;
 }
 
+static inline void layout_visible_classifier_copy( layout_visible_classifier_t *this_, const layout_visible_classifier_t *original )
+{
+    assert ( NULL != original );
+    assert ( NULL != (*original).data );
+
+    geometry_rectangle_copy( &((*this_).symbol_box), &((*original).symbol_box) );
+    geometry_rectangle_copy( &((*this_).space), &((*original).space) );
+    geometry_rectangle_copy( &((*this_).label_box), &((*original).label_box) );
+    (*this_).label_h_anchor = (*original).label_h_anchor;
+    (*this_).label_v_anchor = (*original).label_v_anchor;
+    (*this_).data = (*original).data;
+}
+
+static inline void layout_visible_classifier_move( layout_visible_classifier_t *this_, layout_visible_classifier_t *that )
+{
+    assert ( NULL != that );
+    assert ( NULL != (*that).data );
+
+    geometry_rectangle_move( &((*this_).symbol_box), &((*that).symbol_box) );
+    geometry_rectangle_move( &((*this_).space), &((*that).space) );
+    geometry_rectangle_move( &((*this_).label_box), &((*that).label_box) );
+    (*this_).label_h_anchor = (*that).label_h_anchor;
+    (*this_).label_v_anchor = (*that).label_v_anchor;
+    (*this_).data = (*that).data;
+
+    (*that).data = NULL;
+}
+
+static inline void layout_visible_classifier_replace( layout_visible_classifier_t *this_, const layout_visible_classifier_t *original )
+{
+    assert ( NULL != original );
+    assert ( NULL != (*original).data );
+
+    geometry_rectangle_replace( &((*this_).symbol_box), &((*original).symbol_box) );
+    geometry_rectangle_replace( &((*this_).space), &((*original).space) );
+    geometry_rectangle_replace( &((*this_).label_box), &((*original).label_box) );
+    (*this_).label_h_anchor = (*original).label_h_anchor;
+    (*this_).label_v_anchor = (*original).label_v_anchor;
+    (*this_).data = (*original).data;
+}
+
+static inline void layout_visible_classifier_replacemove( layout_visible_classifier_t *this_, layout_visible_classifier_t *that )
+{
+    assert ( NULL != that );
+    assert ( NULL != (*that).data );
+
+    geometry_rectangle_replacemove( &((*this_).symbol_box), &((*that).symbol_box) );
+    geometry_rectangle_replacemove( &((*this_).space), &((*that).space) );
+    geometry_rectangle_replacemove( &((*this_).label_box), &((*that).label_box) );
+    (*this_).label_h_anchor = (*that).label_h_anchor;
+    (*this_).label_v_anchor = (*that).label_v_anchor;
+    (*this_).data = (*that).data;
+
+    (*that).data = NULL;
+}
+
 static inline void layout_visible_classifier_destroy ( layout_visible_classifier_t *this_ )
 {
     geometry_rectangle_destroy( &((*this_).symbol_box) );

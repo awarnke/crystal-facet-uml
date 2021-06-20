@@ -581,12 +581,12 @@ pencil_error_t pencil_layouter_get_classifier_order_at_pos ( const pencil_layout
         = layout_diagram_get_data_const ( the_diagram );
     const data_diagram_type_t diag_type
         = data_diagram_get_diagram_type ( diagram_data );
-        
+
     /* get the classifier type */
-    const bool scenario_semantics 
-        = data_rules_classifier_has_scenario_semantics( &((*this_).rules), 
-                                                        diag_type, 
-                                                        c_type 
+    const bool scenario_semantics
+        = data_rules_classifier_has_scenario_semantics( &((*this_).rules),
+                                                        diag_type,
+                                                        c_type
                                                       );
 
     if ( ! geometry_rectangle_contains( diagram_bounds, x, y ) )

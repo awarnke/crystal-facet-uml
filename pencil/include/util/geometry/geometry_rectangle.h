@@ -55,12 +55,28 @@ static inline void geometry_rectangle_reinit ( geometry_rectangle_t *this_, doub
 static inline void geometry_rectangle_copy ( geometry_rectangle_t *this_, const geometry_rectangle_t *original );
 
 /*!
+ *  \brief moves original to this uninitialized geometry_rectangle_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to object attributes that shall be moved
+ */
+static inline void geometry_rectangle_move ( geometry_rectangle_t *this_, geometry_rectangle_t *that );
+
+/*!
  *  \brief replaces the already initialized geometry_rectangle_t struct by other data
  *
  *  \param this_ pointer to own object attributes
  *  \param original pointer to object attributes that shall be copied
  */
 static inline void geometry_rectangle_replace ( geometry_rectangle_t *this_, const geometry_rectangle_t *original );
+
+/*!
+ *  \brief replaces the already initialized geometry_rectangle_t struct by other data to be moved there
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to object attributes that shall be copied
+ */
+static inline void geometry_rectangle_replacemove ( geometry_rectangle_t *this_, geometry_rectangle_t *that );
 
 /*!
  *  \brief initializes the geometry_rectangle_t struct to an empty rect at position 0,0
