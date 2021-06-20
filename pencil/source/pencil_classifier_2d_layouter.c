@@ -62,8 +62,6 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
     {
         layout_visible_classifier_t *classifier_layout;
         classifier_layout = pencil_layout_data_get_visible_classifier_ptr ( (*this_).layout_data, index );
-        const data_visible_classifier_t *const visible_classifier2
-            = layout_visible_classifier_get_data_const ( classifier_layout );
 
         /* set the bounds, space and label_box of the classifier layout */
         {
@@ -75,13 +73,12 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
                                                                &features_dim
                                                              );
 
-            const bool has_contained_children = false;  /* if classifier has children, this will be updated later */
-                                                        /* when calling pencil_classifier_composer_set_space_and_label */
+            const bool shows_contained_children = false;  /* if classifier has children, this will be updated later */
+                                                          /* when calling pencil_classifier_composer_set_space_and_label */
             pencil_classifier_composer_set_all_bounds( &((*this_).classifier_composer),
-                                                       visible_classifier2,
                                                        (*this_).default_classifier_size,
                                                        &features_dim,
-                                                       has_contained_children,
+                                                       shows_contained_children,
                                                        (*this_).pencil_size,
                                                        font_layout,
                                                        classifier_layout
@@ -92,6 +89,8 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
 
         /* move the classifier rectangles to the target location */
         {
+            const data_visible_classifier_t *const visible_classifier2
+                = layout_visible_classifier_get_data_const ( classifier_layout );
             const data_classifier_t *classifier2;
             classifier2 = data_visible_classifier_get_classifier_const( visible_classifier2 );
             const geometry_rectangle_t *const classifier_symbol_box
@@ -801,7 +800,7 @@ int pencil_classifier_2d_layouter_private_try_embrace_child( pencil_classifier_2
 
             pencil_classifier_composer_expand_inner_space( &((*this_).classifier_composer),
                                                            &probe_space,
-                                                           true,  /* = has_contained_children */
+                                                           true,  /* = shows_contained_children */
                                                            (*this_).pencil_size,
                                                            font_layout,
                                                            &probe_parent_layout
@@ -955,7 +954,7 @@ void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_
             layout_visible_classifier_copy( &probe_parent_layout, the_classifier );
             pencil_classifier_composer_expand_inner_space( &((*this_).classifier_composer),
                                                            &children_envelope,
-                                                           true,  /* = has_contained_children */
+                                                           true,  /* = shows_contained_children */
                                                            (*this_).pencil_size,
                                                            font_layout,
                                                            &probe_parent_layout
@@ -990,13 +989,12 @@ void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_
                 layout_visible_classifier_expand( the_classifier, delta_width, delta_height );
 
                 /* re-calculate the label-box and thereby update the space-box of the parent */
-                pencil_classifier_composer_set_space_and_label( &((*this_).classifier_composer),
-                                                                layout_visible_classifier_get_data_const( the_classifier ),
-                                                                true,  /* = has_contained_children */
-                                                                (*this_).pencil_size,
-                                                                font_layout,
-                                                                the_classifier
-                                                              );
+                pencil_classifier_composer_calc_space_and_label( &((*this_).classifier_composer),
+                                                                 true,  /* = shows_contained_children */
+                                                                 (*this_).pencil_size,
+                                                                 font_layout,
+                                                                 the_classifier
+                                                               );
 
                 /* determine the descendants move deltas */
                 const geometry_rectangle_t *const parent_new_space = layout_visible_classifier_get_space_const( the_classifier );
