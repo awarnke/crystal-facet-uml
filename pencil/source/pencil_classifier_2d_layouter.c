@@ -935,60 +935,64 @@ void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_
     for ( uint32_t classifier_sort_idx = 0; classifier_sort_idx < count_sorted; classifier_sort_idx ++ )
     {
         const uint32_t classifier_idx = universal_array_index_sorter_get_array_index( &sorted_classifiers, classifier_sort_idx );
-        layout_visible_classifier_t * the_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, classifier_idx );
+        layout_visible_classifier_t *const the_classifier
+            = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, classifier_idx );
 
         /* only if the classifier has children */
         const uint32_t child_count = pencil_layout_data_count_descendants ( (*this_).layout_data, the_classifier );
         if ( child_count > 0 )
         {
-            /* fetch data on parent classifier */
-            const geometry_rectangle_t parent_envelope = layout_visible_classifier_calc_envelope_box( the_classifier );
-            const geometry_rectangle_t *const parent_space = layout_visible_classifier_get_space_const( the_classifier );
-            const double parent_space_width_diff
-                = geometry_rectangle_get_width(&parent_envelope) - geometry_rectangle_get_width(parent_space);
-            const double parent_space_height_diff
-                = geometry_rectangle_get_height(&parent_envelope) - geometry_rectangle_get_height(parent_space);
-
             /* get envelope rectangle of all children */
             const geometry_rectangle_t children_envelope
                 = pencil_classifier_2d_layouter_private_calc_descendant_envelope( this_, the_classifier );
 
-            /* determine outer space around envelope rectangle */
+            /* determine outer space around children envelope rectangle */
             const geometry_rectangle_t outer_space
                 = pencil_classifier_2d_layouter_private_calc_outer_space( this_, &children_envelope, the_classifier );
 
-            const double parent_min_width = parent_space_width_diff + geometry_rectangle_get_width(&children_envelope);
-            const double parent_min_height = parent_space_height_diff + geometry_rectangle_get_height(&children_envelope);
+            /* place the children into the (probe-)parent */
+            layout_visible_classifier_t probe_parent_layout;
+            layout_visible_classifier_copy( &probe_parent_layout, the_classifier );
+            pencil_classifier_composer_expand_inner_space( &((*this_).classifier_composer),
+                                                           &children_envelope,
+                                                           true,  /* = has_contained_children */
+                                                           (*this_).pencil_size,
+                                                           font_layout,
+                                                           &probe_parent_layout
+                                                         );
+            const geometry_rectangle_t probe_parent_envelope
+                = layout_visible_classifier_calc_envelope_box( &probe_parent_layout );
 
-            /* if success, move children and parent */
-            const double outer_border_x = (geometry_rectangle_get_width( &outer_space ) - parent_min_width)/2.0;
-            const double outer_border_y = (geometry_rectangle_get_height( &outer_space ) - parent_min_height)/2.0;
+            /* check if parent fits into into outer_space */
+            const double outer_border_x
+                = (geometry_rectangle_get_width( &outer_space ) - geometry_rectangle_get_width(&probe_parent_envelope))/2.0;
+            const double outer_border_y
+                = (geometry_rectangle_get_height( &outer_space ) - geometry_rectangle_get_height(&probe_parent_envelope))/2.0;
             if (( outer_border_x > 0.0 )&&( outer_border_y > 0.0 ))
             {
                 /* prepare to move+expand the parent */
                 const double delta_x
-                    = geometry_rectangle_get_left(&outer_space) - geometry_rectangle_get_left(&parent_envelope)
+                    = geometry_rectangle_get_left(&outer_space) - geometry_rectangle_get_left(&probe_parent_envelope)
                     + (LEAVE_RATIO*outer_border_x);
                 const double delta_y
-                    = geometry_rectangle_get_top(&outer_space) - geometry_rectangle_get_top(&parent_envelope)
+                    = geometry_rectangle_get_top(&outer_space) - geometry_rectangle_get_top(&probe_parent_envelope)
                     + (LEAVE_RATIO*outer_border_y);
                 const double delta_width
-                    = geometry_rectangle_get_width(&outer_space) - geometry_rectangle_get_width(&parent_envelope)
+                    = geometry_rectangle_get_width(&outer_space) - geometry_rectangle_get_width(&probe_parent_envelope)
                     - 2.0*LEAVE_RATIO*outer_border_x;
                 const double delta_height
-                    = geometry_rectangle_get_height(&outer_space) - geometry_rectangle_get_height(&parent_envelope)
+                    = geometry_rectangle_get_height(&outer_space) - geometry_rectangle_get_height(&probe_parent_envelope)
                     - 2.0*LEAVE_RATIO*outer_border_y;
 
                 /* move+expand the parent */
+                layout_visible_classifier_replace( the_classifier, &probe_parent_layout );
                 layout_visible_classifier_shift( the_classifier, delta_x, delta_y );
                 layout_visible_classifier_expand( the_classifier, delta_width, delta_height );
 
                 /* re-calculate the label-box and thereby update the space-box of the parent */
-                const bool has_contained_children = true;
-                /* TODO: use pencil_classifier_composer_expand_inner_space () which is more suitable */
                 pencil_classifier_composer_set_space_and_label( &((*this_).classifier_composer),
                                                                 layout_visible_classifier_get_data_const( the_classifier ),
-                                                                has_contained_children,
+                                                                true,  /* = has_contained_children */
                                                                 (*this_).pencil_size,
                                                                 font_layout,
                                                                 the_classifier
@@ -1003,6 +1007,8 @@ void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_
                 pencil_classifier_2d_layouter_private_move_descendants( this_, the_classifier, descendant_add_dx, descendant_add_dy );
             }
 
+            /* cleanup */
+            layout_visible_classifier_destroy( &probe_parent_layout );
         }
     }
 
