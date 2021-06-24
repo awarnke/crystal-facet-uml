@@ -970,31 +970,22 @@ void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_
             if (( outer_border_x > 0.0 )&&( outer_border_y > 0.0 ))
             {
                 /* prepare to move+expand the parent */
-                const double delta_x
-                    = geometry_rectangle_get_left(&outer_space) - geometry_rectangle_get_left(&probe_parent_envelope)
-                    + (LEAVE_RATIO*outer_border_x);
-                const double delta_y
-                    = geometry_rectangle_get_top(&outer_space) - geometry_rectangle_get_top(&probe_parent_envelope)
-                    + (LEAVE_RATIO*outer_border_y);
-                const double delta_width
-                    = geometry_rectangle_get_width(&outer_space) - geometry_rectangle_get_width(&probe_parent_envelope)
-                    - 2.0*LEAVE_RATIO*outer_border_x;
-                const double delta_height
-                    = geometry_rectangle_get_height(&outer_space) - geometry_rectangle_get_height(&probe_parent_envelope)
-                    - 2.0*LEAVE_RATIO*outer_border_y;
+                geometry_rectangle_t new_envelope;
+                geometry_rectangle_copy( &new_envelope, &outer_space );
+                geometry_rectangle_shift( &new_envelope, (LEAVE_RATIO*outer_border_x), (LEAVE_RATIO*outer_border_y) );
+                geometry_rectangle_expand( &new_envelope, -2.0*(LEAVE_RATIO*outer_border_x), -2.0*(LEAVE_RATIO*outer_border_y) );
 
                 /* move+expand the parent */
-                layout_visible_classifier_replace( the_classifier, &probe_parent_layout );
-                layout_visible_classifier_shift( the_classifier, delta_x, delta_y );
-                layout_visible_classifier_expand( the_classifier, delta_width, delta_height );
+                pencil_classifier_composer_expand_envelope_box( &((*this_).classifier_composer),
+                                                                &new_envelope,
+                                                                true,  /* = shows_contained_children */
+                                                                (*this_).pencil_size,
+                                                                font_layout,
+                                                                the_classifier
+                                                              );
 
-                /* re-calculate the label-box and thereby update the space-box of the parent */
-                pencil_classifier_composer_calc_space_and_label( &((*this_).classifier_composer),
-                                                                 true,  /* = shows_contained_children */
-                                                                 (*this_).pencil_size,
-                                                                 font_layout,
-                                                                 the_classifier
-                                                               );
+                /* cleanup move+expand the parent */
+                geometry_rectangle_destroy( &new_envelope );
 
                 /* determine the descendants move deltas */
                 const geometry_rectangle_t *const parent_new_space = layout_visible_classifier_get_space_const( the_classifier );

@@ -10,6 +10,7 @@
  */
 
 #include "util/geometry/geometry_point.h"
+#include "util/geometry/geometry_dimensions.h"
 #include <stdbool.h>
 
 /*!
@@ -219,6 +220,14 @@ static inline double geometry_rectangle_get_center_y ( const geometry_rectangle_
  *  \param this_ pointer to own object attributes
  */
 static inline geometry_point_t geometry_rectangle_get_center ( const geometry_rectangle_t *this_ );
+
+/*!
+ *  \brief gets the dimensions of geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return dimensions (width and height) of the rectangle
+ */
+static inline geometry_dimensions_t geometry_rectangle_get_dimensions ( const geometry_rectangle_t *this_ );
 
 /*!
  *  \brief gets the area-value of geometry_rectangle_t

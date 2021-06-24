@@ -159,16 +159,6 @@ static inline void layout_visible_classifier_shift ( layout_visible_classifier_t
     geometry_rectangle_shift( &((*this_).label_box), delta_x, delta_y );
 }
 
-static inline void layout_visible_classifier_expand ( layout_visible_classifier_t *this_, double delta_width, double delta_height )
-{
-    geometry_rectangle_expand( &((*this_).symbol_box), delta_width, delta_height );
-    geometry_rectangle_expand( &((*this_).space), delta_width, delta_height );
-    /* the label moves according to the defined anchor */
-    double dx = geometry_h_align_get_left ( &((*this_).label_h_anchor), 0.0, 0.0, delta_width );
-    double dy = geometry_v_align_get_top ( &((*this_).label_v_anchor), 0.0, 0.0, delta_height );
-    geometry_rectangle_shift( &((*this_).label_box), dx, dy );
-}
-
 static inline const data_visible_classifier_t *layout_visible_classifier_get_data_const ( const layout_visible_classifier_t *this_ )
 {
     return (*this_).data;

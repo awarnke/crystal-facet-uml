@@ -125,22 +125,24 @@ void pencil_classifier_composer_expand_inner_space ( const pencil_classifier_com
                                                    );
 
 /*!
- *  \brief determines the inner drawing space for contained classifiers and features - and the label_box
+ *  \brief resizes the contour, inner drawing space for contained classifiers and features - and the label_box
  *
  *  This method returns values to embrace title and ornaments. classifiers symbol_box is expected to be fix.
  *
  *  \param this_ pointer to own object attributes
+ *  \param envelope exact new outer envelope box; should be big enough to contain the classifier
  *  \param shows_contained_children true if the classifier has contained children (needed for uml package because the symbol differs)
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param io_classifier_layout input is symbol box, output is space and label_box. Must not be NULL.
  */
-void pencil_classifier_composer_calc_space_and_label ( const pencil_classifier_composer_t *this_,
-                                                       bool shows_contained_children,
-                                                       const pencil_size_t *pencil_size,
-                                                       PangoLayout *font_layout,
-                                                       layout_visible_classifier_t *io_classifier_layout
-                                                     );
+void pencil_classifier_composer_expand_envelope_box ( const pencil_classifier_composer_t *this_,
+                                                      const geometry_rectangle_t *envelope,
+                                                      bool shows_contained_children,
+                                                      const pencil_size_t *pencil_size,
+                                                      PangoLayout *font_layout,
+                                                      layout_visible_classifier_t *io_classifier_layout
+                                                    );
 
 /*!
  *  \brief draws feature compartments of the given classifier into the classifier_space area
