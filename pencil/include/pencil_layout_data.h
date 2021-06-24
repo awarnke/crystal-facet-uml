@@ -25,7 +25,7 @@
 
 #ifndef NDEBUG
 /* make the layout visible for debugging: */
-/* #define PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG */
+#define PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG */
 #endif
 
 /*!
@@ -275,7 +275,7 @@ bool pencil_layout_data_is_valid ( const pencil_layout_data_t *this_ );
 
 /*!
  *  \brief gets statistics on pencil_layout_data.
- * 
+ *
  *  This encompasses number of objects, number of overlaps (warnings), number of objects outside diagram (errors).
  *
  *  \param this_ pointer to own object attributes

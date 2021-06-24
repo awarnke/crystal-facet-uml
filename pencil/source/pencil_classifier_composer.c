@@ -456,7 +456,7 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
     geometry_rectangle_t *const out_classifier_label_box
         = layout_visible_classifier_get_label_box_ptr( io_classifier_layout );
 
-    TRACE_INFO_INT("calculating minimum bounds of classifier id", data_classifier_get_row_id( classifier ) );
+    TRACE_INFO_INT("calculating bounds of classifier id", data_classifier_get_row_id( classifier ) );
 
     /* determine border sizes of the classifier-shape */
     double top_border;
@@ -496,8 +496,9 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
     /* adapt to the size of the contained features */
     if ( ! is_fix_sized_symbol )
     {
+        const double icon_gap = ( geometry_dimensions_get_width( &icon_dim ) < 0.000001 ) ? 0.0 : gap;
         const double width_by_text_and_icon
-            = left_border + text_width + gap + geometry_dimensions_get_width( &icon_dim ) + right_border;
+            = left_border + text_width + icon_gap + geometry_dimensions_get_width( &icon_dim ) + right_border;
         const double width_by_space
             = left_border + geometry_dimensions_get_width( minimum_feature_space ) + right_border;
         const double width_by_proposal
@@ -529,7 +530,7 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
         const double text_left = geometry_h_align_get_left( &text_h_align,
                                                             text_width,
                                                             left_border,
-                                                            width - left_border - geometry_dimensions_get_width( &icon_dim ) - right_border
+                                                            width - left_border - icon_gap - geometry_dimensions_get_width( &icon_dim ) - right_border
                                                           );
         const double text_top = is_package_with_contents ? (bottom_border/*==2*gap*/) : (top_border);
         geometry_rectangle_reinit( out_classifier_label_box, text_left, text_top, text_width, text_height );
