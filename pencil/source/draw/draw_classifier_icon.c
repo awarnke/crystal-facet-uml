@@ -1,6 +1,6 @@
-/* File: draw_classifier_symbol.c; Copyright and License: see below */
+/* File: draw_classifier_icon.c; Copyright and License: see below */
 
-#include "draw/draw_classifier_symbol.h"
+#include "draw/draw_classifier_icon.h"
 #include "trace.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,12 +9,12 @@
 /*! where to place the control points of a bezier curve to get a good approximation for a 90 degree curve */
 const static double BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE = 0.552284749831;
 
-const double DRAW_SYMBOL_ARTIFACT_ICON_WIDTH_TO_HEIGHT = 0.7;
-const double DRAW_SYMBOL_COMPONENT_ICON_WIDTH_TO_HEIGHT = 1.4;
+const double CLASSIFIER_ICON_ARTIFACT_ICON_WIDTH_TO_HEIGHT = 0.7;
+const double CLASSIFIER_ICON_COMPONENT_ICON_WIDTH_TO_HEIGHT = 1.4;
 
-void draw_classifier_symbol_draw_component ( const draw_classifier_symbol_t *this_,
-                                             geometry_rectangle_t bounds,
-                                             cairo_t *cr )
+void draw_classifier_icon_draw_component ( const draw_classifier_icon_t *this_,
+                                           geometry_rectangle_t bounds,
+                                           cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != cr );
@@ -54,9 +54,9 @@ void draw_classifier_symbol_draw_component ( const draw_classifier_symbol_t *thi
     TRACE_END();
 }
 
-void draw_classifier_symbol_draw_artifact ( const draw_classifier_symbol_t *this_,
-                                            geometry_rectangle_t bounds,
-                                            cairo_t *cr )
+void draw_classifier_icon_draw_artifact ( const draw_classifier_icon_t *this_,
+                                          geometry_rectangle_t bounds,
+                                          cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != cr );
@@ -84,9 +84,9 @@ void draw_classifier_symbol_draw_artifact ( const draw_classifier_symbol_t *this
     TRACE_END();
 }
 
-void draw_classifier_symbol_draw_actor ( const draw_classifier_symbol_t *this_,
-                                         geometry_rectangle_t bounds,
-                                         cairo_t *cr )
+void draw_classifier_icon_draw_actor ( const draw_classifier_icon_t *this_,
+                                       geometry_rectangle_t bounds,
+                                       cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != cr );
@@ -122,14 +122,14 @@ void draw_classifier_symbol_draw_actor ( const draw_classifier_symbol_t *this_,
     TRACE_END();
 }
 
-void draw_classifier_symbol_draw_circle ( const draw_classifier_symbol_t *this_,
-                                          geometry_rectangle_t bounds,
-                                          const pencil_size_t *pencil_size,
-                                          bool stroke,
-                                          bool fill,
-                                          bool shallow_history,
-                                          bool deep_history,
-                                          cairo_t *cr )
+void draw_classifier_icon_draw_circle ( const draw_classifier_icon_t *this_,
+                                        geometry_rectangle_t bounds,
+                                        const pencil_size_t *pencil_size,
+                                        bool stroke,
+                                        bool fill,
+                                        bool shallow_history,
+                                        bool deep_history,
+                                        cairo_t *cr )
 {
     TRACE_BEGIN();
     assert ( NULL != pencil_size );
@@ -216,9 +216,9 @@ void draw_classifier_symbol_draw_circle ( const draw_classifier_symbol_t *this_,
     TRACE_END();
 }
 
-void draw_classifier_symbol_draw_time ( const draw_classifier_symbol_t *this_,
-                                        geometry_rectangle_t bounds,
-                                        cairo_t *cr )
+void draw_classifier_icon_draw_time ( const draw_classifier_icon_t *this_,
+                                      geometry_rectangle_t bounds,
+                                      cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != cr );
@@ -238,9 +238,9 @@ void draw_classifier_symbol_draw_time ( const draw_classifier_symbol_t *this_,
     TRACE_END();
 }
 
-void draw_classifier_symbol_draw_sync ( const draw_classifier_symbol_t *this_,
-                                        geometry_rectangle_t bounds,
-                                        cairo_t *cr )
+void draw_classifier_icon_draw_sync ( const draw_classifier_icon_t *this_,
+                                      geometry_rectangle_t bounds,
+                                      cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != cr );

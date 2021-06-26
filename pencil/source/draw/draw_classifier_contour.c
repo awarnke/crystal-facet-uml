@@ -1,7 +1,7 @@
 /* File: draw_classifier_contour.c; Copyright and License: see below */
 
 #include "draw/draw_classifier_contour.h"
-#include "draw/draw_classifier_symbol.h"
+#include "draw/draw_classifier_icon.h"
 #include "trace.h"
 #include <stdio.h>
 #include <stdlib.h>

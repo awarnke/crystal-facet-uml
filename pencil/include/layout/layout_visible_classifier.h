@@ -18,9 +18,14 @@
  *  \brief shape and location of a visible_classifier
  */
 struct layout_visible_classifier_struct {
-    geometry_rectangle_t symbol_box;  /*!< symbol_box of a classifier shape. The label_box may be outside of the symbol_box. symbol_box is stated in absolute coordinates. */
-    geometry_rectangle_t space;  /*!< inner space of a classifier record where properties, operations or contained classifiers are drawn. Absolute coordinates. */
-    geometry_rectangle_t label_box;  /*!< bounding box of the label of the visible classifier. label_box is stated in absolute coordinates. */
+    geometry_rectangle_t symbol_box;  /*!< symbol_box of a classifier shape. */
+                                      /*!< Depending on the classifier type, this is the icon or the contour or both. */
+                                      /*!< The label_box may be outside of the symbol_box. */
+                                      /*!< symbol_box is stated in absolute coordinates. */
+    geometry_rectangle_t space;  /*!< inner space of a classifier record where properties, operations */
+                                 /*!< or contained classifiers are drawn. space is stated in absolute coordinates. */
+    geometry_rectangle_t label_box;  /*!< bounding box of the label of the visible classifier. */
+                                     /*!< label_box is stated in absolute coordinates. */
     geometry_h_align_t label_h_anchor;  /*!< side of the label box that stays fix in case of expand */
     geometry_v_align_t label_v_anchor;  /*!< side of the label box that stays fix in case of expand */
     const data_visible_classifier_t *data;  /*!< pointer to the data object of the visible classifier */

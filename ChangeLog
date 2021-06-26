@@ -31,7 +31,7 @@ crystal-facet-uml (1.29.0) UNRELEASED; urgency=medium
     distinguishable from dependencies
   * stereotypes are xmi-exported to LocalProfile namespace
   * valuetypes are xmi-exported to DataTypes
-  * metainfo.xml references homepage which is now tls-authenticated
+  * merainfo.xml references homepage which is now tls/https authenticated
   * nav-tree and search result lists draw a bit more space around texts
   * A white line is drawn around highlighted diagrams
     (additional to green marker)
