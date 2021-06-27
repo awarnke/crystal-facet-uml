@@ -1,6 +1,7 @@
 /* File: draw_classifier_icon.c; Copyright and License: see below */
 
 #include "draw/draw_classifier_icon.h"
+#include "pencil_layout_data.h"
 #include "trace.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,6 +19,13 @@ void draw_classifier_icon_draw_component ( const draw_classifier_icon_t *this_,
 {
     TRACE_BEGIN();
     assert( NULL != cr );
+
+    /* determine linewith to avoid that drawings overlap to the outside of bounds */
+    {
+        const double ln_w = cairo_get_line_width( cr );
+        geometry_rectangle_expand( &bounds, -ln_w, -ln_w );
+        geometry_rectangle_shift( &bounds, ln_w/2.0, ln_w/2.0 );
+    }
 
     /* calculate component bounds */
     const double comp_right = geometry_rectangle_get_right( &bounds );
@@ -51,6 +59,21 @@ void draw_classifier_icon_draw_component ( const draw_classifier_icon_t *this_,
     cairo_rectangle ( cr, port_left, port2_top, port_width, port_height );
     cairo_stroke (cr);
 
+#ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
+        /* draw the rectangle */
+        {
+            cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
+            cairo_rectangle ( cr,
+                              geometry_rectangle_get_left ( &bounds ),
+                              geometry_rectangle_get_top ( &bounds ),
+                              geometry_rectangle_get_width ( &bounds ),
+                              geometry_rectangle_get_height ( &bounds )
+                            );
+            cairo_stroke (cr);
+            cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
+        }
+#endif
+
     TRACE_END();
 }
 
@@ -60,6 +83,13 @@ void draw_classifier_icon_draw_artifact ( const draw_classifier_icon_t *this_,
 {
     TRACE_BEGIN();
     assert( NULL != cr );
+
+    /* determine linewith to avoid that drawings overlap to the outside of bounds */
+    {
+        const double ln_w = cairo_get_line_width( cr );
+        geometry_rectangle_expand( &bounds, -ln_w, -ln_w );
+        geometry_rectangle_shift( &bounds, ln_w/2.0, ln_w/2.0 );
+    }
 
     /* calculate artifact bounds */
     const double art_left = geometry_rectangle_get_left( &bounds );
@@ -81,6 +111,21 @@ void draw_classifier_icon_draw_artifact ( const draw_classifier_icon_t *this_,
     cairo_line_to ( cr, art_right - art_corner_edge, art_top );
     cairo_stroke (cr);
 
+#ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
+        /* draw the rectangle */
+        {
+            cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
+            cairo_rectangle ( cr,
+                              geometry_rectangle_get_left ( &bounds ),
+                              geometry_rectangle_get_top ( &bounds ),
+                              geometry_rectangle_get_width ( &bounds ),
+                              geometry_rectangle_get_height ( &bounds )
+                            );
+            cairo_stroke (cr);
+            cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
+        }
+#endif
+
     TRACE_END();
 }
 
@@ -90,6 +135,13 @@ void draw_classifier_icon_draw_actor ( const draw_classifier_icon_t *this_,
 {
     TRACE_BEGIN();
     assert( NULL != cr );
+
+    /* determine linewith to avoid that drawings overlap to the outside of bounds */
+    {
+        const double ln_w = cairo_get_line_width( cr );
+        geometry_rectangle_expand( &bounds, -ln_w, -ln_w );
+        geometry_rectangle_shift( &bounds, ln_w/2.0, ln_w/2.0 );
+    }
 
     /* calculate actor bounds */
     const double act_left = geometry_rectangle_get_left( &bounds );
@@ -119,6 +171,21 @@ void draw_classifier_icon_draw_actor ( const draw_classifier_icon_t *this_,
     cairo_line_to ( cr, act_left, arm_top );
     cairo_stroke (cr);
 
+#ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
+        /* draw the rectangle */
+        {
+            cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
+            cairo_rectangle ( cr,
+                              geometry_rectangle_get_left ( &bounds ),
+                              geometry_rectangle_get_top ( &bounds ),
+                              geometry_rectangle_get_width ( &bounds ),
+                              geometry_rectangle_get_height ( &bounds )
+                            );
+            cairo_stroke (cr);
+            cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
+        }
+#endif
+
     TRACE_END();
 }
 
@@ -134,6 +201,13 @@ void draw_classifier_icon_draw_circle ( const draw_classifier_icon_t *this_,
     TRACE_BEGIN();
     assert ( NULL != pencil_size );
     assert ( NULL != cr );
+
+    /* determine linewith to avoid that drawings overlap to the outside of bounds */
+    {
+        const double ln_w = cairo_get_line_width( cr );
+        geometry_rectangle_expand( &bounds, -ln_w, -ln_w );
+        geometry_rectangle_shift( &bounds, ln_w/2.0, ln_w/2.0 );
+    }
 
     const double circle_top = geometry_rectangle_get_top( &bounds );
     const double circle_bottom = geometry_rectangle_get_bottom( &bounds );
@@ -213,6 +287,21 @@ void draw_classifier_icon_draw_circle ( const draw_classifier_icon_t *this_,
         cairo_stroke (cr);
     }
 
+#ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
+        /* draw the rectangle */
+        {
+            cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
+            cairo_rectangle ( cr,
+                              geometry_rectangle_get_left ( &bounds ),
+                              geometry_rectangle_get_top ( &bounds ),
+                              geometry_rectangle_get_width ( &bounds ),
+                              geometry_rectangle_get_height ( &bounds )
+                            );
+            cairo_stroke (cr);
+            cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
+        }
+#endif
+
     TRACE_END();
 }
 
@@ -222,6 +311,13 @@ void draw_classifier_icon_draw_time ( const draw_classifier_icon_t *this_,
 {
     TRACE_BEGIN();
     assert( NULL != cr );
+
+    /* determine linewith to avoid that drawings overlap to the outside of bounds */
+    {
+        const double ln_w = cairo_get_line_width( cr );
+        geometry_rectangle_expand( &bounds, -ln_w, -ln_w );
+        geometry_rectangle_shift( &bounds, ln_w/2.0, ln_w/2.0 );
+    }
 
     const double top = geometry_rectangle_get_top( &bounds );
     const double bottom = geometry_rectangle_get_bottom( &bounds );
@@ -235,6 +331,21 @@ void draw_classifier_icon_draw_time ( const draw_classifier_icon_t *this_,
     cairo_line_to ( cr, right, bottom );
     cairo_stroke (cr);
 
+#ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
+        /* draw the rectangle */
+        {
+            cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
+            cairo_rectangle ( cr,
+                              geometry_rectangle_get_left ( &bounds ),
+                              geometry_rectangle_get_top ( &bounds ),
+                              geometry_rectangle_get_width ( &bounds ),
+                              geometry_rectangle_get_height ( &bounds )
+                            );
+            cairo_stroke (cr);
+            cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
+        }
+#endif
+
     TRACE_END();
 }
 
@@ -245,6 +356,8 @@ void draw_classifier_icon_draw_sync ( const draw_classifier_icon_t *this_,
     TRACE_BEGIN();
     assert( NULL != cr );
 
+    /* when filling rectangles, no line overlaps the bounds due to its line width */
+
     const double left = geometry_rectangle_get_left( &bounds );
     const double top = geometry_rectangle_get_top( &bounds );
     const double width = geometry_rectangle_get_width( &bounds );
@@ -252,6 +365,21 @@ void draw_classifier_icon_draw_sync ( const draw_classifier_icon_t *this_,
 
     cairo_rectangle ( cr, left, top, width, height );
     cairo_fill (cr);
+
+#ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
+        /* draw the rectangle */
+        {
+            cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
+            cairo_rectangle ( cr,
+                              geometry_rectangle_get_left ( &bounds ),
+                              geometry_rectangle_get_top ( &bounds ),
+                              geometry_rectangle_get_width ( &bounds ),
+                              geometry_rectangle_get_height ( &bounds )
+                            );
+            cairo_stroke (cr);
+            cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
+        }
+#endif
 
     TRACE_END();
 }
