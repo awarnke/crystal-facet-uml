@@ -62,10 +62,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
         = data_visible_classifier_get_diagramelement_const( visible_classifier );
     const data_classifier_type_t classifier_type = data_classifier_get_main_type( classifier );
 
-    const double left = geometry_rectangle_get_left ( classifier_symbol_box );
-    const double top = geometry_rectangle_get_top ( classifier_symbol_box );
-    const double width = geometry_rectangle_get_width ( classifier_symbol_box );
-    const double height = geometry_rectangle_get_height ( classifier_symbol_box );
     const double gap = pencil_size_get_standard_object_border( pencil_size );
 
     /* draw id */
@@ -131,10 +127,16 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                                                       );
 
         /* draw rectangle */
-        const double border_left = left + gap;
-        const double border_top = top + gap;
-        const double border_width = width - 2.0 * gap;
-        const double border_height = height - 2.0 * gap;
+        geometry_rectangle_t classifier_icon_box;
+        {
+            geometry_rectangle_copy( &classifier_icon_box, classifier_symbol_box );
+            geometry_rectangle_expand( &classifier_icon_box, -2.0*gap, -2.0*gap );
+            geometry_rectangle_shift( &classifier_icon_box, gap, gap );
+        }
+        const double icon_left = geometry_rectangle_get_left ( &classifier_icon_box );
+        const double icon_top = geometry_rectangle_get_top ( &classifier_icon_box );
+        const double icon_width = geometry_rectangle_get_width ( &classifier_icon_box );
+        const double icon_height = geometry_rectangle_get_height ( &classifier_icon_box );
         switch ( classifier_type )
         {
             case DATA_CLASSIFIER_TYPE_REQUIREMENT:  /* SysML */
@@ -150,12 +152,12 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             case DATA_CLASSIFIER_TYPE_INTERFACE:
             {
                 draw_classifier_contour_draw_rect ( &((*this_).draw_classifier_contour), classifier_symbol_box, pencil_size, cr );
-                pencil_classifier_composer_private_draw_feature_compartments ( this_,
-                                                                               layouted_classifier,
-                                                                               layout_data,
-                                                                               pencil_size,
-                                                                               cr
-                                                                             );
+                pencil_classifier_composer_private_draw_feature_compartments( this_,
+                                                                              layouted_classifier,
+                                                                              layout_data,
+                                                                              pencil_size,
+                                                                              cr
+                                                                            );
             }
             break;
 
@@ -164,14 +166,14 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                 draw_classifier_contour_draw_rect ( &((*this_).draw_classifier_contour), classifier_symbol_box, pencil_size, cr );
 
                 /* draw icon */
-                const double icon_height = pencil_size_get_title_font_size( pencil_size );
+                const double component_icon_height = pencil_size_get_title_font_size( pencil_size );
                 const geometry_rectangle_t icon_bounds
                     = draw_classifier_icon_get_component_bounds( &((*this_).draw_classifier_icon),
-                                                                 border_left + border_width - gap,  /* x */
-                                                                 border_top + gap,  /* y */
+                                                                 icon_left + icon_width - gap,  /* x */
+                                                                 icon_top + gap,  /* y */
                                                                  GEOMETRY_H_ALIGN_RIGHT,
                                                                  GEOMETRY_V_ALIGN_TOP,
-                                                                 icon_height
+                                                                 component_icon_height
                                                                );
                 draw_classifier_icon_draw_component ( &((*this_).draw_classifier_icon), icon_bounds, cr );
             }
@@ -182,14 +184,14 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                 draw_classifier_contour_draw_rect ( &((*this_).draw_classifier_contour), classifier_symbol_box, pencil_size, cr );
 
                 /* draw icon */
-                const double icon_height = pencil_size_get_title_font_size( pencil_size );
+                const double artifact_icon_height = pencil_size_get_title_font_size( pencil_size );
                 const geometry_rectangle_t icon_bounds
                     = draw_classifier_icon_get_artifact_bounds( &((*this_).draw_classifier_icon),
-                                                                border_left + border_width - gap,  /* x */
-                                                                border_top + gap,  /* y */
+                                                                icon_left + icon_width - gap,  /* x */
+                                                                icon_top + gap,  /* y */
                                                                 GEOMETRY_H_ALIGN_RIGHT,
                                                                 GEOMETRY_V_ALIGN_TOP,
-                                                                icon_height
+                                                                artifact_icon_height
                                                               );
                 draw_classifier_icon_draw_artifact ( &((*this_).draw_classifier_icon), icon_bounds, cr );
             }
@@ -235,12 +237,12 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
 
             case DATA_CLASSIFIER_TYPE_ACTOR:
             {
-                const double actor_height = border_height;
-                const double half_width = 0.5 * border_width;
+                const double actor_height = icon_height;
+                const double half_width = 0.5 * icon_width;
                 const geometry_rectangle_t icon_bounds
                     = draw_classifier_icon_get_actor_bounds( &((*this_).draw_classifier_icon),
-                                                             border_left + half_width,
-                                                             border_top,
+                                                             icon_left + half_width,
+                                                             icon_top,
                                                              GEOMETRY_H_ALIGN_CENTER,
                                                              GEOMETRY_V_ALIGN_TOP,
                                                              actor_height
@@ -254,12 +256,12 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
             case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
             {
-                const double circle_diameter = border_height;
-                const double half_width = 0.5 * border_width;
+                const double circle_diameter = icon_height;
+                const double half_width = 0.5 * icon_width;
                 const geometry_rectangle_t icon_bounds
                     = draw_classifier_icon_get_circle_bounds( &((*this_).draw_classifier_icon),
-                                                              border_left + half_width,
-                                                              border_top,
+                                                              icon_left + half_width,
+                                                              icon_top,
                                                               GEOMETRY_H_ALIGN_CENTER,
                                                               GEOMETRY_V_ALIGN_TOP,
                                                               circle_diameter
@@ -295,15 +297,15 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
 
             case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
             {
-                const double icon_height = border_height;
-                const double half_width = 0.5 * border_width;
+                const double time_icon_height = icon_height;
+                const double half_width = 0.5 * icon_width;
                 const geometry_rectangle_t icon_bounds
                     = draw_classifier_icon_get_time_bounds( &((*this_).draw_classifier_icon),
-                                                            border_left + half_width,
-                                                            border_top,
+                                                            icon_left + half_width,
+                                                            icon_top,
                                                             GEOMETRY_H_ALIGN_CENTER,
                                                             GEOMETRY_V_ALIGN_TOP,
-                                                            icon_height
+                                                            time_icon_height
                                                           );
                 draw_classifier_icon_draw_time ( &((*this_).draw_classifier_icon), icon_bounds, cr );
             }
@@ -312,15 +314,15 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
             case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
             {
-                const double icon_height = border_height;
-                const double half_width = 0.5 * border_width;
+                const double box_icon_height = icon_height;
+                const double half_width = 0.5 * icon_width;
                 const geometry_rectangle_t icon_bounds
                     = draw_classifier_icon_get_sync_bounds( &((*this_).draw_classifier_icon),
-                                                            border_left + half_width,
-                                                            border_top,
+                                                            icon_left + half_width,
+                                                            icon_top,
                                                             GEOMETRY_H_ALIGN_CENTER,
                                                             GEOMETRY_V_ALIGN_TOP,
-                                                            icon_height,
+                                                            box_icon_height,
                                                             pencil_size
                                                           );
                 draw_classifier_icon_draw_sync ( &((*this_).draw_classifier_icon), icon_bounds, cr );
