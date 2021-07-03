@@ -73,7 +73,7 @@ static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_ou
                                    -0.5*children_envelope_w-parent_space_width_diff,
                                    -0.5*children_envelope_h-parent_space_height_diff
                                  );
-        geometry_rectangle_expand ( &outer_space,
+        geometry_rectangle_enlarge ( &outer_space,
                                     children_envelope_w+2.0*parent_space_width_diff,
                                     children_envelope_h+2.0*parent_space_height_diff
                                   );

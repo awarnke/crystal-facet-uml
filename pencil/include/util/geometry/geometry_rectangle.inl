@@ -330,7 +330,7 @@ static inline void geometry_rectangle_shift ( geometry_rectangle_t *this_, doubl
     (*this_).top += delta_y;
 }
 
-static inline void geometry_rectangle_expand ( geometry_rectangle_t *this_, double delta_width, double delta_height )
+static inline void geometry_rectangle_enlarge ( geometry_rectangle_t *this_, double delta_width, double delta_height )
 {
     (*this_).width += delta_width;
     if ( (*this_).width < 0.0 )
@@ -341,6 +341,27 @@ static inline void geometry_rectangle_expand ( geometry_rectangle_t *this_, doub
     (*this_).height += delta_height;
     if ( (*this_).height < 0.0 )
     {
+        (*this_).height = 0.0;
+    }
+}
+
+static inline void geometry_rectangle_expand_4d ( geometry_rectangle_t *this_, double delta_width, double delta_height )
+{
+    const double double_delta_width = 2.0 * delta_width;
+    (*this_).width += double_delta_width;
+    (*this_).left -= delta_width;
+    if ( (*this_).width < 0.0 )
+    {
+        (*this_).left += 0.5 * (*this_).width;
+        (*this_).width = 0.0;
+    }
+
+    const double double_delta_height = 2.0 * delta_height;
+    (*this_).height += double_delta_height;
+    (*this_).top -= delta_height;
+    if ( (*this_).height < 0.0 )
+    {
+        (*this_).top += 0.5 * (*this_).height;
         (*this_).height = 0.0;
     }
 }

@@ -130,7 +130,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
         geometry_rectangle_t classifier_icon_box;
         {
             geometry_rectangle_copy( &classifier_icon_box, classifier_symbol_box );
-            geometry_rectangle_expand( &classifier_icon_box, -2.0*gap, -2.0*gap );
+            geometry_rectangle_enlarge( &classifier_icon_box, -2.0*gap, -2.0*gap );
             geometry_rectangle_shift( &classifier_icon_box, gap, gap );
         }
         const double icon_left = geometry_rectangle_get_left ( &classifier_icon_box );
@@ -460,6 +460,10 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
 
     TRACE_INFO_INT("calculating bounds of classifier id", data_classifier_get_row_id( classifier ) );
 
+    /* TODO the following call is somehow wrong; it does not provide proposed_bounds */
+    /* or minimum_feature_space to the draw_classifier_contour object */
+    /* - or it should return proportional sizes like space_width=67% */
+
     /* determine border sizes of the classifier-shape */
     double top_border;
     double left_border;
@@ -474,11 +478,16 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
                                                          &right_border
                                                        );
 
+    /* TODO handle exeptions of decision, use case, send signal, receive event */
+
     const geometry_dimensions_t icon_dim
         = draw_classifier_icon_get_icon_dimensions( &((*this_).draw_classifier_icon),
-                                                       classifier_type,
-                                                       pencil_size
-                                                    );
+                                                    classifier_type,
+                                                    pencil_size
+                                                  );
+
+    /* determine available label-space for current classifier type */
+
 
     /* determine stereotype and name dimensions */
     double text_width;

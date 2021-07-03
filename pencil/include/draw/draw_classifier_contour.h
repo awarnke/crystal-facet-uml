@@ -62,6 +62,42 @@ void draw_classifier_contour_get_shape_border_dimensions( const draw_classifier_
                                                           double *out_right_border
                                                         );
 
+/* Note: outside world needs not to know how to calculate inner spave from outer boerder or vice versa */
+
+/*!
+ *  \brief determines the dimensions of the inner area (label and space) of the classifier-shape.
+ *
+ *  based on the outer_bounds, the inner area is calculated.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_type type of the classifier to layout
+ *  \param outer_bounds outer bounding rectangle for the classifier
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \result inner area. empty rectangle if outer_bounds too small.
+ */
+geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classifier_contour_t *this_,
+                                                               data_classifier_type_t classifier_type,
+                                                               const geometry_rectangle_t *outer_bounds,
+                                                               const pencil_size_t *pencil_size
+                                                             );
+
+/*!
+ *  \brief determines the outer bounding dimensions of the classifier-shape.
+ *
+ *  based on the inner_area (label and space), the outer bounds is calculated.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_type type of the classifier to layout
+ *  \param inner_area inner_area (label and space) that is needed rom the classifier
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \result outer bounds.
+ */
+geometry_rectangle_t draw_classifier_contour_calc_outer_bounds ( const draw_classifier_contour_t *this_,
+                                                                 data_classifier_type_t classifier_type,
+                                                                 const geometry_rectangle_t *inner_area,
+                                                                 const pencil_size_t *pencil_size
+                                                               );
+
 /*!
  *  \brief draws a rectangle shape into the outer bounds rect
  *

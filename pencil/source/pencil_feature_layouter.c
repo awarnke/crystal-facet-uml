@@ -231,7 +231,7 @@ void pencil_feature_layouter_private_layout_port_pin ( pencil_feature_layouter_t
     geometry_rectangle_t classifier_box;
     geometry_rectangle_copy( &classifier_box, classifier_symbol_box );
     geometry_rectangle_shift( &classifier_box, gap, gap );
-    geometry_rectangle_expand( &classifier_box, -2.0*gap, -2.0*gap );
+    geometry_rectangle_enlarge( &classifier_box, -2.0*gap, -2.0*gap );
 
     int32_t list_order;
     list_order = data_feature_get_list_order( the_feature );

@@ -15,6 +15,7 @@ static void test_difference_3_candidates(void);
 static void test_difference_2_corner_candidates(void);
 static void test_difference_2_stripe_candidates(void);
 static void test_difference_1_candidate(void);
+static void test_expand_4d(void);
 
 test_suite_t geometry_rectangle_test_get_list(void)
 {
@@ -29,6 +30,7 @@ test_suite_t geometry_rectangle_test_get_list(void)
     test_suite_add_test_case( &result, "test_difference_2_corner_candidates", &test_difference_2_corner_candidates );
     test_suite_add_test_case( &result, "test_difference_2_stripe_candidates", &test_difference_2_stripe_candidates );
     test_suite_add_test_case( &result, "test_difference_1_candidate", &test_difference_1_candidate );
+    test_suite_add_test_case( &result, "test_expand_4d", &test_expand_4d );
     return result;
 }
 
@@ -363,6 +365,29 @@ static void test_difference_1_candidate(void)
         geometry_rectangle_destroy ( &rect_b );
         geometry_rectangle_destroy ( &diff_rect );
     }
+}
+
+static void test_expand_4d(void)
+{
+    geometry_rectangle_t rect_a;
+
+    /* good case */
+    geometry_rectangle_init ( &rect_a, 4.0, 4.0, 2.0 /*width*/, 2.0 /*height*/ );
+    geometry_rectangle_expand_4d ( &rect_a, 1.0, 2.0 );
+    TEST_ASSERT_EQUAL_DOUBLE( 3.0, geometry_rectangle_get_left( &rect_a ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 2.0, geometry_rectangle_get_top( &rect_a ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 4.0, geometry_rectangle_get_width( &rect_a ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 6.0, geometry_rectangle_get_height( &rect_a ) );
+    geometry_rectangle_destroy ( &rect_a );
+
+    /* negative-size case */
+    geometry_rectangle_init ( &rect_a, 4.0, 4.0, 2.0 /*width*/, 2.0 /*height*/ );
+    geometry_rectangle_expand_4d ( &rect_a, -3.0, -4.0 );
+    TEST_ASSERT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_left( &rect_a ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_top( &rect_a ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_width( &rect_a ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_height( &rect_a ) );
+    geometry_rectangle_destroy ( &rect_a );
 }
 
 

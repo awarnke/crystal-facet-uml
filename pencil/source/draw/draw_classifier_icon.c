@@ -23,7 +23,7 @@ void draw_classifier_icon_draw_component ( const draw_classifier_icon_t *this_,
     /* determine linewith to avoid that drawings overlap to the outside of bounds */
     {
         const double ln_w = cairo_get_line_width( cr );
-        geometry_rectangle_expand( &bounds, -ln_w, -ln_w );
+        geometry_rectangle_enlarge( &bounds, -ln_w, -ln_w );
         geometry_rectangle_shift( &bounds, ln_w/2.0, ln_w/2.0 );
     }
 
@@ -87,7 +87,7 @@ void draw_classifier_icon_draw_artifact ( const draw_classifier_icon_t *this_,
     /* determine linewith to avoid that drawings overlap to the outside of bounds */
     {
         const double ln_w = cairo_get_line_width( cr );
-        geometry_rectangle_expand( &bounds, -ln_w, -ln_w );
+        geometry_rectangle_enlarge( &bounds, -ln_w, -ln_w );
         geometry_rectangle_shift( &bounds, ln_w/2.0, ln_w/2.0 );
     }
 
@@ -139,7 +139,7 @@ void draw_classifier_icon_draw_actor ( const draw_classifier_icon_t *this_,
     /* determine linewith to avoid that drawings overlap to the outside of bounds */
     {
         const double ln_w = cairo_get_line_width( cr );
-        geometry_rectangle_expand( &bounds, -ln_w, -ln_w );
+        geometry_rectangle_enlarge( &bounds, -ln_w, -ln_w );
         geometry_rectangle_shift( &bounds, ln_w/2.0, ln_w/2.0 );
     }
 
@@ -205,7 +205,7 @@ void draw_classifier_icon_draw_circle ( const draw_classifier_icon_t *this_,
     /* determine linewith to avoid that drawings overlap to the outside of bounds */
     {
         const double ln_w = cairo_get_line_width( cr );
-        geometry_rectangle_expand( &bounds, -ln_w, -ln_w );
+        geometry_rectangle_enlarge( &bounds, -ln_w, -ln_w );
         geometry_rectangle_shift( &bounds, ln_w/2.0, ln_w/2.0 );
     }
 
@@ -315,7 +315,7 @@ void draw_classifier_icon_draw_time ( const draw_classifier_icon_t *this_,
     /* determine linewith to avoid that drawings overlap to the outside of bounds */
     {
         const double ln_w = cairo_get_line_width( cr );
-        geometry_rectangle_expand( &bounds, -ln_w, -ln_w );
+        geometry_rectangle_enlarge( &bounds, -ln_w, -ln_w );
         geometry_rectangle_shift( &bounds, ln_w/2.0, ln_w/2.0 );
     }
 

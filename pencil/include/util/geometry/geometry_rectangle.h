@@ -319,7 +319,22 @@ static inline void geometry_rectangle_shift ( geometry_rectangle_t *this_, doubl
  *  \param delta_width value by which to increase the width. In case of a negative value, the rectangle shrinks (but not below 0).
  *  \param delta_height value by which to increase the height. In case of a negative value, the rectangle shrinks (but not below 0).
  */
-static inline void geometry_rectangle_expand ( geometry_rectangle_t *this_, double delta_width, double delta_height );
+static inline void geometry_rectangle_enlarge ( geometry_rectangle_t *this_, double delta_width, double delta_height );
+
+/*!
+ *  \brief expands or shrinks the geometry_rectangle_t to all sides
+ *
+ *  The center remains fix.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param delta_width value by which to increase the width twice.
+ *                     In case of a negative value, the rectangle shrinks (but not below 0).
+ *                     The left side moves to left by delta_width.
+ *  \param delta_height value by which to increase the height twice.
+ *                      In case of a negative value, the rectangle shrinks (but not below 0).
+ *                     The top side moves to top by delta_height.
+ */
+static inline void geometry_rectangle_expand_4d ( geometry_rectangle_t *this_, double delta_width, double delta_height );
 
 /*!
  *  \brief sets the left coordinate of geometry_rectangle_t

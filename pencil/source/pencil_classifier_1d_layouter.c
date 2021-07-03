@@ -49,7 +49,7 @@ void pencil_classifier_1d_layouter_layout_for_list( pencil_classifier_1d_layoute
     /* get the draw coordinates */
     geometry_rectangle_t draw_area;
     geometry_rectangle_copy( &draw_area, (*this_).diagram_draw_area );
-    geometry_rectangle_expand( &draw_area, 0.0, (- obj_dist) );
+    geometry_rectangle_enlarge( &draw_area, 0.0, (- obj_dist) );
     double diag_w = geometry_rectangle_get_width( &draw_area );
     double diag_h = geometry_rectangle_get_height( &draw_area );
 
@@ -129,7 +129,7 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
     geometry_rectangle_t draw_area;
     geometry_rectangle_copy( &draw_area, (*this_).diagram_draw_area );
     geometry_rectangle_shift( &draw_area, obj_dist, 0.0 );
-    geometry_rectangle_expand( &draw_area, (-2.0 * obj_dist), (- obj_dist) );
+    geometry_rectangle_enlarge( &draw_area, (-2.0 * obj_dist), (- obj_dist) );
     double diag_w = geometry_rectangle_get_width( &draw_area );
     double diag_h = geometry_rectangle_get_height( &draw_area );
 
@@ -141,12 +141,12 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
 
     geometry_rectangle_t left_area;
     geometry_rectangle_copy( &left_area, &draw_area );
-    geometry_rectangle_expand( &left_area, (- half_minor_width), 0.0 );
+    geometry_rectangle_enlarge( &left_area, (- half_minor_width), 0.0 );
 
     geometry_rectangle_t right_column;
     geometry_rectangle_copy( &right_column, &draw_area );
     geometry_rectangle_shift( &right_column, (diag_w-half_minor_width), minor_minor_height );
-    geometry_rectangle_expand( &right_column, (half_minor_width-diag_w), (- minor_minor_height) );
+    geometry_rectangle_enlarge( &right_column, (half_minor_width-diag_w), (- minor_minor_height) );
 
     /* sort the classifiers according to their list_order */
     universal_array_index_sorter_t sorted_notes_reqs;
@@ -266,7 +266,7 @@ void pencil_classifier_1d_layouter_layout_for_timing( pencil_classifier_1d_layou
     geometry_rectangle_t draw_area;
     geometry_rectangle_copy( &draw_area, (*this_).diagram_draw_area );
     geometry_rectangle_shift( &draw_area, obj_dist, 0.0 );
-    geometry_rectangle_expand( &draw_area, (-2.0 * obj_dist), (- obj_dist) );
+    geometry_rectangle_enlarge( &draw_area, (-2.0 * obj_dist), (- obj_dist) );
     double diag_w = geometry_rectangle_get_width( &draw_area );
     double diag_h = geometry_rectangle_get_height( &draw_area );
 
@@ -280,12 +280,12 @@ void pencil_classifier_1d_layouter_layout_for_timing( pencil_classifier_1d_layou
     geometry_rectangle_t top_row;
     geometry_rectangle_copy( &top_row, &draw_area );
     geometry_rectangle_shift( &top_row, minor_minor_width, 0.0 );
-    geometry_rectangle_expand( &top_row, (- minor_minor_width), (minor_minor_width-diag_h) );
+    geometry_rectangle_enlarge( &top_row, (- minor_minor_width), (minor_minor_width-diag_h) );
 
     geometry_rectangle_t center_area;
     geometry_rectangle_copy( &center_area, &draw_area );
     geometry_rectangle_shift( &center_area, 0.0, minor_minor_height );
-    geometry_rectangle_expand( &center_area, 0.0, (- minor_minor_height) );
+    geometry_rectangle_enlarge( &center_area, 0.0, (- minor_minor_height) );
 
     /* sort the classifiers according to their list_order */
     universal_array_index_sorter_t sorted_notes_reqs;

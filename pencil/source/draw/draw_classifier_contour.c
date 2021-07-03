@@ -162,6 +162,165 @@ void draw_classifier_contour_get_shape_border_dimensions( const draw_classifier_
     TRACE_END();
 }
 
+geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classifier_contour_t *this_,
+                                                               data_classifier_type_t classifier_type,
+                                                               const geometry_rectangle_t *outer_bounds,
+                                                               const pencil_size_t *pencil_size )
+{
+    TRACE_BEGIN();
+    assert ( NULL != outer_bounds );
+    assert ( NULL != pencil_size );
+
+    geometry_rectangle_t result;
+    geometry_rectangle_init_empty( &result );
+
+    double gap = pencil_size_get_standard_object_border( pencil_size );
+    double double_gap = 2.0 * gap;  /* a line has the gap distance on both sides to the next object */
+
+    switch ( classifier_type )
+    {
+        case DATA_CLASSIFIER_TYPE_USE_CASE:
+        {
+            /* within a use case, space is limited: */
+            double v_offset = pencil_size_get_standard_font_size( pencil_size );
+            double h_offset = 1.5 * pencil_size_get_standard_font_size( pencil_size );
+
+            geometry_rectangle_replace( &result, outer_bounds );
+            geometry_rectangle_expand_4d( &result, -double_gap - h_offset, -double_gap - v_offset );
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_NODE:
+        {
+            /* the 3d border of a node shrinks the space */
+            double offset_3d = double_gap;
+
+            geometry_rectangle_replace( &result, outer_bounds );
+            geometry_rectangle_enlarge( &bounds, -2.0 * double_gap - offset_3d, -2.0 * double_gap - offset_3d );
+            geometry_rectangle_shift( &bounds, double_gap, double_gap + offset_3d );
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_ACTOR:
+        case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
+        case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
+        {
+            /* the symbol icon height is part of the shape border  */
+            double symbol_icon_height = pencil_size_get_classifier_symbol_height( pencil_size );
+
+            *out_top_border = double_gap + symbol_icon_height;
+            *out_left_border = gap;
+            *out_bottom_border = gap;
+            *out_right_border = gap;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:  /* and */
+        case DATA_CLASSIFIER_TYPE_PACKAGE:
+        {
+            double top_ornament_height = pencil_size_get_standard_font_size( pencil_size );
+
+            *out_top_border = double_gap + top_ornament_height;
+            *out_left_border = double_gap;
+            *out_bottom_border = double_gap;
+            *out_right_border = double_gap;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_BLOCK:
+        case DATA_CLASSIFIER_TYPE_REQUIREMENT:
+        case DATA_CLASSIFIER_TYPE_SUBSYSTEM:
+        case DATA_CLASSIFIER_TYPE_ACTIVITY:
+        case DATA_CLASSIFIER_TYPE_STATE:
+        case DATA_CLASSIFIER_TYPE_COMPONENT:
+        case DATA_CLASSIFIER_TYPE_PART:
+        case DATA_CLASSIFIER_TYPE_INTERFACE:
+        case DATA_CLASSIFIER_TYPE_CLASS:
+        case DATA_CLASSIFIER_TYPE_OBJECT:
+        case DATA_CLASSIFIER_TYPE_ARTIFACT:
+        case DATA_CLASSIFIER_TYPE_COMMENT:
+        case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
+        case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
+        {
+            /* standard size */
+            geometry_rectangle_replace( &result, outer_bounds );
+            geometry_rectangle_expand_4d( &result, -double_gap, -double_gap );
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
+        {
+            /* within a decision rhombus, space is limited: */
+            double v_offset = pencil_size_get_standard_font_size( pencil_size );
+            double h_offset = 2.0 * pencil_size_get_standard_font_size( pencil_size );
+
+            /* standard size */
+            *out_top_border = double_gap + v_offset;
+            *out_left_border = double_gap + h_offset;
+            *out_bottom_border = double_gap + v_offset;
+            *out_right_border = double_gap + h_offset;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
+        {
+            /* within an accept event, space is limited: */
+            double h_offset = 1.5 * pencil_size_get_standard_font_size( pencil_size );
+
+            /* standard size */
+            *out_top_border = double_gap;
+            *out_left_border = double_gap + h_offset;
+            *out_bottom_border = double_gap;
+            *out_right_border = double_gap;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
+        {
+            /* within a send signal, space is limited: */
+            double h_offset = 1.5 * pencil_size_get_standard_font_size( pencil_size );
+
+            /* standard size */
+            *out_top_border = double_gap;
+            *out_left_border = double_gap;
+            *out_bottom_border = double_gap;
+            *out_right_border = double_gap + h_offset;
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR("unknown data_classifier_type_t in draw_classifier_contour_get_shape_border_dimensions()");
+        }
+        break;
+    }
+
+    TRACE_END();
+    return result;
+}
+
+geometry_rectangle_t draw_classifier_contour_calc_outer_bounds ( const draw_classifier_contour_t *this_,
+                                                                 data_classifier_type_t classifier_type,
+                                                                 const geometry_rectangle_t *inner_area,
+                                                                 const pencil_size_t *pencil_size )
+{
+    TRACE_BEGIN();
+    assert ( NULL != inner_area );
+    assert ( NULL != pencil_size );
+
+    geometry_rectangle_t result;
+    geometry_rectangle_init_empty( &result );
+
+
+    TRACE_END();
+    return result;
+}
+
 void draw_classifier_contour_draw_rounded_rect ( const draw_classifier_contour_t *this_,
                                                  const geometry_rectangle_t *outer_bounds,
                                                  bool dashed_line,

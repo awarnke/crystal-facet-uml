@@ -521,7 +521,7 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
 
     /* reduce the biggest free/unoccupied box by gap */
     geometry_rectangle_shift ( &classifier_solution_area, gap, gap );
-    geometry_rectangle_expand ( &classifier_solution_area, -2.0*gap, -2.0*gap );
+    geometry_rectangle_enlarge ( &classifier_solution_area, -2.0*gap, -2.0*gap );
 
     /* move - but not to eager - only the minumum distance */
     const bool is_x_contained
@@ -973,7 +973,7 @@ void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_
                 geometry_rectangle_t new_envelope;
                 geometry_rectangle_copy( &new_envelope, &outer_space );
                 geometry_rectangle_shift( &new_envelope, (LEAVE_RATIO*outer_border_x), (LEAVE_RATIO*outer_border_y) );
-                geometry_rectangle_expand( &new_envelope, -2.0*(LEAVE_RATIO*outer_border_x), -2.0*(LEAVE_RATIO*outer_border_y) );
+                geometry_rectangle_enlarge( &new_envelope, -2.0*(LEAVE_RATIO*outer_border_x), -2.0*(LEAVE_RATIO*outer_border_y) );
 
                 /* move+expand the parent */
                 pencil_classifier_composer_expand_envelope_box( &((*this_).classifier_composer),
