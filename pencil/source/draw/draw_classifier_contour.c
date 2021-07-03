@@ -196,8 +196,8 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
             double offset_3d = double_gap;
 
             geometry_rectangle_replace( &result, outer_bounds );
-            geometry_rectangle_enlarge( &bounds, -2.0 * double_gap - offset_3d, -2.0 * double_gap - offset_3d );
-            geometry_rectangle_shift( &bounds, double_gap, double_gap + offset_3d );
+            geometry_rectangle_enlarge( &result, -2.0 * double_gap - offset_3d, -2.0 * double_gap - offset_3d );
+            geometry_rectangle_shift( &result, double_gap, double_gap + offset_3d );
         }
         break;
 
@@ -213,10 +213,9 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
             /* the symbol icon height is part of the shape border  */
             double symbol_icon_height = pencil_size_get_classifier_symbol_height( pencil_size );
 
-            *out_top_border = double_gap + symbol_icon_height;
-            *out_left_border = gap;
-            *out_bottom_border = gap;
-            *out_right_border = gap;
+            geometry_rectangle_replace( &result, outer_bounds );
+            geometry_rectangle_enlarge( &result, -2.0 * double_gap, -2.0 * double_gap - symbol_icon_height );
+            geometry_rectangle_shift( &result, double_gap, double_gap + symbol_icon_height );
         }
         break;
 
@@ -225,10 +224,9 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
         {
             double top_ornament_height = pencil_size_get_standard_font_size( pencil_size );
 
-            *out_top_border = double_gap + top_ornament_height;
-            *out_left_border = double_gap;
-            *out_bottom_border = double_gap;
-            *out_right_border = double_gap;
+            geometry_rectangle_replace( &result, outer_bounds );
+            geometry_rectangle_enlarge( &result, -2.0 * double_gap, -2.0 * double_gap - top_ornament_height );
+            geometry_rectangle_shift( &result, double_gap, double_gap + top_ornament_height );
         }
         break;
 
@@ -259,11 +257,8 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
             double v_offset = pencil_size_get_standard_font_size( pencil_size );
             double h_offset = 2.0 * pencil_size_get_standard_font_size( pencil_size );
 
-            /* standard size */
-            *out_top_border = double_gap + v_offset;
-            *out_left_border = double_gap + h_offset;
-            *out_bottom_border = double_gap + v_offset;
-            *out_right_border = double_gap + h_offset;
+            geometry_rectangle_replace( &result, outer_bounds );
+            geometry_rectangle_expand_4d( &result, -double_gap - h_offset, -double_gap - v_offset );
         }
         break;
 
@@ -272,11 +267,9 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
             /* within an accept event, space is limited: */
             double h_offset = 1.5 * pencil_size_get_standard_font_size( pencil_size );
 
-            /* standard size */
-            *out_top_border = double_gap;
-            *out_left_border = double_gap + h_offset;
-            *out_bottom_border = double_gap;
-            *out_right_border = double_gap;
+            geometry_rectangle_replace( &result, outer_bounds );
+            geometry_rectangle_enlarge( &result, -2.0 * double_gap - h_offset, -2.0 * double_gap );
+            geometry_rectangle_shift( &result, double_gap + h_offset, double_gap );
         }
         break;
 
@@ -285,11 +278,9 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
             /* within a send signal, space is limited: */
             double h_offset = 1.5 * pencil_size_get_standard_font_size( pencil_size );
 
-            /* standard size */
-            *out_top_border = double_gap;
-            *out_left_border = double_gap;
-            *out_bottom_border = double_gap;
-            *out_right_border = double_gap + h_offset;
+            geometry_rectangle_replace( &result, outer_bounds );
+            geometry_rectangle_enlarge( &result, -2.0 * double_gap - h_offset, -2.0 * double_gap );
+            geometry_rectangle_shift( &result, double_gap, double_gap );
         }
         break;
 

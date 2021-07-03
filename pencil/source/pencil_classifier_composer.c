@@ -460,6 +460,22 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
 
     TRACE_INFO_INT("calculating bounds of classifier id", data_classifier_get_row_id( classifier ) );
 
+
+    geometry_rectangle_t outer_bounds;
+    geometry_rectangle_init( &outer_bounds,
+                             0.0,
+                             0.0,
+                             geometry_dimensions_get_width( proposed_bounds ),
+                             geometry_dimensions_get_height( proposed_bounds )
+                           );
+    const geometry_rectangle_t inner_area
+        = draw_classifier_contour_calc_inner_area( &((*this_).draw_classifier_contour),
+                                                   classifier_type,
+                                                   &outer_bounds,
+                                                   pencil_size
+                                                 );
+
+
     /* TODO the following call is somehow wrong; it does not provide proposed_bounds */
     /* or minimum_feature_space to the draw_classifier_contour object */
     /* - or it should return proportional sizes like space_width=67% */
@@ -573,6 +589,9 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
         /* calculate space */
         geometry_rectangle_reinit( out_classifier_space, 0.0, symbol_height+text_height, symbol_width, 0.0 );
     }
+
+    geometry_rectangle_destroy( &outer_bounds );
+
     TRACE_END();
 }
 

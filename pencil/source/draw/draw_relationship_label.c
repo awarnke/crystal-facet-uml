@@ -1,4 +1,4 @@
-/* File: draw_relationship_label.c; Copyright and License: see below */
+  /* File: draw_relationship_label.c; Copyright and License: see below */
 
 #include "draw/draw_relationship_label.h"
 #include "trace.h"
