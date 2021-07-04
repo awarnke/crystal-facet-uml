@@ -65,6 +65,16 @@ static inline bool geometry_dimensions_is_empty ( const geometry_dimensions_t *t
     return ( ( (*this_).width < 0.000000001 )||( (*this_).height < 0.000000001 ) );
 }
 
+static inline bool geometry_dimensions_can_contain ( const geometry_dimensions_t *this_, const geometry_dimensions_t *that )
+{
+    assert( NULL != that );
+
+    const bool result
+        = ( (*this_).width + 0.000000001 > (*that).width )&&( (*this_).height + 0.000000001 > (*that).height );
+
+    return result;
+}
+
 static inline void geometry_dimensions_expand ( geometry_dimensions_t *this_, double delta_width, double delta_height )
 {
     (*this_).width += delta_width;

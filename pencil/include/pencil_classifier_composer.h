@@ -145,6 +145,29 @@ void pencil_classifier_composer_expand_envelope_box ( const pencil_classifier_co
                                                     );
 
 /*!
+ *  \brief determines the dimensions of the stereotype and name of the classifier.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param visible_classifier the visible_classifier consisting of diagramelement and classifier to draw
+ *  \param shows_contained_children true if the classifier has contained children (needed for uml package because the symbol differs)
+ *  \param inner_area_box proposed rectangle for the position, width and height of label and icon and features and contained classifiers
+ *  \param icon_dim dimensions of the label
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
+ *  \param out_label_box position and dimensions of label box
+ *  \return 0 in case of success, 1 in case of additionally needed width
+ */
+int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_composer_t *this_,
+                                                       const data_visible_classifier_t *visible_classifier,
+                                                       bool shows_contained_children,
+                                                       const geometry_rectangle_t *inner_area_box,
+                                                       const geometry_dimensions_t *icon_dim,
+                                                       const pencil_size_t *pencil_size,
+                                                       PangoLayout *font_layout,
+                                                       geometry_rectangle_t *out_label_box
+                                                     );
+
+/*!
  *  \brief draws feature compartments of the given classifier into the classifier_space area
  *
  *  \param this_ pointer to own object attributes

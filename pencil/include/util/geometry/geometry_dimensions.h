@@ -106,6 +106,15 @@ static inline double geometry_dimensions_get_area ( const geometry_dimensions_t 
 static inline bool geometry_dimensions_is_empty ( const geometry_dimensions_t *this_ );
 
 /*!
+ *  \brief determines if the given dimensions can contain the other
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to others object attributes
+ *  \return false if the dimensions can not contain the other. (touching is still containing)
+ */
+static inline bool geometry_dimensions_can_contain ( const geometry_dimensions_t *this_, const geometry_dimensions_t *that );
+
+/*!
  *  \brief expands or shrinks the geometry_dimensions_t
  *
  *  \param this_ pointer to own object attributes
