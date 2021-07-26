@@ -174,24 +174,6 @@ static inline const data_diagramelement_t *layout_visible_classifier_get_diagram
     return data_visible_classifier_get_diagramelement_const ( (*this_).data );
 }
 
-static inline bool layout_visible_classifier_is_fix_sized_symbol ( const layout_visible_classifier_t *this_ )
-{
-    data_classifier_type_t classifier_type;
-    classifier_type = data_classifier_get_main_type( data_visible_classifier_get_classifier_const ( (*this_).data ) );
-    bool result;
-    result = (  ( DATA_CLASSIFIER_TYPE_ACTOR == classifier_type )
-                || ( DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE == classifier_type )
-                || ( DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE == classifier_type )
-                || ( DATA_CLASSIFIER_TYPE_DYN_FORK_NODE == classifier_type )
-                || ( DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE == classifier_type )
-                || ( DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY == classifier_type )
-                || ( DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY == classifier_type )
-                || ( DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT == classifier_type )
-             );
-
-    return result;
-}
-
 static inline data_row_id_t layout_visible_classifier_get_classifier_id ( const layout_visible_classifier_t *this_ )
 {
     return data_classifier_get_row_id( data_visible_classifier_get_classifier_const ( (*this_).data ) );

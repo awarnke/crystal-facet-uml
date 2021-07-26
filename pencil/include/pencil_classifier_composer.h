@@ -80,32 +80,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                                        cairo_t *cr
                                      );
 
-#if 0
-/*!
- *  \brief determines the minumum classifier bounds
- *
- *  without contained features, without contained classifiers.
- *
- *  This method returns values to embrace title and ornaments.
- *
- *  \param this_ pointer to own object attributes
- *  \param proposed_bounds proposed bounds calculated for aesthetics
- *  \param minimum_feature_space minimum space needed by the contained features
- *  \param shows_contained_children true if the classifier has contained children (needed for uml package because the symbol differs)
- *  \param pencil_size set of sizes and colors for drawing lines and text
- *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- *  \param io_classifier_layout output is symbol box, space and label_box. Must not be NULL.
- */
-void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_composer_t *this_,
-                                                 const geometry_dimensions_t *proposed_bounds,
-                                                 const geometry_dimensions_t *minimum_feature_space,
-                                                 bool shows_contained_children,
-                                                 const pencil_size_t *pencil_size,
-                                                 PangoLayout *font_layout,
-                                                 layout_visible_classifier_t *io_classifier_layout
-                                               );
-#endif
-
 /*!
  *  \brief recalculates symbol_box and label_box based on new inner_space
  *
@@ -149,10 +123,12 @@ void pencil_classifier_composer_set_envelope_box ( const pencil_classifier_compo
 /*!
  *  \brief determines the dimensions of the stereotype and name of the classifier.
  *
+ *  Internally, this method determines also the classifier type and icon-dimensions to calculate the label alignment.
+ *
  *  \param this_ pointer to own object attributes
  *  \param visible_classifier the visible_classifier consisting of diagramelement and classifier to draw
  *  \param shows_contained_children true if the classifier has contained children (needed for uml package because the symbol differs)
- *  \param inner_area_box proposed rectangle for the position, width and height of label and icon and features and contained classifiers
+ *  \param inner_area proposed rectangle for the position, width and height of: label and icon and features and contained classifiers
  *  \param icon_dim dimensions of the label
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
@@ -162,7 +138,7 @@ void pencil_classifier_composer_set_envelope_box ( const pencil_classifier_compo
 int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_composer_t *this_,
                                                        const data_visible_classifier_t *visible_classifier,
                                                        bool shows_contained_children,
-                                                       const geometry_rectangle_t *inner_area_box,
+                                                       const geometry_rectangle_t *inner_area,
                                                        const geometry_dimensions_t *icon_dim,
                                                        const pencil_size_t *pencil_size,
                                                        PangoLayout *font_layout,

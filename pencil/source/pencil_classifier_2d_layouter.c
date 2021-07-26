@@ -98,18 +98,18 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
                                                                    &features_dim
                                                                  );
 
-                const geometry_rectangle_t *const space
+                const geometry_rectangle_t *const space_rect
                     = layout_visible_classifier_get_space_const( classifier_layout );
-                const geometry_dimensions_t space_dim = geometry_rectangle_get_dimensions( space );
+                const geometry_dimensions_t space_dim = geometry_rectangle_get_dimensions( space_rect );
 
                 if ( ! geometry_dimensions_can_contain( &space_dim, &features_dim ) )
                 {
                     geometry_rectangle_t new_space;
-                    geometry_rectangle_copy( &new_space, space );
+                    geometry_rectangle_copy( &new_space, space_rect );
                     const double delta_width
-                        = geometry_dimensions_get_width( &features_dim ) - geometry_rectangle_get_width( space );
+                        = geometry_dimensions_get_width( &features_dim ) - geometry_rectangle_get_width( space_rect );
                     const double delta_height
-                        = geometry_dimensions_get_height( &features_dim ) - geometry_rectangle_get_height( space );
+                        = geometry_dimensions_get_height( &features_dim ) - geometry_rectangle_get_height( space_rect );
                     geometry_rectangle_expand_4d( &new_space,
                                                   (delta_width<0.0) ? 0.0 : 0.5*delta_width,
                                                   (delta_height<0.0) ? 0.0 : 0.5*delta_height );

@@ -13,6 +13,22 @@ static inline void draw_classifier_icon_destroy( draw_classifier_icon_t *this_ )
 
 }
 
+static inline bool draw_classifier_icon_is_fix_sized_symbol ( const draw_classifier_icon_t *this_, data_classifier_type_t classifier_type )
+{
+    bool result;
+    result = (  ( DATA_CLASSIFIER_TYPE_ACTOR == classifier_type )
+                || ( DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE == classifier_type )
+                || ( DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE == classifier_type )
+                || ( DATA_CLASSIFIER_TYPE_DYN_FORK_NODE == classifier_type )
+                || ( DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE == classifier_type )
+                || ( DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY == classifier_type )
+                || ( DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY == classifier_type )
+                || ( DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT == classifier_type )
+             );
+
+    return result;
+}
+
 static inline geometry_dimensions_t draw_classifier_icon_get_icon_dimensions( const draw_classifier_icon_t *this_,
                                                                               data_classifier_type_t classifier_type,
                                                                               const pencil_size_t *pencil_size )

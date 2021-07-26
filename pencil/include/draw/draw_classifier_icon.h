@@ -47,6 +47,17 @@ static inline void draw_classifier_icon_init( draw_classifier_icon_t *this_ );
 static inline void draw_classifier_icon_destroy( draw_classifier_icon_t *this_ );
 
 /*!
+ *  \brief returns true if the classifier is drawn as fixed-size symbol
+ *
+ *  The following classifier types are fixed-sized symbols: (use-case:) actor, (activity:) start, end, fork, join, timeout, history
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_type type of the classifier to draw
+ *  \return id of the classifier
+ */
+static inline bool draw_classifier_icon_is_fix_sized_symbol ( const draw_classifier_icon_t *this_, data_classifier_type_t classifier_type );
+
+/*!
  *  \brief determines the dimensions of the type icon.
  *
  *  Type icons are e.g. artifact-icon or component-icon.
