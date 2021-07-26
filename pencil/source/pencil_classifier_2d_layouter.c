@@ -65,26 +65,68 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
 
         /* set the bounds, space and label_box of the classifier layout */
         {
-            geometry_dimensions_t features_dim;
-            geometry_dimensions_init_empty( &features_dim );
-            pencil_feature_layouter_calculate_features_bounds( (*this_).feature_layouter,
-                                                               layout_visible_classifier_get_diagramelement_id( classifier_layout ),
-                                                               font_layout,
-                                                               &features_dim
-                                                             );
-
             const bool shows_contained_children = false;  /* if classifier has children, this will be updated later */
                                                           /* when calling pencil_classifier_composer_set_space_and_label */
-            pencil_classifier_composer_set_all_bounds( &((*this_).classifier_composer),
-                                                       (*this_).default_classifier_size,
-                                                       &features_dim,
-                                                       shows_contained_children,
-                                                       (*this_).pencil_size,
-                                                       font_layout,
-                                                       classifier_layout
-                                                     );
 
-            geometry_dimensions_destroy( &features_dim );
+            /* init by default size */
+            {
+                geometry_rectangle_t envelope;
+                geometry_rectangle_init( &envelope,
+                                         0.0,
+                                         0.0,
+                                         geometry_dimensions_get_width( (*this_).default_classifier_size ),
+                                         geometry_dimensions_get_height( (*this_).default_classifier_size ) );
+
+                pencil_classifier_composer_set_envelope_box( &((*this_).classifier_composer),
+                                                             &envelope,
+                                                             shows_contained_children,
+                                                             (*this_).pencil_size,
+                                                             font_layout,
+                                                             classifier_layout
+                                                           );
+
+                geometry_rectangle_destroy( &envelope );
+            }
+
+            /* check if inner space is big enough for contained features */
+            {
+                geometry_dimensions_t features_dim;
+                geometry_dimensions_init_empty( &features_dim );
+                pencil_feature_layouter_calculate_features_bounds( (*this_).feature_layouter,
+                                                                   layout_visible_classifier_get_diagramelement_id( classifier_layout ),
+                                                                   font_layout,
+                                                                   &features_dim
+                                                                 );
+
+                const geometry_rectangle_t *const space
+                    = layout_visible_classifier_get_space_const( classifier_layout );
+                const geometry_dimensions_t space_dim = geometry_rectangle_get_dimensions( space );
+
+                if ( ! geometry_dimensions_can_contain( &space_dim, &features_dim ) )
+                {
+                    geometry_rectangle_t new_space;
+                    geometry_rectangle_copy( &new_space, space );
+                    const double delta_width
+                        = geometry_dimensions_get_width( &features_dim ) - geometry_rectangle_get_width( space );
+                    const double delta_height
+                        = geometry_dimensions_get_height( &features_dim ) - geometry_rectangle_get_height( space );
+                    geometry_rectangle_expand_4d( &new_space,
+                                                  (delta_width<0.0) ? 0.0 : 0.5*delta_width,
+                                                  (delta_height<0.0) ? 0.0 : 0.5*delta_height );
+
+                    pencil_classifier_composer_expand_inner_space( &((*this_).classifier_composer),
+                                                                   &new_space,
+                                                                   shows_contained_children,
+                                                                   (*this_).pencil_size,
+                                                                   font_layout,
+                                                                   classifier_layout
+                                                                 );
+
+                    geometry_rectangle_destroy( &new_space );
+                }
+
+                geometry_dimensions_destroy( &features_dim );
+            }
         }
 
         /* move the classifier rectangles to the target location */
@@ -976,13 +1018,13 @@ void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_
                 geometry_rectangle_enlarge( &new_envelope, -2.0*(LEAVE_RATIO*outer_border_x), -2.0*(LEAVE_RATIO*outer_border_y) );
 
                 /* move+expand the parent */
-                pencil_classifier_composer_expand_envelope_box( &((*this_).classifier_composer),
-                                                                &new_envelope,
-                                                                true,  /* = shows_contained_children */
-                                                                (*this_).pencil_size,
-                                                                font_layout,
-                                                                the_classifier
-                                                              );
+                pencil_classifier_composer_set_envelope_box( &((*this_).classifier_composer),
+                                                             &new_envelope,
+                                                             true,  /* = shows_contained_children */
+                                                             (*this_).pencil_size,
+                                                             font_layout,
+                                                             the_classifier
+                                                           );
 
                 /* cleanup move+expand the parent */
                 geometry_rectangle_destroy( &new_envelope );

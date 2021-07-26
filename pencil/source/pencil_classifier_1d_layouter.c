@@ -83,23 +83,19 @@ void pencil_classifier_1d_layouter_layout_for_list( pencil_classifier_1d_layoute
 
         /* set the preferred bounds, space and label_box of the classifier layout */
         {
-            geometry_dimensions_t preferred_dim;
-            geometry_dimensions_init( &preferred_dim, golden_ratio_width, (golden_ratio_height/c_count) );
-            geometry_dimensions_t features_dim;
-            geometry_dimensions_init_empty( &features_dim );
+            geometry_rectangle_t envelope_box;
+            geometry_rectangle_init( &envelope_box, 0.0, 0.0, golden_ratio_width, (golden_ratio_height/c_count) );
 
             const bool has_contained_children = false;  /* this diagram type does not embrace children */
-            pencil_classifier_composer_set_all_bounds( &((*this_).classifier_composer),
-                                                       &preferred_dim,
-                                                       &features_dim,
-                                                       has_contained_children,
-                                                       (*this_).pencil_size,
-                                                       font_layout,
-                                                       visible_classifier1
-                                                     );
+            pencil_classifier_composer_set_envelope_box( &((*this_).classifier_composer),
+                                                         &envelope_box,
+                                                         has_contained_children,
+                                                         (*this_).pencil_size,
+                                                         font_layout,
+                                                         visible_classifier1
+                                                       );
 
-            geometry_dimensions_destroy( &features_dim );
-            geometry_dimensions_destroy( &preferred_dim );
+            geometry_rectangle_destroy( &envelope_box );
         }
     }
 
@@ -192,30 +188,26 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
 
         /* set the preferred bounds, space and label_box of the classifier layout */
         {
-            geometry_dimensions_t preferred_dim;
+            geometry_rectangle_t envelope_box;
             if ( c1_type == DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE )
             {
-                geometry_dimensions_init( &preferred_dim, (diag_w-half_minor_width), (minor_minor_height/2.0) );
+                geometry_rectangle_init( &envelope_box, 0.0, 0.0, (diag_w-half_minor_width), (minor_minor_height/2.0) );
             }
             else
             {
-                geometry_dimensions_init( &preferred_dim, (golden_ratio_width/c_count), minor_minor_height );
+                geometry_rectangle_init( &envelope_box, 0.0, 0.0, (golden_ratio_width/c_count), minor_minor_height );
             }
-            geometry_dimensions_t features_dim;
-            geometry_dimensions_init_empty( &features_dim );
 
             const bool has_contained_children = false;  /* this diagram type does not embrace children */
-            pencil_classifier_composer_set_all_bounds( &((*this_).classifier_composer),
-                                                       &preferred_dim,
-                                                       &features_dim,
-                                                       has_contained_children,
-                                                       (*this_).pencil_size,
-                                                       font_layout,
-                                                       visible_classifier1
-                                                     );
+            pencil_classifier_composer_set_envelope_box( &((*this_).classifier_composer),
+                                                         &envelope_box,
+                                                         has_contained_children,
+                                                         (*this_).pencil_size,
+                                                         font_layout,
+                                                         visible_classifier1
+                                                       );
 
-            geometry_dimensions_destroy( &features_dim );
-            geometry_dimensions_destroy( &preferred_dim );
+            geometry_rectangle_destroy( &envelope_box );
         }
     }
     assert( c_count
@@ -325,23 +317,19 @@ void pencil_classifier_1d_layouter_layout_for_timing( pencil_classifier_1d_layou
 
         /* set the preferred bounds, space and label_box of the classifier layout */
         {
-            geometry_dimensions_t preferred_dim;
-            geometry_dimensions_init( &preferred_dim, ((diag_w-golden_ratio_width)/2.0), (golden_ratio_height/c_count) );
-            geometry_dimensions_t features_dim;
-            geometry_dimensions_init_empty( &features_dim );
+            geometry_rectangle_t envelope_box;
+            geometry_rectangle_init( &envelope_box, 0.0, 0.0, ((diag_w-golden_ratio_width)/2.0), (golden_ratio_height/c_count) );
 
             const bool has_contained_children = false;  /* this diagram type does not embrace children */
-            pencil_classifier_composer_set_all_bounds( &((*this_).classifier_composer),
-                                                       &preferred_dim,
-                                                       &features_dim,
-                                                       has_contained_children,
-                                                       (*this_).pencil_size,
-                                                       font_layout,
-                                                       visible_classifier1
-                                                     );
+            pencil_classifier_composer_set_envelope_box( &((*this_).classifier_composer),
+                                                         &envelope_box,
+                                                         has_contained_children,
+                                                         (*this_).pencil_size,
+                                                         font_layout,
+                                                         visible_classifier1
+                                                       );
 
-            geometry_dimensions_destroy( &features_dim );
-            geometry_dimensions_destroy( &preferred_dim );
+            geometry_rectangle_destroy( &envelope_box );
         }
     }
     assert( c_count

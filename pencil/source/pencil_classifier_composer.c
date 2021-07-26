@@ -419,6 +419,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
     TRACE_END();
 }
 
+#if 0
 static inline double MAX_OF_2( double a, double b ) { return ((a>b)?a:b); }
 static inline double MAX_OF_3( double a, double b, double c ) { return ((a>b)?((a>c)?a:c):((b>c)?b:c)); }
 
@@ -576,6 +577,7 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
 
     TRACE_END();
 }
+#endif
 
 void pencil_classifier_composer_expand_inner_space ( const pencil_classifier_composer_t *this_,
                                                      const geometry_rectangle_t *inner_space,
@@ -631,12 +633,12 @@ void pencil_classifier_composer_expand_inner_space ( const pencil_classifier_com
     TRACE_END();
 }
 
-void pencil_classifier_composer_expand_envelope_box( const pencil_classifier_composer_t *this_,
-                                                     const geometry_rectangle_t *envelope,
-                                                     bool shows_contained_children,
-                                                     const pencil_size_t *pencil_size,
-                                                     PangoLayout *font_layout,
-                                                     layout_visible_classifier_t *io_classifier_layout )
+void pencil_classifier_composer_set_envelope_box( const pencil_classifier_composer_t *this_,
+                                                  const geometry_rectangle_t *envelope,
+                                                  bool shows_contained_children,
+                                                  const pencil_size_t *pencil_size,
+                                                  PangoLayout *font_layout,
+                                                  layout_visible_classifier_t *io_classifier_layout )
 {
     TRACE_BEGIN();
     assert( NULL != envelope );

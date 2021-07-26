@@ -80,6 +80,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                                        cairo_t *cr
                                      );
 
+#if 0
 /*!
  *  \brief determines the minumum classifier bounds
  *
@@ -103,6 +104,7 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
                                                  PangoLayout *font_layout,
                                                  layout_visible_classifier_t *io_classifier_layout
                                                );
+#endif
 
 /*!
  *  \brief recalculates symbol_box and label_box based on new inner_space
@@ -136,13 +138,13 @@ void pencil_classifier_composer_expand_inner_space ( const pencil_classifier_com
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param io_classifier_layout input is symbol box, output is space and label_box. Must not be NULL.
  */
-void pencil_classifier_composer_expand_envelope_box ( const pencil_classifier_composer_t *this_,
-                                                      const geometry_rectangle_t *envelope,
-                                                      bool shows_contained_children,
-                                                      const pencil_size_t *pencil_size,
-                                                      PangoLayout *font_layout,
-                                                      layout_visible_classifier_t *io_classifier_layout
-                                                    );
+void pencil_classifier_composer_set_envelope_box ( const pencil_classifier_composer_t *this_,
+                                                   const geometry_rectangle_t *envelope,
+                                                   bool shows_contained_children,
+                                                   const pencil_size_t *pencil_size,
+                                                   PangoLayout *font_layout,
+                                                   layout_visible_classifier_t *io_classifier_layout
+                                                 );
 
 /*!
  *  \brief determines the dimensions of the stereotype and name of the classifier.
