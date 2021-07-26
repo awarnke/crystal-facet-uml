@@ -766,26 +766,28 @@ int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_c
     const double gap = pencil_size_get_standard_object_border( pencil_size );
 
     /* determine stereotype and name dimensions */
+    double text_width;
+    double text_height;
     const bool is_fix_sized_symbol
         = draw_classifier_icon_is_fix_sized_symbol( &((*this_).draw_classifier_icon), classifier_type );
     const double icon_gap = is_fix_sized_symbol ? 0.0 : ( geometry_dimensions_get_width( icon_dim ) < 0.000001 ) ? 0.0 : gap;
-    const double proposed_label_width
-        = is_fix_sized_symbol
-        ? geometry_rectangle_get_width( inner_area )
-        : geometry_rectangle_get_width( inner_area ) - geometry_dimensions_get_width( icon_dim ) - icon_gap;
-    geometry_dimensions_t proposed_label_dim;
-    geometry_dimensions_init( &proposed_label_dim, proposed_label_width, geometry_rectangle_get_height( inner_area ) );
-    double text_width;
-    double text_height;
-    draw_classifier_label_get_stereotype_and_name_dimensions( &((*this_).draw_classifier_label),
-                                                              visible_classifier,
-                                                              &proposed_label_dim,
-                                                              pencil_size,
-                                                              font_layout,
-                                                              &text_width,
-                                                              &text_height
-                                                            );
-    geometry_dimensions_destroy( &proposed_label_dim );
+    {
+        const double proposed_label_width
+            = is_fix_sized_symbol
+            ? geometry_rectangle_get_width( inner_area )
+            : geometry_rectangle_get_width( inner_area ) - geometry_dimensions_get_width( icon_dim ) - icon_gap;
+        geometry_dimensions_t proposed_label_dim;
+        geometry_dimensions_init( &proposed_label_dim, proposed_label_width, geometry_rectangle_get_height( inner_area ) );
+        draw_classifier_label_get_stereotype_and_name_dimensions( &((*this_).draw_classifier_label),
+                                                                  visible_classifier,
+                                                                  &proposed_label_dim,
+                                                                  pencil_size,
+                                                                  font_layout,
+                                                                  &text_width,
+                                                                  &text_height
+                                                                );
+        geometry_dimensions_destroy( &proposed_label_dim );
+    }
 
     if ( ! is_fix_sized_symbol )
     {
@@ -819,7 +821,14 @@ int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_c
         const double symbol_width = symbol_height;
 
         /* calculate label_box */
-        geometry_rectangle_reinit( out_label_box, (symbol_width-text_width)/2.0, symbol_height, text_width, text_height );
+        const geometry_h_align_t text_h_align = GEOMETRY_H_ALIGN_CENTER;
+        const double text_left = geometry_h_align_get_left( &text_h_align,
+                                                            text_width,
+                                                            geometry_rectangle_get_left( inner_area ),
+                                                            geometry_rectangle_get_width( inner_area )
+                                                          );
+        const double text_top = symbol_height;
+        geometry_rectangle_reinit( out_label_box, text_left, text_top, text_width, text_height );
     }
 
     TRACE_END_ERR( result );
