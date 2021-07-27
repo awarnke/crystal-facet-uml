@@ -345,7 +345,7 @@ static inline void geometry_rectangle_enlarge ( geometry_rectangle_t *this_, dou
     }
 }
 
-static inline void geometry_rectangle_expand_4d ( geometry_rectangle_t *this_, double delta_width, double delta_height )
+static inline void geometry_rectangle_expand_4dir ( geometry_rectangle_t *this_, double delta_width, double delta_height )
 {
     const double double_delta_width = 2.0 * delta_width;
     (*this_).width += double_delta_width;

@@ -419,11 +419,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
     TRACE_END();
 }
 
-#if 0
-static inline double MAX_OF_2( double a, double b ) { return ((a>b)?a:b); }
-static inline double MAX_OF_3( double a, double b, double c ) { return ((a>b)?((a>c)?a:c):((b>c)?b:c)); }
-#endif
-
 void pencil_classifier_composer_expand_inner_space ( const pencil_classifier_composer_t *this_,
                                                      const geometry_rectangle_t *inner_space,
                                                      bool shows_contained_children,
@@ -484,18 +479,11 @@ void pencil_classifier_composer_expand_inner_space ( const pencil_classifier_com
         TRACE_INFO("new width is defined by label-and-icon, not by requested inner space" );
     }
 
-    /* sizes of geometric objects are determined, now position them */
+    /* sizes of geometric objects are determined, */
+    /* now position the geometric objects */
     {
         const bool is_fix_sized_symbol
             = draw_classifier_icon_is_fix_sized_symbol( &((*this_).draw_classifier_icon), classifier_type );
-
-        /* get the symbol and label boxes and inner space rectangles to modify */
-        geometry_rectangle_t *const out_classifier_symbol_box
-            = layout_visible_classifier_get_symbol_box_ptr( io_classifier_layout );
-        geometry_rectangle_t *const out_classifier_space
-            = layout_visible_classifier_get_space_ptr( io_classifier_layout );
-        geometry_rectangle_t *const out_classifier_label_box
-            = layout_visible_classifier_get_label_box_ptr( io_classifier_layout );
 
         if ( is_fix_sized_symbol )
         {
@@ -510,7 +498,8 @@ void pencil_classifier_composer_expand_inner_space ( const pencil_classifier_com
                                              geometry_rectangle_get_left( inner_space ),
                                              geometry_rectangle_get_width( inner_space )
                                            );
-            geometry_rectangle_reinit( out_classifier_symbol_box, symbol_left, 0.0, symbol_width, symbol_height );
+            const double symbol_top = geometry_rectangle_get_top( &label_rect ) - symbol_height;
+            geometry_rectangle_reinit( out_classifier_symbol_box, symbol_left, symbol_top, symbol_width, symbol_height );
         }
         else
         {
@@ -637,7 +626,8 @@ void pencil_classifier_composer_set_envelope_box( const pencil_classifier_compos
                                              geometry_rectangle_get_left( &inner_area ),
                                              geometry_rectangle_get_width( &inner_area )
                                            );
-            geometry_rectangle_reinit( out_classifier_symbol_box, symbol_left, 0.0, symbol_width, symbol_height );
+            const double symbol_top = geometry_rectangle_get_top( &label_rect ) - symbol_height;
+            geometry_rectangle_reinit( out_classifier_symbol_box, symbol_left, symbol_top, symbol_width, symbol_height );
         }
         else
         {

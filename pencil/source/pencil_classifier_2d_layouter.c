@@ -110,7 +110,7 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
                         = geometry_dimensions_get_width( &features_dim ) - geometry_rectangle_get_width( space_rect );
                     const double delta_height
                         = geometry_dimensions_get_height( &features_dim ) - geometry_rectangle_get_height( space_rect );
-                    geometry_rectangle_expand_4d( &new_space,
+                    geometry_rectangle_expand_4dir( &new_space,
                                                   (delta_width<0.0) ? 0.0 : 0.5*delta_width,
                                                   (delta_height<0.0) ? 0.0 : 0.5*delta_height );
 

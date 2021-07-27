@@ -40,6 +40,7 @@ static inline void draw_classifier_contour_init( draw_classifier_contour_t *this
  */
 static inline void draw_classifier_contour_destroy( draw_classifier_contour_t *this_ );
 
+#if 0
 /*!
  *  \brief determines the dimensions of the border of the classifier-shape.
  *
@@ -61,6 +62,7 @@ void draw_classifier_contour_get_shape_border_dimensions( const draw_classifier_
                                                           double *out_bottom_border,
                                                           double *out_right_border
                                                         );
+#endif
 
 /* Note: outside world needs not to know how to calculate inner spave from outer boerder or vice versa */
 

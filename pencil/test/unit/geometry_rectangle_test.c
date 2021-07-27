@@ -373,7 +373,7 @@ static void test_expand_4d(void)
 
     /* good case */
     geometry_rectangle_init ( &rect_a, 4.0, 4.0, 2.0 /*width*/, 2.0 /*height*/ );
-    geometry_rectangle_expand_4d ( &rect_a, 1.0, 2.0 );
+    geometry_rectangle_expand_4dir ( &rect_a, 1.0, 2.0 );
     TEST_ASSERT_EQUAL_DOUBLE( 3.0, geometry_rectangle_get_left( &rect_a ) );
     TEST_ASSERT_EQUAL_DOUBLE( 2.0, geometry_rectangle_get_top( &rect_a ) );
     TEST_ASSERT_EQUAL_DOUBLE( 4.0, geometry_rectangle_get_width( &rect_a ) );
@@ -382,7 +382,7 @@ static void test_expand_4d(void)
 
     /* negative-size case */
     geometry_rectangle_init ( &rect_a, 4.0, 4.0, 2.0 /*width*/, 2.0 /*height*/ );
-    geometry_rectangle_expand_4d ( &rect_a, -3.0, -4.0 );
+    geometry_rectangle_expand_4dir ( &rect_a, -3.0, -4.0 );
     TEST_ASSERT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_left( &rect_a ) );
     TEST_ASSERT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_top( &rect_a ) );
     TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_width( &rect_a ) );

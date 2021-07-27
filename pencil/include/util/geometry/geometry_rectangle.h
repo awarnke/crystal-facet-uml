@@ -334,7 +334,7 @@ static inline void geometry_rectangle_enlarge ( geometry_rectangle_t *this_, dou
  *                      In case of a negative value, the rectangle shrinks (but not below 0).
  *                     The top side moves to top by delta_height.
  */
-static inline void geometry_rectangle_expand_4d ( geometry_rectangle_t *this_, double delta_width, double delta_height );
+static inline void geometry_rectangle_expand_4dir ( geometry_rectangle_t *this_, double delta_width, double delta_height );
 
 /*!
  *  \brief sets the left coordinate of geometry_rectangle_t
