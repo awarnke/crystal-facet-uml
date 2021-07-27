@@ -40,32 +40,6 @@ static inline void draw_classifier_contour_init( draw_classifier_contour_t *this
  */
 static inline void draw_classifier_contour_destroy( draw_classifier_contour_t *this_ );
 
-#if 0
-/*!
- *  \brief determines the dimensions of the border of the classifier-shape.
- *
- *  E.g. a simple line border is 2.0 * pencil_size_get_standard_object_border()
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_type type of the classifier to draw
- *  \param pencil_size set of sizes and colors for drawing lines and text
- *  \param out_top_border height of the top border is returned. NULL is not allowed.
- *  \param out_left_border width of the left border is returned. NULL is not allowed.
- *  \param out_bottom_border height of the bottom border is returned. NULL is not allowed.
- *  \param out_right_border width of the right border is returned. NULL is not allowed.
- */
-void draw_classifier_contour_get_shape_border_dimensions( const draw_classifier_contour_t *this_,
-                                                          data_classifier_type_t classifier_type,
-                                                          const pencil_size_t *pencil_size,
-                                                          double *out_top_border,
-                                                          double *out_left_border,
-                                                          double *out_bottom_border,
-                                                          double *out_right_border
-                                                        );
-#endif
-
-/* Note: outside world needs not to know how to calculate inner spave from outer boerder or vice versa */
-
 /*!
  *  \brief determines the dimensions of the inner area (label and space) of the classifier-shape.
  *
