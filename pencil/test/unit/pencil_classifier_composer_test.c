@@ -38,8 +38,8 @@ static void set_up(void)
     {
         geometry_rectangle_init( &diagram_bounds, 0.0, 0.0, 640.0, 480.0 );
         surface = cairo_image_surface_create( CAIRO_FORMAT_ARGB32,
-                                            (uint32_t) geometry_rectangle_get_width( &diagram_bounds ),
-                                            (uint32_t) geometry_rectangle_get_height( &diagram_bounds )
+                                              (uint32_t) geometry_rectangle_get_width( &diagram_bounds ),
+                                              (uint32_t) geometry_rectangle_get_height( &diagram_bounds )
                                             );
         TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == cairo_surface_status( surface ) );
         cr = cairo_create (surface);
@@ -57,22 +57,22 @@ static void set_up(void)
     /* init a layout visible classifier */
     {
         data_diagramelement_init( &data_diagele,
-                                17,  /* id */
-                                32,  /* diagram_id */
-                                99,  /* classifier_id */
-                                DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE,
-                                DATA_ROW_ID_VOID
+                                  17,  /* id */
+                                  32,  /* diagram_id */
+                                  99,  /* classifier_id */
+                                  DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE,
+                                  DATA_ROW_ID_VOID
                                 );
         data_error_t err = data_classifier_init( &data_classifier,
-                                                99,  /* id */
-                                                DATA_CLASSIFIER_TYPE_CLASS,  /* main_type */
-                                                "stereotype",
-                                                "classifier name",
-                                                "classifier description",
-                                                10000,  /* x_order */
-                                                11000,  /* y_order */
-                                                12000  /* list_order */
-                                            );
+                                                 99,  /* id */
+                                                 DATA_CLASSIFIER_TYPE_CLASS,  /* main_type */
+                                                 "stereotype",
+                                                 "classifier name",
+                                                 "classifier description",
+                                                 10000,  /* x_order */
+                                                 11000,  /* y_order */
+                                                 12000  /* list_order */
+                                               );
         TEST_ENVIRONMENT_ASSERT_EQUAL_INT( DATA_ERROR_NONE, err );
         data_visible_classifier_init( &data_vis_classifier, &data_classifier, &data_diagele );
         layout_visible_classifier_init( &layout_vis_classifier, &data_vis_classifier );

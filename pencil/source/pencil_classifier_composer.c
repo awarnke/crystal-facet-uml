@@ -478,6 +478,7 @@ void pencil_classifier_composer_expand_inner_space ( const pencil_classifier_com
     {
         TRACE_INFO("new width is defined by label-and-icon, not by requested inner space" );
     }
+    geometry_rectangle_shift( &label_rect, 0.0, -geometry_rectangle_get_height( &label_rect ) );
 
     /* sizes of geometric objects are determined, */
     /* now position the geometric objects */
@@ -517,8 +518,8 @@ void pencil_classifier_composer_expand_inner_space ( const pencil_classifier_com
             else
             {
                 geometry_rectangle_copy( &inner_area, inner_space );
-                geometry_rectangle_shift( out_classifier_space, 0.0, -geometry_rectangle_get_height( &label_rect ) );
-                geometry_rectangle_enlarge( out_classifier_space, 0.0, geometry_rectangle_get_height( &label_rect ) );
+                geometry_rectangle_shift( &inner_area, 0.0, -geometry_rectangle_get_height( &label_rect ) );
+                geometry_rectangle_enlarge( &inner_area, 0.0, geometry_rectangle_get_height( &label_rect ) );
             }
             const geometry_rectangle_t envelope
                 = draw_classifier_contour_calc_outer_bounds( &((*this_).draw_classifier_contour),
