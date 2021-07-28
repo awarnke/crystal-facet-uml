@@ -23,12 +23,19 @@ test_suite_t pencil_classifier_composer_test_get_list(void)
     return result;
 }
 
+PangoContext* pango_ctx;
+PangoLayout* pango_layout;
+
 static void set_up(void)
 {
+    pango_ctx = pango_context_new();
+    pango_layout = pango_layout_new( pango_ctx );
 }
 
 static void tear_down(void)
 {
+    g_object_unref( pango_layout );
+    g_object_unref( pango_ctx );
 }
 
 static void test_empty_model(void)

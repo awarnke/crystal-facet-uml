@@ -68,6 +68,7 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
         break;
 
         case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:  /* and */
+        case DATA_CLASSIFIER_TYPE_INTERACTION:  /* and */
         case DATA_CLASSIFIER_TYPE_PACKAGE:
         {
             double top_ornament_height = pencil_size_get_standard_font_size( pencil_size );
@@ -80,6 +81,7 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
 
         case DATA_CLASSIFIER_TYPE_BLOCK:
         case DATA_CLASSIFIER_TYPE_REQUIREMENT:
+        case DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE:
         case DATA_CLASSIFIER_TYPE_SUBSYSTEM:
         case DATA_CLASSIFIER_TYPE_ACTIVITY:
         case DATA_CLASSIFIER_TYPE_STATE:
@@ -201,6 +203,7 @@ geometry_rectangle_t draw_classifier_contour_calc_outer_bounds ( const draw_clas
         break;
 
         case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:  /* and */
+        case DATA_CLASSIFIER_TYPE_INTERACTION:  /* and */
         case DATA_CLASSIFIER_TYPE_PACKAGE:
         {
             double top_ornament_height = pencil_size_get_standard_font_size( pencil_size );
@@ -213,6 +216,7 @@ geometry_rectangle_t draw_classifier_contour_calc_outer_bounds ( const draw_clas
 
         case DATA_CLASSIFIER_TYPE_BLOCK:
         case DATA_CLASSIFIER_TYPE_REQUIREMENT:
+        case DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE:
         case DATA_CLASSIFIER_TYPE_SUBSYSTEM:
         case DATA_CLASSIFIER_TYPE_ACTIVITY:
         case DATA_CLASSIFIER_TYPE_STATE:
