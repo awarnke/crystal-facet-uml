@@ -20,12 +20,16 @@ test_suite_t draw_classifier_contour_test_get_list(void)
     return result;
 }
 
+static pencil_size_t pencil_size;
+
 static void set_up(void)
 {
+    pencil_size_init( &pencil_size, 640.0, 480.0 );
 }
 
 static void tear_down(void)
 {
+    pencil_size_destroy( &pencil_size );
 }
 
 static void test_calc_inner_area_and_back(void)
@@ -33,15 +37,12 @@ static void test_calc_inner_area_and_back(void)
     draw_classifier_contour_t contour_calculator;
     draw_classifier_contour_init( &contour_calculator );
 
-    pencil_size_t pencil_size;
-    pencil_size_init( &pencil_size, 640.0, 480.0 );
-
     const geometry_rectangle_t outer_bounds_before = { .left = 100.0, .top = 90.0, .width = 110.0, .height = 80.0 };
 
     for ( unsigned int t_idx = 0; t_idx < DATA_CLASSIFIER_TYPE_COUNT; t_idx ++ )
     {
         data_classifier_type_t classifier_type = DATA_CLASSIFIER_TYPE_ARRAY[ t_idx ];
-        printf("type: %d\n",t_idx);
+        /* printf("  type: %d\n", t_idx); */
 
         const geometry_rectangle_t inner_area
             = draw_classifier_contour_calc_inner_area( &contour_calculator,
@@ -66,7 +67,6 @@ static void test_calc_inner_area_and_back(void)
         TEST_ASSERT_EQUAL_DOUBLE( 80.0, geometry_rectangle_get_height( &outer_bounds_after ) );
     }
 
-    pencil_size_destroy( &pencil_size );
     draw_classifier_contour_destroy( &contour_calculator );
 }
 
@@ -75,8 +75,6 @@ static void test_calc_inner_area_too_small(void)
     draw_classifier_contour_t contour_calculator;
     draw_classifier_contour_init( &contour_calculator );
 
-    pencil_size_t pencil_size;
-    pencil_size_init( &pencil_size, 640.0, 480.0 );
     const double gap = pencil_size_get_standard_object_border( &pencil_size );
 
     const geometry_rectangle_t outer_bounds = { .left = 0.0, .top = 0.0, .width = gap, .height = gap };
@@ -93,7 +91,6 @@ static void test_calc_inner_area_too_small(void)
     TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_width( &inner_area ) );
     TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_height( &inner_area ) );
 
-    pencil_size_destroy( &pencil_size );
     draw_classifier_contour_destroy( &contour_calculator );
 }
 
