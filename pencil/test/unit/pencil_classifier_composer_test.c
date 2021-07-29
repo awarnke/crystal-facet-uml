@@ -112,7 +112,7 @@ static void test_expand_inner_space(void)
     pencil_classifier_composer_t classifier_composer;
     pencil_classifier_composer_init( &classifier_composer );
 
-    const geometry_rectangle_t inner_space = { .left = 100.0, .top = 90.0, .width = 110.0, .height = 80.0 };
+    const geometry_rectangle_t inner_space = { .left = 100.0, .top = 90.0, .width = 160.0, .height = 80.0 };
 
     for ( unsigned int t_idx = 0; t_idx < DATA_CLASSIFIER_TYPE_COUNT; t_idx ++ )
     {
@@ -145,7 +145,7 @@ static void test_expand_inner_space(void)
             const geometry_rectangle_t *const space = layout_visible_classifier_get_space_const( &layout_vis_classifier );
             TEST_ASSERT_EQUAL_DOUBLE( 100.0, geometry_rectangle_get_left( space ) );
             TEST_ASSERT_EQUAL_DOUBLE( 90.0, geometry_rectangle_get_top( space ) );
-            TEST_ASSERT_EQUAL_DOUBLE( 110.0, geometry_rectangle_get_width( space ) );
+            TEST_ASSERT_EQUAL_DOUBLE( 160.0, geometry_rectangle_get_width( space ) );
             TEST_ASSERT_EQUAL_DOUBLE( 80.0, geometry_rectangle_get_height( space ) );
         }
     }
@@ -169,13 +169,15 @@ static void test_set_envelope_box(void)
         for ( unsigned int show_children = 0; show_children <= 1; show_children ++ )
         {
             /* run composing method */
-            pencil_classifier_composer_set_envelope_box( &classifier_composer,
-                                                         &envelope,
-                                                         (show_children != 0),
-                                                         &pencil_size,
-                                                         font_layout,
-                                                         &layout_vis_classifier
-                                                       );
+            const int err
+                = pencil_classifier_composer_set_envelope_box( &classifier_composer,
+                                                               &envelope,
+                                                               (show_children != 0),
+                                                               &pencil_size,
+                                                               font_layout,
+                                                               &layout_vis_classifier
+                                                             );
+            TEST_ASSERT_EQUAL_INT( 0, err );
 
             /* check that all layouted rectangles are within envelope */
             const geometry_rectangle_t *const symbol = layout_visible_classifier_get_symbol_box_const( &layout_vis_classifier );
@@ -209,13 +211,15 @@ static void test_set_envelope_box_too_small(void)
         for ( unsigned int show_children = 0; show_children <= 1; show_children ++ )
         {
             /* run composing method */
-            pencil_classifier_composer_set_envelope_box( &classifier_composer,
-                                                         &small_envelope,
-                                                         (show_children != 0),
-                                                         &pencil_size,
-                                                         font_layout,
-                                                         &layout_vis_classifier
-                                                       );
+            const int err
+                = pencil_classifier_composer_set_envelope_box( &classifier_composer,
+                                                               &small_envelope,
+                                                               (show_children != 0),
+                                                               &pencil_size,
+                                                               font_layout,
+                                                               &layout_vis_classifier
+                                                             );
+            TEST_ASSERT_EQUAL_INT( 1, err );
 
             /* check that actual_envelope rectangle is bigger and is within small_envelope */
             const geometry_rectangle_t actual_envelope

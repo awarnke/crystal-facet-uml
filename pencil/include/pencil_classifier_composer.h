@@ -111,14 +111,15 @@ void pencil_classifier_composer_expand_inner_space ( const pencil_classifier_com
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param io_classifier_layout input is symbol box, output is space and label_box. Must not be NULL.
+ *  \return 0 in case of success, 1 in case of additionally needed width or height
  */
-void pencil_classifier_composer_set_envelope_box ( const pencil_classifier_composer_t *this_,
-                                                   const geometry_rectangle_t *envelope,
-                                                   bool shows_contained_children,
-                                                   const pencil_size_t *pencil_size,
-                                                   PangoLayout *font_layout,
-                                                   layout_visible_classifier_t *io_classifier_layout
-                                                 );
+int pencil_classifier_composer_set_envelope_box ( const pencil_classifier_composer_t *this_,
+                                                  const geometry_rectangle_t *envelope,
+                                                  bool shows_contained_children,
+                                                  const pencil_size_t *pencil_size,
+                                                  PangoLayout *font_layout,
+                                                  layout_visible_classifier_t *io_classifier_layout
+                                                );
 
 /*!
  *  \brief determines the dimensions of the stereotype and name of the classifier.
@@ -134,7 +135,7 @@ void pencil_classifier_composer_set_envelope_box ( const pencil_classifier_compo
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param out_label_box position and dimensions of the label box (smallest box containing stereotype and name)
  *  \param out_label_compartment position and dimensions of label compartment (width as the inner_area if fitting, may contain an icon)
- *  \return 0 in case of success, 1 in case of additionally needed width
+ *  \return 0 in case of success, 1 in case of additionally needed width or height
  */
 int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_composer_t *this_,
                                                        const data_visible_classifier_t *visible_classifier,
