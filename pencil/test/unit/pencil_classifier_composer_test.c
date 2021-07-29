@@ -25,8 +25,6 @@ static PangoLayout *font_layout;
 
 static layout_visible_classifier_t layout_vis_classifier;
 static data_visible_classifier_t data_vis_classifier;
-static data_classifier_t data_classifier;
-static data_diagramelement_t data_diagele;
 
 static pencil_size_t pencil_size;
 
@@ -56,6 +54,9 @@ static void set_up(void)
 
     /* init a layout visible classifier */
     {
+        data_classifier_t data_classifier;
+        data_diagramelement_t data_diagele;
+
         data_diagramelement_init( &data_diagele,
                                   17,  /* id */
                                   32,  /* diagram_id */
@@ -76,6 +77,9 @@ static void set_up(void)
         TEST_ENVIRONMENT_ASSERT_EQUAL_INT( DATA_ERROR_NONE, err );
         data_visible_classifier_init( &data_vis_classifier, &data_classifier, &data_diagele );
         layout_visible_classifier_init( &layout_vis_classifier, &data_vis_classifier );
+
+        data_diagramelement_destroy( &data_diagele );
+        data_classifier_destroy( &data_classifier );
     }
 }
 
@@ -85,8 +89,6 @@ static void tear_down(void)
     {
         layout_visible_classifier_destroy( &layout_vis_classifier );
         data_visible_classifier_destroy( &data_vis_classifier );
-        data_diagramelement_destroy( &data_diagele );
-        data_classifier_destroy( &data_classifier );
     }
 
     draw_classifier_icon_destroy( &draw_classifier_icon );
@@ -113,8 +115,8 @@ static void test_expand_inner_space(void)
     for ( unsigned int t_idx = 0; t_idx < DATA_CLASSIFIER_TYPE_COUNT; t_idx ++ )
     {
         data_classifier_type_t classifier_type = DATA_CLASSIFIER_TYPE_ARRAY[ t_idx ];
-        data_classifier_set_main_type( &data_classifier, classifier_type );
-        printf("  type: %d\n", t_idx);
+        data_classifier_set_main_type( data_visible_classifier_get_classifier_ptr( &data_vis_classifier ), classifier_type );
+        printf("  type: %d, %d\n", t_idx, classifier_type);
 
         for ( unsigned int show_children = 0; show_children <= 1; show_children ++ )
         {
@@ -136,7 +138,7 @@ static void test_expand_inner_space(void)
             }
             TEST_ASSERT( ! geometry_rectangle_is_empty( symbol ) );
             const geometry_rectangle_t *const label = layout_visible_classifier_get_label_box_const( &layout_vis_classifier );
-            if (show_children != 0)
+            //if (show_children != 0)
             {
                 /* no intesects if children */
                 TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &inner_space, label ) );
@@ -163,8 +165,8 @@ static void test_set_envelope_box(void)
     for ( unsigned int t_idx = 0; t_idx < DATA_CLASSIFIER_TYPE_COUNT; t_idx ++ )
     {
         data_classifier_type_t classifier_type = DATA_CLASSIFIER_TYPE_ARRAY[ t_idx ];
-        data_classifier_set_main_type( &data_classifier, classifier_type );
-        printf("  type: %d\n", t_idx);
+        data_classifier_set_main_type( data_visible_classifier_get_classifier_ptr( &data_vis_classifier ), classifier_type );
+        printf("  type: %d, %d\n", t_idx, classifier_type);
 
         for ( unsigned int show_children = 0; show_children <= 1; show_children ++ )
         {
@@ -191,7 +193,6 @@ static void test_set_envelope_box(void)
     }
 
     pencil_classifier_composer_destroy( &classifier_composer );
-    TEST_ASSERT(false);
 }
 
 

@@ -132,7 +132,8 @@ void pencil_classifier_composer_set_envelope_box ( const pencil_classifier_compo
  *  \param icon_dim dimensions of the label
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- *  \param out_label_box position and dimensions of label box
+ *  \param out_label_box position and dimensions of the label box (smallest box containing stereotype and name)
+ *  \param out_label_compartment position and dimensions of label compartment (width as the inner_area if fitting, may contain an icon)
  *  \return 0 in case of success, 1 in case of additionally needed width
  */
 int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_composer_t *this_,
@@ -142,7 +143,8 @@ int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_c
                                                        const geometry_dimensions_t *icon_dim,
                                                        const pencil_size_t *pencil_size,
                                                        PangoLayout *font_layout,
-                                                       geometry_rectangle_t *out_label_box
+                                                       geometry_rectangle_t *out_label_box,
+                                                       geometry_rectangle_t *out_label_compartment
                                                      );
 
 /*!
