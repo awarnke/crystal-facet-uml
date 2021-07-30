@@ -31,7 +31,7 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
     {
         case DATA_CLASSIFIER_TYPE_USE_CASE:
         {
-            /* within a use case, space is limited: */
+            /* within a use case, space is limited (double_gap is the border on each side): */
             double inner_x_radius = 0.5 * geometry_rectangle_get_width( outer_bounds ) - double_gap;
             double inner_y_radius = 0.5 * geometry_rectangle_get_height( outer_bounds ) - double_gap;
             double h_offset = (1.0 - SINUS_OF_45_DEGREE) * inner_x_radius;
@@ -120,22 +120,24 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
 
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
         {
-            /* within an accept event, space is limited: */
-            double h_offset = 1.5 * pencil_size_get_standard_font_size( pencil_size );
+            /* within an accept event, space is limited (double_gap is the border on each side): */
+            double half_outer_height = 0.5 * geometry_rectangle_get_height( outer_bounds ) - double_gap;
+            double horizontal_offset = half_outer_height;
 
             geometry_rectangle_replace( &result, outer_bounds );
-            geometry_rectangle_enlarge( &result, -2.0 * double_gap - h_offset, -2.0 * double_gap );
-            geometry_rectangle_shift( &result, double_gap + h_offset, double_gap );
+            geometry_rectangle_enlarge( &result, -2.0 * double_gap - horizontal_offset, -2.0 * double_gap );
+            geometry_rectangle_shift( &result, double_gap + horizontal_offset, double_gap );
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
         {
-            /* within a send signal, space is limited: */
-            double h_offset = 1.5 * pencil_size_get_standard_font_size( pencil_size );
+            /* within a send signal, space is limited (double_gap is the border on each side): */
+            double half_outer_height = 0.5 * geometry_rectangle_get_height( outer_bounds ) - double_gap;
+            double horizontal_offset = half_outer_height;
 
             geometry_rectangle_replace( &result, outer_bounds );
-            geometry_rectangle_enlarge( &result, -2.0 * double_gap - h_offset, -2.0 * double_gap );
+            geometry_rectangle_enlarge( &result, -2.0 * double_gap - horizontal_offset, -2.0 * double_gap );
             geometry_rectangle_shift( &result, double_gap, double_gap );
         }
         break;
@@ -170,7 +172,7 @@ geometry_rectangle_t draw_classifier_contour_calc_outer_bounds ( const draw_clas
     {
         case DATA_CLASSIFIER_TYPE_USE_CASE:
         {
-            /* within a use case, space is limited: */
+            /* within a use case, space is limited (double_gap is the border on each side): */
             double half_inner_width = 0.5 * geometry_rectangle_get_width( inner_area );
             double half_inner_height = 0.5 * geometry_rectangle_get_height( inner_area );
             double h_offset = half_inner_width * ( 1.0 / SINUS_OF_45_DEGREE - 1.0  );
@@ -259,22 +261,24 @@ geometry_rectangle_t draw_classifier_contour_calc_outer_bounds ( const draw_clas
 
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
         {
-            /* within an accept event, space is limited: */
-            double h_offset = 1.5 * pencil_size_get_standard_font_size( pencil_size );
+            /* within an accept event, space is limited (double_gap is the border on each side): */
+            double half_inner_height = 0.5 * geometry_rectangle_get_height( inner_area );
+            double horizontal_offset = half_inner_height;
 
             geometry_rectangle_replace( &result, inner_area );
-            geometry_rectangle_enlarge( &result, +2.0 * double_gap + h_offset, +2.0 * double_gap );
-            geometry_rectangle_shift( &result, -double_gap - h_offset, -double_gap );
+            geometry_rectangle_enlarge( &result, +2.0 * double_gap + horizontal_offset, +2.0 * double_gap );
+            geometry_rectangle_shift( &result, -double_gap - horizontal_offset, -double_gap );
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
         {
-            /* within a send signal, space is limited: */
-            double h_offset = 1.5 * pencil_size_get_standard_font_size( pencil_size );
+            /* within a send signal, space is limited (double_gap is the border on each side): */
+            double half_inner_height = 0.5 * geometry_rectangle_get_height( inner_area );
+            double horizontal_offset = half_inner_height;
 
             geometry_rectangle_replace( &result, inner_area );
-            geometry_rectangle_enlarge( &result, +2.0 * double_gap + h_offset, +2.0 * double_gap );
+            geometry_rectangle_enlarge( &result, +2.0 * double_gap + horizontal_offset, +2.0 * double_gap );
             geometry_rectangle_shift( &result, -double_gap, -double_gap );
         }
         break;
