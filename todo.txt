@@ -4,7 +4,6 @@ ideas for future versions:
       do not redraw 3 times when changing 3 attributes simultaneously. (especially at undo/redo)
       do not redraw twice, once for deactivating a tool and again for activating another
   [ ] a "saveAs" or export-as-cfu1 command should allow to copy the current db
-  [ ] next to the about button, a help button is needed that can provide context-sensitive information.
   [ ] show a progress bar while exporting diagrams (especially for png mode)
   [ ] scrolling through search list missing if result list is too long
   @gui+ctrl
@@ -36,6 +35,8 @@ ideas for future versions:
   [ ] links unclear: provided/required-interface(feature)-to-interface(classifier)
   [?] features can have stereotypes, see UML spec 2.5.1 chapter 11.4.5 (maybe use existing value-type?)
   @ctrl
+  [ ] delete features immediately when they become invisible in all diagrams (note: the search+xmi export find them)
+  [ ] delete relationships immediately when they become invisible in all diagrams (note: the search+xmi export find them)
   @universal+utf8stringbuf
   [ ] combine the static string allocation with dynamic additional buffers for unexpectedly-long strings
   [ ] combine the static array allocation with dynamic additional buffers for arrays of unpredictable lengths
