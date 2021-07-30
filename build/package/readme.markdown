@@ -10,8 +10,8 @@ Prepare
 
 Update all version numbers:
 
->       build_deb/debian/changelog : new entry
->       build_rpm/SPECS/crystal-facet-uml.spec : Version
+>       build/deb/debian/changelog : new entry
+>       build/rpm/SPECS/crystal-facet-uml.spec : Version
 >       main/include/meta/meta_version.inl : META_VERSION_STR
 >       ChangeLog : new entry
 >       user_doc/doc/crystal_facet_documentation.xml : date
