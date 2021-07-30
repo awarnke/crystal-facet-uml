@@ -158,7 +158,7 @@ static void test_set_envelope_box(void)
     pencil_classifier_composer_t classifier_composer;
     pencil_classifier_composer_init( &classifier_composer );
 
-    const geometry_rectangle_t envelope = { .left = 50.0, .top = 40.0, .width = 260.0, .height = 180.0 };
+    const geometry_rectangle_t envelope = { .left = 50.0, .top = 40.0, .width = 360.0, .height = 180.0 };
 
     for ( unsigned int t_idx = 0; t_idx < DATA_CLASSIFIER_TYPE_COUNT; t_idx ++ )
     {
