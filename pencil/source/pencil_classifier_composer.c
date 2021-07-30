@@ -547,7 +547,6 @@ void pencil_classifier_composer_expand_inner_space ( const pencil_classifier_com
                                                   );
 
         /* calculate space */
-        //geometry_rectangle_replace( out_classifier_space, inner_space );
         geometry_rectangle_reinit( out_classifier_space,
                                    geometry_rectangle_get_left( &label_compartment ),
                                    geometry_rectangle_get_top( inner_space ),
@@ -791,17 +790,6 @@ int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_c
     if ( ! is_fix_sized_symbol )
     {
         double top_border = geometry_rectangle_get_top( inner_area );
-
-        /* update the borders based on the text dimensions */
-        if ( DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE == classifier_type )
-        {
-            const geometry_v_align_t DECISION_V_ALIGN = GEOMETRY_V_ALIGN_CENTER;
-            top_border = geometry_v_align_get_top( &DECISION_V_ALIGN,
-                                                   text_height,
-                                                   geometry_rectangle_get_top( inner_area ),
-                                                   geometry_rectangle_get_height( inner_area )
-                                                 );
-        }
 
         /* calculate label_compartment */
         {

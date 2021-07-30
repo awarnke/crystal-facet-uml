@@ -10,6 +10,8 @@
 /*! where to place the control points of a bezier curve to get a good approximation for a 90 degree curve */
 const static double BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE = 0.552284749831;
 
+const static double SINUS_OF_45_DEGREE = 0.707106781;
+
 geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classifier_contour_t *this_,
                                                                data_classifier_type_t classifier_type,
                                                                const geometry_rectangle_t *outer_bounds,
@@ -30,8 +32,10 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
         case DATA_CLASSIFIER_TYPE_USE_CASE:
         {
             /* within a use case, space is limited: */
-            double v_offset = pencil_size_get_standard_font_size( pencil_size );
-            double h_offset = 1.5 * pencil_size_get_standard_font_size( pencil_size );
+            double inner_x_radius = 0.5 * geometry_rectangle_get_width( outer_bounds ) - double_gap;
+            double inner_y_radius = 0.5 * geometry_rectangle_get_height( outer_bounds ) - double_gap;
+            double h_offset = (1.0 - SINUS_OF_45_DEGREE) * inner_x_radius;
+            double v_offset = (1.0 - SINUS_OF_45_DEGREE) * inner_y_radius;
 
             geometry_rectangle_replace( &result, outer_bounds );
             geometry_rectangle_expand_4dir( &result, -double_gap - h_offset, -double_gap - v_offset );
@@ -103,9 +107,11 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
 
         case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
         {
-            /* within a decision rhombus, space is limited: */
-            double v_offset = pencil_size_get_standard_font_size( pencil_size );
-            double h_offset = 2.0 * pencil_size_get_standard_font_size( pencil_size );
+            /* within a decision rhombus, space is limited by factor 2 per dimension: */
+            double half_outer_width = 0.5 * geometry_rectangle_get_width( outer_bounds ) - double_gap;
+            double half_outer_height = 0.5 * geometry_rectangle_get_height( outer_bounds ) - double_gap;
+            double h_offset = 0.5 * half_outer_width;
+            double v_offset = 0.5 * half_outer_height;
 
             geometry_rectangle_replace( &result, outer_bounds );
             geometry_rectangle_expand_4dir( &result, -double_gap - h_offset, -double_gap - v_offset );
@@ -165,8 +171,10 @@ geometry_rectangle_t draw_classifier_contour_calc_outer_bounds ( const draw_clas
         case DATA_CLASSIFIER_TYPE_USE_CASE:
         {
             /* within a use case, space is limited: */
-            double v_offset = pencil_size_get_standard_font_size( pencil_size );
-            double h_offset = 1.5 * pencil_size_get_standard_font_size( pencil_size );
+            double half_inner_width = 0.5 * geometry_rectangle_get_width( inner_area );
+            double half_inner_height = 0.5 * geometry_rectangle_get_height( inner_area );
+            double h_offset = half_inner_width * ( 1.0 / SINUS_OF_45_DEGREE - 1.0  );
+            double v_offset = half_inner_height * ( 1.0 / SINUS_OF_45_DEGREE - 1.0  );
 
             geometry_rectangle_replace( &result, inner_area );
             geometry_rectangle_expand_4dir( &result, +double_gap + h_offset, +double_gap + v_offset );
@@ -238,9 +246,11 @@ geometry_rectangle_t draw_classifier_contour_calc_outer_bounds ( const draw_clas
 
         case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
         {
-            /* within a decision rhombus, space is limited: */
-            double v_offset = pencil_size_get_standard_font_size( pencil_size );
-            double h_offset = 2.0 * pencil_size_get_standard_font_size( pencil_size );
+            /* within a decision rhombus, space is limited by factor 2 per dimension: */
+            double half_inner_width = 0.5 * geometry_rectangle_get_width( inner_area );
+            double half_inner_height = 0.5 * geometry_rectangle_get_height( inner_area );
+            double h_offset = half_inner_width;
+            double v_offset = half_inner_height;
 
             geometry_rectangle_replace( &result, inner_area );
             geometry_rectangle_expand_4dir( &result, +double_gap + h_offset, +double_gap + v_offset );
