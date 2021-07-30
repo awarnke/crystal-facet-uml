@@ -71,7 +71,7 @@ static void set_up(void)
                                                  DATA_CLASSIFIER_TYPE_CLASS,  /* main_type */
                                                  "stereotype",
                                                  "classifier name",
-                                                 "classifier description",
+                                                 "classifier\ndescription",
                                                  10000,  /* x_order */
                                                  11000,  /* y_order */
                                                  12000  /* list_order */
