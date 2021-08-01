@@ -15,16 +15,22 @@ wine on debian/raspbian/ubuntu:
 >
 > sudo apt install gcc-mingw-w64-i686
 >
-> sudo apt install g++-mingw-w64-i686  # not needed but cmake searches for it
->
-> echo Download the gtk+-bundle archive to build_win/3rd_party/
+> echo Download the gtk+-bundle archive to build/win/3rd_party/
 >
 > echo e.g. gtk+-bundle_3.6.4-20130513_win32.zip (28.8 Mb) from http://www.tarnyko.net/dl/gtk.htm
 >
-> echo Download the sqlite sources (amalgamation) from https://sqlite.org/download.html to build_win/3rd_party/
+> echo Download the sqlite sources (amalgamation) from https://sqlite.org/download.html to build/win/3rd_party/
 >
-> echo e.g. sqlite-amalgamation-3290000.zip
+> echo e.g. sqlite-amalgamation-3360000.zip
 
+wine on opensuse:
+
+> sudo zypper install cmake
+>
+> sudo zypper install wine
+>
+> zypper install mingw64-gcc
+>
 
 How to build and pack
 -----------

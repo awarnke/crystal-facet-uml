@@ -16,7 +16,7 @@ INCLUDE_DIRECTORIES(../../io/include)
 INCLUDE_DIRECTORIES(../../universal/include)
 
 SET(THIRD_PARTY_BASE "${CMAKE_BINARY_DIR}")
-SET(SQLITE_BASE "${CMAKE_BINARY_DIR}/sqlite-amalgamation-3300100/sqlite-amalgamation-3300100")
+SET(SQLITE_BASE "${CMAKE_BINARY_DIR}/sqlite-amalgamation-3360000/sqlite-amalgamation-3360000")
 SET(GTK_BUNDLE_BASE "${CMAKE_BINARY_DIR}/crystal-facet-uml")
 MESSAGE("SQLITE_BASE:      ${SQLITE_BASE}")
 MESSAGE("GTK_BUNDLE_BASE:  ${GTK_BUNDLE_BASE}")
