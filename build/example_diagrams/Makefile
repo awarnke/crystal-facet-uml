@@ -1,6 +1,7 @@
 .PHONY: all
-all: all_export_test mouse_droid/mouse_droid.pdf mouse_droid/mouse_droid.xhtml quality/quality.pdf quality/quality.xhtml pencil_tests/pencil_tests.xhtml info
+all: all_export_test mouse_droid/mouse_droid.pdf mouse_droid/mouse_droid.xhtml quality/quality.pdf quality/quality.xhtml self_architecture/self_architecture.pdf self_architecture/self_architecture.xhtml pencil_tests/pencil_tests.xhtml info
 
+ARCDIR=../../architecture/doc
 SRCDIR=../../example_diagrams
 INSTALLDIR=../../example_diagrams
 
@@ -23,6 +24,16 @@ quality/quality.pdf: $(SRCDIR)/quality.cfu1
 	crystal-facet-uml -e $(SRCDIR)/quality.cfu1 docbook quality
 	[ ! -f /home/pi/Downloads/docbook.xsd ] || xmllint --noout --schema /home/pi/Downloads/docbook.xsd quality/quality.xml
 	(cd quality && dblatex quality.xml)
+
+self_architecture/self_architecture.xhtml: $(ARCDIR)/self_architecture.cfu1
+	mkdir -p self_architecture
+	crystal-facet-uml -e $(ARCDIR)/self_architecture.cfu1 xhtml self_architecture
+
+self_architecture/self_architecture.pdf: $(ARCDIR)/self_architecture.cfu1
+	mkdir -p self_architecture
+	crystal-facet-uml -e $(ARCDIR)/self_architecture.cfu1 docbook self_architecture
+	[ ! -f /home/pi/Downloads/docbook.xsd ] || xmllint --noout --schema /home/pi/Downloads/docbook.xsd self_architecture/self_architecture
+	(cd self_architecture && dblatex self_architecture.xml)
 
 pencil_tests/pencil_tests.xhtml: $(SRCDIR)/pencil_tests.cfu1
 	mkdir -p pencil_tests

@@ -112,12 +112,27 @@
         <para>
             There are further examples available as html:
             <itemizedlist>
-            <listitem><para><ulink url="https://andreaswarnke.de/crystal-facet-uml/mouse_droid/mouse_droid.xhtml"/></para></listitem>
+            <listitem><para>
+                    <ulink url="https://andreaswarnke.de/crystal-facet-uml/mouse_droid/mouse_droid.xhtml">mouse_droid.xhtml</ulink> /
+                <ulink url="https://andreaswarnke.de/crystal-facet-uml/mouse_droid/mouse_droid.pdf">mouse_droid.pdf</ulink>
+            </para></listitem>
+            <listitem><para>
+                <ulink url="https://andreaswarnke.de/crystal-facet-uml/self_architecture/self_architecture.xhtml">self_architecture.xhtml</ulink> /
+                <ulink url="https://andreaswarnke.de/crystal-facet-uml/self_architecture/self_architecture.pdf">self_architecture.pdf</ulink>
+            </para></listitem>
+            <listitem><para>
+                <ulink url="https://andreaswarnke.de/crystal-facet-uml/quality/quality.xhtml">quality.xhtml</ulink> /
+                <ulink url="https://andreaswarnke.de/crystal-facet-uml/quality/quality.pdf">quality.pdf</ulink>
+            </para></listitem>
             </itemizedlist>
             And in crystal-facet-uml binary format:
             <itemizedlist>
-            <listitem><para><ulink url="https://github.com/awarnke/crystal-facet-uml/tree/master/example_diagrams"/></para></listitem>
-            <listitem><para><ulink url="https://github.com/awarnke/crystal-facet-uml/tree/master/architecture/doc"/></para></listitem>
+            <listitem><para>
+                <ulink url="https://github.com/awarnke/crystal-facet-uml/tree/master/example_diagrams"/>
+            </para></listitem>
+            <listitem><para>
+                <ulink url="https://github.com/awarnke/crystal-facet-uml/tree/master/architecture/doc"/>
+            </para></listitem>
             </itemizedlist>
         </para>
     </section>

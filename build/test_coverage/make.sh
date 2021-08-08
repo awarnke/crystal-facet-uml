@@ -37,7 +37,7 @@ cd ../..
 
 echo "running lcov"
 lcov --capture --directory ./crystal-facet-uml-${VERSIONSTR}/cmake_build/CMakeFiles/gcov_crystal-facet-uml.dir --output-file lcov.info
-lcov --remove lcov.info '*/unittest/*' '*/test/*' --output-file lcov_filtered.info
+lcov --remove lcov.info 'test_fw/*' '*/test/*' --output-file lcov_filtered.info
 genhtml --prefix `pwd`/crystal-facet-uml-${VERSIONSTR} lcov_filtered.info --title crystal-facet-uml_v${VERSIONSTR} --output-directory crystal-facet-uml-${VERSIONSTR}_test_coverage
 
 echo "clean up test"

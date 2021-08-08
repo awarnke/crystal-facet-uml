@@ -31,7 +31,15 @@ ideas for future versions:
   [?] diagrams need some kind of category/classification/stereotype like idea-for-future, rejected-alternative, ...
       --> add a "stereotype" field to "diagrams"
   [ ] some way to compare two database files / and/or to merge
-  [ ] links unclear: interactionuse(diag-reference)-to-fragment(diag); part-to-component, object-to-class
+      - maybe there are already solutions for sqlite3 and git:
+      a) store an sqlite3 dump to git, not the binary
+      b) setup git hooks and use a custom merge/diff tool for binary db
+      documentation needed
+      maybe rowid should be replaced by GUID to make this easier
+      maybe a database schema file is needed
+  [ ] links unclear:
+      interactionuse(diag-reference)-to-fragment(diag);
+      part-to-component, object-to-class
   [ ] links unclear: provided/required-interface(feature)-to-interface(classifier)
   [?] features can have stereotypes, see UML spec 2.5.1 chapter 11.4.5 (maybe use existing value-type?)
   @ctrl
