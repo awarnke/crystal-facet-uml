@@ -329,8 +329,9 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
                                      == data_relationship_get_from_classifier_row_id( current_relation_data ) );
             const bool same_to = ( data_relationship_get_to_classifier_row_id( probe_relation_data )
                                      == data_relationship_get_to_classifier_row_id( current_relation_data ) );
-            /* if probe and current have same type and (same source classifier or same destination classifier), overlaps are ok */
-            if ( ! ( same_type && ( same_from || same_to ) ) )
+            const bool one_same_emd = ( same_from != same_to );
+            /* if probe and current have same type and (same source classifier xor same destination classifier), overlaps are ok */
+            if ( ! ( same_type && one_same_emd ) )
             {
                 geometry_connector_t *probe_shape;
                 probe_shape = layout_relationship_get_shape_ptr( probe_relationship );

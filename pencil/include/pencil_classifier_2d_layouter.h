@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Calculates positions of classifiers and features in a diagram
+ *  \brief Calculates positions of classifiers and features in a 2-dimensional diagram
  */
 
 #include "pencil_classifier_composer.h"

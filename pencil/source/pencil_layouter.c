@@ -263,13 +263,58 @@ void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t
     /* determine grid cell size */
     const double grid_width = geometry_non_linear_scale_get_grid_distances ( &((*this_).x_scale) );
     const double grid_height = geometry_non_linear_scale_get_grid_distances ( &((*this_).y_scale) );
+    double cell_width = grid_width;
+    double cell_height = grid_height;
+
+    /* check if the grid has enough points for all classifiers */
+    const uint_fast32_t interv_count_x = geometry_non_linear_scale_get_grid_intervals ( &((*this_).x_scale) );
+    const uint_fast32_t interv_count_y = geometry_non_linear_scale_get_grid_intervals ( &((*this_).y_scale) );
+    const uint_fast32_t inner_point_count = (interv_count_x-1)*(interv_count_y-1);
+    const uint_fast32_t c_count = pencil_layout_data_get_visible_classifier_count ( &((*this_).layout_data) );
+    if ( inner_point_count < c_count )
+    {
+        /* many classifiers share the same location */
+        /* default size is calculated based on count and size, not on grid */
+        /* get the diagram data */
+        const layout_diagram_t *const the_diagram
+            = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
+        const geometry_rectangle_t *const diagram_draw_area
+            = layout_diagram_get_draw_area_const( the_diagram );
+        const double draw_width = geometry_rectangle_get_width ( diagram_draw_area );
+        const double draw_height = geometry_rectangle_get_height ( diagram_draw_area );
+        const uint_fast32_t border = 1;
+        uint_fast32_t rows;
+        uint_fast32_t columns;
+        if ( c_count <= 6 )
+        {
+            columns = 2;
+            rows = (c_count+1)/2;
+        }
+        else if ( c_count <= 12 )
+        {
+            columns = 3;
+            rows = (c_count+2)/3;
+        }
+        else if ( c_count <= 24 )
+        {
+            columns = 4;
+            rows = (c_count+3)/4;
+        }
+        else
+        {
+            columns = 5;
+            rows = (c_count+4)/5;
+        }
+        cell_width = draw_width / (columns+border);
+        cell_height = draw_height / (rows+border);
+    }
 
     /* determine standard gap between objects */
     const double gap = pencil_size_get_preferred_object_distance( &((*this_).pencil_size) );
 
     /* set the default size to grid cell minus a gap on each side, minus extra gap on top for containers */
     geometry_dimensions_t *const default_size = &((*this_).default_classifier_size);
-    geometry_dimensions_reinit( default_size, grid_width, grid_height );
+    geometry_dimensions_reinit( default_size, cell_width, cell_height );
     const double x_space = 3.0 * gap;  /* space for enclosing parents and for relationships */
     const double y_space = 4.0 * gap;  /* space for enclosing parents (including title-line) and for relationships */
     geometry_dimensions_expand ( default_size, -x_space, -y_space ); /* ensures non-negative values */

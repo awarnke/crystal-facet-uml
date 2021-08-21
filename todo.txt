@@ -19,6 +19,15 @@ ideas for future versions:
   [?] sequence diagrams need if/loop-boxes
   [?] activity diagrams need swimlanes/partitions
   [ ] deployment arrows shall be shown like contaiments (check what to do in case of multiple depoyment targets...)
+  [ ] reduce overlaps of port-labels with other elements
+  [ ] reduce overlaps of relationship-labels with other elements
+  [ ] reduce overlaps of relationship-lines with other elements
+      version 1.30.0 shows on openSuSE 15.3:
+      test suite: pencil_layouter_test_get_list
+        test case: layout_good_cases
+          #Diag=432, total=1624 |  ERR=0, W/C=7, W/F=181, W/R=131
+        test case: layout_challenging_cases
+          #Diag=432, total=11813 |  ERR=597, W/C=7499, W/F=9663, W/R=10991
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] import XMI format
