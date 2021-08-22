@@ -31,12 +31,10 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
     assert( NULL != out_index_of_best );
 
     /* get draw area */
-    geometry_rectangle_t *diagram_draw_area;
-    {
-        layout_diagram_t *diagram_layout;
-        diagram_layout = pencil_layout_data_get_diagram_ptr( layout_data );
-        diagram_draw_area = layout_diagram_get_draw_area_ptr( diagram_layout );
-    }
+    const layout_diagram_t *const diagram_layout
+        = pencil_layout_data_get_diagram_ptr( layout_data );
+    const geometry_rectangle_t *const diagram_draw_area
+        = layout_diagram_get_draw_area_const( diagram_layout );
 
     /* define potential solution and rating */
     uint32_t index_of_best = 0;
@@ -119,15 +117,15 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
             if (( PENCIL_VISIBILITY_SHOW == layout_relationship_get_visibility( probe_relationship ) )
                 || ( PENCIL_VISIBILITY_GRAY_OUT == layout_relationship_get_visibility( probe_relationship ) ))
             {
-                geometry_connector_t *probe_shape;
-                probe_shape = layout_relationship_get_shape_ptr( probe_relationship );
+                const geometry_connector_t *const probe_shape
+                    = layout_relationship_get_shape_const( probe_relationship );
                 if ( geometry_connector_is_intersecting_rectangle( probe_shape, current_solution ) )
                 {
                     debts_of_current += geometry_rectangle_get_area( current_solution );  /* relationship bounds intersects are not so bad ... low debt */
                 }
 
-                geometry_rectangle_t *relationship_label_box;
-                relationship_label_box = layout_relationship_get_label_box_ptr( probe_relationship );
+                const geometry_rectangle_t *const relationship_label_box
+                    = layout_relationship_get_label_box_const( probe_relationship );
                 if ( geometry_rectangle_is_intersecting( current_solution, relationship_label_box ) )
                 {
                     debts_of_current += 100.0 * geometry_rectangle_get_intersect_area( current_solution, relationship_label_box ); /* medium debt */

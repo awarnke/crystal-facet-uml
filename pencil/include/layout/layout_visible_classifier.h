@@ -94,14 +94,6 @@ static inline bool layout_visible_classifier_is_valid ( const layout_visible_cla
  *  \param this_ pointer to own object attributes
  *  \return pointer to geometry_rectangle_t.
  */
-static inline geometry_rectangle_t *layout_visible_classifier_get_symbol_box_ptr ( layout_visible_classifier_t *this_ );
-
-/*!
- *  \brief gets the symbol_box of the classifier
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to geometry_rectangle_t.
- */
 static inline const geometry_rectangle_t *layout_visible_classifier_get_symbol_box_const ( const layout_visible_classifier_t *this_ );
 
 /*!
@@ -118,14 +110,6 @@ static inline void layout_visible_classifier_set_symbol_box ( layout_visible_cla
  *  \param this_ pointer to own object attributes
  *  \return pointer to geometry_rectangle_t.
  */
-static inline geometry_rectangle_t *layout_visible_classifier_get_space_ptr ( layout_visible_classifier_t *this_ );
-
-/*!
- *  \brief gets the inner space of the classifier
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to geometry_rectangle_t.
- */
 static inline const geometry_rectangle_t *layout_visible_classifier_get_space_const ( const layout_visible_classifier_t *this_ );
 
 /*!
@@ -135,14 +119,6 @@ static inline const geometry_rectangle_t *layout_visible_classifier_get_space_co
  *  \param space coordinates of new space for contained classifiers and features
  */
 static inline void layout_visible_classifier_set_space ( layout_visible_classifier_t *this_, const geometry_rectangle_t *space );
-
-/*!
- *  \brief gets the label bounds of the classifier
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to geometry_rectangle_t.
- */
-static inline geometry_rectangle_t *layout_visible_classifier_get_label_box_ptr ( layout_visible_classifier_t *this_ );
 
 /*!
  *  \brief gets the label bounds of the classifier

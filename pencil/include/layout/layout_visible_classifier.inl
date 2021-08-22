@@ -92,11 +92,6 @@ static inline bool layout_visible_classifier_is_valid ( const layout_visible_cla
     return result;
 }
 
-static inline geometry_rectangle_t *layout_visible_classifier_get_symbol_box_ptr ( layout_visible_classifier_t *this_ )
-{
-    return &((*this_).symbol_box);
-}
-
 static inline const geometry_rectangle_t *layout_visible_classifier_get_symbol_box_const ( const layout_visible_classifier_t *this_ )
 {
     return &((*this_).symbol_box);
@@ -107,11 +102,6 @@ static inline void layout_visible_classifier_set_symbol_box ( layout_visible_cla
     geometry_rectangle_replace( &((*this_).symbol_box), symbol_box );
 }
 
-static inline geometry_rectangle_t *layout_visible_classifier_get_space_ptr ( layout_visible_classifier_t *this_ )
-{
-    return &((*this_).space);
-}
-
 static inline const geometry_rectangle_t *layout_visible_classifier_get_space_const ( const layout_visible_classifier_t *this_ )
 {
     return &((*this_).space);
@@ -120,11 +110,6 @@ static inline const geometry_rectangle_t *layout_visible_classifier_get_space_co
 static inline void layout_visible_classifier_set_space ( layout_visible_classifier_t *this_, const geometry_rectangle_t *space )
 {
     geometry_rectangle_replace( &((*this_).space), space );
-}
-
-static inline geometry_rectangle_t *layout_visible_classifier_get_label_box_ptr ( layout_visible_classifier_t *this_ )
-{
-    return &((*this_).label_box);
 }
 
 static inline const geometry_rectangle_t *layout_visible_classifier_get_label_box_const ( const layout_visible_classifier_t *this_ )

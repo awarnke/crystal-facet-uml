@@ -87,14 +87,6 @@ static inline void layout_relationship_set_visibility ( layout_relationship_t *t
  *  \param this_ pointer to own object attributes
  *  \return pointer to geometry_rectangle_t.
  */
-static inline geometry_connector_t *layout_relationship_get_shape_ptr ( layout_relationship_t *this_ );
-
-/*!
- *  \brief gets the shape of the relationship
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to geometry_rectangle_t.
- */
 static inline const geometry_connector_t *layout_relationship_get_shape_const ( const layout_relationship_t *this_ );
 
 /*!
@@ -112,14 +104,6 @@ static inline void layout_relationship_set_shape ( layout_relationship_t *this_,
  *  \return point of middle of connector.
  */
 static inline geometry_point_t layout_relationship_get_middle ( const layout_relationship_t *this_ );
-
-/*!
- *  \brief gets the label bounds of the relationship
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to geometry_rectangle_t.
- */
-static inline geometry_rectangle_t *layout_relationship_get_label_box_ptr ( layout_relationship_t *this_ );
 
 /*!
  *  \brief gets the label bounds of the relationship

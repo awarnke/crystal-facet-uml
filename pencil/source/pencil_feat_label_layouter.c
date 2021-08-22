@@ -87,9 +87,7 @@ void pencil_feat_label_layouter_do_layout ( pencil_feat_label_layouter_t *this_,
         }
 
         /* store best option to (*this_).layout_data */
-        geometry_rectangle_t *feature_label_box;
-        feature_label_box = layout_feature_get_label_box_ptr( current_feature );
-        geometry_rectangle_copy( feature_label_box, &(solution[index_of_best]) );
+        layout_feature_set_label_box( current_feature, &(solution[index_of_best]) );
     }
 
     universal_array_index_sorter_destroy( &sorted );

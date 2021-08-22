@@ -89,9 +89,7 @@ void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_, P
         }
 
         /* store best option to (*this_).layout_data */
-        geometry_rectangle_t *relationship_label_box;
-        relationship_label_box = layout_relationship_get_label_box_ptr( current_relation );
-        geometry_rectangle_copy( relationship_label_box, &(solution[index_of_best]) );
+        layout_relationship_set_label_box( current_relation, &(solution[index_of_best]) );
     }
 
     universal_array_index_sorter_destroy( &sorted );
@@ -167,7 +165,7 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
         double object_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
         /* get connector data */
-        const geometry_connector_t * shape = layout_relationship_get_shape_ptr ( current_relation );
+        const geometry_connector_t *const shape = layout_relationship_get_shape_const ( current_relation );
         const double source_end_x = geometry_connector_get_source_end_x ( shape );
         const double source_end_y = geometry_connector_get_source_end_y ( shape );
         const double main_line_source_x = geometry_connector_get_main_line_source_x ( shape );

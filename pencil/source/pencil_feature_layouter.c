@@ -39,12 +39,12 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
     assert( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_FEATURES );
 
     /* get diagram draw area */
-    geometry_rectangle_t *diagram_draw_area;
+    const geometry_rectangle_t *diagram_draw_area;
     data_diagram_type_t diag_type;
     {
         layout_diagram_t *diagram_layout;
         diagram_layout = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
-        diagram_draw_area = layout_diagram_get_draw_area_ptr( diagram_layout );
+        diagram_draw_area = layout_diagram_get_draw_area_const( diagram_layout );
         const data_diagram_t *diagram_data;
         diagram_data = layout_diagram_get_data_const ( diagram_layout );
         diag_type = data_diagram_get_diagram_type ( diagram_data );
@@ -156,11 +156,11 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
     /* get preferred object distance */
     double obj_dist;
     obj_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
-    
-    const bool lifeline_has_semantics 
-        = data_rules_classifier_has_scenario_semantics( &((*this_).rules), 
-                                                        diagram_type, 
-                                                        classifier_type 
+
+    const bool lifeline_has_semantics
+        = data_rules_classifier_has_scenario_semantics( &((*this_).rules),
+                                                        diagram_type,
+                                                        classifier_type
                                                       );
 
     if (( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diagram_type ) && lifeline_has_semantics )

@@ -56,14 +56,6 @@ static inline void layout_feature_destroy ( layout_feature_t *this_ );
 static inline bool layout_feature_is_valid ( const layout_feature_t *this_ );
 
 /*!
- *  \brief gets the symbol_box of the feature
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to geometry_rectangle_t.
- */
-static inline geometry_rectangle_t *layout_feature_get_symbol_box_ptr ( layout_feature_t *this_ );
-
-/*!
  *  \brief gets the bounding box of the feature
  *
  *  \param this_ pointer to own object attributes
@@ -102,14 +94,6 @@ static inline geometry_direction_t layout_feature_get_icon_direction ( const lay
  *  \param direction new icon direction to set
  */
 static inline void layout_feature_set_icon_direction ( layout_feature_t *this_, geometry_direction_t direction );
-
-/*!
- *  \brief gets the label bounds of the feature
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to geometry_rectangle_t.
- */
-static inline geometry_rectangle_t *layout_feature_get_label_box_ptr ( layout_feature_t *this_ );
 
 /*!
  *  \brief gets the label bounds of the feature

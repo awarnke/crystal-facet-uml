@@ -32,11 +32,6 @@ static inline bool layout_diagram_is_valid ( const layout_diagram_t *this_ )
     return result;
 }
 
-static inline geometry_rectangle_t *layout_diagram_get_bounds_ptr ( layout_diagram_t *this_ )
-{
-    return &((*this_).bounds);
-}
-
 static inline const geometry_rectangle_t *layout_diagram_get_bounds_const ( const layout_diagram_t *this_ )
 {
     return &((*this_).bounds);
@@ -47,15 +42,16 @@ static inline void layout_diagram_set_bounds ( layout_diagram_t *this_, const ge
     geometry_rectangle_replace( &((*this_).bounds), diagram_bounds );
 }
 
-static inline geometry_rectangle_t *layout_diagram_get_draw_area_ptr ( layout_diagram_t *this_ )
-{
-    return &((*this_).draw_area);
-}
-
 static inline const geometry_rectangle_t *layout_diagram_get_draw_area_const ( const layout_diagram_t *this_ )
 {
     return &((*this_).draw_area);
 }
+
+static inline void layout_diagram_set_draw_area ( layout_diagram_t *this_, const geometry_rectangle_t *diagram_draw_area )
+{
+    geometry_rectangle_replace( &((*this_).draw_area), diagram_draw_area );
+}
+
 
 static inline const data_diagram_t *layout_diagram_get_data_const ( const layout_diagram_t *this_ )
 {

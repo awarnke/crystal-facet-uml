@@ -45,8 +45,8 @@ void pencil_relationship_layouter_private_do_layout ( pencil_relationship_layout
     pencil_relationship_layouter_private_propose_processing_order ( this_, &sorted );
 
     /* shape the relationships */
-    uint32_t count_sorted;
-    count_sorted = universal_array_index_sorter_get_count( &sorted );
+    const uint32_t count_sorted
+        = universal_array_index_sorter_get_count( &sorted );
     for ( uint32_t sort_index = 0; sort_index < count_sorted; sort_index ++ )
     {
         /* determine pointer to the_relationship */
@@ -87,9 +87,7 @@ void pencil_relationship_layouter_private_do_layout ( pencil_relationship_layout
         }
 
         /* store best option to (*this_).layout_data */
-        geometry_connector_t *relationship_shape;
-        relationship_shape = layout_relationship_get_shape_ptr( current_relationship );
-        geometry_connector_copy( relationship_shape, &(solution[index_of_best]) );
+        layout_relationship_set_shape( current_relationship, &(solution[index_of_best]) );
     }
 
     universal_array_index_sorter_destroy( &sorted );
@@ -104,16 +102,14 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
     assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) DATA_VISIBLE_SET_MAX_RELATIONSHIPS );
 
     /* get draw area */
-    geometry_rectangle_t *diagram_draw_area;
-    {
-        layout_diagram_t *diagram_layout;
-        diagram_layout = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
-        diagram_draw_area = layout_diagram_get_draw_area_ptr( diagram_layout );
-    }
+    const layout_diagram_t *const diagram_layout
+        = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
+    const geometry_rectangle_t *const diagram_draw_area
+        = layout_diagram_get_draw_area_const( diagram_layout );
 
     /* sort the relationships by their shaping-needs: the less simple, the earlier it shall be processed */
-    uint32_t count_relations;
-    count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+    const uint32_t count_relations
+        = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
         layout_relationship_t *current_relation;
@@ -256,12 +252,10 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
     }
 
     /* get draw area */
-    geometry_rectangle_t *diagram_draw_area;
-    {
-        layout_diagram_t *diagram_layout;
-        diagram_layout = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
-        diagram_draw_area = layout_diagram_get_draw_area_ptr( diagram_layout );
-    }
+    const layout_diagram_t *const diagram_layout
+        = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
+    const geometry_rectangle_t *const diagram_draw_area
+        = layout_diagram_get_draw_area_const( diagram_layout );
 
     /* define potential solution and rating */
     uint32_t index_of_best = 0;
@@ -333,8 +327,8 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
             /* if probe and current have same type and (same source classifier xor same destination classifier), overlaps are ok */
             if ( ! ( same_type && one_same_emd ) )
             {
-                geometry_connector_t *probe_shape;
-                probe_shape = layout_relationship_get_shape_ptr( probe_relationship );
+                const geometry_connector_t *const probe_shape
+                    = layout_relationship_get_shape_const( probe_relationship );
                 uint32_t intersects;
                 intersects = geometry_connector_count_connector_intersects( current_solution, probe_shape );
                 debts_of_current += 1000.0 * intersects;
@@ -782,8 +776,8 @@ void pencil_relationship_layouter_private_find_space_for_line ( pencil_relations
     }
 
     /* iterate over all classifiers */
-    uint32_t count_classifiers;
-    count_classifiers = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
+    const uint32_t count_classifiers
+        = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
     const uint32_t max_list_iteration = count_classifiers;  /* in the worst case, each iteration moves the probes by one classifier */
     bool hit = true;  /* whenever the probes hit a rectangle, hit is set to true */
     for ( uint32_t list_iteration = 0; (list_iteration < max_list_iteration) && hit; list_iteration ++ )
@@ -914,8 +908,8 @@ void pencil_relationship_layouter_private_make_all_visible ( pencil_relationship
     TRACE_BEGIN();
 
     /* determine visibility */
-    uint32_t count_relations;
-    count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+    const uint32_t count_relations
+        = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
         layout_relationship_t *the_relation = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
@@ -962,8 +956,8 @@ void pencil_relationship_layouter_layout_void( pencil_relationship_layouter_t *t
     TRACE_BEGIN();
 
     /* hide all relationships */
-    uint32_t count_relations;
-    count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+    const uint32_t count_relations
+        = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
         /*
@@ -985,16 +979,14 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
     pencil_relationship_layouter_private_make_all_visible( this_ );
 
     /* get draw area */
-    geometry_rectangle_t *diagram_draw_area;
-    {
-        layout_diagram_t *diagram_layout;
-        diagram_layout = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
-        diagram_draw_area = layout_diagram_get_draw_area_ptr( diagram_layout );
-    }
+    const layout_diagram_t *const diagram_layout
+        = pencil_layout_data_get_diagram_const( (*this_).layout_data );
+    const geometry_rectangle_t *const diagram_draw_area
+        = layout_diagram_get_draw_area_const( diagram_layout );
 
     /* layout the relationships */
-    uint32_t count_relations;
-    count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+    const uint32_t count_relations
+        = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
     TRACE_INFO_INT ( "count_relations:", count_relations );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
@@ -1048,12 +1040,11 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
             double good_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
             /* define relation */
-            geometry_connector_t *relationship_shape;
-            relationship_shape = layout_relationship_get_shape_ptr( the_relationship );
+            geometry_connector_t relationship_shape;
             if ( fabs( src_center_x - dst_center_x ) < 0.0001 )
             {
                 /* message/call to self */
-                geometry_connector_init_vertical ( relationship_shape,
+                geometry_connector_init_vertical ( &relationship_shape,
                                                    src_center_x,
                                                    src_y_value - (good_dist/2.0),
                                                    dst_center_x,
@@ -1064,7 +1055,7 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
             else
             {
                 /* normal message/call */
-                geometry_connector_init_horizontal ( relationship_shape,
+                geometry_connector_init_horizontal ( &relationship_shape,
                                                      src_center_x,
                                                      src_y_value,
                                                      dst_center_x,
@@ -1072,6 +1063,8 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
                                                      y_value
                                                    );
             }
+            layout_relationship_set_shape( the_relationship, &relationship_shape );
+            geometry_connector_destroy( &relationship_shape );
         }
     }
 
@@ -1085,16 +1078,14 @@ void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layoute
     pencil_relationship_layouter_private_make_all_visible( this_ );
 
     /* get draw area */
-    geometry_rectangle_t *diagram_draw_area;
-    {
-        layout_diagram_t *diagram_layout;
-        diagram_layout = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
-        diagram_draw_area = layout_diagram_get_draw_area_ptr( diagram_layout );
-    }
+    const layout_diagram_t *const diagram_layout
+        = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
+    const geometry_rectangle_t *const diagram_draw_area
+        = layout_diagram_get_draw_area_const( diagram_layout );
 
     /* layout the relationships */
-    uint32_t count_relations;
-    count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+    const uint32_t count_relations
+        = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
     TRACE_INFO_INT ( "count_relations:", count_relations );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
@@ -1148,12 +1139,11 @@ void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layoute
             double good_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
             /* define relation */
-            geometry_connector_t *relationship_shape;
-            relationship_shape = layout_relationship_get_shape_ptr( the_relationship );
+            geometry_connector_t relationship_shape;
             if ( fabs( src_center_y - dst_center_y ) < 0.0001 )
             {
                 /* transition to self */
-                geometry_connector_init_horizontal ( relationship_shape,
+                geometry_connector_init_horizontal ( &relationship_shape,
                                                      src_x_value - (good_dist/2.0),
                                                      src_center_y,
                                                      dst_x_value + (good_dist/2.0),
@@ -1164,7 +1154,7 @@ void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layoute
             else
             {
                 /* normal transition */
-                geometry_connector_init_vertical ( relationship_shape,
+                geometry_connector_init_vertical ( &relationship_shape,
                                                    src_x_value,
                                                    src_center_y,
                                                    dst_x_value,
@@ -1172,6 +1162,8 @@ void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layoute
                                                    x_value
                                                  );
             }
+            layout_relationship_set_shape( the_relationship, &relationship_shape );
+            geometry_connector_destroy( &relationship_shape );
         }
     }
 
@@ -1185,8 +1177,8 @@ void pencil_relationship_layouter_layout_for_communication( pencil_relationship_
     pencil_relationship_layouter_private_make_all_visible( this_ );
 
     /* hide some relationships */
-    uint32_t count_relations;
-    count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+    const uint32_t count_relations
+        = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
         layout_relationship_t *the_relationship;

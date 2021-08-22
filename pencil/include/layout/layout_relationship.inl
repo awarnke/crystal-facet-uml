@@ -70,11 +70,6 @@ static inline void layout_relationship_set_visibility ( layout_relationship_t *t
     (*this_).visible = visible;
 }
 
-static inline geometry_connector_t *layout_relationship_get_shape_ptr ( layout_relationship_t *this_ )
-{
-    return &((*this_).shape);
-}
-
 static inline const geometry_connector_t *layout_relationship_get_shape_const ( const layout_relationship_t *this_ )
 {
     return &((*this_).shape);
@@ -89,11 +84,6 @@ static inline geometry_point_t layout_relationship_get_middle ( const layout_rel
 {
     double connector_length = geometry_connector_get_length( &((*this_).shape) );
     return geometry_connector_calculate_waypoint( &((*this_).shape), connector_length/2.0 );
-}
-
-static inline geometry_rectangle_t *layout_relationship_get_label_box_ptr ( layout_relationship_t *this_ )
-{
-    return &((*this_).label_box);
 }
 
 static inline const geometry_rectangle_t *layout_relationship_get_label_box_const ( const layout_relationship_t *this_ )

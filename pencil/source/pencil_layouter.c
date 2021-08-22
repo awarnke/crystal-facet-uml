@@ -107,21 +107,23 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_, geometry_rectangle_
     double height = geometry_rectangle_get_height ( &diagram_bounds );
     pencil_size_reinit( &((*this_).pencil_size), width, height );
 
-    geometry_rectangle_t *diagram_draw_area;
-    diagram_draw_area = layout_diagram_get_draw_area_ptr( the_diagram );
+    geometry_rectangle_t diagram_draw_area;
+    geometry_rectangle_init_empty( &diagram_draw_area );
     pencil_diagram_painter_get_drawing_space ( &((*this_).diagram_painter),
                                                diagram_data,
                                                &((*this_).pencil_size),
                                                &diagram_bounds,
-                                               diagram_draw_area
+                                               &diagram_draw_area
                                              );
+    layout_diagram_set_draw_area( the_diagram, &diagram_draw_area );
+    geometry_rectangle_destroy( &diagram_draw_area );
 
     /* calculate the axis scales */
-    geometry_rectangle_trace ( diagram_draw_area );
-    double draw_left = geometry_rectangle_get_left ( diagram_draw_area );
-    double draw_top = geometry_rectangle_get_top ( diagram_draw_area );
-    double draw_right = geometry_rectangle_get_right ( diagram_draw_area );
-    double draw_bottom = geometry_rectangle_get_bottom ( diagram_draw_area );
+    geometry_rectangle_trace ( &diagram_draw_area );
+    double draw_left = geometry_rectangle_get_left ( &diagram_draw_area );
+    double draw_top = geometry_rectangle_get_top ( &diagram_draw_area );
+    double draw_right = geometry_rectangle_get_right ( &diagram_draw_area );
+    double draw_bottom = geometry_rectangle_get_bottom ( &diagram_draw_area );
     geometry_non_linear_scale_reinit( &((*this_).x_scale), draw_left, draw_right );
     geometry_non_linear_scale_reinit( &((*this_).y_scale), draw_top, draw_bottom );
 

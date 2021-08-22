@@ -23,7 +23,7 @@ void pencil_classifier_1d_layouter_init( pencil_classifier_1d_layouter_t *this_,
     {
         layout_diagram_t *diagram_layout;
         diagram_layout = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
-        (*this_).diagram_draw_area = layout_diagram_get_draw_area_ptr( diagram_layout );
+        (*this_).diagram_draw_area = layout_diagram_get_draw_area_const( diagram_layout );
     }
 
     TRACE_END();

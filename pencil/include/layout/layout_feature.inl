@@ -39,11 +39,6 @@ static inline bool layout_feature_is_valid ( const layout_feature_t *this_ )
     return result;
 }
 
-static inline geometry_rectangle_t *layout_feature_get_symbol_box_ptr ( layout_feature_t *this_ )
-{
-    return &((*this_).symbol_box);
-}
-
 static inline const geometry_rectangle_t *layout_feature_get_symbol_box_const ( const layout_feature_t *this_ )
 {
     return &((*this_).symbol_box);
@@ -72,11 +67,6 @@ static inline geometry_direction_t layout_feature_get_icon_direction ( const lay
 static inline void layout_feature_set_icon_direction ( layout_feature_t *this_, geometry_direction_t direction )
 {
     (*this_).icon_direction = direction;
-}
-
-static inline geometry_rectangle_t *layout_feature_get_label_box_ptr ( layout_feature_t *this_ )
-{
-    return &((*this_).label_box);
 }
 
 static inline const geometry_rectangle_t *layout_feature_get_label_box_const ( const layout_feature_t *this_ )
