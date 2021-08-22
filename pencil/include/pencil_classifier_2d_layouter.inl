@@ -24,7 +24,7 @@ static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_de
     const uint32_t count_classifiers = pencil_layout_data_get_visible_classifier_count( (*this_).layout_data );
     for ( uint32_t classifier_search_idx = 0; classifier_search_idx < count_classifiers; classifier_search_idx ++ )
     {
-        const layout_visible_classifier_t * probe_classifier
+        const layout_visible_classifier_t *const probe_classifier
             = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, classifier_search_idx );
         if ( pencil_layout_data_is_ancestor( (*this_).layout_data, ancestor_classifier, probe_classifier ) )
         {

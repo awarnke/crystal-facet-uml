@@ -9,6 +9,7 @@ static inline void layout_visible_classifier_init ( layout_visible_classifier_t 
     geometry_rectangle_init_empty( &((*this_).symbol_box) );
     geometry_rectangle_init_empty( &((*this_).space) );
     geometry_rectangle_init_empty( &((*this_).label_box) );
+    geometry_rectangle_init_empty( &((*this_).envelope_box_cache) );
     (*this_).label_h_anchor = GEOMETRY_H_ALIGN_CENTER;  /* most labels are centered */
     (*this_).label_v_anchor = GEOMETRY_V_ALIGN_TOP;  /* most labels are fixed to the top */
     (*this_).data = visible_classifier_data;
@@ -22,6 +23,7 @@ static inline void layout_visible_classifier_copy( layout_visible_classifier_t *
     geometry_rectangle_copy( &((*this_).symbol_box), &((*original).symbol_box) );
     geometry_rectangle_copy( &((*this_).space), &((*original).space) );
     geometry_rectangle_copy( &((*this_).label_box), &((*original).label_box) );
+    geometry_rectangle_copy( &((*this_).envelope_box_cache), &((*original).envelope_box_cache) );
     (*this_).label_h_anchor = (*original).label_h_anchor;
     (*this_).label_v_anchor = (*original).label_v_anchor;
     (*this_).data = (*original).data;
@@ -35,6 +37,7 @@ static inline void layout_visible_classifier_move( layout_visible_classifier_t *
     geometry_rectangle_move( &((*this_).symbol_box), &((*that).symbol_box) );
     geometry_rectangle_move( &((*this_).space), &((*that).space) );
     geometry_rectangle_move( &((*this_).label_box), &((*that).label_box) );
+    geometry_rectangle_move( &((*this_).envelope_box_cache), &((*that).envelope_box_cache) );
     (*this_).label_h_anchor = (*that).label_h_anchor;
     (*this_).label_v_anchor = (*that).label_v_anchor;
     (*this_).data = (*that).data;
@@ -50,6 +53,7 @@ static inline void layout_visible_classifier_replace( layout_visible_classifier_
     geometry_rectangle_replace( &((*this_).symbol_box), &((*original).symbol_box) );
     geometry_rectangle_replace( &((*this_).space), &((*original).space) );
     geometry_rectangle_replace( &((*this_).label_box), &((*original).label_box) );
+    geometry_rectangle_replace( &((*this_).envelope_box_cache), &((*original).envelope_box_cache) );
     (*this_).label_h_anchor = (*original).label_h_anchor;
     (*this_).label_v_anchor = (*original).label_v_anchor;
     (*this_).data = (*original).data;
@@ -63,6 +67,7 @@ static inline void layout_visible_classifier_replacemove( layout_visible_classif
     geometry_rectangle_replacemove( &((*this_).symbol_box), &((*that).symbol_box) );
     geometry_rectangle_replacemove( &((*this_).space), &((*that).space) );
     geometry_rectangle_replacemove( &((*this_).label_box), &((*that).label_box) );
+    geometry_rectangle_replacemove( &((*this_).envelope_box_cache), &((*that).envelope_box_cache) );
     (*this_).label_h_anchor = (*that).label_h_anchor;
     (*this_).label_v_anchor = (*that).label_v_anchor;
     (*this_).data = (*that).data;
@@ -75,6 +80,7 @@ static inline void layout_visible_classifier_destroy ( layout_visible_classifier
     geometry_rectangle_destroy( &((*this_).symbol_box) );
     geometry_rectangle_destroy( &((*this_).space) );
     geometry_rectangle_destroy( &((*this_).label_box) );
+    geometry_rectangle_destroy( &((*this_).envelope_box_cache) );
     (*this_).data = NULL;
 }
 
@@ -100,6 +106,9 @@ static inline const geometry_rectangle_t *layout_visible_classifier_get_symbol_b
 static inline void layout_visible_classifier_set_symbol_box ( layout_visible_classifier_t *this_, const geometry_rectangle_t *symbol_box )
 {
     geometry_rectangle_replace( &((*this_).symbol_box), symbol_box );
+
+    /* update the cached value of envelope_box */
+    layout_visible_classifier_private_update_envelope_box( this_ );
 }
 
 static inline const geometry_rectangle_t *layout_visible_classifier_get_space_const ( const layout_visible_classifier_t *this_ )
@@ -110,6 +119,9 @@ static inline const geometry_rectangle_t *layout_visible_classifier_get_space_co
 static inline void layout_visible_classifier_set_space ( layout_visible_classifier_t *this_, const geometry_rectangle_t *space )
 {
     geometry_rectangle_replace( &((*this_).space), space );
+
+    /* update the cached value of envelope_box */
+    layout_visible_classifier_private_update_envelope_box( this_ );
 }
 
 static inline const geometry_rectangle_t *layout_visible_classifier_get_label_box_const ( const layout_visible_classifier_t *this_ )
@@ -120,6 +132,9 @@ static inline const geometry_rectangle_t *layout_visible_classifier_get_label_bo
 static inline void layout_visible_classifier_set_label_box ( layout_visible_classifier_t *this_, const geometry_rectangle_t *label_box )
 {
     geometry_rectangle_replace( &((*this_).label_box), label_box );
+
+    /* update the cached value of envelope_box */
+    layout_visible_classifier_private_update_envelope_box( this_ );
 }
 
 static inline void layout_visible_classifier_set_label_anchor ( layout_visible_classifier_t *this_,
@@ -132,9 +147,13 @@ static inline void layout_visible_classifier_set_label_anchor ( layout_visible_c
 
 static inline geometry_rectangle_t layout_visible_classifier_get_envelope_box ( const layout_visible_classifier_t *this_ )
 {
-    geometry_rectangle_t result;
-    geometry_rectangle_init_by_bounds( &result, &((*this_).symbol_box), &((*this_).label_box) );
-    return result;
+    return (*this_).envelope_box_cache;
+}
+
+static inline const geometry_rectangle_t *layout_visible_classifier_get_envelope_box_const ( const layout_visible_classifier_t *this_ )
+{
+    /* return the cached value */
+    return &((*this_).envelope_box_cache);
 }
 
 static inline void layout_visible_classifier_shift ( layout_visible_classifier_t *this_, double delta_x, double delta_y )
@@ -175,6 +194,13 @@ static inline bool layout_visible_classifier_is_equal_diagramelement_id ( const 
     const data_row_id_t this_diagele_id = layout_visible_classifier_get_diagramelement_id( this_ );
     const data_row_id_t that_diagele_id = layout_visible_classifier_get_diagramelement_id( that );
     return ( this_diagele_id == that_diagele_id );
+}
+
+static inline void layout_visible_classifier_private_update_envelope_box ( layout_visible_classifier_t *this_ )
+{
+    geometry_rectangle_t intermediate;
+    geometry_rectangle_init_by_bounds( &intermediate, &((*this_).symbol_box), &((*this_).label_box) );
+    geometry_rectangle_init_by_bounds( &((*this_).envelope_box_cache), &intermediate, &((*this_).space) );
 }
 
 

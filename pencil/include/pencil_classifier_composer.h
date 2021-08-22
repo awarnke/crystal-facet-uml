@@ -81,24 +81,25 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                                      );
 
 /*!
- *  \brief recalculates symbol_box and label_box based on new inner_space
+ *  \brief recalculates symbol_box and label_box based on new space_and_label
  *
  *  Precondition: the objects coordinates need to be valid already. This is just a partly recalculation.
  *
  *  \param this_ pointer to own object attributes
- *  \param inner_space exact new inner space
+ *  \param space exact new space
  *  \param shows_contained_children true if the classifier has contained children (needed for uml package because the symbol differs)
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param io_classifier_layout classifier layout of which the box coordinates shall be modified. Must not be NULL.
+ *  \return 0 in case of success, 1 in case of additionally needed width by label text
  */
-void pencil_classifier_composer_expand_inner_space ( const pencil_classifier_composer_t *this_,
-                                                     const geometry_rectangle_t *inner_space,
-                                                     bool shows_contained_children,
-                                                     const pencil_size_t *pencil_size,
-                                                     PangoLayout *font_layout,
-                                                     layout_visible_classifier_t *io_classifier_layout
-                                                   );
+int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t *this_,
+                                              const geometry_rectangle_t *space,
+                                              bool shows_contained_children,
+                                              const pencil_size_t *pencil_size,
+                                              PangoLayout *font_layout,
+                                              layout_visible_classifier_t *io_classifier_layout
+                                            );
 
 /*!
  *  \brief resizes the contour, inner drawing space for contained classifiers and features - and the label_box
@@ -129,7 +130,7 @@ int pencil_classifier_composer_set_envelope_box ( const pencil_classifier_compos
  *  \param this_ pointer to own object attributes
  *  \param visible_classifier the visible_classifier consisting of diagramelement and classifier to draw
  *  \param shows_contained_children true if the classifier has contained children (needed for uml package because the symbol differs)
- *  \param inner_area proposed rectangle for the position, width and height of: label and icon and features and contained classifiers
+ *  \param space_and_label proposed rectangle for the position, width and height of: label and icon and features and contained classifiers
  *  \param icon_dim dimensions of the label
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
@@ -140,7 +141,7 @@ int pencil_classifier_composer_set_envelope_box ( const pencil_classifier_compos
 int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_composer_t *this_,
                                                        const data_visible_classifier_t *visible_classifier,
                                                        bool shows_contained_children,
-                                                       const geometry_rectangle_t *inner_area,
+                                                       const geometry_rectangle_t *space_and_label,
                                                        const geometry_dimensions_t *icon_dim,
                                                        const pencil_size_t *pencil_size,
                                                        PangoLayout *font_layout,

@@ -114,13 +114,13 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
                                                   (delta_width<0.0) ? 0.0 : 0.5*delta_width,
                                                   (delta_height<0.0) ? 0.0 : 0.5*delta_height );
 
-                    pencil_classifier_composer_expand_inner_space( &((*this_).classifier_composer),
-                                                                   &new_space,
-                                                                   shows_contained_children,
-                                                                   (*this_).pencil_size,
-                                                                   font_layout,
-                                                                   classifier_layout
-                                                                 );
+                    pencil_classifier_composer_expand_space( &((*this_).classifier_composer),
+                                                             &new_space,
+                                                             shows_contained_children,
+                                                             (*this_).pencil_size,
+                                                             font_layout,
+                                                             classifier_layout
+                                                           );
 
                     geometry_rectangle_destroy( &new_space );
                 }
@@ -238,8 +238,8 @@ void pencil_classifier_2d_layouter_private_propose_move_processing_order ( penci
     {
         const layout_visible_classifier_t *const the_classifier
             = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, index );
-        const geometry_rectangle_t *const classifier_symbol_box
-            = layout_visible_classifier_get_symbol_box_const( the_classifier );
+        const geometry_rectangle_t *const classifier_envelope_box
+            = layout_visible_classifier_get_envelope_box_const( the_classifier );
 
         int64_t simpleness = 0;  /* the lower the number, the ealier the classifier will be processed. Unit is area(=square-length). */
 
@@ -247,14 +247,14 @@ void pencil_classifier_2d_layouter_private_propose_move_processing_order ( penci
         {
             geometry_rectangle_t border_intersect;
             int intersect_error2;
-            intersect_error2 = geometry_rectangle_init_by_intersect( &border_intersect, classifier_symbol_box, (*this_).diagram_draw_area );
+            intersect_error2 = geometry_rectangle_init_by_intersect( &border_intersect, classifier_envelope_box, (*this_).diagram_draw_area );
             if ( 0 != intersect_error2 )
             {
                 TSLOG_WARNING( "a rectangle to be drawn is completely outside the diagram area" );
             }
 
             simpleness += 16.0 * geometry_rectangle_get_area( &border_intersect );
-            simpleness -= 16.0 * geometry_rectangle_get_area( classifier_symbol_box );
+            simpleness -= 16.0 * geometry_rectangle_get_area( classifier_envelope_box );
 
             geometry_rectangle_destroy( &border_intersect );
         }
@@ -265,11 +265,11 @@ void pencil_classifier_2d_layouter_private_propose_move_processing_order ( penci
             layout_visible_classifier_t *probe_classifier;
             probe_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, probe_index );
             const geometry_rectangle_t *const probe_symbol_box
-                = layout_visible_classifier_get_symbol_box_const( probe_classifier );
+                = layout_visible_classifier_get_envelope_box_const( probe_classifier );
 
             geometry_rectangle_t intersect;
             int intersect_error;
-            intersect_error = geometry_rectangle_init_by_intersect( &intersect, classifier_symbol_box, probe_symbol_box );
+            intersect_error = geometry_rectangle_init_by_intersect( &intersect, classifier_envelope_box, probe_symbol_box );
 
             if ( 0 == intersect_error )
             {
@@ -282,7 +282,7 @@ void pencil_classifier_2d_layouter_private_propose_move_processing_order ( penci
         /* reduce simpleness by own size: the bigger the object, the earlier it should be moved */
         {
             const double default_classifier_area = geometry_dimensions_get_area( (*this_).default_classifier_size );
-            const double classifier_area = geometry_rectangle_get_area( classifier_symbol_box );
+            const double classifier_area = geometry_rectangle_get_area( classifier_envelope_box );
             if (( default_classifier_area > 0.000000001 )&&( classifier_area > 0.000000001 ))
             {
                 simpleness -= default_classifier_area * ( classifier_area / ( classifier_area + default_classifier_area ));
@@ -345,12 +345,12 @@ void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( pencil_c
         = universal_array_index_sorter_get_array_index( sorted, sort_index );
     const layout_visible_classifier_t *const the_classifier
         = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, index );
-    const geometry_rectangle_t *const classifier_symbol_box
-        = layout_visible_classifier_get_symbol_box_const( the_classifier );
-    double top = geometry_rectangle_get_top ( classifier_symbol_box );
-    double bottom = geometry_rectangle_get_bottom ( classifier_symbol_box );
-    double left = geometry_rectangle_get_left ( classifier_symbol_box );
-    double right = geometry_rectangle_get_right ( classifier_symbol_box );
+    const geometry_rectangle_t *const classifier_envelope_box
+        = layout_visible_classifier_get_envelope_box_const( the_classifier );
+    double top = geometry_rectangle_get_top ( classifier_envelope_box );
+    double bottom = geometry_rectangle_get_bottom ( classifier_envelope_box );
+    double left = geometry_rectangle_get_left ( classifier_envelope_box );
+    double right = geometry_rectangle_get_right ( classifier_envelope_box );
 
     /* choose distance */
     double shift_x = 0.0;
@@ -402,16 +402,16 @@ void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( pencil_c
     for ( uint32_t probe_sort_index = 0; probe_sort_index < sort_index; probe_sort_index ++ )
     {
         /* get classifier to check overlaps */
-        uint32_t probe_index;
-        probe_index = universal_array_index_sorter_get_array_index( sorted, probe_sort_index );
+        const uint32_t probe_index
+             = universal_array_index_sorter_get_array_index( sorted, probe_sort_index );
         const layout_visible_classifier_t *const the_probe
             = pencil_layout_data_get_visible_classifier_const( (*this_).layout_data, probe_index );
-        const geometry_rectangle_t *const probe_symbol_box
-            = layout_visible_classifier_get_symbol_box_const( the_probe );
-        const double probe_top = geometry_rectangle_get_top ( probe_symbol_box );
-        const double probe_bottom = geometry_rectangle_get_bottom ( probe_symbol_box );
-        const double probe_left = geometry_rectangle_get_left ( probe_symbol_box );
-        const double probe_right = geometry_rectangle_get_right ( probe_symbol_box );
+        const geometry_rectangle_t *const probe_envelope_box
+            = layout_visible_classifier_get_envelope_box_const( the_probe );
+        const double probe_top = geometry_rectangle_get_top ( probe_envelope_box );
+        const double probe_bottom = geometry_rectangle_get_bottom ( probe_envelope_box );
+        const double probe_left = geometry_rectangle_get_left ( probe_envelope_box );
+        const double probe_right = geometry_rectangle_get_right ( probe_envelope_box );
 
         if ( probe_right < left )
         {
@@ -511,25 +511,18 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
     const layout_visible_classifier_t *const the_classifier
         = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, index );
 
-    /* determine the user-selected center */
-    const geometry_rectangle_t *const classifier_symbol_box
-        = layout_visible_classifier_get_symbol_box_const( the_classifier );
-
     /* determine the space needed for the solution */
-    geometry_rectangle_t classifier_total_bounds;
-    geometry_rectangle_init_by_bounds( &classifier_total_bounds,
-                                       classifier_symbol_box,
-                                       layout_visible_classifier_get_label_box_const( the_classifier )
-                                     );
-    const double width = geometry_rectangle_get_width( &classifier_total_bounds );
-    const double height = geometry_rectangle_get_height( &classifier_total_bounds );
+    const geometry_rectangle_t *const classifier_envelope_box
+        = layout_visible_classifier_get_envelope_box_const( the_classifier );
+    const double width = geometry_rectangle_get_width( classifier_envelope_box );
+    const double height = geometry_rectangle_get_height( classifier_envelope_box );
     const double gap = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
     /* wish a solution area */
     geometry_rectangle_t classifier_solution_area;
     geometry_rectangle_init ( &classifier_solution_area,
-                              geometry_rectangle_get_left( &classifier_total_bounds ) - 0.5*width - gap,
-                              geometry_rectangle_get_top( &classifier_total_bounds ) - 0.5*height - gap,
+                              geometry_rectangle_get_left( classifier_envelope_box ) - 0.5*width - gap,
+                              geometry_rectangle_get_top( classifier_envelope_box ) - 0.5*height - gap,
                               2.0*width + 2.0*gap,
                               2.0*height + 2.0*gap
                             );
@@ -552,7 +545,7 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
         geometry_rectangle_t probe_total_bounds;
         geometry_rectangle_init_by_bounds( &probe_total_bounds,
                                            layout_visible_classifier_get_label_box_const( the_probe ),
-                                           layout_visible_classifier_get_symbol_box_const( the_probe )
+                                           layout_visible_classifier_get_envelope_box_const( the_probe )
                                          );
 
         geometry_rectangle_init_by_difference( &classifier_solution_area,
@@ -567,11 +560,11 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
 
     /* move - but not to eager - only the minumum distance */
     const bool is_x_contained
-        = ( geometry_rectangle_get_left( &classifier_solution_area ) < geometry_rectangle_get_left( &classifier_total_bounds ) )
-        && ( geometry_rectangle_get_right( &classifier_total_bounds ) < geometry_rectangle_get_right( &classifier_solution_area ) );
+        = ( geometry_rectangle_get_left( &classifier_solution_area ) < geometry_rectangle_get_left( classifier_envelope_box ) )
+        && ( geometry_rectangle_get_right( classifier_envelope_box ) < geometry_rectangle_get_right( &classifier_solution_area ) );
     const bool is_y_contained
-        = ( geometry_rectangle_get_top( &classifier_solution_area ) < geometry_rectangle_get_top( &classifier_total_bounds ) )
-        && ( geometry_rectangle_get_bottom( &classifier_total_bounds ) < geometry_rectangle_get_bottom( &classifier_solution_area ) );
+        = ( geometry_rectangle_get_top( &classifier_solution_area ) < geometry_rectangle_get_top( classifier_envelope_box ) )
+        && ( geometry_rectangle_get_bottom( classifier_envelope_box ) < geometry_rectangle_get_bottom( &classifier_solution_area ) );
     if ( is_x_contained )
     {
         *out_solution_move_dx = 0.0;
@@ -579,14 +572,14 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
     else
     {
         const double sol_center_x = geometry_rectangle_get_center_x( &classifier_solution_area );
-        const double cur_center_x = geometry_rectangle_get_center_x( &classifier_total_bounds );
+        const double cur_center_x = geometry_rectangle_get_center_x( classifier_envelope_box );
         *out_solution_move_dx = ( sol_center_x < cur_center_x )
             ? geometry_rectangle_get_right( &classifier_solution_area )
-            - geometry_rectangle_get_right( &classifier_total_bounds )
+            - geometry_rectangle_get_right( classifier_envelope_box )
             : geometry_rectangle_get_left( &classifier_solution_area )
-            - geometry_rectangle_get_left( &classifier_total_bounds );
+            - geometry_rectangle_get_left( classifier_envelope_box );
         geometry_rectangle_trace( &classifier_solution_area );
-        geometry_rectangle_trace( &classifier_total_bounds );
+        geometry_rectangle_trace( classifier_envelope_box );
     }
     if ( is_y_contained )
     {
@@ -595,12 +588,12 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
     else
     {
         const double sol_center_y = geometry_rectangle_get_center_y( &classifier_solution_area );
-        const double cur_center_y = geometry_rectangle_get_center_y( &classifier_total_bounds );
+        const double cur_center_y = geometry_rectangle_get_center_y( classifier_envelope_box );
         *out_solution_move_dy = ( sol_center_y < cur_center_y )
             ? geometry_rectangle_get_bottom( &classifier_solution_area )
-            - geometry_rectangle_get_bottom( &classifier_total_bounds )
+            - geometry_rectangle_get_bottom( classifier_envelope_box )
             : geometry_rectangle_get_top( &classifier_solution_area )
-            - geometry_rectangle_get_top( &classifier_total_bounds );
+            - geometry_rectangle_get_top( classifier_envelope_box );
     }
 
     /* trace */
@@ -640,15 +633,15 @@ void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifi
         = universal_array_index_sorter_get_array_index( sorted, sort_index );
     const layout_visible_classifier_t *const the_classifier
         = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, index );
-    const geometry_rectangle_t *const classifier_symbol_box
-        = layout_visible_classifier_get_symbol_box_const( the_classifier );
+    const geometry_rectangle_t *const classifier_envelope_box
+        = layout_visible_classifier_get_envelope_box_const( the_classifier );
 
     /* check all solutions */
     for ( uint32_t solution_index = 0; solution_index < solutions_count; solution_index ++ )
     {
         /* calculate the solution rectangle */
         geometry_rectangle_t solution_bounds;
-        geometry_rectangle_copy( &solution_bounds, classifier_symbol_box );
+        geometry_rectangle_copy( &solution_bounds, classifier_envelope_box );
         geometry_rectangle_shift ( &solution_bounds, solution_move_dx[solution_index], solution_move_dy[solution_index] );
 
         /* evalute the debts of this solution */
@@ -682,12 +675,12 @@ void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifi
 
                 const layout_visible_classifier_t *const the_probe
                     = pencil_layout_data_get_visible_classifier_const( (*this_).layout_data, probe_index );
-                const geometry_rectangle_t *const probe_symbol_box
-                    = layout_visible_classifier_get_symbol_box_const( the_probe );
+                const geometry_rectangle_t *const probe_envelope_box
+                    = layout_visible_classifier_get_envelope_box_const( the_probe );
 
                 geometry_rectangle_t probe_intersect;
                 const int intersect_err
-                    = geometry_rectangle_init_by_intersect( &probe_intersect, &solution_bounds, probe_symbol_box );
+                    = geometry_rectangle_init_by_intersect( &probe_intersect, &solution_bounds, probe_envelope_box );
                 if ( 0 == intersect_err )
                 {
                     /* there is an intersect */
@@ -840,13 +833,13 @@ int pencil_classifier_2d_layouter_private_try_embrace_child( pencil_classifier_2
                 geometry_rectangle_init_by_bounds( &probe_space, parent_space, &child_envelope );
             }
 
-            pencil_classifier_composer_expand_inner_space( &((*this_).classifier_composer),
-                                                           &probe_space,
-                                                           true,  /* = shows_contained_children */
-                                                           (*this_).pencil_size,
-                                                           font_layout,
-                                                           &probe_parent_layout
-                                                         );
+            pencil_classifier_composer_expand_space( &((*this_).classifier_composer),
+                                                     &probe_space,
+                                                     true,  /* = shows_contained_children */
+                                                     (*this_).pencil_size,
+                                                     font_layout,
+                                                     &probe_parent_layout
+                                                   );
 
             const geometry_rectangle_t probe_parent_envelope
                 = layout_visible_classifier_get_envelope_box( &probe_parent_layout );
@@ -872,9 +865,9 @@ int pencil_classifier_2d_layouter_private_try_embrace_child( pencil_classifier_2
                     }
                     else
                     {
-                        const geometry_rectangle_t *const current_symbol_box
-                            = layout_visible_classifier_get_symbol_box_const ( probe_classifier );
-                        illegal_overlap |= geometry_rectangle_is_intersecting( current_symbol_box, &probe_parent_envelope );
+                        const geometry_rectangle_t *const current_envelope_box
+                            = layout_visible_classifier_get_envelope_box_const ( probe_classifier );
+                        illegal_overlap |= geometry_rectangle_is_intersecting( current_envelope_box, &probe_parent_envelope );
                     }
                 }
             }
@@ -994,13 +987,13 @@ void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_
             /* place the children into the (probe-)parent */
             layout_visible_classifier_t probe_parent_layout;
             layout_visible_classifier_copy( &probe_parent_layout, the_classifier );
-            pencil_classifier_composer_expand_inner_space( &((*this_).classifier_composer),
-                                                           &children_envelope,
-                                                           true,  /* = shows_contained_children */
-                                                           (*this_).pencil_size,
-                                                           font_layout,
-                                                           &probe_parent_layout
-                                                         );
+            pencil_classifier_composer_expand_space( &((*this_).classifier_composer),
+                                                     &children_envelope,
+                                                     true,  /* = shows_contained_children */
+                                                     (*this_).pencil_size,
+                                                     font_layout,
+                                                     &probe_parent_layout
+                                                   );
             const geometry_rectangle_t probe_parent_envelope
                 = layout_visible_classifier_get_envelope_box( &probe_parent_layout );
 

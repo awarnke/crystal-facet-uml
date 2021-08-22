@@ -28,6 +28,8 @@ struct layout_visible_classifier_struct {
                                      /*!< label_box is stated in absolute coordinates. */
     geometry_h_align_t label_h_anchor;  /*!< side of the label box that stays fix in case of expand */
     geometry_v_align_t label_v_anchor;  /*!< side of the label box that stays fix in case of expand */
+    geometry_rectangle_t envelope_box_cache;  /*!< for caching the envelope_box, */
+                                              /*!< which is derived from the other three rectangles */
     const data_visible_classifier_t *data;  /*!< pointer to the data object of the visible classifier */
 };
 
@@ -154,9 +156,17 @@ static inline void layout_visible_classifier_set_label_anchor ( layout_visible_c
  *  The envelope contains the label and the symbol box and implicitly the (inner) space.
  *
  *  \param this_ pointer to own object attributes
- *  \return geometry_rectangle_t ehich is the envelope to label and symbol-box.
+ *  \return geometry_rectangle_t which is the envelope to label and symbol-box.
  */
 static inline geometry_rectangle_t layout_visible_classifier_get_envelope_box ( const layout_visible_classifier_t *this_ );
+
+/*!
+ *  \brief gets the envelope of the classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to geometry_rectangle_t.
+ */
+static inline const geometry_rectangle_t *layout_visible_classifier_get_envelope_box_const ( const layout_visible_classifier_t *this_ );
 
 /*!
  *  \brief moves the layout_visible_classifier_t
@@ -223,6 +233,15 @@ static inline data_row_id_t layout_visible_classifier_get_diagramelement_id ( co
 static inline bool layout_visible_classifier_is_equal_diagramelement_id ( const layout_visible_classifier_t *this_,
                                                                           const layout_visible_classifier_t *that
                                                                         );
+
+/*!
+ *  \brief calculates the envelope bounds of the classifier and stores it in envelope_box_cache.
+ *
+ *  The envelope contains the label and the symbol box and the (inner) space.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void layout_visible_classifier_private_update_envelope_box ( layout_visible_classifier_t *this_ );
 
 #include "layout_visible_classifier.inl"
 
