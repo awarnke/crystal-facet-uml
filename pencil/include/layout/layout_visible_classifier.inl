@@ -130,7 +130,7 @@ static inline void layout_visible_classifier_set_label_anchor ( layout_visible_c
     (*this_).label_v_anchor = label_v_anchor;
 }
 
-static inline geometry_rectangle_t layout_visible_classifier_calc_envelope_box ( const layout_visible_classifier_t *this_ )
+static inline geometry_rectangle_t layout_visible_classifier_get_envelope_box ( const layout_visible_classifier_t *this_ )
 {
     geometry_rectangle_t result;
     geometry_rectangle_init_by_bounds( &result, &((*this_).symbol_box), &((*this_).label_box) );

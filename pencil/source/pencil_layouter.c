@@ -95,16 +95,16 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_, geometry_rectangle_
     /* get the diagram data */
     layout_diagram_t *the_diagram;
     the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
-    const data_diagram_t *diagram_data;
-    diagram_data = layout_diagram_get_data_const ( the_diagram );
+    const data_diagram_t *const diagram_data
+        = layout_diagram_get_data_const ( the_diagram );
 
     /* update the bounding rectangle */
     geometry_rectangle_trace ( &diagram_bounds );
     layout_diagram_set_bounds( the_diagram, &diagram_bounds );
 
     /* calculate the pencil-sizes and the drawing rectangle */
-    double width = geometry_rectangle_get_width ( &diagram_bounds );
-    double height = geometry_rectangle_get_height ( &diagram_bounds );
+    const double width = geometry_rectangle_get_width ( &diagram_bounds );
+    const double height = geometry_rectangle_get_height ( &diagram_bounds );
     pencil_size_reinit( &((*this_).pencil_size), width, height );
 
     geometry_rectangle_t diagram_draw_area;
@@ -120,16 +120,16 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_, geometry_rectangle_
 
     /* calculate the axis scales */
     geometry_rectangle_trace ( &diagram_draw_area );
-    double draw_left = geometry_rectangle_get_left ( &diagram_draw_area );
-    double draw_top = geometry_rectangle_get_top ( &diagram_draw_area );
-    double draw_right = geometry_rectangle_get_right ( &diagram_draw_area );
-    double draw_bottom = geometry_rectangle_get_bottom ( &diagram_draw_area );
+    const double draw_left = geometry_rectangle_get_left ( &diagram_draw_area );
+    const double draw_top = geometry_rectangle_get_top ( &diagram_draw_area );
+    const double draw_right = geometry_rectangle_get_right ( &diagram_draw_area );
+    const double draw_bottom = geometry_rectangle_get_bottom ( &diagram_draw_area );
     geometry_non_linear_scale_reinit( &((*this_).x_scale), draw_left, draw_right );
     geometry_non_linear_scale_reinit( &((*this_).y_scale), draw_top, draw_bottom );
 
     /* iterate over all classifiers */
-    uint32_t count;
-    count = pencil_layout_data_get_visible_classifier_count ( &((*this_).layout_data) );
+    const uint32_t count
+        = pencil_layout_data_get_visible_classifier_count ( &((*this_).layout_data) );
     for ( uint32_t index = 0; index < count; index ++ )
     {
         const layout_visible_classifier_t *const visible_classifier
@@ -156,12 +156,12 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
     assert( font_layout != NULL );
 
     /* get the diagram data */
-    layout_diagram_t *the_diagram;
-    the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
-    const data_diagram_t *diagram_data;
-    diagram_data = layout_diagram_get_data_const ( the_diagram );
-    data_diagram_type_t diag_type;
-    diag_type = data_diagram_get_diagram_type ( diagram_data );
+    const layout_diagram_t *const the_diagram
+        = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
+    const data_diagram_t *const diagram_data
+        = layout_diagram_get_data_const ( the_diagram );
+    const data_diagram_type_t diag_type
+        = data_diagram_get_diagram_type ( diagram_data );
 
     /* adjust the default classifier rectangle */
     pencil_layouter_private_propose_default_classifier_size( this_ );
@@ -434,22 +434,22 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( const pencil_l
     pencil_error_t result = PENCIL_ERROR_OUT_OF_BOUNDS;
 
     /* get draw area */
-    const layout_diagram_t *the_diagram;
-    the_diagram = pencil_layout_data_get_diagram_const( &((*this_).layout_data) );
-    const geometry_rectangle_t *diagram_draw_area;
-    diagram_draw_area = layout_diagram_get_draw_area_const( the_diagram );
+    const layout_diagram_t *const the_diagram
+        = pencil_layout_data_get_diagram_const( &((*this_).layout_data) );
+    const geometry_rectangle_t *const diagram_draw_area
+        = layout_diagram_get_draw_area_const( the_diagram );
 
     if ( geometry_rectangle_contains( diagram_draw_area, x, y ) )
     {
         /* iterate over all classifiers */
-        uint32_t count;
-        count = pencil_layout_data_get_visible_classifier_count ( &((*this_).layout_data) );
+        const uint32_t count
+            = pencil_layout_data_get_visible_classifier_count ( &((*this_).layout_data) );
         double surrounding_classifier_area = geometry_rectangle_get_area( diagram_draw_area );
 
         for ( uint32_t index = 0; index < count; index ++ )
         {
-            const layout_visible_classifier_t *visible_classifier;
-            visible_classifier = pencil_layout_data_get_visible_classifier_const ( &((*this_).layout_data), index );
+            const layout_visible_classifier_t *const visible_classifier
+                = pencil_layout_data_get_visible_classifier_const ( &((*this_).layout_data), index );
             const geometry_rectangle_t *const classifier_symbol_box
                 = layout_visible_classifier_get_symbol_box_const ( visible_classifier );
             const geometry_rectangle_t *const classifier_space
@@ -460,7 +460,7 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( const pencil_l
                 if ( geometry_rectangle_contains( classifier_space, x, y ) )
                 {
                     /* surrounding classifier is found. select it if it is the smallest found area */
-                    double current_classifier_area = geometry_rectangle_get_area( classifier_space );
+                    const double current_classifier_area = geometry_rectangle_get_area( classifier_space );
                     if ( current_classifier_area < surrounding_classifier_area )
                     {
                         surrounding_classifier_area = current_classifier_area;
@@ -567,15 +567,15 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( const pencil
 
     pencil_error_t result = PENCIL_ERROR_OUT_OF_BOUNDS;
 
-    uint32_t count_relations;
-    count_relations = pencil_layout_data_get_relationship_count ( &((*this_).layout_data) );
+    const uint32_t count_relations
+        = pencil_layout_data_get_relationship_count ( &((*this_).layout_data) );
     uint32_t matching_relations_found = 0;
     for ( uint32_t rel_index = 0; rel_index < count_relations; rel_index ++ )
     {
-        const layout_relationship_t *the_relationship;
-        the_relationship = pencil_layout_data_get_relationship_const( &((*this_).layout_data), rel_index );
-        const geometry_connector_t *relationship_shape;
-        relationship_shape = layout_relationship_get_shape_const( the_relationship );
+        const layout_relationship_t *const the_relationship
+            = pencil_layout_data_get_relationship_const( &((*this_).layout_data), rel_index );
+        const geometry_connector_t *const relationship_shape
+            = layout_relationship_get_shape_const( the_relationship );
 
         if ( geometry_connector_is_close( relationship_shape, x, y, snap_distance ) )
         {
@@ -647,8 +647,8 @@ pencil_error_t pencil_layouter_get_classifier_order_at_pos ( const pencil_layout
             || (( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type)&&( ! scenario_semantics)))
         {
             /* classifiers are a horizontal list */
-            double draw_left = geometry_rectangle_get_left(diagram_draw_area);
-            double draw_right = geometry_rectangle_get_right(diagram_draw_area);
+            const double draw_left = geometry_rectangle_get_left(diagram_draw_area);
+            const double draw_right = geometry_rectangle_get_right(diagram_draw_area);
             int32_t list_order;
             if ( x <= draw_left )
             {
@@ -670,8 +670,8 @@ pencil_error_t pencil_layouter_get_classifier_order_at_pos ( const pencil_layout
             || (( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type)&&( ! scenario_semantics)))
         {
             /* classifiers are a vertical list */
-            double draw_top = geometry_rectangle_get_top(diagram_draw_area);
-            double draw_bottom = geometry_rectangle_get_bottom(diagram_draw_area);
+            const double draw_top = geometry_rectangle_get_top(diagram_draw_area);
+            const double draw_bottom = geometry_rectangle_get_bottom(diagram_draw_area);
             int32_t list_order;
             if ( y <= draw_top )
             {
@@ -691,10 +691,10 @@ pencil_error_t pencil_layouter_get_classifier_order_at_pos ( const pencil_layout
         else
         {
             /* classifiers are x/y arranged */
-            int32_t x_order;
-            int32_t y_order;
-            x_order = geometry_non_linear_scale_get_order( &((*this_).x_scale), x, snap_distance );
-            y_order = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, snap_distance );
+            const int32_t x_order
+                = geometry_non_linear_scale_get_order( &((*this_).x_scale), x, snap_distance );
+            const int32_t y_order
+                = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, snap_distance );
             layout_order_init_x_y( out_layout_order, x_order, y_order );
         }
     }
@@ -722,10 +722,10 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
     parent_classifier_id = data_feature_get_classifier_row_id ( feature_ptr );
 
     /* get the bounding box of the diagram */
-    const layout_diagram_t *the_diagram;
-    the_diagram = pencil_layout_data_get_diagram_const( &((*this_).layout_data) );
-    const geometry_rectangle_t *diagram_bounds;
-    diagram_bounds = layout_diagram_get_bounds_const( the_diagram );
+    const layout_diagram_t *const the_diagram
+        = pencil_layout_data_get_diagram_const( &((*this_).layout_data) );
+    const geometry_rectangle_t *const diagram_bounds
+        = layout_diagram_get_bounds_const( the_diagram );
 
     if ( ! geometry_rectangle_contains( diagram_bounds, x, y ) )
     {
@@ -741,14 +741,14 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
     {
         /* iterate over all classifiers, search the closest_parent_instance */
         const layout_visible_classifier_t *closest_parent_instance = NULL;
-        uint32_t classfy_count;
-        classfy_count = pencil_layout_data_get_visible_classifier_count ( &((*this_).layout_data) );
+        const uint32_t classfy_count
+            = pencil_layout_data_get_visible_classifier_count ( &((*this_).layout_data) );
         for ( uint32_t classfy_index = 0; classfy_index < classfy_count; classfy_index ++ )
         {
-            const layout_visible_classifier_t *visible_classifier;
-            visible_classifier = pencil_layout_data_get_visible_classifier_const ( &((*this_).layout_data), classfy_index );
-            data_row_id_t classfy_id;
-            classfy_id = layout_visible_classifier_get_classifier_id ( visible_classifier );
+            const layout_visible_classifier_t *const visible_classifier
+                = pencil_layout_data_get_visible_classifier_const ( &((*this_).layout_data), classfy_index );
+            const data_row_id_t classfy_id
+                = layout_visible_classifier_get_classifier_id ( visible_classifier );
             if ( parent_classifier_id == classfy_id )
             {
                 if ( NULL == closest_parent_instance )
@@ -762,7 +762,8 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
                     const geometry_rectangle_t *const closest_parent_symbol_box
                         = layout_visible_classifier_get_symbol_box_const ( closest_parent_instance );
                     const double classfy_distance = geometry_rectangle_calc_chess_distance( classfier_symbol_box, x, y );
-                    double closest_parent_distance = geometry_rectangle_calc_chess_distance( closest_parent_symbol_box, x, y );
+                    const double closest_parent_distance
+                        = geometry_rectangle_calc_chess_distance( closest_parent_symbol_box, x, y );
                     if ( classfy_distance < closest_parent_distance )
                     {
                         closest_parent_instance = visible_classifier;
@@ -934,18 +935,18 @@ pencil_error_t pencil_layouter_get_relationship_order_at_pos ( const pencil_layo
     pencil_error_t result = PENCIL_ERROR_NONE;
 
     /* get the bounding box of the diagram */
-    const layout_diagram_t *the_diagram;
-    the_diagram = pencil_layout_data_get_diagram_const( &((*this_).layout_data) );
-    const geometry_rectangle_t *diagram_bounds;
-    diagram_bounds = layout_diagram_get_bounds_const( the_diagram );
-    const geometry_rectangle_t *diagram_draw_area;
-    diagram_draw_area = layout_diagram_get_draw_area_const( the_diagram );
+    const layout_diagram_t *const the_diagram
+        = pencil_layout_data_get_diagram_const( &((*this_).layout_data) );
+    const geometry_rectangle_t *const diagram_bounds
+        = layout_diagram_get_bounds_const( the_diagram );
+    const geometry_rectangle_t *const diagram_draw_area
+        = layout_diagram_get_draw_area_const( the_diagram );
 
     /* get the diagram type */
-    const data_diagram_t *diagram_data;
-    diagram_data = layout_diagram_get_data_const ( the_diagram );
-    data_diagram_type_t diag_type;
-    diag_type = data_diagram_get_diagram_type ( diagram_data );
+    const data_diagram_t *const diagram_data
+        = layout_diagram_get_data_const ( the_diagram );
+    const data_diagram_type_t diag_type
+        = data_diagram_get_diagram_type ( diagram_data );
 
     if ( ! geometry_rectangle_contains( diagram_bounds, x, y ) )
     {
@@ -968,8 +969,8 @@ pencil_error_t pencil_layouter_get_relationship_order_at_pos ( const pencil_layo
         }
         else if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type )
         {
-            double draw_top = geometry_rectangle_get_top(diagram_draw_area);
-            double draw_bottom = geometry_rectangle_get_bottom(diagram_draw_area);
+            const double draw_top = geometry_rectangle_get_top(diagram_draw_area);
+            const double draw_bottom = geometry_rectangle_get_bottom(diagram_draw_area);
             int32_t list_order;
             if ( y <= draw_top )
             {
@@ -988,8 +989,8 @@ pencil_error_t pencil_layouter_get_relationship_order_at_pos ( const pencil_layo
         }
         else if ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type )
         {
-            double draw_left = geometry_rectangle_get_left(diagram_draw_area);
-            double draw_right = geometry_rectangle_get_right(diagram_draw_area);
+            const double draw_left = geometry_rectangle_get_left(diagram_draw_area);
+            const double draw_right = geometry_rectangle_get_right(diagram_draw_area);
             int32_t list_order;
             if ( x <= draw_left )
             {

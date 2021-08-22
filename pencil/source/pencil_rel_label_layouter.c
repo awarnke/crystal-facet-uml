@@ -46,15 +46,15 @@ void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_, P
     pencil_rel_label_layouter_private_propose_processing_order ( this_, &sorted );
 
     /* layout the relationship label-boxes */
-    uint32_t count_sorted;
-    count_sorted = universal_array_index_sorter_get_count( &sorted );
+    const uint32_t count_sorted
+        = universal_array_index_sorter_get_count( &sorted );
     for ( uint32_t sort_index = 0; sort_index < count_sorted; sort_index ++ )
     {
         /* determine pointer to relationship */
-        uint32_t index;
-        index = universal_array_index_sorter_get_array_index( &sorted, sort_index );
-        layout_relationship_t *current_relation;
-        current_relation = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+        const uint32_t index
+            = universal_array_index_sorter_get_array_index( &sorted, sort_index );
+        layout_relationship_t *const current_relation
+            = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
         geometry_point_t relation_middle = layout_relationship_get_middle ( current_relation );
 
         /* declaration of list of options */
@@ -103,13 +103,14 @@ void pencil_rel_label_layouter_private_propose_processing_order ( pencil_rel_lab
     assert( NULL != out_sorted );
 
     /* sort the relationships by their label-box: the less simple, the earlier it shall be processed */
-    uint32_t count_relations;
-    count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+    const uint32_t count_relations
+        = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
-        const layout_relationship_t *current_relation;
-        current_relation = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
-        const data_relationship_t *relation_data = layout_relationship_get_data_const ( current_relation );
+        const layout_relationship_t *const current_relation
+            = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+        const data_relationship_t *const relation_data
+            = layout_relationship_get_data_const ( current_relation );
         assert( NULL != relation_data );
 
         int64_t simpleness = 0;
@@ -162,7 +163,7 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
 
         /* get layout data */
         const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
-        double object_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+        const double object_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
         /* get connector data */
         const geometry_connector_t *const shape = layout_relationship_get_shape_const ( current_relation );

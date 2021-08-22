@@ -75,12 +75,12 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
 
     /* draw the classifier */
     {
-        data_diagramelement_flag_t display_flags;
-        display_flags = data_diagramelement_get_display_flags( diagramelement );
+        const data_diagramelement_flag_t display_flags
+            = data_diagramelement_get_display_flags( diagramelement );
 
         TRACE_INFO_INT("drawing classifier id", data_classifier_get_row_id( classifier ) );
 
-        double std_line_width = pencil_size_get_standard_line_width( pencil_size );
+        const double std_line_width = pencil_size_get_standard_line_width( pencil_size );
         cairo_set_line_width( cr, std_line_width );
 
         /* set color */
@@ -706,7 +706,7 @@ int pencil_classifier_composer_set_envelope_box( const pencil_classifier_compose
 
         /* shift/center to requested position after resizing beyond requested size */
         const geometry_rectangle_t current_envelope
-            = layout_visible_classifier_calc_envelope_box( io_classifier_layout );
+            = layout_visible_classifier_get_envelope_box( io_classifier_layout );
         const double shift_to_right = geometry_rectangle_get_center_x( envelope ) - geometry_rectangle_get_center_x( &current_envelope );
         const double shift_to_bottom = geometry_rectangle_get_center_y( envelope ) - geometry_rectangle_get_center_y( &current_envelope );
         layout_visible_classifier_shift( io_classifier_layout, shift_to_right, shift_to_bottom );

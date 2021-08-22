@@ -61,12 +61,12 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
         }
 
         /* iterate over all classifiers */
-        uint32_t count_clasfy;
-        count_clasfy = pencil_layout_data_get_visible_classifier_count ( layout_data );
+        const uint32_t count_clasfy
+            = pencil_layout_data_get_visible_classifier_count ( layout_data );
         for ( uint32_t clasfy_index = 0; clasfy_index < count_clasfy; clasfy_index ++ )
         {
-            layout_visible_classifier_t *probe_classifier;
-            probe_classifier = pencil_layout_data_get_visible_classifier_ptr( layout_data, clasfy_index );
+            const layout_visible_classifier_t *const probe_classifier
+                = pencil_layout_data_get_visible_classifier_ptr( layout_data, clasfy_index );
 
             const geometry_rectangle_t *const classifier_symbol_box
                 = layout_visible_classifier_get_symbol_box_const( probe_classifier );
@@ -84,12 +84,12 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
         }
 
         /* iterate over all features */
-        uint32_t count_feat;
-        count_feat = pencil_layout_data_get_feature_count ( layout_data );
+        const uint32_t count_feat
+            = pencil_layout_data_get_feature_count ( layout_data );
         for ( uint32_t feat_index = 0; feat_index < count_feat; feat_index ++ )
         {
-            layout_feature_t *probe_feature;
-            probe_feature = pencil_layout_data_get_feature_ptr( layout_data, feat_index );
+            const layout_feature_t *const probe_feature
+                = pencil_layout_data_get_feature_ptr( layout_data, feat_index );
 
             const geometry_rectangle_t *const feature_symbol_box
                 = layout_feature_get_symbol_box_const( probe_feature );
@@ -107,13 +107,13 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
         }
 
         /* iterate over all relationships */
-        uint32_t count_relations;
-        count_relations = pencil_layout_data_get_relationship_count ( layout_data );
+        const uint32_t count_relations
+            = pencil_layout_data_get_relationship_count ( layout_data );
         for ( uint32_t rel_index = 0; rel_index < count_relations; rel_index ++ )
         {
             /* add debts if intersects */
-            layout_relationship_t *probe_relationship;
-            probe_relationship = pencil_layout_data_get_relationship_ptr( layout_data, rel_index );
+            const layout_relationship_t *const probe_relationship
+                = pencil_layout_data_get_relationship_ptr( layout_data, rel_index );
             if (( PENCIL_VISIBILITY_SHOW == layout_relationship_get_visibility( probe_relationship ) )
                 || ( PENCIL_VISIBILITY_GRAY_OUT == layout_relationship_get_visibility( probe_relationship ) ))
             {

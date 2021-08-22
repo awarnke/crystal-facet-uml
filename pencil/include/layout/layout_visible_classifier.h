@@ -156,7 +156,7 @@ static inline void layout_visible_classifier_set_label_anchor ( layout_visible_c
  *  \param this_ pointer to own object attributes
  *  \return geometry_rectangle_t ehich is the envelope to label and symbol-box.
  */
-static inline geometry_rectangle_t layout_visible_classifier_calc_envelope_box ( const layout_visible_classifier_t *this_ );
+static inline geometry_rectangle_t layout_visible_classifier_get_envelope_box ( const layout_visible_classifier_t *this_ );
 
 /*!
  *  \brief moves the layout_visible_classifier_t

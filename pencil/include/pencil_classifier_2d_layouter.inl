@@ -28,7 +28,7 @@ static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_de
             = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, classifier_search_idx );
         if ( pencil_layout_data_is_ancestor( (*this_).layout_data, ancestor_classifier, probe_classifier ) )
         {
-            const geometry_rectangle_t probe_envelope = layout_visible_classifier_calc_envelope_box( probe_classifier );
+            const geometry_rectangle_t probe_envelope = layout_visible_classifier_get_envelope_box( probe_classifier );
             if ( ! descendant_envelope_initialized )
             {
                 geometry_rectangle_copy( &descendant_envelope, &probe_envelope );
@@ -42,7 +42,7 @@ static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_de
     }
     if ( ! descendant_envelope_initialized )
     {
-        descendant_envelope = layout_visible_classifier_calc_envelope_box( ancestor_classifier );
+        descendant_envelope = layout_visible_classifier_get_envelope_box( ancestor_classifier );
     }
 
     return descendant_envelope;
@@ -56,7 +56,7 @@ static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_ou
     assert( the_classifier != NULL );
 
     /* fetch data on parent classifier */
-    const geometry_rectangle_t parent_envelope = layout_visible_classifier_calc_envelope_box( the_classifier );
+    const geometry_rectangle_t parent_envelope = layout_visible_classifier_get_envelope_box( the_classifier );
     const geometry_rectangle_t *const parent_space = layout_visible_classifier_get_space_const( the_classifier );
     const double parent_space_width_diff
         = geometry_rectangle_get_width(&parent_envelope) - geometry_rectangle_get_width(parent_space);
@@ -93,7 +93,7 @@ static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_ou
                 || ( layout_visible_classifier_is_equal_diagramelement_id( the_classifier, the_probe ));
             if ( ! ignore )
             {
-                const geometry_rectangle_t probe_envelope = layout_visible_classifier_calc_envelope_box( the_probe );
+                const geometry_rectangle_t probe_envelope = layout_visible_classifier_get_envelope_box( the_probe );
                 geometry_rectangle_init_by_difference( &outer_space, &outer_space, &probe_envelope );
             }
         }

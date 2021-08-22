@@ -60,8 +60,8 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
     const uint32_t count_clasfy = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_clasfy; index ++ )
     {
-        layout_visible_classifier_t *classifier_layout;
-        classifier_layout = pencil_layout_data_get_visible_classifier_ptr ( (*this_).layout_data, index );
+        layout_visible_classifier_t *const classifier_layout
+             = pencil_layout_data_get_visible_classifier_ptr ( (*this_).layout_data, index );
 
         /* set the bounds, space and label_box of the classifier layout */
         {
@@ -133,8 +133,8 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
         {
             const data_visible_classifier_t *const visible_classifier2
                 = layout_visible_classifier_get_data_const ( classifier_layout );
-            const data_classifier_t *classifier2;
-            classifier2 = data_visible_classifier_get_classifier_const( visible_classifier2 );
+            const data_classifier_t *const classifier2
+                = data_visible_classifier_get_classifier_const( visible_classifier2 );
             const geometry_rectangle_t *const classifier_symbol_box
                 = layout_visible_classifier_get_symbol_box_const( classifier_layout );
 
@@ -544,8 +544,8 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
     for ( uint32_t probe_sort_index = 0; probe_sort_index < sort_index; probe_sort_index ++ )
     {
         /* get classifier to check overlaps */
-        uint32_t probe_index;
-        probe_index = universal_array_index_sorter_get_array_index( sorted, probe_sort_index );
+        const uint32_t probe_index
+            = universal_array_index_sorter_get_array_index( sorted, probe_sort_index );
         const layout_visible_classifier_t *const the_probe
             = pencil_layout_data_get_visible_classifier_const( (*this_).layout_data, probe_index );
 
@@ -677,8 +677,8 @@ void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifi
             if ( probe_sort_index != sort_index )  /* skip self */
             {
                 /* get classifier to check overlaps */
-                uint32_t probe_index;
-                probe_index = universal_array_index_sorter_get_array_index( sorted, probe_sort_index );
+                const uint32_t probe_index
+                    = universal_array_index_sorter_get_array_index( sorted, probe_sort_index );
 
                 const layout_visible_classifier_t *const the_probe
                     = pencil_layout_data_get_visible_classifier_const( (*this_).layout_data, probe_index );
@@ -686,8 +686,8 @@ void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifi
                     = layout_visible_classifier_get_symbol_box_const( the_probe );
 
                 geometry_rectangle_t probe_intersect;
-                int intersect_err;
-                intersect_err = geometry_rectangle_init_by_intersect( &probe_intersect, &solution_bounds, probe_symbol_box );
+                const int intersect_err
+                    = geometry_rectangle_init_by_intersect( &probe_intersect, &solution_bounds, probe_symbol_box );
                 if ( 0 == intersect_err )
                 {
                     /* there is an intersect */
@@ -702,8 +702,8 @@ void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifi
                     else
                     {
                         /* already processed classifiers have higher severity because these do not move anymore */
-                        double severity = ( probe_sort_index < sort_index ) ? 4.0 : 1.0;
-                        double probe_intersect_area = geometry_rectangle_get_area ( &probe_intersect );
+                        const double severity = ( probe_sort_index < sort_index ) ? 4.0 : 1.0;
+                        const double probe_intersect_area = geometry_rectangle_get_area ( &probe_intersect );
                         debts_of_current += severity * probe_intersect_area;
                     }
                 }
@@ -794,8 +794,8 @@ void pencil_classifier_2d_layouter_private_propose_embracing_order ( pencil_clas
 
         /* sort it into the array by the number of decendants: */
         /* the less descendants the earlier it shall be processed. */
-        int err;
-        err = universal_array_index_sorter_insert( out_sorted, rel_idx, (double)from_descendant_count );
+        const int err
+            = universal_array_index_sorter_insert( out_sorted, rel_idx, (double)from_descendant_count );
         if ( 0 != err )
         {
             TSLOG_ERROR ( "universal_array_index_sorter_t list is full." );
@@ -829,7 +829,7 @@ int pencil_classifier_2d_layouter_private_try_embrace_child( pencil_classifier_2
             layout_visible_classifier_copy( &probe_parent_layout, from_classifier );
             const geometry_rectangle_t * parent_space
                 = layout_visible_classifier_get_space_const( &probe_parent_layout );
-            const geometry_rectangle_t child_envelope = layout_visible_classifier_calc_envelope_box( to_classifier );
+            const geometry_rectangle_t child_envelope = layout_visible_classifier_get_envelope_box( to_classifier );
             geometry_rectangle_t probe_space;
             if ( move )
             {
@@ -849,12 +849,12 @@ int pencil_classifier_2d_layouter_private_try_embrace_child( pencil_classifier_2
                                                          );
 
             const geometry_rectangle_t probe_parent_envelope
-                = layout_visible_classifier_calc_envelope_box( &probe_parent_layout );
+                = layout_visible_classifier_get_envelope_box( &probe_parent_layout );
 
             /* check what else would be embraced */
             bool illegal_overlap = false;
-            uint32_t count_clasfy;
-            count_clasfy = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
+            const uint32_t count_clasfy
+                = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
             for ( uint32_t c_index = 0; c_index < count_clasfy; c_index ++ )
             {
                 layout_visible_classifier_t *probe_classifier;
@@ -1002,7 +1002,7 @@ void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_
                                                            &probe_parent_layout
                                                          );
             const geometry_rectangle_t probe_parent_envelope
-                = layout_visible_classifier_calc_envelope_box( &probe_parent_layout );
+                = layout_visible_classifier_get_envelope_box( &probe_parent_layout );
 
             /* check if parent fits into into outer_space */
             const double outer_border_x

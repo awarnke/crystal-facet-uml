@@ -50,10 +50,10 @@ void pencil_relationship_layouter_private_do_layout ( pencil_relationship_layout
     for ( uint32_t sort_index = 0; sort_index < count_sorted; sort_index ++ )
     {
         /* determine pointer to the_relationship */
-        uint32_t index;
-        index = universal_array_index_sorter_get_array_index( &sorted, sort_index );
-        layout_relationship_t *current_relationship;
-        current_relationship = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, index );
+        const uint32_t index
+            = universal_array_index_sorter_get_array_index( &sorted, sort_index );
+        layout_relationship_t *const current_relationship
+            = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, index );
 
         /* declaration of list of options */
         uint32_t solutions_count = 0;
@@ -112,8 +112,8 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
         = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
-        layout_relationship_t *current_relation;
-        current_relation = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+        layout_relationship_t *const current_relation
+            = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
 
         int64_t simpleness = 0;
 
@@ -179,12 +179,10 @@ void pencil_relationship_layouter_private_propose_solutions ( pencil_relationshi
     assert ( 8 <= solutions_max );  /* current implementation requires at least 8 options */
 
     /* get current relation */
-    layout_relationship_t *current_relation;
-    {
-        uint32_t index;
-        index = universal_array_index_sorter_get_array_index( sorted, sort_index );
-        current_relation = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
-    }
+    const uint32_t index
+        = universal_array_index_sorter_get_array_index( sorted, sort_index );
+    layout_relationship_t *const current_relation
+        = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
 
     /* propose connections between source and destination */
     {
@@ -242,14 +240,12 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
     assert ( 1 <= solutions_count );
 
     /* get current relation data */
-    const data_relationship_t *current_relation_data;
-    {
-        uint32_t index;
-        index = universal_array_index_sorter_get_array_index( sorted, sort_index );
-        const layout_relationship_t *current_relation;
-        current_relation = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
-        current_relation_data = layout_relationship_get_data_const ( current_relation );
-    }
+    const uint32_t index
+        = universal_array_index_sorter_get_array_index( sorted, sort_index );
+    const layout_relationship_t *const current_relation
+        = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+    const data_relationship_t *const current_relation_data
+        = layout_relationship_get_data_const ( current_relation );
 
     /* get draw area */
     const layout_diagram_t *const diagram_layout
@@ -266,7 +262,7 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
     {
         /* evalute the debts of this solution */
         double debts_of_current = 0.0;
-        const geometry_connector_t * const current_solution = &(solutions[solution_idx]);
+        const geometry_connector_t *const current_solution = &(solutions[solution_idx]);
 
         /* avoid alternating solutions in case their debts are identical */
         debts_of_current += 0.1 * solution_idx;
@@ -276,8 +272,8 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
 
         /* add debts for overlap to diagram boundary */
         {
-            geometry_rectangle_t connectors_bounds;
-            connectors_bounds = geometry_connector_get_bounding_rectangle( current_solution );
+            const geometry_rectangle_t connectors_bounds
+                = geometry_connector_get_bounding_rectangle( current_solution );
             if ( ! geometry_rectangle_is_containing( diagram_draw_area, &connectors_bounds ) )
             {
                 debts_of_current += 1000000.0;
@@ -285,12 +281,12 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
         }
 
         /* iterate over all classifiers */
-        uint32_t count_clasfy;
-        count_clasfy = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
+        const uint32_t count_clasfy
+            = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
         for ( uint32_t clasfy_index = 0; clasfy_index < count_clasfy; clasfy_index ++ )
         {
-            layout_visible_classifier_t *probe_classifier;
-            probe_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, clasfy_index );
+            const layout_visible_classifier_t *const probe_classifier
+                = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, clasfy_index );
 
             const geometry_rectangle_t *const classifier_symbol_box
                 = layout_visible_classifier_get_symbol_box_const( probe_classifier );
@@ -311,12 +307,12 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
         for ( uint32_t probe_sort_index = 0; probe_sort_index < sort_index; probe_sort_index ++ )
         {
             /* add debts if intersects */
-            uint32_t probe_index;
-            probe_index = universal_array_index_sorter_get_array_index( sorted, probe_sort_index );
-            layout_relationship_t *probe_relationship;
-            probe_relationship = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, probe_index );
-            const data_relationship_t *probe_relation_data;
-            probe_relation_data = layout_relationship_get_data_const ( probe_relationship );
+            const uint32_t probe_index
+                = universal_array_index_sorter_get_array_index( sorted, probe_sort_index );
+            const layout_relationship_t *const probe_relationship
+                = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, probe_index );
+            const data_relationship_t *const probe_relation_data
+                = layout_relationship_get_data_const ( probe_relationship );
             const bool same_type = ( data_relationship_get_main_type( probe_relation_data )
                                      == data_relationship_get_main_type( current_relation_data ) );
             const bool same_from = ( data_relationship_get_from_classifier_row_id( probe_relation_data )
@@ -329,8 +325,8 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
             {
                 const geometry_connector_t *const probe_shape
                     = layout_relationship_get_shape_const( probe_relationship );
-                uint32_t intersects;
-                intersects = geometry_connector_count_connector_intersects( current_solution, probe_shape );
+                const uint32_t intersects
+                    = geometry_connector_count_connector_intersects( current_solution, probe_shape );
                 debts_of_current += 1000.0 * intersects;
             }
         }
@@ -371,23 +367,23 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
 
     uint32_t solutions_count = 0;
 
-    double src_left = geometry_rectangle_get_left(source_rect);
-    double src_center_x = geometry_rectangle_get_center_x(source_rect);
-    double src_right = geometry_rectangle_get_right(source_rect);
-    double src_top = geometry_rectangle_get_top(source_rect);
-    double src_center_y = geometry_rectangle_get_center_y(source_rect);
-    double src_bottom = geometry_rectangle_get_bottom(source_rect);
+    const double src_left = geometry_rectangle_get_left(source_rect);
+    const double src_center_x = geometry_rectangle_get_center_x(source_rect);
+    const double src_right = geometry_rectangle_get_right(source_rect);
+    const double src_top = geometry_rectangle_get_top(source_rect);
+    const double src_center_y = geometry_rectangle_get_center_y(source_rect);
+    const double src_bottom = geometry_rectangle_get_bottom(source_rect);
 
-    double dst_left = geometry_rectangle_get_left(dest_rect);
-    double dst_center_x = geometry_rectangle_get_center_x(dest_rect);
-    double dst_right = geometry_rectangle_get_right(dest_rect);
-    double dst_top = geometry_rectangle_get_top(dest_rect);
-    double dst_center_y = geometry_rectangle_get_center_y(dest_rect);
-    double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
+    const double dst_left = geometry_rectangle_get_left(dest_rect);
+    const double dst_center_x = geometry_rectangle_get_center_x(dest_rect);
+    const double dst_right = geometry_rectangle_get_right(dest_rect);
+    const double dst_top = geometry_rectangle_get_top(dest_rect);
+    const double dst_center_y = geometry_rectangle_get_center_y(dest_rect);
+    const double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
 
-    double object_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
-    double good_dist = 2.0 * object_dist;  /* duplicate distance: once for each side of the line */
-    double gap_dist = 0.499 * object_dist;  /* half the object distance allows a line to pass between two objects */
+    const double object_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+    const double good_dist = 2.0 * object_dist;  /* duplicate distance: once for each side of the line */
+    const double gap_dist = 0.499 * object_dist;  /* half the object distance allows a line to pass between two objects */
 
     /* if applicable, add a solution where main line is vertical */
     {
@@ -518,21 +514,21 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
 
     uint32_t solutions_count = 0;
 
-    double src_left = geometry_rectangle_get_left(source_rect);
+    const double src_left = geometry_rectangle_get_left(source_rect);
     double src_center_x = geometry_rectangle_get_center_x(source_rect);
-    double src_right = geometry_rectangle_get_right(source_rect);
-    double src_top = geometry_rectangle_get_top(source_rect);
+    const double src_right = geometry_rectangle_get_right(source_rect);
+    const double src_top = geometry_rectangle_get_top(source_rect);
     double src_center_y = geometry_rectangle_get_center_y(source_rect);
-    double src_bottom = geometry_rectangle_get_bottom(source_rect);
+    const double src_bottom = geometry_rectangle_get_bottom(source_rect);
 
-    double dst_left = geometry_rectangle_get_left(dest_rect);
+    const double dst_left = geometry_rectangle_get_left(dest_rect);
     double dst_center_x = geometry_rectangle_get_center_x(dest_rect);
-    double dst_right = geometry_rectangle_get_right(dest_rect);
-    double dst_top = geometry_rectangle_get_top(dest_rect);
+    const double dst_right = geometry_rectangle_get_right(dest_rect);
+    const double dst_top = geometry_rectangle_get_top(dest_rect);
     double dst_center_y = geometry_rectangle_get_center_y(dest_rect);
-    double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
+    const double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
 
-    double good_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+    const double good_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
     /* prevent that forward and retour are on same line */
     if ( fabs( src_center_y - dst_center_y ) < 0.0001 )
@@ -617,21 +613,21 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
 
     uint32_t solutions_count = 0;
 
-    double src_left = geometry_rectangle_get_left(source_rect);
-    double src_center_x = geometry_rectangle_get_center_x(source_rect);
-    double src_right = geometry_rectangle_get_right(source_rect);
-    double src_top = geometry_rectangle_get_top(source_rect);
-    double src_center_y = geometry_rectangle_get_center_y(source_rect);
-    double src_bottom = geometry_rectangle_get_bottom(source_rect);
+    const double src_left = geometry_rectangle_get_left(source_rect);
+    const double src_center_x = geometry_rectangle_get_center_x(source_rect);
+    const double src_right = geometry_rectangle_get_right(source_rect);
+    const double src_top = geometry_rectangle_get_top(source_rect);
+    const double src_center_y = geometry_rectangle_get_center_y(source_rect);
+    const double src_bottom = geometry_rectangle_get_bottom(source_rect);
 
-    double dst_left = geometry_rectangle_get_left(dest_rect);
-    double dst_center_x = geometry_rectangle_get_center_x(dest_rect);
-    double dst_right = geometry_rectangle_get_right(dest_rect);
-    double dst_top = geometry_rectangle_get_top(dest_rect);
-    double dst_center_y = geometry_rectangle_get_center_y(dest_rect);
-    double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
+    const double dst_left = geometry_rectangle_get_left(dest_rect);
+    const double dst_center_x = geometry_rectangle_get_center_x(dest_rect);
+    const double dst_right = geometry_rectangle_get_right(dest_rect);
+    const double dst_top = geometry_rectangle_get_top(dest_rect);
+    const double dst_center_y = geometry_rectangle_get_center_y(dest_rect);
+    const double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
 
-    double good_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+    const double good_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
     /* if applicable, add a solution from source to left */
     if ( dst_center_x + good_dist < src_left )
@@ -785,8 +781,8 @@ void pencil_relationship_layouter_private_find_space_for_line ( pencil_relations
         hit = false;
         for ( uint32_t classifier_index = 0; classifier_index < count_classifiers; classifier_index ++ )
         {
-            layout_visible_classifier_t *the_classifier;
-            the_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, classifier_index );
+            const layout_visible_classifier_t *const the_classifier
+                = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, classifier_index );
             const geometry_rectangle_t *const classifier_symbol_box
                 = layout_visible_classifier_get_symbol_box_const( the_classifier );
 
@@ -991,8 +987,8 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
         /* get the relationship to layout */
-        layout_relationship_t *the_relationship;
-        the_relationship = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+        layout_relationship_t *const the_relationship
+            = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
 
         /* adjust visibility */
         if ( ( NULL == layout_relationship_get_from_feature_ptr ( the_relationship ) )
@@ -1007,10 +1003,10 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
             /* determine y-coordinate */
             const data_relationship_t *the_relationdata = layout_relationship_get_data_const( the_relationship );
             int32_t list_order = data_relationship_get_list_order ( the_relationdata );
-            double y_value_rel = (list_order/((double)UINT32_MAX))+0.5;
-            double draw_top = geometry_rectangle_get_top(diagram_draw_area);
-            double draw_bottom = geometry_rectangle_get_bottom(diagram_draw_area);
-            double y_value = ( (draw_bottom - draw_top) * y_value_rel ) + draw_top;
+            const double y_value_rel = (list_order/((double)UINT32_MAX))+0.5;
+            const double draw_top = geometry_rectangle_get_top(diagram_draw_area);
+            const double draw_bottom = geometry_rectangle_get_bottom(diagram_draw_area);
+            const double y_value = ( (draw_bottom - draw_top) * y_value_rel ) + draw_top;
 
             /* get source and destination rectangles */
             const geometry_rectangle_t *const source_rect
@@ -1020,24 +1016,26 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
 
             /* calculate coordinates */
             /*double src_left = geometry_rectangle_get_left(source_rect);*/
-            double src_center_x = geometry_rectangle_get_center_x(source_rect);
+            const double src_center_x = geometry_rectangle_get_center_x(source_rect);
             /*double src_right = geometry_rectangle_get_right(source_rect);*/
-            double src_top = geometry_rectangle_get_top(source_rect);
+            const double src_top = geometry_rectangle_get_top(source_rect);
             /*double src_center_y = geometry_rectangle_get_center_y(source_rect);*/
-            double src_bottom = geometry_rectangle_get_bottom(source_rect);
+            const double src_bottom = geometry_rectangle_get_bottom(source_rect);
 
             /*double dst_left = geometry_rectangle_get_left(dest_rect);*/
-            double dst_center_x = geometry_rectangle_get_center_x(dest_rect);
+            const double dst_center_x = geometry_rectangle_get_center_x(dest_rect);
             /*double dst_right = geometry_rectangle_get_right(dest_rect);*/
-            double dst_top = geometry_rectangle_get_top(dest_rect);
+            const double dst_top = geometry_rectangle_get_top(dest_rect);
             /*double dst_center_y = geometry_rectangle_get_center_y(dest_rect);*/
-            double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
+            const double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
 
-            double src_y_value = ( y_value < src_top ) ? src_top : ( y_value > src_bottom ) ? src_bottom : y_value;
-            double dst_y_value = ( y_value < dst_top ) ? dst_top : ( y_value > dst_bottom ) ? dst_bottom : y_value;
+            const double src_y_value
+               = ( y_value < src_top ) ? src_top : ( y_value > src_bottom ) ? src_bottom : y_value;
+            const double dst_y_value
+               = ( y_value < dst_top ) ? dst_top : ( y_value > dst_bottom ) ? dst_bottom : y_value;
 
             /* determine minimum arrow size for message/call to self */
-            double good_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+            const double good_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
             /* define relation */
             geometry_connector_t relationship_shape;
@@ -1090,8 +1088,8 @@ void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layoute
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
         /* get the relationship to layout */
-        layout_relationship_t *the_relationship;
-        the_relationship = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+        layout_relationship_t *const the_relationship
+            = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
 
         /* adjust visibility */
         if ( ( NULL == layout_relationship_get_from_feature_ptr ( the_relationship ) )
@@ -1104,39 +1102,42 @@ void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layoute
         /* calculate layout */
         {
             /* determine x-coordinate */
-            const data_relationship_t *the_relationdata = layout_relationship_get_data_const( the_relationship );
-            int32_t list_order = data_relationship_get_list_order ( the_relationdata );
-            double x_value_rel = (list_order/((double)UINT32_MAX))+0.5;
-            double draw_left = geometry_rectangle_get_left(diagram_draw_area);
-            double draw_right = geometry_rectangle_get_right(diagram_draw_area);
-            double x_value = ( (draw_right - draw_left) * x_value_rel ) + draw_left;
+            const data_relationship_t *const the_relationdata
+               = layout_relationship_get_data_const( the_relationship );
+            const int32_t list_order = data_relationship_get_list_order ( the_relationdata );
+            const double x_value_rel = (list_order/((double)UINT32_MAX))+0.5;
+            const double draw_left = geometry_rectangle_get_left(diagram_draw_area);
+            const double draw_right = geometry_rectangle_get_right(diagram_draw_area);
+            const double x_value = ( (draw_right - draw_left) * x_value_rel ) + draw_left;
 
             /* get source and destination rectangles */
-            const geometry_rectangle_t *source_rect;
-            const geometry_rectangle_t *dest_rect;
-            source_rect = layout_relationship_get_from_symbol_box_const ( the_relationship );
-            dest_rect = layout_relationship_get_to_symbol_box_const ( the_relationship );
+            const geometry_rectangle_t *const source_rect
+                = layout_relationship_get_from_symbol_box_const ( the_relationship );
+            const geometry_rectangle_t *const dest_rect
+                = layout_relationship_get_to_symbol_box_const ( the_relationship );
 
             /* calculate coordinates */
-            double src_left = geometry_rectangle_get_left(source_rect);
+            const double src_left = geometry_rectangle_get_left(source_rect);
             /*double src_center_x = geometry_rectangle_get_center_x(source_rect);*/
-            double src_right = geometry_rectangle_get_right(source_rect);
+            const double src_right = geometry_rectangle_get_right(source_rect);
             /*double src_top = geometry_rectangle_get_top(source_rect);*/
-            double src_center_y = geometry_rectangle_get_center_y(source_rect);
+            const double src_center_y = geometry_rectangle_get_center_y(source_rect);
             /*double src_bottom = geometry_rectangle_get_bottom(source_rect);*/
 
-            double dst_left = geometry_rectangle_get_left(dest_rect);
+            const double dst_left = geometry_rectangle_get_left(dest_rect);
             /*double dst_center_x = geometry_rectangle_get_center_x(dest_rect);*/
-            double dst_right = geometry_rectangle_get_right(dest_rect);
+            const double dst_right = geometry_rectangle_get_right(dest_rect);
             /*double dst_top = geometry_rectangle_get_top(dest_rect);*/
-            double dst_center_y = geometry_rectangle_get_center_y(dest_rect);
+            const double dst_center_y = geometry_rectangle_get_center_y(dest_rect);
             /*double dst_bottom = geometry_rectangle_get_bottom(dest_rect);*/
 
-            double src_x_value = ( x_value < src_left ) ? src_left : ( x_value > src_right ) ? src_right : x_value;
-            double dst_x_value = ( x_value < dst_left ) ? dst_left : ( x_value > dst_right ) ? dst_right : x_value;
+            const double src_x_value
+                = ( x_value < src_left ) ? src_left : ( x_value > src_right ) ? src_right : x_value;
+            const double dst_x_value
+                = ( x_value < dst_left ) ? dst_left : ( x_value > dst_right ) ? dst_right : x_value;
 
             /* determine minimum arrow size for self transition */
-            double good_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+            const double good_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
             /* define relation */
             geometry_connector_t relationship_shape;
@@ -1181,8 +1182,8 @@ void pencil_relationship_layouter_layout_for_communication( pencil_relationship_
         = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
-        layout_relationship_t *the_relationship;
-        the_relationship = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+        layout_relationship_t *const the_relationship
+            = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
 
         /* adjust visibility */
         if ( ( NULL == layout_relationship_get_from_feature_ptr ( the_relationship ) )

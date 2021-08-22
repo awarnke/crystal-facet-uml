@@ -43,25 +43,25 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
     const data_diagram_t *const the_diagram = layout_diagram_get_data_const( layouted_diagram );
     const geometry_rectangle_t *const diagram_bounds = layout_diagram_get_bounds_const( layouted_diagram );
 
-    double left = geometry_rectangle_get_left ( diagram_bounds );
-    double top = geometry_rectangle_get_top ( diagram_bounds );
-    double right = geometry_rectangle_get_right ( diagram_bounds );
-    double bottom = geometry_rectangle_get_bottom ( diagram_bounds );
-    double width = geometry_rectangle_get_width ( diagram_bounds );
-    double height = geometry_rectangle_get_height ( diagram_bounds );
+    const double left = geometry_rectangle_get_left ( diagram_bounds );
+    const double top = geometry_rectangle_get_top ( diagram_bounds );
+    const double right = geometry_rectangle_get_right ( diagram_bounds );
+    const double bottom = geometry_rectangle_get_bottom ( diagram_bounds );
+    const double width = geometry_rectangle_get_width ( diagram_bounds );
+    const double height = geometry_rectangle_get_height ( diagram_bounds );
 
     TRACE_INFO_INT( "w", (int)(width) );
     TRACE_INFO_INT( "h", (int)(height) );
 
-    double gap = pencil_size_get_standard_object_border( pencil_size );
-    double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
-    double f_tab_size = pencil_size_get_font_tab_size( pencil_size );
+    const double gap = pencil_size_get_standard_object_border( pencil_size );
+    const double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
+    const double f_tab_size = pencil_size_get_font_tab_size( pencil_size );
 
     /* draw diagram border and name */
     {
         TRACE_INFO_INT("drawing diagram id",data_diagram_get_row_id(the_diagram));
 
-        double std_line_width = pencil_size_get_standard_line_width( pencil_size );
+        const double std_line_width = pencil_size_get_standard_line_width( pencil_size );
         cairo_set_line_width( cr, std_line_width );
         if ( data_diagram_is_valid(the_diagram) )
         {
@@ -174,20 +174,20 @@ void pencil_diagram_painter_get_drawing_space ( const pencil_diagram_painter_t *
     assert( NULL != diagram_bounds );
 
     /* determine diagram bounds */
-    double left = geometry_rectangle_get_left ( diagram_bounds );
-    double top = geometry_rectangle_get_top ( diagram_bounds );
-    double width = geometry_rectangle_get_width ( diagram_bounds );
-    double height = geometry_rectangle_get_height ( diagram_bounds );
-    double gap = pencil_size_get_standard_object_border( pencil_size );
+    const double left = geometry_rectangle_get_left ( diagram_bounds );
+    const double top = geometry_rectangle_get_top ( diagram_bounds );
+    const double width = geometry_rectangle_get_width ( diagram_bounds );
+    const double height = geometry_rectangle_get_height ( diagram_bounds );
+    const double gap = pencil_size_get_standard_object_border( pencil_size );
 
     /* font metrics */
-    double f_size = pencil_size_get_standard_font_size( pencil_size );
-    double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
-    double f_size_guess = f_size + 4.0 * f_line_gap;  /* here, we do not have a pango layout object to determine the real font size */
+    const double f_size = pencil_size_get_standard_font_size( pencil_size );
+    const double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
+    const double f_size_guess = f_size + 4.0 * f_line_gap;  /* here, we do not have a pango layout object to determine the real font size */
 
     /* calculate new sizes */
-    double space_width = width-2.0*gap;
-    double space_height = height-2.0*gap-f_size_guess-f_line_gap;
+    const double space_width = width-2.0*gap;
+    const double space_height = height-2.0*gap-f_size_guess-f_line_gap;
     if ( ( space_width <= 0.0 ) || ( space_height <= 0.0 ) )
     {
         geometry_rectangle_reinit_empty( out_diagram_space );

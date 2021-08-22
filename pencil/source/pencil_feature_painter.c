@@ -180,10 +180,10 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
 
     const geometry_rectangle_t *const feature_symbol_box = layout_feature_get_symbol_box_const( layouted_feature );
 
-    double left = geometry_rectangle_get_left ( feature_symbol_box );
-    double top = geometry_rectangle_get_top ( feature_symbol_box );
-    double width = geometry_rectangle_get_width ( feature_symbol_box );
-    double height = geometry_rectangle_get_height ( feature_symbol_box );
+    const double left = geometry_rectangle_get_left ( feature_symbol_box );
+    const double top = geometry_rectangle_get_top ( feature_symbol_box );
+    const double width = geometry_rectangle_get_width ( feature_symbol_box );
+    const double height = geometry_rectangle_get_height ( feature_symbol_box );
 
     double dashes[2];
     dashes[0] = 2.0 * pencil_size_get_line_dash_length( pencil_size );
@@ -193,7 +193,7 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
     if ( GEOMETRY_DIRECTION_RIGHT == layout_feature_get_icon_direction( layouted_feature ) )
     {
         /* lineline in timing diagrams */
-        double center_y = geometry_rectangle_get_center_y ( feature_symbol_box );
+        const double center_y = geometry_rectangle_get_center_y ( feature_symbol_box );
 
         cairo_move_to ( cr, left, center_y );
         cairo_line_to ( cr, left + width, center_y );
@@ -202,7 +202,7 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
     else if ( GEOMETRY_DIRECTION_DOWN == layout_feature_get_icon_direction( layouted_feature ) )
     {
         /* lifeline in sequence diagrams */
-        double center_x = geometry_rectangle_get_center_x ( feature_symbol_box );
+        const double center_x = geometry_rectangle_get_center_x ( feature_symbol_box );
 
         cairo_move_to ( cr, center_x, top );
         cairo_line_to ( cr, center_x, top + height );
@@ -521,9 +521,9 @@ void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_
         }
 
         /* for the height, ignore the actual height (text2_height) and return the standard font height + line gap */
-        double lineheight;
-        lineheight = pencil_size_get_standard_font_size( pencil_size )
-                     + pencil_size_get_font_line_gap( pencil_size );
+        const double lineheight
+            = pencil_size_get_standard_font_size( pencil_size )
+            + pencil_size_get_font_line_gap( pencil_size );
 
         height += lineheight;
         /*height += text2_height;*/

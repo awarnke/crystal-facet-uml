@@ -44,13 +44,13 @@ void pencil_feat_label_layouter_do_layout ( pencil_feat_label_layouter_t *this_,
     pencil_feat_label_layouter_private_propose_processing_order ( this_, &sorted );
 
     /* layout the features label-boxes */
-    uint32_t count_sorted;
-    count_sorted = universal_array_index_sorter_get_count( &sorted );
+    const uint32_t count_sorted
+        = universal_array_index_sorter_get_count( &sorted );
     for ( uint32_t sort_index = 0; sort_index < count_sorted; sort_index ++ )
     {
         /* determine pointer to feature */
-        uint32_t index;
-        index = universal_array_index_sorter_get_array_index( &sorted, sort_index );
+        const uint32_t index
+            = universal_array_index_sorter_get_array_index( &sorted, sort_index );
         layout_feature_t *current_feature;
         current_feature = pencil_layout_data_get_feature_ptr( (*this_).layout_data, index );
         geometry_point_t feature_middle = layout_feature_get_symbol_middle ( current_feature );
@@ -101,15 +101,15 @@ void pencil_feat_label_layouter_private_propose_processing_order ( pencil_feat_l
     assert( NULL != out_sorted );
 
     /* sort the features by their label-box: the less simple, the earlier it shall be processed */
-    uint32_t count_features;
-    count_features = pencil_layout_data_get_feature_count ( (*this_).layout_data );
+    const uint32_t count_features
+        = pencil_layout_data_get_feature_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_features; index ++ )
     {
-        const layout_feature_t *current_feature;
-        current_feature = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, index );
-        const data_feature_t *feature_data = layout_feature_get_data_const ( current_feature );
+        const layout_feature_t *const current_feature
+            = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, index );
+        const data_feature_t *const feature_data = layout_feature_get_data_const ( current_feature );
         assert( NULL != feature_data );
-        data_feature_type_t current_type = data_feature_get_main_type( feature_data );
+        const data_feature_type_t current_type = data_feature_get_main_type( feature_data );
 
         int64_t simpleness = 0;
 
@@ -126,8 +126,8 @@ void pencil_feat_label_layouter_private_propose_processing_order ( pencil_feat_l
         /* insert relation to sorted array - except for lifelines which have no label */
         if ( DATA_FEATURE_TYPE_LIFELINE != current_type )
         {
-            int insert_error;
-            insert_error = universal_array_index_sorter_insert( out_sorted, index, simpleness );
+            const int insert_error
+                = universal_array_index_sorter_insert( out_sorted, index, simpleness );
             if ( 0 != insert_error )
             {
                 TSLOG_WARNING( "not all relationship label-boxes are layouted" );
@@ -153,7 +153,7 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
 
     const data_feature_t *feature_data = layout_feature_get_data_const ( current_feature );
     assert( NULL != feature_data );
-    data_feature_type_t current_type = data_feature_get_main_type( feature_data );
+    const data_feature_type_t current_type = data_feature_get_main_type( feature_data );
 
     if (( DATA_FEATURE_TYPE_PROPERTY == current_type )||( DATA_FEATURE_TYPE_OPERATION == current_type ))
     {

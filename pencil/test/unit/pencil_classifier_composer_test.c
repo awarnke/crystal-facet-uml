@@ -223,7 +223,7 @@ static void test_set_envelope_box_too_small(void)
 
             /* check that actual_envelope rectangle is bigger and is within small_envelope */
             const geometry_rectangle_t actual_envelope
-                = layout_visible_classifier_calc_envelope_box( &layout_vis_classifier );
+                = layout_visible_classifier_get_envelope_box( &layout_vis_classifier );
             TEST_ASSERT( geometry_rectangle_is_containing( &actual_envelope, &small_envelope ) );
             TEST_ASSERT( ! geometry_rectangle_is_containing( &small_envelope, &actual_envelope ) );
 

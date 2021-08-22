@@ -51,16 +51,16 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
     }
 
     /* layout the unsorted features */
-    uint32_t count_features;
-    count_features = pencil_layout_data_get_feature_count ( (*this_).layout_data );
+    const uint32_t count_features
+        = pencil_layout_data_get_feature_count ( (*this_).layout_data );
     for ( uint32_t f_idx = 0; f_idx < count_features; f_idx ++ )
     {
-        layout_feature_t *feature_layout;
-        feature_layout = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, f_idx );
+        layout_feature_t *const feature_layout
+            = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, f_idx );
         const data_feature_t *const the_feature
             = layout_feature_get_data_const ( feature_layout );
         const layout_visible_classifier_t *const layout_classifier
-            = layout_feature_get_classifier_ptr ( feature_layout );
+            = layout_feature_get_classifier_const ( feature_layout );
         const data_classifier_t *const classifier
             = layout_visible_classifier_get_classifier_const( layout_classifier );
         const data_classifier_type_t classifier_type
@@ -154,8 +154,8 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
     assert ( NULL != out_feature_layout );
 
     /* get preferred object distance */
-    double obj_dist;
-    obj_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+    const double obj_dist
+        = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
     const bool lifeline_has_semantics
         = data_rules_classifier_has_scenario_semantics( &((*this_).rules),
@@ -166,10 +166,10 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
     if (( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diagram_type ) && lifeline_has_semantics )
     {
         layout_feature_set_icon_direction ( out_feature_layout, GEOMETRY_DIRECTION_RIGHT );
-        double c_right = geometry_rectangle_get_right( classifier_symbol_box );
-        double c_top = geometry_rectangle_get_top( classifier_symbol_box );
-        double c_height = geometry_rectangle_get_height( classifier_symbol_box );
-        double dda_right = geometry_rectangle_get_right ( diagram_space );
+        const double c_right = geometry_rectangle_get_right( classifier_symbol_box );
+        const double c_top = geometry_rectangle_get_top( classifier_symbol_box );
+        const double c_height = geometry_rectangle_get_height( classifier_symbol_box );
+        const double dda_right = geometry_rectangle_get_right ( diagram_space );
         geometry_rectangle_t lifeline_bounds;
         geometry_rectangle_init ( &lifeline_bounds,
                                   c_right,
@@ -183,10 +183,10 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
     else if (( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diagram_type ) && lifeline_has_semantics )
     {
         layout_feature_set_icon_direction ( out_feature_layout, GEOMETRY_DIRECTION_DOWN );
-        double c_bottom = geometry_rectangle_get_bottom( classifier_symbol_box );
-        double c_left = geometry_rectangle_get_left( classifier_symbol_box );
-        double c_width = geometry_rectangle_get_width( classifier_symbol_box );
-        double dda_bottom = geometry_rectangle_get_bottom ( diagram_space );
+        const double c_bottom = geometry_rectangle_get_bottom( classifier_symbol_box );
+        const double c_left = geometry_rectangle_get_left( classifier_symbol_box );
+        const double c_width = geometry_rectangle_get_width( classifier_symbol_box );
+        const double dda_bottom = geometry_rectangle_get_bottom ( diagram_space );
         geometry_rectangle_t lifeline_bounds;
         geometry_rectangle_init ( &lifeline_bounds,
                                   c_left + (0.375 * c_width),
@@ -233,8 +233,8 @@ void pencil_feature_layouter_private_layout_port_pin ( pencil_feature_layouter_t
     geometry_rectangle_shift( &classifier_box, gap, gap );
     geometry_rectangle_enlarge( &classifier_box, -2.0*gap, -2.0*gap );
 
-    int32_t list_order;
-    list_order = data_feature_get_list_order( the_feature );
+    const int32_t list_order
+        = data_feature_get_list_order( the_feature );
 
     /* position the port icon */
     const bool is_sysml_constraint_block = (classifier_type == DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK);
@@ -318,15 +318,12 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
     assert ( NULL != out_feature_layout );
 
     /* get preferred object size + distance */
-    double interface_icon_size;
-    double interface_distance;
-    double gap;
-    gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
-    interface_icon_size = pencil_size_get_standard_font_size( (*this_).pencil_size );
-    interface_distance = 2.001 * pencil_size_get_preferred_object_distance( (*this_).pencil_size ) + gap;  /* min dist formula as in relationship layouter */
+    const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
+    const double interface_icon_size = pencil_size_get_standard_font_size( (*this_).pencil_size );
+    const double interface_distance
+        = 2.001 * pencil_size_get_preferred_object_distance( (*this_).pencil_size ) + gap;  /* min dist formula as in relationship layouter */
 
-    int32_t list_order;
-    list_order = data_feature_get_list_order( the_feature );
+    const int32_t list_order = data_feature_get_list_order( the_feature );
 
     /* position the interface icon */
     if ( list_order < 0 )
@@ -334,8 +331,8 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
         static const int32_t INT32_MIN_HALF = INT32_MIN/2;
         if ( list_order < INT32_MIN_HALF )  /* SHOW ON RIGHT BORDER */
         {
-            double y_pos_rel = 0.0;
-            y_pos_rel = (list_order - INT32_MIN_HALF) / ((double)(INT32_MIN_HALF));
+            const double y_pos_rel
+                = (list_order - INT32_MIN_HALF) / ((double)(INT32_MIN_HALF));
             geometry_rectangle_t f_bounds;
             geometry_rectangle_init ( &f_bounds,
                                       geometry_rectangle_get_right( classifier_symbol_box ) + interface_distance,
@@ -349,8 +346,8 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
         }
         else  /* SHOW ON TOP BORDER */
         {
-            double x_pos_rel = 0.0;
-            x_pos_rel = (list_order) / ((double)(INT32_MIN_HALF));
+            const double x_pos_rel
+                = (list_order) / ((double)(INT32_MIN_HALF));
             geometry_rectangle_t f_bounds;
             geometry_rectangle_init ( &f_bounds,
                                       geometry_rectangle_get_left( classifier_symbol_box ) + x_pos_rel * ( geometry_rectangle_get_width( classifier_symbol_box ) - interface_icon_size ),
@@ -368,8 +365,8 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
         static const int32_t INT32_MAX_HALF = (INT32_MAX/2)+1;  /* round to ceiling */
         if ( list_order < INT32_MAX_HALF )  /* SHOW ON LEFT BORDER */
         {
-            double y_pos_rel = 0.0;
-            y_pos_rel = (list_order) / ((double)(INT32_MAX_HALF));
+            const double y_pos_rel
+                = (list_order) / ((double)(INT32_MAX_HALF));
             geometry_rectangle_t f_bounds;
             geometry_rectangle_init ( &f_bounds,
                                       geometry_rectangle_get_left( classifier_symbol_box ) - interface_distance - interface_icon_size,
@@ -383,8 +380,8 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
         }
         else  /* SHOW ON BOTTOM BORDER */
         {
-            double x_pos_rel = 0.0;
-            x_pos_rel = (list_order - INT32_MAX_HALF) / ((double)(INT32_MAX_HALF));
+            const double x_pos_rel
+                = (list_order - INT32_MAX_HALF) / ((double)(INT32_MAX_HALF));
             geometry_rectangle_t f_bounds;
             geometry_rectangle_init ( &f_bounds,
                                       geometry_rectangle_get_left( classifier_symbol_box ) + x_pos_rel * ( geometry_rectangle_get_width( classifier_symbol_box ) - interface_icon_size ),
@@ -420,7 +417,8 @@ void pencil_feature_layouter_private_layout_prop_or_op ( pencil_feature_layouter
     assert ( NULL != out_feature_layout );
 
     /* define names for input data */
-    const layout_visible_classifier_t * const vis_classfy = layout_feature_get_classifier_ptr ( out_feature_layout );
+    const layout_visible_classifier_t * const vis_classfy
+        = layout_feature_get_classifier_const ( out_feature_layout );
     assert ( NULL != vis_classfy );
     const data_row_id_t diagele_id = layout_visible_classifier_get_diagramelement_id ( vis_classfy );
 
@@ -430,11 +428,11 @@ void pencil_feature_layouter_private_layout_prop_or_op ( pencil_feature_layouter
         const uint32_t num_features = pencil_layout_data_get_feature_count ( (*this_).layout_data );
         for ( uint32_t f_probe_idx = 0; f_probe_idx < num_features; f_probe_idx ++ )
         {
-            const layout_feature_t *f_probe_layout;
-            f_probe_layout = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, f_probe_idx );
+            const layout_feature_t *const f_probe_layout
+                = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, f_probe_idx );
             assert ( NULL != f_probe_layout );
-            const layout_visible_classifier_t *probe_vis_classfy;
-            probe_vis_classfy = layout_feature_get_classifier_const ( f_probe_layout );
+            const layout_visible_classifier_t *const probe_vis_classfy
+                = layout_feature_get_classifier_const ( f_probe_layout );
             assert ( NULL != probe_vis_classfy );
 
             /* check if this f_probe_layout has the same diagram element id as the_feature */
@@ -510,16 +508,16 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
     double height = 0.0;
 
     /* search all contained features */
-    uint32_t count_features;
-    count_features = pencil_layout_data_get_feature_count ( (*this_).layout_data );
+    const uint32_t count_features
+        = pencil_layout_data_get_feature_count ( (*this_).layout_data );
     for ( uint32_t f_idx = 0; f_idx < count_features; f_idx ++ )
     {
-        layout_feature_t *const feature_layout
+        const layout_feature_t *const feature_layout
             = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, f_idx );
         const data_feature_t *const the_feature
             = layout_feature_get_data_const ( feature_layout );
-        layout_visible_classifier_t *const layout_classifier
-            = layout_feature_get_classifier_ptr ( feature_layout );
+        const layout_visible_classifier_t *const layout_classifier
+            = layout_feature_get_classifier_const ( feature_layout );
         const bool property_or_operation
             = ( DATA_FEATURE_TYPE_PROPERTY == data_feature_get_main_type ( the_feature ) )
             || ( DATA_FEATURE_TYPE_OPERATION == data_feature_get_main_type ( the_feature ) );

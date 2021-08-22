@@ -44,15 +44,17 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
     assert( NULL != layout );
     assert( NULL != cr );
 
-    const data_relationship_t *the_relationship = layout_relationship_get_data_const( layouted_relationship );
-    const geometry_connector_t *connector_shape = layout_relationship_get_shape_const( layouted_relationship );
+    const data_relationship_t *const the_relationship
+        = layout_relationship_get_data_const( layouted_relationship );
+    const geometry_connector_t *const connector_shape
+        = layout_relationship_get_shape_const( layouted_relationship );
 
     if ( data_relationship_is_valid( the_relationship ) )
     {
         TRACE_INFO_INT("drawing relationship id", data_relationship_get_row_id( the_relationship ) );
 
         /* set the right line width */
-        double std_line_width = pencil_size_get_standard_line_width( pencil_size );
+        const double std_line_width = pencil_size_get_standard_line_width( pencil_size );
         cairo_set_line_width( cr, std_line_width );
 
         /* set the right drawing color */
@@ -204,8 +206,8 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
             case DATA_RELATIONSHIP_TYPE_UML_REFINE:
             case DATA_RELATIONSHIP_TYPE_UML_TRACE:
             {
-                double half_stroke_length = 0.5 * pencil_size_get_arrow_stroke_length( pencil_size );
-                double part_stroke_length = pencil_size_get_arrow_stroke_087_length( pencil_size );
+                const double half_stroke_length = 0.5 * pencil_size_get_arrow_stroke_length( pencil_size );
+                const double part_stroke_length = pencil_size_get_arrow_stroke_087_length( pencil_size );
                 bool close_path;
                 if (( data_relationship_get_main_type( the_relationship ) == DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION )
                     || ( data_relationship_get_main_type( the_relationship ) == DATA_RELATIONSHIP_TYPE_UML_REALIZATION ))
@@ -332,8 +334,8 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
             case DATA_RELATIONSHIP_TYPE_UML_COMPOSITION:
             {
                 /* rhomboid */
-                double half_stroke_length = 0.5 * pencil_size_get_arrow_stroke_length( pencil_size );
-                double part_stroke_length = pencil_size_get_arrow_stroke_087_length( pencil_size );
+                const double half_stroke_length = 0.5 * pencil_size_get_arrow_stroke_length( pencil_size );
+                const double part_stroke_length = pencil_size_get_arrow_stroke_087_length( pencil_size );
                 switch ( feathers_clock_direction )
                 {
                     case 0:  /* direction: 12 o clock */
@@ -420,8 +422,8 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
             case DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT:
             {
                 /* circle with plus */
-                /* double stroke_length = pencil_size_get_arrow_stroke_length( pencil_size ); */
-                double half_stroke_length = 0.5 * pencil_size_get_arrow_stroke_length( pencil_size );
+                /* const double stroke_length = pencil_size_get_arrow_stroke_length( pencil_size ); */
+                const double half_stroke_length = 0.5 * pencil_size_get_arrow_stroke_length( pencil_size );
                 switch ( feathers_clock_direction )
                 {
                     case 0:  /* direction: 12 o clock */
@@ -549,7 +551,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
 
         /* draw connector line */
         {
-            double radius = 2.0 * pencil_size_get_arrow_stroke_length( pencil_size );
+            const double radius = 2.0 * pencil_size_get_arrow_stroke_length( pencil_size );
             double dx;
             double dy;
             cairo_move_to ( cr, p1x, p1y );
@@ -600,10 +602,10 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
 #ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
         /* draw the rectangles */
         {
-            geometry_rectangle_t bounds;
-            bounds = geometry_connector_get_bounding_rectangle( connector_shape );
-            const geometry_rectangle_t *relation_label_box;
-            relation_label_box = layout_relationship_get_label_box_const( layouted_relationship );
+            const geometry_rectangle_t bounds
+                = geometry_connector_get_bounding_rectangle( connector_shape );
+            const geometry_rectangle_t *const relation_label_box
+                = layout_relationship_get_label_box_const( layouted_relationship );
 
             cairo_set_source_rgba( cr, 0.5, 1.0, 0.6, 0.5 );
             cairo_rectangle ( cr,
