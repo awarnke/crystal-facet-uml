@@ -14,8 +14,7 @@
 /* ================================ EMBRACE AND MOVE CHILDREN TOGETHER ================================ */
 
 static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_descendant_envelope( pencil_classifier_2d_layouter_t *this_,
-                                                                                                const layout_visible_classifier_t *ancestor_classifier
-                                                                                              )
+                                                                                                   const layout_visible_classifier_t *ancestor_classifier )
 {
     assert( ancestor_classifier != NULL );
     geometry_rectangle_t descendant_envelope;
@@ -49,8 +48,8 @@ static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_de
 }
 
 static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_outer_space( pencil_classifier_2d_layouter_t *this_,
-                                                                                        const geometry_rectangle_t *start_rect,
-                                                                                        const layout_visible_classifier_t *the_classifier )
+                                                                                           const geometry_rectangle_t *start_rect,
+                                                                                           const layout_visible_classifier_t *the_classifier )
 {
     assert( start_rect != NULL );
     assert( the_classifier != NULL );
@@ -103,9 +102,9 @@ static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_ou
 }
 
 static inline void pencil_classifier_2d_layouter_private_move_descendants( pencil_classifier_2d_layouter_t *this_,
-                                                                        const layout_visible_classifier_t *ancestor_classifier,
-                                                                        double delta_x,
-                                                                        double delta_y )
+                                                                           const layout_visible_classifier_t *ancestor_classifier,
+                                                                           double delta_x,
+                                                                           double delta_y )
 {
     assert( ancestor_classifier != NULL );
 

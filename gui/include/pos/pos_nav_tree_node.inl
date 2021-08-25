@@ -34,11 +34,6 @@ static inline bool pos_nav_tree_node_is_valid ( const pos_nav_tree_node_t *this_
     return result;
 }
 
-static inline shape_int_rectangle_t *pos_nav_tree_node_get_icon_box_ptr ( pos_nav_tree_node_t *this_ )
-{
-    return &((*this_).icon_box);
-}
-
 static inline const shape_int_rectangle_t *pos_nav_tree_node_get_icon_box_const ( const pos_nav_tree_node_t *this_ )
 {
     return &((*this_).icon_box);
@@ -47,11 +42,6 @@ static inline const shape_int_rectangle_t *pos_nav_tree_node_get_icon_box_const 
 static inline void pos_nav_tree_node_set_icon_box ( pos_nav_tree_node_t *this_, const shape_int_rectangle_t *icon_box )
 {
     shape_int_rectangle_replace( &((*this_).icon_box), icon_box );
-}
-
-static inline shape_int_rectangle_t *pos_nav_tree_node_get_label_box_ptr ( pos_nav_tree_node_t *this_ )
-{
-    return &((*this_).label_box);
 }
 
 static inline const shape_int_rectangle_t *pos_nav_tree_node_get_label_box_const ( const pos_nav_tree_node_t *this_ )

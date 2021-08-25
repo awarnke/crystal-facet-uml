@@ -16,11 +16,6 @@ static inline void pos_nav_tree_gap_destroy ( pos_nav_tree_gap_t *this_ )
     shape_int_rectangle_destroy( &((*this_).gap_box) );
 }
 
-static inline shape_int_rectangle_t *pos_nav_tree_gap_get_gap_box_ptr ( pos_nav_tree_gap_t *this_ )
-{
-    return &((*this_).gap_box);
-}
-
 static inline const shape_int_rectangle_t *pos_nav_tree_gap_get_gap_box_const ( const pos_nav_tree_gap_t *this_ )
 {
     return &((*this_).gap_box);

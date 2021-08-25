@@ -44,6 +44,7 @@ static inline void draw_classifier_contour_destroy( draw_classifier_contour_t *t
  *  \brief determines the dimensions of the inner area (label and space) of the classifier-shape.
  *
  *  based on the outer_bounds, the inner area is calculated.
+ *  In case of a fixed-sized symbol, the label-and-space area without icon is returned.
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_type type of the classifier to layout

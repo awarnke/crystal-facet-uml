@@ -161,6 +161,9 @@ static inline void layout_visible_classifier_shift ( layout_visible_classifier_t
     geometry_rectangle_shift( &((*this_).symbol_box), delta_x, delta_y );
     geometry_rectangle_shift( &((*this_).space), delta_x, delta_y );
     geometry_rectangle_shift( &((*this_).label_box), delta_x, delta_y );
+
+    /* update the cached value of envelope_box */
+    geometry_rectangle_shift( &((*this_).envelope_box_cache), delta_x, delta_y );
 }
 
 static inline const data_visible_classifier_t *layout_visible_classifier_get_data_const ( const layout_visible_classifier_t *this_ )

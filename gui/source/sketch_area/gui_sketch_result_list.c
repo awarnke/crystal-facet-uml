@@ -94,7 +94,6 @@ void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *t
     const data_search_result_t *result = pos_search_result_get_data_const( element );
 
     /* determine icon dimensions */
-    shape_int_rectangle_t *icon_box = pos_search_result_get_icon_box_ptr( element );
     {
         const data_table_t result_table = data_search_result_get_match_table( result );
         const int result_type = data_search_result_get_match_type( result );
@@ -102,11 +101,16 @@ void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *t
         const double icon_width = gdk_pixbuf_get_width( icon );
         const double icon_height = gdk_pixbuf_get_height( icon );
 
-        shape_int_rectangle_init( icon_box, left+OBJ_GAP, (*io_y_pos)+OBJ_GAP, icon_width+0.999, icon_height+0.999 );
+        const shape_int_rectangle_t new_icon_box = (shape_int_rectangle_t) {
+            .left=left+OBJ_GAP,
+            .top=(*io_y_pos)+OBJ_GAP,
+            .width=icon_width+0.999,
+            .height=icon_height+0.999 };
+        pos_search_result_set_icon_box( element, &new_icon_box );
     }
 
     /* determine label dimensions */
-    shape_int_rectangle_t *label_box = pos_search_result_get_label_box_ptr( element );
+    const shape_int_rectangle_t *const icon_box = pos_search_result_get_icon_box_const( element );
     {
         int_fast32_t proposed_pango_width = width - shape_int_rectangle_get_width(icon_box) - (4*OBJ_GAP);
         pango_layout_set_text( font_layout,
@@ -119,9 +123,16 @@ void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *t
         pango_layout_get_pixel_size(font_layout, &text_width, &text_height);
 
         int_fast32_t x_pos = shape_int_rectangle_get_right(icon_box);
-        shape_int_rectangle_init( label_box, x_pos+OBJ_GAP, (*io_y_pos)+OBJ_GAP, text_width, text_height );
+
+        const shape_int_rectangle_t new_label_box = (shape_int_rectangle_t) {
+            .left=x_pos+OBJ_GAP,
+            .top=(*io_y_pos)+OBJ_GAP,
+            .width=text_width,
+            .height=text_height };
+        pos_search_result_set_label_box( element, &new_label_box );
     }
 
+    const shape_int_rectangle_t *const label_box = pos_search_result_get_label_box_const( element );
     *io_y_pos = universal_int_max_i32( shape_int_rectangle_get_bottom(icon_box), shape_int_rectangle_get_bottom(label_box) )
               + OBJ_GAP;
 

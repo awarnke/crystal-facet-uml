@@ -57,14 +57,6 @@ static inline bool pos_nav_tree_node_is_valid ( const pos_nav_tree_node_t *this_
  *  \param this_ pointer to own object attributes
  *  \return pointer to shape_int_rectangle_t.
  */
-static inline shape_int_rectangle_t *pos_nav_tree_node_get_icon_box_ptr ( pos_nav_tree_node_t *this_ );
-
-/*!
- *  \brief gets the icon_box of the diagram
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to shape_int_rectangle_t.
- */
 static inline const shape_int_rectangle_t *pos_nav_tree_node_get_icon_box_const ( const pos_nav_tree_node_t *this_ );
 
 /*!
@@ -74,14 +66,6 @@ static inline const shape_int_rectangle_t *pos_nav_tree_node_get_icon_box_const 
  *  \param icon_box coordinates of new icon_box
  */
 static inline void pos_nav_tree_node_set_icon_box ( pos_nav_tree_node_t *this_, const shape_int_rectangle_t *icon_box );
-
-/*!
- *  \brief gets the label_box of the diagram
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to shape_int_rectangle_t.
- */
-static inline shape_int_rectangle_t *pos_nav_tree_node_get_label_box_ptr ( pos_nav_tree_node_t *this_ );
 
 /*!
  *  \brief gets the label_box of the diagram

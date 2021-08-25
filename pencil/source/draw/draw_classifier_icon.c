@@ -20,7 +20,7 @@ void draw_classifier_icon_draw_component ( const draw_classifier_icon_t *this_,
     TRACE_BEGIN();
     assert( NULL != cr );
 
-    /* determine linewith to avoid that drawings overlap to the outside of bounds */
+    /* determine linewidth to avoid that drawings overlap to the outside of bounds */
     {
         const double ln_w = cairo_get_line_width( cr );
         geometry_rectangle_enlarge( &bounds, -ln_w, -ln_w );

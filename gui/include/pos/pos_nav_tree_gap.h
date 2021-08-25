@@ -48,14 +48,6 @@ static inline void pos_nav_tree_gap_destroy ( pos_nav_tree_gap_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return pointer to shape_int_rectangle_t.
  */
-static inline shape_int_rectangle_t *pos_nav_tree_gap_get_gap_box_ptr ( pos_nav_tree_gap_t *this_ );
-
-/*!
- *  \brief gets the gap_box of the gap
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to shape_int_rectangle_t.
- */
 static inline const shape_int_rectangle_t *pos_nav_tree_gap_get_gap_box_const ( const pos_nav_tree_gap_t *this_ );
 
 /*!

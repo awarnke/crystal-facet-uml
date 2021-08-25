@@ -196,6 +196,7 @@ void gui_sketch_nav_tree_do_layout( gui_sketch_nav_tree_t *this_, cairo_t *cr )
 
                 pos_nav_tree_gap_init( upper_gap, data_diagram_get_parent_data_id(anc_diag), 0 );
                 const int indent = (anc_idx-1) * GUI_SKETCH_NAV_TREE_INDENT;
+
                 pos_nav_tree_gap_set_gap_box_coords( upper_gap, left+indent, y_pos, width-indent, GAP_HEIGHT );
                 y_pos += GAP_HEIGHT;
             }
@@ -360,21 +361,26 @@ void gui_sketch_nav_tree_private_layout_node ( gui_sketch_nav_tree_t *this_,
     const data_diagram_t *data_or_null = pos_nav_tree_node_get_data_const( node );
 
     /* determine icon dimensions */
-    shape_int_rectangle_t *icon_box = pos_nav_tree_node_get_icon_box_ptr( node );
     {
         const pos_nav_tree_node_type_t node_type = pos_nav_tree_node_get_type( node );
         const GdkPixbuf *icon = pos_nav_tree_node_type_get_icon( node_type, (*this_).resources );
         const double icon_width = gdk_pixbuf_get_width( icon );
         const double icon_height = gdk_pixbuf_get_height( icon );
 
-        shape_int_rectangle_init( icon_box, left+indent+OBJ_GAP, (*io_y_pos)+OBJ_GAP, icon_width+0.999, icon_height+0.999 );
+        const shape_int_rectangle_t new_icon_box = (shape_int_rectangle_t) {
+            .left=left+indent+OBJ_GAP,
+            .top=(*io_y_pos)+OBJ_GAP,
+            .width=icon_width+0.999,
+            .height=icon_height+0.999 };
+        pos_nav_tree_node_set_icon_box( node, &new_icon_box );
     }
 
     /* determine label dimensions */
-    shape_int_rectangle_t *label_box = pos_nav_tree_node_get_label_box_ptr( node );
+    const shape_int_rectangle_t *const icon_box = pos_nav_tree_node_get_icon_box_const( node );
+    shape_int_rectangle_t new_label_box;
     if ( data_or_null == NULL )
     {
-        shape_int_rectangle_init( label_box, shape_int_rectangle_get_right(icon_box), (*io_y_pos), 0, 0 );
+        shape_int_rectangle_init( &new_label_box, shape_int_rectangle_get_right(icon_box), (*io_y_pos), 0, 0 );
     }
     else
     {
@@ -389,11 +395,14 @@ void gui_sketch_nav_tree_private_layout_node ( gui_sketch_nav_tree_t *this_,
         pango_layout_get_pixel_size(font_layout, &text_width, &text_height);
 
         int_fast32_t x_pos = shape_int_rectangle_get_right(icon_box);
-        shape_int_rectangle_init( label_box, x_pos+OBJ_GAP, (*io_y_pos)+OBJ_GAP, text_width, text_height );
+        shape_int_rectangle_init( &new_label_box, x_pos+OBJ_GAP, (*io_y_pos)+OBJ_GAP, text_width, text_height );
     }
+    pos_nav_tree_node_set_label_box( node, &new_label_box );
 
-    *io_y_pos = universal_int_max_i32( shape_int_rectangle_get_bottom(icon_box), shape_int_rectangle_get_bottom(label_box) )
+    *io_y_pos = universal_int_max_i32( shape_int_rectangle_get_bottom(icon_box), shape_int_rectangle_get_bottom(&new_label_box) )
               + OBJ_GAP;
+
+    shape_int_rectangle_destroy( &new_label_box );
 
     TRACE_END();
 }

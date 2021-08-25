@@ -49,14 +49,6 @@ static inline void pos_search_result_destroy ( pos_search_result_t *this_ );
 static inline bool pos_search_result_is_valid ( const pos_search_result_t *this_ );
 
 /*!
- *  \brief gets the icon_box of the search result
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to shape_int_rectangle_t.
- */
-static inline shape_int_rectangle_t *pos_search_result_get_icon_box_ptr ( pos_search_result_t *this_ );
-
-/*!
  *  \brief gets the bounding box of the search result
  *
  *  \param this_ pointer to own object attributes
@@ -71,14 +63,6 @@ static inline const shape_int_rectangle_t *pos_search_result_get_icon_box_const 
  *  \param icon_box coordinates of new icon_box
  */
 static inline void pos_search_result_set_icon_box ( pos_search_result_t *this_, const shape_int_rectangle_t *icon_box );
-
-/*!
- *  \brief gets the label bounds of the search result
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to shape_int_rectangle_t.
- */
-static inline shape_int_rectangle_t *pos_search_result_get_label_box_ptr ( pos_search_result_t *this_ );
 
 /*!
  *  \brief gets the label bounds of the search result

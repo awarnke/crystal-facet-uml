@@ -696,6 +696,8 @@ int pencil_classifier_composer_set_envelope_box( const pencil_classifier_compose
         geometry_rectangle_copy( &space_guess, &space_and_label );
         geometry_rectangle_shift( &space_guess, 0.0, geometry_rectangle_get_height( &label_compartment ) );
         geometry_rectangle_enlarge( &space_guess, 0.0, -geometry_rectangle_get_height( &label_compartment ) );
+        TRACE_INFO("==== space_guess====" );
+        geometry_rectangle_trace( &space_guess );
         pencil_classifier_composer_expand_space( this_,
                                                  &space_guess,
                                                  shows_contained_children,

@@ -35,11 +35,6 @@ static inline bool pos_search_result_is_valid ( const pos_search_result_t *this_
     return result;
 }
 
-static inline shape_int_rectangle_t *pos_search_result_get_icon_box_ptr ( pos_search_result_t *this_ )
-{
-    return &((*this_).icon_box);
-}
-
 static inline const shape_int_rectangle_t *pos_search_result_get_icon_box_const ( const pos_search_result_t *this_ )
 {
     return &((*this_).icon_box);
@@ -48,11 +43,6 @@ static inline const shape_int_rectangle_t *pos_search_result_get_icon_box_const 
 static inline void pos_search_result_set_icon_box ( pos_search_result_t *this_, const shape_int_rectangle_t *icon_box )
 {
     shape_int_rectangle_replace( &((*this_).icon_box), icon_box );
-}
-
-static inline shape_int_rectangle_t *pos_search_result_get_label_box_ptr ( pos_search_result_t *this_ )
-{
-    return &((*this_).label_box);
 }
 
 static inline const shape_int_rectangle_t *pos_search_result_get_label_box_const ( const pos_search_result_t *this_ )
