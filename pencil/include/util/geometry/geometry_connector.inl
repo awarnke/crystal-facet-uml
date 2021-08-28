@@ -154,24 +154,24 @@ static inline geometry_point_t geometry_connector_calculate_waypoint ( const geo
                                                                        double distance_covered )
 {
     geometry_point_t result;
-    
+
     const double source_end_length = fabs( (*this_).source_end_x - (*this_).main_line_source_x )
                                      + fabs( (*this_).source_end_y - (*this_).main_line_source_y );
     const double main_line_length = fabs( (*this_).main_line_source_x - (*this_).main_line_destination_x )
                                     + fabs( (*this_).main_line_source_y - (*this_).main_line_destination_y );
     const double dest_end_length = fabs( (*this_).main_line_destination_x - (*this_).destination_end_x )
                                    + fabs( (*this_).main_line_destination_y - (*this_).destination_end_y );
-  
+
     if ( distance_covered < source_end_length ) {
         if (( distance_covered <= 0.0 )||( source_end_length < 0.000000001 ))
         {
             geometry_point_init ( &result, (*this_).source_end_x, (*this_).source_end_y );
         }
-        else 
+        else
         {
             geometry_point_init ( &result, (*this_).source_end_x, (*this_).source_end_y );
             const double segment_part1 = distance_covered / source_end_length;
-            geometry_point_shift( &result, 
+            geometry_point_shift( &result,
                                   segment_part1 * ( (*this_).main_line_source_x - (*this_).source_end_x ),
                                   segment_part1 * ( (*this_).main_line_source_y - (*this_).source_end_y )
                                 );
@@ -183,30 +183,30 @@ static inline geometry_point_t geometry_connector_calculate_waypoint ( const geo
         {
             geometry_point_init ( &result, (*this_).main_line_source_x, (*this_).main_line_source_y );
             const double segment_part2 = shifted_distance / main_line_length;
-            geometry_point_shift( &result, 
+            geometry_point_shift( &result,
                                   segment_part2 * ( (*this_).main_line_destination_x - (*this_).main_line_source_x ),
                                   segment_part2 * ( (*this_).main_line_destination_y - (*this_).main_line_source_y )
                                 );
         }
-        else 
+        else
         {
             const double shifted2_distance = shifted_distance - main_line_length;
             if (( shifted2_distance < dest_end_length )&&( dest_end_length >= 0.000000001 ))
             {
                 geometry_point_init ( &result, (*this_).main_line_destination_x, (*this_).main_line_destination_y );
                 const double segment_part3 = shifted2_distance / dest_end_length;
-                geometry_point_shift( &result, 
+                geometry_point_shift( &result,
                                     segment_part3 * ( (*this_).destination_end_x - (*this_).main_line_destination_x ),
                                     segment_part3 * ( (*this_).destination_end_y - (*this_).main_line_destination_y )
                                     );
             }
-            else 
+            else
             {
                 geometry_point_init ( &result, (*this_).destination_end_x, (*this_).destination_end_y );
             }
         }
     }
-        
+
     return result;
 }
 
@@ -246,174 +246,30 @@ static inline bool geometry_connector_is_close ( const geometry_connector_t *thi
 
 static inline bool geometry_connector_is_intersecting_rectangle ( const geometry_connector_t *this_, const geometry_rectangle_t *rect )
 {
-    bool result;
+    geometry_rectangle_t source;
+    geometry_rectangle_t main_line;
+    geometry_rectangle_t destination;
+    geometry_rectangle_init_by_corners( &source,
+                                        (*this_).source_end_x, (*this_).source_end_y,
+                                        (*this_).main_line_source_x, (*this_).main_line_source_y
+                                      );
+    geometry_rectangle_init_by_corners( &main_line,
+                                        (*this_).main_line_source_x, (*this_).main_line_source_y,
+                                        (*this_).main_line_destination_x, (*this_).main_line_destination_y
+                                      );
+    geometry_rectangle_init_by_corners( &destination,
+                                        (*this_).main_line_destination_x, (*this_).main_line_destination_y,
+                                        (*this_).destination_end_x, (*this_).destination_end_y
+                                      );
 
-    /* determine the rectangle (minus a small border) */
-    double rect_left = geometry_rectangle_get_left(rect) + 0.001;
-    double rect_right = geometry_rectangle_get_right(rect) - 0.001;
-    double rect_top = geometry_rectangle_get_top(rect) + 0.001;
-    double rect_bottom = geometry_rectangle_get_bottom(rect) - 0.001;
+    const bool result
+        = geometry_rectangle_is_intersecting( &source, rect )
+        || geometry_rectangle_is_intersecting( &main_line, rect )
+        || geometry_rectangle_is_intersecting( &destination, rect );
 
-    /* do some simple pre-checks */
-    if (( (*this_).source_end_x < rect_left )
-        &&  ( (*this_).destination_end_x < rect_left )
-        &&  ( (*this_).main_line_destination_x < rect_left ) )
-    {
-        result = false;
-    }
-    else if (( (*this_).source_end_x > rect_right )
-        &&  ( (*this_).destination_end_x > rect_right )
-        &&  ( (*this_).main_line_destination_x > rect_right ) )
-    {
-        result = false;
-    }
-    else if (( (*this_).source_end_y < rect_top )
-        &&  ( (*this_).destination_end_y < rect_top )
-        &&  ( (*this_).main_line_destination_y < rect_top ) )
-    {
-        result = false;
-    }
-    else if (( (*this_).source_end_y > rect_bottom )
-        &&  ( (*this_).destination_end_y > rect_bottom )
-        &&  ( (*this_).main_line_destination_y > rect_bottom ) )
-    {
-        result = false;
-    }
-    else
-    {
-        /* the simple pre-checks did not decide if the connector intersects the rectangle */
-        result = false;
-
-        /* check for an overlap of the first segment */
-        if ( (*this_).source_end_x < rect_left )
-        {
-            if (( (*this_).main_line_source_x > rect_left )
-                && ( (*this_).main_line_source_y > rect_top )
-                && ( (*this_).main_line_source_y < rect_bottom ) )
-            {
-                result = true;
-            }
-        }
-        else if ( (*this_).source_end_x > rect_right )
-        {
-            if (( (*this_).main_line_source_x < rect_right )
-                && ( (*this_).main_line_source_y > rect_top )
-                && ( (*this_).main_line_source_y < rect_bottom ) )
-            {
-                result = true;
-            }
-        }
-        else
-        {
-            if ( (*this_).source_end_y < rect_top )
-            {
-                if ( (*this_).main_line_source_y > rect_top )
-                {
-                    result = true;
-                }
-            }
-            else if ( (*this_).source_end_y > rect_bottom )
-            {
-                if ( (*this_).main_line_source_y < rect_bottom )
-                {
-                    result = true;
-                }
-            }
-            else
-            {
-                result = true;
-            }
-        }
-
-        /* check for an overlap of the last segment */
-        if ( ! result )
-        {
-            if ( (*this_).destination_end_x < rect_left )
-            {
-                if (( (*this_).main_line_destination_x > rect_left )
-                    && ( (*this_).main_line_destination_y > rect_top )
-                    && ( (*this_).main_line_destination_y < rect_bottom ) )
-                {
-                    result = true;
-                }
-            }
-            else if ( (*this_).destination_end_x > rect_right )
-            {
-                if (( (*this_).main_line_destination_x < rect_right )
-                    && ( (*this_).main_line_destination_y > rect_top )
-                    && ( (*this_).main_line_destination_y < rect_bottom ) )
-                {
-                    result = true;
-                }
-            }
-            else
-            {
-                if ( (*this_).destination_end_y < rect_top )
-                {
-                    if ( (*this_).main_line_destination_y > rect_top )
-                    {
-                        result = true;
-                    }
-                }
-                else if ( (*this_).destination_end_y > rect_bottom )
-                {
-                    if ( (*this_).main_line_destination_y < rect_bottom )
-                    {
-                        result = true;
-                    }
-                }
-                else
-                {
-                    result = true;
-                }
-            }
-        }
-
-        /* check for an overlap of the middle main line */
-        if ( ! result )
-        {
-            if ( (*this_).main_line_source_x < rect_left )
-            {
-                if (( (*this_).main_line_destination_x > rect_left )
-                    && ( (*this_).main_line_destination_y > rect_top )
-                    && ( (*this_).main_line_destination_y < rect_bottom ) )
-                {
-                    result = true;
-                }
-            }
-            else if ( (*this_).main_line_source_x > rect_right )
-            {
-                if (( (*this_).main_line_destination_x < rect_right )
-                    && ( (*this_).main_line_destination_y > rect_top )
-                    && ( (*this_).main_line_destination_y < rect_bottom ) )
-                {
-                    result = true;
-                }
-            }
-            else
-            {
-                if ( (*this_).main_line_source_y < rect_top )
-                {
-                    if ( (*this_).main_line_destination_y > rect_top )
-                    {
-                        result = true;
-                    }
-                }
-                else if ( (*this_).main_line_source_y > rect_bottom )
-                {
-                    if ( (*this_).main_line_destination_y < rect_bottom )
-                    {
-                        result = true;
-                    }
-                }
-                else
-                {
-                    result = true;
-                    TSLOG_WARNING( "This case should have been covered already before." );
-                }
-            }
-        }
-    }
+    geometry_rectangle_destroy( &source );
+    geometry_rectangle_destroy( &main_line );
+    geometry_rectangle_destroy( &destination );
 
     return result;
 }

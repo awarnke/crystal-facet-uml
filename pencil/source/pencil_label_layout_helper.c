@@ -72,7 +72,13 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
                 = layout_visible_classifier_get_symbol_box_const( probe_classifier );
             if ( geometry_rectangle_is_intersecting( current_solution, classifier_symbol_box ) )
             {
-                debts_of_current += geometry_rectangle_get_intersect_area( current_solution, classifier_symbol_box ); /* low debt */
+                /* overlaps to the symbol box are bad only if not contained in space area */
+                const geometry_rectangle_t *const classifier_space
+                    = layout_visible_classifier_get_space_const( probe_classifier );
+                if ( ! geometry_rectangle_is_containing( classifier_space, current_solution ) )
+                {
+                    debts_of_current += geometry_rectangle_get_intersect_area( current_solution, classifier_symbol_box ); /* low debt */
+                }
             }
 
             const geometry_rectangle_t *const classifier_label_box
@@ -148,6 +154,7 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
     */
 
     /* output the best */
+    TRACE_INFO_INT_INT("label layout idx, debt:", index_of_best, (int32_t)debts_of_best)
     *out_index_of_best = index_of_best;
 
     TRACE_END();
