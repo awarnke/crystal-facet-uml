@@ -12,6 +12,7 @@
 #include "pencil_layout_data.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_point.h"
+/* #include "util/geometry/geometry_anchor.h" */
 
 /*!
  *  \brief attributes of the label layout helper

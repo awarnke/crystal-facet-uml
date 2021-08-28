@@ -264,12 +264,12 @@ void pencil_classifier_2d_layouter_private_propose_move_processing_order ( penci
         {
             layout_visible_classifier_t *probe_classifier;
             probe_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, probe_index );
-            const geometry_rectangle_t *const probe_symbol_box
+            const geometry_rectangle_t *const probe_envelope_box
                 = layout_visible_classifier_get_envelope_box_const( probe_classifier );
 
             geometry_rectangle_t intersect;
             int intersect_error;
-            intersect_error = geometry_rectangle_init_by_intersect( &intersect, classifier_envelope_box, probe_symbol_box );
+            intersect_error = geometry_rectangle_init_by_intersect( &intersect, classifier_envelope_box, probe_envelope_box );
 
             if ( 0 == intersect_error )
             {
@@ -934,7 +934,7 @@ void pencil_classifier_2d_layouter_hide_relations_of_embraced_children( pencil_c
                 const geometry_rectangle_t *const child_symbol_box
                     = layout_visible_classifier_get_symbol_box_const ( to_classifier );
 
-                /* hide if parent embraced child completely */
+                /* hide if parent embraced child(symbol) completely */
                 if ( geometry_rectangle_is_containing( parent_space, child_symbol_box ) )
                 {
                     pencil_layout_data_set_relationship_visibility( (*this_).layout_data, rel_idx, PENCIL_VISIBILITY_IMPLICIT );
