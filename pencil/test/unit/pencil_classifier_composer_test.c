@@ -112,7 +112,7 @@ static void test_expand_space(void)
     pencil_classifier_composer_t classifier_composer;
     pencil_classifier_composer_init( &classifier_composer );
 
-    const geometry_rectangle_t space = { .left = 100.0, .top = 90.0, .width = 350.0, .height = 80.0 };
+    const geometry_rectangle_t space = { .left = 100.0, .top = 90.0, .width = 420.0, .height = 80.0 };
 
     for ( unsigned int t_idx = 0; t_idx < DATA_CLASSIFIER_TYPE_COUNT; t_idx ++ )
     {
