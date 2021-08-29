@@ -18,20 +18,6 @@ ideas for future versions:
   [?] more relationship types needed: undirected ---- and one-way x--> and no x--x association
   [?] sequence diagrams need if/loop-boxes
   [?] activity diagrams need swimlanes/partitions
-  [ ] reduce overlaps of port-labels with other elements
-  [ ] reduce overlaps of relationship-labels with other elements
-  [ ] reduce overlaps of relationship-lines with other elements
-      version 1.30.0 shows on openSuSE 15.3:
-      test suite: pencil_layouter_test_get_list
-        test case: layout_good_cases
-          #Diag=432, total=1624 |  ERR=0, W/C=7, W/F=181, W/R=131
-        test case: layout_challenging_cases
-          #Diag=432, total=11813 |  ERR=597, W/C=7499, W/F=9663, W/R=10991
-      intermediate improvement:
-        test case: layout_good_cases
-          #Diag=432, total=1624 |  ERR=0, W/C=7, W/F=181, W/R=134
-        test case: layout_challenging_cases
-          #Diag=432, total=12370 |  ERR=40, W/C=7318, W/F=9776, W/R=10731
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] import XMI format

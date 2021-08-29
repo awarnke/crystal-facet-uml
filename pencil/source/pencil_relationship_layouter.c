@@ -982,27 +982,28 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
 
     /* layout the relationships */
     const uint32_t count_relations
-        = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
-    TRACE_INFO_INT ( "count_relations:", count_relations );
+        = pencil_layout_data_get_relationship_count( (*this_).layout_data );
+    TRACE_INFO_INT( "count_relations:", count_relations );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
         /* get the relationship to layout */
         layout_relationship_t *const the_relationship
-            = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+            = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, index );
 
         /* adjust visibility */
-        if ( ( NULL == layout_relationship_get_from_feature_ptr ( the_relationship ) )
-            && ( NULL == layout_relationship_get_to_feature_ptr ( the_relationship ) ) )
+        if ( ( NULL == layout_relationship_get_from_feature_ptr( the_relationship ) )
+            && ( NULL == layout_relationship_get_to_feature_ptr( the_relationship ) ) )
         {
             /* this is a globally visible relation, not local/scenario-based */
-            pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_IMPLICIT );
+            pencil_layout_data_set_relationship_visibility( (*this_).layout_data, index, PENCIL_VISIBILITY_IMPLICIT );
         }
 
         /* calculate layout */
         {
             /* determine y-coordinate */
-            const data_relationship_t *the_relationdata = layout_relationship_get_data_const( the_relationship );
-            int32_t list_order = data_relationship_get_list_order ( the_relationdata );
+            const data_relationship_t *const the_relationdata
+                = layout_relationship_get_data_const( the_relationship );
+            int32_t list_order = data_relationship_get_list_order( the_relationdata );
             const double y_value_rel = (list_order/((double)UINT32_MAX))+0.5;
             const double draw_top = geometry_rectangle_get_top(diagram_draw_area);
             const double draw_bottom = geometry_rectangle_get_bottom(diagram_draw_area);
@@ -1015,24 +1016,47 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
                 = layout_relationship_get_to_symbol_box_const ( the_relationship );
 
             /* calculate coordinates */
-            /*double src_left = geometry_rectangle_get_left(source_rect);*/
+            const double src_left = geometry_rectangle_get_left(source_rect);
             const double src_center_x = geometry_rectangle_get_center_x(source_rect);
-            /*double src_right = geometry_rectangle_get_right(source_rect);*/
+            const double src_right = geometry_rectangle_get_right(source_rect);
             const double src_top = geometry_rectangle_get_top(source_rect);
-            /*double src_center_y = geometry_rectangle_get_center_y(source_rect);*/
+            /*const double src_center_y = geometry_rectangle_get_center_y(source_rect);*/
             const double src_bottom = geometry_rectangle_get_bottom(source_rect);
 
-            /*double dst_left = geometry_rectangle_get_left(dest_rect);*/
+            const double dst_left = geometry_rectangle_get_left(dest_rect);
             const double dst_center_x = geometry_rectangle_get_center_x(dest_rect);
-            /*double dst_right = geometry_rectangle_get_right(dest_rect);*/
+            const double dst_right = geometry_rectangle_get_right(dest_rect);
             const double dst_top = geometry_rectangle_get_top(dest_rect);
-            /*double dst_center_y = geometry_rectangle_get_center_y(dest_rect);*/
+            /*const double dst_center_y = geometry_rectangle_get_center_y(dest_rect);*/
             const double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
 
-            const double src_y_value
+            /* is interaction relation */
+            const data_relationship_type_t rel_type
+                = data_relationship_get_main_type( the_relationdata );
+            const bool is_interaction
+                = ( rel_type == DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL )
+                || ( rel_type == DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL )
+                || ( rel_type == DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL )
+                || ( rel_type == DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW )
+                || ( rel_type == DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW )
+                || ( rel_type == DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL );
+
+            const double src_from_y
                = ( y_value < src_top ) ? src_top : ( y_value > src_bottom ) ? src_bottom : y_value;
-            const double dst_y_value
+            const double dst_to_y
                = ( y_value < dst_top ) ? dst_top : ( y_value > dst_bottom ) ? dst_bottom : y_value;
+            const double src_from_x
+                = (( y_value < src_top )||( y_value > src_bottom )|| is_interaction )
+                ? src_center_x
+                : ( src_center_x < dst_center_x )
+                ? src_right
+                : src_left;
+            const double dst_to_x
+                = (( y_value < dst_top )||( y_value > dst_bottom )|| is_interaction )
+                ? dst_center_x
+                : ( src_center_x < dst_center_x )
+                ? dst_left
+                : dst_right;
 
             /* determine minimum arrow size for message/call to self */
             const double good_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
@@ -1044,9 +1068,9 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
                 /* message/call to self */
                 geometry_connector_init_vertical ( &relationship_shape,
                                                    src_center_x,
-                                                   src_y_value - (good_dist/2.0),
+                                                   src_from_y - (good_dist/2.0),
                                                    dst_center_x,
-                                                   dst_y_value + (good_dist/2.0),
+                                                   dst_to_y + (good_dist/2.0),
                                                    src_center_x + good_dist /* the main connector shall be right to the start/end points */
                                                  );
             }
@@ -1054,10 +1078,10 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
             {
                 /* normal message/call */
                 geometry_connector_init_horizontal ( &relationship_shape,
-                                                     src_center_x,
-                                                     src_y_value,
-                                                     dst_center_x,
-                                                     dst_y_value,
+                                                     src_from_x,
+                                                     src_from_y,
+                                                     dst_to_x,
+                                                     dst_to_y,
                                                      y_value
                                                    );
             }
@@ -1083,20 +1107,20 @@ void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layoute
 
     /* layout the relationships */
     const uint32_t count_relations
-        = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
-    TRACE_INFO_INT ( "count_relations:", count_relations );
+        = pencil_layout_data_get_relationship_count( (*this_).layout_data );
+    TRACE_INFO_INT( "count_relations:", count_relations );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
         /* get the relationship to layout */
         layout_relationship_t *const the_relationship
-            = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+            = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, index );
 
         /* adjust visibility */
-        if ( ( NULL == layout_relationship_get_from_feature_ptr ( the_relationship ) )
-            && ( NULL == layout_relationship_get_to_feature_ptr ( the_relationship ) ) )
+        if ( ( NULL == layout_relationship_get_from_feature_ptr( the_relationship ) )
+            && ( NULL == layout_relationship_get_to_feature_ptr( the_relationship ) ) )
         {
             /* this is a globally visible relation, not local/scenario-based */
-            pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_IMPLICIT );
+            pencil_layout_data_set_relationship_visibility( (*this_).layout_data, index, PENCIL_VISIBILITY_IMPLICIT );
         }
 
         /* calculate layout */
@@ -1112,29 +1136,52 @@ void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layoute
 
             /* get source and destination rectangles */
             const geometry_rectangle_t *const source_rect
-                = layout_relationship_get_from_symbol_box_const ( the_relationship );
+                = layout_relationship_get_from_symbol_box_const( the_relationship );
             const geometry_rectangle_t *const dest_rect
-                = layout_relationship_get_to_symbol_box_const ( the_relationship );
+                = layout_relationship_get_to_symbol_box_const( the_relationship );
 
             /* calculate coordinates */
             const double src_left = geometry_rectangle_get_left(source_rect);
-            /*double src_center_x = geometry_rectangle_get_center_x(source_rect);*/
+            /*const double src_center_x = geometry_rectangle_get_center_x(source_rect);*/
             const double src_right = geometry_rectangle_get_right(source_rect);
-            /*double src_top = geometry_rectangle_get_top(source_rect);*/
+            const double src_top = geometry_rectangle_get_top(source_rect);
             const double src_center_y = geometry_rectangle_get_center_y(source_rect);
-            /*double src_bottom = geometry_rectangle_get_bottom(source_rect);*/
+            const double src_bottom = geometry_rectangle_get_bottom(source_rect);
 
             const double dst_left = geometry_rectangle_get_left(dest_rect);
-            /*double dst_center_x = geometry_rectangle_get_center_x(dest_rect);*/
+            /*const double dst_center_x = geometry_rectangle_get_center_x(dest_rect);*/
             const double dst_right = geometry_rectangle_get_right(dest_rect);
-            /*double dst_top = geometry_rectangle_get_top(dest_rect);*/
+            const double dst_top = geometry_rectangle_get_top(dest_rect);
             const double dst_center_y = geometry_rectangle_get_center_y(dest_rect);
-            /*double dst_bottom = geometry_rectangle_get_bottom(dest_rect);*/
+            const double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
 
-            const double src_x_value
+            /* is interaction relation */
+            const data_relationship_type_t rel_type
+                = data_relationship_get_main_type( the_relationdata );
+            const bool is_interaction
+                = ( rel_type == DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL )
+                || ( rel_type == DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL )
+                || ( rel_type == DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL )
+                || ( rel_type == DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW )
+                || ( rel_type == DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW )
+                || ( rel_type == DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL );
+
+            const double src_from_x
                 = ( x_value < src_left ) ? src_left : ( x_value > src_right ) ? src_right : x_value;
-            const double dst_x_value
+            const double dst_to_x
                 = ( x_value < dst_left ) ? dst_left : ( x_value > dst_right ) ? dst_right : x_value;
+            const double src_from_y
+                = (( x_value < src_left )||( x_value > src_right )|| is_interaction )
+                ? src_center_y
+                : ( src_center_y < dst_center_y )
+                ? src_bottom
+                : src_top;
+            const double dst_to_y
+                = (( x_value < dst_left )||( x_value > dst_right )|| is_interaction )
+                ? dst_center_y
+                : ( src_center_y < dst_center_y )
+                ? dst_top
+                : dst_bottom;
 
             /* determine minimum arrow size for self transition */
             const double good_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
@@ -1145,9 +1192,9 @@ void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layoute
             {
                 /* transition to self */
                 geometry_connector_init_horizontal ( &relationship_shape,
-                                                     src_x_value - (good_dist/2.0),
+                                                     src_from_x - (good_dist/2.0),
                                                      src_center_y,
-                                                     dst_x_value + (good_dist/2.0),
+                                                     dst_to_x + (good_dist/2.0),
                                                      dst_center_y,
                                                      src_center_y - good_dist /* the main connector shall be above the start/end points */
                                                    );
@@ -1156,10 +1203,10 @@ void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layoute
             {
                 /* normal transition */
                 geometry_connector_init_vertical ( &relationship_shape,
-                                                   src_x_value,
-                                                   src_center_y,
-                                                   dst_x_value,
-                                                   dst_center_y,
+                                                   src_from_x,
+                                                   src_from_y,
+                                                   dst_to_x,
+                                                   dst_to_y,
                                                    x_value
                                                  );
             }

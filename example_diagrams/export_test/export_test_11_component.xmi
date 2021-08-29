@@ -5,7 +5,7 @@
          xmlns:SysML="http://www.omg.org/spec/SysML/20131001/SysML.xmi"
          xmlns:LocalProfile="http://localhost/crystal-facet-uml/298b72db-cc85-4ed0-bd7b-01dc4efd52b4">
          <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->
-    <xmi:Documentation exporter="crystal-facet-uml" exporterVersion="1.29.0"/>
+    <xmi:Documentation exporter="crystal-facet-uml" exporterVersion="1.31.0"/>
     <uml:Model xmi:type="uml:Model" xmi:id="00000" name="export_test_11_component" >
         <packagedElement xmi:type="uml:Component" xmi:id="60001" name="AngleSteering" ><!--C0001-->
             <provided xmi:type="uml:Interface" xmi:id="40008" name="Motor Control" >

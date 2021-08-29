@@ -569,7 +569,7 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                 data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_EXPORTED );
 
 #ifdef PENCIL_LAYOUT_DATA_STATS_WITH_WARNINGS
-                /* check classifiers against classifiers */
+                /* check current classifier against already processed classifiers */
 
                 for ( uint_fast32_t probe_idx = 0; probe_idx < c_idx; probe_idx ++ )
                 {
@@ -647,7 +647,8 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
             const geometry_rectangle_t *const f_label
                 = layout_feature_get_label_box_const( feature );
 
-            if ( geometry_rectangle_is_containing( diag_space, f_symbox )
+            if ( ( geometry_rectangle_is_empty( f_symbox )
+                || geometry_rectangle_is_containing( diag_space, f_symbox ))
                 && geometry_rectangle_is_containing( diag_space, f_label ) )
             {
                 data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
@@ -662,16 +663,21 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                         = layout_visible_classifier_get_symbol_box_const( probe );
                     const geometry_rectangle_t *const probe_label
                         = layout_visible_classifier_get_label_box_const( probe );
+                    const geometry_rectangle_t *const c_space
+                        = layout_visible_classifier_get_space_const( probe );
 
                     const bool symbox_overlaps
-                        = geometry_rectangle_is_intersecting( f_symbox, probe_symbox );
-                    const bool mixed_overlaps
-                        = ( geometry_rectangle_is_intersecting( f_symbox, probe_label )
-                        || geometry_rectangle_is_intersecting( f_label, probe_symbox ) );
+                        = geometry_rectangle_is_intersecting( f_symbox, probe_symbox )
+                        && ( ! geometry_rectangle_is_containing( c_space, f_symbox ) );
+                    const bool f_sym_overlaps_c_label
+                        = geometry_rectangle_is_intersecting( f_symbox, probe_label );
+                    const bool f_label_overlaps_c_sym
+                        = geometry_rectangle_is_intersecting( f_label, probe_symbox )
+                        && ( ! geometry_rectangle_is_containing( c_space, f_label ) );
                     const bool label_overlaps
                         = geometry_rectangle_is_intersecting( f_label, probe_label );
 
-                    if ( mixed_overlaps || label_overlaps )
+                    if ( f_sym_overlaps_c_label || f_label_overlaps_c_sym || label_overlaps )
                     {
                         data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
                     }
@@ -692,44 +698,49 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                     }
                 }
 
-                /* check features against features */
+                /* check current feature against already processed features */
 
                 for ( uint_fast32_t probe_idx = 0; probe_idx < f_idx; probe_idx ++ )
                 {
                     const layout_feature_t *const probe = &((*this_).feature_layout[probe_idx]);
+                    const data_feature_t *const probe_data
+                        = layout_feature_get_data_const( probe );
                     const geometry_rectangle_t *const probe_symbox
                          = layout_feature_get_symbol_box_const( probe );
                     const geometry_rectangle_t *const probe_label
                         = layout_feature_get_label_box_const( probe );
 
-                    const bool symbox_overlaps
-                        = geometry_rectangle_is_intersecting( f_symbox, probe_symbox );
-                    const bool mixed_overlaps
-                        = ( geometry_rectangle_is_intersecting( f_symbox, probe_label )
-                        || geometry_rectangle_is_intersecting( f_label, probe_symbox ) );
-                    const bool label_overlaps
-                        = geometry_rectangle_is_intersecting( f_label, probe_label );
-
-                    if ( mixed_overlaps || label_overlaps )
+                    if ( DATA_FEATURE_TYPE_LIFELINE != data_feature_get_main_type( probe_data ) )
                     {
-                        data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
-                    }
-                    else if ( symbox_overlaps )
-                    {
-                        const layout_visible_classifier_t *const f_parent
-                            = layout_feature_get_classifier_const ( feature );
-                        const layout_visible_classifier_t *const probe_parent
-                            = layout_feature_get_classifier_const ( probe );
+                        const bool symbox_overlaps
+                            = geometry_rectangle_is_intersecting( f_symbox, probe_symbox );
+                        const bool mixed_overlaps
+                            = ( geometry_rectangle_is_intersecting( f_symbox, probe_label )
+                            || geometry_rectangle_is_intersecting( f_label, probe_symbox ) );
+                        const bool label_overlaps
+                            = geometry_rectangle_is_intersecting( f_label, probe_label );
 
-                        const bool same_parent
-                            = layout_visible_classifier_is_equal_diagramelement_id( f_parent, probe_parent );
-                        if ( same_parent )
-                        {
-                            /* ok, not a layouting issue */
-                        }
-                        else
+                        if ( mixed_overlaps || label_overlaps )
                         {
                             data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+                        }
+                        else if ( symbox_overlaps )
+                        {
+                            const layout_visible_classifier_t *const f_parent
+                                = layout_feature_get_classifier_const ( feature );
+                            const layout_visible_classifier_t *const probe_parent
+                                = layout_feature_get_classifier_const ( probe );
+
+                            const bool same_parent
+                                = layout_visible_classifier_is_equal_diagramelement_id( f_parent, probe_parent );
+                            if ( same_parent )
+                            {
+                                /* ok, not a layouting issue */
+                            }
+                            else
+                            {
+                                data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+                            }
                         }
                     }
                 }
@@ -796,25 +807,30 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                 for ( uint_fast32_t probe_idx = 0; probe_idx < (*this_).feature_count; probe_idx ++ )
                 {
                     const layout_feature_t *const probe = &((*this_).feature_layout[probe_idx]);
+                    const data_feature_t *const probe_data
+                        = layout_feature_get_data_const( probe );
                     const geometry_rectangle_t *const probe_symbox
                          = layout_feature_get_symbol_box_const( probe );
                     const geometry_rectangle_t *const probe_label
                         = layout_feature_get_label_box_const( probe );
 
-                    const bool label_overlaps_label
-                        = geometry_rectangle_is_intersecting( r_label, probe_label );
-                    const bool label_overlaps_symbox
-                        = geometry_rectangle_is_intersecting( r_label, probe_symbox );
-                    const bool shape_overlaps_label
-                        = geometry_connector_is_intersecting_rectangle( r_shape, probe_label );
-
-                    if (  label_overlaps_label || label_overlaps_symbox || shape_overlaps_label )
+                    if ( DATA_FEATURE_TYPE_LIFELINE != data_feature_get_main_type( probe_data ) )
                     {
-                        data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+                        const bool label_overlaps_label
+                            = geometry_rectangle_is_intersecting( r_label, probe_label );
+                        const bool label_overlaps_symbox
+                            = geometry_rectangle_is_intersecting( r_label, probe_symbox );
+                        const bool shape_overlaps_label
+                            = geometry_connector_is_intersecting_rectangle( r_shape, probe_label );
+
+                        if (  label_overlaps_label || label_overlaps_symbox || shape_overlaps_label )
+                        {
+                            data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+                        }
                     }
                 }
 
-                /* check relationships against relationships */
+                /* check current relationship against already processed relationships */
 
                 for ( uint_fast32_t probe_idx = 0; probe_idx < r_idx; probe_idx ++ )
                 {

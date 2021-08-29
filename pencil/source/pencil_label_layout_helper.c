@@ -96,12 +96,21 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
         {
             const layout_feature_t *const probe_feature
                 = pencil_layout_data_get_feature_ptr( layout_data, feat_index );
+            const data_feature_t *const probe_f_data
+                = layout_feature_get_data_const( probe_feature );
 
             const geometry_rectangle_t *const feature_symbol_box
                 = layout_feature_get_symbol_box_const( probe_feature );
             if ( geometry_rectangle_is_intersecting( current_solution, feature_symbol_box ) )
             {
-                debts_of_current += 100.0 * geometry_rectangle_get_intersect_area( current_solution, feature_symbol_box ); /* medium debt */
+                if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( probe_f_data ) )
+                {
+                    debts_of_current += geometry_rectangle_get_intersect_area( current_solution, feature_symbol_box ); /* low debt */
+                }
+                else
+                {
+                    debts_of_current += 100.0 * geometry_rectangle_get_intersect_area( current_solution, feature_symbol_box ); /* medium debt */
+                }
             }
 
             const geometry_rectangle_t *const feature_label_box
