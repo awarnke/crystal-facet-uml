@@ -1,3 +1,14 @@
+crystal-facet-uml (1.32.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * overlaps between relationships with identical type, source and destination
+    are avoided.
+  * good default size of classifiers in case classifiers share same location
+  * less overlaps to labels below actor, fork/join, start/end, h, time
+  * nicer relationships to comments and requirements in sequences and timing
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 29 Aug 2021 16:00:00 +0200
+
 crystal-facet-uml (1.31.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
