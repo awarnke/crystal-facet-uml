@@ -147,7 +147,7 @@ static void test_expand_space(void)
             const geometry_rectangle_t *const space = layout_visible_classifier_get_space_const( &layout_vis_classifier );
             TEST_ASSERT_EQUAL_DOUBLE( 100.0, geometry_rectangle_get_left( space ) );
             TEST_ASSERT_EQUAL_DOUBLE( 90.0, geometry_rectangle_get_top( space ) );
-            TEST_ASSERT_EQUAL_DOUBLE( 350.0, geometry_rectangle_get_width( space ) );
+            TEST_ASSERT_EQUAL_DOUBLE( 420.0, geometry_rectangle_get_width( space ) );
             TEST_ASSERT_EQUAL_DOUBLE( 80.0, geometry_rectangle_get_height( space ) );
         }
     }
