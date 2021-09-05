@@ -38,7 +38,7 @@ static void test_format(void)
 
     TEST_ASSERT_EQUAL_INT( 8, utf8string_find_next_str(uuid_1,"-",0) );
     TEST_ASSERT_EQUAL_INT( 8+1+4, utf8string_find_next_str(uuid_1,"-",8+1) );
-    TEST_ASSERT_EQUAL_INT( 8+1+4+1, utf8string_find_next_str(uuid_1,"4",8+1) );
+    TEST_ASSERT_EQUAL_INT( 8+1+4+1, utf8string_find_next_str(uuid_1,"4",8+1+4) );
     TEST_ASSERT_EQUAL_INT( 8+1+4+1+4, utf8string_find_next_str(uuid_1,"-",8+1+4+1) );
     TEST_ASSERT_EQUAL_INT( 8+1+4+1+4+1+4, utf8string_find_next_str(uuid_1,"-",8+1+4+1+4+1) );
     TEST_ASSERT_EQUAL_INT( -1, utf8string_find_next_str(uuid_1,"-",8+1+4+1+4+1+4+1) );
