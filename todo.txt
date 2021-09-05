@@ -32,10 +32,14 @@ ideas for future versions:
   [ ] some way to compare two database files / and/or to merge
       - maybe there are already solutions for sqlite3 and git:
       a) store an sqlite3 dump to git, not the binary
+      Note that a cfu1 database file contains many ids and foreign-keys and ordering-hints,
+      this is not mergeable by humans
+      see e.g "sqlite3 mouse_droid.cfu1 .dump"
       b) setup git hooks and use a custom merge/diff tool for binary db
       documentation needed
       maybe rowid should be replaced by GUID to make this easier
       maybe a database schema file is needed
+      c) define an own simple, sorted, line-based text format for version-control-system storage
   [ ] links unclear:
       interactionuse(diag-reference)-to-fragment(diag);
       part-to-component, object-to-class
