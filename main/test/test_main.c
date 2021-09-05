@@ -2,6 +2,7 @@
 
 #include "unit/data_change_notifier_test.h"
 #include "unit/data_small_set_test.h"
+#include "unit/data_uuid_test.h"
 #include "unit/data_rules_test.h"
 #include "unit/data_database_listener_test.h"
 #include "unit/data_database_reader_test.h"
@@ -115,6 +116,7 @@ int main (int argc, char *argv[]) {
     {
         test_runner_run_suite( &runner, data_small_set_test_get_list() );
         test_runner_run_suite( &runner, data_rules_test_get_list() );
+        test_runner_run_suite( &runner, data_uuid_test_get_list() );
         test_runner_run_suite( &runner, data_change_notifier_test_get_list() );
         test_runner_run_suite( &runner, data_database_listener_test_get_list() );
         test_runner_run_suite( &runner, geometry_rectangle_test_get_list() );

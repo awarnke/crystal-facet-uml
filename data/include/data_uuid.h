@@ -1,7 +1,7 @@
 /* File: data_uuid.h; Copyright and License: see below */
 
-#ifndef DATA_UUID
-#define DATA_UUID
+#ifndef DATA_UUID_H
+#define DATA_UUID_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -11,6 +11,7 @@
 
 #include "data_error.h"
 #include "util/string/utf8stringbuf.h"
+#include "util/string/utf8string.h"
 #include "util/string/utf8error.h"
 
 /*!
@@ -96,7 +97,7 @@ static inline void data_uuid_trace ( const data_uuid_t *this_ );
 
 #include "data_uuid.inl"
 
-#endif  /* DATA_UUID */
+#endif  /* DATA_UUID_H */
 
 
 /*

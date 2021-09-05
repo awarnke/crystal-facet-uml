@@ -1,14 +1,8 @@
-/* File: universal_int.inl; Copyright and License: see below */
+/* File: universal_random.c; Copyright and License: see below */
 
-static inline int32_t universal_int_min_i32 ( int32_t this_, int32_t that )
-{
-    return ( this_ < that ) ? this_ : that;
-}
+#include "universal_random.h"
 
-static inline int32_t universal_int_max_i32 ( int32_t this_, int32_t that )
-{
-    return ( this_ > that ) ? this_ : that;
-}
+bool universal_random_initialized = false;
 
 
 /*

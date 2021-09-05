@@ -1,5 +1,6 @@
 /* File: data_uuid.c; Copyright and License: see below */
 
+#include "universal_random.h"
 #include "trace.h"
 #include "tslog.h"
 #include <assert.h>
@@ -34,6 +35,44 @@ static inline void data_uuid_init_new ( data_uuid_t *this_ )
                                                (*this_).private_uuid_string_buffer
                                              );
     utf8stringbuf_clear( (*this_).uuid_string );
+
+    struct timespec now;
+    const int err = clock_gettime( CLOCK_MONOTONIC, &now );
+    if ( err != 0 )
+    {
+        TSLOG_ERROR_INT( "clock_gettime(CLOCK_MONOTONIC) failed:", errno );
+        assert(false);
+    }
+
+    universal_random_t rnd;
+    universal_random_init( &rnd );
+    {
+        utf8error_t strerr = UTF8ERROR_SUCCESS;
+
+        assert( sizeof(long) >= sizeof(uint32_t) );
+        const uint32_t rand1 = now.tv_nsec ^ universal_random_get_long( &rnd );
+        const uint16_t rand2 = now.tv_sec ^ universal_random_get_long( &rnd );
+        const uint16_t rand3 = (universal_random_get_long( &rnd )) & 0x0fff;
+        const uint16_t rand4 = universal_random_get_long( &rnd );
+        const uint16_t rand5 = universal_random_get_long( &rnd );
+        const uint32_t rand6 = universal_random_get_long( &rnd );
+
+        char thirtyseven_bytes[DATA_UUID_STRING_LENGTH+1];
+        const int length = sprintf( &(thirtyseven_bytes[0]),
+                                    /*         v UUID version 4 */
+                                    "%08x-%04x-4%03x-%04x-%04x%08x",
+                                    rand1,
+                                    rand2,
+                                    rand3,
+                                    rand4,
+                                    rand5,
+                                    rand6
+                                  );
+        assert( length == sizeof(thirtyseven_bytes) - sizeof((const char)'\0') );
+        strerr |= utf8stringbuf_append_str( (*this_).uuid_string, &(thirtyseven_bytes[0]) );
+        assert( strerr == UTF8ERROR_SUCCESS );
+    }
+    universal_random_destroy( &rnd );
 }
 
 static inline void data_uuid_init_void ( data_uuid_t *this_ )
