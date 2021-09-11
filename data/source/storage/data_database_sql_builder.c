@@ -59,13 +59,13 @@ void data_database_sql_builder_destroy ( data_database_sql_builder_t *this_ )
  *  \brief prefix string constant to insert a diagram
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_PREFIX =
-    "INSERT INTO diagrams (parent_id,diagram_type,name,description,list_order) VALUES (";
+    "INSERT INTO diagrams (parent_id,diagram_type,name,description,list_order,uuid) VALUES (";
 
 /*!
  *  \brief prefix string constant to insert a diagram with predefined id
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_WITH_ID_PREFIX =
-    "INSERT INTO diagrams (id,parent_id,diagram_type,name,description,list_order) VALUES (";
+    "INSERT INTO diagrams (id,parent_id,diagram_type,name,description,list_order,uuid) VALUES (";
 
 /*!
  *  \brief postfix string constant to insert a diagram
@@ -174,6 +174,17 @@ data_error_t data_database_sql_builder_build_create_diagram_command ( data_datab
 
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagram).list_order );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_diagram_get_uuid_const( diagram ) );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )
@@ -374,13 +385,13 @@ data_error_t data_database_sql_builder_build_update_diagram_parent_id_cmd ( data
  *  \brief prefix string constant to insert a classifier
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_PREFIX =
-    "INSERT INTO classifiers (main_type,stereotype,name,description,x_order,y_order,list_order) VALUES (";
+    "INSERT INTO classifiers (main_type,stereotype,name,description,x_order,y_order,list_order,uuid) VALUES (";
 
 /*!
  *  \brief prefix string constant to insert a classifier with predefined id
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_WITH_ID_PREFIX =
-    "INSERT INTO classifiers (id,main_type,stereotype,name,description,x_order,y_order,list_order) VALUES (";
+    "INSERT INTO classifiers (id,main_type,stereotype,name,description,x_order,y_order,list_order,uuid) VALUES (";
 
 /*!
  *  \brief postfix string constant to insert a classifier
@@ -507,6 +518,18 @@ data_error_t data_database_sql_builder_build_create_classifier_command ( data_da
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*classifier).y_order );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*classifier).list_order );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_classifier_get_uuid_const( classifier ) );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )
@@ -768,13 +791,13 @@ data_error_t data_database_sql_builder_build_update_classifier_list_order_cmd ( 
  *  \brief prefix string constant to insert a diagramelement
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_PREFIX =
-    "INSERT INTO diagramelements (diagram_id,classifier_id,display_flags,focused_feature_id) VALUES (";
+    "INSERT INTO diagramelements (diagram_id,classifier_id,display_flags,focused_feature_id,uuid) VALUES (";
 
 /*!
  *  \brief prefix string constant to insert a diagramelement with predefined id
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_WITH_ID_PREFIX =
-    "INSERT INTO diagramelements (id,diagram_id,classifier_id,display_flags,focused_feature_id) VALUES (";
+    "INSERT INTO diagramelements (id,diagram_id,classifier_id,display_flags,focused_feature_id,uuid) VALUES (";
 
 /*!
  *  \brief postfix string constant to insert a diagramelement
@@ -850,6 +873,17 @@ data_error_t data_database_sql_builder_build_create_diagramelement_command ( dat
     {
         strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagramelement).focused_feature_id );
     }
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_diagramelement_get_uuid_const( diagramelement ) );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )
@@ -949,13 +983,13 @@ data_error_t data_database_sql_builder_build_update_diagramelement_focused_featu
  *  \brief prefix string constant to insert a feature
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_FEATURE_PREFIX =
-    "INSERT INTO features (main_type,classifier_id,key,value,description,list_order) VALUES (";
+    "INSERT INTO features (main_type,classifier_id,key,value,description,list_order,uuid) VALUES (";
 
 /*!
  *  \brief prefix string constant to insert a feature with predefined id
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_FEATURE_WITH_ID_PREFIX =
-    "INSERT INTO features (id,main_type,classifier_id,key,value,description,list_order) VALUES (";
+    "INSERT INTO features (id,main_type,classifier_id,key,value,description,list_order,uuid) VALUES (";
 
 /*!
  *  \brief postfix string constant to insert a feature
@@ -1068,6 +1102,18 @@ data_error_t data_database_sql_builder_build_create_feature_command ( data_datab
 
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*feature).list_order );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_feature_get_uuid_const( feature ) );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_FEATURE_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )
@@ -1277,13 +1323,17 @@ data_error_t data_database_sql_builder_build_update_feature_list_order_cmd ( dat
  *  \brief prefix string constant to insert a relationship
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_PREFIX =
-    "INSERT INTO relationships (main_type,from_classifier_id,to_classifier_id,name,description,list_order,from_feature_id,to_feature_id) VALUES (";
+    "INSERT INTO relationships "
+    "(main_type,from_classifier_id,to_classifier_id,name,description,list_order,from_feature_id,to_feature_id,uuid) "
+    "VALUES (";
 
 /*!
  *  \brief prefix string constant to insert a relationship with predefined id
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_WITH_ID_PREFIX =
-    "INSERT INTO relationships (id,main_type,from_classifier_id,to_classifier_id,name,description,list_order,from_feature_id,to_feature_id) VALUES (";
+    "INSERT INTO relationships "
+    "(id,main_type,from_classifier_id,to_classifier_id,name,description,list_order,from_feature_id,to_feature_id,uuid) "
+    "VALUES (";
 
 /*!
  *  \brief postfix string constant to insert a relationship
@@ -1383,6 +1433,7 @@ data_error_t data_database_sql_builder_build_create_relationship_command ( data_
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*relationship).list_order );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+
     if ( DATA_ROW_ID_VOID == (*relationship).from_feature_id )
     {
         strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
@@ -1400,6 +1451,18 @@ data_error_t data_database_sql_builder_build_create_relationship_command ( data_
     {
         strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*relationship).to_feature_id );
     }
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_relationship_get_uuid_const( relationship ) );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )

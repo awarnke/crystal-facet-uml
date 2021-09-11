@@ -1586,15 +1586,14 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             std_list_order_proposal = gui_sketch_card_get_highest_feat_list_order( target_card, dragged_classifier ) + 32768;
                             int32_t port_list_order_proposal = 0;
                             {
-                                data_feature_init ( &((*this_).private_temp_fake_feature),
-                                                    DATA_ROW_ID_VOID,
-                                                    DATA_FEATURE_TYPE_PORT,
-                                                    classifier_id, /* classifier */
-                                                    "FAKE_FEATURE",
-                                                    "port-type",
-                                                    "to determine the list order",
-                                                    0 /* list_order */
-                                                );
+                                data_feature_init_new( &((*this_).private_temp_fake_feature),
+                                                       DATA_FEATURE_TYPE_PORT,
+                                                       classifier_id, /* classifier */
+                                                       "FAKE_FEATURE",
+                                                       "port-type",
+                                                       "to determine the list order",
+                                                       0 /* list_order */
+                                                     );
                                 port_list_order_proposal = gui_sketch_card_get_feature_order_at_pos ( target_card,
                                                                                                       &((*this_).private_temp_fake_feature),
                                                                                                       x,

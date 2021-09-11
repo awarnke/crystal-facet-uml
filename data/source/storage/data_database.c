@@ -25,7 +25,8 @@ static const char *DATA_DATABASE_CREATE_CLASSIFIERINSTANCE_TABLE =
         "description TEXT, "
         "x_order INTEGER, "
         "y_order INTEGER, "
-        "list_order INTEGER "
+        "list_order INTEGER, "
+        "uuid TEXT NOT NULL DEFAULT \'\'"  /* DEFAULT needed in case a new DB is modified by an old program version */
     ");";
 
 /*!
@@ -50,6 +51,18 @@ static const char *DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_1 =
     "ADD COLUMN list_order INTEGER;";
 
 /*!
+ *  \brief string constant to update an sql database table
+ *
+ *  The DEFAULT clause is needed to convert the existing records to the new format
+ *  and in case a new database is modified by an old program version.
+ *
+ *  This command extends classifiers by a uuid field.
+ */
+static const char *DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_2 =
+    "ALTER TABLE classifiers "
+    "ADD COLUMN uuid TEXT NOT NULL DEFAULT \'\';";
+
+/*!
  *  \brief string constant to create an sql database table
  *
  *  This table contains instances of generalizations, associations (which are relationships)
@@ -66,6 +79,7 @@ static const char *DATA_DATABASE_CREATE_RELATIONSHIPINSTANCE_TABLE =
         "list_order INTEGER, "
         "from_feature_id INTEGER DEFAULT NULL, "  /* DEFAULT needed in case a new DB is modified by an old program version */
         "to_feature_id INTEGER DEFAULT NULL, "  /* DEFAULT needed in case a new DB is modified by an old program version */
+        "uuid TEXT NOT NULL DEFAULT \'\', "  /* DEFAULT needed in case a new DB is modified by an old program version */
         "FOREIGN KEY(from_classifier_id) REFERENCES classifiers(id), "
         "FOREIGN KEY(to_classifier_id) REFERENCES classifiers(id), "
         "FOREIGN KEY(from_feature_id) REFERENCES features(id), "
@@ -85,7 +99,8 @@ static const char *DATA_DATABASE_CREATE_RELATIONSHIPORDERING_INDEX =
 /*!
  *  \brief string constant to update an sql database table
  *
- *  The DEFAULT clause is needed to convert the existing records to the new format.
+ *  The DEFAULT clause is needed to convert the existing records to the new format
+ *  and in case a new database is modified by an old program version.
  *
  *  This command extends relationships by from_feature_id field.
  *  \see http://sqlite.org/lang_altertable.html
@@ -97,14 +112,26 @@ static const char *DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_1 =
 /*!
  *  \brief string constant to update an sql database table
  *
- *  The DEFAULT clause is needed to convert the existing records to the new format.
+ *  The DEFAULT clause is needed to convert the existing records to the new format
+ *  and in case a new database is modified by an old program version.
  *
  *  This command extends relationships by to_feature_id field.
- *  \see http://sqlite.org/lang_altertable.html
  */
 static const char *DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_2 =
     "ALTER TABLE relationships "
     "ADD COLUMN to_feature_id INTEGER DEFAULT NULL;";
+
+/*!
+ *  \brief string constant to update an sql database table
+ *
+ *  The DEFAULT clause is needed to convert the existing records to the new format
+ *  and in case a new database is modified by an old program version.
+ *
+ *  This command extends relationships by a uuid field.
+ */
+static const char *DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_3 =
+    "ALTER TABLE relationships "
+    "ADD COLUMN uuid TEXT NOT NULL DEFAULT \'\';";
 
 /*!
  *  \brief string constant to create an sql database table
@@ -121,6 +148,7 @@ static const char *DATA_DATABASE_CREATE_FEATUREINSTANCE_TABLE =
         "value TEXT, "
         "description TEXT, "
         "list_order INTEGER, "
+        "uuid TEXT NOT NULL DEFAULT \'\', "  /* DEFAULT needed in case a new DB is modified by an old program version */
         "FOREIGN KEY(classifier_id) REFERENCES classifiers(id) "
     ");";
 
@@ -135,6 +163,18 @@ static const char *DATA_DATABASE_CREATE_FEATUREORDERING_INDEX =
 */
 
 /*!
+ *  \brief string constant to update an sql database table
+ *
+ *  The DEFAULT clause is needed to convert the existing records to the new format
+ *  and in case a new database is modified by an old program version.
+ *
+ *  This command extends featues by a uuid field.
+ */
+static const char *DATA_DATABASE_ALTER_FEATUREINSTANCE_TABLE_1 =
+    "ALTER TABLE features "
+    "ADD COLUMN uuid TEXT NOT NULL DEFAULT \'\';";
+
+/*!
  *  \brief string constant to create an sql database table
  */
 static const char *DATA_DATABASE_CREATE_DIAGRAM_TABLE =
@@ -145,6 +185,7 @@ static const char *DATA_DATABASE_CREATE_DIAGRAM_TABLE =
         "name TEXT, "
         "description TEXT, "
         "list_order INTEGER, "
+        "uuid TEXT NOT NULL DEFAULT \'\', "  /* DEFAULT needed in case a new DB is modified by an old program version */
         "FOREIGN KEY(parent_id) REFERENCES diagrams(id) "
     ");";
 
@@ -157,6 +198,18 @@ static const char *DATA_DATABASE_CREATE_DIAGRAMORDERING_INDEX =
         "list_order ASC "
     ");";
 */
+
+/*!
+ *  \brief string constant to update an sql database table
+ *
+ *  The DEFAULT clause is needed to convert the existing records to the new format
+ *  and in case a new database is modified by an old program version.
+ *
+ *  This command extends diagrams by a uuid field.
+ */
+static const char *DATA_DATABASE_ALTER_DIAGRAM_TABLE_1 =
+    "ALTER TABLE diagrams "
+    "ADD COLUMN uuid TEXT NOT NULL DEFAULT \'\';";
 
 /*!
  *  \brief string constant to update an sql database table
@@ -176,6 +229,7 @@ static const char *DATA_DATABASE_CREATE_DIAGRAMELEMENTS_TABLE =
         "classifier_id INTEGER, "
         "display_flags INTEGER, "
         "focused_feature_id INTEGER DEFAULT NULL, "  /* DEFAULT needed in case a new DB is modified by an old program version */
+        "uuid TEXT NOT NULL DEFAULT \'\', "  /* DEFAULT needed in case a new DB is modified by an old program version */
         "FOREIGN KEY(diagram_id) REFERENCES diagrams(id), "
         "FOREIGN KEY(classifier_id) REFERENCES classifiers(id), "
         "FOREIGN KEY(focused_feature_id) REFERENCES feature(id) "
@@ -192,6 +246,18 @@ static const char *DATA_DATABASE_CREATE_DIAGRAMELEMENTS_TABLE =
 static const char *DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1 =
     "ALTER TABLE diagramelements "
     "ADD COLUMN focused_feature_id INTEGER DEFAULT NULL;";
+
+/*!
+ *  \brief string constant to update an sql database table
+ *
+ *  The DEFAULT clause is needed to convert the existing records to the new format.
+ *
+ *  This command extends diagramelements by a uuid field.
+ *  \see http://sqlite.org/lang_altertable.html
+ */
+static const char *DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_2 =
+    "ALTER TABLE diagramelements "
+    "ADD COLUMN uuid TEXT NOT NULL DEFAULT \'\';";
 
 data_error_t data_database_private_initialize_tables( data_database_t *this_ )
 {
@@ -469,6 +535,104 @@ data_error_t data_database_upgrade_tables( data_database_t *this_ )
             sqlite3_free( error_msg );
             error_msg = NULL;
         }
+
+        /* update all 5 tables from version 1.32.1 to later versions */
+
+        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_2 );
+        sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_2, NULL, NULL, &error_msg );
+        if ( SQLITE_OK != sqlite_err )
+        {
+            /* this command will fail whenever the database already has a suitable format */
+            TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_2 );
+            TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
+        }
+        else
+        {
+            TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_2 );
+        }
+        if ( error_msg != NULL )
+        {
+            TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
+
+        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_3 );
+        sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_3, NULL, NULL, &error_msg );
+        if ( SQLITE_OK != sqlite_err )
+        {
+            /* this command will fail whenever the database already has a suitable format */
+            TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_3 );
+            TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
+        }
+        else
+        {
+            TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_3 );
+        }
+        if ( error_msg != NULL )
+        {
+            TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
+
+        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_FEATUREINSTANCE_TABLE_1 );
+        sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_FEATUREINSTANCE_TABLE_1, NULL, NULL, &error_msg );
+        if ( SQLITE_OK != sqlite_err )
+        {
+            /* this command will fail whenever the database already has a suitable format */
+            TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_FEATUREINSTANCE_TABLE_1 );
+            TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
+        }
+        else
+        {
+            TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_FEATUREINSTANCE_TABLE_1 );
+        }
+        if ( error_msg != NULL )
+        {
+            TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
+
+        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_1 );
+        sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_DIAGRAM_TABLE_1, NULL, NULL, &error_msg );
+        if ( SQLITE_OK != sqlite_err )
+        {
+            /* this command will fail whenever the database already has a suitable format */
+            TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_1 );
+            TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
+        }
+        else
+        {
+            TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_1 );
+        }
+        if ( error_msg != NULL )
+        {
+            TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
+
+        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_2 );
+        sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_2, NULL, NULL, &error_msg );
+        if ( SQLITE_OK != sqlite_err )
+        {
+            /* this command will fail whenever the database already has a suitable format */
+            TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_2 );
+            TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
+        }
+        else
+        {
+            TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_2 );
+        }
+        if ( error_msg != NULL )
+        {
+            TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
+
     }
 
     TRACE_END_ERR( result );

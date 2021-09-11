@@ -23,7 +23,8 @@ static inline data_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t uui
     else if ( utf8stringbuf_get_length( (*this_).uuid_string ) != DATA_UUID_STRING_LENGTH )
     {
         TSLOG_ERROR_INT( "uuid_string too short:", utf8stringbuf_get_length( (*this_).uuid_string ) );
-        result |= DATA_ERROR_VALUE_OUT_OF_RANGE;
+        //result |= DATA_ERROR_VALUE_OUT_OF_RANGE;
+        // ALLOW THE EMPTY STRING FOR NOW... - TODO
     }
 
     return result;

@@ -116,9 +116,14 @@ static const int RESULT_CLASSIFIER_Y_ORDER_COLUMN = 6;
 static const int RESULT_CLASSIFIER_LIST_ORDER_COLUMN = 7;
 
 /*!
+ *  \brief the column id of the result where this parameter is stored: uuid
+ */
+static const int RESULT_CLASSIFIER_UUID_COLUMN = 8;
+
+/*!
  *  \brief the column id of the result where this parameter is stored: count of containment parents
  */
-static const int RESULT_CLASSIFIER_CONTAINMENT_PARENTS_COLUMN = 8;
+static const int RESULT_CLASSIFIER_CONTAINMENT_PARENTS_COLUMN = 9;
 
 data_error_t data_database_iterator_classifiers_next ( data_database_iterator_classifiers_t *this_, data_classifier_t *out_classifier )
 {
@@ -140,7 +145,8 @@ data_error_t data_database_iterator_classifiers_next ( data_database_iterator_cl
                                               (const char*) sqlite3_column_text( sql_statement, RESULT_CLASSIFIER_DESCRIPTION_COLUMN ),
                                               sqlite3_column_int( sql_statement, RESULT_CLASSIFIER_X_ORDER_COLUMN ),
                                               sqlite3_column_int( sql_statement, RESULT_CLASSIFIER_Y_ORDER_COLUMN ),
-                                              sqlite3_column_int( sql_statement, RESULT_CLASSIFIER_LIST_ORDER_COLUMN )
+                                              sqlite3_column_int( sql_statement, RESULT_CLASSIFIER_LIST_ORDER_COLUMN ),
+                                              (const char*) sqlite3_column_text( sql_statement, RESULT_CLASSIFIER_UUID_COLUMN )
                                             );
             data_classifier_trace( out_classifier );
             TRACE_INFO_INT( "count of containment parents:", sqlite3_column_int( sql_statement, RESULT_CLASSIFIER_CONTAINMENT_PARENTS_COLUMN ));
