@@ -71,13 +71,17 @@ static inline void data_diagramelement_init_new ( data_diagramelement_t *this_,
  *  \param classifier_id id of the referenced classifier_t
  *  \param display_flags flags how to display the classifier in the context of this diagram. \see data_diagramelement_display_flag_enum
  *  \param focused_feature_id id of the focused feature_t or DATA_ROW_ID_VOID if no feature is focused
+ *  \param uuid a universal unique identifier according to rfc4122
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
+ *          DATA_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, DATA_ERROR_NONE otherwise.
  */
-static inline void data_diagramelement_init ( data_diagramelement_t *this_,
+static inline data_error_t data_diagramelement_init ( data_diagramelement_t *this_,
                                               data_row_id_t id,
                                               data_row_id_t diagram_id,
                                               data_row_id_t classifier_id,
                                               data_diagramelement_flag_t display_flags,
-                                              data_row_id_t focused_feature_id
+                                              data_row_id_t focused_feature_id,
+                                              const char* uuid
                                             );
 
 /*!
@@ -89,13 +93,17 @@ static inline void data_diagramelement_init ( data_diagramelement_t *this_,
  *  \param classifier_id id of the referenced classifier_t
  *  \param display_flags flags how to display the classifier in the context of this diagram. \see data_diagramelement_display_flag_enum
  *  \param focused_feature_id id of the focused feature_t or DATA_ROW_ID_VOID if no feature is focused
+ *  \param uuid a universal unique identifier according to rfc4122
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
+ *          DATA_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, DATA_ERROR_NONE otherwise.
  */
-static inline void data_diagramelement_reinit ( data_diagramelement_t *this_,
+static inline data_error_t data_diagramelement_reinit ( data_diagramelement_t *this_,
                                                 data_row_id_t id,
                                                 data_row_id_t diagram_id,
                                                 data_row_id_t classifier_id,
                                                 data_diagramelement_flag_t display_flags,
-                                                data_row_id_t focused_feature_id
+                                                data_row_id_t focused_feature_id,
+                                                const char* uuid
                                               );
 
 /*!

@@ -102,14 +102,13 @@ static data_row_id_t create_root_diag()
     data_row_id_t root_diag_id;
 
     data_diagram_t root_diagram;
-    data_err = data_diagram_init ( &root_diagram,
-                                   DATA_ROW_ID_VOID /*=diagram_id is ignored*/,
-                                   DATA_ROW_ID_VOID /*=parent_diagram_id*/,
-                                   DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,
-                                   "Th& <root> d\"agram",
-                                   "diagram_description-root",
-                                   10555 /*=list_order*/
-                                 );
+    data_err = data_diagram_init_new( &root_diagram,
+                                      DATA_ROW_ID_VOID /*=parent_diagram_id*/,
+                                      DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,
+                                      "Th& <root> d\"agram",
+                                      "diagram_description-root",
+                                      10555 /*=list_order*/
+                                    );
     TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     root_diag_id = DATA_ROW_ID_VOID;

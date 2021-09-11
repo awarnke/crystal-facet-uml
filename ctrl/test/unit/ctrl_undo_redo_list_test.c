@@ -1,4 +1,4 @@
-/* File: ctrl_undo_redo_list_test.c; Copyright and License: see below */
+ /* File: ctrl_undo_redo_list_test.c; Copyright and License: see below */
 
 #include "ctrl_undo_redo_list_test.h"
 #include "ctrl_controller.h"
@@ -74,49 +74,54 @@ static void undo_redo_classifier(void)
 
     /* create the root diagram */
     root_diagram_id = DATA_ROW_ID_VOID;
-    ctrl_err = ctrl_diagram_controller_create_root_diagram_if_not_exists ( diag_ctrl,
-                                                                           DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM,
-                                                                           "my_root_diag",
-                                                                           &root_diagram_id
-                                                                         );
+    ctrl_err = ctrl_diagram_controller_create_root_diagram_if_not_exists( diag_ctrl,
+                                                                          DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM,
+                                                                          "my_root_diag",
+                                                                          &root_diagram_id
+                                                                        );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT( DATA_ROW_ID_VOID != root_diagram_id );
 
     /* create a classifier and a diagramelement */
     classifier_id = DATA_ROW_ID_VOID;
     data_classifier_t new_classifier;
-    data_err = data_classifier_init_new ( &new_classifier,
-                                          DATA_CLASSIFIER_TYPE_NODE,
-                                          "",  /* stereotype */
-                                          "my_node",
-                                          "",  /* description */
-                                          17,
-                                          1700,
-                                          170000
-                                        );
+    data_err = data_classifier_init( &new_classifier,
+                                     DATA_ROW_ID_VOID,  /* new classifier */
+                                     DATA_CLASSIFIER_TYPE_NODE,
+                                     "",  /* stereotype */
+                                     "my_node",
+                                     "",  /* description */
+                                     17,
+                                     1700,
+                                     170000,
+                                     "d8df8d54-1916-4150-899e-48bde90c3bbe"
+                                   );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-    ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,
-                                                              &new_classifier,
-                                                              CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
-                                                              &classifier_id
-                                                            );
+    ctrl_err = ctrl_classifier_controller_create_classifier( classifier_ctrl,
+                                                             &new_classifier,
+                                                             CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
+                                                             &classifier_id
+                                                           );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     data_classifier_destroy ( &new_classifier );
     TEST_ASSERT( DATA_ROW_ID_VOID != classifier_id );
 
     diagele_id = DATA_ROW_ID_VOID;
     data_diagramelement_t new_diagele;
-    data_diagramelement_init_new ( &new_diagele,
-                                   root_diagram_id,
-                                   classifier_id,
-                                   DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                   DATA_ROW_ID_VOID
-                                );
-    ctrl_err = ctrl_diagram_controller_create_diagramelement ( diag_ctrl,
-                                                               &new_diagele,
-                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
-                                                               &diagele_id
-                                                             );
+    data_err = data_diagramelement_init( &new_diagele,
+                                         DATA_ROW_ID_VOID,  /* new diagramelement */
+                                         root_diagram_id,
+                                         classifier_id,
+                                         DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                                         DATA_ROW_ID_VOID,
+                                         "98e479f0-9112-483e-b64f-251d55a50c13"
+                                       );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    ctrl_err = ctrl_diagram_controller_create_diagramelement( diag_ctrl,
+                                                              &new_diagele,
+                                                              CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
+                                                              &diagele_id
+                                                            );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     data_diagramelement_destroy ( &new_diagele );
     TEST_ASSERT( DATA_ROW_ID_VOID != diagele_id );
@@ -243,6 +248,7 @@ static void undo_redo_classifier(void)
         TEST_ASSERT_EQUAL_INT( 17, data_classifier_get_x_order( first_classifier ) );
         TEST_ASSERT_EQUAL_INT( 1700, data_classifier_get_y_order( first_classifier ) );
         TEST_ASSERT_EQUAL_INT( 170000, data_classifier_get_list_order( first_classifier ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "d8df8d54-1916-4150-899e-48bde90c3bbe", data_classifier_get_uuid_const( first_classifier ) ) );
 
         data_diagramelement_t *first_diagele;
         first_diagele = data_visible_classifier_get_diagramelement_ptr( &(read_vis_classifiers[0]) );
@@ -251,6 +257,7 @@ static void undo_redo_classifier(void)
         TEST_ASSERT_EQUAL_INT( classifier_id, data_diagramelement_get_classifier_row_id( first_diagele ) );
         TEST_ASSERT_EQUAL_INT( DATA_DIAGRAMELEMENT_FLAG_EMPHASIS, data_diagramelement_get_display_flags( first_diagele ) );
         TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagramelement_get_focused_feature_row_id( first_diagele ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "98e479f0-9112-483e-b64f-251d55a50c13", data_diagramelement_get_uuid_const( first_diagele ) ) );
     }
 }
 
@@ -433,15 +440,16 @@ static void undo_redo_feature_and_relationship(void)
 
     /* define a feature */
     data_feature_t step1;
-    data_err = data_feature_init ( &step1,
-                                   17, /* feature_id */
-                                   DATA_FEATURE_TYPE_PROPERTY, /* feature_main_type */
-                                   35000, /* classifier_id */
-                                   "startup_time", /* feature_key */
-                                   "uint64_t", /* feature_value */
-                                   "time in nano seconds to start", /* feature_description */
-                                   5000000 /* list order */
-                                 );
+    data_err = data_feature_init( &step1,
+                                  17, /* feature_id */
+                                  DATA_FEATURE_TYPE_PROPERTY, /* feature_main_type */
+                                  35000, /* classifier_id */
+                                  "startup_time", /* feature_key */
+                                  "uint64_t", /* feature_value */
+                                  "time in nano seconds to start", /* feature_description */
+                                  5000000, /* list order */
+                                  "8490c942-e425-4764-8212-37d2bfcc7e1e"
+                                );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     /* 1. create the feature in the db */
@@ -469,17 +477,18 @@ static void undo_redo_feature_and_relationship(void)
 
     /* define a relationship */
     data_relationship_t step3b;
-    data_err = data_relationship_init ( &step3b,
-                                        34, /* relationship_id */
-                                        DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
-                                        86000, /* from_classifier_id */
-                                        86001, /* to_classifier_id */
-                                        "the composition is more", /* relationship_name */
-                                        "than the sum of its parts", /* relationship_description */
-                                        -66000, /* list_order */
-                                        DATA_ROW_ID_VOID, /* from_feature_id */
-                                        150160 /* to_feature_id */
-                                      );
+    data_err = data_relationship_init( &step3b,
+                                       34, /* relationship_id */
+                                       DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                       86000, /* from_classifier_id */
+                                       86001, /* to_classifier_id */
+                                       "the composition is more", /* relationship_name */
+                                       "than the sum of its parts", /* relationship_description */
+                                       -66000, /* list_order */
+                                       DATA_ROW_ID_VOID, /* from_feature_id */
+                                       150160, /* to_feature_id */
+                                       "57d93512-91d6-41eb-860f-0408b79a9aaf"
+                                     );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     /* 3b. create the relationship in the db */
@@ -547,6 +556,7 @@ static void undo_redo_feature_and_relationship(void)
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "(void)->(uint64_t)", data_feature_get_value_const( &check_f ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "time in nano seconds to start", data_feature_get_description_const( &check_f ) ) );
         TEST_ASSERT_EQUAL_INT( 5000000, data_feature_get_list_order( &check_f ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "8490c942-e425-4764-8212-37d2bfcc7e1e", data_feature_get_uuid_const( &check_f ) ) );
 
         data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
@@ -559,6 +569,7 @@ static void undo_redo_feature_and_relationship(void)
         TEST_ASSERT_EQUAL_INT( -66000, data_relationship_get_list_order( &check_r ) );
         TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_row_id( &check_r ) );
         TEST_ASSERT_EQUAL_INT( 150160, data_relationship_get_to_feature_row_id( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "57d93512-91d6-41eb-860f-0408b79a9aaf", data_relationship_get_uuid_const( &check_r ) ) );
     }
 
     /* undo step 4 */
@@ -729,6 +740,7 @@ static void undo_redo_feature_and_relationship(void)
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "(void)->(uint64_t)", data_feature_get_value_const( &check_f ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "time in nano seconds to start", data_feature_get_description_const( &check_f ) ) );
         TEST_ASSERT_EQUAL_INT( 5000000, data_feature_get_list_order( &check_f ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "8490c942-e425-4764-8212-37d2bfcc7e1e", data_feature_get_uuid_const( &check_f ) ) );
 
         data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
@@ -741,6 +753,7 @@ static void undo_redo_feature_and_relationship(void)
         TEST_ASSERT_EQUAL_INT( -66000, data_relationship_get_list_order( &check_r ) );
         TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_row_id( &check_r ) );
         TEST_ASSERT_EQUAL_INT( 150160, data_relationship_get_to_feature_row_id( &check_r ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "57d93512-91d6-41eb-860f-0408b79a9aaf", data_relationship_get_uuid_const( &check_r ) ) );
     }
 
     /* redo step 5 */

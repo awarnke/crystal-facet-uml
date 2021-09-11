@@ -34,17 +34,43 @@ static inline data_error_t data_feature_init_new ( data_feature_t *this_,
                                                    const char* feature_description,
                                                    int32_t list_order )
 {
-    const data_error_t result
-        = data_feature_init( this_,
-                             DATA_ROW_ID_VOID,
-                             feature_main_type,
-                             classifier_id,
-                             feature_key,
-                             feature_value,
-                             feature_description,
-                             list_order
-                           );
+    assert( NULL != feature_key );
+    assert( NULL != feature_value );
+    assert( NULL != feature_description );
+    utf8error_t strerr;
+    data_error_t result = DATA_ERROR_NONE;
+
+    (*this_).id = DATA_ROW_ID_VOID;
+    (*this_).classifier_id = classifier_id;
+    (*this_).main_type = feature_main_type;
+
+    (*this_).key = utf8stringbuf_init( sizeof((*this_).private_key_buffer), (*this_).private_key_buffer );
+    strerr = utf8stringbuf_copy_str( (*this_).key, feature_key );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    (*this_).value = utf8stringbuf_init( sizeof((*this_).private_value_buffer), (*this_).private_value_buffer );
+    strerr = utf8stringbuf_copy_str( (*this_).value, feature_value );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    strerr = utf8stringbuf_copy_str( (*this_).description, feature_description );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    (*this_).list_order = list_order;
     data_uuid_init_new( &((*this_).uuid) );
+
     return result;
 }
 
@@ -55,11 +81,13 @@ static inline data_error_t data_feature_init ( data_feature_t *this_,
                                                const char* feature_key,
                                                const char* feature_value,
                                                const char* feature_description,
-                                               int32_t list_order )
+                                               int32_t list_order,
+                                               const char* uuid )
 {
     assert( NULL != feature_key );
     assert( NULL != feature_value );
     assert( NULL != feature_description );
+    assert( NULL != uuid );
     utf8error_t strerr;
     data_error_t result = DATA_ERROR_NONE;
 
@@ -92,7 +120,7 @@ static inline data_error_t data_feature_init ( data_feature_t *this_,
     }
 
     (*this_).list_order = list_order;
-    data_uuid_init_void( &((*this_).uuid) );
+    result |= data_uuid_init( &((*this_).uuid), uuid );
 
     return result;
 }

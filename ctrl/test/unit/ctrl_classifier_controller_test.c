@@ -174,7 +174,20 @@ static void classifier_create_read_modify_read(void)
         data_visible_classifier_init_empty( &(read_vis_classifiers[0]) );
         data_visible_classifier_init_empty( &(read_vis_classifiers[1]) );
         first_classifier = data_visible_classifier_get_classifier_ptr( &(read_vis_classifiers[0]) );
-        data_classifier_reinit ( first_classifier, 0x1234, DATA_CLASSIFIER_TYPE_COMPONENT, "stereo", "my_name", "descr", 1000, 400, 398 );
+        data_uuid_t uuid;
+        data_uuid_init_new( &uuid );
+
+        data_classifier_reinit( first_classifier,
+                                0x1234,
+                                DATA_CLASSIFIER_TYPE_COMPONENT,
+                                "stereo",
+                                "my_name",
+                                "descr",
+                                1000,
+                                400,
+                                398,
+                                data_uuid_get_string( &uuid )
+                              );
 
         data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader, diagram_id, 0, &read_vis_classifiers, &read_vis_classifiers_count );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_ARRAY_BUFFER_EXCEEDED, data_err );
@@ -188,6 +201,9 @@ static void classifier_create_read_modify_read(void)
         TEST_ASSERT_EQUAL_INT( 1000, data_classifier_get_x_order( first_classifier ) );
         TEST_ASSERT_EQUAL_INT( 400, data_classifier_get_y_order( first_classifier ) );
         TEST_ASSERT_EQUAL_INT( 398, data_classifier_get_list_order( first_classifier ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( data_uuid_get_string( &uuid ), data_classifier_get_uuid_const( first_classifier ) ) );
+
+        data_uuid_destroy( &uuid );
     }
 
     /* search several records, result array sufficient */
@@ -213,6 +229,9 @@ static void features_CRURDR(void)
     ctrl_classifier_controller_t *classifier_ctrl;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
 
+    data_uuid_t uuid;
+    data_uuid_init_new( &uuid );
+
     /* create a feature */
     data_row_id_t new_feature_id;
     {
@@ -224,7 +243,8 @@ static void features_CRURDR(void)
                                        "startup_time", /* feature_key */
                                        "uint64_t", /* feature_value */
                                        "time in nano seconds to start", /* feature_description */
-                                       5000000 /* list order */
+                                       5000000, /* list order */
+                                       data_uuid_get_string( &uuid )
                                      );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -248,6 +268,7 @@ static void features_CRURDR(void)
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "uint64_t", data_feature_get_value_const( &check ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "time in nano seconds to start", data_feature_get_description_const( &check ) ) );
         TEST_ASSERT_EQUAL_INT( 5000000, data_feature_get_list_order( &check ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( data_uuid_get_string( &uuid ), data_feature_get_uuid_const( &check ) ) );
     }
 
     /* modify the feature */
@@ -295,6 +316,7 @@ static void features_CRURDR(void)
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "(void)->(uint64_t)", data_feature_get_value_const( &check2 ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "gets the startup time in nanoseconds", data_feature_get_description_const( &check2 ) ) );
         TEST_ASSERT_EQUAL_INT( -40, data_feature_get_list_order( &check2 ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( data_uuid_get_string( &uuid ), data_feature_get_uuid_const( &check2 ) ) );
     }
 
     /* delete the feature from the database */
@@ -321,6 +343,8 @@ static void features_CRURDR(void)
         data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check3 );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
     }
+
+    data_uuid_destroy( &uuid );
 }
 
 static void relationship_CRURDR(void)
@@ -329,6 +353,9 @@ static void relationship_CRURDR(void)
     data_error_t data_err;
     ctrl_classifier_controller_t *classifier_ctrl;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
+
+    data_uuid_t uuid;
+    data_uuid_init_new( &uuid );
 
     /* create a relationship */
     data_row_id_t new_relationship_id;
@@ -343,7 +370,8 @@ static void relationship_CRURDR(void)
                                             "than the sum of its parts", /* relationship_description */
                                             -66000, /* list_order */
                                             DATA_ROW_ID_VOID, /* from_feature_id */
-                                            100666 /* to_feature_id */
+                                            100666, /* to_feature_id */
+                                            data_uuid_get_string( &uuid )
                                           );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -369,6 +397,7 @@ static void relationship_CRURDR(void)
         TEST_ASSERT_EQUAL_INT( -66000, data_relationship_get_list_order( &check ) );
         TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_row_id( &check ) );
         TEST_ASSERT_EQUAL_INT( 100666, data_relationship_get_to_feature_row_id( &check ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( data_uuid_get_string( &uuid ), data_relationship_get_uuid_const( &check ) ) );
     }
 
     /* modify the relationship */
@@ -412,6 +441,7 @@ static void relationship_CRURDR(void)
         TEST_ASSERT_EQUAL_INT( -88000, data_relationship_get_list_order( &check2 ) );
         TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_row_id( &check2 ) );
         TEST_ASSERT_EQUAL_INT( 100666, data_relationship_get_to_feature_row_id( &check2 ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( data_uuid_get_string( &uuid ), data_relationship_get_uuid_const( &check2 ) ) );
     }
 
     /* delete the relationship from the database */
@@ -438,6 +468,8 @@ static void relationship_CRURDR(void)
         data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check3 );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
     }
+
+    data_uuid_destroy( &uuid );
 }
 
 

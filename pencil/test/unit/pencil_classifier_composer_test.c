@@ -59,24 +59,29 @@ static void set_up(void)
         data_classifier_t data_classifier;
         data_diagramelement_t data_diagele;
 
-        data_diagramelement_init( &data_diagele,
-                                  17,  /* id */
-                                  32,  /* diagram_id */
-                                  99,  /* classifier_id */
-                                  DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE,
-                                  DATA_ROW_ID_VOID
-                                );
-        data_error_t err = data_classifier_init( &data_classifier,
-                                                 99,  /* id */
-                                                 DATA_CLASSIFIER_TYPE_CLASS,  /* main_type */
-                                                 "stereotype",
-                                                 "classifier name",
-                                                 "classifier\ndescription",
-                                                 10000,  /* x_order */
-                                                 11000,  /* y_order */
-                                                 12000  /* list_order */
-                                               );
-        TEST_ENVIRONMENT_ASSERT_EQUAL_INT( DATA_ERROR_NONE, err );
+        const data_error_t err1
+            = data_diagramelement_init( &data_diagele,
+                                        17,  /* id */
+                                        32,  /* diagram_id */
+                                        99,  /* classifier_id */
+                                        DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE,
+                                        DATA_ROW_ID_VOID,
+                                        "1ded6d32-cdea-43d8-931c-9459065f8944"
+                                      );
+        TEST_ENVIRONMENT_ASSERT_EQUAL_INT( DATA_ERROR_NONE, err1 );
+        const data_error_t err2
+            = data_classifier_init( &data_classifier,
+                                    99,  /* id */
+                                    DATA_CLASSIFIER_TYPE_CLASS,  /* main_type */
+                                    "stereotype",
+                                    "classifier name",
+                                    "classifier\ndescription",
+                                    10000,  /* x_order */
+                                    11000,  /* y_order */
+                                    12000,  /* list_order */
+                                    "94ad5563-3040-4f27-8e8b-d51ffc5ad4c8"
+                                  );
+        TEST_ENVIRONMENT_ASSERT_EQUAL_INT( DATA_ERROR_NONE, err2 );
         data_visible_classifier_init( &data_vis_classifier, &data_classifier, &data_diagele );
         layout_visible_classifier_init( &layout_vis_classifier, &data_vis_classifier );
 

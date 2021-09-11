@@ -81,14 +81,15 @@ static void diagram_to_lifeline_consistency(void)
     data_row_id_t root_diag_id;
     {
         data_diagram_t root_diagram;
-        data_err = data_diagram_init ( &root_diagram,
-                                       DATA_ROW_ID_VOID /*=diagram_id is ignored*/,
-                                       DATA_ROW_ID_VOID /*=parent_diagram_id*/,
-                                       DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,
-                                       "the_root_diag",
-                                       "diagram_description-root",
-                                       10555 /*=list_order*/
-                                     );
+        data_err = data_diagram_init( &root_diagram,
+                                      DATA_ROW_ID_VOID, /*=diagram_id is ignored*/
+                                      DATA_ROW_ID_VOID, /*=parent_diagram_id*/
+                                      DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,
+                                      "the_root_diag",
+                                      "diagram_description-root",
+                                      10555, /*=list_order*/
+                                      "4db26042-d7ce-4e2f-b8dc-cc9c9c61f39c"
+                                    );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         root_diag_id = DATA_ROW_ID_VOID;
@@ -106,14 +107,15 @@ static void diagram_to_lifeline_consistency(void)
     data_row_id_t child_diag_id;
     {
         data_diagram_t child_diagram;
-        data_err = data_diagram_init ( &child_diagram,
-                                       DATA_ROW_ID_VOID /*=diagram_id is ignored*/,
-                                       root_diag_id /*=parent_diagram_id*/,
-                                       DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,
-                                       "the_child_diag",
-                                       "diagram_description-child",
-                                       20666 /*=list_order*/
-                                     );
+        data_err = data_diagram_init( &child_diagram,
+                                      DATA_ROW_ID_VOID, /*=diagram_id is ignored*/
+                                      root_diag_id, /*=parent_diagram_id*/
+                                      DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,
+                                      "the_child_diag",
+                                      "diagram_description-child",
+                                      20666, /*=list_order*/
+                                      "e89207d2-c7d2-4996-9bfc-bc6e1a9ff6b3"
+                                    );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         child_diag_id = DATA_ROW_ID_VOID;
@@ -131,15 +133,15 @@ static void diagram_to_lifeline_consistency(void)
     data_row_id_t classifier_id;
     {
         data_classifier_t new_classifier;
-        data_err = data_classifier_init_new ( &new_classifier,
-                                              DATA_CLASSIFIER_TYPE_CLASS,
-                                              "",  /* stereotype */
-                                              "my_class",
-                                              "",  /* description */
-                                              45,
-                                              4500,
-                                              450000
-                                            );
+        data_err = data_classifier_init_new( &new_classifier,
+                                             DATA_CLASSIFIER_TYPE_CLASS,
+                                             "",  /* stereotype */
+                                             "my_class",
+                                             "",  /* description */
+                                             45,
+                                             4500,
+                                             450000
+                                           );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         classifier_id = DATA_ROW_ID_VOID;
@@ -284,14 +286,15 @@ static void diagramelement_to_lifeline_consistency(void)
     data_row_id_t root_diag_id;
     {
         data_diagram_t root_diagram;
-        data_err = data_diagram_init ( &root_diagram,
-                                       DATA_ROW_ID_VOID /*=diagram_id is ignored*/,
-                                       DATA_ROW_ID_VOID /*=parent_diagram_id*/,
-                                       DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,
-                                       "the_root_diag",
-                                       "diagram_description-root",
-                                       10555 /*=list_order*/
-                                     );
+        data_err = data_diagram_init( &root_diagram,
+                                      DATA_ROW_ID_VOID /*=diagram_id is ignored*/,
+                                      DATA_ROW_ID_VOID /*=parent_diagram_id*/,
+                                      DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,
+                                      "the_root_diag",
+                                      "diagram_description-root",
+                                      10555, /*=list_order*/
+                                      "bad218e0-d633-4a2c-b0bb-d636c28d3496"
+                                    );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         root_diag_id = DATA_ROW_ID_VOID;
@@ -309,15 +312,15 @@ static void diagramelement_to_lifeline_consistency(void)
     data_row_id_t classifier_id;
     {
         data_classifier_t new_classifier;
-        data_err = data_classifier_init_new ( &new_classifier,
-                                              DATA_CLASSIFIER_TYPE_CLASS,
-                                              "",  /* stereotype */
-                                              "my_class",
-                                              "",  /* description */
-                                              45,
-                                              4500,
-                                              450000
-                                            );
+        data_err = data_classifier_init_new( &new_classifier,
+                                             DATA_CLASSIFIER_TYPE_CLASS,
+                                             "",  /* stereotype */
+                                             "my_class",
+                                             "",  /* description */
+                                             45,
+                                             4500,
+                                             450000
+                                           );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         classifier_id = DATA_ROW_ID_VOID;
@@ -430,18 +433,18 @@ static void no_hidden_relationships(void)
 {
     ctrl_diagram_controller_t *diagram_ctrl;
     diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
-    
+
     /* create 2 diagrams */
     const data_row_id_t root_diagram = test_env_setup_data_create_diagram( DATA_ROW_ID_VOID, "root diag", &controller );
     const data_row_id_t local_diagram = test_env_setup_data_create_diagram( root_diagram, "local diag", &controller );
-    
+
     /* create 3 classifiers */
     const data_row_id_t test_classifier = test_env_setup_data_create_classifier( "test classifier", &controller );
     const data_row_id_t omni_classifier = test_env_setup_data_create_classifier( "omni classifier", &controller );
     const data_row_id_t local_classifier = test_env_setup_data_create_classifier( "local classifier", &controller );
-    
+
     /* create 5 diagramelements */
-    const data_row_id_t test_local_diagele 
+    const data_row_id_t test_local_diagele
         = test_env_setup_data_create_diagramelement( local_diagram, test_classifier, DATA_ROW_ID_VOID, &controller );
     test_env_setup_data_create_diagramelement( root_diagram, test_classifier, DATA_ROW_ID_VOID, &controller );
     test_env_setup_data_create_diagramelement( local_diagram, omni_classifier, DATA_ROW_ID_VOID, &controller );
@@ -452,20 +455,20 @@ static void no_hidden_relationships(void)
     const data_row_id_t test_feature = test_env_setup_data_create_feature( test_classifier, "test feature", &controller );
 
     /* create 2 relationships */
-    const data_row_id_t double_rel 
+    const data_row_id_t double_rel
         = test_env_setup_data_create_relationship( test_classifier, test_feature,
                                                    omni_classifier, DATA_ROW_ID_VOID,
                                                    "double relation", &controller );
-    const data_row_id_t local_rel 
+    const data_row_id_t local_rel
         = test_env_setup_data_create_relationship( test_classifier, test_feature,
                                                    local_classifier, DATA_ROW_ID_VOID,
                                                    "local relation", &controller );
-    
+
     /* delete the local diagramelement of the test classifier */
-    const ctrl_error_t c_err 
+    const ctrl_error_t c_err
         = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl, test_local_diagele, CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, c_err );
-    
+
     /* is local rel deleted? */
     data_relationship_t probe;
     const data_error_t local_err

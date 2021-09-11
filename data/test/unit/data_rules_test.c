@@ -42,8 +42,8 @@ static const unsigned int TEST_LIFELINE_REFS=20;
 static const unsigned int TEST_CLASSIFIER_REF_MOD=32; /* only the first 32 classifiers are referenced, these multiple times */
 static const data_row_id_t TEST_CLASSIFIER_ID_GAP=9;  /* classifiers have consecutive IDs - except at this position */
 static const data_row_id_t TEST_FEATURE_ID_GAP=12;  /* features have consecutive IDs - except at this position */
-    
-/* create 
+
+/* create
  *                                  1 data_diagram_t            with ID TEST_DIAG_ID
  *   DATA_VISIBLE_SET_MAX_CLASSIFIERS data_visible_classifier_t
  * DATA_VISIBLE_SET_MAX_CLASSIFIERS/2 data_classifier_t         starting at ID TEST_CLASSIFIER_ID_OFFSET
@@ -67,7 +67,8 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
                                        diag_type,  /* diagram_type */
                                        "diagram_name",
                                        "diagram_description",
-                                       32000  /* list_order */
+                                       32000,  /* list_order */
+                                       "fa8800f9-58d8-4d2a-8f09-66a54109b9f4"
                                      );
         TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
     }
@@ -86,29 +87,32 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
         data_row_id_t classifier_id = TEST_CLASSIFIER_ID_OFFSET + (vc_idx/2);
         if ( (vc_idx/2) == TEST_CLASSIFIER_ID_GAP ) { classifier_id = classifier_id+1; }
         const bool with_feat = ( 0 == (classifier_id & 0x00000001) );
-        data_err = data_classifier_init ( classifier,
-                                          classifier_id,
-                                          with_feat ? DATA_CLASSIFIER_TYPE_CLASS: DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE,
-                                          "stereotype",
-                                          "name",
-                                          "description",
-                                          1000*classifier_id,  /* x_order */
-                                          -300*classifier_id,  /* y_order */
-                                          4000*classifier_id  /* list_order */
-                                        );
+        data_err = data_classifier_init( classifier,
+                                         classifier_id,
+                                         with_feat ? DATA_CLASSIFIER_TYPE_CLASS: DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE,
+                                         "stereotype",
+                                         "name",
+                                         "description",
+                                         1000*classifier_id,  /* x_order */
+                                         -300*classifier_id,  /* y_order */
+                                         4000*classifier_id,  /* list_order */
+                                         "0bc0667f-2009-4c12-a30b-975627b19889"
+                                       );
         TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
 
         TEST_ENVIRONMENT_ASSERT( DATA_VISIBLE_SET_MAX_FEATURES >= TEST_LIFELINE_COUNT );
         TEST_ENVIRONMENT_ASSERT( TEST_LIFELINE_REFS < TEST_LIFELINE_COUNT );  /* not all lifelines shall be visible */
         TEST_ENVIRONMENT_ASSERT( DATA_VISIBLE_SET_MAX_CLASSIFIERS >= TEST_LIFELINE_COUNT );
         const bool with_lifeline = ( vc_idx < TEST_LIFELINE_REFS );
-        data_diagramelement_init ( diagele,
-                                   TEST_DIAGELE_ID_OFFSET + vc_idx,  /* id */
-                                   TEST_DIAG_ID,
-                                   classifier_id,
-                                   DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                   with_lifeline ? (TEST_FEATURE_ID_OFFSET+vc_idx) : DATA_ROW_ID_VOID  /* focused_feature_id */
-                                 );
+        data_err = data_diagramelement_init( diagele,
+                                             TEST_DIAGELE_ID_OFFSET + vc_idx,  /* id */
+                                             TEST_DIAG_ID,
+                                             classifier_id,
+                                             DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                                             with_lifeline ? (TEST_FEATURE_ID_OFFSET+vc_idx) : DATA_ROW_ID_VOID,  /* focused_feature_id */
+                                             "6bfe2cbc-498b-4f96-93dd-6293e8ffe443"
+                                           );
+        TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
 
         TEST_ENVIRONMENT_ASSERT( data_visible_classifier_is_valid( current ) );
     }
@@ -125,15 +129,16 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
         data_row_id_t feature_id = TEST_FEATURE_ID_OFFSET + f_idx;
         if ( f_idx == TEST_FEATURE_ID_GAP ) { feature_id = feature_id+1; }
         const bool lifeline = ( f_idx < TEST_LIFELINE_COUNT );
-        data_err = data_feature_init ( current,
-                                       feature_id,
-                                       lifeline ? DATA_FEATURE_TYPE_LIFELINE : DATA_FEATURE_TYPE_OPERATION,
-                                       TEST_CLASSIFIER_ID_OFFSET + ( f_idx % TEST_CLASSIFIER_REF_MOD ),  /* classifier_id */
-                                       "feature_key",
-                                       "feature_value",
-                                       "feature_description",
-                                       6000*f_idx  /* list_order */
-                                     );
+        data_err = data_feature_init( current,
+                                      feature_id,
+                                      lifeline ? DATA_FEATURE_TYPE_LIFELINE : DATA_FEATURE_TYPE_OPERATION,
+                                      TEST_CLASSIFIER_ID_OFFSET + ( f_idx % TEST_CLASSIFIER_REF_MOD ),  /* classifier_id */
+                                      "feature_key",
+                                      "feature_value",
+                                      "feature_description",
+                                      6000*f_idx,  /* list_order */
+                                      "79464edf-be17-4497-98ec-175913eff4e5"
+                                    );
         TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
 
         TEST_ENVIRONMENT_ASSERT( data_feature_is_valid( current ) );
@@ -147,17 +152,18 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
 
         const bool from_feat = ( 0 == (r_idx & 0x00000001) )||( r_idx == TEST_FEATURE_ID_GAP );
         const bool to_feat = ( 0 == (r_idx & 0x00000002) )||( (r_idx+1) == TEST_FEATURE_ID_GAP );
-        data_err = data_relationship_init ( current,
-                                            TEST_RELATION_ID_OFFSET + r_idx,  /* relationship_id */
-                                            DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION,
-                                            TEST_CLASSIFIER_ID_OFFSET + ( r_idx % TEST_CLASSIFIER_REF_MOD ),  /* from_classifier_id */
-                                            TEST_CLASSIFIER_ID_OFFSET + ( (r_idx+1) % TEST_CLASSIFIER_REF_MOD ),  /* to_classifier_id */
-                                            "relationship_name",
-                                            "relationship_description",
-                                            1500*r_idx,  /* list_order */
-                                            from_feat ? (TEST_FEATURE_ID_OFFSET+r_idx) : DATA_ROW_ID_VOID,  /* from_feature_id */
-                                            to_feat ? (TEST_FEATURE_ID_OFFSET+(r_idx+1)) : DATA_ROW_ID_VOID  /* to_feature_id */
-                                          );
+        data_err = data_relationship_init( current,
+                                           TEST_RELATION_ID_OFFSET + r_idx,  /* relationship_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION,
+                                           TEST_CLASSIFIER_ID_OFFSET + ( r_idx % TEST_CLASSIFIER_REF_MOD ),  /* from_classifier_id */
+                                           TEST_CLASSIFIER_ID_OFFSET + ( (r_idx+1) % TEST_CLASSIFIER_REF_MOD ),  /* to_classifier_id */
+                                           "relationship_name",
+                                           "relationship_description",
+                                           1500*r_idx,  /* list_order */
+                                           from_feat ? (TEST_FEATURE_ID_OFFSET+r_idx) : DATA_ROW_ID_VOID,  /* from_feature_id */
+                                           to_feat ? (TEST_FEATURE_ID_OFFSET+(r_idx+1)) : DATA_ROW_ID_VOID,  /* to_feature_id */
+                                           "dc1dc264-e50b-4140-bfb7-591977e21a37"
+                                         );
         TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
 
         TEST_ENVIRONMENT_ASSERT( data_relationship_is_valid( current ) );
@@ -173,32 +179,32 @@ static void test_data_rules_filter_scenarios(void)
 {
     const data_visible_set_t *test_input_data;
     test_input_data = init_test_input_data( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM );
-    
+
     data_rules_t testrules;
     data_rules_init ( &testrules );
 
     bool show;
-    
+
     /* valid feature(lifeline) at decision-node */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+3 );
     TEST_ASSERT( show == true );
-    
+
     /* valid feature(lifeline) at class */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+4 );
     TEST_ASSERT( show == true );
-    
+
     /* valid feature(lifeline) which is not referenced */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_REFS );
     TEST_ASSERT( show == false );
-    
+
     /* valid feature(non-lifeline) at decision-node */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_COUNT+2 );
     TEST_ASSERT( show == false );
-    
+
     /* valid feature(non-lifeline) at class */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_COUNT+3 );
     TEST_ASSERT( show == false );
-    
+
     /* valid relationship from feature(lifeline) to feature(lifeline) */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+4 );
     TEST_ASSERT( show == true );
@@ -243,23 +249,23 @@ static void test_data_rules_filter_box_and_list(void)
     /* valid feature(lifeline) at decision-node */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+3 );
     TEST_ASSERT( show == false );
-    
+
     /* valid feature(lifeline) at class */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+4 );
     TEST_ASSERT( show == false );
-    
+
     /* valid feature(lifeline) which is not referenced */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_REFS );
     TEST_ASSERT( show == false );
-    
+
     /* valid feature(non-lifeline) at decision-node */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_COUNT+2 );
     TEST_ASSERT( show == false );
-    
+
     /* valid feature(non-lifeline) at class */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_COUNT+3 );
     TEST_ASSERT( show == false );
-    
+
     /* valid relationship from feature(lifeline) to feature(lifeline) */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+4 );
     TEST_ASSERT( show == false );
@@ -304,23 +310,23 @@ static void test_data_rules_filter_standard(void)
     /* valid feature(lifeline) at decision-node */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+3 );
     TEST_ASSERT( show == false );
-    
+
     /* valid feature(lifeline) at class */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+4 );
     TEST_ASSERT( show == false );
-    
+
     /* valid feature(lifeline) which is not referenced */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_REFS );
     TEST_ASSERT( show == false );
-    
+
     /* valid feature(non-lifeline) at decision-node */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_COUNT+2 );
     TEST_ASSERT( show == false );
-    
+
     /* valid feature(non-lifeline) at class */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_COUNT+3 );
     TEST_ASSERT( show == true );
-    
+
     /* valid relationship from feature(lifeline) to feature(lifeline) */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+4 );
     TEST_ASSERT( show == false );
@@ -373,7 +379,7 @@ static void test_data_rules_filter_incomplete(void)
     /* relationship referencing unknown to classifier */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+TEST_CLASSIFIER_ID_GAP+1 );
     TEST_ASSERT( show == false );
-    
+
     /* relationship referencing unknown from feature */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+TEST_FEATURE_ID_GAP );
     TEST_ASSERT( show == false );

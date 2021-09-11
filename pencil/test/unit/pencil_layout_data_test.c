@@ -52,14 +52,15 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
     /* initialize the fake_input_data.diagram */
     {
 
-        data_err = data_diagram_init ( &(fake_input_data.diagram),
-                                       3,  /* diagram_id */
-                                       DATA_ROW_ID_VOID,  /* parent_diagram_id */
-                                       DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,  /* diagram_type */
-                                       "diagram_name",
-                                       "diagram_description",
-                                       32000  /* list_order */
-                                     );
+        data_err = data_diagram_init( &(fake_input_data.diagram),
+                                      3,  /* diagram_id */
+                                      DATA_ROW_ID_VOID,  /* parent_diagram_id */
+                                      DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,  /* diagram_type */
+                                      "diagram_name",
+                                      "diagram_description",
+                                      32000,  /* list_order */
+                                      "bfe86725-1507-4789-ac92-82f1090a1984"
+                                    );
         TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
     }
 
@@ -74,25 +75,28 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
         data_classifier_t *classifier = data_visible_classifier_get_classifier_ptr ( current );
         data_diagramelement_t *diagele = data_visible_classifier_get_diagramelement_ptr ( current );
 
-        data_err = data_classifier_init ( classifier,
-                                          c_idx/2,  /* id */
-                                          DATA_CLASSIFIER_TYPE_CLASS,  /* main_type */
-                                          "stereotype",
-                                          "name",
-                                          "description",
-                                          1000*c_idx,  /* x_order */
-                                          -300*c_idx,  /* y_order */
-                                          4000*c_idx  /* list_order */
-                                        );
+        data_err = data_classifier_init( classifier,
+                                         c_idx/2,  /* id */
+                                         DATA_CLASSIFIER_TYPE_CLASS,  /* main_type */
+                                         "stereotype",
+                                         "name",
+                                         "description",
+                                         1000*c_idx,  /* x_order */
+                                         -300*c_idx,  /* y_order */
+                                         4000*c_idx,  /* list_order */
+                                         "19e0f597-9b9d-4e27-b69d-fc648370ae46"
+                                       );
         TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
 
-        data_diagramelement_init ( diagele,
-                                   c_idx,  /* id */
-                                   3,  /* diagram_id */
-                                   c_idx/2,  /* classifier_id */
-                                   DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,  /* display_flags */
-                                   DATA_ROW_ID_VOID  /* focused_feature_id */
-                                 );
+        data_err = data_diagramelement_init( diagele,
+                                             c_idx,  /* id */
+                                             3,  /* diagram_id */
+                                             c_idx/2,  /* classifier_id */
+                                             DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,  /* display_flags */
+                                             DATA_ROW_ID_VOID,  /* focused_feature_id */
+                                             "bcb8a819-90c7-49ad-b21d-feccfd5bcf96"
+                                           );
+        TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
 
         TEST_ENVIRONMENT_ASSERT( data_visible_classifier_is_valid( current ) );
     }
@@ -105,15 +109,16 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
     {
         data_feature_t *current = &(fake_input_data.features[f_idx]);
 
-        data_err = data_feature_init ( current,
-                                       f_idx,  /* feature_id */
-                                       DATA_FEATURE_TYPE_OPERATION,  /* feature_main_type */
-                                       f_idx % classifier_mod,  /* classifier_id */
-                                       "feature_key",
-                                       "feature_value",
-                                       "feature_description",
-                                       6000*f_idx  /* list_order */
-                                     );
+        data_err = data_feature_init( current,
+                                      f_idx,  /* feature_id */
+                                      DATA_FEATURE_TYPE_OPERATION,  /* feature_main_type */
+                                      f_idx % classifier_mod,  /* classifier_id */
+                                      "feature_key",
+                                      "feature_value",
+                                      "feature_description",
+                                      6000*f_idx,  /* list_order */
+                                      "17c18bbd-c1d3-438d-bd85-5ec2704f8511"
+                                    );
         TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
 
         TEST_ENVIRONMENT_ASSERT( data_feature_is_valid( current ) );
@@ -125,17 +130,18 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
     {
         data_relationship_t *current = &(fake_input_data.relationships[r_idx]);
 
-        data_err = data_relationship_init ( current,
-                                            r_idx,  /* relationship_id */
-                                            DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION,  /* relationship_main_type */
-                                            r_idx % classifier_mod,  /* from_classifier_id */
-                                            (r_idx*r_idx) % classifier_mod,  /* to_classifier_id */
-                                            "relationship_name",
-                                            "relationship_description",
-                                            1500*r_idx,  /* list_order */
-                                            DATA_ROW_ID_VOID,  /* from_feature_id */
-                                            DATA_ROW_ID_VOID  /* to_feature_id */
-                                          );
+        data_err = data_relationship_init( current,
+                                           r_idx,  /* relationship_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION,  /* relationship_main_type */
+                                           r_idx % classifier_mod,  /* from_classifier_id */
+                                           (r_idx*r_idx) % classifier_mod,  /* to_classifier_id */
+                                           "relationship_name",
+                                           "relationship_description",
+                                           1500*r_idx,  /* list_order */
+                                           DATA_ROW_ID_VOID,  /* from_feature_id */
+                                           DATA_ROW_ID_VOID,  /* to_feature_id */
+                                           "a0feb041-647e-422f-a4ff-2e6647c08f77"
+                                         );
         TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
 
         TEST_ENVIRONMENT_ASSERT( data_relationship_is_valid( current ) );

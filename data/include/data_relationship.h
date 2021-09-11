@@ -103,7 +103,9 @@ static inline data_error_t data_relationship_init_new ( data_relationship_t *thi
  *  \param list_order list_order of the relationship
  *  \param from_feature_id id of the source feature if the relationship starts at a feature, DATA_ROW_ID_VOID otherwise
  *  \param to_feature_id id of the destination feature if the relationship ends at a feature, DATA_ROW_ID_VOID otherwise
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
+ *  \param uuid a universal unique identifier according to rfc4122
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
+ *          DATA_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, DATA_ERROR_NONE otherwise.
  */
 static inline data_error_t data_relationship_init ( data_relationship_t *this_,
                                                     data_row_id_t relationship_id,
@@ -114,7 +116,8 @@ static inline data_error_t data_relationship_init ( data_relationship_t *this_,
                                                     const char* relationship_description,
                                                     int32_t list_order,
                                                     data_row_id_t from_feature_id,
-                                                    data_row_id_t to_feature_id
+                                                    data_row_id_t to_feature_id,
+                                                    const char* uuid
                                                   );
 
 /*!

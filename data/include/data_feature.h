@@ -99,7 +99,9 @@ static inline data_error_t data_feature_init_new ( data_feature_t *this_,
  *  \param feature_value value/type of the feature. feature_value must not be NULL.
  *  \param feature_description description of the feature. feature_description must not be NULL.
  *  \param list_order list_order of the feature
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
+ *  \param uuid a universal unique identifier according to rfc4122
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
+ *          DATA_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, DATA_ERROR_NONE otherwise.
  */
 static inline data_error_t data_feature_init ( data_feature_t *this_,
                                                data_row_id_t feature_id,
@@ -108,7 +110,8 @@ static inline data_error_t data_feature_init ( data_feature_t *this_,
                                                const char* feature_key,
                                                const char* feature_value,
                                                const char* feature_description,
-                                               int32_t list_order
+                                               int32_t list_order,
+                                               const char* uuid
                                              );
 
 /*!

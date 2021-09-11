@@ -69,10 +69,12 @@ static inline data_error_t data_diagram_init ( data_diagram_t *this_,
                                                data_diagram_type_t diagram_type,
                                                const char* diagram_name,
                                                const char* diagram_description,
-                                               int32_t list_order )
+                                               int32_t list_order,
+                                               const char* uuid )
 {
     assert( NULL != diagram_name );
     assert( NULL != diagram_description );
+    assert( NULL != uuid );
     utf8error_t strerr;
     data_error_t result = DATA_ERROR_NONE;
 
@@ -101,7 +103,7 @@ static inline data_error_t data_diagram_init ( data_diagram_t *this_,
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
     (*this_).list_order = list_order;
-    data_uuid_init_void( &((*this_).uuid) );
+    result |= data_uuid_init( &((*this_).uuid), uuid );
 
     return result;
 }

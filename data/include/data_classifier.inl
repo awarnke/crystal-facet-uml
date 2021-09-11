@@ -87,11 +87,13 @@ static inline data_error_t data_classifier_init ( data_classifier_t *this_,
                                                   const char* description,
                                                   int32_t x_order,
                                                   int32_t y_order,
-                                                  int32_t list_order )
+                                                  int32_t list_order,
+                                                  const char* uuid )
 {
     assert( NULL != stereotype );
     assert( NULL != name );
     assert( NULL != description );
+    assert( NULL != uuid );
     utf8error_t strerr;
     data_error_t result = DATA_ERROR_NONE;
 
@@ -130,7 +132,7 @@ static inline data_error_t data_classifier_init ( data_classifier_t *this_,
     (*this_).x_order = x_order;
     (*this_).y_order = y_order;
     (*this_).list_order = list_order;
-    data_uuid_init_void( &((*this_).uuid) );
+    result |= data_uuid_init( &((*this_).uuid), uuid );
 
     return result;
 }
@@ -143,9 +145,10 @@ static inline data_error_t data_classifier_reinit ( data_classifier_t *this_,
                                                     const char* description,
                                                     int32_t x_order,
                                                     int32_t y_order,
-                                                    int32_t list_order )
+                                                    int32_t list_order,
+                                                    const char* uuid )
 {
-    return data_classifier_init( this_, id, main_type, stereotype, name, description, x_order, y_order, list_order );
+    return data_classifier_init( this_, id, main_type, stereotype, name, description, x_order, y_order, list_order, uuid );
 }
 
 static inline void data_classifier_copy ( data_classifier_t *this_, const data_classifier_t *original )

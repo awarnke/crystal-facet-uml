@@ -102,7 +102,9 @@ static inline data_error_t data_classifier_init_new ( data_classifier_t *this_,
  *  \param x_order sequence order of objects in x-direction
  *  \param y_order sequence order of objects in y direction
  *  \param list_order sequence order of objects in lists
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
+ *  \param uuid a universal unique identifier according to rfc4122
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
+ *          DATA_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, DATA_ERROR_NONE otherwise.
  */
 static inline data_error_t data_classifier_init ( data_classifier_t *this_,
                                                   data_row_id_t id,
@@ -112,7 +114,8 @@ static inline data_error_t data_classifier_init ( data_classifier_t *this_,
                                                   const char* description,
                                                   int32_t x_order,
                                                   int32_t y_order,
-                                                  int32_t list_order
+                                                  int32_t list_order,
+                                                  const char* uuid
                                                 );
 
 /*!
@@ -127,6 +130,7 @@ static inline data_error_t data_classifier_init ( data_classifier_t *this_,
  *  \param x_order sequence order of objects in x-direction
  *  \param y_order sequence order of objects in y direction
  *  \param list_order sequence order of objects in lists
+ *  \param uuid a universal unique identifier according to rfc4122
  *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
  */
 static inline data_error_t data_classifier_reinit ( data_classifier_t *this_,
@@ -137,7 +141,8 @@ static inline data_error_t data_classifier_reinit ( data_classifier_t *this_,
                                                     const char* description,
                                                     int32_t x_order,
                                                     int32_t y_order,
-                                                    int32_t list_order
+                                                    int32_t list_order,
+                                                    const char* uuid
                                                   );
 
 /*!

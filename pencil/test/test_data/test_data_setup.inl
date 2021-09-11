@@ -4,24 +4,24 @@
 #include "test_assert.h"
 #include <assert.h>
 #include <stdint.h>
-        
-/* number of same relationships in variant/variant-group size (the division-denominator): TEST_DATA_SETUP_REL_SAME_GROUP */        
+
+/* number of same relationships in variant/variant-group size (the division-denominator): TEST_DATA_SETUP_REL_SAME_GROUP */
 #define TEST_DATA_SETUP_REL_SAME_GROUP (1)
-/* number of relationship variants (the modulo-result): TEST_DATA_SETUP_REL_VARIANTS */        
+/* number of relationship variants (the modulo-result): TEST_DATA_SETUP_REL_VARIANTS */
 #define TEST_DATA_SETUP_REL_VARIANTS (6)
-/* number of same feature in variant/variant-group size (the division-denominator): TEST_DATA_SETUP_FEAT_SAME_GROUP */        
+/* number of same feature in variant/variant-group size (the division-denominator): TEST_DATA_SETUP_FEAT_SAME_GROUP */
 #define TEST_DATA_SETUP_FEAT_SAME_GROUP ( TEST_DATA_SETUP_REL_VARIANTS )
-/* number of feature variants (the modulo-result): TEST_DATA_SETUP_FEAT_VARIANTS */        
+/* number of feature variants (the modulo-result): TEST_DATA_SETUP_FEAT_VARIANTS */
 #define TEST_DATA_SETUP_FEAT_VARIANTS (3)
-/* number of same classifier in variant/variant-group size (the division-denominator): TEST_DATA_SETUP_CLASS_SAME_GROUP */        
+/* number of same classifier in variant/variant-group size (the division-denominator): TEST_DATA_SETUP_CLASS_SAME_GROUP */
 #define TEST_DATA_SETUP_CLASS_SAME_GROUP ( TEST_DATA_SETUP_FEAT_SAME_GROUP * TEST_DATA_SETUP_FEAT_VARIANTS )
-/* number of classifier variants (the modulo-result): TEST_DATA_SETUP_CLASS_VARIANTS */        
+/* number of classifier variants (the modulo-result): TEST_DATA_SETUP_CLASS_VARIANTS */
 #define TEST_DATA_SETUP_CLASS_VARIANTS (4)
-/* number of same diagram in variant/variant-group size (the division-denominator): TEST_DATA_SETUP_DIAG_SAME_GROUP */        
+/* number of same diagram in variant/variant-group size (the division-denominator): TEST_DATA_SETUP_DIAG_SAME_GROUP */
 #define TEST_DATA_SETUP_DIAG_SAME_GROUP ( TEST_DATA_SETUP_CLASS_SAME_GROUP * TEST_DATA_SETUP_CLASS_VARIANTS )
-/* number of diagram variants (the modulo-result): TEST_DATA_SETUP_DIAG_VARIANTS */        
+/* number of diagram variants (the modulo-result): TEST_DATA_SETUP_DIAG_VARIANTS */
 #define TEST_DATA_SETUP_DIAG_VARIANTS (6)
-/* number of total variants */        
+/* number of total variants */
 #define TEST_DATA_SETUP_VARIANTS ( TEST_DATA_SETUP_DIAG_SAME_GROUP * TEST_DATA_SETUP_DIAG_VARIANTS )
 
 /* spread range of a pseude random byte to full integer range */
@@ -104,7 +104,7 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
 {
 
     data_diagram_type_t diagram_type;
-    
+
     const uint_fast32_t pseudo_random = (*this_).variant;  /* = this shall be variable/dynamic but not really random */
     const uint_fast32_t diag_variant = ( (*this_).variant / TEST_DATA_SETUP_DIAG_SAME_GROUP ) % TEST_DATA_SETUP_DIAG_VARIANTS;
     switch ( diag_variant )
@@ -115,37 +115,37 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
             diagram_type = DATA_DIAGRAM_TYPE_LIST;
         }
         break;
-        
+
         case 1:
         {
             diagram_type = DATA_DIAGRAM_TYPE_BOX_DIAGRAM;
         }
         break;
-        
+
         case 2:
         {
             /* select any normal/std diagram type */
             const data_diagram_type_t proposal_type = DATA_DIAGRAM_TYPE_ARRAY [ pseudo_random %  DATA_DIAGRAM_TYPE_COUNT ];
-            const bool proposal_is_not_std 
+            const bool proposal_is_not_std
                 = data_diagram_type_is_interaction( proposal_type )
                 || ( proposal_type == DATA_DIAGRAM_TYPE_LIST )
                 || ( proposal_type == DATA_DIAGRAM_TYPE_BOX_DIAGRAM );
             diagram_type = (proposal_is_not_std) ? DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM : proposal_type;
         }
         break;
-        
+
         case 3:
         {
             diagram_type = DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM;
         }
         break;
-        
+
         case 4:
         {
             diagram_type = DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM;
         }
         break;
-        
+
         case 5:
         {
             /* select a remaining interaction diagram type */
@@ -153,7 +153,7 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
         }
         break;
     }
-    
+
     const char* diagram_name;
     const char* diagram_description;
     switch ( (*this_).mode )
@@ -180,17 +180,23 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
         }
         break;
     }
-    
+
+    data_uuid_t diag_uuid;
+    data_uuid_init_new( &diag_uuid );
+
     data_diagram_t *diag = data_visible_set_get_diagram_ptr( io_data_set );
-    const data_error_t d_err = data_diagram_init( diag, 
+    const data_error_t d_err = data_diagram_init( diag,
                                                   (*this_).variant, /* diagram_id */
                                                   DATA_ROW_ID_VOID, /* parent_diagram_id */
                                                   diagram_type,
                                                   diagram_name,
                                                   diagram_description,
-                                                  (*this_).variant /* list_order */
+                                                  (*this_).variant, /* list_order */
+                                                  data_uuid_get_string( &diag_uuid )
                                                 );
     TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == d_err );
+
+    data_uuid_destroy( &diag_uuid );
 }
 
 static inline void test_data_setup_private_add_classifiers( const test_data_setup_t *this_, data_visible_set_t *io_data_set )
@@ -226,7 +232,7 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
         data_visible_classifier_init_empty ( &vis_classfy );
         data_classifier_t *classifier = data_visible_classifier_get_classifier_ptr ( &vis_classfy );
         data_diagramelement_t *diagramelement = data_visible_classifier_get_diagramelement_ptr ( &vis_classfy );
-        
+
         const uint_fast32_t pseudo_random_1 = ((*this_).variant + index)*23;  /* = this shall be variable/dynamic but not really random */
         const uint_fast32_t pseudo_random_2 = ((*this_).variant + index + 8)*29;  /* = this shall be variable/dynamic but not really random */
         const data_classifier_type_t class_type = DATA_CLASSIFIER_TYPE_ARRAY [ pseudo_random_1 % DATA_CLASSIFIER_TYPE_COUNT ];
@@ -237,7 +243,7 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
         int32_t x_order;
         int32_t y_order;
         int32_t list_order;
-        
+
         switch ( class_variant )
         {
             default:
@@ -249,7 +255,7 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
                 list_order = pseudo_random_1;
             }
             break;
-            
+
             case 1:
             {
                 /* all zero */
@@ -258,7 +264,7 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
                 list_order = 0;
             }
             break;
-            
+
             case 2:
             {
                 /* all 5x5 grid */
@@ -267,7 +273,7 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
                 list_order = ((pseudo_random_1)%5)*1000;
             }
             break;
-            
+
             case 3:
             {
                 /* all diagnonal */
@@ -305,7 +311,12 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
             }
             break;
         }
-        
+
+        data_uuid_t clsfr_uuid;
+        data_uuid_init_new( &clsfr_uuid );
+        data_uuid_t diagele_uuid;
+        data_uuid_init_new( &diagele_uuid );
+
         const data_row_id_t classifier_id = ((pseudo_random_1 % 5)==0) ? (index+2) : (index+1); /* some classifiers exist twice */
         const data_error_t d1_err = data_classifier_init( classifier,
                                                           classifier_id,
@@ -315,35 +326,40 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
                                                           description,
                                                           x_order,
                                                           y_order,
-                                                          list_order
-                                                        );       
+                                                          list_order,
+                                                          data_uuid_get_string( &clsfr_uuid )
+                                                        );
         TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( DATA_ERROR_NONE, d1_err&(~DATA_ERROR_STRING_BUFFER_EXCEEDED) );
-    
+
         const data_row_id_t diagram_id = data_diagram_get_row_id( data_visible_set_get_diagram_const( io_data_set ) );
-        const data_diagramelement_flag_t flag_inst 
-            = ((pseudo_random_1 % 3)==0) 
-            ? DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE 
-            : ((pseudo_random_1 % 3)==1) 
-            ? DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE 
+        const data_diagramelement_flag_t flag_inst
+            = ((pseudo_random_1 % 3)==0)
+            ? DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE
+            : ((pseudo_random_1 % 3)==1)
+            ? DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE
             : DATA_DIAGRAMELEMENT_FLAG_NONE;
-        const data_diagramelement_flag_t flag_emph 
-            = ((pseudo_random_2 % 3)==0) 
-            ? DATA_DIAGRAMELEMENT_FLAG_EMPHASIS 
-            : ((pseudo_random_2 % 3)==1) 
-            ? DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT 
+        const data_diagramelement_flag_t flag_emph
+            = ((pseudo_random_2 % 3)==0)
+            ? DATA_DIAGRAMELEMENT_FLAG_EMPHASIS
+            : ((pseudo_random_2 % 3)==1)
+            ? DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT
             : DATA_DIAGRAMELEMENT_FLAG_NONE;
-        data_diagramelement_init( diagramelement,
-                                  index+1,  /* = id */
-                                  diagram_id,
-                                  classifier_id,
-                                  flag_inst|flag_emph,
-                                  index+10001  /* = focused_feature_id */
-                                );
-        
-        const data_error_t d2_err = data_visible_set_append_classifier( io_data_set, &vis_classfy );
+        const data_error_t d2_err = data_diagramelement_init( diagramelement,
+                                                              index+1,  /* = id */
+                                                              diagram_id,
+                                                              classifier_id,
+                                                              flag_inst|flag_emph,
+                                                              index+10001,  /* = focused_feature_id */
+                                                              data_uuid_get_string( &diagele_uuid )
+                                                            );
         TEST_ENVIRONMENT_ASSERT ( d2_err == DATA_ERROR_NONE );
 
+        const data_error_t d3_err = data_visible_set_append_classifier( io_data_set, &vis_classfy );
+        TEST_ENVIRONMENT_ASSERT ( d3_err == DATA_ERROR_NONE );
+
         data_visible_classifier_destroy ( &vis_classfy );
+        data_uuid_destroy( &clsfr_uuid );
+        data_uuid_destroy( &diagele_uuid );
     }
 }
 
@@ -354,13 +370,16 @@ static inline void test_data_setup_private_add_lifelines( const test_data_setup_
     {
         const data_visible_classifier_t *const visclas = data_visible_set_get_visible_classifier_const ( io_data_set, index );
         const data_diagramelement_t *const diagele = data_visible_classifier_get_diagramelement_const ( visclas );
-        
+
         const data_feature_type_t feat_type = DATA_FEATURE_TYPE_LIFELINE;
         const char *const feature_key = "";
         const char *const feature_value = "";
         const char *const feature_description = "";
         const int32_t list_order = 0;
-       
+
+        data_uuid_t feat_uuid;
+        data_uuid_init_new( &feat_uuid );
+
         data_feature_t feat;
         const data_error_t d1_err = data_feature_init( &feat,
                                                        data_diagramelement_get_focused_feature_row_id( diagele ),  /* = feature_id */
@@ -369,14 +388,16 @@ static inline void test_data_setup_private_add_lifelines( const test_data_setup_
                                                        feature_key,
                                                        feature_value,
                                                        feature_description,
-                                                       list_order
+                                                       list_order,
+                                                       data_uuid_get_string( &feat_uuid )
                                                      );
         TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( DATA_ERROR_NONE, d1_err );
-        
+
         const data_error_t d2_err = data_visible_set_append_feature( io_data_set, &feat );
         TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( DATA_ERROR_NONE, d2_err );
-        
+
         data_feature_destroy ( &feat );
+        data_uuid_destroy( &feat_uuid );
     }
 }
 
@@ -408,7 +429,7 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
         }
         break;
     }
-    
+
     for ( uint_fast32_t index = 0; index < count; index ++ )
     {
         const uint_fast32_t pseudo_random = ((*this_).variant + index)*7;  /* = this shall be variable/dynamic but not really random */
@@ -418,7 +439,7 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
         const char* feature_value = "";
         const char* feature_description = "";
         int32_t list_order;
-       
+
         switch ( feat_variant )
         {
             default:
@@ -429,14 +450,14 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
                 SPREAD_RANGE(list_order);
             }
             break;
-            
+
             case 1:
             {
                 /* all extreme */
                 list_order = ((pseudo_random % 2)==0) ? INT32_MIN : INT32_MAX;
             }
             break;
-            
+
             case 2:
             {
                 /* all 5 grid */
@@ -445,7 +466,7 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
             }
             break;
         }
-        
+
         switch ( (*this_).mode )
         {
             default:
@@ -474,6 +495,9 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
             break;
         }
 
+        data_uuid_t feat_uuid;
+        data_uuid_init_new( &feat_uuid );
+
         data_feature_t feat;
         const data_error_t d1_err = data_feature_init( &feat,
                                                        index+1,  /* = feature_id */
@@ -482,14 +506,16 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
                                                        feature_key,
                                                        feature_value,
                                                        feature_description,
-                                                       list_order
+                                                       list_order,
+                                                       data_uuid_get_string( &feat_uuid )
                                                      );
         TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( DATA_ERROR_NONE, d1_err&(~DATA_ERROR_STRING_BUFFER_EXCEEDED) );
-        
+
         const data_error_t d2_err = data_visible_set_append_feature( io_data_set, &feat );
         TEST_ENVIRONMENT_ASSERT ( d2_err == DATA_ERROR_NONE );
-        
+
         data_feature_destroy ( &feat );
+        data_uuid_destroy ( &feat_uuid );
     }
 }
 
@@ -521,13 +547,13 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
         }
         break;
     }
-    
+
     for ( uint_fast32_t index = 0; index < count; index ++ )
     {
         const uint_fast32_t pseudo_random_1 = ((*this_).variant + index)*17;  /* = this shall be variable/dynamic but not really random */
         const uint_fast32_t pseudo_random_2 = ((*this_).variant + index + 8)*19;  /* = this shall be variable/dynamic but not really random */
-        
-        data_relationship_type_t rel_type = DATA_RELATIONSHIP_TYPE_ARRAY [ pseudo_random_1 %  DATA_RELATIONSHIP_TYPE_COUNT ]; 
+
+        data_relationship_type_t rel_type = DATA_RELATIONSHIP_TYPE_ARRAY [ pseudo_random_1 %  DATA_RELATIONSHIP_TYPE_COUNT ];
         if ( data_diagram_type_is_interaction( diag_type ) )
         {
             /* in interaction diagrams, most relationships shall be DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL */
@@ -552,7 +578,7 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
         data_row_id_t to_classifier_row_id = DATA_ROW_ID_VOID;
         data_row_id_t from_feature_row_id = DATA_ROW_ID_VOID;
         data_row_id_t to_feature_row_id = DATA_ROW_ID_VOID;
-        
+
         const uint_fast32_t c_count = data_visible_set_get_visible_classifier_count( io_data_set );
         const uint_fast32_t f_count = data_visible_set_get_feature_count( io_data_set );
         if (( c_count != 0 )&&( (pseudo_random_1 % 2) == 0 ))
@@ -590,21 +616,21 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
                 SPREAD_RANGE(list_order);
             }
             break;
-            
+
             case 1:
             {
                 /* all extreme */
                 list_order = ((pseudo_random_1 % 2)==0) ? INT32_MIN : INT32_MAX;
             }
             break;
-            
+
             case 2:
             {
                 /* all zero */
                 list_order = 0;
             }
             break;
-            
+
             case 3:
             {
                 /* all 19 grid */
@@ -612,7 +638,7 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
                 SPREAD_RANGE(list_order);
             }
             break;
-            
+
             case 4:
             {
                 /* all 3 grid */
@@ -620,7 +646,7 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
                 SPREAD_RANGE(list_order);
             }
             break;
-            
+
             case 5:
             {
                 /* all 5 grid */
@@ -629,7 +655,7 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
             }
             break;
         }
-        
+
         switch ( (*this_).mode )
         {
             default:
@@ -655,6 +681,9 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
             break;
         }
 
+        data_uuid_t rel_uuid;
+        data_uuid_init_new( &rel_uuid );
+
         data_relationship_t rel;
         const data_error_t d1_err = data_relationship_init( &rel,
                                                             index+1,  /* =  relationship_id */
@@ -665,14 +694,16 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
                                                             relationship_description,
                                                             list_order,
                                                             from_feature_row_id,
-                                                            to_feature_row_id
+                                                            to_feature_row_id,
+                                                            data_uuid_get_string( &rel_uuid )
                                                           );
         TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( DATA_ERROR_NONE, d1_err&(~DATA_ERROR_STRING_BUFFER_EXCEEDED) );
-        
+
         const data_error_t d2_err = data_visible_set_append_relationship( io_data_set, &rel );
         TEST_ENVIRONMENT_ASSERT ( d2_err == DATA_ERROR_NONE );
-        
+
         data_relationship_destroy ( &rel );
+        data_uuid_destroy ( &rel_uuid );
     }
 }
 

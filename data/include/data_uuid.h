@@ -18,8 +18,8 @@
  *  \brief constants for string sizes
  */
 enum data_uuid_string_enum {
-    DATA_UUID_STRING_SIZE = 32+4+1,
-    DATA_UUID_STRING_LENGTH = 32+4,
+    DATA_UUID_STRING_SIZE = 32+4+1,  /*!< 32 hex digits, 4 minus, 1 terminating zero */
+    DATA_UUID_STRING_LENGTH = 32+4,  /*!< 32 hex digits, 4 minus */
 };
 
 /*!
@@ -38,6 +38,7 @@ typedef struct data_uuid_struct data_uuid_t;
  *  \brief initializes the data_uuid_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param uuid_string a uuid string formatted according to rfc4122
  *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
  *          DATA_ERROR_VALUE_OUT_OF_RANGE if string invalid, DATA_ERROR_NONE otherwise.
  */

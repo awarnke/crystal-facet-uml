@@ -76,22 +76,21 @@ static void lifeline_to_diagramelement_consistency(void)
     data_row_id_t root_diag_id;
     {
         data_diagram_t root_diagram;
-        data_err = data_diagram_init ( &root_diagram,
-                                       DATA_ROW_ID_VOID /*=diagram_id is ignored*/,
-                                       DATA_ROW_ID_VOID /*=parent_diagram_id*/,
-                                       DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,
-                                       "the_root_diag",
-                                       "diagram_description-root",
-                                       10555 /*=list_order*/
-                                     );
+        data_err = data_diagram_init_new( &root_diagram,
+                                          DATA_ROW_ID_VOID /*=parent_diagram_id*/,
+                                          DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,
+                                          "the_root_diag",
+                                          "diagram_description-root",
+                                          10555 /*=list_order*/
+                                        );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         root_diag_id = DATA_ROW_ID_VOID;
-        ctrl_err = ctrl_diagram_controller_create_diagram ( diagram_ctrl,
-                                                            &root_diagram,
-                                                            CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
-                                                            &root_diag_id
-                                                          );
+        ctrl_err = ctrl_diagram_controller_create_diagram( diagram_ctrl,
+                                                           &root_diagram,
+                                                           CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
+                                                           &root_diag_id
+                                                         );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
         TEST_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
         data_diagram_destroy ( &root_diagram );

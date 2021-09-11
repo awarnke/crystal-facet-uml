@@ -91,7 +91,8 @@ static void set_up(void)
                                          DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
                                          "diagram_name-6",
                                          "diagram_description-6",
-                                         10444 /*=list_order*/
+                                         10444 /*=list_order*/,
+                                         "4ad5e0d6-2fd6-4863-b1b3-beec480bd670"
                                        );
         TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err_d );
 
@@ -112,7 +113,8 @@ static void set_up(void)
                                             "description-12",
                                             -34000 /*=x_order*/,
                                             -16000 /*=y_order*/,
-                                            -7000 /*=list_order*/
+                                            -7000 /*=list_order*/,
+                                            "a9f873b3-9f92-480b-afd9-5be080c96783"
                                           );
         TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err_c );
 
@@ -125,13 +127,15 @@ static void set_up(void)
         data_error_t data_err_de;
         data_diagramelement_t current_diagramelement;
 
-        data_diagramelement_init ( &current_diagramelement,
-                                   13 /*=id*/,
-                                   6 /*=diagram_id*/,
-                                   12 /*=classifier_id*/,
-                                   DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                   DATA_ROW_ID_VOID
-                                 );
+        data_err_de = data_diagramelement_init ( &current_diagramelement,
+                                                 13 /*=id*/,
+                                                 6 /*=diagram_id*/,
+                                                 12 /*=classifier_id*/,
+                                                 DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                                                 DATA_ROW_ID_VOID,
+                                                 "db14f3a4-ce9c-43ea-8787-50094377fa5f"
+                                               );
+        TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err_de );
 
         data_err_de = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
         TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err_de );
@@ -171,7 +175,8 @@ static void diagram_two_roots_consistency(void)
                                        DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
                                        "diagram_name",
                                        "diagram_description",
-                                       10222 /*=list_order*/
+                                       10222 /*=list_order*/,
+                                       "89b87e06-2a0f-43bc-97cd-a0395b3d40be"
                                      );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -226,7 +231,8 @@ static void diagram_missing_parent_consistency(void)
                                        DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
                                        "diagram_name",
                                        "diagram_description",
-                                       10222 /*=list_order*/
+                                       10222 /*=list_order*/,
+                                       "725903d8-3001-4e3c-8208-2937c75def3b"
                                      );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -243,7 +249,8 @@ static void diagram_missing_parent_consistency(void)
                                        DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
                                        "diagram_name-4",
                                        "diagram_description-4",
-                                       10333 /*=list_order*/
+                                       10333 /*=list_order*/,
+                                       "2955514a-5083-4cfc-a0bc-5cc965f0fb0e"
                                      );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -298,7 +305,8 @@ static void diagram_circular_referenced_diagrams_consistency( void )
                                        DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
                                        "diagram_name-2",
                                        "diagram_description-2",
-                                       10222 /*=list_order*/
+                                       10222 /*=list_order*/,
+                                       "af9f23c6-f92c-4d30-bf43-901606bbfd1a"
                                      );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -315,7 +323,8 @@ static void diagram_circular_referenced_diagrams_consistency( void )
                                        DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
                                        "diagram_name-4",
                                        "diagram_description-4",
-                                       10333 /*=list_order*/
+                                       10333 /*=list_order*/,
+                                       "48190baf-4748-4573-a963-16bd84954c06"
                                      );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -364,13 +373,15 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
     /* create diagramelement without classifier */
     {
         data_diagramelement_t second_diagramelement;
-        data_diagramelement_init ( &second_diagramelement,
-                                   15 /*=id*/,
-                                   6 /*=diagram_id*/,
-                                   18 /*=classifier_id*/,
-                                   DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                   DATA_ROW_ID_VOID
-                                 );
+        data_err = data_diagramelement_init( &second_diagramelement,
+                                             15 /*=id*/,
+                                             6 /*=diagram_id*/,
+                                             18 /*=classifier_id*/,
+                                             DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                                             DATA_ROW_ID_VOID,
+                                             "038a9a09-a9c1-46a2-83b2-57152e84511c"
+                                           );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_diagramelement( &db_writer, &second_diagramelement, NULL /*=out_new_id*/ );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
@@ -379,13 +390,15 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
     /* create diagramelement without diagram */
     {
         data_diagramelement_t third_diagramelement;
-        data_diagramelement_init ( &third_diagramelement,
-                                   17 /*=id*/,
-                                   2 /*=diagram_id*/,
-                                   12 /*=classifier_id*/,
-                                   DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                   DATA_ROW_ID_VOID
-                                 );
+        data_err = data_diagramelement_init( &third_diagramelement,
+                                             17 /*=id*/,
+                                             2 /*=diagram_id*/,
+                                             12 /*=classifier_id*/,
+                                             DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                                             DATA_ROW_ID_VOID,
+                                             "ffc3a760-820f-4d97-9e73-69d50ca23a22"
+                                           );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_diagramelement( &db_writer, &third_diagramelement, NULL /*=out_new_id*/ );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
@@ -394,13 +407,15 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
     /* create diagramelement without diagram and without classifier */
     {
         data_diagramelement_t fourth_diagramelement;
-        data_diagramelement_init ( &fourth_diagramelement,
-                                   19 /*=id*/,
-                                   2 /*=diagram_id*/,
-                                   18 /*=classifier_id*/,
-                                   DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                   DATA_ROW_ID_VOID
-                                 );
+        data_err = data_diagramelement_init( &fourth_diagramelement,
+                                             19 /*=id*/,
+                                             2 /*=diagram_id*/,
+                                             18 /*=classifier_id*/,
+                                             DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                                             DATA_ROW_ID_VOID,
+                                             "a9caa99a-6f38-488d-aea4-5669835c6b1e"
+                                           );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_diagramelement( &db_writer, &fourth_diagramelement, NULL /*=out_new_id*/ );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
@@ -454,7 +469,8 @@ static void diagram_illreferencing_diagramelements_consistency(void)
                                        "startup_time", /* feature_key */
                                        "uint64_t", /* feature_value */
                                        "time in nano seconds to start", /* feature_description */
-                                       5000000 /* list order */
+                                       5000000 /* list order */,
+                                       "3c7d1e4b-c067-4d1f-a143-f048507e5aba"
                                      );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -465,13 +481,15 @@ static void diagram_illreferencing_diagramelements_consistency(void)
     /* create 2nd diagramelement with non-existing focused feature */
     {
         data_diagramelement_t second_diagramelement;
-        data_diagramelement_init ( &second_diagramelement,
+        data_err = data_diagramelement_init ( &second_diagramelement,
                                    14 /*=id*/,
                                    6 /*=diagram_id*/,
                                    12 /*=classifier_id*/,
                                    DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                   18 /*=focused_feature_id*/
+                                   18 /*=focused_feature_id*/,
+                                   "ea4f0c24-85fc-4418-a513-ba21d0d6a60f"
                                  );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_diagramelement( &db_writer, &second_diagramelement, NULL /*=out_new_id*/ );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
@@ -488,7 +506,8 @@ static void diagram_illreferencing_diagramelements_consistency(void)
                                           "description-11",
                                           -340 /*=x_order*/,
                                           -160 /*=y_order*/,
-                                          -7000 /*=list_order*/
+                                          -7000 /*=list_order*/,
+                                          "1695c1e8-f978-4b20-9a5f-10d45b904608"
                                         );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -499,13 +518,15 @@ static void diagram_illreferencing_diagramelements_consistency(void)
     /* create 3rd diagramelement with existing focused feature but wrong, inconsistent classifier */
     {
         data_diagramelement_t third_diagramelement;
-        data_diagramelement_init ( &third_diagramelement,
-                                   15 /*=id*/,
-                                   6 /*=diagram_id*/,
-                                   11 /*=classifier_id*/,
-                                   DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                   17 /*=focused_feature_id*/
-                                 );
+        data_err = data_diagramelement_init( &third_diagramelement,
+                                             15 /*=id*/,
+                                             6 /*=diagram_id*/,
+                                             11 /*=classifier_id*/,
+                                             DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                                             17 /*=focused_feature_id*/,
+                                             "2200e7cf-edae-4da9-9c4c-dd6db50339fa"
+                                           );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_diagramelement( &db_writer, &third_diagramelement, NULL /*=out_new_id*/ );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
@@ -560,7 +581,8 @@ static void repair_unreferenced_classifiers(void)
                                           "description-13",
                                           -35050 /*=x_order*/,
                                           -17070 /*=y_order*/,
-                                          -7000 /*=list_order*/
+                                          -7000 /*=list_order*/,
+                                          "59de3f30-d8d6-4223-b864-29d7dcda9529"
                                         );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -617,7 +639,8 @@ static void repair_unreferenced_classifiers_2(void)
                                           "description-c6",
                                           -4200 /*=x_order*/,
                                           -6200 /*=y_order*/,
-                                          -7000 /*=list_order*/
+                                          -7000 /*=list_order*/,
+                                          "b131d8ba-aa6b-4574-b72d-ca14034dde38"
                                         );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -635,7 +658,8 @@ static void repair_unreferenced_classifiers_2(void)
                                        "startup_time", /* feature_key */
                                        "uint64_t", /* feature_value */
                                        "time in nano seconds to start", /* feature_description */
-                                       5000000 /* list order */
+                                       5000000 /* list order */,
+                                       "f3db90fb-871c-4e57-b8a5-987a248e90e5"
                                      );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -646,17 +670,18 @@ static void repair_unreferenced_classifiers_2(void)
     /* define a valid relationship */
     {
         data_relationship_t v_relation;
-        data_err = data_relationship_init ( &v_relation,
-                                            34, /* relationship_id */
-                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
-                                            6, /* from_classifier_id */
-                                            6, /* to_classifier_id */
-                                            "the composition is more", /* relationship_name */
-                                            "than the sum of its parts", /* relationship_description */
-                                            -66000, /* list_order */
-                                            DATA_ROW_ID_VOID, /* from_feature_id */
-                                            DATA_ROW_ID_VOID /* to_feature_id */
-                                          );
+        data_err = data_relationship_init( &v_relation,
+                                           34, /* relationship_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                           6, /* from_classifier_id */
+                                           6, /* to_classifier_id */
+                                           "the composition is more", /* relationship_name */
+                                           "than the sum of its parts", /* relationship_description */
+                                           -66000, /* list_order */
+                                           DATA_ROW_ID_VOID, /* from_feature_id */
+                                           DATA_ROW_ID_VOID, /* to_feature_id */
+                                           "8ea7faa0-d01e-4862-903b-f2ab3e3ba40f"
+                                         );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_relationship ( &db_writer, &v_relation, NULL /*=out_new_id*/ );
@@ -704,15 +729,16 @@ static void repair_invalid_feature_parent(void)
     /* create a valid feature */
     {
         data_feature_t v_feature;
-        data_err = data_feature_init ( &v_feature,
-                                       17, /* feature_id */
-                                       DATA_FEATURE_TYPE_PROPERTY, /* feature_main_type */
-                                       12, /* classifier_id */
-                                       "startup_time", /* feature_key */
-                                       "uint64_t", /* feature_value */
-                                       "time in nano seconds to start", /* feature_description */
-                                       5000000 /* list order */
-                                     );
+        data_err = data_feature_init( &v_feature,
+                                      17, /* feature_id */
+                                      DATA_FEATURE_TYPE_PROPERTY, /* feature_main_type */
+                                      12, /* classifier_id */
+                                      "startup_time", /* feature_key */
+                                      "uint64_t", /* feature_value */
+                                      "time in nano seconds to start", /* feature_description */
+                                      5000000, /* list order */
+                                      "1653515a-d06e-4c65-a2b3-375343471573"
+                                    );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_feature ( &db_writer, &v_feature, NULL /*=out_new_id*/ );
@@ -729,7 +755,8 @@ static void repair_invalid_feature_parent(void)
                                        "startup_time", /* feature_key */
                                        "uint64_t", /* feature_value */
                                        "time in nano seconds to start", /* feature_description */
-                                       5000000 /* list order */
+                                       5000000, /* list order */
+                                       "051a1c7a-f445-454d-bf3a-e5e22523a9bc"
                                      );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -778,17 +805,18 @@ static void repair_invalid_relationship(void)
     /* define a valid relationship */
     {
         data_relationship_t v_relation;
-        data_err = data_relationship_init ( &v_relation,
-                                            34, /* relationship_id */
-                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
-                                            12, /* from_classifier_id */
-                                            12, /* to_classifier_id */
-                                            "the composition is more", /* relationship_name */
-                                            "than the sum of its parts", /* relationship_description */
-                                            -66000, /* list_order */
-                                            DATA_ROW_ID_VOID, /* from_feature_id */
-                                            DATA_ROW_ID_VOID /* to_feature_id */
-                                          );
+        data_err = data_relationship_init( &v_relation,
+                                           34, /* relationship_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                           12, /* from_classifier_id */
+                                           12, /* to_classifier_id */
+                                           "the composition is more", /* relationship_name */
+                                           "than the sum of its parts", /* relationship_description */
+                                           -66000, /* list_order */
+                                           DATA_ROW_ID_VOID, /* from_feature_id */
+                                           DATA_ROW_ID_VOID, /* to_feature_id */
+                                           "04ee369e-f3c9-4ead-9377-280917050bc4"
+                                         );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_relationship ( &db_writer, &v_relation, NULL /*=out_new_id*/ );
@@ -798,17 +826,18 @@ static void repair_invalid_relationship(void)
     /* define first invalid relationship */
     {
         data_relationship_t i1_relation;
-        data_err = data_relationship_init ( &i1_relation,
-                                            35, /* relationship_id */
-                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
-                                            12, /* from_classifier_id */
-                                            12121212, /* to_classifier_id */
-                                            "the composition is more", /* relationship_name */
-                                            "than the sum of its parts", /* relationship_description */
-                                            -66000, /* list_order */
-                                            DATA_ROW_ID_VOID, /* from_feature_id */
-                                            DATA_ROW_ID_VOID /* to_feature_id */
-                                          );
+        data_err = data_relationship_init( &i1_relation,
+                                           35, /* relationship_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                           12, /* from_classifier_id */
+                                           12121212, /* to_classifier_id */
+                                           "the composition is more", /* relationship_name */
+                                           "than the sum of its parts", /* relationship_description */
+                                           -66000, /* list_order */
+                                           DATA_ROW_ID_VOID, /* from_feature_id */
+                                           DATA_ROW_ID_VOID, /* to_feature_id */
+                                           "43da4f41-dede-48f2-bd38-29694d2cb332"
+                                         );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_relationship ( &db_writer, &i1_relation, NULL /*=out_new_id*/ );
@@ -818,17 +847,18 @@ static void repair_invalid_relationship(void)
     /* define second invalid relationship */
     {
         data_relationship_t i2_relation;
-        data_err = data_relationship_init ( &i2_relation,
-                                            36, /* relationship_id */
-                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
-                                            12121212, /* from_classifier_id */
-                                            12, /* to_classifier_id */
-                                            "the composition is more", /* relationship_name */
-                                            "than the sum of its parts", /* relationship_description */
-                                            -66000, /* list_order */
-                                            DATA_ROW_ID_VOID, /* from_feature_id */
-                                            DATA_ROW_ID_VOID /* to_feature_id */
-                                          );
+        data_err = data_relationship_init( &i2_relation,
+                                           36, /* relationship_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                           12121212, /* from_classifier_id */
+                                           12, /* to_classifier_id */
+                                           "the composition is more", /* relationship_name */
+                                           "than the sum of its parts", /* relationship_description */
+                                           -66000, /* list_order */
+                                           DATA_ROW_ID_VOID, /* from_feature_id */
+                                           DATA_ROW_ID_VOID, /* to_feature_id */
+                                           "2851e7db-19cc-484c-9cb9-f76562ac3ca5"
+                                         );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_relationship ( &db_writer, &i2_relation, NULL /*=out_new_id*/ );
@@ -838,17 +868,18 @@ static void repair_invalid_relationship(void)
     /* define third invalid relationship */
     {
         data_relationship_t i3_relation;
-        data_err = data_relationship_init ( &i3_relation,
-                                            37, /* relationship_id */
-                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
-                                            12121212, /* from_classifier_id */
-                                            12121212, /* to_classifier_id */
-                                            "the composition is more", /* relationship_name */
-                                            "than the sum of its parts", /* relationship_description */
-                                            -66000, /* list_order */
-                                            DATA_ROW_ID_VOID, /* from_feature_id */
-                                            DATA_ROW_ID_VOID /* to_feature_id */
-                                          );
+        data_err = data_relationship_init( &i3_relation,
+                                           37, /* relationship_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                           12121212, /* from_classifier_id */
+                                           12121212, /* to_classifier_id */
+                                           "the composition is more", /* relationship_name */
+                                           "than the sum of its parts", /* relationship_description */
+                                           -66000, /* list_order */
+                                           DATA_ROW_ID_VOID, /* from_feature_id */
+                                           DATA_ROW_ID_VOID, /* to_feature_id */
+                                           "40db1fee-8342-4c12-8d2d-60b937c87628"
+                                         );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_relationship ( &db_writer, &i3_relation, NULL /*=out_new_id*/ );
@@ -896,16 +927,17 @@ static void repair_ill_feature_relationship(void)
     /* create a second classifier */
     {
         data_classifier_t second_classifier;
-        data_err = data_classifier_init ( &second_classifier,
-                                          11 /*=classifier id*/,
-                                          DATA_CLASSIFIER_TYPE_PACKAGE,
-                                          "stereotype-11",
-                                          "name-11",
-                                          "description-11",
-                                          -4200 /*=x_order*/,
-                                          -6200 /*=y_order*/,
-                                          -7000 /*=list_order*/
-                                        );
+        data_err = data_classifier_init( &second_classifier,
+                                         11, /*=classifier id*/
+                                         DATA_CLASSIFIER_TYPE_PACKAGE,
+                                         "stereotype-11",
+                                         "name-11",
+                                         "description-11",
+                                         -4200, /*=x_order*/
+                                         -6200, /*=y_order*/
+                                         -7000, /*=list_order*/
+                                         "2287cc58-dcf9-4e77-95f2-ce8b2e847faf"
+                                       );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_classifier( &db_writer, &second_classifier, NULL /*=out_new_id*/ );
@@ -915,15 +947,16 @@ static void repair_ill_feature_relationship(void)
     /* create a first valid feature */
     {
         data_feature_t first_feature;
-        data_err = data_feature_init ( &first_feature,
-                                       18, /* feature_id */
-                                       DATA_FEATURE_TYPE_LIFELINE, /* feature_main_type */
-                                       12, /* classifier_id */
-                                       "shutdown scenario", /* feature_key */
-                                       "", /* feature_value */
-                                       "timeline of shutdown", /* feature_description */
-                                       500 /* list order */
-        );
+        data_err = data_feature_init( &first_feature,
+                                      18, /* feature_id */
+                                      DATA_FEATURE_TYPE_LIFELINE, /* feature_main_type */
+                                      12, /* classifier_id */
+                                      "shutdown scenario", /* feature_key */
+                                      "", /* feature_value */
+                                      "timeline of shutdown", /* feature_description */
+                                      500, /* list order */
+                                      "7d07b607-4d30-42db-9d22-0190441bd9f5"
+                                    );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_feature ( &db_writer, &first_feature, NULL /*=out_new_id*/ );
@@ -933,15 +966,16 @@ static void repair_ill_feature_relationship(void)
     /* create a second valid feature */
     {
         data_feature_t second_feature;
-        data_err = data_feature_init ( &second_feature,
-                                       17, /* feature_id */
-                                       DATA_FEATURE_TYPE_PORT, /* feature_main_type */
-                                       11, /* classifier_id */
-                                       "Port 8080", /* feature_key */
-                                       "ip_port", /* feature_value */
-                                       "port for control commands", /* feature_description */
-                                       1500 /* list order */
-                                     );
+        data_err = data_feature_init( &second_feature,
+                                      17, /* feature_id */
+                                      DATA_FEATURE_TYPE_PORT, /* feature_main_type */
+                                      11, /* classifier_id */
+                                      "Port 8080", /* feature_key */
+                                      "ip_port", /* feature_value */
+                                      "port for control commands", /* feature_description */
+                                      1500, /* list order */
+                                      "5bb9bc75-4b22-47c4-877d-9a6c28a5235b"
+                                    );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_feature ( &db_writer, &second_feature, NULL /*=out_new_id*/ );
@@ -951,13 +985,15 @@ static void repair_ill_feature_relationship(void)
     /* create a diagramelement for the second classifier */
     {
         data_diagramelement_t second_diagramelement;
-        data_diagramelement_init ( &second_diagramelement,
-                                   14 /*=id*/,
-                                   6 /*=diagram_id*/,
-                                   11 /*=classifier_id*/,
-                                   DATA_DIAGRAMELEMENT_FLAG_NONE,
-                                   17 /*=focused_feature_id*/
-                                 );
+        data_err = data_diagramelement_init( &second_diagramelement,
+                                             14 /*=id*/,
+                                             6 /*=diagram_id*/,
+                                             11 /*=classifier_id*/,
+                                             DATA_DIAGRAMELEMENT_FLAG_NONE,
+                                             17, /*=focused_feature_id*/
+                                             "31479db9-080e-48dc-b5cd-664006deb406"
+                                           );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_diagramelement( &db_writer, &second_diagramelement, NULL /*=out_new_id*/ );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
@@ -966,17 +1002,18 @@ static void repair_ill_feature_relationship(void)
     /* define a valid relationship */
     {
         data_relationship_t first_relation;
-        data_err = data_relationship_init ( &first_relation,
-                                            34, /* relationship_id */
-                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
-                                            11, /* from_classifier_id */
-                                            12, /* to_classifier_id */
-                                            "the composition is more", /* relationship_name */
-                                            "than the sum of its parts", /* relationship_description */
-                                            1600, /* list_order */
-                                            17, /* from_feature_id */
-                                            18 /* to_feature_id */
-                                          );
+        data_err = data_relationship_init( &first_relation,
+                                           34, /* relationship_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                           11, /* from_classifier_id */
+                                           12, /* to_classifier_id */
+                                           "the composition is more", /* relationship_name */
+                                           "than the sum of its parts", /* relationship_description */
+                                           1600, /* list_order */
+                                           17, /* from_feature_id */
+                                           18, /* to_feature_id */
+                                           "e87416fc-c792-4d9d-b267-914517343318"
+                                         );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_relationship ( &db_writer, &first_relation, NULL /*=out_new_id*/ );
@@ -986,17 +1023,18 @@ static void repair_ill_feature_relationship(void)
     /* define a relationship where source feature does not exist*/
     {
         data_relationship_t second_relation;
-        data_err = data_relationship_init ( &second_relation,
-                                            35, /* relationship_id */
-                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
-                                            11, /* from_classifier_id */
-                                            12, /* to_classifier_id */
-                                            "the composition is more", /* relationship_name */
-                                            "than the sum of its parts", /* relationship_description */
-                                            1700, /* list_order */
-                                            170, /* from_feature_id */
-                                            18 /* to_feature_id */
-        );
+        data_err = data_relationship_init( &second_relation,
+                                           35, /* relationship_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                           11, /* from_classifier_id */
+                                           12, /* to_classifier_id */
+                                           "the composition is more", /* relationship_name */
+                                           "than the sum of its parts", /* relationship_description */
+                                           1700, /* list_order */
+                                           170, /* from_feature_id */
+                                           18, /* to_feature_id */
+                                           "213f7bae-c694-420b-9afe-6b6bfa32e638"
+                                         );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_relationship ( &db_writer, &second_relation, NULL /*=out_new_id*/ );
@@ -1006,17 +1044,18 @@ static void repair_ill_feature_relationship(void)
     /* define a relationship where destination feature has illegal classifier */
     {
         data_relationship_t third_relation;
-        data_err = data_relationship_init ( &third_relation,
-                                            36, /* relationship_id */
-                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
-                                            11, /* from_classifier_id */
-                                            12, /* to_classifier_id */
-                                            "the composition is more", /* relationship_name */
-                                            "than the sum of its parts", /* relationship_description */
-                                            1800, /* list_order */
-                                            17, /* from_feature_id */
-                                            17 /* to_feature_id */
-        );
+        data_err = data_relationship_init( &third_relation,
+                                           36, /* relationship_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                           11, /* from_classifier_id */
+                                           12, /* to_classifier_id */
+                                           "the composition is more", /* relationship_name */
+                                           "than the sum of its parts", /* relationship_description */
+                                           1800, /* list_order */
+                                           17, /* from_feature_id */
+                                           17, /* to_feature_id */
+                                           "d2d6858e-b670-46b7-8a6e-296b83f87c71"
+                                         );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_relationship ( &db_writer, &third_relation, NULL /*=out_new_id*/ );
@@ -1026,17 +1065,18 @@ static void repair_ill_feature_relationship(void)
     /* define a relationship where source has illegal classifier and destination feature non-existant */
     {
         data_relationship_t first_relation;
-        data_err = data_relationship_init ( &first_relation,
-                                            37, /* relationship_id */
-                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
-                                            11, /* from_classifier_id */
-                                            12, /* to_classifier_id */
-                                            "the composition is more", /* relationship_name */
-                                            "than the sum of its parts", /* relationship_description */
-                                            1900, /* list_order */
-                                            18, /* from_feature_id */
-                                            180 /* to_feature_id */
-        );
+        data_err = data_relationship_init( &first_relation,
+                                           37, /* relationship_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                           11, /* from_classifier_id */
+                                           12, /* to_classifier_id */
+                                           "the composition is more", /* relationship_name */
+                                           "than the sum of its parts", /* relationship_description */
+                                           1900, /* list_order */
+                                           18, /* from_feature_id */
+                                           180, /* to_feature_id */
+                                           "a7ad15b5-5815-46e8-a069-7c8fc49b6f6b"
+                                         );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_relationship ( &db_writer, &first_relation, NULL /*=out_new_id*/ );
