@@ -17,12 +17,35 @@ static inline void data_feature_init_empty ( data_feature_t *this_ )
     utf8stringbuf_clear( (*this_).description );
 
     (*this_).list_order = 0;
+    data_uuid_init_void( &((*this_).uuid) );
 }
 
 static inline void data_feature_reinit_empty ( data_feature_t *this_ )
 {
     /* data_feature_destroy( this_ );  -- not necessary */
     data_feature_init_empty( this_ );
+}
+
+static inline data_error_t data_feature_init_new ( data_feature_t *this_,
+                                                   data_feature_type_t feature_main_type,
+                                                   data_row_id_t classifier_id,
+                                                   const char* feature_key,
+                                                   const char* feature_value,
+                                                   const char* feature_description,
+                                                   int32_t list_order )
+{
+    const data_error_t result
+        = data_feature_init( this_,
+                             DATA_ROW_ID_VOID,
+                             feature_main_type,
+                             classifier_id,
+                             feature_key,
+                             feature_value,
+                             feature_description,
+                             list_order
+                           );
+    data_uuid_init_new( &((*this_).uuid) );
+    return result;
 }
 
 static inline data_error_t data_feature_init ( data_feature_t *this_,
@@ -69,6 +92,7 @@ static inline data_error_t data_feature_init ( data_feature_t *this_,
     }
 
     (*this_).list_order = list_order;
+    data_uuid_init_void( &((*this_).uuid) );
 
     return result;
 }
@@ -82,6 +106,7 @@ static inline void data_feature_copy ( data_feature_t *this_, const data_feature
     (*this_).key = utf8stringbuf_init( sizeof((*this_).private_key_buffer), (*this_).private_key_buffer );
     (*this_).value = utf8stringbuf_init( sizeof((*this_).private_value_buffer), (*this_).private_value_buffer );
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    data_uuid_copy( &((*this_).uuid), &((*original).uuid) );
 }
 
 static inline void data_feature_replace ( data_feature_t *this_, const data_feature_t *that )
@@ -93,11 +118,13 @@ static inline void data_feature_replace ( data_feature_t *this_, const data_feat
     (*this_).key = utf8stringbuf_init( sizeof((*this_).private_key_buffer), (*this_).private_key_buffer );
     (*this_).value = utf8stringbuf_init( sizeof((*this_).private_value_buffer), (*this_).private_value_buffer );
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    data_uuid_replace( &((*this_).uuid), &((*that).uuid) );
 }
 
 static inline void data_feature_destroy ( data_feature_t *this_ )
 {
     (*this_).id = DATA_ROW_ID_VOID;
+    data_uuid_destroy( &((*this_).uuid) );
 }
 
 static inline data_row_id_t data_feature_get_row_id ( const data_feature_t *this_ )
@@ -144,7 +171,7 @@ static inline void data_feature_set_main_type ( data_feature_t *this_, data_feat
     (*this_).main_type = main_type;
 }
 
-static inline const char *data_feature_get_key_ptr ( const data_feature_t *this_ )
+static inline const char *data_feature_get_key_const ( const data_feature_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).key );
 }
@@ -168,7 +195,7 @@ static inline data_error_t data_feature_set_key ( data_feature_t *this_, const c
     return result;
 }
 
-static inline const char *data_feature_get_value_ptr ( const data_feature_t *this_ )
+static inline const char *data_feature_get_value_const ( const data_feature_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).value );
 }
@@ -197,7 +224,7 @@ static inline data_error_t data_feature_set_value ( data_feature_t *this_, const
     return result;
 }
 
-static inline const char *data_feature_get_description_ptr ( const data_feature_t *this_ )
+static inline const char *data_feature_get_description_const ( const data_feature_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).description );
 }
@@ -231,6 +258,11 @@ static inline void data_feature_set_list_order ( data_feature_t *this_, int32_t 
     (*this_).list_order = list_order;
 }
 
+static inline const char *data_feature_get_uuid_const ( const data_feature_t *this_ )
+{
+    return data_uuid_get_string( &((*this_).uuid) );
+}
+
 static inline bool data_feature_is_valid ( const data_feature_t *this_ )
 {
     return ( DATA_ROW_ID_VOID != (*this_).id );
@@ -246,6 +278,7 @@ static inline void data_feature_trace ( const data_feature_t *this_ )
     TRACE_INFO_STR( "- value:", utf8stringbuf_get_string((*this_).value) );
     TRACE_INFO_STR( "- description:", utf8stringbuf_get_string((*this_).description) );
     TRACE_INFO_INT( "- list_order:", (*this_).list_order );
+    TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
 }
 
 

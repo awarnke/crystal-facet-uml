@@ -241,9 +241,9 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
     assert ( NULL != classifier_ptr );
     int export_err = 0;
 
-    const char *const classifier_name = data_classifier_get_name_ptr(classifier_ptr);
-    const char *const classifier_stereo = data_classifier_get_stereotype_ptr(classifier_ptr);
-    const char *const classifier_descr = data_classifier_get_description_ptr(classifier_ptr);
+    const char *const classifier_name = data_classifier_get_name_const(classifier_ptr);
+    const char *const classifier_stereo = data_classifier_get_stereotype_const(classifier_ptr);
+    const char *const classifier_descr = data_classifier_get_description_const(classifier_ptr);
     const size_t classifier_descr_len = utf8string_get_length(classifier_descr);
     const data_id_t classifier_id = data_classifier_get_data_id(classifier_ptr);
     const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier_ptr);
@@ -582,7 +582,7 @@ int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
     assert ( NULL != feature_ptr );
     int export_err = 0;
 
-    const char *const feature_key = data_feature_get_key_ptr( feature_ptr );
+    const char *const feature_key = data_feature_get_key_const( feature_ptr );
     const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
     const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
     const xmi_element_info_t *feature_info;
@@ -685,9 +685,9 @@ int xmi_element_writer_assemble_feature( xmi_element_writer_t *this_,
     assert ( NULL != feature_ptr );
     int export_err = 0;
 
-    const char *const feature_value = data_feature_get_value_ptr( feature_ptr );
+    const char *const feature_value = data_feature_get_value_const( feature_ptr );
     const size_t feature_value_len = utf8string_get_length(feature_value);
-    const char *const feature_descr = data_feature_get_description_ptr( feature_ptr );
+    const char *const feature_descr = data_feature_get_description_const( feature_ptr );
     const size_t feature_descr_len = utf8string_get_length(feature_descr);
     const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
     const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
@@ -795,7 +795,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
     /* NULL is allowed here: dest_classifier_ptr */
     int export_err = 0;
 
-    const char *const relation_name = data_relationship_get_name_ptr( relation_ptr );
+    const char *const relation_name = data_relationship_get_name_const( relation_ptr );
     const size_t relation_name_len = utf8string_get_length(relation_name);
     const data_id_t relation_id = data_relationship_get_data_id( relation_ptr );
     const data_relationship_type_t relation_type = data_relationship_get_main_type( relation_ptr );
@@ -981,7 +981,7 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
     int export_err = 0;
 
     const data_id_t relation_id = data_relationship_get_data_id( relation_ptr );
-    const char *const relation_descr = data_relationship_get_description_ptr( relation_ptr );
+    const char *const relation_descr = data_relationship_get_description_const( relation_ptr );
     const size_t relation_descr_len = utf8string_get_length(relation_descr);
     const data_id_t from_classifier_id = data_relationship_get_from_classifier_data_id( relation_ptr );
     const data_id_t from_feature_id = data_relationship_get_from_feature_data_id( relation_ptr );

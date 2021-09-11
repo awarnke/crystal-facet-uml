@@ -278,8 +278,8 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             data_row_id_t diag_id = data_diagram_get_row_id ( diag );
             data_row_id_t diag_parent_id = data_diagram_get_parent_row_id ( diag );
             data_diagram_type_t diag_type = data_diagram_get_diagram_type ( diag );
-            const char* diag_name = data_diagram_get_name_ptr ( diag );
-            const char* diag_description = data_diagram_get_description_ptr ( diag );
+            const char* diag_name = data_diagram_get_name_const ( diag );
+            const char* diag_description = data_diagram_get_description_const ( diag );
             int32_t diag_list_oder = data_diagram_get_list_order ( diag );
             result |= (ctrl_error_t) data_database_writer_update_diagram_parent_id ( (*this_).db_writer, diag_id, diag_parent_id, NULL );
             result |= (ctrl_error_t) data_database_writer_update_diagram_type ( (*this_).db_writer, diag_id, diag_type, NULL );
@@ -387,9 +387,9 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             }
             data_row_id_t classfy_id = data_classifier_get_row_id ( classfy );
             data_classifier_type_t classfy_main_type = data_classifier_get_main_type ( classfy );
-            const char* classfy_stereotype = data_classifier_get_stereotype_ptr ( classfy );
-            const char* classfy_name = data_classifier_get_name_ptr ( classfy );
-            const char* classfy_description = data_classifier_get_description_ptr ( classfy );
+            const char* classfy_stereotype = data_classifier_get_stereotype_const ( classfy );
+            const char* classfy_name = data_classifier_get_name_const ( classfy );
+            const char* classfy_description = data_classifier_get_description_const ( classfy );
             int32_t classfy_x_order = data_classifier_get_x_order ( classfy );
             int32_t classfy_y_order = data_classifier_get_y_order ( classfy );
             int32_t classfy_list_order = data_classifier_get_list_order ( classfy );
@@ -449,9 +449,9 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             }
             data_row_id_t feature_id = data_feature_get_row_id ( feat );
             data_feature_type_t new_feature_type = data_feature_get_main_type ( feat );
-            const char* new_feature_key = data_feature_get_key_ptr ( feat );
-            const char* new_feature_value = data_feature_get_value_ptr ( feat );
-            const char* new_feature_description = data_feature_get_description_ptr ( feat );
+            const char* new_feature_key = data_feature_get_key_const ( feat );
+            const char* new_feature_value = data_feature_get_value_const ( feat );
+            const char* new_feature_description = data_feature_get_description_const ( feat );
             int32_t new_feature_list_order = data_feature_get_list_order ( feat );
             result |= (ctrl_error_t) data_database_writer_update_feature_main_type ( (*this_).db_writer, feature_id, new_feature_type, NULL );
             result |= (ctrl_error_t) data_database_writer_update_feature_key ( (*this_).db_writer, feature_id, new_feature_key, NULL );
@@ -507,8 +507,8 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             }
             data_row_id_t relationship_id = data_relationship_get_row_id ( relation );
             data_relationship_type_t new_relationship_type = data_relationship_get_main_type ( relation );
-            const char* new_relationship_name = data_relationship_get_name_ptr ( relation );
-            const char* new_relationship_description = data_relationship_get_description_ptr ( relation );
+            const char* new_relationship_name = data_relationship_get_name_const ( relation );
+            const char* new_relationship_description = data_relationship_get_description_const ( relation );
             int32_t new_relationship_list_order = data_relationship_get_list_order ( relation );
             result |= (ctrl_error_t) data_database_writer_update_relationship_main_type ( (*this_).db_writer, relationship_id, new_relationship_type, NULL );
             result |= (ctrl_error_t) data_database_writer_update_relationship_name ( (*this_).db_writer, relationship_id, new_relationship_name, NULL );

@@ -5,6 +5,30 @@
 #include "tslog.h"
 #include <assert.h>
 
+static inline void data_classifier_init_empty ( data_classifier_t *this_ )
+{
+    (*this_).id = DATA_ROW_ID_VOID;
+    (*this_).main_type = DATA_CLASSIFIER_TYPE_BLOCK;
+
+    (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
+    utf8stringbuf_clear( (*this_).stereotype );
+    (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
+    utf8stringbuf_clear( (*this_).name );
+    (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    utf8stringbuf_clear( (*this_).description );
+
+    (*this_).x_order = 0;
+    (*this_).y_order = 0;
+    (*this_).list_order = 0;
+    data_uuid_init_void( &((*this_).uuid) );
+}
+
+static inline void data_classifier_reinit_empty ( data_classifier_t *this_ )
+{
+    /* data_classifier_destroy( this_ );  -- not necessary */
+    data_classifier_init_empty( this_ );
+}
+
 static inline data_error_t data_classifier_init_new ( data_classifier_t *this_,
                                                       data_classifier_type_t main_type,
                                                       const char* stereotype,
@@ -50,31 +74,9 @@ static inline data_error_t data_classifier_init_new ( data_classifier_t *this_,
     (*this_).x_order = x_order;
     (*this_).y_order = y_order;
     (*this_).list_order = list_order;
+    data_uuid_init_new( &((*this_).uuid) );
 
     return result;
-}
-
-static inline void data_classifier_init_empty ( data_classifier_t *this_ )
-{
-    (*this_).id = DATA_ROW_ID_VOID;
-    (*this_).main_type = DATA_CLASSIFIER_TYPE_BLOCK;
-
-    (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
-    utf8stringbuf_clear( (*this_).stereotype );
-    (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
-    utf8stringbuf_clear( (*this_).name );
-    (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
-    utf8stringbuf_clear( (*this_).description );
-
-    (*this_).x_order = 0;
-    (*this_).y_order = 0;
-    (*this_).list_order = 0;
-}
-
-static inline void data_classifier_reinit_empty ( data_classifier_t *this_ )
-{
-    /* data_classifier_destroy( this_ );  -- not necessary */
-    data_classifier_init_empty( this_ );
 }
 
 static inline data_error_t data_classifier_init ( data_classifier_t *this_,
@@ -128,6 +130,7 @@ static inline data_error_t data_classifier_init ( data_classifier_t *this_,
     (*this_).x_order = x_order;
     (*this_).y_order = y_order;
     (*this_).list_order = list_order;
+    data_uuid_init_void( &((*this_).uuid) );
 
     return result;
 }
@@ -154,6 +157,7 @@ static inline void data_classifier_copy ( data_classifier_t *this_, const data_c
     (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    data_uuid_copy( &((*this_).uuid), &((*original).uuid) );
 }
 
 static inline void data_classifier_replace ( data_classifier_t *this_, const data_classifier_t *that )
@@ -165,11 +169,13 @@ static inline void data_classifier_replace ( data_classifier_t *this_, const dat
     (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    data_uuid_replace( &((*this_).uuid), &((*that).uuid) );
 }
 
 static inline void data_classifier_destroy ( data_classifier_t *this_ )
 {
     (*this_).id = DATA_ROW_ID_VOID;
+    data_uuid_destroy( &((*this_).uuid) );
 }
 
 static inline void data_classifier_trace ( const data_classifier_t *this_ )
@@ -183,6 +189,7 @@ static inline void data_classifier_trace ( const data_classifier_t *this_ )
     TRACE_INFO_INT( "- x_order:", (*this_).x_order );
     TRACE_INFO_INT( "- y_order:", (*this_).y_order );
     TRACE_INFO_INT( "- list_order:", (*this_).list_order );
+    TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
 }
 
 static inline data_row_id_t data_classifier_get_row_id ( const data_classifier_t *this_ )
@@ -212,7 +219,7 @@ static inline void data_classifier_set_main_type ( data_classifier_t *this_, dat
     (*this_).main_type = main_type;
 }
 
-static inline const char *data_classifier_get_stereotype_ptr ( const data_classifier_t *this_ )
+static inline const char *data_classifier_get_stereotype_const ( const data_classifier_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).stereotype );
 }
@@ -242,7 +249,7 @@ static inline data_error_t data_classifier_set_stereotype ( data_classifier_t *t
     return result;
 }
 
-static inline const char *data_classifier_get_name_ptr ( const data_classifier_t *this_ )
+static inline const char *data_classifier_get_name_const ( const data_classifier_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).name );
 }
@@ -267,7 +274,7 @@ static inline data_error_t data_classifier_set_name ( data_classifier_t *this_, 
     return result;
 }
 
-static inline const char *data_classifier_get_description_ptr ( const data_classifier_t *this_ )
+static inline const char *data_classifier_get_description_const ( const data_classifier_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).description );
 }
@@ -320,6 +327,11 @@ static inline int32_t data_classifier_get_list_order ( const data_classifier_t *
 static inline void data_classifier_set_list_order ( data_classifier_t *this_, int32_t list_order )
 {
     (*this_).list_order = list_order;
+}
+
+static inline const char *data_classifier_get_uuid_const ( const data_classifier_t *this_ )
+{
+    return data_uuid_get_string( &((*this_).uuid) );
 }
 
 static inline bool data_classifier_is_valid ( const data_classifier_t *this_ )

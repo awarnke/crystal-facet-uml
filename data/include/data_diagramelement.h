@@ -12,6 +12,7 @@
 #include "data_diagramelement_flag.h"
 #include "data_id.h"
 #include "data_row_id.h"
+#include "data_uuid.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -23,8 +24,8 @@ struct data_diagramelement_struct {
     data_row_id_t diagram_id;  /*!< id of the referenced diagram_t */
     data_row_id_t classifier_id;  /*!< id of the referenced classifier_t */
     data_row_id_t focused_feature_id;  /*!< focused_feature_id is optional; -1 if not used */
-
     data_diagramelement_flag_t display_flags;  /*!< flags that influence the way how the classifier is displayed in the diagram. \see data_diagramelement_display_flag_enum */
+    data_uuid_t uuid;  /*!< universal unique identifier, needed to merge vcs-branches */
 };
 
 typedef struct data_diagramelement_struct data_diagramelement_t;
@@ -44,7 +45,7 @@ static inline void data_diagramelement_init_empty ( data_diagramelement_t *this_
 static inline void data_diagramelement_reinit_empty ( data_diagramelement_t *this_ );
 
 /*!
- *  \brief initializes the data_diagramelement_t struct
+ *  \brief initializes the data_diagramelement_t struct with id DATA_ROW_ID_VOID and a fresh uuid
  *
  *  id is initialized to DATA_ROW_ID_VOID;
  *
@@ -230,6 +231,14 @@ static inline data_diagramelement_flag_t data_diagramelement_get_display_flags (
  *  \param display_flags new attribute display_flags
  */
 static inline void data_diagramelement_set_display_flags ( data_diagramelement_t *this_, data_diagramelement_flag_t display_flags );
+
+/*!
+ *  \brief gets the universal unique identifier of this data_diagramelement_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return uuid of this object
+ */
+static inline const char *data_diagramelement_get_uuid_const ( const data_diagramelement_t *this_ );
 
 #include "data_diagramelement.inl"
 

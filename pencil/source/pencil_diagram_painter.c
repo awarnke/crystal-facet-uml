@@ -85,7 +85,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
             int text_width;
             int text_height;
             pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-            pango_layout_set_text (font_layout, data_diagram_get_name_ptr( the_diagram ), -1);
+            pango_layout_set_text (font_layout, data_diagram_get_name_const( the_diagram ), -1);
             pango_layout_get_pixel_size (font_layout, &text_width, &text_height);
             cairo_move_to ( cr, left + gap + f_tab_size, top+gap );
             pango_cairo_show_layout (cr, font_layout);

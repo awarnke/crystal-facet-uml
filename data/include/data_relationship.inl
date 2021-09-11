@@ -18,12 +18,39 @@ static inline void data_relationship_init_empty ( data_relationship_t *this_ )
     utf8stringbuf_clear( (*this_).description );
 
     (*this_).list_order = 0;
+    data_uuid_init_void( &((*this_).uuid) );
 }
 
 static inline void data_relationship_reinit_empty ( data_relationship_t *this_ )
 {
     /* data_relationship_destroy( this_ );  -- not necessary */
     data_relationship_init_empty( this_ );
+}
+
+static inline data_error_t data_relationship_init_new ( data_relationship_t *this_,
+                                                        data_relationship_type_t relationship_main_type,
+                                                        data_row_id_t from_classifier_id,
+                                                        data_row_id_t to_classifier_id,
+                                                        const char* relationship_name,
+                                                        const char* relationship_description,
+                                                        int32_t list_order,
+                                                        data_row_id_t from_feature_id,
+                                                        data_row_id_t to_feature_id )
+{
+    const data_error_t result
+        = data_relationship_init( this_,
+                                  DATA_ROW_ID_VOID,
+                                  relationship_main_type,
+                                  from_classifier_id,
+                                  to_classifier_id,
+                                  relationship_name,
+                                  relationship_description,
+                                  list_order,
+                                  from_feature_id,
+                                  to_feature_id
+                                );
+    data_uuid_init_new( &((*this_).uuid) );
+    return result;
 }
 
 static inline data_error_t data_relationship_init ( data_relationship_t *this_,
@@ -66,6 +93,7 @@ static inline data_error_t data_relationship_init ( data_relationship_t *this_,
     }
 
     (*this_).list_order = list_order;
+    data_uuid_init_void( &((*this_).uuid) );
 
     return result;
 }
@@ -78,6 +106,7 @@ static inline void data_relationship_copy ( data_relationship_t *this_, const da
     /* repair the overwritten pointers */
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    data_uuid_copy( &((*this_).uuid), &((*original).uuid) );
 }
 
 static inline void data_relationship_replace ( data_relationship_t *this_, const data_relationship_t *that )
@@ -88,11 +117,13 @@ static inline void data_relationship_replace ( data_relationship_t *this_, const
     /* repair the overwritten pointers */
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    data_uuid_replace( &((*this_).uuid), &((*that).uuid) );
 }
 
 static inline void data_relationship_destroy ( data_relationship_t *this_ )
 {
     (*this_).id = DATA_ROW_ID_VOID;
+    data_uuid_destroy( &((*this_).uuid) );
 }
 
 static inline data_row_id_t data_relationship_get_row_id ( const data_relationship_t *this_ )
@@ -190,7 +221,7 @@ static inline void data_relationship_set_main_type ( data_relationship_t *this_,
     (*this_).main_type = main_type;
 }
 
-static inline const char *data_relationship_get_name_ptr ( const data_relationship_t *this_ )
+static inline const char *data_relationship_get_name_const ( const data_relationship_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).name );
 }
@@ -214,7 +245,7 @@ static inline data_error_t data_relationship_set_name ( data_relationship_t *thi
     return result;
 }
 
-static inline const char *data_relationship_get_description_ptr ( const data_relationship_t *this_ )
+static inline const char *data_relationship_get_description_const ( const data_relationship_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).description );
 }
@@ -248,6 +279,11 @@ static inline void data_relationship_set_list_order ( data_relationship_t *this_
     (*this_).list_order = list_order;
 }
 
+static inline const char *data_relationship_get_uuid_const ( const data_relationship_t *this_ )
+{
+    return data_uuid_get_string( &((*this_).uuid) );
+}
+
 static inline bool data_relationship_is_valid ( const data_relationship_t *this_ )
 {
     return ( DATA_ROW_ID_VOID != (*this_).id );
@@ -265,6 +301,7 @@ static inline void data_relationship_trace ( const data_relationship_t *this_ )
     TRACE_INFO_INT( "- list_order:", (*this_).list_order );
     TRACE_INFO_INT( "- from_feature_id:", (*this_).from_feature_id );
     TRACE_INFO_INT( "- to_feature_id:", (*this_).to_feature_id );
+    TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
 }
 
 

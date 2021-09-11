@@ -12,6 +12,7 @@
 #include "data_feature_type.h"
 #include "data_id.h"
 #include "data_row_id.h"
+#include "data_uuid.h"
 #include "data_error.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdbool.h>
@@ -37,7 +38,6 @@ enum data_feature_max_enum {
 struct data_feature_struct {
     data_row_id_t id;
     data_row_id_t classifier_id;
-
     data_feature_type_t main_type;
     utf8stringbuf_t key;  /*!< name of the feature */
     char private_key_buffer[DATA_FEATURE_MAX_KEY_SIZE];
@@ -48,6 +48,7 @@ struct data_feature_struct {
     int32_t list_order;  /*!< For feature lists, lower values are on top.
                               For ports and interfaces, INT32_MIN/MAX is bottom-right, INT32_MIN/2 is top-right,
                               0 is top-left, INT32_MAX/2 is bottom-left */
+    data_uuid_t uuid;  /*!< universal unique identifier, needed to merge vcs-branches */
 };
 
 typedef struct data_feature_struct data_feature_t;
@@ -65,6 +66,27 @@ static inline void data_feature_init_empty ( data_feature_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 static inline void data_feature_reinit_empty ( data_feature_t *this_ );
+
+/*!
+ *  \brief initializes the data_feature_t struct with id DATA_ROW_ID_VOID and a fresh uuid
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_main_type main_type of the feature
+ *  \param classifier_id classifier_id of the feature's parent classifier
+ *  \param feature_key key/name of the feature. feature_key must not be NULL.
+ *  \param feature_value value/type of the feature. feature_value must not be NULL.
+ *  \param feature_description description of the feature. feature_description must not be NULL.
+ *  \param list_order list_order of the feature
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
+ */
+static inline data_error_t data_feature_init_new ( data_feature_t *this_,
+                                                   data_feature_type_t feature_main_type,
+                                                   data_row_id_t classifier_id,
+                                                   const char* feature_key,
+                                                   const char* feature_value,
+                                                   const char* feature_description,
+                                                   int32_t list_order
+                                                  );
 
 /*!
  *  \brief initializes the data_feature_t struct
@@ -182,7 +204,7 @@ static inline void data_feature_set_main_type ( data_feature_t *this_, data_feat
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline const char *data_feature_get_key_ptr ( const data_feature_t *this_ );
+static inline const char *data_feature_get_key_const ( const data_feature_t *this_ );
 
 /*!
  *  \brief gets the attribute key as utf8stringbuf_t
@@ -207,7 +229,7 @@ static inline data_error_t data_feature_set_key ( data_feature_t *this_, const c
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline const char *data_feature_get_value_ptr ( const data_feature_t *this_ );
+static inline const char *data_feature_get_value_const ( const data_feature_t *this_ );
 
 /*!
  *  \brief gets the attribute value as utf8stringbuf_t
@@ -240,7 +262,7 @@ static inline data_error_t data_feature_set_value ( data_feature_t *this_, const
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline const char *data_feature_get_description_ptr ( const data_feature_t *this_ );
+static inline const char *data_feature_get_description_const ( const data_feature_t *this_ );
 
 /*!
  *  \brief gets the attribute description as utf8stringbuf_t
@@ -274,6 +296,14 @@ static inline int32_t data_feature_get_list_order ( const data_feature_t *this_ 
  *  \param list_order new list_order of this object
  */
 static inline void data_feature_set_list_order ( data_feature_t *this_, int32_t list_order );
+
+/*!
+ *  \brief gets the universal unique identifier of this data_feature_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return uuid of this object
+ */
+static inline const char *data_feature_get_uuid_const ( const data_feature_t *this_ );
 
 /*!
  *  \brief checks if attribute id is not DATA_ROW_ID_VOID

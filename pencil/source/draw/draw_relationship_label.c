@@ -97,11 +97,11 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
         /* calc name text dimensions */
         int text2_height = 0;
         int text2_width = 0;
-        if ( 0 != utf8string_get_length( data_relationship_get_name_ptr( relationship ) ))
+        if ( 0 != utf8string_get_length( data_relationship_get_name_const( relationship ) ))
         {
             pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
             pango_layout_set_text( font_layout,
-                                   data_relationship_get_name_ptr( relationship ),
+                                   data_relationship_get_name_const( relationship ),
                                    DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH
                                  );
             pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
@@ -203,13 +203,13 @@ void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_
     }
 
     /* draw name text */
-    if ( 0 != utf8string_get_length( data_relationship_get_name_ptr( relationship ) ))
+    if ( 0 != utf8string_get_length( data_relationship_get_name_const( relationship ) ))
     {
         int text2_height;
         int text2_width;
         pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
         pango_layout_set_text( font_layout,
-                               data_relationship_get_name_ptr( relationship ),
+                               data_relationship_get_name_const( relationship ),
                                DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH
                              );
         pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);

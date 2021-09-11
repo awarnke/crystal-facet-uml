@@ -548,7 +548,7 @@ int io_exporter_private_get_filename_for_diagram( io_exporter_t *this_,
     else
     {
         const char *diag_name;
-        diag_name = data_diagram_get_name_ptr( &((*this_).temp_diagram) );
+        diag_name = data_diagram_get_name_const( &((*this_).temp_diagram) );
 
         /* determine filename */
         data_id_to_utf8stringbuf( &diagram_id, filename );

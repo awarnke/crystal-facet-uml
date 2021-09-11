@@ -542,7 +542,7 @@ int io_format_writer_write_toc_entry ( io_format_writer_t *this_, const data_dia
     {
         case IO_FILE_FORMAT_XHTML:
         {
-            const char *const diag_name = data_diagram_get_name_ptr(diag_ptr);
+            const char *const diag_name = data_diagram_get_name_const(diag_ptr);
             const data_id_t diag_id = data_diagram_get_data_id(diag_ptr);
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_ENTRY_TITLE_START );
@@ -683,8 +683,8 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
     assert ( NULL != diagram_file_base_name );
     int export_err = 0;
 
-    const char *const diag_name = data_diagram_get_name_ptr( diag_ptr );
-    const char *const diag_description = data_diagram_get_description_ptr( diag_ptr );
+    const char *const diag_name = data_diagram_get_name_const( diag_ptr );
+    const char *const diag_description = data_diagram_get_description_const( diag_ptr );
     const data_id_t diag_id = data_diagram_get_data_id(diag_ptr);
 
     switch ( (*this_).export_type )
@@ -806,8 +806,8 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
     assert ( NULL != classifier_ptr );
     int export_err = 0;
 
-    const char *const classifier_name = data_classifier_get_name_ptr(classifier_ptr);
-    const char *const classifier_descr = data_classifier_get_description_ptr(classifier_ptr);
+    const char *const classifier_name = data_classifier_get_name_const(classifier_ptr);
+    const char *const classifier_descr = data_classifier_get_description_const(classifier_ptr);
     const size_t classifier_descr_len = utf8string_get_length(classifier_descr);
     const data_id_t classifier_id = data_classifier_get_data_id(classifier_ptr);
 
@@ -895,10 +895,10 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
     assert ( NULL != feature_ptr );
     int export_err = 0;
 
-    const char *const feature_key = data_feature_get_key_ptr( feature_ptr );
-    const char *const feature_value = data_feature_get_value_ptr( feature_ptr );
+    const char *const feature_key = data_feature_get_key_const( feature_ptr );
+    const char *const feature_value = data_feature_get_value_const( feature_ptr );
     const size_t feature_value_len = utf8string_get_length(feature_value);
-    const char *const feature_descr = data_feature_get_description_ptr( feature_ptr );
+    const char *const feature_descr = data_feature_get_description_const( feature_ptr );
     const size_t feature_descr_len = utf8string_get_length(feature_descr);
     const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
 
@@ -1009,13 +1009,13 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
     /* NULL is allowed here: dest_classifier_ptr */
     int export_err = 0;
 
-    const char *const relation_name = data_relationship_get_name_ptr( relation_ptr );
+    const char *const relation_name = data_relationship_get_name_const( relation_ptr );
     const data_id_t relation_id = data_relationship_get_data_id( relation_ptr );
-    const char *const relation_descr = data_relationship_get_description_ptr( relation_ptr );
+    const char *const relation_descr = data_relationship_get_description_const( relation_ptr );
     const size_t relation_descr_len = utf8string_get_length(relation_descr);
     const char *const dest_classifier_name
         = (NULL != dest_classifier_ptr)
-        ? data_classifier_get_name_ptr( dest_classifier_ptr )
+        ? data_classifier_get_name_const( dest_classifier_ptr )
         : "";
 
     switch ( (*this_).export_type )

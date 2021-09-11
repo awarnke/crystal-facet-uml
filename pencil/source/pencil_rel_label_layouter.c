@@ -116,7 +116,7 @@ void pencil_rel_label_layouter_private_propose_processing_order ( pencil_rel_lab
         int64_t simpleness = 0;
 
         /* determine simpleness by length of label */
-        simpleness -= utf8string_get_length( data_relationship_get_name_ptr( relation_data ) );
+        simpleness -= utf8string_get_length( data_relationship_get_name_const( relation_data ) );
 
         /* insert relation to sorted array, the simpler the more to the back */
         if (( PENCIL_VISIBILITY_SHOW == layout_relationship_get_visibility ( current_relation ) )

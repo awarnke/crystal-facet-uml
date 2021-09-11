@@ -54,8 +54,8 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
     assert ( NULL != diagram_ptr );
     int export_err = 0;
 
-    const char *const diagram_name = data_diagram_get_name_ptr(diagram_ptr);
-    const char *const diagram_descr = data_diagram_get_description_ptr(diagram_ptr);
+    const char *const diagram_name = data_diagram_get_name_const(diagram_ptr);
+    const char *const diagram_descr = data_diagram_get_description_const(diagram_ptr);
     const size_t diagram_descr_len = utf8string_get_length(diagram_descr);
     const data_id_t diagram_id = data_diagram_get_data_id(diagram_ptr);
 
@@ -233,7 +233,7 @@ int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this
     int export_err = 0;
 
     const data_id_t relation_id = data_relationship_get_data_id( relation_ptr );
-    const char *const relation_descr = data_relationship_get_description_ptr( relation_ptr );
+    const char *const relation_descr = data_relationship_get_description_const( relation_ptr );
     const size_t relation_descr_len = utf8string_get_length(relation_descr);
     const data_id_t from_classifier_id = data_relationship_get_from_classifier_data_id( relation_ptr );
     const data_id_t from_feature_id = data_relationship_get_from_feature_data_id( relation_ptr );

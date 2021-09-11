@@ -195,7 +195,7 @@ data_error_t json_serializer_append_classifier ( json_serializer_t *this_,
                                             JSON_CONSTANTS_QUOTE );
         out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
         strerr |= utf8stringbuf_append_str( out,
-                                            data_classifier_get_stereotype_ptr( object ));
+                                            data_classifier_get_stereotype_const( object ));
         strerr |= utf8stringbuf_replace_all( out,
                                              &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
         strerr |= utf8stringbuf_append_str( out,
@@ -216,7 +216,7 @@ data_error_t json_serializer_append_classifier ( json_serializer_t *this_,
                                             JSON_CONSTANTS_QUOTE );
         out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
         strerr |= utf8stringbuf_append_str( out,
-                                            data_classifier_get_name_ptr( object ));
+                                            data_classifier_get_name_const( object ));
         strerr |= utf8stringbuf_replace_all( out,
                                              &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
         strerr |= utf8stringbuf_append_str( out,
@@ -237,7 +237,7 @@ data_error_t json_serializer_append_classifier ( json_serializer_t *this_,
                                             JSON_CONSTANTS_QUOTE );
         out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
         strerr |= utf8stringbuf_append_str( out,
-                                            data_classifier_get_description_ptr( object ));
+                                            data_classifier_get_description_const( object ));
         strerr |= utf8stringbuf_replace_all( out,
                                              &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
         strerr |= utf8stringbuf_append_str( out,
@@ -442,7 +442,7 @@ data_error_t json_serializer_append_diagram ( json_serializer_t *this_, data_dia
                                             JSON_CONSTANTS_QUOTE );
         out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
         strerr |= utf8stringbuf_append_str( out,
-                                            data_diagram_get_name_ptr( object ));
+                                            data_diagram_get_name_const( object ));
         strerr |= utf8stringbuf_replace_all( out,
                                              &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
         strerr |= utf8stringbuf_append_str( out,
@@ -463,7 +463,7 @@ data_error_t json_serializer_append_diagram ( json_serializer_t *this_, data_dia
                                             JSON_CONSTANTS_QUOTE );
         out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
         strerr |= utf8stringbuf_append_str( out,
-                                            data_diagram_get_description_ptr( object ));
+                                            data_diagram_get_description_const( object ));
         strerr |= utf8stringbuf_replace_all( out,
                                              &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
         strerr |= utf8stringbuf_append_str( out,
@@ -605,7 +605,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
                                             JSON_CONSTANTS_QUOTE );
         out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
         strerr |= utf8stringbuf_append_str( out,
-                                            data_relationship_get_name_ptr( object ));
+                                            data_relationship_get_name_const( object ));
         strerr |= utf8stringbuf_replace_all( out,
                                              &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
         strerr |= utf8stringbuf_append_str( out,
@@ -626,7 +626,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
                                             JSON_CONSTANTS_QUOTE );
         out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
         strerr |= utf8stringbuf_append_str( out,
-                                            data_relationship_get_description_ptr( object ));
+                                            data_relationship_get_description_const( object ));
         strerr |= utf8stringbuf_replace_all( out,
                                              &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
         strerr |= utf8stringbuf_append_str( out,
@@ -679,7 +679,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
                                             JSON_CONSTANTS_QUOTE );
         out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
         strerr |= utf8stringbuf_append_str( out,
-                                            data_classifier_get_name_ptr( from_clas ));
+                                            data_classifier_get_name_const( from_clas ));
         strerr |= utf8stringbuf_replace_all( out,
                                              &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
         strerr |= utf8stringbuf_append_str( out,
@@ -716,7 +716,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
                                             JSON_CONSTANTS_QUOTE );
         out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
         strerr |= utf8stringbuf_append_str( out,
-                                            data_classifier_get_name_ptr( to_clas ));
+                                            data_classifier_get_name_const( to_clas ));
         strerr |= utf8stringbuf_replace_all( out,
                                              &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
         strerr |= utf8stringbuf_append_str( out,
@@ -756,7 +756,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
                                                 JSON_CONSTANTS_QUOTE );
             out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
             strerr |= utf8stringbuf_append_str( out,
-                                                data_feature_get_key_ptr( from_feat ));
+                                                data_feature_get_key_const( from_feat ));
             strerr |= utf8stringbuf_replace_all( out,
                                                  &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
             strerr |= utf8stringbuf_append_str( out,
@@ -797,7 +797,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
                                                 JSON_CONSTANTS_QUOTE );
             out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
             strerr |= utf8stringbuf_append_str( out,
-                                                data_feature_get_key_ptr( to_feat ));
+                                                data_feature_get_key_const( to_feat ));
             strerr |= utf8stringbuf_replace_all( out,
                                                  &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
             strerr |= utf8stringbuf_append_str( out,
@@ -898,7 +898,7 @@ utf8error_t json_serializer_private_append_feature ( json_serializer_t *this_, d
                                         JSON_CONSTANTS_QUOTE );
     out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
     strerr |= utf8stringbuf_append_str( out,
-                                        data_feature_get_key_ptr( object ));
+                                        data_feature_get_key_const( object ));
     strerr |= utf8stringbuf_replace_all( out,
                                          &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
     strerr |= utf8stringbuf_append_str( out,
@@ -921,7 +921,7 @@ utf8error_t json_serializer_private_append_feature ( json_serializer_t *this_, d
                                         JSON_CONSTANTS_QUOTE );
     out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
     strerr |= utf8stringbuf_append_str( out,
-                                        data_feature_get_value_ptr( object ));
+                                        data_feature_get_value_const( object ));
     strerr |= utf8stringbuf_replace_all( out,
                                          &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
     strerr |= utf8stringbuf_append_str( out,
@@ -944,7 +944,7 @@ utf8error_t json_serializer_private_append_feature ( json_serializer_t *this_, d
                                         JSON_CONSTANTS_QUOTE );
     out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
     strerr |= utf8stringbuf_append_str( out,
-                                        data_feature_get_description_ptr( object ));
+                                        data_feature_get_description_const( object ));
     strerr |= utf8stringbuf_replace_all( out,
                                          &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
     strerr |= utf8stringbuf_append_str( out,

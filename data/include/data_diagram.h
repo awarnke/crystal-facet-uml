@@ -12,6 +12,7 @@
 #include "data_diagram_type.h"
 #include "data_id.h"
 #include "data_row_id.h"
+#include "data_uuid.h"
 #include "data_error.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdbool.h>
@@ -33,19 +34,33 @@ enum data_diagram_max_enum {
 struct data_diagram_struct {
     data_row_id_t id;
     data_row_id_t parent_id;
-
     data_diagram_type_t diagram_type;
     utf8stringbuf_t name;
     char private_name_buffer[DATA_DIAGRAM_MAX_NAME_SIZE];
     utf8stringbuf_t description;
     char private_description_buffer[DATA_DIAGRAM_MAX_DESCRIPTION_SIZE];
     int32_t list_order;
+    data_uuid_t uuid;  /*!< universal unique identifier, needed to merge vcs-branches */
 };
 
 typedef struct data_diagram_struct data_diagram_t;
 
 /*!
- *  \brief initializes the data_diagram_t struct with id DATA_ROW_ID_VOID
+ *  \brief initializes the data_diagram_t struct with id and parent_id DATA_ROW_ID_VOID; all other values are zero.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void data_diagram_init_empty ( data_diagram_t *this_ );
+
+/*!
+ *  \brief re-initializes the data_diagram_t struct with id and parent_id DATA_ROW_ID_VOID; all other values are zero.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void data_diagram_reinit_empty ( data_diagram_t *this_ );
+
+/*!
+ *  \brief initializes the data_diagram_t struct with id DATA_ROW_ID_VOID and a fresh uuid
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_diagram_id id of the parent diagram
@@ -62,20 +77,6 @@ static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
                                                    const char* diagram_description,
                                                    int32_t list_order
                                                  );
-
-/*!
- *  \brief initializes the data_diagram_t struct with id and parent_id DATA_ROW_ID_VOID; all other values are zero.
- *
- *  \param this_ pointer to own object attributes
- */
-static inline void data_diagram_init_empty ( data_diagram_t *this_ );
-
-/*!
- *  \brief re-initializes the data_diagram_t struct with id and parent_id DATA_ROW_ID_VOID; all other values are zero.
- *
- *  \param this_ pointer to own object attributes
- */
-static inline void data_diagram_reinit_empty ( data_diagram_t *this_ );
 
 /*!
  *  \brief initializes the data_diagram_t struct
@@ -197,7 +198,7 @@ static inline void data_diagram_set_diagram_type ( data_diagram_t *this_, data_d
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline const char *data_diagram_get_name_ptr ( const data_diagram_t *this_ );
+static inline const char *data_diagram_get_name_const ( const data_diagram_t *this_ );
 
 /*!
  *  \brief gets the attribute name as utf8stringbuf_t
@@ -222,7 +223,7 @@ static inline data_error_t data_diagram_set_name ( data_diagram_t *this_, const 
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline const char *data_diagram_get_description_ptr ( const data_diagram_t *this_ );
+static inline const char *data_diagram_get_description_const ( const data_diagram_t *this_ );
 
 /*!
  *  \brief gets the attribute description as utf8stringbuf_t
@@ -256,6 +257,14 @@ static inline int32_t data_diagram_get_list_order ( const data_diagram_t *this_ 
  *  \param list_order new list_order of this object
  */
 static inline void data_diagram_set_list_order ( data_diagram_t *this_, int32_t list_order );
+
+/*!
+ *  \brief gets the universal unique identifier of this data_diagram_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return uuid of this object
+ */
+static inline const char *data_diagram_get_uuid_const ( const data_diagram_t *this_ );
 
 /*!
  *  \brief checks if attribute id is not DATA_ROW_ID_VOID

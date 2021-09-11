@@ -12,6 +12,7 @@
 #include "data_relationship_type.h"
 #include "data_id.h"
 #include "data_row_id.h"
+#include "data_uuid.h"
 #include "data_error.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdint.h>
@@ -38,13 +39,13 @@ struct data_relationship_struct {
     data_row_id_t from_feature_id;  /*!< from_classifier_id is the master, from_feature_id is an optional information; DATA_ROW_ID_VOID if not used */
     data_row_id_t to_classifier_id;
     data_row_id_t to_feature_id;  /*!< from_classifier_id is the master, from_feature_id is an optional information; DATA_ROW_ID_VOID if not used */
-
     data_relationship_type_t main_type;
     utf8stringbuf_t name;
     char private_name_buffer[DATA_RELATIONSHIP_MAX_NAME_SIZE];
     utf8stringbuf_t description;
     char private_description_buffer[DATA_RELATIONSHIP_MAX_DESCRIPTION_SIZE];
     int32_t list_order;
+    data_uuid_t uuid;  /*!< universal unique identifier, needed to merge vcs-branches */
 };
 
 typedef struct data_relationship_struct data_relationship_t;
@@ -62,6 +63,32 @@ static inline void data_relationship_init_empty ( data_relationship_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 static inline void data_relationship_reinit_empty ( data_relationship_t *this_ );
+
+
+/*!
+ *  \brief initializes the data_relationship_t struct with id DATA_ROW_ID_VOID and a fresh uuid
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param relationship_main_type type of the relationship
+ *  \param from_classifier_id id of the source classifier
+ *  \param to_classifier_id id of the destination classifier
+ *  \param relationship_name name of the relationship. relationship_name must not be NULL.
+ *  \param relationship_description description of the relationship. relationship_description must not be NULL.
+ *  \param list_order list_order of the relationship
+ *  \param from_feature_id id of the source feature if the relationship starts at a feature, DATA_ROW_ID_VOID otherwise
+ *  \param to_feature_id id of the destination feature if the relationship ends at a feature, DATA_ROW_ID_VOID otherwise
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
+ */
+static inline data_error_t data_relationship_init_new ( data_relationship_t *this_,
+                                                        data_relationship_type_t relationship_main_type,
+                                                        data_row_id_t from_classifier_id,
+                                                        data_row_id_t to_classifier_id,
+                                                        const char* relationship_name,
+                                                        const char* relationship_description,
+                                                        int32_t list_order,
+                                                        data_row_id_t from_feature_id,
+                                                        data_row_id_t to_feature_id
+                                                      );
 
 /*!
  *  \brief initializes the data_relationship_t struct
@@ -255,7 +282,7 @@ static inline void data_relationship_set_main_type ( data_relationship_t *this_,
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline const char *data_relationship_get_name_ptr ( const data_relationship_t *this_ );
+static inline const char *data_relationship_get_name_const ( const data_relationship_t *this_ );
 
 /*!
  *  \brief gets the attribute name as utf8stringbuf_t
@@ -280,7 +307,7 @@ static inline data_error_t data_relationship_set_name ( data_relationship_t *thi
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline const char *data_relationship_get_description_ptr ( const data_relationship_t *this_ );
+static inline const char *data_relationship_get_description_const ( const data_relationship_t *this_ );
 
 /*!
  *  \brief gets the attribute description as utf8stringbuf_t
@@ -314,6 +341,14 @@ static inline int32_t data_relationship_get_list_order ( const data_relationship
  *  \param list_order new list_order of this object
  */
 static inline void data_relationship_set_list_order ( data_relationship_t *this_, int32_t list_order );
+
+/*!
+ *  \brief gets the universal unique identifier of this data_relationship_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return uuid of this object
+ */
+static inline const char *data_relationship_get_uuid_const ( const data_relationship_t *this_ );
 
 /*!
  *  \brief checks if attribute id is not DATA_ROW_ID_VOID

@@ -4,6 +4,27 @@
 #include "tslog.h"
 #include <assert.h>
 
+static inline void data_diagram_init_empty ( data_diagram_t *this_ )
+{
+    (*this_).id = DATA_ROW_ID_VOID;
+    (*this_).parent_id = DATA_ROW_ID_VOID;
+    (*this_).diagram_type = DATA_DIAGRAM_TYPE_LIST;
+
+    (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
+    utf8stringbuf_clear( (*this_).name );
+    (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    utf8stringbuf_clear( (*this_).description );
+
+    (*this_).list_order = 0;
+    data_uuid_init_void( &((*this_).uuid) );
+}
+
+static inline void data_diagram_reinit_empty ( data_diagram_t *this_ )
+{
+    /* data_diagram_destroy( this_ );  -- not necessary */
+    data_diagram_init_empty( this_ );
+}
+
 static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
                                                    data_row_id_t parent_diagram_id,
                                                    data_diagram_type_t diagram_type,
@@ -37,28 +58,9 @@ static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
     }
 
     (*this_).list_order = list_order;
+    data_uuid_init_new( &((*this_).uuid) );
 
     return result;
-}
-
-static inline void data_diagram_init_empty ( data_diagram_t *this_ )
-{
-    (*this_).id = DATA_ROW_ID_VOID;
-    (*this_).parent_id = DATA_ROW_ID_VOID;
-    (*this_).diagram_type = DATA_DIAGRAM_TYPE_LIST;
-
-    (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
-    utf8stringbuf_clear( (*this_).name );
-    (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
-    utf8stringbuf_clear( (*this_).description );
-
-    (*this_).list_order = 0;
-}
-
-static inline void data_diagram_reinit_empty ( data_diagram_t *this_ )
-{
-    /* data_diagram_destroy( this_ );  -- not necessary */
-    data_diagram_init_empty( this_ );
 }
 
 static inline data_error_t data_diagram_init ( data_diagram_t *this_,
@@ -99,6 +101,7 @@ static inline data_error_t data_diagram_init ( data_diagram_t *this_,
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
     (*this_).list_order = list_order;
+    data_uuid_init_void( &((*this_).uuid) );
 
     return result;
 }
@@ -111,6 +114,7 @@ static inline void data_diagram_copy ( data_diagram_t *this_, const data_diagram
     /* repair the overwritten pointers */
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    data_uuid_copy( &((*this_).uuid), &((*original).uuid) );
 }
 
 static inline void data_diagram_replace ( data_diagram_t *this_, const data_diagram_t *that )
@@ -121,12 +125,14 @@ static inline void data_diagram_replace ( data_diagram_t *this_, const data_diag
     /* repair the overwritten pointers */
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    data_uuid_replace( &((*this_).uuid), &((*that).uuid) );
 }
 
 static inline void data_diagram_destroy ( data_diagram_t *this_ )
 {
     (*this_).id = DATA_ROW_ID_VOID;
     (*this_).parent_id = DATA_ROW_ID_VOID;
+    data_uuid_destroy( &((*this_).uuid) );
 }
 
 static inline void data_diagram_trace ( const data_diagram_t *this_ )
@@ -138,6 +144,7 @@ static inline void data_diagram_trace ( const data_diagram_t *this_ )
     TRACE_INFO_STR( "- name:", utf8stringbuf_get_string((*this_).name) );
     TRACE_INFO_STR( "- description:", utf8stringbuf_get_string((*this_).description) );
     TRACE_INFO_INT( "- list_order:", (*this_).list_order );
+    TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
 }
 
 static inline data_row_id_t data_diagram_get_row_id ( const data_diagram_t *this_ )
@@ -184,7 +191,7 @@ static inline void data_diagram_set_diagram_type ( data_diagram_t *this_, data_d
     (*this_).diagram_type = diagram_type;
 }
 
-static inline const char *data_diagram_get_name_ptr ( const data_diagram_t *this_ )
+static inline const char *data_diagram_get_name_const ( const data_diagram_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).name );
 }
@@ -208,7 +215,7 @@ static inline data_error_t data_diagram_set_name ( data_diagram_t *this_, const 
     return result;
 }
 
-static inline const char *data_diagram_get_description_ptr ( const data_diagram_t *this_ )
+static inline const char *data_diagram_get_description_const ( const data_diagram_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).description );
 }
@@ -240,6 +247,11 @@ static inline int32_t data_diagram_get_list_order ( const data_diagram_t *this_ 
 static inline void data_diagram_set_list_order ( data_diagram_t *this_, int32_t list_order )
 {
     (*this_).list_order = list_order;
+}
+
+static inline const char *data_diagram_get_uuid_const ( const data_diagram_t *this_ )
+{
+    return data_uuid_get_string( &((*this_).uuid) );
 }
 
 static inline bool data_diagram_is_valid ( const data_diagram_t *this_ )

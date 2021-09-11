@@ -386,7 +386,7 @@ void gui_sketch_nav_tree_private_layout_node ( gui_sketch_nav_tree_t *this_,
     {
         int_fast32_t proposed_pango_width = width - indent - shape_int_rectangle_get_width(icon_box) - (4*OBJ_GAP);
         pango_layout_set_text( font_layout,
-                               data_diagram_get_name_ptr( data_or_null ),
+                               data_diagram_get_name_const( data_or_null ),
                                GUI_SKETCH_NAV_TREE_PANGO_AUTO_DETECT_LENGTH
                              );
         pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE );
@@ -639,7 +639,7 @@ void gui_sketch_nav_tree_private_draw_node( gui_sketch_nav_tree_t *this_,
     if ( diag_or_null != NULL )
     {
         /* what to draw */
-        const char *const label = data_diagram_get_name_ptr( diag_or_null );
+        const char *const label = data_diagram_get_name_const( diag_or_null );
 
         /* where to draw to */
         const shape_int_rectangle_t *const label_box

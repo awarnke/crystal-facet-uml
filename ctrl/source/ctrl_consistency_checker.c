@@ -147,7 +147,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_
             utf8stringbuf_append_str( out_report, "    INFO: Root diagram: " );
             utf8stringbuf_append_int( out_report, data_diagram_get_row_id( &((*this_).temp_diagram_buffer[list_pos]) ) );
             utf8stringbuf_append_str( out_report, ": " );
-            utf8stringbuf_append_str( out_report, data_diagram_get_name_ptr( &((*this_).temp_diagram_buffer[list_pos]) ) );
+            utf8stringbuf_append_str( out_report, data_diagram_get_name_const( &((*this_).temp_diagram_buffer[list_pos]) ) );
             utf8stringbuf_append_str( out_report, "\n" );
         }
         if ( out_diagram_count == 0 )

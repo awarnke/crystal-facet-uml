@@ -743,7 +743,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
         case DATA_TABLE_CLASSIFIER:
         {
             const char* unchanged_text;
-            unchanged_text = data_classifier_get_name_ptr( &((*this_).private_classifier_cache) );
+            unchanged_text = data_classifier_get_name_const( &((*this_).private_classifier_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_classifier_controller_t *class_ctrl;
@@ -784,7 +784,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
         case DATA_TABLE_FEATURE:
         {
             const char* unchanged_text;
-            unchanged_text = data_feature_get_key_ptr( &((*this_).private_feature_cache) );
+            unchanged_text = data_feature_get_key_const( &((*this_).private_feature_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_classifier_controller_t *class_ctrl;
@@ -817,7 +817,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
         case DATA_TABLE_RELATIONSHIP:
         {
             const char* unchanged_text;
-            unchanged_text = data_relationship_get_name_ptr( &((*this_).private_relationship_cache) );
+            unchanged_text = data_relationship_get_name_const( &((*this_).private_relationship_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_classifier_controller_t *class_ctrl;
@@ -857,7 +857,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
         case DATA_TABLE_DIAGRAM:
         {
             const char* unchanged_text;
-            unchanged_text = data_diagram_get_name_ptr( &((*this_).private_diagram_cache) );
+            unchanged_text = data_diagram_get_name_const( &((*this_).private_diagram_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_diagram_controller_t *diag_ctrl;
@@ -921,7 +921,7 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
         case DATA_TABLE_CLASSIFIER:
         {
             const char* unchanged_text;
-            unchanged_text = data_classifier_get_stereotype_ptr( &((*this_).private_classifier_cache) );
+            unchanged_text = data_classifier_get_stereotype_const( &((*this_).private_classifier_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_classifier_controller_t *class_ctrl;
@@ -954,7 +954,7 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
         case DATA_TABLE_FEATURE:
         {
             const char* unchanged_text;
-            unchanged_text = data_feature_get_value_ptr( &((*this_).private_feature_cache) );
+            unchanged_text = data_feature_get_value_const( &((*this_).private_feature_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_classifier_controller_t *class_ctrl;
@@ -1181,7 +1181,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
         case DATA_TABLE_CLASSIFIER:
         {
             const char* unchanged_text;
-            unchanged_text = data_classifier_get_description_ptr( &((*this_).private_classifier_cache) );
+            unchanged_text = data_classifier_get_description_const( &((*this_).private_classifier_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_classifier_controller_t *class_ctrl;
@@ -1214,7 +1214,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
         case DATA_TABLE_FEATURE:
         {
             const char* unchanged_text;
-            unchanged_text = data_feature_get_description_ptr( &((*this_).private_feature_cache) );
+            unchanged_text = data_feature_get_description_const( &((*this_).private_feature_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_classifier_controller_t *class_ctrl;
@@ -1247,7 +1247,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
         case DATA_TABLE_RELATIONSHIP:
         {
             const char* unchanged_text;
-            unchanged_text = data_relationship_get_description_ptr( &((*this_).private_relationship_cache) );
+            unchanged_text = data_relationship_get_description_const( &((*this_).private_relationship_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_classifier_controller_t *class_ctrl;
@@ -1287,7 +1287,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
         case DATA_TABLE_DIAGRAM:
         {
             const char* unchanged_text;
-            unchanged_text = data_diagram_get_description_ptr( &((*this_).private_diagram_cache) );
+            unchanged_text = data_diagram_get_description_const( &((*this_).private_diagram_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_diagram_controller_t *diag_ctrl;
@@ -1369,7 +1369,7 @@ void gui_attributes_editor_private_name_update_view ( gui_attributes_editor_t *t
             gtk_widget_show ( GTK_WIDGET ( name_widget ) );
 
             const char* text;
-            text = data_classifier_get_name_ptr( &((*this_).private_classifier_cache) );
+            text = data_classifier_get_name_const( &((*this_).private_classifier_cache) );
             gtk_entry_set_text( GTK_ENTRY ( name_widget ), text );
         }
         break;
@@ -1379,7 +1379,7 @@ void gui_attributes_editor_private_name_update_view ( gui_attributes_editor_t *t
             gtk_widget_show ( GTK_WIDGET ( name_widget ) );
 
             const char* text;
-            text = data_feature_get_key_ptr( &((*this_).private_feature_cache) );
+            text = data_feature_get_key_const( &((*this_).private_feature_cache) );
             gtk_entry_set_text( GTK_ENTRY ( name_widget ), text );
         }
         break;
@@ -1389,7 +1389,7 @@ void gui_attributes_editor_private_name_update_view ( gui_attributes_editor_t *t
             gtk_widget_show ( GTK_WIDGET ( name_widget ) );
 
             const char* text;
-            text = data_relationship_get_name_ptr( &((*this_).private_relationship_cache) );
+            text = data_relationship_get_name_const( &((*this_).private_relationship_cache) );
             gtk_entry_set_text( GTK_ENTRY ( name_widget ), text );
         }
         break;
@@ -1405,7 +1405,7 @@ void gui_attributes_editor_private_name_update_view ( gui_attributes_editor_t *t
             gtk_widget_show ( GTK_WIDGET ( name_widget ) );
 
             const char* text;
-            text = data_diagram_get_name_ptr( &((*this_).private_diagram_cache) );
+            text = data_diagram_get_name_const( &((*this_).private_diagram_cache) );
             gtk_entry_set_text( GTK_ENTRY ( name_widget ), text );
         }
         break;
@@ -1444,7 +1444,7 @@ void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_edito
             gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), true );
 
             const char* text;
-            text = data_classifier_get_stereotype_ptr( &((*this_).private_classifier_cache) );
+            text = data_classifier_get_stereotype_const( &((*this_).private_classifier_cache) );
             gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), text );
         }
         break;
@@ -1455,7 +1455,7 @@ void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_edito
             gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), true );
 
             const char* text;
-            text = data_feature_get_value_ptr( &((*this_).private_feature_cache) );
+            text = data_feature_get_value_const( &((*this_).private_feature_cache) );
             gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), text );
         }
         break;
@@ -1657,7 +1657,7 @@ void gui_attributes_editor_private_description_update_view ( gui_attributes_edit
             gtk_widget_show ( GTK_WIDGET ( description_widget ) );
 
             const char* text;
-            text = data_classifier_get_description_ptr( &((*this_).private_classifier_cache) );
+            text = data_classifier_get_description_const( &((*this_).private_classifier_cache) );
             gtk_text_buffer_set_text ( buffer, text, -1 /*len*/ );
         }
         break;
@@ -1667,7 +1667,7 @@ void gui_attributes_editor_private_description_update_view ( gui_attributes_edit
             gtk_widget_show ( GTK_WIDGET ( description_widget ) );
 
             const char* text;
-            text = data_feature_get_description_ptr( &((*this_).private_feature_cache) );
+            text = data_feature_get_description_const( &((*this_).private_feature_cache) );
             gtk_text_buffer_set_text ( buffer, text, -1 /*len*/ );
         }
         break;
@@ -1677,7 +1677,7 @@ void gui_attributes_editor_private_description_update_view ( gui_attributes_edit
             gtk_widget_show ( GTK_WIDGET ( description_widget ) );
 
             const char* text;
-            text = data_relationship_get_description_ptr( &((*this_).private_relationship_cache) );
+            text = data_relationship_get_description_const( &((*this_).private_relationship_cache) );
             gtk_text_buffer_set_text ( buffer, text, -1 /*len*/ );
         }
         break;
@@ -1693,7 +1693,7 @@ void gui_attributes_editor_private_description_update_view ( gui_attributes_edit
             gtk_widget_show ( GTK_WIDGET ( description_widget ) );
 
             const char* text;
-            text = data_diagram_get_description_ptr( &((*this_).private_diagram_cache) );
+            text = data_diagram_get_description_const( &((*this_).private_diagram_cache) );
             gtk_text_buffer_set_text ( buffer, text, -1 /*len*/ );
         }
         break;

@@ -52,19 +52,20 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
 
     /* get classifier controller */
     ctrl_classifier_controller_t *classifier_control;
-    classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+    classifier_control = ctrl_controller_get_classifier_control_ptr( (*this_).controller );
 
     /* get diagram controller */
     ctrl_diagram_controller_t *diagram_control;
-    diagram_control = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
+    diagram_control = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
 
     /* get type of diagram */
     data_diagram_type_t diag_type = DATA_DIAGRAM_TYPE_LIST;
     {
-        data_error_t diag_err;
-        diag_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader,
-                                                            diagram_id,
-                                                            &((*this_).private_temp_diagram) );
+        const data_error_t diag_err
+            = data_database_reader_get_diagram_by_id( (*this_).db_reader,
+                                                      diagram_id,
+                                                      &((*this_).private_temp_diagram)
+                                                    );
         if ( DATA_ERROR_NONE == diag_err )
         {
             diag_type = data_diagram_get_diagram_type( &((*this_).private_temp_diagram) );
@@ -95,10 +96,11 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
             utf8stringbuf_append_int( full_new_name, my_counter+search_step );
 
             /* check if that name is already in use */
-            data_error_t exists_err;
-            exists_err = data_database_reader_get_classifier_by_name ( (*this_).db_reader,
-                                                                       utf8stringbuf_get_string( full_new_name ),
-                                                                       &((*this_).private_temp_classifier) );
+            const data_error_t exists_err
+                = data_database_reader_get_classifier_by_name( (*this_).db_reader,
+                                                               utf8stringbuf_get_string( full_new_name ),
+                                                               &((*this_).private_temp_classifier)
+                                                             );
             if ( DATA_ERROR_NONE == exists_err )
             {
                 data_classifier_destroy ( &((*this_).private_temp_classifier) );
@@ -112,16 +114,16 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
     }
 
     /* define classifier */
-    data_error_t d_err;
-    d_err = data_classifier_init_new ( &((*this_).private_temp_classifier),
-                                       type_of_new_classifier,
-                                       "",  /* stereotype */
-                                       utf8stringbuf_get_string( full_new_name ),
-                                       "",  /* description */
-                                       x_order,
-                                       y_order,
-                                       y_order  /* y_order used also as list_order */
-                                     );
+    const data_error_t d_err
+        = data_classifier_init_new ( &((*this_).private_temp_classifier),
+                                     type_of_new_classifier,
+                                     "",  /* stereotype */
+                                     utf8stringbuf_get_string( full_new_name ),
+                                     "",  /* description */
+                                     x_order,
+                                     y_order,
+                                     y_order  /* y_order used also as list_order */
+                                   );
     if ( d_err != DATA_ERROR_NONE )
     {
         TSLOG_ERROR_HEX("data_classifier_init_new failed in gui_sketch_object_creator_create_classifier:",d_err);
@@ -186,13 +188,13 @@ ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_o
 
     ctrl_error_t c_result;
 
-    c_result = gui_sketch_object_creator_create_classifier ( this_,
-                                                             diagram_id,
-                                                             x_order,
-                                                             y_order,
-                                                             out_diagramelement_id,
-                                                             out_classifier_id
-                                                           );
+    c_result = gui_sketch_object_creator_create_classifier( this_,
+                                                            diagram_id,
+                                                            x_order,
+                                                            y_order,
+                                                            out_diagramelement_id,
+                                                            out_classifier_id
+                                                          );
 
     if ( CTRL_ERROR_NONE == c_result )
     {
@@ -201,32 +203,31 @@ ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_o
         classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
         /* define relationship */
-        data_error_t d_err;
-        d_err = data_relationship_init ( &((*this_).private_temp_relationship),
-                                         DATA_ROW_ID_VOID,
-                                         DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
-                                         parent_classifier_id,
-                                         *out_classifier_id,
-                                         "", /* =relationship_name */
-                                         "", /* =relationship_description */
-                                         y_order,  /* =list_order */
-                                         DATA_ROW_ID_VOID,
-                                         DATA_ROW_ID_VOID
-                                       );
+        const data_error_t d_err
+            = data_relationship_init_new( &((*this_).private_temp_relationship),
+                                          DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
+                                          parent_classifier_id,
+                                          *out_classifier_id,
+                                          "", /* =relationship_name */
+                                          "", /* =relationship_description */
+                                          y_order,  /* =list_order */
+                                          DATA_ROW_ID_VOID,
+                                          DATA_ROW_ID_VOID
+                                        );
         if ( d_err != DATA_ERROR_NONE )
         {
             TSLOG_ERROR_HEX("data_relationship_init failed in gui_sketch_object_creator_create_classifier_as_child:",d_err);
         }
 
         /* create relationship */
-        c_result = ctrl_classifier_controller_create_relationship ( classifier_control,
-                                                                    &((*this_).private_temp_relationship),
-                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
-                                                                    out_relationship_id
-                                                                  );
+        c_result = ctrl_classifier_controller_create_relationship( classifier_control,
+                                                                   &((*this_).private_temp_relationship),
+                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
+                                                                   out_relationship_id
+                                                                 );
 
         /* cleanup */
-        data_relationship_destroy ( &((*this_).private_temp_relationship) );
+        data_relationship_destroy( &((*this_).private_temp_relationship) );
     }
 
     TRACE_END_ERR( c_result );
@@ -251,24 +252,24 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
     gui_sketch_object_creator_private_propose_diagram_name( this_, new_name );
 
     /* create the diagram */
-    data_error_t d_err;
-    d_err = data_diagram_init_new ( &((*this_).private_temp_diagram),
-                                    parent_diagram_id,
-                                    DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM,
-                                    utf8stringbuf_get_string(new_name),
-                                    "",
-                                    list_order
-                                  );
+    const data_error_t d_err
+        = data_diagram_init_new( &((*this_).private_temp_diagram),
+                                 parent_diagram_id,
+                                 DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM,
+                                 utf8stringbuf_get_string(new_name),
+                                 "",
+                                 list_order
+                               );
     if ( d_err != DATA_ERROR_NONE )
     {
         TSLOG_ERROR_HEX("data_diagram_init_new failed in gui_sketch_object_creator_create_diagram:",d_err);
     }
 
-    c_result = ctrl_diagram_controller_create_diagram ( diag_control,
-                                                        &((*this_).private_temp_diagram),
-                                                        CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
-                                                        out_diagram_id
-                                                      );
+    c_result = ctrl_diagram_controller_create_diagram( diag_control,
+                                                       &((*this_).private_temp_diagram),
+                                                       CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
+                                                       out_diagram_id
+                                                     );
     if ( CTRL_ERROR_READ_ONLY_DB == c_result )
     {
         /* notify read-only warning to user */
@@ -287,7 +288,7 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
     TRACE_END_ERR( c_result );
     return c_result;
 }
-                                                                                  
+
 ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_creator_t *this_,
                                                              data_diagram_type_t diag_type,
                                                              data_row_id_t from_classifier_id,
@@ -306,7 +307,7 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
 
     /* get classifier controller */
     ctrl_classifier_controller_t *classifier_control;
-    classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+    classifier_control = ctrl_controller_get_classifier_control_ptr( (*this_).controller );
 
     /* propose a type for the relationship */
     data_relationship_type_t new_rel_type = DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY;
@@ -314,10 +315,11 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
         /* get type of from_classifier */
         data_classifier_type_t from_class_type = DATA_CLASSIFIER_TYPE_CLASS;
         {
-            data_error_t clsfy_err;
-            clsfy_err = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                    from_classifier_id,
-                                                                    &((*this_).private_temp_classifier) );
+            const data_error_t clsfy_err
+                = data_database_reader_get_classifier_by_id( (*this_).db_reader,
+                                                             from_classifier_id,
+                                                             &((*this_).private_temp_classifier)
+                                                           );
             if ( DATA_ERROR_NONE == clsfy_err )
             {
                 from_class_type = data_classifier_get_main_type( &((*this_).private_temp_classifier) );
@@ -328,15 +330,16 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
                 TSLOG_ERROR_INT( "gui_sketch_object_creator_create_relationship cannot find classifier:", from_classifier_id );
             }
         }
-        
+
         /* get type of from_feature */
         data_feature_type_t from_feature_type = DATA_FEATURE_TYPE_VOID;
         if ( from_feature_id != DATA_ROW_ID_VOID )
         {
-            data_error_t feat_err;
-            feat_err = data_database_reader_get_feature_by_id ( (*this_).db_reader,
-                                                                from_feature_id,
-                                                                &((*this_).private_temp_feature) );
+            const data_error_t feat_err
+                = data_database_reader_get_feature_by_id( (*this_).db_reader,
+                                                          from_feature_id,
+                                                          &((*this_).private_temp_feature)
+                                                        );
             if ( DATA_ERROR_NONE == feat_err )
             {
                 from_feature_type = data_feature_get_main_type( &((*this_).private_temp_feature) );
@@ -347,22 +350,21 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
                 TSLOG_ERROR_INT( "gui_sketch_object_creator_create_relationship cannot find feature:", from_feature_id );
             }
         }
-        new_rel_type = data_rules_get_default_relationship_type ( &((*this_).data_rules), from_class_type, from_feature_type );
+        new_rel_type = data_rules_get_default_relationship_type( &((*this_).data_rules), from_class_type, from_feature_type );
     }
 
     /* define relationship struct */
-    data_error_t d_err;
-    d_err = data_relationship_init ( &((*this_).private_temp_relationship),
-                                     DATA_ROW_ID_VOID,
-                                     new_rel_type,
-                                     from_classifier_id,
-                                     to_classifier_id,
-                                     "", /* =relationship_name */
-                                     "", /* =relationship_description */
-                                     list_order,
-                                     from_feature_id,
-                                     to_feature_id
-                                   );
+    const data_error_t d_err
+        = data_relationship_init_new( &((*this_).private_temp_relationship),
+                                      new_rel_type,
+                                      from_classifier_id,
+                                      to_classifier_id,
+                                      "", /* =relationship_name */
+                                      "", /* =relationship_description */
+                                      list_order,
+                                      from_feature_id,
+                                      to_feature_id
+                                    );
     if ( d_err != DATA_ERROR_NONE )
     {
         TSLOG_ERROR_HEX("data_relationship_init failed in gui_sketch_object_creator_create_relationship:",d_err);
@@ -377,18 +379,18 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
 
     if ( diagram_ok ) {
         /* create relationship */
-        c_result = ctrl_classifier_controller_create_relationship ( classifier_control,
-                                                                    &((*this_).private_temp_relationship),
-                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
-                                                                    out_relationship_id
-                                                                  );
+        c_result = ctrl_classifier_controller_create_relationship( classifier_control,
+                                                                   &((*this_).private_temp_relationship),
+                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
+                                                                   out_relationship_id
+                                                                 );
         if ( CTRL_ERROR_READ_ONLY_DB == c_result )
         {
             /* notify read-only warning to user */
             gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                    GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                    GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                );
+                                                     GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                     GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                   );
         }
     }
     else
@@ -402,7 +404,7 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
     }
 
     /* cleanup */
-    data_relationship_destroy ( &((*this_).private_temp_relationship) );
+    data_relationship_destroy( &((*this_).private_temp_relationship) );
 
     TRACE_END_ERR( c_result );
     return c_result;
@@ -423,19 +425,20 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
 
     /* get classifier controller */
     ctrl_classifier_controller_t *classifier_control;
-    classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+    classifier_control = ctrl_controller_get_classifier_control_ptr( (*this_).controller );
 
     /* get type of parent classifier */
     data_classifier_type_t parent_class_type = DATA_CLASSIFIER_TYPE_CLASS;
     {
-        data_error_t clsfy_err;
-        clsfy_err = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                parent_classifier_id,
-                                                                &((*this_).private_temp_classifier) );
+        const data_error_t clsfy_err
+            = data_database_reader_get_classifier_by_id( (*this_).db_reader,
+                                                         parent_classifier_id,
+                                                         &((*this_).private_temp_classifier)
+                                                       );
         if ( DATA_ERROR_NONE == clsfy_err )
         {
             parent_class_type = data_classifier_get_main_type( &((*this_).private_temp_classifier) );
-            data_classifier_destroy ( &((*this_).private_temp_classifier) );
+            data_classifier_destroy( &((*this_).private_temp_classifier) );
         }
         else
         {
@@ -445,7 +448,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
 
     /* propose a type for the feature */
     data_feature_type_t new_feature_type;
-    new_feature_type = data_rules_get_default_feature_type ( &((*this_).data_rules), parent_class_type );
+    new_feature_type = data_rules_get_default_feature_type( &((*this_).data_rules), parent_class_type );
 
     /* select the right list_order */
     int32_t list_order;
@@ -472,16 +475,15 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
     gui_sketch_object_creator_private_propose_feature_name( this_, new_feature_type, full_new_name, full_new_type );
 
     /* define feature struct */
-    data_error_t data_err;
-    data_err = data_feature_init ( &((*this_).private_temp_feature),
-                                   DATA_ROW_ID_VOID, /* feature_id */
-                                   new_feature_type,
-                                   parent_classifier_id,
-                                   utf8stringbuf_get_string( full_new_name ),
-                                   utf8stringbuf_get_string( full_new_type ),
-                                   "",
-                                   list_order
-                                 );
+    const data_error_t data_err
+        = data_feature_init_new( &((*this_).private_temp_feature),
+                                 new_feature_type,
+                                 parent_classifier_id,
+                                 utf8stringbuf_get_string( full_new_name ),
+                                 utf8stringbuf_get_string( full_new_type ),
+                                 "",
+                                 list_order
+                               );
     if ( data_err != DATA_ERROR_NONE )
     {
         TSLOG_ERROR_HEX("data_feature_init failed in gui_sketch_object_creator_create_feature:",data_err);
@@ -498,18 +500,18 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
     if ( diagram_ok && classifier_ok )
     {
         /* create feature */
-        c_result = ctrl_classifier_controller_create_feature ( classifier_control,
-                                                               &((*this_).private_temp_feature),
-                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
-                                                               out_feature_id
-                                                             );
+        c_result = ctrl_classifier_controller_create_feature( classifier_control,
+                                                              &((*this_).private_temp_feature),
+                                                              CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
+                                                              out_feature_id
+                                                            );
         if ( CTRL_ERROR_READ_ONLY_DB == c_result )
         {
             /* notify read-only warning to user */
             gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                    GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                    GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                );
+                                                     GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                     GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                   );
         }
     }
     else if ( ! classifier_ok )
@@ -532,7 +534,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
     }
 
     /* cleanup */
-    data_feature_destroy ( &((*this_).private_temp_feature) );
+    data_feature_destroy( &((*this_).private_temp_feature) );
 
     TRACE_END_ERR( c_result );
     return c_result;

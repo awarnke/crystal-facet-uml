@@ -12,6 +12,7 @@ static inline void data_diagramelement_init_empty ( data_diagramelement_t *this_
     (*this_).classifier_id = DATA_ROW_ID_VOID;
     (*this_).display_flags = DATA_DIAGRAMELEMENT_FLAG_NONE;
     (*this_).focused_feature_id = DATA_ROW_ID_VOID;
+    data_uuid_init_void( &((*this_).uuid) );
 }
 
 static inline void data_diagramelement_reinit_empty ( data_diagramelement_t *this_ )
@@ -31,6 +32,7 @@ static inline void data_diagramelement_init_new ( data_diagramelement_t *this_,
     (*this_).classifier_id = classifier_id;
     (*this_).focused_feature_id = focused_feature_id;
     (*this_).display_flags = display_flags;
+    data_uuid_init_new( &((*this_).uuid) );
 }
 
 static inline void data_diagramelement_init ( data_diagramelement_t *this_,
@@ -45,6 +47,7 @@ static inline void data_diagramelement_init ( data_diagramelement_t *this_,
     (*this_).classifier_id = classifier_id;
     (*this_).focused_feature_id = focused_feature_id;
     (*this_).display_flags = display_flags;
+    data_uuid_init_void( &((*this_).uuid) );
 }
 
 static inline void data_diagramelement_reinit ( data_diagramelement_t *this_,
@@ -59,21 +62,27 @@ static inline void data_diagramelement_reinit ( data_diagramelement_t *this_,
     (*this_).classifier_id = classifier_id;
     (*this_).focused_feature_id = focused_feature_id;
     (*this_).display_flags = display_flags;
+    data_uuid_init_void( &((*this_).uuid) );
 }
 
 static inline void data_diagramelement_copy ( data_diagramelement_t *this_, const data_diagramelement_t *original )
 {
     (*this_) = (*original);
+    /* repair the overwritten pointers */
+    data_uuid_copy( &((*this_).uuid), &((*original).uuid) );
 }
 
 static inline void data_diagramelement_replace ( data_diagramelement_t *this_, const data_diagramelement_t *that )
 {
     (*this_) = (*that);
+    /* repair the overwritten pointers */
+    data_uuid_replace( &((*this_).uuid), &((*that).uuid) );
 }
 
 static inline void data_diagramelement_destroy ( data_diagramelement_t *this_ )
 {
     (*this_).id = DATA_ROW_ID_VOID;
+    data_uuid_destroy( &((*this_).uuid) );
 }
 
 static inline bool data_diagramelement_is_valid ( const data_diagramelement_t *this_ )
@@ -89,6 +98,7 @@ static inline void data_diagramelement_trace ( const data_diagramelement_t *this
     TRACE_INFO_INT( "- classifier_id:", (*this_).classifier_id );
     TRACE_INFO_HEX( "- display_flags:", (*this_).display_flags );
     TRACE_INFO_INT( "- focused_feature_id:", (*this_).focused_feature_id );
+    TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
 }
 
 static inline data_row_id_t data_diagramelement_get_row_id ( const data_diagramelement_t *this_ )
@@ -165,6 +175,11 @@ static inline data_diagramelement_flag_t data_diagramelement_get_display_flags (
 static inline void data_diagramelement_set_display_flags ( data_diagramelement_t *this_, data_diagramelement_flag_t display_flags )
 {
     (*this_).display_flags = display_flags;
+}
+
+static inline const char *data_diagramelement_get_uuid_const ( const data_diagramelement_t *this_ )
+{
+    return data_uuid_get_string( &((*this_).uuid) );
 }
 
 

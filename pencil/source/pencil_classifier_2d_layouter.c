@@ -478,7 +478,7 @@ void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( pencil_c
             {
                 const data_classifier_t *classifier_p;
                 classifier_p = data_visible_classifier_get_classifier_const( visible_classifier_data );
-                TRACE_INFO_STR( "- overlaps:", data_classifier_get_name_ptr( classifier_p ) );
+                TRACE_INFO_STR( "- overlaps:", data_classifier_get_name_const( classifier_p ) );
             }
         }
     }
@@ -488,7 +488,7 @@ void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( pencil_c
     visible_classifier = layout_visible_classifier_get_data_const ( the_classifier );
     const data_classifier_t *classifier;
     classifier = data_visible_classifier_get_classifier_const( visible_classifier );
-    TRACE_INFO_STR( "classifier:", data_classifier_get_name_ptr( classifier ) );
+    TRACE_INFO_STR( "classifier:", data_classifier_get_name_const( classifier ) );
 
     TRACE_END();
 }
@@ -601,7 +601,7 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
     visible_classifier = layout_visible_classifier_get_data_const ( the_classifier );
     const data_classifier_t *classifier;
     classifier = data_visible_classifier_get_classifier_const( visible_classifier );
-    TRACE_INFO_STR( "classifier:", data_classifier_get_name_ptr( classifier ) );
+    TRACE_INFO_STR( "classifier:", data_classifier_get_name_const( classifier ) );
 
     TRACE_END();
 }

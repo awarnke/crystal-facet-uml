@@ -79,7 +79,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                         data_search_result_init_classifier( &half_initialized,
                                                             search_row_id,
                                                             data_classifier_get_main_type( &((*this_).temp_classifier) ),
-                                                            data_classifier_get_name_ptr( &((*this_).temp_classifier) ),
+                                                            data_classifier_get_name_const( &((*this_).temp_classifier) ),
                                                             DATA_ROW_ID_VOID /* diagram_id */
                                                         );
                         gui_search_runner_private_add_diagrams_of_classifier( this_, &half_initialized, &((*this_).temp_result_list) );
@@ -107,7 +107,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                         data_search_result_init_feature( &half_initialized,
                                                          data_feature_get_row_id( &((*this_).temp_feature) ),
                                                          data_feature_get_main_type( &((*this_).temp_feature) ),
-                                                         data_feature_get_key_ptr( &((*this_).temp_feature) ),
+                                                         data_feature_get_key_const( &((*this_).temp_feature) ),
                                                          classifier_id,
                                                          DATA_ROW_ID_VOID /* diagram_id */
                                                        );
@@ -136,7 +136,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                         data_search_result_init_relationship( &half_initialized,
                                                               data_relationship_get_row_id( &((*this_).temp_relationship) ),
                                                               data_relationship_get_main_type( &((*this_).temp_relationship) ),
-                                                              data_relationship_get_name_ptr( &((*this_).temp_relationship) ),
+                                                              data_relationship_get_name_const( &((*this_).temp_relationship) ),
                                                               classifier_id,
                                                               data_relationship_get_to_classifier_row_id( &((*this_).temp_relationship) ),
                                                               DATA_ROW_ID_VOID /* diagram_id */
@@ -195,7 +195,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                         data_search_result_init_diagram( &half_initialized,
                                                          search_row_id,
                                                          data_diagram_get_diagram_type( &((*this_).temp_diagrams[0]) ),
-                                                         data_diagram_get_name_ptr( &((*this_).temp_diagrams[0]) )
+                                                         data_diagram_get_name_const( &((*this_).temp_diagrams[0]) )
                                                        );
                         int err = data_search_result_list_add( &((*this_).temp_result_list), &half_initialized );
                         if ( err != 0 )

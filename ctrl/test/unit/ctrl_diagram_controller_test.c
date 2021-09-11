@@ -86,8 +86,8 @@ static void create_read_modify_read(void)
         TEST_ASSERT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(read_diagrams[0]) ) );
         TEST_ASSERT_EQUAL_INT( PARENT_ID, data_diagram_get_parent_row_id( &(read_diagrams[0]) ) );
         TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, data_diagram_get_diagram_type( &(read_diagrams[0]) ) );
-        TEST_ASSERT_EQUAL_INT( 0, strcmp( "diagram_name", data_diagram_get_name_ptr( &(read_diagrams[0]) ) ) );
-        TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_ptr( &(read_diagrams[0]) ) ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "diagram_name", data_diagram_get_name_const( &(read_diagrams[0]) ) ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_const( &(read_diagrams[0]) ) ) );
         TEST_ASSERT_EQUAL_INT( 0, data_diagram_get_list_order( &(read_diagrams[0]) ) );
     }
 
@@ -115,8 +115,8 @@ static void create_read_modify_read(void)
         TEST_ASSERT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(read_diagrams[0]) ) );
         TEST_ASSERT_EQUAL_INT( PARENT_ID, data_diagram_get_parent_row_id( &(read_diagrams[0]) ) );
         TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, data_diagram_get_diagram_type( &(read_diagrams[0]) ) );
-        TEST_ASSERT_EQUAL_INT( 0, strcmp( "diagram_name", data_diagram_get_name_ptr( &(read_diagrams[0]) ) ) );
-        TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_ptr( &(read_diagrams[0]) ) ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "diagram_name", data_diagram_get_name_const( &(read_diagrams[0]) ) ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_const( &(read_diagrams[0]) ) ) );
         TEST_ASSERT_EQUAL_INT( 0, data_diagram_get_list_order( &(read_diagrams[0]) ) );
     }
 
@@ -129,8 +129,8 @@ static void create_read_modify_read(void)
         TEST_ASSERT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(read_diagrams[0]) ) );
         TEST_ASSERT_EQUAL_INT( PARENT_ID, data_diagram_get_parent_row_id( &(read_diagrams[0]) ) );
         TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM, data_diagram_get_diagram_type( &(read_diagrams[0]) ) );
-        TEST_ASSERT_EQUAL_INT( 0, strcmp( "\"new\" diagram name", data_diagram_get_name_ptr( &(read_diagrams[0]) ) ) );
-        TEST_ASSERT_EQUAL_INT( 0, strcmp( "'new' diagram\ndescription", data_diagram_get_description_ptr( &(read_diagrams[0]) ) ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "\"new\" diagram name", data_diagram_get_name_const( &(read_diagrams[0]) ) ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "'new' diagram\ndescription", data_diagram_get_description_const( &(read_diagrams[0]) ) ) );
         TEST_ASSERT_EQUAL_INT( -4321, data_diagram_get_list_order( &(read_diagrams[0]) ) );
     }
 
@@ -252,8 +252,8 @@ static void create_diagramelements_and_delete(void)
         TEST_ASSERT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(out_diagram[0]) ) );
         TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_row_id( &(out_diagram[0]) ) );
         TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, data_diagram_get_diagram_type( &(out_diagram[0]) ) );
-        TEST_ASSERT_EQUAL_INT( 0, strcmp( "root_diagram", data_diagram_get_name_ptr( &(out_diagram[0]) ) ) );
-        TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_ptr( &(out_diagram[0]) ) ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "root_diagram", data_diagram_get_name_const( &(out_diagram[0]) ) ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_const( &(out_diagram[0]) ) ) );
         TEST_ASSERT_EQUAL_INT( 0, data_diagram_get_list_order( &(out_diagram[0]) ) );
     }
 

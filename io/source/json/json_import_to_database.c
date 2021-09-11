@@ -120,7 +120,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                 data_error_t read_error;
                                 data_classifier_t existing_classifier;
                                 read_error = data_database_reader_get_classifier_by_name ( (*this_).db_reader,
-                                                                                           data_classifier_get_name_ptr( &new_classifier ),
+                                                                                           data_classifier_get_name_const( &new_classifier ),
                                                                                            &existing_classifier
                                                                                          );
                                 /* if the name is equal, expect the objects to be equal */
@@ -345,7 +345,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                             {
                                                 const data_feature_t *const current_feature = &((*this_).temp_features[src_idx]);
                                                 const data_row_id_t current_feature_id = data_feature_get_row_id( current_feature );
-                                                const char *const current_feature_key = data_feature_get_key_ptr( current_feature );
+                                                const char *const current_feature_key = data_feature_get_key_const( current_feature );
                                                 const data_feature_type_t current_feature_type = data_feature_get_main_type( current_feature );
                                                 if ( utf8stringbuf_equals_str( rel_from_feat, current_feature_key ) )
                                                 {
@@ -406,7 +406,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                             {
                                                 const data_feature_t *const current_feature = &((*this_).temp_features[src_idx]);
                                                 const data_row_id_t current_feature_id = data_feature_get_row_id( current_feature );
-                                                const char *const current_feature_key = data_feature_get_key_ptr( current_feature );
+                                                const char *const current_feature_key = data_feature_get_key_const( current_feature );
                                                 const data_feature_type_t current_feature_type = data_feature_get_main_type( current_feature );
                                                  if ( utf8stringbuf_equals_str( rel_to_feat, current_feature_key ) )
                                                 {

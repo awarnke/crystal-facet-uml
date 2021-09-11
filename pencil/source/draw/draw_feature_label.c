@@ -37,11 +37,11 @@ void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_
             /* prepare text */
             char label_text[DATA_FEATURE_MAX_KEY_SIZE + DATA_FEATURE_MAX_VALUE_SIZE + 2 ];
             utf8stringbuf_t label_buf = UTF8STRINGBUF(label_text);
-            utf8stringbuf_copy_str( label_buf, data_feature_get_key_ptr( feature ) );
+            utf8stringbuf_copy_str( label_buf, data_feature_get_key_const( feature ) );
             if ( data_feature_has_value( feature ) )
             {
                 utf8stringbuf_append_str( label_buf, ": " );
-                utf8stringbuf_append_str( label_buf, data_feature_get_value_ptr( feature ) );
+                utf8stringbuf_append_str( label_buf, data_feature_get_value_const( feature ) );
             }
 
             /* determine text width and height */
@@ -86,11 +86,11 @@ void draw_feature_label_draw_key_and_value ( const draw_feature_label_t *this_,
         /* prepare text */
         char label_text[DATA_FEATURE_MAX_KEY_SIZE + DATA_FEATURE_MAX_VALUE_SIZE + 2 ];
         utf8stringbuf_t label_buf = UTF8STRINGBUF(label_text);
-        utf8stringbuf_copy_str( label_buf, data_feature_get_key_ptr( feature ) );
+        utf8stringbuf_copy_str( label_buf, data_feature_get_key_const( feature ) );
         if ( data_feature_has_value( feature ) )
         {
             utf8stringbuf_append_str( label_buf, ": " );
-            utf8stringbuf_append_str( label_buf, data_feature_get_value_ptr( feature ) );
+            utf8stringbuf_append_str( label_buf, data_feature_get_value_const( feature ) );
         }
 
         pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );

@@ -507,11 +507,11 @@ void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_
             /* prepare text */
             char label_text[DATA_FEATURE_MAX_KEY_SIZE + DATA_FEATURE_MAX_VALUE_SIZE + 2 ];
             utf8stringbuf_t label_buf = UTF8STRINGBUF(label_text);
-            utf8stringbuf_copy_str( label_buf, data_feature_get_key_ptr( the_feature ) );
+            utf8stringbuf_copy_str( label_buf, data_feature_get_key_const( the_feature ) );
             if ( data_feature_has_value( the_feature ) )
             {
                 utf8stringbuf_append_str( label_buf, ": " );
-                utf8stringbuf_append_str( label_buf, data_feature_get_value_ptr( the_feature ) );
+                utf8stringbuf_append_str( label_buf, data_feature_get_value_const( the_feature ) );
             }
 
             /* determine text width and height */

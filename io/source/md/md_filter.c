@@ -130,7 +130,7 @@ int md_filter_transform ( md_filter_t *this_, const char *text )
                         }
                         else /* show_name */
                         {
-                            write_err |= xml_writer_write_xml_enc( (*this_).sink, data_diagram_get_name_ptr( &((*this_).temp_diagram) ) );
+                            write_err |= xml_writer_write_xml_enc( (*this_).sink, data_diagram_get_name_const( &((*this_).temp_diagram) ) );
                             text_current_byte += length + sizeof(MD_FILTER_LINK_AS_NAME)-1 - 1;
                         }
                         write_err |= xml_writer_write_plain ( (*this_).sink, (*this_).tag_xref_end );

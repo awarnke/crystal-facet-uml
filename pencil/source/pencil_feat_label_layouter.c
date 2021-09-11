@@ -114,8 +114,8 @@ void pencil_feat_label_layouter_private_propose_processing_order ( pencil_feat_l
         int64_t simpleness = 0;
 
         /* determine simpleness by length of label */
-        simpleness -= utf8string_get_length( data_feature_get_key_ptr( feature_data ) );
-        simpleness -= utf8string_get_length( data_feature_get_value_ptr( feature_data ) );
+        simpleness -= utf8string_get_length( data_feature_get_key_const( feature_data ) );
+        simpleness -= utf8string_get_length( data_feature_get_value_const( feature_data ) );
 
         /* do the properties and operations first, they have a fixed positiion given by the classifier */
         if (( DATA_FEATURE_TYPE_PROPERTY == current_type )||( DATA_FEATURE_TYPE_OPERATION == current_type ))

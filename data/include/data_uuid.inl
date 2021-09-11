@@ -36,6 +36,7 @@ static inline void data_uuid_init_new ( data_uuid_t *this_ )
                                              );
     utf8stringbuf_clear( (*this_).uuid_string );
 
+    /* get current time to enrich the universal_random_t by additional emtropy */
     struct timespec now;
     const int err = clock_gettime( CLOCK_MONOTONIC, &now );
     if ( err != 0 )
