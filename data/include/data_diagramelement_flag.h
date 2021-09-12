@@ -1,7 +1,7 @@
-/* File: data_diagramelement_flags.h; Copyright and License: see below */
+/* File: data_diagramelement_flag.h; Copyright and License: see below */
 
-#ifndef DATA_DIAGRAMELEMENT_FLAGS_H
-#define DATA_DIAGRAMELEMENT_FLAGS_H
+#ifndef DATA_DIAGRAMELEMENT_FLAG_H
+#define DATA_DIAGRAMELEMENT_FLAG_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -27,7 +27,7 @@ enum data_diagramelement_flag_enum {
 
 typedef enum data_diagramelement_flag_enum data_diagramelement_flag_t;
 
-#endif  /* DATA_DIAGRAMELEMENT_FLAGS_H */
+#endif  /* DATA_DIAGRAMELEMENT_FLAG_H */
 
 
 /*

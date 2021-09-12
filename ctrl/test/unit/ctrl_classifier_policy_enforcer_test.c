@@ -77,11 +77,12 @@ static void lifeline_to_diagramelement_consistency(void)
     {
         data_diagram_t root_diagram;
         data_err = data_diagram_init_new( &root_diagram,
-                                          DATA_ROW_ID_VOID /*=parent_diagram_id*/,
+                                          DATA_ROW_ID_VOID, /*=parent_diagram_id*/
                                           DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,
                                           "the_root_diag",
                                           "diagram_description-root",
-                                          10555 /*=list_order*/
+                                          10555, /*=list_order*/
+                                          DATA_DIAGRAM_FLAG_NONE
                                         );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 

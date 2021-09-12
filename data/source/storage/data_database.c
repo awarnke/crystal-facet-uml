@@ -185,6 +185,7 @@ static const char *DATA_DATABASE_CREATE_DIAGRAM_TABLE =
         "name TEXT, "
         "description TEXT, "
         "list_order INTEGER, "
+        "display_flags INTEGER NOT NULL DEFAULT 0, "  /* DEFAULT needed in case a new DB is modified by an old program version */
         "uuid TEXT NOT NULL DEFAULT \'\', "  /* DEFAULT needed in case a new DB is modified by an old program version */
         "FOREIGN KEY(parent_id) REFERENCES diagrams(id) "
     ");";
@@ -205,9 +206,21 @@ static const char *DATA_DATABASE_CREATE_DIAGRAMORDERING_INDEX =
  *  The DEFAULT clause is needed to convert the existing records to the new format
  *  and in case a new database is modified by an old program version.
  *
- *  This command extends diagrams by a uuid field.
+ *  This command extends diagrams by display_flags field.
  */
 static const char *DATA_DATABASE_ALTER_DIAGRAM_TABLE_1 =
+    "ALTER TABLE diagrams "
+    "ADD COLUMN display_flags INTEGER NOT NULL DEFAULT 0;";
+
+/*!
+ *  \brief string constant to update an sql database table
+ *
+ *  The DEFAULT clause is needed to convert the existing records to the new format
+ *  and in case a new database is modified by an old program version.
+ *
+ *  This command extends diagrams by a uuid field.
+ */
+static const char *DATA_DATABASE_ALTER_DIAGRAM_TABLE_2 =
     "ALTER TABLE diagrams "
     "ADD COLUMN uuid TEXT NOT NULL DEFAULT \'\';";
 
@@ -536,7 +549,28 @@ data_error_t data_database_upgrade_tables( data_database_t *this_ )
             error_msg = NULL;
         }
 
-        /* update all 5 tables from version 1.32.1 to later versions */
+        /* update table classifiers from version 1.32.1 or earlier to later versions with diagram.display_flags */
+
+        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_1 );
+        sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_DIAGRAM_TABLE_1, NULL, NULL, &error_msg );
+        if ( SQLITE_OK != sqlite_err )
+        {
+            /* this command will fail whenever the database already has a suitable format */
+            TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_1 );
+            TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
+        }
+        else
+        {
+            TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_1 );
+        }
+        if ( error_msg != NULL )
+        {
+            TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
+
+        /* update all 5 tables from version 1.32.1 (no uuid) to later versions with uuid field */
 
         TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_2 );
         sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_2, NULL, NULL, &error_msg );
@@ -595,17 +629,17 @@ data_error_t data_database_upgrade_tables( data_database_t *this_ )
             error_msg = NULL;
         }
 
-        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_1 );
-        sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_DIAGRAM_TABLE_1, NULL, NULL, &error_msg );
+        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_2 );
+        sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_DIAGRAM_TABLE_2, NULL, NULL, &error_msg );
         if ( SQLITE_OK != sqlite_err )
         {
             /* this command will fail whenever the database already has a suitable format */
-            TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_1 );
+            TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_2 );
             TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
         }
         else
         {
-            TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_1 );
+            TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_2 );
         }
         if ( error_msg != NULL )
         {

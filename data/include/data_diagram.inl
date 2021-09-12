@@ -16,6 +16,7 @@ static inline void data_diagram_init_empty ( data_diagram_t *this_ )
     utf8stringbuf_clear( (*this_).description );
 
     (*this_).list_order = 0;
+    (*this_).display_flags = DATA_DIAGRAM_FLAG_NONE;
     data_uuid_init_void( &((*this_).uuid) );
 }
 
@@ -30,7 +31,8 @@ static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
                                                    data_diagram_type_t diagram_type,
                                                    const char* diagram_name,
                                                    const char* diagram_description,
-                                                   int32_t list_order )
+                                                   int32_t list_order,
+                                                   data_diagram_flag_t display_flags )
 {
     assert( NULL != diagram_name );
     assert( NULL != diagram_description );
@@ -58,6 +60,7 @@ static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
     }
 
     (*this_).list_order = list_order;
+    (*this_).display_flags = display_flags;
     data_uuid_init_new( &((*this_).uuid) );
 
     return result;
@@ -70,6 +73,7 @@ static inline data_error_t data_diagram_init ( data_diagram_t *this_,
                                                const char* diagram_name,
                                                const char* diagram_description,
                                                int32_t list_order,
+                                               data_diagram_flag_t display_flags,
                                                const char* uuid )
 {
     assert( NULL != diagram_name );
@@ -103,6 +107,7 @@ static inline data_error_t data_diagram_init ( data_diagram_t *this_,
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
     (*this_).list_order = list_order;
+    (*this_).display_flags = display_flags;
     result |= data_uuid_init( &((*this_).uuid), uuid );
 
     return result;
@@ -146,6 +151,7 @@ static inline void data_diagram_trace ( const data_diagram_t *this_ )
     TRACE_INFO_STR( "- name:", utf8stringbuf_get_string((*this_).name) );
     TRACE_INFO_STR( "- description:", utf8stringbuf_get_string((*this_).description) );
     TRACE_INFO_INT( "- list_order:", (*this_).list_order );
+    TRACE_INFO_HEX( "- display_flags:", (*this_).display_flags );
     TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
 }
 
@@ -249,6 +255,16 @@ static inline int32_t data_diagram_get_list_order ( const data_diagram_t *this_ 
 static inline void data_diagram_set_list_order ( data_diagram_t *this_, int32_t list_order )
 {
     (*this_).list_order = list_order;
+}
+
+static inline data_diagram_flag_t data_diagram_get_display_flags ( const data_diagram_t *this_ )
+{
+    return (*this_).display_flags;
+}
+
+static inline void data_diagram_set_display_flags ( data_diagram_t *this_, data_diagram_flag_t display_flags )
+{
+    (*this_).display_flags = display_flags;
 }
 
 static inline const char *data_diagram_get_uuid_const ( const data_diagram_t *this_ )

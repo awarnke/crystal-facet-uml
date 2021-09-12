@@ -181,6 +181,12 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
         break;
     }
 
+    const data_diagram_flag_t flag_emph
+        = ((pseudo_random % 3)==0)
+        ? DATA_DIAGRAM_FLAG_EMPHASIS
+        : ((pseudo_random % 3)==1)
+        ? DATA_DIAGRAM_FLAG_GRAY_OUT
+        : DATA_DIAGRAM_FLAG_NONE;
     data_uuid_t diag_uuid;
     data_uuid_init_new( &diag_uuid );
 
@@ -192,6 +198,7 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
                                                   diagram_name,
                                                   diagram_description,
                                                   (*this_).variant, /* list_order */
+                                                  flag_emph,
                                                   data_uuid_get_string( &diag_uuid )
                                                 );
     TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == d_err );

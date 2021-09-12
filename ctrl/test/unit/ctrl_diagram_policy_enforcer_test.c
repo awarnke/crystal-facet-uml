@@ -88,6 +88,7 @@ static void diagram_to_lifeline_consistency(void)
                                       "the_root_diag",
                                       "diagram_description-root",
                                       10555, /*=list_order*/
+                                      DATA_DIAGRAM_FLAG_NONE,
                                       "4db26042-d7ce-4e2f-b8dc-cc9c9c61f39c"
                                     );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
@@ -114,6 +115,7 @@ static void diagram_to_lifeline_consistency(void)
                                       "the_child_diag",
                                       "diagram_description-child",
                                       20666, /*=list_order*/
+                                      DATA_DIAGRAM_FLAG_NONE,
                                       "e89207d2-c7d2-4996-9bfc-bc6e1a9ff6b3"
                                     );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
@@ -287,12 +289,13 @@ static void diagramelement_to_lifeline_consistency(void)
     {
         data_diagram_t root_diagram;
         data_err = data_diagram_init( &root_diagram,
-                                      DATA_ROW_ID_VOID /*=diagram_id is ignored*/,
-                                      DATA_ROW_ID_VOID /*=parent_diagram_id*/,
+                                      DATA_ROW_ID_VOID, /*=diagram_id is ignored*/
+                                      DATA_ROW_ID_VOID, /*=parent_diagram_id*/
                                       DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,
                                       "the_root_diag",
                                       "diagram_description-root",
                                       10555, /*=list_order*/
+                                      DATA_DIAGRAM_FLAG_NONE,
                                       "bad218e0-d633-4a2c-b0bb-d636c28d3496"
                                     );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );

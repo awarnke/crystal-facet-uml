@@ -59,6 +59,7 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
                                       "diagram_name",
                                       "diagram_description",
                                       32000,  /* list_order */
+                                      DATA_DIAGRAM_FLAG_NONE,
                                       "bfe86725-1507-4789-ac92-82f1090a1984"
                                     );
         TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );

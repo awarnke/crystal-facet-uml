@@ -92,6 +92,7 @@ static void set_up(void)
                                          "diagram_name-6",
                                          "diagram_description-6",
                                          10444 /*=list_order*/,
+                                         DATA_DIAGRAM_FLAG_NONE,
                                          "4ad5e0d6-2fd6-4863-b1b3-beec480bd670"
                                        );
         TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err_d );
@@ -169,15 +170,16 @@ static void diagram_two_roots_consistency(void)
     /* create second root diagram */
     {
         data_diagram_t current_diagram;
-        data_err = data_diagram_init ( &current_diagram,
-                                       2 /*=diagram_id*/,
-                                       DATA_ROW_ID_VOID /*=parent_diagram_id*/,
-                                       DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
-                                       "diagram_name",
-                                       "diagram_description",
-                                       10222 /*=list_order*/,
-                                       "89b87e06-2a0f-43bc-97cd-a0395b3d40be"
-                                     );
+        data_err = data_diagram_init( &current_diagram,
+                                      2, /*=diagram_id*/
+                                      DATA_ROW_ID_VOID, /*=parent_diagram_id*/
+                                      DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                      "diagram_name",
+                                      "diagram_description",
+                                      10222, /*=list_order*/
+                                      DATA_DIAGRAM_FLAG_NONE,
+                                      "89b87e06-2a0f-43bc-97cd-a0395b3d40be"
+                                    );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
@@ -225,15 +227,16 @@ static void diagram_missing_parent_consistency(void)
     /* create 1 diagram */
     {
         data_diagram_t second_diagram;
-        data_err = data_diagram_init ( &second_diagram,
-                                       2 /*=diagram_id*/,
-                                       0 /*=parent_diagram_id*/,
-                                       DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
-                                       "diagram_name",
-                                       "diagram_description",
-                                       10222 /*=list_order*/,
-                                       "725903d8-3001-4e3c-8208-2937c75def3b"
-                                     );
+        data_err = data_diagram_init( &second_diagram,
+                                      2, /*=diagram_id*/
+                                      0, /*=parent_diagram_id*/
+                                      DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                      "diagram_name",
+                                      "diagram_description",
+                                      10222, /*=list_order*/
+                                      DATA_DIAGRAM_FLAG_NONE,
+                                      "725903d8-3001-4e3c-8208-2937c75def3b"
+                                    );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_diagram ( &db_writer, &second_diagram, NULL /*=out_new_id*/ );
@@ -243,15 +246,16 @@ static void diagram_missing_parent_consistency(void)
     /* create another diagram */
     {
         data_diagram_t third_diagram;
-        data_err = data_diagram_init ( &third_diagram,
-                                       4 /*=diagram_id*/,
-                                       17 /*=parent_diagram_id*/,
-                                       DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
-                                       "diagram_name-4",
-                                       "diagram_description-4",
-                                       10333 /*=list_order*/,
-                                       "2955514a-5083-4cfc-a0bc-5cc965f0fb0e"
-                                     );
+        data_err = data_diagram_init( &third_diagram,
+                                      4, /*=diagram_id*/
+                                      17, /*=parent_diagram_id*/
+                                      DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                      "diagram_name-4",
+                                      "diagram_description-4",
+                                      10333, /*=list_order*/
+                                      DATA_DIAGRAM_FLAG_NONE,
+                                      "2955514a-5083-4cfc-a0bc-5cc965f0fb0e"
+                                    );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_diagram ( &db_writer, &third_diagram, NULL /*=out_new_id*/ );
@@ -299,15 +303,16 @@ static void diagram_circular_referenced_diagrams_consistency( void )
     /* create 2nd diagram */
     {
         data_diagram_t second_diagram;
-        data_err = data_diagram_init ( &second_diagram,
-                                       2 /*=diagram_id*/,
-                                       4 /*=parent_diagram_id*/,
-                                       DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
-                                       "diagram_name-2",
-                                       "diagram_description-2",
-                                       10222 /*=list_order*/,
-                                       "af9f23c6-f92c-4d30-bf43-901606bbfd1a"
-                                     );
+        data_err = data_diagram_init( &second_diagram,
+                                      2, /*=diagram_id*/
+                                      4 ,/*=parent_diagram_id*/
+                                      DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                      "diagram_name-2",
+                                      "diagram_description-2",
+                                      10222, /*=list_order*/
+                                      DATA_DIAGRAM_FLAG_NONE,
+                                      "af9f23c6-f92c-4d30-bf43-901606bbfd1a"
+                                    );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_diagram ( &db_writer, &second_diagram, NULL /*=out_new_id*/ );
@@ -317,15 +322,16 @@ static void diagram_circular_referenced_diagrams_consistency( void )
     /* create another diagram */
     {
         data_diagram_t third_diagram;
-        data_err = data_diagram_init ( &third_diagram,
-                                       4 /*=diagram_id*/,
-                                       2 /*=parent_diagram_id*/,
-                                       DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
-                                       "diagram_name-4",
-                                       "diagram_description-4",
-                                       10333 /*=list_order*/,
-                                       "48190baf-4748-4573-a963-16bd84954c06"
-                                     );
+        data_err = data_diagram_init( &third_diagram,
+                                      4, /*=diagram_id*/
+                                      2, /*=parent_diagram_id*/
+                                      DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                      "diagram_name-4",
+                                      "diagram_description-4",
+                                      10333, /*=list_order*/
+                                      DATA_DIAGRAM_FLAG_NONE,
+                                      "48190baf-4748-4573-a963-16bd84954c06"
+                                    );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_diagram ( &db_writer, &third_diagram, NULL /*=out_new_id*/ );

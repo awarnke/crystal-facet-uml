@@ -96,6 +96,7 @@ static data_row_id_t create_root_diag()
                                   "the_root_diag",
                                   "diagram_description-root",
                                   10555, /*=list_order*/
+                                  DATA_DIAGRAM_FLAG_NONE,
                                   "8a086be4-e05d-4299-a56a-10c5b9037835"
                                 );
     TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );

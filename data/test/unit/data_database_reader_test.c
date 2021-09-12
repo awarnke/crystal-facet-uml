@@ -74,6 +74,7 @@ static void set_up(void)
                                   "diagram_name-6",
                                   "diagram_description-6",
                                   10444, /*=list_order*/
+                                  DATA_DIAGRAM_FLAG_EMPHASIS,
                                   "5aeb80ad-a3a1-4ee1-91a9-2f4d0dbd495a"
                                 );
     TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
@@ -90,6 +91,7 @@ static void set_up(void)
                                   "diagram_name-7",
                                   "diagram_description-7",
                                   10555, /*=list_order*/
+                                  DATA_DIAGRAM_FLAG_GRAY_OUT,
                                   "f6d0084a-5d5b-4c26-8c64-782c150feec8"
                                 );
     TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );

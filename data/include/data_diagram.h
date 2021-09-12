@@ -12,6 +12,7 @@
 #include "data_diagram_type.h"
 #include "data_id.h"
 #include "data_row_id.h"
+#include "data_diagram_flag.h"
 #include "data_uuid.h"
 #include "data_error.h"
 #include "util/string/utf8stringbuf.h"
@@ -40,6 +41,7 @@ struct data_diagram_struct {
     utf8stringbuf_t description;
     char private_description_buffer[DATA_DIAGRAM_MAX_DESCRIPTION_SIZE];
     int32_t list_order;
+    data_diagram_flag_t display_flags;  /*!< flags that influence the way how the diagram is displayed */
     data_uuid_t uuid;  /*!< universal unique identifier, needed to merge vcs-branches */
 };
 
@@ -68,6 +70,7 @@ static inline void data_diagram_reinit_empty ( data_diagram_t *this_ );
  *  \param diagram_name name of the diagram. diagram_name must not be NULL.
  *  \param diagram_description description of the diagram. diagram_description must not be NULL.
  *  \param list_order list_order of the diagram
+ *  \param display_flags flags how to display this diagram. \see data_diagram_flag_enum
  *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
  *          DATA_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, DATA_ERROR_NONE otherwise.
  */
@@ -76,7 +79,8 @@ static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
                                                    data_diagram_type_t diagram_type,
                                                    const char* diagram_name,
                                                    const char* diagram_description,
-                                                   int32_t list_order
+                                                   int32_t list_order,
+                                                   data_diagram_flag_t display_flags
                                                  );
 
 /*!
@@ -89,6 +93,7 @@ static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
  *  \param diagram_name name of the diagram. diagram_name must not be NULL.
  *  \param diagram_description description of the diagram. diagram_description must not be NULL.
  *  \param list_order list_order of the diagram
+ *  \param display_flags flags how to display this diagram. \see data_diagram_flag_enum
  *  \param uuid a universal unique identifier according to rfc4122
  *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
  *          DATA_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, DATA_ERROR_NONE otherwise.
@@ -100,6 +105,7 @@ static inline data_error_t data_diagram_init ( data_diagram_t *this_,
                                                const char* diagram_name,
                                                const char* diagram_description,
                                                int32_t list_order,
+                                               data_diagram_flag_t display_flags,
                                                const char* uuid
                                              );
 
@@ -261,6 +267,22 @@ static inline int32_t data_diagram_get_list_order ( const data_diagram_t *this_ 
  *  \param list_order new list_order of this object
  */
 static inline void data_diagram_set_list_order ( data_diagram_t *this_, int32_t list_order );
+
+/*!
+ *  \brief gets the attribute display_flags
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return attribute display_flags
+ */
+static inline data_diagram_flag_t data_diagram_get_display_flags ( const data_diagram_t *this_ );
+
+/*!
+ *  \brief sets the attribute display_flags
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param display_flags new attribute display_flags
+ */
+static inline void data_diagram_set_display_flags ( data_diagram_t *this_, data_diagram_flag_t display_flags );
 
 /*!
  *  \brief gets the universal unique identifier of this data_diagram_t

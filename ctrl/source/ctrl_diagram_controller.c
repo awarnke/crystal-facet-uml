@@ -99,7 +99,7 @@ ctrl_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram
     data_error_t data_result;
     data_row_id_t new_id;
 
-    data_diagram_init_new( &to_be_created, parent_diagram_id, diagram_type, diagram_name, "", 0 );
+    data_diagram_init_new( &to_be_created, parent_diagram_id, diagram_type, diagram_name, "", 0, DATA_DIAGRAM_FLAG_NONE );
 
     data_result = data_database_writer_create_diagram( (*this_).db_writer, &to_be_created, &new_id );
     if ( DATA_ERROR_NONE == data_result )

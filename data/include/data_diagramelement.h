@@ -52,7 +52,7 @@ static inline void data_diagramelement_reinit_empty ( data_diagramelement_t *thi
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the referenced diagram_t
  *  \param classifier_id id of the referenced classifier_t
- *  \param display_flags flags how to display the classifier in the context of this diagram. \see data_diagramelement_display_flag_enum
+ *  \param display_flags flags how to display the classifier in the context of this diagram. \see data_diagramelement_flag_enum
  *  \param focused_feature_id id of the focused feature_t or DATA_ROW_ID_VOID if no feature is focused
  */
 static inline void data_diagramelement_init_new ( data_diagramelement_t *this_,
@@ -69,7 +69,7 @@ static inline void data_diagramelement_init_new ( data_diagramelement_t *this_,
  *  \param id id of the data_diagramelement_t
  *  \param diagram_id id of the referenced diagram_t
  *  \param classifier_id id of the referenced classifier_t
- *  \param display_flags flags how to display the classifier in the context of this diagram. \see data_diagramelement_display_flag_enum
+ *  \param display_flags flags how to display the classifier in the context of this diagram. \see data_diagramelement_flag_enum
  *  \param focused_feature_id id of the focused feature_t or DATA_ROW_ID_VOID if no feature is focused
  *  \param uuid a universal unique identifier according to rfc4122
  *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,

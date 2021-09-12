@@ -90,21 +90,21 @@ void data_database_reader_db_change_callback ( data_database_reader_t *this_, da
  *  \brief predefined search statement to find a diagram by id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID[] =
-    "SELECT id,parent_id,diagram_type,name,description,list_order,uuid "
+    "SELECT id,parent_id,diagram_type,name,description,list_order,display_flags,uuid "
     "FROM diagrams WHERE id=?;";
 
 /*!
  *  \brief predefined search statement to find diagrams by parent-id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID[] =
-    "SELECT id,parent_id,diagram_type,name,description,list_order,uuid "
+    "SELECT id,parent_id,diagram_type,name,description,list_order,display_flags,uuid "
     "FROM diagrams WHERE parent_id=? ORDER BY list_order ASC;";
 
 /*!
  *  \brief predefined search statement to find diagrams by NULL parent-id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID_NULL[] =
-    "SELECT id,parent_id,diagram_type,name,description,list_order,uuid "
+    "SELECT id,parent_id,diagram_type,name,description,list_order,display_flags,uuid "
     "FROM diagrams WHERE parent_id IS NULL ORDER BY list_order ASC;";
 
 #ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
@@ -113,7 +113,7 @@ static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID_NULL[] =
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID[] =
     "SELECT diagrams.id,diagrams.parent_id,diagrams.diagram_type,"
-    "diagrams.name,diagrams.description,diagrams.list_order,diagrams.uuid "
+    "diagrams.name,diagrams.description,diagrams.list_order,diagrams.display_flags,diagrams.uuid "
     "FROM diagrams "
     "INNER JOIN diagramelements ON diagramelements.diagram_id=diagrams.id "
     "WHERE diagramelements.classifier_id=? "
@@ -152,9 +152,14 @@ static const int RESULT_DIAGRAM_DESCRIPTION_COLUMN = 4;
 static const int RESULT_DIAGRAM_LIST_ORDER_COLUMN = 5;
 
 /*!
+ *  \brief the column id of the result where this parameter is stored: display_flags
+ */
+static const int RESULT_DIAGRAM_DISPLAY_FLAGS_COLUMN = 6;
+
+/*!
  *  \brief the column id of the result where this parameter is stored: uuid
  */
-static const int RESULT_DIAGRAM_UUID_COLUMN = 6;
+static const int RESULT_DIAGRAM_UUID_COLUMN = 7;
 
 /*!
  *  \brief predefined search statement to find diagram ids by parent-id
@@ -212,6 +217,7 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
                                          (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_NAME_COLUMN ),
                                          (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_DESCRIPTION_COLUMN ),
                                          sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_LIST_ORDER_COLUMN ),
+                                         sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_DISPLAY_FLAGS_COLUMN ),
                                          (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_UUID_COLUMN )
                                        );
             if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAM_PARENT_ID_COLUMN ) )
@@ -288,6 +294,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
                                              (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_NAME_COLUMN ),
                                              (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_DESCRIPTION_COLUMN ),
                                              sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_LIST_ORDER_COLUMN ),
+                                             sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_DISPLAY_FLAGS_COLUMN ),
                                              (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_UUID_COLUMN )
                                            );
                 if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAM_PARENT_ID_COLUMN ) )
@@ -361,6 +368,7 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
                                              (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_NAME_COLUMN ),
                                              (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_DESCRIPTION_COLUMN ),
                                              sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_LIST_ORDER_COLUMN ),
+                                             sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_DISPLAY_FLAGS_COLUMN ),
                                              (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_UUID_COLUMN )
                                            );
                 if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAM_PARENT_ID_COLUMN ) )

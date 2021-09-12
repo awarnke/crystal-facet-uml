@@ -258,7 +258,8 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
                                  DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM,
                                  utf8stringbuf_get_string(new_name),
                                  "",
-                                 list_order
+                                 list_order,
+                                 DATA_DIAGRAM_FLAG_NONE
                                );
     if ( d_err != DATA_ERROR_NONE )
     {

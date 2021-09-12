@@ -107,7 +107,8 @@ static data_row_id_t create_root_diag()
                                       DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,
                                       "Th& <root> d\"agram",
                                       "diagram_description-root",
-                                      10555 /*=list_order*/
+                                      10555 ,/*=list_order*/
+                                      DATA_DIAGRAM_FLAG_NONE
                                     );
     TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 

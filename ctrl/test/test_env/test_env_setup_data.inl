@@ -23,12 +23,13 @@ static data_row_id_t test_env_setup_data_create_diagram( data_row_id_t parent_di
     {
         static data_diagram_t new_diagram;  /* static ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
         data_err = data_diagram_init( &new_diagram,
-                                      DATA_ROW_ID_VOID /* diagram_id is ignored */,
+                                      DATA_ROW_ID_VOID, /* diagram_id is ignored */
                                       parent_diagram_id,
                                       DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,  /* default is an interaction diagram */
                                       name,
                                       "diagram_description-root",
                                       -13, /* list_order */
+                                      DATA_DIAGRAM_FLAG_NONE,
                                       "d017a037-efb8-454e-b62a-a33628e90ece"
                                     );
         TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );

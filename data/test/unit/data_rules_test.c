@@ -68,6 +68,7 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
                                        "diagram_name",
                                        "diagram_description",
                                        32000,  /* list_order */
+                                       DATA_DIAGRAM_FLAG_EMPHASIS,
                                        "fa8800f9-58d8-4d2a-8f09-66a54109b9f4"
                                      );
         TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
