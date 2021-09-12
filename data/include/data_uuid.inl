@@ -3,7 +3,10 @@
 #include "universal_random.h"
 #include "trace.h"
 #include "tslog.h"
+#include <time.h>
 #include <assert.h>
+
+#define data_uuid_unused(variable) ((void)(variable))
 
 static inline data_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t uuid_string )
 {
@@ -38,26 +41,20 @@ static inline void data_uuid_init_new ( data_uuid_t *this_ )
     utf8stringbuf_clear( (*this_).uuid_string );
 
     /* get current time to enrich the universal_random_t by additional emtropy */
-    struct timespec now;
-    const int err = clock_gettime( CLOCK_MONOTONIC, &now );
-    if ( err != 0 )
-    {
-        TSLOG_ERROR_INT( "clock_gettime(CLOCK_MONOTONIC) failed:", errno );
-        assert(false);
-    }
+    clock_t now = clock();  /* integer represents clocks, to be divided by CLOCKS_PER_SEC */
 
     universal_random_t rnd;
     universal_random_init( &rnd );
     {
         utf8error_t strerr = UTF8ERROR_SUCCESS;
 
-        assert( sizeof(long) >= sizeof(uint32_t) );
-        const uint32_t rand1 = now.tv_nsec ^ universal_random_get_long( &rnd );
-        const uint16_t rand2 = now.tv_sec ^ universal_random_get_long( &rnd );
-        const uint16_t rand3 = (universal_random_get_long( &rnd )) & 0x0fff;
-        const uint16_t rand4 = universal_random_get_long( &rnd );
-        const uint16_t rand5 = universal_random_get_long( &rnd );
-        const uint32_t rand6 = universal_random_get_long( &rnd );
+        assert( sizeof(int) >= sizeof(uint32_t) );
+        const uint32_t rand1 = now ^ universal_random_get_int( &rnd );
+        const uint16_t rand2 = universal_random_get_int( &rnd );
+        const uint16_t rand3 = (universal_random_get_int( &rnd )) & 0x0fff;
+        const uint16_t rand4 = universal_random_get_int( &rnd );
+        const uint16_t rand5 = universal_random_get_int( &rnd );
+        const uint32_t rand6 = universal_random_get_int( &rnd );
 
         char thirtyseven_bytes[DATA_UUID_STRING_LENGTH+1];
         const int length = sprintf( &(thirtyseven_bytes[0]),
@@ -71,6 +68,7 @@ static inline void data_uuid_init_new ( data_uuid_t *this_ )
                                     rand6
                                   );
         assert( length == sizeof(thirtyseven_bytes) - sizeof((const char)'\0') );
+        data_uuid_unused( length );
         strerr |= utf8stringbuf_append_str( (*this_).uuid_string, &(thirtyseven_bytes[0]) );
         assert( strerr == UTF8ERROR_SUCCESS );
     }

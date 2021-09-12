@@ -12,18 +12,8 @@ static inline void universal_random_init ( universal_random_t *this_ )
 {
     if ( ! universal_random_initialized )
     {
-        struct timespec seed;
-        const int err = clock_gettime( CLOCK_REALTIME, &seed );
-        if ( err != 0 )
-        {
-            TSLOG_ERROR_INT( "clock_gettime(CLOCK_MONOTONIC) failed:", errno );
-            assert(false);
-            /* do not continue if generated uuids are not unique */
-            exit(-1);
-        }
-        uint32_t high_bits_used = seed.tv_nsec<<2;
-        srandom( high_bits_used ^ seed.tv_sec );
-
+        clock_t now = clock();  /* integer represents clocks, to be divided by CLOCKS_PER_SEC */
+        srand( now );
         universal_random_initialized = true;
     }
     (*this_).dummy=0;
@@ -33,9 +23,10 @@ static inline void universal_random_destroy ( universal_random_t *this_ )
 {
 }
 
-static inline long universal_random_get_long ( universal_random_t *this_ )
+static inline int universal_random_get_int ( universal_random_t *this_ )
 {
-    return random();
+    /* Note: random() is possibly not available on win32 */
+    return rand();
 }
 
 

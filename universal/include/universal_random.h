@@ -42,7 +42,7 @@ static inline void universal_random_destroy ( universal_random_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  */
-static inline long universal_random_get_long ( universal_random_t *this_ );
+static inline int universal_random_get_int ( universal_random_t *this_ );
 
 #include "universal_random.inl"
 
