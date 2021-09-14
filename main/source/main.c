@@ -32,6 +32,7 @@ int main (int argc, char *argv[]) {
     bool do_repair = false;
     bool do_check = false;
     bool do_export = false;
+    bool do_upgrade = false;
     io_file_format_t export_format = 0;
 
     /* handle options */
@@ -44,6 +45,7 @@ int main (int argc, char *argv[]) {
             fprintf( stdout, "    %s -v for version\n", argv[0] );
             fprintf( stdout, "    %s -u <database_file> to use/create a database file\n", argv[0] );
             fprintf( stdout, "    %s -e <database_file> <export_format> <target_directory> to export all diagrams\n", argv[0] );
+            /* fprintf( stdout, "    %s -g <database_file> to upgrade the database tables from version 1.32.1 and older\n", argv[0] ); */
             fprintf( stdout, "    %s -t <database_file> to test the database file\n", argv[0] );
             fprintf( stdout, "    %s -r <database_file> to test and repair the database file\n", argv[0] );
             do_not_start = true;
@@ -67,6 +69,12 @@ int main (int argc, char *argv[]) {
             database_file = argv[2];
             do_not_start = true;
             do_check = true;
+        }
+        if ( utf8string_equals_str( argv[1], "-g" ) )
+        {
+            database_file = argv[2];
+            do_not_start = true;
+            do_upgrade = true;
         }
         if ( utf8string_equals_str( argv[1], "-u" ) )
         {
@@ -97,6 +105,24 @@ int main (int argc, char *argv[]) {
     else
     {
         gtk_init(&argc, &argv);
+    }
+
+    if ( do_upgrade || do_check || do_export )
+    {
+        /* if upgreade or starting in read-only mode, upgrade db first: */
+        assert( database_file != NULL );
+
+        TRACE_INFO("starting DB...");
+        data_database_init( &database );
+
+        TRACE_INFO("upgrading DB...");
+        data_error_t up_err;
+        up_err = data_database_open( &database, database_file );  /* upgrade is implicitely done */
+        TRACE_INFO( ( DATA_ERROR_NONE == up_err ) ? "success" : "failure" );
+
+        TRACE_INFO("stopping DB...");
+        data_database_close( &database );
+        data_database_destroy( &database );
     }
 
     /* repair database */
@@ -134,25 +160,6 @@ int main (int argc, char *argv[]) {
         fprintf( stdout, "\n\n%s\n", utf8stringbuf_get_string(repair_log) );
     }
 
-    /*
-    if ( do_upgrade )
-    {
-        assert( database_file != NULL );
-
-        TRACE_INFO("starting DB...");
-        data_database_init( &database );
-        data_database_open( &database, database_file );
-
-        TRACE_INFO("upgrading DB...");
-        data_error_t up_err;
-        up_err = data_database_upgrade_tables( &database );
-        TRACE_INFO( ( DATA_ERROR_NONE == up_err ) ? "success" : "failure" );
-
-        TRACE_INFO("stopping DB...");
-        data_database_close( &database );
-        data_database_destroy( &database );
-    }
-    */
     if ( do_export )
     {
         assert( database_file != NULL );

@@ -168,7 +168,7 @@ data_error_t data_database_private_initialize_indexes( data_database_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return DATA_ERROR_AT_DB if the current database is not a database or is encrypted; DATA_ERROR_READ_ONLY_DB if read only
  */
-data_error_t data_database_upgrade_tables( data_database_t *this_ );
+data_error_t data_database_private_upgrade_tables( data_database_t *this_ );
 
 /*!
  *  \brief adds a db-file changed listener to the database

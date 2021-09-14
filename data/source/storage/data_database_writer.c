@@ -26,6 +26,7 @@ static const char *DATA_DATABASE_WRITER_COMMIT_TRANSACTION =
 void data_database_writer_init ( data_database_writer_t *this_, data_database_reader_t *db_reader, data_database_t *database )
 {
     TRACE_BEGIN();
+    assert( NULL != db_reader );
     assert( NULL != database );
 
     (*this_).database = database;

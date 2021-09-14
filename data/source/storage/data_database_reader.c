@@ -16,6 +16,29 @@ data_error_t data_database_reader_init ( data_database_reader_t *this_, data_dat
     (*this_).database = database;
     (*this_).is_open = false;
 
+    (*this_).private_prepared_query_diagram_by_id = NULL;
+    (*this_).private_prepared_query_diagrams_by_parent_id = NULL;
+    (*this_).private_prepared_query_diagrams_by_parent_id_null = NULL;
+#ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
+    (*this_).private_prepared_query_diagrams_by_classifier_id = NULL;
+#endif
+    (*this_).private_prepared_query_diagram_ids_by_parent_id = NULL;
+    (*this_).private_prepared_query_diagram_ids_by_parent_id_null = NULL;
+    (*this_).private_prepared_query_diagram_ids_by_classifier_id = NULL;
+    (*this_).private_prepared_query_classifier_by_id = NULL;
+    (*this_).private_prepared_query_classifier_by_name = NULL;
+    (*this_).private_prepared_query_classifiers_by_diagram_id = NULL;
+    (*this_).private_prepared_query_diagramelement_by_id = NULL;
+    (*this_).private_prepared_query_diagramelements_by_diagram_id = NULL;
+    (*this_).private_prepared_query_diagramelements_by_classifier_id = NULL;
+    (*this_).private_prepared_query_feature_by_id = NULL;
+    (*this_).private_prepared_query_features_by_classifier_id = NULL;
+    (*this_).private_prepared_query_features_by_diagram_id = NULL;
+    (*this_).private_prepared_query_relationship_by_id = NULL;
+    (*this_).private_prepared_query_relationships_by_classifier_id = NULL;
+    (*this_).private_prepared_query_relationships_by_feature_id = NULL;
+    (*this_).private_prepared_query_relationships_by_diagram_id = NULL;
+
     data_database_listener_init ( &((*this_).me_as_listener), this_, (void (*)(void*,data_database_listener_signal_t)) &data_database_reader_db_change_callback );
     data_database_add_db_listener( database, &((*this_).me_as_listener) );
 
@@ -1917,7 +1940,14 @@ data_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
                                                                    &((*this_).private_prepared_query_relationships_by_diagram_id)
                                                                  );
 
-        (*this_).is_open = true;
+        if ( result == DATA_ERROR_NONE )
+        {
+            (*this_).is_open = true;
+        }
+        else
+        {
+            TSLOG_ERROR( "A prepared statement could not be prepared." );
+        }
     }
     else
     {
@@ -1937,46 +1967,66 @@ data_error_t data_database_reader_private_close ( data_database_reader_t *this_ 
     if ( (*this_).is_open )
     {
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_by_id );
+        (*this_).private_prepared_query_diagram_by_id = NULL;
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagrams_by_parent_id );
+        (*this_).private_prepared_query_diagrams_by_parent_id = NULL;
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagrams_by_parent_id_null );
+        (*this_).private_prepared_query_diagrams_by_parent_id_null = NULL;
 
 #ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagrams_by_classifier_id );
+        (*this_).private_prepared_query_diagrams_by_classifier_id = NULL;
 #endif
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_ids_by_parent_id );
+        (*this_).private_prepared_query_diagram_ids_by_parent_id = NULL;
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_ids_by_parent_id_null );
+        (*this_).private_prepared_query_diagram_ids_by_parent_id_null = NULL;
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_ids_by_classifier_id );
+        (*this_).private_prepared_query_diagram_ids_by_classifier_id = NULL;
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_classifier_by_id );
+        (*this_).private_prepared_query_classifier_by_id = NULL;
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_classifier_by_name );
+        (*this_).private_prepared_query_classifier_by_name = NULL;
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_classifiers_by_diagram_id );
+        (*this_).private_prepared_query_classifiers_by_diagram_id = NULL;
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagramelement_by_id );
+        (*this_).private_prepared_query_diagramelement_by_id = NULL;
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagramelements_by_diagram_id );
+        (*this_).private_prepared_query_diagramelements_by_diagram_id = NULL;
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagramelements_by_classifier_id );
+        (*this_).private_prepared_query_diagramelements_by_classifier_id = NULL;
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_feature_by_id );
+        (*this_).private_prepared_query_feature_by_id = NULL;
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_features_by_classifier_id );
+        (*this_).private_prepared_query_features_by_classifier_id = NULL;
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_features_by_diagram_id );
+        (*this_).private_prepared_query_features_by_diagram_id = NULL;
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_relationship_by_id );
+        (*this_).private_prepared_query_relationship_by_id = NULL;
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_relationships_by_classifier_id );
+        (*this_).private_prepared_query_relationships_by_classifier_id = NULL;
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_relationships_by_feature_id );
+        (*this_).private_prepared_query_relationships_by_feature_id = NULL;
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_relationships_by_diagram_id );
+        (*this_).private_prepared_query_relationships_by_diagram_id = NULL;
 
         (*this_).is_open = false;
     }

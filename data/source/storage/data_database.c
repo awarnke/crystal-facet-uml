@@ -40,6 +40,7 @@ static const char *DATA_DATABASE_CREATE_CLASSIFIERORDERING_INDEX =
     ");";
 */
 
+#if 0
 /*!
  *  \brief string constant to update an sql database table
  *
@@ -49,6 +50,7 @@ static const char *DATA_DATABASE_CREATE_CLASSIFIERORDERING_INDEX =
 static const char *DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_1 =
     "ALTER TABLE classifiers "
     "ADD COLUMN list_order INTEGER;";
+#endif
 
 /*!
  *  \brief string constant to update an sql database table
@@ -96,6 +98,7 @@ static const char *DATA_DATABASE_CREATE_RELATIONSHIPORDERING_INDEX =
     ");";
 */
 
+#if 0
 /*!
  *  \brief string constant to update an sql database table
  *
@@ -120,6 +123,7 @@ static const char *DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_1 =
 static const char *DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_2 =
     "ALTER TABLE relationships "
     "ADD COLUMN to_feature_id INTEGER DEFAULT NULL;";
+#endif
 
 /*!
  *  \brief string constant to update an sql database table
@@ -224,6 +228,7 @@ static const char *DATA_DATABASE_ALTER_DIAGRAM_TABLE_2 =
     "ALTER TABLE diagrams "
     "ADD COLUMN uuid TEXT NOT NULL DEFAULT \'\';";
 
+#if 0
 /*!
  *  \brief string constant to update an sql database table
  *
@@ -231,6 +236,7 @@ static const char *DATA_DATABASE_ALTER_DIAGRAM_TABLE_2 =
  */
 static const char *DATA_DATABASE_UPDATE_DIAGRAM_ROOT_PARENT =
     "UPDATE diagrams SET parent_id=NULL WHERE parent_id=-1;";
+#endif
 
 /*!
  *  \brief string constant to create an sql database table
@@ -248,6 +254,7 @@ static const char *DATA_DATABASE_CREATE_DIAGRAMELEMENTS_TABLE =
         "FOREIGN KEY(focused_feature_id) REFERENCES feature(id) "
     ");";
 
+#if 0
 /*!
  *  \brief string constant to update an sql database table
  *
@@ -259,6 +266,7 @@ static const char *DATA_DATABASE_CREATE_DIAGRAMELEMENTS_TABLE =
 static const char *DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1 =
     "ALTER TABLE diagramelements "
     "ADD COLUMN focused_feature_id INTEGER DEFAULT NULL;";
+#endif
 
 /*!
  *  \brief string constant to update an sql database table
@@ -435,7 +443,7 @@ data_error_t data_database_private_initialize_indexes( data_database_t *this_ )
     return result;
 }
 
-data_error_t data_database_upgrade_tables( data_database_t *this_ )
+data_error_t data_database_private_upgrade_tables( data_database_t *this_ )
 {
     TRACE_BEGIN();
     int sqlite_err;
@@ -443,230 +451,223 @@ data_error_t data_database_upgrade_tables( data_database_t *this_ )
     data_error_t result = DATA_ERROR_NONE;
     sqlite3 *db = (*this_).db;
 
-    if ( ! (*this_).is_open )
+#if 0
+    /* update table relationships from version 1.0.0 to later versions */
+
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_1 );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_1, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
     {
-        TRACE_INFO("data_database_upgrade_tables called on database that was not open.");
-        result |= DATA_ERROR_INVALID_REQUEST;
+        /* this command will fail whenever the database already has a suitable format */
+        TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_1 );
+        TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
     }
     else
     {
-        /* update table relationships from version 1.0.0 to later versions */
+        TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_1 );
+    }
+    if ( error_msg != NULL )
+    {
+        TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
 
-        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_1 );
-        sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_1, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
-        {
-            /* this command will fail whenever the database already has a suitable format */
-            TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_1 );
-            TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
-        }
-        else
-        {
-            TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_1 );
-        }
-        if ( error_msg != NULL )
-        {
-            TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
-        }
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_2 );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_2, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        /* this command will fail whenever the database already has a suitable format */
+        TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_2 );
+        TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
+    }
+    else
+    {
+        TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_2 );
+    }
+    if ( error_msg != NULL )
+    {
+        TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
 
-        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_2 );
-        sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_2, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
-        {
-            /* this command will fail whenever the database already has a suitable format */
-            TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_2 );
-            TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
-        }
-        else
-        {
-            TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_2 );
-        }
-        if ( error_msg != NULL )
-        {
-            TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
-        }
+    /* update table diagramelements from version 1.0.0 to later versions */
 
-        /* update table diagramelements from version 1.0.0 to later versions */
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1 );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        /* this command will fail whenever the database already has a suitable format */
+        TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1 );
+        TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
+    }
+    else
+    {
+        TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1 );
+    }
+    if ( error_msg != NULL )
+    {
+        TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
 
-        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1 );
-        sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
-        {
-            /* this command will fail whenever the database already has a suitable format */
-            TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1 );
-            TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
-        }
-        else
-        {
-            TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1 );
-        }
-        if ( error_msg != NULL )
-        {
-            TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
-        }
+    /* update table diagrams from version 1.0.0 to later versions */
 
-        /* update table diagrams from version 1.0.0 to later versions */
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_UPDATE_DIAGRAM_ROOT_PARENT );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_UPDATE_DIAGRAM_ROOT_PARENT, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_UPDATE_DIAGRAM_ROOT_PARENT );
+        TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        result |= (sqlite_err == SQLITE_READONLY) ? DATA_ERROR_READ_ONLY_DB : DATA_ERROR_AT_DB;
+    }
+    if ( error_msg != NULL )
+    {
+        TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
 
-        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_UPDATE_DIAGRAM_ROOT_PARENT );
-        sqlite_err = sqlite3_exec( db, DATA_DATABASE_UPDATE_DIAGRAM_ROOT_PARENT, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
-        {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_UPDATE_DIAGRAM_ROOT_PARENT );
-            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-            result |= (sqlite_err == SQLITE_READONLY) ? DATA_ERROR_READ_ONLY_DB : DATA_ERROR_AT_DB;
-        }
-        if ( error_msg != NULL )
-        {
-            TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
-        }
+    /* update table classifiers from version 1.4.0 or earlier to 1.5.0 or later versions */
 
-        /* update table classifiers from version 1.4.0 or earlier to 1.5.0 or later versions */
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_1 );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_1, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        /* this command will fail whenever the database already has a suitable format */
+        TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_1 );
+        TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
+    }
+    else
+    {
+        TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_1 );
+    }
+    if ( error_msg != NULL )
+    {
+        TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
+#endif
 
-        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_1 );
-        sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_1, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
-        {
-            /* this command will fail whenever the database already has a suitable format */
-            TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_1 );
-            TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
-        }
-        else
-        {
-            TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_1 );
-        }
-        if ( error_msg != NULL )
-        {
-            TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
-        }
+    /* update table classifiers from version 1.32.1 or earlier to later versions with diagram.display_flags */
 
-        /* update table classifiers from version 1.32.1 or earlier to later versions with diagram.display_flags */
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_1 );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_DIAGRAM_TABLE_1, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        /* this command will fail whenever the database already has a suitable format */
+        TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_1 );
+        TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
+    }
+    else
+    {
+        TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_1 );
+    }
+    if ( error_msg != NULL )
+    {
+        TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
 
-        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_1 );
-        sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_DIAGRAM_TABLE_1, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
-        {
-            /* this command will fail whenever the database already has a suitable format */
-            TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_1 );
-            TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
-        }
-        else
-        {
-            TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_1 );
-        }
-        if ( error_msg != NULL )
-        {
-            TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
-        }
+    /* update all 5 tables from version 1.32.1 (no uuid) to later versions with uuid field */
 
-        /* update all 5 tables from version 1.32.1 (no uuid) to later versions with uuid field */
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_2 );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_2, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        /* this command will fail whenever the database already has a suitable format */
+        TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_2 );
+        TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
+    }
+    else
+    {
+        TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_2 );
+    }
+    if ( error_msg != NULL )
+    {
+        TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
 
-        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_2 );
-        sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_2, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
-        {
-            /* this command will fail whenever the database already has a suitable format */
-            TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_2 );
-            TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
-        }
-        else
-        {
-            TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_2 );
-        }
-        if ( error_msg != NULL )
-        {
-            TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
-        }
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_3 );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_3, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        /* this command will fail whenever the database already has a suitable format */
+        TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_3 );
+        TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
+    }
+    else
+    {
+        TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_3 );
+    }
+    if ( error_msg != NULL )
+    {
+        TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
 
-        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_3 );
-        sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_3, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
-        {
-            /* this command will fail whenever the database already has a suitable format */
-            TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_3 );
-            TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
-        }
-        else
-        {
-            TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_3 );
-        }
-        if ( error_msg != NULL )
-        {
-            TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
-        }
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_FEATUREINSTANCE_TABLE_1 );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_FEATUREINSTANCE_TABLE_1, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        /* this command will fail whenever the database already has a suitable format */
+        TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_FEATUREINSTANCE_TABLE_1 );
+        TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
+    }
+    else
+    {
+        TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_FEATUREINSTANCE_TABLE_1 );
+    }
+    if ( error_msg != NULL )
+    {
+        TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
 
-        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_FEATUREINSTANCE_TABLE_1 );
-        sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_FEATUREINSTANCE_TABLE_1, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
-        {
-            /* this command will fail whenever the database already has a suitable format */
-            TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_FEATUREINSTANCE_TABLE_1 );
-            TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
-        }
-        else
-        {
-            TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_FEATUREINSTANCE_TABLE_1 );
-        }
-        if ( error_msg != NULL )
-        {
-            TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
-        }
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_2 );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_DIAGRAM_TABLE_2, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        /* this command will fail whenever the database already has a suitable format */
+        TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_2 );
+        TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
+    }
+    else
+    {
+        TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_2 );
+    }
+    if ( error_msg != NULL )
+    {
+        TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
 
-        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_2 );
-        sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_DIAGRAM_TABLE_2, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
-        {
-            /* this command will fail whenever the database already has a suitable format */
-            TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_2 );
-            TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
-        }
-        else
-        {
-            TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_DIAGRAM_TABLE_2 );
-        }
-        if ( error_msg != NULL )
-        {
-            TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
-        }
-
-        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_2 );
-        sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_2, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
-        {
-            /* this command will fail whenever the database already has a suitable format */
-            TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_2 );
-            TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
-        }
-        else
-        {
-            TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_2 );
-        }
-        if ( error_msg != NULL )
-        {
-            TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
-        }
-
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_2 );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_2, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        /* this command will fail whenever the database already has a suitable format */
+        TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_2 );
+        TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
+    }
+    else
+    {
+        TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_2 );
+    }
+    if ( error_msg != NULL )
+    {
+        TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
     }
 
     TRACE_END_ERR( result );
@@ -731,6 +732,10 @@ data_error_t data_database_private_open ( data_database_t *this_, const char* db
             if ( init_err == DATA_ERROR_NONE )
             {
                 init_err = data_database_private_initialize_indexes( this_ );
+            }
+            if ( init_err == DATA_ERROR_NONE )
+            {
+                init_err = data_database_private_upgrade_tables( this_ );
             }
 
             if ( init_err == DATA_ERROR_NONE )

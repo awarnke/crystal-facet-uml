@@ -57,10 +57,8 @@ ctrl_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const c
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t close_result;
-    data_error_t open_result;
 
-    close_result = data_database_close( (*this_).database );
+    const data_error_t close_result = data_database_close( (*this_).database );
     ctrl_undo_redo_list_clear( &((*this_).undo_redo_list) );
     if ( DATA_ERROR_NONE != close_result )
     {
@@ -68,7 +66,7 @@ ctrl_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const c
         TRACE_INFO_HEX( "Error at data_database_close", close_result );
     }
 
-    open_result = data_database_open( (*this_).database, db_file_path );
+    const data_error_t open_result = data_database_open( (*this_).database, db_file_path );
     result = (ctrl_error_t) open_result;
 
     TRACE_END_ERR( result );
