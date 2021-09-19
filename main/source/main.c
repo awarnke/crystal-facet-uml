@@ -281,6 +281,10 @@ io_file_format_t main_private_get_selected_format( char *arg_fmt )
     {
         result = IO_FILE_FORMAT_XMI2;
     }
+    else if ( utf8string_equals_str( arg_fmt, "json" ) )
+    {
+        result = IO_FILE_FORMAT_JSON;
+    }
 
     TRACE_END();
     return result;

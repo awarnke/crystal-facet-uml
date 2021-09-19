@@ -48,6 +48,7 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     */
     (*this_).format_xhtml = gtk_check_button_new_with_label ("xhtml");
     (*this_).format_xmi2 = gtk_check_button_new_with_label ("xmi");
+    (*this_).format_json= gtk_check_button_new_with_label ("json");
 
     (*this_).format_pdf = gtk_check_button_new_with_label ("pdf");
     (*this_).format_png = gtk_check_button_new_with_label ("png");
@@ -74,7 +75,8 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).document_label, 0, 1, 2, 1 );
 
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_docbook, 2, 1, 2, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_xhtml, 4, 1, 2, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_xhtml, 4, 1, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_json, 5, 1, 1, 1 );
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_xmi2, 6, 1, 2, 1 );
     /*
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_asciidoc, 4, 1, 1, 1 );
@@ -161,6 +163,7 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
             if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON((*this_).format_docbook) )) { selected_format |= IO_FILE_FORMAT_DOCBOOK; }
             if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON((*this_).format_xhtml) )) { selected_format |= IO_FILE_FORMAT_XHTML; }
             if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON((*this_).format_xmi2) )) { selected_format |= IO_FILE_FORMAT_XMI2; }
+            if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON((*this_).format_json) )) { selected_format |= IO_FILE_FORMAT_JSON; }
 
             /* determine the database file path */
             const char *db_path = data_database_get_filename_ptr ( (*this_).database );

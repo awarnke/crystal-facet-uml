@@ -51,15 +51,14 @@ static inline void data_uuid_init_new ( data_uuid_t *this_ )
         assert( sizeof(int) >= sizeof(uint32_t) );
         const uint32_t rand1 = now ^ universal_random_get_int( &rnd );
         const uint16_t rand2 = universal_random_get_int( &rnd );
-        const uint16_t rand3 = (universal_random_get_int( &rnd )) & 0x0fff;
-        const uint16_t rand4 = universal_random_get_int( &rnd );
+        const uint16_t rand3 = (universal_random_get_int( &rnd ) | 0x4000) & 0x4fff;  /* version 4 (4 bits)  */
+        const uint16_t rand4 = (universal_random_get_int( &rnd ) | 0x8000) & 0xbfff;  /* 2 reserved bits */
         const uint16_t rand5 = universal_random_get_int( &rnd );
         const uint32_t rand6 = universal_random_get_int( &rnd );
 
         char thirtyseven_bytes[DATA_UUID_STRING_LENGTH+1];
         const int length = sprintf( &(thirtyseven_bytes[0]),
-                                    /*         v UUID version 4 */
-                                    "%08x-%04x-4%03x-%04x-%04x%08x",
+                                    "%08x-%04x-%04x-%04x-%04x%08x",
                                     rand1,
                                     rand2,
                                     rand3,

@@ -1,6 +1,7 @@
 /* File: data_database.inl; Copyright and License: see below */
 
 #include "tslog.h"
+#include <assert.h>
 
 static inline data_error_t data_database_open ( data_database_t *this_, const char* db_file_path )
 {
@@ -75,6 +76,31 @@ static inline bool data_database_is_open( data_database_t *this_ )
     locking_error = data_database_private_lock( this_ );
     result = (*this_).is_open;
     locking_error |= data_database_private_unlock( this_ );
+    return result;
+}
+
+static inline data_error_t data_database_private_exec_sql( data_database_t *this_, const char* sql_command )
+{
+    assert( sql_command != NULL );
+    int sqlite_err;
+    char *error_msg = NULL;
+    data_error_t result = DATA_ERROR_NONE;
+    sqlite3 *const db = (*this_).db;
+
+    TSLOG_EVENT_STR( "sqlite3_exec:", sql_command );
+    sqlite_err = sqlite3_exec( db, sql_command, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", sql_command );
+        TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        result |= (sqlite_err == SQLITE_READONLY) ? DATA_ERROR_READ_ONLY_DB : DATA_ERROR_AT_DB;
+    }
+    if ( error_msg != NULL )
+    {
+        TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
     return result;
 }
 

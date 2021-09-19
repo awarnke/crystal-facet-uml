@@ -15,16 +15,17 @@
  *  \brief file format of exported images/text
  */
 enum io_file_format_enum {
-    IO_FILE_FORMAT_NONE= 0x0000,  /*!< no format selected */
-    IO_FILE_FORMAT_SVG = 0x0001,  /*!< scalable vector graphics */
-    IO_FILE_FORMAT_PDF = 0x0002,  /*!< portable document format */
-    IO_FILE_FORMAT_PS  = 0x0004,  /*!< postscript */
-    IO_FILE_FORMAT_PNG = 0x0008,  /*!< portable network graphics */
-    IO_FILE_FORMAT_TXT = 0x0010,  /*!< utf8 encoded text */
-    IO_FILE_FORMAT_DOCBOOK = 0x0100,  /*!< docbook */
-    IO_FILE_FORMAT_XHTML = 0x0200,  /*!< xhtml */
-    IO_FILE_FORMAT_CSS = 0x0400,  /*!< css for xhtml */
-    IO_FILE_FORMAT_XMI2 = 0x1000,  /*!< xmi version 2.5.1 */
+    IO_FILE_FORMAT_NONE    = 0x00000,  /*!< no format selected */
+    IO_FILE_FORMAT_SVG     = 0x00001,  /*!< scalable vector graphics */
+    IO_FILE_FORMAT_PDF     = 0x00002,  /*!< portable document format */
+    IO_FILE_FORMAT_PS      = 0x00004,  /*!< postscript */
+    IO_FILE_FORMAT_PNG     = 0x00008,  /*!< portable network graphics */
+    IO_FILE_FORMAT_TXT     = 0x00010,  /*!< utf8 encoded text */
+    IO_FILE_FORMAT_DOCBOOK = 0x00100,  /*!< docbook */
+    IO_FILE_FORMAT_XHTML   = 0x00200,  /*!< xhtml */
+    IO_FILE_FORMAT_CSS     = 0x00400,  /*!< css for xhtml */
+    IO_FILE_FORMAT_XMI2    = 0x01000,  /*!< xmi version 2.5.1 */
+    IO_FILE_FORMAT_JSON    = 0x10000,  /*!< json; json-ld: https://www.w3.org/TR/json-ld/ */
 };
 
 typedef enum io_file_format_enum io_file_format_t;

@@ -95,6 +95,11 @@ int io_exporter_export_files( io_exporter_t *this_,
             export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_CSS, target_folder, document_file_name, io_export_stat );
         }
 
+        if ( ( export_type & IO_FILE_FORMAT_JSON ) != 0 )
+        {
+            export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_JSON, target_folder, document_file_name, io_export_stat );
+        }
+
         if ( ( export_type & IO_FILE_FORMAT_XMI2 ) != 0 )
         {
             export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_XMI2, target_folder, document_file_name, io_export_stat );
@@ -236,7 +241,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
             }
 
             result |= universal_file_output_stream_destroy( &text_output );
-            
+
             data_stat_inc_count ( io_export_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED );
         }
     }
@@ -313,6 +318,12 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         }
         break;
 
+        case IO_FILE_FORMAT_JSON:
+        {
+            utf8stringbuf_append_str( (*this_).temp_filename, ".json" );
+        }
+        break;
+
         case IO_FILE_FORMAT_XMI2:
         {
             utf8stringbuf_append_str( (*this_).temp_filename, ".xmi" );
@@ -360,6 +371,11 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
 
             io_export_model_traversal_destroy( &((*this_).temp_model_traversal) );
             xmi_element_writer_destroy( &((*this_).temp_xmi_writer ) );
+        }
+        else if ( IO_FILE_FORMAT_JSON == export_type )
+        {
+            TSLOG_ERROR("error: not-yet-implemented_format.");
+            export_err |= -1;
         }
         else
         {

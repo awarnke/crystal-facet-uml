@@ -228,6 +228,15 @@ static inline data_error_t data_database_private_unlock ( data_database_t *this_
  */
 static inline bool data_database_is_open( data_database_t *this_ );
 
+/*!
+ *  \brief checks if the database file is open
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param sql_command the sqk statement to execute
+ *  \return DATA_ERROR_READ_ONLY_DB if read oly, DATA_ERROR_AT_DB if other error, DATA_ERROR_NONE if no error
+ */
+static inline data_error_t data_database_private_exec_sql( data_database_t *this_, const char* sql_command );
+
 #include "storage/data_database.inl"
 
 #endif  /* DATA_DATABASE_H */
