@@ -73,6 +73,7 @@ static const char *DATA_DATABASE_ALTER_CLASSIFIER_TABLE_UUID =
  *  \brief string constant to update an sql database table
  *
  *  A uuid is generated and updated wherever missing.
+ *  The subselect-WHERE clause is needed to generate for each row a different uuid.
  */
 static const char *DATA_DATABASE_UPDATE_CLASSIFIER_UUID =
     "UPDATE classifiers SET uuid=(SELECT " DATA_DATABASE_CREATE_UUID " WHERE classifiers.id!=-1) WHERE uuid=\'\';";
@@ -154,6 +155,7 @@ static const char *DATA_DATABASE_ALTER_RELATIONSHIP_TABLE_UUID =
  *  \brief string constant to update an sql database table
  *
  *  A uuid is generated and updated wherever missing.
+ *  The subselect-WHERE clause is needed to generate for each row a different uuid.
  */
 static const char *DATA_DATABASE_UPDATE_RELATIONSHIP_UUID =
     "UPDATE relationships SET uuid=(SELECT " DATA_DATABASE_CREATE_UUID " WHERE relationships.id!=-1) WHERE uuid=\'\';";
@@ -203,6 +205,7 @@ static const char *DATA_DATABASE_ALTER_FEATURE_TABLE_UUID =
  *  \brief string constant to update an sql database table
  *
  *  A uuid is generated and updated wherever missing.
+ *  The subselect-WHERE clause is needed to generate for each row a different uuid.
  */
 static const char *DATA_DATABASE_UPDATE_FEATURE_UUID =
     "UPDATE features SET uuid=(SELECT " DATA_DATABASE_CREATE_UUID " WHERE features.id!=-1) WHERE uuid=\'\';";
@@ -261,6 +264,7 @@ static const char *DATA_DATABASE_ALTER_DIAGRAM_TABLE_UUID =
  *  \brief string constant to update an sql database table
  *
  *  A uuid is generated and updated wherever missing.
+ *  The subselect-WHERE clause is needed to generate for each row a different uuid.
  */
 static const char *DATA_DATABASE_UPDATE_DIAGRAM_UUID =
     "UPDATE diagrams SET uuid=(SELECT " DATA_DATABASE_CREATE_UUID " WHERE diagrams.id!=-1) WHERE uuid=\'\';";
@@ -321,6 +325,7 @@ static const char *DATA_DATABASE_ALTER_DIAGRAMELEMENT_TABLE_UUID =
  *  \brief string constant to update an sql database table
  *
  *  A uuid is generated and updated wherever missing.
+ *  The subselect-WHERE clause is needed to generate for each row a different uuid.
  */
 static const char *DATA_DATABASE_UPDATE_DIAGRAMELEMENT_UUID =
     "UPDATE diagramelements SET uuid=(SELECT " DATA_DATABASE_CREATE_UUID " WHERE diagramelements.id!=-1) WHERE uuid=\'\';";

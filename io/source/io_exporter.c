@@ -1,6 +1,7 @@
 /* File: io_exporter.c; Copyright and License: see below */
 
 #include "io_exporter.h"
+#include "json/json_export_from_database.h"
 #include "stream/universal_file_output_stream.h"
 #include "stream/universal_output_stream.h"
 #include "trace.h"
@@ -374,6 +375,11 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         }
         else if ( IO_FILE_FORMAT_JSON == export_type )
         {
+            json_export_from_database_t local_exporter;
+            json_export_from_database_init( &local_exporter, (*this_).db_reader );
+            //json_export_from_database_export_all( &local_exporter );
+            json_export_from_database_destroy( &local_exporter );
+
             TSLOG_ERROR("error: not-yet-implemented_format.");
             export_err |= -1;
         }

@@ -26,8 +26,7 @@ static inline data_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t uui
     else if ( utf8stringbuf_get_length( (*this_).uuid_string ) != DATA_UUID_STRING_LENGTH )
     {
         TSLOG_ERROR_INT( "uuid_string too short:", utf8stringbuf_get_length( (*this_).uuid_string ) );
-        //result |= DATA_ERROR_VALUE_OUT_OF_RANGE;
-        // ALLOW THE EMPTY STRING FOR NOW... - TODO
+        result |= DATA_ERROR_VALUE_OUT_OF_RANGE;
     }
 
     return result;
@@ -40,7 +39,8 @@ static inline void data_uuid_init_new ( data_uuid_t *this_ )
                                              );
     utf8stringbuf_clear( (*this_).uuid_string );
 
-    /* get current time to enrich the universal_random_t by additional emtropy */
+    /* get current time to enrich the universal_random_t by additional emtropy - */
+    /* otherwise the pseudo-random number only depends on the initial seed and number of samples already produced */
     clock_t now = clock();  /* integer represents clocks, to be divided by CLOCKS_PER_SEC */
 
     universal_random_t rnd;
@@ -51,7 +51,7 @@ static inline void data_uuid_init_new ( data_uuid_t *this_ )
         assert( sizeof(int) >= sizeof(uint32_t) );
         const uint32_t rand1 = now ^ universal_random_get_int( &rnd );
         const uint16_t rand2 = universal_random_get_int( &rnd );
-        const uint16_t rand3 = (universal_random_get_int( &rnd ) | 0x4000) & 0x4fff;  /* version 4 (4 bits)  */
+        const uint16_t rand3 = (universal_random_get_int( &rnd ) | 0x4000) & 0x4fff;  /* version 4 (4 bits) */
         const uint16_t rand4 = (universal_random_get_int( &rnd ) | 0x8000) & 0xbfff;  /* 2 reserved bits */
         const uint16_t rand5 = universal_random_get_int( &rnd );
         const uint32_t rand6 = universal_random_get_int( &rnd );
