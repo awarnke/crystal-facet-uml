@@ -13,6 +13,7 @@
  *  Sink: xmi_interaction_writer
  */
 
+#include "io_element_writer.h"
 #include "xmi/xmi_element_writer.h"
 #include "xmi/xmi_interaction_writer.h"
 #include "set/data_visible_set.h"
@@ -85,9 +86,9 @@ int io_export_interaction_traversal_iterate_classifier_occurrences ( io_export_i
  *  \param diagram_id id of the diagram which to process for export
  *  \return -1 in case of error, 0 in case of success
  */
-int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction_traversal_t *this_, 
+int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction_traversal_t *this_,
                                                            data_classifier_type_t nesting_type,
-                                                           data_id_t diagram_id 
+                                                           data_id_t diagram_id
                                                          );
 
 /*!

@@ -14,6 +14,7 @@
  */
 
 #include "io_export_interaction_traversal.h"
+#include "io_element_writer.h"
 #include "xmi/xmi_element_writer.h"
 #include "set/data_node_set.h"
 #include "set/data_stat.h"
@@ -26,8 +27,8 @@
  *  \brief constants for maximum values of io_export_model_traversal_t
  */
 enum io_export_model_traversal_max_enum {
-    IO_EXPORT_MODEL_TRAVERSAL_MAX_TOTAL_ELEMENTS = 16384,  /*!< maximum number of total classifiers and relationships to be exported */
-    IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH = 24,  /*!< maximum number of recursive descend into containment children */
+    IO_EXPORT_MODEL_TRAVERSAL_MAX_TOTAL_ELEMENTS = 32768,  /*!< maximum number of total classifiers and relationships to be exported */
+    IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH = 32,  /*!< maximum number of recursive descend into containment children */
 };
 
 /*!
@@ -39,7 +40,7 @@ struct io_export_model_traversal_struct {
     xmi_element_writer_t *element_writer;  /*!< pointer to external xmi_element_writer_t which is the output sink */
 
     io_export_interaction_traversal_t interaction_helper;  /* !< instance of own io_export_interaction_traversal to help with interaction exports */
-    
+
     data_id_t written_id_set_buf[IO_EXPORT_MODEL_TRAVERSAL_MAX_TOTAL_ELEMENTS];  /*!< buffer for list of already exported element ids */
     universal_array_list_t written_id_set;  /*!< list of already exported element ids (extended when starting to export an element), used for classifiers and relationships and lifelines(which are features) */
 
@@ -196,7 +197,7 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                                                                  );
 
 /*!
- *  \brief determines the types of the end-object of a relationship 
+ *  \brief determines the types of the end-object of a relationship
  *
  *  \param this_ pointer to own object attributes
  *  \param relation pointer to relationship that shall be analyzed, not NULL

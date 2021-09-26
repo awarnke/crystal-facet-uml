@@ -10,7 +10,7 @@
  *  and b) a pointer to objectdata that implements the interface.
  */
 
-#include "stream/io_element_writer_if.h"
+#include "io_element_writer_if.h"
 
 /*!
  *  \brief object (vmt+data) of a io_element_writer_t.

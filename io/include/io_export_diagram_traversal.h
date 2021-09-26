@@ -14,6 +14,7 @@
  */
 
 #include "io_format_writer.h"
+#include "io_element_writer.h"
 #include "set/data_visible_set.h"
 #include "set/data_node_set.h"
 #include "set/data_stat.h"
