@@ -1,7 +1,7 @@
-/* File: universal_output_stream.h; Copyright and License: see below */
+/* File: io_element_writer.h; Copyright and License: see below */
 
-#ifndef UNIVERSAL_OUTPUT_STREAM_H
-#define UNIVERSAL_OUTPUT_STREAM_H
+#ifndef IO_ELEMENT_WRITER_H
+#define IO_ELEMENT_WRITER_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -10,43 +10,43 @@
  *  and b) a pointer to objectdata that implements the interface.
  */
 
-#include "stream/universal_output_stream_if.h"
+#include "stream/io_element_writer_if.h"
 
 /*!
- *  \brief object (vmt+data) of a universal_output_stream_t.
+ *  \brief object (vmt+data) of a io_element_writer_t.
  *
  */
-struct universal_output_stream_struct {
-    const universal_output_stream_if_t* interface;  /*!< set of interface functions to write to a stream, kind of VMT */
+struct io_element_writer_struct {
+    const io_element_writer_if_t* interface;  /*!< set of interface functions to write to a stream, kind of VMT */
     void* objectdata;  /*!< object that implements writing to a stream, used in interface functions as this_ parameter */
 };
 
-typedef struct universal_output_stream_struct universal_output_stream_t;
+typedef struct io_element_writer_struct io_element_writer_t;
 
 /*!
- *  \brief initializes the universal_output_stream_t
+ *  \brief initializes the io_element_writer_t
  *
- *  Note: While init only initializes the \c universal_output_stream_t struct,
- *  destroy also calls the destroy function in \c universal_output_stream_if_t.
+ *  Note: While init only initializes the \c io_element_writer_t struct,
+ *  destroy also calls the destroy function in \c io_element_writer_if_t.
  *
  *  \param this_ pointer to own object attributes
  *  \param interface set of interface functions to write to a stream
  *  \param objectdata object that implements writing to a stream
  */
-static inline void universal_output_stream_init( universal_output_stream_t *this_,
-                                                 const universal_output_stream_if_t *interface,
-                                                 void* objectdata
-                                               );
+static inline void io_element_writer_init( io_element_writer_t *this_,
+                                           const io_element_writer_if_t *interface,
+                                           void* objectdata
+                                         );
 
 /*!
- *  \brief destroys the universal_output_stream_t.
+ *  \brief destroys the io_element_writer_t.
  *
  *  This function does NOT call \c destroy on the \c interface.
  *
  *  \param this_ pointer to own object attributes
  *  \result returns 0 if success, -1 in case of error
  */
-static inline int universal_output_stream_destroy( universal_output_stream_t *this_ );
+static inline int io_element_writer_destroy( io_element_writer_t *this_ );
 
 /*!
  *  \brief gets the set of interface functions
@@ -54,7 +54,7 @@ static inline int universal_output_stream_destroy( universal_output_stream_t *th
  *  \param this_ pointer to own object attributes
  *  \result the set of interface functions
  */
-static inline const universal_output_stream_if_t* universal_output_stream_get_interface ( universal_output_stream_t *this_ );
+static inline const io_element_writer_if_t* io_element_writer_get_interface ( io_element_writer_t *this_ );
 
 /*!
  *  \brief gets the object that implements writing to a stream
@@ -62,7 +62,7 @@ static inline const universal_output_stream_if_t* universal_output_stream_get_in
  *  \param this_ pointer to own object attributes
  *  \result the object data that implements the interface
  */
-static inline void* universal_output_stream_get_objectdata ( universal_output_stream_t *this_ );
+static inline void* io_element_writer_get_objectdata ( io_element_writer_t *this_ );
 
 /*!
  *  \brief calls \c open on the \c interface
@@ -71,7 +71,7 @@ static inline void* universal_output_stream_get_objectdata ( universal_output_st
  *  \param identifier identifier of the stream, e.g. a path in case of a file stream.
  *  \result returns 0 if success, -1 in case of error
  */
-static inline int universal_output_stream_open (universal_output_stream_t* this_, const char* identifier);
+static inline int io_element_writer_open (io_element_writer_t* this_, const char* identifier);
 
 /*!
  *  \brief calls \c write on the \c interface
@@ -81,7 +81,7 @@ static inline int universal_output_stream_open (universal_output_stream_t* this_
  *  \param length length in bytes to write
  *  \result returns 0 if success, -1 in case of error
  */
-static inline int universal_output_stream_write (universal_output_stream_t* this_, const void *start, size_t length);
+static inline int io_element_writer_write (io_element_writer_t* this_, const void *start, size_t length);
 
 /*!
  *  \brief calls \c flush on the \c interface
@@ -89,7 +89,7 @@ static inline int universal_output_stream_write (universal_output_stream_t* this
  *  \param this_ pointer to own object attributes
  *  \result returns 0 if success, -1 in case of error
  */
-static inline int universal_output_stream_flush (universal_output_stream_t* this_);
+static inline int io_element_writer_flush (io_element_writer_t* this_);
 
 /*!
  *  \brief calls \c close on the \c interface
@@ -97,15 +97,15 @@ static inline int universal_output_stream_flush (universal_output_stream_t* this
  *  \param this_ pointer to own object attributes
  *  \result returns 0 if success, -1 in case of error
  */
-static inline int universal_output_stream_close (universal_output_stream_t* this_);
+static inline int io_element_writer_close (io_element_writer_t* this_);
 
-#include "universal_output_stream.inl"
+#include "io_element_writer.inl"
 
-#endif  /* UNIVERSAL_OUTPUT_STREAM_H */
+#endif  /* IO_ELEMENT_WRITER_H */
 
 
 /*
-Copyright 2020-2021 Andreas Warnke
+Copyright 2021-2021 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
