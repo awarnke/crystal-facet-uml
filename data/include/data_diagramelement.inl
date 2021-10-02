@@ -12,7 +12,7 @@ static inline void data_diagramelement_init_empty ( data_diagramelement_t *this_
     (*this_).classifier_id = DATA_ROW_ID_VOID;
     (*this_).display_flags = DATA_DIAGRAMELEMENT_FLAG_NONE;
     (*this_).focused_feature_id = DATA_ROW_ID_VOID;
-    data_uuid_init_void( &((*this_).uuid) );
+    data_uuid_init_new( &((*this_).uuid) );
 }
 
 static inline void data_diagramelement_reinit_empty ( data_diagramelement_t *this_ )

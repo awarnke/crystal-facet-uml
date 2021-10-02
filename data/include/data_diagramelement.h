@@ -31,14 +31,16 @@ struct data_diagramelement_struct {
 typedef struct data_diagramelement_struct data_diagramelement_t;
 
 /*!
- *  \brief initializes the data_diagramelement_t struct with id, classifier_id and diagram_id DATA_ROW_ID_VOID.
+ *  \brief initializes the data_diagramelement_t struct with id, classifier_id and diagram_id DATA_ROW_ID_VOID,
+ *         and a fresh uuid.
  *
  *  \param this_ pointer to own object attributes
  */
 static inline void data_diagramelement_init_empty ( data_diagramelement_t *this_ );
 
 /*!
- *  \brief re-initializes the data_diagramelement_t struct with id, classifier_id and diagram_id DATA_ROW_ID_VOID.
+ *  \brief re-initializes the data_diagramelement_t struct with id, classifier_id and diagram_id DATA_ROW_ID_VOID,
+ *         and a fresh uuid.
  *
  *  \param this_ pointer to own object attributes
  */

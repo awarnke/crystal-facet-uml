@@ -121,10 +121,23 @@ int xmi_element_writer_start_main( xmi_element_writer_t *this_, const char *docu
  *  \param child_type data_classifier_type_t of the nested child of which the nesting-ability shall be determined
  *  \return true if nesting is allowed
  */
-static inline bool xmi_element_writer_can_classifier_nest_classifier ( xmi_element_writer_t *this_,
-                                                                       data_classifier_type_t parent_type,
-                                                                       data_classifier_type_t child_type
-                                                                     );
+bool xmi_element_writer_can_classifier_nest_classifier ( xmi_element_writer_t *this_,
+                                                         data_classifier_type_t parent_type,
+                                                         data_classifier_type_t child_type
+                                                       );
+
+/*!
+ *  \brief checks if a parent classifier may nest relationships
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_type data_classifier_type_t of the parent of which the nesting-ability shall be determined
+ *  \param child_type data_relationship_type_t of the nested child of which the nesting-ability shall be determined
+ *  \return true if nesting or any relationship is allowed
+ */
+bool xmi_element_writer_can_classifier_nest_relationship ( xmi_element_writer_t *this_,
+                                                           data_classifier_type_t parent_type,
+                                                           data_relationship_type_t child_type
+                                                         );
 
 /*!
  *  \brief writes a classifier start-element
@@ -207,19 +220,6 @@ int xmi_element_writer_end_feature( xmi_element_writer_t *this_,
                                     data_classifier_type_t parent_type,
                                     const data_feature_t *feature_ptr
                                   );
-
-/*!
- *  \brief checks if a parent classifier may nest relationships
- *
- *  \param this_ pointer to own object attributes
- *  \param parent_type data_classifier_type_t of the parent of which the nesting-ability shall be determined
- *  \param child_type data_relationship_type_t of the nested child of which the nesting-ability shall be determined
- *  \return true if nesting or any relationship is allowed
- */
-static inline bool xmi_element_writer_can_classifier_nest_relationship ( xmi_element_writer_t *this_,
-                                                                         data_classifier_type_t parent_type,
-                                                                         data_relationship_type_t child_type
-                                                                       );
 
 /*!
  *  \brief starts a relationship

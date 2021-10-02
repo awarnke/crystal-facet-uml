@@ -292,6 +292,27 @@ data_error_t json_serializer_append_classifier ( json_serializer_t *this_,
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_NEXT_NL );
 
+        /* uuid */
+        out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
+        strerr |= utf8stringbuf_append_str( out,
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_KEY_UUID
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_DEF
+                                            JSON_CONSTANTS_QUOTE );
+        out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
+        strerr |= utf8stringbuf_append_str( out,
+                                            data_classifier_get_uuid_const( object ));
+        strerr |= utf8stringbuf_replace_all( out,
+                                             &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+        strerr |= utf8stringbuf_append_str( out,
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_NEXT_NL );
+
         /* array of features */
         out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
         strerr |= utf8stringbuf_append_str( out,
@@ -484,6 +505,43 @@ data_error_t json_serializer_append_diagram ( json_serializer_t *this_, data_dia
         strerr |= utf8stringbuf_append_int( out,
                                             data_diagram_get_list_order( object ));
         strerr |= utf8stringbuf_append_str( out,
+                                            JSON_CONSTANTS_NEXT_NL );
+
+        /* display_flags */
+        out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
+        strerr |= utf8stringbuf_append_str( out,
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_DEF );
+        strerr |= utf8stringbuf_append_int( out,
+                                            data_diagram_get_display_flags( object ));
+        strerr |= utf8stringbuf_append_str( out,
+                                            JSON_CONSTANTS_NEXT_NL );
+
+        /* uuid */
+        out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
+        strerr |= utf8stringbuf_append_str( out,
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_KEY_UUID
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_DEF
+                                            JSON_CONSTANTS_QUOTE );
+        out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
+        strerr |= utf8stringbuf_append_str( out,
+                                            data_diagram_get_uuid_const( object ));
+        strerr |= utf8stringbuf_replace_all( out,
+                                             &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+        strerr |= utf8stringbuf_append_str( out,
+                                            JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_NL );  /* LAST, no NEXT */
 
         /* end diagram */
@@ -779,7 +837,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
         strerr |= utf8stringbuf_append_int( out,
                                             data_relationship_get_to_feature_row_id( object ));
         strerr |= utf8stringbuf_append_str( out,
-                                            to_feat_valid ? JSON_CONSTANTS_NEXT_NL : JSON_CONSTANTS_NL /* LAST, no NEXT */ );
+                                            JSON_CONSTANTS_NEXT_NL );
 
         /* to_feature_key */
         if ( to_feat_valid )
@@ -802,8 +860,29 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
                                                  &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
             strerr |= utf8stringbuf_append_str( out,
                                                 JSON_CONSTANTS_QUOTE
-                                                JSON_CONSTANTS_NL );  /* LAST, no NEXT */
+                                                JSON_CONSTANTS_NEXT_NL );
         }
+
+        /* uuid */
+        out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
+        strerr |= utf8stringbuf_append_str( out,
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_KEY_UUID
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_DEF
+                                            JSON_CONSTANTS_QUOTE );
+        out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
+        strerr |= utf8stringbuf_append_str( out,
+                                            data_relationship_get_uuid_const( object ));
+        strerr |= utf8stringbuf_replace_all( out,
+                                             &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+        strerr |= utf8stringbuf_append_str( out,
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_NL );  /* LAST, no NEXT */
 
         /* end relationship */
         strerr |= utf8stringbuf_append_str( out,
@@ -967,7 +1046,28 @@ utf8error_t json_serializer_private_append_feature ( json_serializer_t *this_, d
     strerr |= utf8stringbuf_append_int( out,
                                         data_feature_get_list_order( object ));
     strerr |= utf8stringbuf_append_str( out,
-                                        JSON_CONSTANTS_NL );  /* LAST, no NEXT */
+                                        JSON_CONSTANTS_NEXT_NL );
+
+        /* uuid */
+        out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
+        strerr |= utf8stringbuf_append_str( out,
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_KEY_UUID
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_DEF
+                                            JSON_CONSTANTS_QUOTE );
+        out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
+        strerr |= utf8stringbuf_append_str( out,
+                                            data_feature_get_uuid_const( object ));
+        strerr |= utf8stringbuf_replace_all( out,
+                                             &JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+        strerr |= utf8stringbuf_append_str( out,
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_NL );  /* LAST, no NEXT */
 
     /* end feature */
     strerr |= utf8stringbuf_append_str( out,

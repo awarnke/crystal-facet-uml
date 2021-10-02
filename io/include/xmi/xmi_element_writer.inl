@@ -18,22 +18,6 @@ static inline xml_writer_t *xmi_element_writer_get_xml_writer_ptr( xmi_element_w
     return &((*this_).xml_writer);
 }
 
-static inline bool xmi_element_writer_can_classifier_nest_classifier ( xmi_element_writer_t *this_,
-                                                                       data_classifier_type_t parent_type,
-                                                                       data_classifier_type_t child_type )
-{
-    const bool result = xmi_type_converter_can_nest_classifier( &((*this_).xmi_types), parent_type, child_type );
-    return result;
-}
-
-static inline bool xmi_element_writer_can_classifier_nest_relationship ( xmi_element_writer_t *this_,
-                                                                         data_classifier_type_t parent_type,
-                                                                         data_relationship_type_t child_type )
-{
-    const bool result = xmi_type_converter_can_nest_relationship( &((*this_).xmi_types), parent_type, child_type );
-    return result;
-}
-
 
 /*
 Copyright 2020-2021 Andreas Warnke

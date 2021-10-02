@@ -83,7 +83,7 @@ int universal_memory_output_stream_close( universal_memory_output_stream_t *this
  *
  *  \param this_ pointer to own object attributes
  *  \return the abstract base class of this_
- */
+  */
 universal_output_stream_t* universal_memory_output_stream_get_output_stream( universal_memory_output_stream_t *this_ );
 
 #endif  /* UNIVERSAL_MEMORY_OUTPUT_STREAM_H */

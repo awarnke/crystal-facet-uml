@@ -15,22 +15,30 @@
  *  and b) a pointer to an object that implements the interface (this_).
  */
 
+#include "data_classifier.h"
+#include "data_classifier_type.h"
+#include "data_feature.h"
+#include "data_relationship.h"
+#include "data_relationship_type.h"
+#include "data_diagram.h"
+#include "data_diagram_type.h"
+#include "data_diagramelement.h"
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
+
+/* io_element_writer_impl_t allows to distinguisth general void pointers from pointers to implementation objects */
+typedef void io_element_writer_impl_t;
 
 /*!
  *  \brief function pointers of a io_element_writer_if_t.
  *
  *  This is similar to a vmt and used here to access an implementation of this interface
- * 
+ *
  *  Lifecycle functions like init and destroy are not part of the interface.
  */
 struct io_element_writer_if_struct {
-    int (*open)(void* this_, const char* identifier); /*!< a function to open an output stream; returns 0 if success, -1 in case of error */
-    int (*write)(void* this_, const void *start, size_t length); /*!< a function to write data to an output stream; returns 0 if success, -1 in case of error */
-    int (*flush)(void* this_); /*!< a function to flush data to an output stream; returns 0 if success, -1 in case of error */
-    int (*close)(void* this_); /*!< a function to close an output stream; returns 0 if success, -1 in case of error */
+#include "io_element_writer_if.inl"
 };
 
 typedef struct io_element_writer_if_struct io_element_writer_if_t;

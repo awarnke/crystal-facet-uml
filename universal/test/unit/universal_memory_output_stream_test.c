@@ -89,10 +89,6 @@ static void test_insert_regular(void)
     /* close */
     err = universal_output_stream_close (my_out_stream);
     TEST_ASSERT_EQUAL_INT( 0, err );
-
-    /* destroy */
-    err = universal_output_stream_destroy (my_out_stream);
-    TEST_ASSERT_EQUAL_INT( 0, err );
 }
 
 static void test_insert_border_cases(void)

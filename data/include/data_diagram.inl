@@ -17,7 +17,7 @@ static inline void data_diagram_init_empty ( data_diagram_t *this_ )
 
     (*this_).list_order = 0;
     (*this_).display_flags = DATA_DIAGRAM_FLAG_NONE;
-    data_uuid_init_void( &((*this_).uuid) );
+    data_uuid_init_new( &((*this_).uuid) );
 }
 
 static inline void data_diagram_reinit_empty ( data_diagram_t *this_ )

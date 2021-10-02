@@ -53,13 +53,6 @@ static inline data_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t uui
 static inline void data_uuid_init_new ( data_uuid_t *this_ );
 
 /*!
- *  \brief initializes the data_uuid_t struct to the empty string.
- *
- *  \param this_ pointer to own object attributes
- */
-static inline void data_uuid_init_void ( data_uuid_t *this_ );
-
-/*!
  *  \brief initializes the data_uuid_t struct with a copy
  *
  *  \param this_ pointer to own object attributes

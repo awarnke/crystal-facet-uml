@@ -20,7 +20,7 @@ static inline void data_classifier_init_empty ( data_classifier_t *this_ )
     (*this_).x_order = 0;
     (*this_).y_order = 0;
     (*this_).list_order = 0;
-    data_uuid_init_void( &((*this_).uuid) );
+    data_uuid_init_new( &((*this_).uuid) );
 }
 
 static inline void data_classifier_reinit_empty ( data_classifier_t *this_ )

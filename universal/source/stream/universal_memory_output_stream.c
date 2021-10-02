@@ -10,10 +10,10 @@
 /* the vmt implementing the interface */
 static const universal_output_stream_if_t universal_memory_output_stream_private_if
     = {
-        /* open:   */ (int (*)(void*, const char*)) &universal_memory_output_stream_open,
-        /* write:  */ (int (*)(void*, const void*, size_t)) &universal_memory_output_stream_write,
-        /* flush:  */ (int (*)(void*)) &universal_memory_output_stream_flush,
-        /* close:  */ (int (*)(void*)) &universal_memory_output_stream_close
+        .open =  (int (*)(universal_output_stream_impl_t*, const char*)) &universal_memory_output_stream_open,
+        .write = (int (*)(universal_output_stream_impl_t*, const void*, size_t)) &universal_memory_output_stream_write,
+        .flush = (int (*)(universal_output_stream_impl_t*)) &universal_memory_output_stream_flush,
+        .close = (int (*)(universal_output_stream_impl_t*)) &universal_memory_output_stream_close
     };
 
 void universal_memory_output_stream_init ( universal_memory_output_stream_t *this_,
@@ -26,7 +26,7 @@ void universal_memory_output_stream_init ( universal_memory_output_stream_t *thi
     (*this_).mem_buf_start = mem_buf_start;
     (*this_).mem_buf_size = mem_buf_size;
     (*this_).mem_buf_filled = 0;
-    universal_output_stream_init( &((*this_).output_stream), &universal_memory_output_stream_private_if, this_ );
+    universal_output_stream_private_init( &((*this_).output_stream), &universal_memory_output_stream_private_if, this_ );
 
     TRACE_END();
 }
@@ -39,7 +39,7 @@ int universal_memory_output_stream_destroy( universal_memory_output_stream_t *th
     (*this_).mem_buf_start = NULL;
     (*this_).mem_buf_size = 0;
     (*this_).mem_buf_filled = 0;
-    universal_output_stream_destroy( &((*this_).output_stream) );
+    universal_output_stream_private_destroy( &((*this_).output_stream) );
 
     TRACE_END_ERR(err);
     return err;

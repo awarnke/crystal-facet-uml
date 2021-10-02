@@ -10,10 +10,10 @@
 /* the vmt implementing the interface */
 static const universal_output_stream_if_t universal_file_output_stream_private_if
     = {
-        /* open:   */ (int (*)(void*, const char*)) &universal_file_output_stream_open,
-        /* write:  */ (int (*)(void*, const void*, size_t)) &universal_file_output_stream_write,
-        /* flush:  */ (int (*)(void*)) &universal_file_output_stream_flush,
-        /* close:  */ (int (*)(void*)) &universal_file_output_stream_close
+        .open  = (int (*)(universal_output_stream_impl_t*, const char*)) &universal_file_output_stream_open,
+        .write = (int (*)(universal_output_stream_impl_t*, const void*, size_t)) &universal_file_output_stream_write,
+        .flush = (int (*)(universal_output_stream_impl_t*)) &universal_file_output_stream_flush,
+        .close = (int (*)(universal_output_stream_impl_t*)) &universal_file_output_stream_close
     };
 
 void universal_file_output_stream_init ( universal_file_output_stream_t *this_ )
@@ -21,7 +21,7 @@ void universal_file_output_stream_init ( universal_file_output_stream_t *this_ )
     TRACE_BEGIN();
 
     (*this_).output = NULL;
-    universal_output_stream_init( &((*this_).output_stream), &universal_file_output_stream_private_if, this_ );
+    universal_output_stream_private_init( &((*this_).output_stream), &universal_file_output_stream_private_if, this_ );
 
     TRACE_END();
 }
@@ -36,7 +36,7 @@ int universal_file_output_stream_destroy( universal_file_output_stream_t *this_ 
         err = universal_file_output_stream_close( this_ );
     }
     (*this_).output = NULL;
-    universal_output_stream_destroy( &((*this_).output_stream) );
+    universal_output_stream_private_destroy( &((*this_).output_stream) );
 
     TRACE_END_ERR(err);
     return err;

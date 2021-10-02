@@ -54,14 +54,16 @@ struct data_feature_struct {
 typedef struct data_feature_struct data_feature_t;
 
 /*!
- *  \brief initializes the data_feature_t struct with id and classifier_id DATA_ROW_ID_VOID; all other values are zero.
+ *  \brief initializes the data_feature_t struct with id and classifier_id DATA_ROW_ID_VOID;
+ *         a fresh uuid and all other values are zero.
  *
  *  \param this_ pointer to own object attributes
  */
 static inline void data_feature_init_empty ( data_feature_t *this_ );
 
 /*!
- *  \brief re-initializes the data_feature_t struct with id and classifier_id DATA_ROW_ID_VOID; all other values are zero.
+ *  \brief re-initializes the data_feature_t struct with id and classifier_id DATA_ROW_ID_VOID;
+ *         a fresh uuid and all other values are zero.
  *
  *  \param this_ pointer to own object attributes
  */

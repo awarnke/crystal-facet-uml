@@ -18,7 +18,7 @@
  */
 struct universal_output_stream_struct {
     const universal_output_stream_if_t* interface;  /*!< set of interface functions to write to a stream, kind of VMT */
-    void* objectdata;  /*!< object that implements writing to a stream, used in interface functions as this_ parameter */
+    universal_output_stream_impl_t* objectdata;  /*!< object that implements writing to a stream, used in interface functions as this_ parameter */
 };
 
 typedef struct universal_output_stream_struct universal_output_stream_t;
@@ -33,9 +33,9 @@ typedef struct universal_output_stream_struct universal_output_stream_t;
  *  \param interface set of interface functions to write to a stream
  *  \param objectdata object that implements writing to a stream
  */
-static inline void universal_output_stream_init( universal_output_stream_t *this_,
+static inline void universal_output_stream_private_init( universal_output_stream_t *this_,
                                                  const universal_output_stream_if_t *interface,
-                                                 void* objectdata
+                                                 universal_output_stream_impl_t* objectdata
                                                );
 
 /*!
@@ -46,7 +46,7 @@ static inline void universal_output_stream_init( universal_output_stream_t *this
  *  \param this_ pointer to own object attributes
  *  \return returns 0 if success, -1 in case of error
  */
-static inline int universal_output_stream_destroy( universal_output_stream_t *this_ );
+static inline int universal_output_stream_private_destroy( universal_output_stream_t *this_ );
 
 /*!
  *  \brief gets the set of interface functions
@@ -62,7 +62,7 @@ static inline const universal_output_stream_if_t* universal_output_stream_get_in
  *  \param this_ pointer to own object attributes
  *  \return the object data that implements the interface
  */
-static inline void* universal_output_stream_get_objectdata ( universal_output_stream_t *this_ );
+static inline universal_output_stream_impl_t* universal_output_stream_get_objectdata ( universal_output_stream_t *this_ );
 
 /*!
  *  \brief calls \c open on the \c interface

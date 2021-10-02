@@ -17,13 +17,37 @@
 #include <stdbool.h>
 #include <assert.h>
 
+/* define a struct where the function pointers have the exact right signatures to avoid typecasts */
+#define io_element_writer_impl_t xmi_element_writer_t
+struct xmi_element_writer_io_element_writer_if_struct {
+#include "io_element_writer_if.inl"
+};
+#undef io_element_writer_impl_t
+
 /* the vmt implementing the interface */
-static const io_element_writer_if_t io_element_writer_private_if
+static const struct xmi_element_writer_io_element_writer_if_struct xmi_element_writer_private_io_element_writer_if
     = {
-        .open  = NULL,
-        .write = NULL,
-        .flush = NULL,
-        .close = NULL
+        .write_header = &xmi_element_writer_write_header,
+        .start_main = &xmi_element_writer_start_main,
+        .can_classifier_nest_classifier = &xmi_element_writer_can_classifier_nest_classifier,
+        .can_classifier_nest_relationship = &xmi_element_writer_can_classifier_nest_relationship,
+        .start_classifier = &xmi_element_writer_start_classifier,
+        .assemble_classifier = &xmi_element_writer_assemble_classifier,
+        .end_classifier = &xmi_element_writer_end_classifier,
+        .start_feature = &xmi_element_writer_start_feature,
+        .assemble_feature = &xmi_element_writer_assemble_feature,
+        .end_feature = &xmi_element_writer_end_feature,
+        .start_relationship = &xmi_element_writer_start_relationship,
+        .assemble_relationship = NULL,
+        .end_relationship = &xmi_element_writer_end_relationship,
+        .start_diagram = NULL,
+        .assemble_diagram = NULL,
+        .end_diagram = NULL,
+        .start_diagramelement = NULL,
+        .assemble_diagramelement = NULL,
+        .end_diagramelement = NULL,
+        .end_main = &xmi_element_writer_end_main,
+        .write_footer = &xmi_element_writer_write_footer
     };
 
 /* GENERAL STRUCTURE */
@@ -170,6 +194,22 @@ int xmi_element_writer_start_main( xmi_element_writer_t *this_, const char *docu
 
     TRACE_END_ERR( export_err );
     return export_err;
+}
+
+bool xmi_element_writer_can_classifier_nest_classifier ( xmi_element_writer_t *this_,
+                                                         data_classifier_type_t parent_type,
+                                                         data_classifier_type_t child_type )
+{
+    const bool result = xmi_type_converter_can_nest_classifier( &((*this_).xmi_types), parent_type, child_type );
+    return result;
+}
+
+bool xmi_element_writer_can_classifier_nest_relationship ( xmi_element_writer_t *this_,
+                                                           data_classifier_type_t parent_type,
+                                                           data_relationship_type_t child_type )
+{
+    const bool result = xmi_type_converter_can_nest_relationship( &((*this_).xmi_types), parent_type, child_type );
+    return result;
 }
 
 int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
@@ -1395,7 +1435,7 @@ io_element_writer_t xmi_element_writer_get_element_writer( xmi_element_writer_t 
     TRACE_BEGIN();
 
     io_element_writer_t result;
-    io_element_writer_init( &result, &io_element_writer_private_if, this_ );
+    io_element_writer_private_init( &result, (io_element_writer_if_t*) &xmi_element_writer_private_io_element_writer_if, this_ );
 
     TRACE_END();
     return result;

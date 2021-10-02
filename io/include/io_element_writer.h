@@ -26,7 +26,7 @@
  */
 struct io_element_writer_struct {
     const io_element_writer_if_t* interface;  /*!< set of interface functions to write to a stream, kind of VMT */
-    void* objectdata;  /*!< object that implements writing to a stream, used in interface functions as this_ parameter */
+    io_element_writer_impl_t* objectdata;  /*!< object that implements writing to a stream, used in interface functions as this_ parameter */
 };
 
 typedef struct io_element_writer_struct io_element_writer_t;
@@ -41,9 +41,9 @@ typedef struct io_element_writer_struct io_element_writer_t;
  *  \param interface set of interface functions to write to a stream
  *  \param objectdata object that implements writing to a stream
  */
-static inline void io_element_writer_init( io_element_writer_t *this_,
+static inline void io_element_writer_private_init( io_element_writer_t *this_,
                                            const io_element_writer_if_t *interface,
-                                           void* objectdata
+                                           io_element_writer_impl_t* objectdata
                                          );
 
 /*!
@@ -54,7 +54,7 @@ static inline void io_element_writer_init( io_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \return returns 0 if success, -1 in case of error
  */
-static inline int io_element_writer_destroy( io_element_writer_t *this_ );
+static inline int io_element_writer_private_destroy( io_element_writer_t *this_ );
 
 /*!
  *  \brief gets the set of interface functions
@@ -70,7 +70,7 @@ static inline const io_element_writer_if_t* io_element_writer_get_interface( io_
  *  \param this_ pointer to own object attributes
  *  \return the object data that implements the interface
  */
-static inline void* io_element_writer_get_objectdata( io_element_writer_t *this_ );
+static inline io_element_writer_impl_t* io_element_writer_get_objectdata( io_element_writer_t *this_ );
 
 /*!
  *  \brief writes the header of the document
@@ -220,20 +220,20 @@ static inline int io_element_writer_start_relationship( io_element_writer_t *thi
  *  \param parent_type type of the parent classifier, needed for xmi export
  *  \param parent_is_source indicates if the parent/hosting classifier is the source end of the relationship
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
- *  \param from_c_type the type of classifier at source end
- *  \param from_f_type the type of feature at source end; DATA_FEATURE_TYPE_VOID if no feature specified
- *  \param to_c_type the type of classifier at target end
- *  \param to_f_type the type of feature at target end; DATA_FEATURE_TYPE_VOID if no feature specified
+ *  \param from_c the classifier at source end
+ *  \param from_f the feature at source end; NULL if no feature specified
+ *  \param to_c the classifier at target end
+ *  \param to_f the feature at target end; NULL if no feature specified
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_assemble_relationship( io_element_writer_t *this_,
                                                            data_classifier_type_t parent_type,
                                                            bool parent_is_source,
                                                            const data_relationship_t *relation_ptr,
-                                                           data_classifier_type_t from_c_type,
-                                                           data_feature_type_t from_f_type,
-                                                           data_classifier_type_t to_c_type,
-                                                           data_feature_type_t to_f_type
+                                                           const data_classifier_t *from_c,
+                                                           const data_feature_t *from_f,
+                                                           const data_classifier_t *to_c,
+                                                           const data_feature_t *to_f
                                                          );
 
 /*!
@@ -269,9 +269,9 @@ static inline int io_element_writer_start_diagram( io_element_writer_t *this_, c
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_assemble_diagram( io_element_writer_t *this_,
-                                       const data_diagram_t *diag_ptr,
-                                       const char *diagram_file_base_name
-                                     );
+                                                      const data_diagram_t *diag_ptr,
+                                                      const char *diagram_file_base_name
+                                                    );
 
 /*!
  *  \brief ends a diagram
@@ -288,39 +288,45 @@ static inline int io_element_writer_end_diagram( io_element_writer_t *this_, con
  *  \brief writes a diagramelement start-element
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the owning parent diagram
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
+ *  \param parent the parent diagram
+ *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_start_diagramelement( io_element_writer_t *this_,
-                                                          data_diagram_type_t parent_type,
-                                                          const data_diagramelement_t *diagramelement_ptr
+                                                          const data_diagramelement_t *diagramelement_ptr,
+                                                          const data_diagram_t *parent,
+                                                          const data_classifier_t *occurrence
                                                         );
 
 /*!
  *  \brief writes constents of a a diagramelement
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the owning parent diagram
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
+ *  \param parent the parent diagram
+ *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_assemble_diagramelement( io_element_writer_t *this_,
-                                                             data_diagram_type_t parent_type,
-                                                             const data_diagramelement_t *diagramelement_ptr
+                                                             const data_diagramelement_t *diagramelement_ptr,
+                                                             const data_diagram_t *parent,
+                                                             const data_classifier_t *occurrence
                                                            );
 
 /*!
  *  \brief writes a diagramelement end-element
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the owning parent diagram
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
+ *  \param parent the parent diagram
+ *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_end_diagramelement( io_element_writer_t *this_,
-                                                        data_diagram_type_t parent_type,
-                                                        const data_diagramelement_t *diagramelement_ptr
+                                                        const data_diagramelement_t *diagramelement_ptr,
+                                                        const data_diagram_t *parent,
+                                                        const data_classifier_t *occurrence
                                                       );
 
 

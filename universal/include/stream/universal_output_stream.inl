@@ -1,16 +1,22 @@
 /* File: universal_output_stream.inl; Copyright and License: see below */
 
-static inline void universal_output_stream_init( universal_output_stream_t *this_,
+#include <assert.h>
+
+static inline void universal_output_stream_private_init( universal_output_stream_t *this_,
                                    const universal_output_stream_if_t *interface,
-                                   void* objectdata )
+                                   universal_output_stream_impl_t* objectdata )
 {
+    assert( interface != NULL );
+    assert( objectdata != NULL );
     (*this_).interface = interface;
     (*this_).objectdata = objectdata;
 }
 
-static inline int universal_output_stream_destroy( universal_output_stream_t *this_ )
+static inline int universal_output_stream_private_destroy( universal_output_stream_t *this_ )
 {
-    /*int result = (*(  (*(  (*this_).interface  )).destroy  )) ( (*this_).objectdata );*/
+    assert( (*this_).interface != NULL );
+    assert( (*this_).objectdata != NULL );
+    /*int result = (*(  (*((*this_).interface)).destroy  )) ( (*this_).objectdata );*/
     (*this_).interface = NULL;
     (*this_).objectdata = NULL;
     /*return result;*/
@@ -19,32 +25,46 @@ static inline int universal_output_stream_destroy( universal_output_stream_t *th
 
 static inline const universal_output_stream_if_t* universal_output_stream_get_interface ( universal_output_stream_t *this_ )
 {
+    assert( (*this_).interface != NULL );
     return (*this_).interface;
 }
 
-static inline void* universal_output_stream_get_objectdata ( universal_output_stream_t *this_ )
+static inline universal_output_stream_impl_t* universal_output_stream_get_objectdata ( universal_output_stream_t *this_ )
 {
+    assert( (*this_).objectdata != NULL );
     return (*this_).objectdata;
 }
 
 static inline int universal_output_stream_open ( universal_output_stream_t* this_, const char* identifier )
 {
-    return (*(  (*(  (*this_).interface  )).open  )) ( (*this_).objectdata, identifier );
+    assert( (*this_).interface != NULL );
+    assert( (*this_).objectdata != NULL );
+    assert( (*((*this_).interface)).open != NULL );
+    return (*(  (*((*this_).interface)).open  )) ( (*this_).objectdata, identifier );
 }
 
 static inline int universal_output_stream_write ( universal_output_stream_t* this_, const void *start, size_t length )
 {
-    return (*(  (*(  (*this_).interface  )).write  )) ( (*this_).objectdata, start, length );
+    assert( (*this_).interface != NULL );
+    assert( (*this_).objectdata != NULL );
+    assert( (*((*this_).interface)).write != NULL );
+    return (*(  (*((*this_).interface)).write  )) ( (*this_).objectdata, start, length );
 }
 
 static inline int universal_output_stream_flush ( universal_output_stream_t* this_ )
 {
-    return (*(  (*(  (*this_).interface  )).flush  )) ( (*this_).objectdata );
+    assert( (*this_).interface != NULL );
+    assert( (*this_).objectdata != NULL );
+    assert( (*((*this_).interface)).flush != NULL );
+    return (*(  (*((*this_).interface)).flush  )) ( (*this_).objectdata );
 }
 
 static inline int universal_output_stream_close ( universal_output_stream_t* this_ )
 {
-    return (*(  (*(  (*this_).interface  )).close  )) ( (*this_).objectdata );
+    assert( (*this_).interface != NULL );
+    assert( (*this_).objectdata != NULL );
+    assert( (*((*this_).interface)).close != NULL );
+    return (*(  (*((*this_).interface)).close  )) ( (*this_).objectdata );
 }
 
 

@@ -423,6 +423,19 @@ data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, da
                             utf8stringbuf_t parsed_strbuf = data_diagram_get_name_buf_ptr ( out_object );
                             result = json_tokenizer_get_string_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), parsed_strbuf );
                         }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS ) )
+                        {
+                            int64_t parsed_integer;
+                            result = json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
+                            data_diagram_set_display_flags ( out_object, parsed_integer );
+                        }
+                        /*
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
+                        {
+                            utf8stringbuf_t parsed_strbuf = data_diagram_get_uuid_buf_ptr ( out_object );
+                            result = json_tokenizer_get_string_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), parsed_strbuf );
+                        }
+                        */
                         else
                         {
                             TSLOG_ERROR_INT( "unexpected member name at character", (*this_).read_pos );

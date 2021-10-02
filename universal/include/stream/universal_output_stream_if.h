@@ -19,18 +19,25 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+/* universal_output_stream_impl_t allows to distinguisth general void pointers from pointers to implementation objects */
+typedef void universal_output_stream_impl_t;
+
 /*!
  *  \brief function pointers of a universal_output_stream_if_t.
  *
  *  This is similar to a vmt and used here to access an implementation of this interface
- * 
+ *
  *  Lifecycle functions like init and destroy are not part of the interface.
  */
 struct universal_output_stream_if_struct {
-    int (*open)(void* this_, const char* identifier); /*!< a function to open an output stream; returns 0 if success, -1 in case of error */
-    int (*write)(void* this_, const void *start, size_t length); /*!< a function to write data to an output stream; returns 0 if success, -1 in case of error */
-    int (*flush)(void* this_); /*!< a function to flush data to an output stream; returns 0 if success, -1 in case of error */
-    int (*close)(void* this_); /*!< a function to close an output stream; returns 0 if success, -1 in case of error */
+    int (*open)(universal_output_stream_impl_t* this_, const char* identifier); /*!< a function to open an output stream; */
+                                                                                /*!< returns 0 if success, -1 in case of error */
+    int (*write)(universal_output_stream_impl_t* this_, const void *start, size_t length); /*!< a function to write data to an output stream; */
+                                                                                           /*!< returns 0 if success, -1 in case of error */
+    int (*flush)(universal_output_stream_impl_t* this_); /*!< a function to flush data to an output stream; */
+                                                         /*!< returns 0 if success, -1 in case of error */
+    int (*close)(universal_output_stream_impl_t* this_); /*!< a function to close an output stream; */
+                                                         /*!< returns 0 if success, -1 in case of error */
 };
 
 typedef struct universal_output_stream_if_struct universal_output_stream_if_t;

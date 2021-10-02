@@ -41,13 +41,14 @@ void xmi_interaction_writer_destroy( xmi_interaction_writer_t *this_ )
 
     xmi_atom_writer_destroy( &((*this_).atom_writer) );
     xmi_type_converter_destroy( &((*this_).xmi_types) );
-    xml_writer_destroy( (*this_).xml_writer );
+    (*this_).xml_writer = NULL;  /* unreference */
+    (*this_).export_stat = NULL;  /* unreference */
 
     TRACE_END();
 }
 
 int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
-                                          data_classifier_type_t parent_type, 
+                                          data_classifier_type_t parent_type,
                                           const data_diagram_t *diagram_ptr )
 {
     TRACE_BEGIN();
@@ -193,7 +194,7 @@ int xmi_interaction_writer_assemble_feature( xmi_interaction_writer_t *this_,
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_EMPTY_TAG_START );
         export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, "represents" );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_ATTR_SEPARATOR );
-        
+
         /* write type attribute */
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_TYPE_START );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_NS_UML );
@@ -277,14 +278,14 @@ int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this
                                                                             true /* = from_end */,
                                                                             from_c_type,
                                                                             from_f_type
-                                                                          );                
+                                                                          );
         }
 
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_NL );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_EMPTY_TAG_START );
         export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, from_type_tag );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_ATTR_SEPARATOR );
-        
+
         /* write type attribute */
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_TYPE_START );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_NS_UML );
@@ -343,9 +344,9 @@ int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this
                                                                             false /* = from_end */,
                                                                             to_c_type,
                                                                             to_f_type
-                                                                          );                
+                                                                          );
         }
-            
+
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_NL );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_EMPTY_TAG_START );
         export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, to_type_tag );

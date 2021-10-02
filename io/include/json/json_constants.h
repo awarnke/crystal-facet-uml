@@ -43,6 +43,7 @@
 /* content */
 
 #define JSON_CONSTANTS_KEY_DATA "data"
+#define JSON_CONSTANTS_KEY_UUID "uuid"
 
 #define JSON_CONSTANTS_KEY_DIAGRAM "diagram"
 #define JSON_CONSTANTS_KEY_DIAGRAM_ID "id"
@@ -51,6 +52,7 @@
 #define JSON_CONSTANTS_KEY_DIAGRAM_NAME "name"
 #define JSON_CONSTANTS_KEY_DIAGRAM_DESCRIPTION "description"
 #define JSON_CONSTANTS_KEY_DIAGRAM_LIST_ORDER "list_order"
+#define JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS "display_flags"
 
 /* data_diagramelement_t not part of json export */
 

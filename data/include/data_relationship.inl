@@ -18,7 +18,7 @@ static inline void data_relationship_init_empty ( data_relationship_t *this_ )
     utf8stringbuf_clear( (*this_).description );
 
     (*this_).list_order = 0;
-    data_uuid_init_void( &((*this_).uuid) );
+    data_uuid_init_new( &((*this_).uuid) );
 }
 
 static inline void data_relationship_reinit_empty ( data_relationship_t *this_ )
