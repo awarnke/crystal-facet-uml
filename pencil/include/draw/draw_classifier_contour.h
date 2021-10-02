@@ -50,7 +50,7 @@ static inline void draw_classifier_contour_destroy( draw_classifier_contour_t *t
  *  \param classifier_type type of the classifier to layout
  *  \param outer_bounds outer bounding rectangle for the classifier
  *  \param pencil_size set of sizes and colors for drawing lines and text
- *  \result inner area. empty rectangle if outer_bounds too small.
+ *  \return inner area. empty rectangle if outer_bounds too small.
  */
 geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classifier_contour_t *this_,
                                                                data_classifier_type_t classifier_type,
@@ -67,7 +67,7 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
  *  \param classifier_type type of the classifier to layout
  *  \param inner_area inner_area (label and space) that is needed for the classifier
  *  \param pencil_size set of sizes and colors for drawing lines and text
- *  \result outer bounds.
+ *  \return outer bounds.
  */
 geometry_rectangle_t draw_classifier_contour_calc_outer_bounds ( const draw_classifier_contour_t *this_,
                                                                  data_classifier_type_t classifier_type,

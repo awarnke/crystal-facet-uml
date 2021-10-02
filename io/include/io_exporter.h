@@ -69,7 +69,7 @@ void io_exporter_destroy( io_exporter_t *this_ );
  *  \param target_folder path name to a folder where to store the images
  *  \param document_file_path path to the central/main document file
  *  \param io_export_stat pointer to already initialized statistics object where export statistics are collected
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_exporter_export_files( io_exporter_t *this_,
                               io_file_format_t export_type,
@@ -83,7 +83,7 @@ int io_exporter_export_files( io_exporter_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param path path name to a file from which to extract the base file name
  *  \param out_base_filename name of the file - without path and without filename-suffix
- *  \result 0 in case of success, -1 otherwise, e.g if filename is empty or too long
+ *  \return 0 in case of success, -1 otherwise, e.g if filename is empty or too long
  */
 int io_exporter_private_get_filename( io_exporter_t *this_,
                                       const char* path,
@@ -98,7 +98,7 @@ int io_exporter_private_get_filename( io_exporter_t *this_,
  *  \param export_type image file format
  *  \param target_folder path name to a folder where to store the images
  *  \param io_export_stat pointer to statistics object where export statistics are collected
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_exporter_private_export_image_files( io_exporter_t *this_,
                                             data_id_t diagram_id,
@@ -115,7 +115,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
  *  \param target_folder directory where to write the document to
  *  \param document_file_name name of the central/main document file (without filename-suffix)
  *  \param io_export_stat pointer to statistics object where export statistics are collected
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_exporter_private_export_document_file( io_exporter_t *this_,
                                               io_file_format_t export_type,
@@ -130,7 +130,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
  *  \param diagram_id id of the diagram to export; DATA_ROW_ID_VOID to export all root diagrams
  *  \param max_recursion if greater than 0 and children exist, this function calls itself recursively
  *  \param io_export_stat pointer to statistics object where export statistics are collected
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_exporter_private_export_document_part( io_exporter_t *this_,
                                               data_id_t diagram_id,
@@ -144,7 +144,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
  *  \param diagram_id id of the diagram to export; DATA_ROW_ID_VOID to export all root diagrams
  *  \param max_recursion if greater than 0 and children exist, this function calls itself recursively
  *  \param format_writer writer to format the data and stream it out to a file
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_exporter_private_export_table_of_contents( io_exporter_t *this_,
                                                   data_id_t diagram_id,
@@ -157,7 +157,7 @@ int io_exporter_private_export_table_of_contents( io_exporter_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagam
  *  \param filename filename stringbuffer to which to write the filename
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_exporter_private_get_filename_for_diagram( io_exporter_t *this_,
                                                   data_id_t diagram_id,

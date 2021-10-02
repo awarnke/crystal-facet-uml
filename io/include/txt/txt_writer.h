@@ -50,7 +50,7 @@ void txt_writer_destroy( txt_writer_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param text string to write
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 static inline int txt_writer_write_plain ( txt_writer_t *this_, const char *text );
 
@@ -63,7 +63,7 @@ static inline int txt_writer_write_plain ( txt_writer_t *this_, const char *text
  *  \param this_ pointer to own object attributes
  *  \param indent pattern, by which each line is indented; must not be NULL
  *  \param multiline_string string to write to out
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
                                                const char *indent,
@@ -78,7 +78,7 @@ int txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param indent_width number of space-characters, by which each line is indented. Negative values cause a zero-indent.
  *  \param id identifier
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int txt_writer_write_indent_id ( txt_writer_t *this_,
                                  int indent_width,
@@ -92,7 +92,7 @@ int txt_writer_write_indent_id ( txt_writer_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param id identifier
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int txt_writer_write_plain_id ( txt_writer_t *this_, data_id_t id );
 

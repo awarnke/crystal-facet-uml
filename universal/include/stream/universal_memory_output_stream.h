@@ -39,7 +39,7 @@ void universal_memory_output_stream_init( universal_memory_output_stream_t *this
  *  \brief destroys the universal_memory_output_stream_t
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int universal_memory_output_stream_destroy( universal_memory_output_stream_t *this_ );
 
@@ -48,7 +48,7 @@ int universal_memory_output_stream_destroy( universal_memory_output_stream_t *th
  *
  *  \param this_ pointer to own object attributes
  *  \param path path identifying the memory to open for writing
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int universal_memory_output_stream_open ( universal_memory_output_stream_t *this_, const char *path );
 
@@ -58,7 +58,7 @@ int universal_memory_output_stream_open ( universal_memory_output_stream_t *this
  *  \param this_ pointer to own object attributes
  *  \param start buffer to write, not 0-terminated
  *  \param length length of the buffer to write
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int universal_memory_output_stream_write ( universal_memory_output_stream_t *this_, const void *start, size_t length );
 
@@ -66,7 +66,7 @@ int universal_memory_output_stream_write ( universal_memory_output_stream_t *thi
  *  \brief flushes buffers
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int universal_memory_output_stream_flush( universal_memory_output_stream_t *this_ );
 
@@ -74,7 +74,7 @@ int universal_memory_output_stream_flush( universal_memory_output_stream_t *this
  *  \brief closes the universal_memory_output_stream_t
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int universal_memory_output_stream_close( universal_memory_output_stream_t *this_ );
 
@@ -82,6 +82,7 @@ int universal_memory_output_stream_close( universal_memory_output_stream_t *this
  *  \brief gets the output stream interface of this universal_memory_output_stream_t
  *
  *  \param this_ pointer to own object attributes
+ *  \return the abstract base class of this_
  */
 universal_output_stream_t* universal_memory_output_stream_get_output_stream( universal_memory_output_stream_t *this_ );
 

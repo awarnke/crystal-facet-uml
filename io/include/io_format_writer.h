@@ -67,7 +67,7 @@ void io_format_writer_destroy( io_format_writer_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param document_title title of the document
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_format_writer_write_header( io_format_writer_t *this_, const char *document_title );
 
@@ -75,7 +75,7 @@ int io_format_writer_write_header( io_format_writer_t *this_, const char *docume
  *  \brief starts a table-of-contents sublist
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_format_writer_start_toc_sublist ( io_format_writer_t *this_ );
 
@@ -83,7 +83,7 @@ int io_format_writer_start_toc_sublist ( io_format_writer_t *this_ );
  *  \brief starts a table-of-contents entry, consisting of an entry and an optional sublist
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_format_writer_start_toc_entry ( io_format_writer_t *this_ );
 
@@ -92,7 +92,7 @@ int io_format_writer_start_toc_entry ( io_format_writer_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param diag_ptr pointer to diagram that shall be written
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_format_writer_write_toc_entry ( io_format_writer_t *this_, const data_diagram_t *diag_ptr );
 
@@ -100,7 +100,7 @@ int io_format_writer_write_toc_entry ( io_format_writer_t *this_, const data_dia
  *  \brief end a table-of-contents entry, consisting of an entry and an optional sublist
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_format_writer_end_toc_entry ( io_format_writer_t *this_ );
 
@@ -108,7 +108,7 @@ int io_format_writer_end_toc_entry ( io_format_writer_t *this_ );
  *  \brief end a table-of-contents sublist
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_format_writer_end_toc_sublist ( io_format_writer_t *this_ );
 
@@ -119,7 +119,7 @@ int io_format_writer_end_toc_sublist ( io_format_writer_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param diag_id identifier of the diagram
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_format_writer_start_diagram( io_format_writer_t *this_, data_id_t diag_id );
 
@@ -129,7 +129,7 @@ int io_format_writer_start_diagram( io_format_writer_t *this_, data_id_t diag_id
  *  \param this_ pointer to own object attributes
  *  \param diag_ptr pointer to diagram that shall be written
  *  \param diagram_file_base_name filename of the diagram without extension
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_format_writer_write_diagram( io_format_writer_t *this_,
                                     const data_diagram_t *diag_ptr,
@@ -142,7 +142,7 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
  *  This starts a division that contains a classifier and a list of features and relationships
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_format_writer_start_classifier( io_format_writer_t *this_ );
 
@@ -151,7 +151,7 @@ int io_format_writer_start_classifier( io_format_writer_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_format_writer_write_classifier( io_format_writer_t *this_, const data_classifier_t *classifier_ptr );
 
@@ -160,7 +160,7 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
  *
  *  \param this_ pointer to own object attributes
  *  \param feature_ptr pointer to feature that shall be written, not NULL
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_format_writer_write_feature( io_format_writer_t *this_, const data_feature_t *feature_ptr );
 
@@ -170,7 +170,7 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
  *  \param this_ pointer to own object attributes
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
  *  \param dest_classifier_ptr pointer to destination classifier, NULL is allowed.
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_format_writer_write_relationship( io_format_writer_t *this_,
                                          const data_relationship_t *relation_ptr,
@@ -183,7 +183,7 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
  *  This ends a division that contains a classifier and a list of features and relationships
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_format_writer_end_classifier( io_format_writer_t *this_ );
 
@@ -193,7 +193,7 @@ int io_format_writer_end_classifier( io_format_writer_t *this_ );
  *  This ends a section that contains a diagram and a list of classifiers
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_format_writer_end_diagram( io_format_writer_t *this_ );
 
@@ -201,7 +201,7 @@ int io_format_writer_end_diagram( io_format_writer_t *this_ );
  *  \brief writes the footer of the document
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_format_writer_write_footer( io_format_writer_t *this_ );
 
@@ -209,7 +209,7 @@ int io_format_writer_write_footer( io_format_writer_t *this_ );
  *  \brief writes a css stylesheet file
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int io_format_writer_write_stylesheet( io_format_writer_t *this_ );
 

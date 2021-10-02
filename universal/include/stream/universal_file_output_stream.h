@@ -33,7 +33,7 @@ void universal_file_output_stream_init( universal_file_output_stream_t *this_ );
  *  \brief destroys the universal_file_output_stream_t
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int universal_file_output_stream_destroy( universal_file_output_stream_t *this_ );
 
@@ -42,7 +42,7 @@ int universal_file_output_stream_destroy( universal_file_output_stream_t *this_ 
  *
  *  \param this_ pointer to own object attributes
  *  \param path file path identifying the file to open for writing
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int universal_file_output_stream_open ( universal_file_output_stream_t *this_, const char *path );
 
@@ -52,7 +52,7 @@ int universal_file_output_stream_open ( universal_file_output_stream_t *this_, c
  *  \param this_ pointer to own object attributes
  *  \param start buffer to write, not 0-terminated
  *  \param length length of the buffer to write
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int universal_file_output_stream_write ( universal_file_output_stream_t *this_, const void *start, size_t length );
 
@@ -60,7 +60,7 @@ int universal_file_output_stream_write ( universal_file_output_stream_t *this_, 
  *  \brief flushes buffers
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int universal_file_output_stream_flush( universal_file_output_stream_t *this_ );
 
@@ -68,7 +68,7 @@ int universal_file_output_stream_flush( universal_file_output_stream_t *this_ );
  *  \brief closes the universal_file_output_stream_t
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int universal_file_output_stream_close( universal_file_output_stream_t *this_ );
 
@@ -76,6 +76,7 @@ int universal_file_output_stream_close( universal_file_output_stream_t *this_ );
  *  \brief gets the output stream interface of this universal_file_output_stream_t
  *
  *  \param this_ pointer to own object attributes
+ *  \return the abstract base class of this_
  */
 universal_output_stream_t* universal_file_output_stream_get_output_stream( universal_file_output_stream_t *this_ );
 

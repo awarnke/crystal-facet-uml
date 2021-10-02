@@ -69,7 +69,7 @@ void xmi_interaction_writer_destroy( xmi_interaction_writer_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the parent classifier
  *  \param diagram_ptr diagram which shall be written as XMI interaction
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_, 
                                           data_classifier_type_t parent_type,
@@ -83,7 +83,7 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the parent classifier
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
                                         data_classifier_type_t parent_type 
@@ -96,7 +96,7 @@ int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
  *  \param reference_id id of the object which this lifeline proxies
  *  \param parent_type type of the owning parent classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int xmi_interaction_writer_assemble_feature( xmi_interaction_writer_t *this_,
                                              data_id_t reference_id,
@@ -115,7 +115,7 @@ int xmi_interaction_writer_assemble_feature( xmi_interaction_writer_t *this_,
  *  \param from_f_type the type of feature at source end; DATA_FEATURE_TYPE_VOID if no feature specified
  *  \param to_c_type the type of classifier at target end
  *  \param to_f_type the type of feature at target end; DATA_FEATURE_TYPE_VOID if no feature specified
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this_,
                                                   data_id_t interaction_id,

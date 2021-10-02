@@ -27,24 +27,145 @@ static inline void* io_element_writer_get_objectdata ( io_element_writer_t *this
     return (*this_).objectdata;
 }
 
-static inline int io_element_writer_open ( io_element_writer_t* this_, const char* identifier )
+static inline int io_element_writer_write_header( io_element_writer_t *this_, const char *document_title )
 {
-    return (*(  (*(  (*this_).interface  )).open  )) ( (*this_).objectdata, identifier );
+    return 0;
 }
 
-static inline int io_element_writer_write ( io_element_writer_t* this_, const void *start, size_t length )
+static inline int io_element_writer_start_main( io_element_writer_t *this_, const char *document_title )
 {
-    return (*(  (*(  (*this_).interface  )).write  )) ( (*this_).objectdata, start, length );
+    return 0;
 }
 
-static inline int io_element_writer_flush ( io_element_writer_t* this_ )
+static inline bool io_element_writer_can_classifier_nest_classifier( io_element_writer_t *this_,
+                                                                     data_classifier_type_t parent_type,
+                                                                     data_classifier_type_t child_type )
 {
-    return (*(  (*(  (*this_).interface  )).flush  )) ( (*this_).objectdata );
+    return false;
 }
 
-static inline int io_element_writer_close ( io_element_writer_t* this_ )
+static inline bool io_element_writer_can_classifier_nest_relationship( io_element_writer_t *this_,
+                                                                       data_classifier_type_t parent_type,
+                                                                       data_relationship_type_t child_type )
 {
-    return (*(  (*(  (*this_).interface  )).close  )) ( (*this_).objectdata );
+    return false;
+}
+
+static inline int io_element_writer_start_classifier( io_element_writer_t *this_,
+                                                      data_classifier_type_t parent_type,
+                                                      const data_classifier_t *classifier_ptr
+                                                    )
+{
+    return 0;
+}
+
+static inline int io_element_writer_assemble_classifier( io_element_writer_t *this_,
+                                                         data_classifier_type_t parent_type,
+                                                         const data_classifier_t *classifier_ptr )
+{
+    return 0;
+}
+
+static inline int io_element_writer_end_classifier( io_element_writer_t *this_,
+                                                    data_classifier_type_t parent_type,
+                                                    const data_classifier_t *classifier_ptr )
+{
+    return 0;
+}
+
+static inline int io_element_writer_start_feature( io_element_writer_t *this_,
+                                                   data_classifier_type_t parent_type,
+                                                   const data_feature_t *feature_ptr )
+{
+    return 0;
+}
+
+static inline int io_element_writer_assemble_feature( io_element_writer_t *this_,
+                                                      data_classifier_type_t parent_type,
+                                                      const data_feature_t *feature_ptr )
+{
+    return 0;
+}
+
+static inline int io_element_writer_end_feature( io_element_writer_t *this_,
+                                                 data_classifier_type_t parent_type,
+                                                 const data_feature_t *feature_ptr )
+{
+    return 0;
+}
+
+static inline int io_element_writer_start_relationship( io_element_writer_t *this_,
+                                                        data_classifier_type_t parent_type,
+                                                        const data_relationship_t *relation_ptr )
+{
+    return 0;
+}
+
+static inline int io_element_writer_assemble_relationship( io_element_writer_t *this_,
+                                                           data_classifier_type_t parent_type,
+                                                           bool parent_is_source,
+                                                           const data_relationship_t *relation_ptr,
+                                                           data_classifier_type_t from_c_type,
+                                                           data_feature_type_t from_f_type,
+                                                           data_classifier_type_t to_c_type,
+                                                           data_feature_type_t to_f_type )
+{
+    return 0;
+}
+
+static inline int io_element_writer_end_relationship( io_element_writer_t *this_,
+                                                      data_classifier_type_t parent_type,
+                                                      const data_relationship_t *relation_ptr )
+{
+    return 0;
+}
+
+static inline int io_element_writer_start_diagram( io_element_writer_t *this_, const data_diagram_t *diag_ptr )
+{
+    return 0;
+}
+
+static inline int io_element_writer_assemble_diagram( io_element_writer_t *this_,
+                                       const data_diagram_t *diag_ptr,
+                                       const char *diagram_file_base_name )
+{
+    return 0;
+}
+
+static inline int io_element_writer_end_diagram( io_element_writer_t *this_, const data_diagram_t *diag_ptr )
+{
+    return 0;
+}
+
+static inline int io_element_writer_start_diagramelement( io_element_writer_t *this_,
+                                                          data_diagram_type_t parent_type,
+                                                          const data_diagramelement_t *diagramelement_ptr )
+{
+    return 0;
+}
+
+static inline int io_element_writer_assemble_diagramelement( io_element_writer_t *this_,
+                                                             data_diagram_type_t parent_type,
+                                                             const data_diagramelement_t *diagramelement_ptr )
+{
+    return 0;
+}
+
+static inline int io_element_writer_end_diagramelement( io_element_writer_t *this_,
+                                                        data_diagram_type_t parent_type,
+                                                        const data_diagramelement_t *diagramelement_ptr )
+{
+    return 0;
+}
+
+static inline int io_element_writer_end_main( io_element_writer_t *this_ )
+{
+    return 0;
+}
+
+static inline int io_element_writer_write_footer( io_element_writer_t *this_ )
+{
+    return 0;
 }
 
 

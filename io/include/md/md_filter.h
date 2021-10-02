@@ -73,7 +73,7 @@ void md_filter_destroy( md_filter_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param text string to parse
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int md_filter_transform ( md_filter_t *this_, const char *text );
 

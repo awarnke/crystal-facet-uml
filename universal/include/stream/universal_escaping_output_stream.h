@@ -45,7 +45,7 @@ void universal_escaping_output_stream_init( universal_escaping_output_stream_t *
  *  \brief destroys the universal_escaping_output_stream_t but not the underlying sink
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int universal_escaping_output_stream_destroy( universal_escaping_output_stream_t *this_ );
 
@@ -65,7 +65,7 @@ void universal_escaping_output_stream_change_rules( universal_escaping_output_st
  *
  *  \param this_ pointer to own object attributes
  *  \param path resource path identifying the stream to open for writing
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int universal_escaping_output_stream_open ( universal_escaping_output_stream_t *this_, const char *path );
 
@@ -75,7 +75,7 @@ int universal_escaping_output_stream_open ( universal_escaping_output_stream_t *
  *  \param this_ pointer to own object attributes
  *  \param start buffer to write, not 0-terminated
  *  \param length length of the buffer to write
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int universal_escaping_output_stream_write ( universal_escaping_output_stream_t *this_, const void *start, size_t length );
 
@@ -83,7 +83,7 @@ int universal_escaping_output_stream_write ( universal_escaping_output_stream_t 
  *  \brief flushes buffers including the ones of the underlying sink
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int universal_escaping_output_stream_flush( universal_escaping_output_stream_t *this_ );
 
@@ -91,7 +91,7 @@ int universal_escaping_output_stream_flush( universal_escaping_output_stream_t *
  *  \brief closes the universal_escaping_output_stream_t and the underlying sink
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int universal_escaping_output_stream_close( universal_escaping_output_stream_t *this_ );
 
@@ -99,6 +99,7 @@ int universal_escaping_output_stream_close( universal_escaping_output_stream_t *
  *  \brief gets the output stream interface of this universal_escaping_output_stream_t
  *
  *  \param this_ pointer to own object attributes
+ *  \return the abstract base class of this_
  */
 universal_output_stream_t* universal_escaping_output_stream_get_output_stream( universal_escaping_output_stream_t *this_ );
 

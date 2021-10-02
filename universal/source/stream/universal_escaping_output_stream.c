@@ -10,10 +10,10 @@
 /* the vmt implementing the interface */
 static const universal_output_stream_if_t universal_escaping_output_stream_private_if
     = {
-        /* open:   */ (int (*)(void*, const char*)) &universal_escaping_output_stream_open,
-        /* write:  */ (int (*)(void*, const void*, size_t)) &universal_escaping_output_stream_write,
-        /* flush:  */ (int (*)(void*)) &universal_escaping_output_stream_flush,
-        /* close:  */ (int (*)(void*)) &universal_escaping_output_stream_close
+        .open  = (int (*)(void*, const char*)) &universal_escaping_output_stream_open,
+        .write = (int (*)(void*, const void*, size_t)) &universal_escaping_output_stream_write,
+        .flush = (int (*)(void*)) &universal_escaping_output_stream_flush,
+        .close = (int (*)(void*)) &universal_escaping_output_stream_close
     };
 
 void universal_escaping_output_stream_init ( universal_escaping_output_stream_t *this_,
@@ -74,7 +74,7 @@ int universal_escaping_output_stream_write ( universal_escaping_output_stream_t 
     assert( (*this_).sink != NULL );
     int err = 0;
     const char (*char_buf)[] = (void*)start;
-    
+
     /* count and analyze input patterns */
     unsigned int pattern_count = 0;
     char head_common_bits = '\x00';  /* optimization, improves xml export by 5% */
@@ -118,9 +118,9 @@ int universal_escaping_output_stream_write ( universal_escaping_output_stream_t 
                 }
             }
         }
-        
+
         /* replace pattern */
-        if ( matching_pattern_idx != -1 ) 
+        if ( matching_pattern_idx != -1 )
         {
             /* write previously processed bytes */
             err |= universal_output_stream_write( (*this_).sink, &((*char_buf)[bytes_already_written]), index-bytes_already_written );
@@ -130,7 +130,7 @@ int universal_escaping_output_stream_write ( universal_escaping_output_stream_t 
             const unsigned int pattern_len = strlen( pattern );
             const char * replacement = (*((*this_).patterns_and_replacements))[matching_pattern_idx][1];
             unsigned int replace_len = 0;
-            if ( replacement != NULL ) 
+            if ( replacement != NULL )
             {
                 replace_len = strlen(replacement);
             }
@@ -139,7 +139,7 @@ int universal_escaping_output_stream_write ( universal_escaping_output_stream_t 
             /* forward index */
             index = index + pattern_len - 1;
         }
-        
+
         if ( (index+1)==length ) /* is last? */
         {
             err |= universal_output_stream_write( (*this_).sink, &((*char_buf)[bytes_already_written]), length-bytes_already_written );

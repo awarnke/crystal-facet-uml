@@ -57,7 +57,7 @@ static inline void universal_array_index_sorter_destroy( universal_array_index_s
  *  \param this_ pointer to own object attributes
  *  \param array_index index of data within an external, unknown array
  *  \param weight weight of the array-entry by which to sort
- *  \result -1 in case the list is full, 0 in case of success
+ *  \return -1 in case the list is full, 0 in case of success
  */
 static inline int universal_array_index_sorter_insert( universal_array_index_sorter_t *this_, uint32_t array_index, int64_t weight );
 
@@ -65,7 +65,7 @@ static inline int universal_array_index_sorter_insert( universal_array_index_sor
  *  \brief gets the current list length
  *
  *  \param this_ pointer to own object attributes
- *  \result number of entries in the sorted index array
+ *  \return number of entries in the sorted index array
  */
 static inline uint32_t universal_array_index_sorter_get_count( const universal_array_index_sorter_t *this_ );
 
@@ -74,7 +74,7 @@ static inline uint32_t universal_array_index_sorter_get_count( const universal_a
  *
  *  \param this_ pointer to own object attributes
  *  \param sort_index index of the sorted index-array
- *  \result array index in the external, unsorted data array
+ *  \return array index in the external, unsorted data array
  */
 static inline uint32_t universal_array_index_sorter_get_array_index( const universal_array_index_sorter_t *this_, uint32_t sort_index );
 

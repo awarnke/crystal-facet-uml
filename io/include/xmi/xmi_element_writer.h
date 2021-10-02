@@ -18,8 +18,14 @@
 #include "xmi/xmi_type_converter.h"
 #include "io_file_format.h"
 #include "io_writer_pass.h"
+#include "io_element_writer_if.h"
+#include "io_element_writer.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
+#include "data_classifier_type.h"
+#include "data_feature.h"
+#include "data_relationship.h"
+#include "data_relationship_type.h"
 #include "set/data_visible_set.h"
 #include "set/data_stat.h"
 #include "storage/data_database_reader.h"
@@ -67,7 +73,7 @@ void xmi_element_writer_destroy( xmi_element_writer_t *this_ );
  *  \brief gets the conversion mode of the xmi_element_writer_t
  *
  *  \param this_ pointer to own object attributes
- *  \result mode how to convert a data object to the output format, e.g. uml-basic or profile-extension
+ *  \return mode how to convert a data object to the output format, e.g. uml-basic or profile-extension
  */
 static inline io_writer_pass_t xmi_element_writer_get_mode( xmi_element_writer_t *this_ );
 
@@ -83,7 +89,7 @@ static inline void xmi_element_writer_set_mode( xmi_element_writer_t *this_, io_
  *  \brief gets a pointer to the xml_writer
  *
  *  \param this_ pointer to own object attributes
- *  \result pointer to the internal xml_writer
+ *  \return pointer to the internal xml_writer
  */
 static inline xml_writer_t *xmi_element_writer_get_xml_writer_ptr( xmi_element_writer_t *this_ );
 
@@ -92,7 +98,7 @@ static inline xml_writer_t *xmi_element_writer_get_xml_writer_ptr( xmi_element_w
  *
  *  \param this_ pointer to own object attributes
  *  \param document_title title of the document
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_write_header( xmi_element_writer_t *this_, const char *document_title );
 
@@ -103,7 +109,7 @@ int xmi_element_writer_write_header( xmi_element_writer_t *this_, const char *do
  *
  *  \param this_ pointer to own object attributes
  *  \param document_title title of the document
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_start_main( xmi_element_writer_t *this_, const char *document_title );
 
@@ -113,7 +119,7 @@ int xmi_element_writer_start_main( xmi_element_writer_t *this_, const char *docu
  *  \param this_ pointer to own object attributes
  *  \param parent_type data_classifier_type_t of the parent of which the nesting-ability shall be determined
  *  \param child_type data_classifier_type_t of the nested child of which the nesting-ability shall be determined
- *  \result true if nesting is allowed
+ *  \return true if nesting is allowed
  */
 static inline bool xmi_element_writer_can_classifier_nest_classifier ( xmi_element_writer_t *this_,
                                                                        data_classifier_type_t parent_type,
@@ -128,7 +134,7 @@ static inline bool xmi_element_writer_can_classifier_nest_classifier ( xmi_eleme
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the parent classifier
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
                                          data_classifier_type_t parent_type,
@@ -136,12 +142,12 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
                                        );
 
 /*!
- *  \brief writes contents of a classifier 
+ *  \brief writes contents of a classifier
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the parent classifier
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
                                             data_classifier_type_t parent_type,
@@ -156,7 +162,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the parent classifier, needed for xmi export
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
                                        data_classifier_type_t parent_type,
@@ -169,7 +175,7 @@ int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the owning parent classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
                                       data_classifier_type_t parent_type,
@@ -182,7 +188,7 @@ int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the owning parent classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_assemble_feature( xmi_element_writer_t *this_,
                                          data_classifier_type_t parent_type,
@@ -195,7 +201,7 @@ int xmi_element_writer_assemble_feature( xmi_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the owning parent classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_end_feature( xmi_element_writer_t *this_,
                                     data_classifier_type_t parent_type,
@@ -208,7 +214,7 @@ int xmi_element_writer_end_feature( xmi_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param parent_type data_classifier_type_t of the parent of which the nesting-ability shall be determined
  *  \param child_type data_relationship_type_t of the nested child of which the nesting-ability shall be determined
- *  \result true if nesting or any relationship is allowed
+ *  \return true if nesting or any relationship is allowed
  */
 static inline bool xmi_element_writer_can_classifier_nest_relationship ( xmi_element_writer_t *this_,
                                                                          data_classifier_type_t parent_type,
@@ -216,12 +222,12 @@ static inline bool xmi_element_writer_can_classifier_nest_relationship ( xmi_ele
                                                                        );
 
 /*!
- *  \brief starts a relationship 
+ *  \brief starts a relationship
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the parent classifier, needed for xmi export
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
                                            data_classifier_type_t parent_type,
@@ -229,7 +235,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
                                          );
 
 /*!
- *  \brief writes the contents of a relationship 
+ *  \brief writes the contents of a relationship
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the parent classifier, needed for xmi export
@@ -239,7 +245,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
  *  \param from_f_type the type of feature at source end; DATA_FEATURE_TYPE_VOID if no feature specified
  *  \param to_c_type the type of classifier at target end
  *  \param to_f_type the type of feature at target end; DATA_FEATURE_TYPE_VOID if no feature specified
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
                                               data_classifier_type_t parent_type,
@@ -248,16 +254,16 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
                                               data_classifier_type_t from_c_type,
                                               data_feature_type_t from_f_type,
                                               data_classifier_type_t to_c_type,
-                                              data_feature_type_t to_f_type 
+                                              data_feature_type_t to_f_type
                                             );
 
 /*!
- *  \brief ends a relationship 
+ *  \brief ends a relationship
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the parent classifier, needed for xmi export
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_end_relationship( xmi_element_writer_t *this_,
                                          data_classifier_type_t parent_type,
@@ -270,7 +276,7 @@ int xmi_element_writer_end_relationship( xmi_element_writer_t *this_,
  *  This ends a section that contains the main part of the document
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_end_main( xmi_element_writer_t *this_ );
 
@@ -278,7 +284,7 @@ int xmi_element_writer_end_main( xmi_element_writer_t *this_ );
  *  \brief writes the footer of the document
  *
  *  \param this_ pointer to own object attributes
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_write_footer( xmi_element_writer_t *this_ );
 
@@ -291,9 +297,9 @@ int xmi_element_writer_write_footer( xmi_element_writer_t *this_ );
  *  \param end_object_id id of the classifier or feature at the relationship-end
  *  \param end_classifier_type the type of classifier at relationship end
  *  \param end_feature_type the type of feature at relationship end; DATA_FEATURE_TYPE_VOID if no feature specified
- *  \param is_target_end true if the target member-end shall be written, 
+ *  \param is_target_end true if the target member-end shall be written,
  *                       false in case of the source member-end
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
                                                 data_id_t relationship_id,
@@ -303,6 +309,14 @@ int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
                                                 data_feature_type_t end_feature_type,
                                                 bool is_target_end
                                               );
+
+/*!
+ *  \brief gets the io elelement writer interface of this xmi_element_writer_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the abstract base class of this_
+ */
+io_element_writer_t xmi_element_writer_get_element_writer( xmi_element_writer_t *this_ );
 
 #include "xmi_element_writer.inl"
 

@@ -77,7 +77,7 @@ void xml_writer_destroy( xml_writer_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param text string to write
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 static inline int xml_writer_write_plain ( xml_writer_t *this_, utf8string_t text );
 
@@ -86,7 +86,7 @@ static inline int xml_writer_write_plain ( xml_writer_t *this_, utf8string_t tex
  *
  *  \param this_ pointer to own object attributes
  *  \param string_view stringview to write, not 0-terminated
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 static inline int xml_writer_write_plain_view ( xml_writer_t *this_, utf8stringview_t string_view );
 
@@ -97,7 +97,7 @@ static inline int xml_writer_write_plain_view ( xml_writer_t *this_, utf8stringv
  *
  *  \param this_ pointer to own object attributes
  *  \param id the identifier
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int xml_writer_write_plain_id ( xml_writer_t *this_, data_id_t id );
 
@@ -106,7 +106,7 @@ int xml_writer_write_plain_id ( xml_writer_t *this_, data_id_t id );
  *
  *  \param this_ pointer to own object attributes
  *  \param number the integer to print
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 int xml_writer_write_int ( xml_writer_t *this_, int64_t number );
 
@@ -115,7 +115,7 @@ int xml_writer_write_int ( xml_writer_t *this_, int64_t number );
  *
  *  \param this_ pointer to own object attributes
  *  \param text string to write
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 static inline int xml_writer_write_xml_enc ( xml_writer_t *this_, utf8string_t text );
 
@@ -124,7 +124,7 @@ static inline int xml_writer_write_xml_enc ( xml_writer_t *this_, utf8string_t t
  *
  *  \param this_ pointer to own object attributes
  *  \param string_view stringview to write, not 0-terminated
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 static inline int xml_writer_write_xml_enc_view ( xml_writer_t *this_, utf8stringview_t string_view );
 
@@ -133,7 +133,7 @@ static inline int xml_writer_write_xml_enc_view ( xml_writer_t *this_, utf8strin
  *
  *  \param this_ pointer to own object attributes
  *  \param text string to write, encoded for xml comments
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 static inline int xml_writer_write_xml_comment ( xml_writer_t *this_, utf8string_t text );
 
@@ -142,7 +142,7 @@ static inline int xml_writer_write_xml_comment ( xml_writer_t *this_, utf8string
  *
  *  \param this_ pointer to own object attributes
  *  \param string_view stringview to write, not 0-terminated
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 static inline int xml_writer_write_xml_comment_view ( xml_writer_t *this_, utf8stringview_t string_view );
 
@@ -155,7 +155,7 @@ static inline int xml_writer_write_xml_comment_view ( xml_writer_t *this_, utf8s
  *
  *  \param this_ pointer to own object attributes
  *  \param string_view string_view to check
- *  \result true if string_view contains characters of which a valid xml-tag-name can be constructed
+ *  \return true if string_view contains characters of which a valid xml-tag-name can be constructed
  */
 static inline bool xml_writer_contains_xml_tag_name_characters ( xml_writer_t *this_, utf8stringview_t string_view );
 
@@ -169,7 +169,7 @@ static inline bool xml_writer_contains_xml_tag_name_characters ( xml_writer_t *t
  *
  *  \param this_ pointer to own object attributes
  *  \param string_view string_view to 1) filter and 2) write
- *  \result 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 otherwise
  */
 static inline int xml_writer_write_xml_tag_name_characters ( xml_writer_t *this_, utf8stringview_t string_view );
 
@@ -213,7 +213,7 @@ void xml_writer_private_update_encoding_tables ( xml_writer_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param codepoint codepoint to check
  *  \param start true if this codepoint shall be the start of an xml name
- *  \result true if codepoint is valid in an xml-tag-name
+ *  \return true if codepoint is valid in an xml-tag-name
  */
 static inline bool xml_writer_private_is_xml_tag_name_character ( xml_writer_t *this_, uint32_t codepoint, bool start );
 

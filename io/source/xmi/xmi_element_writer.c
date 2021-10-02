@@ -17,6 +17,15 @@
 #include <stdbool.h>
 #include <assert.h>
 
+/* the vmt implementing the interface */
+static const io_element_writer_if_t io_element_writer_private_if
+    = {
+        .open  = NULL,
+        .write = NULL,
+        .flush = NULL,
+        .close = NULL
+    };
+
 /* GENERAL STRUCTURE */
 
 /*
@@ -194,7 +203,7 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
                                                                      classifier_type
                                                                    );
         }
-        
+
         /* determine nesting tag */
         const char* nesting_property;
         const int nesting_err
@@ -261,7 +270,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
             /* The caller requested to write a classifier of unknown type, error was already logged at xmi_element_writer_start_classifier */
             TRACE_INFO_INT("xmi_element_writer: request to write a classifier of unknown type", classifier_type );
         }
-        
+
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
         const char* c_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
@@ -347,13 +356,13 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
             export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), classifier_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "#extensionpoint" );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
-            
+
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), "" );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
         }
-        
+
         /* generate start of pseudo subelement region to statemachines and states */
         if ( classifier_type == DATA_CLASSIFIER_TYPE_STATE )
         {
@@ -459,13 +468,13 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), profile_type );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
         }
-        
+
         /* write user-defined stereotypes */
         {
             utf8stringviewiterator_t stereo_iterator;
-            utf8stringviewiterator_init( &stereo_iterator, 
+            utf8stringviewiterator_init( &stereo_iterator,
                                          UTF8STRINGVIEW_STR(classifier_stereo),
-                                         "," 
+                                         ","
                                        );
             while( utf8stringviewiterator_has_next( &stereo_iterator ) )
             {
@@ -586,9 +595,9 @@ int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
     const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
     const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
     const xmi_element_info_t *feature_info;
-    int map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, 
+    int map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
                                                     parent_type,
-                                                    feature_type, 
+                                                    feature_type,
                                                     &feature_info
                                                   );
 
@@ -606,7 +615,7 @@ int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
                                                                   feature_type
                                                                 );
         }
-        
+
         /* determine nesting tag */
         const char* owning_type;
         const int owning_err
@@ -692,9 +701,9 @@ int xmi_element_writer_assemble_feature( xmi_element_writer_t *this_,
     const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
     const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
     const xmi_element_info_t *feature_info;
-    int map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, 
+    int map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
                                                     parent_type,
-                                                    feature_type, 
+                                                    feature_type,
                                                     &feature_info
                                                   );
 
@@ -822,7 +831,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
                                                                        relation_type
                                                                      );
         }
-        
+
         /* determine nesting tag */
         const char* nesting_property;
         const int nesting_err
@@ -1001,7 +1010,7 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
         /* The caller requested to write a relationship of unknown type, error was already logged at xmi_element_writer_start_relationship */
         TRACE_INFO_INT("xmi_element_writer: request to write a relationship of unknown type", relation_type );
     }
-        
+
     const xmi_element_info_t *from_end_info = NULL;
     if (from_f_type == DATA_FEATURE_TYPE_VOID)
     {
@@ -1020,7 +1029,7 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
         }
     }
     assert ( from_end_info != NULL );
-    
+
     const xmi_element_info_t *to_end_info = NULL;
     if (to_f_type == DATA_FEATURE_TYPE_VOID)
     {
@@ -1197,7 +1206,7 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_START );
             export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), to_end_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "#extensionpoint" );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_END );            
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
         }
     }
@@ -1379,6 +1388,17 @@ int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
 
     TRACE_END_ERR( export_err );
     return export_err;
+}
+
+io_element_writer_t xmi_element_writer_get_element_writer( xmi_element_writer_t *this_ )
+{
+    TRACE_BEGIN();
+
+    io_element_writer_t result;
+    io_element_writer_init( &result, &io_element_writer_private_if, this_ );
+
+    TRACE_END();
+    return result;
 }
 
 

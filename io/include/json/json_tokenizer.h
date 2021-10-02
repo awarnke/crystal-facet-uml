@@ -281,7 +281,7 @@ static inline void json_tokenizer_private_find_string_end ( json_tokenizer_t *th
  *  \param this_ pointer to own object attributes
  *  \param in_data utf8 encoded string where to read from
  *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is an integer.
- *  \result parsed integer or 0 in case of error
+ *  \return parsed integer or 0 in case of error
  */
 static inline int64_t json_tokenizer_private_parse_integer ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
 

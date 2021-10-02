@@ -206,7 +206,7 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
  *  \param out_from_f_type the type of feature at source end; DATA_FEATURE_TYPE_VOID if no feature specified
  *  \param out_to_c_type the type of classifier at target end
  *  \param out_to_f_type the type of feature at target end; DATA_FEATURE_TYPE_VOID if no feature specified
- *  \result DATA_ERROR_NONE in case of success
+ *  \return DATA_ERROR_NONE in case of success
  */
 data_error_t io_export_model_traversal_private_get_relationship_end_types( io_export_model_traversal_t *this_,
                                                                            const data_relationship_t *relation,
