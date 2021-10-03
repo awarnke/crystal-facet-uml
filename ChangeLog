@@ -1,9 +1,11 @@
-crystal-facet-uml (1.32.2) UNRELEASED; urgency=medium
+crystal-facet-uml (1.33.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * The databse has new, yet unused fields uuid and diagram.display_flags
+  * fix: when copying objects via clipboard, the last characters are
+    not dropped if escape-sequences cause exceeding maximum string length
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 29 Aug 2021 20:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 10 Oct 2021 20:00:00 +0200
 
 crystal-facet-uml (1.32.1) UNRELEASED; urgency=medium
 

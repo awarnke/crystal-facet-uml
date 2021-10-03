@@ -363,6 +363,15 @@ static inline void data_classifier_set_list_order ( data_classifier_t *this_, in
 static inline const char *data_classifier_get_uuid_const ( const data_classifier_t *this_ );
 
 /*!
+ *  \brief sets the attribute uuid
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param uuid new uuid of this object
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if new string too long
+ */
+static inline data_error_t data_classifier_set_uuid ( data_classifier_t *this_, const char *uuid );
+
+/*!
  *  \brief checks if attribute id is not DATA_ROW_ID_VOID
  *
  *  \param this_ pointer to own object attributes

@@ -291,6 +291,15 @@ static inline const char *data_feature_get_uuid_const ( const data_feature_t *th
     return data_uuid_get_string( &((*this_).uuid) );
 }
 
+static inline data_error_t data_feature_set_uuid ( data_feature_t *this_, const char *uuid )
+{
+    assert( NULL != uuid );
+
+    const data_error_t result = data_uuid_reinit( &((*this_).uuid), uuid );
+
+    return result;
+}
+
 static inline bool data_feature_is_valid ( const data_feature_t *this_ )
 {
     return ( DATA_ROW_ID_VOID != (*this_).id );

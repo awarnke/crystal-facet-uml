@@ -45,6 +45,16 @@ typedef struct data_uuid_struct data_uuid_t;
 static inline data_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t uuid_string );
 
 /*!
+ *  \brief re-initializes the data_uuid_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param uuid_string a uuid string formatted according to rfc4122
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
+ *          DATA_ERROR_VALUE_OUT_OF_RANGE if string invalid, DATA_ERROR_NONE otherwise.
+ */
+static inline data_error_t data_uuid_reinit ( data_uuid_t *this_, utf8string_t uuid_string );
+
+/*!
  *  \brief generates a uuid version 4
  *         based on the systems pseudo random number generator
  *

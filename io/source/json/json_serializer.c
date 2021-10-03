@@ -1055,6 +1055,8 @@ utf8error_t json_serializer_private_append_feature ( json_serializer_t *this_, d
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_KEY_UUID
                                             JSON_CONSTANTS_QUOTE

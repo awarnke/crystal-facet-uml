@@ -337,6 +337,15 @@ static inline const char *data_classifier_get_uuid_const ( const data_classifier
     return data_uuid_get_string( &((*this_).uuid) );
 }
 
+static inline data_error_t data_classifier_set_uuid ( data_classifier_t *this_, const char *uuid )
+{
+    assert( NULL != uuid );
+
+    const data_error_t result = data_uuid_reinit( &((*this_).uuid), uuid );
+
+    return result;
+}
+
 static inline bool data_classifier_is_valid ( const data_classifier_t *this_ )
 {
     return ( DATA_ROW_ID_VOID != (*this_).id );

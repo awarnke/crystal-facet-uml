@@ -250,6 +250,15 @@ static inline void data_diagramelement_set_display_flags ( data_diagramelement_t
  */
 static inline const char *data_diagramelement_get_uuid_const ( const data_diagramelement_t *this_ );
 
+/*!
+ *  \brief sets the attribute uuid
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param uuid new uuid of this object
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if new string too long
+ */
+static inline data_error_t data_diagramelement_set_uuid ( data_diagramelement_t *this_, const char *uuid );
+
 #include "data_diagramelement.inl"
 
 #endif  /* DATA_DIAGRAMELEMENT_H */

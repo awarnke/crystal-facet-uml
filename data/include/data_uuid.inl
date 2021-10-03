@@ -32,6 +32,11 @@ static inline data_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t uui
     return result;
 }
 
+static inline data_error_t data_uuid_reinit ( data_uuid_t *this_, utf8string_t uuid_string )
+{
+    return data_uuid_init( this_, uuid_string );
+}
+
 static inline void data_uuid_init_new ( data_uuid_t *this_ )
 {
     (*this_).uuid_string = utf8stringbuf_init( sizeof((*this_).private_uuid_string_buffer),

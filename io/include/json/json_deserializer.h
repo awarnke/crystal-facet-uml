@@ -166,6 +166,16 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
 data_error_t json_deserializer_skip_next_object ( json_deserializer_t *this_ );
 
 /*!
+ *  \brief skips the next string, e.g. a key or string-value of no interest
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected (e.g. array member),
+ *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          DATA_ERROR_NONE if structure of the input is valid.
+ */
+data_error_t json_deserializer_skip_next_string ( json_deserializer_t *this_ );
+
+/*!
  *  \brief gets the current read position
  *
  *  May be used to determine the position where a parse error occurred.

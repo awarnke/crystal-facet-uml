@@ -194,6 +194,15 @@ static inline const char *data_diagramelement_get_uuid_const ( const data_diagra
     return data_uuid_get_string( &((*this_).uuid) );
 }
 
+static inline data_error_t data_diagramelement_set_uuid ( data_diagramelement_t *this_, const char *uuid )
+{
+    assert( NULL != uuid );
+
+    const data_error_t result = data_uuid_reinit( &((*this_).uuid), uuid );
+
+    return result;
+}
+
 
 /*
 Copyright 2016-2021 Andreas Warnke

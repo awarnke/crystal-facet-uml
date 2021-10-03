@@ -286,6 +286,11 @@ data_error_t json_deserializer_get_next_classifier ( json_deserializer_t *this_,
                         {
                             result = json_deserializer_private_get_next_feature_array ( this_, max_out_array_size, out_feature, out_feature_count );
                         }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
+                        {
+                            /* TODO: do something with the uuid */
+                            result = json_deserializer_skip_next_string ( this_ );
+                        }
                         else
                         {
                             TSLOG_ERROR_INT( "unexpected member name at character", (*this_).read_pos );
@@ -429,13 +434,11 @@ data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, da
                             result = json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
                             data_diagram_set_display_flags ( out_object, parsed_integer );
                         }
-                        /*
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
                         {
-                            utf8stringbuf_t parsed_strbuf = data_diagram_get_uuid_buf_ptr ( out_object );
-                            result = json_tokenizer_get_string_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), parsed_strbuf );
+                            /* TODO: do something with the uuid */
+                            result = json_deserializer_skip_next_string ( this_ );
                         }
-                        */
                         else
                         {
                             TSLOG_ERROR_INT( "unexpected member name at character", (*this_).read_pos );
@@ -623,6 +626,11 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
                         {
                             result = json_tokenizer_get_string_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), out_to_feature_key );
                         }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
+                        {
+                            /* TODO: do something with the uuid */
+                            result = json_deserializer_skip_next_string ( this_ );
+                        }
                         else
                         {
                             TSLOG_ERROR_INT( "unexpected member name at character", (*this_).read_pos );
@@ -760,14 +768,7 @@ data_error_t json_deserializer_skip_next_object ( json_deserializer_t *this_ )
 
                             case JSON_VALUE_TYPE_STRING:
                             {
-                                char dummy_str[4];
-                                utf8stringbuf_t dummy_strbuf = UTF8STRINGBUF ( dummy_str );
-                                result = json_tokenizer_get_string_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), dummy_strbuf );
-                                if ( result == DATA_ERROR_STRING_BUFFER_EXCEEDED )
-                                {
-                                    /* ignore this. The result string is not needed therefore dummy_str may be too small */
-                                    result = DATA_ERROR_NONE;
-                                }
+                                json_deserializer_skip_next_string( this_ );
                             }
                             break;
 
@@ -820,6 +821,24 @@ data_error_t json_deserializer_skip_next_object ( json_deserializer_t *this_ )
     }
 
     (*this_).after_first_array_entry = true;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t json_deserializer_skip_next_string ( json_deserializer_t *this_ )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+    char dummy_str[4];
+    utf8stringbuf_t dummy_strbuf = UTF8STRINGBUF ( dummy_str );
+
+    result = json_tokenizer_get_string_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), dummy_strbuf );
+    if ( result == DATA_ERROR_STRING_BUFFER_EXCEEDED )
+    {
+        /* ignore this. The result string is not needed therefore dummy_str may be too small */
+        result = DATA_ERROR_NONE;
+    }
 
     TRACE_END_ERR( result );
     return result;
@@ -977,6 +996,11 @@ data_error_t json_deserializer_private_get_next_feature ( json_deserializer_t *t
                         {
                             utf8stringbuf_t parsed_strbuf = data_feature_get_value_buf_ptr ( out_object );
                             result = json_tokenizer_get_string_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), parsed_strbuf );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
+                        {
+                            /* TODO: do something with the uuid */
+                            result = json_deserializer_skip_next_string ( this_ );
                         }
                         else
                         {
