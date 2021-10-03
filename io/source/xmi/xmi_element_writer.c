@@ -1191,12 +1191,8 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
 
     if (( parent_type == DATA_CLASSIFIER_TYPE_INTERACTION )&&( is_message ))
     {
-        /* determine the interaction id */
-        const data_diagram_t *const diag_ptr = data_visible_set_get_diagram_const( diagram_data );
-        const data_id_t interaction_id = data_diagram_get_data_id( diag_ptr );
-
         export_err |= xmi_interaction_writer_assemble_relationship( &((*this_).interaction_writer),
-                                                                    interaction_id,
+                                                                    parent_id,
                                                                     DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
                                                                     relation_ptr,
                                                                     DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake from classifier type */

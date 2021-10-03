@@ -16,6 +16,7 @@
 #include "xmi/xmi_atom_writer.h"
 #include "xml/xml_writer.h"
 #include "xmi/xmi_type_converter.h"
+#include "xmi/xmi_interaction_writer.h"
 #include "io_file_format.h"
 #include "io_writer_pass.h"
 #include "io_element_writer_if.h"

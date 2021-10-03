@@ -91,7 +91,7 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
  *  Classifiers that are contained in written_id_set or that are beyond max_recursion are not traversed.
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classifier, needed for xmi export
+ *  \param host the hosting parent classifier, needed for xmi export; is NULL on top-level of document
  *  \param containment_relationship_id id of the containment relationship which caused the processing, DATA_ID_VOID if not applicable
  *  \param classifier_id id of the classifier to process
  *  \param recursion_depth current number of tree depth.
@@ -99,7 +99,7 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
  *          0 in case of success.
  */
 int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *this_,
-                                                  data_classifier_type_t parent_type,
+                                                  const data_classifier_t *host,
                                                   data_id_t containment_relationship_id,
                                                   data_id_t classifier_id,
                                                   unsigned int recursion_depth
@@ -109,13 +109,13 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
  *  \brief writes the first half of the node
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classifier, needed for xmi export
+ *  \param host_type type of the hosting parent classifier, needed for xmi export
  *  \param node_data the data set of a model-node: a classifier, list of contained features and set of relationships
  *  \return -1 in case of error,
  *          0 in case of success.
  */
 int io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *this_,
-                                                   data_classifier_type_t parent_type,
+                                                   data_classifier_type_t host_type,
                                                    const data_node_set_t *node_data
                                                  );
 
@@ -139,7 +139,7 @@ int io_export_model_traversal_private_get_containments ( io_export_model_travers
  *  \brief recusively descends the containment tree (graph) of a classifier.
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier_type type of the classifier (which containments to process)
+ *  \param host the hosting parent classifier, needed for xmi export
  *  \param contained_classifiers set of contained classifiers.
  *  \param containment_relations set of containment relationships.
  *  \param recursion_depth current number of tree depth. Used to actively limit the recursive descend to max IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH.
@@ -150,7 +150,7 @@ int io_export_model_traversal_private_get_containments ( io_export_model_travers
  *          0 is returned nonetheless.
  */
 int io_export_model_traversal_private_walk_containments ( io_export_model_traversal_t *this_,
-                                                          data_classifier_type_t classifier_type,
+                                                          const data_classifier_t *host,
                                                           const data_small_set_t *contained_classifiers,
                                                           const data_small_set_t *containment_relations,
                                                           unsigned int recursion_depth
@@ -160,13 +160,13 @@ int io_export_model_traversal_private_walk_containments ( io_export_model_traver
  *  \brief writes the second half of the node
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classifier, needed for xmi export
+ *  \param host_type type of the hosting parent classifier, needed for xmi export
  *  \param node_data the data set of a model-node: a classifier, list of contained features and set of relationships
  *  \return -1 in case of error,
  *          0 in case of success.
  */
 int io_export_model_traversal_private_end_node ( io_export_model_traversal_t *this_,
-                                                 data_classifier_type_t parent_type,
+                                                 data_classifier_type_t host_type,
                                                  const data_node_set_t *node_data
                                                );
 
@@ -187,14 +187,13 @@ int io_export_model_traversal_private_iterate_node_features ( io_export_model_tr
  *  \param this_ pointer to own object attributes
  *  \param nested_to_foreign_node true, if nested to a foreign node, e.g. the outer model,
  *         false is nested to node_data.
- *  \param nesting_type type of the nesting-parent classifier,
- *         if node_data is the nesting parent, classifier type of node_data.
+ *  \param host the hosting parent classifier, needed for xmi export; is NULL on top-level of document
  *  \param node_data node data of the from-classifier of which the relationships are written, not NULL
  *  \return -1 in case of error, 0 in case of success.
  */
 int io_export_model_traversal_private_iterate_node_relationships ( io_export_model_traversal_t *this_,
                                                                    bool nested_to_foreign_node,
-                                                                   data_classifier_type_t nesting_type,
+                                                                   const data_classifier_t *host,
                                                                    const data_node_set_t *node_data
                                                                  );
 

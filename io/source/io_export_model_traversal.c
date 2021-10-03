@@ -88,7 +88,7 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
                     data_classifier_destroy( &((*this_).temp_classifier) );
 
                     write_err |= io_export_model_traversal_private_walk_node ( this_,
-                                                                               DATA_CLASSIFIER_TYPE_PACKAGE, /* a uml:Model is a uml:Package*/
+                                                                               NULL,
                                                                                DATA_ID_VOID,
                                                                                classifier_id,
                                                                                0 /* initial recursion_depth */
@@ -108,7 +108,7 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
 }
 
 int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *this_,
-                                                  data_classifier_type_t parent_type,
+                                                  const data_classifier_t *host,
                                                   data_id_t containment_relationship_id,
                                                   data_id_t classifier_id,
                                                   unsigned int recursion_depth )
@@ -120,9 +120,11 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
 
     /* initially define flags and attributes */
     bool duplicate_classifier
-        =( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &classifier_id ) );
+        = ( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &classifier_id ) );
     bool is_classifier_compliant_here = false;  /* a default value */
-    data_classifier_type_t classifier_type = DATA_CLASSIFIER_TYPE_PACKAGE;  /* a default value */
+    const data_classifier_type_t host_type
+        = (host==NULL) ? DATA_CLASSIFIER_TYPE_PACKAGE : data_classifier_get_main_type( host );  /* a uml:Model is a uml:Package*/
+    const data_classifier_t *classifier = NULL;
 
     /* the id-sets needed on the stack during recursion */
     data_small_set_t contained_classifiers;
@@ -146,9 +148,8 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
         else
         {
             /* update flags and attributes */
-            const data_classifier_t *const classifier
-                = data_node_set_get_classifier_const ( &((*this_).temp_node_data) );
-            classifier_type = data_classifier_get_main_type( classifier );
+            classifier = data_node_set_get_classifier_const ( &((*this_).temp_node_data) );
+            const data_classifier_type_t classifier_type = data_classifier_get_main_type( classifier );
 
             /* fake and export interactions in which the current node is participant first */
             /* recursion trick: If classifier is nested, this block is evaluated
@@ -157,7 +158,7 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
             {
                 /* write the relationships that can be stated after the classifier or in the toplevel package */
                 write_err |= io_export_model_traversal_private_fake_interactions_of_node( this_,
-                                                                                          parent_type,
+                                                                                          host_type,
                                                                                           &((*this_).temp_node_data)
                                                                                         );
                 /* check if the classifier is already written */
@@ -168,7 +169,7 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
 
 
             is_classifier_compliant_here = io_element_writer_can_classifier_nest_classifier ( (*this_).element_writer,
-                                                                                               parent_type,
+                                                                                               host_type,
                                                                                                classifier_type
                                                                                              );
             if (( recursion_depth == 0 )&&( !is_classifier_compliant_here ))
@@ -192,7 +193,7 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
 
                 /* walk node which is not a duplicate */
                 write_err |= io_export_model_traversal_private_begin_node( this_,
-                                                                           parent_type,
+                                                                           host_type,
                                                                            &((*this_).temp_node_data)
                                                                          );
 
@@ -213,7 +214,7 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
     if (( ! duplicate_classifier )&&( is_classifier_compliant_here ))
     {
         write_err |= io_export_model_traversal_private_walk_containments( this_,
-                                                                          classifier_type,
+                                                                          classifier,
                                                                           &contained_classifiers,
                                                                           &containment_relations,
                                                                           recursion_depth
@@ -238,12 +239,12 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
                 /* write the relationships that can be nested within the classifier */
                 write_err |= io_export_model_traversal_private_iterate_node_relationships( this_,
                                                                                            false,
-                                                                                           classifier_type,
+                                                                                           classifier,
                                                                                            &((*this_).temp_node_data)
                                                                                          );
 
                 write_err |= io_export_model_traversal_private_end_node( this_,
-                                                                         parent_type,
+                                                                         host_type,
                                                                          &((*this_).temp_node_data)
                                                                        );
             }
@@ -255,7 +256,7 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
                 /* write the relationships that can be stated after the classifier or in the toplevel package */
                 write_err |= io_export_model_traversal_private_iterate_node_relationships( this_,
                                                                                            true,
-                                                                                           parent_type,
+                                                                                           host,
                                                                                            &((*this_).temp_node_data)
                                                                                          );
             }
@@ -272,7 +273,7 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
 }
 
 int io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *this_,
-                                                   data_classifier_type_t parent_type,
+                                                   data_classifier_type_t host_type,
                                                    const data_node_set_t *node_data )
 {
     TRACE_BEGIN();
@@ -283,8 +284,8 @@ int io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *
     const data_classifier_t *const classifier
         = data_node_set_get_classifier_const ( node_data );
 
-    write_err |= io_element_writer_start_classifier( (*this_).element_writer, parent_type, classifier );
-    write_err |= io_element_writer_assemble_classifier( (*this_).element_writer, parent_type, classifier );
+    write_err |= io_element_writer_start_classifier( (*this_).element_writer, host_type, classifier );
+    write_err |= io_element_writer_assemble_classifier( (*this_).element_writer, host_type, classifier );
 
     TRACE_END_ERR( write_err );
     return write_err;
@@ -340,7 +341,7 @@ int io_export_model_traversal_private_get_containments ( io_export_model_travers
 }
 
 int io_export_model_traversal_private_walk_containments ( io_export_model_traversal_t *this_,
-                                                          data_classifier_type_t classifier_type,
+                                                          const data_classifier_t *host,
                                                           const data_small_set_t *contained_classifiers,
                                                           const data_small_set_t *containment_relations,
                                                           unsigned int recursion_depth )
@@ -359,7 +360,7 @@ int io_export_model_traversal_private_walk_containments ( io_export_model_traver
         {
             const data_id_t child = data_small_set_get_id ( contained_classifiers, index );
             const data_id_t c_rel = data_small_set_get_id ( containment_relations, index );
-            write_err |= io_export_model_traversal_private_walk_node( this_, classifier_type, c_rel, child, recursion_depth+1 );
+            write_err |= io_export_model_traversal_private_walk_node( this_, host, c_rel, child, recursion_depth+1 );
         }
     }
 
@@ -368,7 +369,7 @@ int io_export_model_traversal_private_walk_containments ( io_export_model_traver
 }
 
 int io_export_model_traversal_private_end_node ( io_export_model_traversal_t *this_,
-                                                 data_classifier_type_t parent_type,
+                                                 data_classifier_type_t host_type,
                                                  const data_node_set_t *node_data )
 {
     TRACE_BEGIN();
@@ -379,7 +380,7 @@ int io_export_model_traversal_private_end_node ( io_export_model_traversal_t *th
     const data_classifier_t *const classifier
         = data_node_set_get_classifier_const ( node_data );
 
-    write_err |= io_element_writer_end_classifier( (*this_).element_writer, parent_type, classifier );
+    write_err |= io_element_writer_end_classifier( (*this_).element_writer, host_type, classifier );
 
     TRACE_END_ERR( write_err );
     return write_err;
@@ -437,7 +438,7 @@ int io_export_model_traversal_private_iterate_node_features ( io_export_model_tr
 
 int io_export_model_traversal_private_iterate_node_relationships ( io_export_model_traversal_t *this_,
                                                                    bool nested_to_foreign_node,
-                                                                   data_classifier_type_t nesting_type,
+                                                                   const data_classifier_t *host,
                                                                    const data_node_set_t *node_data )
 {
     TRACE_BEGIN();
@@ -445,6 +446,8 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
     assert( data_node_set_is_valid( node_data ) );
     int write_err = 0;
 
+    const data_classifier_type_t host_type
+        = (host==NULL) ? DATA_CLASSIFIER_TYPE_PACKAGE : data_classifier_get_main_type( host );  /* a uml:Model is a uml:Package*/
     const data_classifier_t *const classifier
         = data_node_set_get_classifier_const ( node_data );
     const data_id_t classifier_id = data_classifier_get_data_id( classifier );
@@ -473,7 +476,7 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
 
                 const data_relationship_type_t r_type = data_relationship_get_main_type( relation );
                 const bool is_relationship_compliant_here
-                    = io_element_writer_can_classifier_nest_relationship( (*this_).element_writer, nesting_type, r_type );
+                    = io_element_writer_can_classifier_nest_relationship( (*this_).element_writer, host_type, r_type );
                 const data_id_t from_feature_id = data_relationship_get_from_feature_data_id( relation );
                 const bool from_here
                     = ( ( ! data_id_is_valid( &from_feature_id ) )
@@ -489,7 +492,7 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                     = nested_to_foreign_node && source_already_written && is_relationship_compliant_here;
                 const bool foreign_red_ok
                     = nested_to_foreign_node && source_already_written && destination_already_written
-                    && ( nesting_type == DATA_CLASSIFIER_TYPE_PACKAGE );
+                    && ( host_type == DATA_CLASSIFIER_TYPE_PACKAGE );
 
                 /* in uml, the source is the dependant, the destination has no link to the source
                  */
@@ -519,17 +522,16 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                     if ( d_err == DATA_ERROR_NONE )
                     {
                         /* destination classifier found, print the relation */
-                        write_err |= io_element_writer_start_relationship( (*this_).element_writer, nesting_type, relation );
+                        write_err |= io_element_writer_start_relationship( (*this_).element_writer, host_type, relation );
                         write_err |= io_element_writer_assemble_relationship( (*this_).element_writer,
-                                                                               nesting_type,
-                                                                               local_ok,
-                                                                               relation,
-                                                                               &((*this_).temp_from_classifier),
-                                                                               &((*this_).temp_from_feature),
-                                                                               &((*this_).temp_to_classifier),
-                                                                               &((*this_).temp_to_feature)
+                                                                              host,
+                                                                              relation,
+                                                                              &((*this_).temp_from_classifier),
+                                                                              &((*this_).temp_from_feature),
+                                                                              &((*this_).temp_to_classifier),
+                                                                              &((*this_).temp_to_feature)
                                                                             );
-                        write_err |= io_element_writer_end_relationship( (*this_).element_writer, nesting_type, relation );
+                        write_err |= io_element_writer_end_relationship( (*this_).element_writer, host_type, relation );
                     }
                     else
                     {
