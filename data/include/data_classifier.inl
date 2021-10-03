@@ -227,11 +227,6 @@ static inline const char *data_classifier_get_stereotype_const ( const data_clas
     return utf8stringbuf_get_string( (*this_).stereotype );
 }
 
-static inline utf8stringbuf_t data_classifier_get_stereotype_buf_ptr ( data_classifier_t *this_ )
-{
-    return (*this_).stereotype;
-}
-
 static inline bool data_classifier_has_stereotype ( data_classifier_t *this_ )
 {
     return ( ! utf8stringbuf_equals_str( (*this_).stereotype, "" ) );
@@ -257,11 +252,6 @@ static inline const char *data_classifier_get_name_const ( const data_classifier
     return utf8stringbuf_get_string( (*this_).name );
 }
 
-static inline utf8stringbuf_t data_classifier_get_name_buf_ptr ( data_classifier_t *this_ )
-{
-    return (*this_).name;
-}
-
 static inline data_error_t data_classifier_set_name ( data_classifier_t *this_, const char *name )
 {
     assert( NULL != name );
@@ -280,11 +270,6 @@ static inline data_error_t data_classifier_set_name ( data_classifier_t *this_, 
 static inline const char *data_classifier_get_description_const ( const data_classifier_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).description );
-}
-
-static inline utf8stringbuf_t data_classifier_get_description_buf_ptr ( data_classifier_t *this_ )
-{
-    return (*this_).description;
 }
 
 static inline data_error_t data_classifier_set_description ( data_classifier_t *this_, const char *description )

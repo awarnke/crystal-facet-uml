@@ -204,11 +204,6 @@ static inline const char *data_feature_get_key_const ( const data_feature_t *thi
     return utf8stringbuf_get_string( (*this_).key );
 }
 
-static inline utf8stringbuf_t data_feature_get_key_buf_ptr ( data_feature_t *this_ )
-{
-    return (*this_).key;
-}
-
 static inline data_error_t data_feature_set_key ( data_feature_t *this_, const char *key )
 {
     assert( NULL != key );
@@ -226,11 +221,6 @@ static inline data_error_t data_feature_set_key ( data_feature_t *this_, const c
 static inline const char *data_feature_get_value_const ( const data_feature_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).value );
-}
-
-static inline utf8stringbuf_t data_feature_get_value_buf_ptr ( data_feature_t *this_ )
-{
-    return (*this_).value;
 }
 
 static inline bool data_feature_has_value ( const data_feature_t *this_ )
@@ -255,11 +245,6 @@ static inline data_error_t data_feature_set_value ( data_feature_t *this_, const
 static inline const char *data_feature_get_description_const ( const data_feature_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).description );
-}
-
-static inline utf8stringbuf_t data_feature_get_description_buf_ptr ( data_feature_t *this_ )
-{
-    return (*this_).description;
 }
 
 static inline data_error_t data_feature_set_description ( data_feature_t *this_, const char *description )

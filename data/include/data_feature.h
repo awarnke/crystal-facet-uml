@@ -212,14 +212,6 @@ static inline void data_feature_set_main_type ( data_feature_t *this_, data_feat
 static inline const char *data_feature_get_key_const ( const data_feature_t *this_ );
 
 /*!
- *  \brief gets the attribute key as utf8stringbuf_t
- *
- *  \param this_ pointer to own object attributes
- *  \return requested attribute of this object
- */
-static inline utf8stringbuf_t data_feature_get_key_buf_ptr ( data_feature_t *this_ );
-
-/*!
  *  \brief sets the attribute key
  *
  *  \param this_ pointer to own object attributes
@@ -235,14 +227,6 @@ static inline data_error_t data_feature_set_key ( data_feature_t *this_, const c
  *  \return requested attribute of this object
  */
 static inline const char *data_feature_get_value_const ( const data_feature_t *this_ );
-
-/*!
- *  \brief gets the attribute value as utf8stringbuf_t
- *
- *  \param this_ pointer to own object attributes
- *  \return requested attribute of this object
- */
-static inline utf8stringbuf_t data_feature_get_value_buf_ptr ( data_feature_t *this_ );
 
 /*!
  *  \brief checks if the value attribute is empty
@@ -268,14 +252,6 @@ static inline data_error_t data_feature_set_value ( data_feature_t *this_, const
  *  \return requested attribute of this object
  */
 static inline const char *data_feature_get_description_const ( const data_feature_t *this_ );
-
-/*!
- *  \brief gets the attribute description as utf8stringbuf_t
- *
- *  \param this_ pointer to own object attributes
- *  \return requested attribute of this object
- */
-static inline utf8stringbuf_t data_feature_get_description_buf_ptr ( data_feature_t *this_ );
 
 /*!
  *  \brief sets the attribute description

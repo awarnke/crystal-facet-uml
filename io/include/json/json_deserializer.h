@@ -23,6 +23,13 @@
 #include <stdint.h>
 
 /*!
+ *  \brief constants for string buffer size
+ */
+enum json_deserializer_max_enum {
+    JSON_DESERIALIZER_MAX_ESCAPED_SIZE = 10240,  /*!< 8k max description of diagrams plus max every 4th character is escaped */
+};
+
+/*!
  *  \brief all data attributes needed for deserializing data objects
  *
  *  The attribute values keep track on the structure of the input tokens
@@ -33,6 +40,8 @@ struct json_deserializer_struct {
     const char *in_data;  /*!< string to be parsed */
     uint32_t read_pos;  /*!< current read position in string to be parsed */
     bool after_first_array_entry;  /*!< true if the first array entry has already been parsed */
+    utf8stringbuf_t unescaped_string;  /*!< a local buffer to convert escaped strings to unescaped strings */
+    char unescaped_string_buffer[JSON_DESERIALIZER_MAX_ESCAPED_SIZE];
 };
 
 typedef struct json_deserializer_struct json_deserializer_t;

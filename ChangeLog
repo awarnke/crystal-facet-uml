@@ -1,7 +1,7 @@
 crystal-facet-uml (1.33.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * The databse has new, yet unused fields uuid and diagram.display_flags
+  * The database has new, yet unused fields uuid and diagram.display_flags
   * fix: when copying objects via clipboard, the last characters are
     not dropped if escape-sequences cause exceeding maximum string length
 

@@ -232,14 +232,6 @@ static inline void data_classifier_set_main_type ( data_classifier_t *this_, dat
 static inline const char *data_classifier_get_stereotype_const ( const data_classifier_t *this_ );
 
 /*!
- *  \brief gets the attribute stereotype as utf8stringbuf_t
- *
- *  \param this_ pointer to own object attributes
- *  \return requested attribute of this object
- */
-static inline utf8stringbuf_t data_classifier_get_stereotype_buf_ptr ( data_classifier_t *this_ );
-
-/*!
  *  \brief checks if the attribute stereotype is empty
  *
  *  \param this_ pointer to own object attributes
@@ -265,14 +257,6 @@ static inline data_error_t data_classifier_set_stereotype ( data_classifier_t *t
 static inline const char *data_classifier_get_name_const ( const data_classifier_t *this_ );
 
 /*!
- *  \brief gets the attribute name as utf8stringbuf_t
- *
- *  \param this_ pointer to own object attributes
- *  \return requested attribute of this object
- */
-static inline utf8stringbuf_t data_classifier_get_name_buf_ptr ( data_classifier_t *this_ );
-
-/*!
  *  \brief sets the attribute name
  *
  *  \param this_ pointer to own object attributes
@@ -288,14 +272,6 @@ static inline data_error_t data_classifier_set_name ( data_classifier_t *this_, 
  *  \return requested attribute of this object
  */
 static inline const char *data_classifier_get_description_const ( const data_classifier_t *this_ );
-
-/*!
- *  \brief gets the attribute description as utf8stringbuf_t
- *
- *  \param this_ pointer to own object attributes
- *  \return requested attribute of this object
- */
-static inline utf8stringbuf_t data_classifier_get_description_buf_ptr ( data_classifier_t *this_ );
 
 /*!
  *  \brief sets the attribute description

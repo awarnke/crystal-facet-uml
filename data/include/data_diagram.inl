@@ -204,11 +204,6 @@ static inline const char *data_diagram_get_name_const ( const data_diagram_t *th
     return utf8stringbuf_get_string( (*this_).name );
 }
 
-static inline utf8stringbuf_t data_diagram_get_name_buf_ptr ( data_diagram_t *this_ )
-{
-    return (*this_).name;
-}
-
 static inline data_error_t data_diagram_set_name ( data_diagram_t *this_, const char *name )
 {
     assert( NULL != name );
@@ -226,11 +221,6 @@ static inline data_error_t data_diagram_set_name ( data_diagram_t *this_, const 
 static inline const char *data_diagram_get_description_const ( const data_diagram_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).description );
-}
-
-static inline utf8stringbuf_t data_diagram_get_description_buf_ptr ( data_diagram_t *this_ )
-{
-    return (*this_).description;
 }
 
 static inline data_error_t data_diagram_set_description ( data_diagram_t *this_, const char *description )

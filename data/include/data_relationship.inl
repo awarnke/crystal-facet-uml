@@ -246,11 +246,6 @@ static inline const char *data_relationship_get_name_const ( const data_relation
     return utf8stringbuf_get_string( (*this_).name );
 }
 
-static inline utf8stringbuf_t data_relationship_get_name_buf_ptr ( data_relationship_t *this_ )
-{
-    return (*this_).name;
-}
-
 static inline data_error_t data_relationship_set_name ( data_relationship_t *this_, const char *name )
 {
     assert( NULL != name );
@@ -268,11 +263,6 @@ static inline data_error_t data_relationship_set_name ( data_relationship_t *thi
 static inline const char *data_relationship_get_description_const ( const data_relationship_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).description );
-}
-
-static inline utf8stringbuf_t data_relationship_get_description_buf_ptr ( data_relationship_t *this_ )
-{
-    return (*this_).description;
 }
 
 static inline data_error_t data_relationship_set_description ( data_relationship_t *this_, const char *description )

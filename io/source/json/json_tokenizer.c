@@ -22,16 +22,12 @@ void json_tokenizer_init ( json_tokenizer_t *this_ )
 {
     TRACE_BEGIN();
 
-    (*this_).unescaped_string = utf8stringbuf_init( sizeof((*this_).unescaped_string_buffer), (*this_).unescaped_string_buffer );
-
     TRACE_END();
 }
 
 void json_tokenizer_reinit ( json_tokenizer_t *this_ )
 {
     TRACE_BEGIN();
-
-    (*this_).unescaped_string = utf8stringbuf_init( sizeof((*this_).unescaped_string_buffer), (*this_).unescaped_string_buffer );
 
     TRACE_END();
 }
@@ -102,10 +98,9 @@ data_error_t json_tokenizer_get_member_name ( json_tokenizer_t *this_, const cha
                 (*io_read_pos) = token_end;
 
                 /* copy and unescape the string */
-                str_err |= utf8stringbuf_copy_region_from_str( (*this_).unescaped_string, in_data, start, end-start );
-                str_err |= utf8stringbuf_replace_all( (*this_).unescaped_string,
+                str_err |= utf8stringbuf_copy_region_from_str( out_name, in_data, start, end-start );
+                str_err |= utf8stringbuf_replace_all( out_name,
                                                       &JSON_TOKENIZER_PRIVATE_DECODE_JSON_STRINGS );
-                str_err |= utf8stringbuf_copy_buf( out_name, (*this_).unescaped_string );
                 if ( UTF8ERROR_SUCCESS != str_err )
                 {
                     result_err = DATA_ERROR_STRING_BUFFER_EXCEEDED;
@@ -365,10 +360,9 @@ data_error_t json_tokenizer_get_string_value ( json_tokenizer_t *this_, const ch
                 (*io_read_pos) = token_end;
 
                 /* copy and unescape the string */
-                str_err |= utf8stringbuf_copy_region_from_str( (*this_).unescaped_string, in_data, start, end-start );
-                str_err |= utf8stringbuf_replace_all( (*this_).unescaped_string,
+                str_err |= utf8stringbuf_copy_region_from_str( out_value, in_data, start, end-start );
+                str_err |= utf8stringbuf_replace_all( out_value,
                                                       &JSON_TOKENIZER_PRIVATE_DECODE_JSON_STRINGS );
-                str_err |= utf8stringbuf_copy_buf( out_value, (*this_).unescaped_string );
                 if ( UTF8ERROR_SUCCESS != str_err )
                 {
                     result_err = DATA_ERROR_STRING_BUFFER_EXCEEDED;

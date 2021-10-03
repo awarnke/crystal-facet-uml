@@ -290,14 +290,6 @@ static inline void data_relationship_set_main_type ( data_relationship_t *this_,
 static inline const char *data_relationship_get_name_const ( const data_relationship_t *this_ );
 
 /*!
- *  \brief gets the attribute name as utf8stringbuf_t
- *
- *  \param this_ pointer to own object attributes
- *  \return requested attribute of this object
- */
-static inline utf8stringbuf_t data_relationship_get_name_buf_ptr ( data_relationship_t *this_ );
-
-/*!
  *  \brief sets the attribute name
  *
  *  \param this_ pointer to own object attributes
@@ -313,14 +305,6 @@ static inline data_error_t data_relationship_set_name ( data_relationship_t *thi
  *  \return requested attribute of this object
  */
 static inline const char *data_relationship_get_description_const ( const data_relationship_t *this_ );
-
-/*!
- *  \brief gets the attribute description as utf8stringbuf_t
- *
- *  \param this_ pointer to own object attributes
- *  \return requested attribute of this object
- */
-static inline utf8stringbuf_t data_relationship_get_description_buf_ptr ( data_relationship_t *this_ );
 
 /*!
  *  \brief sets the attribute description

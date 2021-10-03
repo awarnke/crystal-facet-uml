@@ -27,15 +27,13 @@
 enum json_tokenizer_max_enum {
     JSON_TOKENIZER_MAX_INPUT_SIZE = 16*1024*1024,  /*!< assuming a maxmum input string size allows to prevent endless-loops.*/
                                                    /*!< 16MB should be big enough for strings from the clipboard. */
-    JSON_TOKENIZER_MAX_ESCAPED_SIZE = 10240,  /*!< 8k max description of diagrams plus max every 4th character is escaped */
 };
 
 /*!
  *  \brief all data attributes needed for tokenizing data objects
  */
 struct json_tokenizer_struct {
-    utf8stringbuf_t unescaped_string;  /*!< a local buffer to convert escaped strings to unescaped strings */
-    char unescaped_string_buffer[JSON_TOKENIZER_MAX_ESCAPED_SIZE];
+    int dummy;
 };
 
 typedef struct json_tokenizer_struct json_tokenizer_t;
