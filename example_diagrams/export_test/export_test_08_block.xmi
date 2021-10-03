@@ -5,7 +5,7 @@
          xmlns:SysML="http://www.omg.org/spec/SysML/20131001/SysML.xmi"
          xmlns:LocalProfile="http://localhost/crystal-facet-uml/298b72db-cc85-4ed0-bd7b-01dc4efd52b4">
          <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->
-    <xmi:Documentation exporter="crystal-facet-uml" exporterVersion="1.31.0"/>
+    <xmi:Documentation exporter="crystal-facet-uml" exporterVersion="1.33.0"/>
     <uml:Model xmi:type="uml:Model" xmi:id="00000" name="export_test_08_block" >
         <packagedElement xmi:type="uml:Class" xmi:id="60001" name="New Perform Transaction-1" ><!--C0001-->
             <ownedPort xmi:type="uml:Port" xmi:id="40001" name="video_in" aggregation="composite" >

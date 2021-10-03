@@ -1059,20 +1059,20 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
     const data_feature_type_t from_f_type
         = (from_f==NULL)
         ? DATA_FEATURE_TYPE_VOID
-        : data_feature_is_valid(from_f) ? DATA_FEATURE_TYPE_VOID : data_feature_get_main_type( from_f );
+        : data_feature_is_valid(from_f) ? data_feature_get_main_type( from_f ) : DATA_FEATURE_TYPE_VOID;
     const data_classifier_type_t to_c_type
         = data_classifier_get_main_type( to_c );
     const data_feature_type_t to_f_type
         = (to_f==NULL)
         ? DATA_FEATURE_TYPE_VOID
-        : data_feature_is_valid(to_f) ? DATA_FEATURE_TYPE_VOID : data_feature_get_main_type( to_f );
+        : data_feature_is_valid(to_f) ? data_feature_get_main_type( to_f ) : DATA_FEATURE_TYPE_VOID;
     data_id_t parent_id;
     data_classifier_type_t parent_type;
     bool parent_is_source;
     if ( parent == NULL )
     {
         parent_id = DATA_ID_VOID;
-        parent_type = DATA_CLASSIFIER_TYPE_CLASS;
+        parent_type = DATA_CLASSIFIER_TYPE_PACKAGE;  /* a uml:Model is a uml:Package*/
         parent_is_source = false;
     }
     else
