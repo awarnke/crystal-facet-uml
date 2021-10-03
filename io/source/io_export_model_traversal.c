@@ -12,7 +12,7 @@ void io_export_model_traversal_init( io_export_model_traversal_t *this_,
                                      data_database_reader_t *db_reader,
                                      data_visible_set_t *input_data,
                                      data_stat_t *io_export_stat,
-                                     xmi_element_writer_t *out_element_writer )
+                                     io_element_writer_t *out_element_writer )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
@@ -48,7 +48,7 @@ void io_export_model_traversal_destroy( io_export_model_traversal_t *this_ )
     TRACE_BEGIN();
 
     io_export_interaction_traversal_destroy ( &((*this_).interaction_helper) );
-    
+
     universal_array_list_destroy ( &((*this_).written_id_set) );
 
     (*this_).db_reader = NULL;
@@ -86,7 +86,7 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
                 {
                     const data_id_t classifier_id = data_classifier_get_data_id( &((*this_).temp_classifier) );
                     data_classifier_destroy( &((*this_).temp_classifier) );
-                    
+
                     write_err |= io_export_model_traversal_private_walk_node ( this_,
                                                                                DATA_CLASSIFIER_TYPE_PACKAGE, /* a uml:Model is a uml:Package*/
                                                                                DATA_ID_VOID,
@@ -149,7 +149,7 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
             const data_classifier_t *const classifier
                 = data_node_set_get_classifier_const ( &((*this_).temp_node_data) );
             classifier_type = data_classifier_get_main_type( classifier );
-            
+
             /* fake and export interactions in which the current node is participant first */
             /* recursion trick: If classifier is nested, this block is evaluated
              * 1x for the nested classifier and 1x for same classifier at the toplevel model package
@@ -162,12 +162,12 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
                                                                                         );
                 /* check if the classifier is already written */
                 duplicate_classifier
-                    =( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &classifier_id ) );            
+                    =( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &classifier_id ) );
             }
-            
-            
-            
-            is_classifier_compliant_here = xmi_element_writer_can_classifier_nest_classifier ( (*this_).element_writer,
+
+
+
+            is_classifier_compliant_here = io_element_writer_can_classifier_nest_classifier ( (*this_).element_writer,
                                                                                                parent_type,
                                                                                                classifier_type
                                                                                              );
@@ -283,8 +283,8 @@ int io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *
     const data_classifier_t *const classifier
         = data_node_set_get_classifier_const ( node_data );
 
-    write_err |= xmi_element_writer_start_classifier( (*this_).element_writer, parent_type, classifier );
-    write_err |= xmi_element_writer_assemble_classifier( (*this_).element_writer, parent_type, classifier );
+    write_err |= io_element_writer_start_classifier( (*this_).element_writer, parent_type, classifier );
+    write_err |= io_element_writer_assemble_classifier( (*this_).element_writer, parent_type, classifier );
 
     TRACE_END_ERR( write_err );
     return write_err;
@@ -379,7 +379,7 @@ int io_export_model_traversal_private_end_node ( io_export_model_traversal_t *th
     const data_classifier_t *const classifier
         = data_node_set_get_classifier_const ( node_data );
 
-    write_err |= xmi_element_writer_end_classifier( (*this_).element_writer, parent_type, classifier );
+    write_err |= io_element_writer_end_classifier( (*this_).element_writer, parent_type, classifier );
 
     TRACE_END_ERR( write_err );
     return write_err;
@@ -411,15 +411,15 @@ int io_export_model_traversal_private_iterate_node_features ( io_export_model_tr
 
             if ( ! is_lifeline )
             {
-                write_err |= xmi_element_writer_start_feature( (*this_).element_writer,
+                write_err |= io_element_writer_start_feature( (*this_).element_writer,
                                                                data_classifier_get_main_type( classifier ),
                                                                feature
                                                              );
-                write_err |= xmi_element_writer_assemble_feature( (*this_).element_writer,
+                write_err |= io_element_writer_assemble_feature( (*this_).element_writer,
                                                                   data_classifier_get_main_type( classifier ),
                                                                   feature
                                                                 );
-                write_err |= xmi_element_writer_end_feature( (*this_).element_writer,
+                write_err |= io_element_writer_end_feature( (*this_).element_writer,
                                                              data_classifier_get_main_type( classifier ),
                                                              feature
                                                            );
@@ -473,7 +473,7 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
 
                 const data_relationship_type_t r_type = data_relationship_get_main_type( relation );
                 const bool is_relationship_compliant_here
-                    = xmi_element_writer_can_classifier_nest_relationship( (*this_).element_writer, nesting_type, r_type );
+                    = io_element_writer_can_classifier_nest_relationship( (*this_).element_writer, nesting_type, r_type );
                 const data_id_t from_feature_id = data_relationship_get_from_feature_data_id( relation );
                 const bool from_here
                     = ( ( ! data_id_is_valid( &from_feature_id ) )
@@ -501,39 +501,45 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                     write_err |= universal_array_list_append( &((*this_).written_id_set), &relation_id );
 
                     /* get the element types at both ends of the relationship */
-                    data_classifier_type_t from_c_type;
-                    data_feature_type_t from_f_type;
-                    data_classifier_type_t to_c_type;
-                    data_feature_type_t to_f_type;
-                    const data_error_t d_err 
-                        = io_export_model_traversal_private_get_relationship_end_types( this_,
-                                                                                        relation,
-                                                                                        node_data,
-                                                                                        &from_c_type,
-                                                                                        &from_f_type,
-                                                                                        &to_c_type,
-                                                                                        &to_f_type 
-                                                                                      );
-                        
+                    data_classifier_init_empty( &((*this_).temp_from_classifier) );
+                    data_feature_init_empty( &((*this_).temp_from_feature) );
+                    data_classifier_init_empty( &((*this_).temp_to_classifier) );
+                    data_feature_init_empty( &((*this_).temp_to_feature) );
+
+                    const data_error_t d_err
+                        = io_export_model_traversal_private_get_relationship_ends( this_,
+                                                                                   relation,
+                                                                                   node_data,
+                                                                                   &((*this_).temp_from_classifier),
+                                                                                   &((*this_).temp_from_feature),
+                                                                                   &((*this_).temp_to_classifier),
+                                                                                   &((*this_).temp_to_feature)
+                                                                                 );
+
                     if ( d_err == DATA_ERROR_NONE )
                     {
                         /* destination classifier found, print the relation */
-                        write_err |= xmi_element_writer_start_relationship( (*this_).element_writer, nesting_type, relation );
-                        write_err |= xmi_element_writer_assemble_relationship( (*this_).element_writer, 
-                                                                               nesting_type, 
-                                                                               local_ok, 
+                        write_err |= io_element_writer_start_relationship( (*this_).element_writer, nesting_type, relation );
+                        write_err |= io_element_writer_assemble_relationship( (*this_).element_writer,
+                                                                               nesting_type,
+                                                                               local_ok,
                                                                                relation,
-                                                                               from_c_type,
-                                                                               from_f_type,
-                                                                               to_c_type,
-                                                                               to_f_type 
+                                                                               &((*this_).temp_from_classifier),
+                                                                               &((*this_).temp_from_feature),
+                                                                               &((*this_).temp_to_classifier),
+                                                                               &((*this_).temp_to_feature)
                                                                             );
-                        write_err |= xmi_element_writer_end_relationship( (*this_).element_writer, nesting_type, relation );
+                        write_err |= io_element_writer_end_relationship( (*this_).element_writer, nesting_type, relation );
                     }
                     else
                     {
                         write_err |= -1;
                     }
+
+                    data_classifier_destroy( &((*this_).temp_from_classifier) );
+                    data_feature_destroy( &((*this_).temp_from_feature) );
+                    data_classifier_destroy( &((*this_).temp_to_classifier) );
+                    data_feature_destroy( &((*this_).temp_to_feature) );
                 }
             }
         }
@@ -547,27 +553,22 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
     return write_err;
 }
 
-data_error_t io_export_model_traversal_private_get_relationship_end_types( io_export_model_traversal_t *this_,
-                                                                           const data_relationship_t *relation,
-                                                                           const data_node_set_t *node_data,
-                                                                           data_classifier_type_t * out_from_c_type,
-                                                                           data_feature_type_t * out_from_f_type,
-                                                                           data_classifier_type_t * out_to_c_type,
-                                                                           data_feature_type_t * out_to_f_type )
+data_error_t io_export_model_traversal_private_get_relationship_ends( io_export_model_traversal_t *this_,
+                                                                      const data_relationship_t *relation,
+                                                                      const data_node_set_t *node_data,
+                                                                      data_classifier_t *out_from_c,
+                                                                      data_feature_t *out_from_f,
+                                                                      data_classifier_t *out_to_c,
+                                                                      data_feature_t *out_to_f )
 {
     TRACE_BEGIN();
     assert( relation != NULL );
-    assert( out_from_c_type != NULL );
-    assert( out_from_f_type != NULL );
-    assert( out_to_c_type != NULL );
-    assert( out_to_f_type != NULL );
+    assert( out_from_c != NULL );
+    assert( out_from_f != NULL );
+    assert( out_to_c != NULL );
+    assert( out_to_f != NULL );
     data_error_t data_err = DATA_ERROR_NONE;
 
-    data_classifier_type_t from_c_type = DATA_CLASSIFIER_TYPE_COMPONENT;
-    data_feature_type_t from_f_type = DATA_FEATURE_TYPE_VOID;
-    data_classifier_type_t to_c_type = DATA_CLASSIFIER_TYPE_COMPONENT;
-    data_feature_type_t to_f_type = DATA_FEATURE_TYPE_VOID;
-    
     {
         /* get from classifier */
         const data_row_id_t from_clcassifier_row_id = data_relationship_get_from_classifier_row_id ( relation );
@@ -579,19 +580,16 @@ data_error_t io_export_model_traversal_private_get_relationship_end_types( io_ex
             if (( node_classifier != NULL )
                 &&( from_clcassifier_row_id == data_classifier_get_row_id ( node_classifier ) ))
             {
-                from_c_type = data_classifier_get_main_type( node_classifier );
+                data_classifier_replace( out_from_c, node_classifier );
                 from_classifier_found = true;
             }
         }
         if ( ! from_classifier_found )
         {
-            data_classifier_init_empty( &((*this_).temp_classifier) );
             data_err |=  data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                     from_clcassifier_row_id, 
-                                                                     &((*this_).temp_classifier) 
+                                                                     from_clcassifier_row_id,
+                                                                     out_from_c
                                                                    );
-            from_c_type = data_classifier_get_main_type( &((*this_).temp_classifier) );
-            data_classifier_destroy( &((*this_).temp_classifier) );
         }
 
         /* get from feature */
@@ -603,19 +601,16 @@ data_error_t io_export_model_traversal_private_get_relationship_end_types( io_ex
                 = data_node_set_get_feature_by_id_const ( node_data, from_feature_row_id );
             if ( node_feature != NULL )
             {
-                from_f_type = data_feature_get_main_type( node_feature );
+                data_feature_replace( out_from_f, node_feature );
                 from_feature_found = true;
             }
         }
         if ( ! from_feature_found )
         {
-            data_feature_init_empty( &((*this_).temp_feature) );
             data_err |=  data_database_reader_get_feature_by_id ( (*this_).db_reader,
-                                                                  from_feature_row_id, 
-                                                                  &((*this_).temp_feature) 
+                                                                  from_feature_row_id,
+                                                                  out_from_f
                                                                 );
-            from_f_type = data_feature_get_main_type( &((*this_).temp_feature) );
-            data_feature_destroy( &((*this_).temp_feature) );
         }
 
         /* get to classifier */
@@ -628,19 +623,16 @@ data_error_t io_export_model_traversal_private_get_relationship_end_types( io_ex
             if (( node_classifier != NULL )
                 &&( to_classifier_row_id == data_classifier_get_row_id ( node_classifier ) ))
             {
-                to_c_type = data_classifier_get_main_type( node_classifier );
+                data_classifier_replace( out_to_c, node_classifier );
                 to_classifier_found = true;
             }
         }
         if ( ! to_classifier_found )
         {
-            data_classifier_init_empty( &((*this_).temp_classifier) );
             data_err |=  data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                     to_classifier_row_id, 
-                                                                     &((*this_).temp_classifier) 
+                                                                     to_classifier_row_id,
+                                                                     out_to_c
                                                                    );
-            to_c_type = data_classifier_get_main_type( &((*this_).temp_classifier) );
-            data_classifier_destroy( &((*this_).temp_classifier) );
         }
 
         /* get to feature */
@@ -652,27 +644,19 @@ data_error_t io_export_model_traversal_private_get_relationship_end_types( io_ex
                 = data_node_set_get_feature_by_id_const ( node_data, to_feature_row_id );
             if ( node_feature != NULL )
             {
-                to_f_type = data_feature_get_main_type( node_feature );
+                data_feature_replace( out_to_f, node_feature );
                 to_feature_found = true;
             }
         }
         if ( ! to_feature_found )
         {
-            data_feature_init_empty( &((*this_).temp_feature) );
             data_err |=  data_database_reader_get_feature_by_id ( (*this_).db_reader,
-                                                                  to_feature_row_id, 
-                                                                  &((*this_).temp_feature) 
+                                                                  to_feature_row_id,
+                                                                  out_to_f
                                                                 );
-            to_f_type = data_feature_get_main_type( &((*this_).temp_feature) );
-            data_feature_destroy( &((*this_).temp_feature) );
         }
     }
-    
-    *out_from_c_type = from_c_type;
-    *out_from_f_type = from_f_type;
-    *out_to_c_type = to_c_type;
-    *out_to_f_type = to_f_type;
-    
+
     if ( data_err != DATA_ERROR_NONE )
     {
         TSLOG_ERROR_INT( "A relationship references classifier(s) and/or feature(s) that do not exist:",
@@ -709,19 +693,19 @@ int io_export_model_traversal_private_fake_interactions_of_node ( io_export_mode
             const data_id_t feature_id = data_feature_get_data_id( feature );
             const bool duplicate_feature
                 = ( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &feature_id ) );
-                
+
             /* determine if the feature is a lifeline */
             const data_feature_type_t feat_type = data_feature_get_main_type( feature );
             const bool is_lifeline = ( feat_type == DATA_FEATURE_TYPE_LIFELINE );
-            
+
             if (( ! duplicate_feature )&&( is_lifeline ))  /* just an optimization, checked again by (*this_).interaction_helper */
             {
-                static const data_classifier_type_t FAKE_INTERACTION 
+                static const data_classifier_type_t FAKE_INTERACTION
                     = DATA_CLASSIFIER_TYPE_CLASS; /* interaction is subclass of class */
                 const bool is_interaction_compliant_here
-                    = xmi_element_writer_can_classifier_nest_classifier( (*this_).element_writer, nesting_type, FAKE_INTERACTION );
+                    = io_element_writer_can_classifier_nest_classifier( (*this_).element_writer, nesting_type, FAKE_INTERACTION );
 
-                if ( is_interaction_compliant_here && (IO_WRITER_PASS_BASE==xmi_element_writer_get_mode( (*this_).element_writer ) ))
+                if ( is_interaction_compliant_here )
                 {
                     write_err |=  io_export_interaction_traversal_iterate_classifier_occurrences( &((*this_).interaction_helper),
                                                                                                   nesting_type,

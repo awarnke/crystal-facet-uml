@@ -34,22 +34,21 @@ typedef struct io_element_writer_struct io_element_writer_t;
 /*!
  *  \brief initializes the io_element_writer_t
  *
- *  Note: While init only initializes the \c io_element_writer_t struct,
- *  destroy also calls the destroy function in \c io_element_writer_if_t.
+ *  Note: This function shall be called only by objects implementing this interface.
  *
  *  \param this_ pointer to own object attributes
  *  \param interface set of interface functions to write to a stream
  *  \param objectdata object that implements writing to a stream
  */
 static inline void io_element_writer_private_init( io_element_writer_t *this_,
-                                           const io_element_writer_if_t *interface,
-                                           io_element_writer_impl_t* objectdata
-                                         );
+                                                   const io_element_writer_if_t *interface,
+                                                   io_element_writer_impl_t* objectdata
+                                                 );
 
 /*!
  *  \brief destroys the io_element_writer_t.
  *
- *  This function does NOT call \c destroy on the \c interface.
+ *  Note: This function shall be called only by objects implementing this interface.
  *
  *  \param this_ pointer to own object attributes
  *  \return returns 0 if success, -1 in case of error
@@ -93,28 +92,28 @@ static inline int io_element_writer_write_header( io_element_writer_t *this_, co
 static inline int io_element_writer_start_main( io_element_writer_t *this_, const char *document_title );
 
 /*!
- *  \brief checks if a parent classifier may nest a child classifier
+ *  \brief checks if a hosting parent classifier may nest a child classifier
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type data_classifier_type_t of the parent of which the nesting-ability shall be determined
+ *  \param host_type data_classifier_type_t of the hosting parent of which the nesting-ability shall be determined
  *  \param child_type data_classifier_type_t of the nested child of which the nesting-ability shall be determined
  *  \return true if nesting is allowed
  */
 static inline bool io_element_writer_can_classifier_nest_classifier( io_element_writer_t *this_,
-                                                                     data_classifier_type_t parent_type,
+                                                                     data_classifier_type_t host_type,
                                                                      data_classifier_type_t child_type
                                                                    );
 
 /*!
- *  \brief checks if a parent classifier may nest relationships
+ *  \brief checks if a hosting parent classifier may nest relationships
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type data_classifier_type_t of the parent of which the nesting-ability shall be determined
+ *  \param host_type data_classifier_type_t of the hosting parent of which the nesting-ability shall be determined
  *  \param child_type data_relationship_type_t of the nested child of which the nesting-ability shall be determined
  *  \return true if nesting or any relationship is allowed
  */
 static inline bool io_element_writer_can_classifier_nest_relationship( io_element_writer_t *this_,
-                                                                       data_classifier_type_t parent_type,
+                                                                       data_classifier_type_t host_type,
                                                                        data_relationship_type_t child_type
                                                                      );
 
@@ -124,12 +123,12 @@ static inline bool io_element_writer_can_classifier_nest_relationship( io_elemen
  *  This starts a division that contains a classifier and a list of features and relationships
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classifier
+ *  \param host_type type of the hosting parent classifier
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_start_classifier( io_element_writer_t *this_,
-                                                      data_classifier_type_t parent_type,
+                                                      data_classifier_type_t host_type,
                                                       const data_classifier_t *classifier_ptr
                                                     );
 
@@ -137,12 +136,12 @@ static inline int io_element_writer_start_classifier( io_element_writer_t *this_
  *  \brief writes contents of a classifier
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classifier
+ *  \param host_type type of the hosting parent classifier
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_assemble_classifier( io_element_writer_t *this_,
-                                                         data_classifier_type_t parent_type,
+                                                         data_classifier_type_t host_type,
                                                          const data_classifier_t *classifier_ptr
                                                        );
 
@@ -152,12 +151,12 @@ static inline int io_element_writer_assemble_classifier( io_element_writer_t *th
  *  This ends a division that contains a classifier and a list of features and relationships
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classifier, needed for xmi export
+ *  \param host_type type of the hosting parent classifier, needed for xmi export
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_end_classifier( io_element_writer_t *this_,
-                                                    data_classifier_type_t parent_type,
+                                                    data_classifier_type_t host_type,
                                                     const data_classifier_t *classifier_ptr
                                                   );
 
@@ -165,12 +164,12 @@ static inline int io_element_writer_end_classifier( io_element_writer_t *this_,
  *  \brief writes a feature start-element
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the owning parent classifier
+ *  \param host_type type of the owning parent classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_start_feature( io_element_writer_t *this_,
-                                                   data_classifier_type_t parent_type,
+                                                   data_classifier_type_t host_type,
                                                    const data_feature_t *feature_ptr
                                                  );
 
@@ -178,12 +177,12 @@ static inline int io_element_writer_start_feature( io_element_writer_t *this_,
  *  \brief writes constents of a a feature
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the owning parent classifier
+ *  \param host_type type of the owning parent classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_assemble_feature( io_element_writer_t *this_,
-                                                      data_classifier_type_t parent_type,
+                                                      data_classifier_type_t host_type,
                                                       const data_feature_t *feature_ptr
                                                     );
 
@@ -191,12 +190,12 @@ static inline int io_element_writer_assemble_feature( io_element_writer_t *this_
  *  \brief writes a feature end-element
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the owning parent classifier
+ *  \param host_type type of the owning parent classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_end_feature( io_element_writer_t *this_,
-                                                 data_classifier_type_t parent_type,
+                                                 data_classifier_type_t host_type,
                                                  const data_feature_t *feature_ptr
                                                );
 
@@ -204,12 +203,12 @@ static inline int io_element_writer_end_feature( io_element_writer_t *this_,
  *  \brief starts a relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classifier, needed for xmi export
+ *  \param host_type type of the hosting parent classifier, needed for xmi export
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_start_relationship( io_element_writer_t *this_,
-                                                        data_classifier_type_t parent_type,
+                                                        data_classifier_type_t host_type,
                                                         const data_relationship_t *relation_ptr
                                                       );
 
@@ -217,18 +216,16 @@ static inline int io_element_writer_start_relationship( io_element_writer_t *thi
  *  \brief writes the contents of a relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classifier, needed for xmi export
- *  \param parent_is_source indicates if the parent/hosting classifier is the source end of the relationship
+ *  \param host the hosting parent classifier, needed for xmi export; is NULL on top-level of document
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
  *  \param from_c the classifier at source end
- *  \param from_f the feature at source end; NULL if no feature specified
+ *  \param from_f the feature at source end; NULL or !is_valid() if no feature specified
  *  \param to_c the classifier at target end
- *  \param to_f the feature at target end; NULL if no feature specified
+ *  \param to_f the feature at target end; NULL or !is_valid() if no feature specified
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_assemble_relationship( io_element_writer_t *this_,
-                                                           data_classifier_type_t parent_type,
-                                                           bool parent_is_source,
+                                                           const data_classifier_t *host,
                                                            const data_relationship_t *relation_ptr,
                                                            const data_classifier_t *from_c,
                                                            const data_feature_t *from_f,
@@ -240,12 +237,12 @@ static inline int io_element_writer_assemble_relationship( io_element_writer_t *
  *  \brief ends a relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classifier, needed for xmi export
+ *  \param host_type type of the hosting parent classifier, needed for xmi export
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_end_relationship( io_element_writer_t *this_,
-                                                      data_classifier_type_t parent_type,
+                                                      data_classifier_type_t host_type,
                                                       const data_relationship_t *relation_ptr
                                                     );
 
@@ -289,13 +286,13 @@ static inline int io_element_writer_end_diagram( io_element_writer_t *this_, con
  *
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \param parent the parent diagram
+ *  \param host the hosting parent diagram
  *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_start_diagramelement( io_element_writer_t *this_,
                                                           const data_diagramelement_t *diagramelement_ptr,
-                                                          const data_diagram_t *parent,
+                                                          const data_diagram_t *host,
                                                           const data_classifier_t *occurrence
                                                         );
 
@@ -304,13 +301,13 @@ static inline int io_element_writer_start_diagramelement( io_element_writer_t *t
  *
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \param parent the parent diagram
+ *  \param host the hosting parent diagram
  *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_assemble_diagramelement( io_element_writer_t *this_,
                                                              const data_diagramelement_t *diagramelement_ptr,
-                                                             const data_diagram_t *parent,
+                                                             const data_diagram_t *host,
                                                              const data_classifier_t *occurrence
                                                            );
 
@@ -319,16 +316,15 @@ static inline int io_element_writer_assemble_diagramelement( io_element_writer_t
  *
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \param parent the parent diagram
+ *  \param host the hosting parent diagram
  *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_end_diagramelement( io_element_writer_t *this_,
                                                         const data_diagramelement_t *diagramelement_ptr,
-                                                        const data_diagram_t *parent,
+                                                        const data_diagram_t *host,
                                                         const data_classifier_t *occurrence
                                                       );
-
 
 /*!
  *  \brief writes the ending of the main section

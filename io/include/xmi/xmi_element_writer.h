@@ -37,7 +37,12 @@
  *  \brief attributes of the xmi_element_writer_t
  */
 struct xmi_element_writer_struct {
+    io_element_writer_t element_writer;  /*!< instance of implemented interface \c io_element_writer_t */
     io_writer_pass_t mode;  /*!< depending on the mode, conversion from a data object to the output format differs */
+
+    xmi_interaction_writer_t interaction_writer;  /*!< instance of own xmi_interaction_writer */
+                                                  /*!< which is the interaction output sink, */
+                                                  /*!< replaces this xmi_element_writer_t in case of interactions */
 
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
     xml_writer_t xml_writer;  /*!< own instance of an xml writer */
@@ -85,6 +90,7 @@ static inline io_writer_pass_t xmi_element_writer_get_mode( xmi_element_writer_t
  */
 static inline void xmi_element_writer_set_mode( xmi_element_writer_t *this_, io_writer_pass_t mode );
 
+#if 0
 /*!
  *  \brief gets a pointer to the xml_writer
  *
@@ -92,6 +98,7 @@ static inline void xmi_element_writer_set_mode( xmi_element_writer_t *this_, io_
  *  \return pointer to the internal xml_writer
  */
 static inline xml_writer_t *xmi_element_writer_get_xml_writer_ptr( xmi_element_writer_t *this_ );
+#endif
 
 /*!
  *  \brief writes the header of the document
@@ -238,8 +245,30 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
  *  \brief writes the contents of a relationship
  *
  *  \param this_ pointer to own object attributes
+ *  \param parent the parent classifier, needed for xmi export
+ *  \param relation_ptr pointer to relationship that shall be written, not NULL
+ *  \param from_c the classifier at source end
+ *  \param from_f the feature at source end; NULL if no feature specified
+ *  \param to_c the classifier at target end
+ *  \param to_f the feature at target end; NULL if no feature specified
+ *  \return 0 in case of success, -1 otherwise
+ */
+int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
+                                              const data_classifier_t *parent,
+                                              const data_relationship_t *relation_ptr,
+                                              const data_classifier_t *from_c,
+                                              const data_feature_t *from_f,
+                                              const data_classifier_t *to_c,
+                                              const data_feature_t *to_f
+                                            );
+
+/*!
+ *  \brief writes the contents of a relationship
+ *
+ *  \param this_ pointer to own object attributes
  *  \param parent_type type of the parent classifier, needed for xmi export
  *  \param parent_is_source indicates if the parent/hosting classifier is the source end of the relationship
+ *  \param parent_id id of the parent classifier, needed for xmi-interaction export
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
  *  \param from_c_type the type of classifier at source end
  *  \param from_f_type the type of feature at source end; DATA_FEATURE_TYPE_VOID if no feature specified
@@ -247,15 +276,16 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
  *  \param to_f_type the type of feature at target end; DATA_FEATURE_TYPE_VOID if no feature specified
  *  \return 0 in case of success, -1 otherwise
  */
-int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
-                                              data_classifier_type_t parent_type,
-                                              bool parent_is_source,
-                                              const data_relationship_t *relation_ptr,
-                                              data_classifier_type_t from_c_type,
-                                              data_feature_type_t from_f_type,
-                                              data_classifier_type_t to_c_type,
-                                              data_feature_type_t to_f_type
-                                            );
+int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this_,
+                                                      data_classifier_type_t parent_type,
+                                                      bool parent_is_source,
+                                                      data_id_t parent_id,
+                                                      const data_relationship_t *relation_ptr,
+                                                      data_classifier_type_t from_c_type,
+                                                      data_feature_type_t from_f_type,
+                                                      data_classifier_type_t to_c_type,
+                                                      data_feature_type_t to_f_type
+                                                    );
 
 /*!
  *  \brief ends a relationship
@@ -269,6 +299,86 @@ int xmi_element_writer_end_relationship( xmi_element_writer_t *this_,
                                          data_classifier_type_t parent_type,
                                          const data_relationship_t *relation_ptr
                                        );
+
+/*!
+ *  \brief writes a diagram start
+ *
+ *  This starts a section that contains a diagram and a list of diagramelements (classifier-occurrences)
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diag_ptr pointer to diagram that shall be written, not NULL
+ *  \return 0 in case of success, -1 otherwise
+ */
+int xmi_element_writer_start_diagram( xmi_element_writer_t *this_, const data_diagram_t *diag_ptr );
+
+/*!
+ *  \brief writes a diagram of the document
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diag_ptr pointer to diagram that shall be written
+ *  \param diagram_file_base_name filename of the diagram without extension
+ *  \return 0 in case of success, -1 otherwise
+ */
+int xmi_element_writer_assemble_diagram( xmi_element_writer_t *this_,
+                                         const data_diagram_t *diag_ptr,
+                                         const char *diagram_file_base_name
+                                       );
+
+/*!
+ *  \brief ends a diagram
+ *
+ *  This ends a section that contains a diagram and a list of diagramelements (classifier-occurrences)
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diag_ptr pointer to diagram that shall be written, not NULL
+ *  \return 0 in case of success, -1 otherwise
+ */
+int xmi_element_writer_end_diagram( xmi_element_writer_t *this_, const data_diagram_t *diag_ptr );
+
+/*!
+ *  \brief writes a diagramelement start-element
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
+ *  \param parent the parent diagram
+ *  \param occurrence the occurring classifier
+ *  \return 0 in case of success, -1 otherwise
+ */
+int xmi_element_writer_start_diagramelement( xmi_element_writer_t *this_,
+                                             const data_diagramelement_t *diagramelement_ptr,
+                                             const data_diagram_t *parent,
+                                             const data_classifier_t *occurrence
+                                           );
+
+/*!
+ *  \brief writes constents of a a diagramelement
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
+ *  \param parent the parent diagram
+ *  \param occurrence the occurring classifier
+ *  \return 0 in case of success, -1 otherwise
+ */
+int xmi_element_writer_assemble_diagramelement( xmi_element_writer_t *this_,
+                                                const data_diagramelement_t *diagramelement_ptr,
+                                                const data_diagram_t *parent,
+                                                const data_classifier_t *occurrence
+                                              );
+
+/*!
+ *  \brief writes a diagramelement end-element
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
+ *  \param parent the parent diagram
+ *  \param occurrence the occurring classifier
+ *  \return 0 in case of success, -1 otherwise
+ */
+int xmi_element_writer_end_diagramelement( xmi_element_writer_t *this_,
+                                           const data_diagramelement_t *diagramelement_ptr,
+                                           const data_diagram_t *parent,
+                                           const data_classifier_t *occurrence
+                                         );
 
 /*!
  *  \brief writes the ending of the main section
@@ -311,12 +421,12 @@ int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
                                               );
 
 /*!
- *  \brief gets the io elelement writer interface of this xmi_element_writer_t
+ *  \brief gets the io element writer interface of this xmi_element_writer_t
  *
  *  \param this_ pointer to own object attributes
  *  \return the abstract base class of this_
  */
-io_element_writer_t xmi_element_writer_get_element_writer( xmi_element_writer_t *this_ );
+static inline io_element_writer_t * xmi_element_writer_get_element_writer( xmi_element_writer_t *this_ );
 
 #include "xmi_element_writer.inl"
 

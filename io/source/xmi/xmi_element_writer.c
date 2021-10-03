@@ -38,14 +38,14 @@ static const struct xmi_element_writer_io_element_writer_if_struct xmi_element_w
         .assemble_feature = &xmi_element_writer_assemble_feature,
         .end_feature = &xmi_element_writer_end_feature,
         .start_relationship = &xmi_element_writer_start_relationship,
-        .assemble_relationship = NULL,
+        .assemble_relationship = &xmi_element_writer_assemble_relationship,
         .end_relationship = &xmi_element_writer_end_relationship,
-        .start_diagram = NULL,
-        .assemble_diagram = NULL,
-        .end_diagram = NULL,
-        .start_diagramelement = NULL,
-        .assemble_diagramelement = NULL,
-        .end_diagramelement = NULL,
+        .start_diagram = &xmi_element_writer_start_diagram,
+        .assemble_diagram = &xmi_element_writer_assemble_diagram,
+        .end_diagram = &xmi_element_writer_end_diagram,
+        .start_diagramelement = &xmi_element_writer_start_diagramelement,
+        .assemble_diagramelement = &xmi_element_writer_assemble_diagramelement,
+        .end_diagramelement = &xmi_element_writer_end_diagramelement,
         .end_main = &xmi_element_writer_end_main,
         .write_footer = &xmi_element_writer_write_footer
     };
@@ -138,9 +138,19 @@ void xmi_element_writer_init ( xmi_element_writer_t *this_,
     (*this_).mode = IO_WRITER_PASS_BASE;
     (*this_).export_stat = io_export_stat;
 
+    io_element_writer_private_init( &((*this_).element_writer),
+                                    (io_element_writer_if_t*) &xmi_element_writer_private_io_element_writer_if,
+                                    this_
+                                  );
     xml_writer_init( &((*this_).xml_writer), output );
     xmi_type_converter_init( &((*this_).xmi_types) );
     xmi_atom_writer_init( &((*this_).atom_writer), db_reader, &((*this_).xml_writer) );
+
+    xmi_interaction_writer_init( &((*this_).interaction_writer),
+                                 db_reader,
+                                 io_export_stat,
+                                 &((*this_).xml_writer)
+                               );
 
     TRACE_END();
 }
@@ -149,9 +159,12 @@ void xmi_element_writer_destroy( xmi_element_writer_t *this_ )
 {
     TRACE_BEGIN();
 
+    xmi_interaction_writer_destroy( &((*this_).interaction_writer) );
+
     xmi_atom_writer_destroy( &((*this_).atom_writer) );
     xmi_type_converter_destroy( &((*this_).xmi_types) );
     xml_writer_destroy( &((*this_).xml_writer) );
+    io_element_writer_private_destroy( &((*this_).element_writer) );
 
     TRACE_END();
 }
@@ -200,16 +213,18 @@ bool xmi_element_writer_can_classifier_nest_classifier ( xmi_element_writer_t *t
                                                          data_classifier_type_t parent_type,
                                                          data_classifier_type_t child_type )
 {
-    const bool result = xmi_type_converter_can_nest_classifier( &((*this_).xmi_types), parent_type, child_type );
-    return result;
+    const bool base_pass = ( IO_WRITER_PASS_BASE == (*this_).mode );
+    const bool can_nest = xmi_type_converter_can_nest_classifier( &((*this_).xmi_types), parent_type, child_type );
+    return ( can_nest && base_pass );
 }
 
 bool xmi_element_writer_can_classifier_nest_relationship ( xmi_element_writer_t *this_,
                                                            data_classifier_type_t parent_type,
                                                            data_relationship_type_t child_type )
 {
-    const bool result = xmi_type_converter_can_nest_relationship( &((*this_).xmi_types), parent_type, child_type );
-    return result;
+    const bool base_pass = ( IO_WRITER_PASS_BASE == (*this_).mode );
+    const bool can_nest = xmi_type_converter_can_nest_relationship( &((*this_).xmi_types), parent_type, child_type );
+    return ( can_nest && base_pass );
 }
 
 int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
@@ -791,6 +806,16 @@ int xmi_element_writer_assemble_feature( xmi_element_writer_t *this_,
                                                              feature_descr
                                                            );
         }
+
+        if ( parent_type == DATA_CLASSIFIER_TYPE_INTERACTION )
+        {
+            const data_id_t classifier_id = data_feature_get_classifier_data_id ( feature_ptr );
+            export_err |= xmi_interaction_writer_assemble_feature( &((*this_).interaction_writer),
+                                                                   classifier_id,
+                                                                   DATA_CLASSIFIER_TYPE_INTERACTION,
+                                                                   feature_ptr
+                                                                 );
+        }
     }
 
     TRACE_END_ERR( export_err );
@@ -1016,13 +1041,72 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
 }
 
 int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
-                                              data_classifier_type_t parent_type,
-                                              bool parent_is_source,
+                                              const data_classifier_t *parent,
                                               const data_relationship_t *relation_ptr,
-                                              data_classifier_type_t from_c_type,
-                                              data_feature_type_t from_f_type,
-                                              data_classifier_type_t to_c_type,
-                                              data_feature_type_t to_f_type )
+                                              const data_classifier_t *from_c,
+                                              const data_feature_t *from_f,
+                                              const data_classifier_t *to_c,
+                                              const data_feature_t *to_f )
+{
+    TRACE_BEGIN();
+
+    assert ( NULL != relation_ptr );
+    assert ( NULL != from_c );
+    assert ( NULL != to_c );
+
+    const data_classifier_type_t from_c_type
+        = data_classifier_get_main_type( from_c );
+    const data_feature_type_t from_f_type
+        = (from_f==NULL)
+        ? DATA_FEATURE_TYPE_VOID
+        : data_feature_is_valid(from_f) ? DATA_FEATURE_TYPE_VOID : data_feature_get_main_type( from_f );
+    const data_classifier_type_t to_c_type
+        = data_classifier_get_main_type( to_c );
+    const data_feature_type_t to_f_type
+        = (to_f==NULL)
+        ? DATA_FEATURE_TYPE_VOID
+        : data_feature_is_valid(to_f) ? DATA_FEATURE_TYPE_VOID : data_feature_get_main_type( to_f );
+    data_id_t parent_id;
+    data_classifier_type_t parent_type;
+    bool parent_is_source;
+    if ( parent == NULL )
+    {
+        parent_id = DATA_ID_VOID;
+        parent_type = DATA_CLASSIFIER_TYPE_CLASS;
+        parent_is_source = false;
+    }
+    else
+    {
+        parent_id = data_classifier_get_data_id( parent );
+        parent_type = data_classifier_get_main_type( parent );
+        parent_is_source = ( data_classifier_get_row_id( from_c ) == data_classifier_get_row_id( parent ) );
+    }
+
+    const int export_err
+        = xmi_element_writer_private_assemble_relationship( this_,
+                                                            parent_type,
+                                                            parent_is_source,
+                                                            parent_id,
+                                                            relation_ptr,
+                                                            from_c_type,
+                                                            from_f_type,
+                                                            to_c_type,
+                                                            to_f_type
+                                                          );
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this_,
+                                                      data_classifier_type_t parent_type,
+                                                      bool parent_is_source,
+                                                      data_id_t parent_id,
+                                                      const data_relationship_t *relation_ptr,
+                                                      data_classifier_type_t from_c_type,
+                                                      data_feature_type_t from_f_type,
+                                                      data_classifier_type_t to_c_type,
+                                                      data_feature_type_t to_f_type )
 {
     TRACE_BEGIN();
     assert ( NULL != relation_ptr );
@@ -1103,8 +1187,25 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
         && parent_is_source;
     const bool is_annotated_element
         = (( parent_type == DATA_CLASSIFIER_TYPE_COMMENT )&&( relation_type == DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY ));
+    const bool is_message = ( xmi_element_info_is_a_message ( relation_info ) );
 
-    if (( (*this_).mode == IO_WRITER_PASS_BASE )&&( ! is_annotated_element ))
+    if (( parent_type == DATA_CLASSIFIER_TYPE_INTERACTION )&&( is_message ))
+    {
+        /* determine the interaction id */
+        const data_diagram_t *const diag_ptr = data_visible_set_get_diagram_const( diagram_data );
+        const data_id_t interaction_id = data_diagram_get_data_id( diag_ptr );
+
+        export_err |= xmi_interaction_writer_assemble_relationship( &((*this_).interaction_writer),
+                                                                    interaction_id,
+                                                                    DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
+                                                                    relation_ptr,
+                                                                    DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake from classifier type */
+                                                                    DATA_FEATURE_TYPE_LIFELINE,  /* guess from feature type */
+                                                                    DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake to classifier type */
+                                                                    DATA_FEATURE_TYPE_LIFELINE  /* guess to feature type */
+                                                                  );
+    }
+    else if (( (*this_).mode == IO_WRITER_PASS_BASE )&&( ! is_annotated_element ))
     {
         if ( 0 != relation_descr_len )
         {
@@ -1293,6 +1394,71 @@ int xmi_element_writer_end_relationship( xmi_element_writer_t *this_,
     return export_err;
 }
 
+int xmi_element_writer_start_diagram( xmi_element_writer_t *this_, const data_diagram_t *diag_ptr )
+{
+    TRACE_BEGIN();
+    const int export_err = -1;
+    TSLOG_WARNING( "xmi_element_writer_t does not export data_diagram_t" );
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int xmi_element_writer_assemble_diagram( xmi_element_writer_t *this_,
+                                         const data_diagram_t *diag_ptr,
+                                         const char *diagram_file_base_name )
+{
+    TRACE_BEGIN();
+    const int export_err = -1;
+    TSLOG_WARNING( "xmi_element_writer_t does not export data_diagram_t" );
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int xmi_element_writer_end_diagram( xmi_element_writer_t *this_, const data_diagram_t *diag_ptr )
+{
+    TRACE_BEGIN();
+    const int export_err = -1;
+    TSLOG_WARNING( "xmi_element_writer_t does not export data_diagram_t" );
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int xmi_element_writer_start_diagramelement( xmi_element_writer_t *this_,
+                                             const data_diagramelement_t *diagramelement_ptr,
+                                             const data_diagram_t *parent,
+                                             const data_classifier_t *occurrence )
+{
+    TRACE_BEGIN();
+    const int export_err = -1;
+    TSLOG_WARNING( "xmi_element_writer_t does not export data_diagramelement_t" );
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int xmi_element_writer_assemble_diagramelement( xmi_element_writer_t *this_,
+                                                const data_diagramelement_t *diagramelement_ptr,
+                                                const data_diagram_t *parent,
+                                                const data_classifier_t *occurrence )
+{
+    TRACE_BEGIN();
+    const int export_err = -1;
+    TSLOG_WARNING( "xmi_element_writer_t does not export data_diagramelement_t" );
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int xmi_element_writer_end_diagramelement( xmi_element_writer_t *this_,
+                                           const data_diagramelement_t *diagramelement_ptr,
+                                           const data_diagram_t *parent,
+                                           const data_classifier_t *occurrence )
+{
+    TRACE_BEGIN();
+    const int export_err = -1;
+    TSLOG_WARNING( "xmi_element_writer_t does not export data_diagramelement_t" );
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
 int xmi_element_writer_end_main( xmi_element_writer_t *this_ )
 {
     TRACE_BEGIN();
@@ -1428,17 +1594,6 @@ int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
 
     TRACE_END_ERR( export_err );
     return export_err;
-}
-
-io_element_writer_t xmi_element_writer_get_element_writer( xmi_element_writer_t *this_ )
-{
-    TRACE_BEGIN();
-
-    io_element_writer_t result;
-    io_element_writer_private_init( &result, (io_element_writer_if_t*) &xmi_element_writer_private_io_element_writer_if, this_ );
-
-    TRACE_END();
-    return result;
 }
 
 

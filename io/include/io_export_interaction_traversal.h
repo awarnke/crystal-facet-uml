@@ -14,7 +14,6 @@
  */
 
 #include "io_element_writer.h"
-#include "xmi/xmi_element_writer.h"
 #include "xmi/xmi_interaction_writer.h"
 #include "set/data_visible_set.h"
 #include "set/data_node_set.h"
@@ -34,8 +33,9 @@ struct io_export_interaction_traversal_struct {
     data_rules_t filter_rules;  /*!< own instance of uml and sysml consistency rules */
     universal_array_list_t *written_id_set;  /*!< pointer to external list of already exported element ids */
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
-    xmi_element_writer_t *element_writer;  /*!< pointer to external xmi_element_writer_t which is the regular output sink */
-    xmi_interaction_writer_t interaction_writer;  /*!< instance of own xmi_interaction_writer which is the interaction output sink */
+    io_element_writer_t *element_writer;  /*!< pointer to external io_element_writer_t which is the regular output sink */
+    data_classifier_t fake_interaction_classifier;  /*!< a fake classifier of type DATA_CLASSIFIER_TYPE_INTERACTION */
+    data_feature_t fake_lifeline_feature;  /*!< a fake feature of type DATA_FEATURE_TYPE_LIFELINE */
 };
 
 typedef struct io_export_interaction_traversal_struct io_export_interaction_traversal_t;
@@ -48,14 +48,14 @@ typedef struct io_export_interaction_traversal_struct io_export_interaction_trav
  *  \param input_data pointer to an external buffer for private use as data cache
  *  \param io_written_id_set pointer to external list of already exported element ids
  *  \param io_export_stat pointer to statistics object where export statistics are collected
- *  \param out_element_writer pointer to an xmi_element_writer_t which is the output sink
+ *  \param out_element_writer pointer to an io_element_writer_t which is the output sink
  */
 void io_export_interaction_traversal_init( io_export_interaction_traversal_t *this_,
                                            data_database_reader_t *db_reader,
                                            data_visible_set_t *input_data,
                                            universal_array_list_t *io_written_id_set,
                                            data_stat_t *io_export_stat,
-                                           xmi_element_writer_t *out_element_writer
+                                           io_element_writer_t *out_element_writer
                                          );
 
 /*!
@@ -96,10 +96,12 @@ int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_data diagram data of which the classifiers are written, not NULL
+ *  \param fake_interaction fake classifier of type DATA_CLASSIFIER_TYPE_INTERACTION derived from the diagram
  *  \return -1 in case of error, 0 in case of success
  */
 int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_export_interaction_traversal_t *this_,
-                                                                          const data_visible_set_t *diagram_data
+                                                                          const data_visible_set_t *diagram_data,
+                                                                          const data_classifier_t *fake_interaction
                                                                         );
 
 /*!
@@ -122,13 +124,28 @@ int io_export_interaction_traversal_private_look_for_focused_feature ( io_export
  *  \param diagram_data diagram data that contains the from-classifier of which the relationships are written, not NULL
  *  \param from_classifier_id id of the classifier of which the relationships are written
  *  \param focused_feature_id id of the focused feature (lifeline) of which the relationships are written
+ *  \param fake_interaction fake classifier of type DATA_CLASSIFIER_TYPE_INTERACTION derived from the diagram
  *  \return -1 in case of error, 0 in case of success
  */
 int io_export_interaction_traversal_private_iterate_feature_relationships ( io_export_interaction_traversal_t *this_,
                                                                             const data_visible_set_t *diagram_data,
                                                                             data_id_t from_classifier_id,
-                                                                            data_id_t focused_feature_id
+                                                                            data_id_t focused_feature_id,
+                                                                            const data_classifier_t *fake_interaction
                                                                           );
+
+/*!
+ *  \brief converts the data fields of an interaction diagram to a fake classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param interaction_diagram diagram data that contains the interaction information
+ *  \param[out] out_fake_classifier the classifier to be filled with data from interaction_diagram
+ *  \return -1 in case of error, 0 in case of success
+ */
+int io_export_interaction_traversal_private_fake_interaction ( io_export_interaction_traversal_t *this_,
+                                                               const data_diagram_t *interaction_diagram,
+                                                               data_classifier_t *out_fake_classifier
+                                                             );
 
 #endif  /* IO_EXPORT_INTERACTION_TRAVERSAL_H */
 

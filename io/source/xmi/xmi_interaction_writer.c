@@ -47,6 +47,7 @@ void xmi_interaction_writer_destroy( xmi_interaction_writer_t *this_ )
     TRACE_END();
 }
 
+#if 0
 int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
                                           data_classifier_type_t parent_type,
                                           const data_diagram_t *diagram_ptr )
@@ -98,7 +99,7 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
         /* write type attribute */
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_TYPE_START );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_NS_UML );
-        /* TODO possibly a uml:Collaboration needs to be placed arounf the DATA_CLASSIFIER_TYPE_INTERACTION? */
+        /* TODO possibly a uml:Collaboration needs to be placed around the DATA_CLASSIFIER_TYPE_INTERACTION? */
         const char* c_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
                                                                              parent_type,
                                                                              DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake child type */
@@ -176,6 +177,7 @@ int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
     TRACE_END_ERR( export_err );
     return export_err;
 }
+#endif
 
 int xmi_interaction_writer_assemble_feature( xmi_interaction_writer_t *this_,
                                              data_id_t reference_id,

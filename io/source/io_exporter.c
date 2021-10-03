@@ -358,7 +358,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
                                             (*this_).db_reader,
                                             &((*this_).temp_input_data),
                                             io_export_stat,
-                                            &((*this_).temp_xmi_writer)
+                                            xmi_element_writer_get_element_writer( &((*this_).temp_xmi_writer) )
                                           );
             /* write the document */
             export_err |= xmi_element_writer_write_header( &((*this_).temp_xmi_writer), document_file_name );

@@ -13,9 +13,16 @@ static inline void xmi_element_writer_set_mode( xmi_element_writer_t *this_, io_
     (*this_).mode = mode;
 }
 
+#if 0
 static inline xml_writer_t *xmi_element_writer_get_xml_writer_ptr( xmi_element_writer_t *this_ )
 {
     return &((*this_).xml_writer);
+}
+#endif
+
+static inline io_element_writer_t * xmi_element_writer_get_element_writer( xmi_element_writer_t *this_ )
+{
+    return &((*this_).element_writer);
 }
 
 

@@ -10,12 +10,11 @@
  *
  *  Source: db_reader(data_database_reader_t);
  *  Task: traverse the source model;
- *  Sink: xmi_element_writer_t
+ *  Sink: io_element_writer_t
  */
 
 #include "io_export_interaction_traversal.h"
 #include "io_element_writer.h"
-#include "xmi/xmi_element_writer.h"
 #include "set/data_node_set.h"
 #include "set/data_stat.h"
 #include "storage/data_database_reader.h"
@@ -37,7 +36,7 @@ enum io_export_model_traversal_max_enum {
 struct io_export_model_traversal_struct {
     data_database_reader_t *db_reader;  /* !< pointer to external database reader */
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
-    xmi_element_writer_t *element_writer;  /*!< pointer to external xmi_element_writer_t which is the output sink */
+    io_element_writer_t *element_writer;  /*!< pointer to external io_element_writer_t which is the output sink */
 
     io_export_interaction_traversal_t interaction_helper;  /* !< instance of own io_export_interaction_traversal to help with interaction exports */
 
@@ -45,7 +44,10 @@ struct io_export_model_traversal_struct {
     universal_array_list_t written_id_set;  /*!< list of already exported element ids (extended when starting to export an element), used for classifiers and relationships and lifelines(which are features) */
 
     data_classifier_t temp_classifier;  /*!< own buffer for private use as data cache */
-    data_feature_t temp_feature;  /*!< own buffer for private use as data cache */
+    data_classifier_t temp_from_classifier;  /*!< own buffer for private use as data cache */
+    data_feature_t temp_from_feature;  /*!< own buffer for private use as data cache */
+    data_classifier_t temp_to_classifier;  /*!< own buffer for private use as data cache */
+    data_feature_t temp_to_feature;  /*!< own buffer for private use as data cache */
     data_node_set_t temp_node_data;  /*!< own buffer for private use as data cache */
 };
 
@@ -58,13 +60,13 @@ typedef struct io_export_model_traversal_struct io_export_model_traversal_t;
  *  \param db_reader pointer to a database reader object
  *  \param input_data pointer to an external buffer for private use as data cache by interaction_helper
  *  \param io_export_stat pointer to statistics object where export statistics are collected
- *  \param out_element_writer pointer to an external xmi_element_writer_t which is the output sink
+ *  \param out_element_writer pointer to an external io_element_writer_t which is the output sink
  */
 void io_export_model_traversal_init( io_export_model_traversal_t *this_,
                                      data_database_reader_t *db_reader,
                                      data_visible_set_t *input_data,
                                      data_stat_t *io_export_stat,
-                                     xmi_element_writer_t *out_element_writer
+                                     io_element_writer_t *out_element_writer
                                    );
 
 /*!
@@ -197,25 +199,25 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                                                                  );
 
 /*!
- *  \brief determines the types of the end-object of a relationship
+ *  \brief gets the the end-objects of a relationship
  *
  *  \param this_ pointer to own object attributes
  *  \param relation pointer to relationship that shall be analyzed, not NULL
  *  \param node_data the data set of a model-node where to look for already loaded data (otherwise, load from database)
- *  \param out_from_c_type the type of classifier at source end
- *  \param out_from_f_type the type of feature at source end; DATA_FEATURE_TYPE_VOID if no feature specified
- *  \param out_to_c_type the type of classifier at target end
- *  \param out_to_f_type the type of feature at target end; DATA_FEATURE_TYPE_VOID if no feature specified
+ *  \param out_from_c (a copy of) the classifier at source end
+ *  \param out_from_f (a copy of) the feature at source end; !is_valid() if no feature specified
+ *  \param out_to_c (a copy of) the classifier at target end
+ *  \param out_to_f (a copy of) the feature at target end; !is_valid() if no feature specified
  *  \return DATA_ERROR_NONE in case of success
  */
-data_error_t io_export_model_traversal_private_get_relationship_end_types( io_export_model_traversal_t *this_,
-                                                                           const data_relationship_t *relation,
-                                                                           const data_node_set_t *node_data,
-                                                                           data_classifier_type_t * out_from_c_type,
-                                                                           data_feature_type_t * out_from_f_type,
-                                                                           data_classifier_type_t * out_to_c_type,
-                                                                           data_feature_type_t * out_to_f_type
-                                                                         );
+data_error_t io_export_model_traversal_private_get_relationship_ends( io_export_model_traversal_t *this_,
+                                                                      const data_relationship_t *relation,
+                                                                      const data_node_set_t *node_data,
+                                                                      data_classifier_t *out_from_c,
+                                                                      data_feature_t *out_from_f,
+                                                                      data_classifier_t *out_to_c,
+                                                                      data_feature_t *out_to_f
+                                                                    );
 
 /*!
  *  \brief checks in which interaction-diagrams the node is used and fakes interaction-model-objects.
