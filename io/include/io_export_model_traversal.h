@@ -91,7 +91,7 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
  *  Classifiers that are contained in written_id_set or that are beyond max_recursion are not traversed.
  *
  *  \param this_ pointer to own object attributes
- *  \param host the hosting parent classifier, needed for xmi export; is NULL on top-level of document
+ *  \param host_id the hosting parent classifier, needed for xmi export; DATA_ID_VOID on top-level of document
  *  \param containment_relationship_id id of the containment relationship which caused the processing, DATA_ID_VOID if not applicable
  *  \param classifier_id id of the classifier to process
  *  \param recursion_depth current number of tree depth.
@@ -99,7 +99,7 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
  *          0 in case of success.
  */
 int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *this_,
-                                                  const data_classifier_t *host,
+                                                  data_id_t host_id,
                                                   data_id_t containment_relationship_id,
                                                   data_id_t classifier_id,
                                                   unsigned int recursion_depth
@@ -139,7 +139,7 @@ int io_export_model_traversal_private_get_containments ( io_export_model_travers
  *  \brief recusively descends the containment tree (graph) of a classifier.
  *
  *  \param this_ pointer to own object attributes
- *  \param host the hosting parent classifier, needed for xmi export
+ *  \param host_id the hosting parent classifier, needed for xmi export
  *  \param contained_classifiers set of contained classifiers.
  *  \param containment_relations set of containment relationships.
  *  \param recursion_depth current number of tree depth. Used to actively limit the recursive descend to max IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH.
@@ -150,7 +150,7 @@ int io_export_model_traversal_private_get_containments ( io_export_model_travers
  *          0 is returned nonetheless.
  */
 int io_export_model_traversal_private_walk_containments ( io_export_model_traversal_t *this_,
-                                                          const data_classifier_t *host,
+                                                          data_id_t host_id,
                                                           const data_small_set_t *contained_classifiers,
                                                           const data_small_set_t *containment_relations,
                                                           unsigned int recursion_depth

@@ -89,11 +89,17 @@ static inline data_error_t data_database_private_exec_sql( data_database_t *this
 
     TSLOG_EVENT_STR( "sqlite3_exec:", sql_command );
     sqlite_err = sqlite3_exec( db, sql_command, NULL, NULL, &error_msg );
-    if ( SQLITE_OK != sqlite_err )
+
+    if ( SQLITE_READONLY == sqlite_err )
+    {
+        TSLOG_WARNING_STR( "sqlite3_exec() failed:", sql_command );
+        result |=  DATA_ERROR_READ_ONLY_DB;
+    }
+    else if ( SQLITE_OK != sqlite_err )
     {
         TSLOG_ERROR_STR( "sqlite3_exec() failed:", sql_command );
         TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-        result |= (sqlite_err == SQLITE_READONLY) ? DATA_ERROR_READ_ONLY_DB : DATA_ERROR_AT_DB;
+        result |= DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {

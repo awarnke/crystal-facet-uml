@@ -65,42 +65,10 @@
             </ownedComment>
             <node xmi:type="uml:InitialNode" xmi:id="60001" name="start" ><!--C0001-->
             </node>
-        </packagedElement>
-        <packagedElement xmi:type="uml:Association" xmi:id="80007" name="" >
-            <memberEnd xmi:idref="80007#sourceend" />
-            <ownedEnd xmi:type="uml:Property" xmi:id="80007#sourceend" association="80007" >
-                <type xmi:idref="60006" />
-            </ownedEnd>
-            <!-- STATUS:      R0007 (aka 80007) of type 300 (Association) has target of type 157 (DecisionNode) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to target end type -->
-            <!-- PROPOSAL:    Change the type of the relationship -->
-            <memberEnd xmi:idref="80007#targetend" />
-            <ownedEnd xmi:type="uml:Property" xmi:id="80007#targetend" association="80007" aggregation="composite" >
-                <type xmi:idref="60003" />
-            </ownedEnd>
-        </packagedElement>
-        <packagedElement xmi:type="uml:Association" xmi:id="80008" name="" >
-            <memberEnd xmi:idref="80008#sourceend" />
-            <ownedEnd xmi:type="uml:Property" xmi:id="80008#sourceend" association="80008" >
-                <type xmi:idref="60006" />
-            </ownedEnd>
-            <!-- STATUS:      R0008 (aka 80008) of type 300 (Association) has target of type 152 (ActivityFinalNode) -->
-            <!-- CONFORMANCE: Unsuitable relationship type connecting to target end type -->
-            <!-- PROPOSAL:    Change the type of the relationship -->
-            <memberEnd xmi:idref="80008#targetend" />
-            <ownedEnd xmi:type="uml:Property" xmi:id="80008#targetend" association="80008" aggregation="composite" >
-                <type xmi:idref="60005" />
-            </ownedEnd>
-        </packagedElement>
-        <!-- STATUS:      C0003 (aka 60003) of type 157 (DecisionNode) is nested in a container of type 124 (Package) -->
-        <!-- CONFORMANCE: Unsuitable nested type to container type -->
-        <!-- PROPOSAL:    Pack the nested element into a suitable container or change its type -->
-        <packagedElement xmi:type="uml:DecisionNode" xmi:id="60003" name="valid?" ><!--C0003-->
-        </packagedElement>
-        <!-- STATUS:      C0005 (aka 60005) of type 152 (ActivityFinalNode) is nested in a container of type 124 (Package) -->
-        <!-- CONFORMANCE: Unsuitable nested type to container type -->
-        <!-- PROPOSAL:    Pack the nested element into a suitable container or change its type -->
-        <packagedElement xmi:type="uml:ActivityFinalNode" xmi:id="60005" name="finish" ><!--C0005-->
+            <node xmi:type="uml:DecisionNode" xmi:id="60003" name="valid?" ><!--C0003-->
+            </node>
+            <node xmi:type="uml:ActivityFinalNode" xmi:id="60005" name="finish" ><!--C0005-->
+            </node>
         </packagedElement>
     </uml:Model>
 </xmi:XMI>

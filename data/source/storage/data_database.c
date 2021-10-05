@@ -396,6 +396,12 @@ data_error_t data_database_private_upgrade_tables( data_database_t *this_ )
     data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAMELEMENT_TABLE_UUID );
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_DIAGRAMELEMENT_UUID );
 
+    if ( ( result & DATA_ERROR_READ_ONLY_DB ) != DATA_ERROR_NONE )
+    {
+        TSLOG_EVENT( "sqlite3 database is read only." );
+        result = result & ~DATA_ERROR_READ_ONLY_DB;
+    }
+
     TRACE_END_ERR( result );
     return result;
 }

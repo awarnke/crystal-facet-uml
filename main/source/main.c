@@ -116,9 +116,13 @@ int main (int argc, char *argv[]) {
         data_database_init( &database );
 
         TRACE_INFO("upgrading DB...");
-        data_error_t up_err;
-        up_err = data_database_open( &database, database_file );  /* upgrade is implicitely done */
-        TRACE_INFO( ( DATA_ERROR_NONE == up_err ) ? "success" : "failure" );
+        const data_error_t up_err
+            = data_database_open( &database, database_file );  /* upgrade is implicitely done */
+        if ( up_err != DATA_ERROR_NONE )
+        {
+            fprintf( stdout, "error opening %s\n", database_file );
+        }
+        TRACE_INFO( ( 0 == up_err ) ? "success" : "failure" );
 
         TRACE_INFO("stopping DB...");
         data_database_close( &database );
@@ -134,13 +138,13 @@ int main (int argc, char *argv[]) {
 
         TRACE_INFO("starting DB...");
         data_database_init( &database );
-        if ( do_repair )
+        const data_error_t db_err
+            = ( do_repair )
+            ? data_database_open( &database, database_file )
+            : data_database_open_read_only( &database, database_file );
+        if ( db_err != DATA_ERROR_NONE )
         {
-            data_database_open( &database, database_file );
-        }
-        else
-        {
-            data_database_open_read_only( &database, database_file );
+            fprintf( stdout, "error opening %s\n", database_file );
         }
 
         TRACE_INFO("initializing controller...");
@@ -167,7 +171,12 @@ int main (int argc, char *argv[]) {
 
         TRACE_INFO("starting DB...");
         data_database_init( &database );
-        data_database_open_read_only( &database, database_file );
+        const data_error_t db_err
+            = data_database_open_read_only( &database, database_file );
+        if ( db_err != DATA_ERROR_NONE )
+        {
+            fprintf( stdout, "error opening %s\n", database_file );
+        }
 
         TRACE_INFO("exporting DB...");
         int export_err;
@@ -214,7 +223,12 @@ int main (int argc, char *argv[]) {
         data_database_init( &database );
         if ( NULL != database_file )
         {
-            data_database_open( &database, database_file );
+            const data_error_t db_err
+                = data_database_open( &database, database_file );
+            if ( db_err != DATA_ERROR_NONE )
+            {
+                fprintf( stdout, "error opening %s\n", database_file );
+            }
         }
 
         TRACE_TIMESTAMP();
