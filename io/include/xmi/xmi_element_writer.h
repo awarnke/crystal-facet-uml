@@ -30,7 +30,6 @@
 #include "set/data_visible_set.h"
 #include "set/data_stat.h"
 #include "storage/data_database_reader.h"
-//#include "util/geometry/geometry_rectangle.h"
 #include "util/string/utf8stringbuf.h"
 #include "stream/universal_output_stream.h"
 
@@ -58,12 +57,10 @@ typedef struct xmi_element_writer_struct xmi_element_writer_t;
  *  \brief initializes the xmi_element_writer_t
  *
  *  \param this_ pointer to own object attributes
- *  \param db_reader pointer to a database reader object (to resolve markdown links)
  *  \param io_export_stat pointer to statistics object where export statistics are collected
  *  \param output output stream where to write the generated output to
  */
 void xmi_element_writer_init( xmi_element_writer_t *this_,
-                              data_database_reader_t *db_reader,
                               data_stat_t *io_export_stat,
                               universal_output_stream_t *output
                             );

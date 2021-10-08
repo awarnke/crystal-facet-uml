@@ -17,12 +17,10 @@
 /* Note: when writing, each method typically starts with writing a newline, it does not end with writing a newline. */
 
 void xmi_interaction_writer_init ( xmi_interaction_writer_t *this_,
-                                   data_database_reader_t *db_reader,
                                    data_stat_t *io_export_stat,
                                    xml_writer_t *out_writer  )
 {
     TRACE_BEGIN();
-    assert( NULL != db_reader );
     assert( NULL != io_export_stat );
     assert( NULL != out_writer );
 
@@ -30,7 +28,7 @@ void xmi_interaction_writer_init ( xmi_interaction_writer_t *this_,
     (*this_).export_stat = io_export_stat;
     (*this_).xml_writer = out_writer;
     xmi_type_converter_init( &((*this_).xmi_types) );
-    xmi_atom_writer_init( &((*this_).atom_writer), db_reader, (*this_).xml_writer );
+    xmi_atom_writer_init( &((*this_).atom_writer), (*this_).xml_writer );
 
     TRACE_END();
 }

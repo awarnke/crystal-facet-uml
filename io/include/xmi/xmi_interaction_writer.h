@@ -30,7 +30,7 @@
  */
 struct xmi_interaction_writer_struct {
     io_writer_pass_t mode;  /*!< depending on the mode, conversion from a data object to the output format differs */
-    
+
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
     xml_writer_t *xml_writer;  /*!< pointer to external xml writer */
     xmi_atom_writer_t atom_writer;  /*!< own instance of an atom writer */
@@ -44,14 +44,12 @@ typedef struct xmi_interaction_writer_struct xmi_interaction_writer_t;
  *  \brief initializes the format writer
  *
  *  \param this_ pointer to own object attributes
- *  \param db_reader pointer to a database reader object (to resolve markdown links)
  *  \param io_export_stat pointer to statistics object where export statistics are collected
  *  \param out_writer output stream where to write the generated output to
  */
 void xmi_interaction_writer_init( xmi_interaction_writer_t *this_,
-                                  data_database_reader_t *db_reader,
                                   data_stat_t *io_export_stat,
-                                  xml_writer_t *out_writer 
+                                  xml_writer_t *out_writer
                                 );
 
 /*!
@@ -71,9 +69,9 @@ void xmi_interaction_writer_destroy( xmi_interaction_writer_t *this_ );
  *  \param diagram_ptr diagram which shall be written as XMI interaction
  *  \return 0 in case of success, -1 otherwise
  */
-int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_, 
+int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
                                           data_classifier_type_t parent_type,
-                                          const data_diagram_t *diagram_ptr 
+                                          const data_diagram_t *diagram_ptr
                                         );
 
 /*!
@@ -86,7 +84,7 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
  *  \return 0 in case of success, -1 otherwise
  */
 int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
-                                        data_classifier_type_t parent_type 
+                                        data_classifier_type_t parent_type
                                       );
 
 /*!
@@ -105,7 +103,7 @@ int xmi_interaction_writer_assemble_feature( xmi_interaction_writer_t *this_,
                                            );
 
 /*!
- *  \brief writes the contents of a message-type relationship 
+ *  \brief writes the contents of a message-type relationship
  *
  *  \param this_ pointer to own object attributes
  *  \param interaction_id id of the interaction to which the message (relationship) belongs
@@ -124,7 +122,7 @@ int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this
                                                   data_classifier_type_t from_c_type,
                                                   data_feature_type_t from_f_type,
                                                   data_classifier_type_t to_c_type,
-                                                  data_feature_type_t to_f_type 
+                                                  data_feature_type_t to_f_type
                                                 );
 
 

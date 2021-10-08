@@ -336,7 +336,7 @@ static void iterate_types_on_mini_model(void)
                         universal_output_stream_t* output = universal_memory_output_stream_get_output_stream( &mem_output_stream );
 
                         {
-                            xmi_element_writer_init( &temp_xmi_writer, &db_reader, &stat, output );
+                            xmi_element_writer_init( &temp_xmi_writer, &stat, output );
                             /* init the model_traversal */
                             io_export_model_traversal_init( &temp_model_traversal,
                                                             &db_reader,

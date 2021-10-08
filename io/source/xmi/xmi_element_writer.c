@@ -126,14 +126,12 @@ static const char XMI2_STATE_REGION_TYPE[]
     = "Region";
 
 void xmi_element_writer_init ( xmi_element_writer_t *this_,
-                               data_database_reader_t *db_reader,
                                data_stat_t *io_export_stat,
                                universal_output_stream_t *output )
 {
     TRACE_BEGIN();
     assert( NULL != output );
     assert( NULL != io_export_stat );
-    assert( NULL != db_reader );
 
     (*this_).mode = IO_WRITER_PASS_BASE;
     (*this_).export_stat = io_export_stat;
@@ -144,10 +142,9 @@ void xmi_element_writer_init ( xmi_element_writer_t *this_,
                                   );
     xml_writer_init( &((*this_).xml_writer), output );
     xmi_type_converter_init( &((*this_).xmi_types) );
-    xmi_atom_writer_init( &((*this_).atom_writer), db_reader, &((*this_).xml_writer) );
+    xmi_atom_writer_init( &((*this_).atom_writer), &((*this_).xml_writer) );
 
     xmi_interaction_writer_init( &((*this_).interaction_writer),
-                                 db_reader,
                                  io_export_stat,
                                  &((*this_).xml_writer)
                                );
