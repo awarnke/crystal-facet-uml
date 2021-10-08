@@ -30,7 +30,7 @@
 #include "set/data_visible_set.h"
 #include "set/data_stat.h"
 #include "storage/data_database_reader.h"
-#include "util/geometry/geometry_rectangle.h"
+//#include "util/geometry/geometry_rectangle.h"
 #include "util/string/utf8stringbuf.h"
 #include "stream/universal_output_stream.h"
 
@@ -122,28 +122,28 @@ int xmi_element_writer_write_header( xmi_element_writer_t *this_, const char *do
 int xmi_element_writer_start_main( xmi_element_writer_t *this_, const char *document_title );
 
 /*!
- *  \brief checks if a parent classifier may nest a child classifier
+ *  \brief checks if a host classifier may nest a child classifier
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type data_classifier_type_t of the parent of which the nesting-ability shall be determined
+ *  \param host_type data_classifier_type_t of the host of which the nesting-ability shall be determined
  *  \param child_type data_classifier_type_t of the nested child of which the nesting-ability shall be determined
  *  \return true if nesting is allowed
  */
 bool xmi_element_writer_can_classifier_nest_classifier ( xmi_element_writer_t *this_,
-                                                         data_classifier_type_t parent_type,
+                                                         data_classifier_type_t host_type,
                                                          data_classifier_type_t child_type
                                                        );
 
 /*!
- *  \brief checks if a parent classifier may nest relationships
+ *  \brief checks if a host classifier may nest relationships
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type data_classifier_type_t of the parent of which the nesting-ability shall be determined
+ *  \param host_type data_classifier_type_t of the host of which the nesting-ability shall be determined
  *  \param child_type data_relationship_type_t of the nested child of which the nesting-ability shall be determined
  *  \return true if nesting or any relationship is allowed
  */
 bool xmi_element_writer_can_classifier_nest_relationship ( xmi_element_writer_t *this_,
-                                                           data_classifier_type_t parent_type,
+                                                           data_classifier_type_t host_type,
                                                            data_relationship_type_t child_type
                                                          );
 
@@ -153,12 +153,12 @@ bool xmi_element_writer_can_classifier_nest_relationship ( xmi_element_writer_t 
  *  This starts a division that contains a classifier and a list of features and relationships
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classifier
+ *  \param host_type type of the host classifier
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
-                                         data_classifier_type_t parent_type,
+                                         data_classifier_type_t host_type,
                                          const data_classifier_t *classifier_ptr
                                        );
 
@@ -166,12 +166,12 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
  *  \brief writes contents of a classifier
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classifier
+ *  \param host_type type of the host classifier
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
-                                            data_classifier_type_t parent_type,
+                                            data_classifier_type_t host_type,
                                             const data_classifier_t *classifier_ptr
                                           );
 
@@ -181,12 +181,12 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
  *  This ends a division that contains a classifier and a list of features and relationships
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classifier, needed for xmi export
+ *  \param host_type type of the host classifier, needed for xmi export
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
-                                       data_classifier_type_t parent_type,
+                                       data_classifier_type_t host_type,
                                        const data_classifier_t *classifier_ptr
                                      );
 
@@ -194,7 +194,7 @@ int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
  *  \brief writes a feature start-element
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the owning parent classifier
+ *  \param parent_type type of the owning host classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
@@ -207,7 +207,7 @@ int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
  *  \brief writes constents of a a feature
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the owning parent classifier
+ *  \param parent_type type of the owning host classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
@@ -220,7 +220,7 @@ int xmi_element_writer_assemble_feature( xmi_element_writer_t *this_,
  *  \brief writes a feature end-element
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the owning parent classifier
+ *  \param parent_type type of the owning host classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
@@ -233,12 +233,12 @@ int xmi_element_writer_end_feature( xmi_element_writer_t *this_,
  *  \brief starts a relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classifier, needed for xmi export
+ *  \param host_type type of the host classifier, needed for xmi export
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
-                                           data_classifier_type_t parent_type,
+                                           data_classifier_type_t host_type,
                                            const data_relationship_t *relation_ptr
                                          );
 
@@ -246,7 +246,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
  *  \brief writes the contents of a relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param parent the parent classifier, needed for xmi export
+ *  \param host the host classifier, needed for xmi export
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
  *  \param from_c the classifier at source end
  *  \param from_f the feature at source end; NULL if no feature specified
@@ -255,7 +255,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
  *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
-                                              const data_classifier_t *parent,
+                                              const data_classifier_t *host,
                                               const data_relationship_t *relation_ptr,
                                               const data_classifier_t *from_c,
                                               const data_feature_t *from_f,
@@ -267,9 +267,9 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
  *  \brief writes the contents of a relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classifier, needed for xmi export
- *  \param parent_is_source indicates if the parent/hosting classifier is the source end of the relationship
- *  \param parent_id id of the parent classifier, needed for xmi-interaction export
+ *  \param host_type type of the host classifier, needed for xmi export
+ *  \param host_is_source indicates if the host classifier is the source end of the relationship
+ *  \param host_id id of the host classifier, needed for xmi-interaction export
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
  *  \param from_c_type the type of classifier at source end
  *  \param from_f_type the type of feature at source end; DATA_FEATURE_TYPE_VOID if no feature specified
@@ -278,9 +278,9 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
  *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this_,
-                                                      data_classifier_type_t parent_type,
-                                                      bool parent_is_source,
-                                                      data_id_t parent_id,
+                                                      data_classifier_type_t host_type,
+                                                      bool host_is_source,
+                                                      data_id_t host_id,
                                                       const data_relationship_t *relation_ptr,
                                                       data_classifier_type_t from_c_type,
                                                       data_feature_type_t from_f_type,
@@ -292,12 +292,12 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
  *  \brief ends a relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the parent classifier, needed for xmi export
+ *  \param host_type type of the host classifier, needed for xmi export
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_end_relationship( xmi_element_writer_t *this_,
-                                         data_classifier_type_t parent_type,
+                                         data_classifier_type_t host_type,
                                          const data_relationship_t *relation_ptr
                                        );
 
@@ -341,7 +341,7 @@ int xmi_element_writer_end_diagram( xmi_element_writer_t *this_, const data_diag
  *
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \param parent the parent diagram
+ *  \param parent the hosting diagram
  *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
@@ -356,7 +356,7 @@ int xmi_element_writer_start_diagramelement( xmi_element_writer_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \param parent the parent diagram
+ *  \param parent the hosting diagram
  *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
@@ -371,7 +371,7 @@ int xmi_element_writer_assemble_diagramelement( xmi_element_writer_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \param parent the parent diagram
+ *  \param parent the hosting diagram
  *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */

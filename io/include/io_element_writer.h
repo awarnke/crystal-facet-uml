@@ -164,12 +164,12 @@ static inline int io_element_writer_end_classifier( io_element_writer_t *this_,
  *  \brief writes a feature start-element
  *
  *  \param this_ pointer to own object attributes
- *  \param host_type type of the owning parent classifier
+ *  \param parent_type type of the owning parent classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_start_feature( io_element_writer_t *this_,
-                                                   data_classifier_type_t host_type,
+                                                   data_classifier_type_t parent_type,
                                                    const data_feature_t *feature_ptr
                                                  );
 
@@ -177,12 +177,12 @@ static inline int io_element_writer_start_feature( io_element_writer_t *this_,
  *  \brief writes constents of a a feature
  *
  *  \param this_ pointer to own object attributes
- *  \param host_type type of the owning parent classifier
+ *  \param parent_type type of the owning parent classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_assemble_feature( io_element_writer_t *this_,
-                                                      data_classifier_type_t host_type,
+                                                      data_classifier_type_t parent_type,
                                                       const data_feature_t *feature_ptr
                                                     );
 
@@ -190,12 +190,12 @@ static inline int io_element_writer_assemble_feature( io_element_writer_t *this_
  *  \brief writes a feature end-element
  *
  *  \param this_ pointer to own object attributes
- *  \param host_type type of the owning parent classifier
+ *  \param parent_type type of the owning parent classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_end_feature( io_element_writer_t *this_,
-                                                 data_classifier_type_t host_type,
+                                                 data_classifier_type_t parent_type,
                                                  const data_feature_t *feature_ptr
                                                );
 
@@ -286,13 +286,13 @@ static inline int io_element_writer_end_diagram( io_element_writer_t *this_, con
  *
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \param host the hosting parent diagram
+ *  \param parent the hosting parent diagram
  *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_start_diagramelement( io_element_writer_t *this_,
                                                           const data_diagramelement_t *diagramelement_ptr,
-                                                          const data_diagram_t *host,
+                                                          const data_diagram_t *parent,
                                                           const data_classifier_t *occurrence
                                                         );
 
@@ -301,13 +301,13 @@ static inline int io_element_writer_start_diagramelement( io_element_writer_t *t
  *
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \param host the hosting parent diagram
+ *  \param parent the hosting parent diagram
  *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_assemble_diagramelement( io_element_writer_t *this_,
                                                              const data_diagramelement_t *diagramelement_ptr,
-                                                             const data_diagram_t *host,
+                                                             const data_diagram_t *parent,
                                                              const data_classifier_t *occurrence
                                                            );
 
@@ -316,13 +316,13 @@ static inline int io_element_writer_assemble_diagramelement( io_element_writer_t
  *
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \param host the hosting parent diagram
+ *  \param parent the hosting parent diagram
  *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_end_diagramelement( io_element_writer_t *this_,
                                                         const data_diagramelement_t *diagramelement_ptr,
-                                                        const data_diagram_t *host,
+                                                        const data_diagram_t *parent,
                                                         const data_classifier_t *occurrence
                                                       );
 

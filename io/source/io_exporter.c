@@ -375,13 +375,23 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         }
         else if ( IO_FILE_FORMAT_JSON == export_type )
         {
-            json_export_from_database_t local_exporter;
-            json_export_from_database_init( &local_exporter, (*this_).db_reader );
-            //json_export_from_database_export_all( &local_exporter );
-            json_export_from_database_destroy( &local_exporter );
+            json_element_writer_init( &((*this_).temp_json_writer ), io_export_stat, output );
+            /* init the model_traversal */
+            io_export_model_traversal_init( &((*this_).temp_model_traversal),
+                                            (*this_).db_reader,
+                                            &((*this_).temp_input_data),
+                                            io_export_stat,
+                                            json_element_writer_get_element_writer( &((*this_).temp_json_writer) )
+                                          );
+            /* write the document */
+            export_err |= json_element_writer_write_header( &((*this_).temp_json_writer), document_file_name );
+            export_err |= json_element_writer_start_main( &((*this_).temp_json_writer), document_file_name );
+            export_err |= io_export_model_traversal_walk_model_nodes( &((*this_).temp_model_traversal) );
+            export_err |= json_element_writer_end_main( &((*this_).temp_json_writer) );
+            export_err |= json_element_writer_write_footer( &((*this_).temp_json_writer) );
 
-            TSLOG_ERROR("error: not-yet-implemented_format.");
-            export_err |= -1;
+            io_export_model_traversal_destroy( &((*this_).temp_model_traversal) );
+            json_element_writer_destroy( &((*this_).temp_json_writer ) );
         }
         else
         {

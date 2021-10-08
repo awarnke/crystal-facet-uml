@@ -210,25 +210,25 @@ int xmi_element_writer_start_main( xmi_element_writer_t *this_, const char *docu
 }
 
 bool xmi_element_writer_can_classifier_nest_classifier ( xmi_element_writer_t *this_,
-                                                         data_classifier_type_t parent_type,
+                                                         data_classifier_type_t host_type,
                                                          data_classifier_type_t child_type )
 {
     const bool base_pass = ( IO_WRITER_PASS_BASE == (*this_).mode );
-    const bool can_nest = xmi_type_converter_can_nest_classifier( &((*this_).xmi_types), parent_type, child_type );
+    const bool can_nest = xmi_type_converter_can_nest_classifier( &((*this_).xmi_types), host_type, child_type );
     return ( can_nest && base_pass );
 }
 
 bool xmi_element_writer_can_classifier_nest_relationship ( xmi_element_writer_t *this_,
-                                                           data_classifier_type_t parent_type,
+                                                           data_classifier_type_t host_type,
                                                            data_relationship_type_t child_type )
 {
     const bool base_pass = ( IO_WRITER_PASS_BASE == (*this_).mode );
-    const bool can_nest = xmi_type_converter_can_nest_relationship( &((*this_).xmi_types), parent_type, child_type );
+    const bool can_nest = xmi_type_converter_can_nest_relationship( &((*this_).xmi_types), host_type, child_type );
     return ( can_nest && base_pass );
 }
 
 int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
-                                         data_classifier_type_t parent_type,
+                                         data_classifier_type_t host_type,
                                          const data_classifier_t *classifier_ptr )
 {
     TRACE_BEGIN();
@@ -239,7 +239,7 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
     const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier_ptr);
     const xmi_element_info_t *classifier_info;
     int map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
-                                                       parent_type,
+                                                       host_type,
                                                        classifier_type,
                                                        &classifier_info
                                                      );
@@ -263,7 +263,7 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
         const char* nesting_property;
         const int nesting_err
             = xmi_type_converter_get_xmi_nesting_property_of_classifier( &((*this_).xmi_types),
-                                                                         parent_type,
+                                                                         host_type,
                                                                          classifier_type,
                                                                          &nesting_property
                                                                        );
@@ -279,7 +279,7 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
             export_err |= xmi_atom_writer_report_illegal_container( &((*this_).atom_writer),
                                                                     classifier_id,
                                                                     classifier_type,
-                                                                    parent_type
+                                                                    host_type
                                                                   );
             /* use a fallback */
             nesting_property = XMI_ELEMENT_PART_FALLBACK_NESTING_ELEMENT;
@@ -298,7 +298,7 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
 }
 
 int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
-                                            data_classifier_type_t parent_type,
+                                            data_classifier_type_t host_type,
                                             const data_classifier_t *classifier_ptr )
 {
     TRACE_BEGIN();
@@ -313,7 +313,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
     const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier_ptr);
     const xmi_element_info_t *classifier_info;
     int map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
-                                                       parent_type,
+                                                       host_type,
                                                        classifier_type,
                                                        &classifier_info
                                                      );
@@ -329,7 +329,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
         const char* c_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
-                                                                             parent_type,
+                                                                             host_type,
                                                                              classifier_type,
                                                                              XMI_SPEC_UML
                                                                            );
@@ -450,7 +450,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_SYSML );
             const char* profile_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
-                                                                                       parent_type,
+                                                                                       host_type,
                                                                                        classifier_type,
                                                                                        XMI_SPEC_SYSML
                                                                                      );
@@ -465,7 +465,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_START );
             const char* base_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
-                                                                                    parent_type,
+                                                                                    host_type,
                                                                                     classifier_type,
                                                                                     XMI_SPEC_UML
                                                                                   );
@@ -555,7 +555,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
 
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_START );
                         const char* base_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
-                                                                                                parent_type,
+                                                                                                host_type,
                                                                                                 classifier_type,
                                                                                                 XMI_SPEC_UML
                                                                                               );
@@ -591,7 +591,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
 }
 
 int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
-                                       data_classifier_type_t parent_type,
+                                       data_classifier_type_t host_type,
                                        const data_classifier_t *classifier_ptr )
 {
     TRACE_BEGIN();
@@ -615,7 +615,7 @@ int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
         const char* nesting_property;
         const int nesting_err
             = xmi_type_converter_get_xmi_nesting_property_of_classifier( &((*this_).xmi_types),
-                                                                         parent_type,
+                                                                         host_type,
                                                                          classifier_type,
                                                                          &nesting_property
                                                                        );
@@ -861,7 +861,7 @@ int xmi_element_writer_end_feature( xmi_element_writer_t *this_,
 }
 
 int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
-                                           data_classifier_type_t parent_type,
+                                           data_classifier_type_t host_type,
                                            const data_relationship_t *relation_ptr )
 {
     TRACE_BEGIN();
@@ -875,12 +875,12 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
     const data_relationship_type_t relation_type = data_relationship_get_main_type( relation_ptr );
     const xmi_element_info_t *relation_info;
     int map_err = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
-                                                         (parent_type==DATA_CLASSIFIER_TYPE_STATE),
+                                                         (host_type==DATA_CLASSIFIER_TYPE_STATE),
                                                          relation_type,
                                                          &relation_info
                                                        );
     const bool is_annotated_element
-        = (( parent_type == DATA_CLASSIFIER_TYPE_COMMENT )&&( relation_type == DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY ));
+        = (( host_type == DATA_CLASSIFIER_TYPE_COMMENT )&&( relation_type == DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY ));
 
     if ( (*this_).mode == IO_WRITER_PASS_BASE )
     {
@@ -901,7 +901,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
         const char* nesting_property;
         const int nesting_err
             = xmi_type_converter_get_xmi_nesting_property_of_relationship( &((*this_).xmi_types),
-                                                                           parent_type,
+                                                                           host_type,
                                                                            relation_type,
                                                                            &nesting_property
                                                                          );
@@ -915,7 +915,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
             export_err |= xmi_atom_writer_report_illegal_location( &((*this_).atom_writer),
                                                                    relation_id,
                                                                    relation_type,
-                                                                   parent_type
+                                                                   host_type
                                                                  );
             /* use a fallback */
             nesting_property = XMI_ELEMENT_PART_FALLBACK_NESTING_ELEMENT;
@@ -948,7 +948,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
             const char* r_type = xmi_type_converter_get_xmi_type_of_relationship ( &((*this_).xmi_types),
-                                                                                   parent_type,
+                                                                                   host_type,
                                                                                    relation_type,
                                                                                    XMI_SPEC_UML
                                                                                  );
@@ -1003,7 +1003,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_STDPROF );
             const char* profile_type = xmi_type_converter_get_xmi_type_of_relationship ( &((*this_).xmi_types),
-                                                                                         parent_type,
+                                                                                         host_type,
                                                                                          relation_type,
                                                                                          XMI_SPEC_STANDARD
                                                                                        );
@@ -1018,7 +1018,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_START );
             const char* base_type = xmi_type_converter_get_xmi_type_of_relationship ( &((*this_).xmi_types),
-                                                                                      parent_type,
+                                                                                      host_type,
                                                                                       relation_type,
                                                                                       XMI_SPEC_UML
                                                                                     );
@@ -1041,7 +1041,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
 }
 
 int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
-                                              const data_classifier_t *parent,
+                                              const data_classifier_t *host,
                                               const data_relationship_t *relation_ptr,
                                               const data_classifier_t *from_c,
                                               const data_feature_t *from_f,
@@ -1066,27 +1066,27 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
         = (to_f==NULL)
         ? DATA_FEATURE_TYPE_VOID
         : data_feature_is_valid(to_f) ? data_feature_get_main_type( to_f ) : DATA_FEATURE_TYPE_VOID;
-    data_id_t parent_id;
-    data_classifier_type_t parent_type;
-    bool parent_is_source;
-    if ( parent == NULL )
+    data_id_t host_id;
+    data_classifier_type_t host_type;
+    bool host_is_source;
+    if ( host == NULL )
     {
-        parent_id = DATA_ID_VOID;
-        parent_type = DATA_CLASSIFIER_TYPE_PACKAGE;  /* a uml:Model is a uml:Package*/
-        parent_is_source = false;
+        host_id = DATA_ID_VOID;
+        host_type = DATA_CLASSIFIER_TYPE_PACKAGE;  /* a uml:Model is a uml:Package*/
+        host_is_source = false;
     }
     else
     {
-        parent_id = data_classifier_get_data_id( parent );
-        parent_type = data_classifier_get_main_type( parent );
-        parent_is_source = ( data_classifier_get_row_id( from_c ) == data_classifier_get_row_id( parent ) );
+        host_id = data_classifier_get_data_id( host );
+        host_type = data_classifier_get_main_type( host );
+        host_is_source = ( data_classifier_get_row_id( from_c ) == data_classifier_get_row_id( host ) );
     }
 
     const int export_err
         = xmi_element_writer_private_assemble_relationship( this_,
-                                                            parent_type,
-                                                            parent_is_source,
-                                                            parent_id,
+                                                            host_type,
+                                                            host_is_source,
+                                                            host_id,
                                                             relation_ptr,
                                                             from_c_type,
                                                             from_f_type,
@@ -1099,9 +1099,9 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
 }
 
 int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this_,
-                                                      data_classifier_type_t parent_type,
-                                                      bool parent_is_source,
-                                                      data_id_t parent_id,
+                                                      data_classifier_type_t host_type,
+                                                      bool host_is_source,
+                                                      data_id_t host_id,
                                                       const data_relationship_t *relation_ptr,
                                                       data_classifier_type_t from_c_type,
                                                       data_feature_type_t from_f_type,
@@ -1125,7 +1125,7 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
     const data_relationship_type_t relation_type = data_relationship_get_main_type( relation_ptr );
     const xmi_element_info_t *relation_info;
     int map_err = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
-                                                         (parent_type==DATA_CLASSIFIER_TYPE_STATE),
+                                                         (host_type==DATA_CLASSIFIER_TYPE_STATE),
                                                          relation_type,
                                                          &relation_info
                                                        );
@@ -1138,7 +1138,7 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
     const xmi_element_info_t *from_end_info = NULL;
     if (from_f_type == DATA_FEATURE_TYPE_VOID)
     {
-        map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, parent_type /*wrong parent here*/, from_c_type, &from_end_info );
+        map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, host_type /*wrong host here*/, from_c_type, &from_end_info );
         if ( map_err != 0 )
         {
             TRACE_INFO_INT("xmi_element_writer: request to write a relationship from-end of unknown c-type", from_c_type );
@@ -1157,7 +1157,7 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
     const xmi_element_info_t *to_end_info = NULL;
     if (to_f_type == DATA_FEATURE_TYPE_VOID)
     {
-        map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, parent_type /*wrong parent here*/, to_c_type, &to_end_info );
+        map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, host_type /*wrong host here*/, to_c_type, &to_end_info );
         if ( map_err != 0 )
         {
             TRACE_INFO_INT("xmi_element_writer: request to write a relationship to-end of unknown c-type", to_c_type );
@@ -1184,16 +1184,16 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
         = (( relation_type == DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION )
         || ( relation_type == DATA_RELATIONSHIP_TYPE_UML_EXTEND )
         || ( relation_type == DATA_RELATIONSHIP_TYPE_UML_INCLUDE ))
-        && parent_is_source;
+        && host_is_source;
     const bool is_annotated_element
-        = (( parent_type == DATA_CLASSIFIER_TYPE_COMMENT )&&( relation_type == DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY ));
+        = (( host_type == DATA_CLASSIFIER_TYPE_COMMENT )&&( relation_type == DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY ));
     const bool is_message = ( xmi_element_info_is_a_message ( relation_info ) );
 
-    if (( parent_type == DATA_CLASSIFIER_TYPE_INTERACTION )&&( is_message ))
+    if (( host_type == DATA_CLASSIFIER_TYPE_INTERACTION )&&( is_message ))
     {
         export_err |= xmi_interaction_writer_assemble_relationship( &((*this_).interaction_writer),
-                                                                    parent_id,
-                                                                    DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
+                                                                    host_id,
+                                                                    DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake host type */
                                                                     relation_ptr,
                                                                     DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake from classifier type */
                                                                     DATA_FEATURE_TYPE_LIFELINE,  /* guess from feature type */
@@ -1219,7 +1219,7 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
             const char* from_type_tag;
             const int from_type_err
                 = xmi_type_converter_get_xmi_from_property_of_relationship ( &((*this_).xmi_types),
-                                                                             parent_type,
+                                                                             host_type,
                                                                              relation_type,
                                                                              from_c_type,
                                                                              from_f_type,
@@ -1235,7 +1235,7 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
                 export_err |= xmi_atom_writer_report_illegal_relationship_end ( &((*this_).atom_writer),
                                                                                 relation_id,
                                                                                 relation_type,
-                                                                                parent_type,
+                                                                                host_type,
                                                                                 true /* = from_end */,
                                                                                 from_c_type,
                                                                                 from_f_type
@@ -1279,7 +1279,7 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
         const char* to_type_tag;
         const int to_type_err
             = xmi_type_converter_get_xmi_to_property_of_relationship ( &((*this_).xmi_types),
-                                                                       parent_type,
+                                                                       host_type,
                                                                        relation_type,
                                                                        to_c_type,
                                                                        to_f_type,
@@ -1295,7 +1295,7 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
             export_err |= xmi_atom_writer_report_illegal_relationship_end ( &((*this_).atom_writer),
                                                                             relation_id,
                                                                             relation_type,
-                                                                            parent_type,
+                                                                            host_type,
                                                                             false /* = from_end */,
                                                                             to_c_type,
                                                                             to_f_type
@@ -1353,7 +1353,7 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
 }
 
 int xmi_element_writer_end_relationship( xmi_element_writer_t *this_,
-                                         data_classifier_type_t parent_type,
+                                         data_classifier_type_t host_type,
                                          const data_relationship_t *relation_ptr )
 {
     TRACE_BEGIN();
@@ -1369,7 +1369,7 @@ int xmi_element_writer_end_relationship( xmi_element_writer_t *this_,
         const char* nesting_property;
         const int nesting_err
             = xmi_type_converter_get_xmi_nesting_property_of_relationship( &((*this_).xmi_types),
-                                                                           parent_type,
+                                                                           host_type,
                                                                            relation_type,
                                                                            &nesting_property
                                                                          );
