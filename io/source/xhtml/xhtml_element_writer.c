@@ -570,9 +570,12 @@ int xhtml_element_writer_end_toc_sublist ( xhtml_element_writer_t *this_ )
     return export_err;
 }
 
-int xhtml_element_writer_start_classifier( xhtml_element_writer_t *this_ )
+int xhtml_element_writer_start_classifier( xhtml_element_writer_t *this_,
+                                           data_classifier_type_t host_type,
+                                           const data_classifier_t *classifier_ptr )
 {
     TRACE_BEGIN();
+    assert ( NULL != classifier_ptr );
     int export_err = 0;
 
     switch ( (*this_).export_type )
@@ -615,7 +618,9 @@ int xhtml_element_writer_start_classifier( xhtml_element_writer_t *this_ )
     return export_err;
 }
 
-int xhtml_element_writer_assemble_classifier( xhtml_element_writer_t *this_, const data_classifier_t *classifier_ptr )
+int xhtml_element_writer_assemble_classifier( xhtml_element_writer_t *this_,
+                                              data_classifier_type_t host_type,
+                                              const data_classifier_t *classifier_ptr )
 {
     TRACE_BEGIN();
     assert ( NULL != classifier_ptr );
@@ -704,9 +709,12 @@ int xhtml_element_writer_assemble_classifier( xhtml_element_writer_t *this_, con
     return export_err;
 }
 
-int xhtml_element_writer_end_classifier( xhtml_element_writer_t *this_ )
+int xhtml_element_writer_end_classifier( xhtml_element_writer_t *this_,
+                                         data_classifier_type_t host_type,
+                                         const data_classifier_t *classifier_ptr )
 {
     TRACE_BEGIN();
+    assert ( NULL != classifier_ptr );
     int export_err = 0;
 
     switch ( (*this_).export_type )
@@ -760,7 +768,9 @@ int xhtml_element_writer_start_feature( xhtml_element_writer_t *this_,
     return write_error;
 }
 
-int xhtml_element_writer_assemble_feature( xhtml_element_writer_t *this_, const data_feature_t *feature_ptr )
+int xhtml_element_writer_assemble_feature( xhtml_element_writer_t *this_,
+                                           data_classifier_type_t parent_type,
+                                           const data_feature_t *feature_ptr )
 {
     TRACE_BEGIN();
     assert ( NULL != feature_ptr );
@@ -894,8 +904,12 @@ int xhtml_element_writer_start_relationship( xhtml_element_writer_t *this_,
 }
 
 int xhtml_element_writer_assemble_relationship( xhtml_element_writer_t *this_,
-                                             const data_relationship_t *relation_ptr,
-                                             const data_classifier_t *dest_classifier_ptr )
+                                                const data_classifier_t *host,
+                                                const data_relationship_t *relation_ptr,
+                                                const data_classifier_t *from_c,
+                                                const data_feature_t *from_f,
+                                                const data_classifier_t *to_c,
+                                                const data_feature_t *to_f )
 {
     TRACE_BEGIN();
     assert ( NULL != relation_ptr );
@@ -907,8 +921,8 @@ int xhtml_element_writer_assemble_relationship( xhtml_element_writer_t *this_,
     const char *const relation_descr = data_relationship_get_description_const( relation_ptr );
     const size_t relation_descr_len = utf8string_get_length(relation_descr);
     const char *const dest_classifier_name
-        = (NULL != dest_classifier_ptr)
-        ? data_classifier_get_name_const( dest_classifier_ptr )
+        = (NULL != to_c)
+        ? data_classifier_get_name_const( to_c )
         : "";
 
     switch ( (*this_).export_type )

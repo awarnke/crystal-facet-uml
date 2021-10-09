@@ -162,18 +162,27 @@ int xhtml_element_writer_end_toc_sublist ( xhtml_element_writer_t *this_ );
  *  This starts a division that contains a classifier and a list of features and relationships
  *
  *  \param this_ pointer to own object attributes
+ *  \param host_type type of the hosting parent classifier, needed for xmi export, DATA_CLASSIFIER_TYPE_VOID if toplevel
+ *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
-int xhtml_element_writer_start_classifier( xhtml_element_writer_t *this_ );
+int xhtml_element_writer_start_classifier( xhtml_element_writer_t *this_,
+                                           data_classifier_type_t host_type,
+                                           const data_classifier_t *classifier_ptr
+                                         );
 
 /*!
  *  \brief writes a classifier of the document
  *
  *  \param this_ pointer to own object attributes
+ *  \param host_type type of the hosting parent classifier, needed for xmi export, DATA_CLASSIFIER_TYPE_VOID if toplevel
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
-int xhtml_element_writer_assemble_classifier( xhtml_element_writer_t *this_, const data_classifier_t *classifier_ptr );
+int xhtml_element_writer_assemble_classifier( xhtml_element_writer_t *this_,
+                                              data_classifier_type_t host_type,
+                                              const data_classifier_t *classifier_ptr
+                                            );
 
 /*!
  *  \brief writes a classifier end
@@ -181,9 +190,14 @@ int xhtml_element_writer_assemble_classifier( xhtml_element_writer_t *this_, con
  *  This ends a division that contains a classifier and a list of features and relationships
  *
  *  \param this_ pointer to own object attributes
+ *  \param host_type type of the hosting parent classifier, needed for xmi export, DATA_CLASSIFIER_TYPE_VOID if toplevel
+ *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
-int xhtml_element_writer_end_classifier( xhtml_element_writer_t *this_ );
+int xhtml_element_writer_end_classifier( xhtml_element_writer_t *this_,
+                                         data_classifier_type_t host_type,
+                                         const data_classifier_t *classifier_ptr
+                                       );
 
 /*!
  *  \brief writes a feature start-element
@@ -202,10 +216,14 @@ int xhtml_element_writer_start_feature( xhtml_element_writer_t *this_,
  *  \brief writes a feature of the document
  *
  *  \param this_ pointer to own object attributes
+ *  \param parent_type type of the owning parent classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
-int xhtml_element_writer_assemble_feature( xhtml_element_writer_t *this_, const data_feature_t *feature_ptr );
+int xhtml_element_writer_assemble_feature( xhtml_element_writer_t *this_,
+                                           data_classifier_type_t parent_type,
+                                           const data_feature_t *feature_ptr
+                                         );
 
 /*!
  *  \brief writes a feature end-element
@@ -237,13 +255,21 @@ int xhtml_element_writer_start_relationship( xhtml_element_writer_t *this_,
  *  \brief writes a relationship of the document
  *
  *  \param this_ pointer to own object attributes
+ *  \param host the hosting parent classifier, needed for xmi export; is NULL on top-level of document
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
- *  \param dest_classifier_ptr pointer to destination classifier, NULL is allowed.
+ *  \param from_c the classifier at source end
+ *  \param from_f the feature at source end; NULL or !is_valid() if no feature specified
+ *  \param to_c the classifier at target end
+ *  \param to_f the feature at target end; NULL or !is_valid() if no feature specified
  *  \return 0 in case of success, -1 otherwise
  */
 int xhtml_element_writer_assemble_relationship( xhtml_element_writer_t *this_,
+                                                const data_classifier_t *host,
                                                 const data_relationship_t *relation_ptr,
-                                                const data_classifier_t *dest_classifier_ptr
+                                                const data_classifier_t *from_c,
+                                                const data_feature_t *from_f,
+                                                const data_classifier_t *to_c,
+                                                const data_feature_t *to_f
                                               );
 
 /*!

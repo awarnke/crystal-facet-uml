@@ -141,9 +141,15 @@ int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_
             /* no classifier filter here */
             {
                 /* start classifier */
-                write_err |= xhtml_element_writer_start_classifier( (*this_).format_writer );
+                write_err |= xhtml_element_writer_start_classifier( (*this_).format_writer,
+                                                                    DATA_CLASSIFIER_TYPE_VOID,  /* no host */
+                                                                    classifier
+                                                                  );
 
-                write_err |= xhtml_element_writer_assemble_classifier( (*this_).format_writer, classifier );
+                write_err |= xhtml_element_writer_assemble_classifier( (*this_).format_writer,
+                                                                       DATA_CLASSIFIER_TYPE_VOID,   /* no host */
+                                                                       classifier
+                                                                     );
 
                 /* print all features of the classifier */
                 write_err |= io_export_diagram_traversal_private_iterate_classifier_features( this_,
@@ -152,7 +158,10 @@ int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_
                                                                                             );
 
                 /* end classifier */
-                write_err |=  xhtml_element_writer_end_classifier( (*this_).format_writer );
+                write_err |= xhtml_element_writer_end_classifier( (*this_).format_writer,
+                                                                  DATA_CLASSIFIER_TYPE_VOID,  /* no host */
+                                                                  classifier
+                                                                );
             }
 
             /* print all relationships starting from classifier_id */
@@ -204,7 +213,10 @@ int io_export_diagram_traversal_private_iterate_classifier_features ( io_export_
 
                 if ( is_visible && ( ! is_lifeline ) )
                 {
-                    write_err |=  xhtml_element_writer_assemble_feature( (*this_).format_writer, feature );
+                    write_err |=  xhtml_element_writer_assemble_feature( (*this_).format_writer,
+                                                                         DATA_CLASSIFIER_TYPE_VOID,  /* not needed */
+                                                                         feature
+                                                                       );
                 }
             }
         }
@@ -258,8 +270,12 @@ int io_export_diagram_traversal_private_iterate_classifier_relationships ( io_ex
                     {
                         /* destination classifier found, print the relation */
                         write_err |= xhtml_element_writer_assemble_relationship( (*this_).format_writer,
+                                                                                 NULL,
                                                                                  relation,
-                                                                                 dest_classifier
+                                                                                 NULL,
+                                                                                 NULL,
+                                                                                 dest_classifier,
+                                                                                 NULL
                                                                                );
                     }
                     else

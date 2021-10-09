@@ -106,7 +106,7 @@ bool json_element_writer_can_classifier_nest_relationship( json_element_writer_t
  *  This starts a division that contains a classifier and a list of features and relationships
  *
  *  \param this_ pointer to own object attributes
- *  \param host_type type of the hosting parent classifier
+ *  \param host_type type of the hosting parent classifier, needed for xmi export, DATA_CLASSIFIER_TYPE_VOID if toplevel
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
@@ -119,7 +119,7 @@ int json_element_writer_start_classifier( json_element_writer_t *this_,
  *  \brief writes contents of a classifier
  *
  *  \param this_ pointer to own object attributes
- *  \param host_type type of the hosting parent classifier
+ *  \param host_type type of the hosting parent classifier, needed for xmi export, DATA_CLASSIFIER_TYPE_VOID if toplevel
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
@@ -134,7 +134,7 @@ int json_element_writer_assemble_classifier( json_element_writer_t *this_,
  *  This ends a division that contains a classifier and a list of features and relationships
  *
  *  \param this_ pointer to own object attributes
- *  \param host_type type of the hosting parent classifier, needed for xmi export
+ *  \param host_type type of the hosting parent classifier, needed for xmi export, DATA_CLASSIFIER_TYPE_VOID if toplevel
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */

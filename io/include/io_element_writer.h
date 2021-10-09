@@ -123,7 +123,7 @@ static inline bool io_element_writer_can_classifier_nest_relationship( io_elemen
  *  This starts a division that contains a classifier and a list of features and relationships
  *
  *  \param this_ pointer to own object attributes
- *  \param host_type type of the hosting parent classifier
+ *  \param host_type type of the hosting parent classifier, needed for xmi export, DATA_CLASSIFIER_TYPE_VOID if toplevel
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
@@ -136,7 +136,7 @@ static inline int io_element_writer_start_classifier( io_element_writer_t *this_
  *  \brief writes contents of a classifier
  *
  *  \param this_ pointer to own object attributes
- *  \param host_type type of the hosting parent classifier
+ *  \param host_type type of the hosting parent classifier, needed for xmi export, DATA_CLASSIFIER_TYPE_VOID if toplevel
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
@@ -151,7 +151,7 @@ static inline int io_element_writer_assemble_classifier( io_element_writer_t *th
  *  This ends a division that contains a classifier and a list of features and relationships
  *
  *  \param this_ pointer to own object attributes
- *  \param host_type type of the hosting parent classifier, needed for xmi export
+ *  \param host_type type of the hosting parent classifier, needed for xmi export, DATA_CLASSIFIER_TYPE_VOID if toplevel
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
@@ -203,7 +203,7 @@ static inline int io_element_writer_end_feature( io_element_writer_t *this_,
  *  \brief starts a relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param host_type type of the hosting parent classifier, needed for xmi export
+ *  \param host_type type of the hosting parent classifier, needed for xmi export, DATA_CLASSIFIER_TYPE_VOID if toplevel
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
@@ -237,7 +237,7 @@ static inline int io_element_writer_assemble_relationship( io_element_writer_t *
  *  \brief ends a relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param host_type type of the hosting parent classifier, needed for xmi export
+ *  \param host_type type of the hosting parent classifier, needed for xmi export, DATA_CLASSIFIER_TYPE_VOID if toplevel
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
