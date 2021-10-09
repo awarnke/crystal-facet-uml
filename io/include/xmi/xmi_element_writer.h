@@ -18,7 +18,7 @@
 #include "xmi/xmi_type_converter.h"
 #include "xmi/xmi_interaction_writer.h"
 #include "io_file_format.h"
-#include "io_writer_pass.h"
+#include "xmi_writer_pass.h"
 #include "io_element_writer_if.h"
 #include "io_element_writer.h"
 #include "data_diagram.h"
@@ -38,7 +38,7 @@
  */
 struct xmi_element_writer_struct {
     io_element_writer_t element_writer;  /*!< instance of implemented interface \c io_element_writer_t */
-    io_writer_pass_t mode;  /*!< depending on the mode, conversion from a data object to the output format differs */
+    xmi_writer_pass_t mode;  /*!< depending on the mode, conversion from a data object to the output format differs */
 
     xmi_interaction_writer_t interaction_writer;  /*!< instance of own xmi_interaction_writer */
                                                   /*!< which is the interaction output sink, */
@@ -78,7 +78,7 @@ void xmi_element_writer_destroy( xmi_element_writer_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return mode how to convert a data object to the output format, e.g. uml-basic or profile-extension
  */
-static inline io_writer_pass_t xmi_element_writer_get_mode( xmi_element_writer_t *this_ );
+static inline xmi_writer_pass_t xmi_element_writer_get_mode( xmi_element_writer_t *this_ );
 
 /*!
  *  \brief sets the conversion mode of the xmi_element_writer_t
@@ -86,7 +86,7 @@ static inline io_writer_pass_t xmi_element_writer_get_mode( xmi_element_writer_t
  *  \param this_ pointer to own object attributes
  *  \param mode mode how to convert a data object to the output format, e.g. uml-basic or profile-extension
  */
-static inline void xmi_element_writer_set_mode( xmi_element_writer_t *this_, io_writer_pass_t mode );
+static inline void xmi_element_writer_set_mode( xmi_element_writer_t *this_, xmi_writer_pass_t mode );
 
 #if 0
 /*!

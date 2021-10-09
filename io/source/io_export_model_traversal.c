@@ -197,8 +197,6 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
                 if ( data_id_is_valid( &containment_relationship_id ) )
                 {
                     write_err |= universal_array_list_append( &((*this_).written_id_set), &containment_relationship_id );
-                    /* update export statistics if mode=IO_WRITER_PASS_BASE */
-                    /* data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED ); */
                 }
 
                 /* walk node which is not a duplicate */

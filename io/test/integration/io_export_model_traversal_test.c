@@ -348,10 +348,10 @@ static void iterate_types_on_mini_model(void)
                             int export_err = 0;
                             export_err |= xmi_element_writer_write_header( &temp_xmi_writer, "document file name" );
                             export_err |= xmi_element_writer_start_main( &temp_xmi_writer, "document file name" );
-                            xmi_element_writer_set_mode( &temp_xmi_writer, IO_WRITER_PASS_BASE );
+                            xmi_element_writer_set_mode( &temp_xmi_writer, XMI_WRITER_PASS_BASE );
                             export_err |= io_export_model_traversal_walk_model_nodes( &temp_model_traversal );
                             export_err |= xmi_element_writer_end_main( &temp_xmi_writer );
-                            xmi_element_writer_set_mode( &temp_xmi_writer, IO_WRITER_PASS_PROFILE );
+                            xmi_element_writer_set_mode( &temp_xmi_writer, XMI_WRITER_PASS_PROFILE );
                             export_err |= io_export_model_traversal_walk_model_nodes( &temp_model_traversal );
                             export_err |= xmi_element_writer_write_footer( &temp_xmi_writer );
 

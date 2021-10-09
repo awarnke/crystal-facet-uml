@@ -1,7 +1,7 @@
-/* File: io_writer_pass.h; Copyright and License: see below */
+/* File: xmi_writer_pass.h; Copyright and License: see below */
 
-#ifndef IO_WRITER_PASS_H
-#define IO_WRITER_PASS_H
+#ifndef XMI_WRITER_PASS_H
+#define XMI_WRITER_PASS_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -12,14 +12,14 @@
 /*!
  *  \brief constants for output mode: basic mode or extended profile mode (
  */
-enum io_writer_pass_enum {
-    IO_WRITER_PASS_BASE = 0,  /*!< mode for basic type output: xmi, uml and mof */
-    IO_WRITER_PASS_PROFILE = 1,  /*!< mode for profile type output: StandardProfile or SysML */
+enum xmi_writer_pass_enum {
+    XMI_WRITER_PASS_BASE = 0,  /*!< mode for basic type output: xmi, uml and mof */
+    XMI_WRITER_PASS_PROFILE = 1,  /*!< mode for profile type output: StandardProfile or SysML */
 };
 
-typedef enum io_writer_pass_enum io_writer_pass_t;
+typedef enum xmi_writer_pass_enum xmi_writer_pass_t;
 
-#endif  /* IO_WRITER_PASS_H */
+#endif  /* XMI_WRITER_PASS_H */
 
 
 /*

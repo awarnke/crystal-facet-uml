@@ -3,12 +3,12 @@
 #include "xmi/xmi_element_part.h"
 #include "xmi/xmi_xml.h"
 
-static inline io_writer_pass_t xmi_element_writer_get_mode( xmi_element_writer_t *this_ )
+static inline xmi_writer_pass_t xmi_element_writer_get_mode( xmi_element_writer_t *this_ )
 {
     return (*this_).mode;
 }
 
-static inline void xmi_element_writer_set_mode( xmi_element_writer_t *this_, io_writer_pass_t mode )
+static inline void xmi_element_writer_set_mode( xmi_element_writer_t *this_, xmi_writer_pass_t mode )
 {
     (*this_).mode = mode;
 }

@@ -133,7 +133,7 @@ void xmi_element_writer_init ( xmi_element_writer_t *this_,
     assert( NULL != output );
     assert( NULL != io_export_stat );
 
-    (*this_).mode = IO_WRITER_PASS_BASE;
+    (*this_).mode = XMI_WRITER_PASS_BASE;
     (*this_).export_stat = io_export_stat;
 
     io_element_writer_private_init( &((*this_).element_writer),
@@ -210,7 +210,7 @@ bool xmi_element_writer_can_classifier_nest_classifier ( xmi_element_writer_t *t
                                                          data_classifier_type_t host_type,
                                                          data_classifier_type_t child_type )
 {
-    const bool base_pass = ( IO_WRITER_PASS_BASE == (*this_).mode );
+    const bool base_pass = ( XMI_WRITER_PASS_BASE == (*this_).mode );
     const bool can_nest = xmi_type_converter_can_nest_classifier( &((*this_).xmi_types), host_type, child_type );
     return ( can_nest && base_pass );
 }
@@ -219,7 +219,7 @@ bool xmi_element_writer_can_classifier_nest_relationship ( xmi_element_writer_t 
                                                            data_classifier_type_t host_type,
                                                            data_relationship_type_t child_type )
 {
-    const bool base_pass = ( IO_WRITER_PASS_BASE == (*this_).mode );
+    const bool base_pass = ( XMI_WRITER_PASS_BASE == (*this_).mode );
     const bool can_nest = xmi_type_converter_can_nest_relationship( &((*this_).xmi_types), host_type, child_type );
     return ( can_nest && base_pass );
 }
@@ -241,7 +241,7 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
                                                        &classifier_info
                                                      );
 
-    if ( (*this_).mode == IO_WRITER_PASS_BASE )
+    if ( (*this_).mode == XMI_WRITER_PASS_BASE )
     {
         if ( map_err != 0 )
         {
@@ -315,7 +315,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
                                                        &classifier_info
                                                      );
 
-    if ( (*this_).mode == IO_WRITER_PASS_BASE )
+    if ( (*this_).mode == XMI_WRITER_PASS_BASE )
     {
         if ( map_err != 0 )
         {
@@ -381,7 +381,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
         }
         else if ( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
         {
-            /* nothing to do here, classifier_descr will be written later at IO_WRITER_PASS_PROFILE */
+            /* nothing to do here, classifier_descr will be written later at XMI_WRITER_PASS_PROFILE */
         }
         else if ( 0 != classifier_descr_len )
         {
@@ -438,7 +438,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
         /* update export statistics */
         data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED );
     }
-    else if ( (*this_).mode == IO_WRITER_PASS_PROFILE )
+    else if ( (*this_).mode == XMI_WRITER_PASS_PROFILE )
     {
         /* write profile tag if sysml/standardprofile-only extension */
         if ( xmi_type_converter_get_xmi_spec_of_classifier( &((*this_).xmi_types), classifier_type ) == XMI_SPEC_SYSML )
@@ -596,7 +596,7 @@ int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
     const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier_ptr);
     int export_err = 0;
 
-    if ( (*this_).mode == IO_WRITER_PASS_BASE )
+    if ( (*this_).mode == XMI_WRITER_PASS_BASE )
     {
         /* generate end to pseudo subelement region to statemachines and states */
         if ( classifier_type == DATA_CLASSIFIER_TYPE_STATE )
@@ -653,7 +653,7 @@ int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
                                                     &feature_info
                                                   );
 
-    if ( (*this_).mode == IO_WRITER_PASS_BASE )
+    if ( (*this_).mode == XMI_WRITER_PASS_BASE )
     {
         if ( map_err != 0 )
         {
@@ -759,7 +759,7 @@ int xmi_element_writer_assemble_feature( xmi_element_writer_t *this_,
                                                     &feature_info
                                                   );
 
-    if ( (*this_).mode == IO_WRITER_PASS_BASE )
+    if ( (*this_).mode == XMI_WRITER_PASS_BASE )
     {
         if ( 0 != feature_value_len )
         {
@@ -829,7 +829,7 @@ int xmi_element_writer_end_feature( xmi_element_writer_t *this_,
 
     const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
 
-    if ( (*this_).mode == IO_WRITER_PASS_BASE )
+    if ( (*this_).mode == XMI_WRITER_PASS_BASE )
     {
         /* determine nesting tag */
         const char* owning_type;
@@ -879,7 +879,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
     const bool is_annotated_element
         = (( host_type == DATA_CLASSIFIER_TYPE_COMMENT )&&( relation_type == DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY ));
 
-    if ( (*this_).mode == IO_WRITER_PASS_BASE )
+    if ( (*this_).mode == XMI_WRITER_PASS_BASE )
     {
         if ( map_err != 0 )
         {
@@ -991,7 +991,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
         /* update export statistics */
         data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
     }
-    else if ( (*this_).mode == IO_WRITER_PASS_PROFILE )
+    else if ( (*this_).mode == XMI_WRITER_PASS_PROFILE )
     {
         /* write profile tag if sysml/standardprofile-only extention */
         if ( xmi_type_converter_get_xmi_spec_of_relationship( &((*this_).xmi_types), relation_type ) == XMI_SPEC_STANDARD )
@@ -1198,7 +1198,7 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
                                                                     DATA_FEATURE_TYPE_LIFELINE  /* guess to feature type */
                                                                   );
     }
-    else if (( (*this_).mode == IO_WRITER_PASS_BASE )&&( ! is_annotated_element ))
+    else if (( (*this_).mode == XMI_WRITER_PASS_BASE )&&( ! is_annotated_element ))
     {
         if ( 0 != relation_descr_len )
         {
@@ -1360,7 +1360,7 @@ int xmi_element_writer_end_relationship( xmi_element_writer_t *this_,
 
     const data_relationship_type_t relation_type = data_relationship_get_main_type( relation_ptr );
 
-    if ( (*this_).mode == IO_WRITER_PASS_BASE )
+    if ( (*this_).mode == XMI_WRITER_PASS_BASE )
     {
         /* determine nesting tag */
         const char* nesting_property;

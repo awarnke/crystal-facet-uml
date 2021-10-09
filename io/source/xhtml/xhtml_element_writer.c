@@ -1,6 +1,6 @@
-/* File: io_format_writer.c; Copyright and License: see below */
+/* File: xhtml_element_writer.c; Copyright and License: see below */
 
-#include "io_format_writer.h"
+#include "xhtml/xhtml_element_writer.h"
 #include "util/string/utf8string.h"
 #include "data_id.h"
 #include "trace.h"
@@ -347,10 +347,10 @@ static const char CSS_ALL[]
 "    content: counter(cnt-head-two) \".\" counter(cnt-head-three) \".\" counter(cnt-head-four) \".\" counter(cnt-head-five) \".\" counter(cnt-head-six) \"\\0000a0 \";\n"
 "}\n";
 
-void io_format_writer_init ( io_format_writer_t *this_,
-                             data_database_reader_t *db_reader,
-                             io_file_format_t export_type,
-                             universal_output_stream_t *output )
+void xhtml_element_writer_init ( xhtml_element_writer_t *this_,
+                                 data_database_reader_t *db_reader,
+                                 io_file_format_t export_type,
+                                 universal_output_stream_t *output )
 {
     TRACE_BEGIN();
     assert( NULL != output );
@@ -400,7 +400,7 @@ void io_format_writer_init ( io_format_writer_t *this_,
     TRACE_END();
 }
 
-void io_format_writer_destroy( io_format_writer_t *this_ )
+void xhtml_element_writer_destroy( xhtml_element_writer_t *this_ )
 {
     TRACE_BEGIN();
 
@@ -411,7 +411,7 @@ void io_format_writer_destroy( io_format_writer_t *this_ )
     TRACE_END();
 }
 
-int io_format_writer_write_header( io_format_writer_t *this_, const char *document_title )
+int xhtml_element_writer_write_header( xhtml_element_writer_t *this_, const char *document_title )
 {
     TRACE_BEGIN();
     assert ( NULL != document_title );
@@ -476,7 +476,7 @@ int io_format_writer_write_header( io_format_writer_t *this_, const char *docume
     return export_err;
 }
 
-int io_format_writer_start_toc_sublist ( io_format_writer_t *this_ )
+int xhtml_element_writer_start_toc_sublist ( xhtml_element_writer_t *this_ )
 {
     TRACE_BEGIN();
     int export_err = 0;
@@ -504,7 +504,7 @@ int io_format_writer_start_toc_sublist ( io_format_writer_t *this_ )
     return export_err;
 }
 
-int io_format_writer_start_toc_entry ( io_format_writer_t *this_ )
+int xhtml_element_writer_start_toc_entry ( xhtml_element_writer_t *this_ )
 {
     TRACE_BEGIN();
     int export_err = 0;
@@ -532,7 +532,7 @@ int io_format_writer_start_toc_entry ( io_format_writer_t *this_ )
     return export_err;
 }
 
-int io_format_writer_write_toc_entry ( io_format_writer_t *this_, const data_diagram_t *diag_ptr )
+int xhtml_element_writer_write_toc_entry ( xhtml_element_writer_t *this_, const data_diagram_t *diag_ptr )
 {
     TRACE_BEGIN();
     assert ( NULL != diag_ptr );
@@ -565,7 +565,7 @@ int io_format_writer_write_toc_entry ( io_format_writer_t *this_, const data_dia
     return export_err;
 }
 
-int io_format_writer_end_toc_entry ( io_format_writer_t *this_ )
+int xhtml_element_writer_end_toc_entry ( xhtml_element_writer_t *this_ )
 {
     TRACE_BEGIN();
     int export_err = 0;
@@ -590,7 +590,7 @@ int io_format_writer_end_toc_entry ( io_format_writer_t *this_ )
     return export_err;
 }
 
-int io_format_writer_end_toc_sublist ( io_format_writer_t *this_ )
+int xhtml_element_writer_end_toc_sublist ( xhtml_element_writer_t *this_ )
 {
     TRACE_BEGIN();
     int export_err = 0;
@@ -618,7 +618,7 @@ int io_format_writer_end_toc_sublist ( io_format_writer_t *this_ )
     return export_err;
 }
 
-int io_format_writer_start_diagram( io_format_writer_t *this_, data_id_t diag_id )
+int xhtml_element_writer_start_diagram( xhtml_element_writer_t *this_, data_id_t diag_id )
 {
     TRACE_BEGIN();
     int export_err = 0;
@@ -674,9 +674,9 @@ int io_format_writer_start_diagram( io_format_writer_t *this_, data_id_t diag_id
     return export_err;
 }
 
-int io_format_writer_write_diagram( io_format_writer_t *this_,
-                                    const data_diagram_t *diag_ptr,
-                                    const char *diagram_file_base_name )
+int xhtml_element_writer_write_diagram( xhtml_element_writer_t *this_,
+                                        const data_diagram_t *diag_ptr,
+                                        const char *diagram_file_base_name )
 {
     TRACE_BEGIN();
     assert ( NULL != diag_ptr );
@@ -755,7 +755,7 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
     return export_err;
 }
 
-int io_format_writer_start_classifier( io_format_writer_t *this_ )
+int xhtml_element_writer_start_classifier( xhtml_element_writer_t *this_ )
 {
     TRACE_BEGIN();
     int export_err = 0;
@@ -800,7 +800,7 @@ int io_format_writer_start_classifier( io_format_writer_t *this_ )
     return export_err;
 }
 
-int io_format_writer_write_classifier( io_format_writer_t *this_, const data_classifier_t *classifier_ptr )
+int xhtml_element_writer_write_classifier( xhtml_element_writer_t *this_, const data_classifier_t *classifier_ptr )
 {
     TRACE_BEGIN();
     assert ( NULL != classifier_ptr );
@@ -889,7 +889,7 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
     return export_err;
 }
 
-int io_format_writer_write_feature( io_format_writer_t *this_, const data_feature_t *feature_ptr )
+int xhtml_element_writer_write_feature( xhtml_element_writer_t *this_, const data_feature_t *feature_ptr )
 {
     TRACE_BEGIN();
     assert ( NULL != feature_ptr );
@@ -1000,9 +1000,9 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
     return export_err;
 }
 
-int io_format_writer_write_relationship( io_format_writer_t *this_,
-                                         const data_relationship_t *relation_ptr,
-                                         const data_classifier_t *dest_classifier_ptr )
+int xhtml_element_writer_write_relationship( xhtml_element_writer_t *this_,
+                                             const data_relationship_t *relation_ptr,
+                                             const data_classifier_t *dest_classifier_ptr )
 {
     TRACE_BEGIN();
     assert ( NULL != relation_ptr );
@@ -1132,7 +1132,7 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
     return export_err;
 }
 
-int io_format_writer_end_classifier( io_format_writer_t *this_ )
+int xhtml_element_writer_end_classifier( xhtml_element_writer_t *this_ )
 {
     TRACE_BEGIN();
     int export_err = 0;
@@ -1177,7 +1177,7 @@ int io_format_writer_end_classifier( io_format_writer_t *this_ )
     return export_err;
 }
 
-int io_format_writer_end_diagram( io_format_writer_t *this_ )
+int xhtml_element_writer_end_diagram( xhtml_element_writer_t *this_ )
 {
     TRACE_BEGIN();
     int export_err = 0;
@@ -1225,7 +1225,7 @@ int io_format_writer_end_diagram( io_format_writer_t *this_ )
     return export_err;
 }
 
-int io_format_writer_write_stylesheet( io_format_writer_t *this_ )
+int xhtml_element_writer_write_stylesheet( xhtml_element_writer_t *this_ )
 {
     TRACE_BEGIN();
     int export_err = 0;
@@ -1251,7 +1251,7 @@ int io_format_writer_write_stylesheet( io_format_writer_t *this_ )
     return export_err;
 }
 
-int io_format_writer_write_footer( io_format_writer_t *this_ )
+int xhtml_element_writer_write_footer( xhtml_element_writer_t *this_ )
 {
     TRACE_BEGIN();
     int export_err = 0;

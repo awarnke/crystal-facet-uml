@@ -17,7 +17,7 @@
 #include "xml/xml_writer.h"
 #include "xmi/xmi_type_converter.h"
 #include "io_file_format.h"
-#include "io_writer_pass.h"
+#include "xmi_writer_pass.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
 #include "set/data_visible_set.h"
@@ -29,7 +29,7 @@
  *  \brief attributes of the format writer
  */
 struct xmi_interaction_writer_struct {
-    io_writer_pass_t mode;  /*!< depending on the mode, conversion from a data object to the output format differs */
+    xmi_writer_pass_t mode;  /*!< depending on the mode, conversion from a data object to the output format differs */
 
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
     xml_writer_t *xml_writer;  /*!< pointer to external xml writer */

@@ -24,7 +24,7 @@ void xmi_interaction_writer_init ( xmi_interaction_writer_t *this_,
     assert( NULL != io_export_stat );
     assert( NULL != out_writer );
 
-    (*this_).mode = IO_WRITER_PASS_BASE;
+    (*this_).mode = XMI_WRITER_PASS_BASE;
     (*this_).export_stat = io_export_stat;
     (*this_).xml_writer = out_writer;
     xmi_type_converter_init( &((*this_).xmi_types) );
@@ -59,7 +59,7 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
     const size_t diagram_descr_len = utf8string_get_length(diagram_descr);
     const data_id_t diagram_id = data_diagram_get_data_id(diagram_ptr);
 
-    if ( (*this_).mode == IO_WRITER_PASS_BASE )
+    if ( (*this_).mode == XMI_WRITER_PASS_BASE )
     {
         /* determine nesting tag */
         const char* nesting_property;
@@ -147,7 +147,7 @@ int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
     TRACE_BEGIN();
     int export_err = 0;
 
-    if ( (*this_).mode == IO_WRITER_PASS_BASE )
+    if ( (*this_).mode == XMI_WRITER_PASS_BASE )
     {
         /* determine nesting tag */
         const char* nesting_property;
@@ -188,7 +188,7 @@ int xmi_interaction_writer_assemble_feature( xmi_interaction_writer_t *this_,
 
     const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
 
-    if ( (*this_).mode == IO_WRITER_PASS_BASE )
+    if ( (*this_).mode == XMI_WRITER_PASS_BASE )
     {
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_NL );
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_EMPTY_TAG_START );
@@ -242,7 +242,7 @@ int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this
     const data_id_t to_feature_id = data_relationship_get_to_feature_data_id( relation_ptr );
     const data_relationship_type_t relation_type = data_relationship_get_main_type( relation_ptr );
 
-    if ( (*this_).mode == IO_WRITER_PASS_BASE )
+    if ( (*this_).mode == XMI_WRITER_PASS_BASE )
     {
         if ( 0 != relation_descr_len )
         {
