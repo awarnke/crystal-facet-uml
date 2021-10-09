@@ -4,6 +4,7 @@
 #include "json/json_serializer.h"
 #include "json/json_deserializer.h"
 #include "util/string/utf8string.h"
+#include "stream/universal_memory_output_stream.h"
 #include "trace.h"
 #include <assert.h>
 #include <gtk/gtk.h>
@@ -42,10 +43,14 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
     data_error_t read_error;
     json_serializer_t serializer;
 
-    json_serializer_init( &serializer, NULL );  /* TODO */
-    utf8stringbuf_clear( out_buf);
+    universal_memory_output_stream_t out_to_memory;
+    universal_memory_output_stream_init( &out_to_memory,
+                                         utf8stringbuf_get_string( out_buf ),
+                                         utf8stringbuf_get_size( out_buf )
+                                       );
+    json_serializer_init( &serializer, universal_memory_output_stream_get_output_stream(&out_to_memory) );
 
-    serialize_error |= json_serializer_begin_data( &serializer, out_buf);
+    serialize_error |= json_serializer_begin_data( &serializer );
 
     /* first pass: serialize the diagram(s) if there is one/some */
     for ( int index = 0; index < data_small_set_get_count( set_to_be_copied ); index ++ )
@@ -70,7 +75,7 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
 
                 if ( read_error == DATA_ERROR_NONE )
                 {
-                    serialize_error |= json_serializer_append_diagram( &serializer, &out_diagram, out_buf);
+                    serialize_error |= json_serializer_append_diagram( &serializer, &out_diagram );
                     data_stat_inc_count ( io_stat,
                                           DATA_TABLE_DIAGRAM,
                                           (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
@@ -126,8 +131,7 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
                         serialize_error |= json_serializer_append_classifier( &serializer,
                                                                               &out_classifier,
                                                                               &((*this_).temp_features),
-                                                                              out_feature_count,
-                                                                              out_buf
+                                                                              out_feature_count
                                                                             );
                         data_stat_inc_count ( io_stat,
                                               DATA_TABLE_CLASSIFIER,
@@ -190,8 +194,7 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
                             serialize_error |= json_serializer_append_classifier( &serializer,
                                                                                   &out_classifier,
                                                                                   &((*this_).temp_features),
-                                                                                  out_feature_count,
-                                                                                  out_buf
+                                                                                  out_feature_count
                                                                                 );
                             data_stat_inc_count ( io_stat,
                                                   DATA_TABLE_CLASSIFIER,
@@ -329,8 +332,7 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
                                                                                 &from_classifier,
                                                                                 &((*this_).temp_features[0]),
                                                                                 &to_classifier,
-                                                                                &((*this_).temp_features[1]),
-                                                                                out_buf
+                                                                                &((*this_).temp_features[1])
                                                                               );
                         data_stat_inc_count ( io_stat,
                                               DATA_TABLE_RELATIONSHIP,
@@ -358,9 +360,11 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
         }
     }
 
-    serialize_error |= json_serializer_end_data( &serializer, out_buf);
+    serialize_error |= json_serializer_end_data( &serializer );
 
     json_serializer_destroy( &serializer );
+    serialize_error |= universal_memory_output_stream_write( &out_to_memory, "", sizeof('\0') );
+    universal_memory_output_stream_destroy( &out_to_memory );
 
     TRACE_END_ERR(serialize_error);
     return serialize_error;

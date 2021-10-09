@@ -32,9 +32,8 @@ struct json_writer_struct {
     universal_escaping_output_stream_t esc_output;  /*!< escaping output stream filter that does the xml escaping */
     unsigned int indent_level;  /*!< current indentation level of written lines */
 
-    const char *const ((*xml_encode_table)[][2]);  /*!< table for xml encode string replacements */
-    const char *const ((*xml_comments_encode_table)[][2]);  /*!< table for xml coments encode string replacements */
-    const char *const ((*xml_plain_table)[][2]);  /*!< table for xml plain output, just performing indentation */
+    const char *const ((*json_string_encode_table)[][2]);  /*!< table for json encode string replacements */
+    const char *const ((*json_stringlist_encode_table)[][2]);  /*!< table for json encode stringlist replacements */
 };
 
 typedef struct json_writer_struct json_writer_t;
@@ -101,7 +100,7 @@ int json_writer_write_int ( json_writer_t *this_, int64_t number );
  *  \param text string to write
  *  \return 0 in case of success, -1 otherwise
  */
-static inline int json_writer_write_xml_enc ( json_writer_t *this_, utf8string_t text );
+static inline int json_writer_write_string_enc ( json_writer_t *this_, utf8string_t text );
 
 /*!
  *  \brief writes a stringview to a file, xml encoded
@@ -110,7 +109,7 @@ static inline int json_writer_write_xml_enc ( json_writer_t *this_, utf8string_t
  *  \param string_view stringview to write, not 0-terminated
  *  \return 0 in case of success, -1 otherwise
  */
-static inline int json_writer_write_xml_enc_view ( json_writer_t *this_, utf8stringview_t string_view );
+static inline int json_writer_write_string_view_enc ( json_writer_t *this_, utf8stringview_t string_view );
 
 /*!
  *  \brief writes a string to a file, xml encoded and double-minus gets space-separated
@@ -119,7 +118,7 @@ static inline int json_writer_write_xml_enc_view ( json_writer_t *this_, utf8str
  *  \param text string to write, encoded for xml comments
  *  \return 0 in case of success, -1 otherwise
  */
-static inline int json_writer_write_xml_comment ( json_writer_t *this_, utf8string_t text );
+static inline int json_writer_write_stringlist_enc ( json_writer_t *this_, utf8string_t text );
 
 /*!
  *  \brief writes a stringview to a file, xml encoded and double-minus gets space-separated
@@ -128,78 +127,7 @@ static inline int json_writer_write_xml_comment ( json_writer_t *this_, utf8stri
  *  \param string_view stringview to write, not 0-terminated
  *  \return 0 in case of success, -1 otherwise
  */
-static inline int json_writer_write_xml_comment_view ( json_writer_t *this_, utf8stringview_t string_view );
-
-/*!
- *  \brief checks if the stringview contains valid characters to form an xml-tag-name.
- *
- *  Checks for characters according to Extensible Markup Language (XML) 1.1, chapter 2.3, Names and Tokens.
- *
- *  Excludes the colon ":" because this is the namespace separator.
- *
- *  \param this_ pointer to own object attributes
- *  \param string_view string_view to check
- *  \return true if string_view contains characters of which a valid xml-tag-name can be constructed
- */
-static inline bool json_writer_contains_xml_tag_name_characters ( json_writer_t *this_, utf8stringview_t string_view );
-
-/*!
- *  \brief writes a valid xml-tag-name.
- *
- *  Writes valid characters according to Extensible Markup Language (XML) 1.1, chapter 2.3, Names and Tokens
- *  to the writer. Invalid ones are filtered. E.g. ", Design Decsisions" is transformed to "DesignDecisions"
- *
- *  Excludes the colon ":" because this is the namespace separator.
- *
- *  \param this_ pointer to own object attributes
- *  \param string_view string_view to 1) filter and 2) write
- *  \return 0 in case of success, -1 otherwise
- */
-static inline int json_writer_write_xml_tag_name_characters ( json_writer_t *this_, utf8stringview_t string_view );
-
-/*!
- *  \brief resets the indentation level to 0
- *
- *  \param this_ pointer to own object attributes
- */
-static inline void json_writer_reset_indent ( json_writer_t *this_ );
-
-/*!
- *  \brief increases the indentation level
- *
- *  \param this_ pointer to own object attributes
- */
-static inline void json_writer_increase_indent ( json_writer_t *this_ );
-
-/*!
- *  \brief decreases the indentation level
- *
- *  \param this_ pointer to own object attributes
- */
-static inline void json_writer_decrease_indent ( json_writer_t *this_ );
-
-/*!
- *  \brief adapts the encoding tables according to the current indentation level
- *
- *  asserts that no more decreases are called than increases
- *
- *  \param this_ pointer to own object attributes
- */
-void json_writer_private_update_encoding_tables ( json_writer_t *this_ );
-
-/*!
- *  \brief checks if the codepoint is a valid character in an xml name
- *
- *  Checks for characters according to Extensible Markup Language (XML) 1.1, chapter 2.3, Names and Tokens
- *
- *  Excludes the colon ":" because this is the namespace separator.
- *
- *  \param this_ pointer to own object attributes
- *  \param codepoint codepoint to check
- *  \param start true if this codepoint shall be the start of an xml name
- *  \return true if codepoint is valid in an xml-tag-name
- */
-static inline bool json_writer_private_is_xml_tag_name_character ( json_writer_t *this_, uint32_t codepoint, bool start );
+static inline int json_writer_write_stringlist_view_enc ( json_writer_t *this_, utf8stringview_t string_view );
 
 #include "json_writer.inl"
 

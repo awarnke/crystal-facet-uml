@@ -8,279 +8,16 @@
 #include <stdbool.h>
 #include <assert.h>
 
-#define XML_WRITER_PRIVATE_MAX_INDENT_LEVELS (12)
-
-static const char *const XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[XML_WRITER_PRIVATE_MAX_INDENT_LEVELS][6][2] = {
-    {
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "\n", "\n" },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "\n", "\n    " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "\n", "\n        " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "\n", "\n            " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "\n", "\n                " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "\n", "\n                    " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "\n", "\n                        " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "\n", "\n                            " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "\n", "\n                                " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "\n", "\n                                    " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "\n", "\n                                        " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "\n", "\n                                            " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    }
-};
-
-static const char *const XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS[XML_WRITER_PRIVATE_MAX_INDENT_LEVELS][8][2] = {
-    {
-        { "\n", "\n" },
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "-", " - " },
-        { "\n", "\n" },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n" },
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "-", " - " },
-        { "\n", "\n    " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n" },
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "-", " - " },
-        { "\n", "\n        " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n" },
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "-", " - " },
-        { "\n", "\n            " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n" },
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "-", " - " },
-        { "\n", "\n                " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n" },
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "-", " - " },
-        { "\n", "\n                    " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n" },
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "-", " - " },
-        { "\n", "\n                        " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n" },
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "-", " - " },
-        { "\n", "\n                            " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n" },
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "-", " - " },
-        { "\n", "\n                                " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n" },
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "-", " - " },
-        { "\n", "\n                                    " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n" },
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "-", " - " },
-        { "\n", "\n                                        " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n" },
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "\"", "&quot;" },
-        { "&", "&amp;" },
-        { "-", " - " },
-        { "\n", "\n                                            " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    }
-};
-
-static const char *const XML_WRITER_PRIVATE_INDENT_PLAIN[XML_WRITER_PRIVATE_MAX_INDENT_LEVELS][2][2] = {
-    {
-        { "\n", "\n" },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n    " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n        " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n            " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n                " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n                    " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n                        " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n                            " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n                                " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n                                    " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n                                        " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    },
-    {
-        { "\n", "\n                                            " },  /* indentation level */
-        { NULL, NULL }  /* end translation table */
-    }
+static const char * const JSON_WRITER_PRIVATE_ENCODE_JSON_STRINGS[][2] = {
+    { "\x09", "\\t" },  /* tab */
+    { "\x0a", "\\n" },  /* newline */
+    { "\x0d", "\\r" },  /* return */
+    { "\x08", "\\b" },  /* backspace */
+    { "\x0c", "\\f" },  /* form feed */
+    { "\"", "\\\"" },  /* double quote */
+    { "\\", "\\\\" },  /* backslash*/
+    { "/", "\\/" },  /* slash */
+    { NULL, NULL }  /* for JSON, see rfc7159 */
 };
 
 void json_writer_init ( json_writer_t *this_,
@@ -290,12 +27,11 @@ void json_writer_init ( json_writer_t *this_,
     assert( NULL != output );
 
     (*this_).output = output;
-    universal_escaping_output_stream_init( &((*this_).esc_output), &(XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[0]), output );
+    universal_escaping_output_stream_init( &((*this_).esc_output), &JSON_WRITER_PRIVATE_ENCODE_JSON_STRINGS, output );
     (*this_).indent_level = 0;
 
-    (*this_).xml_encode_table = &(XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[0]);
-    (*this_).xml_comments_encode_table = &(XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS[0]);
-    (*this_).xml_plain_table = &(XML_WRITER_PRIVATE_INDENT_PLAIN[0]);
+    (*this_).json_string_encode_table = &JSON_WRITER_PRIVATE_ENCODE_JSON_STRINGS;
+    (*this_).json_stringlist_encode_table = &JSON_WRITER_PRIVATE_ENCODE_JSON_STRINGS;
 
     TRACE_END();
 }
@@ -325,7 +61,7 @@ int json_writer_write_plain_id ( json_writer_t *this_, data_id_t id )
         data_id_to_utf8stringbuf( &id, id_str );
 
         const unsigned int len = utf8stringbuf_get_length(id_str);
-        universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).xml_plain_table );
+        universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).json_string_encode_table );
         result = universal_escaping_output_stream_write( &((*this_).esc_output), utf8stringbuf_get_string(id_str), len );
     }
 
@@ -345,21 +81,6 @@ int json_writer_write_int ( json_writer_t *this_, int64_t number )
 
     TRACE_END_ERR( result );
     return result;
-}
-
-void json_writer_private_update_encoding_tables ( json_writer_t *this_ )
-{
-    TRACE_BEGIN();
-
-    const unsigned int level
-        = ( (*this_).indent_level >= XML_WRITER_PRIVATE_MAX_INDENT_LEVELS )
-        ? ( XML_WRITER_PRIVATE_MAX_INDENT_LEVELS - 1 )
-        : ( (*this_).indent_level );
-    (*this_).xml_encode_table = &(XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[level]);
-    (*this_).xml_comments_encode_table = &(XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS[level]);
-    (*this_).xml_plain_table = &(XML_WRITER_PRIVATE_INDENT_PLAIN[level]);
-
-    TRACE_END();
 }
 
 
