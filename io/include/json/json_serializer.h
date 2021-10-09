@@ -77,8 +77,8 @@ data_error_t json_serializer_end_data ( json_serializer_t *this_ );
  *          DATA_ERROR_INVALID_REQUEST if json_serializer_begin_array() was not yet called.
  */
 data_error_t json_serializer_append_classifier ( json_serializer_t *this_,
-                                                 data_classifier_t *object,
-                                                 data_feature_t (*features)[],
+                                                 const data_classifier_t *object,
+                                                 const data_feature_t (*features)[],
                                                  uint32_t feature_count
                                                );
 
@@ -91,7 +91,7 @@ data_error_t json_serializer_append_classifier ( json_serializer_t *this_,
  *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
  *          DATA_ERROR_INVALID_REQUEST if json_serializer_begin_array() was not yet called.
  */
-data_error_t json_serializer_append_diagram ( json_serializer_t *this_, data_diagram_t *object );
+data_error_t json_serializer_append_diagram ( json_serializer_t *this_, const data_diagram_t *object );
 
 /*!
  *  \brief appends a relationship to the stringbuffer
@@ -107,11 +107,11 @@ data_error_t json_serializer_append_diagram ( json_serializer_t *this_, data_dia
  *          DATA_ERROR_INVALID_REQUEST if json_serializer_begin_array() was not yet called.
  */
 data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
-                                                   data_relationship_t *object,
-                                                   data_classifier_t *from_clas,
-                                                   data_feature_t *from_feat,
-                                                   data_classifier_t *to_clas,
-                                                   data_feature_t *to_feat
+                                                   const data_relationship_t *object,
+                                                   const data_classifier_t *from_clas,
+                                                   const data_feature_t *from_feat,
+                                                   const data_classifier_t *to_clas,
+                                                   const data_feature_t *to_feat
                                                  );
 
 /*!
@@ -122,7 +122,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
  *  \return UTF8ERROR_SUCCESS in case of success,
  *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded
  */
-utf8error_t json_serializer_private_append_feature ( json_serializer_t *this_, data_feature_t *object );
+utf8error_t json_serializer_private_append_feature ( json_serializer_t *this_, const data_feature_t *object );
 
 #endif  /* JSON_SERIALIZER_H */
 

@@ -394,6 +394,11 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
             /* write the document */
             export_err |= json_element_writer_write_header( &((*this_).temp_json_writer), document_file_name );
             export_err |= json_element_writer_start_main( &((*this_).temp_json_writer), document_file_name );
+            json_element_writer_set_mode( &((*this_).temp_json_writer ), JSON_WRITER_PASS_NODES );
+            export_err |= io_export_model_traversal_walk_model_nodes( &((*this_).temp_model_traversal) );
+            json_element_writer_set_mode( &((*this_).temp_json_writer ), JSON_WRITER_PASS_EDGES );
+            export_err |= io_export_model_traversal_walk_model_nodes( &((*this_).temp_model_traversal) );
+            json_element_writer_set_mode( &((*this_).temp_json_writer ), JSON_WRITER_PASS_VIEWS );
             export_err |= io_export_model_traversal_walk_model_nodes( &((*this_).temp_model_traversal) );
             export_err |= json_element_writer_end_main( &((*this_).temp_json_writer) );
             export_err |= json_element_writer_write_footer( &((*this_).temp_json_writer) );

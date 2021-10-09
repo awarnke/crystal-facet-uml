@@ -111,37 +111,37 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
             case DATA_TABLE_CLASSIFIER:
             {
                 data_classifier_t out_classifier;
-                read_error = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                         data_id_get_row_id( &current_id ),
-                                                                         &out_classifier
-                                                                       );
+                read_error = data_database_reader_get_classifier_by_id( (*this_).db_reader,
+                                                                        data_id_get_row_id( &current_id ),
+                                                                        &out_classifier
+                                                                      );
 
                 if ( read_error == DATA_ERROR_NONE )
                 {
                     uint32_t out_feature_count;
-                    read_error = data_database_reader_get_features_by_classifier_id ( (*this_).db_reader,
-                                                                                      data_id_get_row_id( &current_id ),
-                                                                                      JSON_EXPORT_FROM_DATABASE_MAX_FEATURES,
-                                                                                      &((*this_).temp_features),
-                                                                                      &out_feature_count
-                                                                                    );
+                    read_error = data_database_reader_get_features_by_classifier_id( (*this_).db_reader,
+                                                                                     data_id_get_row_id( &current_id ),
+                                                                                     JSON_EXPORT_FROM_DATABASE_MAX_FEATURES,
+                                                                                     &((*this_).temp_features),
+                                                                                     &out_feature_count
+                                                                                   );
 
                     if ( read_error == DATA_ERROR_NONE )
                     {
                         serialize_error |= json_serializer_append_classifier( &serializer,
                                                                               &out_classifier,
-                                                                              &((*this_).temp_features),
+                                                                              (const data_feature_t (*)[]) &((*this_).temp_features),
                                                                               out_feature_count
                                                                             );
-                        data_stat_inc_count ( io_stat,
-                                              DATA_TABLE_CLASSIFIER,
-                                              (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
-                                            );
-                        data_stat_add_count ( io_stat,
-                                              DATA_TABLE_FEATURE,
-                                              (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR,
-                                              out_feature_count
-                                            );
+                        data_stat_inc_count( io_stat,
+                                             DATA_TABLE_CLASSIFIER,
+                                             (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                           );
+                        data_stat_add_count( io_stat,
+                                             DATA_TABLE_FEATURE,
+                                             (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR,
+                                             out_feature_count
+                                           );
                     }
                     else
                     {
@@ -165,46 +165,46 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
                 data_diagramelement_t out_diagramelement;
                 data_row_id_t classifier_id;
 
-                read_error = data_database_reader_get_diagramelement_by_id ( (*this_).db_reader,
-                                                                             data_id_get_row_id( &current_id ),
-                                                                             &out_diagramelement
-                                                                           );
+                read_error = data_database_reader_get_diagramelement_by_id( (*this_).db_reader,
+                                                                            data_id_get_row_id( &current_id ),
+                                                                            &out_diagramelement
+                                                                          );
 
                 if ( read_error == DATA_ERROR_NONE )
                 {
                     classifier_id = data_diagramelement_get_classifier_row_id( &out_diagramelement );
 
-                    read_error = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                             classifier_id,
-                                                                             &out_classifier
-                                                                           );
+                    read_error = data_database_reader_get_classifier_by_id( (*this_).db_reader,
+                                                                            classifier_id,
+                                                                            &out_classifier
+                                                                          );
 
                     if ( read_error == DATA_ERROR_NONE )
                     {
                         uint32_t out_feature_count;
-                        read_error = data_database_reader_get_features_by_classifier_id ( (*this_).db_reader,
-                                                                                          classifier_id,
-                                                                                          JSON_EXPORT_FROM_DATABASE_MAX_FEATURES,
-                                                                                          &((*this_).temp_features),
-                                                                                          &out_feature_count
-                                                                                        );
+                        read_error = data_database_reader_get_features_by_classifier_id( (*this_).db_reader,
+                                                                                         classifier_id,
+                                                                                         JSON_EXPORT_FROM_DATABASE_MAX_FEATURES,
+                                                                                         &((*this_).temp_features),
+                                                                                         &out_feature_count
+                                                                                       );
 
                         if ( read_error == DATA_ERROR_NONE )
                         {
                             serialize_error |= json_serializer_append_classifier( &serializer,
                                                                                   &out_classifier,
-                                                                                  &((*this_).temp_features),
+                                                                                  (const data_feature_t (*)[]) &((*this_).temp_features),
                                                                                   out_feature_count
                                                                                 );
-                            data_stat_inc_count ( io_stat,
-                                                  DATA_TABLE_CLASSIFIER,
-                                                  (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
-                                                );
-                            data_stat_add_count ( io_stat,
-                                                  DATA_TABLE_FEATURE,
-                                                  (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR,
-                                                  out_feature_count
-                                                );
+                            data_stat_inc_count( io_stat,
+                                                 DATA_TABLE_CLASSIFIER,
+                                                 (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                               );
+                            data_stat_add_count( io_stat,
+                                                 DATA_TABLE_FEATURE,
+                                                 (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR,
+                                                 out_feature_count
+                                               );
                         }
                         else
                         {

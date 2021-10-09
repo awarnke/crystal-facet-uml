@@ -1255,8 +1255,11 @@ int xhtml_element_writer_start_diagramelement( xhtml_element_writer_t *this_,
                                                const data_classifier_t *occurrence)
 {
     TRACE_BEGIN();
-    assert( document_title != NULL );
+    assert( diagramelement_ptr != NULL );
+    assert( parent != NULL );
+    assert( occurrence != NULL );
     int write_error = 0;
+
     TRACE_END_ERR(write_error);
     return write_error;
 }
@@ -1267,8 +1270,11 @@ int xhtml_element_writer_assemble_diagramelement( xhtml_element_writer_t *this_,
                                                   const data_classifier_t *occurrence)
 {
     TRACE_BEGIN();
-    assert( document_title != NULL );
+    assert( diagramelement_ptr != NULL );
+    assert( parent != NULL );
+    assert( occurrence != NULL );
     int write_error = 0;
+
     TRACE_END_ERR(write_error);
     return write_error;
 }
@@ -1279,8 +1285,11 @@ int xhtml_element_writer_end_diagramelement( xhtml_element_writer_t *this_,
                                              const data_classifier_t *occurrence)
 {
     TRACE_BEGIN();
-    assert( document_title != NULL );
+    assert( diagramelement_ptr != NULL );
+    assert( parent != NULL );
+    assert( occurrence != NULL );
     int write_error = 0;
+
     TRACE_END_ERR(write_error);
     return write_error;
 }
@@ -1288,8 +1297,8 @@ int xhtml_element_writer_end_diagramelement( xhtml_element_writer_t *this_,
 int xhtml_element_writer_end_main( xhtml_element_writer_t *this_ )
 {
     TRACE_BEGIN();
-    assert( document_title != NULL );
     int write_error = 0;
+
     TRACE_END_ERR(write_error);
     return write_error;
 }

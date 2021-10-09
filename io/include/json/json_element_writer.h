@@ -11,6 +11,7 @@
  */
 
 #include "json/json_writer_pass.h"
+#include "json/json_serializer.h"
 #include "io_element_writer.h"
 #include "data_classifier.h"
 #include "data_classifier_type.h"
@@ -33,6 +34,7 @@ struct json_element_writer_struct {
     json_writer_pass_t mode;  /*!< depending on the mode, filtering of data objects differs */
 
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
+    json_serializer_t serializer;  /*!< serializes elements to a json stream sink */
     universal_output_stream_t *output;  /*!< json stream sink */
 };
 

@@ -28,7 +28,6 @@ void json_writer_init ( json_writer_t *this_,
 
     (*this_).output = output;
     universal_escaping_output_stream_init( &((*this_).esc_output), &JSON_WRITER_PRIVATE_ENCODE_JSON_STRINGS, output );
-    (*this_).indent_level = 0;
 
     (*this_).json_string_encode_table = &JSON_WRITER_PRIVATE_ENCODE_JSON_STRINGS;
     (*this_).json_stringlist_encode_table = &JSON_WRITER_PRIVATE_ENCODE_JSON_STRINGS;

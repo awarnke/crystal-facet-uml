@@ -101,8 +101,8 @@ data_error_t json_serializer_end_data ( json_serializer_t *this_ )
 }
 
 data_error_t json_serializer_append_classifier ( json_serializer_t *this_,
-                                                 data_classifier_t *object,
-                                                 data_feature_t (*features)[],
+                                                 const data_classifier_t *object,
+                                                 const data_feature_t (*features)[],
                                                  uint32_t feature_count )
 {
     TRACE_BEGIN();
@@ -349,7 +349,7 @@ data_error_t json_serializer_append_classifier ( json_serializer_t *this_,
     return result;
 }
 
-data_error_t json_serializer_append_diagram ( json_serializer_t *this_, data_diagram_t *object )
+data_error_t json_serializer_append_diagram ( json_serializer_t *this_, const data_diagram_t *object )
 {
     TRACE_BEGIN();
     assert ( NULL != object );
@@ -524,11 +524,11 @@ data_error_t json_serializer_append_diagram ( json_serializer_t *this_, data_dia
 }
 
 data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
-                                                   data_relationship_t *object,
-                                                   data_classifier_t *from_clas,
-                                                   data_feature_t *from_feat,
-                                                   data_classifier_t *to_clas,
-                                                   data_feature_t *to_feat )
+                                                   const data_relationship_t *object,
+                                                   const data_classifier_t *from_clas,
+                                                   const data_feature_t *from_feat,
+                                                   const data_classifier_t *to_clas,
+                                                   const data_feature_t *to_feat )
 {
     TRACE_BEGIN();
     assert ( NULL != object );
@@ -827,7 +827,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
     return result;
 }
 
-utf8error_t json_serializer_private_append_feature ( json_serializer_t *this_, data_feature_t *object )
+utf8error_t json_serializer_private_append_feature ( json_serializer_t *this_, const data_feature_t *object )
 {
     TRACE_BEGIN();
     assert ( NULL != object );

@@ -21,16 +21,15 @@
  *  \brief constants for max string sizes
  */
 enum json_writer_max_enum {
-    XML_WRITER_MAX_STRING_SIZE = DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH + DATA_CLASSIFIER_MAX_DESCRIPTION_LENGTH,
+    JSON_WRITER_MAX_STRING_SIZE = DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH + DATA_CLASSIFIER_MAX_DESCRIPTION_LENGTH,
 };
 
 /*!
- *  \brief attributes of the xml writer
+ *  \brief attributes of the json writer
  */
 struct json_writer_struct {
     universal_output_stream_t *output;  /*!< output stream where to write the generated document to */
     universal_escaping_output_stream_t esc_output;  /*!< escaping output stream filter that does the xml escaping */
-    unsigned int indent_level;  /*!< current indentation level of written lines */
 
     const char *const ((*json_string_encode_table)[][2]);  /*!< table for json encode string replacements */
     const char *const ((*json_stringlist_encode_table)[][2]);  /*!< table for json encode stringlist replacements */
@@ -94,7 +93,7 @@ int json_writer_write_plain_id ( json_writer_t *this_, data_id_t id );
 int json_writer_write_int ( json_writer_t *this_, int64_t number );
 
 /*!
- *  \brief writes a string to a file, xml encoded
+ *  \brief writes a string to a file, json-string encoded
  *
  *  \param this_ pointer to own object attributes
  *  \param text string to write
@@ -103,7 +102,7 @@ int json_writer_write_int ( json_writer_t *this_, int64_t number );
 static inline int json_writer_write_string_enc ( json_writer_t *this_, utf8string_t text );
 
 /*!
- *  \brief writes a stringview to a file, xml encoded
+ *  \brief writes a stringview to a file, json-string encoded
  *
  *  \param this_ pointer to own object attributes
  *  \param string_view stringview to write, not 0-terminated
@@ -112,7 +111,7 @@ static inline int json_writer_write_string_enc ( json_writer_t *this_, utf8strin
 static inline int json_writer_write_string_view_enc ( json_writer_t *this_, utf8stringview_t string_view );
 
 /*!
- *  \brief writes a string to a file, xml encoded and double-minus gets space-separated
+ *  \brief writes a string to a file, encoded as list of json-strings, one string per line
  *
  *  \param this_ pointer to own object attributes
  *  \param text string to write, encoded for xml comments
@@ -121,7 +120,7 @@ static inline int json_writer_write_string_view_enc ( json_writer_t *this_, utf8
 static inline int json_writer_write_stringlist_enc ( json_writer_t *this_, utf8string_t text );
 
 /*!
- *  \brief writes a stringview to a file, xml encoded and double-minus gets space-separated
+ *  \brief writes a stringview to a file, encoded as list of json-strings, one string per line
  *
  *  \param this_ pointer to own object attributes
  *  \param string_view stringview to write, not 0-terminated
