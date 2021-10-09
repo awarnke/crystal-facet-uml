@@ -10,6 +10,7 @@
  *  and b) a pointer to objectdata that implements the interface.
  */
 
+#include "json/json_writer_pass.h"
 #include "io_element_writer.h"
 #include "data_classifier.h"
 #include "data_classifier_type.h"
@@ -28,6 +29,8 @@
  */
 struct json_element_writer_struct {
     io_element_writer_t element_writer;  /*!< instance of implemented interface \c io_element_writer_t */
+
+    json_writer_pass_t mode;  /*!< depending on the mode, filtering of data objects differs */
 
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
     universal_output_stream_t *output;  /*!< json stream sink */
@@ -53,6 +56,22 @@ void json_element_writer_init( json_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  */
 void json_element_writer_destroy( json_element_writer_t *this_ );
+
+/*!
+ *  \brief gets the io element writer interface of this json_element_writer_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the abstract base class of this_
+ */
+io_element_writer_t * json_element_writer_get_element_writer( json_element_writer_t *this_ );
+
+/*!
+ *  \brief sets the filtering mode of the json_element_writer_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param mode mode which data objects to filter from the output
+ */
+void json_element_writer_set_mode( json_element_writer_t *this_, json_writer_pass_t mode );
 
 /*!
  *  \brief writes the header of the document
@@ -326,14 +345,6 @@ int json_element_writer_end_main( json_element_writer_t *this_ );
  *  \return 0 in case of success, -1 otherwise
  */
 int json_element_writer_write_footer( json_element_writer_t *this_ );
-
-/*!
- *  \brief gets the io element writer interface of this json_element_writer_t
- *
- *  \param this_ pointer to own object attributes
- *  \return the abstract base class of this_
- */
-io_element_writer_t * json_element_writer_get_element_writer( json_element_writer_t *this_ );
 
 #endif  /* JSON_ELEMENT_WRITER_H */
 

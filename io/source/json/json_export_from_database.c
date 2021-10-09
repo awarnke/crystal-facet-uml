@@ -42,7 +42,7 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
     data_error_t read_error;
     json_serializer_t serializer;
 
-    json_serializer_init( &serializer );
+    json_serializer_init( &serializer, NULL );  /* TODO */
     utf8stringbuf_clear( out_buf);
 
     serialize_error |= json_serializer_begin_data( &serializer, out_buf);

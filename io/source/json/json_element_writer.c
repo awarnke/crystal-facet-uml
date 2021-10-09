@@ -48,6 +48,7 @@ void json_element_writer_init( json_element_writer_t *this_,
                                     (io_element_writer_if_t*) &json_element_writer_private_io_element_writer_if,
                                     this_
                                   );
+    (*this_).mode = JSON_WRITER_PASS_NODES;
     (*this_).export_stat = io_export_stat;
     (*this_).output = output;
 
@@ -61,6 +62,25 @@ void json_element_writer_destroy( json_element_writer_t *this_ )
     io_element_writer_private_destroy( &((*this_).element_writer) );
     (*this_).export_stat = NULL;
     (*this_).output = NULL;
+
+    TRACE_END();
+}
+
+io_element_writer_t * json_element_writer_get_element_writer( json_element_writer_t *this_ )
+{
+    TRACE_BEGIN();
+
+    io_element_writer_t * base = &((*this_).element_writer);
+
+    TRACE_END();
+    return base;
+}
+
+void json_element_writer_set_mode( json_element_writer_t *this_, json_writer_pass_t mode )
+{
+    TRACE_BEGIN();
+
+    (*this_).mode = mode;
 
     TRACE_END();
 }
@@ -297,11 +317,6 @@ int json_element_writer_write_footer( json_element_writer_t *this_ )
     int write_error = 0;
     TRACE_END_ERR(write_error);
     return write_error;
-}
-
-io_element_writer_t * json_element_writer_get_element_writer( json_element_writer_t *this_ )
-{
-    return &((*this_).element_writer);
 }
 
 

@@ -18,9 +18,12 @@ static const char * const JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS[][2] = {
     { NULL, NULL }  /* for JSON, see rfc7159 */
 };
 
-void json_serializer_init ( json_serializer_t *this_ )
+void json_serializer_init ( json_serializer_t *this_, universal_output_stream_t * output )
 {
     TRACE_BEGIN();
+    assert( output != NULL );
+
+    json_writer_init( &((*this_).json_writer), output );
 
     (*this_).in_array = false;
     (*this_).is_first = false;
@@ -31,6 +34,8 @@ void json_serializer_init ( json_serializer_t *this_ )
 void json_serializer_destroy ( json_serializer_t *this_ )
 {
     TRACE_BEGIN();
+
+    json_writer_destroy( &((*this_).json_writer) );
 
     TRACE_END();
 }

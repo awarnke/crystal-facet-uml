@@ -70,6 +70,14 @@ void xhtml_element_writer_init( xhtml_element_writer_t *this_,
 void xhtml_element_writer_destroy( xhtml_element_writer_t *this_ );
 
 /*!
+ *  \brief gets the io element writer interface of this xhtml_element_writer_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the abstract base class of this_
+ */
+io_element_writer_t * xhtml_element_writer_get_element_writer( xhtml_element_writer_t *this_ );
+
+/*!
  *  \brief writes the header of the document
  *
  *  \param this_ pointer to own object attributes
@@ -382,14 +390,6 @@ int xhtml_element_writer_end_main( xhtml_element_writer_t *this_ );
  *  \return 0 in case of success, -1 otherwise
  */
 int xhtml_element_writer_write_footer( xhtml_element_writer_t *this_ );
-
-/*!
- *  \brief gets the io element writer interface of this xhtml_element_writer_t
- *
- *  \param this_ pointer to own object attributes
- *  \return the abstract base class of this_
- */
-io_element_writer_t * xhtml_element_writer_get_element_writer( xhtml_element_writer_t *this_ );
 
 #endif  /* XHTML_ELEMENT_WRITER_H */
 

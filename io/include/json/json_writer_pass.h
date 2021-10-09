@@ -1,7 +1,7 @@
-/* File: xmi_writer_pass.h; Copyright and License: see below */
+/* File: json_writer_pass.h; Copyright and License: see below */
 
-#ifndef XMI_WRITER_PASS_H
-#define XMI_WRITER_PASS_H
+#ifndef JSON_WRITER_PASS_H
+#define JSON_WRITER_PASS_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -10,20 +10,21 @@
  */
 
 /*!
- *  \brief constants for output mode: basic mode or extended profile mode.
+ *  \brief constants for output mode: classifiers+features, relationships, diagrams
  */
-enum xmi_writer_pass_enum {
-    XMI_WRITER_PASS_BASE = 0,  /*!< mode for basic type output: xmi, uml and mof */
-    XMI_WRITER_PASS_PROFILE = 1,  /*!< mode for profile type output: StandardProfile or SysML */
+enum json_writer_pass_enum {
+    JSON_WRITER_PASS_NODES = 0,  /*!< mode for classifiers and features output */
+    JSON_WRITER_PASS_EDGES = 1,  /*!< mode for relationships output */
+    JSON_WRITER_PASS_VIEWS = 2,  /*!< mode diagrams and diagramelements output */
 };
 
-typedef enum xmi_writer_pass_enum xmi_writer_pass_t;
+typedef enum json_writer_pass_enum json_writer_pass_t;
 
-#endif  /* XMI_WRITER_PASS_H */
+#endif  /* JSON_WRITER_PASS_H */
 
 
 /*
-Copyright 2020-2021 Andreas Warnke
+Copyright 2021-2021 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

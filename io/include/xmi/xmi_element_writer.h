@@ -73,12 +73,12 @@ void xmi_element_writer_init( xmi_element_writer_t *this_,
 void xmi_element_writer_destroy( xmi_element_writer_t *this_ );
 
 /*!
- *  \brief gets the conversion mode of the xmi_element_writer_t
+ *  \brief gets the io element writer interface of this xmi_element_writer_t
  *
  *  \param this_ pointer to own object attributes
- *  \return mode how to convert a data object to the output format, e.g. uml-basic or profile-extension
+ *  \return the abstract base class of this_
  */
-static inline xmi_writer_pass_t xmi_element_writer_get_mode( xmi_element_writer_t *this_ );
+io_element_writer_t * xmi_element_writer_get_element_writer( xmi_element_writer_t *this_ );
 
 /*!
  *  \brief sets the conversion mode of the xmi_element_writer_t
@@ -86,17 +86,7 @@ static inline xmi_writer_pass_t xmi_element_writer_get_mode( xmi_element_writer_
  *  \param this_ pointer to own object attributes
  *  \param mode mode how to convert a data object to the output format, e.g. uml-basic or profile-extension
  */
-static inline void xmi_element_writer_set_mode( xmi_element_writer_t *this_, xmi_writer_pass_t mode );
-
-#if 0
-/*!
- *  \brief gets a pointer to the xml_writer
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to the internal xml_writer
- */
-static inline xml_writer_t *xmi_element_writer_get_xml_writer_ptr( xmi_element_writer_t *this_ );
-#endif
+void xmi_element_writer_set_mode( xmi_element_writer_t *this_, xmi_writer_pass_t mode );
 
 /*!
  *  \brief writes the header of the document
@@ -417,16 +407,6 @@ int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
                                                 data_feature_type_t end_feature_type,
                                                 bool is_target_end
                                               );
-
-/*!
- *  \brief gets the io element writer interface of this xmi_element_writer_t
- *
- *  \param this_ pointer to own object attributes
- *  \return the abstract base class of this_
- */
-static inline io_element_writer_t * xmi_element_writer_get_element_writer( xmi_element_writer_t *this_ );
-
-#include "xmi_element_writer.inl"
 
 #endif  /* XMI_ELEMENT_WRITER_H */
 

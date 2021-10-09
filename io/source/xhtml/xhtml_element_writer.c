@@ -334,6 +334,16 @@ void xhtml_element_writer_destroy( xhtml_element_writer_t *this_ )
     TRACE_END();
 }
 
+io_element_writer_t * xhtml_element_writer_get_element_writer( xhtml_element_writer_t *this_ )
+{
+    TRACE_BEGIN();
+
+    io_element_writer_t * base = &((*this_).element_writer);
+
+    TRACE_END();
+    return base;
+}
+
 int xhtml_element_writer_write_header( xhtml_element_writer_t *this_, const char *document_title )
 {
     TRACE_BEGIN();
@@ -1328,11 +1338,6 @@ int xhtml_element_writer_write_footer( xhtml_element_writer_t *this_ )
 
     TRACE_END_ERR( export_err );
     return export_err;
-}
-
-io_element_writer_t * xhtml_element_writer_get_element_writer( xhtml_element_writer_t *this_ )
-{
-    return &((*this_).element_writer);
 }
 
 

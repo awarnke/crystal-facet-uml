@@ -9,18 +9,21 @@
  *  \brief Serializes data objects to json format.
  */
 
+#include "json/json_writer.h"
 #include "data_error.h"
 #include "data_classifier.h"
 #include "data_diagram.h"
 #include "data_feature.h"
 #include "data_relationship.h"
-#include "util/string/utf8stringbuf.h"
+#include "stream/universal_output_stream.h"
 #include <stdbool.h>
 
 /*!
  *  \brief all data attributes needed for serializing data objects
  */
 struct json_serializer_struct {
+    json_writer_t json_writer;  /*!< own instance of the json writer */
+
     bool in_array;  /*!< true if begin_array() was called and end_array() is not yet called. */
     bool is_first;  /*!< true if after begin_array(), no object was inserted yet. */
 };
@@ -30,9 +33,10 @@ typedef struct json_serializer_struct json_serializer_t;
 /*!
  *  \brief initializes the json_serializer_t struct
  *
+ *  \param output output stream where to write json utf8 bytes to
  *  \param this_ pointer to own object attributes
  */
-void json_serializer_init ( json_serializer_t *this_ );
+void json_serializer_init ( json_serializer_t *this_, universal_output_stream_t * output );
 
 /*!
  *  \brief destroys the json_serializer_t struct

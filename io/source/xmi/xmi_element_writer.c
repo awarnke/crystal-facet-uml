@@ -166,6 +166,25 @@ void xmi_element_writer_destroy( xmi_element_writer_t *this_ )
     TRACE_END();
 }
 
+io_element_writer_t * xmi_element_writer_get_element_writer( xmi_element_writer_t *this_ )
+{
+    TRACE_BEGIN();
+
+    io_element_writer_t * base = &((*this_).element_writer);
+
+    TRACE_END();
+    return base;
+}
+
+void xmi_element_writer_set_mode( xmi_element_writer_t *this_, xmi_writer_pass_t mode )
+{
+    TRACE_BEGIN();
+
+    (*this_).mode = mode;
+
+    TRACE_END();
+}
+
 int xmi_element_writer_write_header( xmi_element_writer_t *this_, const char *document_title )
 {
     TRACE_BEGIN();
