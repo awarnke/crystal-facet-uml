@@ -275,8 +275,10 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
 {
     TRACE_BEGIN();
     assert( relation_ptr != NULL );
+#if 0
     assert( from_c != NULL );
     assert( to_c != NULL );
+#endif
     int write_error = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_EDGES )
@@ -341,7 +343,9 @@ int json_element_writer_assemble_diagram( json_element_writer_t *this_,
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
-
+        const data_error_t write_error_diag
+            = json_serializer_append_diagram( &((*this_).serializer), diag_ptr );
+        write_error |= write_error_diag;
     }
 
     TRACE_END_ERR(write_error);

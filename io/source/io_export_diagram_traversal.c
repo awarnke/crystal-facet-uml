@@ -12,19 +12,19 @@ void io_export_diagram_traversal_init( io_export_diagram_traversal_t *this_,
                                        data_database_reader_t *db_reader,
                                        data_visible_set_t *input_data,
                                        data_stat_t *io_export_stat,
-                                       xhtml_element_writer_t *out_format_writer )
+                                       io_element_writer_t *out_element_writer )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != input_data );
     assert( NULL != io_export_stat );
-    assert( NULL != out_format_writer );
+    assert( NULL != out_element_writer );
 
     (*this_).db_reader = db_reader;
     (*this_).input_data = input_data;
     data_rules_init ( &((*this_).filter_rules) );
     (*this_).export_stat = io_export_stat;
-    (*this_).format_writer = out_format_writer;
+    (*this_).element_writer = out_element_writer;
 
     TRACE_END();
 }
@@ -68,12 +68,11 @@ int io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_trave
         assert( data_diagram_is_valid( diag_ptr ) );
         TRACE_INFO_INT("printing diagram with id",data_diagram_get_row_id(diag_ptr));
 
-        /* write_err |= xhtml_element_writer_write_header( (*this_).format_writer, "DUMMY_TITLE" ); */
-        write_err |= xhtml_element_writer_start_diagram( (*this_).format_writer, diag_ptr );
-        write_err |= xhtml_element_writer_assemble_diagram( (*this_).format_writer,
-                                                            diag_ptr,
-                                                            diagram_file_base_name
-                                                          );
+        write_err |= io_element_writer_start_diagram( (*this_).element_writer, diag_ptr );
+        write_err |= io_element_writer_assemble_diagram( (*this_).element_writer,
+                                                         diag_ptr,
+                                                         diagram_file_base_name
+                                                       );
 
         /* write all classifiers */
         write_err |= io_export_diagram_traversal_private_iterate_diagram_classifiers( this_, (*this_).input_data );
@@ -107,7 +106,7 @@ int io_export_diagram_traversal_end_diagram ( io_export_diagram_traversal_t *thi
         assert( data_diagram_is_valid( diagram_ptr ) );
 
         /* write footer */
-        write_err |= xhtml_element_writer_end_diagram( (*this_).format_writer, diagram_ptr );
+        write_err |= io_element_writer_end_diagram( (*this_).element_writer, diagram_ptr );
 
         data_diagram_destroy( diagram_ptr );
     }
@@ -141,15 +140,15 @@ int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_
             /* no classifier filter here */
             {
                 /* start classifier */
-                write_err |= xhtml_element_writer_start_classifier( (*this_).format_writer,
-                                                                    DATA_CLASSIFIER_TYPE_VOID,  /* no host */
+                write_err |= io_element_writer_start_classifier( (*this_).element_writer,
+                                                                 DATA_CLASSIFIER_TYPE_VOID,  /* no host */
+                                                                 classifier
+                                                               );
+
+                write_err |= io_element_writer_assemble_classifier( (*this_).element_writer,
+                                                                    DATA_CLASSIFIER_TYPE_VOID,   /* no host */
                                                                     classifier
                                                                   );
-
-                write_err |= xhtml_element_writer_assemble_classifier( (*this_).format_writer,
-                                                                       DATA_CLASSIFIER_TYPE_VOID,   /* no host */
-                                                                       classifier
-                                                                     );
 
                 /* print all features of the classifier */
                 write_err |= io_export_diagram_traversal_private_iterate_classifier_features( this_,
@@ -158,10 +157,10 @@ int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_
                                                                                             );
 
                 /* end classifier */
-                write_err |= xhtml_element_writer_end_classifier( (*this_).format_writer,
-                                                                  DATA_CLASSIFIER_TYPE_VOID,  /* no host */
-                                                                  classifier
-                                                                );
+                write_err |= io_element_writer_end_classifier( (*this_).element_writer,
+                                                               DATA_CLASSIFIER_TYPE_VOID,  /* no host */
+                                                               classifier
+                                                             );
             }
 
             /* print all relationships starting from classifier_id */
@@ -213,10 +212,10 @@ int io_export_diagram_traversal_private_iterate_classifier_features ( io_export_
 
                 if ( is_visible && ( ! is_lifeline ) )
                 {
-                    write_err |=  xhtml_element_writer_assemble_feature( (*this_).format_writer,
-                                                                         DATA_CLASSIFIER_TYPE_VOID,  /* not needed */
-                                                                         feature
-                                                                       );
+                    write_err |=  io_element_writer_assemble_feature( (*this_).element_writer,
+                                                                      DATA_CLASSIFIER_TYPE_VOID,  /* not needed */
+                                                                      feature
+                                                                    );
                 }
             }
         }
@@ -269,14 +268,14 @@ int io_export_diagram_traversal_private_iterate_classifier_relationships ( io_ex
                     if ( dest_classifier != NULL )
                     {
                         /* destination classifier found, print the relation */
-                        write_err |= xhtml_element_writer_assemble_relationship( (*this_).format_writer,
-                                                                                 NULL,
-                                                                                 relation,
-                                                                                 NULL,
-                                                                                 NULL,
-                                                                                 dest_classifier,
-                                                                                 NULL
-                                                                               );
+                        write_err |= io_element_writer_assemble_relationship( (*this_).element_writer,
+                                                                              NULL,
+                                                                              relation,
+                                                                              NULL,
+                                                                              NULL,
+                                                                              dest_classifier,
+                                                                              NULL
+                                                                            );
                     }
                     else
                     {
