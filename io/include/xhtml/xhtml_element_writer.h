@@ -13,6 +13,7 @@
  *  Sink: universal_output_stream_t
  */
 
+#include "io_element_writer.h"
 #include "io_file_format.h"
 #include "xmi/xmi_writer_pass.h"
 #include "xml/xml_writer.h"
@@ -22,8 +23,8 @@
 #include "data_diagram.h"
 #include "data_classifier.h"
 #include "set/data_visible_set.h"
+#include "set/data_stat.h"
 #include "storage/data_database_reader.h"
-#include "util/geometry/geometry_rectangle.h"
 #include "util/string/utf8stringbuf.h"
 #include "stream/universal_output_stream.h"
 
@@ -31,6 +32,10 @@
  *  \brief attributes of the format writer
  */
 struct xhtml_element_writer_struct {
+    io_element_writer_t element_writer;  /*!< instance of implemented interface \c io_element_writer_t */
+
+    data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
+
     io_file_format_t export_type;  /*!< format of output document */
     uint32_t current_tree_depth;  /*!< tree depth in diagram tree, starts at 0, increases with every call to xhtml_element_writer_start_diagram */
 
@@ -47,11 +52,13 @@ typedef struct xhtml_element_writer_struct xhtml_element_writer_t;
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader object
  *  \param export_type image file format
+ *  \param io_export_stat pointer to statistics object where export statistics are collected
  *  \param output output stream where to write the generated output to
  */
 void xhtml_element_writer_init( xhtml_element_writer_t *this_,
                                 data_database_reader_t *db_reader,
                                 io_file_format_t export_type,
+                                data_stat_t *io_export_stat,
                                 universal_output_stream_t *output
                               );
 
@@ -204,14 +211,6 @@ int xhtml_element_writer_end_diagram( xhtml_element_writer_t *this_ );
  *  \return 0 in case of success, -1 otherwise
  */
 int xhtml_element_writer_write_footer( xhtml_element_writer_t *this_ );
-
-/*!
- *  \brief writes a css stylesheet file
- *
- *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
- */
-int xhtml_element_writer_write_stylesheet( xhtml_element_writer_t *this_ );
 
 #endif  /* XHTML_ELEMENT_WRITER_H */
 

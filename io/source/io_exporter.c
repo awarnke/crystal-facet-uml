@@ -2,6 +2,7 @@
 
 #include "io_exporter.h"
 #include "json/json_export_from_database.h"
+#include "xhtml/xhtml_stylesheet_writer.h"
 #include "stream/universal_file_output_stream.h"
 #include "stream/universal_output_stream.h"
 #include "xmi/xmi_writer_pass.h"
@@ -218,7 +219,12 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
 
                 /* temporarily use the temp_model_traversal */
                 /* write file */
-                xhtml_element_writer_init( &((*this_).temp_format_writer ), (*this_).db_reader, IO_FILE_FORMAT_TXT, output );
+                xhtml_element_writer_init( &((*this_).temp_format_writer ),
+                                           (*this_).db_reader,
+                                           IO_FILE_FORMAT_TXT,
+                                           io_export_stat,
+                                           output
+                                         );
                 io_export_diagram_traversal_init( &((*this_).temp_diagram_traversal),
                                                   (*this_).db_reader,
                                                   &((*this_).temp_input_data),
@@ -347,9 +353,10 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         /* write file */
         if ( IO_FILE_FORMAT_CSS == export_type )
         {
-            xhtml_element_writer_init( &((*this_).temp_format_writer ), (*this_).db_reader, export_type, output );
-            export_err |= xhtml_element_writer_write_stylesheet( &((*this_).temp_format_writer) );
-            xhtml_element_writer_destroy( &((*this_).temp_format_writer ) );
+            xhtml_stylesheet_writer_t css_writer;
+            xhtml_stylesheet_writer_init( &css_writer, output );
+            export_err |= xhtml_stylesheet_writer_write_stylesheet( &css_writer );
+            xhtml_stylesheet_writer_destroy( &css_writer );
         }
         else if ( IO_FILE_FORMAT_XMI2 == export_type )
         {
@@ -396,7 +403,12 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         }
         else
         {
-            xhtml_element_writer_init( &((*this_).temp_format_writer ), (*this_).db_reader, export_type, output );
+            xhtml_element_writer_init( &((*this_).temp_format_writer ),
+                                       (*this_).db_reader,
+                                       export_type,
+                                       io_export_stat,
+                                       output
+                                     );
             /* init the diagram_traversal */
             io_export_diagram_traversal_init( &((*this_).temp_diagram_traversal),
                                               (*this_).db_reader,
