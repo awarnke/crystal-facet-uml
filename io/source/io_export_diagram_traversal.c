@@ -45,23 +45,21 @@ int io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_trave
                                                          const char *diagram_file_base_name )
 {
     TRACE_BEGIN();
+    assert( data_id_is_valid( &diagram_id ) );
     assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
     int write_err = 0;
 
-    /* write part for current diagram */
-    if ( DATA_ROW_ID_VOID != data_id_get_row_id( &diagram_id ) )
+    /* load data to be drawn */
+    data_visible_set_init( (*this_).input_data );
+    const data_error_t d_err
+        = data_visible_set_load( (*this_).input_data, data_id_get_row_id( &diagram_id ), (*this_).db_reader );
+    if( d_err != DATA_ERROR_NONE )
     {
-        /* load data to be drawn */
-        data_visible_set_init( (*this_).input_data );
-        const data_error_t d_err = data_visible_set_load( (*this_).input_data,
-                                                          data_id_get_row_id( &diagram_id ),
-                                                          (*this_).db_reader
-                                                        );
-        if( d_err != DATA_ERROR_NONE )
-        {
-            write_err = -1;
-            assert(false);
-        }
+        write_err = -1;
+        assert(false);
+    }
+    else
+    {
         assert( data_visible_set_is_valid ( (*this_).input_data ) );
 
         /* write diagram */
@@ -71,31 +69,48 @@ int io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_trave
         TRACE_INFO_INT("printing diagram with id",data_diagram_get_row_id(diag_ptr));
 
         /* write_err |= xhtml_element_writer_write_header( (*this_).format_writer, "DUMMY_TITLE" ); */
-        write_err |= xhtml_element_writer_start_diagram( (*this_).format_writer, data_diagram_get_data_id(diag_ptr) );
-        write_err |= xhtml_element_writer_write_diagram( (*this_).format_writer,
-                                                     diag_ptr,
-                                                     diagram_file_base_name
-                                                   );
+        write_err |= xhtml_element_writer_start_diagram( (*this_).format_writer, diag_ptr );
+        write_err |= xhtml_element_writer_assemble_diagram( (*this_).format_writer,
+                                                            diag_ptr,
+                                                            diagram_file_base_name
+                                                          );
 
         /* write all classifiers */
         write_err |= io_export_diagram_traversal_private_iterate_diagram_classifiers( this_, (*this_).input_data );
-
-        data_visible_set_destroy( (*this_).input_data );
     }
+
+    data_visible_set_destroy( (*this_).input_data );
 
     TRACE_END_ERR( write_err );
     return write_err;
 }
 
-int io_export_diagram_traversal_end_diagram ( io_export_diagram_traversal_t *this_ )
+int io_export_diagram_traversal_end_diagram ( io_export_diagram_traversal_t *this_,
+                                              data_id_t diagram_id )
 {
     TRACE_BEGIN();
+    assert( data_id_is_valid( &diagram_id ) );
+    assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
     int write_err = 0;
 
-    /* write footer */
-    write_err |= xhtml_element_writer_end_diagram( (*this_).format_writer );
-    /*  write_err |= xhtml_element_writer_write_footer( (*this_).format_writer ); */
+    /* load diagram only to be drawn */
+    data_diagram_t *const diagram_ptr = data_visible_set_get_diagram_ptr ( (*this_).input_data );
+    const data_error_t d_err
+        = data_database_reader_get_diagram_by_id( (*this_).db_reader, data_id_get_row_id( &diagram_id ), diagram_ptr );
+    if( d_err != DATA_ERROR_NONE )
+    {
+        write_err = -1;
+        assert(false);
+    }
+    else
+    {
+        assert( data_diagram_is_valid( diagram_ptr ) );
 
+        /* write footer */
+        write_err |= xhtml_element_writer_end_diagram( (*this_).format_writer, diagram_ptr );
+
+        data_diagram_destroy( diagram_ptr );
+    }
     TRACE_END_ERR( write_err );
     return write_err;
 }
@@ -128,7 +143,7 @@ int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_
                 /* start classifier */
                 write_err |= xhtml_element_writer_start_classifier( (*this_).format_writer );
 
-                write_err |= xhtml_element_writer_write_classifier( (*this_).format_writer, classifier );
+                write_err |= xhtml_element_writer_assemble_classifier( (*this_).format_writer, classifier );
 
                 /* print all features of the classifier */
                 write_err |= io_export_diagram_traversal_private_iterate_classifier_features( this_,
@@ -189,7 +204,7 @@ int io_export_diagram_traversal_private_iterate_classifier_features ( io_export_
 
                 if ( is_visible && ( ! is_lifeline ) )
                 {
-                    write_err |=  xhtml_element_writer_write_feature( (*this_).format_writer, feature );
+                    write_err |=  xhtml_element_writer_assemble_feature( (*this_).format_writer, feature );
                 }
             }
         }
@@ -242,10 +257,10 @@ int io_export_diagram_traversal_private_iterate_classifier_relationships ( io_ex
                     if ( dest_classifier != NULL )
                     {
                         /* destination classifier found, print the relation */
-                        write_err |= xhtml_element_writer_write_relationship( (*this_).format_writer,
-                                                                          relation,
-                                                                          dest_classifier
-                                                                        );
+                        write_err |= xhtml_element_writer_assemble_relationship( (*this_).format_writer,
+                                                                                 relation,
+                                                                                 dest_classifier
+                                                                               );
                     }
                     else
                     {

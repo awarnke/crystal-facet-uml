@@ -225,6 +225,39 @@ static const char TXT_COLON_SPACE[] = ": ";
 static const char TXT_ARROW_SPACE[] = "--> ";
 static const char TXT_SPACE_ARROW_SPACE[] = " --> ";
 
+/* define a struct where the function pointers have the exact right signatures to avoid typecasts */
+#define io_element_writer_impl_t xhtml_element_writer_t
+struct xhtml_element_writer_io_element_writer_if_struct {
+#include "io_element_writer_if.inl"
+};
+#undef io_element_writer_impl_t
+
+/* the vmt implementing the interface */
+static const struct xhtml_element_writer_io_element_writer_if_struct xhtml_element_writer_private_io_element_writer_if
+    = {
+        .write_header = &xhtml_element_writer_write_header,
+        .start_main = &xhtml_element_writer_start_main,
+        .can_classifier_nest_classifier = &xhtml_element_writer_can_classifier_nest_classifier,
+        .can_classifier_nest_relationship = &xhtml_element_writer_can_classifier_nest_relationship,
+        .start_classifier = &xhtml_element_writer_start_classifier,
+        .assemble_classifier = &xhtml_element_writer_assemble_classifier,
+        .end_classifier = &xhtml_element_writer_end_classifier,
+        .start_feature = &xhtml_element_writer_start_feature,
+        .assemble_feature = &xhtml_element_writer_assemble_feature,
+        .end_feature = &xhtml_element_writer_end_feature,
+        .start_relationship = &xhtml_element_writer_start_relationship,
+        .assemble_relationship = &xhtml_element_writer_assemble_relationship,
+        .end_relationship = &xhtml_element_writer_end_relationship,
+        .start_diagram = &xhtml_element_writer_start_diagram,
+        .assemble_diagram = &xhtml_element_writer_assemble_diagram,
+        .end_diagram = &xhtml_element_writer_end_diagram,
+        .start_diagramelement = &xhtml_element_writer_start_diagramelement,
+        .assemble_diagramelement = &xhtml_element_writer_assemble_diagramelement,
+        .end_diagramelement = &xhtml_element_writer_end_diagramelement,
+        .end_main = &xhtml_element_writer_end_main,
+        .write_footer = &xhtml_element_writer_write_footer
+    };
+
 void xhtml_element_writer_init ( xhtml_element_writer_t *this_,
                                  data_database_reader_t *db_reader,
                                  io_file_format_t export_type,
@@ -236,6 +269,10 @@ void xhtml_element_writer_init ( xhtml_element_writer_t *this_,
     assert( NULL != io_export_stat );
     assert( NULL != db_reader );
 
+    io_element_writer_private_init( &((*this_).element_writer),
+                                    (io_element_writer_if_t*) &xhtml_element_writer_private_io_element_writer_if,
+                                    this_
+                                  );
     (*this_).export_stat = io_export_stat;
 
     (*this_).export_type = export_type;
@@ -291,6 +328,8 @@ void xhtml_element_writer_destroy( xhtml_element_writer_t *this_ )
     txt_writer_destroy( &((*this_).txt_writer) );
 
     (*this_).export_stat = NULL;
+
+    io_element_writer_private_destroy( &((*this_).element_writer) );
 
     TRACE_END();
 }
@@ -358,6 +397,35 @@ int xhtml_element_writer_write_header( xhtml_element_writer_t *this_, const char
 
     TRACE_END_ERR( export_err );
     return export_err;
+}
+
+int xhtml_element_writer_start_main( xhtml_element_writer_t *this_, const char *document_title )
+{
+    TRACE_BEGIN();
+    assert( document_title != NULL );
+    int write_error = 0;
+    TRACE_END_ERR(write_error);
+    return write_error;
+}
+
+bool xhtml_element_writer_can_classifier_nest_classifier( xhtml_element_writer_t *this_,
+                                                          data_classifier_type_t host_type,
+                                                          data_classifier_type_t child_type )
+{
+    TRACE_BEGIN();
+    const bool can_nest = false;
+    TRACE_END();
+    return can_nest;
+}
+
+bool xhtml_element_writer_can_classifier_nest_relationship( xhtml_element_writer_t *this_,
+                                                            data_classifier_type_t host_type,
+                                                            data_relationship_type_t child_type )
+{
+    TRACE_BEGIN();
+    const bool can_nest = true;
+    TRACE_END();
+    return can_nest;
 }
 
 int xhtml_element_writer_start_toc_sublist ( xhtml_element_writer_t *this_ )
@@ -502,143 +570,6 @@ int xhtml_element_writer_end_toc_sublist ( xhtml_element_writer_t *this_ )
     return export_err;
 }
 
-int xhtml_element_writer_start_diagram( xhtml_element_writer_t *this_, data_id_t diag_id )
-{
-    TRACE_BEGIN();
-    int export_err = 0;
-
-    /* increase tree depth */
-    (*this_).current_tree_depth ++;
-
-    switch ( (*this_).export_type )
-    {
-        case IO_FILE_FORMAT_DOCBOOK:
-        {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_START : DOCBOOK_DIAGRAM_START );
-            export_err |= xml_writer_write_plain_id ( &((*this_).xml_writer), diag_id );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_MIDDLE : DOCBOOK_DIAGRAM_MIDDLE );
-            xml_writer_increase_indent ( &((*this_).xml_writer) );
-        }
-        break;
-
-        case IO_FILE_FORMAT_XMI2:
-        {
-            assert(false);  /* use the xmi_element_writer instead */
-        }
-        break;
-
-        case IO_FILE_FORMAT_XHTML:
-        {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_START );
-            export_err |= xml_writer_write_plain_id ( &((*this_).xml_writer), diag_id );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_MIDDLE );
-            xml_writer_increase_indent ( &((*this_).xml_writer) );
-        }
-        break;
-
-        case IO_FILE_FORMAT_TXT:
-        {
-            /* no start diagram tags */
-        }
-        break;
-
-        default:
-        {
-            TSLOG_ERROR("error: unknown_format.");
-            export_err = -1;
-        }
-        break;
-    }
-    if ( export_err != 0 )
-    {
-        TSLOG_ERROR( "not all bytes could be written" );
-    }
-
-    TRACE_END_ERR( export_err );
-    return export_err;
-}
-
-int xhtml_element_writer_write_diagram( xhtml_element_writer_t *this_,
-                                        const data_diagram_t *diag_ptr,
-                                        const char *diagram_file_base_name )
-{
-    TRACE_BEGIN();
-    assert ( NULL != diag_ptr );
-    assert ( NULL != diagram_file_base_name );
-    int export_err = 0;
-
-    const char *const diag_name = data_diagram_get_name_const( diag_ptr );
-    const char *const diag_description = data_diagram_get_description_const( diag_ptr );
-    const data_id_t diag_id = data_diagram_get_data_id(diag_ptr);
-
-    switch ( (*this_).export_type )
-    {
-        case IO_FILE_FORMAT_DOCBOOK:
-        {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_TITLE_START );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_TITLE_END );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_START );
-            export_err |= md_filter_transform ( &((*this_).md_filter), diag_description );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_END );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_IMG_START );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diagram_file_base_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_IMG_MIDDLE );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diagram_file_base_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_IMG_END );
-        }
-        break;
-
-        case IO_FILE_FORMAT_XMI2:
-        {
-            assert(false);  /* use the xmi_element_writer instead */
-        }
-        break;
-
-        case IO_FILE_FORMAT_XHTML:
-        {
-            const unsigned int index_of_depth = ((*this_).current_tree_depth > XHTML_DIAGRAM_MAX_DEPTH)
-                ? (XHTML_DIAGRAM_MAX_DEPTH-1)
-                : ((*this_).current_tree_depth-1);
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_TITLE_START[index_of_depth] );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_TITLE_END[index_of_depth] );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DESCRIPTION_START );
-            export_err |= md_filter_transform ( &((*this_).md_filter), diag_description );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DESCRIPTION_END );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_IMG_START );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diagram_file_base_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_IMG_END );
-        }
-        break;
-
-        case IO_FILE_FORMAT_TXT:
-        {
-            export_err |= txt_writer_write_plain ( &((*this_).txt_writer), diag_name );
-            export_err |= txt_writer_write_indent_id( &((*this_).txt_writer),
-                                                      TXT_ID_INDENT_COLUMN - utf8string_get_length(diag_name),
-                                                      diag_id
-                                                    );
-            export_err |= txt_writer_write_plain ( &((*this_).txt_writer), TXT_NEWLINE );
-            export_err |= txt_writer_write_indent_multiline_string( &((*this_).txt_writer),
-                                                                    TXT_SINGLE_INDENT,
-                                                                    diag_description
-                                                                  );
-        }
-        break;
-
-        default:
-        {
-            TSLOG_ERROR("error: unknown_format.");
-            export_err = -1;
-        }
-        break;
-    }
-
-    TRACE_END_ERR( export_err );
-    return export_err;
-}
-
 int xhtml_element_writer_start_classifier( xhtml_element_writer_t *this_ )
 {
     TRACE_BEGIN();
@@ -684,7 +615,7 @@ int xhtml_element_writer_start_classifier( xhtml_element_writer_t *this_ )
     return export_err;
 }
 
-int xhtml_element_writer_write_classifier( xhtml_element_writer_t *this_, const data_classifier_t *classifier_ptr )
+int xhtml_element_writer_assemble_classifier( xhtml_element_writer_t *this_, const data_classifier_t *classifier_ptr )
 {
     TRACE_BEGIN();
     assert ( NULL != classifier_ptr );
@@ -773,7 +704,63 @@ int xhtml_element_writer_write_classifier( xhtml_element_writer_t *this_, const 
     return export_err;
 }
 
-int xhtml_element_writer_write_feature( xhtml_element_writer_t *this_, const data_feature_t *feature_ptr )
+int xhtml_element_writer_end_classifier( xhtml_element_writer_t *this_ )
+{
+    TRACE_BEGIN();
+    int export_err = 0;
+
+    switch ( (*this_).export_type )
+    {
+        case IO_FILE_FORMAT_DOCBOOK:
+        {
+            xml_writer_decrease_indent ( &((*this_).xml_writer) );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_LIST_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_END );
+        }
+        break;
+
+        case IO_FILE_FORMAT_XMI2:
+        {
+            assert(false);  /* use the xmi_element_writer instead */
+        }
+        break;
+
+        case IO_FILE_FORMAT_XHTML:
+        {
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_LIST_END );
+        }
+        break;
+
+        case IO_FILE_FORMAT_TXT:
+        {
+            /* no end classifier tags */
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR("error: unknown_format.");
+            export_err = -1;
+        }
+        break;
+    }
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int xhtml_element_writer_start_feature( xhtml_element_writer_t *this_,
+                                        data_classifier_type_t parent_type,
+                                        const data_feature_t *feature_ptr)
+{
+    TRACE_BEGIN();
+    assert( feature_ptr != NULL );
+    int write_error = 0;
+    TRACE_END_ERR(write_error);
+    return write_error;
+}
+
+int xhtml_element_writer_assemble_feature( xhtml_element_writer_t *this_, const data_feature_t *feature_ptr )
 {
     TRACE_BEGIN();
     assert ( NULL != feature_ptr );
@@ -884,7 +871,29 @@ int xhtml_element_writer_write_feature( xhtml_element_writer_t *this_, const dat
     return export_err;
 }
 
-int xhtml_element_writer_write_relationship( xhtml_element_writer_t *this_,
+int xhtml_element_writer_end_feature( xhtml_element_writer_t *this_,
+                                      data_classifier_type_t parent_type,
+                                      const data_feature_t *feature_ptr)
+{
+    TRACE_BEGIN();
+    assert( feature_ptr != NULL );
+    int write_error = 0;
+    TRACE_END_ERR(write_error);
+    return write_error;
+}
+
+int xhtml_element_writer_start_relationship( xhtml_element_writer_t *this_,
+                                             data_classifier_type_t host_type,
+                                             const data_relationship_t *relation_ptr)
+{
+    TRACE_BEGIN();
+    assert( relation_ptr != NULL );
+    int write_error = 0;
+    TRACE_END_ERR(write_error);
+    return write_error;
+}
+
+int xhtml_element_writer_assemble_relationship( xhtml_element_writer_t *this_,
                                              const data_relationship_t *relation_ptr,
                                              const data_classifier_t *dest_classifier_ptr )
 {
@@ -1016,18 +1025,36 @@ int xhtml_element_writer_write_relationship( xhtml_element_writer_t *this_,
     return export_err;
 }
 
-int xhtml_element_writer_end_classifier( xhtml_element_writer_t *this_ )
+int xhtml_element_writer_end_relationship( xhtml_element_writer_t *this_,
+                                           data_classifier_type_t host_type,
+                                           const data_relationship_t *relation_ptr)
 {
     TRACE_BEGIN();
+    assert( relation_ptr != NULL );
+    int write_error = 0;
+    TRACE_END_ERR(write_error);
+    return write_error;
+}
+
+int xhtml_element_writer_start_diagram( xhtml_element_writer_t *this_, const data_diagram_t *diag_ptr )
+{
+    TRACE_BEGIN();
+    assert ( NULL != diag_ptr );
     int export_err = 0;
+
+    const data_id_t diag_id = data_diagram_get_data_id(diag_ptr);
+
+    /* increase tree depth */
+    (*this_).current_tree_depth ++;
 
     switch ( (*this_).export_type )
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            xml_writer_decrease_indent ( &((*this_).xml_writer) );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_LIST_END );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_START : DOCBOOK_DIAGRAM_START );
+            export_err |= xml_writer_write_plain_id ( &((*this_).xml_writer), diag_id );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_MIDDLE : DOCBOOK_DIAGRAM_MIDDLE );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
         }
         break;
 
@@ -1039,13 +1066,101 @@ int xhtml_element_writer_end_classifier( xhtml_element_writer_t *this_ )
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_LIST_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_START );
+            export_err |= xml_writer_write_plain_id ( &((*this_).xml_writer), diag_id );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_MIDDLE );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
         }
         break;
 
         case IO_FILE_FORMAT_TXT:
         {
-            /* no end classifier tags */
+            /* no start diagram tags */
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR("error: unknown_format.");
+            export_err = -1;
+        }
+        break;
+    }
+    if ( export_err != 0 )
+    {
+        TSLOG_ERROR( "not all bytes could be written" );
+    }
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int xhtml_element_writer_assemble_diagram( xhtml_element_writer_t *this_,
+                                           const data_diagram_t *diag_ptr,
+                                           const char *diagram_file_base_name )
+{
+    TRACE_BEGIN();
+    assert ( NULL != diag_ptr );
+    assert ( NULL != diagram_file_base_name );
+    int export_err = 0;
+
+    const char *const diag_name = data_diagram_get_name_const( diag_ptr );
+    const char *const diag_description = data_diagram_get_description_const( diag_ptr );
+    const data_id_t diag_id = data_diagram_get_data_id(diag_ptr);
+
+    switch ( (*this_).export_type )
+    {
+        case IO_FILE_FORMAT_DOCBOOK:
+        {
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_TITLE_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_TITLE_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_START );
+            export_err |= md_filter_transform ( &((*this_).md_filter), diag_description );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_IMG_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diagram_file_base_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_IMG_MIDDLE );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diagram_file_base_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_IMG_END );
+        }
+        break;
+
+        case IO_FILE_FORMAT_XMI2:
+        {
+            assert(false);  /* use the xmi_element_writer instead */
+        }
+        break;
+
+        case IO_FILE_FORMAT_XHTML:
+        {
+            const unsigned int index_of_depth = ((*this_).current_tree_depth > XHTML_DIAGRAM_MAX_DEPTH)
+                ? (XHTML_DIAGRAM_MAX_DEPTH-1)
+                : ((*this_).current_tree_depth-1);
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_TITLE_START[index_of_depth] );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_TITLE_END[index_of_depth] );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DESCRIPTION_START );
+            export_err |= md_filter_transform ( &((*this_).md_filter), diag_description );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DESCRIPTION_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_IMG_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diagram_file_base_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_IMG_END );
+        }
+        break;
+
+        case IO_FILE_FORMAT_TXT:
+        {
+            export_err |= txt_writer_write_plain ( &((*this_).txt_writer), diag_name );
+            export_err |= txt_writer_write_indent_id( &((*this_).txt_writer),
+                                                      TXT_ID_INDENT_COLUMN - utf8string_get_length(diag_name),
+                                                      diag_id
+                                                    );
+            export_err |= txt_writer_write_plain ( &((*this_).txt_writer), TXT_NEWLINE );
+            export_err |= txt_writer_write_indent_multiline_string( &((*this_).txt_writer),
+                                                                    TXT_SINGLE_INDENT,
+                                                                    diag_description
+                                                                  );
         }
         break;
 
@@ -1061,9 +1176,10 @@ int xhtml_element_writer_end_classifier( xhtml_element_writer_t *this_ )
     return export_err;
 }
 
-int xhtml_element_writer_end_diagram( xhtml_element_writer_t *this_ )
+int xhtml_element_writer_end_diagram( xhtml_element_writer_t *this_, const data_diagram_t *diag_ptr )
 {
     TRACE_BEGIN();
+    assert ( NULL != diag_ptr );
     int export_err = 0;
 
     switch ( (*this_).export_type )
@@ -1107,6 +1223,51 @@ int xhtml_element_writer_end_diagram( xhtml_element_writer_t *this_ )
 
     TRACE_END_ERR( export_err );
     return export_err;
+}
+
+int xhtml_element_writer_start_diagramelement( xhtml_element_writer_t *this_,
+                                               const data_diagramelement_t *diagramelement_ptr,
+                                               const data_diagram_t *parent,
+                                               const data_classifier_t *occurrence)
+{
+    TRACE_BEGIN();
+    assert( document_title != NULL );
+    int write_error = 0;
+    TRACE_END_ERR(write_error);
+    return write_error;
+}
+
+int xhtml_element_writer_assemble_diagramelement( xhtml_element_writer_t *this_,
+                                                  const data_diagramelement_t *diagramelement_ptr,
+                                                  const data_diagram_t *parent,
+                                                  const data_classifier_t *occurrence)
+{
+    TRACE_BEGIN();
+    assert( document_title != NULL );
+    int write_error = 0;
+    TRACE_END_ERR(write_error);
+    return write_error;
+}
+
+int xhtml_element_writer_end_diagramelement( xhtml_element_writer_t *this_,
+                                             const data_diagramelement_t *diagramelement_ptr,
+                                             const data_diagram_t *parent,
+                                             const data_classifier_t *occurrence)
+{
+    TRACE_BEGIN();
+    assert( document_title != NULL );
+    int write_error = 0;
+    TRACE_END_ERR(write_error);
+    return write_error;
+}
+
+int xhtml_element_writer_end_main( xhtml_element_writer_t *this_ )
+{
+    TRACE_BEGIN();
+    assert( document_title != NULL );
+    int write_error = 0;
+    TRACE_END_ERR(write_error);
+    return write_error;
 }
 
 int xhtml_element_writer_write_footer( xhtml_element_writer_t *this_ )
@@ -1153,6 +1314,11 @@ int xhtml_element_writer_write_footer( xhtml_element_writer_t *this_ )
 
     TRACE_END_ERR( export_err );
     return export_err;
+}
+
+io_element_writer_t * xhtml_element_writer_get_element_writer( xhtml_element_writer_t *this_ )
+{
+    return &((*this_).element_writer);
 }
 
 

@@ -91,9 +91,9 @@ bool json_element_writer_can_classifier_nest_classifier( json_element_writer_t *
                                                          data_classifier_type_t child_type )
 {
     TRACE_BEGIN();
-    int write_error = 0;
-    TRACE_END_ERR(write_error);
-    return write_error;
+    const bool can_nest = false;
+    TRACE_END();
+    return can_nest;
 }
 
 bool json_element_writer_can_classifier_nest_relationship( json_element_writer_t *this_,
@@ -101,9 +101,9 @@ bool json_element_writer_can_classifier_nest_relationship( json_element_writer_t
                                                            data_relationship_type_t child_type )
 {
     TRACE_BEGIN();
-    int write_error = 0;
-    TRACE_END_ERR(write_error);
-    return write_error;
+    const bool can_nest = true;
+    TRACE_END();
+    return can_nest;
 }
 
 int json_element_writer_start_classifier( json_element_writer_t *this_,

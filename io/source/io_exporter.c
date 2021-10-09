@@ -233,7 +233,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
                                                 );
                 write_err |= xhtml_element_writer_write_header( &((*this_).temp_format_writer), "DUMMY_TITLE" );
                 write_err |= io_export_diagram_traversal_begin_and_walk_diagram ( &((*this_).temp_diagram_traversal), diagram_id, "NO_IMAGE_FILE" );
-                write_err |= io_export_diagram_traversal_end_diagram ( &((*this_).temp_diagram_traversal) );
+                write_err |= io_export_diagram_traversal_end_diagram ( &((*this_).temp_diagram_traversal), diagram_id );
                 write_err |= xhtml_element_writer_write_footer( &((*this_).temp_format_writer) );
                 io_export_diagram_traversal_destroy( &((*this_).temp_diagram_traversal) );
                 xhtml_element_writer_destroy( &((*this_).temp_format_writer ) );
@@ -493,7 +493,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
     if ( DATA_ROW_ID_VOID != diagram_row_id )
     {
         /* write doc part */
-        export_err |= io_export_diagram_traversal_end_diagram( &((*this_).temp_diagram_traversal) );
+        export_err |= io_export_diagram_traversal_end_diagram( &((*this_).temp_diagram_traversal), diagram_id );
     }
 
     TRACE_END_ERR( export_err );

@@ -79,9 +79,11 @@ int io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_trave
  *  \brief prints the end of a diagram section
  *
  *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram which to process for export
  *  \return -1 in case of error, 0 in case of success
  */
-int io_export_diagram_traversal_end_diagram ( io_export_diagram_traversal_t *this_ );
+int io_export_diagram_traversal_end_diagram ( io_export_diagram_traversal_t *this_,
+                                              data_id_t diagram_id );
 
 /*!
  *  \brief prints names and descriptions of the classifiers to the output stream
