@@ -11,8 +11,7 @@ static inline int json_writer_write_plain ( json_writer_t *this_, utf8string_t t
     int write_err;
 
     const size_t text_len = utf8string_get_length(text);
-        universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).json_string_encode_table );
-    write_err = universal_escaping_output_stream_write ( &((*this_).esc_output), text, text_len );
+    write_err = universal_output_stream_write ( (*this_).output, text, text_len );
 
     return ( write_err );
 }
@@ -23,8 +22,7 @@ static inline int json_writer_write_plain_view ( json_writer_t *this_, utf8strin
 
     const size_t length = utf8stringview_get_length( string_view );
     const char *const start = utf8stringview_get_start( string_view );
-        universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).json_string_encode_table );
-    write_err = universal_escaping_output_stream_write( &((*this_).esc_output), start, length );
+    write_err = universal_output_stream_write( (*this_).output, start, length );
 
     return ( write_err );
 }
@@ -35,8 +33,9 @@ static inline int json_writer_write_string_enc ( json_writer_t *this_, utf8strin
     int write_err;
 
     const size_t text_len = utf8string_get_length(text);
-        universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).json_string_encode_table );
+    universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).json_string_encode_table );
     write_err = universal_escaping_output_stream_write( &((*this_).esc_output), text, text_len );
+    universal_escaping_output_stream_flush( &((*this_).esc_output) );
 
     return write_err;
 }
@@ -47,8 +46,9 @@ static inline int json_writer_write_string_view_enc ( json_writer_t *this_, utf8
 
     const size_t length = utf8stringview_get_length( string_view );
     const char *const start = utf8stringview_get_start( string_view );
-        universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).json_string_encode_table );
+    universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).json_string_encode_table );
     write_err = universal_escaping_output_stream_write( &((*this_).esc_output), start, length );
+    universal_escaping_output_stream_flush( &((*this_).esc_output) );
 
     return write_err;
 }
@@ -59,8 +59,9 @@ static inline int json_writer_write_stringlist_enc ( json_writer_t *this_, utf8s
     int write_err;
 
     const size_t text_len = utf8string_get_length(text);
-        universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).json_stringlist_encode_table );
+    universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).json_stringlist_encode_table );
     write_err = universal_escaping_output_stream_write( &((*this_).esc_output), text, text_len );
+    universal_escaping_output_stream_flush( &((*this_).esc_output) );
 
     return write_err;
 }
@@ -71,8 +72,9 @@ static inline int json_writer_write_stringlist_view_enc ( json_writer_t *this_, 
 
     const size_t length = utf8stringview_get_length( string_view );
     const char *const start = utf8stringview_get_start( string_view );
-        universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).json_stringlist_encode_table );
+    universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).json_stringlist_encode_table );
     write_err = universal_escaping_output_stream_write( &((*this_).esc_output), start, length );
+    universal_escaping_output_stream_flush( &((*this_).esc_output) );
 
     return write_err;
 }
