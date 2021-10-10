@@ -10,7 +10,6 @@
  */
 
 #include "json/json_writer.h"
-#include "data_error.h"
 #include "data_classifier.h"
 #include "data_diagram.h"
 #include "data_feature.h"
@@ -24,8 +23,10 @@
 struct json_serializer_struct {
     json_writer_t json_writer;  /*!< own instance of the json writer */
 
-    bool in_array;  /*!< true if begin_array() was called and end_array() is not yet called. */
-    bool is_first;  /*!< true if after begin_array(), no object was inserted yet. */
+    bool in_outer_array;  /*!< true if begin_array() was called and end_array() is not yet called. */
+    bool is_outer_first;  /*!< true if after begin_array(), no object was inserted yet. */
+    bool in_inner_array;  /*!< true if an inner array was begun and not yet ended. */
+    bool is_inner_first;  /*!< true if in the innner array, no object was inserted yet. */
 };
 
 typedef struct json_serializer_struct json_serializer_t;
@@ -49,52 +50,49 @@ void json_serializer_destroy ( json_serializer_t *this_ );
  *  \brief begins a json object containing an array of objects
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success,
- *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
- *          DATA_ERROR_INVALID_REQUEST if json_serializer_begin_array() was already called.
+ *  \return 0 in case of success, -1 if output buffer exceeded
  */
-data_error_t json_serializer_begin_data ( json_serializer_t *this_ );
+int json_serializer_begin_data ( json_serializer_t *this_ );
 
 /*!
  *  \brief ends a json object containing an array of objects
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success,
- *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
- *          DATA_ERROR_INVALID_REQUEST if json_serializer_end_array() was already called.
+ *  \return 0 in case of success, -1 if output buffer exceeded
  */
-data_error_t json_serializer_end_data ( json_serializer_t *this_ );
+int json_serializer_end_data ( json_serializer_t *this_ );
 
 /*!
- *  \brief appends a classifier to the stringbuffer
+ *  \brief appends a classifier to the output
  *
  *  \param this_ pointer to own object attributes
  *  \param object a pointer to the classifier to serialize
- *  \param features array of features of the classifier
- *  \param feature_count number of feature records stored in features
- *  \return DATA_ERROR_NONE in case of success,
- *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
- *          DATA_ERROR_INVALID_REQUEST if json_serializer_begin_array() was not yet called.
+ *  \return 0 in case of success, -1 if output buffer exceeded
  */
-data_error_t json_serializer_append_classifier ( json_serializer_t *this_,
-                                                 const data_classifier_t *object,
-                                                 const data_feature_t (*features)[],
-                                                 uint32_t feature_count
-                                               );
+int json_serializer_begin_classifier ( json_serializer_t *this_, const data_classifier_t *object );
 
 /*!
- *  \brief appends a diagram to the stringbuffer
+ *  \brief appends a classifier to the output
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param object a pointer to the classifier to serialize
+ *  \return DATA_ERROR_NONE in case of success,
+ *          DATA_ERROR_STRING_BUFFER_EXCEEDED if output buffer exceeded,
+ *          DATA_ERROR_INVALID_REQUEST if json_serializer_begin_array() was not yet called.
+ */
+int json_serializer_end_classifier ( json_serializer_t *this_, const data_classifier_t *object );
+
+/*!
+ *  \brief appends a diagram to the output
  *
  *  \param this_ pointer to own object attributes
  *  \param object a pointer to the diagram to serialize
- *  \return DATA_ERROR_NONE in case of success,
- *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
- *          DATA_ERROR_INVALID_REQUEST if json_serializer_begin_array() was not yet called.
+ *  \return 0 in case of success, -1 if output buffer exceeded
  */
-data_error_t json_serializer_append_diagram ( json_serializer_t *this_, const data_diagram_t *object );
+int json_serializer_append_diagram ( json_serializer_t *this_, const data_diagram_t *object );
 
 /*!
- *  \brief appends a relationship to the stringbuffer
+ *  \brief appends a relationship to the output
  *
  *  \param this_ pointer to own object attributes
  *  \param object a pointer to the relationship to serialize
@@ -102,27 +100,24 @@ data_error_t json_serializer_append_diagram ( json_serializer_t *this_, const da
  *  \param from_feat a pointer to the source feature of the relationship to serialize, pointer to DATA_ROW_ID_VOID if not existant
  *  \param to_clas a pointer to the destination classifier of the relationship to serialize
  *  \param to_feat a pointer to the destination feature of the relationship to serialize, pointer to DATA_ROW_ID_VOID if not existant
- *  \return DATA_ERROR_NONE in case of success,
- *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
- *          DATA_ERROR_INVALID_REQUEST if json_serializer_begin_array() was not yet called.
+ *  \return 0 in case of success, -1 if output buffer exceeded
  */
-data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
-                                                   const data_relationship_t *object,
-                                                   const data_classifier_t *from_clas,
-                                                   const data_feature_t *from_feat,
-                                                   const data_classifier_t *to_clas,
-                                                   const data_feature_t *to_feat
-                                                 );
+int json_serializer_append_relationship ( json_serializer_t *this_,
+                                          const data_relationship_t *object,
+                                          const data_classifier_t *from_clas,
+                                          const data_feature_t *from_feat,
+                                          const data_classifier_t *to_clas,
+                                          const data_feature_t *to_feat
+                                        );
 
 /*!
- *  \brief appends a feature to the stringbuffer, intended for use within a classifier
+ *  \brief appends a feature to the output, intended for use within a classifier
  *
  *  \param this_ pointer to own object attributes
  *  \param object a pointer to the feature to serialize
- *  \return UTF8ERROR_SUCCESS in case of success,
- *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded
+ *  \return 0 in case of success, -1 if output buffer exceeded
  */
-utf8error_t json_serializer_private_append_feature ( json_serializer_t *this_, const data_feature_t *object );
+int json_serializer_append_feature ( json_serializer_t *this_, const data_feature_t *object );
 
 #endif  /* JSON_SERIALIZER_H */
 

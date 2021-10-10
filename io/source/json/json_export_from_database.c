@@ -30,16 +30,16 @@ void json_export_from_database_destroy ( json_export_from_database_t *this_ )
     TRACE_END();
 }
 
-data_error_t json_export_from_database_export_set_to_buf( json_export_from_database_t *this_,
-                                                          const data_small_set_t *set_to_be_copied,
-                                                          data_stat_t *io_stat,
-                                                          utf8stringbuf_t out_buf )
+int json_export_from_database_export_set_to_buf( json_export_from_database_t *this_,
+                                                 const data_small_set_t *set_to_be_copied,
+                                                 data_stat_t *io_stat,
+                                                 utf8stringbuf_t out_buf )
 {
     TRACE_BEGIN();
     assert( NULL != set_to_be_copied );
     assert( NULL != io_stat );
 
-    data_error_t serialize_error = DATA_ERROR_NONE;
+    int serialize_error = 0;
     data_error_t read_error;
     json_serializer_t serializer;
 
@@ -78,7 +78,7 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
                     serialize_error |= json_serializer_append_diagram( &serializer, &out_diagram );
                     data_stat_inc_count ( io_stat,
                                           DATA_TABLE_DIAGRAM,
-                                          (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                          (0==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                         );
                 }
                 else
@@ -118,29 +118,39 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
 
                 if ( read_error == DATA_ERROR_NONE )
                 {
-                    uint32_t out_feature_count;
+                    uint32_t feature_count;
                     read_error = data_database_reader_get_features_by_classifier_id( (*this_).db_reader,
                                                                                      data_id_get_row_id( &current_id ),
                                                                                      JSON_EXPORT_FROM_DATABASE_MAX_FEATURES,
                                                                                      &((*this_).temp_features),
-                                                                                     &out_feature_count
+                                                                                     &feature_count
                                                                                    );
 
                     if ( read_error == DATA_ERROR_NONE )
                     {
-                        serialize_error |= json_serializer_append_classifier( &serializer,
-                                                                              &out_classifier,
-                                                                              (const data_feature_t (*)[]) &((*this_).temp_features),
-                                                                              out_feature_count
-                                                                            );
+                        serialize_error |= json_serializer_begin_classifier( &serializer,
+                                                                             &out_classifier
+                                                                           );
+
+                        for ( uint32_t index = 0; index < feature_count; index ++ )
+                        {
+                            serialize_error |= json_serializer_append_feature( &serializer,
+                                                                               &(((*this_).temp_features)[index])
+                                                                             );
+                        }
+
+                        serialize_error |= json_serializer_end_classifier( &serializer,
+                                                                           &out_classifier
+                                                                         );
+
                         data_stat_inc_count( io_stat,
                                              DATA_TABLE_CLASSIFIER,
-                                             (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                             (0==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                            );
                         data_stat_add_count( io_stat,
                                              DATA_TABLE_FEATURE,
-                                             (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR,
-                                             out_feature_count
+                                             (0==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR,
+                                             feature_count
                                            );
                     }
                     else
@@ -181,29 +191,39 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
 
                     if ( read_error == DATA_ERROR_NONE )
                     {
-                        uint32_t out_feature_count;
+                        uint32_t feature_count;
                         read_error = data_database_reader_get_features_by_classifier_id( (*this_).db_reader,
                                                                                          classifier_id,
                                                                                          JSON_EXPORT_FROM_DATABASE_MAX_FEATURES,
                                                                                          &((*this_).temp_features),
-                                                                                         &out_feature_count
+                                                                                         &feature_count
                                                                                        );
 
                         if ( read_error == DATA_ERROR_NONE )
                         {
-                            serialize_error |= json_serializer_append_classifier( &serializer,
-                                                                                  &out_classifier,
-                                                                                  (const data_feature_t (*)[]) &((*this_).temp_features),
-                                                                                  out_feature_count
-                                                                                );
+                            serialize_error |= json_serializer_begin_classifier( &serializer,
+                                                                                 &out_classifier
+                                                                               );
+
+                            for ( uint32_t index = 0; index < feature_count; index ++ )
+                            {
+                                serialize_error |= json_serializer_append_feature( &serializer,
+                                                                                   &(((*this_).temp_features)[index])
+                                                                                 );
+                            }
+
+                            serialize_error |= json_serializer_end_classifier( &serializer,
+                                                                               &out_classifier
+                                                                             );
+
                             data_stat_inc_count( io_stat,
                                                  DATA_TABLE_CLASSIFIER,
-                                                 (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                                 (0==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                                );
                             data_stat_add_count( io_stat,
                                                  DATA_TABLE_FEATURE,
-                                                 (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR,
-                                                 out_feature_count
+                                                 (0==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR,
+                                                 feature_count
                                                );
                         }
                         else
@@ -251,7 +271,7 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
 
             default:
             {
-                serialize_error |= DATA_ERROR_VALUE_OUT_OF_RANGE;
+                serialize_error |= -1;
             }
             break;
         }
@@ -336,7 +356,7 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
                                                                               );
                         data_stat_inc_count ( io_stat,
                                               DATA_TABLE_RELATIONSHIP,
-                                              (DATA_ERROR_NONE==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                              (0==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                             );
                     }
                     else
@@ -363,7 +383,7 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
     serialize_error |= json_serializer_end_data( &serializer );
 
     json_serializer_destroy( &serializer );
-    serialize_error |= universal_memory_output_stream_write( &out_to_memory, "", sizeof('\0') );
+    serialize_error |= universal_memory_output_stream_write_0term( &out_to_memory );
     universal_memory_output_stream_destroy( &out_to_memory );
 
     TRACE_END_ERR(serialize_error);

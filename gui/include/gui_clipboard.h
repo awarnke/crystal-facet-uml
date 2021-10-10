@@ -88,12 +88,12 @@ void gui_clipboard_clipboard_text_received_callback ( GtkClipboard *clipboard, c
  *  \param io_stat undefined in case of an error in the return value,
  *                 otherwise statistics on copied data.
  *                 Statistics are only added; *io_stat shall be initialized by caller.
- *  \return DATA_ERROR_NONE in case of success, a serializer error if set_to_be_copied cannot be serialized
+ *  \return 0 in case of success, -1 if set_to_be_copied cannot be serialized
  */
-data_error_t gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_,
-                                                  const data_small_set_t *set_to_be_copied,
-                                                  data_stat_t *io_stat
-                                                );
+int gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_,
+                                         const data_small_set_t *set_to_be_copied,
+                                         data_stat_t *io_stat
+                                       );
 
 /*!
  *  \brief copies the clipboard contents to the database

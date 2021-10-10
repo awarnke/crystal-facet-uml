@@ -53,7 +53,7 @@ int universal_memory_output_stream_destroy( universal_memory_output_stream_t *th
 int universal_memory_output_stream_open ( universal_memory_output_stream_t *this_, const char *path );
 
 /*!
- *  \brief writes a buffer (e.g. a stringview) to a file
+ *  \brief writes a buffer (e.g. a stringview) to a memory output stream
  *
  *  \param this_ pointer to own object attributes
  *  \param start buffer to write, not 0-terminated
@@ -77,6 +77,17 @@ int universal_memory_output_stream_flush( universal_memory_output_stream_t *this
  *  \return 0 in case of success, -1 otherwise
  */
 int universal_memory_output_stream_close( universal_memory_output_stream_t *this_ );
+
+/*!
+ *  \brief writes a terminating zero to a memory output stream
+ *
+ *  If the memory buffer is full, the last byte is overwritten by zero
+ *  to ensure that even in this error case, the buffer is null-terminated.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return 0 in case of success, -1 otherwise
+ */
+int universal_memory_output_stream_write_0term ( universal_memory_output_stream_t *this_ );
 
 /*!
  *  \brief gets the output stream interface of this universal_memory_output_stream_t

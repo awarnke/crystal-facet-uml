@@ -59,13 +59,13 @@ void json_export_from_database_destroy ( json_export_from_database_t *this_ );
  *                 DATA_STAT_SERIES_ERROR (e.g. if t.b.d.).
  *                 Statistics are only added, *io_stat shall be initialized by caller.
  *  \param out_buf string buffer to which to write the json formatted data to
- *  \return DATA_ERROR_NONE in case of success
+ *  \return 0 in case of success, -1 if output buffer exceeded
  */
-data_error_t json_export_from_database_export_set_to_buf( json_export_from_database_t *this_,
-                                                          const data_small_set_t *set_to_be_copied,
-                                                          data_stat_t *io_stat,
-                                                          utf8stringbuf_t out_buf
-                                                        );
+int json_export_from_database_export_set_to_buf( json_export_from_database_t *this_,
+                                                 const data_small_set_t *set_to_be_copied,
+                                                 data_stat_t *io_stat,
+                                                 utf8stringbuf_t out_buf
+                                               );
 
 #endif  /* JSON_EXPORT_FROM_DATABASE_H */
 

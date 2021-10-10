@@ -103,6 +103,36 @@ int universal_memory_output_stream_close( universal_memory_output_stream_t *this
     return err;
 }
 
+int universal_memory_output_stream_write_0term ( universal_memory_output_stream_t *this_ )
+{
+    /*TRACE_BEGIN();*/
+    assert( (*this_).mem_buf_start != NULL );
+    int err = 0;
+
+    if ( (*this_).mem_buf_size == 0 )
+    {
+        TSLOG_ERROR( "buffer size is 0; buffer is not terminated by zero." );
+        err = -1;
+    }
+
+    else if ( (*this_).mem_buf_size == (*this_).mem_buf_filled )
+    {
+        char *const last_char = &(  (*(  (char(*)[])(*this_).mem_buf_start  ))[(*this_).mem_buf_size - 1]  );
+        *last_char = '\0';
+        TSLOG_WARNING( "last byte overwritten by terminating zero" );
+        err = -1;
+    }
+    else
+    {
+        char *const term_char = &(  (*(  (char(*)[])(*this_).mem_buf_start  ))[(*this_).mem_buf_filled]  );
+        *term_char = '\0';
+        (*this_).mem_buf_filled += sizeof(char);
+    }
+
+    TRACE_END_ERR(err);
+    return err;
+}
+
 universal_output_stream_t* universal_memory_output_stream_get_output_stream( universal_memory_output_stream_t *this_ )
 {
     TRACE_BEGIN();

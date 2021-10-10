@@ -1,0 +1,4 @@
+# do not report untraced files in the build directory:
+/build/
+# ignore temporary swap files:
+*.swp

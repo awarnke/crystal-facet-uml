@@ -49,12 +49,12 @@ void gui_clipboard_destroy ( gui_clipboard_t *this_ )
     TRACE_END();
 }
 
-data_error_t gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_, const data_small_set_t *set_to_be_copied, data_stat_t *io_stat )
+int gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_, const data_small_set_t *set_to_be_copied, data_stat_t *io_stat )
 {
     TRACE_BEGIN();
     assert( NULL != set_to_be_copied );
     assert( NULL != io_stat );
-    data_error_t serialize_error;
+    int serialize_error;
 
     serialize_error = json_export_from_database_export_set_to_buf( &((*this_).exporter),
                                                                    set_to_be_copied,
@@ -62,7 +62,7 @@ data_error_t gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_, const 
                                                                    (*this_).clipboard_stringbuf
                                                                  );
 
-    if ( serialize_error == DATA_ERROR_NONE )
+    if ( serialize_error == 0 )
     {
         gtk_clipboard_set_text ( (*this_).the_clipboard, utf8stringbuf_get_string( (*this_).clipboard_stringbuf ), -1 );
     }

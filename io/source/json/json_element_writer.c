@@ -110,9 +110,7 @@ int json_element_writer_start_main( json_element_writer_t *this_, const char *do
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
-        const data_error_t write_error_ser
-            = json_serializer_begin_data( &((*this_).serializer) );
-        write_error |= write_error_ser;
+        write_error |= json_serializer_begin_data( &((*this_).serializer) );
     }
 
     TRACE_END_ERR(write_error);
@@ -165,15 +163,7 @@ int json_element_writer_assemble_classifier( json_element_writer_t *this_,
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
-#if 0
-        const data_error_t write_error_c
-            = json_serializer_append_classifier( &((*this_).serializer),
-                                                 classifier_ptr,
-                                                 NULL,  /* features */
-                                                 0  /* feature_count */
-                                               );
-        write_error |= write_error_c;
-#endif
+        write_error |= json_serializer_begin_classifier( &((*this_).serializer), classifier_ptr );
     }
 
     TRACE_END_ERR(write_error);
@@ -190,7 +180,7 @@ int json_element_writer_end_classifier( json_element_writer_t *this_,
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
-
+        write_error |= json_serializer_end_classifier( &((*this_).serializer), classifier_ptr );
     }
 
     TRACE_END_ERR(write_error);
@@ -434,9 +424,7 @@ int json_element_writer_end_main( json_element_writer_t *this_ )
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
-        const data_error_t write_error_ser
-            = json_serializer_end_data( &((*this_).serializer) );
-        write_error |= write_error_ser;
+        write_error |= json_serializer_end_data( &((*this_).serializer) );
     }
 
     TRACE_END_ERR(write_error);

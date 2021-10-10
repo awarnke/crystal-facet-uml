@@ -237,7 +237,7 @@ void gui_toolbox_copy_btn_callback( GtkWidget* button, gpointer data )
 void gui_toolbox_copy( gui_toolbox_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t data_err;
+    int out_err;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
@@ -249,9 +249,9 @@ void gui_toolbox_copy( gui_toolbox_t *this_ )
     /* even in case data_small_set_is_empty( set_to_be_copied ),
      * it is possible to copy an empty set to the clipboard
      * --> therefore simply continue... */
-    data_err = gui_clipboard_copy_set_to_clipboard( &((*this_).clipboard), set_to_be_copied, &stat );
+    out_err = gui_clipboard_copy_set_to_clipboard( &((*this_).clipboard), set_to_be_copied, &stat );
 
-    if ( data_err == DATA_ERROR_NONE )
+    if ( out_err == 0 )
     {
         if ( 0 == data_stat_get_total_count( &stat ) )
         {
