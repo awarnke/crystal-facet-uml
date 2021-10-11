@@ -715,6 +715,9 @@ int xhtml_element_writer_assemble_classifier( xhtml_element_writer_t *this_,
         break;
     }
 
+    /* update export statistics */
+    data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED );
+
     TRACE_END_ERR( export_err );
     return export_err;
 }
@@ -887,6 +890,9 @@ int xhtml_element_writer_assemble_feature( xhtml_element_writer_t *this_,
         break;
     }
 
+    /* update export statistics */
+    data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
+
     TRACE_END_ERR( export_err );
     return export_err;
 }
@@ -1045,6 +1051,9 @@ int xhtml_element_writer_assemble_relationship( xhtml_element_writer_t *this_,
         break;
     }
 
+    /* update export statistics */
+    data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
+
     TRACE_END_ERR( export_err );
     return export_err;
 }
@@ -1195,6 +1204,9 @@ int xhtml_element_writer_assemble_diagram( xhtml_element_writer_t *this_,
         }
         break;
     }
+
+    /* update export statistics */
+    data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED );
 
     TRACE_END_ERR( export_err );
     return export_err;

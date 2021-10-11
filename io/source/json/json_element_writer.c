@@ -164,6 +164,9 @@ int json_element_writer_assemble_classifier( json_element_writer_t *this_,
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
         write_error |= json_serializer_begin_classifier( &((*this_).serializer), classifier_ptr );
+
+        /* update export statistics */
+        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED );
     }
 
     TRACE_END_ERR(write_error);
@@ -214,7 +217,10 @@ int json_element_writer_assemble_feature( json_element_writer_t *this_,
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
+        write_error |= json_serializer_append_feature( &((*this_).serializer), feature_ptr );
 
+        /* update export statistics */
+        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
     }
 
     TRACE_END_ERR(write_error);
@@ -273,17 +279,16 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
 
     if ( (*this_).mode == JSON_WRITER_PASS_EDGES )
     {
-#if 0
-        const data_error_t write_error_rel
-            = json_serializer_append_relationship( &((*this_).serializer),
-                                                   relation_ptr,
-                                                   from_c,
-                                                   from_f,
-                                                   to_c,
-                                                   to_f
-                                                 );
-        write_error |= write_error_rel;
-#endif
+        write_error |= json_serializer_append_relationship( &((*this_).serializer),
+                                                            relation_ptr,
+                                                            from_c,
+                                                            from_f,
+                                                            to_c,
+                                                            to_f
+                                                          );
+
+        /* update export statistics */
+        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
     }
 
     TRACE_END_ERR(write_error);
@@ -333,9 +338,10 @@ int json_element_writer_assemble_diagram( json_element_writer_t *this_,
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
-        const data_error_t write_error_diag
-            = json_serializer_append_diagram( &((*this_).serializer), diag_ptr );
-        write_error |= write_error_diag;
+        write_error |= json_serializer_append_diagram( &((*this_).serializer), diag_ptr );
+
+        /* update export statistics */
+        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED );
     }
 
     TRACE_END_ERR(write_error);
