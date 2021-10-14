@@ -11,9 +11,10 @@
 
 #include "json/json_writer.h"
 #include "data_classifier.h"
-#include "data_diagram.h"
 #include "data_feature.h"
 #include "data_relationship.h"
+#include "data_diagram.h"
+#include "data_diagramelement.h"
 #include "stream/universal_output_stream.h"
 #include <stdbool.h>
 
@@ -118,6 +119,15 @@ int json_serializer_append_relationship ( json_serializer_t *this_,
  *  \return 0 in case of success, -1 if output buffer exceeded
  */
 int json_serializer_append_feature ( json_serializer_t *this_, const data_feature_t *object );
+
+/*!
+ *  \brief appends a diagramelement to the output
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param object a pointer to the diagramelement to serialize
+ *  \return 0 in case of success, -1 if output buffer exceeded
+ */
+int json_serializer_append_diagramelement ( json_serializer_t *this_, const data_diagramelement_t *object );
 
 #endif  /* JSON_SERIALIZER_H */
 

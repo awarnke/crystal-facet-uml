@@ -122,7 +122,11 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
     gui_sketch_background_private_draw_icon_and_message( this_,
                                                          gui_resources_get_message_user_doc( (*this_).resources ),
                                                          "The user manual crystal-facet-uml_documentation.pdf is available",
+#ifdef __linux__
                                                          "in the net and locally at /usr/share/doc/(packages/)crystal-facet-uml",
+#else
+                                                         "in the net",
+#endif
                                                          text_area_start+BORDER,
                                                          top+BORDER+TAB_ROW2_Y,
                                                          cr

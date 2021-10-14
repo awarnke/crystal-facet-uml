@@ -364,8 +364,8 @@ int json_element_writer_end_diagram( json_element_writer_t *this_, const data_di
 }
 
 int json_element_writer_start_diagramelement( json_element_writer_t *this_,
-                                              const data_diagramelement_t *diagramelement_ptr,
                                               const data_diagram_t *parent,
+                                              const data_diagramelement_t *diagramelement_ptr,
                                               const data_classifier_t *occurrence )
 {
     TRACE_BEGIN();
@@ -384,8 +384,8 @@ int json_element_writer_start_diagramelement( json_element_writer_t *this_,
 }
 
 int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
-                                                 const data_diagramelement_t *diagramelement_ptr,
                                                  const data_diagram_t *parent,
+                                                 const data_diagramelement_t *diagramelement_ptr,
                                                  const data_classifier_t *occurrence )
 {
     TRACE_BEGIN();
@@ -396,7 +396,10 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
+        write_error |= json_serializer_append_diagramelement( &((*this_).serializer), diagramelement_ptr );
 
+        /* update export statistics */
+        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_EXPORTED );
     }
 
     TRACE_END_ERR(write_error);
@@ -404,8 +407,8 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
 }
 
 int json_element_writer_end_diagramelement( json_element_writer_t *this_,
-                                            const data_diagramelement_t *diagramelement_ptr,
                                             const data_diagram_t *parent,
+                                            const data_diagramelement_t *diagramelement_ptr,
                                             const data_classifier_t *occurrence )
 {
     TRACE_BEGIN();
@@ -430,6 +433,9 @@ int json_element_writer_end_main( json_element_writer_t *this_ )
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
+        static const char warning[] = ",\n    { \"warning\": \"This format is subject to change.\" }";
+        write_error |= universal_output_stream_write( (*this_).output, warning, sizeof(warning)-sizeof(char));
+
         write_error |= json_serializer_end_data( &((*this_).serializer) );
     }
 

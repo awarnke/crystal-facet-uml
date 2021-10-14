@@ -1262,8 +1262,8 @@ int xhtml_element_writer_end_diagram( xhtml_element_writer_t *this_, const data_
 }
 
 int xhtml_element_writer_start_diagramelement( xhtml_element_writer_t *this_,
-                                               const data_diagramelement_t *diagramelement_ptr,
                                                const data_diagram_t *parent,
+                                               const data_diagramelement_t *diagramelement_ptr,
                                                const data_classifier_t *occurrence)
 {
     TRACE_BEGIN();
@@ -1277,8 +1277,8 @@ int xhtml_element_writer_start_diagramelement( xhtml_element_writer_t *this_,
 }
 
 int xhtml_element_writer_assemble_diagramelement( xhtml_element_writer_t *this_,
-                                                  const data_diagramelement_t *diagramelement_ptr,
                                                   const data_diagram_t *parent,
+                                                  const data_diagramelement_t *diagramelement_ptr,
                                                   const data_classifier_t *occurrence)
 {
     TRACE_BEGIN();
@@ -1292,8 +1292,8 @@ int xhtml_element_writer_assemble_diagramelement( xhtml_element_writer_t *this_,
 }
 
 int xhtml_element_writer_end_diagramelement( xhtml_element_writer_t *this_,
-                                             const data_diagramelement_t *diagramelement_ptr,
                                              const data_diagram_t *parent,
+                                             const data_diagramelement_t *diagramelement_ptr,
                                              const data_classifier_t *occurrence)
 {
     TRACE_BEGIN();

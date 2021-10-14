@@ -105,7 +105,7 @@ int universal_memory_output_stream_close( universal_memory_output_stream_t *this
 
 int universal_memory_output_stream_write_0term ( universal_memory_output_stream_t *this_ )
 {
-    /*TRACE_BEGIN();*/
+    TRACE_BEGIN();
     assert( (*this_).mem_buf_start != NULL );
     int err = 0;
 

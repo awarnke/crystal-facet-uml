@@ -128,46 +128,66 @@ int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_
     for ( uint32_t index = 0; index < count; index ++ )
     {
         /* get classifier */
-        const data_visible_classifier_t *visible_classifier;
-        visible_classifier = data_visible_set_get_visible_classifier_const ( diagram_data, index );
+        const data_visible_classifier_t *const visible_classifier
+            = data_visible_set_get_visible_classifier_const ( diagram_data, index );
         if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
         {
-            const data_classifier_t *classifier;
-            classifier = data_visible_classifier_get_classifier_const( visible_classifier );
-            const data_id_t classifier_id = data_classifier_get_data_id(classifier);
+            const data_classifier_t *classifier
+                = data_visible_classifier_get_classifier_const( visible_classifier );
+            const data_id_t classifier_id = data_classifier_get_data_id( classifier );
             TRACE_INFO_INT( "printing classifier with id", data_id_get_row_id( &classifier_id ) );
 
-            /* no classifier filter here */
-            {
-                /* start classifier */
-                write_err |= io_element_writer_start_classifier( (*this_).element_writer,
-                                                                 DATA_CLASSIFIER_TYPE_VOID,  /* no host */
-                                                                 classifier
-                                                               );
+            /* start+assemble classifier */
+            write_err |= io_element_writer_start_classifier( (*this_).element_writer,
+                                                                DATA_CLASSIFIER_TYPE_VOID,  /* no host */
+                                                                classifier
+                                                            );
 
-                write_err |= io_element_writer_assemble_classifier( (*this_).element_writer,
-                                                                    DATA_CLASSIFIER_TYPE_VOID,   /* no host */
-                                                                    classifier
-                                                                  );
+            write_err |= io_element_writer_assemble_classifier( (*this_).element_writer,
+                                                                DATA_CLASSIFIER_TYPE_VOID,   /* no host */
+                                                                classifier
+                                                                );
 
-                /* print all features of the classifier */
-                write_err |= io_export_diagram_traversal_private_iterate_classifier_features( this_,
-                                                                                              diagram_data,
-                                                                                              classifier_id
-                                                                                            );
+            /* print all features of the classifier */
+            write_err |= io_export_diagram_traversal_private_iterate_classifier_features( this_,
+                                                                                            diagram_data,
+                                                                                            classifier_id
+                                                                                        );
 
-                /* end classifier */
-                write_err |= io_element_writer_end_classifier( (*this_).element_writer,
-                                                               DATA_CLASSIFIER_TYPE_VOID,  /* no host */
-                                                               classifier
-                                                             );
-            }
+            /* end classifier */
+            write_err |= io_element_writer_end_classifier( (*this_).element_writer,
+                                                            DATA_CLASSIFIER_TYPE_VOID,  /* no host */
+                                                            classifier
+                                                            );
 
             /* print all relationships starting from classifier_id */
             write_err |= io_export_diagram_traversal_private_iterate_classifier_relationships( this_,
                                                                                                diagram_data,
                                                                                                classifier_id
                                                                                              );
+
+            const data_diagramelement_t *diagele
+                = data_visible_classifier_get_diagramelement_const( visible_classifier );
+            const data_id_t diagele_id = data_diagramelement_get_data_id( diagele );
+            const data_diagram_t *const diagram_ptr = data_visible_set_get_diagram_ptr ( (*this_).input_data );
+            TRACE_INFO_INT( "printing diagramelement with id", data_id_get_row_id( &diagele_id ) );
+
+            /* start+assemble+end diagramelement */
+            write_err |= io_element_writer_start_diagramelement( (*this_).element_writer,
+                                                                 diagram_ptr,
+                                                                 diagele,
+                                                                 classifier
+                                                               );
+            write_err |= io_element_writer_assemble_diagramelement( (*this_).element_writer,
+                                                                    diagram_ptr,
+                                                                    diagele,
+                                                                    classifier
+                                                                  );
+            write_err |= io_element_writer_end_diagramelement( (*this_).element_writer,
+                                                               diagram_ptr,
+                                                               diagele,
+                                                               classifier
+                                                             );
         }
         else
         {

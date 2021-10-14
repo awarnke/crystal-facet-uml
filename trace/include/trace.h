@@ -75,17 +75,17 @@ extern const char trace_indent_pattern_info[ TRACE_INDENT_STEP * TRACE_INDENT_MA
  *
  *  Note: For every TRACE_BEGIN, one TRACE_END shall be called to create a nicely indented trace output
  */
-#define TRACE_BEGIN() { fprintf(TRACE_OUT_STREAM,"%s%s [begin]\n",TRACE_INDENT_BEGIN,__func__); trace_indent_depth++; }
+#define TRACE_BEGIN() const unsigned int trace_symmetry_test=trace_indent_depth; { fprintf(TRACE_OUT_STREAM,"%s%s [begin]\n",TRACE_INDENT_BEGIN,__func__); trace_indent_depth++; }
 
 /*!
  *  \brief traces a function return
  */
-#define TRACE_END() { trace_indent_depth--; fprintf(TRACE_OUT_STREAM,"%s%s [end]\n",TRACE_INDENT_END,__func__); }
+#define TRACE_END() { trace_indent_depth--; fprintf(TRACE_OUT_STREAM,"%s%s [end]\n",TRACE_INDENT_END,__func__); (void)trace_symmetry_test; }
 
 /*!
  *  \brief traces a function return and an error code if the error does not equal 0
  */
-#define TRACE_END_ERR(e) { const int int_test = (e); if ( int_test==0 ) {TRACE_END();} else { trace_indent_depth--; fprintf(TRACE_OUT_STREAM,"%s%s [end] ERR=0x%x\n",TRACE_INDENT_END,__func__,int_test); }}
+#define TRACE_END_ERR(e) { const int int_test = (e); if ( int_test==0 ) {TRACE_END();} else { trace_indent_depth--; fprintf(TRACE_OUT_STREAM,"%s%s [end] ERR=0x%x\n",TRACE_INDENT_END,__func__,int_test); } (void)trace_symmetry_test; }
 
 /*!
  *  \brief ensures to flush all data.

@@ -72,12 +72,12 @@ int json_serializer_end_data ( json_serializer_t *this_ )
     (*this_).is_outer_first = false;
 
     out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                       JSON_CONSTANTS_NL
-                                       JSON_CONSTANTS_TAB
-                                       JSON_CONSTANTS_END_ARRAY
-                                       JSON_CONSTANTS_NL
-                                       JSON_CONSTANTS_END_OBJECT_NL
-                                      );
+                                        JSON_CONSTANTS_NL
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_END_ARRAY
+                                        JSON_CONSTANTS_NL
+                                        JSON_CONSTANTS_END_OBJECT_NL
+                                       );
 
     if ( out_err != 0 )
     {
@@ -962,6 +962,153 @@ int json_serializer_append_feature ( json_serializer_t *this_, const data_featur
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_END_OBJECT );
+
+    if ( out_err != 0 )
+    {
+        TSLOG_ERROR( "output buffer exceeded." );
+    }
+
+    TRACE_END_ERR( out_err );
+    return out_err;
+}
+
+int json_serializer_append_diagramelement ( json_serializer_t *this_, const data_diagramelement_t *object )
+{
+    TRACE_BEGIN();
+    assert ( NULL != object );
+    assert( (*this_).in_outer_array == true );
+    assert( (*this_).in_inner_array == false );
+    int out_err = 0;
+
+    /* separate objects if not first */
+    if ( (*this_).is_outer_first )
+    {
+        (*this_).is_outer_first = false;
+        out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                            JSON_CONSTANTS_NL );
+    }
+    else
+    {
+        out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                            JSON_CONSTANTS_NEXT_NL );
+    }
+
+    /* begin diagramelement */
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_BEGIN_OBJECT
+                                        JSON_CONSTANTS_NL
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_KEY_DIAGRAMELEMENT
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_DEF
+                                        JSON_CONSTANTS_BEGIN_OBJECT_NL );
+
+    /* id */
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_KEY_DIAGRAMELEMENT_ID
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_DEF );
+    out_err |= json_writer_write_int( &((*this_).json_writer),
+                                        data_diagramelement_get_row_id( object ));
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_NEXT_NL );
+
+    /* diagram_id */
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DIAGRAM_ID
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_DEF );
+    out_err |= json_writer_write_int( &((*this_).json_writer),
+                                        data_diagramelement_get_diagram_row_id( object ));
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_NEXT_NL );
+
+    /* classifier_id */
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_KEY_DIAGRAMELEMENT_CLASSIFIER_ID
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_DEF );
+    out_err |= json_writer_write_int( &((*this_).json_writer),
+                                        data_diagramelement_get_classifier_row_id( object ));
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_NEXT_NL );
+
+    /* focused_feature_id */
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE_ID
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_DEF );
+    out_err |= json_writer_write_int( &((*this_).json_writer),
+                                        data_diagramelement_get_focused_feature_row_id( object ));
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_NEXT_NL );
+
+    /* display_flags */
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_DEF );
+    out_err |= json_writer_write_int( &((*this_).json_writer),
+                                        data_diagramelement_get_display_flags( object ));
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_NEXT_NL );
+
+    /* uuid */
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_KEY_UUID
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_DEF
+                                        JSON_CONSTANTS_QUOTE );
+    out_err |= json_writer_write_string_enc( &((*this_).json_writer),
+                                        data_diagramelement_get_uuid_const( object ));
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_NL );  /* LAST, no NEXT */
+
+    /* end diagramelement */
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_END_OBJECT_NL
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_END_OBJECT );

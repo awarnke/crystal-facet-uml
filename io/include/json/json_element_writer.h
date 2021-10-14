@@ -289,14 +289,14 @@ int json_element_writer_end_diagram( json_element_writer_t *this_, const data_di
  *  \brief writes a diagramelement start-element
  *
  *  \param this_ pointer to own object attributes
- *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
  *  \param parent the hosting parent diagram
+ *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
  *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 int json_element_writer_start_diagramelement( json_element_writer_t *this_,
-                                              const data_diagramelement_t *diagramelement_ptr,
                                               const data_diagram_t *parent,
+                                              const data_diagramelement_t *diagramelement_ptr,
                                               const data_classifier_t *occurrence
                                             );
 
@@ -304,14 +304,14 @@ int json_element_writer_start_diagramelement( json_element_writer_t *this_,
  *  \brief writes constents of a a diagramelement
  *
  *  \param this_ pointer to own object attributes
- *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
  *  \param parent the hosting parent diagram
+ *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
  *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
-                                                 const data_diagramelement_t *diagramelement_ptr,
                                                  const data_diagram_t *parent,
+                                                 const data_diagramelement_t *diagramelement_ptr,
                                                  const data_classifier_t *occurrence
                                                );
 
@@ -319,14 +319,14 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
  *  \brief writes a diagramelement end-element
  *
  *  \param this_ pointer to own object attributes
- *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
  *  \param parent the hosting parent diagram
+ *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
  *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 int json_element_writer_end_diagramelement( json_element_writer_t *this_,
-                                            const data_diagramelement_t *diagramelement_ptr,
                                             const data_diagram_t *parent,
+                                            const data_diagramelement_t *diagramelement_ptr,
                                             const data_classifier_t *occurrence
                                           );
 

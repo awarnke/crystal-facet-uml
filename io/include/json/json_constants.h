@@ -54,7 +54,12 @@
 #define JSON_CONSTANTS_KEY_DIAGRAM_LIST_ORDER "list_order"
 #define JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS "display_flags"
 
-/* data_diagramelement_t not part of json export */
+#define JSON_CONSTANTS_KEY_DIAGRAMELEMENT "diagramelement"
+#define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_ID "id"
+#define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DIAGRAM_ID "diagram_id"
+#define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_CLASSIFIER_ID "classifier_id"
+#define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE_ID "focused_feature_id"
+#define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS "display_flags"
 
 #define JSON_CONSTANTS_KEY_CLASSIFIER "classifier"
 #define JSON_CONSTANTS_KEY_CLASSIFIER_ID "id"
@@ -68,7 +73,7 @@
 #define JSON_CONSTANTS_KEY_CLASSIFIER_FEATURES "features"
 
 #define JSON_CONSTANTS_KEY_FEATURE_ID "id"
-/* classifier_id not part of json export */
+/* feature_id not part of json export */
 #define JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE "main_type"
 #define JSON_CONSTANTS_KEY_FEATURE_KEY "key"
 #define JSON_CONSTANTS_KEY_FEATURE_VALUE "value"

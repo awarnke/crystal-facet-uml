@@ -57,18 +57,18 @@
                            );  /*!< \see io_element_writer_t */
     int (*end_diagram)( io_element_writer_impl_t *this_, const data_diagram_t *diag_ptr );  /*!< \see io_element_writer_t */
     int (*start_diagramelement)( io_element_writer_impl_t *this_,
-                                 const data_diagramelement_t *diagramelement_ptr,
                                  const data_diagram_t *host,
+                                 const data_diagramelement_t *diagramelement_ptr,
                                  const data_classifier_t *occurrence
                                );  /*!< \see io_element_writer_t */
     int (*assemble_diagramelement)( io_element_writer_impl_t *this_,
-                                    const data_diagramelement_t *diagramelement_ptr,
                                     const data_diagram_t *host,
+                                    const data_diagramelement_t *diagramelement_ptr,
                                     const data_classifier_t *occurrence
                                   );  /*!< \see io_element_writer_t */
     int (*end_diagramelement)( io_element_writer_impl_t *this_,
-                               const data_diagramelement_t *diagramelement_ptr,
                                const data_diagram_t *host,
+                               const data_diagramelement_t *diagramelement_ptr,
                                const data_classifier_t *occurrence
                              );  /*!< \see io_element_writer_t */
     int (*end_main)( io_element_writer_impl_t *this_ );  /*!< \see io_element_writer_t */

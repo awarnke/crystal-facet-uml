@@ -10,6 +10,7 @@ static void set_up(void);
 static void tear_down(void);
 static void test_insert_regular(void);
 static void test_insert_border_cases(void);
+static void test_null_termination(void);
 
 static char my_out_buffer[10];
 static universal_memory_output_stream_t my_mem_out_stream;
@@ -20,6 +21,7 @@ test_suite_t universal_memory_output_stream_test_get_list(void)
     test_suite_init( &result, "universal_memory_output_stream_test_get_list", &set_up, &tear_down );
     test_suite_add_test_case( &result, "test_insert_regular", &test_insert_regular );
     test_suite_add_test_case( &result, "test_insert_border_cases", &test_insert_border_cases );
+    test_suite_add_test_case( &result, "test_null_termination", &test_null_termination );
     return result;
 }
 
@@ -123,6 +125,33 @@ static void test_insert_border_cases(void)
     err = universal_output_stream_write ( my_out_stream, test_4, 0 );
     TEST_ASSERT_EQUAL_INT( 0, err );
     TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "1234567890", sizeof(my_out_buffer) ) );
+}
+
+static void test_null_termination(void)
+{
+    int err;
+
+    /* write */
+    const char test_1[] = "123456";
+    err = universal_memory_output_stream_write ( &my_mem_out_stream, test_1, strlen(test_1) );
+    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), test_1 ) );
+
+    /* write null term*/
+    err = universal_memory_output_stream_write_0term( &my_mem_out_stream );
+    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), test_1, sizeof(test_1) ) );
+
+    /* write */
+    const char test_2[] = "7890abc";
+    err = universal_memory_output_stream_write ( &my_mem_out_stream, test_2, strlen(test_2) );
+    TEST_ASSERT_EQUAL_INT( -1, err );
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "123456" "\0" "789", sizeof(my_out_buffer) ) );
+
+    /* write null term*/
+    err = universal_memory_output_stream_write_0term( &my_mem_out_stream );
+    TEST_ASSERT_EQUAL_INT( -1, err );
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "123456" "\0" "78" "\0", sizeof(my_out_buffer) ) );
 }
 
 

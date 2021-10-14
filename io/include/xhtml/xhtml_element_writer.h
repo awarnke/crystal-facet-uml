@@ -29,7 +29,7 @@
 #include "stream/universal_output_stream.h"
 
 /*!
- *  \brief attributes of the format writer
+ *  \brief attributes of the element writer
  */
 struct xhtml_element_writer_struct {
     io_element_writer_t element_writer;  /*!< instance of implemented interface \c io_element_writer_t */
@@ -47,7 +47,7 @@ struct xhtml_element_writer_struct {
 typedef struct xhtml_element_writer_struct xhtml_element_writer_t;
 
 /*!
- *  \brief initializes the format writer
+ *  \brief initializes the element writer
  *
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader object
@@ -63,7 +63,7 @@ void xhtml_element_writer_init( xhtml_element_writer_t *this_,
                               );
 
 /*!
- *  \brief destroys the format writer
+ *  \brief destroys the element writer
  *
  *  \param this_ pointer to own object attributes
  */
@@ -332,14 +332,14 @@ int xhtml_element_writer_end_diagram( xhtml_element_writer_t *this_, const data_
  *  \brief writes a diagramelement start-element
  *
  *  \param this_ pointer to own object attributes
- *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
  *  \param parent the hosting parent diagram
+ *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
  *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 int xhtml_element_writer_start_diagramelement( xhtml_element_writer_t *this_,
-                                               const data_diagramelement_t *diagramelement_ptr,
                                                const data_diagram_t *parent,
+                                               const data_diagramelement_t *diagramelement_ptr,
                                                const data_classifier_t *occurrence
                                              );
 
@@ -347,14 +347,14 @@ int xhtml_element_writer_start_diagramelement( xhtml_element_writer_t *this_,
  *  \brief writes constents of a a diagramelement
  *
  *  \param this_ pointer to own object attributes
- *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
  *  \param parent the hosting parent diagram
+ *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
  *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 int xhtml_element_writer_assemble_diagramelement( xhtml_element_writer_t *this_,
-                                                  const data_diagramelement_t *diagramelement_ptr,
                                                   const data_diagram_t *parent,
+                                                  const data_diagramelement_t *diagramelement_ptr,
                                                   const data_classifier_t *occurrence
                                                 );
 
@@ -362,14 +362,14 @@ int xhtml_element_writer_assemble_diagramelement( xhtml_element_writer_t *this_,
  *  \brief writes a diagramelement end-element
  *
  *  \param this_ pointer to own object attributes
- *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
  *  \param parent the hosting parent diagram
+ *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
  *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 int xhtml_element_writer_end_diagramelement( xhtml_element_writer_t *this_,
-                                             const data_diagramelement_t *diagramelement_ptr,
                                              const data_diagram_t *parent,
+                                             const data_diagramelement_t *diagramelement_ptr,
                                              const data_classifier_t *occurrence
                                            );
 

@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief wrapper on the stdlib random functions and perforns the initial seed
+ *  \brief wrapper on the stdlib random function; sets the initial seed
  */
 
 #include <stdint.h>
@@ -22,7 +22,7 @@ struct universal_random_struct {
 typedef struct universal_random_struct universal_random_t;
 
 /*!
- *  \brief initializes the universal_random_t struct
+ *  \brief initializes the universal_random_t struct, based on the clock as seed value
  *
  *  Note: You may call this often, the underlying random generator is just initialized once.
  *
@@ -38,11 +38,18 @@ static inline void universal_random_init ( universal_random_t *this_ );
 static inline void universal_random_destroy ( universal_random_t *this_ );
 
 /*!
- *  \brief calculates a pseudo-random integer
+ *  \brief calculates a pseudo-random integer covering the full range of uint16_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline int universal_random_get_int ( universal_random_t *this_ );
+static inline uint16_t universal_random_get_uint16 ( universal_random_t *this_ );
+
+/*!
+ *  \brief calculates a pseudo-random integer covering the full range of uint32_t
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline uint32_t universal_random_get_uint32 ( universal_random_t *this_ );
 
 #include "universal_random.inl"
 
