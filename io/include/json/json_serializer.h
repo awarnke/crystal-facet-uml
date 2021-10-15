@@ -84,13 +84,13 @@ int json_serializer_begin_classifier ( json_serializer_t *this_, const data_clas
 int json_serializer_end_classifier ( json_serializer_t *this_, const data_classifier_t *object );
 
 /*!
- *  \brief appends a diagram to the output
+ *  \brief appends a feature to the output, intended for use within a classifier
  *
  *  \param this_ pointer to own object attributes
- *  \param object a pointer to the diagram to serialize
+ *  \param object a pointer to the feature to serialize
  *  \return 0 in case of success, -1 if output buffer exceeded
  */
-int json_serializer_append_diagram ( json_serializer_t *this_, const data_diagram_t *object );
+int json_serializer_append_feature ( json_serializer_t *this_, const data_feature_t *object );
 
 /*!
  *  \brief appends a relationship to the output
@@ -112,13 +112,13 @@ int json_serializer_append_relationship ( json_serializer_t *this_,
                                         );
 
 /*!
- *  \brief appends a feature to the output, intended for use within a classifier
+ *  \brief appends a diagram to the output
  *
  *  \param this_ pointer to own object attributes
- *  \param object a pointer to the feature to serialize
+ *  \param object a pointer to the diagram to serialize
  *  \return 0 in case of success, -1 if output buffer exceeded
  */
-int json_serializer_append_feature ( json_serializer_t *this_, const data_feature_t *object );
+int json_serializer_append_diagram ( json_serializer_t *this_, const data_diagram_t *object );
 
 /*!
  *  \brief appends a diagramelement to the output

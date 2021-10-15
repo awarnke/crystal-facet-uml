@@ -9,6 +9,7 @@ ideas for future versions:
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes
+  [ ] When cutting a diagram, one cannot immediately paste it to the previous position
   @pencil
   [ ] improve layouting of relationships. Maybe "longest first + shortest best" is not the best strategy?
       instead look more for distances to other lines
@@ -48,6 +49,7 @@ ideas for future versions:
       part-to-component, object-to-class
   [ ] links unclear: provided/required-interface(feature)-to-interface(classifier)
   [?] features can have stereotypes, see UML spec 2.5.1 chapter 11.4.5 (maybe use existing value-type?)
+  [ ] reduce syslog messages, e.g. ERR : sqlite3_exec() failed: ALTER TABLE classifiers ADD COLUMN uuid TEXT
   @ctrl
   [ ] delete features immediately when they become invisible in all diagrams (note: the search+xmi export find them)
   [ ] delete relationships immediately when they become invisible in all diagrams (note: the search+xmi export find them)

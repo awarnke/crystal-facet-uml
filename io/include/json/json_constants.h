@@ -47,7 +47,7 @@
 
 #define JSON_CONSTANTS_KEY_DIAGRAM "diagram"
 #define JSON_CONSTANTS_KEY_DIAGRAM_ID "id"
-/* parent_id not part of json export */
+#define JSON_CONSTANTS_KEY_DIAGRAM_PARENT_ID "parent_id"
 #define JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE "diagram_type"
 #define JSON_CONSTANTS_KEY_DIAGRAM_NAME "name"
 #define JSON_CONSTANTS_KEY_DIAGRAM_DESCRIPTION "description"
@@ -73,7 +73,6 @@
 #define JSON_CONSTANTS_KEY_CLASSIFIER_FEATURES "features"
 
 #define JSON_CONSTANTS_KEY_FEATURE_ID "id"
-/* feature_id not part of json export */
 #define JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE "main_type"
 #define JSON_CONSTANTS_KEY_FEATURE_KEY "key"
 #define JSON_CONSTANTS_KEY_FEATURE_VALUE "value"

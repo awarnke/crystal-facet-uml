@@ -135,7 +135,7 @@ int json_serializer_begin_classifier ( json_serializer_t *this_, const data_clas
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_classifier_get_row_id( object ));
+                                      data_classifier_get_row_id( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
@@ -150,7 +150,7 @@ int json_serializer_begin_classifier ( json_serializer_t *this_, const data_clas
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_classifier_get_main_type( object ));
+                                      data_classifier_get_main_type( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
@@ -166,7 +166,7 @@ int json_serializer_begin_classifier ( json_serializer_t *this_, const data_clas
                                         JSON_CONSTANTS_DEF
                                         JSON_CONSTANTS_QUOTE );
     out_err |= json_writer_write_string_enc( &((*this_).json_writer),
-                                        data_classifier_get_stereotype_const( object ));
+                                             data_classifier_get_stereotype_const( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NEXT_NL );
@@ -183,7 +183,7 @@ int json_serializer_begin_classifier ( json_serializer_t *this_, const data_clas
                                         JSON_CONSTANTS_DEF
                                         JSON_CONSTANTS_QUOTE );
     out_err |= json_writer_write_string_enc( &((*this_).json_writer),
-                                        data_classifier_get_name_const( object ));
+                                             data_classifier_get_name_const( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NEXT_NL );
@@ -200,7 +200,7 @@ int json_serializer_begin_classifier ( json_serializer_t *this_, const data_clas
                                         JSON_CONSTANTS_DEF
                                         JSON_CONSTANTS_QUOTE );
     out_err |= json_writer_write_stringlist_enc( &((*this_).json_writer),
-                                                data_classifier_get_description_const( object ));
+                                                 data_classifier_get_description_const( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NEXT_NL );
@@ -216,7 +216,7 @@ int json_serializer_begin_classifier ( json_serializer_t *this_, const data_clas
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_classifier_get_x_order( object ));
+                                      data_classifier_get_x_order( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
@@ -231,7 +231,7 @@ int json_serializer_begin_classifier ( json_serializer_t *this_, const data_clas
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_classifier_get_y_order( object ));
+                                      data_classifier_get_y_order( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
@@ -246,7 +246,7 @@ int json_serializer_begin_classifier ( json_serializer_t *this_, const data_clas
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_classifier_get_list_order( object ));
+                                      data_classifier_get_list_order( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
@@ -262,7 +262,7 @@ int json_serializer_begin_classifier ( json_serializer_t *this_, const data_clas
                                         JSON_CONSTANTS_DEF
                                         JSON_CONSTANTS_QUOTE );
     out_err |= json_writer_write_string_enc( &((*this_).json_writer),
-                                        data_classifier_get_uuid_const( object ));
+                                             data_classifier_get_uuid_const( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NEXT_NL );
@@ -338,18 +338,18 @@ int json_serializer_end_classifier ( json_serializer_t *this_, const data_classi
     return out_err;
 }
 
-int json_serializer_append_diagram ( json_serializer_t *this_, const data_diagram_t *object )
+int json_serializer_append_feature ( json_serializer_t *this_, const data_feature_t *object )
 {
     TRACE_BEGIN();
     assert ( NULL != object );
     assert( (*this_).in_outer_array == true );
-    assert( (*this_).in_inner_array == false );
+    assert( (*this_).in_inner_array == true );
     int out_err = 0;
 
-    /* separate objects if not first */
-    if ( (*this_).is_outer_first )
+    /* separate objects in array if not first */
+    if ( (*this_).is_inner_first )
     {
-        (*this_).is_outer_first = false;
+        (*this_).is_inner_first = false;
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_NL );
     }
@@ -359,19 +359,13 @@ int json_serializer_append_diagram ( json_serializer_t *this_, const data_diagra
                                             JSON_CONSTANTS_NEXT_NL );
     }
 
-    /* begin diagram */
+    /* begin feature */
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_BEGIN_OBJECT
-                                        JSON_CONSTANTS_NL
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_KEY_DIAGRAM
-                                        JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_DEF
                                         JSON_CONSTANTS_BEGIN_OBJECT_NL );
 
     /* id */
@@ -380,43 +374,68 @@ int json_serializer_append_diagram ( json_serializer_t *this_, const data_diagra
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_KEY_DIAGRAM_ID
-                                        JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_DEF );
-    out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_diagram_get_row_id( object ));
-    out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                        JSON_CONSTANTS_NEXT_NL );
-
-    /* diagram type */
-    out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                        JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE
+                                        JSON_CONSTANTS_KEY_FEATURE_ID
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_diagram_get_diagram_type( object ));
+                                      data_feature_get_row_id( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
-    /* name */
+    /* main_type */
     out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_KEY_DIAGRAM_NAME
+                                        JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_DEF );
+    out_err |= json_writer_write_int( &((*this_).json_writer),
+                                      data_feature_get_main_type( object ));
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_NEXT_NL );
+
+    /* key */
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_KEY_FEATURE_KEY
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF
                                         JSON_CONSTANTS_QUOTE );
     out_err |= json_writer_write_string_enc( &((*this_).json_writer),
-                                        data_diagram_get_name_const( object ));
+                                             data_feature_get_key_const( object ));
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_NEXT_NL );
+
+    /* value */
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_KEY_FEATURE_VALUE
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_DEF
+                                        JSON_CONSTANTS_QUOTE );
+    out_err |= json_writer_write_string_enc( &((*this_).json_writer),
+                                             data_feature_get_value_const( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NEXT_NL );
@@ -427,13 +446,15 @@ int json_serializer_append_diagram ( json_serializer_t *this_, const data_diagra
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_KEY_DIAGRAM_DESCRIPTION
+                                        JSON_CONSTANTS_KEY_FEATURE_DESCRIPTION
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF
                                         JSON_CONSTANTS_QUOTE );
     out_err |= json_writer_write_stringlist_enc( &((*this_).json_writer),
-                                        data_diagram_get_description_const( object ));
+                                                 data_feature_get_description_const( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NEXT_NL );
@@ -444,32 +465,21 @@ int json_serializer_append_diagram ( json_serializer_t *this_, const data_diagra
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_KEY_DIAGRAM_LIST_ORDER
-                                        JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_DEF );
-    out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_diagram_get_list_order( object ));
-    out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                        JSON_CONSTANTS_NEXT_NL );
-
-    /* display_flags */
-    out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                        JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS
+                                        JSON_CONSTANTS_KEY_FEATURE_LIST_ORDER
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_diagram_get_display_flags( object ));
+                                      data_feature_get_list_order( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
     /* uuid */
     out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
@@ -480,17 +490,16 @@ int json_serializer_append_diagram ( json_serializer_t *this_, const data_diagra
                                         JSON_CONSTANTS_DEF
                                         JSON_CONSTANTS_QUOTE );
     out_err |= json_writer_write_string_enc( &((*this_).json_writer),
-                                        data_diagram_get_uuid_const( object ));
+                                             data_feature_get_uuid_const( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NL );  /* LAST, no NEXT */
 
-    /* end diagram */
+    /* end feature */
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_END_OBJECT_NL
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_END_OBJECT );
@@ -560,7 +569,7 @@ int json_serializer_append_relationship ( json_serializer_t *this_,
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_relationship_get_row_id( object ));
+                                      data_relationship_get_row_id( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
@@ -575,7 +584,7 @@ int json_serializer_append_relationship ( json_serializer_t *this_,
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_relationship_get_main_type( object ));
+                                      data_relationship_get_main_type( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
@@ -591,7 +600,7 @@ int json_serializer_append_relationship ( json_serializer_t *this_,
                                         JSON_CONSTANTS_DEF
                                         JSON_CONSTANTS_QUOTE );
     out_err |= json_writer_write_string_enc( &((*this_).json_writer),
-                                        data_relationship_get_name_const( object ));
+                                             data_relationship_get_name_const( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NEXT_NL );
@@ -608,7 +617,7 @@ int json_serializer_append_relationship ( json_serializer_t *this_,
                                         JSON_CONSTANTS_DEF
                                         JSON_CONSTANTS_QUOTE );
     out_err |= json_writer_write_stringlist_enc( &((*this_).json_writer),
-                                        data_relationship_get_description_const( object ));
+                                                 data_relationship_get_description_const( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NEXT_NL );
@@ -624,7 +633,7 @@ int json_serializer_append_relationship ( json_serializer_t *this_,
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_relationship_get_list_order( object ));
+                                      data_relationship_get_list_order( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
@@ -639,7 +648,7 @@ int json_serializer_append_relationship ( json_serializer_t *this_,
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_relationship_get_from_classifier_row_id( object ));
+                                      data_relationship_get_from_classifier_row_id( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
@@ -655,7 +664,7 @@ int json_serializer_append_relationship ( json_serializer_t *this_,
                                         JSON_CONSTANTS_DEF
                                         JSON_CONSTANTS_QUOTE );
     out_err |= json_writer_write_string_enc( &((*this_).json_writer),
-                                        data_classifier_get_name_const( from_clas ));
+                                             data_classifier_get_name_const( from_clas ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NEXT_NL );
@@ -671,7 +680,7 @@ int json_serializer_append_relationship ( json_serializer_t *this_,
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_relationship_get_to_classifier_row_id( object ));
+                                      data_relationship_get_to_classifier_row_id( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
@@ -687,7 +696,7 @@ int json_serializer_append_relationship ( json_serializer_t *this_,
                                         JSON_CONSTANTS_DEF
                                         JSON_CONSTANTS_QUOTE );
     out_err |= json_writer_write_string_enc( &((*this_).json_writer),
-                                        data_classifier_get_name_const( to_clas ));
+                                             data_classifier_get_name_const( to_clas ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NEXT_NL );
@@ -704,7 +713,7 @@ int json_serializer_append_relationship ( json_serializer_t *this_,
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_relationship_get_from_feature_row_id( object ));
+                                      data_relationship_get_from_feature_row_id( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
@@ -722,7 +731,7 @@ int json_serializer_append_relationship ( json_serializer_t *this_,
                                             JSON_CONSTANTS_DEF
                                             JSON_CONSTANTS_QUOTE );
         out_err |= json_writer_write_string_enc( &((*this_).json_writer),
-                                            data_feature_get_key_const( from_feat ));
+                                                 data_feature_get_key_const( from_feat ));
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_NEXT_NL );
@@ -740,7 +749,7 @@ int json_serializer_append_relationship ( json_serializer_t *this_,
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_relationship_get_to_feature_row_id( object ));
+                                      data_relationship_get_to_feature_row_id( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
@@ -758,7 +767,7 @@ int json_serializer_append_relationship ( json_serializer_t *this_,
                                             JSON_CONSTANTS_DEF
                                             JSON_CONSTANTS_QUOTE );
         out_err |= json_writer_write_string_enc( &((*this_).json_writer),
-                                            data_feature_get_key_const( to_feat ));
+                                                 data_feature_get_key_const( to_feat ));
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_NEXT_NL );
@@ -776,7 +785,7 @@ int json_serializer_append_relationship ( json_serializer_t *this_,
                                         JSON_CONSTANTS_DEF
                                         JSON_CONSTANTS_QUOTE );
     out_err |= json_writer_write_string_enc( &((*this_).json_writer),
-                                        data_relationship_get_uuid_const( object ));
+                                             data_relationship_get_uuid_const( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NL );  /* LAST, no NEXT */
@@ -800,18 +809,18 @@ int json_serializer_append_relationship ( json_serializer_t *this_,
     return out_err;
 }
 
-int json_serializer_append_feature ( json_serializer_t *this_, const data_feature_t *object )
+int json_serializer_append_diagram ( json_serializer_t *this_, const data_diagram_t *object )
 {
     TRACE_BEGIN();
     assert ( NULL != object );
     assert( (*this_).in_outer_array == true );
-    assert( (*this_).in_inner_array == true );
+    assert( (*this_).in_inner_array == false );
     int out_err = 0;
 
-    /* separate objects in array if not first */
-    if ( (*this_).is_inner_first )
+    /* separate objects if not first */
+    if ( (*this_).is_outer_first )
     {
-        (*this_).is_inner_first = false;
+        (*this_).is_outer_first = false;
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_NL );
     }
@@ -821,13 +830,19 @@ int json_serializer_append_feature ( json_serializer_t *this_, const data_featur
                                             JSON_CONSTANTS_NEXT_NL );
     }
 
-    /* begin feature */
+    /* begin diagram */
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_BEGIN_OBJECT
+                                        JSON_CONSTANTS_NL
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_KEY_DIAGRAM
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_DEF
                                         JSON_CONSTANTS_BEGIN_OBJECT_NL );
 
     /* id */
@@ -836,68 +851,58 @@ int json_serializer_append_feature ( json_serializer_t *this_, const data_featur
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_KEY_FEATURE_ID
+                                        JSON_CONSTANTS_KEY_DIAGRAM_ID
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                     data_feature_get_row_id( object ));
+                                      data_diagram_get_row_id( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
-    /* main_type */
+    /* parent_id */
     out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                        JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE
+                                        JSON_CONSTANTS_KEY_DIAGRAM_PARENT_ID
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                     data_feature_get_main_type( object ));
+                                      data_diagram_get_parent_row_id( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
-    /* key */
+    /* diagram type */
     out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                        JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_KEY_FEATURE_KEY
+                                        JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_DEF );
+    out_err |= json_writer_write_int( &((*this_).json_writer),
+                                      data_diagram_get_diagram_type( object ));
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_NEXT_NL );
+
+    /* name */
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_KEY_DIAGRAM_NAME
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF
                                         JSON_CONSTANTS_QUOTE );
     out_err |= json_writer_write_string_enc( &((*this_).json_writer),
-                                        data_feature_get_key_const( object ));
-    out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                        JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_NEXT_NL );
-
-    /* value */
-    out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                        JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_KEY_FEATURE_VALUE
-                                        JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_DEF
-                                        JSON_CONSTANTS_QUOTE );
-    out_err |= json_writer_write_string_enc( &((*this_).json_writer),
-                                        data_feature_get_value_const( object ));
+                                             data_diagram_get_name_const( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NEXT_NL );
@@ -908,15 +913,13 @@ int json_serializer_append_feature ( json_serializer_t *this_, const data_featur
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_KEY_FEATURE_DESCRIPTION
+                                        JSON_CONSTANTS_KEY_DIAGRAM_DESCRIPTION
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF
                                         JSON_CONSTANTS_QUOTE );
     out_err |= json_writer_write_stringlist_enc( &((*this_).json_writer),
-                                        data_feature_get_description_const( object ));
+                                                 data_diagram_get_description_const( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NEXT_NL );
@@ -927,21 +930,32 @@ int json_serializer_append_feature ( json_serializer_t *this_, const data_featur
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_KEY_FEATURE_LIST_ORDER
+                                        JSON_CONSTANTS_KEY_DIAGRAM_LIST_ORDER
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_feature_get_list_order( object ));
+                                      data_diagram_get_list_order( object ));
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_NEXT_NL );
+
+    /* display_flags */
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_DEF );
+    out_err |= json_writer_write_int( &((*this_).json_writer),
+                                      data_diagram_get_display_flags( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
     /* uuid */
     out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                        JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
@@ -952,16 +966,17 @@ int json_serializer_append_feature ( json_serializer_t *this_, const data_featur
                                         JSON_CONSTANTS_DEF
                                         JSON_CONSTANTS_QUOTE );
     out_err |= json_writer_write_string_enc( &((*this_).json_writer),
-                                        data_feature_get_uuid_const( object ));
+                                             data_diagram_get_uuid_const( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NL );  /* LAST, no NEXT */
 
-    /* end feature */
+    /* end diagram */
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_END_OBJECT_NL
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_END_OBJECT );
@@ -1022,7 +1037,7 @@ int json_serializer_append_diagramelement ( json_serializer_t *this_, const data
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_diagramelement_get_row_id( object ));
+                                      data_diagramelement_get_row_id( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
@@ -1037,7 +1052,7 @@ int json_serializer_append_diagramelement ( json_serializer_t *this_, const data
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_diagramelement_get_diagram_row_id( object ));
+                                      data_diagramelement_get_diagram_row_id( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
@@ -1052,7 +1067,7 @@ int json_serializer_append_diagramelement ( json_serializer_t *this_, const data
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_diagramelement_get_classifier_row_id( object ));
+                                      data_diagramelement_get_classifier_row_id( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
@@ -1067,7 +1082,7 @@ int json_serializer_append_diagramelement ( json_serializer_t *this_, const data
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_diagramelement_get_focused_feature_row_id( object ));
+                                      data_diagramelement_get_focused_feature_row_id( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
@@ -1082,7 +1097,7 @@ int json_serializer_append_diagramelement ( json_serializer_t *this_, const data
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF );
     out_err |= json_writer_write_int( &((*this_).json_writer),
-                                        data_diagramelement_get_display_flags( object ));
+                                      data_diagramelement_get_display_flags( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_NEXT_NL );
 
@@ -1098,7 +1113,7 @@ int json_serializer_append_diagramelement ( json_serializer_t *this_, const data
                                         JSON_CONSTANTS_DEF
                                         JSON_CONSTANTS_QUOTE );
     out_err |= json_writer_write_string_enc( &((*this_).json_writer),
-                                        data_diagramelement_get_uuid_const( object ));
+                                             data_diagramelement_get_uuid_const( object ));
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NL );  /* LAST, no NEXT */

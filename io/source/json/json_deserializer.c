@@ -425,6 +425,12 @@ data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, da
                             result = json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
                             data_diagram_set_row_id ( out_object, parsed_integer );
                         }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_PARENT_ID ) )
+                        {
+                            int64_t ignored_integer;
+                            result = json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &ignored_integer );
+                            (void) ignored_integer;
+                        }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE ) )
                         {
                             int64_t parsed_integer;
