@@ -233,9 +233,10 @@ static inline bool data_database_is_open( data_database_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param sql_command the sqk statement to execute
+ *  \param ignore_errors if true, no errors are printed to syslog
  *  \return DATA_ERROR_READ_ONLY_DB if read oly, DATA_ERROR_AT_DB if other error, DATA_ERROR_NONE if no error
  */
-static inline data_error_t data_database_private_exec_sql( data_database_t *this_, const char* sql_command );
+static inline data_error_t data_database_private_exec_sql( data_database_t *this_, const char* sql_command, bool ignore_errors );
 
 #include "storage/data_database.inl"
 

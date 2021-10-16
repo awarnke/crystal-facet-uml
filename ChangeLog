@@ -6,7 +6,7 @@ crystal-facet-uml (1.33.0) UNRELEASED; urgency=medium
     not dropped if escape-sequences cause exceeding maximum string length
   * json export (experimental)
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 10 Oct 2021 20:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 16 Oct 2021 08:00:00 +0200
 
 crystal-facet-uml (1.32.1) UNRELEASED; urgency=medium
 

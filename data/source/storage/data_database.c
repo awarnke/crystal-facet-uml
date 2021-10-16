@@ -335,11 +335,11 @@ data_error_t data_database_private_initialize_tables( data_database_t *this_ )
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_CLASSIFIER_TABLE );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_RELATIONSHIP_TABLE );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_FEATURE_TABLE );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_DIAGRAM_TABLE );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_DIAGRAMELEMENT_TABLE );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_CLASSIFIER_TABLE, false );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_RELATIONSHIP_TABLE, false );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_FEATURE_TABLE, false );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_DIAGRAM_TABLE, false );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_DIAGRAMELEMENT_TABLE, false );
 
     TRACE_END_ERR( result );
     return result;
@@ -351,10 +351,10 @@ data_error_t data_database_private_initialize_indexes( data_database_t *this_ )
     data_error_t result = DATA_ERROR_NONE;
 
     /*
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_CLASSIFIERORDERING_INDEX );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_RELATIONSHIPORDERING_INDEX );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_FEATUREORDERING_INDEX );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_DIAGRAMORDERING_INDEX );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_CLASSIFIERORDERING_INDEX, false );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_RELATIONSHIPORDERING_INDEX, false );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_FEATUREORDERING_INDEX, false );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_DIAGRAMORDERING_INDEX, false );
     */
 
     TRACE_END_ERR( result );
@@ -368,33 +368,33 @@ data_error_t data_database_private_upgrade_tables( data_database_t *this_ )
 
 #if 0
     /* update table relationships from version 1.0.0 to later versions */
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_RELATIONSHIP_TABLE_1 );
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_RELATIONSHIP_TABLE_2 );
+    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_RELATIONSHIP_TABLE_1, true );
+    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_RELATIONSHIP_TABLE_2, true );
 
     /* update table diagramelements from version 1.0.0 to later versions */
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAMELEMENT_TABLE_1 );
+    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAMELEMENT_TABLE_1, true );
 
     /* update table diagrams from version 1.0.0 to later versions */
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_DIAGRAM_ROOT_PARENT );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_DIAGRAM_ROOT_PARENT, true );
 
     /* update table classifiers from version 1.4.0 or earlier to 1.5.0 or later versions */
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_CLASSIFIER_TABLE_1 );
+    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_CLASSIFIER_TABLE_1, true );
 #endif
 
     /* update table classifiers from version 1.32.1 or earlier to later versions with diagram.display_flags */
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAM_TABLE_1 );
+    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAM_TABLE_1, true );
 
     /* update all 5 tables from version 1.32.1 (no uuid) to later versions with uuid field */
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_CLASSIFIER_TABLE_UUID );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_CLASSIFIER_UUID );
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_RELATIONSHIP_TABLE_UUID );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_RELATIONSHIP_UUID );
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_FEATURE_TABLE_UUID );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_FEATURE_UUID );
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAM_TABLE_UUID );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_DIAGRAM_UUID );
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAMELEMENT_TABLE_UUID );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_DIAGRAMELEMENT_UUID );
+    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_CLASSIFIER_TABLE_UUID, true );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_CLASSIFIER_UUID, true );
+    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_RELATIONSHIP_TABLE_UUID, true );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_RELATIONSHIP_UUID, true );
+    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_FEATURE_TABLE_UUID, true );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_FEATURE_UUID, true );
+    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAM_TABLE_UUID, true );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_DIAGRAM_UUID, true );
+    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAMELEMENT_TABLE_UUID, true );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_DIAGRAMELEMENT_UUID, true );
 
     if ( ( result & DATA_ERROR_READ_ONLY_DB ) != DATA_ERROR_NONE )
     {

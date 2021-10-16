@@ -79,7 +79,7 @@ static inline bool data_database_is_open( data_database_t *this_ )
     return result;
 }
 
-static inline data_error_t data_database_private_exec_sql( data_database_t *this_, const char* sql_command )
+static inline data_error_t data_database_private_exec_sql( data_database_t *this_, const char* sql_command, bool ignore_errors )
 {
     assert( sql_command != NULL );
     int sqlite_err;
@@ -92,13 +92,19 @@ static inline data_error_t data_database_private_exec_sql( data_database_t *this
 
     if ( SQLITE_READONLY == sqlite_err )
     {
-        TSLOG_WARNING_STR( "sqlite3_exec() failed:", sql_command );
+        if ( ! ignore_errors )
+        {
+            TSLOG_WARNING_STR( "sqlite3_exec() failed:", sql_command );
+        }
         result |=  DATA_ERROR_READ_ONLY_DB;
     }
     else if ( SQLITE_OK != sqlite_err )
     {
-        TSLOG_ERROR_STR( "sqlite3_exec() failed:", sql_command );
-        TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        if ( ! ignore_errors )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", sql_command );
+            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        }
         result |= DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
