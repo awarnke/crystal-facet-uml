@@ -1,4 +1,6 @@
 #!/bin/sh
-rm -fr CMakeCache.txt CMakeFiles cmake_install.cmake
+rm -fr CMakeFiles
+rm -f CMakeCache.txt cmake_install.cmake
+rm -f Makefile
 rm -fr crystal-facet-uml
 rm -fr sqlite-amalgamation-3360000
