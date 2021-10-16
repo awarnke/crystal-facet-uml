@@ -9,7 +9,8 @@ ideas for future versions:
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes
-  [ ] When cutting a diagram, one cannot immediately paste it to the previous position
+  [ ] When cutting a diagram, one cannot immediately paste it to the previous position,
+      nor immediately after opening a new db
   @pencil
   [ ] improve layouting of relationships. Maybe "longest first + shortest best" is not the best strategy?
       instead look more for distances to other lines
@@ -51,8 +52,8 @@ ideas for future versions:
   [?] features can have stereotypes, see UML spec 2.5.1 chapter 11.4.5 (maybe use existing value-type?)
   [ ] reduce syslog messages, e.g. ERR : sqlite3_exec() failed: ALTER TABLE classifiers ADD COLUMN uuid TEXT
   @ctrl
-  [ ] delete features immediately when they become invisible in all diagrams (note: the search+xmi export find them)
-  [ ] delete relationships immediately when they become invisible in all diagrams (note: the search+xmi export find them)
+  [ ] delete features immediately when they become invisible in all diagrams (note: the search+xmi+json export find them)
+  [ ] delete relationships immediately when they become invisible in all diagrams (note: the search+xmi+json export find them)
   @universal+utf8stringbuf
   [ ] combine the static string allocation with dynamic additional buffers for unexpectedly-long strings
   [ ] combine the static array allocation with dynamic additional buffers for arrays of unpredictable lengths
