@@ -347,11 +347,13 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
             /* determine ids */
             const data_diagram_t *selected_diag = gui_sketch_area_private_get_focused_diagram_ptr( this_ );
             const data_row_id_t selected_diagram_row_id = data_diagram_get_row_id( selected_diag );
+            const data_id_t selected_diagram_id = data_diagram_get_data_id( selected_diag );
             TRACE_INFO_INT( "selected_diagram_row_id:", selected_diagram_row_id );
             const data_id_t parent_diagram_id = data_diagram_get_parent_data_id( selected_diag );
             TRACE_INFO_INT( "parent_diagram_id:", data_id_get_row_id( &parent_diagram_id ) );
 
             gui_sketch_request_set_parent_diagram( &((*this_).request), parent_diagram_id );
+            gui_marked_set_set_focused_diagram( (*this_).marker, selected_diagram_id );
 
             const gui_tool_t selected_tool
                 = gui_sketch_request_get_tool_mode( &((*this_).request) );

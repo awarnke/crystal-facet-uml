@@ -1,7 +1,8 @@
 crystal-facet-uml (1.33.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * t.b.d.
+  * fix: When cutting a diagram, one can immediately paste it to the previous
+    position; also paste it immediately after opening a new db.
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 16 ??? 2021 08:00:00 +0200
 

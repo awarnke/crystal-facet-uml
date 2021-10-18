@@ -79,6 +79,7 @@ void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, data_row_id_t
     utf8stringbuf_clear( (*this_).clipboard_stringbuf );
 
     (*this_).destination_diagram_id = destination_diagram_id;
+    TRACE_INFO_INT ( "(*this_).destination_diagram_id:", destination_diagram_id );
 
     /* this more complicated call (compared to gtk_clipboard_wait_for_text) avoids recursive calls of the gdk main loop */
     gtk_clipboard_request_text ( (*this_).the_clipboard,

@@ -36,9 +36,6 @@ void gui_toolbox_init ( gui_toolbox_t *this_,
     assert( NULL != controller );
 
     (*this_).selected_tool = GUI_TOOL_NAVIGATE;
-#if 0
-    (*this_).listener = NULL;
-#endif
     (*this_).marker = marker;
     (*this_).message_to_user = message_to_user;
     (*this_).db_reader = db_reader;
@@ -86,9 +83,6 @@ void gui_toolbox_destroy ( gui_toolbox_t *this_ )
 
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
-#if 0
-    (*this_).listener = NULL;
-#endif
     (*this_).marker = NULL;
     (*this_).message_to_user = NULL;
     (*this_).toolbar = NULL;
