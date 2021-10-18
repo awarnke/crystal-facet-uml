@@ -853,7 +853,7 @@ data_error_t json_deserializer_skip_next_object ( json_deserializer_t *this_ )
 
                             case JSON_VALUE_TYPE_STRING:
                             {
-                                json_deserializer_skip_next_string( this_ );
+                                result = json_deserializer_skip_next_string( this_ );
                             }
                             break;
 

@@ -52,7 +52,7 @@ Diagrams can be exported as
     </listitem>
     <listitem><para>text: utf-8, DocBook, xhtml,</para>
     </listitem>
-    <listitem><para>machine-readable model: xmi(TM).</para>
+    <listitem><para>machine-readable model: json, xmi(TM).</para>
     </listitem>
 </itemizedlist>
 
