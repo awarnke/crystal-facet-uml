@@ -287,7 +287,7 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
                 || geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN1 )
                 || geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN2 ) )
             {
-                debts_of_current += 2.0 * geometry_connector_get_length( current_solution );
+                debts_of_current += geometry_connector_get_length( current_solution );
             }
 
         }
