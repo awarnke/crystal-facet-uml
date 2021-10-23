@@ -440,11 +440,11 @@ static inline geometry_3dir_t geometry_connector_get_directions ( const geometry
     return result;
 }
 
-static const char geometry_mnemomic[GEOMETRY_DIRECTION_MAX]
-    = { '.', '<', 'F', '^', '7', '>', 'J', 'v', 'L' };
-
 static inline void geometry_connector_trace ( const geometry_connector_t *this_ )
 {
+    static const char geometry_mnemomic[GEOMETRY_DIRECTION_MAX]
+        = { '.', '<', 'F', '^', '7', '>', 'J', 'v', 'L' };
+
     const geometry_3dir_t pattern = geometry_connector_get_directions( this_ );
     const char pattern_as_str[6]
         = { [0] = geometry_mnemomic[pattern.first],
