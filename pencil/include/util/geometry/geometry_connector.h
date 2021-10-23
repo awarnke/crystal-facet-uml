@@ -14,6 +14,7 @@
 
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_point.h"
+#include "util/geometry/geometry_3dir.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -199,16 +200,16 @@ static inline double geometry_connector_destination_end_x ( const geometry_conne
 static inline double geometry_connector_get_destination_end_y ( const geometry_connector_t *this_ );
 
 /*!
- *  \brief calculates the the point of the connector line after distance_covered 
+ *  \brief calculates the the point of the connector line after distance_covered
  *
  *  \param this_ pointer to own object attributes
  *  \param distance_covered distance from source, expected values range from 0.0 .. geometry_connector_get_length
  *  \return point on the connector line that has distance distance_covered from source end.
- *          If distance_covered < 0.0, the source point is returned. 
+ *          If distance_covered < 0.0, the source point is returned.
  *          If distance > geometry_connector_get_length, the destination point is returned.
  */
 static inline geometry_point_t geometry_connector_calculate_waypoint ( const geometry_connector_t *this_,
-                                                                       double distance_covered 
+                                                                       double distance_covered
                                                                      );
 
 /*!
@@ -253,6 +254,14 @@ static inline uint32_t geometry_connector_count_connector_intersects ( const geo
  *  \param this_ pointer to own object attributes
  */
 static inline geometry_rectangle_t geometry_connector_get_bounding_rectangle ( const geometry_connector_t *this_ );
+
+/*!
+ *  \brief gets the directions-pattern that is described by the connector
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return three geometry_direction_t, index 0 for source, 1 for mainline, 2 for destination
+ */
+static inline geometry_3dir_t geometry_connector_get_directions ( const geometry_connector_t *this_ );
 
 /*!
  *  \brief prints the geometry_connector_t struct to the trace output

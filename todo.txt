@@ -9,8 +9,6 @@ ideas for future versions:
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes
-  [ ] When cutting a diagram, one cannot immediately paste it to the previous position,
-      nor immediately after opening a new db
   @pencil
   [ ] improve layouting of relationships. Maybe "longest first + shortest best" is not the best strategy?
       instead look more for distances to other lines

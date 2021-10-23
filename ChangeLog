@@ -3,8 +3,9 @@ crystal-facet-uml (1.33.1) UNRELEASED; urgency=medium
   [ Andreas Warnke ]
   * fix: When cutting a diagram, one can immediately paste it to the previous
     position; also paste it immediately after opening a new db.
+  * Layouting of lines prefers connector types Z over S, N over L7
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 16 ??? 2021 08:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 23 Oct 2021 18:00:00 +0200
 
 crystal-facet-uml (1.33.0) UNRELEASED; urgency=medium
 

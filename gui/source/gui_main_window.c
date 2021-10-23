@@ -214,7 +214,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_widget_set_halign( (*this_).attr_section_icon, GTK_ALIGN_START );
     (*this_).id_label = gtk_label_new ( "" );
     (*this_).name_label = gtk_label_new ( "Name:" );
-    (*this_).description_label = gtk_label_new ( "Specification:" );
+    (*this_).description_label = gtk_label_new ( "Description:" );
     (*this_).stereotype_label = gtk_label_new ( "Stereotype/Valuetype:" );
     (*this_).type_label = gtk_label_new ( "Type:" );
 #if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION > 3 ))

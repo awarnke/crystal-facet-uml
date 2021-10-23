@@ -390,8 +390,70 @@ static inline geometry_rectangle_t geometry_connector_get_bounding_rectangle ( c
     return result;
 }
 
+static inline geometry_3dir_t geometry_connector_get_directions ( const geometry_connector_t *this_ )
+{
+    const double very_small = 0.000000001;
+
+    const double src_dx = (*this_).main_line_source_x - (*this_).source_end_x;
+    const double src_dy = (*this_).main_line_source_y - (*this_).source_end_y;
+    const double abs_src_dx = fabs( src_dx );
+    const double abs_src_dy = fabs( src_dy );
+    const bool src_exists = (( abs_src_dx > very_small )||( abs_src_dy > very_small ));
+    const bool src_is_horizontal = ( abs_src_dx > abs_src_dy );
+
+    const geometry_direction_t src_dir
+       = ( ! src_exists )
+       ? GEOMETRY_DIRECTION_CENTER
+       : src_is_horizontal
+       ? (( src_dx > 0.0 ) ? GEOMETRY_DIRECTION_RIGHT : GEOMETRY_DIRECTION_LEFT )
+       : (( src_dy > 0.0 ) ? GEOMETRY_DIRECTION_DOWN : GEOMETRY_DIRECTION_UP );
+
+    const double main_dx = (*this_).main_line_destination_x - (*this_).main_line_source_x;
+    const double main_dy = (*this_).main_line_destination_y - (*this_).main_line_source_y;
+    const double abs_main_dx = fabs( main_dx );
+    const double abs_main_dy = fabs( main_dy );
+    const bool main_exists = (( abs_main_dx > very_small )||( abs_main_dy > very_small ));
+    const bool main_is_horizontal = ( abs_main_dx > abs_main_dy );
+
+    const geometry_direction_t main_dir
+       = ( ! main_exists )
+       ? GEOMETRY_DIRECTION_CENTER
+       : main_is_horizontal
+       ? (( main_dx > 0.0 ) ? GEOMETRY_DIRECTION_RIGHT : GEOMETRY_DIRECTION_LEFT )
+       : (( main_dy > 0.0 ) ? GEOMETRY_DIRECTION_DOWN : GEOMETRY_DIRECTION_UP );
+
+    const double dst_dx = (*this_).destination_end_x - (*this_).main_line_destination_x;
+    const double dst_dy = (*this_).destination_end_y - (*this_).main_line_destination_y;
+    const double abs_dst_dx = fabs( dst_dx );
+    const double abs_dst_dy = fabs( dst_dy );
+    const bool dst_exists = (( abs_dst_dx > very_small )||( abs_dst_dy > very_small ));
+    const bool dst_is_horizontal = ( abs_dst_dx > abs_dst_dy );
+
+    const geometry_direction_t dst_dir
+       = ( ! dst_exists )
+       ? GEOMETRY_DIRECTION_CENTER
+       : dst_is_horizontal
+       ? (( dst_dx > 0.0 ) ? GEOMETRY_DIRECTION_RIGHT : GEOMETRY_DIRECTION_LEFT )
+       : (( dst_dy > 0.0 ) ? GEOMETRY_DIRECTION_DOWN : GEOMETRY_DIRECTION_UP );
+
+    const geometry_3dir_t result = { .first = src_dir, .second = main_dir, .third = dst_dir };
+    return result;
+}
+
+static const char geometry_mnemomic[GEOMETRY_DIRECTION_MAX]
+    = { '.', '<', 'F', '^', '7', '>', 'J', 'v', 'L' };
+
 static inline void geometry_connector_trace ( const geometry_connector_t *this_ )
 {
+    const geometry_3dir_t pattern = geometry_connector_get_directions( this_ );
+    const char pattern_as_str[6]
+        = { [0] = geometry_mnemomic[pattern.first],
+            [1] = ' ',
+            [2] = geometry_mnemomic[pattern.second],
+            [3] = ' ',
+            [4] = geometry_mnemomic[pattern.third],
+            [5] = '\0' };
+
     TRACE_INFO( "geometry_connector_t" );
     TRACE_INFO_INT( "- source_end_x:", (*this_).source_end_x );
     TRACE_INFO_INT( "- source_end_y:", (*this_).source_end_y );
@@ -401,6 +463,7 @@ static inline void geometry_connector_trace ( const geometry_connector_t *this_ 
     TRACE_INFO_INT( "- main_line_destination_y:", (*this_).main_line_destination_y );
     TRACE_INFO_INT( "- destination_end_x:", (*this_).destination_end_x );
     TRACE_INFO_INT( "- destination_end_y:", (*this_).destination_end_y );
+    TRACE_INFO_STR( "- get_directions:", pattern_as_str );
 }
 
 

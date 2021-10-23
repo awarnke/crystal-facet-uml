@@ -455,7 +455,7 @@ void gui_attributes_editor_selected_object_changed_callback( GtkWidget *widget, 
     assert ( NULL != widget );
 
     /* is a new object selected ? */
-    if ( ! data_id_equals ( &((*this_).selected_object_id), id ) )
+    if ( ! data_id_equals( &((*this_).selected_object_id), id ) )
     {
         /* store all changes on the old object */
         gui_attributes_editor_commit_changes( this_ );
@@ -506,9 +506,10 @@ void gui_attributes_editor_data_changed_callback( GtkWidget *widget, data_change
     {
         data_id_reinit_void( &((*this_).latest_created_id) );
         data_id_reinit_void( &((*this_).second_latest_id) );
-        data_id_t nothing;
+        /* data_id_t nothing;
         data_id_init_void( &nothing );
-        gui_attributes_editor_private_load_object( this_, nothing );  /* clear cached data */
+        gui_attributes_editor_private_load_object( this_, nothing );  / * clear cached data */
+        gui_attributes_editor_private_load_object( this_, DATA_ID_VOID );  /* clear cached data */
         gui_attributes_editor_update_widgets ( this_ );
     }
     else if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
@@ -749,7 +750,10 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 ctrl_classifier_controller_t *class_ctrl;
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
-                ctrl_err = ctrl_classifier_controller_update_classifier_name ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
+                ctrl_err = ctrl_classifier_controller_update_classifier_name( class_ctrl,
+                                                                              data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                              text
+                                                                            );
                 if ( CTRL_ERROR_DUPLICATE_NAME == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
@@ -769,9 +773,9 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                        );
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                           );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
@@ -790,7 +794,10 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 ctrl_classifier_controller_t *class_ctrl;
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
-                ctrl_err = ctrl_classifier_controller_update_feature_key ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
+                ctrl_err = ctrl_classifier_controller_update_feature_key( class_ctrl,
+                                                                          data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                          text
+                                                                        );
                 if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -802,9 +809,9 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                        );
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                           );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
@@ -823,7 +830,10 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 ctrl_classifier_controller_t *class_ctrl;
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
-                ctrl_err = ctrl_classifier_controller_update_relationship_name ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
+                ctrl_err = ctrl_classifier_controller_update_relationship_name( class_ctrl,
+                                                                                data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                                text
+                                                                              );
                 if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -835,9 +845,9 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                        );
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                           );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
@@ -863,7 +873,10 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 ctrl_diagram_controller_t *diag_ctrl;
                 diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
-                ctrl_err = ctrl_diagram_controller_update_diagram_name ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
+                ctrl_err = ctrl_diagram_controller_update_diagram_name( diag_ctrl,
+                                                                        data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                        text
+                                                                      );
                 if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -875,9 +888,9 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                        );
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                           );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {

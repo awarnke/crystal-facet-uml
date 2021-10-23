@@ -225,6 +225,15 @@ void pencil_relationship_layouter_private_propose_solutions ( pencil_relationshi
     TRACE_END();
 }
 
+static const geometry_3dir_t PENCIL_BAD_V_PATTERN1
+   = { .first = GEOMETRY_DIRECTION_LEFT,  .second = GEOMETRY_DIRECTION_DOWN,  .third = GEOMETRY_DIRECTION_LEFT };
+static const geometry_3dir_t PENCIL_BAD_V_PATTERN2
+   = { .first = GEOMETRY_DIRECTION_RIGHT, .second = GEOMETRY_DIRECTION_UP,    .third = GEOMETRY_DIRECTION_RIGHT };
+static const geometry_3dir_t PENCIL_BAD_H_PATTERN1
+   = { .first = GEOMETRY_DIRECTION_DOWN,  .second = GEOMETRY_DIRECTION_RIGHT, .third = GEOMETRY_DIRECTION_DOWN };
+static const geometry_3dir_t PENCIL_BAD_H_PATTERN2
+   = { .first = GEOMETRY_DIRECTION_UP,    .second = GEOMETRY_DIRECTION_LEFT,  .third = GEOMETRY_DIRECTION_UP };
+
 void pencil_relationship_layouter_private_select_solution ( pencil_relationship_layouter_t *this_,
                                                             const universal_array_index_sorter_t *sorted,
                                                             uint32_t sort_index,
@@ -269,6 +278,19 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
 
         /* the more length, the more unwanted... */
         debts_of_current += geometry_connector_get_length( current_solution );
+
+        /* prefer left-hand angles over right-handed */
+        {
+            const geometry_3dir_t pattern = geometry_connector_get_directions( current_solution );
+            if ( geometry_3dir_equals( &pattern, &PENCIL_BAD_V_PATTERN1 )
+                || geometry_3dir_equals( &pattern, &PENCIL_BAD_V_PATTERN2 )
+                || geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN1 )
+                || geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN2 ) )
+            {
+                debts_of_current += 2.0 * geometry_connector_get_length( current_solution );
+            }
+
+        }
 
         /* add debts for overlap to diagram boundary */
         {
@@ -319,9 +341,9 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
                                      == data_relationship_get_from_classifier_row_id( current_relation_data ) );
             const bool same_to = ( data_relationship_get_to_classifier_row_id( probe_relation_data )
                                      == data_relationship_get_to_classifier_row_id( current_relation_data ) );
-            const bool one_same_emd = ( same_from != same_to );
+            const bool one_same_end = ( same_from != same_to );
             /* if probe and current have same type and (same source classifier xor same destination classifier), overlaps are ok */
-            if ( ! ( same_type && one_same_emd ) )
+            if ( ! ( same_type && one_same_end ) )
             {
                 const geometry_connector_t *const probe_shape
                     = layout_relationship_get_shape_const( probe_relationship );
@@ -339,14 +361,9 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
         }
     }
 
-    /*
-    static unsigned int random;
-    random ++;
-    index_of_best = random % solutions_count;
-    */
-
     /* the best */
     *out_index_of_best = index_of_best;
+    geometry_connector_trace( &(solutions[index_of_best]) );
 
     TRACE_END();
 }

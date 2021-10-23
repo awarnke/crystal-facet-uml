@@ -143,14 +143,24 @@ static inline void data_id_trace ( const data_id_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param that pointer to other object attributes
- *  \return true if both parameters are valid and equal; false if at least one is invalid or they are unequal.
+ *  \return true if both parameters are valid and equal; false if at least one is void or they are unequal.
  */
 static inline bool data_id_equals ( const data_id_t *this_, const data_id_t *that );
+
+/*!
+ *  \brief checks if two data_id_t objects are equal or both void
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to other object attributes
+ *  \return true if both parameters are void or equal; false if exactly one is void or they are unequal.
+ */
+static inline bool data_id_equals_or_both_void ( const data_id_t *this_, const data_id_t *that );
 
 /*!
  *  \brief checks if data_id has a valid table and a valid row
  *
  *  \param this_ pointer to own object attributes
+ *  \return true if valid, false if void
  */
 static inline bool data_id_is_valid ( const data_id_t *this_ );
 
@@ -160,7 +170,7 @@ static inline bool data_id_is_valid ( const data_id_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param table table of other object
  *  \param row_id row_id of other object
- *  \return true if both object-ids are valid and equal; false if at least one is invalid or they are unequal.
+ *  \return true if both object-ids are valid and equal; false if at least one is void or they are unequal.
  */
 static inline bool data_id_equals_id ( const data_id_t *this_, data_table_t table, data_row_id_t row_id );
 

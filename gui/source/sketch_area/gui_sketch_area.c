@@ -329,7 +329,7 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
                 }
                 else
                 {
-                    TRACE_INFO_INT( "max diagramx esxeeded, dropping diagram:", data_id_get_row_id(&diag_id) );
+                    TRACE_INFO_INT( "max diagrams exeeded, dropping diagram:", data_id_get_row_id(&diag_id) );
                 }
             }
         }
@@ -352,8 +352,18 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
             const data_id_t parent_diagram_id = data_diagram_get_parent_data_id( selected_diag );
             TRACE_INFO_INT( "parent_diagram_id:", data_id_get_row_id( &parent_diagram_id ) );
 
+            const data_id_t former_focused_diag = gui_marked_set_get_focused_diagram( (*this_).marker);
             gui_sketch_request_set_parent_diagram( &((*this_).request), parent_diagram_id );
-            gui_marked_set_set_focused_diagram( (*this_).marker, selected_diagram_id );
+            if ( ! data_id_equals_or_both_void( &former_focused_diag, &selected_diagram_id ) )
+            {
+                /* clear focused but keep selected_diagram_id, needed for gui_toolbox_paste */
+                gui_marked_set_set_focused( (*this_).marker, DATA_ID_VOID, selected_diagram_id );
+                gui_sketch_area_private_notify_listeners( this_, DATA_ID_VOID );
+            }
+            else
+            {
+                /* DO NOT NOTIFY CHANGES IN A POSSIBLE DATA CHANGE CALLBACK - MAY CAUSE ENDLESS RECURSION */
+            }
 
             const gui_tool_t selected_tool
                 = gui_sketch_request_get_tool_mode( &((*this_).request) );
@@ -895,7 +905,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                             gui_sketch_area_show_diagram( this_, focused_id );
 
                             /* notify listener */
-                            gui_marked_set_set_focused_diagram( (*this_).marker, focused_id );
+                            gui_marked_set_set_focused( (*this_).marker, focused_id, focused_id );
                             gui_sketch_area_private_notify_listeners( this_, focused_id );
                             gui_marked_set_clear_selected_set( (*this_).marker );
                         }
@@ -1285,7 +1295,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             gui_sketch_area_show_diagram( this_, dragged_diagram );
 
                             /* notify listener */
-                            gui_marked_set_set_focused_diagram( (*this_).marker, dragged_diagram );
+                            gui_marked_set_set_focused( (*this_).marker, dragged_diagram, dragged_diagram );
                             gui_sketch_area_private_notify_listeners( this_, dragged_diagram );
                             gui_marked_set_clear_selected_set( (*this_).marker );
 

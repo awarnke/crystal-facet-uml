@@ -105,8 +105,8 @@ static inline void gui_marked_set_clear_selected_set ( gui_marked_set_t *this_ )
  *  \brief sets the focused object id and focused_diagram id
  *
  *  \param this_ pointer to own object attributes
- *  \param obj_id the id of the visible object to set as focused
- *  \param diagram_id the id of the focused diagram
+ *  \param obj_id the id of the visible object to set as focused; can be identical to diagram_id
+ *  \param diagram_id the id of the focused diagram; identical or parent to obj_id
  */
 static inline void gui_marked_set_set_focused ( gui_marked_set_t *this_,
                                                 data_id_t obj_id,
@@ -114,32 +114,16 @@ static inline void gui_marked_set_set_focused ( gui_marked_set_t *this_,
                                               );
 
 /*!
- *  \brief sets the focused object id and focused_diagram id
- *
- *  \param this_ pointer to own object attributes
- *  \param diag_id the id of the focused diagram
- */
-static inline void gui_marked_set_set_focused_diagram ( gui_marked_set_t *this_, data_id_t diag_id );
-
-/*!
  *  \brief sets the highlighted object id and the highlighted_diagram id
  *
  *  \param this_ pointer to own object attributes
- *  \param obj_id the id to set as highlighted
- *  \param diagram_id the id of the highlighted diagram
+ *  \param obj_id the id to set as highlighted, can be identical to diagram_id
+ *  \param diagram_id the id of the highlighted diagram; identical or parent to obj_id
  */
 static inline void gui_marked_set_set_highlighted ( gui_marked_set_t *this_,
                                                     data_id_t obj_id,
                                                     data_id_t diagram_id
                                                   );
-
-/*!
- *  \brief sets the highlighted object id and the highlighted_diagram id
- *
- *  \param this_ pointer to own object attributes
- *  \param diag_id the id of the highlighted diagram
- */
-static inline void gui_marked_set_set_highlighted_diagram ( gui_marked_set_t *this_, data_id_t diag_id );
 
 /*!
  *  \brief un-sets the focused object id

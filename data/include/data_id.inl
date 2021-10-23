@@ -150,6 +150,12 @@ static inline bool data_id_equals ( const data_id_t *this_, const data_id_t *tha
              &&( (*this_).row_id == (*that).row_id )&&( (*this_).table == (*that).table ) );
 }
 
+static inline bool data_id_equals_or_both_void ( const data_id_t *this_, const data_id_t *that )
+{
+    const bool one_or_both_valid = data_id_is_valid( this_ ) || data_id_is_valid( that );
+    return ( ! one_or_both_valid ) || (( (*this_).row_id == (*that).row_id )&&( (*this_).table == (*that).table ));
+}
+
 static inline bool data_id_is_valid ( const data_id_t *this_ )
 {
     return (( DATA_ROW_ID_VOID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table ));
