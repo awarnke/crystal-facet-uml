@@ -52,7 +52,7 @@ int universal_file_output_stream_open ( universal_file_output_stream_t *this_, c
     (*this_).output = fopen( path, "w" );
     if ( NULL == (*this_).output )
     {
-        TSLOG_ERROR("error at opening file.");
+        TSLOG_ERROR("error at opening file for writing.");
         err = -1;
     }
 

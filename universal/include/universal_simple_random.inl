@@ -1,4 +1,4 @@
-/* File: universal_random.inl; Copyright and License: see below */
+/* File: universal_simple_random.inl; Copyright and License: see below */
 
 #include "tslog.h"
 #include <time.h>
@@ -6,11 +6,11 @@
 #include <errno.h>
 #include <stdbool.h>
 
-extern bool universal_random_initialized;
+extern bool universal_simple_random_initialized;
 
-static inline void universal_random_init ( universal_random_t *this_ )
+static inline void universal_simple_random_init ( universal_simple_random_t *this_ )
 {
-    if ( ! universal_random_initialized )
+    if ( ! universal_simple_random_initialized )
     {
         clock_t now = clock();  /* integer represents clocks, to be divided by CLOCKS_PER_SEC */
 #ifdef _WIN32
@@ -18,16 +18,16 @@ static inline void universal_random_init ( universal_random_t *this_ )
 #else  /* POSIX.1-2001 */
         srandom( now );
 #endif
-        universal_random_initialized = true;
+        universal_simple_random_initialized = true;
     }
     (*this_).dummy=0;
 }
 
-static inline void universal_random_destroy ( universal_random_t *this_ )
+static inline void universal_simple_random_destroy ( universal_simple_random_t *this_ )
 {
 }
 
-static inline uint16_t universal_random_get_uint16 ( universal_random_t *this_ )
+static inline uint16_t universal_simple_random_get_uint16 ( universal_simple_random_t *this_ )
 {
     uint16_t result;
 
@@ -55,7 +55,7 @@ static inline uint16_t universal_random_get_uint16 ( universal_random_t *this_ )
     return result;
 }
 
-static inline uint32_t universal_random_get_uint32 ( universal_random_t *this_ )
+static inline uint32_t universal_simple_random_get_uint32 ( universal_simple_random_t *this_ )
 {
     uint32_t result;
 

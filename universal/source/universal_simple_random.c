@@ -1,8 +1,8 @@
-/* File: universal_random.c; Copyright and License: see below */
+/* File: universal_simple_random.c; Copyright and License: see below */
 
-#include "universal_random.h"
+#include "universal_simple_random.h"
 
-bool universal_random_initialized = false;
+bool universal_simple_random_initialized = false;
 
 
 /*

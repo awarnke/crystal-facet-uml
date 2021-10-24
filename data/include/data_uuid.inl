@@ -1,6 +1,6 @@
 /* File: data_uuid.c; Copyright and License: see below */
 
-#include "universal_random.h"
+#include "universal_simple_random.h"
 #include "trace.h"
 #include "tslog.h"
 #include <time.h>
@@ -48,18 +48,18 @@ static inline void data_uuid_init_new ( data_uuid_t *this_ )
     /* Otherwise the pseudo-random number only depends on the initial seed and number of samples already produced. */
     clock_t now = clock();  /* integer represents clocks, to be divided by CLOCKS_PER_SEC */
 
-    universal_random_t rnd;
-    universal_random_init( &rnd );
+    universal_simple_random_t rnd;
+    universal_simple_random_init( &rnd );
     {
         utf8error_t strerr = UTF8ERROR_SUCCESS;
 
         assert( sizeof(int) >= sizeof(uint32_t) );
-        const uint32_t rand1 = now ^ universal_random_get_uint32( &rnd );
-        const uint16_t rand2 = universal_random_get_uint16( &rnd );
-        const uint16_t rand3 = (universal_random_get_uint16( &rnd ) | 0x4000) & 0x4fff;  /* version 4 (4 bits) */
-        const uint16_t rand4 = (universal_random_get_uint16( &rnd ) | 0x8000) & 0xbfff;  /* 2 reserved bits */
-        const uint16_t rand5 = universal_random_get_uint16( &rnd );
-        const uint32_t rand6 = universal_random_get_uint32( &rnd );
+        const uint32_t rand1 = now ^ universal_simple_random_get_uint32( &rnd );
+        const uint16_t rand2 = universal_simple_random_get_uint16( &rnd );
+        const uint16_t rand3 = (universal_simple_random_get_uint16( &rnd ) | 0x4000) & 0x4fff;  /* version 4 (4 bits) */
+        const uint16_t rand4 = (universal_simple_random_get_uint16( &rnd ) | 0x8000) & 0xbfff;  /* 2 reserved bits */
+        const uint16_t rand5 = universal_simple_random_get_uint16( &rnd );
+        const uint32_t rand6 = universal_simple_random_get_uint32( &rnd );
 
         char thirtyseven_bytes[DATA_UUID_STRING_LENGTH+1];
         const int length = sprintf( &(thirtyseven_bytes[0]),
@@ -76,7 +76,7 @@ static inline void data_uuid_init_new ( data_uuid_t *this_ )
         strerr |= utf8stringbuf_append_str( (*this_).uuid_string, &(thirtyseven_bytes[0]) );
         assert( strerr == UTF8ERROR_SUCCESS );
     }
-    universal_random_destroy( &rnd );
+    universal_simple_random_destroy( &rnd );
 }
 
 static inline void data_uuid_copy ( data_uuid_t *this_, const data_uuid_t *original )

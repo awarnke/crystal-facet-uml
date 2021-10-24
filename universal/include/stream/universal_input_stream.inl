@@ -3,8 +3,8 @@
 #include <assert.h>
 
 static inline void universal_input_stream_private_init( universal_input_stream_t *this_,
-                                                         const universal_input_stream_if_t *interface,
-                                                         universal_input_stream_impl_t* objectdata )
+                                                        const universal_input_stream_if_t *interface,
+                                                        universal_input_stream_impl_t* objectdata )
 {
     assert( interface != NULL );
     assert( objectdata != NULL );

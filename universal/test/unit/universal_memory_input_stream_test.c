@@ -10,8 +10,8 @@ static void set_up(void);
 static void tear_down(void);
 static void test_read(void);
 
-static char my_out_buffer[10];
-static universal_memory_input_stream_t my_mem_out_stream;
+static char my_in_buffer[10];
+static universal_memory_input_stream_t my_mem_in_stream;
 
 test_suite_t universal_memory_input_stream_test_get_list(void)
 {
@@ -23,14 +23,14 @@ test_suite_t universal_memory_input_stream_test_get_list(void)
 
 static void set_up(void)
 {
-    memset( &my_out_buffer, '\0', sizeof(my_out_buffer) );
-    universal_memory_input_stream_init( &my_mem_out_stream, &my_out_buffer, sizeof(my_out_buffer) );
+    memcpy( &my_in_buffer, "123456789", sizeof(my_in_buffer) );
+    universal_memory_input_stream_init( &my_mem_in_stream, &my_in_buffer, sizeof(my_in_buffer) );
 }
 
 static void tear_down(void)
 {
     int err;
-    err = universal_memory_input_stream_destroy( &my_mem_out_stream );
+    err = universal_memory_input_stream_destroy( &my_mem_in_stream );
     TEST_ENVIRONMENT_ASSERT( err == 0 );
 }
 
@@ -39,22 +39,22 @@ static void test_read(void)
     int err;
 
     /* get universal_input_stream_t */
-    universal_input_stream_t *my_out_stream;
-    my_out_stream = universal_memory_input_stream_get_input_stream( &my_mem_out_stream );
-    TEST_ASSERT( my_out_stream != NULL );
+    universal_input_stream_t *my_in_stream;
+    my_in_stream = universal_memory_input_stream_get_input_stream( &my_mem_in_stream );
+    TEST_ASSERT( my_in_stream != NULL );
 
     /* get universal_input_stream_if_t */
-    const universal_input_stream_if_t *my_out_if = universal_input_stream_get_interface ( my_out_stream );
-    TEST_ASSERT( my_out_if != NULL );
+    const universal_input_stream_if_t *my_in_if = universal_input_stream_get_interface ( my_in_stream );
+    TEST_ASSERT( my_in_if != NULL );
 
     /* get objectdata */
-    void *my_obj_data = universal_input_stream_get_objectdata ( my_out_stream );
-    TEST_ASSERT_EQUAL_PTR( &my_mem_out_stream, my_obj_data );
+    void *my_obj_data = universal_input_stream_get_objectdata ( my_in_stream );
+    TEST_ASSERT_EQUAL_PTR( &my_mem_in_stream, my_obj_data );
 
     /* read */
     size_t len;
     char buf[16];
-    err = universal_input_stream_read ( my_out_stream, &buf, sizeof(buf), &len );
+    err = universal_input_stream_read ( my_in_stream, &buf, sizeof(buf), &len );
     TEST_ASSERT_EQUAL_INT( 0, err );
 }
 

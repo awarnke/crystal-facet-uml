@@ -46,10 +46,10 @@ int universal_file_input_stream_open ( universal_file_input_stream_t *this_, con
     assert( path != NULL );
     int err = 0;
 
-    (*this_).input = fopen( path, "w" );
+    (*this_).input = fopen( path, "r" );
     if ( NULL == (*this_).input )
     {
-        TSLOG_ERROR("error at opening file.");
+        TSLOG_ERROR("error at opening file for reading.");
         err = -1;
     }
 

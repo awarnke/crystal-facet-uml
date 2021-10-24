@@ -41,7 +41,7 @@ int universal_file_input_stream_destroy( universal_file_input_stream_t *this_ );
  *  \brief opens a file
  *
  *  \param this_ pointer to own object attributes
- *  \param path file path identifying the file to open for writing
+ *  \param path file path identifying the file to open for reading
  *  \return 0 in case of success, -1 otherwise
  */
 int universal_file_input_stream_open ( universal_file_input_stream_t *this_, const char *path );

@@ -30,8 +30,8 @@ typedef void universal_input_stream_impl_t;
  *  Lifecycle functions like init and destroy are not part of the interface.
  */
 struct universal_input_stream_if_struct {
+    /*! a function to read bytes from an input stream into a buffer */
     int (*read)(universal_input_stream_impl_t *this_, void *out_buffer, size_t max_size, size_t *out_length );
-        /*!< a function to read bytes from an input stream into a buffer */
 };
 
 typedef struct universal_input_stream_if_struct universal_input_stream_if_t;

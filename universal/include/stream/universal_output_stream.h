@@ -26,9 +26,6 @@ typedef struct universal_output_stream_struct universal_output_stream_t;
 /*!
  *  \brief initializes the universal_output_stream_t
  *
- *  Note: While init only initializes the \c universal_output_stream_t struct,
- *  destroy also calls the destroy function in \c universal_output_stream_if_t.
- *
  *  \param this_ pointer to own object attributes
  *  \param interface set of interface functions to write to a stream
  *  \param objectdata object that implements writing to a stream

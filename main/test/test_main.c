@@ -31,6 +31,7 @@
 #include "unit/universal_array_list_test.h"
 #include "unit/universal_memory_output_stream_test.h"
 #include "unit/universal_escaping_output_stream_test.h"
+#include "unit/universal_memory_input_stream_test.h"
 #include "unit/utf8stringbuf_test.h"
 #include "unit/utf8codepoint_test.h"
 #include "unit/utf8codepointiterator_test.h"
@@ -131,6 +132,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, universal_array_list_test_get_list() );
         test_runner_run_suite( &runner, universal_memory_output_stream_test_get_list() );
         test_runner_run_suite( &runner, universal_escaping_output_stream_test_get_list() );
+        test_runner_run_suite( &runner, universal_memory_input_stream_test_get_list() );
         test_runner_run_suite( &runner, utf8codepoint_test_get_list() );
         test_runner_run_suite( &runner, utf8codepointiterator_test_get_list() );
         test_runner_run_suite( &runner, utf8stringbuf_test_get_list() );

@@ -16,9 +16,9 @@
  */
 struct universal_memory_input_stream_struct {
     universal_input_stream_t input_stream;  /*!< instance of implemented interface \c universal_input_stream_t */
-    void* mem_buf_start;  /*!< input memory buffer start */
+    const void* mem_buf_start;  /*!< input memory buffer start */
     size_t mem_buf_size;  /*!< input memory buffer size */
-    size_t mem_buf_filled;  /*!< number of bytes written to the input memory buffer */
+    size_t mem_buf_pos;  /*!< read position in the input memory buffer */
 };
 
 typedef struct universal_memory_input_stream_struct universal_memory_input_stream_t;
@@ -30,8 +30,8 @@ typedef struct universal_memory_input_stream_struct universal_memory_input_strea
  *  \param mem_buf_start address of memory buffer
  *  \param mem_buf_size size of the memory buffer
  */
-void universal_memory_input_stream_init( universal_memory_input_stream_t *this_,
-                                          void* mem_buf_start,
+void universal_memory_input_stream_init ( universal_memory_input_stream_t *this_,
+                                          const void* mem_buf_start,
                                           size_t mem_buf_size
                                         );
 
@@ -41,16 +41,15 @@ void universal_memory_input_stream_init( universal_memory_input_stream_t *this_,
  *  \param this_ pointer to own object attributes
  *  \return 0 in case of success, -1 otherwise
  */
-int universal_memory_input_stream_destroy( universal_memory_input_stream_t *this_ );
+int universal_memory_input_stream_destroy ( universal_memory_input_stream_t *this_ );
 
 /*!
- *  \brief opens an input stream
+ *  \brief resets the read position to 0
  *
  *  \param this_ pointer to own object attributes
- *  \param path path identifying the memory to open for writing
  *  \return 0 in case of success, -1 otherwise
  */
-int universal_memory_input_stream_open ( universal_memory_input_stream_t *this_, const char *path );
+int universal_memory_input_stream_reset ( universal_memory_input_stream_t *this_ );
 
 /*!
  *  \brief reads a buffer from a memory region
@@ -62,14 +61,6 @@ int universal_memory_input_stream_open ( universal_memory_input_stream_t *this_,
  *  \return 0 in case of success, -1 otherwise
  */
 int universal_memory_input_stream_read ( universal_memory_input_stream_t *this_, void *out_buffer, size_t max_size, size_t *out_length );
-
-/*!
- *  \brief closes the universal_memory_input_stream_t
- *
- *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
- */
-int universal_memory_input_stream_close( universal_memory_input_stream_t *this_ );
 
 /*!
  *  \brief gets the input stream interface of this universal_memory_input_stream_t

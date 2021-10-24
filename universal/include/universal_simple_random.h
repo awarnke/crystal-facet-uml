@@ -1,59 +1,62 @@
-/* File: universal_random.h; Copyright and License: see below */
+/* File: universal_simple_random.h; Copyright and License: see below */
 
-#ifndef UNIVERSAL_RANDOM_H
-#define UNIVERSAL_RANDOM_H
+#ifndef UNIVERSAL_SIMPLE_RANDOM_H
+#define UNIVERSAL_SIMPLE_RANDOM_H
 
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief wrapper on the stdlib random function; sets the initial seed
+ *  \brief wrapper on the stdlib rand/random function; sets the initial seed.
+ *
+ *  These functions produce pseudo-random numbers that are not suitable
+ *  for security/cryptographic use cases.
  */
 
 #include <stdint.h>
 
 /*!
- *  \brief attributes of a universal_random_t
+ *  \brief attributes of a universal_simple_random_t
  *
  */
-struct universal_random_struct {
+struct universal_simple_random_struct {
     int dummy;
 };
 
-typedef struct universal_random_struct universal_random_t;
+typedef struct universal_simple_random_struct universal_simple_random_t;
 
 /*!
- *  \brief initializes the universal_random_t struct, based on the clock as seed value
+ *  \brief initializes the universal_simple_random_t struct, based on the clock as seed value
  *
  *  Note: You may call this often, the underlying random generator is just initialized once.
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void universal_random_init ( universal_random_t *this_ );
+static inline void universal_simple_random_init ( universal_simple_random_t *this_ );
 
 /*!
- *  \brief destroys the universal_random_t struct
+ *  \brief destroys the universal_simple_random_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void universal_random_destroy ( universal_random_t *this_ );
+static inline void universal_simple_random_destroy ( universal_simple_random_t *this_ );
 
 /*!
  *  \brief calculates a pseudo-random integer covering the full range of uint16_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline uint16_t universal_random_get_uint16 ( universal_random_t *this_ );
+static inline uint16_t universal_simple_random_get_uint16 ( universal_simple_random_t *this_ );
 
 /*!
  *  \brief calculates a pseudo-random integer covering the full range of uint32_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline uint32_t universal_random_get_uint32 ( universal_random_t *this_ );
+static inline uint32_t universal_simple_random_get_uint32 ( universal_simple_random_t *this_ );
 
-#include "universal_random.inl"
+#include "universal_simple_random.inl"
 
-#endif  /* UNIVERSAL_RANDOM_H */
+#endif  /* UNIVERSAL_SIMPLE_RANDOM_H */
 
 
 /*
