@@ -58,9 +58,13 @@ int universal_memory_input_stream_reset ( universal_memory_input_stream_t *this_
  *  \param out_buffer buffer to write read bytes
  *  \param max_size length of the buffer to write
  *  \param out_length number of bytes read
- *  \return 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 if there are no further bytes to read
  */
-int universal_memory_input_stream_read ( universal_memory_input_stream_t *this_, void *out_buffer, size_t max_size, size_t *out_length );
+int universal_memory_input_stream_read ( universal_memory_input_stream_t *this_,
+                                         void *out_buffer,
+                                         size_t max_size,
+                                         size_t *out_length
+                                       );
 
 /*!
  *  \brief gets the input stream interface of this universal_memory_input_stream_t

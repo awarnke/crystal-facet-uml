@@ -58,10 +58,26 @@ int universal_memory_input_stream_read ( universal_memory_input_stream_t *this_,
 {
     /*TRACE_BEGIN();*/
     assert( out_buffer != NULL );
+    assert( max_size != 0 );
     assert( out_length != NULL );
     assert( (*this_).mem_buf_start != NULL );
     int err = 0;
 
+    const size_t stream_bytes_left = ( (*this_).mem_buf_size - (*this_).mem_buf_pos );
+    if ( stream_bytes_left != 0 )
+    {
+        const size_t bytes_to_copy = (max_size <= stream_bytes_left) ? max_size : stream_bytes_left;
+        char *const buf_first_read = &(  (*(  (char(*)[])(*this_).mem_buf_start  ))[(*this_).mem_buf_pos]  );
+
+        memcpy( out_buffer, buf_first_read, bytes_to_copy );
+        (*this_).mem_buf_pos += bytes_to_copy;
+        *out_length = bytes_to_copy;
+    }
+    else
+    {
+        err = -1;  /* finished, no more bytes to read */
+        *out_length = 0;
+    }
 
     /*TRACE_END_ERR(err);*/
     return err;

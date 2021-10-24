@@ -8,7 +8,8 @@
 
 static void set_up(void);
 static void tear_down(void);
-static void test_read(void);
+static void test_read_chunks(void);
+static void test_read_all(void);
 
 static char my_in_buffer[10];
 static universal_memory_input_stream_t my_mem_in_stream;
@@ -17,7 +18,8 @@ test_suite_t universal_memory_input_stream_test_get_list(void)
 {
     test_suite_t result;
     test_suite_init( &result, "universal_memory_input_stream_test_get_list", &set_up, &tear_down );
-    test_suite_add_test_case( &result, "test_read", &test_read );
+    test_suite_add_test_case( &result, "test_read_chunks", &test_read_chunks );
+    test_suite_add_test_case( &result, "test_read_all", &test_read_all );
     return result;
 }
 
@@ -34,7 +36,7 @@ static void tear_down(void)
     TEST_ENVIRONMENT_ASSERT( err == 0 );
 }
 
-static void test_read(void)
+static void test_read_chunks(void)
 {
     int err;
 
@@ -51,11 +53,58 @@ static void test_read(void)
     void *my_obj_data = universal_input_stream_get_objectdata ( my_in_stream );
     TEST_ASSERT_EQUAL_PTR( &my_mem_in_stream, my_obj_data );
 
-    /* read */
+    /* read first 5 */
     size_t len;
-    char buf[16];
-    err = universal_input_stream_read ( my_in_stream, &buf, sizeof(buf), &len );
+    char buf5[5];
+    err = universal_input_stream_read ( my_in_stream, &buf5, sizeof(buf5), &len );
     TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_ASSERT_EQUAL_INT( sizeof(buf5), len );
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &buf5, "12345", sizeof(buf5) ) );
+
+    /* read last 5 */
+    err = universal_input_stream_read ( my_in_stream, &buf5, sizeof(buf5), &len );
+    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_ASSERT_EQUAL_INT( sizeof(buf5), len );
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &buf5, "6789", sizeof(buf5) ) );
+
+    /* read after end */
+    err = universal_input_stream_read ( my_in_stream, &buf5, sizeof(buf5), &len );
+    TEST_ASSERT_EQUAL_INT( -1, err );
+    TEST_ASSERT_EQUAL_INT( 0, len );
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &buf5, "6789", sizeof(buf5) ) );
+}
+
+static void test_read_all(void)
+{
+    int err;
+
+    /* get universal_input_stream_t */
+    universal_input_stream_t *my_in_stream;
+    my_in_stream = universal_memory_input_stream_get_input_stream( &my_mem_in_stream );
+    TEST_ASSERT( my_in_stream != NULL );
+
+    /* read first 12 */
+    size_t len;
+    char buf12[12];
+    err = universal_input_stream_read ( my_in_stream, &buf12, sizeof(buf12), &len );
+    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_ASSERT_EQUAL_INT( sizeof(my_in_buffer), len );
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &buf12, "123456789", sizeof(my_in_buffer) ) );
+
+    /* reset */
+    err = universal_memory_input_stream_reset ( &my_mem_in_stream );
+    TEST_ASSERT_EQUAL_INT( 0, err );
+
+    /* read first 12 */
+    err = universal_input_stream_read ( my_in_stream, &buf12, sizeof(buf12), &len );
+    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_ASSERT_EQUAL_INT( sizeof(my_in_buffer), len );
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &buf12, "123456789", sizeof(my_in_buffer) ) );
+
+    /* read after end */
+    err = universal_input_stream_read ( my_in_stream, &buf12, sizeof(buf12), &len );
+    TEST_ASSERT_EQUAL_INT( -1, err );
+    TEST_ASSERT_EQUAL_INT( 0, len );
 }
 
 
