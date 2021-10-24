@@ -63,6 +63,16 @@ int universal_file_input_stream_read ( universal_file_input_stream_t *this_, voi
     assert( (*this_).input != NULL );
     int err = 0;
 
+    size_t read_bytes = fread( out_buffer, 1, max_size, (*this_).input );
+    if ( read_bytes != 0 )
+    {
+        *out_length = read_bytes;
+    }
+    else
+    {
+        err = -1;  /* finished, no more bytes to read or other error */
+        *out_length = 0;
+    }
 
     /*TRACE_END_ERR(err);*/
     return err;
