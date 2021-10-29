@@ -280,16 +280,18 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
         debts_of_current += geometry_connector_get_length( current_solution );
 
         /* prefer left-hand angles over right-handed */
+        bool bad_pattern_h = false;
+        bool bad_pattern_v = false;
         {
             const geometry_3dir_t pattern = geometry_connector_get_directions( current_solution );
-            if ( geometry_3dir_equals( &pattern, &PENCIL_BAD_V_PATTERN1 )
-                || geometry_3dir_equals( &pattern, &PENCIL_BAD_V_PATTERN2 )
-                || geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN1 )
-                || geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN2 ) )
+            bad_pattern_v = geometry_3dir_equals( &pattern, &PENCIL_BAD_V_PATTERN1 )
+                || geometry_3dir_equals( &pattern, &PENCIL_BAD_V_PATTERN2 );
+            bad_pattern_h = geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN1 )
+                || geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN2 );
+            if ( bad_pattern_h || bad_pattern_v )
             {
-                debts_of_current += geometry_connector_get_length( current_solution );
+                debts_of_current += 0.2 * geometry_connector_get_length( current_solution );
             }
-
         }
 
         /* add debts for overlap to diagram boundary */
@@ -350,6 +352,19 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
                 const uint32_t intersects
                     = geometry_connector_count_connector_intersects( current_solution, probe_shape );
                 debts_of_current += 1000.0 * intersects;
+
+                if ( ( bad_pattern_h || bad_pattern_v ) && ( intersects > 0 ) )
+                {
+                    const geometry_3dir_t probe_pattern = geometry_connector_get_directions( probe_shape );
+                    const bool bad_probe_v = geometry_3dir_equals( &probe_pattern, &PENCIL_BAD_V_PATTERN1 )
+                        || geometry_3dir_equals( &probe_pattern, &PENCIL_BAD_V_PATTERN2 );
+                    const bool bad_probe_h = geometry_3dir_equals( &probe_pattern, &PENCIL_BAD_H_PATTERN1 )
+                        || geometry_3dir_equals( &probe_pattern, &PENCIL_BAD_H_PATTERN2 );
+                    if (( bad_pattern_h && bad_probe_v )||( bad_pattern_v && bad_probe_h ))
+                    {
+                         debts_of_current += 1000000.0;
+                    }
+                }
             }
         }
 

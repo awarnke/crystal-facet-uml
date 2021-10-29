@@ -1,6 +1,7 @@
 /* File: main.c; Copyright and License: see below */
 
 #include "main.h"
+#include "main_commands.h"
 #include "gui_main.h"
 #include "io_exporter.h"
 #include "storage/data_database.h"
@@ -28,12 +29,15 @@ int main (int argc, char *argv[]) {
     TSLOG_INIT(META_INFO_PROGRAM_ID_STR);
     char *database_file = NULL;
     char *export_directory = NULL;
+    char *import_file = NULL;
     bool do_not_start = false;
     bool do_repair = false;
     bool do_check = false;
     bool do_export = false;
     bool do_upgrade = false;
+    bool do_import = false;
     io_file_format_t export_format = 0;
+    io_file_format_t import_format = 0;
 
     /* handle options */
     if ( argc == 2 )
@@ -41,13 +45,14 @@ int main (int argc, char *argv[]) {
         if ( utf8string_equals_str( argv[1], "-h" ) )
         {
             fprintf( stdout, "\nUsage:\n" );
-            fprintf( stdout, "    %s -h for help\n", argv[0] );
-            fprintf( stdout, "    %s -v for version\n", argv[0] );
-            fprintf( stdout, "    %s -u <database_file> to use/create a database file\n", argv[0] );
-            fprintf( stdout, "    %s -e <database_file> <export_format> <target_directory> to export all diagrams\n", argv[0] );
-            /* fprintf( stdout, "    %s -g <database_file> to upgrade the database tables from version 1.32.1 and older\n", argv[0] ); */
-            fprintf( stdout, "    %s -t <database_file> to test the database file\n", argv[0] );
-            fprintf( stdout, "    %s -r <database_file> to test and repair the database file\n", argv[0] );
+            fprintf( stdout, "    -h for help\n" );
+            fprintf( stdout, "    -v for version\n" );
+            fprintf( stdout, "    -e <database_file> <export_format> <target_directory> to export all diagrams\n" );
+            fprintf( stdout, "    -i <database_file> json            <input_file>       to import elements\n" );
+            fprintf( stdout, "    -u <database_file> to use/create a database file\n" );
+            fprintf( stdout, "    -g <database_file> to upgrade the database tables from version 1.32.1 and older\n" );
+            fprintf( stdout, "    -t <database_file> to test the database file\n" );
+            fprintf( stdout, "    -r <database_file> to test and repair the database file\n" );
             do_not_start = true;
         }
         if ( utf8string_equals_str( argv[1], "-v" ) )
@@ -91,42 +96,23 @@ int main (int argc, char *argv[]) {
             do_not_start = true;
             do_export = true;
         }
-    }
-
-    /* initialize the base libraries: gobject, gio, glib, gdk and gtk */
-    if ( do_not_start )
-    {
-        gboolean success = gtk_init_check(&argc, &argv);
-        if ( ! success )
+        if ( utf8string_equals_str( argv[1], "-i" ) )
         {
-            TSLOG_WARNING("gtk could not be initialized.");
+            database_file = argv[2];
+            import_format = main_private_get_selected_format(argv[3]);
+            import_file = argv[4];
+            do_not_start = true;
+            do_import = true;
         }
     }
-    else
-    {
-        gtk_init(&argc, &argv);
-    }
+
+    main_commands_t commands;
+    exit_code |= main_commands_init( &commands, ( ! do_not_start ), argc, argv );
 
     if ( do_upgrade || do_check || do_export )
     {
-        /* if upgreade or starting in read-only mode, upgrade db first: */
-        assert( database_file != NULL );
-
-        TRACE_INFO("starting DB...");
-        data_database_init( &database );
-
-        TRACE_INFO("upgrading DB...");
-        const data_error_t up_err
-            = data_database_open( &database, database_file );  /* upgrade is implicitely done */
-        if ( up_err != DATA_ERROR_NONE )
-        {
-            fprintf( stdout, "error opening %s\n", database_file );
-        }
-        TRACE_INFO( ( 0 == up_err ) ? "success" : "failure" );
-
-        TRACE_INFO("stopping DB...");
-        data_database_close( &database );
-        data_database_destroy( &database );
+        /* if upgrade or starting in read-only mode, upgrade db first: */
+        exit_code |= main_commands_upgrade( &commands, database_file );
     }
 
     /* repair database */
@@ -193,9 +179,9 @@ int main (int argc, char *argv[]) {
                 data_stat_init ( &export_stat );
                 export_err = io_exporter_export_files( &exporter, export_format, export_directory, document_filename, &export_stat );
                 {
-                    const unsigned int stat_ok = data_stat_get_series_count (  &export_stat, DATA_STAT_SERIES_EXPORTED );
-                    const unsigned int stat_warn = data_stat_get_series_count (  &export_stat, DATA_STAT_SERIES_WARNING );
-                    const unsigned int stat_err = data_stat_get_series_count (  &export_stat, DATA_STAT_SERIES_ERROR );
+                    const unsigned int stat_ok = data_stat_get_series_count( &export_stat, DATA_STAT_SERIES_EXPORTED );
+                    const unsigned int stat_warn = data_stat_get_series_count( &export_stat, DATA_STAT_SERIES_WARNING );
+                    const unsigned int stat_err = data_stat_get_series_count( &export_stat, DATA_STAT_SERIES_ERROR );
                     fprintf( stdout, "\nexported: %d; warnings: %d; errors: %d\n", stat_ok, stat_warn, stat_err );
                 }
                 data_stat_trace( &export_stat );
@@ -213,6 +199,14 @@ int main (int argc, char *argv[]) {
         TRACE_INFO("stopping DB...");
         data_database_close( &database );
         data_database_destroy( &database );
+    }
+
+    if ( do_import )
+    {
+        assert( database_file != NULL );
+        assert( import_file != NULL );
+
+        fprintf( stdout, "\nimporting %s not yet implemented.\n", import_file );
     }
 
     /* run program */
@@ -250,6 +244,8 @@ int main (int argc, char *argv[]) {
         data_database_close( &database );
         data_database_destroy( &database );
     }
+
+    main_commands_destroy( &commands );
 
     TSLOG_DESTROY();
     TRACE_TIMESTAMP();
