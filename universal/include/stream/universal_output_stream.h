@@ -62,15 +62,6 @@ static inline const universal_output_stream_if_t* universal_output_stream_get_in
 static inline universal_output_stream_impl_t* universal_output_stream_get_objectdata ( universal_output_stream_t *this_ );
 
 /*!
- *  \brief calls \c open on the \c interface
- *
- *  \param this_ pointer to own object attributes
- *  \param identifier identifier of the stream, e.g. a path in case of a file stream.
- *  \return returns 0 if success, -1 in case of error
- */
-static inline int universal_output_stream_open (universal_output_stream_t* this_, const char* identifier);
-
-/*!
  *  \brief calls \c write on the \c interface
  *
  *  \param this_ pointer to own object attributes
@@ -87,14 +78,6 @@ static inline int universal_output_stream_write (universal_output_stream_t* this
  *  \return returns 0 if success, -1 in case of error
  */
 static inline int universal_output_stream_flush (universal_output_stream_t* this_);
-
-/*!
- *  \brief calls \c close on the \c interface
- *
- *  \param this_ pointer to own object attributes
- *  \return returns 0 if success, -1 in case of error
- */
-static inline int universal_output_stream_close (universal_output_stream_t* this_);
 
 #include "universal_output_stream.inl"
 

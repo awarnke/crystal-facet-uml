@@ -55,10 +55,6 @@ static void test_insert_regular(void)
     void *my_obj_data = universal_output_stream_get_objectdata ( my_out_stream );
     TEST_ASSERT_EQUAL_PTR( &my_mem_out_stream, my_obj_data );
 
-    /* open */
-    err = universal_output_stream_open ( my_out_stream, "identifier" );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-
     /* write */
     const char test_1[] = "Hello";
     err = universal_output_stream_write ( my_out_stream, test_1, sizeof(test_1) );
@@ -69,12 +65,8 @@ static void test_insert_regular(void)
     err = universal_output_stream_flush (my_out_stream);
     TEST_ASSERT_EQUAL_INT( 0, err );
 
-    /* close */
-    err = universal_output_stream_close (my_out_stream);
-    TEST_ASSERT_EQUAL_INT( 0, err );
-
-    /* open */
-    err = universal_output_stream_open ( my_out_stream, "identifier" );
+    /* reset */
+    err = universal_memory_output_stream_reset( &my_mem_out_stream );
     TEST_ASSERT_EQUAL_INT( 0, err );
 
     /* write */
@@ -87,10 +79,6 @@ static void test_insert_regular(void)
     err = universal_output_stream_write ( my_out_stream, test_3, sizeof(test_3) );
     TEST_ASSERT_EQUAL_INT( 0, err );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), "Hello!" ) );
-
-    /* close */
-    err = universal_output_stream_close (my_out_stream);
-    TEST_ASSERT_EQUAL_INT( 0, err );
 }
 
 static void test_insert_border_cases(void)
@@ -101,6 +89,10 @@ static void test_insert_border_cases(void)
     universal_output_stream_t *my_out_stream;
     my_out_stream = universal_memory_output_stream_get_output_stream( &my_mem_out_stream );
     TEST_ASSERT( my_out_stream != NULL );
+
+    /* reset */
+    err = universal_memory_output_stream_reset( &my_mem_out_stream );
+    TEST_ASSERT_EQUAL_INT( 0, err );
 
     /* write */
     const char test_1[] = "123456";

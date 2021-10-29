@@ -11,6 +11,7 @@
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
 #include "util/string/utf8string.h"
+#include "stream/universal_stream_output_stream.h"
 #include <gtk/gtk.h>
 #include <sys/types.h>
 #include <stdbool.h>
@@ -38,6 +39,10 @@ int main (int argc, char *argv[]) {
     bool do_import = false;
     io_file_format_t export_format = 0;
     io_file_format_t import_format = 0;
+    universal_stream_output_stream_t out_stream;
+    universal_stream_output_stream_init( &out_stream, stdout );
+    universal_output_stream_t *out;
+    out = universal_stream_output_stream_get_output_stream( &out_stream );
 
     /* handle options */
     if ( argc == 2 )
@@ -246,6 +251,7 @@ int main (int argc, char *argv[]) {
     }
 
     main_commands_destroy( &commands );
+    universal_stream_output_stream_destroy( &out_stream );
 
     TSLOG_DESTROY();
     TRACE_TIMESTAMP();

@@ -10,10 +10,8 @@
 /* the vmt implementing the interface */
 static const universal_output_stream_if_t universal_escaping_output_stream_private_if
     = {
-        .open  = (int (*)(universal_output_stream_impl_t*, const char*)) &universal_escaping_output_stream_open,
         .write = (int (*)(universal_output_stream_impl_t*, const void*, size_t)) &universal_escaping_output_stream_write,
-        .flush = (int (*)(universal_output_stream_impl_t*)) &universal_escaping_output_stream_flush,
-        .close = (int (*)(universal_output_stream_impl_t*)) &universal_escaping_output_stream_close
+        .flush = (int (*)(universal_output_stream_impl_t*)) &universal_escaping_output_stream_flush
     };
 
 void universal_escaping_output_stream_init ( universal_escaping_output_stream_t *this_,
@@ -53,17 +51,6 @@ void universal_escaping_output_stream_change_rules( universal_escaping_output_st
     (*this_).patterns_and_replacements = patterns_and_replacements;
 
     TRACE_END();
-}
-
-int universal_escaping_output_stream_open ( universal_escaping_output_stream_t *this_, const char *path )
-{
-    TRACE_BEGIN();
-    assert( (*this_).sink != NULL );
-
-    const int err = universal_output_stream_open( (*this_).sink, path );
-
-    TRACE_END_ERR(err);
-    return err;
 }
 
 int universal_escaping_output_stream_write ( universal_escaping_output_stream_t *this_, const void *start, size_t length )
@@ -157,17 +144,6 @@ int universal_escaping_output_stream_flush( universal_escaping_output_stream_t *
     assert( (*this_).sink != NULL );
 
     const int err = universal_output_stream_flush( (*this_).sink );
-
-    TRACE_END_ERR(err);
-    return err;
-}
-
-int universal_escaping_output_stream_close( universal_escaping_output_stream_t *this_ )
-{
-    TRACE_BEGIN();
-    assert( (*this_).sink != NULL );
-
-    const int err = universal_output_stream_close( (*this_).sink );
 
     TRACE_END_ERR(err);
     return err;

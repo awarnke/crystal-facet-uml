@@ -245,7 +245,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
                 }
 
                 /* close file */
-                result |= universal_output_stream_close( output );
+                result |= universal_file_output_stream_close( &text_output );
             }
 
             result |= universal_file_output_stream_destroy( &text_output );
@@ -347,7 +347,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
     }
     TSLOG_EVENT_STR( "exporting diagrams to document file:", utf8stringbuf_get_string( (*this_).temp_filename ) );
 
-    export_err |= universal_output_stream_open( output, utf8stringbuf_get_string( (*this_).temp_filename ) );
+    export_err |= universal_file_output_stream_open( &file_output, utf8stringbuf_get_string( (*this_).temp_filename ) );
     if ( export_err == 0 )
     {
         /* write file */
@@ -449,7 +449,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         }
 
         /* close file */
-        export_err |= universal_output_stream_close( output );
+        export_err |= universal_file_output_stream_close( &file_output );
     }
 
     export_err |= universal_file_output_stream_destroy( &file_output );

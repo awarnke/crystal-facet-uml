@@ -61,15 +61,6 @@ void universal_escaping_output_stream_change_rules( universal_escaping_output_st
                                                   );
 
 /*!
- *  \brief opens a stream at the underlying sink
- *
- *  \param this_ pointer to own object attributes
- *  \param path resource path identifying the stream to open for writing
- *  \return 0 in case of success, -1 otherwise
- */
-int universal_escaping_output_stream_open ( universal_escaping_output_stream_t *this_, const char *path );
-
-/*!
  *  \brief writes a buffer (e.g. a stringview) to the data sink, replacing patterns by replacements
  *
  *  \param this_ pointer to own object attributes
@@ -86,14 +77,6 @@ int universal_escaping_output_stream_write ( universal_escaping_output_stream_t 
  *  \return 0 in case of success, -1 otherwise
  */
 int universal_escaping_output_stream_flush( universal_escaping_output_stream_t *this_ );
-
-/*!
- *  \brief closes the universal_escaping_output_stream_t and the underlying sink
- *
- *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
- */
-int universal_escaping_output_stream_close( universal_escaping_output_stream_t *this_ );
 
 /*!
  *  \brief gets the output stream interface of this universal_escaping_output_stream_t

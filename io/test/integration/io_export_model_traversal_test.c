@@ -332,7 +332,7 @@ static void iterate_types_on_mini_model(void)
                         static io_export_model_traversal_t temp_model_traversal;  /*!< own instance of a model_traversal for text export */
                         xmi_element_writer_t temp_xmi_writer;  /*!< memory for a temporary xmi writer */
 
-                        universal_memory_output_stream_open( &mem_output_stream, "dummy_path" );
+                        universal_memory_output_stream_reset( &mem_output_stream );
                         universal_output_stream_t* output = universal_memory_output_stream_get_output_stream( &mem_output_stream );
 
                         {
@@ -369,7 +369,6 @@ static void iterate_types_on_mini_model(void)
                     int write_err = universal_memory_output_stream_write( &mem_output_stream, &TERM, sizeof(TERM) );
                     TEST_ENVIRONMENT_ASSERT( 0 == write_err );
                     universal_memory_output_stream_flush( &mem_output_stream );
-                    universal_memory_output_stream_close( &mem_output_stream );
 #ifndef NDEBUG
                     fprintf( stdout, "\n%s\n", &(mem_buffer[0]) );
 #endif

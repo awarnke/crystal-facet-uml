@@ -10,10 +10,8 @@
 /* the vmt implementing the interface */
 static const universal_output_stream_if_t universal_file_output_stream_private_if
     = {
-        .open  = (int (*)(universal_output_stream_impl_t*, const char*)) &universal_file_output_stream_open,
         .write = (int (*)(universal_output_stream_impl_t*, const void*, size_t)) &universal_file_output_stream_write,
-        .flush = (int (*)(universal_output_stream_impl_t*)) &universal_file_output_stream_flush,
-        .close = (int (*)(universal_output_stream_impl_t*)) &universal_file_output_stream_close
+        .flush = (int (*)(universal_output_stream_impl_t*)) &universal_file_output_stream_flush
     };
 
 void universal_file_output_stream_init ( universal_file_output_stream_t *this_ )

@@ -10,10 +10,8 @@
 /* the vmt implementing the interface */
 static const universal_output_stream_if_t universal_memory_output_stream_private_if
     = {
-        .open =  (int (*)(universal_output_stream_impl_t*, const char*)) &universal_memory_output_stream_open,
         .write = (int (*)(universal_output_stream_impl_t*, const void*, size_t)) &universal_memory_output_stream_write,
-        .flush = (int (*)(universal_output_stream_impl_t*)) &universal_memory_output_stream_flush,
-        .close = (int (*)(universal_output_stream_impl_t*)) &universal_memory_output_stream_close
+        .flush = (int (*)(universal_output_stream_impl_t*)) &universal_memory_output_stream_flush
     };
 
 void universal_memory_output_stream_init ( universal_memory_output_stream_t *this_,
@@ -45,7 +43,7 @@ int universal_memory_output_stream_destroy( universal_memory_output_stream_t *th
     return err;
 }
 
-int universal_memory_output_stream_open ( universal_memory_output_stream_t *this_, const char *path )
+int universal_memory_output_stream_reset ( universal_memory_output_stream_t *this_ )
 {
     TRACE_BEGIN();
     assert( (*this_).mem_buf_start != NULL );
@@ -84,16 +82,6 @@ int universal_memory_output_stream_write ( universal_memory_output_stream_t *thi
 }
 
 int universal_memory_output_stream_flush( universal_memory_output_stream_t *this_ )
-{
-    TRACE_BEGIN();
-    assert( (*this_).mem_buf_start != NULL );
-    const int err = 0;
-
-    TRACE_END_ERR(err);
-    return err;
-}
-
-int universal_memory_output_stream_close( universal_memory_output_stream_t *this_ )
 {
     TRACE_BEGIN();
     assert( (*this_).mem_buf_start != NULL );

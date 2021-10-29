@@ -44,13 +44,12 @@ void universal_memory_output_stream_init( universal_memory_output_stream_t *this
 int universal_memory_output_stream_destroy( universal_memory_output_stream_t *this_ );
 
 /*!
- *  \brief opens an output stream
+ *  \brief resets write position to 0 of this memory output stream,
  *
  *  \param this_ pointer to own object attributes
- *  \param path path identifying the memory to open for writing
  *  \return 0 in case of success, -1 otherwise
  */
-int universal_memory_output_stream_open ( universal_memory_output_stream_t *this_, const char *path );
+int universal_memory_output_stream_reset ( universal_memory_output_stream_t *this_ );
 
 /*!
  *  \brief writes a buffer (e.g. a stringview) to a memory output stream
@@ -69,14 +68,6 @@ int universal_memory_output_stream_write ( universal_memory_output_stream_t *thi
  *  \return 0 in case of success, -1 otherwise
  */
 int universal_memory_output_stream_flush( universal_memory_output_stream_t *this_ );
-
-/*!
- *  \brief closes the universal_memory_output_stream_t
- *
- *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
- */
-int universal_memory_output_stream_close( universal_memory_output_stream_t *this_ );
 
 /*!
  *  \brief writes a terminating zero to a memory output stream

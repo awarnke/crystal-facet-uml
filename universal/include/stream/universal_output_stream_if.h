@@ -30,13 +30,9 @@ typedef void universal_output_stream_impl_t;
  *  Lifecycle functions like init and destroy are not part of the interface.
  */
 struct universal_output_stream_if_struct {
-    int (*open)(universal_output_stream_impl_t* this_, const char* identifier); /*!< a function to open an output stream; */
-                                                                                /*!< returns 0 if success, -1 in case of error */
     int (*write)(universal_output_stream_impl_t* this_, const void *start, size_t length); /*!< a function to write data to an output stream; */
                                                                                            /*!< returns 0 if success, -1 in case of error */
     int (*flush)(universal_output_stream_impl_t* this_); /*!< a function to flush data to an output stream; */
-                                                         /*!< returns 0 if success, -1 in case of error */
-    int (*close)(universal_output_stream_impl_t* this_); /*!< a function to close an output stream; */
                                                          /*!< returns 0 if success, -1 in case of error */
 };
 
