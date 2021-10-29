@@ -11,8 +11,8 @@
 #include <stdbool.h>
 
 void io_importer_init ( io_importer_t *this_,
-                                    data_database_reader_t *db_reader,
-                                    ctrl_controller_t *controller )
+                        data_database_reader_t *db_reader,
+                        ctrl_controller_t *controller )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
@@ -35,10 +35,10 @@ void io_importer_destroy ( io_importer_t *this_ )
 }
 
 data_error_t io_importer_import_buf_to_db( io_importer_t *this_,
-                                                       const char *json_text,
-                                                       data_row_id_t diagram_id,
-                                                       data_stat_t *io_stat,
-                                                       uint32_t *out_read_pos )
+                                           const char *json_text,
+                                           data_row_id_t diagram_id,
+                                           data_stat_t *io_stat,
+                                           uint32_t *out_read_pos )
 {
     TRACE_BEGIN();
     assert( NULL != json_text );

@@ -30,9 +30,9 @@ typedef struct io_importer_struct io_importer_t;
  *  \param controller pointer to a controller object which can modify the database
  */
 void io_importer_init ( io_importer_t *this_,
-                                    data_database_reader_t *db_reader,
-                                    ctrl_controller_t *controller
-                                  );
+                        data_database_reader_t *db_reader,
+                        ctrl_controller_t *controller
+                      );
 
 /*!
  *  \brief destroys the io_importer_t struct
@@ -59,11 +59,11 @@ void io_importer_destroy ( io_importer_t *this_ );
  *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
  */
 data_error_t io_importer_import_buf_to_db( io_importer_t *this_,
-                                                       const char *json_text,
-                                                       data_row_id_t diagram_id,
-                                                       data_stat_t *io_stat,
-                                                       uint32_t *out_read_pos
-                                                     );
+                                           const char *json_text,
+                                           data_row_id_t diagram_id,
+                                           data_stat_t *io_stat,
+                                           uint32_t *out_read_pos
+                                         );
 
 #endif  /* IO_IMPORTER_H */
 

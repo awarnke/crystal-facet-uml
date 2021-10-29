@@ -9,6 +9,7 @@
  *  \brief Declares the main commands to be executed by this program
  */
 
+#include "io_file_format.h"
 #include "universal_utf8_writer.h"
 #include <stdbool.h>
 
@@ -61,6 +62,50 @@ int main_commands_upgrade ( main_commands_t *this_, const char *database_path, u
 int main_commands_repair ( main_commands_t *this_,
                            const char *database_path,
                            bool check_only,
+                           universal_utf8_writer_t *out_english_report
+                         );
+
+/*!
+ *  \brief starts the graphical user interface
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param database_path pathname of the database, may be NULL if no preselected database file
+ *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
+ *  \return 0 if success, -1 if error
+ */
+int main_commands_start_gui ( main_commands_t *this_, const char *database_path, universal_utf8_writer_t *out_english_report );
+
+/*!
+ *  \brief exports the database in the selected data format to the export_directory
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param database_path pathname of the database
+ *  \param export_format format to export
+ *  \param export_directory pathname of the directory where to write exported files to
+ *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
+ *  \return 0 if success, -1 if error
+ */
+int main_commands_export ( main_commands_t *this_,
+                           const char *database_path,
+                           io_file_format_t export_format,
+                           const char *export_directory,
+                           universal_utf8_writer_t *out_english_report
+                         );
+
+/*!
+ *  \brief imports the database in the selected data format to the export_directory
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param database_path pathname of the database
+ *  \param import_format format to import
+ *  \param import_file_path pathname of the file which to import
+ *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
+ *  \return 0 if success, -1 if error
+ */
+int main_commands_import ( main_commands_t *this_,
+                           const char *database_path,
+                           io_file_format_t import_format,
+                           const char *import_file_path,
                            universal_utf8_writer_t *out_english_report
                          );
 

@@ -3,17 +3,13 @@
 #include "main_commands.h"
 #include "gui_main.h"
 #include "io_exporter.h"
+#include "io_importer.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
 #include "trace.h"
 #include "tslog.h"
-#include "util/string/utf8string.h"
 #include <gtk/gtk.h>
-#include <sys/types.h>
 #include <stdbool.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <signal.h>
 #include <assert.h>
 
 static data_database_t database;
@@ -65,7 +61,9 @@ int main_commands_upgrade ( main_commands_t *this_, const char *database_path, u
         = data_database_open( &database, database_path );  /* upgrade is implicitely done */
     if ( up_err != DATA_ERROR_NONE )
     {
-        fprintf( stdout, "error opening %s\n", database_path );
+        universal_utf8_writer_write_str( out_english_report, "error opening database " );
+        universal_utf8_writer_write_str( out_english_report, database_path );
+        universal_utf8_writer_write_str( out_english_report, "\n" );
         result = -1;
     }
     TRACE_INFO( ( 0 == up_err ) ? "success" : "failure" );
@@ -98,7 +96,9 @@ int main_commands_repair ( main_commands_t *this_,
         : data_database_open( &database, database_path );
     if ( db_err != DATA_ERROR_NONE )
     {
-        fprintf( stdout, "error opening %s\n", database_path );
+        universal_utf8_writer_write_str( out_english_report, "error opening database " );
+        universal_utf8_writer_write_str( out_english_report, database_path );
+        universal_utf8_writer_write_str( out_english_report, "\n" );
     }
 
     TRACE_INFO("initializing controller...");
@@ -123,9 +123,138 @@ int main_commands_repair ( main_commands_t *this_,
     return result;
 }
 
+int main_commands_start_gui ( main_commands_t *this_, const char *database_path, universal_utf8_writer_t *out_english_report )
+{
+    TRACE_BEGIN();
+    int result = 0;
+
+    TRACE_INFO("starting DB...");
+    TRACE_INFO_INT("sizeof(data_database_t)/B:",sizeof(data_database_t));
+    data_database_init( &database );
+    if ( NULL != database_path )
+    {
+        const data_error_t db_err
+            = data_database_open( &database, database_path );
+        if ( db_err != DATA_ERROR_NONE )
+        {
+            universal_utf8_writer_write_str( out_english_report, "error opening database " );
+            universal_utf8_writer_write_str( out_english_report, database_path );
+            universal_utf8_writer_write_str( out_english_report, "\n" );
+        }
+    }
+
+    TRACE_TIMESTAMP();
+    TRACE_INFO("initializing controller...");
+    TRACE_INFO_INT("sizeof(ctrl_controller_t)/B:",sizeof(ctrl_controller_t));
+    ctrl_controller_init( &controller, &database );
+
+    TRACE_TIMESTAMP();
+    TRACE_INFO("running GUI...");
+    gui_main( &controller, &database );
+    TRACE_INFO("GUI stopped.");
+
+    TRACE_TIMESTAMP();
+    TRACE_INFO("destroying controller...");
+    ctrl_controller_destroy( &controller );
+
+    TRACE_TIMESTAMP();
+    TRACE_INFO("stopping DB...");
+    data_database_close( &database );
+    data_database_destroy( &database );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+int main_commands_export ( main_commands_t *this_,
+                           const char *database_path,
+                           io_file_format_t export_format,
+                           const char *export_directory,
+                           universal_utf8_writer_t *out_english_report )
+{
+    TRACE_BEGIN();
+    assert( database_path != NULL );
+    assert( export_directory != NULL );
+    int result = 0;
+
+    TRACE_INFO("starting DB...");
+    data_database_init( &database );
+    const data_error_t db_err
+        = data_database_open_read_only( &database, database_path );
+    if ( db_err != DATA_ERROR_NONE )
+    {
+            universal_utf8_writer_write_str( out_english_report, "error opening database " );
+            universal_utf8_writer_write_str( out_english_report, database_path );
+            universal_utf8_writer_write_str( out_english_report, "\n" );
+    }
+
+    TRACE_INFO("exporting DB...");
+    int export_err;
+    TRACE_INFO_STR( "chosen folder:", export_directory );
+    const char *document_filename = data_database_get_filename_ptr ( &database );
+    if ( data_database_is_open( &database ) )
+    {
+        static io_exporter_t exporter;
+        static data_database_reader_t db_reader;
+        data_database_reader_init( &db_reader, &database );
+        io_exporter_init( &exporter, &db_reader );
+        {
+            data_stat_t export_stat;
+            data_stat_init ( &export_stat );
+            export_err = io_exporter_export_files( &exporter, export_format, export_directory, document_filename, &export_stat );
+            {
+                const unsigned int stat_ok = data_stat_get_series_count( &export_stat, DATA_STAT_SERIES_EXPORTED );
+                const unsigned int stat_warn = data_stat_get_series_count( &export_stat, DATA_STAT_SERIES_WARNING );
+                const unsigned int stat_err = data_stat_get_series_count( &export_stat, DATA_STAT_SERIES_ERROR );
+                fprintf( stdout, "\nexported: %d; warnings: %d; errors: %d\n", stat_ok, stat_warn, stat_err );
+            }
+            data_stat_trace( &export_stat );
+            data_stat_destroy ( &export_stat );
+        }
+        data_database_reader_destroy( &db_reader );
+        io_exporter_destroy( &exporter );
+    }
+    else
+    {
+        export_err = -1;
+    }
+    TRACE_INFO( ( 0 == export_err ) ? "success" : "failure" );
+
+    TRACE_INFO("stopping DB...");
+    data_database_close( &database );
+    data_database_destroy( &database );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+int main_commands_import ( main_commands_t *this_,
+                           const char *database_path,
+                           io_file_format_t import_format,
+                           const char *import_file_path,
+                           universal_utf8_writer_t *out_english_report )
+{
+    TRACE_BEGIN();
+    assert( database_path != NULL );
+    assert( import_file_path != NULL );
+    int result = 0;
+
+    {
+        universal_utf8_writer_write_str( out_english_report, "error opening database " );
+        universal_utf8_writer_write_str( out_english_report, database_path );
+        universal_utf8_writer_write_str( out_english_report, "\n" );
+    }
+    {
+        universal_utf8_writer_write_str( out_english_report, "importing not yet implemented.\n" );
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 
 /*
-Copyright 2021-2021 Andreas Warnke
+Copyright 2016-2021 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
