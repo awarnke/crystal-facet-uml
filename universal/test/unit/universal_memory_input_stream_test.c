@@ -32,8 +32,7 @@ static void set_up(void)
 static void tear_down(void)
 {
     int err;
-    err = universal_memory_input_stream_destroy( &my_mem_in_stream );
-    TEST_ENVIRONMENT_ASSERT( err == 0 );
+    universal_memory_input_stream_destroy( &my_mem_in_stream );
 }
 
 static void test_read_chunks(void)

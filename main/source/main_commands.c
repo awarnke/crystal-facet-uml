@@ -50,7 +50,7 @@ void main_commands_destroy ( main_commands_t *this_ )
     TRACE_END();
 }
 
-int main_commands_upgrade ( main_commands_t *this_, const char *database_path )
+int main_commands_upgrade ( main_commands_t *this_, const char *database_path, universal_utf8_writer_t *out_english_report )
 {
     TRACE_BEGIN();
     int result = 0;
@@ -73,6 +73,51 @@ int main_commands_upgrade ( main_commands_t *this_, const char *database_path )
     TRACE_INFO("stopping DB...");
     data_database_close( &database );
     data_database_destroy( &database );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+int main_commands_repair ( main_commands_t *this_,
+                           const char *database_path,
+                           bool check_only,
+                           universal_utf8_writer_t *out_english_report )
+{
+    TRACE_BEGIN();
+    assert( database_path != NULL );
+    const bool do_repair = ( ! check_only );
+    static char repair_log_buffer[10000] = "";
+    static utf8stringbuf_t repair_log = UTF8STRINGBUF( repair_log_buffer );
+    int result = 0;
+
+    TRACE_INFO("starting DB...");
+    data_database_init( &database );
+    const data_error_t db_err
+        = ( check_only )
+        ? data_database_open_read_only( &database, database_path )
+        : data_database_open( &database, database_path );
+    if ( db_err != DATA_ERROR_NONE )
+    {
+        fprintf( stdout, "error opening %s\n", database_path );
+    }
+
+    TRACE_INFO("initializing controller...");
+    ctrl_controller_init( &controller, &database );
+
+    TRACE_INFO("reparing/testing...");
+    ctrl_controller_repair_database( &controller, do_repair, NULL, NULL, repair_log );
+    TRACE_INFO("reparing/testing finished.");
+
+    TRACE_INFO("destroying controller...");
+    ctrl_controller_destroy( &controller );
+
+    TRACE_INFO("stopping DB...");
+    data_database_close( &database );
+    data_database_destroy( &database );
+
+    universal_utf8_writer_write_str( out_english_report, "\n\n" );
+    universal_utf8_writer_write_str( out_english_report, utf8stringbuf_get_string(repair_log) );
+    universal_utf8_writer_write_str( out_english_report, "\n" );
 
     TRACE_END_ERR( result );
     return result;

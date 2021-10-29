@@ -43,6 +43,8 @@ int main (int argc, char *argv[]) {
     universal_stream_output_stream_init( &out_stream, stdout );
     universal_output_stream_t *out;
     out = universal_stream_output_stream_get_output_stream( &out_stream );
+    universal_utf8_writer_t writer;
+    universal_utf8_writer_init( &writer, out );
 
     /* handle options */
     if ( argc == 2 )
@@ -117,42 +119,13 @@ int main (int argc, char *argv[]) {
     if ( do_upgrade || do_check || do_export )
     {
         /* if upgrade or starting in read-only mode, upgrade db first: */
-        exit_code |= main_commands_upgrade( &commands, database_file );
+        exit_code |= main_commands_upgrade( &commands, database_file, &writer );
     }
 
     /* repair database */
     if ( do_repair || do_check )
     {
-        assert( database_file != NULL );
-        static char repair_log_buffer[10000] = "";
-        static utf8stringbuf_t repair_log = UTF8STRINGBUF( repair_log_buffer );
-
-        TRACE_INFO("starting DB...");
-        data_database_init( &database );
-        const data_error_t db_err
-            = ( do_repair )
-            ? data_database_open( &database, database_file )
-            : data_database_open_read_only( &database, database_file );
-        if ( db_err != DATA_ERROR_NONE )
-        {
-            fprintf( stdout, "error opening %s\n", database_file );
-        }
-
-        TRACE_INFO("initializing controller...");
-        ctrl_controller_init( &controller, &database );
-
-        TRACE_INFO("reparing/testing...");
-        ctrl_controller_repair_database( &controller, do_repair, NULL, NULL, repair_log );
-        TRACE_INFO("reparing/testing finished.");
-
-        TRACE_INFO("destroying controller...");
-        ctrl_controller_destroy( &controller );
-
-        TRACE_INFO("stopping DB...");
-        data_database_close( &database );
-        data_database_destroy( &database );
-
-        fprintf( stdout, "\n\n%s\n", utf8stringbuf_get_string(repair_log) );
+        exit_code |= main_commands_repair( &commands, database_file, do_check, &writer );
     }
 
     if ( do_export )

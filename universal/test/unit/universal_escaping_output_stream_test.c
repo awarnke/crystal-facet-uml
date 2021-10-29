@@ -40,7 +40,7 @@ static void tear_down(void)
 {
     int err;
     err = universal_escaping_output_stream_destroy( &my_esc_out_stream );
-    err = universal_memory_output_stream_destroy( &my_mem_out_stream );
+    universal_memory_output_stream_destroy( &my_mem_out_stream );
     TEST_ENVIRONMENT_ASSERT( err == 0 );
 }
 

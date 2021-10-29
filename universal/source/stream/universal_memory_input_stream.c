@@ -28,18 +28,16 @@ void universal_memory_input_stream_init ( universal_memory_input_stream_t *this_
     TRACE_END();
 }
 
-int universal_memory_input_stream_destroy( universal_memory_input_stream_t *this_ )
+void universal_memory_input_stream_destroy( universal_memory_input_stream_t *this_ )
 {
     TRACE_BEGIN();
-    int err = 0;
 
     (*this_).mem_buf_start = NULL;
     (*this_).mem_buf_size = 0;
     (*this_).mem_buf_pos = 0;
     universal_input_stream_private_destroy( &((*this_).input_stream) );
 
-    TRACE_END_ERR(err);
-    return err;
+    TRACE_END();
 }
 
 int universal_memory_input_stream_reset ( universal_memory_input_stream_t *this_ )

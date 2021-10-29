@@ -39,9 +39,8 @@ void universal_memory_output_stream_init( universal_memory_output_stream_t *this
  *  \brief destroys the universal_memory_output_stream_t
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
  */
-int universal_memory_output_stream_destroy( universal_memory_output_stream_t *this_ );
+void universal_memory_output_stream_destroy( universal_memory_output_stream_t *this_ );
 
 /*!
  *  \brief resets write position to 0 of this memory output stream,

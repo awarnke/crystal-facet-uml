@@ -25,16 +25,14 @@ void universal_stream_output_stream_init( universal_stream_output_stream_t *this
     TRACE_END();
 }
 
-int universal_stream_output_stream_destroy( universal_stream_output_stream_t *this_ )
+void universal_stream_output_stream_destroy( universal_stream_output_stream_t *this_ )
 {
     TRACE_BEGIN();
-    int err = 0;
 
     (*this_).output = NULL;
     universal_output_stream_private_destroy( &((*this_).output_stream) );
 
-    TRACE_END_ERR(err);
-    return err;
+    TRACE_END();
 }
 
 int universal_stream_output_stream_write ( universal_stream_output_stream_t *this_, const void *start, size_t length )

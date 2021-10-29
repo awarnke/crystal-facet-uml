@@ -34,9 +34,8 @@ void universal_stream_output_stream_init( universal_stream_output_stream_t *this
  *  \brief destroys the universal_stream_output_stream_t
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
  */
-int universal_stream_output_stream_destroy( universal_stream_output_stream_t *this_ );
+void universal_stream_output_stream_destroy( universal_stream_output_stream_t *this_ );
 
 /*!
  *  \brief writes a buffer (e.g. a stringview) to a file

@@ -9,6 +9,7 @@
  *  \brief Declares the main commands to be executed by this program
  */
 
+#include "universal_utf8_writer.h"
 #include <stdbool.h>
 
 /*!
@@ -41,11 +42,27 @@ void main_commands_destroy ( main_commands_t *this_ );
 /*!
  *  \brief upgrades the database to the latest format
  *
- *  \param database_path pathname of the database
  *  \param this_ pointer to own object attributes
+ *  \param database_path pathname of the database
+ *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
  *  \return 0 if success, -1 if error
  */
-int main_commands_upgrade ( main_commands_t *this_, const char *database_path );
+int main_commands_upgrade ( main_commands_t *this_, const char *database_path, universal_utf8_writer_t *out_english_report );
+
+/*!
+ *  \brief repairs or checks the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param database_path pathname of the database
+ *  \param check_only true if the database shall not be modified
+ *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
+ *  \return 0 if success, -1 if error
+ */
+int main_commands_repair ( main_commands_t *this_,
+                           const char *database_path,
+                           bool check_only,
+                           universal_utf8_writer_t *out_english_report
+                         );
 
 #endif  /* MAIN_COMMANDS_H */
 

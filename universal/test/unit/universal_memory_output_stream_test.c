@@ -33,9 +33,7 @@ static void set_up(void)
 
 static void tear_down(void)
 {
-    int err;
-    err = universal_memory_output_stream_destroy( &my_mem_out_stream );
-    TEST_ENVIRONMENT_ASSERT( err == 0 );
+    universal_memory_output_stream_destroy( &my_mem_out_stream );
 }
 
 static void test_insert_regular(void)
