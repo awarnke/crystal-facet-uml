@@ -34,6 +34,22 @@ void io_importer_destroy ( io_importer_t *this_ )
     TRACE_END();
 }
 
+data_error_t io_importer_import_file( io_importer_t *this_,
+                                      io_file_format_t import_format,
+                                      const char *import_file_path,
+                                      data_stat_t *io_stat,
+                                      universal_utf8_writer_t *out_english_report )
+{
+    TRACE_BEGIN();
+    data_error_t parse_error = DATA_ERROR_NONE;
+
+    universal_utf8_writer_write_str( out_english_report, "importing not yet implemented.\n" );
+
+    TRACE_END_ERR( parse_error );
+    return parse_error;
+}
+
+#if 0
 data_error_t io_importer_import_buf_to_db( io_importer_t *this_,
                                            const char *json_text,
                                            data_row_id_t diagram_id,
@@ -80,6 +96,7 @@ data_error_t io_importer_import_buf_to_db( io_importer_t *this_,
     TRACE_END_ERR( parse_error );
     return parse_error;
 }
+#endif
 
 
 /*

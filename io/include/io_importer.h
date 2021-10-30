@@ -8,12 +8,14 @@
  *  \brief Imports a set of objects from a file
  */
 
+#include "io_file_format.h"
 #include "ctrl_controller.h"
-#include "set/data_stat.h"
 #include "storage/data_database_reader.h"
+#include "set/data_stat.h"
+#include "universal_utf8_writer.h"
 
 /*!
- *  \brief attributes of the json import object
+ *  \brief attributes of the import object
  */
 struct io_importer_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external data_database_reader */
@@ -42,6 +44,32 @@ void io_importer_init ( io_importer_t *this_,
 void io_importer_destroy ( io_importer_t *this_ );
 
 /*!
+ *  \brief imports the file contents to the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param import_format file format, currently only IO_FILE_FORMAT_JSON is supported
+ *  \param import_file_path null-terminated file path, not NULL
+ *  \param diagram_id id of the diagram to which to attach the imported data
+ *  \param io_stat undefined in case of an error in the return value,
+ *                 otherwise statistics on DATA_STAT_SERIES_CREATED,
+ *                 DATA_STAT_SERIES_MODIFIED (e.g. in future) and
+ *                 DATA_STAT_SERIES_IGNORED (e.g. at import of lifelines
+ *                 or if classifier and its features already exist) and
+ *                 DATA_STAT_SERIES_ERROR (e.g. if a relation has no source
+ *                 or no destination)
+ *                 Statistics are only added, *io_stat shall be initialized by caller.
+ *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
+ *  \return DATA_ERROR_NONE in case of success, other error code otherwise
+ */
+data_error_t io_importer_import_file( io_importer_t *this_,
+                                      io_file_format_t import_format,
+                                      const char *import_file_path,
+                                      data_stat_t *io_stat,
+                                      universal_utf8_writer_t *out_english_report
+                                    );
+
+#if 0
+/*!
  *  \brief copies the clipboard contents to the focused diagram
  *
  *  \param this_ pointer to own object attributes
@@ -64,6 +92,7 @@ data_error_t io_importer_import_buf_to_db( io_importer_t *this_,
                                            data_stat_t *io_stat,
                                            uint32_t *out_read_pos
                                          );
+#endif
 
 #endif  /* IO_IMPORTER_H */
 

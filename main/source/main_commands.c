@@ -66,7 +66,6 @@ int main_commands_upgrade ( main_commands_t *this_, const char *database_path, u
         universal_utf8_writer_write_str( out_english_report, "\n" );
         result = -1;
     }
-    TRACE_INFO( ( 0 == up_err ) ? "success" : "failure" );
 
     TRACE_INFO("stopping DB...");
     data_database_close( &database );
@@ -175,7 +174,7 @@ int main_commands_export ( main_commands_t *this_,
     TRACE_BEGIN();
     assert( database_path != NULL );
     assert( export_directory != NULL );
-    int result = 0;
+    int export_err = 0;
 
     TRACE_INFO("starting DB...");
     data_database_init( &database );
@@ -189,14 +188,13 @@ int main_commands_export ( main_commands_t *this_,
     }
 
     TRACE_INFO("exporting DB...");
-    int export_err;
     TRACE_INFO_STR( "chosen folder:", export_directory );
     const char *document_filename = data_database_get_filename_ptr ( &database );
     if ( data_database_is_open( &database ) )
     {
-        static io_exporter_t exporter;
         static data_database_reader_t db_reader;
         data_database_reader_init( &db_reader, &database );
+        static io_exporter_t exporter;
         io_exporter_init( &exporter, &db_reader );
         {
             data_stat_t export_stat;
@@ -206,26 +204,31 @@ int main_commands_export ( main_commands_t *this_,
                 const unsigned int stat_ok = data_stat_get_series_count( &export_stat, DATA_STAT_SERIES_EXPORTED );
                 const unsigned int stat_warn = data_stat_get_series_count( &export_stat, DATA_STAT_SERIES_WARNING );
                 const unsigned int stat_err = data_stat_get_series_count( &export_stat, DATA_STAT_SERIES_ERROR );
-                fprintf( stdout, "\nexported: %d; warnings: %d; errors: %d\n", stat_ok, stat_warn, stat_err );
+                universal_utf8_writer_write_str( out_english_report, "\nexported: " );
+                universal_utf8_writer_write_int( out_english_report, stat_ok );
+                universal_utf8_writer_write_str( out_english_report, "; warnings: " );
+                universal_utf8_writer_write_int( out_english_report, stat_warn );
+                universal_utf8_writer_write_str( out_english_report, "; errors: " );
+                universal_utf8_writer_write_int( out_english_report, stat_err );
+                universal_utf8_writer_write_str( out_english_report, "\n" );
             }
             data_stat_trace( &export_stat );
             data_stat_destroy ( &export_stat );
         }
-        data_database_reader_destroy( &db_reader );
         io_exporter_destroy( &exporter );
+        data_database_reader_destroy( &db_reader );
     }
     else
     {
         export_err = -1;
     }
-    TRACE_INFO( ( 0 == export_err ) ? "success" : "failure" );
 
     TRACE_INFO("stopping DB...");
     data_database_close( &database );
     data_database_destroy( &database );
 
-    TRACE_END_ERR( result );
-    return result;
+    TRACE_END_ERR( export_err );
+    return export_err;
 }
 
 int main_commands_import ( main_commands_t *this_,
@@ -237,19 +240,66 @@ int main_commands_import ( main_commands_t *this_,
     TRACE_BEGIN();
     assert( database_path != NULL );
     assert( import_file_path != NULL );
-    int result = 0;
+    int import_err = 0;
 
+    TRACE_INFO("starting DB...");
+    data_database_init( &database );
+    const data_error_t db_err
+        = data_database_open( &database, database_path );
+    if ( db_err != DATA_ERROR_NONE )
     {
         universal_utf8_writer_write_str( out_english_report, "error opening database " );
         universal_utf8_writer_write_str( out_english_report, database_path );
         universal_utf8_writer_write_str( out_english_report, "\n" );
     }
+
+    TRACE_INFO("initializing controller...");
+    ctrl_controller_init( &controller, &database );
+
+    TRACE_INFO("importing data...");
+    TRACE_INFO_STR( "chosen data:", import_file_path );
+    if ( data_database_is_open( &database ) )
     {
-        universal_utf8_writer_write_str( out_english_report, "importing not yet implemented.\n" );
+        static data_database_reader_t db_reader;
+        data_database_reader_init( &db_reader, &database );
+        static io_importer_t importer;
+        io_importer_init( &importer, &db_reader, &controller );
+        {
+            data_stat_t import_stat;
+            data_stat_init ( &import_stat );
+            import_err = io_importer_import_file( &importer, import_format, import_file_path, &import_stat, out_english_report );
+            {
+                const unsigned int stat_ok = data_stat_get_series_count( &import_stat, DATA_STAT_SERIES_EXPORTED );
+                const unsigned int stat_warn = data_stat_get_series_count( &import_stat, DATA_STAT_SERIES_WARNING );
+                const unsigned int stat_err = data_stat_get_series_count( &import_stat, DATA_STAT_SERIES_ERROR );
+                universal_utf8_writer_write_str( out_english_report, "\nimported: " );
+                universal_utf8_writer_write_int( out_english_report, stat_ok );
+                universal_utf8_writer_write_str( out_english_report, "; warnings: " );
+                universal_utf8_writer_write_int( out_english_report, stat_warn );
+                universal_utf8_writer_write_str( out_english_report, "; errors: " );
+                universal_utf8_writer_write_int( out_english_report, stat_err );
+                universal_utf8_writer_write_str( out_english_report, "\n" );
+            }
+            data_stat_trace( &import_stat );
+            data_stat_destroy ( &import_stat );
+        }
+        io_importer_destroy( &importer );
+        data_database_reader_destroy( &db_reader );
+    }
+    else
+    {
+        import_err = -1;
     }
 
-    TRACE_END_ERR( result );
-    return result;
+    TRACE_INFO("destroying controller...");
+    ctrl_controller_destroy( &controller );
+
+    TRACE_INFO("stopping DB...");
+    data_database_close( &database );
+    data_database_destroy( &database );
+
+    TRACE_END_ERR( import_err );
+    return import_err;
 }
 
 

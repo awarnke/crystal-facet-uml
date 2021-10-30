@@ -27,23 +27,32 @@ typedef struct universal_utf8_writer_struct universal_utf8_writer_t;
  *  \param this_ pointer to own object attributes
  *  \param out_stream output stream
  */
-void universal_utf8_writer_init ( universal_utf8_writer_t *this_, universal_output_stream_t* out_stream );
+static inline void universal_utf8_writer_init ( universal_utf8_writer_t *this_, universal_output_stream_t* out_stream );
 
 /*!
  *  \brief destroys the universal_utf8_writer_t
  *
  *  \param this_ pointer to own object attributes
  */
-void universal_utf8_writer_destroy ( universal_utf8_writer_t *this_ );
+static inline void universal_utf8_writer_destroy ( universal_utf8_writer_t *this_ );
 
 /*!
- *  \brief writes a buffer (e.g. a stringview) to a file
+ *  \brief writes a utf8 string to a stream
  *
  *  \param this_ pointer to own object attributes
- *  \param utf8_string 0-terminated strnig to write
+ *  \param utf8_string 0-terminated string to write
  *  \return 0 in case of success, -1 otherwise
  */
-int universal_utf8_writer_write_str ( universal_utf8_writer_t *this_, const void *utf8_string );
+static inline int universal_utf8_writer_write_str ( universal_utf8_writer_t *this_, const void *utf8_string );
+
+/*!
+ *  \brief writes an integer to a stream
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param number number to write
+ *  \return 0 in case of success, -1 otherwise
+ */
+static inline int universal_utf8_writer_write_int( universal_utf8_writer_t *this_, const int64_t number );
 
 /*!
  *  \brief flushes buffers
@@ -51,7 +60,9 @@ int universal_utf8_writer_write_str ( universal_utf8_writer_t *this_, const void
  *  \param this_ pointer to own object attributes
  *  \return 0 in case of success, -1 otherwise
  */
-int universal_utf8_writer_flush ( universal_utf8_writer_t *this_ );
+static inline int universal_utf8_writer_flush ( universal_utf8_writer_t *this_ );
+
+#include "universal_utf8_writer.inl"
 
 #endif  /* UNIVERSAL_UTF8_WRITER_H */
 

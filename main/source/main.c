@@ -110,38 +110,41 @@ int main (int argc, char *argv[]) {
         }
     }
 
-    main_commands_t commands;
-    exit_code |= main_commands_init( &commands, ( ! do_not_start ), argc, argv );
-
-    if ( do_upgrade || do_check || do_export )
     {
-        /* if upgrade or starting in read-only mode, upgrade db first: */
-        exit_code |= main_commands_upgrade( &commands, database_file, &writer );
-    }
+        main_commands_t commands;
+        exit_code |= main_commands_init( &commands, ( ! do_not_start ), argc, argv );
 
-    /* repair database */
-    if ( do_repair || do_check )
-    {
-        exit_code |= main_commands_repair( &commands, database_file, do_check, &writer );
-    }
+        if ( do_upgrade || do_check || do_export )
+        {
+            /* if upgrade or starting in read-only mode, upgrade db first: */
+            exit_code |= main_commands_upgrade( &commands, database_file, &writer );
+        }
 
-    if ( do_export )
-    {
-        exit_code |= main_commands_export( &commands, database_file, export_format, export_directory, &writer );
-    }
+        /* repair database */
+        if ( do_repair || do_check )
+        {
+            exit_code |= main_commands_repair( &commands, database_file, do_check, &writer );
+        }
 
-    if ( do_import )
-    {
-        exit_code |= main_commands_import( &commands, database_file, import_format, import_file, &writer );
-    }
+        if ( do_export )
+        {
+            exit_code |= main_commands_export( &commands, database_file, export_format, export_directory, &writer );
+        }
 
-    /* run program */
-    if ( ! do_not_start )
-    {
-        exit_code |= main_commands_start_gui( &commands, database_file, &writer );
-    }
+        if ( do_import )
+        {
+            exit_code |= main_commands_import( &commands, database_file, import_format, import_file, &writer );
+        }
 
-    main_commands_destroy( &commands );
+        /* run program */
+        if ( ! do_not_start )
+        {
+            exit_code |= main_commands_start_gui( &commands, database_file, &writer );
+        }
+
+        main_commands_destroy( &commands );
+    }
+    universal_utf8_writer_destroy( &writer );
     universal_stream_output_stream_destroy( &out_stream );
 
     TSLOG_DESTROY();
