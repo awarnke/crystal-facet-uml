@@ -39,6 +39,23 @@ int universal_file_input_stream_destroy( universal_file_input_stream_t *this_ )
     return err;
 }
 
+int universal_file_input_stream_reset ( universal_file_input_stream_t *this_ )
+{
+    TRACE_BEGIN();
+    assert( (*this_).input != NULL );
+    int err = 0;
+
+    err = fseek( (*this_).input, 0, SEEK_SET );
+    if ( err != 0 )
+    {
+        TSLOG_ERROR("error at resetting the read-cursor in a file.");
+        err = -1;
+    }
+
+    TRACE_END_ERR(err);
+    return err;
+}
+
 int universal_file_input_stream_open ( universal_file_input_stream_t *this_, const char *path )
 {
     TRACE_BEGIN();

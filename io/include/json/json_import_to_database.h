@@ -5,7 +5,7 @@
 
 /* public file for the doxygen documentation: */
 /*! \file
- *  \brief Serializes and deserializes a set of objects to/from the clipboard
+ *  \brief Deserializes a set of objects from the clipboard
  */
 
 #include "ctrl_controller.h"
@@ -13,6 +13,8 @@
 #include "set/data_visible_set.h"
 #include "set/data_stat.h"
 #include "storage/data_database_reader.h"
+#include "stream/universal_input_stream.h"
+#include "universal_utf8_writer.h"
 #include "util/string/utf8stringbuf.h"
 
 /*!
@@ -92,6 +94,21 @@ bool json_import_to_database_private_is_feature_focused_in_diagram( json_import_
                                                                     data_row_id_t diagram_id,
                                                                     data_row_id_t feature_id
                                                                   );
+
+/*!
+ *  \brief prescans which object ids are to be imported and which already exist in the current db
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param in_stream input stream where to import the data from
+ *  \param io_stat statistics object ot which import statistics are added
+ *  \param out_english_report non translated report on errors in input file and warnings from importing
+ *  \return DATA_ERROR_NONE in case of success
+ */
+data_error_t json_import_to_database_prescan( json_import_to_database_t *this_,
+                                              universal_input_stream_t *in_stream,
+                                              data_stat_t *io_stat,
+                                              universal_utf8_writer_t *out_english_report
+                                            );
 
 #endif  /* JSON_IMPORT_TO_DATABASE_H */
 

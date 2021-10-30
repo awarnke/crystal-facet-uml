@@ -517,7 +517,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                             {
                                 const bool is_scenario = data_rules_relationship_is_scenario_cond ( &((*this_).data_rules),
                                                                                                     from_feature_type,
-                                                                                                    to_feature_type 
+                                                                                                    to_feature_type
                                                                                                   );
                                 TRACE_INFO( is_scenario ? "relationship in scenario dropped" : "general relationship dropped" );
                             }
@@ -584,6 +584,31 @@ bool json_import_to_database_private_is_feature_focused_in_diagram( json_import_
 
     TRACE_END();
     return is_focused;
+}
+
+data_error_t json_import_to_database_prescan( json_import_to_database_t *this_,
+                                              universal_input_stream_t *in_stream,
+                                              data_stat_t *io_stat,
+                                              universal_utf8_writer_t *out_english_report )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    char buf[1024];
+    int err = 0;
+    int count = 0;
+    while( err == 0 )
+    {
+        size_t length;
+        err = universal_input_stream_read( in_stream, &buf, sizeof(buf), &length );
+        count ++;
+    }
+    universal_utf8_writer_write_str( out_english_report, "\nread size: " );
+    universal_utf8_writer_write_int( out_english_report, count );
+    universal_utf8_writer_write_str( out_english_report, " kB\n" );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 

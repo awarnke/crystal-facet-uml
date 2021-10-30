@@ -38,6 +38,14 @@ void universal_file_input_stream_init( universal_file_input_stream_t *this_ );
 int universal_file_input_stream_destroy( universal_file_input_stream_t *this_ );
 
 /*!
+ *  \brief resets the read position to 0
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return 0 in case of success, -1 otherwise
+ */
+int universal_file_input_stream_reset ( universal_file_input_stream_t *this_ );
+
+/*!
  *  \brief opens a file
  *
  *  \param this_ pointer to own object attributes

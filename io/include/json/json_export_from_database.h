@@ -5,7 +5,7 @@
 
 /* public file for the doxygen documentation: */
 /*! \file
- *  \brief Serializes and deserializes a set of objects to/from the clipboard
+ *  \brief Serializes a set of objects to the clipboard
  */
 
 #include "data_feature.h"

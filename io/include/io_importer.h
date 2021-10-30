@@ -8,6 +8,7 @@
  *  \brief Imports a set of objects from a file
  */
 
+#include "json/json_import_to_database.h"
 #include "io_file_format.h"
 #include "ctrl_controller.h"
 #include "storage/data_database_reader.h"
@@ -18,8 +19,7 @@
  *  \brief attributes of the import object
  */
 struct io_importer_struct {
-    data_database_reader_t *db_reader;  /*!< pointer to external data_database_reader */
-    ctrl_controller_t *controller;  /*!< pointer to external controller */
+    json_import_to_database_t json_importer;
 };
 
 typedef struct io_importer_struct io_importer_t;
@@ -59,7 +59,10 @@ void io_importer_destroy ( io_importer_t *this_ );
  *                 or no destination)
  *                 Statistics are only added, *io_stat shall be initialized by caller.
  *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
- *  \return DATA_ERROR_NONE in case of success, other error code otherwise
+ *  \return DATA_ERROR_NONE in case of success,
+ *          DATA_ERROR_INVALID_REQUEST if file cannot be opened,
+ *          DATA_ERROR_AT_FILE_READ in case of reading errors after open,
+ *          other error code otherwise
  */
 data_error_t io_importer_import_file( io_importer_t *this_,
                                       io_file_format_t import_format,
@@ -67,32 +70,6 @@ data_error_t io_importer_import_file( io_importer_t *this_,
                                       data_stat_t *io_stat,
                                       universal_utf8_writer_t *out_english_report
                                     );
-
-#if 0
-/*!
- *  \brief copies the clipboard contents to the focused diagram
- *
- *  \param this_ pointer to own object attributes
- *  \param json_text null-terminated string in json format, not NULL
- *  \param diagram_id id of the diagram to which to attach the imported data
- *  \param io_stat undefined in case of an error in the return value,
- *                 otherwise statistics on DATA_STAT_SERIES_CREATED,
- *                 DATA_STAT_SERIES_MODIFIED (e.g. in future) and
- *                 DATA_STAT_SERIES_IGNORED (e.g. at import of lifelines
- *                 or if classifier and its features already exist) and
- *                 DATA_STAT_SERIES_ERROR (e.g. if a relation has no source
- *                 or no destination)
- *                 Statistics are only added, *io_stat shall be initialized by caller.
- *  \param out_read_pos read position in the stream, in case of an error, this may help finding the cause
- *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
- */
-data_error_t io_importer_import_buf_to_db( io_importer_t *this_,
-                                           const char *json_text,
-                                           data_row_id_t diagram_id,
-                                           data_stat_t *io_stat,
-                                           uint32_t *out_read_pos
-                                         );
-#endif
 
 #endif  /* IO_IMPORTER_H */
 

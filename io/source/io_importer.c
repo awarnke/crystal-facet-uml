@@ -3,6 +3,7 @@
 #include "io_importer.h"
 #include "json/json_serializer.h"
 #include "json/json_deserializer.h"
+#include "stream/universal_file_input_stream.h"
 #include "ctrl_error.h"
 #include "util/string/utf8string.h"
 #include "trace.h"
@@ -18,8 +19,7 @@ void io_importer_init ( io_importer_t *this_,
     assert( NULL != db_reader );
     assert( NULL != controller );
 
-    (*this_).db_reader = db_reader;
-    (*this_).controller = controller;
+    json_import_to_database_init( &((*this_).json_importer), db_reader, controller );
 
     TRACE_END();
 }
@@ -28,8 +28,7 @@ void io_importer_destroy ( io_importer_t *this_ )
 {
     TRACE_BEGIN();
 
-    (*this_).db_reader = NULL;
-    (*this_).controller = NULL;
+    json_import_to_database_destroy( &((*this_).json_importer) );
 
     TRACE_END();
 }
@@ -41,62 +40,61 @@ data_error_t io_importer_import_file( io_importer_t *this_,
                                       universal_utf8_writer_t *out_english_report )
 {
     TRACE_BEGIN();
+    assert( import_file_path != NULL );
+    assert( io_stat != NULL );
+    assert( out_english_report != NULL );
     data_error_t parse_error = DATA_ERROR_NONE;
 
     universal_utf8_writer_write_str( out_english_report, "importing not yet implemented.\n" );
 
-    TRACE_END_ERR( parse_error );
-    return parse_error;
-}
+    int id_mapper;
 
-#if 0
-data_error_t io_importer_import_buf_to_db( io_importer_t *this_,
-                                           const char *json_text,
-                                           data_row_id_t diagram_id,
-                                           data_stat_t *io_stat,
-                                           uint32_t *out_read_pos )
-{
-    TRACE_BEGIN();
-    assert( NULL != json_text );
-    assert( NULL != io_stat );
-    assert( NULL != out_read_pos );
-
-    json_deserializer_t deserializer;
-    data_error_t parse_error = DATA_ERROR_NONE;
-
-    TRACE_INFO ( json_text );
-
-    json_deserializer_init( &deserializer, json_text );
-    data_row_id_t current_diagram_id = diagram_id;
-
-    /* check if diagram id exists */
+    universal_file_input_stream_t in_file;
+    universal_file_input_stream_init( &in_file );
+    const int err1 = universal_file_input_stream_open( &in_file, import_file_path );
+    if ( err1 != 0 )
     {
-        static data_diagram_t dummy_diagram;
-        parse_error = data_database_reader_get_diagram_by_id ( (*this_).db_reader, diagram_id, &dummy_diagram );
-        if ( DATA_ERROR_NONE != parse_error )
+        parse_error = DATA_ERROR_INVALID_REQUEST;
+    }
+    else
+    {
+        /* id scan */
+        TRACE_INFO("scanning file...");
+
+        const data_error_t err3 = json_import_to_database_prescan( &((*this_).json_importer),
+                                                                   universal_file_input_stream_get_input_stream( &in_file ),
+                                                                   io_stat,
+                                                                   out_english_report
+                                                                 );
+
+        /* import */
+        TRACE_INFO("importing file...");
+        const int err5 = universal_file_input_stream_reset( &in_file );
+        if ( err5 != 0 )
         {
-            TSLOG_ERROR_INT( "diagram id where to import json data does not exist (anymore)", diagram_id );
+            parse_error = DATA_ERROR_AT_FILE_READ;
+        }
+        else
+        {
+
+        }
+
+
+        const int err7 = universal_file_input_stream_close( &in_file );
+        if ( err7 != 0 )
+        {
+            parse_error = DATA_ERROR_AT_FILE_READ;
         }
     }
-
-    if ( DATA_ERROR_NONE == parse_error )
+    const int err8 = universal_file_input_stream_destroy( &in_file );
+    if ( err8 != 0 )
     {
-        parse_error = json_deserializer_expect_begin_data( &deserializer );
+        parse_error = DATA_ERROR_AT_FILE_READ;
     }
-
-
-    if ( DATA_ERROR_NONE == parse_error )
-    {
-        parse_error = json_deserializer_expect_end_data( &deserializer );
-    }
-
-    json_deserializer_get_read_pos ( &deserializer, out_read_pos );
-    json_deserializer_destroy( &deserializer );
 
     TRACE_END_ERR( parse_error );
     return parse_error;
 }
-#endif
 
 
 /*

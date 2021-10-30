@@ -18,7 +18,7 @@
  */
 enum ctrl_error_enum {
     CTRL_ERROR_NONE = DATA_ERROR_NONE,  /*!< success */
-    
+
     /* application layer errors */
     CTRL_ERROR_NO_DB = DATA_ERROR_NO_DB,  /*!< database not open/loaded */
     CTRL_ERROR_DB_STRUCTURE = DATA_ERROR_DB_STRUCTURE,  /*!< the structure of the database is corrupted */
@@ -27,13 +27,17 @@ enum ctrl_error_enum {
     CTRL_ERROR_INVALID_REQUEST = DATA_ERROR_INVALID_REQUEST,  /*!< function call not allowed or parameters wrong */
     CTRL_ERROR_INPUT_EMPTY = DATA_ERROR_INPUT_EMPTY,  /*!< input parameter is empty or void */
     CTRL_ERROR_OBJECT_STILL_REFERENCED = DATA_ERROR_OBJECT_STILL_REFERENCED,  /*!< object cannot be deleted, it is still referenced */
-    
+
     CTRL_ERROR_LEXICAL_STRUCTURE = DATA_ERROR_LEXICAL_STRUCTURE,  /*!< the lexical structure of the input-string is corrupted (contains invalid tokens) */
     CTRL_ERROR_PARSER_STRUCTURE = DATA_ERROR_PARSER_STRUCTURE,  /*!< the parser structure of the input-string is corrupted (wrong order of tokens) */
 
     CTRL_ERROR_DIAGRAM_HIDES_RELATIONSHIPS = DATA_ERROR_DIAGRAM_HIDES_RELATIONSHIPS,  /*!< the diagram type does not show the relationship type */
     CTRL_ERROR_DIAGRAM_HIDES_FEATURES = DATA_ERROR_DIAGRAM_HIDES_FEATURES,  /*!< the diagram type does not show the feature type */
     CTRL_ERROR_CLASSIFIER_REFUSES_FEATURE = DATA_ERROR_CLASSIFIER_REFUSES_FEATURE,  /*!< the classifier type does not allow the feature type */
+
+    /* os/file system layer errors */
+    CTRL_ERROR_AT_FILE_READ = DATA_ERROR_AT_FILE_READ,  /*!< unexpected error at reading a file/stream */
+    CTRL_ERROR_AT_FILE_WRITE = DATA_ERROR_AT_FILE_WRITE,  /*!< unexpected error at writing a file/stream */
 
     /* database layer errors */
     CTRL_ERROR_AT_MUTEX = DATA_ERROR_AT_MUTEX,  /*!< unexpected internal error at mutex */
@@ -42,7 +46,7 @@ enum ctrl_error_enum {
     CTRL_ERROR_DUPLICATE_NAME = DATA_ERROR_DUPLICATE_NAME,  /*!< internal error: a name is used twice */
     CTRL_ERROR_VALUE_OUT_OF_RANGE = DATA_ERROR_VALUE_OUT_OF_RANGE,  /*!< unexpected internal db error: enum/integer out of range */
     CTRL_ERROR_READ_ONLY_DB = DATA_ERROR_READ_ONLY_DB,  /*!< data cannot be changed, database is read only */
-    
+
     CTRL_ERROR_NOT_YET_IMPLEMENTED = DATA_ERROR_NOT_YET_IMPLEMENTED,  /*!< internal error: function not yet implemented */
 };
 
