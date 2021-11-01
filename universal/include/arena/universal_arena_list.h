@@ -50,7 +50,7 @@ static inline void universal_arena_list_destroy ( universal_arena_list_t *this_ 
  *  \param element pointer to the element to be added. Only a valid object can be added, NULL is not allowed.
  *  \return -1 if list is full, 0 on success
  */
-static inline int universal_array_list_append ( universal_arena_list_t *this_, const void* element );
+static inline int universal_arena_list_append ( universal_arena_list_t *this_, const void* element );
 
 #include "arena/universal_arena_list.inl"
 

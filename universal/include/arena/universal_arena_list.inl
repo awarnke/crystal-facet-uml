@@ -18,7 +18,7 @@ static inline void universal_arena_list_destroy ( universal_arena_list_t *this_ 
     (*this_).mem_buf_start = NULL;
 }
 
-static inline int universal_array_list_append ( universal_arena_list_t *this_, const void* element )
+static inline int universal_arena_list_append ( universal_arena_list_t *this_, const void* element )
 {
     int err = 0;
     return err;
