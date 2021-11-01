@@ -1,7 +1,7 @@
-/* File: universal_arena_list.h; Copyright and License: see below */
+/* File: universal_arena_list_element.h; Copyright and License: see below */
 
-#ifndef UNIVERSAL_ARENA_LIST_H
-#define UNIVERSAL_ARENA_LIST_H
+#ifndef UNIVERSAL_ARENA_LIST_ELEMENT_H
+#define UNIVERSAL_ARENA_LIST_ELEMENT_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -11,50 +11,39 @@
  *  The memory region itself may be statically allocated
  */
 
-#include "arena/universal_arena_list_element.h"
-
 /*!
- *  \brief attributes of the universal_arena_list
+ *  \brief attributes of the universal_arena_list_element
  */
-struct universal_arena_list_struct {
+struct universal_arena_list_element_struct {
     const void* mem_buf_start;  /*!< memory buffer start */
     size_t mem_buf_size;  /*!< memory buffer size */
     size_t mem_buf_used;  /*!< part of the memory buffer that is already in use */
 };
 
-typedef struct universal_arena_list_struct universal_arena_list_t;
+typedef struct universal_arena_list_element_struct universal_arena_list_element_t;
 
 /*!
- *  \brief initializes the universal_arena_list_t
+ *  \brief initializes the universal_arena_list_element_t
  *
  *  \param this_ pointer to own object attributes
  *  \param mem_buf_start address of memory buffer
  *  \param mem_buf_size size of the memory buffer
  */
-static inline void universal_arena_list_init ( universal_arena_list_t *this_,
+static inline void universal_arena_list_element_init ( universal_arena_list_element_t *this_,
                                                  const void* mem_buf_start,
                                                  size_t mem_buf_size
                                                );
 
 /*!
- *  \brief destroys the universal_arena_list_t
+ *  \brief destroys the universal_arena_list_element_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void universal_arena_list_destroy ( universal_arena_list_t *this_ );
+static inline void universal_arena_list_element_destroy ( universal_arena_list_element_t *this_ );
 
-/*!
- *  \brief appends a pointer to an element to the universal_arena_list_t
- *
- *  \param this_ pointer to own object attributes
- *  \param element pointer to the element to be added. Only a valid object can be added, NULL is not allowed.
- *  \return -1 if list is full, 0 on success
- */
-static inline int universal_array_list_append ( universal_arena_list_t *this_, const void* element );
+#include "arena/universal_arena_list_element.inl"
 
-#include "arena/universal_arena_list.inl"
-
-#endif  /* UNIVERSAL_ARENA_LIST_H */
+#endif  /* UNIVERSAL_ARENA_LIST_ELEMENT_H */
 
 
 /*

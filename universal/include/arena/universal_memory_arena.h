@@ -8,7 +8,8 @@
  *  \file
  *  \brief implements a memory region from which memory blocks can be allocated dynamically.
  *
- *  The memory region itself may be statically allocated
+ *  The memory region itself may be statically allocated.
+ *  These functions are not multi-thread safe.
  */
 
 /*!

@@ -1,10 +1,10 @@
-/* File: universal_arena_list.inl; Copyright and License: see below */
+/* File: universal_arena_list_element.inl; Copyright and License: see below */
 
 #include <assert.h>
 
-static inline void universal_arena_list_init ( universal_arena_list_t *this_,
-                                               const void* mem_buf_start,
-                                               size_t mem_buf_size )
+static inline void universal_arena_list_element_init ( universal_arena_list_element_t *this_,
+                                                       const void* mem_buf_start,
+                                                       size_t mem_buf_size )
 {
     assert( mem_buf_start != NULL );
     (*this_).mem_buf_start = mem_buf_start;
@@ -12,16 +12,10 @@ static inline void universal_arena_list_init ( universal_arena_list_t *this_,
     (*this_).mem_buf_used = 0;
 }
 
-static inline void universal_arena_list_destroy ( universal_arena_list_t *this_ )
+static inline void universal_arena_list_element_destroy ( universal_arena_list_element_t *this_ )
 {
     assert( (*this_).mem_buf_start != NULL );
     (*this_).mem_buf_start = NULL;
-}
-
-static inline int universal_array_list_append ( universal_arena_list_t *this_, const void* element )
-{
-    int err = 0;
-    return err;
 }
 
 

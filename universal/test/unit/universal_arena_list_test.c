@@ -9,14 +9,12 @@
 static void set_up(void);
 static void tear_down(void);
 static void test_alloc_blocks(void);
-static void test_alloc_5GB(void);
 
 test_suite_t universal_arena_list_test_get_list(void)
 {
     test_suite_t result;
     test_suite_init( &result, "universal_arena_list_test_get_list", &set_up, &tear_down );
-    //test_suite_add_test_case( &result, "test_alloc_blocks", &test_alloc_blocks );
-    //test_suite_add_test_case( &result, "test_alloc_5GB", &test_alloc_5GB );
+    test_suite_add_test_case( &result, "test_alloc_blocks", &test_alloc_blocks );
     return result;
 }
 
@@ -29,10 +27,6 @@ static void tear_down(void)
 }
 
 static void test_alloc_blocks(void)
-{
-}
-
-static void test_alloc_5GB(void)
 {
 }
 
