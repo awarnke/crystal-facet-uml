@@ -3,7 +3,7 @@
 #include <assert.h>
 
 static inline void universal_memory_arena_init ( universal_memory_arena_t *this_,
-                                                 const void* mem_buf_start,
+                                                 void* mem_buf_start,
                                                  size_t mem_buf_size )
 {
     assert( mem_buf_start != NULL );
@@ -14,7 +14,7 @@ static inline void universal_memory_arena_init ( universal_memory_arena_t *this_
 
 static inline void universal_memory_arena_destroy ( universal_memory_arena_t *this_ )
 {
-    assert( mem_buf_start != NULL );
+    assert( (*this_).mem_buf_start != NULL );
     (*this_).mem_buf_start = NULL;
 }
 
@@ -25,14 +25,21 @@ static inline void universal_memory_arena_reset ( universal_memory_arena_t *this
 
 static inline int universal_memory_arena_get_block ( universal_memory_arena_t *this_,
                                                      size_t block_size,
-                                                     void *out_block )
+                                                     void **out_block )
 {
-    assert( mem_buf_start != NULL );
+    assert( out_block != NULL );
     int err = 0;
+
     static const unsigned int align = sizeof(void*);
-    static const unsigned int align_mask = -align;  /* assuming a complement of 2 presentation */
-    void *const block_start = ((*this_).mem_buf_start + (*this_).mem_buf_used + align - 1) & align_mask;
-    void *const next_start = block_start + block_size;
+    static const unsigned int align_mask = ~(-align);  /* assuming a complement of 2 presentation */
+
+    char *const free_start = (*this_).mem_buf_start + (*this_).mem_buf_used;
+    const unsigned int free_misalign = ((unsigned int)free_start) & align_mask;
+    unsigned int padding = (free_misalign==0) ? 0 : (align-free_misalign);
+
+    char *const block_start = (*this_).mem_buf_start + (*this_).mem_buf_used + padding;
+    char *const next_start = block_start + block_size;
+
     if (( (*this_).mem_buf_start + (*this_).mem_buf_size )<( next_start ))
     {
         err = -1;

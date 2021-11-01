@@ -1,7 +1,7 @@
-/* File: universal_memory_arena.h; Copyright and License: see below */
+/* File: universal_arena_list.h; Copyright and License: see below */
 
-#ifndef UNIVERSAL_MEMORY_ARENA_H
-#define UNIVERSAL_MEMORY_ARENA_H
+#ifndef UNIVERSAL_ARENA_LIST_H
+#define UNIVERSAL_ARENA_LIST_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -12,41 +12,41 @@
  */
 
 /*!
- *  \brief attributes of the universal_memory_arena
+ *  \brief attributes of the universal_arena_list
  */
-struct universal_memory_arena_struct {
-    char* mem_buf_start;  /*!< memory buffer start */
+struct universal_arena_list_struct {
+    const void* mem_buf_start;  /*!< memory buffer start */
     size_t mem_buf_size;  /*!< memory buffer size */
     size_t mem_buf_used;  /*!< part of the memory buffer that is already in use */
 };
 
-typedef struct universal_memory_arena_struct universal_memory_arena_t;
+typedef struct universal_arena_list_struct universal_arena_list_t;
 
 /*!
- *  \brief initializes the universal_memory_arena_t
+ *  \brief initializes the universal_arena_list_t
  *
  *  \param this_ pointer to own object attributes
  *  \param mem_buf_start address of memory buffer
  *  \param mem_buf_size size of the memory buffer
  */
-static inline void universal_memory_arena_init ( universal_memory_arena_t *this_,
-                                                 void* mem_buf_start,
+static inline void universal_arena_list_init ( universal_arena_list_t *this_,
+                                                 const void* mem_buf_start,
                                                  size_t mem_buf_size
                                                );
 
 /*!
- *  \brief destroys the universal_memory_arena_t
+ *  \brief destroys the universal_arena_list_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void universal_memory_arena_destroy ( universal_memory_arena_t *this_ );
+static inline void universal_arena_list_destroy ( universal_arena_list_t *this_ );
 
 /*!
  *  \brief resets the memory buffer, all memory is treated as unused
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void universal_memory_arena_reset ( universal_memory_arena_t *this_ );
+static inline void universal_arena_list_reset ( universal_arena_list_t *this_ );
 
 /*!
  *  \brief fetches a memory block from a memory region
@@ -56,14 +56,14 @@ static inline void universal_memory_arena_reset ( universal_memory_arena_t *this
  *  \param out_block start address of the allocated block, NULL if none available
  *  \return 0 in case of success, -1 if there is not sufficient memory available
  */
-static inline int universal_memory_arena_get_block ( universal_memory_arena_t *this_,
+static inline int universal_arena_list_get_block ( universal_arena_list_t *this_,
                                                      size_t block_size,
-                                                     void **out_block
+                                                     void *out_block
                                                    );
 
-#include "arena/universal_memory_arena.inl"
+#include "arena/universal_arena_list.inl"
 
-#endif  /* UNIVERSAL_MEMORY_ARENA_H */
+#endif  /* UNIVERSAL_ARENA_LIST_H */
 
 
 /*
