@@ -6,20 +6,18 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief implements a memory region from which memory blocks can be allocated dynamically.
- *
- *  The memory region itself may be statically allocated
+ *  \brief implements a single linked list for use in a memory region.
  */
 
 #include "arena/universal_arena_list_element.h"
+#include "arena/universal_memory_arena.h"
 
 /*!
  *  \brief attributes of the universal_arena_list
  */
 struct universal_arena_list_struct {
-    const void* mem_buf_start;  /*!< memory buffer start */
-    size_t mem_buf_size;  /*!< memory buffer size */
-    size_t mem_buf_used;  /*!< part of the memory buffer that is already in use */
+    universal_arena_list_element_t *begin;  /*!< first element of the single-linked list or NULL if empty */
+    universal_memory_arena_t *allocator;  /*!< allocator where append allocates memory from */
 };
 
 typedef struct universal_arena_list_struct universal_arena_list_t;
@@ -28,13 +26,9 @@ typedef struct universal_arena_list_struct universal_arena_list_t;
  *  \brief initializes the universal_arena_list_t
  *
  *  \param this_ pointer to own object attributes
- *  \param mem_buf_start address of memory buffer
- *  \param mem_buf_size size of the memory buffer
+ *  \param allocator allocator where universal_arena_list_append allocates memory from
  */
-static inline void universal_arena_list_init ( universal_arena_list_t *this_,
-                                                 const void* mem_buf_start,
-                                                 size_t mem_buf_size
-                                               );
+static inline void universal_arena_list_init ( universal_arena_list_t *this_, universal_memory_arena_t *allocator );
 
 /*!
  *  \brief destroys the universal_arena_list_t
@@ -47,10 +41,26 @@ static inline void universal_arena_list_destroy ( universal_arena_list_t *this_ 
  *  \brief appends a pointer to an element to the universal_arena_list_t
  *
  *  \param this_ pointer to own object attributes
- *  \param element pointer to the element to be added. Only a valid object can be added, NULL is not allowed.
- *  \return -1 if list is full, 0 on success
+ *  \param element pointer to the element to be appended. Only a valid object can be added, NULL is not allowed.
+ *  \return -1 if allocator is out of memory, 0 on success
  */
-static inline int universal_arena_list_append ( universal_arena_list_t *this_, const void* element );
+static inline int universal_arena_list_append ( universal_arena_list_t *this_, void* element );
+
+/*!
+ *  \brief gets the begin of universal_arena_list_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to the first element or NULL if empty
+ */
+static inline universal_arena_list_element_t* universal_arena_list_get_begin ( universal_arena_list_t *this_ );
+
+/*!
+ *  \brief gets NULL; for usage in an iterator-like way "for it=begin, it!=end, it=it.next"
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return always NULL
+ */
+static inline universal_arena_list_element_t* universal_arena_list_get_end ( universal_arena_list_t *this_ );
 
 #include "arena/universal_arena_list.inl"
 
