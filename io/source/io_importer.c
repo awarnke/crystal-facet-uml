@@ -76,7 +76,15 @@ data_error_t io_importer_import_file( io_importer_t *this_,
         }
         else
         {
-
+            /* intelligent loop */
+            /*     import lightweight diagram without description */
+            /* create fake diagrams for orphaned classifiers */
+            /* loop */
+            /*     update diagram descriptions */
+            /*     import classifier and diagramelements */
+            /*     import features */
+            /* loop */
+            /*     import relationship */
         }
 
 
@@ -87,7 +95,7 @@ data_error_t io_importer_import_file( io_importer_t *this_,
         }
     }
     const int err8 = universal_file_input_stream_destroy( &in_file );
-    if ( err8 != 0 )
+    if ( err8  != 0 )
     {
         parse_error = DATA_ERROR_AT_FILE_READ;
     }

@@ -10,6 +10,8 @@
  */
 
 #include "io_file_format.h"
+#include "storage/data_database.h"
+#include "ctrl_controller.h"
 #include "universal_utf8_writer.h"
 #include <stdbool.h>
 
@@ -17,7 +19,8 @@
  *  \brief attributes of the main_commands object
  */
 struct main_commands_struct {
-    int dummy;
+    data_database_t temp_database;  /*!< a database struct, is only temporarily initialized (and then destroyed again) */
+    ctrl_controller_t temp_controller;  /*!< a controller struct, is only temporarily initialized (and then destroyed again) */
 };
 
 typedef struct main_commands_struct main_commands_t;

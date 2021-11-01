@@ -52,15 +52,20 @@
  *  Even functions that do not share a data-object shall declare such a class-like struct.
  *  Besides conformity of style, this guideline makes dependencies between classes explicit.
  *
- *  \subsection cfu-methods Attributes and Methods
+ *  \subsection cfu-methods Attributes
+ *
+ *  - All struct elements are private and shall be accessed via "_get_", "_is_" and "_set_" functions.
+ *    \n To achieve good runtime-performance, these may be declared as "static inline".
+ *  - Attributes that have a shorter lifetime than the parent object shall be perfixed by "temp_".
+ *  .
+ *
+ *  \subsection cfu-methods Methods
  *
  *  - All function names are pre-fixed by the main type name.
  *  - The first parameter of each function is a pointer to an instance of the main type.
  *    \n The name of the first parameter is "this_".
  *    \n This first parameter must not be NULL and needs not be checked for NULL.
  *  - Functions that shall not be accessed from outside are in-fixed by "_private_".
- *  - All struct elements are private and shall be accessed via "_get_", "_is_" and "_set_" functions.
- *    \n To achieve good runtime-performance, these may be declared as "static inline".
  *  - Functions that expose pointers or accessors to internal data shall be post-fixed by "_ptr".
  *    \n If the exposed member is const, "_const" may alternatively be used as postfix.
  *    \n Care needs to be taken when changing internal data from outside
@@ -108,11 +113,14 @@
  *
  *  \subsection cfu-interfaces Implementing Abstract Interfaces
  *
- *  How to define an abstract interface, implement it and then pass an instance of the abstract interface to clients, see universal_output_stream_t.
+ *  How to define an abstract interface, implement it and then pass an instance of the abstract interface to clients,
+ *  see universal_output_stream_t.
  *  \see universal_output_stream_t
  *  \see universal_output_stream_if_t
  *  \see universal_file_output_stream_t
  *  \see universal_memory_output_stream_t
+ *
+ *  Note: there is also a more typesafe but less nice variant, \see io_element_writer_t .
  *
  *  \section cfu-error Error Handling
  *

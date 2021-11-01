@@ -4,16 +4,11 @@
 #include "gui_main.h"
 #include "io_exporter.h"
 #include "io_importer.h"
-#include "storage/data_database.h"
-#include "ctrl_controller.h"
 #include "trace.h"
 #include "tslog.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 #include <assert.h>
-
-static data_database_t database;
-static ctrl_controller_t controller;
 
 int main_commands_init ( main_commands_t *this_, bool start_gui, int argc, char *argv[] )
 {
@@ -54,11 +49,11 @@ int main_commands_upgrade ( main_commands_t *this_, const char *database_path, u
     assert( database_path != NULL );
 
     TRACE_INFO("starting DB...");
-    data_database_init( &database );
+    data_database_init( &((*this_).temp_database) );
 
     TRACE_INFO("upgrading DB...");
     const data_error_t up_err
-        = data_database_open( &database, database_path );  /* upgrade is implicitely done */
+        = data_database_open( &((*this_).temp_database), database_path );  /* upgrade is implicitely done */
     if ( up_err != DATA_ERROR_NONE )
     {
         universal_utf8_writer_write_str( out_english_report, "error opening database " );
@@ -68,8 +63,8 @@ int main_commands_upgrade ( main_commands_t *this_, const char *database_path, u
     }
 
     TRACE_INFO("stopping DB...");
-    data_database_close( &database );
-    data_database_destroy( &database );
+    data_database_close( &((*this_).temp_database) );
+    data_database_destroy( &((*this_).temp_database) );
 
     TRACE_END_ERR( result );
     return result;
@@ -88,11 +83,11 @@ int main_commands_repair ( main_commands_t *this_,
     int result = 0;
 
     TRACE_INFO("starting DB...");
-    data_database_init( &database );
+    data_database_init( &((*this_).temp_database) );
     const data_error_t db_err
         = ( check_only )
-        ? data_database_open_read_only( &database, database_path )
-        : data_database_open( &database, database_path );
+        ? data_database_open_read_only( &((*this_).temp_database), database_path )
+        : data_database_open( &((*this_).temp_database), database_path );
     if ( db_err != DATA_ERROR_NONE )
     {
         universal_utf8_writer_write_str( out_english_report, "error opening database " );
@@ -101,18 +96,18 @@ int main_commands_repair ( main_commands_t *this_,
     }
 
     TRACE_INFO("initializing controller...");
-    ctrl_controller_init( &controller, &database );
+    ctrl_controller_init( &((*this_).temp_controller), &((*this_).temp_database) );
 
     TRACE_INFO("reparing/testing...");
-    ctrl_controller_repair_database( &controller, do_repair, NULL, NULL, repair_log );
+    ctrl_controller_repair_database( &((*this_).temp_controller), do_repair, NULL, NULL, repair_log );
     TRACE_INFO("reparing/testing finished.");
 
     TRACE_INFO("destroying controller...");
-    ctrl_controller_destroy( &controller );
+    ctrl_controller_destroy( &((*this_).temp_controller) );
 
     TRACE_INFO("stopping DB...");
-    data_database_close( &database );
-    data_database_destroy( &database );
+    data_database_close( &((*this_).temp_database) );
+    data_database_destroy( &((*this_).temp_database) );
 
     universal_utf8_writer_write_str( out_english_report, "\n\n" );
     universal_utf8_writer_write_str( out_english_report, utf8stringbuf_get_string(repair_log) );
@@ -129,11 +124,11 @@ int main_commands_start_gui ( main_commands_t *this_, const char *database_path,
 
     TRACE_INFO("starting DB...");
     TRACE_INFO_INT("sizeof(data_database_t)/B:",sizeof(data_database_t));
-    data_database_init( &database );
+    data_database_init( &((*this_).temp_database) );
     if ( NULL != database_path )
     {
         const data_error_t db_err
-            = data_database_open( &database, database_path );
+            = data_database_open( &((*this_).temp_database), database_path );
         if ( db_err != DATA_ERROR_NONE )
         {
             universal_utf8_writer_write_str( out_english_report, "error opening database " );
@@ -145,21 +140,21 @@ int main_commands_start_gui ( main_commands_t *this_, const char *database_path,
     TRACE_TIMESTAMP();
     TRACE_INFO("initializing controller...");
     TRACE_INFO_INT("sizeof(ctrl_controller_t)/B:",sizeof(ctrl_controller_t));
-    ctrl_controller_init( &controller, &database );
+    ctrl_controller_init( &((*this_).temp_controller), &((*this_).temp_database) );
 
     TRACE_TIMESTAMP();
     TRACE_INFO("running GUI...");
-    gui_main( &controller, &database );
+    gui_main( &((*this_).temp_controller), &((*this_).temp_database) );
     TRACE_INFO("GUI stopped.");
 
     TRACE_TIMESTAMP();
     TRACE_INFO("destroying controller...");
-    ctrl_controller_destroy( &controller );
+    ctrl_controller_destroy( &((*this_).temp_controller) );
 
     TRACE_TIMESTAMP();
     TRACE_INFO("stopping DB...");
-    data_database_close( &database );
-    data_database_destroy( &database );
+    data_database_close( &((*this_).temp_database) );
+    data_database_destroy( &((*this_).temp_database) );
 
     TRACE_END_ERR( result );
     return result;
@@ -177,9 +172,9 @@ int main_commands_export ( main_commands_t *this_,
     int export_err = 0;
 
     TRACE_INFO("starting DB...");
-    data_database_init( &database );
+    data_database_init( &((*this_).temp_database) );
     const data_error_t db_err
-        = data_database_open_read_only( &database, database_path );
+        = data_database_open_read_only( &((*this_).temp_database), database_path );
     if ( db_err != DATA_ERROR_NONE )
     {
             universal_utf8_writer_write_str( out_english_report, "error opening database " );
@@ -189,11 +184,11 @@ int main_commands_export ( main_commands_t *this_,
 
     TRACE_INFO("exporting DB...");
     TRACE_INFO_STR( "chosen folder:", export_directory );
-    const char *document_filename = data_database_get_filename_ptr ( &database );
-    if ( data_database_is_open( &database ) )
+    const char *document_filename = data_database_get_filename_ptr ( &((*this_).temp_database) );
+    if ( data_database_is_open( &((*this_).temp_database) ) )
     {
         static data_database_reader_t db_reader;
-        data_database_reader_init( &db_reader, &database );
+        data_database_reader_init( &db_reader, &((*this_).temp_database) );
         static io_exporter_t exporter;
         io_exporter_init( &exporter, &db_reader );
         {
@@ -224,8 +219,8 @@ int main_commands_export ( main_commands_t *this_,
     }
 
     TRACE_INFO("stopping DB...");
-    data_database_close( &database );
-    data_database_destroy( &database );
+    data_database_close( &((*this_).temp_database) );
+    data_database_destroy( &((*this_).temp_database) );
 
     TRACE_END_ERR( export_err );
     return export_err;
@@ -243,9 +238,9 @@ int main_commands_import ( main_commands_t *this_,
     int import_err = 0;
 
     TRACE_INFO("starting DB...");
-    data_database_init( &database );
+    data_database_init( &((*this_).temp_database) );
     const data_error_t db_err
-        = data_database_open( &database, database_path );
+        = data_database_open( &((*this_).temp_database), database_path );
     if ( db_err != DATA_ERROR_NONE )
     {
         universal_utf8_writer_write_str( out_english_report, "error opening database " );
@@ -254,16 +249,16 @@ int main_commands_import ( main_commands_t *this_,
     }
 
     TRACE_INFO("initializing controller...");
-    ctrl_controller_init( &controller, &database );
+    ctrl_controller_init( &((*this_).temp_controller), &((*this_).temp_database) );
 
     TRACE_INFO("importing data...");
     TRACE_INFO_STR( "chosen data:", import_file_path );
-    if ( data_database_is_open( &database ) )
+    if ( data_database_is_open( &((*this_).temp_database) ) )
     {
         static data_database_reader_t db_reader;
-        data_database_reader_init( &db_reader, &database );
+        data_database_reader_init( &db_reader, &((*this_).temp_database) );
         static io_importer_t importer;
-        io_importer_init( &importer, &db_reader, &controller );
+        io_importer_init( &importer, &db_reader, &((*this_).temp_controller) );
         {
             data_stat_t import_stat;
             data_stat_init ( &import_stat );
@@ -292,11 +287,11 @@ int main_commands_import ( main_commands_t *this_,
     }
 
     TRACE_INFO("destroying controller...");
-    ctrl_controller_destroy( &controller );
+    ctrl_controller_destroy( &((*this_).temp_controller) );
 
     TRACE_INFO("stopping DB...");
-    data_database_close( &database );
-    data_database_destroy( &database );
+    data_database_close( &((*this_).temp_database) );
+    data_database_destroy( &((*this_).temp_database) );
 
     TRACE_END_ERR( import_err );
     return import_err;
