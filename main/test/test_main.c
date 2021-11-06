@@ -5,7 +5,7 @@
 #include "unit/data_uuid_test.h"
 #include "unit/data_rules_test.h"
 #include "unit/data_database_listener_test.h"
-#include "unit/data_database_reader_test.h"
+#include "integration/data_database_reader_test.h"
 #include "unit/ctrl_diagram_controller_test.h"
 #include "unit/ctrl_controller_test.h"
 #include "unit/ctrl_classifier_controller_test.h"

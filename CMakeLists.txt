@@ -74,7 +74,9 @@ FILE(GLOB commonSource gui/source/*.c
 FILE(GLOB appSource    main/source/*.c)
 FILE(GLOB utestSource  main/test/*.c
                        data/test/unit/*.c
+                       data/test/integration/*.c
                        ctrl/test/unit/*.c
+                       ctrl/test/integration/*.c
                        gui/test/unit/*.c
                        io/test/unit/*.c
                        io/test/integration/*.c

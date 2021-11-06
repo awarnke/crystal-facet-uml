@@ -13,6 +13,8 @@
 #include "storage/data_database_listener_signal.h"
 #include "storage/data_database_iterator_classifiers.h"
 #include "storage/data_database.h"
+#include "storage/data_database_classifier_reader.h"
+#include "storage/data_database_diagram_reader.h"
 #include "data_diagram.h"
 #include "data_error.h"
 #include "data_classifier.h"
@@ -26,39 +28,19 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT 1
-
 /*!
  *  \brief all data attributes needed for the database functions
  */
 struct data_database_reader_struct {
     data_database_t *database;  /*!< pointer to external database */
+    data_database_classifier_reader_t temp_classifier_reader;  /*!< own instance of a classifier reader, initialized while open */
+    data_database_diagram_reader_t temp_diagram_reader;  /*!< own instance of a diagram reader, initialized while open */
 
-    bool is_open;  /*!< the prepared statements are only initialized if the database is open */
-    sqlite3_stmt *private_prepared_query_diagram_by_id;
-    sqlite3_stmt *private_prepared_query_diagrams_by_parent_id;
-    sqlite3_stmt *private_prepared_query_diagrams_by_parent_id_null;
-#ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
-    sqlite3_stmt *private_prepared_query_diagrams_by_classifier_id;
-#endif
-    sqlite3_stmt *private_prepared_query_diagram_ids_by_parent_id;
-    sqlite3_stmt *private_prepared_query_diagram_ids_by_parent_id_null;
-    sqlite3_stmt *private_prepared_query_diagram_ids_by_classifier_id;
-    sqlite3_stmt *private_prepared_query_classifier_by_id;
-    sqlite3_stmt *private_prepared_query_classifier_by_name;
-    sqlite3_stmt *private_prepared_query_classifiers_by_diagram_id;
-    sqlite3_stmt *private_prepared_query_diagramelement_by_id;
-    sqlite3_stmt *private_prepared_query_diagramelements_by_diagram_id;
-    sqlite3_stmt *private_prepared_query_diagramelements_by_classifier_id;
-    sqlite3_stmt *private_prepared_query_feature_by_id;
-    sqlite3_stmt *private_prepared_query_features_by_classifier_id;
-    sqlite3_stmt *private_prepared_query_features_by_diagram_id;
-    sqlite3_stmt *private_prepared_query_relationship_by_id;
-    sqlite3_stmt *private_prepared_query_relationships_by_classifier_id;
-    sqlite3_stmt *private_prepared_query_relationships_by_feature_id;
-    sqlite3_stmt *private_prepared_query_relationships_by_diagram_id;
+    bool is_open;  /*!< the temp_classifier_reader and temp_diagram_reader with their prepared statements */
+                   /*!< are only initialized if the database is open */
 
-    data_database_listener_t me_as_listener;  /*!< own instance of data_database_listener_t which wraps data_database_reader_db_change_callback */
+    data_database_listener_t me_as_listener;  /*!< own instance of data_database_listener_t */
+                                              /*!< which wraps data_database_reader_db_change_callback */
 };
 
 typedef struct data_database_reader_struct data_database_reader_t;
@@ -107,7 +89,24 @@ static inline bool data_database_reader_is_open( data_database_reader_t *this_ )
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, data_row_id_t id, data_diagram_t *out_diagram );
+data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_,
+                                                      data_row_id_t id,
+                                                      data_diagram_t *out_diagram
+                                                    );
+
+/*!
+ *  \brief reads a diagram from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param uuid the diagram to be read from the database
+ *  \param[out] out_diagram the diagram read from the database (in case of success)
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. DATA_ERROR_DB_STRUCTURE if uuid does not exist or DATA_ERROR_NO_DB if the database is not open.
+ */
+data_error_t data_database_reader_get_diagram_by_uuid ( data_database_reader_t *this_,
+                                                        const char *uuid,
+                                                        data_diagram_t *out_diagram
+                                                      );
 
 /*!
  *  \brief reads all child-diagrams from the database
@@ -128,7 +127,6 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
                                                               uint32_t *out_diagram_count
                                                             );
 
-#ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
 /*!
  *  \brief reads all classifier-displaying diagrams from the database
  *
@@ -149,7 +147,6 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
                                                                   data_diagram_t (*out_diagram)[],
                                                                   uint32_t *out_diagram_count
                                                                 );
-#endif
 
 /*!
  *  \brief reads all child-diagram ids from the database
@@ -192,7 +189,10 @@ data_error_t data_database_reader_get_diagram_ids_by_classifier_id ( data_databa
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, data_row_id_t id, data_classifier_t *out_classifier );
+data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_,
+                                                         data_row_id_t id,
+                                                         data_classifier_t *out_classifier
+                                                       );
 
 /*!
  *  \brief reads a classifier from the database
@@ -203,7 +203,24 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_DB_STRUCTURE if name does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_reader_get_classifier_by_name ( data_database_reader_t *this_, const char *name, data_classifier_t *out_classifier );
+data_error_t data_database_reader_get_classifier_by_name ( data_database_reader_t *this_,
+                                                           const char *name,
+                                                           data_classifier_t *out_classifier
+                                                         );
+
+/*!
+ *  \brief reads a classifier from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param uuid the classifier to be read from the database
+ *  \param[out] out_classifier the classifier read from the database (in case of success)
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. DATA_ERROR_DB_STRUCTURE if uuid does not exist or DATA_ERROR_NO_DB if the database is not open.
+ */
+data_error_t data_database_reader_get_classifier_by_uuid ( data_database_reader_t *this_,
+                                                           const char *uuid,
+                                                           data_classifier_t *out_classifier
+                                                         );
 
 /*!
  *  \brief reads all classifiers of a diagram from the database.
@@ -230,9 +247,9 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
  *  \brief iterates over all classifiers from the database.
  *
  *  classifiers are sorted by number of containment-parents, ascending.
- * 
+ *
  *  \param this_ pointer to own object attributes
- *  \param io_classifier_iterator iterator over all classifiers. The caller is responsible for initializing before 
+ *  \param io_classifier_iterator iterator over all classifiers. The caller is responsible for initializing before
  *                                and destroying this object afterwards.
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
@@ -252,7 +269,24 @@ data_error_t data_database_reader_get_all_classifiers_iterator ( data_database_r
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_, data_row_id_t id, data_diagramelement_t *out_diagramelement );
+data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_,
+                                                             data_row_id_t id,
+                                                             data_diagramelement_t *out_diagramelement
+                                                           );
+
+/*!
+ *  \brief reads a diagramelement from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param uuid the diagramelement to be read from the database
+ *  \param[out] out_diagramelement the diagramelement read from the database (in case of success)
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. DATA_ERROR_DB_STRUCTURE if uuid does not exist or DATA_ERROR_NO_DB if the database is not open.
+ */
+data_error_t data_database_reader_get_diagramelement_by_uuid ( data_database_reader_t *this_,
+                                                               const char *uuid,
+                                                               data_diagramelement_t *out_diagramelement
+                                                             );
 
 /*!
  *  \brief reads all diagramelements of a diagram from the database
@@ -303,7 +337,24 @@ data_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_da
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *this_, data_row_id_t id, data_feature_t *out_feature );
+data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *this_,
+                                                      data_row_id_t id,
+                                                      data_feature_t *out_feature
+                                                    );
+
+/*!
+ *  \brief reads a feature from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param uuid the feature to be read from the database
+ *  \param[out] out_feature the feature read from the database (in case of success)
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. DATA_ERROR_DB_STRUCTURE if uuid does not exist or DATA_ERROR_NO_DB if the database is not open.
+ */
+data_error_t data_database_reader_get_feature_by_uuid ( data_database_reader_t *this_,
+                                                        const char *uuid,
+                                                        data_feature_t *out_feature
+                                                      );
 
 /*!
  *  \brief reads all features of a classifier from the database
@@ -356,7 +407,24 @@ data_error_t data_database_reader_get_features_by_diagram_id ( data_database_rea
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t *this_, data_row_id_t id, data_relationship_t *out_relationship );
+data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t *this_,
+                                                           data_row_id_t id,
+                                                           data_relationship_t *out_relationship
+                                                         );
+
+/*!
+ *  \brief reads a relationship from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param uuid the relationship to be read from the database
+ *  \param[out] out_relationship the relationship read from the database (in case of success)
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. DATA_ERROR_DB_STRUCTURE if uuid does not exist or DATA_ERROR_NO_DB if the database is not open.
+ */
+data_error_t data_database_reader_get_relationship_by_uuid ( data_database_reader_t *this_,
+                                                             const char *uuid,
+                                                             data_relationship_t *out_relationship
+                                                           );
 
 /*!
  *  \brief reads all relationships of a classifier from the database
@@ -438,76 +506,6 @@ data_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
  *  \return DATA_ERROR_NONE in case of success
  */
 data_error_t data_database_reader_private_close ( data_database_reader_t *this_ );
-
-/*!
- *  \brief creates a prepared statement.
- *
- *  \param this_ pointer to own object attributes
- *  \param string_statement statement as string to be prepared
- *  \param string_size size of string_statement in bytes, including the terminating zero
- *  \param[out] out_statement_ptr address of a pointer. The pointer is modifies as to point to a statement object.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- */
-static inline data_error_t data_database_reader_private_prepare_statement ( data_database_reader_t *this_,
-                                                                            const char *string_statement,
-                                                                            int string_size,
-                                                                            sqlite3_stmt **out_statement_ptr
-                                                                          );
-
-/*!
- *  \brief finalizes a prepared statement.
- *
- *  \param this_ pointer to own object attributes
- *  \param statement_ptr pointer to a statement object
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- */
-static inline data_error_t data_database_reader_private_finalize_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr );
-
-/*!
- *  \brief resets a statement only, without binding.
- *
- *  \param this_ pointer to own object attributes
- *  \param statement_ptr pointer to a statement object
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- */
-static inline data_error_t data_database_reader_private_bind_void_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr );
-
-/*!
- *  \brief binds a single integer to a prepared statement (after reset).
- *
- *  The prepared statement shall have only one variable of type integer.
- *
- *  \param this_ pointer to own object attributes
- *  \param statement_ptr pointer to a statement object
- *  \param id integer to bind to the prepared statement. DATA_ROW_ID_VOID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- */
-static inline data_error_t data_database_reader_private_bind_id_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr, data_row_id_t id );
-
-/*!
- *  \brief binds two integers to a prepared statement (after reset).
- *
- *  The prepared statement shall have exactly two variables of type integer.
- *
- *  \param this_ pointer to own object attributes
- *  \param statement_ptr pointer to a statement object
- *  \param id1 first integer to bind to the prepared statement. DATA_ROW_ID_VOID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
- *  \param id2 second integer to bind to the prepared statement. DATA_ROW_ID_VOID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- */
-static inline data_error_t data_database_reader_private_bind_two_ids_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr, data_row_id_t id1, data_row_id_t id2 );
-
-/*!
- *  \brief binds a single string to a prepared statement (after reset).
- *
- *  The prepared statement shall have only one variable of type string.
- *
- *  \param this_ pointer to own object attributes
- *  \param statement_ptr pointer to a statement object
- *  \param text char sequence to bind to the prepared statement.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- */
-static inline data_error_t data_database_reader_private_bind_text_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr, const char *text );
 
 #include "storage/data_database_reader.inl"
 

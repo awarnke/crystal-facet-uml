@@ -39,26 +39,26 @@ static void test_alloc_blocks(void)
     err = universal_memory_arena_get_block( &test_me, 1, &block_1 );
     TEST_ASSERT_EQUAL_INT( 0, err );
     TEST_ASSERT( NULL != block_1 );
-    TEST_ASSERT_EQUAL_INT( 0, ((unsigned int)block_1) % sizeof(void*) );
+    TEST_ASSERT_EQUAL_INT( 0, ((unsigned int)block_1) % sizeof(int) );
 
     void *block_2;
     err = universal_memory_arena_get_block( &test_me, 1, &block_2 );
     TEST_ASSERT_EQUAL_INT( 0, err );
     TEST_ASSERT( NULL != block_2 );
-    TEST_ASSERT_EQUAL_INT( 0, ((unsigned int)block_1) % sizeof(void*) );
+    TEST_ASSERT_EQUAL_INT( 0, ((unsigned int)block_1) % sizeof(int) );
 
-    TEST_ASSERT_EQUAL_INT( sizeof(void*), ((unsigned int)block_2)-((unsigned int)block_1) );
+    TEST_ASSERT_EQUAL_INT( sizeof(int), ((unsigned int)block_2)-((unsigned int)block_1) );
 
     universal_memory_arena_reset( &test_me );
 
     void *block_3;
-    err = universal_memory_arena_get_block( &test_me, 33-sizeof(void*), &block_3 );
+    err = universal_memory_arena_get_block( &test_me, 33-sizeof(int), &block_3 );
     TEST_ASSERT_EQUAL_INT( 0, err );
     TEST_ASSERT( NULL != block_3 );
-    TEST_ASSERT_EQUAL_INT( 0, ((unsigned int)block_3) % sizeof(void*) );
+    TEST_ASSERT_EQUAL_INT( 0, ((unsigned int)block_3) % sizeof(int) );
 
     void *block_4;
-    err = universal_memory_arena_get_block( &test_me, sizeof(void*), &block_4 );
+    err = universal_memory_arena_get_block( &test_me, sizeof(int), &block_4 );
     TEST_ASSERT_EQUAL_INT( -1, err );
     TEST_ASSERT( NULL == block_4 );
 

@@ -303,6 +303,14 @@ static void test_search_diagrams(void)
     data_err = data_database_reader_get_diagram_by_id ( &db_reader, 7, &(diagram_list[0]) );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
+    /* test 1b */
+    data_err = data_database_reader_get_diagram_by_uuid ( &db_reader,
+                                                          "f6d0084a-5d5b-4c26-8c64-782c150feec8",
+                                                          &(diagram_list[0])
+                                                        );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 7, data_diagram_get_row_id( &(diagram_list[0]) ) );
+
     /* test 2 */
     data_err = data_database_reader_get_diagrams_by_parent_id ( &db_reader,
                                                                 6,
@@ -352,6 +360,14 @@ static void test_search_diagramelements(void)
     /* test 1 */
     data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, 130, &out_diagramelement );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* test 1b */
+    data_err = data_database_reader_get_diagramelement_by_uuid ( &db_reader,
+                                                                 "02088b41-e71d-466d-a413-2551ba3bf10a",
+                                                                 &out_diagramelement
+                                                               );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 133, data_diagramelement_get_row_id( &out_diagramelement ) );
 }
 
 static void test_search_classifiers(void)
@@ -365,6 +381,14 @@ static void test_search_classifiers(void)
     /* test 1 */
     data_err = data_database_reader_get_classifier_by_id ( &db_reader, 13, &out_classifier );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* test 1b */
+    data_err = data_database_reader_get_classifier_by_uuid ( &db_reader,
+                                                             "b9495b71-99c3-406d-88d5-1aa233b09e2d",
+                                                             &out_classifier
+                                                           );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 13, data_classifier_get_row_id( &out_classifier ) );
 
     /* test 2 */
     data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader,
@@ -403,6 +427,14 @@ static void test_search_features(void)
     data_err = data_database_reader_get_feature_by_id ( &db_reader, 19, &(feature_list[0]) );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
+    /* test 1b */
+    data_err = data_database_reader_get_feature_by_uuid ( &db_reader,
+                                                          "17d8377a-cf84-402c-b4d8-0dbfc8f8222e",
+                                                          &(feature_list[0])
+                                                        );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 18, data_feature_get_row_id( &(feature_list[0]) ) );
+
     /* test 2 */
     data_err = data_database_reader_get_features_by_classifier_id ( &db_reader,
                                                                     13, /* classifier_id*/
@@ -434,6 +466,14 @@ static void test_search_relationships(void)
     /* test 1 */
     data_err = data_database_reader_get_relationship_by_id ( &db_reader, 34, &(relation_list[0]) );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* test 1b */
+    data_err = data_database_reader_get_relationship_by_uuid ( &db_reader,
+                                                               "ef90ab9d-6da4-4f3c-b8b8-50d9c955f113",
+                                                               &(relation_list[0])
+                                                             );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 34, data_relationship_get_row_id( &(relation_list[0]) ) );
 
     /* test 2 */
     data_err = data_database_reader_get_relationships_by_classifier_id ( &db_reader,

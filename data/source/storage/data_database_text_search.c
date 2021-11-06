@@ -519,7 +519,7 @@ static const char data_database_text_search_SELECT_RELATIONSHIP_BY_TEXTFRAGMENT[
     "OR relationships.description LIKE ? ESCAPE \"\\\" "
     "GROUP BY relationships.id,diagrams.id;";  /* no duplicates if a classifier is twice in a diagram */
 
-    /*!
+/*!
  *  \brief the column id of the result where this parameter is stored: id
  */
 static const int RESULT_RELATIONSHIP_ID_COLUMN = 0;

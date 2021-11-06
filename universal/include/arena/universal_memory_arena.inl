@@ -30,8 +30,9 @@ static inline int universal_memory_arena_get_block ( universal_memory_arena_t *t
     assert( out_block != NULL );
     int err = 0;
 
-    static const unsigned int align = sizeof(void*);
+    static const unsigned int align = sizeof(int);
     static const unsigned int align_mask = ~(-align);  /* assuming a complement of 2 presentation */
+    /*  -1 = 11111111, -2 = 11111110, -4 = 11111100, -8 = 11111000 */
 
     char *const free_start = (*this_).mem_buf_start + (*this_).mem_buf_used;
     const unsigned int free_misalign = ((unsigned int)free_start) & align_mask;
