@@ -61,6 +61,8 @@ data_error_t io_importer_import_file( io_importer_t *this_,
         /* id scan */
         TRACE_INFO("scanning file...");
 
+        /* create a list of diagram elements, check if the referenced diagrams and classifiers really exist */
+
         const data_error_t err3 = json_import_to_database_prescan( &((*this_).json_importer),
                                                                    universal_file_input_stream_get_input_stream( &in_file ),
                                                                    io_stat,
