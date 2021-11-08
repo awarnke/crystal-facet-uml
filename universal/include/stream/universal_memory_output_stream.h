@@ -75,7 +75,7 @@ int universal_memory_output_stream_flush( universal_memory_output_stream_t *this
  *  to ensure that even in this error case, the buffer is null-terminated.
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
+ *  \return 0 in case of success, -1 if last byte gets overwritten or buffer of size 0
  */
 int universal_memory_output_stream_write_0term ( universal_memory_output_stream_t *this_ );
 

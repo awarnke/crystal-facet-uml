@@ -19,15 +19,14 @@
 #include "data_error.h"
 #include "util/string/utf8stringbuf.h"
 #include "stream/universal_input_stream.h"
+#include "stream/universal_output_stream.h"
 #include <stdbool.h>
 #include <stdint.h>
 
 /*!
- *  \brief constants for max input size
+ *  \brief constants for max buffer input size
  */
 enum json_token_reader_max_enum {
-    JSON_TOKENIZER_MAX_INPUT_SIZE = 16*1024*1024,  /*!< assuming a maxmum input string size allows to prevent endless-loops.*/
-                                                   /*!< 16MB should be big enough for strings from the clipboard. */
     JSON_DESERIALIZER_MAX_RING_INPUT_BUFFER_SIZE = 256, /*!< maximum input buffer, at least 1 key string-value pair must fit in */
 };
 
@@ -37,7 +36,7 @@ enum json_token_reader_max_enum {
 struct json_token_reader_struct {
     universal_input_stream_t *in_stream;  /*!< json input stream to be parsed */
 
-    char ring_input_buffer[JSON_DESERIALIZER_MAX_RING_INPUT_BUFFER_SIZE];  /*!< look-ahead input buffer ti check for next bytes */
+    char ring_input_buffer[JSON_DESERIALIZER_MAX_RING_INPUT_BUFFER_SIZE];  /*!< look-ahead input buffer to check for next bytes */
     uint_fast32_t ring_start;
     uint_fast32_t ring_length;
 };
@@ -87,7 +86,7 @@ data_error_t json_token_reader_expect_begin_object ( json_token_reader_t *this_ 
  *          DATA_ERROR_PARSER_STRUCTURE if there is no member-name token,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t json_token_reader_get_member_name ( json_token_reader_t *this_, utf8stringbuf_t out_name );
+static inline data_error_t json_token_reader_get_member_name ( json_token_reader_t *this_, utf8stringbuf_t out_name );
 
 /*!
  *  \brief checks if the next token is an "end-object" json token
@@ -148,7 +147,9 @@ data_error_t json_token_reader_expect_value_separator ( json_token_reader_t *thi
  *  It does not verify if the type is valid.
  *
  *  \param this_ pointer to own object attributes
- *  \param value_type return value: type of the next value-token. This parameter must not be NULL.
+ *  \param value_type return value: type of the next value-token.
+ *                    JSON_VALUE_TYPE_INTEGER will not be returned, JSON_VALUE_TYPE_NUMBER instead.
+ *                    This parameter must not be NULL.
  *  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
  *          DATA_ERROR_PARSER_STRUCTURE if there is no value-token (e.g. we are at the end of an array),
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
@@ -184,7 +185,7 @@ data_error_t json_token_reader_get_int_value ( json_token_reader_t *this_, int64
  *  \brief determines the next value of type number
  *
  *  \param this_ pointer to own object attributes
- *  \param out_number return value: number-contents of the value-token. This parameter must not be NULL.
+ *  \param[out] out_number return value: number-contents of the value-token. This parameter must not be NULL.
  *  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
  *          DATA_ERROR_PARSER_STRUCTURE if there is no number-value-token,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
@@ -244,31 +245,39 @@ static inline void json_token_reader_private_skip_whitespace ( json_token_reader
  *  it is intended to check if numbers, strings, true, null, false are finished.
  *
  *  \param this_ pointer to own object attributes
- *  \return false if in_data[*in_read_pos] and in_data[*in_read_pos+1] belong to the same token
+ *  \return false if input stream read position points to a stand-alone token
  */
 static inline bool json_token_reader_private_is_value_end ( json_token_reader_t *this_ );
 
 /*!
- *  \brief deterines the string end of a string literal
+ *  \brief reads a string literal to a utf8stringbuf
  *
  *  \param this_ pointer to own object attributes
+ *  \param out_stream string-contents of the value-token, unmodified including escape sequences
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if out_stream does not provide enough space,
+ *          DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
+ *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-static inline void json_token_reader_private_find_string_end ( json_token_reader_t *this_ );
+static inline data_error_t json_token_reader_private_read_string ( json_token_reader_t *this_, universal_output_stream_t *out_stream );
 
 /*!
  *  \brief parses the integer token
  *
  *  \param this_ pointer to own object attributes
- *  \return parsed integer or 0 in case of error
+ *  \param[out] out_int parsed integer or 0 in case of error
+ *  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
+ *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-static inline int64_t json_token_reader_private_parse_integer ( json_token_reader_t *this_ );
+static inline data_error_t json_token_reader_private_parse_integer ( json_token_reader_t *this_, int64_t *out_int );
 
 /*!
  *  \brief skips the number token, numbers are not supported by this parser
  *
  *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
+ *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-static inline void json_token_reader_private_skip_number ( json_token_reader_t *this_ );
+static inline data_error_t json_token_reader_private_skip_number ( json_token_reader_t *this_ );
 
 /*!
  *  \brief reads more bytes from the input stream into the own ring input buffer
