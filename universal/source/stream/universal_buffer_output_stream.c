@@ -58,9 +58,10 @@ int universal_buffer_output_stream_write ( universal_buffer_output_stream_t *thi
     /*TRACE_BEGIN();*/
     assert( start != NULL );
     assert( (*this_).mem_buf_start != NULL );
+    assert( (*this_).sink != NULL );
     int err = 0;
 
-    const size_t space_left = ( (*this_).mem_buf_size - (*this_).mem_buf_filled );
+    const size_t space_left = (*this_).mem_buf_size - (*this_).mem_buf_filled;
     char *const buf_first_free = &(  (*(  (char(*)[])(*this_).mem_buf_start  ))[(*this_).mem_buf_filled]  );
     if ( length <= space_left )
     {
@@ -97,6 +98,7 @@ int universal_buffer_output_stream_flush( universal_buffer_output_stream_t *this
 {
     TRACE_BEGIN();
     assert( (*this_).mem_buf_start != NULL );
+    assert( (*this_).sink != NULL );
     int err = 0;
 
     if ( (*this_).mem_buf_filled > 0 )

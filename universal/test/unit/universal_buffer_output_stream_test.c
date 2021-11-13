@@ -9,8 +9,8 @@
 
 static void set_up(void);
 static void tear_down(void);
-static void test_insert_regular(void);
-static void test_insert_border_cases(void);
+static void test_append_regular(void);
+static void test_append_border_cases(void);
 
 static char my_out_buffer[10];
 static universal_memory_output_stream_t my_mem_out_stream;
@@ -21,8 +21,8 @@ test_suite_t universal_buffer_output_stream_test_get_list(void)
 {
     test_suite_t result;
     test_suite_init( &result, "universal_buffer_output_stream_test_get_list", &set_up, &tear_down );
-    test_suite_add_test_case( &result, "test_insert_regular", &test_insert_regular );
-    test_suite_add_test_case( &result, "test_insert_border_cases", &test_insert_border_cases );
+    test_suite_add_test_case( &result, "test_append_regular", &test_append_regular );
+    test_suite_add_test_case( &result, "test_append_border_cases", &test_append_border_cases );
     return result;
 }
 
@@ -31,7 +31,7 @@ static void set_up(void)
     memset( &my_out_buffer, '\0', sizeof(my_out_buffer) );
     universal_memory_output_stream_init( &my_mem_out_stream, &my_out_buffer, sizeof(my_out_buffer) );
     universal_output_stream_t *my_mem_out_stream_ptr = universal_memory_output_stream_get_output_stream( &my_mem_out_stream );
-    universal_buffer_input_stream_init( &my_buf_out_stream, &my_buffer, sizeof(my_buffer), my_mem_out_stream_ptr );
+    universal_buffer_output_stream_init( &my_buf_out_stream, &my_buffer, sizeof(my_buffer), my_mem_out_stream_ptr );
 }
 
 static void tear_down(void)
@@ -40,7 +40,7 @@ static void tear_down(void)
     universal_memory_output_stream_destroy( &my_mem_out_stream );
 }
 
-static void test_insert_regular(void)
+static void test_append_regular(void)
 {
     int err;
 
@@ -61,11 +61,12 @@ static void test_insert_regular(void)
     const char test_1[] = "Hello";
     err = universal_output_stream_write ( my_out_stream, test_1, sizeof(test_1) );
     TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), test_1 ) );
+    TEST_ASSERT_EQUAL_INT( '\0', my_out_buffer[0] );
 
     /* flush */
     err = universal_output_stream_flush (my_out_stream);
     TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), test_1 ) );
 
     /* reset */
     err = universal_memory_output_stream_reset( &my_mem_out_stream );
@@ -83,7 +84,7 @@ static void test_insert_regular(void)
     TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), "Hello!" ) );
 }
 
-static void test_insert_border_cases(void)
+static void test_append_border_cases(void)
 {
     int err;
 
@@ -93,19 +94,19 @@ static void test_insert_border_cases(void)
     TEST_ASSERT( my_out_stream != NULL );
 
     /* write */
-    const char test_1[] = "123456";
+    const char test_1[] = "1234567";
     err = universal_output_stream_write ( my_out_stream, test_1, strlen(test_1) );
     TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), test_1 ) );
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), &test_1, sizeof(my_buffer) ) );
 
     /* write */
-    const char test_2[] = "7890abc";
+    const char test_2[] = "890abc";
     err = universal_output_stream_write ( my_out_stream, test_2, strlen(test_2) );
     TEST_ASSERT_EQUAL_INT( -1, err );
     TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "1234567890", sizeof(my_out_buffer) ) );
 
     /* write */
-    const char test_3[] = "lo!";
+    const char test_3[] = "lo!!!";
     err = universal_output_stream_write ( my_out_stream, test_3, sizeof(test_3) );
     TEST_ASSERT_EQUAL_INT( -1, err );
     TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "1234567890", sizeof(my_out_buffer) ) );

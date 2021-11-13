@@ -54,6 +54,7 @@ void universal_buffer_input_stream_reset ( universal_buffer_input_stream_t *this
 {
     TRACE_BEGIN();
     assert( (*this_).mem_buf_start != NULL );
+    assert( (*this_).source != NULL );
 
     (*this_).mem_buf_pos = 0;
     (*this_).mem_buf_fill = 0;
@@ -68,30 +69,43 @@ int universal_buffer_input_stream_read ( universal_buffer_input_stream_t *this_,
     assert( max_size != 0 );
     assert( out_length != NULL );
     assert( (*this_).mem_buf_start != NULL );
+    assert( (*this_).source != NULL );
     int err = 0;
 
-    const bool buffer_empty = ( (*this_).mem_buf_pos >= (*this_).mem_buf_fill );
-    if ( buffer_empty )
+    const size_t buf_available1 = (*this_).mem_buf_fill - (*this_).mem_buf_pos;
+    char *const buf_first_read = &(  (*(  (char(*)[])(*this_).mem_buf_start  ))[(*this_).mem_buf_pos]  );
+    if ( max_size <= buf_available1 )
     {
-        (*this_).mem_buf_pos = 0;
-        (*this_).mem_buf_fill = 0;
-        err = universal_input_stream_read( (*this_).source, (*this_).mem_buf_start, (*this_).mem_buf_size, &((*this_).mem_buf_fill) );
-    }
-
-    const size_t buffer_left = ( (*this_).mem_buf_fill - (*this_).mem_buf_pos );
-    if ( buffer_left != 0 )
-    {
-        const size_t bytes_to_copy = (max_size <= buffer_left) ? max_size : buffer_left;
-        char *const buf_first_read = &(  (*(  (char(*)[])(*this_).mem_buf_start  ))[(*this_).mem_buf_pos]  );
-
-        memcpy( out_buffer, buf_first_read, bytes_to_copy );
-        (*this_).mem_buf_pos += bytes_to_copy;
-        *out_length = bytes_to_copy;
+        /* read all from buffer */
+        memcpy( out_buffer, buf_first_read, max_size );
+        (*this_).mem_buf_pos += max_size;
+        *out_length = max_size;
     }
     else
     {
-        err = -1;  /* finished, no more bytes to read */
-        *out_length = 0;
+        /* read from buffer till buffer is empty */
+        memcpy( out_buffer, buf_first_read, buf_available1 );
+        (*this_).mem_buf_pos = 0;
+        (*this_).mem_buf_fill = 0;
+        const size_t remaining_len = max_size - buf_available1;
+        void *const remaining_start = &(  (*(  (char(*)[])out_buffer  ))[buf_available1]  );
+
+        if ( remaining_len < (*this_).mem_buf_size )
+        {
+            err |= universal_input_stream_read( (*this_).source, (*this_).mem_buf_start, (*this_).mem_buf_size, &((*this_).mem_buf_fill) );
+
+            const size_t buf_available2 = ( (*this_).mem_buf_fill < remaining_len )?( (*this_).mem_buf_fill ):( remaining_len );
+
+            memcpy( remaining_start, (*this_).mem_buf_start, buf_available2 );
+            (*this_).mem_buf_pos = buf_available2;
+            *out_length = buf_available1 + buf_available2;
+        }
+        else
+        {
+            size_t remaining_actual = 0;
+            err |= universal_input_stream_read( (*this_).source, remaining_start, remaining_len, &remaining_actual );
+            *out_length = buf_available1 + remaining_actual;
+        }
     }
 
     /*TRACE_END_ERR(err);*/

@@ -271,7 +271,7 @@ data_error_t data_database_classifier_reader_get_classifier_by_uuid ( data_datab
 {
     TRACE_BEGIN();
     assert( NULL != out_classifier );
-    assert( NULL != name );
+    assert( NULL != uuid );
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;

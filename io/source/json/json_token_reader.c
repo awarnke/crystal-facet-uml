@@ -47,7 +47,7 @@ void json_token_reader_reinit ( json_token_reader_t *this_, universal_input_stre
 void json_token_reader_destroy ( json_token_reader_t *this_ )
 {
     TRACE_BEGIN();
-    assert( (*this_).in_stream != in_stream );
+    assert( NULL != (*this_).in_stream );
 
     (*this_).in_stream = NULL;
 
@@ -80,8 +80,6 @@ data_error_t json_token_reader_expect_begin_object ( json_token_reader_t *this_ 
 data_error_t json_token_reader_is_end_object ( json_token_reader_t *this_, bool *end_object )
 {
     TRACE_BEGIN();
-    assert( NULL != in_data );
-    assert( NULL != io_read_pos );
     assert( NULL != end_object );
     data_error_t result_err = DATA_ERROR_NONE;
 
@@ -108,8 +106,6 @@ data_error_t json_token_reader_is_end_object ( json_token_reader_t *this_, bool 
 data_error_t json_token_reader_expect_name_separator ( json_token_reader_t *this_ )
 {
     TRACE_BEGIN();
-    assert( NULL != in_data );
-    assert( NULL != io_read_pos );
     data_error_t result_err = DATA_ERROR_NONE;
 
     /* skip whitespace */
@@ -133,8 +129,6 @@ data_error_t json_token_reader_expect_name_separator ( json_token_reader_t *this
 data_error_t json_token_reader_expect_begin_array ( json_token_reader_t *this_ )
 {
     TRACE_BEGIN();
-    assert( NULL != in_data );
-    assert( NULL != io_read_pos );
     data_error_t result_err = DATA_ERROR_NONE;
 
     /* skip whitespace */
@@ -158,8 +152,6 @@ data_error_t json_token_reader_expect_begin_array ( json_token_reader_t *this_ )
 data_error_t json_token_reader_is_end_array ( json_token_reader_t *this_, bool *end_array )
 {
     TRACE_BEGIN();
-    assert( NULL != in_data );
-    assert( NULL != io_read_pos );
     assert( NULL != end_array );
     data_error_t result_err = DATA_ERROR_NONE;
 
@@ -186,8 +178,6 @@ data_error_t json_token_reader_is_end_array ( json_token_reader_t *this_, bool *
 data_error_t json_token_reader_expect_value_separator ( json_token_reader_t *this_ )
 {
     TRACE_BEGIN();
-    assert( NULL != in_data );
-    assert( NULL != io_read_pos );
     data_error_t result_err = DATA_ERROR_NONE;
 
     /* skip whitespace */
@@ -211,8 +201,6 @@ data_error_t json_token_reader_expect_value_separator ( json_token_reader_t *thi
 data_error_t json_token_reader_get_value_type ( json_token_reader_t *this_, json_value_type_t *value_type )
 {
     TRACE_BEGIN();
-    assert( NULL != in_data );
-    assert( NULL != io_read_pos );
     assert( NULL != value_type );
     data_error_t result_err = DATA_ERROR_NONE;
 
@@ -263,8 +251,6 @@ data_error_t json_token_reader_get_value_type ( json_token_reader_t *this_, json
 data_error_t json_token_reader_get_string_value ( json_token_reader_t *this_, utf8stringbuf_t out_value )
 {
     TRACE_BEGIN();
-    assert( NULL != in_data );
-    assert( NULL != io_read_pos );
     data_error_t result_err = DATA_ERROR_NONE;
 
     /* skip whitespace */
@@ -374,8 +360,6 @@ data_error_t json_token_reader_get_number_value ( json_token_reader_t *this_, do
 data_error_t json_token_reader_get_boolean_value ( json_token_reader_t *this_, bool *out_bool )
 {
     TRACE_BEGIN();
-    assert( NULL != in_data );
-    assert( NULL != io_read_pos );
     assert( NULL != out_bool );
     data_error_t result_err = DATA_ERROR_NONE;
 
@@ -425,8 +409,6 @@ data_error_t json_token_reader_get_boolean_value ( json_token_reader_t *this_, b
 data_error_t json_token_reader_expect_null_value ( json_token_reader_t *this_ )
 {
     TRACE_BEGIN();
-    assert( NULL != in_data );
-    assert( NULL != io_read_pos );
     data_error_t result_err = DATA_ERROR_NONE;
 
     /* skip whitespace */
@@ -459,8 +441,6 @@ data_error_t json_token_reader_expect_null_value ( json_token_reader_t *this_ )
 data_error_t json_token_reader_expect_eof ( json_token_reader_t *this_ )
 {
     TRACE_BEGIN();
-    assert( NULL != in_data );
-    assert( NULL != io_read_pos );
     data_error_t result_err = DATA_ERROR_NONE;
 
     /* skip whitespace */

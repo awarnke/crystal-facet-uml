@@ -65,23 +65,17 @@ static void test_read_chunks(void)
     TEST_ASSERT_EQUAL_INT( sizeof(buf5), len );
     TEST_ASSERT_EQUAL_INT( 0, memcmp( &buf5, "12345", sizeof(buf5) ) );
 
-    /* read next 5 */
-    err = universal_input_stream_read ( my_in_stream, &buf5, sizeof(buf5), &len );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 1, len );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &buf5, "6", 1 ) );
-
     /* read last 5 */
     err = universal_input_stream_read ( my_in_stream, &buf5, sizeof(buf5), &len );
     TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( sizeof(buf5)-1, len );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &buf5, "789", sizeof(buf5)-1 ) );
+    TEST_ASSERT_EQUAL_INT( sizeof(buf5), len );
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &buf5, "6789", sizeof(buf5) ) );
 
     /* read after end */
     err = universal_input_stream_read ( my_in_stream, &buf5, sizeof(buf5), &len );
     TEST_ASSERT_EQUAL_INT( -1, err );
     TEST_ASSERT_EQUAL_INT( 0, len );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &buf5, "789", sizeof(buf5)-1 ) );
+    TEST_ASSERT_EQUAL_INT( 0, memcmp( &buf5, "6789", sizeof(buf5)-1 ) );
 }
 
 static void test_read_all(void)
