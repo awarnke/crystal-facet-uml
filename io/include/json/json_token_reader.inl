@@ -15,7 +15,7 @@ static inline void json_token_reader_private_skip_whitespace ( json_token_reader
     char current = ' ';
     while ( ( ! ws_end_reached ) && ( current != '\0' ) )
     {
-        current = json_token_reader_private_peek_next( this_ );
+        current = universal_buffer_input_stream_peek_next( &((*this_).in_stream) );
         if ( ( JSON_CONSTANTS_CHAR_NL != current )
             && ( JSON_CONSTANTS_CHAR_CR != current )
             && ( JSON_CONSTANTS_CHAR_TAB != current )
@@ -25,14 +25,14 @@ static inline void json_token_reader_private_skip_whitespace ( json_token_reader
         }
         else
         {
-            json_token_reader_private_read_next( this_ );
+            universal_buffer_input_stream_read_next( &((*this_).in_stream) );
         }
     }
 }
 
 static inline bool json_token_reader_private_is_value_end ( json_token_reader_t *this_ )
 {
-    char next = json_token_reader_private_peek_next( this_ );
+    char next = universal_buffer_input_stream_peek_next( &((*this_).in_stream) );
 
     const bool result = (( next == '\0' )
         || ( next == JSON_CONSTANTS_CHAR_NL )
@@ -59,7 +59,7 @@ static inline data_error_t json_token_reader_private_read_string ( json_token_re
     size_t ouf_buf_len = 0;
     while ( ! str_end_reached )
     {
-        char current = json_token_reader_private_peek_next( this_ );
+        char current = universal_buffer_input_stream_peek_next( &((*this_).in_stream) );
         if ( '\0' == current )
         {
             str_end_reached = true;
@@ -71,7 +71,7 @@ static inline data_error_t json_token_reader_private_read_string ( json_token_re
         }
         else
         {
-            out_buffer[ouf_buf_len] = json_token_reader_private_read_next( this_ );
+            out_buffer[ouf_buf_len] = universal_buffer_input_stream_read_next( &((*this_).in_stream) );
             ouf_buf_len ++;
         }
         if (( JSON_CONSTANTS_CHAR_ESC == current ) && ( ! esc_incomplete ))
@@ -114,12 +114,12 @@ static inline data_error_t json_token_reader_private_parse_integer ( json_token_
     int64_t result;
     data_error_t err = DATA_ERROR_NONE;
 
-    char first = json_token_reader_private_peek_next( this_ );
+    char first = universal_buffer_input_stream_peek_next( &((*this_).in_stream) );
     if ( '0' == first )
     {
         /* only zero may begin with digit zero */
         result = 0;
-        json_token_reader_private_read_next( this_ );
+        universal_buffer_input_stream_read_next( &((*this_).in_stream) );
     }
     else
     {
@@ -132,8 +132,8 @@ static inline data_error_t json_token_reader_private_parse_integer ( json_token_
         if ( '-' == first )
         {
             minus = true;
-            json_token_reader_private_read_next( this_ );
-            if ( '0' == json_token_reader_private_peek_next( this_ ) )
+            universal_buffer_input_stream_read_next( &((*this_).in_stream) );
+            if ( '0' == universal_buffer_input_stream_peek_next( &((*this_).in_stream) ) )
             {
                 /* number starts with -0 which is invalid */
                 minus_zero_error = true;
@@ -143,11 +143,11 @@ static inline data_error_t json_token_reader_private_parse_integer ( json_token_
         bool int_end_reached = false;
         while ( ! int_end_reached )
         {
-            char current = json_token_reader_private_peek_next( this_ );
+            char current = universal_buffer_input_stream_peek_next( &((*this_).in_stream) );
             if (( '0' <= current )&&( current <= '9'))
             {
                 has_digits = true;
-                json_token_reader_private_read_next( this_ );
+                universal_buffer_input_stream_read_next( &((*this_).in_stream) );
                 result = (result*10)+((int) (current-'0'));
             }
             else
@@ -179,7 +179,7 @@ static inline data_error_t json_token_reader_private_skip_number ( json_token_re
     bool num_end_reached = false;
     while ( ! num_end_reached )
     {
-        char current = json_token_reader_private_peek_next( this_ );
+        char current = universal_buffer_input_stream_peek_next( &((*this_).in_stream) );
         if ( (( '0' <= current )&&( current <= '9'))
             || ( 'e' == current )
             || ( 'E' == current )
@@ -188,98 +188,13 @@ static inline data_error_t json_token_reader_private_skip_number ( json_token_re
             || ( '-' == current ) )
         {
             /* could be part of a valid number */
-            json_token_reader_private_read_next( this_ );
+            universal_buffer_input_stream_read_next( &((*this_).in_stream) );
             result = DATA_ERROR_NONE;
         }
         else
         {
             num_end_reached = true;
         }
-    }
-
-    return result;
-}
-
-static inline void json_token_reader_private_fill_input_buffer( json_token_reader_t *this_ )
-{
-    /* fill back of input buffer */
-    if ( (*this_).ring_length < JSON_DESERIALIZER_MAX_RING_INPUT_BUFFER_SIZE )
-    {
-        const uint_fast32_t first_free
-            = ((*this_).ring_start + (*this_).ring_length) % JSON_DESERIALIZER_MAX_RING_INPUT_BUFFER_SIZE;
-        if ( first_free >= (*this_).ring_start )
-        {
-            const uint_fast32_t free_at_end = JSON_DESERIALIZER_MAX_RING_INPUT_BUFFER_SIZE - first_free;
-            void *const start = &(((*this_).ring_input_buffer)[first_free]);
-            size_t read;
-            const int err
-                = universal_input_stream_read( (*this_).in_stream, start, free_at_end, &read );
-            if ( err != 0 )
-            {
-                TRACE_INFO( "no more input bytes at json_token_reader_private_fill_input_buffer" );
-            }
-            (*this_).ring_length += read;
-        }
-    }
-
-    /* fill front of input buffer */
-    if ( (*this_).ring_length < JSON_DESERIALIZER_MAX_RING_INPUT_BUFFER_SIZE )
-    {
-        const uint_fast32_t first_free
-            = ((*this_).ring_start + (*this_).ring_length) % JSON_DESERIALIZER_MAX_RING_INPUT_BUFFER_SIZE;
-        if ( first_free < (*this_).ring_start )
-        {
-            const uint_fast32_t free_at_end = (*this_).ring_start - first_free;
-            void *const start = &(((*this_).ring_input_buffer)[first_free]);
-            size_t read;
-            const int err
-                = universal_input_stream_read( (*this_).in_stream, start, free_at_end, &read );
-            if ( err != 0 )
-            {
-                TRACE_INFO( "no more input bytes at json_token_reader_private_fill_input_buffer." );
-            }
-            (*this_).ring_length += read;
-        }
-    }
-}
-
-static inline char json_token_reader_private_peek_next( json_token_reader_t *this_ )
-{
-    if ( (*this_).ring_length == 0 )
-    {
-        json_token_reader_private_fill_input_buffer( this_ );
-    }
-
-    char result;
-    if ( (*this_).ring_length == 0 )
-    {
-        result = '\0';
-    }
-    else
-    {
-        result = ((*this_).ring_input_buffer)[(*this_).ring_start];
-    }
-
-    return result;
-}
-
-static inline char json_token_reader_private_read_next( json_token_reader_t *this_ )
-{
-    if ( (*this_).ring_length == 0 )
-    {
-        json_token_reader_private_fill_input_buffer( this_ );
-    }
-
-    char result;
-    if ( (*this_).ring_length == 0 )
-    {
-        result = '\0';
-    }
-    else
-    {
-        result = ((*this_).ring_input_buffer)[(*this_).ring_start];
-        (*this_).ring_start = ((*this_).ring_start + 1) % JSON_DESERIALIZER_MAX_RING_INPUT_BUFFER_SIZE;
-        (*this_).ring_length --;
     }
 
     return result;

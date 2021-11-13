@@ -261,7 +261,7 @@ static void test_skip_number(void)
         test_err = json_token_reader_private_skip_number( &tok );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, test_err );
     }
-    char term0 = json_token_reader_private_read_next( &tok );
+    char term0 = universal_buffer_input_stream_read_next( &((tok).in_stream) );
     TEST_ASSERT( '\0' == term0 );
 
     json_token_reader_destroy( &tok );

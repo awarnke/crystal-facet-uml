@@ -2,14 +2,62 @@
 
 #include <assert.h>
 
-static inline int universal_buffer_input_stream_read2 ( universal_buffer_input_stream_t* this_, void *out_buffer, size_t max_size, size_t *out_length )
+static inline char universal_buffer_input_stream_peek_next( universal_buffer_input_stream_t *this_ )
 {
-#if 0
-    assert( (*this_).interface != NULL );
-    assert( (*this_).objectdata != NULL );
-    assert( (*((*this_).interface)).read != NULL );
-    return (*(  (*((*this_).interface)).read  )) ( (*this_).objectdata, out_buffer, max_size, out_length );
-#endif
+    assert( (*this_).mem_buf_start != NULL );
+    assert( (*this_).mem_buf_fill >= (*this_).mem_buf_pos );
+    assert( (*this_).mem_buf_size >= (*this_).mem_buf_fill );
+    char result = '\0';
+
+    const size_t buf_available1 = (*this_).mem_buf_fill - (*this_).mem_buf_pos;
+    if ( buf_available1 == 0 )
+    {
+        /* try to fill buffer */
+        (*this_).mem_buf_pos = 0;
+        (*this_).mem_buf_fill = 0;
+        const int err
+            = universal_input_stream_read( (*this_).source, (*this_).mem_buf_start, (*this_).mem_buf_size, &((*this_).mem_buf_fill) );
+        if (( 0 == err )&&( (*this_).mem_buf_fill > 0 ))
+        {
+            result = (*(  (char(*)[]) (*this_).mem_buf_start  ))[0];
+        }
+    }
+    else
+    {
+        result = (*(  (char(*)[]) (*this_).mem_buf_start  ))[(*this_).mem_buf_pos];
+    }
+
+    return result;
+}
+
+static inline char universal_buffer_input_stream_read_next( universal_buffer_input_stream_t *this_ )
+{
+    assert( (*this_).mem_buf_start != NULL );
+    assert( (*this_).mem_buf_fill >= (*this_).mem_buf_pos );
+    assert( (*this_).mem_buf_size >= (*this_).mem_buf_fill );
+    char result = '\0';
+
+    const size_t buf_available1 = (*this_).mem_buf_fill - (*this_).mem_buf_pos;
+    if ( buf_available1 == 0 )
+    {
+        /* try to fill buffer */
+        (*this_).mem_buf_pos = 0;
+        (*this_).mem_buf_fill = 0;
+        const int err
+            = universal_input_stream_read( (*this_).source, (*this_).mem_buf_start, (*this_).mem_buf_size, &((*this_).mem_buf_fill) );
+        if (( 0 == err )&&( (*this_).mem_buf_fill > 0 ))
+        {
+            result = (*(  (char(*)[]) (*this_).mem_buf_start  ))[0];
+            (*this_).mem_buf_pos = 1;
+        }
+    }
+    else
+    {
+        result = (*(  (char(*)[]) (*this_).mem_buf_start  ))[(*this_).mem_buf_pos];
+        (*this_).mem_buf_pos ++;
+    }
+
+    return result;
 }
 
 

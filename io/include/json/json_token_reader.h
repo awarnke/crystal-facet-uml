@@ -19,26 +19,17 @@
 #include "data_error.h"
 #include "util/string/utf8stringbuf.h"
 #include "stream/universal_input_stream.h"
+#include "stream/universal_buffer_input_stream.h"
 #include "stream/universal_output_stream.h"
 #include <stdbool.h>
 #include <stdint.h>
 
 /*!
- *  \brief constants for max buffer input size
- */
-enum json_token_reader_max_enum {
-    JSON_DESERIALIZER_MAX_RING_INPUT_BUFFER_SIZE = 256, /*!< maximum input buffer, at least 1 key string-value pair must fit in */
-};
-
-/*!
  *  \brief all data attributes needed for tokenizing data objects
  */
 struct json_token_reader_struct {
-    universal_input_stream_t *in_stream;  /*!< json input stream to be parsed */
-
-    char ring_input_buffer[JSON_DESERIALIZER_MAX_RING_INPUT_BUFFER_SIZE];  /*!< look-ahead input buffer to check for next bytes */
-    uint_fast32_t ring_start;
-    uint_fast32_t ring_length;
+    char input_buffer[512];  /*!< look-ahead input buffer to check for next bytes */
+    universal_buffer_input_stream_t in_stream;  /*!< buffer around json input stream to be parsed */
 };
 
 typedef struct json_token_reader_struct json_token_reader_t;
@@ -278,31 +269,6 @@ static inline data_error_t json_token_reader_private_parse_integer ( json_token_
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
 static inline data_error_t json_token_reader_private_skip_number ( json_token_reader_t *this_ );
-
-/*!
- *  \brief reads more bytes from the input stream into the own ring input buffer
- *
- *  \param this_ pointer to own object attributes
- */
-static inline void json_token_reader_private_fill_input_buffer ( json_token_reader_t *this_ );
-
-/*!
- *  \brief fetches 1 byte from the ring input buffer without moving the read position,
- *         calls json_token_reader_private_fill_input_buffer if more bytes needed.
- *
- *  \param this_ pointer to own object attributes
- *  \return next byte or '\0' if end of stream
- */
-static inline char json_token_reader_private_peek_next ( json_token_reader_t *this_ );
-
-/*!
- *  \brief reads 1 byte from the ring input buffer,
- *         calls json_token_reader_private_fill_input_buffer if more bytes needed.
- *
- *  \param this_ pointer to own object attributes
- *  \return next byte or '\0' if end of stream
- */
-static inline char json_token_reader_private_read_next ( json_token_reader_t *this_ );
 
 #include "json/json_token_reader.inl"
 

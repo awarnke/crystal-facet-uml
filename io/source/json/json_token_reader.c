@@ -25,10 +25,11 @@ void json_token_reader_init ( json_token_reader_t *this_, universal_input_stream
     TRACE_BEGIN();
     assert( NULL != in_stream );
 
-    (*this_).in_stream = in_stream;
-    (*this_).ring_start = 0;
-    (*this_).ring_length = 0;
-
+    universal_buffer_input_stream_init( &((*this_).in_stream),
+                                        &((*this_).input_buffer),
+                                        sizeof((*this_).input_buffer),
+                                        in_stream
+                                      );
     TRACE_END();
 }
 
@@ -37,9 +38,12 @@ void json_token_reader_reinit ( json_token_reader_t *this_, universal_input_stre
     TRACE_BEGIN();
     assert( NULL != in_stream );
 
-    (*this_).in_stream = in_stream;
-    (*this_).ring_start = 0;
-    (*this_).ring_length = 0;
+    universal_buffer_input_stream_destroy( &((*this_).in_stream) );
+    universal_buffer_input_stream_init( &((*this_).in_stream),
+                                        &((*this_).input_buffer),
+                                        sizeof((*this_).input_buffer),
+                                        in_stream
+                                      );
 
     TRACE_END();
 }
@@ -47,9 +51,8 @@ void json_token_reader_reinit ( json_token_reader_t *this_, universal_input_stre
 void json_token_reader_destroy ( json_token_reader_t *this_ )
 {
     TRACE_BEGIN();
-    assert( NULL != (*this_).in_stream );
 
-    (*this_).in_stream = NULL;
+    universal_buffer_input_stream_destroy( &((*this_).in_stream) );
 
     TRACE_END();
 }
@@ -62,10 +65,10 @@ data_error_t json_token_reader_expect_begin_object ( json_token_reader_t *this_ 
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
 
-    if ( JSON_CONSTANTS_CHAR_BEGIN_OBJECT == json_token_reader_private_peek_next( this_ ) )
+    if ( JSON_CONSTANTS_CHAR_BEGIN_OBJECT == universal_buffer_input_stream_peek_next( &((*this_).in_stream) ) )
     {
         /* expected token found */
-        json_token_reader_private_read_next( this_ );
+        universal_buffer_input_stream_read_next( &((*this_).in_stream) );
     }
     else
     {
@@ -86,10 +89,10 @@ data_error_t json_token_reader_is_end_object ( json_token_reader_t *this_, bool 
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
 
-    if ( JSON_CONSTANTS_CHAR_END_OBJECT == json_token_reader_private_peek_next( this_ ) )
+    if ( JSON_CONSTANTS_CHAR_END_OBJECT == universal_buffer_input_stream_peek_next( &((*this_).in_stream) ) )
     {
         /* object-end token found */
-        json_token_reader_private_read_next( this_ );
+        universal_buffer_input_stream_read_next( &((*this_).in_stream) );
         (*end_object) = true;
         TRACE_INFO( "end object: true" );
     }
@@ -111,10 +114,10 @@ data_error_t json_token_reader_expect_name_separator ( json_token_reader_t *this
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
 
-    if ( JSON_CONSTANTS_CHAR_NAME_SEPARATOR == json_token_reader_private_peek_next( this_ ) )
+    if ( JSON_CONSTANTS_CHAR_NAME_SEPARATOR == universal_buffer_input_stream_peek_next( &((*this_).in_stream) ) )
     {
         /* expected token found */
-        json_token_reader_private_read_next( this_ );
+        universal_buffer_input_stream_read_next( &((*this_).in_stream) );
     }
     else
     {
@@ -134,10 +137,10 @@ data_error_t json_token_reader_expect_begin_array ( json_token_reader_t *this_ )
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
 
-    if ( JSON_CONSTANTS_CHAR_BEGIN_ARRAY == json_token_reader_private_peek_next( this_ ) )
+    if ( JSON_CONSTANTS_CHAR_BEGIN_ARRAY == universal_buffer_input_stream_peek_next( &((*this_).in_stream) ) )
     {
         /* expected token found */
-        json_token_reader_private_read_next( this_ );
+        universal_buffer_input_stream_read_next( &((*this_).in_stream) );
     }
     else
     {
@@ -158,10 +161,10 @@ data_error_t json_token_reader_is_end_array ( json_token_reader_t *this_, bool *
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
 
-    if ( JSON_CONSTANTS_CHAR_END_ARRAY == json_token_reader_private_peek_next( this_ ))
+    if ( JSON_CONSTANTS_CHAR_END_ARRAY == universal_buffer_input_stream_peek_next( &((*this_).in_stream) ))
     {
         /* array-end token found */
-        json_token_reader_private_read_next( this_ );
+        universal_buffer_input_stream_read_next( &((*this_).in_stream) );
         (*end_array) = true;
         TRACE_INFO( "end array: true" );
     }
@@ -183,10 +186,10 @@ data_error_t json_token_reader_expect_value_separator ( json_token_reader_t *thi
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
 
-    if ( JSON_CONSTANTS_CHAR_VALUE_SEPARATOR == json_token_reader_private_peek_next( this_ ) )
+    if ( JSON_CONSTANTS_CHAR_VALUE_SEPARATOR == universal_buffer_input_stream_peek_next( &((*this_).in_stream) ) )
     {
         /* expected token found */
-        json_token_reader_private_read_next( this_ );
+        universal_buffer_input_stream_read_next( &((*this_).in_stream) );
     }
     else
     {
@@ -208,7 +211,7 @@ data_error_t json_token_reader_get_value_type ( json_token_reader_t *this_, json
     json_token_reader_private_skip_whitespace( this_ );
 
     /* determine next token */
-    char current = json_token_reader_private_peek_next( this_ );
+    char current = universal_buffer_input_stream_peek_next( &((*this_).in_stream) );
     if ( JSON_CONSTANTS_CHAR_BEGIN_OBJECT == current )
     {
         *value_type = JSON_VALUE_TYPE_OBJECT;
@@ -257,10 +260,10 @@ data_error_t json_token_reader_get_string_value ( json_token_reader_t *this_, ut
     json_token_reader_private_skip_whitespace( this_ );
 
     /* expect string begin */
-    if ( JSON_CONSTANTS_CHAR_BEGIN_STRING == json_token_reader_private_peek_next( this_ ) )
+    if ( JSON_CONSTANTS_CHAR_BEGIN_STRING == universal_buffer_input_stream_peek_next( &((*this_).in_stream) ) )
     {
         /* expected token found */
-        json_token_reader_private_read_next( this_ );
+        universal_buffer_input_stream_read_next( &((*this_).in_stream) );
 
         universal_memory_output_stream_t mem_out;
         universal_memory_output_stream_init( &mem_out,
@@ -291,14 +294,14 @@ data_error_t json_token_reader_get_string_value ( json_token_reader_t *this_, ut
 
         /* expect string end */
         const bool in_err
-            = ( JSON_CONSTANTS_CHAR_END_STRING != json_token_reader_private_peek_next( this_ ) );
+            = ( JSON_CONSTANTS_CHAR_END_STRING != universal_buffer_input_stream_peek_next( &((*this_).in_stream) ) );
         if ( in_err )
         {
             result_err = DATA_ERROR_LEXICAL_STRUCTURE;
         }
         else
         {
-            json_token_reader_private_read_next( this_ );
+            universal_buffer_input_stream_read_next( &((*this_).in_stream) );
         }
     }
     else
@@ -366,13 +369,13 @@ data_error_t json_token_reader_get_boolean_value ( json_token_reader_t *this_, b
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
 
-    char current = json_token_reader_private_peek_next( this_ );
+    char current = universal_buffer_input_stream_peek_next( &((*this_).in_stream) );
     if ( JSON_CONSTANTS_CHAR_BEGIN_FALSE == current )
     {
         (*out_bool) = false;
         for ( int f_pos = 0; f_pos < sizeof(JSON_CONSTANTS_FALSE); f_pos ++ )
         {
-            if ( JSON_CONSTANTS_FALSE[f_pos] != json_token_reader_private_read_next( this_ ) )
+            if ( JSON_CONSTANTS_FALSE[f_pos] != universal_buffer_input_stream_read_next( &((*this_).in_stream) ) )
             {
                 result_err = DATA_ERROR_LEXICAL_STRUCTURE;
             }
@@ -387,7 +390,7 @@ data_error_t json_token_reader_get_boolean_value ( json_token_reader_t *this_, b
         (*out_bool) = true;
         for ( int t_pos = 0; t_pos < sizeof(JSON_CONSTANTS_TRUE); t_pos ++ )
         {
-            if ( JSON_CONSTANTS_TRUE[t_pos] != json_token_reader_private_read_next( this_ ) )
+            if ( JSON_CONSTANTS_TRUE[t_pos] != universal_buffer_input_stream_read_next( &((*this_).in_stream) ) )
             {
                 result_err = DATA_ERROR_LEXICAL_STRUCTURE;
             }
@@ -414,12 +417,12 @@ data_error_t json_token_reader_expect_null_value ( json_token_reader_t *this_ )
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
 
-    char current = json_token_reader_private_peek_next( this_ );
+    char current = universal_buffer_input_stream_peek_next( &((*this_).in_stream) );
     if ( JSON_CONSTANTS_CHAR_BEGIN_NULL == current )
     {
         for ( int n_pos = 0; n_pos < sizeof(JSON_CONSTANTS_NULL); n_pos ++ )
         {
-            if ( JSON_CONSTANTS_NULL[n_pos] != json_token_reader_private_read_next( this_ ) )
+            if ( JSON_CONSTANTS_NULL[n_pos] != universal_buffer_input_stream_read_next( &((*this_).in_stream) ) )
             {
                 result_err = DATA_ERROR_LEXICAL_STRUCTURE;
             }
@@ -446,7 +449,7 @@ data_error_t json_token_reader_expect_eof ( json_token_reader_t *this_ )
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
 
-    char eof = json_token_reader_private_peek_next( this_ );
+    char eof = universal_buffer_input_stream_peek_next( &((*this_).in_stream) );
     if ( '\0' == eof )
     {
         /* expected token found */

@@ -2,26 +2,6 @@
 
 #include <assert.h>
 
-static inline int universal_buffer_output_stream_write2 ( universal_buffer_output_stream_t* this_, const void *start, size_t length )
-{
-#if 0
-    assert( (*this_).interface != NULL );
-    assert( (*this_).objectdata != NULL );
-    assert( (*((*this_).interface)).write != NULL );
-    return (*(  (*((*this_).interface)).write  )) ( (*this_).objectdata, start, length );
-#endif
-}
-
-static inline int universal_buffer_output_stream_flush2 ( universal_buffer_output_stream_t* this_ )
-{
-#if 0
-    assert( (*this_).interface != NULL );
-    assert( (*this_).objectdata != NULL );
-    assert( (*((*this_).interface)).flush != NULL );
-    return (*(  (*((*this_).interface)).flush  )) ( (*this_).objectdata );
-#endif
-}
-
 
 /*
 Copyright 2021-2021 Andreas Warnke

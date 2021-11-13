@@ -69,6 +69,22 @@ int universal_buffer_input_stream_read ( universal_buffer_input_stream_t *this_,
                                        );
 
 /*!
+ *  \brief fetches 1 byte from the input buffer without moving the read position.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return next byte or '\0' if end of stream
+ */
+static inline char universal_buffer_input_stream_peek_next ( universal_buffer_input_stream_t *this_ );
+
+/*!
+ *  \brief reads 1 byte from the input buffer,
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return next byte or '\0' if end of stream
+ */
+static inline char universal_buffer_input_stream_read_next ( universal_buffer_input_stream_t *this_ );
+
+/*!
  *  \brief gets the input stream interface of this universal_buffer_input_stream_t
  *
  *  \param this_ pointer to own object attributes
