@@ -30,6 +30,8 @@ void json_token_reader_init ( json_token_reader_t *this_, universal_input_stream
                                         sizeof((*this_).input_buffer),
                                         in_stream
                                       );
+    (*this_).input_line = 1;  /* the first line is 1, not 0 */
+
     TRACE_END();
 }
 
@@ -44,6 +46,7 @@ void json_token_reader_reinit ( json_token_reader_t *this_, universal_input_stre
                                         sizeof((*this_).input_buffer),
                                         in_stream
                                       );
+    (*this_).input_line = 1;  /* the first line is 1, not 0 */
 
     TRACE_END();
 }

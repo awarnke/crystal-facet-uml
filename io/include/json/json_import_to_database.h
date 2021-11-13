@@ -62,7 +62,7 @@ void json_import_to_database_destroy ( json_import_to_database_t *this_ );
  *  \brief copies the clipboard contents to the focused diagram
  *
  *  \param this_ pointer to own object attributes
- *  \param json_text null-terminated string in json format, not NULL
+ *  \param json_text 0-terminated string in json format, not NULL
  *  \param diagram_id id of the diagram to which to attach the imported data
  *  \param io_stat undefined in case of an error in the return value,
  *                 otherwise statistics on DATA_STAT_SERIES_CREATED,
@@ -72,15 +72,39 @@ void json_import_to_database_destroy ( json_import_to_database_t *this_ );
  *                 DATA_STAT_SERIES_ERROR (e.g. if a relation has no source
  *                 or no destination)
  *                 Statistics are only added, *io_stat shall be initialized by caller.
- *  \param out_read_pos read position in the stream, in case of an error, this may help finding the cause
+ *  \param out_read_line read position in the stream, in case of an error, this may help finding the cause
  *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
  */
 data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t *this_,
                                                        const char *json_text,
                                                        data_row_id_t diagram_id,
                                                        data_stat_t *io_stat,
-                                                       uint32_t *out_read_pos
+                                                       uint32_t *out_read_line
                                                      );
+
+/*!
+ *  \brief copies the clipboard contents to the focused diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param json_text stream in json format, not NULL
+ *  \param diagram_id id of the diagram to which to attach the imported data
+ *  \param io_stat undefined in case of an error in the return value,
+ *                 otherwise statistics on DATA_STAT_SERIES_CREATED,
+ *                 DATA_STAT_SERIES_MODIFIED (e.g. in future) and
+ *                 DATA_STAT_SERIES_IGNORED (e.g. at import of lifelines
+ *                 or if classifier and its features already exist) and
+ *                 DATA_STAT_SERIES_ERROR (e.g. if a relation has no source
+ *                 or no destination)
+ *                 Statistics are only added, *io_stat shall be initialized by caller.
+ *  \param out_read_line read position in the stream, in case of an error, this may help finding the cause
+ *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
+ */
+data_error_t json_import_to_database_import_stream_to_db( json_import_to_database_t *this_,
+                                                          universal_input_stream_t *json_text,
+                                                          data_row_id_t diagram_id,
+                                                          data_stat_t *io_stat,
+                                                          uint32_t *out_read_line
+                                                        );
 
 /*!
  *  \brief checks if a given lifeline (feature) is visible (focused) in the current diagram

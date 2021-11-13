@@ -30,6 +30,7 @@
 struct json_token_reader_struct {
     char input_buffer[512];  /*!< look-ahead input buffer to check for next bytes */
     universal_buffer_input_stream_t in_stream;  /*!< buffer around json input stream to be parsed */
+    unsigned int input_line;  /*!< current input line, needed for error reporting */
 };
 
 typedef struct json_token_reader_struct json_token_reader_t;
@@ -223,6 +224,14 @@ data_error_t json_token_reader_expect_eof ( json_token_reader_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 static inline void json_token_reader_private_skip_whitespace ( json_token_reader_t *this_ );
+
+/*!
+ *  \brief returns the current line number.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return line number, the first line is 1.
+ */
+static inline unsigned int json_token_reader_get_input_line ( json_token_reader_t *this_ );
 
 /*!
  *  \brief checks if the current value-token is ended

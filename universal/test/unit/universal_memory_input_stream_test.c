@@ -31,7 +31,6 @@ static void set_up(void)
 
 static void tear_down(void)
 {
-    int err;
     universal_memory_input_stream_destroy( &my_mem_in_stream );
 }
 

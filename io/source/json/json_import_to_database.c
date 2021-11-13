@@ -4,6 +4,7 @@
 #include "json/json_serializer.h"
 #include "json/json_deserializer.h"
 #include "ctrl_error.h"
+#include "stream/universal_memory_input_stream.h"
 #include "util/string/utf8string.h"
 #include "trace.h"
 #include <assert.h>
@@ -42,17 +43,35 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                                        const char *json_text,
                                                        data_row_id_t diagram_id,
                                                        data_stat_t *io_stat,
-                                                       uint32_t *out_read_pos )
+                                                       uint32_t *out_read_line )
+{
+    TRACE_BEGIN();
+    assert( NULL != json_text );
+    data_error_t result = DATA_ERROR_NONE;
+
+    universal_memory_input_stream_t in_mem_stream;
+    universal_memory_input_stream_init( &in_mem_stream, json_text, strlen(json_text) );
+    universal_input_stream_t* in_stream = universal_memory_input_stream_get_input_stream( &in_mem_stream );
+    json_import_to_database_import_stream_to_db( this_, in_stream, diagram_id, io_stat, out_read_line );
+    universal_memory_input_stream_destroy( &in_mem_stream );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t json_import_to_database_import_stream_to_db( json_import_to_database_t *this_,
+                                                          universal_input_stream_t *json_text,
+                                                          data_row_id_t diagram_id,
+                                                          data_stat_t *io_stat,
+                                                          uint32_t *out_read_line )
 {
     TRACE_BEGIN();
     assert( NULL != json_text );
     assert( NULL != io_stat );
-    assert( NULL != out_read_pos );
+    assert( NULL != out_read_line );
 
     json_deserializer_t deserializer;
     data_error_t parse_error = DATA_ERROR_NONE;
-
-    TRACE_INFO ( json_text );
 
     json_deserializer_init( &deserializer, json_text );
     data_row_id_t current_diagram_id = diagram_id;
@@ -545,7 +564,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
         parse_error = json_deserializer_expect_end_data( &deserializer );
     }
 
-    json_deserializer_get_read_pos ( &deserializer, out_read_pos );
+    json_deserializer_get_read_line ( &deserializer, out_read_line );
     json_deserializer_destroy( &deserializer );
 
     TRACE_END_ERR( parse_error );

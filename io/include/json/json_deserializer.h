@@ -8,26 +8,20 @@
  *  \file
  *  \brief Deserializes data objects from json format.
  *
- *  This object is a json parser, using the json_tokenizer as lexer.
+ *  This object is a json parser, using the json_token_reader as lexer.
  */
 
-#include "json/json_tokenizer.h"
+#include "json/json_token_reader.h"
 #include "data_error.h"
 #include "data_table.h"
 #include "data_classifier.h"
 #include "data_diagram.h"
 #include "data_feature.h"
 #include "data_relationship.h"
+#include "stream/universal_input_stream.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdbool.h>
 #include <stdint.h>
-
-/*!
- *  \brief constants for string buffer size
- */
-enum json_deserializer_max_enum {
-    JSON_DESERIALIZER_MAX_ESCAPED_SIZE = 10240,  /*!< 8k max description of diagrams plus max every 4th character is escaped */
-};
 
 /*!
  *  \brief all data attributes needed for deserializing data objects
@@ -36,12 +30,10 @@ enum json_deserializer_max_enum {
  *  to check if these appear in the right order.
  */
 struct json_deserializer_struct {
-    json_tokenizer_t tokenizer;  /*!< own tokenizer instance to consecutively fetch tokens from the json input file */
-    const char *in_data;  /*!< string to be parsed */
-    uint32_t read_pos;  /*!< current read position in string to be parsed */
+    json_token_reader_t tokenizer;  /*!< own token_reader instance to consecutively fetch tokens from the json input file */
     bool after_first_array_entry;  /*!< true if the first array entry has already been parsed */
-    utf8stringbuf_t unescaped_string;  /*!< a local buffer to convert escaped strings to unescaped strings */
-    char unescaped_string_buffer[JSON_DESERIALIZER_MAX_ESCAPED_SIZE];
+    utf8stringbuf_t temp_string;  /*!< a local buffer to buffer streamed strings before assigning them to data objects */
+    char temp_string_buffer[DATA_DIAGRAM_MAX_DESCRIPTION_SIZE];
 };
 
 typedef struct json_deserializer_struct json_deserializer_t;
@@ -52,7 +44,7 @@ typedef struct json_deserializer_struct json_deserializer_t;
  *  \param this_ pointer to own object attributes
  *  \param in_data json text to be parsed
  */
-void json_deserializer_init ( json_deserializer_t *this_, const char *in_data );
+void json_deserializer_init ( json_deserializer_t *this_, universal_input_stream_t *in_data );
 
 /*!
  *  \brief re-initializes the json_deserializer_t struct
@@ -60,7 +52,7 @@ void json_deserializer_init ( json_deserializer_t *this_, const char *in_data );
  *  \param this_ pointer to own object attributes
  *  \param in_data json text to be parsed
  */
-void json_deserializer_reinit ( json_deserializer_t *this_, const char *in_data );
+void json_deserializer_reinit ( json_deserializer_t *this_, universal_input_stream_t *in_data );
 
 /*!
  *  \brief destroys the json_deserializer_t struct
@@ -185,14 +177,14 @@ data_error_t json_deserializer_skip_next_object ( json_deserializer_t *this_ );
 data_error_t json_deserializer_skip_next_string ( json_deserializer_t *this_ );
 
 /*!
- *  \brief gets the current read position
+ *  \brief gets the line number at the current read position
  *
  *  May be used to determine the position where a parse error occurred.
  *
  *  \param this_ pointer to own object attributes
  *  \param out_read_pos pointer to storage location for the result. Must not be NULL.
  */
-void json_deserializer_get_read_pos ( json_deserializer_t *this_, uint32_t *out_read_pos );
+void json_deserializer_get_read_line ( json_deserializer_t *this_, uint32_t *out_read_pos );
 
 /*!
  *  \brief parses the next feature array

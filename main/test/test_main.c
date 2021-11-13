@@ -18,7 +18,7 @@
 #include "unit/geometry_non_linear_scale_test.h"
 #include "unit/gui_sketch_nav_tree_test.h"
 #include "unit/txt_writer_test.h"
-#include "unit/json_tokenizer_test.h"
+#include "unit/json_token_reader_test.h"
 #include "unit/json_import_to_database_test.h"
 #include "unit/md_filter_test.h"
 #include "integration/io_export_model_traversal_test.h"
@@ -128,7 +128,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, geometry_connector_test_get_list() );
         test_runner_run_suite( &runner, geometry_non_linear_scale_test_get_list() );
         test_runner_run_suite( &runner, txt_writer_test_get_list() );
-        test_runner_run_suite( &runner, json_tokenizer_test_get_list() );
+        test_runner_run_suite( &runner, json_token_reader_test_get_list() );
         test_runner_run_suite( &runner, draw_classifier_contour_test_get_list() );
         test_runner_run_suite( &runner, pencil_classifier_composer_test_get_list() );
         test_runner_run_suite( &runner, pencil_layout_data_test_get_list() );

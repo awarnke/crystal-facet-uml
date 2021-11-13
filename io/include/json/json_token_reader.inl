@@ -26,8 +26,17 @@ static inline void json_token_reader_private_skip_whitespace ( json_token_reader
         else
         {
             universal_buffer_input_stream_read_next( &((*this_).in_stream) );
+            if ( current == JSON_CONSTANTS_CHAR_NL )
+            {
+                (*this_).input_line ++;
+            }
         }
     }
+}
+
+static inline unsigned int json_token_reader_get_input_line ( json_token_reader_t *this_ )
+{
+    return (*this_).input_line;
 }
 
 static inline bool json_token_reader_private_is_value_end ( json_token_reader_t *this_ )
