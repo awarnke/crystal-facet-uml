@@ -29,6 +29,7 @@ void universal_buffer_input_stream_init( universal_buffer_input_stream_t *this_,
     (*this_).mem_buf_fill = 0;
     (*this_).mem_buf_pos = 0;
     universal_input_stream_private_init( &((*this_).input_stream), &universal_buffer_input_stream_private_if, this_ );
+    (*this_).stream_pos_of_buf = 0;
 
     TRACE_END();
 }
@@ -44,6 +45,7 @@ void universal_buffer_input_stream_destroy( universal_buffer_input_stream_t *thi
     (*this_).mem_buf_fill = 0;
     (*this_).mem_buf_pos = 0;
     universal_input_stream_private_destroy( &((*this_).input_stream) );
+    (*this_).stream_pos_of_buf = 0;
 
     (*this_).source = NULL;
 
@@ -58,6 +60,7 @@ void universal_buffer_input_stream_reset ( universal_buffer_input_stream_t *this
 
     (*this_).mem_buf_pos = 0;
     (*this_).mem_buf_fill = 0;
+    (*this_).stream_pos_of_buf = 0;
 
     TRACE_END();
 }
@@ -85,6 +88,7 @@ int universal_buffer_input_stream_read ( universal_buffer_input_stream_t *this_,
     {
         /* read from buffer till buffer is empty */
         memcpy( out_buffer, buf_first_read, buf_available1 );
+        (*this_).stream_pos_of_buf += (*this_).mem_buf_fill;
         (*this_).mem_buf_pos = 0;
         (*this_).mem_buf_fill = 0;
         const size_t remaining_len = max_size - buf_available1;
@@ -105,6 +109,7 @@ int universal_buffer_input_stream_read ( universal_buffer_input_stream_t *this_,
             size_t remaining_actual = 0;
             err |= universal_input_stream_read( (*this_).source, remaining_start, remaining_len, &remaining_actual );
             *out_length = buf_available1 + remaining_actual;
+            (*this_).stream_pos_of_buf += remaining_actual;
         }
     }
 

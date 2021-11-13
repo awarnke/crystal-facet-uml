@@ -42,26 +42,33 @@ static json_token_reader_t tok;
 
 static void test_skip_whitespace(void)
 {
-    const char test_str[17] = "1234  \t\t\r\r\n\ndef0";
-    uint32_t pos;
+    const char test_str1[3] = "4 ";
+    const char test_str2[10] = "  \t\t\r\r\n\nd";
+    const char test_str3[1] = "";
+
     universal_memory_input_stream_t test_input;
-    universal_memory_input_stream_init( &test_input, &test_str, sizeof(test_str) );
+    universal_memory_input_stream_init( &test_input, &test_str1, sizeof(test_str1) );
     json_token_reader_init( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
 
     /* test skip nothing */
-    pos = 3;
     json_token_reader_private_skip_whitespace( &tok );
-    TEST_ASSERT_EQUAL_INT( 3, pos );
+    TEST_ASSERT_EQUAL_INT( 0, json_token_reader_get_input_pos( &tok ) );
+
+    /* reset to test_str2 */
+    universal_memory_input_stream_reinit( &test_input, &test_str2, sizeof(test_str2) );
+    json_token_reader_reinit( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
 
     /* test skip at string end */
-    pos = 16;
     json_token_reader_private_skip_whitespace( &tok );
-    TEST_ASSERT_EQUAL_INT( 16, pos );
+    TEST_ASSERT_EQUAL_INT( 8, json_token_reader_get_input_pos( &tok ) );
+
+    /* reset to test_str3 */
+    universal_memory_input_stream_reinit( &test_input, &test_str3, sizeof(test_str3) );
+    json_token_reader_reinit( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
 
     /* test skip all 4 whitespace types */
-    pos = 4;
     json_token_reader_private_skip_whitespace( &tok );
-    TEST_ASSERT_EQUAL_INT( 12, pos );
+    TEST_ASSERT_EQUAL_INT( 0, json_token_reader_get_input_pos( &tok ) );
 
     json_token_reader_destroy( &tok );
     universal_memory_input_stream_destroy( &test_input );
@@ -70,18 +77,20 @@ static void test_skip_whitespace(void)
 static void test_is_value_end(void)
 {
     const char test_str[17] = "+2f\r"  "5,7:"  "9}b "  "\"e\".";
-    const char results[18] = "1001"  "1111"  "1111"  "10001";
-    uint32_t pos;
-    bool is_end;
+    const char results[18] = "0001"  "0101"  "0101"  "00001";
     assert( sizeof(test_str)+1 == sizeof(results) );
     universal_memory_input_stream_t test_input;
     universal_memory_input_stream_init( &test_input, &test_str, sizeof(test_str) );
     json_token_reader_init( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
 
     /* test all positions */
-    for ( pos = 0; pos < (sizeof(results)-1); pos ++ )
+    for ( int pos = 0; pos < (sizeof(results)-1); pos ++ )
     {
-        is_end = json_token_reader_private_is_value_end( &tok );
+        /* reset to test_str[pos] */
+        universal_memory_input_stream_reinit( &test_input, &(test_str[pos]), sizeof(char) );
+        json_token_reader_reinit( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
+
+        const bool is_end = json_token_reader_private_is_value_end( &tok );
         TEST_ASSERT_EQUAL_INT( ( results[pos] == '1' ), is_end );
     }
 

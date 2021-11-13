@@ -13,6 +13,7 @@ static inline char universal_buffer_input_stream_peek_next( universal_buffer_inp
     if ( buf_available1 == 0 )
     {
         /* try to fill buffer */
+        (*this_).stream_pos_of_buf += (*this_).mem_buf_fill;
         (*this_).mem_buf_pos = 0;
         (*this_).mem_buf_fill = 0;
         const int err
@@ -41,6 +42,7 @@ static inline char universal_buffer_input_stream_read_next( universal_buffer_inp
     if ( buf_available1 == 0 )
     {
         /* try to fill buffer */
+        (*this_).stream_pos_of_buf += (*this_).mem_buf_fill;
         (*this_).mem_buf_pos = 0;
         (*this_).mem_buf_fill = 0;
         const int err
@@ -58,6 +60,11 @@ static inline char universal_buffer_input_stream_read_next( universal_buffer_inp
     }
 
     return result;
+}
+
+static inline size_t universal_buffer_input_stream_read_pos ( universal_buffer_input_stream_t *this_ )
+{
+    return (*this_).stream_pos_of_buf + (*this_).mem_buf_pos;
 }
 
 

@@ -28,6 +28,18 @@ void universal_memory_input_stream_init ( universal_memory_input_stream_t *this_
     TRACE_END();
 }
 
+void universal_memory_input_stream_reinit ( universal_memory_input_stream_t *this_,
+                                            const void* mem_buf_start,
+                                            size_t mem_buf_size )
+{
+    TRACE_BEGIN();
+
+    universal_memory_input_stream_destroy( this_ );
+    universal_memory_input_stream_init( this_, mem_buf_start, mem_buf_size );
+
+    TRACE_END();
+}
+
 void universal_memory_input_stream_destroy( universal_memory_input_stream_t *this_ )
 {
     TRACE_BEGIN();

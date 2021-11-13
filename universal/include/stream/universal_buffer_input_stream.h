@@ -21,6 +21,7 @@ struct universal_buffer_input_stream_struct {
     size_t mem_buf_fill;  /*!< input memory buffer: amount of valid, read bytes */
     size_t mem_buf_pos;  /*!< read position in the input memory buffer */
     universal_input_stream_t *source;  /*!< pointer to stream source, an external \c universal_input_stream_t */
+    size_t stream_pos_of_buf;  /*!< buffer position in the total stream; read position is (stream_pos_of_buf+mem_buf_pos) */
 };
 
 typedef struct universal_buffer_input_stream_struct universal_buffer_input_stream_t;
@@ -83,6 +84,14 @@ static inline char universal_buffer_input_stream_peek_next ( universal_buffer_in
  *  \return next byte or '\0' if end of stream
  */
 static inline char universal_buffer_input_stream_read_next ( universal_buffer_input_stream_t *this_ );
+
+/*!
+ *  \brief returns the current read position
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return read position
+ */
+static inline size_t universal_buffer_input_stream_read_pos ( universal_buffer_input_stream_t *this_ );
 
 /*!
  *  \brief gets the input stream interface of this universal_buffer_input_stream_t

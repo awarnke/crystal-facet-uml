@@ -39,6 +39,11 @@ static inline unsigned int json_token_reader_get_input_line ( json_token_reader_
     return (*this_).input_line;
 }
 
+static inline size_t json_token_reader_get_input_pos ( json_token_reader_t *this_ )
+{
+    return universal_buffer_input_stream_read_pos( &((*this_).in_stream) );
+}
+
 static inline bool json_token_reader_private_is_value_end ( json_token_reader_t *this_ )
 {
     char next = universal_buffer_input_stream_peek_next( &((*this_).in_stream) );

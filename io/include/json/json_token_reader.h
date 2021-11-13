@@ -234,6 +234,14 @@ static inline void json_token_reader_private_skip_whitespace ( json_token_reader
 static inline unsigned int json_token_reader_get_input_line ( json_token_reader_t *this_ );
 
 /*!
+ *  \brief returns the current stream position.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return stream position, 0 if no character has been read.
+ */
+static inline size_t json_token_reader_get_input_pos ( json_token_reader_t *this_ );
+
+/*!
  *  \brief checks if the current value-token is ended
  *
  *  If the next character after the current position

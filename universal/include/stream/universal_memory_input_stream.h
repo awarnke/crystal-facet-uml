@@ -36,6 +36,18 @@ void universal_memory_input_stream_init ( universal_memory_input_stream_t *this_
                                         );
 
 /*!
+ *  \brief re-initializes the universal_memory_input_stream_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param mem_buf_start address of memory buffer
+ *  \param mem_buf_size size of the memory buffer
+ */
+void universal_memory_input_stream_reinit ( universal_memory_input_stream_t *this_,
+                                            const void* mem_buf_start,
+                                            size_t mem_buf_size
+                                          );
+
+/*!
  *  \brief destroys the universal_memory_input_stream_t
  *
  *  \param this_ pointer to own object attributes
