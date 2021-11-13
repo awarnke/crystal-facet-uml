@@ -1,54 +1,57 @@
-/* File: universal_memory_input_stream.h; Copyright and License: see below */
+/* File: universal_buffer_input_stream.h; Copyright and License: see below */
 
-#ifndef UNIVERSAL_MEMORY_INPUT_STREAM_H
-#define UNIVERSAL_MEMORY_INPUT_STREAM_H
+#ifndef UNIVERSAL_BUFFER_INPUT_STREAM_H
+#define UNIVERSAL_BUFFER_INPUT_STREAM_H
 
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief reads data from a fixed-sized memory buffer and implements an universal_input_stream
+ *  \brief implements an universal_input_stream and buffers data in a fixed-sized memory buffer
  */
 
 #include "stream/universal_input_stream.h"
 
 /*!
- *  \brief attributes of the universal_memory_input_stream
+ *  \brief attributes of the universal_buffer_input_stream
  */
-struct universal_memory_input_stream_struct {
+struct universal_buffer_input_stream_struct {
     universal_input_stream_t input_stream;  /*!< instance of implemented interface \c universal_input_stream_t */
-    const void* mem_buf_start;  /*!< input memory buffer start */
+    void* mem_buf_start;  /*!< input memory buffer start */
     size_t mem_buf_size;  /*!< input memory buffer size */
+    size_t mem_buf_fill;  /*!< input memory buffer: amount of valid, read bytes */
     size_t mem_buf_pos;  /*!< read position in the input memory buffer */
+    universal_input_stream_t *source;  /*!< pointer to stream source, an external \c universal_input_stream_t */
 };
 
-typedef struct universal_memory_input_stream_struct universal_memory_input_stream_t;
+typedef struct universal_buffer_input_stream_struct universal_buffer_input_stream_t;
 
 /*!
- *  \brief initializes the universal_memory_input_stream_t
+ *  \brief initializes the universal_buffer_input_stream_t
  *
  *  \param this_ pointer to own object attributes
  *  \param mem_buf_start address of memory buffer
  *  \param mem_buf_size size of the memory buffer
+ *  \param source stream source where to read bytes from when buffer empty
  */
-void universal_memory_input_stream_init ( universal_memory_input_stream_t *this_,
-                                          const void* mem_buf_start,
-                                          size_t mem_buf_size
+void universal_buffer_input_stream_init ( universal_buffer_input_stream_t *this_,
+                                          void* mem_buf_start,
+                                          size_t mem_buf_size,
+                                          universal_input_stream_t *source
                                         );
 
 /*!
- *  \brief destroys the universal_memory_input_stream_t
+ *  \brief destroys the universal_buffer_input_stream_t
  *
  *  \param this_ pointer to own object attributes
  */
-void universal_memory_input_stream_destroy ( universal_memory_input_stream_t *this_ );
+void universal_buffer_input_stream_destroy ( universal_buffer_input_stream_t *this_ );
 
 /*!
- *  \brief resets the read position to 0
+ *  \brief resets the buffer to empty
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
  */
-int universal_memory_input_stream_reset ( universal_memory_input_stream_t *this_ );
+void universal_buffer_input_stream_reset ( universal_buffer_input_stream_t *this_ );
 
 /*!
  *  \brief reads a buffer from a memory region
@@ -59,21 +62,23 @@ int universal_memory_input_stream_reset ( universal_memory_input_stream_t *this_
  *  \param out_length number of bytes read
  *  \return 0 in case of success, -1 if there are no further bytes to read
  */
-int universal_memory_input_stream_read ( universal_memory_input_stream_t *this_,
+int universal_buffer_input_stream_read ( universal_buffer_input_stream_t *this_,
                                          void *out_buffer,
                                          size_t max_size,
                                          size_t *out_length
                                        );
 
 /*!
- *  \brief gets the input stream interface of this universal_memory_input_stream_t
+ *  \brief gets the input stream interface of this universal_buffer_input_stream_t
  *
  *  \param this_ pointer to own object attributes
  *  \return the abstract base class of this_
   */
-universal_input_stream_t* universal_memory_input_stream_get_input_stream( universal_memory_input_stream_t *this_ );
+universal_input_stream_t* universal_buffer_input_stream_get_input_stream( universal_buffer_input_stream_t *this_ );
 
-#endif  /* UNIVERSAL_MEMORY_INPUT_STREAM_H */
+#include "universal_buffer_input_stream.inl"
+
+#endif  /* UNIVERSAL_BUFFER_INPUT_STREAM_H */
 
 
 /*

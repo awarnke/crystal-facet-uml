@@ -52,7 +52,7 @@ static inline int universal_utf8_writer_write_str ( universal_utf8_writer_t *thi
  *  \param number number to write
  *  \return 0 in case of success, -1 otherwise
  */
-static inline int universal_utf8_writer_write_int( universal_utf8_writer_t *this_, const int64_t number );
+static inline int universal_utf8_writer_write_int ( universal_utf8_writer_t *this_, const int64_t number );
 
 /*!
  *  \brief flushes buffers

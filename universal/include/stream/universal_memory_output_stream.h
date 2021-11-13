@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief implements an universal_output_stream_if and forwards data to a fixed-sized memory buffer
+ *  \brief implements an universal_output_stream and forwards data to a fixed-sized memory buffer
  */
 
 #include "stream/universal_output_stream.h"
