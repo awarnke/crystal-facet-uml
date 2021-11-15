@@ -326,8 +326,7 @@ data_error_t json_token_reader_get_int_value ( json_token_reader_t *this_, int64
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
 
-    int64_t parsed_int;
-    result_err = json_token_reader_private_parse_integer( this_, &parsed_int );
+    result_err = json_token_reader_private_parse_integer( this_, out_int );
 
     if ( ! json_token_reader_private_is_value_end( this_ ) )
     {

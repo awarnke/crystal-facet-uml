@@ -260,6 +260,8 @@ static inline bool json_token_reader_private_is_value_end ( json_token_reader_t 
 /*!
  *  \brief reads a string literal to a utf8stringbuf
  *
+ *  The read pointer shall have passed the delimiting quotes already and will not pass the ending quotes.
+ *
  *  \param this_ pointer to own object attributes
  *  \param out_stream string-contents of the value-token, unmodified including escape sequences
  *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if out_stream does not provide enough space,
@@ -271,6 +273,8 @@ static inline data_error_t json_token_reader_private_read_string ( json_token_re
 /*!
  *  \brief parses the integer token
  *
+ *  The read pointer shall point to the first minus or digit.
+ *
  *  \param this_ pointer to own object attributes
  *  \param[out] out_int parsed integer or 0 in case of error
  *  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
@@ -280,6 +284,8 @@ static inline data_error_t json_token_reader_private_parse_integer ( json_token_
 
 /*!
  *  \brief skips the number token, numbers are not supported by this parser
+ *
+ *  The read pointer shall point to the first minus or digit.
  *
  *  \param this_ pointer to own object attributes
  *  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,

@@ -42,11 +42,8 @@ static json_token_reader_t tok;
 
 static void test_skip_whitespace(void)
 {
-    const char test_str1[3] = "4 ";
-    const char test_str2[10] = "  \t\t\r\r\n\nd";
-    const char test_str3[1] = "";
-
     universal_memory_input_stream_t test_input;
+    const char test_str1[3] = "4 ";
     universal_memory_input_stream_init( &test_input, &test_str1, sizeof(test_str1) );
     json_token_reader_init( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
 
@@ -55,6 +52,7 @@ static void test_skip_whitespace(void)
     TEST_ASSERT_EQUAL_INT( 0, json_token_reader_get_input_pos( &tok ) );
 
     /* reset to test_str2 */
+    const char test_str2[10] = "  \t\t\r\r\n\nd";
     universal_memory_input_stream_reinit( &test_input, &test_str2, sizeof(test_str2) );
     json_token_reader_reinit( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
 
@@ -63,6 +61,7 @@ static void test_skip_whitespace(void)
     TEST_ASSERT_EQUAL_INT( 8, json_token_reader_get_input_pos( &tok ) );
 
     /* reset to test_str3 */
+    const char test_str3[1] = "";
     universal_memory_input_stream_reinit( &test_input, &test_str3, sizeof(test_str3) );
     json_token_reader_reinit( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
 
@@ -101,80 +100,96 @@ static void test_is_value_end(void)
 static void test_get_value_type(void)
 {
     data_error_t test_err;
-    const char test_str[12*4+1] = "\n{a:"  " [\t\r"  "-12,"  "2.4,"  "\"s\","  "\tnull\r, "  "true   ,"  "false   "  " ] }";
-    uint32_t pos;
     universal_memory_input_stream_t test_input;
-    universal_memory_input_stream_init( &test_input, &test_str, sizeof(test_str) );
-    json_token_reader_init( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
     json_value_type_t value_type;
 
     /* JSON_VALUE_TYPE_OBJECT */
-    pos = 0;
+    const char test_str_1[4] = "\n{a";
+    universal_memory_input_stream_init( &test_input, &test_str_1, sizeof(test_str_1) );
+    json_token_reader_init( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
+
     test_err = json_token_reader_get_value_type ( &tok, &value_type );
-    TEST_ASSERT_EQUAL_INT( 1, pos );  /* there is a whitespace in front of the value */
+    TEST_ASSERT_EQUAL_INT( 1, json_token_reader_get_input_pos( &tok ) );  /* there is a whitespace in front of the value */
     TEST_ASSERT_EQUAL_INT( JSON_VALUE_TYPE_OBJECT, value_type );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, test_err );
 
     /* JSON_VALUE_TYPE_ARRAY */
-    pos = 4;
+    const char test_str_2[4] = " [\t";
+    universal_memory_input_stream_reinit( &test_input, &test_str_2, sizeof(test_str_2) );
+    json_token_reader_reinit( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
+
     test_err = json_token_reader_get_value_type ( &tok, &value_type );
-    TEST_ASSERT_EQUAL_INT( 5, pos );  /* there is a whitespace in front of the value */
+    TEST_ASSERT_EQUAL_INT( 1, json_token_reader_get_input_pos( &tok ) );  /* there is a whitespace in front of the value */
     TEST_ASSERT_EQUAL_INT( JSON_VALUE_TYPE_ARRAY, value_type );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, test_err );
 
-    /* JSON_VALUE_TYPE_INTEGER */
-    pos = 8;
-    test_err = json_token_reader_get_value_type ( &tok, &value_type );
-    TEST_ASSERT_EQUAL_INT( 8, pos );
-    TEST_ASSERT_EQUAL_INT( JSON_VALUE_TYPE_INTEGER, value_type );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, test_err );
-
     /* JSON_VALUE_TYPE_NUMBER */
-    pos = 12;
+    const char test_str_3[4] = "-12";
+    universal_memory_input_stream_reinit( &test_input, &test_str_3, sizeof(test_str_3) );
+    json_token_reader_reinit( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
+
     test_err = json_token_reader_get_value_type ( &tok, &value_type );
-    TEST_ASSERT_EQUAL_INT( 12, pos );
+    TEST_ASSERT_EQUAL_INT( 0, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( JSON_VALUE_TYPE_NUMBER, value_type );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, test_err );
 
     /* JSON_VALUE_TYPE_STRING */
-    pos = 16;
+    const char test_str_4[4] = "\"s\"";
+    universal_memory_input_stream_reinit( &test_input, &test_str_4, sizeof(test_str_4) );
+    json_token_reader_reinit( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
+
     test_err = json_token_reader_get_value_type ( &tok, &value_type );
-    TEST_ASSERT_EQUAL_INT( 16, pos );
+    TEST_ASSERT_EQUAL_INT( 0, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( JSON_VALUE_TYPE_STRING, value_type );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, test_err );
 
     /* JSON_VALUE_TYPE_NULL */
-    pos = 20;
+    const char test_str_5[4] = "nul";
+    universal_memory_input_stream_reinit( &test_input, &test_str_5, sizeof(test_str_5) );
+    json_token_reader_reinit( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
+
     test_err = json_token_reader_get_value_type ( &tok, &value_type );
-    TEST_ASSERT_EQUAL_INT( 21, pos );  /* there is a whitespace in front of the value */
+    TEST_ASSERT_EQUAL_INT( 0, json_token_reader_get_input_pos( &tok ) );  /* there is a whitespace in front of the value */
     TEST_ASSERT_EQUAL_INT( JSON_VALUE_TYPE_NULL, value_type );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, test_err );
 
     /* JSON_VALUE_TYPE_BOOLEAN */
-    pos = 28;
+    const char test_str_6[4] = "fal";
+    universal_memory_input_stream_reinit( &test_input, &test_str_6, sizeof(test_str_6) );
+    json_token_reader_reinit( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
+
     test_err = json_token_reader_get_value_type ( &tok, &value_type );
-    TEST_ASSERT_EQUAL_INT( 28, pos );
+    TEST_ASSERT_EQUAL_INT( 0, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( JSON_VALUE_TYPE_BOOLEAN, value_type );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, test_err );
 
     /* JSON_VALUE_TYPE_BOOLEAN */
-    pos = 36;
+    const char test_str_7[4] = "\n\tt";
+    universal_memory_input_stream_reinit( &test_input, &test_str_7, sizeof(test_str_7) );
+    json_token_reader_reinit( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
+
     test_err = json_token_reader_get_value_type ( &tok, &value_type );
-    TEST_ASSERT_EQUAL_INT( 36, pos );
+    TEST_ASSERT_EQUAL_INT( 2, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( JSON_VALUE_TYPE_BOOLEAN, value_type );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, test_err );
 
     /* JSON_VALUE_TYPE_UNDEF */
-    pos = 44;
+    const char test_str_8[4] = " ]}";
+    universal_memory_input_stream_reinit( &test_input, &test_str_8, sizeof(test_str_8) );
+    json_token_reader_reinit( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
+
     test_err = json_token_reader_get_value_type ( &tok, &value_type );
-    TEST_ASSERT_EQUAL_INT( 45, pos );  /* there is a whitespace in front of the not-value */
+    TEST_ASSERT_EQUAL_INT( 1, json_token_reader_get_input_pos( &tok ) );  /* there is a whitespace in front of the not-value */
     TEST_ASSERT_EQUAL_INT( JSON_VALUE_TYPE_UNDEF, value_type );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_PARSER_STRUCTURE, test_err );
 
     /* EOF */
-    pos = 48;
+    const char test_str_9[4] = "  \r";
+    universal_memory_input_stream_reinit( &test_input, &test_str_9, sizeof(test_str_9) );
+    json_token_reader_reinit( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
+
     test_err = json_token_reader_get_value_type ( &tok, &value_type );
-    TEST_ASSERT_EQUAL_INT( 48, pos );
+    TEST_ASSERT_EQUAL_INT( 3, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( JSON_VALUE_TYPE_UNDEF, value_type );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_PARSER_STRUCTURE, test_err );
 
@@ -184,8 +199,7 @@ static void test_get_value_type(void)
 
 static void test_find_string_end(void)
 {
-#if 0
-    data_error_t test_err;
+   data_error_t test_err;
    const char test_str[5][17] = {
         "\"\'\'simple    \'\'\"",
         "\"\\\\mixed    \\n\'\"",
@@ -193,50 +207,64 @@ static void test_find_string_end(void)
         "\"\'\'2quote@end\\\"\"",
         "\"\'\'    no_end\\\"",
     };
-    uint32_t pos;
+    char parsed_buf[20];
+    utf8stringbuf_t parsed_str = UTF8STRINGBUF( parsed_buf );
+    const char expect_str[5][15] = {
+        "\'\'simple    \'\'",
+        "\\mixed    \n\'",
+        "\'\'esc at end\\",
+        "\'\'2quote@end\"",
+        "\'\'    no_end\"",
+    };
     universal_memory_input_stream_t test_input;
-    universal_memory_input_stream_init( &test_input, &test_str, sizeof(test_str) );
+    universal_memory_input_stream_init( &test_input, &(test_str[0]), sizeof(test_str[0]) );
     json_token_reader_init( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
 
     /* test all positions */
-    for ( int idx = 0; idx < 5; idx ++ )
+    for ( int index = 0; index < 5; index ++ )
     {
-        pos = 1;
-        test_err = json_token_reader_private_find_string_end( &tok, test_str[idx], &pos );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, test_err );
-        TEST_ASSERT_EQUAL_INT( 15, pos );
+        universal_memory_input_stream_reinit( &test_input, &(test_str[index]), sizeof(test_str[index]) );
+        json_token_reader_reinit( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
+
+        test_err = json_token_reader_get_string_value( &tok, parsed_str );
+        TEST_ASSERT_EQUAL_INT( (index==4)?DATA_ERROR_LEXICAL_STRUCTURE:DATA_ERROR_NONE, test_err );
+        TEST_ASSERT_EQUAL_INT( 1, utf8stringbuf_equals_str( parsed_str, expect_str[index] ) );
     }
 
     json_token_reader_destroy( &tok );
     universal_memory_input_stream_destroy( &test_input );
-#endif
 }
 
 static void test_parse_integer(void)
 {
     data_error_t test_err;
-    const char test_str[8][18] = {
+    const char test_str[8][16] = {
         "  0",
         "  00",
         "  -33",
         "  -0",
-        "  -12345678;other",
+        "-12345678,other",
         "  -hello",
-        "  123",
+        "  123]",
         "  abc",
     };
     const int64_t int_results[8] = {0,0,-33,0,-12345678,0,123,0};
+    const int err_results[8] =     {0,1,  0,1,        0,1,  0,1};
     int64_t int_result;
     universal_memory_input_stream_t test_input;
-    universal_memory_input_stream_init( &test_input, &test_str, sizeof(test_str) );
+    universal_memory_input_stream_init( &test_input, &(test_str[0]), sizeof(test_str[0]) );
     json_token_reader_init( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
 
     /* test all positions */
     for ( int index = 0; index < 8; index ++ )
     {
-        test_err = json_token_reader_private_parse_integer( &tok, &int_result );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, test_err );
+        universal_memory_input_stream_reinit( &test_input, &(test_str[index]), sizeof(test_str[index]) );
+        json_token_reader_reinit( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
+
+        test_err = json_token_reader_get_int_value( &tok, &int_result );
+        TEST_ASSERT_EQUAL_INT( (err_results[index]!=0)?DATA_ERROR_LEXICAL_STRUCTURE:DATA_ERROR_NONE, test_err );
         TEST_ASSERT_EQUAL_INT( int_results[index], int_result );
+        printf("parsed: %" PRId64 "\n",int_result);
     }
 
     json_token_reader_destroy( &tok );
@@ -246,32 +274,30 @@ static void test_parse_integer(void)
 static void test_skip_number(void)
 {
     data_error_t test_err;
-    const char test_str[12][18] = {
-        "  0.000",
-        "  00.0",
-        "  -33",
-        "  -0.00",
-        "  -12.45678;other",
-        "  -hello",
-        "  123.5e+8",
-        "  123.4E88",
-        "  123.5E+8",
-        "  123.4E",
-        "  123.5e0",
-        "  123E888",
+    const char test_str[8][16] = {
+        "0.0000 ",
+        "000000 ",
+        "-33e+0 ",
+        "-1.456;",
+        "1.5e+8,",
+        "1.4E88}",
+        "1.5E-8]",
+        "+123E8\n",
     };
     universal_memory_input_stream_t test_input;
-    universal_memory_input_stream_init( &test_input, &test_str, sizeof(test_str) );
+    universal_memory_input_stream_init( &test_input, &(test_str[0]), sizeof(test_str[0]) );
     json_token_reader_init( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
 
     /* test all positions */
-    for ( int idx = 0; idx < 12; idx ++ )
+    for ( int index = 0; index < 8; index ++ )
     {
+        universal_memory_input_stream_reinit( &test_input, &(test_str[index]), sizeof(test_str[index]) );
+        json_token_reader_reinit( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
+
         test_err = json_token_reader_private_skip_number( &tok );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, test_err );
+        TEST_ASSERT_EQUAL_INT( 6, json_token_reader_get_input_pos( &tok ) );  /* all numbers have 6 digits */
     }
-    char term0 = universal_buffer_input_stream_read_next( &((tok).in_stream) );
-    TEST_ASSERT( '\0' == term0 );
 
     json_token_reader_destroy( &tok );
     universal_memory_input_stream_destroy( &test_input );
