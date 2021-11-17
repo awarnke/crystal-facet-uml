@@ -13,6 +13,8 @@
  *  In contrast to a DOM parser, this json_token_reader parses the input sequentially and provides parsed contents step by step.
  *  In contrast to a SAX parser, this json_token_reader does not require callbacks that are called whenever the next token is parsed.
  *  This json_token_reader allows the caller to specify the expectation what the next token is and fails if this expectation is wrong.
+ *
+ *  In case of an unexpected token, this parser stops processing and returns an error code.
  */
 
 #include "json/json_value_type.h"
@@ -78,17 +80,19 @@ data_error_t json_token_reader_expect_begin_object ( json_token_reader_t *this_ 
  *          DATA_ERROR_PARSER_STRUCTURE if there is no member-name token,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-static inline data_error_t json_token_reader_get_member_name ( json_token_reader_t *this_, utf8stringbuf_t out_name );
+data_error_t json_token_reader_get_member_name ( json_token_reader_t *this_, utf8stringbuf_t out_name );
 
 /*!
- *  \brief checks if the next token is an "end-object" json token
+ *  \brief checks if the next token is an "end-object" json token.
+ *
+ *  This function reads the end object token if there is one.
  *
  *  \param this_ pointer to own object attributes
  *  \param end_object return value: true if the next token is an "end-object" token. This parameter must not be NULL.
  *  \return DATA_ERROR_NONE if the lexical structure of the input is valid,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t json_token_reader_is_end_object ( json_token_reader_t *this_, bool *end_object );
+data_error_t json_token_reader_check_end_object ( json_token_reader_t *this_, bool *end_object );
 
 /*!
  *  \brief checks that the next token is a "name-separator" json token
@@ -113,14 +117,16 @@ data_error_t json_token_reader_expect_name_separator ( json_token_reader_t *this
 data_error_t json_token_reader_expect_begin_array ( json_token_reader_t *this_ );
 
 /*!
- *  \brief checks if the next token is an "end-array" json token
+ *  \brief checks if the next token is an "end-array" json token.
+ *
+ *  This function reads the end array token if there is one.
  *
  *  \param this_ pointer to own object attributes
  *  \param end_array return value: true if the next token is an "end-array" token. This parameter must not be NULL.
  *  \return DATA_ERROR_NONE if the lexical structure of the input is valid,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t json_token_reader_is_end_array ( json_token_reader_t *this_, bool *end_array );
+data_error_t json_token_reader_check_end_array ( json_token_reader_t *this_, bool *end_array );
 
 /*!
  *  \brief checks that the next token is a "value-separator" json token

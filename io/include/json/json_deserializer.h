@@ -72,17 +72,20 @@ void json_deserializer_destroy ( json_deserializer_t *this_ );
 data_error_t json_deserializer_expect_begin_data ( json_deserializer_t *this_ );
 
 /*!
- *  \brief checks that the ending of the json data is valid
+ *  \brief checks if the data array is at end.
+ *
+ *  If yes, the end is read.
  *
  *  \param this_ pointer to own object attributes
+ *  \param[out] true if the data array is at its end.
  *  \return DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
  *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          DATA_ERROR_NONE if structure of the input is valid.
  */
-data_error_t json_deserializer_expect_end_data ( json_deserializer_t *this_ );
+data_error_t json_deserializer_check_end_data ( json_deserializer_t *this_, bool* out_end );
 
 /*!
- *  \brief determines the type of object which will be parsed next
+ *  \brief determines the type of object which is contained in this object
  *
  *  \param this_ pointer to own object attributes
  *  \param out_type pointer to storage location for the result. Must not be NULL.
@@ -94,7 +97,17 @@ data_error_t json_deserializer_expect_end_data ( json_deserializer_t *this_ );
  *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          DATA_ERROR_NONE if structure of the input is valid.
  */
-data_error_t json_deserializer_get_type_of_next_element ( json_deserializer_t *this_, data_table_t *out_type );
+data_error_t json_deserializer_expect_begin_type_of_element ( json_deserializer_t *this_, data_table_t *out_type );
+
+/*!
+ *  \brief checks that the ending of the json type-object is valid
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          DATA_ERROR_NONE if structure of the input is valid.
+ */
+data_error_t json_deserializer_expect_end_type_of_element ( json_deserializer_t *this_ );
 
 /*!
  *  \brief parses the next object as classifier

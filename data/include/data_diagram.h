@@ -239,6 +239,15 @@ static inline const char *data_diagram_get_description_const ( const data_diagra
 static inline data_error_t data_diagram_set_description ( data_diagram_t *this_, const char *description );
 
 /*!
+ *  \brief appends a string to the attribute description
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param description additional description of this object
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if concatenated string too long
+ */
+static inline data_error_t data_diagram_append_description ( data_diagram_t *this_, const char *description );
+
+/*!
  *  \brief gets the attribute list_order
  *
  *  \param this_ pointer to own object attributes

@@ -287,6 +287,21 @@ static inline data_error_t data_classifier_set_description ( data_classifier_t *
     return result;
 }
 
+static inline data_error_t data_classifier_append_description ( data_classifier_t *this_, const char *description )
+{
+    assert( NULL != description );
+
+    data_error_t result = DATA_ERROR_NONE;
+    utf8error_t strerr;
+    strerr = utf8stringbuf_append_str( (*this_).description, description );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_append_str() failed:", strerr );
+        result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+    return result;
+}
+
 static inline int32_t data_classifier_get_x_order ( const data_classifier_t *this_ )
 {
     return (*this_).x_order;

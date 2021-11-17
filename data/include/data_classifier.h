@@ -283,6 +283,15 @@ static inline const char *data_classifier_get_description_const ( const data_cla
 static inline data_error_t data_classifier_set_description ( data_classifier_t *this_, const char *description );
 
 /*!
+ *  \brief appends a string to the attribute description
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param description additional description of this object
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if concatenated string too long
+ */
+static inline data_error_t data_classifier_append_description ( data_classifier_t *this_, const char *description );
+
+/*!
  *  \brief gets the attribute x_order
  *
  *  \param this_ pointer to own object attributes

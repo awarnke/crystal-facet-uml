@@ -83,7 +83,20 @@ data_error_t json_token_reader_expect_begin_object ( json_token_reader_t *this_ 
     return result_err;
 }
 
-data_error_t json_token_reader_is_end_object ( json_token_reader_t *this_, bool *end_object )
+data_error_t json_token_reader_get_member_name ( json_token_reader_t *this_, utf8stringbuf_t out_name )
+{
+    TRACE_BEGIN();
+    data_error_t result_err = DATA_ERROR_NONE;
+
+    result_err = json_token_reader_get_string_value( this_, out_name );
+
+    TRACE_INFO_STR( "member name:", utf8stringbuf_get_string( out_name ) );
+
+    TRACE_END_ERR( result_err );
+    return result_err;
+}
+
+data_error_t json_token_reader_check_end_object ( json_token_reader_t *this_, bool *end_object )
 {
     TRACE_BEGIN();
     assert( NULL != end_object );
@@ -155,7 +168,7 @@ data_error_t json_token_reader_expect_begin_array ( json_token_reader_t *this_ )
     return result_err;
 }
 
-data_error_t json_token_reader_is_end_array ( json_token_reader_t *this_, bool *end_array )
+data_error_t json_token_reader_check_end_array ( json_token_reader_t *this_, bool *end_array )
 {
     TRACE_BEGIN();
     assert( NULL != end_array );
@@ -305,6 +318,11 @@ data_error_t json_token_reader_get_string_value ( json_token_reader_t *this_, ut
         else
         {
             universal_buffer_input_stream_read_next( &((*this_).in_stream) );
+
+            if ( ! json_token_reader_private_is_value_end( this_ ) )
+            {
+                result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+            }
         }
     }
     else
@@ -375,7 +393,7 @@ data_error_t json_token_reader_get_boolean_value ( json_token_reader_t *this_, b
     if ( JSON_CONSTANTS_CHAR_BEGIN_FALSE == current )
     {
         (*out_bool) = false;
-        for ( int f_pos = 0; f_pos < sizeof(JSON_CONSTANTS_FALSE); f_pos ++ )
+        for ( int f_pos = 0; f_pos < strlen(JSON_CONSTANTS_FALSE); f_pos ++ )
         {
             if ( JSON_CONSTANTS_FALSE[f_pos] != universal_buffer_input_stream_read_next( &((*this_).in_stream) ) )
             {
@@ -390,7 +408,7 @@ data_error_t json_token_reader_get_boolean_value ( json_token_reader_t *this_, b
     else if ( JSON_CONSTANTS_CHAR_BEGIN_TRUE == current )
     {
         (*out_bool) = true;
-        for ( int t_pos = 0; t_pos < sizeof(JSON_CONSTANTS_TRUE); t_pos ++ )
+        for ( int t_pos = 0; t_pos < strlen(JSON_CONSTANTS_TRUE); t_pos ++ )
         {
             if ( JSON_CONSTANTS_TRUE[t_pos] != universal_buffer_input_stream_read_next( &((*this_).in_stream) ) )
             {
@@ -422,7 +440,7 @@ data_error_t json_token_reader_expect_null_value ( json_token_reader_t *this_ )
     char current = universal_buffer_input_stream_peek_next( &((*this_).in_stream) );
     if ( JSON_CONSTANTS_CHAR_BEGIN_NULL == current )
     {
-        for ( int n_pos = 0; n_pos < sizeof(JSON_CONSTANTS_NULL); n_pos ++ )
+        for ( int n_pos = 0; n_pos < strlen(JSON_CONSTANTS_NULL); n_pos ++ )
         {
             if ( JSON_CONSTANTS_NULL[n_pos] != universal_buffer_input_stream_read_next( &((*this_).in_stream) ) )
             {

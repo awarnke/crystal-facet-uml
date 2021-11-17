@@ -52,7 +52,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
     universal_memory_input_stream_t in_mem_stream;
     universal_memory_input_stream_init( &in_mem_stream, json_text, strlen(json_text) );
     universal_input_stream_t* in_stream = universal_memory_input_stream_get_input_stream( &in_mem_stream );
-    json_import_to_database_import_stream_to_db( this_, in_stream, diagram_id, io_stat, out_read_line );
+    result = json_import_to_database_import_stream_to_db( this_, in_stream, diagram_id, io_stat, out_read_line );
     universal_memory_input_stream_destroy( &in_mem_stream );
 
     TRACE_END_ERR( result );
@@ -95,12 +95,13 @@ data_error_t json_import_to_database_import_stream_to_db( json_import_to_databas
     {
         data_table_t next_object_type;
         bool set_end = false;  /* end of data set reached or error at parsing */
-        bool any_error = false;  /* consolidation of parser errors and writer errors */
+        parse_error = json_deserializer_check_end_data( &deserializer, &set_end );
+        bool any_error = ( parse_error != DATA_ERROR_NONE );  /* consolidation of parser errors and writer errors */
         bool is_first = true;  /* is this the first object in the database that is created? if false, database changes are appended to the last undo_redo_set */
         static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* do not import more things than can be undone */
         for ( int count = 0; ( ! set_end ) && ( ! any_error ) && ( count < MAX_LOOP_COUNTER ); count ++ )
         {
-            parse_error = json_deserializer_get_type_of_next_element( &deserializer, &next_object_type );
+            parse_error = json_deserializer_expect_begin_type_of_element( &deserializer, &next_object_type );
             if ( DATA_ERROR_NONE == parse_error )
             {
                 switch ( next_object_type )
@@ -550,18 +551,26 @@ data_error_t json_import_to_database_import_stream_to_db( json_import_to_databas
                         any_error = true;
                     }
                 }
+                if ( DATA_ERROR_NONE == parse_error )
+                {
+                    parse_error = json_deserializer_expect_end_type_of_element( &deserializer );
+                    /* parser error, break loop: */
+                    any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
+                }
             }
             else
             {
                 /* parser error, break loop: */
                 any_error = true;
             }
-        }
-    }
 
-    if ( DATA_ERROR_NONE == parse_error )
-    {
-        parse_error = json_deserializer_expect_end_data( &deserializer );
+            if ( DATA_ERROR_NONE == parse_error )
+            {
+                parse_error = json_deserializer_check_end_data( &deserializer, &set_end );
+                /* parser error, break loop: */
+                any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
+            }
+        }
     }
 
     json_deserializer_get_read_line ( &deserializer, out_read_line );

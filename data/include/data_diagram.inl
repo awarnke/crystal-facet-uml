@@ -237,6 +237,20 @@ static inline data_error_t data_diagram_set_description ( data_diagram_t *this_,
     return result;
 }
 
+static inline data_error_t data_diagram_append_description ( data_diagram_t *this_, const char *description )
+{
+    assert( NULL != description );
+    data_error_t result = DATA_ERROR_NONE;
+    utf8error_t strerr;
+    strerr = utf8stringbuf_append_str( (*this_).description, description );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_append_str() failed:", strerr );
+        result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+    return result;
+}
+
 static inline int32_t data_diagram_get_list_order ( const data_diagram_t *this_ )
 {
     return (*this_).list_order;

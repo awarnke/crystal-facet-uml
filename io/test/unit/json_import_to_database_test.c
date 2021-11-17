@@ -249,30 +249,30 @@ static void insert_invalid_json(void)
     data_error_t data_err;
     data_stat_t stat;
     data_stat_init(&stat);
-    uint32_t read_pos;
-    static const char *json_text_p = "{\"data\":[{\"unknown-type\":{}}]}";
+    uint32_t read_line;
+    static const char *json_text_p = "{\"data\":[{\n\"unknown-type\"\n:{}}]}";
     data_err = json_import_to_database_import_buf_to_db( &importer,
                                                          json_text_p,
                                                          root_diag_id,
                                                          &stat,
-                                                         &read_pos
+                                                         &read_line
                                                        );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_PARSER_STRUCTURE, data_err );
     TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
-    TEST_ASSERT_EQUAL_INT( read_pos, 9 );
+    TEST_ASSERT_EQUAL_INT( read_line, 2 );
     /* error happens at char 24 according to the log */
     /* but this happens in json_deserializer_get_type_of_next_element which does not advance the read pos */
 
-    static const char *json_text_l = "{\"data\":[{\"diagram\":nullnul}]}";
+    static const char *json_text_l = "{\"data\":[{\"diagram\":\nnullnul\n}]}";
     data_err = json_import_to_database_import_buf_to_db( &importer,
                                                          json_text_l,
                                                          root_diag_id,
                                                          &stat,
-                                                         &read_pos
+                                                         &read_line
                                                        );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_PARSER_STRUCTURE, data_err );
     TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
-    TEST_ASSERT_EQUAL_INT( read_pos, 20 );
+    TEST_ASSERT_EQUAL_INT( read_line, 2 );
 
     data_stat_destroy(&stat);
     json_import_to_database_destroy ( &importer );
@@ -288,16 +288,16 @@ static void insert_invalid_parent_diag(void)
     data_error_t data_err;
     data_stat_t stat;
     data_stat_init(&stat);
-    uint32_t read_pos;
+    uint32_t read_line;
     data_err = json_import_to_database_import_buf_to_db( &importer,
                                                          test_json_no_diag,
                                                          root_diag_id+1, /* does not exist */
                                                          &stat,
-                                                         &read_pos
+                                                         &read_line
                                                        );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
     TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
-    TEST_ASSERT_EQUAL_INT( read_pos, 0 );
+    TEST_ASSERT_EQUAL_INT( read_line, 1 );
 
     data_stat_destroy(&stat);
     json_import_to_database_destroy ( &importer );
@@ -313,17 +313,17 @@ static void insert_empty_set(void)
     data_error_t data_err;
     data_stat_t stat;
     data_stat_init(&stat);
-    uint32_t read_pos;
-    static const char *json_text = "{\"data\":[]}";
+    uint32_t read_line;
+    static const char *json_text = "{\"data\":[]}\n";
     data_err = json_import_to_database_import_buf_to_db( &importer,
                                                          json_text,
                                                          root_diag_id,
                                                          &stat,
-                                                         &read_pos
+                                                         &read_line
                                                        );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
-    TEST_ASSERT_EQUAL_INT( read_pos, strlen(json_text) );
+    TEST_ASSERT_EQUAL_INT( read_line, 2 );
 
     data_stat_destroy(&stat);
     json_import_to_database_destroy ( &importer );
@@ -347,18 +347,18 @@ static void insert_new_classifier_to_existing_diagram(void)
                                                          &read_pos
                                                        );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ), 0 );
-    TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ), 1 );
-    TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ), 1 );
-    TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ), 1 );
+    TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
+    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
+    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
      /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
-    TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ), 1 );
+    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
     /* DATA_TABLE_RELATIONSHIP: no names of auto-generated lifelines are mentioned, therefore only unconditional relationships */
-    TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ), 0 );
+    TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
     /* DATA_TABLE_RELATIONSHIP: source does not exist */
-    TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ), 1 );
-    TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 5 );
-    TEST_ASSERT_EQUAL_INT( read_pos, strlen(test_json_no_diag) );
+    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ) );
+    TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
+    TEST_ASSERT_EQUAL_INT( 55, read_pos );
 
     data_stat_destroy(&stat);
     json_import_to_database_destroy ( &importer );
@@ -382,18 +382,18 @@ static void insert_new_classifier_to_new_diagram(void)
                                                          &read_pos
                                                        );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ), 1 );
-    TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ), 1 );
-    TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ), 1 );
-    TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ), 1 );
+    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
+    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
+    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
     /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
-    TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ), 1 );
+    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
     /* DATA_TABLE_RELATIONSHIP: no names of auto-generated lifelines are mentioned, therefore only unconditional relationships */
-    TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ), 0 );
+    TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
     /* DATA_TABLE_RELATIONSHIP: destination does not exist */
-    TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ), 1 );
-    TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 6 );
-    TEST_ASSERT_EQUAL_INT( read_pos, strlen(test_json_own_diagram) );
+    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ) );
+    TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );
+    TEST_ASSERT_EQUAL_INT( 68, read_pos );
 
     data_stat_destroy(&stat);
     json_import_to_database_destroy ( &importer );
@@ -418,8 +418,8 @@ static void insert_existing_classifier_to_existing_diagram(void)
                                                              &read_pos
                                                            );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 5 );  /* as in test case insert_new_classifier_to_existing_diagram */
-        TEST_ASSERT_EQUAL_INT( read_pos, strlen(test_json_no_diag) );
+        TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_existing_diagram */
+        TEST_ASSERT_EQUAL_INT( 55, read_pos );
         data_stat_destroy(&stat);
     }
     {
@@ -433,21 +433,21 @@ static void insert_existing_classifier_to_existing_diagram(void)
                                                              &read_pos
                                                            );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ), 0 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ), 1 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ), 0 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ), 1 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ), 0 );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
         /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
         /* DATA_TABLE_FEATURE a feature of an already existing classifier is dropped */
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ), 2 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING ), 0 );
+        TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING ) );
         /* DATA_TABLE_RELATIONSHIP: no names of auto-generated lifelines are mentioned, therefore only unconditional relationships */
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ), 0 );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
         /* DATA_TABLE_RELATIONSHIP: source does not exist */
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ), 1 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 5 );
-        TEST_ASSERT_EQUAL_INT( read_pos, strlen(test_json_no_diag) );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ) );
+        TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
+        TEST_ASSERT_EQUAL_INT( 55, read_pos );
 
         data_stat_destroy(&stat);
     }
@@ -473,8 +473,8 @@ static void insert_existing_classifier_to_new_diagram(void)
                                                              &read_pos
                                                            );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 6 );  /* as in test case insert_new_classifier_to_new_diagram */
-        TEST_ASSERT_EQUAL_INT( read_pos, strlen(test_json_own_diagram) );
+        TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
+        TEST_ASSERT_EQUAL_INT( 68, read_pos );
         data_stat_destroy(&stat);
     }
     {
@@ -488,21 +488,21 @@ static void insert_existing_classifier_to_new_diagram(void)
                                                              &read_pos
                                                            );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ), 1 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ), 1 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ), 0 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ), 1 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ), 0 );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
         /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
         /* DATA_TABLE_FEATURE a feature of an already existing classifier is dropped */
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ), 2 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING ), 0 );
+        TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING ) );
         /* DATA_TABLE_RELATIONSHIP: no names of auto-generated lifelines are mentioned, therefore only unconditional relationships */
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ), 0 );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
         /* DATA_TABLE_RELATIONSHIP: destination does not exist */
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ), 1 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 6 );
-        TEST_ASSERT_EQUAL_INT( read_pos, strlen(test_json_own_diagram) );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ) );
+        TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );
+        TEST_ASSERT_EQUAL_INT( 68, read_pos );
 
         data_stat_destroy(&stat);
     }
@@ -528,8 +528,8 @@ static void insert_unconditional_relationships(void)
                                                              &read_pos
                                                            );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 6 );  /* as in test case insert_new_classifier_to_new_diagram */
-        TEST_ASSERT_EQUAL_INT( read_pos, strlen(test_json_own_diagram) );
+        TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
+        TEST_ASSERT_EQUAL_INT( 68, read_pos );
         data_stat_destroy(&stat);
     }
     {
@@ -543,15 +543,15 @@ static void insert_unconditional_relationships(void)
                                                              &read_pos
                                                            );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ), 0 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ), 1 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ), 1 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ), 1 );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
         /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ), 1 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ), 1 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 5 );
-        TEST_ASSERT_EQUAL_INT( read_pos, strlen(test_json_no_diag) );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
+        TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
+        TEST_ASSERT_EQUAL_INT( 55, read_pos );
 
         data_stat_destroy(&stat);
     }
@@ -640,13 +640,13 @@ static void insert_scenario_relationships_to_scenario(void)
                                                        );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     /* type 13 == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM; is scenario */
-    TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ), 1 );
-    TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ), 2 );
-    TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ), 2 );
-    TEST_ASSERT_EQUAL_INT( data_stat_get_table_count( &stat, DATA_TABLE_FEATURE ), 0 );
-    TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ), 1 );
-    TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 6 );
-    TEST_ASSERT_EQUAL_INT( read_pos, strlen(test_scenario_relationship) );
+    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
+    TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
+    TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+    TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_FEATURE ) );
+    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
+    TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );
+    TEST_ASSERT_EQUAL_INT( 62, read_pos );
 
     data_stat_destroy(&stat);
     json_import_to_database_destroy ( &importer );
@@ -695,8 +695,8 @@ static void insert_scenario_relationships_to_non_scenario(void)
                                                              &read_pos
                                                            );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 5 );  /* as in test case insert_new_classifier_to_existing_diagram */
-        TEST_ASSERT_EQUAL_INT( read_pos, strlen(test_json_no_diag) );
+        TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_existing_diagram */
+        TEST_ASSERT_EQUAL_INT( 55, read_pos );
         data_stat_destroy(&stat);
     }
     {
@@ -711,15 +711,15 @@ static void insert_scenario_relationships_to_non_scenario(void)
                                                            );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         /* type 13 == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM; is scenario */
-        TEST_ASSERT_EQUAL_INT( data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ), 0 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAMELEMENT ), 0 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_table_count( &stat, DATA_TABLE_CLASSIFIER ), 0 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_table_count( &stat, DATA_TABLE_FEATURE ), 0 );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAMELEMENT ) );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_CLASSIFIER ) );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_FEATURE ) );
         /* DATA_TABLE_RELATIONSHIP: source+dst classifier have no lifeline, no evidence for scenario */
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ), 0 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ), 1 );
-        TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 1 );
-        TEST_ASSERT_EQUAL_INT( read_pos, strlen(test_json_scenario_self_relation) );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ) );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count( &stat ) );
+        TEST_ASSERT_EQUAL_INT( 23, read_pos );
 
         data_stat_destroy(&stat);
     }

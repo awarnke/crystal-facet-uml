@@ -72,43 +72,39 @@ data_error_t json_deserializer_expect_begin_data ( json_deserializer_t *this_ )
     return result;
 }
 
-data_error_t json_deserializer_expect_end_data ( json_deserializer_t *this_ )
+data_error_t json_deserializer_check_end_data ( json_deserializer_t *this_, bool* out_end )
 {
     TRACE_BEGIN();
+    assert( NULL != out_end );
     data_error_t result = DATA_ERROR_NONE;
-    bool condition;
 
-    result = json_token_reader_is_end_array ( &((*this_).tokenizer), &condition );
-    if ( ! condition )
+    result = json_token_reader_check_end_array ( &((*this_).tokenizer), out_end );
+    if ( *out_end )
     {
-        TSLOG_ERROR_INT( "unexpected object contents at line",
-                         json_token_reader_get_input_line( &((*this_).tokenizer) )
-                       );
-        result |= DATA_ERROR_PARSER_STRUCTURE;
-    }
-
-    if ( DATA_ERROR_NONE == result )
-    {
-        result = json_token_reader_is_end_object ( &((*this_).tokenizer), &condition );
-        if ( ! condition )
+        if ( DATA_ERROR_NONE == result )
         {
-            TSLOG_ERROR_INT( "unexpected object contents at line",
-                             json_token_reader_get_input_line( &((*this_).tokenizer) )
-                           );
-            result |= DATA_ERROR_PARSER_STRUCTURE;
+            bool end_ok;
+            result = json_token_reader_check_end_object ( &((*this_).tokenizer), &end_ok );
+            if ( ! end_ok )
+            {
+                TSLOG_ERROR_INT( "unexpected object contents at line",
+                                 json_token_reader_get_input_line( &((*this_).tokenizer) )
+                               );
+                result |= DATA_ERROR_PARSER_STRUCTURE;
+            }
         }
-    }
 
-    if ( DATA_ERROR_NONE == result )
-    {
-        result = json_token_reader_expect_eof ( &((*this_).tokenizer) );
+        if ( DATA_ERROR_NONE == result )
+        {
+            result = json_token_reader_expect_eof ( &((*this_).tokenizer) );
+        }
     }
 
     TRACE_END_ERR( result );
     return result;
 }
 
-data_error_t json_deserializer_get_type_of_next_element ( json_deserializer_t *this_, data_table_t *out_type )
+data_error_t json_deserializer_expect_begin_type_of_element ( json_deserializer_t *this_, data_table_t *out_type )
 {
     TRACE_BEGIN();
     assert ( NULL != out_type );
@@ -118,7 +114,7 @@ data_error_t json_deserializer_get_type_of_next_element ( json_deserializer_t *t
     char member_name_buf[24];
     utf8stringbuf_t member_name = UTF8STRINGBUF( member_name_buf );
 
-    result = json_token_reader_is_end_array ( &((*this_).tokenizer), &array_end );
+    result = json_token_reader_check_end_array ( &((*this_).tokenizer), &array_end );
 
     if ( DATA_ERROR_NONE == result )
     {
@@ -173,6 +169,25 @@ data_error_t json_deserializer_get_type_of_next_element ( json_deserializer_t *t
     return result;
 }
 
+data_error_t json_deserializer_expect_end_type_of_element ( json_deserializer_t *this_ )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+    bool condition;
+
+    result = json_token_reader_check_end_object ( &((*this_).tokenizer), &condition );
+    if ( ! condition )
+    {
+        TSLOG_ERROR_INT( "unexpected object contents at line",
+                         json_token_reader_get_input_line( &((*this_).tokenizer) )
+                       );
+        result |= DATA_ERROR_PARSER_STRUCTURE;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 data_error_t json_deserializer_get_next_classifier ( json_deserializer_t *this_,
                                                      data_classifier_t *out_object,
                                                      uint32_t max_out_array_size,
@@ -193,28 +208,6 @@ data_error_t json_deserializer_get_next_classifier ( json_deserializer_t *this_,
     /* header */
 
     result = json_token_reader_expect_begin_object ( &((*this_).tokenizer) );
-    if ( DATA_ERROR_NONE == result )
-    {
-        result = json_token_reader_get_member_name ( &((*this_).tokenizer), member_name );
-    }
-    if ( DATA_ERROR_NONE == result )
-    {
-        if ( ! utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER ) )
-        {
-            TSLOG_ERROR_INT( "unexpected member name at line",
-                             json_token_reader_get_input_line( &((*this_).tokenizer) )
-                           );
-            result = DATA_ERROR_PARSER_STRUCTURE;
-        }
-    }
-    if ( DATA_ERROR_NONE == result )
-    {
-        result = json_token_reader_expect_name_separator ( &((*this_).tokenizer) );
-    }
-    if ( DATA_ERROR_NONE == result )
-    {
-        result = json_token_reader_expect_begin_object ( &((*this_).tokenizer) );
-    }
 
     /* members */
 
@@ -225,7 +218,7 @@ data_error_t json_deserializer_get_next_classifier ( json_deserializer_t *this_,
     {
         for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ); count ++ )
         {
-            result = json_token_reader_is_end_object ( &((*this_).tokenizer), &object_end );
+            result = json_token_reader_check_end_object ( &((*this_).tokenizer), &object_end );
             if ( DATA_ERROR_NONE == result )
             {
                 if ( ! object_end )
@@ -333,20 +326,6 @@ data_error_t json_deserializer_get_next_classifier ( json_deserializer_t *this_,
 
     if ( DATA_ERROR_NONE == result )
     {
-        result = json_token_reader_is_end_object ( &((*this_).tokenizer), &object_end );
-    }
-    if ( DATA_ERROR_NONE == result )
-    {
-        if ( ! object_end )
-        {
-            TSLOG_ERROR_INT( "unexpected character at line",
-                             json_token_reader_get_input_line( &((*this_).tokenizer) )
-                           );
-            result = DATA_ERROR_PARSER_STRUCTURE;
-        }
-    }
-    if ( DATA_ERROR_NONE == result )
-    {
         data_classifier_trace( out_object );
     }
 
@@ -370,28 +349,6 @@ data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, da
     /* header */
 
     result = json_token_reader_expect_begin_object ( &((*this_).tokenizer) );
-    if ( DATA_ERROR_NONE == result )
-    {
-        result = json_token_reader_get_member_name ( &((*this_).tokenizer), member_name );
-    }
-    if ( DATA_ERROR_NONE == result )
-    {
-        if ( ! utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM ) )
-        {
-            TSLOG_ERROR_INT( "unexpected member name at line",
-                             json_token_reader_get_input_line( &((*this_).tokenizer) )
-                           );
-            result = DATA_ERROR_PARSER_STRUCTURE;
-        }
-    }
-    if ( DATA_ERROR_NONE == result )
-    {
-        result = json_token_reader_expect_name_separator ( &((*this_).tokenizer) );
-    }
-    if ( DATA_ERROR_NONE == result )
-    {
-        result = json_token_reader_expect_begin_object ( &((*this_).tokenizer) );
-    }
 
     /* members */
 
@@ -402,7 +359,7 @@ data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, da
     {
         for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ); count ++ )
         {
-            result = json_token_reader_is_end_object ( &((*this_).tokenizer), &object_end );
+            result = json_token_reader_check_end_object ( &((*this_).tokenizer), &object_end );
             if ( DATA_ERROR_NONE == result )
             {
                 if ( ! object_end )
@@ -499,20 +456,6 @@ data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, da
 
     if ( DATA_ERROR_NONE == result )
     {
-        result = json_token_reader_is_end_object ( &((*this_).tokenizer), &object_end );
-    }
-    if ( DATA_ERROR_NONE == result )
-    {
-        if ( ! object_end )
-        {
-            TSLOG_ERROR_INT( "unexpected character at line",
-                             json_token_reader_get_input_line( &((*this_).tokenizer) )
-                           );
-            result = DATA_ERROR_PARSER_STRUCTURE;
-        }
-    }
-    if ( DATA_ERROR_NONE == result )
-    {
         data_diagram_trace( out_object );
     }
 
@@ -546,28 +489,6 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
     /* header */
 
     result = json_token_reader_expect_begin_object ( &((*this_).tokenizer) );
-    if ( DATA_ERROR_NONE == result )
-    {
-        result = json_token_reader_get_member_name ( &((*this_).tokenizer), member_name );
-    }
-    if ( DATA_ERROR_NONE == result )
-    {
-        if ( ! utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP ) )
-        {
-            TSLOG_ERROR_INT( "unexpected member name at line",
-                             json_token_reader_get_input_line( &((*this_).tokenizer) )
-                           );
-            result = DATA_ERROR_PARSER_STRUCTURE;
-        }
-    }
-    if ( DATA_ERROR_NONE == result )
-    {
-        result = json_token_reader_expect_name_separator ( &((*this_).tokenizer) );
-    }
-    if ( DATA_ERROR_NONE == result )
-    {
-        result = json_token_reader_expect_begin_object ( &((*this_).tokenizer) );
-    }
 
     /* members */
 
@@ -578,7 +499,7 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
     {
         for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ); count ++ )
         {
-            result = json_token_reader_is_end_object ( &((*this_).tokenizer), &object_end );
+            result = json_token_reader_check_end_object ( &((*this_).tokenizer), &object_end );
             if ( DATA_ERROR_NONE == result )
             {
                 if ( ! object_end )
@@ -707,20 +628,6 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
 
     if ( DATA_ERROR_NONE == result )
     {
-        result = json_token_reader_is_end_object ( &((*this_).tokenizer), &object_end );
-    }
-    if ( DATA_ERROR_NONE == result )
-    {
-        if ( ! object_end )
-        {
-            TSLOG_ERROR_INT( "unexpected character at line",
-                             json_token_reader_get_input_line( &((*this_).tokenizer) )
-                           );
-            result = DATA_ERROR_PARSER_STRUCTURE;
-        }
-    }
-    if ( DATA_ERROR_NONE == result )
-    {
         data_relationship_trace( out_object );
     }
 
@@ -741,22 +648,6 @@ data_error_t json_deserializer_skip_next_object ( json_deserializer_t *this_ )
     /* header */
 
     result = json_token_reader_expect_begin_object ( &((*this_).tokenizer) );
-    if ( DATA_ERROR_NONE == result )
-    {
-        result = json_token_reader_get_member_name ( &((*this_).tokenizer), member_name );
-    }
-    if ( DATA_ERROR_NONE == result )
-    {
-        TRACE_INFO_STR( "skipping", utf8stringbuf_get_string( member_name ) );
-    }
-    if ( DATA_ERROR_NONE == result )
-    {
-        result = json_token_reader_expect_name_separator ( &((*this_).tokenizer) );
-    }
-    if ( DATA_ERROR_NONE == result )
-    {
-        result = json_token_reader_expect_begin_object ( &((*this_).tokenizer) );
-    }
 
     /* members */
 
@@ -767,7 +658,7 @@ data_error_t json_deserializer_skip_next_object ( json_deserializer_t *this_ )
     {
         for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ); count ++ )
         {
-            result = json_token_reader_is_end_object ( &((*this_).tokenizer), &object_end );
+            result = json_token_reader_check_end_object ( &((*this_).tokenizer), &object_end );
             if ( DATA_ERROR_NONE == result )
             {
                 if ( ! object_end )
@@ -868,21 +759,6 @@ data_error_t json_deserializer_skip_next_object ( json_deserializer_t *this_ )
 
     /* footer */
 
-    if ( DATA_ERROR_NONE == result )
-    {
-        result = json_token_reader_is_end_object ( &((*this_).tokenizer), &object_end );
-    }
-    if ( DATA_ERROR_NONE == result )
-    {
-        if ( ! object_end )
-        {
-            TSLOG_ERROR_INT( "unexpected character at line",
-                             json_token_reader_get_input_line( &((*this_).tokenizer) )
-                           );
-            result = DATA_ERROR_PARSER_STRUCTURE;
-        }
-    }
-
     (*this_).after_first_array_entry = true;
 
     TRACE_END_ERR( result );
@@ -936,7 +812,7 @@ data_error_t json_deserializer_private_get_next_feature_array ( json_deserialize
         bool first_element_passed = false;
         for ( int count = 0; ( ! end_array ) && ( count < max_out_array_size ); count ++ )
         {
-            result = json_token_reader_is_end_array( &((*this_).tokenizer), &end_array );
+            result = json_token_reader_check_end_array( &((*this_).tokenizer), &end_array );
             if ( DATA_ERROR_NONE == result )
             {
                 if ( ! end_array )
@@ -1006,7 +882,7 @@ data_error_t json_deserializer_private_get_next_feature ( json_deserializer_t *t
     {
         for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ); count ++ )
         {
-            result = json_token_reader_is_end_object ( &((*this_).tokenizer), &object_end );
+            result = json_token_reader_check_end_object ( &((*this_).tokenizer), &object_end );
             if ( DATA_ERROR_NONE == result )
             {
                 if ( ! object_end )

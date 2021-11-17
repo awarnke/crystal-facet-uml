@@ -10,7 +10,7 @@ static void tear_down(void);
 static void test_skip_whitespace(void);
 static void test_is_value_end(void);
 static void test_get_value_type(void);
-static void test_find_string_end(void);
+static void test_parse_string(void);
 static void test_parse_integer(void);
 static void test_skip_number(void);
 static void test_parse(void);
@@ -23,7 +23,7 @@ test_suite_t json_token_reader_test_get_list(void)
     test_suite_add_test_case( &result, "test_skip_whitespace", &test_skip_whitespace );
     test_suite_add_test_case( &result, "test_is_value_end", &test_is_value_end );
     test_suite_add_test_case( &result, "test_get_value_type", &test_get_value_type );
-    test_suite_add_test_case( &result, "test_find_string_end", &test_find_string_end );
+    test_suite_add_test_case( &result, "test_parse_string", &test_parse_string );
     test_suite_add_test_case( &result, "test_parse_integer", &test_parse_integer );
     test_suite_add_test_case( &result, "test_skip_number", &test_skip_number );
     test_suite_add_test_case( &result, "test_parse", &test_parse );
@@ -197,23 +197,25 @@ static void test_get_value_type(void)
     universal_memory_input_stream_destroy( &test_input );
 }
 
-static void test_find_string_end(void)
+static void test_parse_string(void)
 {
    data_error_t test_err;
-   const char test_str[5][17] = {
+   const char test_str[6][17] = {
         "\"\'\'simple    \'\'\"",
         "\"\\\\mixed    \\n\'\"",
         "\"\'\'esc at end\\\\\"",
         "\"\'\'2quote@end\\\"\"",
+        "\"\'\'trailing\"trail",
         "\"\'\'    no_end\\\"",
     };
     char parsed_buf[20];
     utf8stringbuf_t parsed_str = UTF8STRINGBUF( parsed_buf );
-    const char expect_str[5][15] = {
+    const char expect_str[6][15] = {
         "\'\'simple    \'\'",
         "\\mixed    \n\'",
         "\'\'esc at end\\",
         "\'\'2quote@end\"",
+        "\'\'trailing",
         "\'\'    no_end\"",
     };
     universal_memory_input_stream_t test_input;
@@ -221,13 +223,13 @@ static void test_find_string_end(void)
     json_token_reader_init( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
 
     /* test all positions */
-    for ( int index = 0; index < 5; index ++ )
+    for ( int index = 0; index < 6; index ++ )
     {
         universal_memory_input_stream_reinit( &test_input, &(test_str[index]), sizeof(test_str[index]) );
         json_token_reader_reinit( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
 
         test_err = json_token_reader_get_string_value( &tok, parsed_str );
-        TEST_ASSERT_EQUAL_INT( (index==4)?DATA_ERROR_LEXICAL_STRUCTURE:DATA_ERROR_NONE, test_err );
+        TEST_ASSERT_EQUAL_INT( (index>=4)?DATA_ERROR_LEXICAL_STRUCTURE:DATA_ERROR_NONE, test_err );
         TEST_ASSERT_EQUAL_INT( 1, utf8stringbuf_equals_str( parsed_str, expect_str[index] ) );
     }
 
@@ -305,14 +307,13 @@ static void test_skip_number(void)
 
 static void test_parse(void)
 {
-#if 0
-    static const char test_json[] =
+    static const char test_str[] =
         "\n{"
         "\n  \"data\": ["
         "\n    {"
         "\n      \"classifier\"\t: {"
         "\n        \"id\"  \r\n:-99,"
-        "\n        \"main_type\"error: 90.0e+0:"
+        "\n        \"main_type\" \n\t\r : 90.0e+0 "
         "\n        \"stereotype\\r\\/\\\"\\\\\": \"\\f\\n\\t\\b\\r\\/\\\"\\\\\""
         "\n      }"
         "\n    },"
@@ -323,7 +324,6 @@ static void test_parse(void)
         "\n}"
         "\n";
     data_error_t res;
-    uint32_t pos = 0;
     bool cond;
     char my_buf[32];
     utf8stringbuf_t my_string = UTF8STRINGBUF( my_buf );
@@ -334,172 +334,164 @@ static void test_parse(void)
     universal_memory_input_stream_init( &test_input, &test_str, sizeof(test_str) );
     json_token_reader_init( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
 
-    res = json_token_reader_expect_begin_object ( &tok, test_json, &pos );
+    res = json_token_reader_expect_begin_object ( &tok );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 2, pos );
+    TEST_ASSERT_EQUAL_INT( 2, json_token_reader_get_input_pos( &tok ) );
 
-    res = json_token_reader_is_end_object ( &tok, test_json, &pos, &cond );
+    res = json_token_reader_check_end_object ( &tok, &cond );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 5, pos );
+    TEST_ASSERT_EQUAL_INT( 5, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( false, cond );
 
-    res = json_token_reader_get_member_name ( &tok, test_json, &pos, my_string );
+    res = json_token_reader_get_member_name ( &tok, my_string );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 11, pos );
+    TEST_ASSERT_EQUAL_INT( 11, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "data", utf8stringbuf_get_string(my_string)) );
 
-    res = json_token_reader_expect_name_separator( &tok, test_json, &pos );
+    res = json_token_reader_expect_name_separator( &tok );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 12, pos );
+    TEST_ASSERT_EQUAL_INT( 12, json_token_reader_get_input_pos( &tok ) );
 
-    res = json_token_reader_expect_begin_array ( &tok, test_json, &pos );
+    res = json_token_reader_expect_begin_array ( &tok );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 14, pos );
+    TEST_ASSERT_EQUAL_INT( 14, json_token_reader_get_input_pos( &tok ) );
 
-    res = json_token_reader_is_end_array ( &tok, test_json, &pos, &cond );
+    res = json_token_reader_check_end_array ( &tok, &cond );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 19, pos );
+    TEST_ASSERT_EQUAL_INT( 19, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( false, cond );
 
-    res = json_token_reader_expect_begin_object ( &tok, test_json, &pos );
+    res = json_token_reader_expect_begin_object ( &tok );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 20, pos );
+    TEST_ASSERT_EQUAL_INT( 20, json_token_reader_get_input_pos( &tok ) );
 
-    res = json_token_reader_is_end_object ( &tok, test_json, &pos, &cond );
+    res = json_token_reader_check_end_object ( &tok, &cond );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 27, pos );
+    TEST_ASSERT_EQUAL_INT( 27, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( false, cond );
 
-    res = json_token_reader_get_member_name ( &tok, test_json, &pos, my_string );
+    res = json_token_reader_get_member_name ( &tok, my_string );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 39, pos );
+    TEST_ASSERT_EQUAL_INT( 39, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "classifier", utf8stringbuf_get_string(my_string)) );
 
-    res = json_token_reader_expect_name_separator( &tok, test_json, &pos );
+    res = json_token_reader_expect_name_separator( &tok );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 41, pos );
+    TEST_ASSERT_EQUAL_INT( 41, json_token_reader_get_input_pos( &tok ) );
 
-    res = json_token_reader_expect_begin_object ( &tok, test_json, &pos );
+    res = json_token_reader_expect_begin_object ( &tok );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 43, pos );
+    TEST_ASSERT_EQUAL_INT( 43, json_token_reader_get_input_pos( &tok ) );
 
     /* skip test for end object here */
 
-    res = json_token_reader_get_member_name ( &tok, test_json, &pos, my_string );
+    res = json_token_reader_get_member_name ( &tok, my_string );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 56, pos );
+    TEST_ASSERT_EQUAL_INT( 56, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "id", utf8stringbuf_get_string(my_string)) );
 
-    res = json_token_reader_expect_name_separator( &tok, test_json, &pos );
+    res = json_token_reader_expect_name_separator( &tok );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 61, pos );
+    TEST_ASSERT_EQUAL_INT( 61, json_token_reader_get_input_pos( &tok ) );
 
-    res = json_token_reader_get_int_value ( &tok, test_json, &pos, &my_int );
+    res = json_token_reader_get_int_value ( &tok, &my_int );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 64, pos );
+    TEST_ASSERT_EQUAL_INT( 64, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( -99, my_int );
 
     /* skip test for end object here */
 
-    res = json_token_reader_expect_value_separator( &tok, test_json, &pos );
+    res = json_token_reader_expect_value_separator( &tok );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 65, pos );
+    TEST_ASSERT_EQUAL_INT( 65, json_token_reader_get_input_pos( &tok ) );
 
-    res = json_token_reader_get_member_name ( &tok, test_json, &pos, my_string );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_LEXICAL_STRUCTURE, res );
-    TEST_ASSERT_EQUAL_INT( 74, pos );
-
-    pos = 90; /* manually skip bad token */
-
-    res = json_token_reader_expect_name_separator( &tok, test_json, &pos );
+    res = json_token_reader_get_member_name ( &tok, my_string );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 91, pos );
+    TEST_ASSERT_EQUAL_INT( 85, json_token_reader_get_input_pos( &tok ) );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( "main_type", utf8stringbuf_get_string(my_string)) );
 
-    res = json_token_reader_get_number_value ( &tok, test_json, &pos, &my_double );
+    res = json_token_reader_expect_name_separator( &tok );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 91, json_token_reader_get_input_pos( &tok ) );
+
+    res = json_token_reader_get_number_value ( &tok, &my_double );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NOT_YET_IMPLEMENTED, res );
-    TEST_ASSERT_EQUAL_INT( 99, pos );
+    TEST_ASSERT_EQUAL_INT( 99, json_token_reader_get_input_pos( &tok ) );
 
     /* skip test for end object here */
 
-    res = json_token_reader_expect_value_separator( &tok, test_json, &pos );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_PARSER_STRUCTURE, res );
-    TEST_ASSERT_EQUAL_INT( 99, pos );
-
-    pos = 100; /* manually skip bad token */
-
-    res = json_token_reader_get_member_name ( &tok, test_json, &pos, my_string );
+    res = json_token_reader_get_member_name ( &tok, my_string );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 129, pos );
+    TEST_ASSERT_EQUAL_INT( 129, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "stereotype\r/\"\\", utf8stringbuf_get_string(my_string)) );
 
-    res = json_token_reader_expect_name_separator( &tok, test_json, &pos );
+    res = json_token_reader_expect_name_separator( &tok );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 130, pos );
+    TEST_ASSERT_EQUAL_INT( 130, json_token_reader_get_input_pos( &tok ) );
 
-    res = json_token_reader_get_string_value ( &tok, test_json, &pos, my_string );
+    res = json_token_reader_get_string_value ( &tok, my_string );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 149, pos );
+    TEST_ASSERT_EQUAL_INT( 149, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "\f\n\t\b\r/\"\\", utf8stringbuf_get_string(my_string)) );
 
-    res = json_token_reader_is_end_object ( &tok, test_json, &pos, &cond );
+    res = json_token_reader_check_end_object ( &tok, &cond );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 157, pos );
+    TEST_ASSERT_EQUAL_INT( 157, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( true, cond );
 
-    res = json_token_reader_is_end_object ( &tok, test_json, &pos, &cond );
+    res = json_token_reader_check_end_object ( &tok, &cond );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 163, pos );
+    TEST_ASSERT_EQUAL_INT( 163, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( true, cond );
 
     /* skip test for end array here */
 
-    res = json_token_reader_expect_value_separator( &tok, test_json, &pos );
+    res = json_token_reader_expect_value_separator( &tok );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 164, pos );
+    TEST_ASSERT_EQUAL_INT( 164, json_token_reader_get_input_pos( &tok ) );
 
-    res = json_token_reader_expect_null_value ( &tok, test_json, &pos );
+    res = json_token_reader_expect_null_value ( &tok );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 173, pos );
+    TEST_ASSERT_EQUAL_INT( 173, json_token_reader_get_input_pos( &tok ) );
 
     /* skip test for end array here */
 
-    res = json_token_reader_expect_value_separator( &tok, test_json, &pos );
+    res = json_token_reader_expect_value_separator( &tok );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 174, pos );
+    TEST_ASSERT_EQUAL_INT( 174, json_token_reader_get_input_pos( &tok ) );
 
-    res = json_token_reader_get_boolean_value ( &tok, test_json, &pos, &my_bool );
+    res = json_token_reader_get_boolean_value ( &tok, &my_bool );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 183, pos );
+    TEST_ASSERT_EQUAL_INT( 183, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( true, my_bool );
 
     /* skip test for end array here */
 
-    res = json_token_reader_expect_value_separator( &tok, test_json, &pos );
+    res = json_token_reader_expect_value_separator( &tok );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 184, pos );
+    TEST_ASSERT_EQUAL_INT( 184, json_token_reader_get_input_pos( &tok ) );
 
-    res = json_token_reader_get_boolean_value ( &tok, test_json, &pos, &my_bool );
+    res = json_token_reader_get_boolean_value ( &tok, &my_bool );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 194, pos );
+    TEST_ASSERT_EQUAL_INT( 194, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( false, my_bool );
 
-    res = json_token_reader_is_end_array ( &tok, test_json, &pos, &cond );
+    res = json_token_reader_check_end_array ( &tok, &cond );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 198, pos );
+    TEST_ASSERT_EQUAL_INT( 198, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( true, cond );
 
-    res = json_token_reader_is_end_object ( &tok, test_json, &pos, &cond );
+    res = json_token_reader_check_end_object ( &tok, &cond );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 200, pos );
+    TEST_ASSERT_EQUAL_INT( 200, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( true, cond );
 
-    res = json_token_reader_expect_eof ( &tok, test_json, &pos );
+    res = json_token_reader_expect_eof ( &tok );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 201, pos );
+    TEST_ASSERT_EQUAL_INT( 201, json_token_reader_get_input_pos( &tok ) );
 
     json_token_reader_destroy( &tok );
     universal_memory_input_stream_destroy( &test_input );
-#endif
 }
 
 

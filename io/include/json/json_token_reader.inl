@@ -4,11 +4,6 @@
 #include "trace.h"
 #include <assert.h>
 
-static inline data_error_t json_token_reader_get_member_name ( json_token_reader_t *this_, utf8stringbuf_t out_name )
-{
-    return json_token_reader_get_string_value( this_, out_name );
-}
-
 static inline void json_token_reader_private_skip_whitespace ( json_token_reader_t *this_ )
 {
     bool ws_end_reached = false;

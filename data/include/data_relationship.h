@@ -316,6 +316,15 @@ static inline const char *data_relationship_get_description_const ( const data_r
 static inline data_error_t data_relationship_set_description ( data_relationship_t *this_, const char *description );
 
 /*!
+ *  \brief appends a string to the attribute description
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param description additional description of this object
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if concatenated string too long
+ */
+static inline data_error_t data_relationship_append_description ( data_relationship_t *this_, const char *description );
+
+/*!
  *  \brief gets the attribute list_order
  *
  *  \param this_ pointer to own object attributes
