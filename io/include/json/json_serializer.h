@@ -48,6 +48,22 @@ void json_serializer_init ( json_serializer_t *this_, universal_output_stream_t 
 void json_serializer_destroy ( json_serializer_t *this_ );
 
 /*!
+ *  \brief writes a header for the json stream
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return 0 in case of success, -1 if output buffer exceeded
+ */
+int json_serializer_write_header ( json_serializer_t *this_ );
+
+/*!
+ *  \brief writes a footer/ending for the json stream
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return 0 in case of success, -1 if output buffer exceeded
+ */
+int json_serializer_write_footer ( json_serializer_t *this_ );
+
+/*!
  *  \brief begins a json object containing an array of objects
  *
  *  \param this_ pointer to own object attributes

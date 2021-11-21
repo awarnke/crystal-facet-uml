@@ -69,6 +69,26 @@ void json_deserializer_destroy ( json_deserializer_t *this_ );
  *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          DATA_ERROR_NONE if structure of the input is valid.
  */
+data_error_t json_deserializer_expect_header ( json_deserializer_t *this_ );
+
+/*!
+ *  \brief checks that the footer/ending of the json data is valid
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          DATA_ERROR_NONE if structure of the input is valid.
+ */
+data_error_t json_deserializer_expect_footer ( json_deserializer_t *this_ );
+
+/*!
+ *  \brief checks that the beginning of the json data is valid
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          DATA_ERROR_NONE if structure of the input is valid.
+ */
 data_error_t json_deserializer_expect_begin_data ( json_deserializer_t *this_ );
 
 /*!

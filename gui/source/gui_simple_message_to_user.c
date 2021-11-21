@@ -163,7 +163,7 @@ void gui_simple_message_to_user_show_message ( gui_simple_message_to_user_t *thi
             utf8stringbuf_append_str( (*this_).private_temp_str, "The current classifier type does not allow one to remove the instance flag." );
         }
         break;
-        
+
         case GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY:
         {
             utf8stringbuf_append_str( (*this_).private_temp_str, "The database file is open in read only mode." );
@@ -225,10 +225,10 @@ void gui_simple_message_to_user_show_message_with_quantity ( gui_simple_message_
     TRACE_END();
 }
 
-void gui_simple_message_to_user_show_message_with_position ( gui_simple_message_to_user_t *this_,
-                                                             gui_simple_message_type_t type_id,
-                                                             const gui_simple_message_content_position_t *content_id,
-                                                             int stream_position )
+void gui_simple_message_to_user_show_message_with_line ( gui_simple_message_to_user_t *this_,
+                                                         gui_simple_message_type_t type_id,
+                                                         const gui_simple_message_content_position_t *content_id,
+                                                         int stream_line )
 {
     TRACE_BEGIN();
     assert( content_id != NULL );
@@ -242,8 +242,8 @@ void gui_simple_message_to_user_show_message_with_position ( gui_simple_message_
     if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA )
     {
         TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA" );
-        utf8stringbuf_append_str( (*this_).private_temp_str, "Invalid input data at position " );
-        utf8stringbuf_append_int( (*this_).private_temp_str, stream_position );
+        utf8stringbuf_append_str( (*this_).private_temp_str, "Invalid input data at line " );
+        utf8stringbuf_append_int( (*this_).private_temp_str, stream_line );
     }
     else
     {

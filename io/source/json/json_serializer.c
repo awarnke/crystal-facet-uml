@@ -30,7 +30,7 @@ void json_serializer_destroy ( json_serializer_t *this_ )
     TRACE_END();
 }
 
-int json_serializer_begin_data ( json_serializer_t *this_ )
+int json_serializer_write_header ( json_serializer_t *this_ )
 {
     TRACE_BEGIN();
     assert( (*this_).in_outer_array == false );
@@ -39,6 +39,73 @@ int json_serializer_begin_data ( json_serializer_t *this_ )
 
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_BEGIN_OBJECT_NL
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_KEY_HEAD
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_DEF
+                                        JSON_CONSTANTS_NL
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_BEGIN_OBJECT_NL
+                                      );
+
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_QUOTE
+                                        "warning"
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_DEF
+                                        JSON_CONSTANTS_QUOTE
+                                        "This format is subject to change."
+                                        JSON_CONSTANTS_QUOTE
+                                        JSON_CONSTANTS_NL
+                                      );
+
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_END_OBJECT
+                                        JSON_CONSTANTS_NEXT_NL
+                                      );
+
+
+    if ( out_err != 0 )
+    {
+        TSLOG_ERROR( "output buffer exceeded." );
+    }
+
+    TRACE_END_ERR( out_err );
+    return out_err;
+}
+
+int json_serializer_write_footer ( json_serializer_t *this_ )
+{
+    TRACE_BEGIN();
+    assert( (*this_).in_outer_array == false );
+    assert( (*this_).in_inner_array == false );
+    int out_err = 0;
+
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                        JSON_CONSTANTS_END_OBJECT_NL
+                                       );
+
+    if ( out_err != 0 )
+    {
+        TSLOG_ERROR( "output buffer exceeded." );
+    }
+
+    TRACE_END_ERR( out_err );
+    return out_err;
+}
+
+int json_serializer_begin_data ( json_serializer_t *this_ )
+{
+    TRACE_BEGIN();
+    assert( (*this_).in_outer_array == false );
+    assert( (*this_).in_inner_array == false );
+    int out_err = 0;
+
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_KEY_DATA
@@ -76,7 +143,6 @@ int json_serializer_end_data ( json_serializer_t *this_ )
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_END_ARRAY
                                         JSON_CONSTANTS_NL
-                                        JSON_CONSTANTS_END_OBJECT_NL
                                        );
 
     if ( out_err != 0 )

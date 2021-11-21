@@ -86,6 +86,12 @@ data_error_t json_import_to_database_import_stream_to_db( json_import_to_databas
         }
     }
 
+    /* read header */
+    if ( DATA_ERROR_NONE == parse_error )
+    {
+        parse_error = json_deserializer_expect_header( &deserializer );
+    }
+
     if ( DATA_ERROR_NONE == parse_error )
     {
         parse_error = json_deserializer_expect_begin_data( &deserializer );
@@ -571,6 +577,11 @@ data_error_t json_import_to_database_import_stream_to_db( json_import_to_databas
                 any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
             }
         }
+    }
+
+    if ( DATA_ERROR_NONE == parse_error )
+    {
+        parse_error = json_deserializer_expect_footer( &deserializer );
     }
 
     json_deserializer_get_read_line ( &deserializer, out_read_line );

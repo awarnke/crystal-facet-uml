@@ -45,6 +45,7 @@
 
 /* content */
 
+#define JSON_CONSTANTS_KEY_HEAD "header"
 #define JSON_CONSTANTS_KEY_DATA "data"
 /*
 #define JSON_CONSTANTS_KEY_NODES "nodes"
