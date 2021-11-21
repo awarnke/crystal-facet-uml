@@ -116,6 +116,9 @@ static data_row_id_t create_root_diag()
 
 static const char *const test_json_own_diagram =
     "{\n"
+    "  \"header\":\n"
+    "  {\n"
+    "  },\n"
     "  \"data\": \n"
     "  [\n"
     "    {\n"
@@ -185,6 +188,9 @@ static const char *const test_json_own_diagram =
 
 static const char *const test_json_no_diag =
     "{\n"
+    "  \"header\":\n"
+    "  {\n"
+    "  },\n"
     "  \"data\": \n"
     "  [\n"
     "    {\n"
@@ -250,7 +256,7 @@ static void insert_invalid_json(void)
     data_stat_t stat;
     data_stat_init(&stat);
     uint32_t read_line;
-    static const char *json_text_p = "{\"data\":[{\n\"unknown-type\"\n:{}}]}";
+    static const char *json_text_p = "{\"header\":{},\"data\":[{\n\"unknown-type\"\n:{}}]}";
     data_err = json_import_to_database_import_buf_to_db( &importer,
                                                          json_text_p,
                                                          root_diag_id,
@@ -263,7 +269,7 @@ static void insert_invalid_json(void)
     /* error happens at char 24 according to the log */
     /* but this happens in json_deserializer_get_type_of_next_element which does not advance the read pos */
 
-    static const char *json_text_l = "{\"data\":[{\"diagram\":\nnullnul\n}]}";
+    static const char *json_text_l = "{\"header\":{},\"data\":[{\"diagram\":\nnullnul\n}]}";
     data_err = json_import_to_database_import_buf_to_db( &importer,
                                                          json_text_l,
                                                          root_diag_id,
@@ -314,7 +320,7 @@ static void insert_empty_set(void)
     data_stat_t stat;
     data_stat_init(&stat);
     uint32_t read_line;
-    static const char *json_text = "{\"data\":[]}\n";
+    static const char *json_text = "{\"header\":{},\"data\":[]}\n";
     data_err = json_import_to_database_import_buf_to_db( &importer,
                                                          json_text,
                                                          root_diag_id,
@@ -358,7 +364,7 @@ static void insert_new_classifier_to_existing_diagram(void)
     /* DATA_TABLE_RELATIONSHIP: source does not exist */
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ) );
     TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
-    TEST_ASSERT_EQUAL_INT( 55, read_pos );
+    TEST_ASSERT_EQUAL_INT( 58, read_pos );
 
     data_stat_destroy(&stat);
     json_import_to_database_destroy ( &importer );
@@ -393,7 +399,7 @@ static void insert_new_classifier_to_new_diagram(void)
     /* DATA_TABLE_RELATIONSHIP: destination does not exist */
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ) );
     TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );
-    TEST_ASSERT_EQUAL_INT( 68, read_pos );
+    TEST_ASSERT_EQUAL_INT( 71, read_pos );
 
     data_stat_destroy(&stat);
     json_import_to_database_destroy ( &importer );
@@ -419,7 +425,7 @@ static void insert_existing_classifier_to_existing_diagram(void)
                                                            );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_existing_diagram */
-        TEST_ASSERT_EQUAL_INT( 55, read_pos );
+        TEST_ASSERT_EQUAL_INT( 58, read_pos );
         data_stat_destroy(&stat);
     }
     {
@@ -447,7 +453,7 @@ static void insert_existing_classifier_to_existing_diagram(void)
         /* DATA_TABLE_RELATIONSHIP: source does not exist */
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ) );
         TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
-        TEST_ASSERT_EQUAL_INT( 55, read_pos );
+        TEST_ASSERT_EQUAL_INT( 58, read_pos );
 
         data_stat_destroy(&stat);
     }
@@ -474,7 +480,7 @@ static void insert_existing_classifier_to_new_diagram(void)
                                                            );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
-        TEST_ASSERT_EQUAL_INT( 68, read_pos );
+        TEST_ASSERT_EQUAL_INT( 71, read_pos );
         data_stat_destroy(&stat);
     }
     {
@@ -502,7 +508,7 @@ static void insert_existing_classifier_to_new_diagram(void)
         /* DATA_TABLE_RELATIONSHIP: destination does not exist */
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ) );
         TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );
-        TEST_ASSERT_EQUAL_INT( 68, read_pos );
+        TEST_ASSERT_EQUAL_INT( 71, read_pos );
 
         data_stat_destroy(&stat);
     }
@@ -529,7 +535,7 @@ static void insert_unconditional_relationships(void)
                                                            );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
-        TEST_ASSERT_EQUAL_INT( 68, read_pos );
+        TEST_ASSERT_EQUAL_INT( 71, read_pos );
         data_stat_destroy(&stat);
     }
     {
@@ -551,7 +557,7 @@ static void insert_unconditional_relationships(void)
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
         TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
-        TEST_ASSERT_EQUAL_INT( 55, read_pos );
+        TEST_ASSERT_EQUAL_INT( 58, read_pos );
 
         data_stat_destroy(&stat);
     }
@@ -560,6 +566,9 @@ static void insert_unconditional_relationships(void)
 
 static const char *const test_scenario_relationship =
     "{\n"
+    "  \"header\":\n"
+    "  {\n"
+    "  },\n"
     "  \"data\": \n"
     "  [\n"
     "    {\n"
@@ -646,7 +655,7 @@ static void insert_scenario_relationships_to_scenario(void)
     TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_FEATURE ) );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
     TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );
-    TEST_ASSERT_EQUAL_INT( 62, read_pos );
+    TEST_ASSERT_EQUAL_INT( 65, read_pos );
 
     data_stat_destroy(&stat);
     json_import_to_database_destroy ( &importer );
@@ -654,6 +663,9 @@ static void insert_scenario_relationships_to_scenario(void)
 
 static const char *const test_json_scenario_self_relation =
     "{\n"
+    "  \"header\":\n"
+    "  {\n"
+    "  },\n"
     "  \"data\": \n"
     "  [\n"
     "    {\n"
@@ -696,7 +708,7 @@ static void insert_scenario_relationships_to_non_scenario(void)
                                                            );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_existing_diagram */
-        TEST_ASSERT_EQUAL_INT( 55, read_pos );
+        TEST_ASSERT_EQUAL_INT( 58, read_pos );
         data_stat_destroy(&stat);
     }
     {
@@ -719,7 +731,7 @@ static void insert_scenario_relationships_to_non_scenario(void)
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ) );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count( &stat ) );
-        TEST_ASSERT_EQUAL_INT( 23, read_pos );
+        TEST_ASSERT_EQUAL_INT( 26, read_pos );
 
         data_stat_destroy(&stat);
     }
