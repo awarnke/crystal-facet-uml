@@ -80,7 +80,7 @@ data_error_t json_token_reader_expect_begin_object ( json_token_reader_t *this_ 
  *          DATA_ERROR_PARSER_STRUCTURE if there is no member-name token,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t json_token_reader_get_member_name ( json_token_reader_t *this_, utf8stringbuf_t out_name );
+data_error_t json_token_reader_read_member_name ( json_token_reader_t *this_, utf8stringbuf_t out_name );
 
 /*!
  *  \brief checks if the next token is an "end-object" json token.
@@ -164,7 +164,7 @@ data_error_t json_token_reader_get_value_type ( json_token_reader_t *this_, json
  *          DATA_ERROR_PARSER_STRUCTURE if there is no string-value-token,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t json_token_reader_get_string_value ( json_token_reader_t *this_, utf8stringbuf_t out_value );
+data_error_t json_token_reader_read_string_value ( json_token_reader_t *this_, utf8stringbuf_t out_value );
 
 /*!
  *  \brief determines the next value of type integer (subtype of number)
@@ -177,7 +177,7 @@ data_error_t json_token_reader_get_string_value ( json_token_reader_t *this_, ut
  *          DATA_ERROR_PARSER_STRUCTURE if there is no integer-value-token,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t json_token_reader_get_int_value ( json_token_reader_t *this_, int64_t *out_int );
+data_error_t json_token_reader_read_int_value ( json_token_reader_t *this_, int64_t *out_int );
 
 /*!
  *  \brief determines the next value of type number
@@ -188,7 +188,7 @@ data_error_t json_token_reader_get_int_value ( json_token_reader_t *this_, int64
  *          DATA_ERROR_PARSER_STRUCTURE if there is no number-value-token,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t json_token_reader_get_number_value ( json_token_reader_t *this_, double *out_number );
+data_error_t json_token_reader_read_number_value ( json_token_reader_t *this_, double *out_number );
 
 /*!
  *  \brief determines the next value of type boolean
@@ -199,7 +199,7 @@ data_error_t json_token_reader_get_number_value ( json_token_reader_t *this_, do
  *          DATA_ERROR_PARSER_STRUCTURE if there is no boolean-value-token,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t json_token_reader_get_boolean_value ( json_token_reader_t *this_, bool *out_bool );
+data_error_t json_token_reader_read_boolean_value ( json_token_reader_t *this_, bool *out_bool );
 
 /*!
  *  \brief checks that the next token is a "null" json token

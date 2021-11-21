@@ -228,7 +228,7 @@ static void test_parse_string(void)
         universal_memory_input_stream_reinit( &test_input, &(test_str[index]), sizeof(test_str[index]) );
         json_token_reader_reinit( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
 
-        test_err = json_token_reader_get_string_value( &tok, parsed_str );
+        test_err = json_token_reader_read_string_value( &tok, parsed_str );
         TEST_ASSERT_EQUAL_INT( (index>=4)?DATA_ERROR_LEXICAL_STRUCTURE:DATA_ERROR_NONE, test_err );
         TEST_ASSERT_EQUAL_INT( 1, utf8stringbuf_equals_str( parsed_str, expect_str[index] ) );
     }
@@ -263,7 +263,7 @@ static void test_parse_integer(void)
         universal_memory_input_stream_reinit( &test_input, &(test_str[index]), sizeof(test_str[index]) );
         json_token_reader_reinit( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
 
-        test_err = json_token_reader_get_int_value( &tok, &int_result );
+        test_err = json_token_reader_read_int_value( &tok, &int_result );
         TEST_ASSERT_EQUAL_INT( (err_results[index]!=0)?DATA_ERROR_LEXICAL_STRUCTURE:DATA_ERROR_NONE, test_err );
         TEST_ASSERT_EQUAL_INT( int_results[index], int_result );
         printf("parsed: %" PRId64 "\n",int_result);
@@ -343,7 +343,7 @@ static void test_parse(void)
     TEST_ASSERT_EQUAL_INT( 5, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( false, cond );
 
-    res = json_token_reader_get_member_name ( &tok, my_string );
+    res = json_token_reader_read_member_name ( &tok, my_string );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
     TEST_ASSERT_EQUAL_INT( 11, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "data", utf8stringbuf_get_string(my_string)) );
@@ -370,7 +370,7 @@ static void test_parse(void)
     TEST_ASSERT_EQUAL_INT( 27, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( false, cond );
 
-    res = json_token_reader_get_member_name ( &tok, my_string );
+    res = json_token_reader_read_member_name ( &tok, my_string );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
     TEST_ASSERT_EQUAL_INT( 39, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "classifier", utf8stringbuf_get_string(my_string)) );
@@ -385,7 +385,7 @@ static void test_parse(void)
 
     /* skip test for end object here */
 
-    res = json_token_reader_get_member_name ( &tok, my_string );
+    res = json_token_reader_read_member_name ( &tok, my_string );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
     TEST_ASSERT_EQUAL_INT( 56, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "id", utf8stringbuf_get_string(my_string)) );
@@ -394,7 +394,7 @@ static void test_parse(void)
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
     TEST_ASSERT_EQUAL_INT( 61, json_token_reader_get_input_pos( &tok ) );
 
-    res = json_token_reader_get_int_value ( &tok, &my_int );
+    res = json_token_reader_read_int_value ( &tok, &my_int );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
     TEST_ASSERT_EQUAL_INT( 64, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( -99, my_int );
@@ -405,7 +405,7 @@ static void test_parse(void)
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
     TEST_ASSERT_EQUAL_INT( 65, json_token_reader_get_input_pos( &tok ) );
 
-    res = json_token_reader_get_member_name ( &tok, my_string );
+    res = json_token_reader_read_member_name ( &tok, my_string );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
     TEST_ASSERT_EQUAL_INT( 85, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "main_type", utf8stringbuf_get_string(my_string)) );
@@ -414,13 +414,13 @@ static void test_parse(void)
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
     TEST_ASSERT_EQUAL_INT( 91, json_token_reader_get_input_pos( &tok ) );
 
-    res = json_token_reader_get_number_value ( &tok, &my_double );
+    res = json_token_reader_read_number_value ( &tok, &my_double );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NOT_YET_IMPLEMENTED, res );
     TEST_ASSERT_EQUAL_INT( 99, json_token_reader_get_input_pos( &tok ) );
 
     /* skip test for end object here */
 
-    res = json_token_reader_get_member_name ( &tok, my_string );
+    res = json_token_reader_read_member_name ( &tok, my_string );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
     TEST_ASSERT_EQUAL_INT( 129, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "stereotype\r/\"\\", utf8stringbuf_get_string(my_string)) );
@@ -429,7 +429,7 @@ static void test_parse(void)
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
     TEST_ASSERT_EQUAL_INT( 130, json_token_reader_get_input_pos( &tok ) );
 
-    res = json_token_reader_get_string_value ( &tok, my_string );
+    res = json_token_reader_read_string_value ( &tok, my_string );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
     TEST_ASSERT_EQUAL_INT( 149, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "\f\n\t\b\r/\"\\", utf8stringbuf_get_string(my_string)) );
@@ -460,7 +460,7 @@ static void test_parse(void)
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
     TEST_ASSERT_EQUAL_INT( 174, json_token_reader_get_input_pos( &tok ) );
 
-    res = json_token_reader_get_boolean_value ( &tok, &my_bool );
+    res = json_token_reader_read_boolean_value ( &tok, &my_bool );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
     TEST_ASSERT_EQUAL_INT( 183, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( true, my_bool );
@@ -471,7 +471,7 @@ static void test_parse(void)
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
     TEST_ASSERT_EQUAL_INT( 184, json_token_reader_get_input_pos( &tok ) );
 
-    res = json_token_reader_get_boolean_value ( &tok, &my_bool );
+    res = json_token_reader_read_boolean_value ( &tok, &my_bool );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
     TEST_ASSERT_EQUAL_INT( 194, json_token_reader_get_input_pos( &tok ) );
     TEST_ASSERT_EQUAL_INT( false, my_bool );

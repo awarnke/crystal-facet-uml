@@ -80,6 +80,7 @@ static inline data_error_t json_token_reader_private_read_string ( json_token_re
         }
         else
         {
+            assert( ouf_buf_len < sizeof(out_buffer) );
             out_buffer[ouf_buf_len] = universal_buffer_input_stream_read_next( &((*this_).in_stream) );
             ouf_buf_len ++;
         }
@@ -92,8 +93,9 @@ static inline data_error_t json_token_reader_private_read_string ( json_token_re
             esc_incomplete = false;
             if ( ouf_buf_len >= (sizeof(out_buffer)-sizeof(char)) )
             {
+                /* only if not in the middle of an escape character, write to out_stream */
                 const int err
-                    = universal_output_stream_write( out_stream, &out_buffer, ouf_buf_len);
+                    = universal_output_stream_write( out_stream, &out_buffer, ouf_buf_len );
                 ouf_buf_len = 0;
                 if ( err != 0 )
                 {
@@ -105,7 +107,7 @@ static inline data_error_t json_token_reader_private_read_string ( json_token_re
     }
     {
         const int err2
-            = universal_output_stream_write( out_stream, &out_buffer, ouf_buf_len);
+            = universal_output_stream_write( out_stream, &out_buffer, ouf_buf_len );
         ouf_buf_len = 0;
         if ( err2 != 0 )
         {

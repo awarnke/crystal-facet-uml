@@ -48,7 +48,7 @@ data_error_t json_deserializer_expect_begin_data ( json_deserializer_t *this_ )
 
     if ( DATA_ERROR_NONE == result )
     {
-        result = json_token_reader_get_member_name ( &((*this_).tokenizer), member_name );
+        result = json_token_reader_read_member_name ( &((*this_).tokenizer), member_name );
         if ( ! utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DATA ) )
         {
             TSLOG_ERROR_INT( "unexpected object contents at line",
@@ -134,7 +134,7 @@ data_error_t json_deserializer_expect_begin_type_of_element ( json_deserializer_
             }
             if ( DATA_ERROR_NONE == result )
             {
-                result = json_token_reader_get_member_name ( &((*this_).tokenizer), member_name );
+                result = json_token_reader_read_member_name ( &((*this_).tokenizer), member_name );
             }
             if ( DATA_ERROR_NONE == result )
             {
@@ -233,7 +233,7 @@ data_error_t json_deserializer_get_next_classifier ( json_deserializer_t *this_,
                     }
                     if ( DATA_ERROR_NONE == result )
                     {
-                        result = json_token_reader_get_member_name ( &((*this_).tokenizer), member_name );
+                        result = json_token_reader_read_member_name ( &((*this_).tokenizer), member_name );
                     }
                     if ( DATA_ERROR_NONE == result )
                     {
@@ -244,50 +244,50 @@ data_error_t json_deserializer_get_next_classifier ( json_deserializer_t *this_,
                         if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_ID ) )
                         {
                             int64_t parsed_integer;
-                            result = json_token_reader_get_int_value ( &((*this_).tokenizer), &parsed_integer );
+                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                             data_classifier_set_row_id ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE ) )
                         {
                             int64_t parsed_integer;
-                            result = json_token_reader_get_int_value ( &((*this_).tokenizer), &parsed_integer );
+                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                             data_classifier_set_main_type ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_X_ORDER ) )
                         {
                             int64_t parsed_integer;
-                            result = json_token_reader_get_int_value ( &((*this_).tokenizer), &parsed_integer );
+                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                             data_classifier_set_x_order ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_Y_ORDER ) )
                         {
                             int64_t parsed_integer;
-                            result = json_token_reader_get_int_value ( &((*this_).tokenizer), &parsed_integer );
+                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                             data_classifier_set_y_order ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_LIST_ORDER ) )
                         {
                             int64_t parsed_integer;
-                            result = json_token_reader_get_int_value ( &((*this_).tokenizer), &parsed_integer );
+                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                             data_classifier_set_list_order ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_STEREOTYPE ) )
                         {
-                            result = json_token_reader_get_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                             data_classifier_set_stereotype( out_object,
                                                             utf8stringbuf_get_string( (*this_).temp_string )
                                                           );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_NAME ) )
                         {
-                            result = json_token_reader_get_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                             data_classifier_set_name( out_object,
                                                       utf8stringbuf_get_string( (*this_).temp_string )
                                                     );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_DESCRIPTION ) )
                         {
-                            result = json_token_reader_get_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                             data_classifier_set_description( out_object,
                                                              utf8stringbuf_get_string( (*this_).temp_string )
                                                            );
@@ -374,7 +374,7 @@ data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, da
                     }
                     if ( DATA_ERROR_NONE == result )
                     {
-                        result = json_token_reader_get_member_name ( &((*this_).tokenizer), member_name );
+                        result = json_token_reader_read_member_name ( &((*this_).tokenizer), member_name );
                     }
                     if ( DATA_ERROR_NONE == result )
                     {
@@ -385,37 +385,37 @@ data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, da
                         if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_ID ) )
                         {
                             int64_t parsed_integer;
-                            result = json_token_reader_get_int_value ( &((*this_).tokenizer), &parsed_integer );
+                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                             data_diagram_set_row_id ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_PARENT_ID ) )
                         {
                             int64_t ignored_integer;
-                            result = json_token_reader_get_int_value ( &((*this_).tokenizer), &ignored_integer );
+                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &ignored_integer );
                             (void) ignored_integer;
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE ) )
                         {
                             int64_t parsed_integer;
-                            result = json_token_reader_get_int_value ( &((*this_).tokenizer), &parsed_integer );
+                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                             data_diagram_set_diagram_type ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_LIST_ORDER ) )
                         {
                             int64_t parsed_integer;
-                            result = json_token_reader_get_int_value ( &((*this_).tokenizer), &parsed_integer );
+                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                             data_diagram_set_list_order ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_DESCRIPTION ) )
                         {
-                            result = json_token_reader_get_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                             data_diagram_set_description( out_object,
                                                           utf8stringbuf_get_string( (*this_).temp_string )
                                                         );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_NAME ) )
                         {
-                            result = json_token_reader_get_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                             data_diagram_set_name( out_object,
                                                    utf8stringbuf_get_string( (*this_).temp_string )
                                                  );
@@ -423,7 +423,7 @@ data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, da
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS ) )
                         {
                             int64_t parsed_integer;
-                            result = json_token_reader_get_int_value ( &((*this_).tokenizer), &parsed_integer );
+                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                             data_diagram_set_display_flags ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
@@ -514,7 +514,7 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
                     }
                     if ( DATA_ERROR_NONE == result )
                     {
-                        result = json_token_reader_get_member_name ( &((*this_).tokenizer), member_name );
+                        result = json_token_reader_read_member_name ( &((*this_).tokenizer), member_name );
                     }
                     if ( DATA_ERROR_NONE == result )
                     {
@@ -525,31 +525,31 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
                         if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_ID ) )
                         {
                             int64_t parsed_integer;
-                            result = json_token_reader_get_int_value ( &((*this_).tokenizer), &parsed_integer );
+                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                             data_relationship_set_row_id ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE ) )
                         {
                             int64_t parsed_integer;
-                            result = json_token_reader_get_int_value ( &((*this_).tokenizer), &parsed_integer );
+                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                             data_relationship_set_main_type ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_LIST_ORDER ) )
                         {
                             int64_t parsed_integer;
-                            result = json_token_reader_get_int_value ( &((*this_).tokenizer), &parsed_integer );
+                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                             data_relationship_set_list_order ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_DESCRIPTION ) )
                         {
-                            result = json_token_reader_get_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                             data_relationship_set_description( out_object,
                                                                utf8stringbuf_get_string( (*this_).temp_string )
                                                              );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_NAME ) )
                         {
-                            result = json_token_reader_get_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                             data_relationship_set_name( out_object,
                                                         utf8stringbuf_get_string( (*this_).temp_string )
                                                       );
@@ -557,45 +557,45 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_ID ) )
                         {
                             int64_t parsed_integer;
-                            result = json_token_reader_get_int_value( &((*this_).tokenizer), &parsed_integer );
+                            result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
                             data_relationship_set_from_classifier_row_id ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_NAME ) )
                         {
-                            result = json_token_reader_get_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                             utf8stringbuf_copy_buf( out_from_classifier_name, (*this_).temp_string );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_ID ) )
                         {
                             int64_t parsed_integer;
-                            result = json_token_reader_get_int_value( &((*this_).tokenizer), &parsed_integer );
+                            result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
                             data_relationship_set_from_feature_row_id ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_KEY ) )
                         {
-                            result = json_token_reader_get_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                             utf8stringbuf_copy_buf( out_from_feature_key, (*this_).temp_string );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_ID ) )
                         {
                             int64_t parsed_integer;
-                            result = json_token_reader_get_int_value( &((*this_).tokenizer), &parsed_integer );
+                            result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
                             data_relationship_set_to_classifier_row_id ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_NAME ) )
                         {
-                            result = json_token_reader_get_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                             utf8stringbuf_copy_buf( out_to_classifier_name, (*this_).temp_string );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_ID ) )
                         {
                             int64_t parsed_integer;
-                            result = json_token_reader_get_int_value( &((*this_).tokenizer), &parsed_integer );
+                            result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
                             data_relationship_set_to_feature_row_id ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_KEY ) )
                         {
-                            result = json_token_reader_get_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                             utf8stringbuf_copy_buf( out_to_feature_key, (*this_).temp_string );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
@@ -673,7 +673,7 @@ data_error_t json_deserializer_skip_next_object ( json_deserializer_t *this_ )
                     }
                     if ( DATA_ERROR_NONE == result )
                     {
-                        result = json_token_reader_get_member_name ( &((*this_).tokenizer), member_name );
+                        result = json_token_reader_read_member_name ( &((*this_).tokenizer), member_name );
                     }
                     if ( DATA_ERROR_NONE == result )
                     {
@@ -703,14 +703,14 @@ data_error_t json_deserializer_skip_next_object ( json_deserializer_t *this_ )
                             case JSON_VALUE_TYPE_NUMBER:
                             {
                                 double parsed_number;
-                                result = json_token_reader_get_number_value ( &((*this_).tokenizer), &parsed_number );
+                                result = json_token_reader_read_number_value ( &((*this_).tokenizer), &parsed_number );
                             }
                             break;
 
                             case JSON_VALUE_TYPE_INTEGER:
                             {
                                 int64_t parsed_integer;
-                                result = json_token_reader_get_int_value ( &((*this_).tokenizer), &parsed_integer );
+                                result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                             }
                             break;
 
@@ -723,7 +723,7 @@ data_error_t json_deserializer_skip_next_object ( json_deserializer_t *this_ )
                             case JSON_VALUE_TYPE_BOOLEAN:
                             {
                                 bool parsed_bool;
-                                result = json_token_reader_get_boolean_value ( &((*this_).tokenizer), &parsed_bool );
+                                result = json_token_reader_read_boolean_value ( &((*this_).tokenizer), &parsed_bool );
                             }
                             break;
 
@@ -772,7 +772,7 @@ data_error_t json_deserializer_skip_next_string ( json_deserializer_t *this_ )
     char dummy_str[4];
     utf8stringbuf_t dummy_strbuf = UTF8STRINGBUF ( dummy_str );
 
-    result = json_token_reader_get_string_value ( &((*this_).tokenizer), dummy_strbuf );
+    result = json_token_reader_read_string_value ( &((*this_).tokenizer), dummy_strbuf );
     if ( result == DATA_ERROR_STRING_BUFFER_EXCEEDED )
     {
         /* ignore this. The result string is not needed therefore dummy_str may be too small */
@@ -897,7 +897,7 @@ data_error_t json_deserializer_private_get_next_feature ( json_deserializer_t *t
                     }
                     if ( DATA_ERROR_NONE == result )
                     {
-                        result = json_token_reader_get_member_name ( &((*this_).tokenizer), member_name );
+                        result = json_token_reader_read_member_name ( &((*this_).tokenizer), member_name );
                     }
                     if ( DATA_ERROR_NONE == result )
                     {
@@ -908,38 +908,38 @@ data_error_t json_deserializer_private_get_next_feature ( json_deserializer_t *t
                         if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_FEATURE_ID ) )
                         {
                             int64_t parsed_integer;
-                            result = json_token_reader_get_int_value ( &((*this_).tokenizer), &parsed_integer );
+                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                             data_feature_set_row_id ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE ) )
                         {
                             int64_t parsed_integer;
-                            result = json_token_reader_get_int_value ( &((*this_).tokenizer), &parsed_integer );
+                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                             data_feature_set_main_type ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_FEATURE_LIST_ORDER ) )
                         {
                             int64_t parsed_integer;
-                            result = json_token_reader_get_int_value ( &((*this_).tokenizer), &parsed_integer );
+                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                             data_feature_set_list_order ( out_object, parsed_integer );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_FEATURE_DESCRIPTION ) )
                         {
-                            result = json_token_reader_get_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                             data_feature_set_description( out_object,
                                                           utf8stringbuf_get_string( (*this_).temp_string )
                                                         );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_FEATURE_KEY ) )
                         {
-                            result = json_token_reader_get_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                             data_feature_set_key( out_object,
                                                   utf8stringbuf_get_string( (*this_).temp_string )
                                                 );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_FEATURE_VALUE ) )
                         {
-                            result = json_token_reader_get_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                             data_feature_set_value( out_object,
                                                     utf8stringbuf_get_string( (*this_).temp_string )
                                                   );

@@ -47,8 +47,9 @@ data_error_t io_importer_import_file( io_importer_t *this_,
 
     universal_utf8_writer_write_str( out_english_report, "importing not yet implemented.\n" );
 
-    int id_mapper;
+    /*int id_mapper;*/
 
+    /* open file */
     universal_file_input_stream_t in_file;
     universal_file_input_stream_init( &in_file );
     const int err1 = universal_file_input_stream_open( &in_file, import_file_path );
@@ -68,6 +69,10 @@ data_error_t io_importer_import_file( io_importer_t *this_,
                                                                    io_stat,
                                                                    out_english_report
                                                                  );
+        if ( err3 != 0 )
+        {
+            parse_error = DATA_ERROR_AT_FILE_READ;
+        }
 
         /* import */
         TRACE_INFO("importing file...");
@@ -89,7 +94,7 @@ data_error_t io_importer_import_file( io_importer_t *this_,
             /*     import relationship */
         }
 
-
+        /* close */
         const int err7 = universal_file_input_stream_close( &in_file );
         if ( err7 != 0 )
         {
