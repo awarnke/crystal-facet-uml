@@ -116,7 +116,7 @@ static data_row_id_t create_root_diag()
 
 static const char *const test_json_own_diagram =
     "{\n"
-    "  \"header\":\n"
+    "  \"head\":\n"
     "  {\n"
     "  },\n"
     "  \"data\": \n"
@@ -188,7 +188,7 @@ static const char *const test_json_own_diagram =
 
 static const char *const test_json_no_diag =
     "{\n"
-    "  \"header\":\n"
+    "  \"head\":\n"
     "  {\n"
     "  },\n"
     "  \"data\": \n"
@@ -256,7 +256,7 @@ static void insert_invalid_json(void)
     data_stat_t stat;
     data_stat_init(&stat);
     uint32_t read_line;
-    static const char *json_text_p = "{\"header\":{},\"data\":[{\n\"unknown-type\"\n:{}}]}";
+    static const char *json_text_p = "{\"head\":{},\"data\":[{\n\"unknown-type\"\n:{}}]}";
     data_err = json_import_to_database_import_buf_to_db( &importer,
                                                          json_text_p,
                                                          root_diag_id,
@@ -269,7 +269,7 @@ static void insert_invalid_json(void)
     /* error happens at char 24 according to the log */
     /* but this happens in json_deserializer_get_type_of_next_element which does not advance the read pos */
 
-    static const char *json_text_l = "{\"header\":{},\"data\":[{\"diagram\":\nnullnul\n}]}";
+    static const char *json_text_l = "{\"head\":{},\"data\":[{\"diagram\":\nnullnul\n}]}";
     data_err = json_import_to_database_import_buf_to_db( &importer,
                                                          json_text_l,
                                                          root_diag_id,
@@ -320,7 +320,7 @@ static void insert_empty_set(void)
     data_stat_t stat;
     data_stat_init(&stat);
     uint32_t read_line;
-    static const char *json_text = "{\"header\":{},\"data\":[]}\n";
+    static const char *json_text = "{\"head\":{},\"data\":[]}\n";
     data_err = json_import_to_database_import_buf_to_db( &importer,
                                                          json_text,
                                                          root_diag_id,
@@ -566,7 +566,7 @@ static void insert_unconditional_relationships(void)
 
 static const char *const test_scenario_relationship =
     "{\n"
-    "  \"header\":\n"
+    "  \"head\":\n"
     "  {\n"
     "  },\n"
     "  \"data\": \n"
@@ -663,7 +663,7 @@ static void insert_scenario_relationships_to_scenario(void)
 
 static const char *const test_json_scenario_self_relation =
     "{\n"
-    "  \"header\":\n"
+    "  \"head\":\n"
     "  {\n"
     "  },\n"
     "  \"data\": \n"

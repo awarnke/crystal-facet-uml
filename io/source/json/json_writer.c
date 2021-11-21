@@ -20,6 +20,10 @@ static const char * const JSON_WRITER_PRIVATE_ENCODE_JSON_STRINGS[][2] = {
     { NULL, NULL }  /* for JSON, see rfc7159 */
 };
 
+const char JSON_CONSTANTS_INDENT_QUOTE[(2*JSON_WRITER_MAX_INDENT)+sizeof(JSON_CONSTANTS_QUOTE)]
+    = JSON_CONSTANTS_TAB JSON_CONSTANTS_TAB JSON_CONSTANTS_TAB JSON_CONSTANTS_TAB
+      JSON_CONSTANTS_TAB JSON_CONSTANTS_TAB JSON_CONSTANTS_TAB JSON_CONSTANTS_QUOTE;
+
 void json_writer_init ( json_writer_t *this_,
                        universal_output_stream_t *output )
 {
