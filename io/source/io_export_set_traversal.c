@@ -1,6 +1,6 @@
-/* File: json_export_from_database.c; Copyright and License: see below */
+/* File: io_export_set_traversal.c; Copyright and License: see below */
 
-#include "json/json_export_from_database.h"
+#include "io_export_set_traversal.h"
 #include "json/json_serializer.h"
 #include "json/json_deserializer.h"
 #include "util/string/utf8string.h"
@@ -10,8 +10,8 @@
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
-void json_export_from_database_init ( json_export_from_database_t *this_,
-                                      data_database_reader_t *db_reader )
+void io_export_set_traversal_init ( io_export_set_traversal_t *this_,
+                                    data_database_reader_t *db_reader )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
@@ -21,7 +21,7 @@ void json_export_from_database_init ( json_export_from_database_t *this_,
     TRACE_END();
 }
 
-void json_export_from_database_destroy ( json_export_from_database_t *this_ )
+void io_export_set_traversal_destroy ( io_export_set_traversal_t *this_ )
 {
     TRACE_BEGIN();
 
@@ -30,10 +30,10 @@ void json_export_from_database_destroy ( json_export_from_database_t *this_ )
     TRACE_END();
 }
 
-int json_export_from_database_export_set_to_buf( json_export_from_database_t *this_,
-                                                 const data_small_set_t *set_to_be_copied,
-                                                 data_stat_t *io_stat,
-                                                 utf8stringbuf_t out_buf )
+int io_export_set_traversal_export_set_to_buf( io_export_set_traversal_t *this_,
+                                               const data_small_set_t *set_to_be_copied,
+                                               data_stat_t *io_stat,
+                                               utf8stringbuf_t out_buf )
 {
     TRACE_BEGIN();
     assert( NULL != set_to_be_copied );

@@ -1,7 +1,7 @@
-/* File: json_export_from_database.h; Copyright and License: see below */
+/* File: io_export_set_traversal.h; Copyright and License: see below */
 
-#ifndef JSON_EXPORT_FROM_DATABASE_H
-#define JSON_EXPORT_FROM_DATABASE_H
+#ifndef IO_EXPORT_SET_TRAVERSAL_H
+#define IO_EXPORT_SET_TRAVERSAL_H
 
 /* public file for the doxygen documentation: */
 /*! \file
@@ -14,39 +14,39 @@
 #include "util/string/utf8stringbuf.h"
 
 /*!
- *  \brief constants for maximum values of json_export_from_database_t
+ *  \brief constants for maximum values of io_export_set_traversal_t
  */
-enum json_export_from_database_max_enum {
+enum io_export_set_traversal_max_enum {
     JSON_EXPORT_FROM_DATABASE_MAX_FEATURES = 64,  /*!< maximum number of features per classifier */
 };
 
 /*!
  *  \brief attributes of the json export object
  */
-struct json_export_from_database_struct {
+struct io_export_set_traversal_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external data_database_reader */
 
     data_feature_t temp_features[JSON_EXPORT_FROM_DATABASE_MAX_FEATURES];  /*!< temporary memory for feature list */
 };
 
-typedef struct json_export_from_database_struct json_export_from_database_t;
+typedef struct io_export_set_traversal_struct io_export_set_traversal_t;
 
 /*!
- *  \brief initializes the json_export_from_database_t struct
+ *  \brief initializes the io_export_set_traversal_t struct
  *
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader
  */
-void json_export_from_database_init ( json_export_from_database_t *this_,
-                                      data_database_reader_t *db_reader
-                                    );
+void io_export_set_traversal_init ( io_export_set_traversal_t *this_,
+                                    data_database_reader_t *db_reader
+                                  );
 
 /*!
- *  \brief destroys the json_export_from_database_t struct
+ *  \brief destroys the io_export_set_traversal_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-void json_export_from_database_destroy ( json_export_from_database_t *this_ );
+void io_export_set_traversal_destroy ( io_export_set_traversal_t *this_ );
 
 /*!
  *  \brief copies a set of objects to a string buffer, can be forwarded e.g. to the clipboard
@@ -61,13 +61,13 @@ void json_export_from_database_destroy ( json_export_from_database_t *this_ );
  *  \param out_buf string buffer to which to write the json formatted data to
  *  \return 0 in case of success, -1 if output buffer exceeded
  */
-int json_export_from_database_export_set_to_buf( json_export_from_database_t *this_,
-                                                 const data_small_set_t *set_to_be_copied,
-                                                 data_stat_t *io_stat,
-                                                 utf8stringbuf_t out_buf
-                                               );
+int io_export_set_traversal_export_set_to_buf( io_export_set_traversal_t *this_,
+                                               const data_small_set_t *set_to_be_copied,
+                                               data_stat_t *io_stat,
+                                               utf8stringbuf_t out_buf
+                                             );
 
-#endif  /* JSON_EXPORT_FROM_DATABASE_H */
+#endif  /* IO_EXPORT_SET_TRAVERSAL_H */
 
 
 /*

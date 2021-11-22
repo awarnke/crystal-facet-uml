@@ -30,7 +30,7 @@ void gui_clipboard_init ( gui_clipboard_t *this_,
                                                        (*this_).private_clipboard_buffer
                                                      );
 
-    json_export_from_database_init ( &((*this_).exporter), db_reader );
+    io_export_set_traversal_init ( &((*this_).exporter), db_reader );
     json_import_to_database_init ( &((*this_).importer), db_reader, controller );
 
     TRACE_END();
@@ -40,7 +40,7 @@ void gui_clipboard_destroy ( gui_clipboard_t *this_ )
 {
     TRACE_BEGIN();
 
-    json_export_from_database_destroy ( &((*this_).exporter) );
+    io_export_set_traversal_destroy ( &((*this_).exporter) );
     json_import_to_database_destroy ( &((*this_).importer) );
 
     (*this_).the_clipboard = NULL;
@@ -56,11 +56,11 @@ int gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_, const data_smal
     assert( NULL != io_stat );
     int serialize_error;
 
-    serialize_error = json_export_from_database_export_set_to_buf( &((*this_).exporter),
-                                                                   set_to_be_copied,
-                                                                   io_stat,
-                                                                   (*this_).clipboard_stringbuf
-                                                                 );
+    serialize_error = io_export_set_traversal_export_set_to_buf( &((*this_).exporter),
+                                                                 set_to_be_copied,
+                                                                 io_stat,
+                                                                 (*this_).clipboard_stringbuf
+                                                               );
 
     if ( serialize_error == 0 )
     {

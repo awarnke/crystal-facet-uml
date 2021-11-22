@@ -1,7 +1,6 @@
 /* File: io_exporter.c; Copyright and License: see below */
 
 #include "io_exporter.h"
-#include "json/json_export_from_database.h"
 #include "xhtml/xhtml_stylesheet_writer.h"
 #include "stream/universal_file_output_stream.h"
 #include "stream/universal_output_stream.h"

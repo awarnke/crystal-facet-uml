@@ -10,7 +10,7 @@
 
 #include "gui_marked_set.h"
 #include "gui_simple_message_to_user.h"
-#include "json/json_export_from_database.h"
+#include "io_export_set_traversal.h"
 #include "json/json_import_to_database.h"
 #include "ctrl_controller.h"
 #include "data_rules.h"
@@ -23,7 +23,7 @@
 struct gui_clipboard_struct {
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
 
-    json_export_from_database_t exporter;  /*!< own instance of a json exporter */
+    io_export_set_traversal_t exporter;  /*!< own instance of a json exporter */
     json_import_to_database_t importer;  /*!< own instance of a json importer */
 
     data_row_id_t destination_diagram_id;  /*!< id of the diagram to which the deserialized objects shal  be added */
