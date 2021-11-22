@@ -110,7 +110,7 @@ int json_element_writer_start_main( json_element_writer_t *this_, const char *do
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
-        write_error |= json_serializer_begin_data( &((*this_).serializer) );
+        write_error |= json_serializer_begin_section( &((*this_).serializer), JSON_CONSTANTS_KEY_DATA );
     }
 
     TRACE_END_ERR(write_error);
@@ -433,7 +433,7 @@ int json_element_writer_end_main( json_element_writer_t *this_ )
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
-        write_error |= json_serializer_end_data( &((*this_).serializer) );
+        write_error |= json_serializer_end_section( &((*this_).serializer) );
     }
 
     TRACE_END_ERR(write_error);

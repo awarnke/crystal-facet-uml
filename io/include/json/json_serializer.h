@@ -64,20 +64,21 @@ int json_serializer_write_header ( json_serializer_t *this_ );
 int json_serializer_write_footer ( json_serializer_t *this_ );
 
 /*!
- *  \brief begins a json object containing an array of objects
+ *  \brief begins an array of objects as named json member
  *
  *  \param this_ pointer to own object attributes
+ *  \param section_name json encoded name of the section to start
  *  \return 0 in case of success, -1 if output buffer exceeded
  */
-int json_serializer_begin_data ( json_serializer_t *this_ );
+int json_serializer_begin_section ( json_serializer_t *this_, const char* section_name );
 
 /*!
- *  \brief ends a json object containing an array of objects
+ *  \brief ends an array of objects
  *
  *  \param this_ pointer to own object attributes
  *  \return 0 in case of success, -1 if output buffer exceeded
  */
-int json_serializer_end_data ( json_serializer_t *this_ );
+int json_serializer_end_section ( json_serializer_t *this_ );
 
 /*!
  *  \brief appends a classifier to the output

@@ -51,7 +51,7 @@ int json_export_from_database_export_set_to_buf( json_export_from_database_t *th
     json_serializer_init( &serializer, universal_memory_output_stream_get_output_stream(&out_to_memory) );
 
     serialize_error |= json_serializer_write_header( &serializer );
-    serialize_error |= json_serializer_begin_data( &serializer );
+    serialize_error |= json_serializer_begin_section( &serializer, JSON_CONSTANTS_KEY_DATA );
 
     /* first pass: serialize the diagram(s) if there is one/some */
     for ( int index = 0; index < data_small_set_get_count( set_to_be_copied ); index ++ )
@@ -381,7 +381,7 @@ int json_export_from_database_export_set_to_buf( json_export_from_database_t *th
         }
     }
 
-    serialize_error |= json_serializer_end_data( &serializer );
+    serialize_error |= json_serializer_end_section( &serializer );
     serialize_error |= json_serializer_write_footer( &serializer );
 
     json_serializer_destroy( &serializer );

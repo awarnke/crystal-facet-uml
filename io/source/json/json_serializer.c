@@ -51,15 +51,15 @@ int json_serializer_write_header ( json_serializer_t *this_ )
 
     out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "encoding", "utf-8", true );
     out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "format", "rfc-8259", true );
-    out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "version", 1, true );
+    out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "version", 0, true );
+    out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "warning", "This format is subject to change.", true );
     out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "generator-name", META_INFO_PROGRAM_ID_STR, true );
-    out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "generator-version", META_VERSION_STR, true );
-    out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "warning", "This format is subject to change.", false );
+    out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "generator-version", META_VERSION_STR, false );
 
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_END_OBJECT
-                                        JSON_CONSTANTS_NEXT_NL
+                                        JSON_CONSTANTS_NL
                                       );
 
 
@@ -92,7 +92,7 @@ int json_serializer_write_footer ( json_serializer_t *this_ )
     return out_err;
 }
 
-int json_serializer_begin_data ( json_serializer_t *this_ )
+int json_serializer_begin_section ( json_serializer_t *this_, const char* section_name )
 {
     TRACE_BEGIN();
     assert( (*this_).in_outer_array == false );
@@ -101,8 +101,12 @@ int json_serializer_begin_data ( json_serializer_t *this_ )
 
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_TAB
+                                        JSON_CONSTANTS_NEXT_NL
+                                        JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_KEY_DATA
+                                      );
+    out_err |= json_writer_write_plain( &((*this_).json_writer), section_name );
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_DEF
                                         JSON_CONSTANTS_NL
@@ -122,7 +126,7 @@ int json_serializer_begin_data ( json_serializer_t *this_ )
     return out_err;
 }
 
-int json_serializer_end_data ( json_serializer_t *this_ )
+int json_serializer_end_section ( json_serializer_t *this_ )
 {
     TRACE_BEGIN();
     assert( (*this_).in_outer_array == true );
@@ -839,19 +843,12 @@ int json_serializer_append_diagram ( json_serializer_t *this_, const data_diagra
                                            );
 
     /* display_flags */
-    out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                        JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_TAB
-                                        JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS
-                                        JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_DEF );
-    out_err |= json_writer_write_int( &((*this_).json_writer),
-                                      data_diagram_get_display_flags( object ));
-    out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                        JSON_CONSTANTS_NEXT_NL );
+    out_err |= json_writer_write_member_int( &((*this_).json_writer),
+                                             4,
+                                             JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS,
+                                             data_diagram_get_display_flags( object ),
+                                             true
+                                           );
 
     /* uuid */
     out_err |= json_writer_write_member_string( &((*this_).json_writer),
