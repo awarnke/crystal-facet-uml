@@ -81,7 +81,7 @@ int json_serializer_write_footer ( json_serializer_t *this_ )
 
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_END_OBJECT_NL
-                                       );
+                                      );
 
     if ( out_err != 0 )
     {

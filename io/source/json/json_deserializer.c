@@ -84,7 +84,9 @@ data_error_t json_deserializer_expect_begin_data ( json_deserializer_t *this_ )
     if ( DATA_ERROR_NONE == result )
     {
         result = json_token_reader_read_member_name ( &((*this_).tokenizer), member_name );
-        if ( ! utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DATA ) )
+        if (( ! utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_VIEWS ) )
+            && ( ! utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_NODES ) )
+            && ( ! utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_EDGES ) ))
         {
             TSLOG_ERROR_INT( "unexpected object contents at line",
                              json_token_reader_get_input_line( &((*this_).tokenizer) )

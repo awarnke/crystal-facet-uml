@@ -52,6 +52,8 @@ void io_export_model_traversal_destroy( io_export_model_traversal_t *this_ )
     universal_array_list_destroy ( &((*this_).written_id_set) );
 
     (*this_).db_reader = NULL;
+    (*this_).export_stat = NULL;
+    (*this_).element_writer = NULL;
 
     TRACE_END();
 }

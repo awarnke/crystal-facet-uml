@@ -48,6 +48,9 @@ void io_export_interaction_traversal_destroy( io_export_interaction_traversal_t 
     data_rules_destroy ( &((*this_).filter_rules) );
     (*this_).input_data = NULL;
     (*this_).db_reader = NULL;
+    (*this_).written_id_set = NULL;
+    (*this_).export_stat = NULL;
+    (*this_).element_writer = NULL;
 
     TRACE_END();
 }

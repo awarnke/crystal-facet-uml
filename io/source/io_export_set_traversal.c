@@ -11,12 +11,18 @@
 #include <stdbool.h>
 
 void io_export_set_traversal_init ( io_export_set_traversal_t *this_,
-                                    data_database_reader_t *db_reader )
+                                    data_database_reader_t *db_reader,
+                                    data_stat_t *io_export_stat,
+                                    io_element_writer_t *out_element_writer )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
+    assert( NULL != io_export_stat );
+    assert( NULL != out_element_writer );
 
     (*this_).db_reader = db_reader;
+    (*this_).export_stat = io_export_stat;
+    (*this_).element_writer = out_element_writer;
 
     TRACE_END();
 }
@@ -26,46 +32,31 @@ void io_export_set_traversal_destroy ( io_export_set_traversal_t *this_ )
     TRACE_BEGIN();
 
     (*this_).db_reader = NULL;
+    (*this_).export_stat = NULL;
+    (*this_).element_writer = NULL;
 
     TRACE_END();
 }
 
 int io_export_set_traversal_export_set_to_buf( io_export_set_traversal_t *this_,
-                                               const data_small_set_t *set_to_be_copied,
-                                               data_stat_t *io_stat,
-                                               utf8stringbuf_t out_buf )
+                                               const data_small_set_t *set_to_be_exported )
 {
     TRACE_BEGIN();
-    assert( NULL != set_to_be_copied );
-    assert( NULL != io_stat );
+    assert( NULL != set_to_be_exported );
 
     int serialize_error = 0;
     data_error_t read_error;
-    json_serializer_t serializer;
 
-    universal_memory_output_stream_t out_to_memory;
-    universal_memory_output_stream_init( &out_to_memory,
-                                         utf8stringbuf_get_string( out_buf ),
-                                         utf8stringbuf_get_size( out_buf )
-                                       );
-    json_serializer_init( &serializer, universal_memory_output_stream_get_output_stream(&out_to_memory) );
-
-    serialize_error |= json_serializer_write_header( &serializer );
-    serialize_error |= json_serializer_begin_section( &serializer, JSON_CONSTANTS_KEY_DATA );
+    const char *const document_title = "";
+    serialize_error |= io_element_writer_start_main( (*this_).element_writer, document_title );
 
     /* first pass: serialize the diagram(s) if there is one/some */
-    for ( int index = 0; index < data_small_set_get_count( set_to_be_copied ); index ++ )
+    for ( int index = 0; index < data_small_set_get_count( set_to_be_exported ); index ++ )
     {
         data_id_t current_id;
-        current_id = data_small_set_get_id( set_to_be_copied, index );
+        current_id = data_small_set_get_id( set_to_be_exported, index );
         switch ( data_id_get_table( &current_id ) )
         {
-            case DATA_TABLE_CLASSIFIER:
-            break;
-
-            case DATA_TABLE_DIAGRAMELEMENT:
-            break;
-
             case DATA_TABLE_DIAGRAM:
             {
                 data_diagram_t out_diagram;
@@ -76,96 +67,28 @@ int io_export_set_traversal_export_set_to_buf( io_export_set_traversal_t *this_,
 
                 if ( read_error == DATA_ERROR_NONE )
                 {
-                    serialize_error |= json_serializer_append_diagram( &serializer, &out_diagram );
-                    data_stat_inc_count ( io_stat,
+                    /* write diagram */
+                    const char *const diagram_file_base_name = "";
+                    serialize_error |= io_element_writer_start_diagram( (*this_).element_writer, &out_diagram );
+                    serialize_error |= io_element_writer_assemble_diagram( (*this_).element_writer,
+                                                                           &out_diagram,
+                                                                           diagram_file_base_name
+                                                                         );
+                    serialize_error |= io_element_writer_end_diagram( (*this_).element_writer, &out_diagram );
+
+                    /*
+                     * good-case statistics are counted by (*this_).element_writer
+                    data_stat_inc_count ( (*this_).export_stat,
                                           DATA_TABLE_DIAGRAM,
                                           (0==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                         );
+                    */
                 }
                 else
                 {
                     /* program internal error */
                     TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
-                    data_stat_inc_count ( io_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR );
-                }
-            }
-            break;
-
-            case DATA_TABLE_FEATURE:
-            break;
-
-            case DATA_TABLE_RELATIONSHIP:
-            break;
-
-            default:
-            break;
-        }
-    }
-
-    /* second pass: serialize all classifiers, diagram elements and features */
-    for ( int index = 0; index < data_small_set_get_count( set_to_be_copied ); index ++ )
-    {
-        data_id_t current_id;
-        current_id = data_small_set_get_id( set_to_be_copied, index );
-        switch ( data_id_get_table( &current_id ) )
-        {
-            case DATA_TABLE_CLASSIFIER:
-            {
-                data_classifier_t out_classifier;
-                read_error = data_database_reader_get_classifier_by_id( (*this_).db_reader,
-                                                                        data_id_get_row_id( &current_id ),
-                                                                        &out_classifier
-                                                                      );
-
-                if ( read_error == DATA_ERROR_NONE )
-                {
-                    uint32_t feature_count;
-                    read_error = data_database_reader_get_features_by_classifier_id( (*this_).db_reader,
-                                                                                     data_id_get_row_id( &current_id ),
-                                                                                     JSON_EXPORT_FROM_DATABASE_MAX_FEATURES,
-                                                                                     &((*this_).temp_features),
-                                                                                     &feature_count
-                                                                                   );
-
-                    if ( read_error == DATA_ERROR_NONE )
-                    {
-                        serialize_error |= json_serializer_begin_classifier( &serializer,
-                                                                             &out_classifier
-                                                                           );
-
-                        for ( uint32_t index = 0; index < feature_count; index ++ )
-                        {
-                            serialize_error |= json_serializer_append_feature( &serializer,
-                                                                               &(((*this_).temp_features)[index])
-                                                                             );
-                        }
-
-                        serialize_error |= json_serializer_end_classifier( &serializer,
-                                                                           &out_classifier
-                                                                         );
-
-                        data_stat_inc_count( io_stat,
-                                             DATA_TABLE_CLASSIFIER,
-                                             (0==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
-                                           );
-                        data_stat_add_count( io_stat,
-                                             DATA_TABLE_FEATURE,
-                                             (0==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR,
-                                             feature_count
-                                           );
-                    }
-                    else
-                    {
-                        /* program internal error */
-                        TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all features of the classifier of the set." );
-                        data_stat_inc_count ( io_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
-                    }
-                }
-                else
-                {
-                    /* program internal error */
-                    TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
-                    data_stat_inc_count ( io_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
+                    data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR );
                 }
             }
             break;
@@ -175,6 +98,8 @@ int io_export_set_traversal_export_set_to_buf( io_export_set_traversal_t *this_,
                 data_classifier_t out_classifier;
                 data_diagramelement_t out_diagramelement;
                 data_row_id_t classifier_id;
+                data_diagram_t out_diagram;
+                data_row_id_t diagele_id;
 
                 read_error = data_database_reader_get_diagramelement_by_id( (*this_).db_reader,
                                                                             data_id_get_row_id( &current_id ),
@@ -190,69 +115,180 @@ int io_export_set_traversal_export_set_to_buf( io_export_set_traversal_t *this_,
                                                                             &out_classifier
                                                                           );
 
+                    diagele_id = data_diagramelement_get_diagram_row_id( &out_diagramelement );
+
+                    read_error |= data_database_reader_get_diagram_by_id ( (*this_).db_reader,
+                                                                           diagele_id,
+                                                                           &out_diagram
+                                                                         );
+
+                    uint32_t feature_count;
+                    read_error = data_database_reader_get_features_by_classifier_id( (*this_).db_reader,
+                                                                                     classifier_id,
+                                                                                     IO_EXPORT_SET_TRAVERSAL_MAX_FEATURES,
+                                                                                     &((*this_).temp_features),
+                                                                                     &feature_count
+                                                                                   );
+
                     if ( read_error == DATA_ERROR_NONE )
                     {
-                        uint32_t feature_count;
-                        read_error = data_database_reader_get_features_by_classifier_id( (*this_).db_reader,
-                                                                                         classifier_id,
-                                                                                         JSON_EXPORT_FROM_DATABASE_MAX_FEATURES,
-                                                                                         &((*this_).temp_features),
-                                                                                         &feature_count
-                                                                                       );
+                        /* write diagramelement */
+                        serialize_error |= io_element_writer_start_diagramelement( (*this_).element_writer,
+                                                                                   &out_diagram,
+                                                                                   &out_diagramelement,
+                                                                                   &out_classifier
+                                                                                 );
 
-                        if ( read_error == DATA_ERROR_NONE )
-                        {
-                            serialize_error |= json_serializer_begin_classifier( &serializer,
+                        serialize_error |= io_element_writer_assemble_diagramelement( (*this_).element_writer,
+                                                                                      &out_diagram,
+                                                                                      &out_diagramelement,
+                                                                                      &out_classifier
+                                                                                    );
+
+                        serialize_error |= io_element_writer_end_diagramelement( (*this_).element_writer,
+                                                                                 &out_diagram,
+                                                                                 &out_diagramelement,
                                                                                  &out_classifier
                                                                                );
 
-                            for ( uint32_t index = 0; index < feature_count; index ++ )
-                            {
-                                serialize_error |= json_serializer_append_feature( &serializer,
-                                                                                   &(((*this_).temp_features)[index])
-                                                                                 );
-                            }
-
-                            serialize_error |= json_serializer_end_classifier( &serializer,
+                        /* write classifier */
+                        serialize_error |= io_element_writer_start_classifier( (*this_).element_writer,
+                                                                               DATA_CLASSIFIER_TYPE_VOID,  /* host_type */
                                                                                &out_classifier
                                                                              );
+                        serialize_error |= io_element_writer_assemble_classifier( (*this_).element_writer,
+                                                                                  DATA_CLASSIFIER_TYPE_VOID,  /* host_type */
+                                                                                  &out_classifier
+                                                                                );
 
-                            data_stat_inc_count( io_stat,
-                                                 DATA_TABLE_CLASSIFIER,
-                                                 (0==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
-                                               );
-                            data_stat_add_count( io_stat,
-                                                 DATA_TABLE_FEATURE,
-                                                 (0==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR,
-                                                 feature_count
-                                               );
-                        }
-                        else
+                        /* write classifier-features */
+                        for ( uint32_t index = 0; index < feature_count; index ++ )
                         {
-                            /* program internal error */
-                            TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all features of the classifier of the set." );
-                            data_stat_inc_count ( io_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
+                            const data_classifier_type_t parent_type = data_classifier_get_main_type( &out_classifier );
+                            const data_feature_t *const feature_ptr = &(((*this_).temp_features)[index]);
+                            serialize_error |= io_element_writer_start_feature( (*this_).element_writer,
+                                                                                parent_type,
+                                                                                feature_ptr
+                                                                              );
+
+                            serialize_error |= io_element_writer_assemble_feature( (*this_).element_writer,
+                                                                                   parent_type,
+                                                                                   feature_ptr
+                                                                                 );
+
+                            serialize_error |= io_element_writer_end_feature( (*this_).element_writer,
+                                                                              parent_type,
+                                                                              feature_ptr
+                                                                            );
                         }
+
+                        serialize_error |= io_element_writer_end_classifier( (*this_).element_writer,
+                                                                             DATA_CLASSIFIER_TYPE_VOID,  /* host_type */
+                                                                             &out_classifier
+                                                                           );
+
+                        /*
+                         * good-case statistics are counted by (*this_).element_writer
+                        data_stat_inc_count( (*this_).export_stat,
+                                             DATA_TABLE_CLASSIFIER,
+                                             (0==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                           );
+                        data_stat_add_count( (*this_).export_stat,
+                                             DATA_TABLE_FEATURE,
+                                             (0==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR,
+                                             feature_count
+                                           );
+                        */
                     }
                     else
                     {
                         /* program internal error */
                         TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
-                        data_stat_inc_count ( io_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
+                        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
                     }
                 }
                 else
                 {
                     /* program internal error */
                     TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
-                    data_stat_inc_count ( io_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
+                    data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
                 }
             }
             break;
 
-            case DATA_TABLE_DIAGRAM:
+            case DATA_TABLE_CLASSIFIER:
             {
-                /* diagrams are serialized in first pass */
+                data_classifier_t out_classifier;
+                read_error = data_database_reader_get_classifier_by_id( (*this_).db_reader,
+                                                                        data_id_get_row_id( &current_id ),
+                                                                        &out_classifier
+                                                                      );
+
+                uint32_t feature_count;
+                read_error = data_database_reader_get_features_by_classifier_id( (*this_).db_reader,
+                                                                                 data_id_get_row_id( &current_id ),
+                                                                                 IO_EXPORT_SET_TRAVERSAL_MAX_FEATURES,
+                                                                                 &((*this_).temp_features),
+                                                                                 &feature_count
+                                                                               );
+
+                if ( read_error == DATA_ERROR_NONE )
+                {
+                    /* write classifier */
+                    serialize_error |= io_element_writer_start_classifier( (*this_).element_writer,
+                                                                           DATA_CLASSIFIER_TYPE_VOID,  /* host_type */
+                                                                           &out_classifier
+                                                                         );
+                    serialize_error |= io_element_writer_assemble_classifier( (*this_).element_writer,
+                                                                              DATA_CLASSIFIER_TYPE_VOID,  /* host_type */
+                                                                              &out_classifier
+                                                                            );
+
+                    /* write classifier-features */
+                    for ( uint32_t index = 0; index < feature_count; index ++ )
+                    {
+                        const data_classifier_type_t parent_type = data_classifier_get_main_type( &out_classifier );
+                        const data_feature_t *const feature_ptr = &(((*this_).temp_features)[index]);
+                        serialize_error |= io_element_writer_start_feature( (*this_).element_writer,
+                                                                            parent_type,
+                                                                            feature_ptr
+                                                                          );
+
+                        serialize_error |= io_element_writer_assemble_feature( (*this_).element_writer,
+                                                                               parent_type,
+                                                                               feature_ptr
+                                                                             );
+
+                        serialize_error |= io_element_writer_end_feature( (*this_).element_writer,
+                                                                          parent_type,
+                                                                          feature_ptr
+                                                                        );
+                    }
+
+                    serialize_error |= io_element_writer_end_classifier( (*this_).element_writer,
+                                                                         DATA_CLASSIFIER_TYPE_VOID,  /* host_type */
+                                                                         &out_classifier
+                                                                       );
+
+                    /*
+                     * good-case statistics are counted by (*this_).element_writer
+                    data_stat_inc_count( (*this_).export_stat,
+                                            DATA_TABLE_CLASSIFIER,
+                                            (0==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                        );
+                    data_stat_add_count( (*this_).export_stat,
+                                            DATA_TABLE_FEATURE,
+                                            (0==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR,
+                                            feature_count
+                                        );
+                    */
+                }
+                else
+                {
+                    /* program internal error */
+                    TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
+                    data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
+                }
             }
             break;
 
@@ -260,41 +296,8 @@ int io_export_set_traversal_export_set_to_buf( io_export_set_traversal_t *this_,
             {
                 /* intentionally not supported */
                 TRACE_INFO( "gui_toolbox_private_copy_set_to_clipboard does not copy single features, only complete classifiers." );
-                data_stat_inc_count ( io_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+                data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
             }
-            break;
-
-            case DATA_TABLE_RELATIONSHIP:
-            {
-                /* relationships are serialized in third pass */
-            }
-            break;
-
-            default:
-            {
-                serialize_error |= -1;
-            }
-            break;
-        }
-    }
-
-    /* third pass: serialize all relationships after the source and destination classifiers */
-    for ( int index = 0; index < data_small_set_get_count( set_to_be_copied ); index ++ )
-    {
-        data_id_t current_id;
-        current_id = data_small_set_get_id( set_to_be_copied, index );
-        switch ( data_id_get_table( &current_id ) )
-        {
-            case DATA_TABLE_CLASSIFIER:
-            break;
-
-            case DATA_TABLE_DIAGRAMELEMENT:
-            break;
-
-            case DATA_TABLE_DIAGRAM:
-            break;
-
-            case DATA_TABLE_FEATURE:
             break;
 
             case DATA_TABLE_RELATIONSHIP:
@@ -309,7 +312,7 @@ int io_export_set_traversal_export_set_to_buf( io_export_set_traversal_t *this_,
                 {
                     data_classifier_t from_classifier;
                     data_classifier_t to_classifier;
-                    assert ( JSON_EXPORT_FROM_DATABASE_MAX_FEATURES >= 2 );
+                    assert ( IO_EXPORT_SET_TRAVERSAL_MAX_FEATURES >= 2 );
 
                     /* get source */
                     read_error |= data_database_reader_get_classifier_by_id ( (*this_).db_reader,
@@ -348,30 +351,44 @@ int io_export_set_traversal_export_set_to_buf( io_export_set_traversal_t *this_,
                     /* serialize */
                     if ( read_error == DATA_ERROR_NONE )
                     {
-                        serialize_error |= json_serializer_append_relationship( &serializer,
-                                                                                &out_relation,
-                                                                                &from_classifier,
-                                                                                &((*this_).temp_features[0]),
-                                                                                &to_classifier,
-                                                                                &((*this_).temp_features[1])
-                                                                              );
-                        data_stat_inc_count ( io_stat,
+                        /* write relationship */
+                        serialize_error |= io_element_writer_start_relationship( (*this_).element_writer,
+                                                                                 DATA_CLASSIFIER_TYPE_VOID,  /* host_type */
+                                                                                 &out_relation
+                                                                               );
+                        serialize_error |= io_element_writer_assemble_relationship( (*this_).element_writer,
+                                                                                    NULL,  /* host */
+                                                                                    &out_relation,
+                                                                                    &from_classifier,
+                                                                                    &((*this_).temp_features[0]),
+                                                                                    &to_classifier,
+                                                                                    &((*this_).temp_features[1])
+                                                                                  );
+                        serialize_error |= io_element_writer_end_relationship( (*this_).element_writer,
+                                                                               DATA_CLASSIFIER_TYPE_VOID,  /* host_type */
+                                                                               &out_relation
+                                                                             );
+
+                        /*
+                         * good-case statistics are counted by (*this_).element_writer
+                        data_stat_inc_count ( (*this_).export_stat,
                                               DATA_TABLE_RELATIONSHIP,
                                               (0==serialize_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                             );
+                        */
                     }
                     else
                     {
                         /* program internal error */
                         TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all features of the classifier of the set." );
-                        data_stat_inc_count ( io_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
+                        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
                     }
                 }
                 else
                 {
                     /* program internal error */
                     TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
-                    data_stat_inc_count ( io_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
+                    data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
                 }
             }
             break;
@@ -381,12 +398,7 @@ int io_export_set_traversal_export_set_to_buf( io_export_set_traversal_t *this_,
         }
     }
 
-    serialize_error |= json_serializer_end_section( &serializer );
-    serialize_error |= json_serializer_write_footer( &serializer );
-
-    json_serializer_destroy( &serializer );
-    serialize_error |= universal_memory_output_stream_write_0term( &out_to_memory );
-    universal_memory_output_stream_destroy( &out_to_memory );
+    serialize_error |= io_element_writer_end_main( (*this_).element_writer );
 
     TRACE_END_ERR(serialize_error);
     return serialize_error;

@@ -46,13 +46,9 @@
 /* content */
 
 #define JSON_CONSTANTS_KEY_HEAD "head"
-#define JSON_CONSTANTS_KEY_DATA "data"
-/*
 #define JSON_CONSTANTS_KEY_NODES "nodes"
 #define JSON_CONSTANTS_KEY_EDGES "edges"
 #define JSON_CONSTANTS_KEY_VIEWS "views"
-#define JSON_CONSTANTS_KEY_META "meta"
-*/
 #define JSON_CONSTANTS_KEY_UUID "uuid"
 
 #define JSON_CONSTANTS_KEY_DIAGRAM "diagram"

@@ -13,9 +13,9 @@
  *  \brief constants for output mode: classifiers+features, relationships, diagrams
  */
 enum json_writer_pass_enum {
-    JSON_WRITER_PASS_NODES = 0,  /*!< mode for classifiers and features output */
-    JSON_WRITER_PASS_EDGES = 1,  /*!< mode for relationships output */
-    JSON_WRITER_PASS_VIEWS = 2,  /*!< mode diagrams and diagramelements output */
+    JSON_WRITER_PASS_VIEWS = 0,  /*!< mode diagrams and diagramelements output */
+    JSON_WRITER_PASS_NODES = 1,  /*!< mode for classifiers and features output */
+    JSON_WRITER_PASS_EDGES = 2,  /*!< mode for relationships output */
 };
 
 typedef enum json_writer_pass_enum json_writer_pass_t;

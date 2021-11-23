@@ -36,6 +36,8 @@ void io_export_diagram_traversal_destroy( io_export_diagram_traversal_t *this_ )
     data_rules_destroy ( &((*this_).filter_rules) );
     (*this_).input_data = NULL;
     (*this_).db_reader = NULL;
+    (*this_).export_stat = NULL;
+    (*this_).element_writer = NULL;
 
     TRACE_END();
 }

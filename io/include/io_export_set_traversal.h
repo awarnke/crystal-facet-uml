@@ -8,6 +8,7 @@
  *  \brief Serializes a set of objects to the clipboard
  */
 
+#include "io_element_writer.h"
 #include "data_feature.h"
 #include "storage/data_database_reader.h"
 #include "set/data_stat.h"
@@ -17,16 +18,18 @@
  *  \brief constants for maximum values of io_export_set_traversal_t
  */
 enum io_export_set_traversal_max_enum {
-    JSON_EXPORT_FROM_DATABASE_MAX_FEATURES = 64,  /*!< maximum number of features per classifier */
+    IO_EXPORT_SET_TRAVERSAL_MAX_FEATURES = 64,  /*!< maximum number of features per classifier */
 };
 
 /*!
- *  \brief attributes of the json export object
+ *  \brief attributes of the export traversal object
  */
 struct io_export_set_traversal_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external data_database_reader */
+    data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
+    io_element_writer_t *element_writer;  /*!< pointer to external io_element_writer_t which is the output sink */
 
-    data_feature_t temp_features[JSON_EXPORT_FROM_DATABASE_MAX_FEATURES];  /*!< temporary memory for feature list */
+    data_feature_t temp_features[IO_EXPORT_SET_TRAVERSAL_MAX_FEATURES];  /*!< temporary memory for feature list */
 };
 
 typedef struct io_export_set_traversal_struct io_export_set_traversal_t;
@@ -36,9 +39,14 @@ typedef struct io_export_set_traversal_struct io_export_set_traversal_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader
+ *  \param io_export_stat pointer to statistics object where export statistics are collected.
+ *                        Statistics are only added, *io_stat shall be initialized by caller.
+ *  \param out_element_writer pointer to an external io_element_writer_t which is the output sink
  */
 void io_export_set_traversal_init ( io_export_set_traversal_t *this_,
-                                    data_database_reader_t *db_reader
+                                    data_database_reader_t *db_reader,
+                                    data_stat_t *io_export_stat,
+                                    io_element_writer_t *out_element_writer
                                   );
 
 /*!
@@ -52,19 +60,11 @@ void io_export_set_traversal_destroy ( io_export_set_traversal_t *this_ );
  *  \brief copies a set of objects to a string buffer, can be forwarded e.g. to the clipboard
  *
  *  \param this_ pointer to own object attributes
- *  \param set_to_be_copied ids of the objects to be exported
- *  \param io_stat undefined in case of an error in the return value,
- *                 otherwise statistics on DATA_STAT_SERIES_CREATED,
- *                 DATA_STAT_SERIES_IGNORED (e.g. at export of t.b.d.) and
- *                 DATA_STAT_SERIES_ERROR (e.g. if t.b.d.).
- *                 Statistics are only added, *io_stat shall be initialized by caller.
- *  \param out_buf string buffer to which to write the json formatted data to
+ *  \param set_to_be_exported ids of the objects to be exported
  *  \return 0 in case of success, -1 if output buffer exceeded
  */
 int io_export_set_traversal_export_set_to_buf( io_export_set_traversal_t *this_,
-                                               const data_small_set_t *set_to_be_copied,
-                                               data_stat_t *io_stat,
-                                               utf8stringbuf_t out_buf
+                                               const data_small_set_t *set_to_be_exported
                                              );
 
 #endif  /* IO_EXPORT_SET_TRAVERSAL_H */

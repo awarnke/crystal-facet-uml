@@ -93,10 +93,7 @@ int json_element_writer_write_header( json_element_writer_t *this_, const char *
     assert( document_title != NULL );
     int write_error = 0;
 
-    if ( (*this_).mode == JSON_WRITER_PASS_NODES )
-    {
-        write_error |= json_serializer_write_header( &((*this_).serializer) );
-    }
+    write_error |= json_serializer_write_header( &((*this_).serializer) );
 
     TRACE_END_ERR(write_error);
     return write_error;
@@ -108,9 +105,31 @@ int json_element_writer_start_main( json_element_writer_t *this_, const char *do
     assert( document_title != NULL );
     int write_error = 0;
 
-    if ( (*this_).mode == JSON_WRITER_PASS_NODES )
+    switch( (*this_).mode )
     {
-        write_error |= json_serializer_begin_section( &((*this_).serializer), JSON_CONSTANTS_KEY_DATA );
+        case JSON_WRITER_PASS_VIEWS:
+        {
+            write_error |= json_serializer_begin_section( &((*this_).serializer), JSON_CONSTANTS_KEY_VIEWS );
+        }
+        break;
+
+        case JSON_WRITER_PASS_NODES:
+        {
+            write_error |= json_serializer_begin_section( &((*this_).serializer), JSON_CONSTANTS_KEY_NODES );
+        }
+        break;
+
+        case JSON_WRITER_PASS_EDGES:
+        {
+            write_error |= json_serializer_begin_section( &((*this_).serializer), JSON_CONSTANTS_KEY_EDGES );
+        }
+        break;
+
+        default:
+        {
+            assert( false );
+        }
+        break;
     }
 
     TRACE_END_ERR(write_error);
@@ -431,10 +450,7 @@ int json_element_writer_end_main( json_element_writer_t *this_ )
     TRACE_BEGIN();
     int write_error = 0;
 
-    if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
-    {
-        write_error |= json_serializer_end_section( &((*this_).serializer) );
-    }
+    write_error |= json_serializer_end_section( &((*this_).serializer) );
 
     TRACE_END_ERR(write_error);
     return write_error;
@@ -445,10 +461,7 @@ int json_element_writer_write_footer( json_element_writer_t *this_ )
     TRACE_BEGIN();
     int write_error = 0;
 
-    if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
-    {
-        write_error |= json_serializer_write_footer( &((*this_).serializer) );
-    }
+    write_error |= json_serializer_write_footer( &((*this_).serializer) );
 
     TRACE_END_ERR(write_error);
     return write_error;
