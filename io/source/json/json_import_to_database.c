@@ -2,7 +2,6 @@
 
 #include "json/json_import_to_database.h"
 #include "json/json_serializer.h"
-#include "json/json_deserializer.h"
 #include "ctrl_error.h"
 #include "stream/universal_memory_input_stream.h"
 #include "util/string/utf8string.h"
@@ -70,11 +69,11 @@ data_error_t json_import_to_database_import_stream_to_db( json_import_to_databas
     assert( NULL != io_stat );
     assert( NULL != out_read_line );
 
-    json_deserializer_t deserializer;
     data_error_t parse_error = DATA_ERROR_NONE;
+    data_row_id_t attach_diagram_id = diagram_id;
 
+    json_deserializer_t deserializer;
     json_deserializer_init( &deserializer, json_text );
-    data_row_id_t current_diagram_id = diagram_id;
 
     /* check if diagram id exists */
     {
@@ -94,20 +93,243 @@ data_error_t json_import_to_database_import_stream_to_db( json_import_to_databas
 
     if ( DATA_ERROR_NONE == parse_error )
     {
-        parse_error = json_deserializer_expect_begin_data( &deserializer );
+        parse_error = json_import_to_database_private_import_views( this_, &deserializer, &attach_diagram_id, io_stat );
+    }
+
+    if ( DATA_ERROR_NONE == parse_error )
+    {
+        parse_error = json_import_to_database_private_import_nodes( this_, &deserializer, attach_diagram_id, io_stat );
+    }
+
+    if ( DATA_ERROR_NONE == parse_error )
+    {
+        parse_error = json_import_to_database_private_import_edges( this_, &deserializer, attach_diagram_id, io_stat );
+    }
+
+    if ( DATA_ERROR_NONE == parse_error )
+    {
+        parse_error = json_deserializer_expect_footer( &deserializer );
+    }
+
+    json_deserializer_get_read_line ( &deserializer, out_read_line );
+    json_deserializer_destroy( &deserializer );
+
+    TRACE_END_ERR( parse_error );
+    return parse_error;
+}
+
+bool json_import_to_database_private_is_feature_focused_in_diagram( json_import_to_database_t *this_, data_row_id_t diagram_id, data_row_id_t feature_id )
+{
+    TRACE_BEGIN();
+    bool is_focused = false;
+
+    /* read the database */
+    uint32_t diagramelement_count;
+    data_error_t d_err;
+    d_err = data_database_reader_get_diagramelements_by_diagram_id ( (*this_).db_reader,
+                                                                     diagram_id,
+                                                                     JSON_IMPORT_TO_DATABASE_MAX_DIAGELES,
+                                                                     &((*this_).temp_diageles),
+                                                                     &diagramelement_count
+                                                                   );
+    if ( d_err == DATA_ERROR_NONE )
+    {
+        for ( uint_fast32_t idx = 0; idx < diagramelement_count; idx ++ )
+        {
+            data_diagramelement_t *current_diagele = &((*this_).temp_diageles[idx]);
+            if ( feature_id == data_diagramelement_get_focused_feature_row_id( current_diagele ) )
+            {
+                is_focused = true;
+            }
+        }
+    }
+    else
+    {
+        TSLOG_ERROR_HEX( "data_database_reader_get_diagramelements_by_diagram_id failed.", d_err );
+    }
+
+    TRACE_END();
+    return is_focused;
+}
+
+data_error_t json_import_to_database_prescan( json_import_to_database_t *this_,
+                                              universal_input_stream_t *in_stream,
+                                              data_stat_t *io_stat,
+                                              universal_utf8_writer_t *out_english_report )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    char buf[1024];
+    int err = 0;
+    int count = 0;
+    while( err == 0 )
+    {
+        size_t length;
+        err = universal_input_stream_read( in_stream, &buf, sizeof(buf), &length );
+        count ++;
+    }
+    universal_utf8_writer_write_str( out_english_report, "\nread size: " );
+    universal_utf8_writer_write_int( out_english_report, count );
+    universal_utf8_writer_write_str( out_english_report, " kB\n" );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t json_import_to_database_private_import_views( json_import_to_database_t *this_,
+                                                           json_deserializer_t *deserializer,
+                                                           data_row_id_t *io_diagram_id,
+                                                           data_stat_t *io_stat )
+{
+    TRACE_BEGIN();
+    assert( NULL != deserializer );
+    assert( NULL != io_stat );
+    assert( NULL != io_diagram_id );
+
+    data_error_t parse_error = DATA_ERROR_NONE;
+
+    if ( DATA_ERROR_NONE == parse_error )
+    {
+        parse_error = json_deserializer_expect_begin_data( deserializer );
     }
 
     if ( DATA_ERROR_NONE == parse_error )
     {
         data_table_t next_object_type;
         bool set_end = false;  /* end of data set reached or error at parsing */
-        parse_error = json_deserializer_check_end_data( &deserializer, &set_end );
+        parse_error = json_deserializer_check_end_data( deserializer, &set_end );
         bool any_error = ( parse_error != DATA_ERROR_NONE );  /* consolidation of parser errors and writer errors */
         bool is_first = true;  /* is this the first object in the database that is created? if false, database changes are appended to the last undo_redo_set */
         static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* do not import more things than can be undone */
         for ( int count = 0; ( ! set_end ) && ( ! any_error ) && ( count < MAX_LOOP_COUNTER ); count ++ )
         {
-            parse_error = json_deserializer_expect_begin_type_of_element( &deserializer, &next_object_type );
+            parse_error = json_deserializer_expect_begin_type_of_element( deserializer, &next_object_type );
+            if ( DATA_ERROR_NONE == parse_error )
+            {
+                switch ( next_object_type )
+                {
+                    case DATA_TABLE_VOID:
+                    {
+                        /* we are finished */
+                        set_end = true;
+                    }
+                    break;
+
+                    case DATA_TABLE_DIAGRAM:
+                    {
+                        data_diagram_t new_diagram;
+                        parse_error = json_deserializer_get_next_diagram ( deserializer, &new_diagram );
+                        if ( DATA_ERROR_NONE != parse_error )
+                        {
+                            /* parser error, break loop: */
+                            any_error = true;
+                        }
+                        else
+                        {
+                            /* create the parsed diagram as child below the current diagram */
+                            ctrl_diagram_controller_t *diag_ctrl;
+                            diag_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
+
+                            ctrl_error_t write_error3;
+                            data_row_id_t new_diag_id;
+                            data_diagram_set_parent_row_id( &new_diagram, *io_diagram_id );
+                            write_error3 = ctrl_diagram_controller_create_diagram ( diag_ctrl,
+                                                                                    &new_diagram,
+                                                                                    ( is_first
+                                                                                    ? CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
+                                                                                    : CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND ),
+                                                                                    &new_diag_id
+                                                                                  );
+                            data_stat_inc_count ( io_stat,
+                                                  DATA_TABLE_DIAGRAM,
+                                                  (CTRL_ERROR_NONE==write_error3)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                                );
+                            if ( CTRL_ERROR_NONE != write_error3 )
+                            {
+                                TSLOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagram" );
+                                any_error = true;
+                            }
+                            else
+                            {
+                                /* insert all consecutive elements to this new diagram */
+                                *io_diagram_id = new_diag_id;
+                            }
+                            is_first = false;
+                        }
+                    }
+                    break;
+
+                    case DATA_TABLE_DIAGRAMELEMENT:
+                    {
+                        parse_error = json_deserializer_skip_next_object( deserializer );
+                        if ( DATA_ERROR_NONE != parse_error )
+                        {
+                            /* parser error, break loop: */
+                            any_error = true;
+                        }
+                    }
+                    break;
+
+                    default:
+                    {
+                        TSLOG_ERROR( "unexpected error" );
+                        any_error = true;
+                    }
+                }
+                if ( DATA_ERROR_NONE == parse_error )
+                {
+                    parse_error = json_deserializer_expect_end_type_of_element( deserializer );
+                    /* parser error, break loop: */
+                    any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
+                }
+            }
+            else
+            {
+                /* parser error, break loop: */
+                any_error = true;
+            }
+
+            if ( DATA_ERROR_NONE == parse_error )
+            {
+                parse_error = json_deserializer_check_end_data( deserializer, &set_end );
+                /* parser error, break loop: */
+                any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
+            }
+        }
+    }
+
+    TRACE_END_ERR( parse_error );
+    return parse_error;
+}
+
+data_error_t json_import_to_database_private_import_nodes( json_import_to_database_t *this_,
+                                                           json_deserializer_t *deserializer,
+                                                           data_row_id_t diagram_id,
+                                                           data_stat_t *io_stat )
+{
+    TRACE_BEGIN();
+    assert( NULL != deserializer );
+    assert( NULL != io_stat );
+
+    data_error_t parse_error = DATA_ERROR_NONE;
+
+    if ( DATA_ERROR_NONE == parse_error )
+    {
+        parse_error = json_deserializer_expect_begin_data( deserializer );
+    }
+
+    if ( DATA_ERROR_NONE == parse_error )
+    {
+        data_table_t next_object_type;
+        bool set_end = false;  /* end of data set reached or error at parsing */
+        parse_error = json_deserializer_check_end_data( deserializer, &set_end );
+        bool any_error = ( parse_error != DATA_ERROR_NONE );  /* consolidation of parser errors and writer errors */
+        bool is_first = true;  /* is this the first object in the database that is created? if false, database changes are appended to the last undo_redo_set */
+        static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* do not import more things than can be undone */
+        for ( int count = 0; ( ! set_end ) && ( ! any_error ) && ( count < MAX_LOOP_COUNTER ); count ++ )
+        {
+            parse_error = json_deserializer_expect_begin_type_of_element( deserializer, &next_object_type );
             if ( DATA_ERROR_NONE == parse_error )
             {
                 switch ( next_object_type )
@@ -123,7 +345,7 @@ data_error_t json_import_to_database_import_stream_to_db( json_import_to_databas
                     {
                         data_classifier_t new_classifier;
                         uint32_t feature_count;
-                        parse_error = json_deserializer_get_next_classifier ( &deserializer,
+                        parse_error = json_deserializer_get_next_classifier ( deserializer,
                                                                               &new_classifier,
                                                                               JSON_IMPORT_TO_DATABASE_MAX_FEATURES,
                                                                               &((*this_).temp_features),
@@ -236,7 +458,7 @@ data_error_t json_import_to_database_import_stream_to_db( json_import_to_databas
                                 data_row_id_t new_element_id;
                                 data_diagramelement_t diag_ele;
                                 data_diagramelement_init_new ( &diag_ele,
-                                                               current_diagram_id,
+                                                               diagram_id,
                                                                the_classifier_id,
                                                                DATA_DIAGRAMELEMENT_FLAG_NONE,
                                                                DATA_ROW_ID_VOID
@@ -263,47 +485,73 @@ data_error_t json_import_to_database_import_stream_to_db( json_import_to_databas
                     }
                     break;
 
-                    case DATA_TABLE_DIAGRAM:
+                    default:
                     {
-                        data_diagram_t new_diagram;
-                        parse_error = json_deserializer_get_next_diagram ( &deserializer, &new_diagram );
-                        if ( DATA_ERROR_NONE != parse_error )
-                        {
-                            /* parser error, break loop: */
-                            any_error = true;
-                        }
-                        else
-                        {
-                            /* create the parsed diagram as child below the current diagram */
-                            ctrl_diagram_controller_t *diag_ctrl;
-                            diag_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
+                        TSLOG_ERROR( "unexpected error" );
+                        any_error = true;
+                    }
+                }
+                if ( DATA_ERROR_NONE == parse_error )
+                {
+                    parse_error = json_deserializer_expect_end_type_of_element( deserializer );
+                    /* parser error, break loop: */
+                    any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
+                }
+            }
+            else
+            {
+                /* parser error, break loop: */
+                any_error = true;
+            }
 
-                            ctrl_error_t write_error3;
-                            data_row_id_t new_diag_id;
-                            data_diagram_set_parent_row_id( &new_diagram, diagram_id );
-                            write_error3 = ctrl_diagram_controller_create_diagram ( diag_ctrl,
-                                                                                    &new_diagram,
-                                                                                    ( is_first
-                                                                                    ? CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
-                                                                                    : CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND ),
-                                                                                    &new_diag_id
-                                                                                  );
-                            data_stat_inc_count ( io_stat,
-                                                  DATA_TABLE_DIAGRAM,
-                                                  (CTRL_ERROR_NONE==write_error3)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
-                                                );
-                            if ( CTRL_ERROR_NONE != write_error3 )
-                            {
-                                TSLOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagram" );
-                                any_error = true;
-                            }
-                            else
-                            {
-                                /* insert all consecutive elements to this new diagram */
-                                current_diagram_id = new_diag_id;
-                            }
-                            is_first = false;
-                        }
+            if ( DATA_ERROR_NONE == parse_error )
+            {
+                parse_error = json_deserializer_check_end_data( deserializer, &set_end );
+                /* parser error, break loop: */
+                any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
+            }
+        }
+    }
+
+    TRACE_END_ERR( parse_error );
+    return parse_error;
+}
+
+data_error_t json_import_to_database_private_import_edges( json_import_to_database_t *this_,
+                                                           json_deserializer_t *deserializer,
+                                                           data_row_id_t diagram_id,
+                                                           data_stat_t *io_stat )
+{
+    TRACE_BEGIN();
+    assert( NULL != deserializer );
+    assert( NULL != io_stat );
+
+    data_error_t parse_error = DATA_ERROR_NONE;
+
+    if ( DATA_ERROR_NONE == parse_error )
+    {
+        parse_error = json_deserializer_expect_begin_data( deserializer );
+    }
+
+    if ( DATA_ERROR_NONE == parse_error )
+    {
+        data_table_t next_object_type;
+        bool set_end = false;  /* end of data set reached or error at parsing */
+        parse_error = json_deserializer_check_end_data( deserializer, &set_end );
+        bool any_error = ( parse_error != DATA_ERROR_NONE );  /* consolidation of parser errors and writer errors */
+        bool is_first = true;  /* is this the first object in the database that is created? if false, database changes are appended to the last undo_redo_set */
+        static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* do not import more things than can be undone */
+        for ( int count = 0; ( ! set_end ) && ( ! any_error ) && ( count < MAX_LOOP_COUNTER ); count ++ )
+        {
+            parse_error = json_deserializer_expect_begin_type_of_element( deserializer, &next_object_type );
+            if ( DATA_ERROR_NONE == parse_error )
+            {
+                switch ( next_object_type )
+                {
+                    case DATA_TABLE_VOID:
+                    {
+                        /* we are finished */
+                        set_end = true;
                     }
                     break;
 
@@ -318,7 +566,7 @@ data_error_t json_import_to_database_import_stream_to_db( json_import_to_databas
                         utf8stringbuf_t rel_to_clas = UTF8STRINGBUF(rel_to_clas_buf);
                         char rel_to_feat_buf[DATA_FEATURE_MAX_KEY_SIZE] = "";
                         utf8stringbuf_t rel_to_feat = UTF8STRINGBUF(rel_to_feat_buf);
-                        parse_error = json_deserializer_get_next_relationship ( &deserializer,
+                        parse_error = json_deserializer_get_next_relationship ( deserializer,
                                                                                 &new_relationship,
                                                                                 rel_from_clas,
                                                                                 rel_from_feat,
@@ -380,7 +628,7 @@ data_error_t json_import_to_database_import_stream_to_db( json_import_to_databas
                                                         /* lifeline is ok if visible in current diagram */
                                                         bool visible;
                                                         visible = json_import_to_database_private_is_feature_focused_in_diagram ( this_,
-                                                                                                                                  current_diagram_id,
+                                                                                                                                  diagram_id,
                                                                                                                                   current_feature_id
                                                                                                                                 );
                                                         if ( visible )
@@ -441,7 +689,7 @@ data_error_t json_import_to_database_import_stream_to_db( json_import_to_databas
                                                         /* lifeline is ok if visible in current diagram */
                                                         bool visible;
                                                         visible = json_import_to_database_private_is_feature_focused_in_diagram ( this_,
-                                                                                                                                  current_diagram_id,
+                                                                                                                                  diagram_id,
                                                                                                                                   current_feature_id
                                                                                                                                 );
                                                         if ( visible )
@@ -559,7 +807,7 @@ data_error_t json_import_to_database_import_stream_to_db( json_import_to_databas
                 }
                 if ( DATA_ERROR_NONE == parse_error )
                 {
-                    parse_error = json_deserializer_expect_end_type_of_element( &deserializer );
+                    parse_error = json_deserializer_expect_end_type_of_element( deserializer );
                     /* parser error, break loop: */
                     any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
                 }
@@ -572,82 +820,15 @@ data_error_t json_import_to_database_import_stream_to_db( json_import_to_databas
 
             if ( DATA_ERROR_NONE == parse_error )
             {
-                parse_error = json_deserializer_check_end_data( &deserializer, &set_end );
+                parse_error = json_deserializer_check_end_data( deserializer, &set_end );
                 /* parser error, break loop: */
                 any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
             }
         }
     }
 
-    if ( DATA_ERROR_NONE == parse_error )
-    {
-        parse_error = json_deserializer_expect_footer( &deserializer );
-    }
-
-    json_deserializer_get_read_line ( &deserializer, out_read_line );
-    json_deserializer_destroy( &deserializer );
-
     TRACE_END_ERR( parse_error );
     return parse_error;
-}
-
-bool json_import_to_database_private_is_feature_focused_in_diagram( json_import_to_database_t *this_, data_row_id_t diagram_id, data_row_id_t feature_id )
-{
-    TRACE_BEGIN();
-    bool is_focused = false;
-
-    /* read the database */
-    uint32_t diagramelement_count;
-    data_error_t d_err;
-    d_err = data_database_reader_get_diagramelements_by_diagram_id ( (*this_).db_reader,
-                                                                     diagram_id,
-                                                                     JSON_IMPORT_TO_DATABASE_MAX_DIAGELES,
-                                                                     &((*this_).temp_diageles),
-                                                                     &diagramelement_count
-                                                                   );
-    if ( d_err == DATA_ERROR_NONE )
-    {
-        for ( uint_fast32_t idx = 0; idx < diagramelement_count; idx ++ )
-        {
-            data_diagramelement_t *current_diagele = &((*this_).temp_diageles[idx]);
-            if ( feature_id == data_diagramelement_get_focused_feature_row_id( current_diagele ) )
-            {
-                is_focused = true;
-            }
-        }
-    }
-    else
-    {
-        TSLOG_ERROR_HEX( "data_database_reader_get_diagramelements_by_diagram_id failed.", d_err );
-    }
-
-    TRACE_END();
-    return is_focused;
-}
-
-data_error_t json_import_to_database_prescan( json_import_to_database_t *this_,
-                                              universal_input_stream_t *in_stream,
-                                              data_stat_t *io_stat,
-                                              universal_utf8_writer_t *out_english_report )
-{
-    TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
-
-    char buf[1024];
-    int err = 0;
-    int count = 0;
-    while( err == 0 )
-    {
-        size_t length;
-        err = universal_input_stream_read( in_stream, &buf, sizeof(buf), &length );
-        count ++;
-    }
-    universal_utf8_writer_write_str( out_english_report, "\nread size: " );
-    universal_utf8_writer_write_int( out_english_report, count );
-    universal_utf8_writer_write_str( out_english_report, " kB\n" );
-
-    TRACE_END_ERR( result );
-    return result;
 }
 
 

@@ -40,6 +40,7 @@ typedef struct io_export_set_traversal_struct io_export_set_traversal_t;
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader
  *  \param io_export_stat pointer to statistics object where export statistics are collected.
+ *                        Errors and warnings during traversal are counted. Success shall be counted by io_element_writer_t.
  *                        Statistics are only added, *io_stat shall be initialized by caller.
  *  \param out_element_writer pointer to an external io_element_writer_t which is the output sink
  */
@@ -59,13 +60,51 @@ void io_export_set_traversal_destroy ( io_export_set_traversal_t *this_ );
 /*!
  *  \brief copies a set of objects to a string buffer, can be forwarded e.g. to the clipboard
  *
+ *  features in the set are ignored. Features of classifiers in the set are exported.
+ *
  *  \param this_ pointer to own object attributes
  *  \param set_to_be_exported ids of the objects to be exported
  *  \return 0 in case of success, -1 if output buffer exceeded
  */
-int io_export_set_traversal_export_set_to_buf( io_export_set_traversal_t *this_,
-                                               const data_small_set_t *set_to_be_exported
-                                             );
+int io_export_set_traversal_export_set( io_export_set_traversal_t *this_,
+                                        const data_small_set_t *set_to_be_exported
+                                      );
+
+/*!
+ *  \brief fetches required data from the db_reader and exports the object(s) via element_writer
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param id id of the object to be exported
+ *  \return 0 in case of success, -1 if output buffer exceeded
+ */
+int io_export_set_traversal_private_export_diagram( io_export_set_traversal_t *this_, data_id_t id );
+
+/*!
+ *  \brief fetches required data from the db_reader and exports the object(s) via element_writer
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param id id of the object to be exported
+ *  \return 0 in case of success, -1 if output buffer exceeded
+ */
+int io_export_set_traversal_private_export_diagramelement( io_export_set_traversal_t *this_, data_id_t id );
+
+/*!
+ *  \brief fetches required data from the db_reader and exports the object(s) via element_writer
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param id id of the object to be exported
+ *  \return 0 in case of success, -1 if output buffer exceeded
+ */
+int io_export_set_traversal_private_export_classifier( io_export_set_traversal_t *this_, data_id_t id );
+
+/*!
+ *  \brief fetches required data from the db_reader and exports the object(s) via element_writer
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param id id of the object to be exported
+ *  \return 0 in case of success, -1 if output buffer exceeded
+ */
+int io_export_set_traversal_private_export_relationship( io_export_set_traversal_t *this_, data_id_t id );
 
 #endif  /* IO_EXPORT_SET_TRAVERSAL_H */
 

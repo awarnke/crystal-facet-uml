@@ -141,6 +141,11 @@ data_error_t json_deserializer_check_end_data ( json_deserializer_t *this_, bool
 
     result = json_token_reader_check_end_array ( &((*this_).tokenizer), out_end );
 
+    if (( DATA_ERROR_NONE == result ) && ( *out_end ))
+    {
+        (*this_).after_first_array_entry = false;
+    }
+
     TRACE_END_ERR( result );
     return result;
 }
@@ -183,14 +188,24 @@ data_error_t json_deserializer_expect_begin_type_of_element ( json_deserializer_
             }
             if ( DATA_ERROR_NONE == result )
             {
-                if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER ) )
-                {
-                    (*out_type) = DATA_TABLE_CLASSIFIER;
-                }
-                else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM ) )
+                if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM ) )
                 {
                     (*out_type) = DATA_TABLE_DIAGRAM;
                 }
+                else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT ) )
+                {
+                    (*out_type) = DATA_TABLE_DIAGRAMELEMENT;
+                }
+                else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER ) )
+                {
+                    (*out_type) = DATA_TABLE_CLASSIFIER;
+                }
+                /*
+                else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_FEATURE ) )
+                {
+                    (*out_type) = DATA_TABLE_FEATURE;
+                }
+                */
                 else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP ) )
                 {
                     (*out_type) = DATA_TABLE_RELATIONSHIP;

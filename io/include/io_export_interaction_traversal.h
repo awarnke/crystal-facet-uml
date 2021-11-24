@@ -47,7 +47,9 @@ typedef struct io_export_interaction_traversal_struct io_export_interaction_trav
  *  \param db_reader pointer to a database reader object
  *  \param input_data pointer to an external buffer for private use as data cache
  *  \param io_written_id_set pointer to external list of already exported element ids
- *  \param io_export_stat pointer to statistics object where export statistics are collected
+ *  \param io_export_stat pointer to statistics object where export statistics are collected.
+ *                        Errors and warnings during traversal are counted. Success shall be counted by io_element_writer_t.
+ *                        Statistics are only added, *io_stat shall be initialized by caller.
  *  \param out_element_writer pointer to an io_element_writer_t which is the output sink
  */
 void io_export_interaction_traversal_init( io_export_interaction_traversal_t *this_,

@@ -16,7 +16,7 @@
 #include "util/string/utf8stringbuf.h"
 
 /*!
- *  \brief attributes of the json export object
+ *  \brief attributes of the io_exporter_light_t object
  */
 struct io_exporter_light_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external data_database_reader */

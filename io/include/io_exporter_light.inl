@@ -26,6 +26,8 @@ static inline int io_exporter_light_export_set_to_buf( io_exporter_light_t *this
     assert( NULL != set_to_be_exported );
     assert( NULL != io_export_stat );
     int exp_err = 0;
+    data_stat_t count_just_once;
+    data_stat_init( &count_just_once );
 
     /* initialize an output stream */
     universal_memory_output_stream_t memout;
@@ -45,7 +47,7 @@ static inline int io_exporter_light_export_set_to_buf( io_exporter_light_t *this
     /* initialize a traversal */
     io_export_set_traversal_init( &((*this_).temp_set_traversal),
                                   (*this_).db_reader,
-                                  io_export_stat,
+                                  &count_just_once,
                                   element_writer
                                 );
 
@@ -53,11 +55,12 @@ static inline int io_exporter_light_export_set_to_buf( io_exporter_light_t *this
     const char *const document_title = "";
     exp_err |= io_element_writer_write_header( element_writer, document_title );
     json_element_writer_set_mode( &json_writer, JSON_WRITER_PASS_VIEWS );
-    exp_err |= io_export_set_traversal_export_set_to_buf( &((*this_).temp_set_traversal), set_to_be_exported );
+    exp_err |= io_export_set_traversal_export_set( &((*this_).temp_set_traversal), set_to_be_exported );
+    data_stat_add( io_export_stat, &count_just_once );  /* after the first pass, report the error statistics */
     json_element_writer_set_mode( &json_writer, JSON_WRITER_PASS_NODES );
-    exp_err |= io_export_set_traversal_export_set_to_buf( &((*this_).temp_set_traversal), set_to_be_exported );
+    exp_err |= io_export_set_traversal_export_set( &((*this_).temp_set_traversal), set_to_be_exported );
     json_element_writer_set_mode( &json_writer, JSON_WRITER_PASS_EDGES );
-    exp_err |= io_export_set_traversal_export_set_to_buf( &((*this_).temp_set_traversal), set_to_be_exported );
+    exp_err |= io_export_set_traversal_export_set( &((*this_).temp_set_traversal), set_to_be_exported );
     exp_err |= io_element_writer_write_footer( element_writer );
 
     /* de-initialize a traversal */
@@ -70,6 +73,7 @@ static inline int io_exporter_light_export_set_to_buf( io_exporter_light_t *this
     exp_err |= universal_memory_output_stream_write_0term( &memout );
     universal_memory_output_stream_destroy( &memout );
 
+    data_stat_destroy( &count_just_once );
     return exp_err;
 }
 

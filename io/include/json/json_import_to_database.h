@@ -8,6 +8,7 @@
  *  \brief Deserializes a set of objects from the clipboard
  */
 
+#include "json/json_deserializer.h"
 #include "ctrl_controller.h"
 #include "data_rules.h"
 #include "set/data_visible_set.h"
@@ -94,7 +95,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
  *                 DATA_STAT_SERIES_IGNORED (e.g. at import of lifelines
  *                 or if classifier and its features already exist) and
  *                 DATA_STAT_SERIES_ERROR (e.g. if a relation has no source
- *                 or no destination)
+ *                 or no destination).
  *                 Statistics are only added, *io_stat shall be initialized by caller.
  *  \param out_read_line read position in the stream, in case of an error, this may help finding the cause
  *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
@@ -133,6 +134,54 @@ data_error_t json_import_to_database_prescan( json_import_to_database_t *this_,
                                               data_stat_t *io_stat,
                                               universal_utf8_writer_t *out_english_report
                                             );
+
+/*!
+ *  \brief imports views to the focused diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param deserializer structured data element stream
+ *  \param io_diagram_id id of the diagram to which to attach the imported data; is modified when creating a diagram
+ *  \param io_stat undefined in case of an error in the return value, otherwise statistics.
+ *                 Statistics are only added, *io_stat shall be initialized by caller.
+ *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
+ */
+data_error_t json_import_to_database_private_import_views( json_import_to_database_t *this_,
+                                                           json_deserializer_t *deserializer,
+                                                           data_row_id_t *io_diagram_id,
+                                                           data_stat_t *io_stat
+                                                         );
+
+/*!
+ *  \brief imports nodes to the focused diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param deserializer structured data element stream
+ *  \param diagram_id id of the diagram to which to attach the imported data
+ *  \param io_stat undefined in case of an error in the return value, otherwise statistics.
+ *                 Statistics are only added, *io_stat shall be initialized by caller.
+ *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
+ */
+data_error_t json_import_to_database_private_import_nodes( json_import_to_database_t *this_,
+                                                           json_deserializer_t *deserializer,
+                                                           data_row_id_t diagram_id,
+                                                           data_stat_t *io_stat
+                                                         );
+
+/*!
+ *  \brief imports edges to the focused diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param deserializer structured data element stream
+ *  \param diagram_id id of the diagram to which to attach the imported data
+ *  \param io_stat undefined in case of an error in the return value, otherwise statistics.
+ *                 Statistics are only added, *io_stat shall be initialized by caller.
+ *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
+ */
+data_error_t json_import_to_database_private_import_edges( json_import_to_database_t *this_,
+                                                           json_deserializer_t *deserializer,
+                                                           data_row_id_t diagram_id,
+                                                           data_stat_t *io_stat
+                                                         );
 
 #endif  /* JSON_IMPORT_TO_DATABASE_H */
 
