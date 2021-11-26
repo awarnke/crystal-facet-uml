@@ -51,7 +51,6 @@ void json_element_writer_init( json_element_writer_t *this_,
     json_serializer_init( &((*this_).serializer), output );
     (*this_).mode = JSON_WRITER_PASS_NODES;
     (*this_).export_stat = io_export_stat;
-    (*this_).output = output;
 
     TRACE_END();
 }
@@ -63,7 +62,6 @@ void json_element_writer_destroy( json_element_writer_t *this_ )
     json_serializer_destroy( &((*this_).serializer) );
     io_element_writer_private_destroy( &((*this_).element_writer) );
     (*this_).export_stat = NULL;
-    (*this_).output = NULL;
 
     TRACE_END();
 }
@@ -91,37 +89,37 @@ int json_element_writer_write_header( json_element_writer_t *this_, const char *
 {
     TRACE_BEGIN();
     assert( document_title != NULL );
-    int write_error = 0;
+    int out_err = 0;
 
-    write_error |= json_serializer_write_header( &((*this_).serializer) );
+    out_err |= json_serializer_write_header( &((*this_).serializer) );
 
-    TRACE_END_ERR(write_error);
-    return write_error;
+    TRACE_END_ERR(out_err);
+    return out_err;
 }
 
 int json_element_writer_start_main( json_element_writer_t *this_, const char *document_title )
 {
     TRACE_BEGIN();
     assert( document_title != NULL );
-    int write_error = 0;
+    int out_err = 0;
 
     switch( (*this_).mode )
     {
         case JSON_WRITER_PASS_VIEWS:
         {
-            write_error |= json_serializer_begin_section( &((*this_).serializer), JSON_CONSTANTS_KEY_VIEWS );
+            out_err |= json_serializer_begin_section( &((*this_).serializer), JSON_CONSTANTS_KEY_VIEWS );
         }
         break;
 
         case JSON_WRITER_PASS_NODES:
         {
-            write_error |= json_serializer_begin_section( &((*this_).serializer), JSON_CONSTANTS_KEY_NODES );
+            out_err |= json_serializer_begin_section( &((*this_).serializer), JSON_CONSTANTS_KEY_NODES );
         }
         break;
 
         case JSON_WRITER_PASS_EDGES:
         {
-            write_error |= json_serializer_begin_section( &((*this_).serializer), JSON_CONSTANTS_KEY_EDGES );
+            out_err |= json_serializer_begin_section( &((*this_).serializer), JSON_CONSTANTS_KEY_EDGES );
         }
         break;
 
@@ -132,8 +130,8 @@ int json_element_writer_start_main( json_element_writer_t *this_, const char *do
         break;
     }
 
-    TRACE_END_ERR(write_error);
-    return write_error;
+    TRACE_END_ERR(out_err);
+    return out_err;
 }
 
 bool json_element_writer_can_classifier_nest_classifier( json_element_writer_t *this_,
@@ -162,14 +160,14 @@ int json_element_writer_start_classifier( json_element_writer_t *this_,
 {
     TRACE_BEGIN();
     assert( classifier_ptr != NULL );
-    int write_error = 0;
+    int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
     }
 
-    TRACE_END_ERR(write_error);
-    return write_error;
+    TRACE_END_ERR(out_err);
+    return out_err;
 }
 
 int json_element_writer_assemble_classifier( json_element_writer_t *this_,
@@ -178,18 +176,18 @@ int json_element_writer_assemble_classifier( json_element_writer_t *this_,
 {
     TRACE_BEGIN();
     assert( classifier_ptr != NULL );
-    int write_error = 0;
+    int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
-        write_error |= json_serializer_begin_classifier( &((*this_).serializer), classifier_ptr );
+        out_err |= json_serializer_begin_classifier( &((*this_).serializer), classifier_ptr );
 
         /* update export statistics */
         data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED );
     }
 
-    TRACE_END_ERR(write_error);
-    return write_error;
+    TRACE_END_ERR(out_err);
+    return out_err;
 }
 
 int json_element_writer_end_classifier( json_element_writer_t *this_,
@@ -198,15 +196,15 @@ int json_element_writer_end_classifier( json_element_writer_t *this_,
 {
     TRACE_BEGIN();
     assert( classifier_ptr != NULL );
-    int write_error = 0;
+    int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
-        write_error |= json_serializer_end_classifier( &((*this_).serializer), classifier_ptr );
+        out_err |= json_serializer_end_classifier( &((*this_).serializer), classifier_ptr );
     }
 
-    TRACE_END_ERR(write_error);
-    return write_error;
+    TRACE_END_ERR(out_err);
+    return out_err;
 }
 
 int json_element_writer_start_feature( json_element_writer_t *this_,
@@ -215,15 +213,15 @@ int json_element_writer_start_feature( json_element_writer_t *this_,
 {
     TRACE_BEGIN();
     assert( feature_ptr != NULL );
-    int write_error = 0;
+    int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
 
     }
 
-    TRACE_END_ERR(write_error);
-    return write_error;
+    TRACE_END_ERR(out_err);
+    return out_err;
 }
 
 int json_element_writer_assemble_feature( json_element_writer_t *this_,
@@ -232,18 +230,18 @@ int json_element_writer_assemble_feature( json_element_writer_t *this_,
 {
     TRACE_BEGIN();
     assert( feature_ptr != NULL );
-    int write_error = 0;
+    int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
-        write_error |= json_serializer_append_feature( &((*this_).serializer), feature_ptr );
+        out_err |= json_serializer_append_feature( &((*this_).serializer), feature_ptr );
 
         /* update export statistics */
         data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
     }
 
-    TRACE_END_ERR(write_error);
-    return write_error;
+    TRACE_END_ERR(out_err);
+    return out_err;
 }
 
 int json_element_writer_end_feature( json_element_writer_t *this_,
@@ -252,15 +250,15 @@ int json_element_writer_end_feature( json_element_writer_t *this_,
 {
     TRACE_BEGIN();
     assert( feature_ptr != NULL );
-    int write_error = 0;
+    int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
 
     }
 
-    TRACE_END_ERR(write_error);
-    return write_error;
+    TRACE_END_ERR(out_err);
+    return out_err;
 }
 
 int json_element_writer_start_relationship( json_element_writer_t *this_,
@@ -269,15 +267,15 @@ int json_element_writer_start_relationship( json_element_writer_t *this_,
 {
     TRACE_BEGIN();
     assert( relation_ptr != NULL );
-    int write_error = 0;
+    int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_EDGES )
     {
 
     }
 
-    TRACE_END_ERR(write_error);
-    return write_error;
+    TRACE_END_ERR(out_err);
+    return out_err;
 }
 
 int json_element_writer_assemble_relationship( json_element_writer_t *this_,
@@ -290,15 +288,13 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
 {
     TRACE_BEGIN();
     assert( relation_ptr != NULL );
-#if 0
     assert( from_c != NULL );
     assert( to_c != NULL );
-#endif
-    int write_error = 0;
+    int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_EDGES )
     {
-        write_error |= json_serializer_append_relationship( &((*this_).serializer),
+        out_err |= json_serializer_append_relationship( &((*this_).serializer),
                                                             relation_ptr,
                                                             from_c,
                                                             from_f,
@@ -310,8 +306,8 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
         data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
     }
 
-    TRACE_END_ERR(write_error);
-    return write_error;
+    TRACE_END_ERR(out_err);
+    return out_err;
 }
 
 int json_element_writer_end_relationship( json_element_writer_t *this_,
@@ -320,30 +316,30 @@ int json_element_writer_end_relationship( json_element_writer_t *this_,
 {
     TRACE_BEGIN();
     assert( relation_ptr != NULL );
-    int write_error = 0;
+    int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_EDGES )
     {
 
     }
 
-    TRACE_END_ERR(write_error);
-    return write_error;
+    TRACE_END_ERR(out_err);
+    return out_err;
 }
 
 int json_element_writer_start_diagram( json_element_writer_t *this_, const data_diagram_t *diag_ptr )
 {
     TRACE_BEGIN();
     assert( diag_ptr != NULL );
-    int write_error = 0;
+    int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
 
     }
 
-    TRACE_END_ERR(write_error);
-    return write_error;
+    TRACE_END_ERR(out_err);
+    return out_err;
 }
 
 int json_element_writer_assemble_diagram( json_element_writer_t *this_,
@@ -353,33 +349,33 @@ int json_element_writer_assemble_diagram( json_element_writer_t *this_,
     TRACE_BEGIN();
     assert( diag_ptr != NULL );
     assert( diagram_file_base_name != NULL );
-    int write_error = 0;
+    int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
-        write_error |= json_serializer_append_diagram( &((*this_).serializer), diag_ptr );
+        out_err |= json_serializer_append_diagram( &((*this_).serializer), diag_ptr );
 
         /* update export statistics */
         data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED );
     }
 
-    TRACE_END_ERR(write_error);
-    return write_error;
+    TRACE_END_ERR(out_err);
+    return out_err;
 }
 
 int json_element_writer_end_diagram( json_element_writer_t *this_, const data_diagram_t *diag_ptr )
 {
     TRACE_BEGIN();
     assert( diag_ptr != NULL );
-    int write_error = 0;
+    int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
 
     }
 
-    TRACE_END_ERR(write_error);
-    return write_error;
+    TRACE_END_ERR(out_err);
+    return out_err;
 }
 
 int json_element_writer_start_diagramelement( json_element_writer_t *this_,
@@ -391,15 +387,15 @@ int json_element_writer_start_diagramelement( json_element_writer_t *this_,
     assert( diagramelement_ptr != NULL );
     assert( parent != NULL );
     assert( occurrence != NULL );
-    int write_error = 0;
+    int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
 
     }
 
-    TRACE_END_ERR(write_error);
-    return write_error;
+    TRACE_END_ERR(out_err);
+    return out_err;
 }
 
 int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
@@ -411,18 +407,18 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
     assert( diagramelement_ptr != NULL );
     assert( parent != NULL );
     assert( occurrence != NULL );
-    int write_error = 0;
+    int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
-        write_error |= json_serializer_append_diagramelement( &((*this_).serializer), diagramelement_ptr );
+        out_err |= json_serializer_append_diagramelement( &((*this_).serializer), diagramelement_ptr );
 
         /* update export statistics */
         data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_EXPORTED );
     }
 
-    TRACE_END_ERR(write_error);
-    return write_error;
+    TRACE_END_ERR(out_err);
+    return out_err;
 }
 
 int json_element_writer_end_diagramelement( json_element_writer_t *this_,
@@ -434,37 +430,37 @@ int json_element_writer_end_diagramelement( json_element_writer_t *this_,
     assert( diagramelement_ptr != NULL );
     assert( parent != NULL );
     assert( occurrence != NULL );
-    int write_error = 0;
+    int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
 
     }
 
-    TRACE_END_ERR(write_error);
-    return write_error;
+    TRACE_END_ERR(out_err);
+    return out_err;
 }
 
 int json_element_writer_end_main( json_element_writer_t *this_ )
 {
     TRACE_BEGIN();
-    int write_error = 0;
+    int out_err = 0;
 
-    write_error |= json_serializer_end_section( &((*this_).serializer) );
+    out_err |= json_serializer_end_section( &((*this_).serializer) );
 
-    TRACE_END_ERR(write_error);
-    return write_error;
+    TRACE_END_ERR(out_err);
+    return out_err;
 }
 
 int json_element_writer_write_footer( json_element_writer_t *this_ )
 {
     TRACE_BEGIN();
-    int write_error = 0;
+    int out_err = 0;
 
-    write_error |= json_serializer_write_footer( &((*this_).serializer) );
+    out_err |= json_serializer_write_footer( &((*this_).serializer) );
 
-    TRACE_END_ERR(write_error);
-    return write_error;
+    TRACE_END_ERR(out_err);
+    return out_err;
 }
 
 

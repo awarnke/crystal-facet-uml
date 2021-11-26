@@ -35,7 +35,6 @@ struct json_element_writer_struct {
 
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
     json_serializer_t serializer;  /*!< serializes elements to a json stream sink */
-    universal_output_stream_t *output;  /*!< json stream sink */
 };
 
 typedef struct json_element_writer_struct json_element_writer_t;
