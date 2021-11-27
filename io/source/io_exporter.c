@@ -404,24 +404,23 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
 
             /* init the model_traversal */
             {
-                io_export_model_traversal_init( &((*this_).temp_model_traversal),
-                                                (*this_).db_reader,
-                                                &((*this_).temp_input_data),
-                                                io_export_stat,
-                                                json_element_writer_get_element_writer( &((*this_).temp_json_writer) )
-                                              );
+                io_export_flat_traversal_init( &((*this_).temp_flat_traversal),
+                                               (*this_).db_reader,
+                                               io_export_stat,
+                                               json_element_writer_get_element_writer( &((*this_).temp_json_writer) )
+                                             );
                 /* write the document */
                 json_element_writer_set_mode( &((*this_).temp_json_writer ), JSON_WRITER_PASS_NODES );
                 export_err |= json_element_writer_start_main( &((*this_).temp_json_writer), document_file_name );
-                export_err |= io_export_model_traversal_walk_model_nodes( &((*this_).temp_model_traversal) );
+                export_err |= io_export_flat_traversal_iterate_classifiers( &((*this_).temp_flat_traversal) );
                 export_err |= json_element_writer_end_main( &((*this_).temp_json_writer) );
 
                 json_element_writer_set_mode( &((*this_).temp_json_writer ), JSON_WRITER_PASS_EDGES );
                 export_err |= json_element_writer_start_main( &((*this_).temp_json_writer), document_file_name );
-                export_err |= io_export_model_traversal_walk_model_nodes( &((*this_).temp_model_traversal) );
+                export_err |= io_export_flat_traversal_iterate_classifiers( &((*this_).temp_flat_traversal) );
                 export_err |= json_element_writer_end_main( &((*this_).temp_json_writer) );
 
-                io_export_model_traversal_destroy( &((*this_).temp_model_traversal) );
+                io_export_flat_traversal_destroy( &((*this_).temp_flat_traversal) );
             }
 
             export_err |= json_element_writer_write_footer( &((*this_).temp_json_writer) );

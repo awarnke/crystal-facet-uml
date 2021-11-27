@@ -679,12 +679,12 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
 {
     TRACE_BEGIN();
     assert( relation_ptr != NULL );
-    assert( from_c != NULL );
-    assert( to_c != NULL );
     int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_EDGES )
     {
+        assert( from_c != NULL );
+        assert( to_c != NULL );
         assert( (*this_).in_outer_array == true );
         assert( (*this_).in_inner_array == false );
 
@@ -994,9 +994,6 @@ int json_element_writer_start_diagram( json_element_writer_t *this_, const data_
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
-        assert( (*this_).in_outer_array == true );
-        assert( (*this_).in_inner_array == false );
-
         /* separate objects if not first */
         if ( (*this_).is_outer_first )
         {
@@ -1010,6 +1007,9 @@ int json_element_writer_start_diagram( json_element_writer_t *this_, const data_
 
             out_err |= json_writer_write_plain( &((*this_).json_writer), JSON_CONSTANTS_NEXT_NL  );
         }
+
+        assert( (*this_).in_outer_array == true );
+        assert( (*this_).in_inner_array == false );
 
         /* begin diagram */
         out_err |= json_writer_write_plain( &((*this_).json_writer),
