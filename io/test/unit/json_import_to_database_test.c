@@ -129,7 +129,17 @@ static const char *const test_json_own_diagram =
     "        \"description\": \"\",\n"
     "        \"list_order\": 65536,\n"
     "        \"display_flags\": 0,\n"
-    "        \"uuid\": \"3318bd97-bfe4-4788-9ae8-0c57640fadae\"\n"
+    "        \"uuid\": \"3318bd97-bfe4-4788-9ae8-0c57640fadae\",\n"
+    "        \"diagramelements\": \n"
+    "        [\n"
+    "          {\n"
+    "            \"id\": 89,\n"
+    "            \"classifier_id\": 15,\n"
+    "            \"focused_feature_id\": \"-1\",\n"
+    "            \"display_flags\": 0,\n"
+    "            \"uuid\": \"7fa23aed-0e92-4f00-9fb4-9b97930d58f2\"\n"
+    "          }\n"
+    "        ]\n"
     "      }\n"
     "    }\n"
     "  ],\n"
@@ -411,7 +421,7 @@ static void insert_new_classifier_to_new_diagram(void)
     /* DATA_TABLE_RELATIONSHIP: destination does not exist */
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ) );
     TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );
-    TEST_ASSERT_EQUAL_INT( 77, read_pos );
+    TEST_ASSERT_EQUAL_INT( 87, read_pos );
 
     data_stat_destroy(&stat);
     json_import_to_database_destroy ( &importer );
@@ -492,7 +502,7 @@ static void insert_existing_classifier_to_new_diagram(void)
                                                            );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
-        TEST_ASSERT_EQUAL_INT( 77, read_pos );
+        TEST_ASSERT_EQUAL_INT( 87, read_pos );
         data_stat_destroy(&stat);
     }
     {
@@ -520,7 +530,7 @@ static void insert_existing_classifier_to_new_diagram(void)
         /* DATA_TABLE_RELATIONSHIP: destination does not exist */
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ) );
         TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );
-        TEST_ASSERT_EQUAL_INT( 77, read_pos );
+        TEST_ASSERT_EQUAL_INT( 87, read_pos );
 
         data_stat_destroy(&stat);
     }
@@ -547,7 +557,7 @@ static void insert_unconditional_relationships(void)
                                                            );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
-        TEST_ASSERT_EQUAL_INT( 77, read_pos );
+        TEST_ASSERT_EQUAL_INT( 87, read_pos );
         data_stat_destroy(&stat);
     }
     {
