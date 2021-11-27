@@ -192,10 +192,12 @@ data_error_t json_deserializer_expect_begin_type_of_element ( json_deserializer_
                 {
                     (*out_type) = DATA_TABLE_DIAGRAM;
                 }
+                /*
                 else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT ) )
                 {
                     (*out_type) = DATA_TABLE_DIAGRAMELEMENT;
                 }
+                */
                 else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER ) )
                 {
                     (*out_type) = DATA_TABLE_CLASSIFIER;
@@ -352,14 +354,14 @@ data_error_t json_deserializer_get_next_classifier ( json_deserializer_t *this_,
                                                              utf8stringbuf_get_string( (*this_).temp_string )
                                                            );
                         }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_FEATURES ) )
-                        {
-                            result = json_deserializer_private_get_next_feature_array ( this_, max_out_array_size, out_feature, out_feature_count );
-                        }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
                         {
                             /* TODO: do something with the uuid */
                             result = json_deserializer_skip_next_string ( this_ );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_FEATURES ) )
+                        {
+                            result = json_deserializer_private_get_next_feature_array ( this_, max_out_array_size, out_feature, out_feature_count );
                         }
                         else
                         {
@@ -488,6 +490,10 @@ data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, da
                         {
                             /* TODO: do something with the uuid */
                             result = json_deserializer_skip_next_string ( this_ );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS ) )
+                        {
+                            result = json_deserializer_private_skip_next_diagramelement_array ( this_ );
                         }
                         else
                         {
@@ -846,9 +852,9 @@ void json_deserializer_get_read_line ( json_deserializer_t *this_, uint32_t *out
 }
 
 data_error_t json_deserializer_private_get_next_feature_array ( json_deserializer_t *this_,
-                                                                     uint32_t max_out_array_size,
-                                                                     data_feature_t (*out_feature)[],
-                                                                     uint32_t *out_feature_count )
+                                                                uint32_t max_out_array_size,
+                                                                data_feature_t (*out_feature)[],
+                                                                uint32_t *out_feature_count )
 {
     TRACE_BEGIN();
     assert ( NULL != out_feature );
@@ -1027,6 +1033,46 @@ data_error_t json_deserializer_private_get_next_feature ( json_deserializer_t *t
     if ( DATA_ERROR_NONE == result )
     {
         data_feature_trace( out_object );
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t json_deserializer_private_skip_next_diagramelement_array ( json_deserializer_t *this_ )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result = json_token_reader_expect_begin_array( &((*this_).tokenizer) );
+
+    bool end_array = false;
+    bool first_element_passed = false;
+    while (( ! end_array )&&( DATA_ERROR_NONE == result ))
+    {
+        result = json_token_reader_check_end_array( &((*this_).tokenizer), &end_array );
+        if ( DATA_ERROR_NONE == result )
+        {
+            if ( ! end_array )
+            {
+                if ( first_element_passed )
+                {
+                    result = json_token_reader_expect_value_separator ( &((*this_).tokenizer) );
+                }
+                else
+                {
+                    first_element_passed = true;
+                }
+                result |= json_deserializer_skip_next_object( this_ );
+            }
+        }
+        else
+        {
+            /* error, break loop */
+            TSLOG_ERROR_INT( "unexpected array contents at line",
+                             json_token_reader_get_input_line( &((*this_).tokenizer) )
+                           );
+        }
     }
 
     TRACE_END_ERR( result );

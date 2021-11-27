@@ -1,7 +1,7 @@
 /* File: io_export_set_traversal.c; Copyright and License: see below */
 
 #include "io_export_set_traversal.h"
-#include "json/json_serializer.h"
+
 #include "json/json_deserializer.h"
 #include "util/string/utf8string.h"
 #include "stream/universal_memory_output_stream.h"
@@ -180,7 +180,9 @@ int io_export_set_traversal_private_export_diagramelement( io_export_set_travers
 
         if ( read_error == DATA_ERROR_NONE )
         {
-            /* write diagramelement */
+            /* intentionally not supported: diagramelements */
+            TRACE_INFO( "io_export_set_traversal_export_set does not copy single diagramelements, only referenced classifiers." );
+            /*
             serialize_error |= io_element_writer_start_diagramelement( (*this_).element_writer,
                                                                        &out_diagram,
                                                                        &out_diagramelement,
@@ -198,6 +200,7 @@ int io_export_set_traversal_private_export_diagramelement( io_export_set_travers
                                                                      &out_diagramelement,
                                                                      &out_classifier
                                                                    );
+            */
 
             /* write classifier */
             serialize_error |= io_element_writer_start_classifier( (*this_).element_writer,

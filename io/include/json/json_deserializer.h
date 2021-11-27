@@ -251,6 +251,17 @@ data_error_t json_deserializer_private_get_next_feature_array ( json_deserialize
  */
 data_error_t json_deserializer_private_get_next_feature ( json_deserializer_t *this_, data_feature_t *out_object );
 
+/*!
+ *  \brief parses the next diagramelement array
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
+ *          DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          DATA_ERROR_NONE if structure of the input is valid.
+ */
+data_error_t json_deserializer_private_skip_next_diagramelement_array ( json_deserializer_t *this_ );
+
 #endif  /* JSON_DESERIALIZER_H */
 
 

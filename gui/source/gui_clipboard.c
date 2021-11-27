@@ -2,7 +2,6 @@
 
 #include "gui_clipboard.h"
 #include "trace.h"
-#include "json/json_serializer.h"
 #include "json/json_deserializer.h"
 #include "ctrl_error.h"
 #include "set/data_stat.h"

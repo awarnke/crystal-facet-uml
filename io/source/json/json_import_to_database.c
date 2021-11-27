@@ -1,7 +1,6 @@
 /* File: json_import_to_database.c; Copyright and License: see below */
 
 #include "json/json_import_to_database.h"
-#include "json/json_serializer.h"
 #include "ctrl_error.h"
 #include "stream/universal_memory_input_stream.h"
 #include "util/string/utf8string.h"
@@ -260,20 +259,9 @@ data_error_t json_import_to_database_private_import_views( json_import_to_databa
                     }
                     break;
 
-                    case DATA_TABLE_DIAGRAMELEMENT:
-                    {
-                        parse_error = json_deserializer_skip_next_object( deserializer );
-                        if ( DATA_ERROR_NONE != parse_error )
-                        {
-                            /* parser error, break loop: */
-                            any_error = true;
-                        }
-                    }
-                    break;
-
                     default:
                     {
-                        TSLOG_ERROR( "unexpected error" );
+                        TSLOG_ERROR( "unexpected token error" );
                         any_error = true;
                     }
                 }
@@ -487,7 +475,7 @@ data_error_t json_import_to_database_private_import_nodes( json_import_to_databa
 
                     default:
                     {
-                        TSLOG_ERROR( "unexpected error" );
+                        TSLOG_ERROR( "unexpected token error" );
                         any_error = true;
                     }
                 }
@@ -801,7 +789,7 @@ data_error_t json_import_to_database_private_import_edges( json_import_to_databa
 
                     default:
                     {
-                        TSLOG_ERROR( "unexpected error" );
+                        TSLOG_ERROR( "unexpected token error" );
                         any_error = true;
                     }
                 }

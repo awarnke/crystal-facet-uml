@@ -10,8 +10,8 @@
  *  and b) a pointer to objectdata that implements the interface.
  */
 
+#include "json/json_writer.h"
 #include "json/json_writer_pass.h"
-#include "json/json_serializer.h"
 #include "io_element_writer.h"
 #include "data_classifier.h"
 #include "data_classifier_type.h"
@@ -33,8 +33,14 @@ struct json_element_writer_struct {
 
     json_writer_pass_t mode;  /*!< depending on the mode, filtering of data objects differs */
 
+    json_writer_t json_writer;  /*!< own instance of the json writer */
+
+    bool in_outer_array;  /*!< true if begin_array() was called and end_array() is not yet called. */
+    bool is_outer_first;  /*!< true if after begin_array(), no object was inserted yet. */
+    bool in_inner_array;  /*!< true if an inner array was begun and not yet ended. */
+    bool is_inner_first;  /*!< true if in the innner array, no object was inserted yet. */
+
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
-    json_serializer_t serializer;  /*!< serializes elements to a json stream sink */
 };
 
 typedef struct json_element_writer_struct json_element_writer_t;
@@ -276,13 +282,23 @@ int json_element_writer_assemble_diagram( json_element_writer_t *this_,
 /*!
  *  \brief ends a diagram
  *
- *  This ends a section that contains a diagram and a list of diagramelements (classifier-occurrences)
+ *  This function is called as part of the abstract universal_output_stream_t - but it does nothing.
  *
  *  \param this_ pointer to own object attributes
  *  \param diag_ptr pointer to diagram that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
-int json_element_writer_end_diagram( json_element_writer_t *this_, const data_diagram_t *diag_ptr );
+int json_element_writer_end_diagram_fake( json_element_writer_t *this_, const data_diagram_t *diag_ptr );
+
+/*!
+ *  \brief ends a diagram
+ *
+ *  This ends a section that contains a diagram and a list of diagramelements (classifier-occurrences)
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return 0 in case of success, -1 otherwise
+ */
+int json_element_writer_private_end_diagram( json_element_writer_t *this_ );
 
 /*!
  *  \brief writes a diagramelement start-element
