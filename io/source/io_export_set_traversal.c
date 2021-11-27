@@ -145,9 +145,7 @@ int io_export_set_traversal_private_export_diagramelement( io_export_set_travers
 
     data_classifier_t out_classifier;
     data_diagramelement_t out_diagramelement;
-    data_row_id_t classifier_id;
-    data_diagram_t out_diagram;
-    data_row_id_t diagele_id;
+    /* data_diagram_t out_diagram; */
 
     read_error = data_database_reader_get_diagramelement_by_id( (*this_).db_reader,
                                                                 data_id_get_row_id( &id ),
@@ -156,19 +154,62 @@ int io_export_set_traversal_private_export_diagramelement( io_export_set_travers
 
     if ( read_error == DATA_ERROR_NONE )
     {
-        classifier_id = data_diagramelement_get_classifier_row_id( &out_diagramelement );
-
+        /* get classifier */
+        const data_row_id_t classifier_id = data_diagramelement_get_classifier_row_id( &out_diagramelement );
         read_error = data_database_reader_get_classifier_by_id( (*this_).db_reader,
                                                                 classifier_id,
                                                                 &out_classifier
                                                               );
 
-        diagele_id = data_diagramelement_get_diagram_row_id( &out_diagramelement );
+        /* get focused_feature */
+        /*
+        assert ( IO_EXPORT_SET_TRAVERSAL_MAX_FEATURES >= 1 );
+        const data_row_id_t focused_feature_id = data_diagramelement_get_focused_feature_row_id( &out_diagramelement );
+        if ( DATA_ROW_ID_VOID == focused_feature_id )
+        {
+            data_feature_init_empty( &((*this_).temp_features[0]) );
+        }
+        else
+        {
+            read_error |= data_database_reader_get_feature_by_id ( (*this_).db_reader,
+                                                                   focused_feature_id,
+                                                                   &((*this_).temp_features[0])
+                                                                 );
+        }
+        */
 
+        /* get diagram */
+        /*
+        const data_row_id_t diag_id = data_diagramelement_get_diagram_row_id( &out_diagramelement );
         read_error |= data_database_reader_get_diagram_by_id ( (*this_).db_reader,
-                                                               diagele_id,
+                                                               diag_id,
                                                                &out_diagram
                                                              );
+        */
+
+        if ( read_error == DATA_ERROR_NONE )
+        {
+            /* intentionally not supported: diagramelements */
+            TRACE_INFO( "io_export_set_traversal_export_set does not copy single diagramelements, only referenced classifiers." );
+            /*
+            serialize_error |= io_element_writer_start_diagramelement( (*this_).element_writer,
+                                                                       &out_diagram,
+                                                                       &out_diagramelement
+                                                                     );
+
+            serialize_error |= io_element_writer_assemble_diagramelement( (*this_).element_writer,
+                                                                          &out_diagram,
+                                                                          &out_diagramelement,
+                                                                          &out_classifier,
+                                                                          &((*this_).temp_features[0]
+                                                                        );
+
+            serialize_error |= io_element_writer_end_diagramelement( (*this_).element_writer,
+                                                                     &out_diagram,
+                                                                     &out_diagramelement
+                                                                   );
+            */
+        }
 
         uint32_t feature_count;
         read_error = data_database_reader_get_features_by_classifier_id( (*this_).db_reader,
@@ -180,28 +221,6 @@ int io_export_set_traversal_private_export_diagramelement( io_export_set_travers
 
         if ( read_error == DATA_ERROR_NONE )
         {
-            /* intentionally not supported: diagramelements */
-            TRACE_INFO( "io_export_set_traversal_export_set does not copy single diagramelements, only referenced classifiers." );
-            /*
-            serialize_error |= io_element_writer_start_diagramelement( (*this_).element_writer,
-                                                                       &out_diagram,
-                                                                       &out_diagramelement,
-                                                                       &out_classifier
-                                                                     );
-
-            serialize_error |= io_element_writer_assemble_diagramelement( (*this_).element_writer,
-                                                                          &out_diagram,
-                                                                          &out_diagramelement,
-                                                                          &out_classifier
-                                                                        );
-
-            serialize_error |= io_element_writer_end_diagramelement( (*this_).element_writer,
-                                                                     &out_diagram,
-                                                                     &out_diagramelement,
-                                                                     &out_classifier
-                                                                   );
-            */
-
             /* write classifier */
             serialize_error |= io_element_writer_start_classifier( (*this_).element_writer,
                                                                    DATA_CLASSIFIER_TYPE_VOID,  /* host_type */

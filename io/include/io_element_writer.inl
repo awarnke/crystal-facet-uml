@@ -201,35 +201,39 @@ static inline int io_element_writer_end_diagram( io_element_writer_t *this_, con
 
 static inline int io_element_writer_start_diagramelement( io_element_writer_t *this_,
                                                           const data_diagram_t *parent,
-                                                          const data_diagramelement_t *diagramelement_ptr,
-                                                          const data_classifier_t *occurrence )
+                                                          const data_diagramelement_t *diagramelement_ptr )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
     assert( (*((*this_).interface)).start_diagramelement != NULL );
-    return (*(  (*((*this_).interface)).start_diagramelement  )) ( (*this_).objectdata, parent, diagramelement_ptr, occurrence );
+    return (*(  (*((*this_).interface)).start_diagramelement  )) ( (*this_).objectdata, parent, diagramelement_ptr );
 }
 
 static inline int io_element_writer_assemble_diagramelement( io_element_writer_t *this_,
                                                              const data_diagram_t *parent,
                                                              const data_diagramelement_t *diagramelement_ptr,
-                                                             const data_classifier_t *occurrence )
+                                                             const data_classifier_t *occurrence,
+                                                             const data_feature_t *feat_occur )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
     assert( (*((*this_).interface)).assemble_diagramelement != NULL );
-    return (*(  (*((*this_).interface)).assemble_diagramelement  )) ( (*this_).objectdata, parent, diagramelement_ptr, occurrence );
+    return (*(  (*((*this_).interface)).assemble_diagramelement  )) ( (*this_).objectdata,
+                                                                      parent,
+                                                                      diagramelement_ptr,
+                                                                      occurrence,
+                                                                      feat_occur
+                                                                    );
 }
 
 static inline int io_element_writer_end_diagramelement( io_element_writer_t *this_,
                                                         const data_diagram_t *parent,
-                                                        const data_diagramelement_t *diagramelement_ptr,
-                                                        const data_classifier_t *occurrence )
+                                                        const data_diagramelement_t *diagramelement_ptr )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
     assert( (*((*this_).interface)).end_diagramelement != NULL );
-    return (*(  (*((*this_).interface)).end_diagramelement  )) ( (*this_).objectdata, parent, diagramelement_ptr, occurrence );
+    return (*(  (*((*this_).interface)).end_diagramelement  )) ( (*this_).objectdata, parent, diagramelement_ptr );
 }
 
 static inline int io_element_writer_end_main( io_element_writer_t *this_ )

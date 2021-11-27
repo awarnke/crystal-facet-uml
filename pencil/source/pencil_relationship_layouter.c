@@ -283,6 +283,7 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
         bool bad_pattern_h = false;
         bool bad_pattern_v = false;
         {
+
             const geometry_3dir_t pattern = geometry_connector_get_directions( current_solution );
             bad_pattern_v = geometry_3dir_equals( &pattern, &PENCIL_BAD_V_PATTERN1 )
                 || geometry_3dir_equals( &pattern, &PENCIL_BAD_V_PATTERN2 );
@@ -290,7 +291,13 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
                 || geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN2 );
             if ( bad_pattern_h || bad_pattern_v )
             {
-                debts_of_current += 0.2 * geometry_connector_get_length( current_solution );
+                const double current_len = geometry_connector_get_length( current_solution );
+                const double object_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+                if ( current_len > ( 4.0 * object_dist ) )
+                {
+                    /* current_solution is a long path and right-handed */
+                    debts_of_current += 0.2 * geometry_connector_get_length( current_solution );
+                }
             }
         }
 

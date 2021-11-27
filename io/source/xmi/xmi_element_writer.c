@@ -1437,8 +1437,7 @@ int xmi_element_writer_end_diagram( xmi_element_writer_t *this_, const data_diag
 
 int xmi_element_writer_start_diagramelement( xmi_element_writer_t *this_,
                                              const data_diagram_t *parent,
-                                             const data_diagramelement_t *diagramelement_ptr,
-                                             const data_classifier_t *occurrence )
+                                             const data_diagramelement_t *diagramelement_ptr )
 {
     TRACE_BEGIN();
     const int export_err = -1;
@@ -1450,9 +1449,11 @@ int xmi_element_writer_start_diagramelement( xmi_element_writer_t *this_,
 int xmi_element_writer_assemble_diagramelement( xmi_element_writer_t *this_,
                                                 const data_diagram_t *parent,
                                                 const data_diagramelement_t *diagramelement_ptr,
-                                                const data_classifier_t *occurrence )
+                                                const data_classifier_t *occurrence,
+                                                const data_feature_t *feat_occur )
 {
     TRACE_BEGIN();
+    /* NULL is allowed here: feat_occur */
     const int export_err = -1;
     TSLOG_WARNING( "xmi_element_writer_t does not export data_diagramelement_t" );
     TRACE_END_ERR( export_err );
@@ -1461,8 +1462,7 @@ int xmi_element_writer_assemble_diagramelement( xmi_element_writer_t *this_,
 
 int xmi_element_writer_end_diagramelement( xmi_element_writer_t *this_,
                                            const data_diagram_t *parent,
-                                           const data_diagramelement_t *diagramelement_ptr,
-                                           const data_classifier_t *occurrence )
+                                           const data_diagramelement_t *diagramelement_ptr )
 {
     TRACE_BEGIN();
     const int export_err = -1;

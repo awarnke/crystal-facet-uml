@@ -306,13 +306,11 @@ int json_element_writer_private_end_diagram( json_element_writer_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param parent the hosting parent diagram
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 int json_element_writer_start_diagramelement( json_element_writer_t *this_,
                                               const data_diagram_t *parent,
-                                              const data_diagramelement_t *diagramelement_ptr,
-                                              const data_classifier_t *occurrence
+                                              const data_diagramelement_t *diagramelement_ptr
                                             );
 
 /*!
@@ -322,12 +320,14 @@ int json_element_writer_start_diagramelement( json_element_writer_t *this_,
  *  \param parent the hosting parent diagram
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
  *  \param occurrence the occurring classifier
+ *  \param feat_occur the focused feature of the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
                                                  const data_diagram_t *parent,
                                                  const data_diagramelement_t *diagramelement_ptr,
-                                                 const data_classifier_t *occurrence
+                                                 const data_classifier_t *occurrence,
+                                                 const data_feature_t *feat_occur
                                                );
 
 /*!
@@ -336,13 +336,11 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param parent the hosting parent diagram
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 int json_element_writer_end_diagramelement( json_element_writer_t *this_,
                                             const data_diagram_t *parent,
-                                            const data_diagramelement_t *diagramelement_ptr,
-                                            const data_classifier_t *occurrence
+                                            const data_diagramelement_t *diagramelement_ptr
                                           );
 
 /*!

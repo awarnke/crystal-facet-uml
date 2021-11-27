@@ -178,12 +178,10 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
                     =( -1 != universal_array_list_get_index_of( &((*this_).written_id_set), &classifier_id ) );
             }
 
-
-
-            is_classifier_compliant_here = io_element_writer_can_classifier_nest_classifier ( (*this_).element_writer,
-                                                                                               host_type,
-                                                                                               classifier_type
-                                                                                             );
+            is_classifier_compliant_here = io_element_writer_can_classifier_nest_classifier( (*this_).element_writer,
+                                                                                             host_type,
+                                                                                             classifier_type
+                                                                                           );
             if (( recursion_depth == 0 )&&( !is_classifier_compliant_here ))
             {
                 /* fallback, there is no other place to put the classifier */

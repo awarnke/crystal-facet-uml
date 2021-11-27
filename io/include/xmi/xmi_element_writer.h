@@ -329,13 +329,11 @@ int xmi_element_writer_end_diagram( xmi_element_writer_t *this_, const data_diag
  *  \param this_ pointer to own object attributes
  *  \param parent the hosting diagram
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_start_diagramelement( xmi_element_writer_t *this_,
                                              const data_diagram_t *parent,
-                                             const data_diagramelement_t *diagramelement_ptr,
-                                             const data_classifier_t *occurrence
+                                             const data_diagramelement_t *diagramelement_ptr
                                            );
 
 /*!
@@ -345,12 +343,14 @@ int xmi_element_writer_start_diagramelement( xmi_element_writer_t *this_,
  *  \param parent the hosting diagram
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
  *  \param occurrence the occurring classifier
+ *  \param feat_occur the focused feature of the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_assemble_diagramelement( xmi_element_writer_t *this_,
                                                 const data_diagram_t *parent,
                                                 const data_diagramelement_t *diagramelement_ptr,
-                                                const data_classifier_t *occurrence
+                                                const data_classifier_t *occurrence,
+                                                const data_feature_t *feat_occur
                                               );
 
 /*!
@@ -359,13 +359,11 @@ int xmi_element_writer_assemble_diagramelement( xmi_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param parent the hosting diagram
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_end_diagramelement( xmi_element_writer_t *this_,
                                            const data_diagram_t *parent,
-                                           const data_diagramelement_t *diagramelement_ptr,
-                                           const data_classifier_t *occurrence
+                                           const data_diagramelement_t *diagramelement_ptr
                                          );
 
 /*!

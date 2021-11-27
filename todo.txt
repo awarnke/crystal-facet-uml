@@ -26,6 +26,7 @@ ideas for future versions:
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
   [ ] xmi export: improve error message if exported file exists and is read-only
   [ ] uuid is lost at cut+paste, a new uuid is assigned.
+  [ ] in json format, lifelines are not exported
   @data
   [?] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> add a "display_flags" field to "diagrams"

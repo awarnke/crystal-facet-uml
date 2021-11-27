@@ -1263,13 +1263,11 @@ int xhtml_element_writer_end_diagram( xhtml_element_writer_t *this_, const data_
 
 int xhtml_element_writer_start_diagramelement( xhtml_element_writer_t *this_,
                                                const data_diagram_t *parent,
-                                               const data_diagramelement_t *diagramelement_ptr,
-                                               const data_classifier_t *occurrence)
+                                               const data_diagramelement_t *diagramelement_ptr )
 {
     TRACE_BEGIN();
     assert( diagramelement_ptr != NULL );
     assert( parent != NULL );
-    assert( occurrence != NULL );
     int write_error = 0;
 
     TRACE_END_ERR(write_error);
@@ -1279,12 +1277,14 @@ int xhtml_element_writer_start_diagramelement( xhtml_element_writer_t *this_,
 int xhtml_element_writer_assemble_diagramelement( xhtml_element_writer_t *this_,
                                                   const data_diagram_t *parent,
                                                   const data_diagramelement_t *diagramelement_ptr,
-                                                  const data_classifier_t *occurrence)
+                                                  const data_classifier_t *occurrence,
+                                                  const data_feature_t *feat_occur )
 {
     TRACE_BEGIN();
     assert( diagramelement_ptr != NULL );
     assert( parent != NULL );
     assert( occurrence != NULL );
+    /* NULL is allowed here: feat_occur */
     int write_error = 0;
 
     TRACE_END_ERR(write_error);
@@ -1293,13 +1293,11 @@ int xhtml_element_writer_assemble_diagramelement( xhtml_element_writer_t *this_,
 
 int xhtml_element_writer_end_diagramelement( xhtml_element_writer_t *this_,
                                              const data_diagram_t *parent,
-                                             const data_diagramelement_t *diagramelement_ptr,
-                                             const data_classifier_t *occurrence)
+                                             const data_diagramelement_t *diagramelement_ptr )
 {
     TRACE_BEGIN();
     assert( diagramelement_ptr != NULL );
     assert( parent != NULL );
-    assert( occurrence != NULL );
     int write_error = 0;
 
     TRACE_END_ERR(write_error);

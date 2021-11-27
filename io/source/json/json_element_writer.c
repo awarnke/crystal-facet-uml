@@ -746,6 +746,11 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
                                                  true
                                                );
 
+        const bool from_f_valid = ( from_f == NULL ) ? false : data_feature_is_valid( from_f );
+        const bool from_c_valid = ( from_c == NULL ) ? false : data_classifier_is_valid( from_c );
+        const bool to_f_valid = ( to_f == NULL ) ? false : data_feature_is_valid( to_f );
+        const bool to_c_valid = ( to_c == NULL ) ? false : data_classifier_is_valid( to_c );
+
         /* from_classifier_id */
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_TAB
@@ -765,6 +770,7 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
                                           );
 
         /* from_classifier_name */
+        const char *const from_c_name = from_c_valid ? data_classifier_get_name_const( from_c ) : "";
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
@@ -776,9 +782,7 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
                                             JSON_CONSTANTS_DEF
                                             JSON_CONSTANTS_QUOTE
                                           );
-        out_err |= json_writer_write_string_enc( &((*this_).json_writer),
-                                                 data_classifier_get_name_const( from_c )
-                                               );
+        out_err |= json_writer_write_string_enc( &((*this_).json_writer), from_c_name );
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_NEXT_NL
@@ -803,6 +807,7 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
                                           );
 
         /* to_classifier_name */
+        const char *const to_c_name = from_c_valid ? data_classifier_get_name_const( to_c ) : "";
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
@@ -814,16 +819,13 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
                                             JSON_CONSTANTS_DEF
                                             JSON_CONSTANTS_QUOTE
                                           );
-        out_err |= json_writer_write_string_enc( &((*this_).json_writer),
-                                                 data_classifier_get_name_const( to_c )
-                                               );
+        out_err |= json_writer_write_string_enc( &((*this_).json_writer), to_c_name );
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_NEXT_NL
                                           );
 
         /* from_feature_id */
-        const bool from_feat_valid = ( data_relationship_get_from_feature_row_id( relation_ptr ) != DATA_ROW_ID_VOID );
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
@@ -842,7 +844,7 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
                                           );
 
         /* from_feature_key */
-        if ( from_feat_valid )
+        if ( from_f_valid )
         {
             out_err |= json_writer_write_plain( &((*this_).json_writer),
                                                 JSON_CONSTANTS_TAB
@@ -856,7 +858,7 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
                                                 JSON_CONSTANTS_QUOTE
                                               );
             out_err |= json_writer_write_string_enc( &((*this_).json_writer),
-                                                    data_feature_get_key_const( from_f )
+                                                     data_feature_get_key_const( from_f )
                                                    );
             out_err |= json_writer_write_plain( &((*this_).json_writer),
                                                 JSON_CONSTANTS_QUOTE
@@ -865,7 +867,6 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
         }
 
         /* to_feature_id */
-        const bool to_feat_valid = ( data_relationship_get_to_feature_row_id( relation_ptr ) != DATA_ROW_ID_VOID );
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
@@ -884,7 +885,7 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
                                           );
 
         /* to_feature_key */
-        if ( to_feat_valid )
+        if ( to_f_valid )
         {
             out_err |= json_writer_write_plain( &((*this_).json_writer),
                                                 JSON_CONSTANTS_TAB
@@ -905,6 +906,34 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
                                                 JSON_CONSTANTS_NEXT_NL
                                               );
         }
+
+        /* from node ref_uuid */
+        const char *const from_node_ref
+            = ( from_f_valid )
+            ? data_feature_get_uuid_const( from_f )
+            : ( from_c_valid )
+            ? data_classifier_get_uuid_const( from_c )
+            : "";
+        out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                    4,
+                                                    JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE,
+                                                    from_node_ref,
+                                                    true
+                                                  );
+
+        /* to node ref_uuid */
+        const char *const to_node_ref
+            = ( to_f_valid )
+            ? data_feature_get_uuid_const( to_f )
+            : ( to_c_valid )
+            ? data_classifier_get_uuid_const( to_c )
+            : "";
+        out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                    4,
+                                                    JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE,
+                                                    to_node_ref,
+                                                    true
+                                                  );
 
         /* uuid */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
@@ -1190,13 +1219,11 @@ int json_element_writer_private_end_diagram( json_element_writer_t *this_ )
 
 int json_element_writer_start_diagramelement( json_element_writer_t *this_,
                                               const data_diagram_t *parent,
-                                              const data_diagramelement_t *diagramelement_ptr,
-                                              const data_classifier_t *occurrence )
+                                              const data_diagramelement_t *diagramelement_ptr )
 {
     TRACE_BEGIN();
     assert( diagramelement_ptr != NULL );
     assert( parent != NULL );
-    assert( occurrence != NULL );
     int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
@@ -1239,7 +1266,8 @@ int json_element_writer_start_diagramelement( json_element_writer_t *this_,
 int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
                                                  const data_diagram_t *parent,
                                                  const data_diagramelement_t *diagramelement_ptr,
-                                                 const data_classifier_t *occurrence )
+                                                 const data_classifier_t *occurrence,
+                                                 const data_feature_t *feat_occur )
 {
     TRACE_BEGIN();
     assert( diagramelement_ptr != NULL );
@@ -1256,6 +1284,14 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
                                                  6,
                                                  JSON_CONSTANTS_KEY_DIAGRAMELEMENT_ID,
                                                  data_diagramelement_get_row_id( diagramelement_ptr ),
+                                                 true
+                                               );
+
+        /* display_flags */
+        out_err |= json_writer_write_member_int( &((*this_).json_writer),
+                                                 6,
+                                                 JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS,
+                                                 data_diagramelement_get_display_flags( diagramelement_ptr ),
                                                  true
                                                );
 
@@ -1299,13 +1335,21 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
                                             JSON_CONSTANTS_NEXT_NL
                                           );
 
-        /* display_flags */
-        out_err |= json_writer_write_member_int( &((*this_).json_writer),
-                                                 6,
-                                                 JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS,
-                                                 data_diagramelement_get_display_flags( diagramelement_ptr ),
-                                                 true
-                                               );
+        /* ref_uuid */
+        const bool feat_valid = ( feat_occur == NULL ) ? false : data_feature_is_valid( feat_occur );
+        const bool clas_valid = ( occurrence == NULL ) ? false : data_classifier_is_valid( occurrence );
+        const char *const node_ref
+            = ( feat_valid )
+            ? data_feature_get_uuid_const( feat_occur )
+            : ( clas_valid )
+            ? data_classifier_get_uuid_const( occurrence )
+            : "";
+        out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                    6,
+                                                    JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE,
+                                                    node_ref,
+                                                    true
+                                                  );
 
         /* uuid */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
@@ -1325,13 +1369,11 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
 
 int json_element_writer_end_diagramelement( json_element_writer_t *this_,
                                             const data_diagram_t *parent,
-                                            const data_diagramelement_t *diagramelement_ptr,
-                                            const data_classifier_t *occurrence )
+                                            const data_diagramelement_t *diagramelement_ptr )
 {
     TRACE_BEGIN();
     assert( diagramelement_ptr != NULL );
     assert( parent != NULL );
-    assert( occurrence != NULL );
     int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )

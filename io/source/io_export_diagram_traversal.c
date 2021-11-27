@@ -172,23 +172,28 @@ int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_
                 = data_visible_classifier_get_diagramelement_const( visible_classifier );
             const data_id_t diagele_id = data_diagramelement_get_data_id( diagele );
             const data_diagram_t *const diagram_ptr = data_visible_set_get_diagram_ptr ( (*this_).input_data );
+            const data_row_id_t focused_feature_id = data_diagramelement_get_focused_feature_row_id( diagele );
+            const data_feature_t *const focused_f_or_null
+                = ( focused_feature_id == DATA_ROW_ID_VOID )
+                ? NULL
+                : data_visible_set_get_feature_by_id_const( diagram_data, focused_feature_id );
+
             TRACE_INFO_INT( "printing diagramelement with id", data_id_get_row_id( &diagele_id ) );
 
             /* start+assemble+end diagramelement */
             write_err |= io_element_writer_start_diagramelement( (*this_).element_writer,
                                                                  diagram_ptr,
-                                                                 diagele,
-                                                                 classifier
+                                                                 diagele
                                                                );
             write_err |= io_element_writer_assemble_diagramelement( (*this_).element_writer,
                                                                     diagram_ptr,
                                                                     diagele,
-                                                                    classifier
+                                                                    classifier,
+                                                                    focused_f_or_null
                                                                   );
             write_err |= io_element_writer_end_diagramelement( (*this_).element_writer,
                                                                diagram_ptr,
-                                                               diagele,
-                                                               classifier
+                                                               diagele
                                                              );
         }
         else

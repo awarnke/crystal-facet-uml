@@ -292,8 +292,7 @@ static inline int io_element_writer_end_diagram( io_element_writer_t *this_, con
  */
 static inline int io_element_writer_start_diagramelement( io_element_writer_t *this_,
                                                           const data_diagram_t *parent,
-                                                          const data_diagramelement_t *diagramelement_ptr,
-                                                          const data_classifier_t *occurrence
+                                                          const data_diagramelement_t *diagramelement_ptr
                                                         );
 
 /*!
@@ -303,12 +302,14 @@ static inline int io_element_writer_start_diagramelement( io_element_writer_t *t
  *  \param parent the hosting parent diagram
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
  *  \param occurrence the occurring classifier
+ *  \param feat_occur the focused feature of the occurring classifier, NULL or !is_valid() if DATA_ROW_ID_VOID
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_assemble_diagramelement( io_element_writer_t *this_,
                                                              const data_diagram_t *parent,
                                                              const data_diagramelement_t *diagramelement_ptr,
-                                                             const data_classifier_t *occurrence
+                                                             const data_classifier_t *occurrence,
+                                                             const data_feature_t *feat_occur
                                                            );
 
 /*!
@@ -322,8 +323,7 @@ static inline int io_element_writer_assemble_diagramelement( io_element_writer_t
  */
 static inline int io_element_writer_end_diagramelement( io_element_writer_t *this_,
                                                         const data_diagram_t *parent,
-                                                        const data_diagramelement_t *diagramelement_ptr,
-                                                        const data_classifier_t *occurrence
+                                                        const data_diagramelement_t *diagramelement_ptr
                                                       );
 
 /*!
