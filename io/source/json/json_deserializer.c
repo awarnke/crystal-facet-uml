@@ -486,6 +486,11 @@ data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, da
                             result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                             data_diagram_set_display_flags ( out_object, parsed_integer );
                         }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_PARENT ) )
+                        {
+                            /* TODO: do something with the uuid */
+                            result = json_deserializer_skip_next_string ( this_ );
+                        }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
                         {
                             /* TODO: do something with the uuid */

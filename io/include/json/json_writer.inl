@@ -132,6 +132,45 @@ static inline int json_writer_write_member_string ( json_writer_t *this_,
     return write_err;
 }
 
+static inline int json_writer_write_member_string_array ( json_writer_t *this_,
+                                                          unsigned int indent,
+                                                          utf8string_t enc_name,
+                                                          utf8string_t unenc_value,
+                                                          bool next_follows )
+{
+    assert( 7 == JSON_WRITER_MAX_INDENT );
+    assert( indent <= JSON_WRITER_MAX_INDENT );
+    int write_err;
+
+    write_err = json_writer_write_plain( this_, &(JSON_CONSTANTS_INDENT_QUOTE[2*(JSON_WRITER_MAX_INDENT-indent)]) );
+    write_err |= json_writer_write_plain( this_, enc_name );
+    write_err |= json_writer_write_plain( this_,
+                                          JSON_CONSTANTS_QUOTE
+                                          JSON_CONSTANTS_DEF
+                                          JSON_CONSTANTS_BEGIN_ARRAY
+                                          JSON_CONSTANTS_NL
+                                          JSON_CONSTANTS_TAB
+                                          JSON_CONSTANTS_TAB
+                                          JSON_CONSTANTS_TAB
+                                          JSON_CONSTANTS_TAB
+                                          JSON_CONSTANTS_TAB
+                                          JSON_CONSTANTS_TAB
+                                          JSON_CONSTANTS_TAB
+                                          JSON_CONSTANTS_TAB
+                                          JSON_CONSTANTS_QUOTE
+                                        );
+    write_err |= json_writer_write_stringlist_enc( this_, unenc_value );
+    write_err |= json_writer_write_plain( this_, JSON_CONSTANTS_QUOTE JSON_CONSTANTS_NL );
+    write_err = json_writer_write_plain( this_, &(JSON_CONSTANTS_INDENT[2*(JSON_WRITER_MAX_INDENT-indent)]) );
+    write_err |= json_writer_write_plain( this_,
+                                          next_follows
+                                          ? JSON_CONSTANTS_END_ARRAY JSON_CONSTANTS_NEXT_NL
+                                          : JSON_CONSTANTS_END_ARRAY JSON_CONSTANTS_NL
+                                        );
+
+    return write_err;
+}
+
 
 /*
 Copyright 2021-2021 Andreas Warnke

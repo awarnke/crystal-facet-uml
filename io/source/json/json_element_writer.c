@@ -321,24 +321,12 @@ int json_element_writer_assemble_classifier( json_element_writer_t *this_,
                                                   );
 
         /* description */
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_KEY_CLASSIFIER_DESCRIPTION
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF
-                                            JSON_CONSTANTS_QUOTE
-                                          );
-        out_err |= json_writer_write_stringlist_enc( &((*this_).json_writer),
-                                                     data_classifier_get_description_const( classifier_ptr )
-                                                   );
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_NEXT_NL
-                                          );
+        out_err |= json_writer_write_member_string_array( &((*this_).json_writer) ,
+                                                          4,
+                                                          JSON_CONSTANTS_KEY_CLASSIFIER_DESCRIPTION,
+                                                          data_classifier_get_description_const( classifier_ptr ),
+                                                          true
+                                                        );
 
         /* x_order */
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
@@ -548,26 +536,12 @@ int json_element_writer_assemble_feature( json_element_writer_t *this_,
                                                   );
 
         /* description */
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_KEY_FEATURE_DESCRIPTION
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF
-                                            JSON_CONSTANTS_QUOTE
-                                          );
-        out_err |= json_writer_write_stringlist_enc( &((*this_).json_writer),
-                                                    data_feature_get_description_const( feature_ptr )
-                                                   );
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_NEXT_NL
-                                          );
+        out_err |= json_writer_write_member_string_array( &((*this_).json_writer) ,
+                                                          6,
+                                                          JSON_CONSTANTS_KEY_FEATURE_DESCRIPTION,
+                                                          data_feature_get_description_const( feature_ptr ),
+                                                          true
+                                                        );
 
         /* list_order */
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
@@ -723,24 +697,12 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
                                                   );
 
         /* description */
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_KEY_RELATIONSHIP_DESCRIPTION
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF
-                                            JSON_CONSTANTS_QUOTE
-                                          );
-        out_err |= json_writer_write_stringlist_enc( &((*this_).json_writer),
-                                                     data_relationship_get_description_const( relation_ptr )
-                                                   );
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_NEXT_NL
-                                          );
+        out_err |= json_writer_write_member_string_array( &((*this_).json_writer) ,
+                                                          4,
+                                                          JSON_CONSTANTS_KEY_RELATIONSHIP_DESCRIPTION,
+                                                          data_relationship_get_description_const( relation_ptr ),
+                                                          true
+                                                        );
 
         /* list_order */
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
@@ -1096,24 +1058,12 @@ int json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                                   );
 
         /* description */
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_KEY_DIAGRAM_DESCRIPTION
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF
-                                            JSON_CONSTANTS_QUOTE
-                                          );
-        out_err |= json_writer_write_stringlist_enc( &((*this_).json_writer),
-                                                     data_diagram_get_description_const( diag_ptr )
-                                                   );
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_NEXT_NL
-                                          );
+        out_err |= json_writer_write_member_string_array( &((*this_).json_writer) ,
+                                                          4,
+                                                          JSON_CONSTANTS_KEY_DIAGRAM_DESCRIPTION,
+                                                          data_diagram_get_description_const( diag_ptr ),
+                                                          true
+                                                        );
 
         /* list_order */
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
@@ -1130,6 +1080,16 @@ int json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                                  data_diagram_get_display_flags( diag_ptr ),
                                                  true
                                                );
+
+        /* parent uuid */
+        /*
+        out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                    4,
+                                                    JSON_CONSTANTS_KEY_PARENT,
+                                                    data_diagram_get_uuid_const( diag_ptr ),
+                                                    true
+                                                  );
+                                                  */
 
         /* uuid */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),

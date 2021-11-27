@@ -27,6 +27,11 @@ enum json_writer_max_enum {
 };
 
 /*!
+ *  \brief indentation
+ */
+extern const char JSON_CONSTANTS_INDENT[(2*JSON_WRITER_MAX_INDENT)+sizeof('\0')];
+
+/*!
  *  \brief indentation, followed by quote
  */
 extern const char JSON_CONSTANTS_INDENT_QUOTE[(2*JSON_WRITER_MAX_INDENT)+sizeof(JSON_CONSTANTS_QUOTE)];
@@ -168,6 +173,24 @@ static inline int json_writer_write_member_string ( json_writer_t *this_,
                                                     utf8string_t unenc_value,
                                                     bool next_follows
                                                   );
+
+/*!
+ *  \brief writes a member name and an string,
+ *         the value string is split at newlines and being json array encoded
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param indent indentation level: number of tabs, 0 <= indent <= JSON_WRITER_MAX_INDENT
+ *  \param enc_name name of the object member, json encoded string
+ *  \param unenc_value string to write, being json encoded
+ *  \param next_follows true if another member follows (a comma will be printed)
+ *  \return 0 in case of success, -1 otherwise
+ */
+static inline int json_writer_write_member_string_array ( json_writer_t *this_,
+                                                          unsigned int indent,
+                                                          utf8string_t enc_name,
+                                                          utf8string_t unenc_value,
+                                                          bool next_follows
+                                                        );
 
 #include "json_writer.inl"
 

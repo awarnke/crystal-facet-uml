@@ -20,6 +20,22 @@ static const char * const JSON_WRITER_PRIVATE_ENCODE_JSON_STRINGS[][2] = {
     { NULL, NULL }  /* for JSON, see rfc7159 */
 };
 
+static const char * const JSON_WRITER_PRIVATE_ENCODE_JSON_STRING_ARRAYS[][2] = {
+    { "\x09", "\\t" },  /* tab */
+    { "\x0a", "\\n\",\n                \"" },  /* newline */
+    { "\x0d", "\\r" },  /* return */
+    { "\x08", "\\b" },  /* backspace */
+    { "\x0c", "\\f" },  /* form feed */
+    { "\"", "\\\"" },  /* double quote */
+    { "\\", "\\\\" },  /* backslash*/
+    { "/", "\\/" },  /* slash */
+    { NULL, NULL }  /* for JSON, see rfc7159 */
+};
+
+const char JSON_CONSTANTS_INDENT[(2*JSON_WRITER_MAX_INDENT)+sizeof('\0')]
+    = JSON_CONSTANTS_TAB JSON_CONSTANTS_TAB JSON_CONSTANTS_TAB JSON_CONSTANTS_TAB
+      JSON_CONSTANTS_TAB JSON_CONSTANTS_TAB JSON_CONSTANTS_TAB;
+
 const char JSON_CONSTANTS_INDENT_QUOTE[(2*JSON_WRITER_MAX_INDENT)+sizeof(JSON_CONSTANTS_QUOTE)]
     = JSON_CONSTANTS_TAB JSON_CONSTANTS_TAB JSON_CONSTANTS_TAB JSON_CONSTANTS_TAB
       JSON_CONSTANTS_TAB JSON_CONSTANTS_TAB JSON_CONSTANTS_TAB JSON_CONSTANTS_QUOTE;
@@ -34,7 +50,7 @@ void json_writer_init ( json_writer_t *this_,
     universal_escaping_output_stream_init( &((*this_).esc_output), &JSON_WRITER_PRIVATE_ENCODE_JSON_STRINGS, output );
 
     (*this_).json_string_encode_table = &JSON_WRITER_PRIVATE_ENCODE_JSON_STRINGS;
-    (*this_).json_stringlist_encode_table = &JSON_WRITER_PRIVATE_ENCODE_JSON_STRINGS;
+    (*this_).json_stringlist_encode_table = &JSON_WRITER_PRIVATE_ENCODE_JSON_STRING_ARRAYS;
 
     TRACE_END();
 }
