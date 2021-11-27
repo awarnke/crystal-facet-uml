@@ -117,7 +117,8 @@ int json_element_writer_write_header( json_element_writer_t *this_, const char *
                                       );
 
     out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "encoding", "utf-8", true );
-    out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "format", "rfc-8259", true );
+    out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "structure-format", "rfc-8259", true );
+    out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "format", "cfu-json", true );
     out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "version", 0, true );
     const char *const warn = "Object member names and value-types are subject to change.";
     out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "warning", warn, true );
@@ -270,12 +271,13 @@ int json_element_writer_assemble_classifier( json_element_writer_t *this_,
 {
     TRACE_BEGIN();
     assert( classifier_ptr != NULL );
-    assert( (*this_).in_outer_array == true );
-    assert( (*this_).in_inner_array == false );
     int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
+        assert( (*this_).in_outer_array == true );
+        assert( (*this_).in_inner_array == false );
+
         /* id */
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                                  4,
@@ -405,12 +407,12 @@ int json_element_writer_end_classifier( json_element_writer_t *this_,
 {
     TRACE_BEGIN();
     assert( classifier_ptr != NULL );
-    assert( (*this_).in_outer_array == true );
-    assert( (*this_).in_inner_array == true );
     int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
+        assert( (*this_).in_outer_array == true );
+        assert( (*this_).in_inner_array == true );
         (*this_).in_inner_array = false;
         (*this_).is_inner_first = false;
 
@@ -494,12 +496,13 @@ int json_element_writer_assemble_feature( json_element_writer_t *this_,
 {
     TRACE_BEGIN();
     assert( feature_ptr != NULL );
-    assert( (*this_).in_outer_array == true );
-    assert( (*this_).in_inner_array == true );
     int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
+        assert( (*this_).in_outer_array == true );
+        assert( (*this_).in_inner_array == true );
+
         /* id */
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                                  6,
@@ -678,12 +681,13 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
     assert( relation_ptr != NULL );
     assert( from_c != NULL );
     assert( to_c != NULL );
-    assert( (*this_).in_outer_array == true );
-    assert( (*this_).in_inner_array == false );
     int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_EDGES )
     {
+        assert( (*this_).in_outer_array == true );
+        assert( (*this_).in_inner_array == false );
+
         /* id */
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                                  4,
@@ -986,26 +990,25 @@ int json_element_writer_start_diagram( json_element_writer_t *this_, const data_
 {
     TRACE_BEGIN();
     assert( diag_ptr != NULL );
-    assert( (*this_).in_outer_array == true );
-    assert( (*this_).in_inner_array == false );
     int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
+        assert( (*this_).in_outer_array == true );
+        assert( (*this_).in_inner_array == false );
+
         /* separate objects if not first */
         if ( (*this_).is_outer_first )
         {
             (*this_).is_outer_first = false;
-            out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                                JSON_CONSTANTS_NL
-                                              );
+            out_err |= json_writer_write_plain( &((*this_).json_writer),  JSON_CONSTANTS_NL );
         }
         else
         {
+            /* print diagram end here because the official end requires hierarcical diagram containments */
             out_err |= json_element_writer_private_end_diagram( this_ );
-            out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                                JSON_CONSTANTS_NEXT_NL
-                                              );
+
+            out_err |= json_writer_write_plain( &((*this_).json_writer), JSON_CONSTANTS_NEXT_NL  );
         }
 
         /* begin diagram */
@@ -1270,15 +1273,18 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
                                                  const data_feature_t *feat_occur )
 {
     TRACE_BEGIN();
+    assert( parent != NULL );
     assert( diagramelement_ptr != NULL );
     assert( parent != NULL );
     assert( occurrence != NULL );
-    assert( (*this_).in_outer_array == true );
-    assert( (*this_).in_inner_array == true );
+    /* feat_occur may be NULL */
     int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
+        assert( (*this_).in_outer_array == true );
+        assert( (*this_).in_inner_array == true );
+
         /* id */
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                                  6,
@@ -1401,10 +1407,9 @@ int json_element_writer_end_diagramelement( json_element_writer_t *this_,
 int json_element_writer_end_main( json_element_writer_t *this_ )
 {
     TRACE_BEGIN();
-    assert( (*this_).in_outer_array == true );
-    assert( (*this_).in_inner_array == false );
     int out_err = 0;
 
+    /* print diagram end here because the official end requires hierarcical diagram containments */
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
         if ( ! (*this_).is_outer_first )
@@ -1413,6 +1418,8 @@ int json_element_writer_end_main( json_element_writer_t *this_ )
         }
     }
 
+    assert( (*this_).in_outer_array == true );
+    assert( (*this_).in_inner_array == false );
     (*this_).in_outer_array = false;
     (*this_).is_outer_first = false;
 

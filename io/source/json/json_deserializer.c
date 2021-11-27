@@ -660,6 +660,16 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
                             result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                             utf8stringbuf_copy_buf( out_to_feature_key, (*this_).temp_string );
                         }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE ) )
+                        {
+                            /* TODO: do something with the uuid */
+                            result = json_deserializer_skip_next_string ( this_ );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE ) )
+                        {
+                            /* TODO: do something with the uuid */
+                            result = json_deserializer_skip_next_string ( this_ );
+                        }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
                         {
                             /* TODO: do something with the uuid */
