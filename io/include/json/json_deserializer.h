@@ -97,7 +97,7 @@ data_error_t json_deserializer_expect_begin_data ( json_deserializer_t *this_ );
  *  If yes, the end is read.
  *
  *  \param this_ pointer to own object attributes
- *  \param[out] true if the data array is at its end.
+ *  \param[out] out_end true if the data array is at its end.
  *  \return DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
  *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          DATA_ERROR_NONE if structure of the input is valid.

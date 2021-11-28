@@ -49,7 +49,6 @@ void io_importer_destroy ( io_importer_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param import_format file format, currently only IO_FILE_FORMAT_JSON is supported
  *  \param import_file_path null-terminated file path, not NULL
- *  \param diagram_id id of the diagram to which to attach the imported data
  *  \param io_stat undefined in case of an error in the return value,
  *                 otherwise statistics on DATA_STAT_SERIES_CREATED,
  *                 DATA_STAT_SERIES_MODIFIED (e.g. in future) and

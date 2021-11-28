@@ -289,7 +289,6 @@ static inline int io_element_writer_end_diagram( io_element_writer_t *this_, con
  *  \param this_ pointer to own object attributes
  *  \param parent the hosting parent diagram
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_start_diagramelement( io_element_writer_t *this_,
@@ -320,7 +319,6 @@ static inline int io_element_writer_assemble_diagramelement( io_element_writer_t
  *  \param this_ pointer to own object attributes
  *  \param parent the hosting parent diagram
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \param occurrence the occurring classifier
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int io_element_writer_end_diagramelement( io_element_writer_t *this_,

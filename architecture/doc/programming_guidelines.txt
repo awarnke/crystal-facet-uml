@@ -52,7 +52,7 @@
  *  Even functions that do not share a data-object shall declare such a class-like struct.
  *  Besides conformity of style, this guideline makes dependencies between classes explicit.
  *
- *  \subsection cfu-methods Attributes
+ *  \subsection cfu-attributes Attributes
  *
  *  - All struct elements are private and shall be accessed via "_get_", "_is_" and "_set_" functions.
  *    \n To achieve good runtime-performance, these may be declared as "static inline".
