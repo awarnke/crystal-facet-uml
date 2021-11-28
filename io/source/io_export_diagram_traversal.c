@@ -70,11 +70,28 @@ int io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_trave
         assert( data_diagram_is_valid( diag_ptr ) );
         TRACE_INFO_INT("printing diagram with id",data_diagram_get_row_id(diag_ptr));
 
+        /* load parent diagram if there is one */
+        data_diagram_init_empty( &((*this_).temp_parent_diag) );
+        const data_row_id_t parent_id = data_diagram_get_parent_row_id( diag_ptr );
+        if ( DATA_ROW_ID_VOID != parent_id )
+        {
+            const data_error_t d_err2
+                = data_database_reader_get_diagram_by_id( (*this_).db_reader, parent_id, &((*this_).temp_parent_diag) );
+            if( d_err2 != DATA_ERROR_NONE )
+            {
+                write_err = -1;
+                assert(false);
+            }
+        }
+
         write_err |= io_element_writer_start_diagram( (*this_).element_writer, diag_ptr );
         write_err |= io_element_writer_assemble_diagram( (*this_).element_writer,
+                                                         &((*this_).temp_parent_diag),
                                                          diag_ptr,
                                                          diagram_file_base_name
                                                        );
+
+        data_diagram_destroy( &((*this_).temp_parent_diag) );
 
         /* write all classifiers */
         write_err |= io_export_diagram_traversal_private_iterate_diagram_classifiers( this_, (*this_).input_data );

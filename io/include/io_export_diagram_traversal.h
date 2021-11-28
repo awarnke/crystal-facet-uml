@@ -31,6 +31,8 @@ struct io_export_diagram_traversal_struct {
     data_rules_t filter_rules;  /*!< own instance of uml and sysml consistency rules */
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
     io_element_writer_t *element_writer;  /*!< pointer to external io_element_writer_t which is the output sink */
+
+    data_diagram_t temp_parent_diag;  /*!< own instance of a data cache for the parent diagram */
 };
 
 typedef struct io_export_diagram_traversal_struct io_export_diagram_traversal_t;

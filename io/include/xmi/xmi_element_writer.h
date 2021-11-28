@@ -303,11 +303,13 @@ int xmi_element_writer_start_diagram( xmi_element_writer_t *this_, const data_di
  *  \brief writes a diagram of the document
  *
  *  \param this_ pointer to own object attributes
+ *  \param parent pointer to parent diagram or NULL in case of root
  *  \param diag_ptr pointer to diagram that shall be written
  *  \param diagram_file_base_name filename of the diagram without extension
  *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_assemble_diagram( xmi_element_writer_t *this_,
+                                         const data_diagram_t *parent,
                                          const data_diagram_t *diag_ptr,
                                          const char *diagram_file_base_name
                                        );

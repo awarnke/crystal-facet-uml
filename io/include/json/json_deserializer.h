@@ -262,6 +262,20 @@ data_error_t json_deserializer_private_get_next_feature ( json_deserializer_t *t
  */
 data_error_t json_deserializer_private_skip_next_diagramelement_array ( json_deserializer_t *this_ );
 
+/*!
+ *  \brief parses an array of strings and merges the entries
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param out_joined_string stringbuffer to copy joined string elements to;
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_joined_string,
+ *          DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          DATA_ERROR_NONE if structure of the input is valid.
+ */
+data_error_t json_deserializer_private_read_string_array ( json_deserializer_t *this_,
+                                                           utf8stringbuf_t out_joined_string
+                                                         );
+
 #endif  /* JSON_DESERIALIZER_H */
 
 

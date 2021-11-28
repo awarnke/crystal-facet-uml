@@ -182,13 +182,14 @@ static inline int io_element_writer_start_diagram( io_element_writer_t *this_, c
 }
 
 static inline int io_element_writer_assemble_diagram( io_element_writer_t *this_,
-                                       const data_diagram_t *diag_ptr,
-                                       const char *diagram_file_base_name )
+                                                      const data_diagram_t *parent,
+                                                      const data_diagram_t *diag_ptr,
+                                                      const char *diagram_file_base_name )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
     assert( (*((*this_).interface)).assemble_diagram != NULL );
-    return (*(  (*((*this_).interface)).assemble_diagram  )) ( (*this_).objectdata, diag_ptr, diagram_file_base_name );
+    return (*(  (*((*this_).interface)).assemble_diagram  )) ( (*this_).objectdata, parent, diag_ptr, diagram_file_base_name );
 }
 
 static inline int io_element_writer_end_diagram( io_element_writer_t *this_, const data_diagram_t *diag_ptr )

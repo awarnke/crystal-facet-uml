@@ -119,6 +119,7 @@ int io_export_set_traversal_private_export_diagram( io_export_set_traversal_t *t
         const char *const diagram_file_base_name = "";
         serialize_error |= io_element_writer_start_diagram( (*this_).element_writer, &out_diagram );
         serialize_error |= io_element_writer_assemble_diagram( (*this_).element_writer,
+                                                               NULL,  /* parent, currently not needed here */
                                                                &out_diagram,
                                                                diagram_file_base_name
                                                              );

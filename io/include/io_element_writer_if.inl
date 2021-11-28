@@ -52,6 +52,7 @@
                            );  /*!< \see io_element_writer_t */
     int (*start_diagram)( io_element_writer_impl_t *this_, const data_diagram_t *diag_ptr );  /*!< \see io_element_writer_t */
     int (*assemble_diagram)( io_element_writer_impl_t *this_,
+                             const data_diagram_t *parent,
                              const data_diagram_t *diag_ptr,
                              const char *diagram_file_base_name
                            );  /*!< \see io_element_writer_t */

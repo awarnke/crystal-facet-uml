@@ -117,13 +117,12 @@ int json_element_writer_write_header( json_element_writer_t *this_, const char *
                                       );
 
     out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "encoding", "utf-8", true );
-    out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "structure-format", "rfc-8259", true );
+    out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "structure_format", "rfc-8259", true );
     out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "format", "cfu-json", true );
-    out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "version", 0, true );
-    const char *const warn = "Object member names and value-types are subject to change.";
-    out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "warning", warn, true );
-    out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "generator-name", META_INFO_PROGRAM_ID_STR, true );
-    out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "generator-version", META_VERSION_STR, false );
+    out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "major_version", 1, true );
+    out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "minor_version", 0, true );
+    out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "generator_name", META_INFO_PROGRAM_ID_STR, true );
+    out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "generator_version", META_VERSION_STR, false );
 
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_TAB
@@ -995,6 +994,7 @@ int json_element_writer_start_diagram( json_element_writer_t *this_, const data_
 }
 
 int json_element_writer_assemble_diagram( json_element_writer_t *this_,
+                                          const data_diagram_t *parent,
                                           const data_diagram_t *diag_ptr,
                                           const char *diagram_file_base_name )
 {
@@ -1082,14 +1082,16 @@ int json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                                );
 
         /* parent uuid */
-        /*
-        out_err |= json_writer_write_member_string( &((*this_).json_writer),
-                                                    4,
-                                                    JSON_CONSTANTS_KEY_PARENT,
-                                                    data_diagram_get_uuid_const( diag_ptr ),
-                                                    true
-                                                  );
-                                                  */
+        const bool parent_valid = ( parent == NULL ) ? false : data_diagram_is_valid( parent );
+        if ( parent_valid )
+        {
+            out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                        4,
+                                                        JSON_CONSTANTS_KEY_DIAGRAM_PARENT,
+                                                        data_diagram_get_uuid_const( parent ),
+                                                        true
+                                                      );
+        }
 
         /* uuid */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),

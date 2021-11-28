@@ -1129,10 +1129,12 @@ int xhtml_element_writer_start_diagram( xhtml_element_writer_t *this_, const dat
 }
 
 int xhtml_element_writer_assemble_diagram( xhtml_element_writer_t *this_,
+                                           const data_diagram_t *parent,
                                            const data_diagram_t *diag_ptr,
                                            const char *diagram_file_base_name )
 {
     TRACE_BEGIN();
+    /* parent may be NULL */
     assert ( NULL != diag_ptr );
     assert ( NULL != diagram_file_base_name );
     int export_err = 0;

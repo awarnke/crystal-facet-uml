@@ -1416,6 +1416,7 @@ int xmi_element_writer_start_diagram( xmi_element_writer_t *this_, const data_di
 }
 
 int xmi_element_writer_assemble_diagram( xmi_element_writer_t *this_,
+                                         const data_diagram_t *parent,
                                          const data_diagram_t *diag_ptr,
                                          const char *diagram_file_base_name )
 {

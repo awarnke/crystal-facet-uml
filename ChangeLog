@@ -1,9 +1,11 @@
-crystal-facet-uml (1.33.2) UNRELEASED; urgency=medium
+crystal-facet-uml (1.34.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * fix: export in json format contains also lifelines
+  * export in json format contains also uuids as links (for auto-merging)
+  * export in json format nicer for humans to read (for diff and merge)
+  * export in json format contains also lifelines
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 23 Nov 2021 18:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 28 Nov 2021 18:00:00 +0200
 
 crystal-facet-uml (1.33.1) UNRELEASED; urgency=medium
 
