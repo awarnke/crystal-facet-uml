@@ -5,7 +5,7 @@ crystal-facet-uml (1.34.0) UNRELEASED; urgency=medium
   * export in json format nicer for humans to read (for diff and merge)
   * export in json format contains also lifelines
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 28 Nov 2021 18:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 28 Nov 2021 21:00:00 +0200
 
 crystal-facet-uml (1.33.1) UNRELEASED; urgency=medium
 
