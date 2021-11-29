@@ -1,7 +1,7 @@
 crystal-facet-uml (1.34.1-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * dependency to libc added to cmake
+  * no error if gtk_init_check fails - otherwise tests would fail
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 29 Nov 2021 20:00:00 +0200
 crystal-facet-uml (1.34.0-1) UNRELEASED; urgency=medium

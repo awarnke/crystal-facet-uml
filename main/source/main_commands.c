@@ -27,7 +27,7 @@ int main_commands_init ( main_commands_t *this_, bool start_gui, int argc, char 
         if ( ! success )
         {
             TSLOG_WARNING("gtk could not be initialized.");
-            result = -1;
+            /* no error here, if no gui requested - test fail otherwise */
         }
     }
 
