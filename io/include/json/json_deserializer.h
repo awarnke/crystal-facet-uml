@@ -28,6 +28,9 @@
  *
  *  The attribute values keep track on the structure of the input tokens
  *  to check if these appear in the right order.
+ *
+ *  Lifecycle: A json deserializer shall perform a single import operation only.
+ *  It may be initialized before one import operation and be destroyed afterwards.
  */
 struct json_deserializer_struct {
     json_token_reader_t tokenizer;  /*!< own token_reader instance to consecutively fetch tokens from the json input file */

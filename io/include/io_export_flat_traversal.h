@@ -24,7 +24,10 @@
 #include <stdio.h>
 
 /*!
- *  \brief attributes of the description writer
+ *  \brief attributes of the flat-list traversal
+ *
+ *  Lifecycle: A database traversal shall perform a single export operation only.
+ *  It may be initialized before one export operation and be destroyed afterwards.
  */
 struct io_export_flat_traversal_struct {
     data_database_reader_t *db_reader;  /* !< pointer to external database reader */

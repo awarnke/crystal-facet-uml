@@ -30,7 +30,7 @@ void gui_clipboard_init ( gui_clipboard_t *this_,
                                                      );
 
     io_exporter_light_init ( &((*this_).exporter), db_reader );
-    json_import_to_database_init ( &((*this_).importer), db_reader, controller );
+    io_importer_init ( &((*this_).importer), db_reader, controller );
 
     TRACE_END();
 }
@@ -40,7 +40,7 @@ void gui_clipboard_destroy ( gui_clipboard_t *this_ )
     TRACE_BEGIN();
 
     io_exporter_light_destroy ( &((*this_).exporter) );
-    json_import_to_database_destroy ( &((*this_).importer) );
+    io_importer_destroy ( &((*this_).importer) );
 
     (*this_).the_clipboard = NULL;
     (*this_).message_to_user = NULL;
@@ -122,12 +122,12 @@ void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const c
     data_stat_t stat;
     data_stat_init(&stat);
     uint32_t read_err_pos;
-    parse_error = json_import_to_database_import_buf_to_db( &((*this_).importer),
-                                                            json_text,
-                                                            (*this_).destination_diagram_id,
-                                                            &stat,
-                                                            &read_err_pos
-                                                          );
+    parse_error = io_importer_import_memory_buffer( &((*this_).importer),
+                                                    json_text,
+                                                    (*this_).destination_diagram_id,
+                                                    &stat,
+                                                    &read_err_pos
+                                                  );
 
     if ( DATA_ERROR_NONE != parse_error )
     {

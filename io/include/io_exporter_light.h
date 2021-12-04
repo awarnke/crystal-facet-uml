@@ -17,6 +17,12 @@
 
 /*!
  *  \brief attributes of the io_exporter_light_t object
+ *
+ *  This is a light version in the sense of memory consumption,
+ *  optimized for exporting data sets to the clipboard only.
+ *
+ *  Lifecycle: An exporter may perform multiple export operations.
+ *  It may be initialized at program start and live till program exit.
  */
 struct io_exporter_light_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external data_database_reader */

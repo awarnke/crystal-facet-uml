@@ -17,14 +17,21 @@
 #include "data_diagramelement.h"
 #include "ctrl_controller.h"
 #include "storage/data_database_reader.h"
+#include "data_rules.h"
+#include "set/data_stat.h"
 
 /*!
  *  \brief object data of a io_import_elements_t.
  *
+ *  Lifecycle: An element importer shall perform a single import operation only.
+ *  It may be initialized before one import operation and be destroyed afterwards.
  */
 struct io_import_elements_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
+    data_rules_t data_rules;  /*!< own instance of uml and sysml consistency rules */
+
+    data_stat_t *stat;  /*!< pointer to import statistics */
 };
 
 typedef struct io_import_elements_struct io_import_elements_t;
@@ -35,10 +42,12 @@ typedef struct io_import_elements_struct io_import_elements_t;
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader
  *  \param controller pointer to a controller object which can modify the database
+ *  \param io_stat Statistics are only added, *io_stat shall be initialized by caller
  */
 void io_import_elements_init( io_import_elements_t *this_,
                               data_database_reader_t *db_reader,
-                              ctrl_controller_t *controller
+                              ctrl_controller_t *controller,
+                              data_stat_t *io_stat
                             );
 
 /*!

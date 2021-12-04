@@ -28,6 +28,9 @@
 
 /*!
  *  \brief all data attributes needed for tokenizing data objects
+ *
+ *  Lifecycle: A json token reader shall perform a single import operation only.
+ *  It may be initialized before one import operation and be destroyed afterwards.
  */
 struct json_token_reader_struct {
     char input_buffer[512];  /*!< look-ahead input buffer to check for next bytes */

@@ -23,6 +23,9 @@ enum io_export_set_traversal_max_enum {
 
 /*!
  *  \brief attributes of the export traversal object
+ *
+ *  Lifecycle: A database traversal shall perform a single export operation only.
+ *  It may be initialized before one export operation and be destroyed afterwards.
  */
 struct io_export_set_traversal_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external data_database_reader */

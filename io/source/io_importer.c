@@ -3,6 +3,7 @@
 #include "io_importer.h"
 #include "json/json_deserializer.h"
 #include "stream/universal_file_input_stream.h"
+#include "stream/universal_memory_input_stream.h"
 #include "ctrl_error.h"
 #include "util/string/utf8string.h"
 #include "trace.h"
@@ -18,7 +19,8 @@ void io_importer_init ( io_importer_t *this_,
     assert( NULL != db_reader );
     assert( NULL != controller );
 
-    json_import_to_database_init( &((*this_).json_importer), db_reader, controller );
+    (*this_).db_reader = db_reader;
+    (*this_).controller = controller;
 
     TRACE_END();
 }
@@ -26,10 +28,44 @@ void io_importer_init ( io_importer_t *this_,
 void io_importer_destroy ( io_importer_t *this_ )
 {
     TRACE_BEGIN();
+    assert( NULL != (*this_).db_reader );
+    assert( NULL != (*this_).controller );
 
-    json_import_to_database_destroy( &((*this_).json_importer) );
+    (*this_).db_reader = NULL;
+    (*this_).controller = NULL;
 
     TRACE_END();
+}
+
+data_error_t io_importer_import_memory_buffer( io_importer_t *this_,
+                                               const char *json_text,
+                                               data_row_id_t diagram_id,
+                                               data_stat_t *io_stat,
+                                               uint32_t *out_read_line )
+{
+    TRACE_BEGIN();
+    assert( NULL != json_text );
+    data_error_t result = DATA_ERROR_NONE;
+
+    json_import_to_database_init( &((*this_).temp_json_importer), (*this_).db_reader, (*this_).controller );
+
+    universal_memory_input_stream_t in_mem_stream;
+    universal_memory_input_stream_init( &in_mem_stream, json_text, strlen(json_text) );
+    universal_input_stream_t* in_stream = universal_memory_input_stream_get_input_stream( &in_mem_stream );
+
+    result = json_import_to_database_import_stream_to_db( &((*this_).temp_json_importer),
+                                                          in_stream,
+                                                          diagram_id,
+                                                          io_stat,
+                                                          out_read_line
+                                                        );
+
+    universal_memory_input_stream_destroy( &in_mem_stream );
+
+    json_import_to_database_destroy( &((*this_).temp_json_importer) );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 data_error_t io_importer_import_file( io_importer_t *this_,
@@ -43,6 +79,8 @@ data_error_t io_importer_import_file( io_importer_t *this_,
     assert( io_stat != NULL );
     assert( out_english_report != NULL );
     data_error_t parse_error = DATA_ERROR_NONE;
+
+    json_import_to_database_init( &((*this_).temp_json_importer), (*this_).db_reader, (*this_).controller );
 
     universal_utf8_writer_write_str( out_english_report, "importing not yet implemented.\n" );
 
@@ -63,7 +101,7 @@ data_error_t io_importer_import_file( io_importer_t *this_,
 
         /* create a list of diagram elements, check if the referenced diagrams and classifiers really exist */
 
-        const data_error_t err3 = json_import_to_database_prescan( &((*this_).json_importer),
+        const data_error_t err3 = json_import_to_database_prescan( &((*this_).temp_json_importer),
                                                                    universal_file_input_stream_get_input_stream( &in_file ),
                                                                    io_stat,
                                                                    out_english_report
@@ -105,6 +143,8 @@ data_error_t io_importer_import_file( io_importer_t *this_,
     {
         parse_error = DATA_ERROR_AT_FILE_READ;
     }
+
+    json_import_to_database_destroy( &((*this_).temp_json_importer) );
 
     TRACE_END_ERR( parse_error );
     return parse_error;

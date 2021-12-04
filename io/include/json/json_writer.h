@@ -38,6 +38,9 @@ extern const char JSON_CONSTANTS_INDENT_QUOTE[(2*JSON_WRITER_MAX_INDENT)+sizeof(
 
 /*!
  *  \brief attributes of the json writer
+ *
+ *  Lifecycle: A json writer shall perform a single export operation only.
+ *  It may be initialized before one export operation and be destroyed afterwards.
  */
 struct json_writer_struct {
     universal_output_stream_t *output;  /*!< output stream where to write the generated document to */

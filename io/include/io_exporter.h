@@ -27,6 +27,9 @@
 
 /*!
  *  \brief attributes of the file exporter
+ *
+ *  Lifecycle: An exporter may perform multiple export operations.
+ *  It may be initialized at program start and live till program exit.
  */
 struct io_exporter_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
@@ -50,7 +53,7 @@ struct io_exporter_struct {
 typedef struct io_exporter_struct io_exporter_t;
 
 /*!
- *  \brief initializes the main window
+ *  \brief initializes the exporter
  *
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader object
@@ -60,7 +63,7 @@ void io_exporter_init( io_exporter_t *this_,
                      );
 
 /*!
- *  \brief destroys the main window
+ *  \brief destroys the exporter
  *
  *  \param this_ pointer to own object attributes
  */

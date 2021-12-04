@@ -27,6 +27,8 @@
 /*!
  *  \brief object (vmt+data) of a json_element_writer_t.
  *
+ *  Lifecycle: A json element writer shall perform a single export operation only.
+ *  It may be initialized before one export operation and be destroyed afterwards.
  */
 struct json_element_writer_struct {
     io_element_writer_t element_writer;  /*!< instance of implemented interface \c io_element_writer_t */

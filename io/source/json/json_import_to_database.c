@@ -2,7 +2,6 @@
 
 #include "json/json_import_to_database.h"
 #include "ctrl_error.h"
-#include "stream/universal_memory_input_stream.h"
 #include "util/string/utf8string.h"
 #include "trace.h"
 #include <assert.h>
@@ -35,26 +34,6 @@ void json_import_to_database_destroy ( json_import_to_database_t *this_ )
     (*this_).controller = NULL;
 
     TRACE_END();
-}
-
-data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t *this_,
-                                                       const char *json_text,
-                                                       data_row_id_t diagram_id,
-                                                       data_stat_t *io_stat,
-                                                       uint32_t *out_read_line )
-{
-    TRACE_BEGIN();
-    assert( NULL != json_text );
-    data_error_t result = DATA_ERROR_NONE;
-
-    universal_memory_input_stream_t in_mem_stream;
-    universal_memory_input_stream_init( &in_mem_stream, json_text, strlen(json_text) );
-    universal_input_stream_t* in_stream = universal_memory_input_stream_get_input_stream( &in_mem_stream );
-    result = json_import_to_database_import_stream_to_db( this_, in_stream, diagram_id, io_stat, out_read_line );
-    universal_memory_input_stream_destroy( &in_mem_stream );
-
-    TRACE_END_ERR( result );
-    return result;
 }
 
 data_error_t json_import_to_database_import_stream_to_db( json_import_to_database_t *this_,

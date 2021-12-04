@@ -11,7 +11,7 @@
 #include "gui_marked_set.h"
 #include "gui_simple_message_to_user.h"
 #include "io_exporter_light.h"
-#include "json/json_import_to_database.h"
+#include "io_importer.h"
 #include "ctrl_controller.h"
 #include "data_rules.h"
 #include "util/string/utf8stringbuf.h"
@@ -24,7 +24,7 @@ struct gui_clipboard_struct {
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
 
     io_exporter_light_t exporter;  /*!< own instance of a json exporter */
-    json_import_to_database_t importer;  /*!< own instance of a json importer */
+    io_importer_t importer;  /*!< own instance of a json importer */
 
     data_row_id_t destination_diagram_id;  /*!< id of the diagram to which the deserialized objects shal  be added */
     GtkClipboard *the_clipboard;  /*!< pointer to external GtkClipboard */

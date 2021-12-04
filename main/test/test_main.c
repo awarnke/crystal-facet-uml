@@ -1,11 +1,13 @@
 /* File: test_main.c; Copyright and License: see below */
 
+/* data */
 #include "unit/data_change_notifier_test.h"
 #include "unit/data_small_set_test.h"
 #include "unit/data_uuid_test.h"
 #include "unit/data_rules_test.h"
 #include "unit/data_database_listener_test.h"
 #include "integration/data_database_reader_test.h"
+/* ctrl */
 #include "unit/ctrl_diagram_controller_test.h"
 #include "unit/ctrl_controller_test.h"
 #include "unit/ctrl_classifier_controller_test.h"
@@ -13,20 +15,24 @@
 #include "unit/ctrl_undo_redo_list_test.h"
 #include "unit/ctrl_diagram_policy_enforcer_test.h"
 #include "unit/ctrl_classifier_policy_enforcer_test.h"
+/* pencil */
 #include "unit/geometry_rectangle_test.h"
 #include "unit/geometry_connector_test.h"
 #include "unit/geometry_non_linear_scale_test.h"
-#include "unit/gui_sketch_nav_tree_test.h"
-#include "unit/txt_writer_test.h"
-#include "unit/json_token_reader_test.h"
-#include "unit/json_import_to_database_test.h"
-#include "unit/md_filter_test.h"
-#include "integration/io_export_model_traversal_test.h"
 #include "unit/draw_classifier_contour_test.h"
 #include "unit/pencil_layout_data_test.h"
 #include "unit/pencil_classifier_composer_test.h"
 #include "integration/pencil_layouter_test.h"
 #include "integration/pencil_diagram_maker_test.h"
+/* gui */
+#include "unit/gui_sketch_nav_tree_test.h"
+/* io */
+#include "unit/txt_writer_test.h"
+#include "unit/json_token_reader_test.h"
+#include "unit/md_filter_test.h"
+#include "integration/io_importer_test.h"
+#include "integration/io_export_model_traversal_test.h"
+/* universal */
 #include "unit/universal_array_index_sorter_test.h"
 #include "unit/universal_array_list_test.h"
 #include "unit/universal_memory_output_stream_test.h"
@@ -36,6 +42,7 @@
 #include "unit/universal_buffer_output_stream_test.h"
 #include "unit/universal_memory_arena_test.h"
 #include "unit/universal_arena_list_test.h"
+/* utf8stringbuf */
 #include "unit/utf8stringbuf_test.h"
 #include "unit/utf8codepoint_test.h"
 #include "unit/utf8codepointiterator_test.h"
@@ -43,11 +50,12 @@
 /* #include "unit/utf8stringbuf_performance.h" -- performance measurements are not reliable - depend on system config+load */
 #include "unit/utf8stringview_test.h"
 #include "unit/utf8stringviewiterator_test.h"
+#include "util/string/utf8string.h"
+/* TEST_ENVIRONMENT */
 #include "trace.h"
 #include "tslog.h"
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
-#include "util/string/utf8string.h"
 #include "test_runner.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
@@ -164,7 +172,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, ctrl_classifier_policy_enforcer_test_get_list() );
         test_runner_run_suite( &runner, pencil_layouter_test_get_list() );
         test_runner_run_suite( &runner, pencil_diagram_maker_test_get_list() );
-        test_runner_run_suite( &runner, json_import_to_database_test_get_list() );
+        test_runner_run_suite( &runner, io_importer_test_get_list() );
         test_runner_run_suite( &runner, md_filter_test_get_list() );
         test_runner_run_suite( &runner, io_export_model_traversal_test_get_list() );
     }

@@ -1,7 +1,7 @@
-/* File: json_import_to_database_test.h; Copyright and License: see below */
+/* File: io_importer_test.h; Copyright and License: see below */
 
-#ifndef JSON_IMPORT_TO_DATABASE_TEST_H
-#define JSON_IMPORT_TO_DATABASE_TEST_H
+#ifndef IO_IMPORTER_TEST_H
+#define IO_IMPORTER_TEST_H
 
 /*!
  *  \file
@@ -10,9 +10,9 @@
 
 #include "test_suite.h"
 
-test_suite_t json_import_to_database_test_get_list(void);
+test_suite_t io_importer_test_get_list(void);
 
-#endif  /* JSON_IMPORT_TO_DATABASE_TEST_H */
+#endif  /* IO_IMPORTER_TEST_H */
 
 
 /*
