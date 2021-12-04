@@ -1,6 +1,6 @@
-/* File: json_import_to_database.c; Copyright and License: see below */
+/* File: json_importer.c; Copyright and License: see below */
 
-#include "json/json_import_to_database.h"
+#include "json/json_importer.h"
 #include "ctrl_error.h"
 #include "util/string/utf8string.h"
 #include "trace.h"
@@ -8,50 +8,54 @@
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
-void json_import_to_database_init ( json_import_to_database_t *this_,
-                                    data_database_reader_t *db_reader,
-                                    ctrl_controller_t *controller )
+void json_importer_init( json_importer_t *this_,
+                         data_database_reader_t *db_reader,
+                         ctrl_controller_t *controller,
+                         data_stat_t *io_stat )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != controller );
+    assert( NULL != io_stat );
 
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
+    (*this_).stat = io_stat;
 
     data_rules_init ( &((*this_).data_rules) );
 
     TRACE_END();
 }
 
-void json_import_to_database_destroy ( json_import_to_database_t *this_ )
+void json_importer_destroy( json_importer_t *this_ )
 {
     TRACE_BEGIN();
+    assert( NULL != (*this_).db_reader );
+    assert( NULL != (*this_).controller );
+    assert( NULL != (*this_).stat );
 
     data_rules_destroy ( &((*this_).data_rules) );
 
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
+    (*this_).stat = NULL;
 
     TRACE_END();
 }
 
-data_error_t json_import_to_database_import_stream_to_db( json_import_to_database_t *this_,
+data_error_t json_importer_import_stream( json_importer_t *this_,
                                                           universal_input_stream_t *json_text,
                                                           data_row_id_t diagram_id,
-                                                          data_stat_t *io_stat,
                                                           uint32_t *out_read_line )
 {
     TRACE_BEGIN();
     assert( NULL != json_text );
-    assert( NULL != io_stat );
     assert( NULL != out_read_line );
 
     data_error_t parse_error = DATA_ERROR_NONE;
     data_row_id_t attach_diagram_id = diagram_id;
 
-    json_deserializer_t deserializer;
-    json_deserializer_init( &deserializer, json_text );
+    json_deserializer_init( &((*this_).temp_deserializer), json_text );
 
     /* check if diagram id exists */
     {
@@ -66,37 +70,37 @@ data_error_t json_import_to_database_import_stream_to_db( json_import_to_databas
     /* read header */
     if ( DATA_ERROR_NONE == parse_error )
     {
-        parse_error = json_deserializer_expect_header( &deserializer );
+        parse_error = json_deserializer_expect_header( &((*this_).temp_deserializer) );
     }
 
     if ( DATA_ERROR_NONE == parse_error )
     {
-        parse_error = json_import_to_database_private_import_views( this_, &deserializer, &attach_diagram_id, io_stat );
+        parse_error = json_importer_private_import_views( this_, &attach_diagram_id );
     }
 
     if ( DATA_ERROR_NONE == parse_error )
     {
-        parse_error = json_import_to_database_private_import_nodes( this_, &deserializer, attach_diagram_id, io_stat );
+        parse_error = json_importer_private_import_nodes( this_, attach_diagram_id );
     }
 
     if ( DATA_ERROR_NONE == parse_error )
     {
-        parse_error = json_import_to_database_private_import_edges( this_, &deserializer, attach_diagram_id, io_stat );
+        parse_error = json_importer_private_import_edges( this_,  attach_diagram_id );
     }
 
     if ( DATA_ERROR_NONE == parse_error )
     {
-        parse_error = json_deserializer_expect_footer( &deserializer );
+        parse_error = json_deserializer_expect_footer( &((*this_).temp_deserializer) );
     }
 
-    json_deserializer_get_read_line ( &deserializer, out_read_line );
-    json_deserializer_destroy( &deserializer );
+    json_deserializer_get_read_line ( &((*this_).temp_deserializer), out_read_line );
+    json_deserializer_destroy( &((*this_).temp_deserializer) );
 
     TRACE_END_ERR( parse_error );
     return parse_error;
 }
 
-bool json_import_to_database_private_is_feature_focused_in_diagram( json_import_to_database_t *this_, data_row_id_t diagram_id, data_row_id_t feature_id )
+bool json_importer_private_is_feature_focused_in_diagram( json_importer_t *this_, data_row_id_t diagram_id, data_row_id_t feature_id )
 {
     TRACE_BEGIN();
     bool is_focused = false;
@@ -130,10 +134,9 @@ bool json_import_to_database_private_is_feature_focused_in_diagram( json_import_
     return is_focused;
 }
 
-data_error_t json_import_to_database_prescan( json_import_to_database_t *this_,
-                                              universal_input_stream_t *in_stream,
-                                              data_stat_t *io_stat,
-                                              universal_utf8_writer_t *out_english_report )
+data_error_t json_importer_prescan( json_importer_t *this_,
+                                    universal_input_stream_t *in_stream,
+                                    universal_utf8_writer_t *out_english_report )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
@@ -155,34 +158,29 @@ data_error_t json_import_to_database_prescan( json_import_to_database_t *this_,
     return result;
 }
 
-data_error_t json_import_to_database_private_import_views( json_import_to_database_t *this_,
-                                                           json_deserializer_t *deserializer,
-                                                           data_row_id_t *io_diagram_id,
-                                                           data_stat_t *io_stat )
+data_error_t json_importer_private_import_views( json_importer_t *this_, data_row_id_t *io_diagram_id )
 {
     TRACE_BEGIN();
-    assert( NULL != deserializer );
-    assert( NULL != io_stat );
     assert( NULL != io_diagram_id );
 
     data_error_t parse_error = DATA_ERROR_NONE;
 
     if ( DATA_ERROR_NONE == parse_error )
     {
-        parse_error = json_deserializer_expect_begin_data( deserializer );
+        parse_error = json_deserializer_expect_begin_data( &((*this_).temp_deserializer) );
     }
 
     if ( DATA_ERROR_NONE == parse_error )
     {
         data_table_t next_object_type;
         bool set_end = false;  /* end of data set reached or error at parsing */
-        parse_error = json_deserializer_check_end_data( deserializer, &set_end );
+        parse_error = json_deserializer_check_end_data( &((*this_).temp_deserializer), &set_end );
         bool any_error = ( parse_error != DATA_ERROR_NONE );  /* consolidation of parser errors and writer errors */
         bool is_first = true;  /* is this the first object in the database that is created? if false, database changes are appended to the last undo_redo_set */
         static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* do not import more things than can be undone */
         for ( int count = 0; ( ! set_end ) && ( ! any_error ) && ( count < MAX_LOOP_COUNTER ); count ++ )
         {
-            parse_error = json_deserializer_expect_begin_type_of_element( deserializer, &next_object_type );
+            parse_error = json_deserializer_expect_begin_type_of_element( &((*this_).temp_deserializer), &next_object_type );
             if ( DATA_ERROR_NONE == parse_error )
             {
                 switch ( next_object_type )
@@ -197,7 +195,7 @@ data_error_t json_import_to_database_private_import_views( json_import_to_databa
                     case DATA_TABLE_DIAGRAM:
                     {
                         data_diagram_t new_diagram;
-                        parse_error = json_deserializer_get_next_diagram ( deserializer, &new_diagram );
+                        parse_error = json_deserializer_get_next_diagram ( &((*this_).temp_deserializer), &new_diagram );
                         if ( DATA_ERROR_NONE != parse_error )
                         {
                             /* parser error, break loop: */
@@ -219,7 +217,7 @@ data_error_t json_import_to_database_private_import_views( json_import_to_databa
                                                                                     : CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND ),
                                                                                     &new_diag_id
                                                                                   );
-                            data_stat_inc_count ( io_stat,
+                            data_stat_inc_count ( (*this_).stat,
                                                   DATA_TABLE_DIAGRAM,
                                                   (CTRL_ERROR_NONE==write_error3)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                                 );
@@ -246,7 +244,7 @@ data_error_t json_import_to_database_private_import_views( json_import_to_databa
                 }
                 if ( DATA_ERROR_NONE == parse_error )
                 {
-                    parse_error = json_deserializer_expect_end_type_of_element( deserializer );
+                    parse_error = json_deserializer_expect_end_type_of_element( &((*this_).temp_deserializer) );
                     /* parser error, break loop: */
                     any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
                 }
@@ -259,7 +257,7 @@ data_error_t json_import_to_database_private_import_views( json_import_to_databa
 
             if ( DATA_ERROR_NONE == parse_error )
             {
-                parse_error = json_deserializer_check_end_data( deserializer, &set_end );
+                parse_error = json_deserializer_check_end_data( &((*this_).temp_deserializer), &set_end );
                 /* parser error, break loop: */
                 any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
             }
@@ -270,33 +268,28 @@ data_error_t json_import_to_database_private_import_views( json_import_to_databa
     return parse_error;
 }
 
-data_error_t json_import_to_database_private_import_nodes( json_import_to_database_t *this_,
-                                                           json_deserializer_t *deserializer,
-                                                           data_row_id_t diagram_id,
-                                                           data_stat_t *io_stat )
+data_error_t json_importer_private_import_nodes( json_importer_t *this_, data_row_id_t diagram_id )
 {
     TRACE_BEGIN();
-    assert( NULL != deserializer );
-    assert( NULL != io_stat );
 
     data_error_t parse_error = DATA_ERROR_NONE;
 
     if ( DATA_ERROR_NONE == parse_error )
     {
-        parse_error = json_deserializer_expect_begin_data( deserializer );
+        parse_error = json_deserializer_expect_begin_data( &((*this_).temp_deserializer) );
     }
 
     if ( DATA_ERROR_NONE == parse_error )
     {
         data_table_t next_object_type;
         bool set_end = false;  /* end of data set reached or error at parsing */
-        parse_error = json_deserializer_check_end_data( deserializer, &set_end );
+        parse_error = json_deserializer_check_end_data( &((*this_).temp_deserializer), &set_end );
         bool any_error = ( parse_error != DATA_ERROR_NONE );  /* consolidation of parser errors and writer errors */
         bool is_first = true;  /* is this the first object in the database that is created? if false, database changes are appended to the last undo_redo_set */
         static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* do not import more things than can be undone */
         for ( int count = 0; ( ! set_end ) && ( ! any_error ) && ( count < MAX_LOOP_COUNTER ); count ++ )
         {
-            parse_error = json_deserializer_expect_begin_type_of_element( deserializer, &next_object_type );
+            parse_error = json_deserializer_expect_begin_type_of_element( &((*this_).temp_deserializer), &next_object_type );
             if ( DATA_ERROR_NONE == parse_error )
             {
                 switch ( next_object_type )
@@ -312,7 +305,7 @@ data_error_t json_import_to_database_private_import_nodes( json_import_to_databa
                     {
                         data_classifier_t new_classifier;
                         uint32_t feature_count;
-                        parse_error = json_deserializer_get_next_classifier ( deserializer,
+                        parse_error = json_deserializer_get_next_classifier ( &((*this_).temp_deserializer),
                                                                               &new_classifier,
                                                                               JSON_IMPORT_TO_DATABASE_MAX_FEATURES,
                                                                               &((*this_).temp_features),
@@ -351,7 +344,7 @@ data_error_t json_import_to_database_private_import_nodes( json_import_to_databa
                                                                                                 : CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND ),
                                                                                                 &the_classifier_id
                                                                                               );
-                                    data_stat_inc_count ( io_stat,
+                                    data_stat_inc_count ( (*this_).stat,
                                                           DATA_TABLE_CLASSIFIER,
                                                           (CTRL_ERROR_NONE==write_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                                         );
@@ -373,14 +366,14 @@ data_error_t json_import_to_database_private_import_nodes( json_import_to_databa
                                                                                                            CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                                                            &new_feature_id
                                                                                                          );
-                                                data_stat_inc_count ( io_stat,
+                                                data_stat_inc_count ( (*this_).stat,
                                                                       DATA_TABLE_FEATURE,
                                                                       (CTRL_ERROR_NONE==write_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                                                     );
                                             }
                                             else  /* lifeline */
                                             {
-                                                data_stat_inc_count ( io_stat,
+                                                data_stat_inc_count ( (*this_).stat,
                                                                       DATA_TABLE_FEATURE,
                                                                       DATA_STAT_SERIES_IGNORED
                                                                     );
@@ -398,13 +391,13 @@ data_error_t json_import_to_database_private_import_nodes( json_import_to_databa
                                 else
                                 {
                                     /* do the statistics */
-                                    data_stat_inc_count ( io_stat,
+                                    data_stat_inc_count ( (*this_).stat,
                                                           DATA_TABLE_CLASSIFIER,
                                                           DATA_STAT_SERIES_IGNORED
                                                         );
                                     for ( int f_index = 0; f_index < feature_count; f_index ++ )
                                     {
-                                        data_stat_inc_count ( io_stat,
+                                        data_stat_inc_count ( (*this_).stat,
                                                               DATA_TABLE_FEATURE,
                                                               DATA_STAT_SERIES_IGNORED
                                                             );
@@ -437,7 +430,7 @@ data_error_t json_import_to_database_private_import_nodes( json_import_to_databa
                                                                                                : CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND ),
                                                                                                &new_element_id
                                                                                              );
-                                data_stat_inc_count ( io_stat,
+                                data_stat_inc_count ( (*this_).stat,
                                                       DATA_TABLE_DIAGRAMELEMENT,
                                                       (CTRL_ERROR_NONE==write_error2)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                                     );
@@ -460,7 +453,7 @@ data_error_t json_import_to_database_private_import_nodes( json_import_to_databa
                 }
                 if ( DATA_ERROR_NONE == parse_error )
                 {
-                    parse_error = json_deserializer_expect_end_type_of_element( deserializer );
+                    parse_error = json_deserializer_expect_end_type_of_element( &((*this_).temp_deserializer) );
                     /* parser error, break loop: */
                     any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
                 }
@@ -473,7 +466,7 @@ data_error_t json_import_to_database_private_import_nodes( json_import_to_databa
 
             if ( DATA_ERROR_NONE == parse_error )
             {
-                parse_error = json_deserializer_check_end_data( deserializer, &set_end );
+                parse_error = json_deserializer_check_end_data( &((*this_).temp_deserializer), &set_end );
                 /* parser error, break loop: */
                 any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
             }
@@ -484,33 +477,28 @@ data_error_t json_import_to_database_private_import_nodes( json_import_to_databa
     return parse_error;
 }
 
-data_error_t json_import_to_database_private_import_edges( json_import_to_database_t *this_,
-                                                           json_deserializer_t *deserializer,
-                                                           data_row_id_t diagram_id,
-                                                           data_stat_t *io_stat )
+data_error_t json_importer_private_import_edges( json_importer_t *this_, data_row_id_t diagram_id )
 {
     TRACE_BEGIN();
-    assert( NULL != deserializer );
-    assert( NULL != io_stat );
 
     data_error_t parse_error = DATA_ERROR_NONE;
 
     if ( DATA_ERROR_NONE == parse_error )
     {
-        parse_error = json_deserializer_expect_begin_data( deserializer );
+        parse_error = json_deserializer_expect_begin_data( &((*this_).temp_deserializer) );
     }
 
     if ( DATA_ERROR_NONE == parse_error )
     {
         data_table_t next_object_type;
         bool set_end = false;  /* end of data set reached or error at parsing */
-        parse_error = json_deserializer_check_end_data( deserializer, &set_end );
+        parse_error = json_deserializer_check_end_data( &((*this_).temp_deserializer), &set_end );
         bool any_error = ( parse_error != DATA_ERROR_NONE );  /* consolidation of parser errors and writer errors */
         bool is_first = true;  /* is this the first object in the database that is created? if false, database changes are appended to the last undo_redo_set */
         static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* do not import more things than can be undone */
         for ( int count = 0; ( ! set_end ) && ( ! any_error ) && ( count < MAX_LOOP_COUNTER ); count ++ )
         {
-            parse_error = json_deserializer_expect_begin_type_of_element( deserializer, &next_object_type );
+            parse_error = json_deserializer_expect_begin_type_of_element( &((*this_).temp_deserializer), &next_object_type );
             if ( DATA_ERROR_NONE == parse_error )
             {
                 switch ( next_object_type )
@@ -533,7 +521,7 @@ data_error_t json_import_to_database_private_import_edges( json_import_to_databa
                         utf8stringbuf_t rel_to_clas = UTF8STRINGBUF(rel_to_clas_buf);
                         char rel_to_feat_buf[DATA_FEATURE_MAX_KEY_SIZE] = "";
                         utf8stringbuf_t rel_to_feat = UTF8STRINGBUF(rel_to_feat_buf);
-                        parse_error = json_deserializer_get_next_relationship ( deserializer,
+                        parse_error = json_deserializer_get_next_relationship ( &((*this_).temp_deserializer),
                                                                                 &new_relationship,
                                                                                 rel_from_clas,
                                                                                 rel_from_feat,
@@ -594,7 +582,7 @@ data_error_t json_import_to_database_private_import_edges( json_import_to_databa
                                                     {
                                                         /* lifeline is ok if visible in current diagram */
                                                         bool visible;
-                                                        visible = json_import_to_database_private_is_feature_focused_in_diagram ( this_,
+                                                        visible = json_importer_private_is_feature_focused_in_diagram ( this_,
                                                                                                                                   diagram_id,
                                                                                                                                   current_feature_id
                                                                                                                                 );
@@ -655,7 +643,7 @@ data_error_t json_import_to_database_private_import_edges( json_import_to_databa
                                                     {
                                                         /* lifeline is ok if visible in current diagram */
                                                         bool visible;
-                                                        visible = json_import_to_database_private_is_feature_focused_in_diagram ( this_,
+                                                        visible = json_importer_private_is_feature_focused_in_diagram ( this_,
                                                                                                                                   diagram_id,
                                                                                                                                   current_feature_id
                                                                                                                                 );
@@ -750,7 +738,7 @@ data_error_t json_import_to_database_private_import_edges( json_import_to_databa
                             data_relationship_destroy ( &new_relationship );
 
                             /* update statistics */
-                            data_stat_inc_count ( io_stat,
+                            data_stat_inc_count ( (*this_).stat,
                                                   DATA_TABLE_RELATIONSHIP,
                                                   (!dropped)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                                 );
@@ -774,7 +762,7 @@ data_error_t json_import_to_database_private_import_edges( json_import_to_databa
                 }
                 if ( DATA_ERROR_NONE == parse_error )
                 {
-                    parse_error = json_deserializer_expect_end_type_of_element( deserializer );
+                    parse_error = json_deserializer_expect_end_type_of_element( &((*this_).temp_deserializer) );
                     /* parser error, break loop: */
                     any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
                 }
@@ -787,7 +775,7 @@ data_error_t json_import_to_database_private_import_edges( json_import_to_databa
 
             if ( DATA_ERROR_NONE == parse_error )
             {
-                parse_error = json_deserializer_check_end_data( deserializer, &set_end );
+                parse_error = json_deserializer_check_end_data( &((*this_).temp_deserializer), &set_end );
                 /* parser error, break loop: */
                 any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
             }

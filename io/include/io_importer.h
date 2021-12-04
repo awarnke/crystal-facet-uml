@@ -8,7 +8,7 @@
  *  \brief Imports a set of objects from a file
  */
 
-#include "json/json_import_to_database.h"
+#include "json/json_importer.h"
 #include "io_import_elements.h"
 #include "io_file_format.h"
 #include "ctrl_controller.h"
@@ -26,7 +26,7 @@ struct io_importer_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
 
-    json_import_to_database_t temp_json_importer;  /*!< own instance of a json stream importer */
+    json_importer_t temp_json_importer;  /*!< own instance of a json stream importer */
     io_import_elements_t temp_elements_importer;  /*!< own instance of a db-element sync to database */
 };
 
