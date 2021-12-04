@@ -174,7 +174,7 @@ static inline int io_element_writer_start_feature( io_element_writer_t *this_,
                                                  );
 
 /*!
- *  \brief writes constents of a a feature
+ *  \brief writes constents of a feature
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the owning parent classifier
@@ -297,7 +297,7 @@ static inline int io_element_writer_start_diagramelement( io_element_writer_t *t
                                                         );
 
 /*!
- *  \brief writes constents of a a diagramelement
+ *  \brief writes constents of a diagramelement
  *
  *  \param this_ pointer to own object attributes
  *  \param parent the hosting parent diagram

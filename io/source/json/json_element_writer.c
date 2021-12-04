@@ -772,7 +772,7 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
                                           );
 
         /* to_classifier_name */
-        const char *const to_c_name = from_c_valid ? data_classifier_get_name_const( to_c ) : "";
+        const char *const to_c_name = to_c_valid ? data_classifier_get_name_const( to_c ) : "";
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB

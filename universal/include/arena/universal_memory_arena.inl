@@ -7,20 +7,20 @@ static inline void universal_memory_arena_init ( universal_memory_arena_t *this_
                                                  size_t mem_buf_size )
 {
     assert( mem_buf_start != NULL );
-    (*this_).mem_buf_start = mem_buf_start;
-    (*this_).mem_buf_size = mem_buf_size;
-    (*this_).mem_buf_used = 0;
+    (*this_).int_buf_start = mem_buf_start;
+    (*this_).int_buf_size = mem_buf_size / sizeof(int);
+    (*this_).int_buf_used = 0;
 }
 
 static inline void universal_memory_arena_destroy ( universal_memory_arena_t *this_ )
 {
-    assert( (*this_).mem_buf_start != NULL );
-    (*this_).mem_buf_start = NULL;
+    assert( (*this_).int_buf_start != NULL );
+    (*this_).int_buf_start = NULL;
 }
 
 static inline void universal_memory_arena_reset ( universal_memory_arena_t *this_ )
 {
-    (*this_).mem_buf_used = 0;
+    (*this_).int_buf_used = 0;
 }
 
 static inline int universal_memory_arena_get_block ( universal_memory_arena_t *this_,
@@ -30,18 +30,9 @@ static inline int universal_memory_arena_get_block ( universal_memory_arena_t *t
     assert( out_block != NULL );
     int err = 0;
 
-    static const unsigned int align = sizeof(int);
-    static const unsigned int align_mask = ~(-align);  /* assuming a complement of 2 presentation */
-    /*  -1 = 11111111, -2 = 11111110, -4 = 11111100, -8 = 11111000 */
+    const size_t requested_ints = ( block_size + sizeof(int) - 1 ) / sizeof(int);
 
-    char *const free_start = (*this_).mem_buf_start + (*this_).mem_buf_used;
-    const unsigned int free_misalign = ((unsigned int)free_start) & align_mask;
-    unsigned int padding = (free_misalign==0) ? 0 : (align-free_misalign);
-
-    char *const block_start = (*this_).mem_buf_start + (*this_).mem_buf_used + padding;
-    char *const next_start = block_start + block_size;
-
-    if (( (*this_).mem_buf_start + (*this_).mem_buf_size )<( next_start ))
+    if (( (*this_).int_buf_used + requested_ints ) > (*this_).int_buf_size )
     {
         err = -1;
         *out_block = NULL;
@@ -49,9 +40,10 @@ static inline int universal_memory_arena_get_block ( universal_memory_arena_t *t
     else
     {
         err = 0;
-        *out_block = block_start;
-        (*this_).mem_buf_used = next_start - (*this_).mem_buf_start;
+        *out_block = &( (*this_).int_buf_start[(*this_).int_buf_used] );
+        (*this_).int_buf_used += requested_ints;
     }
+
     return err;
 }
 

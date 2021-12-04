@@ -1,11 +1,9 @@
 /* File: universal_arena_list_test.c; Copyright and License: see below */
 
 #include "universal_arena_list_test.h"
-#if 0
 #include "arena/universal_arena_list.h"
 #include "arena/universal_arena_list_element.h"
 #include "arena/universal_memory_arena.h"
-#endif
 #include "test_assert.h"
 #include <string.h>
 #include <assert.h>
@@ -22,11 +20,6 @@ test_suite_t universal_arena_list_test_get_list(void)
     return result;
 }
 
-static void set_up(void) {}
-static void tear_down(void) {}
-static void test_append(void) {}
-
-#if 0
 static char one_and_half_element[ sizeof(universal_arena_list_element_t) + 2*sizeof(double) + sizeof(int) ];
 universal_memory_arena_t small_arena;
 
@@ -81,7 +74,6 @@ static void test_append(void)
 
     universal_arena_list_destroy( &test_me );
 }
-#endif
 
 
 /*

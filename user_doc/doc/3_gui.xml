@@ -53,7 +53,8 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/file_export.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Exports all diagrams to the selected folder (supported formats are png, pdf, ps, svg, txt. xhtml, docbook, xmi)</para></listitem>
+                <listitem><para>Exports all diagrams to the selected folder.
+                        Supported formats are png, pdf, ps, svg, txt, xhtml, docbook, json, xmi.</para></listitem>
                 </itemizedlist>
             </para>
 

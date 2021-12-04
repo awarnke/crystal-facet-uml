@@ -16,9 +16,9 @@
  *  \brief attributes of the universal_memory_arena
  */
 struct universal_memory_arena_struct {
-    char* mem_buf_start;  /*!< memory buffer start */
-    size_t mem_buf_size;  /*!< memory buffer size */
-    size_t mem_buf_used;  /*!< part of the memory buffer that is already in use */
+    int* int_buf_start;  /*!< memory buffer start */
+    size_t int_buf_size;  /*!< memory buffer size in sizeof(int) */
+    size_t int_buf_used;  /*!< part of the memory buffer that is already in use, unit: sizeof(int) */
 };
 
 typedef struct universal_memory_arena_struct universal_memory_arena_t;
@@ -27,7 +27,8 @@ typedef struct universal_memory_arena_struct universal_memory_arena_t;
  *  \brief initializes the universal_memory_arena_t
  *
  *  \param this_ pointer to own object attributes
- *  \param mem_buf_start address of memory buffer
+ *  \param mem_buf_start address of memory buffer.
+ *                       To optimize performance, this shall be int-aligned.
  *  \param mem_buf_size size of the memory buffer
  */
 static inline void universal_memory_arena_init ( universal_memory_arena_t *this_,
