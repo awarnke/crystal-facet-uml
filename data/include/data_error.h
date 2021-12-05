@@ -28,6 +28,7 @@ enum data_error_enum {
     DATA_ERROR_INVALID_REQUEST = 0x10,  /*!< function call not allowed or parameters wrong */
     DATA_ERROR_INPUT_EMPTY = 0x20,  /*!< input parameter is empty or void */
     DATA_ERROR_OBJECT_STILL_REFERENCED = 0x40,  /*!< object cannot be deleted, it is still referenced */
+    DATA_ERROR_ENV = 0x80,  /*!< the execution environment reacts unexpectedly, possibly not reproducible. */
 
     DATA_ERROR_LEXICAL_STRUCTURE = 0x0100,  /*!< the lexical structure of the input-string is corrupted (contains invalid tokens) */
     DATA_ERROR_PARSER_STRUCTURE = 0x0200,  /*!< the parser structure of the input-string is corrupted (wrong order of tokens) */

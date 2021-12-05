@@ -27,6 +27,7 @@ enum ctrl_error_enum {
     CTRL_ERROR_INVALID_REQUEST = DATA_ERROR_INVALID_REQUEST,  /*!< function call not allowed or parameters wrong */
     CTRL_ERROR_INPUT_EMPTY = DATA_ERROR_INPUT_EMPTY,  /*!< input parameter is empty or void */
     CTRL_ERROR_OBJECT_STILL_REFERENCED = DATA_ERROR_OBJECT_STILL_REFERENCED,  /*!< object cannot be deleted, it is still referenced */
+    CTRL_ERROR_ENV = DATA_ERROR_ENV,  /*!< the execution environment reacts unexpectedly, possibly not reproducible. */
 
     CTRL_ERROR_LEXICAL_STRUCTURE = DATA_ERROR_LEXICAL_STRUCTURE,  /*!< the lexical structure of the input-string is corrupted (contains invalid tokens) */
     CTRL_ERROR_PARSER_STRUCTURE = DATA_ERROR_PARSER_STRUCTURE,  /*!< the parser structure of the input-string is corrupted (wrong order of tokens) */
