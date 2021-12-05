@@ -124,6 +124,19 @@ int io_import_elements_sync_diagram( io_import_elements_t *this_,
     }
     data_diagram_set_parent_row_id( diagram_ptr, parent_row_id );
 
+    if (( (*this_).mode == IO_IMPORT_MODE_PASTE )&&( sync_error==0 ))
+    {
+        if ( (*this_).paste_to_diagram == DATA_ROW_ID_VOID )
+        {
+            sync_error = -1;
+            TRACE_INFO_STR( "in paste-clipboard mode, parent diagram must be valid", parent_uuid );
+        }
+        else
+        {
+            data_diagram_set_parent_row_id( diagram_ptr, (*this_).paste_to_diagram );
+        }
+    }
+
     if (( (*this_).mode != IO_IMPORT_MODE_CHECK )&&( sync_error==0 ))
     {
         /* create the parsed diagram as child below the current diagram */
@@ -132,7 +145,6 @@ int io_import_elements_sync_diagram( io_import_elements_t *this_,
 
         ctrl_error_t write_error3;
         data_row_id_t new_diag_id;
-        data_diagram_set_parent_row_id( diagram_ptr, (*this_).paste_to_diagram );
         write_error3 = ctrl_diagram_controller_create_diagram ( diag_ctrl,
                                                                 diagram_ptr,
                                                                 ( (*this_).is_first_undo_action
@@ -189,7 +201,16 @@ int io_import_elements_sync_classifier( io_import_elements_t *this_,
     int sync_error = 0;
     data_row_id_t the_classifier_id = DATA_ROW_ID_VOID;
 
-    if ( (*this_).mode != IO_IMPORT_MODE_CHECK )
+    if (( (*this_).mode == IO_IMPORT_MODE_PASTE )&&( sync_error==0 ))
+    {
+        if ( (*this_).paste_to_diagram == DATA_ROW_ID_VOID )
+        {
+            sync_error = -1;
+            TRACE_INFO( "in paste-clipboard mode, parent diagram must be valid" );
+        }
+    }
+
+    if (( (*this_).mode != IO_IMPORT_MODE_CHECK )&&( sync_error==0 ))
     {
         /* check if the parsed classifier already exists in this database; if not, create it */
         ctrl_classifier_controller_t *classifier_ctrl;
@@ -394,58 +415,6 @@ int io_import_elements_sync_relationship( io_import_elements_t *this_,
             {
                 from_classifier_id = data_classifier_get_row_id( &((*this_).temp_classifier) );
                 TRACE_INFO_STR( "id found for src classifier:", from_node_uuid );
-
-#if 0
-                /* search source feature id */
-                if ( data_relationship_get_from_feature_row_id( &new_relationship ) != DATA_ROW_ID_VOID )
-                {
-                    uint32_t feature_count;
-                    read_error2 = data_database_reader_get_features_by_classifier_id ( (*this_).db_reader,
-                                                                                        from_classifier_id,
-                                                                                        JSON_IMPORT_TO_DATABASE_MAX_FEATURES,
-                                                                                        &((*this_).temp_features),
-                                                                                        &feature_count
-                                                                                        );
-                    if ( DATA_ERROR_NONE == read_error2 )
-                    {
-                        for ( int src_idx=0; src_idx < feature_count; src_idx ++ )
-                        {
-                            const data_feature_t *const current_feature = &((*this_).temp_features[src_idx]);
-                            const data_row_id_t current_feature_id = data_feature_get_row_id( current_feature );
-                            const char *const current_feature_key = data_feature_get_key_const( current_feature );
-                            const data_feature_type_t current_feature_type = data_feature_get_main_type( current_feature );
-                            if ( utf8stringbuf_equals_str( rel_from_feat, current_feature_key ) )
-                            {
-                                if ( data_rules_feature_is_scenario_cond( &((*this_).data_rules), current_feature_type ) )
-                                {
-                                    /* lifeline is ok if visible in current diagram */
-                                    bool visible;
-                                    visible = json_importer_private_is_feature_focused_in_diagram ( this_,
-                                                                                                    diagram_id,
-                                                                                                    current_feature_id
-                                                                                                  );
-                                    if ( visible )
-                                    {
-                                        from_feature_id = current_feature_id;
-                                        from_feature_type = current_feature_type;
-                                        TRACE_INFO_STR( "id found for scenario src feature:", rel_from_feat );
-                                    }
-                                    else
-                                    {
-                                        /* ignore lifelines of other diagrams */
-                                    }
-                                }
-                                else
-                                {
-                                    from_feature_id = current_feature_id;
-                                    from_feature_type = current_feature_type;
-                                    TRACE_INFO_STR( "id found for unconditional src feature:", rel_from_feat );
-                                }
-                            }
-                        }
-                    }
-                }
-#endif
                 data_classifier_destroy( &((*this_).temp_classifier) );
             }
             else
@@ -487,57 +456,6 @@ int io_import_elements_sync_relationship( io_import_elements_t *this_,
             {
                 to_classifier_id = data_classifier_get_row_id( &((*this_).temp_classifier) );
                 TRACE_INFO_STR( "id found for dst classifier:", to_node_uuid );
-#if 0
-                /* search destination feature id */
-                if ( data_relationship_get_to_feature_row_id( &new_relationship ) != DATA_ROW_ID_VOID )
-                {
-                    uint32_t feature_count;
-                    read_error2 = data_database_reader_get_features_by_classifier_id ( (*this_).db_reader,
-                                                                                        to_classifier_id,
-                                                                                        JSON_IMPORT_TO_DATABASE_MAX_FEATURES,
-                                                                                        &((*this_).temp_features),
-                                                                                        &feature_count
-                                                                                        );
-                    if ( DATA_ERROR_NONE == read_error2 )
-                    {
-                        for ( int src_idx=0; src_idx < feature_count; src_idx ++ )
-                        {
-                            const data_feature_t *const current_feature = &((*this_).temp_features[src_idx]);
-                            const data_row_id_t current_feature_id = data_feature_get_row_id( current_feature );
-                            const char *const current_feature_key = data_feature_get_key_const( current_feature );
-                            const data_feature_type_t current_feature_type = data_feature_get_main_type( current_feature );
-                                if ( utf8stringbuf_equals_str( rel_to_feat, current_feature_key ) )
-                            {
-                                if ( data_rules_feature_is_scenario_cond( &((*this_).data_rules), current_feature_type ) )
-                                {
-                                    /* lifeline is ok if visible in current diagram */
-                                    bool visible;
-                                    visible = json_importer_private_is_feature_focused_in_diagram ( this_,
-                                                                                                    diagram_id,
-                                                                                                    current_feature_id
-                                                                                                  );
-                                    if ( visible )
-                                    {
-                                        to_feature_id = current_feature_id;
-                                        to_feature_type = current_feature_type;
-                                        TRACE_INFO_STR( "id found for scenario dst feature:", rel_from_feat );
-                                    }
-                                    else
-                                    {
-                                        /* ignore lifelines of other diagrams */
-                                    }
-                                }
-                                else
-                                {
-                                    to_feature_id = current_feature_id;
-                                    to_feature_type = current_feature_type;
-                                    TRACE_INFO_STR( "id found for unconditional dst feature:", rel_from_feat );
-                                }
-                            }
-                        }
-                    }
-                }
-#endif
                 data_classifier_destroy( &((*this_).temp_classifier) );
             }
             else
@@ -653,42 +571,6 @@ int io_import_elements_sync_relationship( io_import_elements_t *this_,
 
     TRACE_END_ERR( sync_error );
     return sync_error;
-}
-
-bool io_import_elements_private_is_feature_focused_in_diagram( io_import_elements_t *this_,
-                                                               data_row_id_t diagram_id,
-                                                               data_row_id_t feature_id )
-{
-    TRACE_BEGIN();
-    bool is_focused = false;
-
-    /* read the database */
-    uint32_t diagramelement_count;
-    data_error_t d_err;
-    d_err = data_database_reader_get_diagramelements_by_diagram_id ( (*this_).db_reader,
-                                                                     diagram_id,
-                                                                     IO_IMPORT_ELEMENTS_MAX_DIAGELES,
-                                                                     &((*this_).temp_diageles),
-                                                                     &diagramelement_count
-                                                                   );
-    if ( d_err == DATA_ERROR_NONE )
-    {
-        for ( uint_fast32_t idx = 0; idx < diagramelement_count; idx ++ )
-        {
-            data_diagramelement_t *current_diagele = &((*this_).temp_diageles[idx]);
-            if ( feature_id == data_diagramelement_get_focused_feature_row_id( current_diagele ) )
-            {
-                is_focused = true;
-            }
-        }
-    }
-    else
-    {
-        TSLOG_ERROR_HEX( "data_database_reader_get_diagramelements_by_diagram_id failed.", d_err );
-    }
-
-    TRACE_END();
-    return is_focused;
 }
 
 

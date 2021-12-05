@@ -632,7 +632,7 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_NAME ) )
                         {
                             result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            TRACE_INFO_STR( "from-classifier name", utf8stringbuf_get_string( (*this_).temp_string ) );
+                            TRACE_INFO_STR( "from-classifier name:", utf8stringbuf_get_string( (*this_).temp_string ) );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_ID ) )
                         {
@@ -643,7 +643,7 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_KEY ) )
                         {
                             result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            TRACE_INFO_STR( "from-feature key", utf8stringbuf_get_string( (*this_).temp_string ) );
+                            TRACE_INFO_STR( "from-feature key:", utf8stringbuf_get_string( (*this_).temp_string ) );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_ID ) )
                         {
@@ -654,7 +654,7 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_NAME ) )
                         {
                             result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            TRACE_INFO_STR( "to-classifier name", utf8stringbuf_get_string( (*this_).temp_string ) );
+                            TRACE_INFO_STR( "to-classifier name:", utf8stringbuf_get_string( (*this_).temp_string ) );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_ID ) )
                         {
@@ -666,7 +666,7 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
                         {
 
                             result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            TRACE_INFO_STR( "to-feature key", utf8stringbuf_get_string( (*this_).temp_string ) );
+                            TRACE_INFO_STR( "to-feature key:", utf8stringbuf_get_string( (*this_).temp_string ) );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE ) )
                         {

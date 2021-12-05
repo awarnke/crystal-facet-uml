@@ -88,7 +88,7 @@ data_error_t json_token_reader_read_member_name ( json_token_reader_t *this_, ut
 /*!
  *  \brief checks if the next token is an "end-object" json token.
  *
- *  This function reads the end object token if there is one.
+ *  This function reads(consumes) the end object token if there is one.
  *
  *  \param this_ pointer to own object attributes
  *  \param end_object return value: true if the next token is an "end-object" token. This parameter must not be NULL.
@@ -122,7 +122,7 @@ data_error_t json_token_reader_expect_begin_array ( json_token_reader_t *this_ )
 /*!
  *  \brief checks if the next token is an "end-array" json token.
  *
- *  This function reads the end array token if there is one.
+ *  This function readss(consumes) the end array token if there is one.
  *
  *  \param this_ pointer to own object attributes
  *  \param end_array return value: true if the next token is an "end-array" token. This parameter must not be NULL.

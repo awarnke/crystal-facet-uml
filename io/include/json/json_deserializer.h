@@ -97,7 +97,7 @@ data_error_t json_deserializer_expect_begin_data ( json_deserializer_t *this_ );
 /*!
  *  \brief checks if the data array is at end.
  *
- *  If yes, the end is read.
+ *  If yes, the end is read and consumed.
  *
  *  \param this_ pointer to own object attributes
  *  \param[out] out_end true if the data array is at its end.

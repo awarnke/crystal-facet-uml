@@ -2,8 +2,11 @@ crystal-facet-uml (1.34.2) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * undo of paste requires just 1 click on undo (as in version 1.33.1)
+  * when pasting from the clipboard, uuids are preserved.
+  * pasting messages-between-lifelines from the clipboard to other diagrams
+    is not possible anymore, please create new messages when needed.
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 04 Dec 2021 20:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 18 Dec 2021 20:00:00 +0200
 
 crystal-facet-uml (1.34.1) UNRELEASED; urgency=medium
 

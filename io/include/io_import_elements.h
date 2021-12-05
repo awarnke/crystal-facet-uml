@@ -24,13 +24,6 @@
 #include "ctrl_controller.h"
 
 /*!
- *  \brief constants for maximum values of json_importer_t
- */
-enum io_import_elements_max_enum {
-    IO_IMPORT_ELEMENTS_MAX_DIAGELES = DATA_VISIBLE_SET_MAX_CLASSIFIERS,  /*!< maximum number of diagramelements per diagram */
-};
-
-/*!
  *  \brief object data of a io_import_elements_t.
  *
  *  Lifecycle: An element importer shall perform a single import operation only.
@@ -50,7 +43,6 @@ struct io_import_elements_struct {
 
     data_diagram_t temp_diagram;  /*!< memory buffer to load a diagram temporarily from the database */
     data_diagramelement_t temp_diagramelement;  /*!< memory buffer to load a diagramelement temporarily from the database */
-    data_diagramelement_t temp_diageles[IO_IMPORT_ELEMENTS_MAX_DIAGELES];  /*!< temporary memory for diagramelement list */
     data_classifier_t temp_classifier;  /*!< memory buffer to load a classifier temporarily from the database */
     data_feature_t temp_feature;  /*!< memory buffer to load a feature temporarily from the database */
     data_relationship_t temp_relationship;  /*!< memory buffer to load a relationship temporarily from the database */
@@ -172,19 +164,6 @@ int io_import_elements_sync_relationship( io_import_elements_t *this_,
                                           const char *from_node_uuid,
                                           const char *to_node_uuid
                                         );
-
-/*!
- *  \brief checks if a given lifeline (feature) is visible (focused) in the current diagram
- *
- *  \param this_ pointer to own object attributes
- *  \param diagram_id id of the diagram to which to attach the imported data
- *  \param feature_id id of the feature that shall be the focused_feature of the diagramelement (for a lifeline, this means being visible)
- *  \return true if a matching diagramelement is found
- */
-bool io_import_elements_private_is_feature_focused_in_diagram( io_import_elements_t *this_,
-                                                               data_row_id_t diagram_id,
-                                                               data_row_id_t feature_id
-                                                             );
 
 #endif  /* IO_IMPORT_ELEMENTS_H */
 
