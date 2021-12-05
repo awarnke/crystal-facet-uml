@@ -279,7 +279,7 @@ static void insert_invalid_json(void)
     data_stat_init(&stat);
     uint32_t read_line;
     static const char *json_text_p = "{\"head\":{},\"views\":[{\n\"unknown-type\"\n:{}}]}";
-    data_err = io_importer_import_memory_buffer( &importer,
+    data_err = io_importer_import_clipboard( &importer,
                                                  json_text_p,
                                                  root_diag_id,
                                                  &stat,
@@ -292,7 +292,7 @@ static void insert_invalid_json(void)
     /* but this happens in json_deserializer_get_type_of_next_element which does not advance the read pos */
 
     static const char *json_text_l = "{\"head\":{},\"views\":[{\"diagram\":\nnullnul\n}]}";
-    data_err = io_importer_import_memory_buffer( &importer,
+    data_err = io_importer_import_clipboard( &importer,
                                                  json_text_l,
                                                  root_diag_id,
                                                  &stat,
@@ -317,12 +317,12 @@ static void insert_invalid_parent_diag(void)
     data_stat_t stat;
     data_stat_init(&stat);
     uint32_t read_line;
-    data_err = io_importer_import_memory_buffer( &importer,
-                                                 test_json_no_diag,
-                                                 root_diag_id+1, /* does not exist */
-                                                 &stat,
-                                                 &read_line
-                                               );
+    data_err = io_importer_import_clipboard( &importer,
+                                             test_json_no_diag,
+                                             root_diag_id+1, /* does not exist */
+                                             &stat,
+                                             &read_line
+                                           );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
     TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
     TEST_ASSERT_EQUAL_INT( read_line, 1 );
@@ -343,12 +343,12 @@ static void insert_empty_set(void)
     data_stat_init(&stat);
     uint32_t read_line;
     static const char *json_text = "{\"head\":{},\"views\":[],\"nodes\":[],\"edges\":[]}\n";
-    data_err = io_importer_import_memory_buffer( &importer,
-                                                 json_text,
-                                                 root_diag_id,
-                                                 &stat,
-                                                 &read_line
-                                               );
+    data_err = io_importer_import_clipboard( &importer,
+                                             json_text,
+                                             root_diag_id,
+                                             &stat,
+                                             &read_line
+                                           );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
     TEST_ASSERT_EQUAL_INT( read_line, 2 );
@@ -368,12 +368,12 @@ static void insert_new_classifier_to_existing_diagram(void)
     data_stat_t stat;
     data_stat_init(&stat);
     uint32_t read_pos;
-    data_err = io_importer_import_memory_buffer( &importer,
-                                                 test_json_no_diag,
-                                                 root_diag_id,
-                                                 &stat,
-                                                 &read_pos
-                                               );
+    data_err = io_importer_import_clipboard( &importer,
+                                             test_json_no_diag,
+                                             root_diag_id,
+                                             &stat,
+                                             &read_pos
+                                           );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
@@ -403,12 +403,12 @@ static void insert_new_classifier_to_new_diagram(void)
     data_stat_t stat;
     data_stat_init(&stat);
     uint32_t read_pos;
-    data_err = io_importer_import_memory_buffer( &importer,
-                                                 test_json_own_diagram,
-                                                 root_diag_id,
-                                                 &stat,
-                                                 &read_pos
-                                               );
+    data_err = io_importer_import_clipboard( &importer,
+                                             test_json_own_diagram,
+                                             root_diag_id,
+                                             &stat,
+                                             &read_pos
+                                           );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
@@ -439,12 +439,12 @@ static void insert_existing_classifier_to_existing_diagram(void)
         data_stat_t stat;
         data_stat_init(&stat);
         uint32_t read_pos;
-        data_err = io_importer_import_memory_buffer( &importer,
-                                                     test_json_no_diag,
-                                                     root_diag_id,
-                                                     &stat,
-                                                     &read_pos
-                                                   );
+        data_err = io_importer_import_clipboard( &importer,
+                                                 test_json_no_diag,
+                                                 root_diag_id,
+                                                 &stat,
+                                                 &read_pos
+                                               );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_existing_diagram */
         TEST_ASSERT_EQUAL_INT( 64, read_pos );
@@ -454,12 +454,12 @@ static void insert_existing_classifier_to_existing_diagram(void)
         data_stat_t stat;
         data_stat_init(&stat);
         uint32_t read_pos;
-        data_err = io_importer_import_memory_buffer( &importer,
-                                                     test_json_no_diag,
-                                                     root_diag_id,
-                                                     &stat,
-                                                     &read_pos
-                                                   );
+        data_err = io_importer_import_clipboard( &importer,
+                                                 test_json_no_diag,
+                                                 root_diag_id,
+                                                 &stat,
+                                                 &read_pos
+                                               );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
@@ -494,12 +494,12 @@ static void insert_existing_classifier_to_new_diagram(void)
         data_stat_t stat;
         data_stat_init(&stat);
         uint32_t read_pos;
-        data_err = io_importer_import_memory_buffer( &importer,
-                                                     test_json_own_diagram,
-                                                     root_diag_id,
-                                                     &stat,
-                                                     &read_pos
-                                                   );
+        data_err = io_importer_import_clipboard( &importer,
+                                                 test_json_own_diagram,
+                                                 root_diag_id,
+                                                 &stat,
+                                                 &read_pos
+                                               );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
         TEST_ASSERT_EQUAL_INT( 87, read_pos );
@@ -509,12 +509,12 @@ static void insert_existing_classifier_to_new_diagram(void)
         data_stat_t stat;
         data_stat_init(&stat);
         uint32_t read_pos;
-        data_err = io_importer_import_memory_buffer( &importer,
-                                                     test_json_own_diagram,
-                                                     root_diag_id,
-                                                     &stat,
-                                                     &read_pos
-                                                   );
+        data_err = io_importer_import_clipboard( &importer,
+                                                 test_json_own_diagram,
+                                                 root_diag_id,
+                                                 &stat,
+                                                 &read_pos
+                                               );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
@@ -549,12 +549,12 @@ static void insert_unconditional_relationships(void)
         data_stat_t stat;
         data_stat_init(&stat);
         uint32_t read_pos;
-        data_err = io_importer_import_memory_buffer( &importer,
-                                                     test_json_own_diagram,
-                                                     root_diag_id,
-                                                     &stat,
-                                                     &read_pos
-                                                   );
+        data_err = io_importer_import_clipboard( &importer,
+                                                 test_json_own_diagram,
+                                                 root_diag_id,
+                                                 &stat,
+                                                 &read_pos
+                                               );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
         TEST_ASSERT_EQUAL_INT( 87, read_pos );
@@ -564,12 +564,12 @@ static void insert_unconditional_relationships(void)
         data_stat_t stat;
         data_stat_init(&stat);
         uint32_t read_pos;
-        data_err = io_importer_import_memory_buffer( &importer,
-                                                     test_json_no_diag,
-                                                     root_diag_id,
-                                                     &stat,
-                                                     &read_pos
-                                                   );
+        data_err = io_importer_import_clipboard( &importer,
+                                                 test_json_no_diag,
+                                                 root_diag_id,
+                                                 &stat,
+                                                 &read_pos
+                                               );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
@@ -669,12 +669,12 @@ static void insert_scenario_relationships_to_scenario(void)
     data_stat_t stat;
     data_stat_init(&stat);
     uint32_t read_pos;
-    data_err = io_importer_import_memory_buffer( &importer,
-                                                 test_scenario_relationship,
-                                                 root_diag_id,
-                                                 &stat,
-                                                 &read_pos
-                                               );
+    data_err = io_importer_import_clipboard( &importer,
+                                             test_scenario_relationship,
+                                             root_diag_id,
+                                             &stat,
+                                             &read_pos
+                                           );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     /* type 13 == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM; is scenario */
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
@@ -734,12 +734,12 @@ static void insert_scenario_relationships_to_non_scenario(void)
         data_stat_t stat;
         data_stat_init(&stat);
         uint32_t read_pos;
-        data_err = io_importer_import_memory_buffer( &importer,
-                                                     test_json_no_diag,
-                                                     root_diag_id,
-                                                     &stat,
-                                                     &read_pos
-                                                   );
+        data_err = io_importer_import_clipboard( &importer,
+                                                 test_json_no_diag,
+                                                 root_diag_id,
+                                                 &stat,
+                                                 &read_pos
+                                               );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_existing_diagram */
         TEST_ASSERT_EQUAL_INT( 64, read_pos );
@@ -749,12 +749,12 @@ static void insert_scenario_relationships_to_non_scenario(void)
         data_stat_t stat;
         data_stat_init(&stat);
         uint32_t read_pos;
-        data_err = io_importer_import_memory_buffer( &importer,
-                                                     test_json_scenario_self_relation,
-                                                     root_diag_id,
-                                                     &stat,
-                                                     &read_pos
-                                                   );
+        data_err = io_importer_import_clipboard( &importer,
+                                                 test_json_scenario_self_relation,
+                                                 root_diag_id,
+                                                 &stat,
+                                                 &read_pos
+                                               );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         /* type 13 == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM; is scenario */
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );

@@ -68,12 +68,12 @@ void io_importer_destroy ( io_importer_t *this_ );
  *  \param out_read_line read position in the stream, in case of an error, this may help finding the cause
  *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
  */
-data_error_t io_importer_import_memory_buffer( io_importer_t *this_,
-                                               const char *json_text,
-                                               data_row_id_t diagram_id,
-                                               data_stat_t *io_stat,
-                                               uint32_t *out_read_line
-                                             );
+data_error_t io_importer_import_clipboard( io_importer_t *this_,
+                                           const char *json_text,
+                                           data_row_id_t diagram_id,
+                                           data_stat_t *io_stat,
+                                           uint32_t *out_read_line
+                                         );
 
 
 /*!

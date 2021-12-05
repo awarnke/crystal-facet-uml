@@ -356,8 +356,10 @@ data_error_t json_deserializer_get_next_classifier ( json_deserializer_t *this_,
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
                         {
-                            /* TODO: do something with the uuid */
-                            result = json_deserializer_skip_next_string( this_ );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                            result |= data_classifier_set_uuid( out_object,
+                                                                utf8stringbuf_get_string( (*this_).temp_string )
+                                                              );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_FEATURES ) )
                         {
@@ -395,7 +397,9 @@ data_error_t json_deserializer_get_next_classifier ( json_deserializer_t *this_,
     return result;
 }
 
-data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, data_diagram_t *out_object )
+data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_,
+                                                  data_diagram_t *out_object,
+                                                  utf8stringbuf_t out_parent_uuid )
 {
     TRACE_BEGIN();
     assert ( NULL != out_object );
@@ -405,6 +409,7 @@ data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, da
     utf8stringbuf_t member_name = UTF8STRINGBUF( member_name_buf );
 
     data_diagram_init_empty( out_object );
+    utf8stringbuf_clear( out_parent_uuid );
 
     /* header */
 
@@ -476,9 +481,9 @@ data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, da
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_NAME ) )
                         {
                             result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            data_diagram_set_name( out_object,
-                                                   utf8stringbuf_get_string( (*this_).temp_string )
-                                                 );
+                            result |= data_diagram_set_name( out_object,
+                                                             utf8stringbuf_get_string( (*this_).temp_string )
+                                                           );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS ) )
                         {
@@ -488,13 +493,14 @@ data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, da
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_PARENT ) )
                         {
-                            /* TODO: do something with the uuid */
-                            result = json_deserializer_skip_next_string( this_ );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), out_parent_uuid );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
                         {
-                            /* TODO: do something with the uuid */
-                            result = json_deserializer_skip_next_string( this_ );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                            result |= data_diagram_set_uuid( out_object,
+                                                             utf8stringbuf_get_string( (*this_).temp_string )
+                                                           );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS ) )
                         {
@@ -534,10 +540,8 @@ data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, da
 
 data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this_,
                                                        data_relationship_t *out_object,
-                                                       utf8stringbuf_t out_from_classifier_name,
-                                                       utf8stringbuf_t out_from_feature_key,
-                                                       utf8stringbuf_t out_to_classifier_name,
-                                                       utf8stringbuf_t out_to_feature_key
+                                                       utf8stringbuf_t out_from_node_uuid,
+                                                       utf8stringbuf_t out_to_node_uuid
                                                      )
 {
     TRACE_BEGIN();
@@ -548,10 +552,8 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
     utf8stringbuf_t member_name = UTF8STRINGBUF( member_name_buf );
 
     data_relationship_init_empty( out_object );
-    utf8stringbuf_clear( out_from_classifier_name );
-    utf8stringbuf_clear( out_from_feature_key );
-    utf8stringbuf_clear( out_to_classifier_name );
-    utf8stringbuf_clear( out_to_feature_key );
+    utf8stringbuf_clear( out_from_node_uuid );
+    utf8stringbuf_clear( out_to_node_uuid );
 
     /* header */
 
@@ -630,7 +632,7 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_NAME ) )
                         {
                             result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            utf8stringbuf_copy_buf( out_from_classifier_name, (*this_).temp_string );
+                            TRACE_INFO_STR( "from-classifier name", utf8stringbuf_get_string( (*this_).temp_string ) );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_ID ) )
                         {
@@ -641,7 +643,7 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_KEY ) )
                         {
                             result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            utf8stringbuf_copy_buf( out_from_feature_key, (*this_).temp_string );
+                            TRACE_INFO_STR( "from-feature key", utf8stringbuf_get_string( (*this_).temp_string ) );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_ID ) )
                         {
@@ -652,7 +654,7 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_NAME ) )
                         {
                             result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            utf8stringbuf_copy_buf( out_to_classifier_name, (*this_).temp_string );
+                            TRACE_INFO_STR( "to-classifier name", utf8stringbuf_get_string( (*this_).temp_string ) );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_ID ) )
                         {
@@ -662,23 +664,24 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_KEY ) )
                         {
+
                             result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            utf8stringbuf_copy_buf( out_to_feature_key, (*this_).temp_string );
+                            TRACE_INFO_STR( "to-feature key", utf8stringbuf_get_string( (*this_).temp_string ) );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE ) )
                         {
-                            /* TODO: do something with the uuid */
-                            result = json_deserializer_skip_next_string ( this_ );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), out_from_node_uuid );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE ) )
                         {
-                            /* TODO: do something with the uuid */
-                            result = json_deserializer_skip_next_string ( this_ );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), out_to_node_uuid );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
                         {
-                            /* TODO: do something with the uuid */
-                            result = json_deserializer_skip_next_string ( this_ );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                            result |= data_relationship_set_uuid( out_object,
+                                                                  utf8stringbuf_get_string( (*this_).temp_string )
+                                                                );
                         }
                         else
                         {
@@ -1019,8 +1022,10 @@ data_error_t json_deserializer_private_get_next_feature ( json_deserializer_t *t
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
                         {
-                            /* TODO: do something with the uuid */
-                            result = json_deserializer_skip_next_string( this_ );
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                            result |= data_feature_set_uuid( out_object,
+                                                             utf8stringbuf_get_string( (*this_).temp_string )
+                                                           );
                         }
                         else
                         {

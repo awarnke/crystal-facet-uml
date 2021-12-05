@@ -9,11 +9,9 @@
  */
 
 #include "json/json_deserializer.h"
-#include "ctrl_controller.h"
+#include "io_import_elements.h"
 #include "data_rules.h"
-#include "set/data_visible_set.h"
 #include "set/data_stat.h"
-#include "storage/data_database_reader.h"
 #include "stream/universal_input_stream.h"
 #include "universal_utf8_writer.h"
 #include "util/string/utf8stringbuf.h"
@@ -23,7 +21,6 @@
  */
 enum json_importer_max_enum {
     JSON_IMPORT_TO_DATABASE_MAX_FEATURES = 64,  /*!< maximum number of features per classifier */
-    JSON_IMPORT_TO_DATABASE_MAX_DIAGELES = DATA_VISIBLE_SET_MAX_CLASSIFIERS,  /*!< maximum number of diagramelements per diagram */
 };
 
 /*!
@@ -33,16 +30,14 @@ enum json_importer_max_enum {
  *  It may be initialized before one import operation and be destroyed afterwards.
  */
 struct json_importer_struct {
-    data_database_reader_t *db_reader;  /*!< pointer to external data_database_reader */
-    ctrl_controller_t *controller;  /*!< pointer to external controller */
     data_rules_t data_rules;  /*!< own instance of uml and sysml consistency rules */
 
     json_deserializer_t temp_deserializer;  /*!< own instance of a json element deserializer */
+    io_import_elements_t *elements_importer;  /*!< pointer to external db-element sync to database */
 
     data_stat_t *stat;  /*!< pointer to import statistics */
 
     data_feature_t temp_features[JSON_IMPORT_TO_DATABASE_MAX_FEATURES];  /*!< temporary memory for feature list */
-    data_diagramelement_t temp_diageles[JSON_IMPORT_TO_DATABASE_MAX_DIAGELES];  /*!< temporary memory for diagramelement list */
 };
 
 typedef struct json_importer_struct json_importer_t;
@@ -63,8 +58,7 @@ typedef struct json_importer_struct json_importer_t;
  *                 Statistics are only added, *io_stat shall be initialized by caller.
  */
 void json_importer_init( json_importer_t *this_,
-                         data_database_reader_t *db_reader,
-                         ctrl_controller_t *controller,
+                         io_import_elements_t *elements_importer,
                          data_stat_t *io_stat
                        );
 
@@ -80,28 +74,13 @@ void json_importer_destroy( json_importer_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param json_text stream in json format, not NULL
- *  \param diagram_id id of the diagram to which to attach the imported data
  *  \param out_read_line read position in the stream, in case of an error, this may help finding the cause
  *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
  */
 data_error_t json_importer_import_stream( json_importer_t *this_,
                                           universal_input_stream_t *json_text,
-                                          data_row_id_t diagram_id,
                                           uint32_t *out_read_line
                                         );
-
-/*!
- *  \brief checks if a given lifeline (feature) is visible (focused) in the current diagram
- *
- *  \param this_ pointer to own object attributes
- *  \param diagram_id id of the diagram to which to attach the imported data
- *  \param feature_id id of the feature that shall be the focused_feature of the diagramelement (for a lifeline, this means being visible)
- *  \return true if a matching diagramelement is found
- */
-bool json_importer_private_is_feature_focused_in_diagram( json_importer_t *this_,
-                                                          data_row_id_t diagram_id,
-                                                          data_row_id_t feature_id
-                                                        );
 
 /*!
  *  \brief prescans which object ids are to be imported and which already exist in the current db
@@ -120,28 +99,25 @@ data_error_t json_importer_prescan( json_importer_t *this_,
  *  \brief imports views to the focused diagram
  *
  *  \param this_ pointer to own object attributes
- *  \param io_diagram_id id of the diagram to which to attach the imported data; is modified when creating a diagram
  *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
  */
-data_error_t json_importer_private_import_views( json_importer_t *this_, data_row_id_t *io_diagram_id );
+data_error_t json_importer_private_import_views( json_importer_t *this_ );
 
 /*!
  *  \brief imports nodes to the focused diagram
  *
  *  \param this_ pointer to own object attributes
- *  \param diagram_id id of the diagram to which to attach the imported data
  *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
  */
-data_error_t json_importer_private_import_nodes( json_importer_t *this_, data_row_id_t diagram_id );
+data_error_t json_importer_private_import_nodes( json_importer_t *this_ );
 
 /*!
  *  \brief imports edges to the focused diagram
  *
  *  \param this_ pointer to own object attributes
- *  \param diagram_id id of the diagram to which to attach the imported data
  *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
  */
-data_error_t json_importer_private_import_edges( json_importer_t *this_, data_row_id_t diagram_id );
+data_error_t json_importer_private_import_edges( json_importer_t *this_ );
 
 #endif  /* JSON_IMPORTER_H */
 

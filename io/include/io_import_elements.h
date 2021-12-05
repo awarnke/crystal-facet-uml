@@ -10,15 +10,25 @@
  *  and b) a pointer to objectdata that implements the interface.
  */
 
+#include "io_import_mode.h"
 #include "data_classifier.h"
 #include "data_feature.h"
 #include "data_relationship.h"
 #include "data_diagram.h"
 #include "data_diagramelement.h"
-#include "ctrl_controller.h"
-#include "storage/data_database_reader.h"
+#include "data_row_id.h"
 #include "data_rules.h"
+#include "storage/data_database_reader.h"
 #include "set/data_stat.h"
+#include "set/data_visible_set.h"
+#include "ctrl_controller.h"
+
+/*!
+ *  \brief constants for maximum values of json_importer_t
+ */
+enum io_import_elements_max_enum {
+    IO_IMPORT_ELEMENTS_MAX_DIAGELES = DATA_VISIBLE_SET_MAX_CLASSIFIERS,  /*!< maximum number of diagramelements per diagram */
+};
 
 /*!
  *  \brief object data of a io_import_elements_t.
@@ -31,7 +41,19 @@ struct io_import_elements_struct {
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     data_rules_t data_rules;  /*!< own instance of uml and sysml consistency rules */
 
+    io_import_mode_t mode;  /*!< the import mode */
+    data_row_id_t paste_to_diagram;  /*!< the diagram where pasted objects shall be attached to if IO_IMPORT_MODE_PASTE */
+    bool is_first_undo_action;  /*!< is this the first action in the undo redo list? */
+                                /*!< if false, database changes are appended to the last undo_redo_set */
+
     data_stat_t *stat;  /*!< pointer to import statistics */
+
+    data_diagram_t temp_diagram;  /*!< memory buffer to load a diagram temporarily from the database */
+    data_diagramelement_t temp_diagramelement;  /*!< memory buffer to load a diagramelement temporarily from the database */
+    data_diagramelement_t temp_diageles[IO_IMPORT_ELEMENTS_MAX_DIAGELES];  /*!< temporary memory for diagramelement list */
+    data_classifier_t temp_classifier;  /*!< memory buffer to load a classifier temporarily from the database */
+    data_feature_t temp_feature;  /*!< memory buffer to load a feature temporarily from the database */
+    data_relationship_t temp_relationship;  /*!< memory buffer to load a relationship temporarily from the database */
 };
 
 typedef struct io_import_elements_struct io_import_elements_t;
@@ -51,11 +73,64 @@ void io_import_elements_init( io_import_elements_t *this_,
                             );
 
 /*!
+ *  \brief initializes the io_import_elements_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param db_reader pointer to a database reader
+ *  \param controller pointer to a controller object which can modify the database
+ *  \param paste_to_diagram the diagram where pasted objects shall be attached to
+ *  \param io_stat Statistics are only added, *io_stat shall be initialized by caller
+ */
+void io_import_elements_init_for_paste( io_import_elements_t *this_,
+                                        data_database_reader_t *db_reader,
+                                        ctrl_controller_t *controller,
+                                        data_row_id_t paste_to_diagram,
+                                        data_stat_t *io_stat
+                                      );
+
+/*!
  *  \brief destroys the io_import_elements_t.
  *
  *  \param this_ pointer to own object attributes
  */
 void io_import_elements_destroy( io_import_elements_t *this_ );
+
+/*!
+ *  \brief destroys the io_import_elements_t.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param mode import mode to set
+ */
+void io_import_elements_set_mode( io_import_elements_t *this_, io_import_mode_t mode );
+
+/*!
+ *  \brief synchronizes a diagram with the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diag_ptr pointer to diagram that shall be written, not NULL, (diagram may be modified)
+ *  \param parent_uuid uuid of the parent diagram, NULL if root diagram
+ *  \return 0 in case of success, -1 otherwise
+ */
+int io_import_elements_sync_diagram( io_import_elements_t *this_,
+                                     data_diagram_t *diagram_ptr,
+                                     const char *parent_uuid
+                                   );
+
+/*!
+ *  \brief synchronizes a diagramelement with the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
+ *  \param diagram_uuid uuid of the parent diagram
+ *  \param node_uuid uuid of the referenced focused feature (lifeline) if there is one,
+ *                   uuid of the classifier otherwise.
+ *  \return 0 in case of success, -1 otherwise
+ */
+int io_import_elements_sync_diagramelement( io_import_elements_t *this_,
+                                            const data_diagramelement_t *diagramelement_ptr,
+                                            const char *diagram_uuid,
+                                            const char *node_uuid
+                                          );
 
 /*!
  *  \brief synchronizes a classifier with the database
@@ -72,11 +147,13 @@ int io_import_elements_sync_classifier( io_import_elements_t *this_,
  *  \brief synchronizes a feature with the database
  *
  *  \param this_ pointer to own object attributes
- *  \param feature_ptr pointer to feature that shall be written, not NULL
+ *  \param feature_ptr pointer to feature that shall be written, not NULL, (feature may be modified)
+ *  \param classifier_uuid uuid of the parent classifier
  *  \return 0 in case of success, -1 otherwise
  */
 int io_import_elements_sync_feature( io_import_elements_t *this_,
-                                     const data_feature_t *feature_ptr
+                                     data_feature_t *feature_ptr,
+                                     const char *classifier_uuid
                                    );
 
 /*!
@@ -84,33 +161,30 @@ int io_import_elements_sync_feature( io_import_elements_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
+ *  \param from_node_uuid uuid of the source feature if there is one,
+ *                        uuid of the source classifier otherwise.
+ *  \param to_node_uuid uuid of the destination feature if there is one,
+ *                      uuid of the destination classifier otherwise.
  *  \return 0 in case of success, -1 otherwise
  */
 int io_import_elements_sync_relationship( io_import_elements_t *this_,
-                                          const data_relationship_t *relation_ptr
+                                          data_relationship_t *relation_ptr,
+                                          const char *from_node_uuid,
+                                          const char *to_node_uuid
                                         );
 
 /*!
- *  \brief synchronizes a diagram with the database
+ *  \brief checks if a given lifeline (feature) is visible (focused) in the current diagram
  *
  *  \param this_ pointer to own object attributes
- *  \param diag_ptr pointer to diagram that shall be written
- *  \return 0 in case of success, -1 otherwise
+ *  \param diagram_id id of the diagram to which to attach the imported data
+ *  \param feature_id id of the feature that shall be the focused_feature of the diagramelement (for a lifeline, this means being visible)
+ *  \return true if a matching diagramelement is found
  */
-int io_import_elements_sync_diagram( io_import_elements_t *this_,
-                                     const data_diagram_t *diag_ptr
-                                   );
-
-/*!
- *  \brief synchronizes a diagramelement with the database
- *
- *  \param this_ pointer to own object attributes
- *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
- */
-int io_import_elements_sync_diagramelement( io_import_elements_t *this_,
-                                            const data_diagramelement_t *diagramelement_ptr
-                                          );
+bool io_import_elements_private_is_feature_focused_in_diagram( io_import_elements_t *this_,
+                                                               data_row_id_t diagram_id,
+                                                               data_row_id_t feature_id
+                                                             );
 
 #endif  /* IO_IMPORT_ELEMENTS_H */
 

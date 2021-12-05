@@ -157,28 +157,29 @@ data_error_t json_deserializer_get_next_classifier ( json_deserializer_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param out_object pointer to storage location for the result. Must not be NULL.
+ *  \param out_parent_uuid stringbuffer to copy the parent into;
+ *                         If there is no parent, the stringbuffer shall contani the empty string;
+ *                         size should be DATA_UUID_STRING_SIZE.
  *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
  *          DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
  *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          DATA_ERROR_NONE if structure of the input is valid.
  */
-data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, data_diagram_t *out_object );
+data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_,
+                                                  data_diagram_t *out_object,                                                      utf8stringbuf_t out_parent_uuid
+                                                );
 
 /*!
  *  \brief parses the next object as relationship
  *
  *  \param this_ pointer to own object attributes
  *  \param out_object pointer to storage location for the result. Must not be NULL.
- *  \param out_from_classifier_name stringbuffer to copy the from classifier name into;
- *                                  size should be DATA_CLASSIFIER_MAX_NAME_SIZE.
- *  \param out_from_feature_key stringbuffer to copy the from feature key into;
- *                              empty string is written if no feature available;
- *                              size should be DATA_FEATURE_MAX_KEY_SIZE.
- *  \param out_to_classifier_name stringbuffer to copy the to classifier name into;
- *                                size should be DATA_CLASSIFIER_MAX_NAME_SIZE.
- *  \param out_to_feature_key stringbuffer to copy the to feature key into;
- *                            empty string is written if no feature available;
- *                            size should be DATA_FEATURE_MAX_KEY_SIZE.
+ *  \param out_from_node_uuid stringbuffer to copy the from node into;
+ *                            This node may refer to a lifeline, another feature or a classifier;
+ *                            size should be DATA_UUID_STRING_SIZE.
+ *  \param out_to_node_uuid stringbuffer to copy the to node into;
+ *                          This node may refer to a lifeline, another feature or a classifier;
+ *                          size should be DATA_UUID_STRING_SIZE.
  *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
  *          DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
  *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
@@ -186,10 +187,8 @@ data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, da
  */
 data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this_,
                                                        data_relationship_t *out_object,
-                                                       utf8stringbuf_t out_from_classifier_name,
-                                                       utf8stringbuf_t out_from_feature_key,
-                                                       utf8stringbuf_t out_to_classifier_name,
-                                                       utf8stringbuf_t out_to_feature_key
+                                                       utf8stringbuf_t out_from_node_uuid,
+                                                       utf8stringbuf_t out_to_node_uuid
                                                      );
 
 /*!

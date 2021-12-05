@@ -122,12 +122,12 @@ void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const c
     data_stat_t stat;
     data_stat_init(&stat);
     uint32_t read_err_pos;
-    parse_error = io_importer_import_memory_buffer( &((*this_).importer),
-                                                    json_text,
-                                                    (*this_).destination_diagram_id,
-                                                    &stat,
-                                                    &read_err_pos
-                                                  );
+    parse_error = io_importer_import_clipboard( &((*this_).importer),
+                                                json_text,
+                                                (*this_).destination_diagram_id,
+                                                &stat,
+                                                &read_err_pos
+                                              );
 
     if ( DATA_ERROR_NONE != parse_error )
     {
