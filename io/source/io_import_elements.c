@@ -33,9 +33,9 @@ void io_import_elements_init ( io_import_elements_t *this_,
 }
 
 void io_import_elements_init_for_paste( io_import_elements_t *this_,
+                                        data_row_id_t paste_to_diagram,
                                         data_database_reader_t *db_reader,
                                         ctrl_controller_t *controller,
-                                        data_row_id_t paste_to_diagram,
                                         data_stat_t *io_stat )
 {
     TRACE_BEGIN();
@@ -235,9 +235,9 @@ int io_import_elements_sync_classifier( io_import_elements_t *this_,
                                                                         &the_classifier_id
                                                                       );
             data_stat_inc_count( (*this_).stat,
-                                DATA_TABLE_CLASSIFIER,
-                                (CTRL_ERROR_NONE==write_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
-                            );
+                                 DATA_TABLE_CLASSIFIER,
+                                 (CTRL_ERROR_NONE==write_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                               );
 
             if ( CTRL_ERROR_NONE != write_error )
             {
@@ -247,6 +247,8 @@ int io_import_elements_sync_classifier( io_import_elements_t *this_,
             else
             {
                 (*this_).is_first_undo_action = false;
+
+                sync_error = io_import_elements_private_create_diagramelement( this_, the_classifier_id );
             }
         }
         else
@@ -261,6 +263,15 @@ int io_import_elements_sync_classifier( io_import_elements_t *this_,
             the_classifier_id = data_classifier_get_row_id( &existing_classifier );
         }
     }
+    TRACE_END_ERR( sync_error );
+    return sync_error;
+}
+
+int io_import_elements_private_create_diagramelement( io_import_elements_t *this_, data_row_id_t classifier_id )
+{
+    TRACE_BEGIN();
+    assert( DATA_ROW_ID_VOID != classifier_id );
+    int sync_error = 0;
 
     if (( (*this_).mode != IO_IMPORT_MODE_CHECK )&&( sync_error==0 ))
     {
@@ -273,7 +284,7 @@ int io_import_elements_sync_classifier( io_import_elements_t *this_,
         data_diagramelement_t diag_ele;
         data_diagramelement_init_new( &diag_ele,
                                       (*this_).paste_to_diagram,
-                                      the_classifier_id,
+                                      classifier_id,
                                       DATA_DIAGRAMELEMENT_FLAG_NONE,
                                       DATA_ROW_ID_VOID
                                     );

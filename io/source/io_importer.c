@@ -48,9 +48,9 @@ data_error_t io_importer_import_clipboard( io_importer_t *this_,
     data_error_t result = DATA_ERROR_NONE;
 
     io_import_elements_init_for_paste( &((*this_).temp_elements_importer),
+                                       diagram_id,
                                        (*this_).db_reader,
                                        (*this_).controller,
-                                       diagram_id,
                                        io_stat
                                      );
     json_importer_init( &((*this_).temp_json_importer), &((*this_).temp_elements_importer), io_stat );

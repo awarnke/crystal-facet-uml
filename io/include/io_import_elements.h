@@ -68,15 +68,15 @@ void io_import_elements_init( io_import_elements_t *this_,
  *  \brief initializes the io_import_elements_t
  *
  *  \param this_ pointer to own object attributes
+ *  \param paste_to_diagram the diagram where pasted objects shall be attached to
  *  \param db_reader pointer to a database reader
  *  \param controller pointer to a controller object which can modify the database
- *  \param paste_to_diagram the diagram where pasted objects shall be attached to
  *  \param io_stat Statistics are only added, *io_stat shall be initialized by caller
  */
 void io_import_elements_init_for_paste( io_import_elements_t *this_,
+                                        data_row_id_t paste_to_diagram,
                                         data_database_reader_t *db_reader,
                                         ctrl_controller_t *controller,
-                                        data_row_id_t paste_to_diagram,
                                         data_stat_t *io_stat
                                       );
 
@@ -134,6 +134,15 @@ int io_import_elements_sync_diagramelement( io_import_elements_t *this_,
 int io_import_elements_sync_classifier( io_import_elements_t *this_,
                                         const data_classifier_t *classifier_ptr
                                       );
+
+/*!
+ *  \brief creates a diagramelement to attach a new classifier to a diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier for which a diagramelement shall be created
+ *  \return 0 in case of success, -1 otherwise
+ */
+int io_import_elements_private_create_diagramelement( io_import_elements_t *this_, data_row_id_t classifier_id );
 
 /*!
  *  \brief synchronizes a feature with the database

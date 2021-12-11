@@ -86,6 +86,9 @@ static const char DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID[] =
 
 /*!
  *  \brief search statement to iterate over all classifiers sorted by number of parent-containers
+ *
+ *  The "order by cnt" is important to ensure parent objects are iterated first, e.g. for xmi export
+ *  The "order by id" is important to get reproducable results, e.g. for json export
  */
 static const char DATA_DATABASE_READER_SELECT_ALL_CLASSIFIERS[] =
     "SELECT id,main_type,stereotype,name,description,x_order,y_order,list_order,uuid,"
@@ -93,7 +96,7 @@ static const char DATA_DATABASE_READER_SELECT_ALL_CLASSIFIERS[] =
         "WHERE (relationships.to_classifier_id=classifiers.id) AND (relationships.to_feature_id IS NULL) "
         "AND (relationships.main_type=300)) AS cnt "
     "FROM classifiers "
-    "ORDER BY cnt ASC;";
+    "ORDER BY cnt ASC,id ASC;";
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id

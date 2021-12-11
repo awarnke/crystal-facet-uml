@@ -26,7 +26,7 @@
  *  all U8_ERROR_ENV errors could be retried at a later point in time
  */
 enum u8_error_enum {
-    U8_ERROR_NONE = 0x0,  /*!< success */
+    U8_ERROR_NONE = 0x0,      /*!< success */
 
     U8_ERROR_MODE = 0x01,     /*!< wrong mode: The own software module is not in the right mode for the triggering event. */
                               /*!< e.g. a function is triggered but the module was not initialized, database is read-only, */

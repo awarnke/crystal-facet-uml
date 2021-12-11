@@ -531,15 +531,21 @@ static const char DATA_DATABASE_READER_SELECT_DIAGRAMELEMENT_BY_UUID[] =
 
 /*!
  *  \brief predefined search statement to find diagramelements by diagram id
+ *
+ *  The "order by id" is important to get reproducable results, e.g. for json export
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAMELEMENTS_BY_DIAGRAM_ID[] =
-    "SELECT id,diagram_id,classifier_id,display_flags,focused_feature_id,uuid FROM diagramelements WHERE diagram_id=?;";
+    "SELECT id,diagram_id,classifier_id,display_flags,focused_feature_id,uuid FROM diagramelements "
+    "WHERE diagram_id=? ORDER BY id ASC;";
 
 /*!
  *  \brief predefined search statement to find diagramelements by classifier id
+ *
+ *  The "order by id" is important to get reproducable results, e.g. for json export
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAMELEMENTS_BY_CLASSIFIER_ID[] =
-    "SELECT id,diagram_id,classifier_id,display_flags,focused_feature_id,uuid FROM diagramelements WHERE classifier_id=?;";
+    "SELECT id,diagram_id,classifier_id,display_flags,focused_feature_id,uuid FROM diagramelements "
+    "WHERE classifier_id=? ORDER BY id ASC;";
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id
