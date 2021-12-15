@@ -263,6 +263,7 @@ int io_import_elements_sync_classifier( io_import_elements_t *this_,
             the_classifier_id = data_classifier_get_row_id( &existing_classifier );
         }
     }
+
     TRACE_END_ERR( sync_error );
     return sync_error;
 }

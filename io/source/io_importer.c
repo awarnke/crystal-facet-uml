@@ -37,15 +37,15 @@ void io_importer_destroy ( io_importer_t *this_ )
     TRACE_END();
 }
 
-data_error_t io_importer_import_clipboard( io_importer_t *this_,
-                                           const char *json_text,
-                                           data_row_id_t diagram_id,
-                                           data_stat_t *io_stat,
-                                           uint32_t *out_read_line )
+u8_error_t io_importer_import_clipboard( io_importer_t *this_,
+                                         const char *json_text,
+                                         data_row_id_t diagram_id,
+                                         data_stat_t *io_stat,
+                                         uint32_t *out_read_line )
 {
     TRACE_BEGIN();
     assert( NULL != json_text );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = DATA_ERROR_NONE;
 
     io_import_elements_init_for_paste( &((*this_).temp_elements_importer),
                                        diagram_id,
@@ -73,17 +73,17 @@ data_error_t io_importer_import_clipboard( io_importer_t *this_,
     return result;
 }
 
-data_error_t io_importer_import_file( io_importer_t *this_,
-                                      io_file_format_t import_format,
-                                      const char *import_file_path,
-                                      data_stat_t *io_stat,
-                                      universal_utf8_writer_t *out_english_report )
+u8_error_t io_importer_import_file( io_importer_t *this_,
+                                    io_file_format_t import_format,
+                                    const char *import_file_path,
+                                    data_stat_t *io_stat,
+                                    universal_utf8_writer_t *out_english_report )
 {
     TRACE_BEGIN();
     assert( import_file_path != NULL );
     assert( io_stat != NULL );
     assert( out_english_report != NULL );
-    data_error_t parse_error = DATA_ERROR_NONE;
+    u8_error_t parse_error = DATA_ERROR_NONE;
 
     io_import_elements_init( &((*this_).temp_elements_importer), (*this_).db_reader, (*this_).controller, io_stat );
     json_importer_init( &((*this_).temp_json_importer), &((*this_).temp_elements_importer), io_stat );

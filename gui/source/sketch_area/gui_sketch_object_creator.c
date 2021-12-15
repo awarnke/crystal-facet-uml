@@ -471,9 +471,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
     /* find a good default name */
     char newname_buf[DATA_CLASSIFIER_MAX_NAME_SIZE];
     utf8stringbuf_t full_new_name = UTF8STRINGBUF( newname_buf );
-    char newtype_buf[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE];
-    utf8stringbuf_t full_new_type = UTF8STRINGBUF( newtype_buf );
-    gui_sketch_object_creator_private_propose_feature_name( this_, new_feature_type, full_new_name, full_new_type );
+    gui_sketch_object_creator_private_propose_feature_name( this_, new_feature_type, full_new_name );
 
     /* define feature struct */
     const data_error_t data_err
@@ -481,7 +479,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
                                  new_feature_type,
                                  parent_classifier_id,
                                  utf8stringbuf_get_string( full_new_name ),
-                                 utf8stringbuf_get_string( full_new_type ),
+                                 "",  /* type/value */
                                  "",
                                  list_order
                                );
@@ -699,16 +697,12 @@ void gui_sketch_object_creator_private_propose_classifier_name( gui_sketch_objec
 
 void gui_sketch_object_creator_private_propose_feature_name( gui_sketch_object_creator_t *this_,
                                                              data_feature_type_t f_type,
-                                                             utf8stringbuf_t out_name,
-                                                             utf8stringbuf_t out_type )
+                                                             utf8stringbuf_t out_name )
 {
     static int cycle_names = 0;
     static char *(PROPERTY_NAMES[8]) = {"new_state","new_run_mode","new_error_code","new_color","new_name","new_type","new_size","new_weight"};
-    static char *(PROPERTY_TYPES[8]) = {"uint32_t","enum","struct","uint8_t[4]","char[48]","","size_t","double"};
     static char *(OPERATION_NAMES[8]) = {"new_start","new_stop","new_pause","new_resume","new_get_state","new_handle_event","new_set_color","new_is_valid"};
-    static char *(OPERATION_TYPES[8]) = {"uint32_t()(void)","uint32_t(*)(enum)","","","enum","","uint32_t(*)(uint8_t[4])","bool"};
     static char *(PORT_NAMES[8]) = {"new_in_a","new_in_b","new_in_c","new_out_a","new_out_b","new_out_c","new_out_error","new_in_reset"};
-    static char *(PORT_TYPES[8]) = {"","signal","uint16_t","IP-socket","signal","","","bool"};
     static char *(IO_PORT_NAMES[8]) = {"new_order","new_item","new_error","new_report","new_audio_file","new_video_file","new_plan","new_status"};
     static char *(IF_NAMES[8]) = {"New Auth_IF","New Log_IF","New Trace_IF","New Update_IF","New Sync_IF","New Link_IF","New Alive_IF","New Power_IF"};
     static char *(ENTRY_NAMES[8]) = {"new_again","new_first_time","new_error_case","new_std_entry","new_retries_exceeded","new_debug","new_rookie_mode","new_last_try"};
@@ -721,68 +715,58 @@ void gui_sketch_object_creator_private_propose_feature_name( gui_sketch_object_c
         case DATA_FEATURE_TYPE_PROPERTY:
         {
             utf8stringbuf_copy_str( out_name, PROPERTY_NAMES[cycle_names&0x07] );
-            utf8stringbuf_copy_str( out_type, PROPERTY_TYPES[cycle_names&0x07] );
         }
         break;
 
         case DATA_FEATURE_TYPE_OPERATION:
         {
             utf8stringbuf_copy_str( out_name, OPERATION_NAMES[cycle_names&0x07] );
-            utf8stringbuf_copy_str( out_type, OPERATION_TYPES[cycle_names&0x07] );
         }
         break;
 
         case DATA_FEATURE_TYPE_PORT:
         {
             utf8stringbuf_copy_str( out_name, PORT_NAMES[cycle_names&0x07] );
-            utf8stringbuf_copy_str( out_type, PORT_TYPES[cycle_names&0x07] );
         }
         break;
 
         case DATA_FEATURE_TYPE_LIFELINE:
         {
             utf8stringbuf_clear( out_name );
-            utf8stringbuf_clear( out_type );
         }
         break;
 
         case DATA_FEATURE_TYPE_PROVIDED_INTERFACE:
         {
             utf8stringbuf_copy_str( out_name, IF_NAMES[cycle_names&0x07] );
-            utf8stringbuf_clear( out_type );
         }
         break;
 
         case DATA_FEATURE_TYPE_REQUIRED_INTERFACE:
         {
             utf8stringbuf_copy_str( out_name, IF_NAMES[cycle_names&0x07] );
-            utf8stringbuf_clear( out_type );
         }
         break;
         case DATA_FEATURE_TYPE_IN_PORT_PIN:
         case DATA_FEATURE_TYPE_OUT_PORT_PIN:
         {
             utf8stringbuf_copy_str( out_name, IO_PORT_NAMES[cycle_names&0x07] );
-            utf8stringbuf_clear( out_type );
         }
         break;
         case DATA_FEATURE_TYPE_ENTRY:
         {
             utf8stringbuf_copy_str( out_name, ENTRY_NAMES[cycle_names&0x07] );
-            utf8stringbuf_clear( out_type );
         }
         break;
         case DATA_FEATURE_TYPE_EXIT:
         {
             utf8stringbuf_copy_str( out_name, EXIT_NAMES[cycle_names&0x07] );
-            utf8stringbuf_clear( out_type );
         }
         break;
         default:
         {
             TSLOG_ERROR("data_feature_type_t out of range in gui_sketch_object_creator_private_propose_feature_name");
             utf8stringbuf_clear( out_name );
-            utf8stringbuf_clear( out_type );
         }
         break;
     }

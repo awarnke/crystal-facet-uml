@@ -23,14 +23,16 @@ extern "C" {
  *  It is possible to bitwise-or multiple errors to collect errors over several statements,
  *  e.g. { strerr |= utf8stringbuf_copy_str(...);  strerr |= utf8stringbuf_append_str(...); },
  *  and evaluate multiple errors only once at the end.
+ *
+ *  The bitmasks are compatible with u8_error_t
  */
 enum utf8error_enum {
-    UTF8ERROR_SUCCESS = 0x000000, /*!< success, there was no error */
-    UTF8ERROR_NOT_FOUND = 0x010000, /*!< pattern not found */
-    UTF8ERROR_NULL_PARAM = 0x020000, /*!< NULL was provided as parameter instead of a valid pointer */
-    UTF8ERROR_OUT_OF_RANGE = 0x040000, /*!< some integer parameter was out of range */
-    UTF8ERROR_TRUNCATED = 0x080000, /*!< the resulting string did not fit into the buffer, the string was truncated */
-    UTF8ERROR_NOT_A_CODEPOINT = 0x100000, /*!< a codepoint was out of range: only 0x00000000 to 0x0010ffff are valid in utf8 (since 2003) */
+    UTF8ERROR_SUCCESS         = 0x00000000, /*!< success, there was no error */
+    UTF8ERROR_NOT_FOUND       = -2147483648, /*!< pattern not found */
+    UTF8ERROR_NULL_PARAM      = 0x00401000, /*!< NULL was provided as parameter instead of a valid pointer */
+    UTF8ERROR_OUT_OF_RANGE    = 0x00402000, /*!< some integer parameter was out of range */
+    UTF8ERROR_TRUNCATED       = 0x00404000, /*!< the resulting string did not fit into the buffer, the string was truncated */
+    UTF8ERROR_NOT_A_CODEPOINT = 0x00408000, /*!< a codepoint was out of range: only 0x00000000 to 0x0010ffff are valid in utf8 (since 2003) */
 };
 
 /*!

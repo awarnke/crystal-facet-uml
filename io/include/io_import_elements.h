@@ -22,6 +22,7 @@
 #include "set/data_stat.h"
 #include "set/data_visible_set.h"
 #include "ctrl_controller.h"
+#include "u8_error.h"
 
 /*!
  *  \brief object data of a io_import_elements_t.
@@ -101,7 +102,7 @@ void io_import_elements_set_mode( io_import_elements_t *this_, io_import_mode_t 
  *  \param this_ pointer to own object attributes
  *  \param diag_ptr pointer to diagram that shall be written, not NULL, (diagram may be modified)
  *  \param parent_uuid uuid of the parent diagram, NULL if root diagram
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
 int io_import_elements_sync_diagram( io_import_elements_t *this_,
                                      data_diagram_t *diagram_ptr,
@@ -116,7 +117,7 @@ int io_import_elements_sync_diagram( io_import_elements_t *this_,
  *  \param diagram_uuid uuid of the parent diagram
  *  \param node_uuid uuid of the referenced focused feature (lifeline) if there is one,
  *                   uuid of the classifier otherwise.
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
 int io_import_elements_sync_diagramelement( io_import_elements_t *this_,
                                             const data_diagramelement_t *diagramelement_ptr,
@@ -129,7 +130,7 @@ int io_import_elements_sync_diagramelement( io_import_elements_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
 int io_import_elements_sync_classifier( io_import_elements_t *this_,
                                         const data_classifier_t *classifier_ptr
@@ -140,7 +141,7 @@ int io_import_elements_sync_classifier( io_import_elements_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier for which a diagramelement shall be created
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
 int io_import_elements_private_create_diagramelement( io_import_elements_t *this_, data_row_id_t classifier_id );
 
@@ -150,7 +151,7 @@ int io_import_elements_private_create_diagramelement( io_import_elements_t *this
  *  \param this_ pointer to own object attributes
  *  \param feature_ptr pointer to feature that shall be written, not NULL, (feature may be modified)
  *  \param classifier_uuid uuid of the parent classifier
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
 int io_import_elements_sync_feature( io_import_elements_t *this_,
                                      data_feature_t *feature_ptr,
@@ -166,7 +167,7 @@ int io_import_elements_sync_feature( io_import_elements_t *this_,
  *                        uuid of the source classifier otherwise.
  *  \param to_node_uuid uuid of the destination feature if there is one,
  *                      uuid of the destination classifier otherwise.
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
 int io_import_elements_sync_relationship( io_import_elements_t *this_,
                                           data_relationship_t *relation_ptr,

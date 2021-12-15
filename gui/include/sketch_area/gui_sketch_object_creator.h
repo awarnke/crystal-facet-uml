@@ -180,12 +180,10 @@ void gui_sketch_object_creator_private_propose_classifier_name ( gui_sketch_obje
  *  \param this_ pointer to own object attributes
  *  \param f_type type of the feature
  *  \param out_name a name for a feature
- *  \param out_type a type for a feature
  */
 void gui_sketch_object_creator_private_propose_feature_name( gui_sketch_object_creator_t *this_,
                                                              data_feature_type_t f_type,
-                                                             utf8stringbuf_t out_name,
-                                                             utf8stringbuf_t out_type
+                                                             utf8stringbuf_t out_name
                                                            );
 
 #endif  /* GUI_SKETCH_OBJECT_CREATOR_H */

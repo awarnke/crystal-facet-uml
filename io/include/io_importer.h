@@ -15,6 +15,7 @@
 #include "storage/data_database_reader.h"
 #include "set/data_stat.h"
 #include "universal_utf8_writer.h"
+#include "u8_error.h"
 
 /*!
  *  \brief attributes of the import object
@@ -66,14 +67,14 @@ void io_importer_destroy ( io_importer_t *this_ );
  *                 or no destination)
  *                 Statistics are only added, *io_stat shall be initialized by caller.
  *  \param out_read_line read position in the stream, in case of an error, this may help finding the cause
- *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
+ *  \return U8_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
  */
-data_error_t io_importer_import_clipboard( io_importer_t *this_,
-                                           const char *json_text,
-                                           data_row_id_t diagram_id,
-                                           data_stat_t *io_stat,
-                                           uint32_t *out_read_line
-                                         );
+u8_error_t io_importer_import_clipboard( io_importer_t *this_,
+                                         const char *json_text,
+                                         data_row_id_t diagram_id,
+                                         data_stat_t *io_stat,
+                                         uint32_t *out_read_line
+                                       );
 
 
 /*!
@@ -91,17 +92,17 @@ data_error_t io_importer_import_clipboard( io_importer_t *this_,
  *                 or no destination)
  *                 Statistics are only added, *io_stat shall be initialized by caller.
  *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
- *  \return DATA_ERROR_NONE in case of success,
+ *  \return U8_ERROR_NONE in case of success,
  *          DATA_ERROR_INVALID_REQUEST if file cannot be opened,
  *          DATA_ERROR_AT_FILE_READ in case of reading errors after open,
  *          other error code otherwise
  */
-data_error_t io_importer_import_file( io_importer_t *this_,
-                                      io_file_format_t import_format,
-                                      const char *import_file_path,
-                                      data_stat_t *io_stat,
-                                      universal_utf8_writer_t *out_english_report
-                                    );
+u8_error_t io_importer_import_file( io_importer_t *this_,
+                                    io_file_format_t import_format,
+                                    const char *import_file_path,
+                                    data_stat_t *io_stat,
+                                    universal_utf8_writer_t *out_english_report
+                                  );
 
 
 #endif  /* IO_IMPORTER_H */
