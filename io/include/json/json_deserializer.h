@@ -12,7 +12,7 @@
  */
 
 #include "json/json_token_reader.h"
-#include "data_error.h"
+#include "u8/u8_error.h"
 #include "data_table.h"
 #include "data_classifier.h"
 #include "data_diagram.h"
@@ -68,31 +68,31 @@ void json_deserializer_destroy ( json_deserializer_t *this_ );
  *  \brief checks that the header of the json data is valid
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
- *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
- *          DATA_ERROR_NONE if structure of the input is valid.
+ *  \return U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
  */
-data_error_t json_deserializer_expect_header ( json_deserializer_t *this_ );
+u8_error_t json_deserializer_expect_header ( json_deserializer_t *this_ );
 
 /*!
  *  \brief checks that the footer/ending of the json data is valid
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
- *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
- *          DATA_ERROR_NONE if structure of the input is valid.
+ *  \return U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
  */
-data_error_t json_deserializer_expect_footer ( json_deserializer_t *this_ );
+u8_error_t json_deserializer_expect_footer ( json_deserializer_t *this_ );
 
 /*!
  *  \brief checks that the beginning of the json data is valid
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
- *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
- *          DATA_ERROR_NONE if structure of the input is valid.
+ *  \return U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
  */
-data_error_t json_deserializer_expect_begin_data ( json_deserializer_t *this_ );
+u8_error_t json_deserializer_expect_begin_data ( json_deserializer_t *this_ );
 
 /*!
  *  \brief checks if the data array is at end.
@@ -101,11 +101,11 @@ data_error_t json_deserializer_expect_begin_data ( json_deserializer_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param[out] out_end true if the data array is at its end.
- *  \return DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
- *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
- *          DATA_ERROR_NONE if structure of the input is valid.
+ *  \return U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
  */
-data_error_t json_deserializer_check_end_data ( json_deserializer_t *this_, bool* out_end );
+u8_error_t json_deserializer_check_end_data ( json_deserializer_t *this_, bool* out_end );
 
 /*!
  *  \brief determines the type of object which is contained in this object
@@ -116,21 +116,21 @@ data_error_t json_deserializer_check_end_data ( json_deserializer_t *this_, bool
  *                  DATA_TABLE_DIAGRAM if the next object is a diagram,
  *                  DATA_TABLE_RELATIONSHIP if the next object is a relationship,
  *                  DATA_TABLE_VOID if there is no next object.
- *  \return DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
- *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
- *          DATA_ERROR_NONE if structure of the input is valid.
+ *  \return U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
  */
-data_error_t json_deserializer_expect_begin_type_of_element ( json_deserializer_t *this_, data_table_t *out_type );
+u8_error_t json_deserializer_expect_begin_type_of_element ( json_deserializer_t *this_, data_table_t *out_type );
 
 /*!
  *  \brief checks that the ending of the json type-object is valid
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
- *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
- *          DATA_ERROR_NONE if structure of the input is valid.
+ *  \return U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
  */
-data_error_t json_deserializer_expect_end_type_of_element ( json_deserializer_t *this_ );
+u8_error_t json_deserializer_expect_end_type_of_element ( json_deserializer_t *this_ );
 
 /*!
  *  \brief parses the next object as classifier
@@ -140,12 +140,12 @@ data_error_t json_deserializer_expect_end_type_of_element ( json_deserializer_t 
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
  *  \param out_feature array of features read from the database (in case of success), must not be NULL
  *  \param out_feature_count number of feature records stored in out_feature
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
- *          DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
- *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
- *          DATA_ERROR_NONE if structure of the input is valid.
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
+ *          U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
  */
-data_error_t json_deserializer_get_next_classifier ( json_deserializer_t *this_,
+u8_error_t json_deserializer_get_next_classifier ( json_deserializer_t *this_,
                                                      data_classifier_t *out_object,
                                                      uint32_t max_out_array_size,
                                                      data_feature_t (*out_feature)[],
@@ -160,12 +160,12 @@ data_error_t json_deserializer_get_next_classifier ( json_deserializer_t *this_,
  *  \param out_parent_uuid stringbuffer to copy the parent into;
  *                         If there is no parent, the stringbuffer shall contani the empty string;
  *                         size should be DATA_UUID_STRING_SIZE.
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
- *          DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
- *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
- *          DATA_ERROR_NONE if structure of the input is valid.
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
+ *          U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
  */
-data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_,
+u8_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_,
                                                   data_diagram_t *out_object,                                                      utf8stringbuf_t out_parent_uuid
                                                 );
 
@@ -180,12 +180,12 @@ data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_,
  *  \param out_to_node_uuid stringbuffer to copy the to node into;
  *                          This node may refer to a lifeline, another feature or a classifier;
  *                          size should be DATA_UUID_STRING_SIZE.
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
- *          DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
- *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
- *          DATA_ERROR_NONE if structure of the input is valid.
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
+ *          U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
  */
-data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this_,
+u8_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this_,
                                                        data_relationship_t *out_object,
                                                        utf8stringbuf_t out_from_node_uuid,
                                                        utf8stringbuf_t out_to_node_uuid
@@ -195,21 +195,21 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
  *  \brief skips the next object, e.g. a relationship if this is of no interest
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected (e.g. array member),
- *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
- *          DATA_ERROR_NONE if structure of the input is valid.
+ *  \return U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected (e.g. array member),
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
  */
-data_error_t json_deserializer_skip_next_object ( json_deserializer_t *this_ );
+u8_error_t json_deserializer_skip_next_object ( json_deserializer_t *this_ );
 
 /*!
  *  \brief skips the next string, e.g. a key or string-value of no interest
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected (e.g. array member),
- *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
- *          DATA_ERROR_NONE if structure of the input is valid.
+ *  \return U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected (e.g. array member),
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
  */
-data_error_t json_deserializer_skip_next_string ( json_deserializer_t *this_ );
+u8_error_t json_deserializer_skip_next_string ( json_deserializer_t *this_ );
 
 /*!
  *  \brief gets the line number at the current read position
@@ -228,12 +228,12 @@ void json_deserializer_get_read_line ( json_deserializer_t *this_, uint32_t *out
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
  *  \param out_feature array of features read from the database (in case of success), must not be NULL
  *  \param out_feature_count number of feature records stored in out_feature
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
- *          DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
- *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
- *          DATA_ERROR_NONE if structure of the input is valid.
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
+ *          U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
  */
-data_error_t json_deserializer_private_get_next_feature_array ( json_deserializer_t *this_,
+u8_error_t json_deserializer_private_get_next_feature_array ( json_deserializer_t *this_,
                                                                 uint32_t max_out_array_size,
                                                                 data_feature_t (*out_feature)[],
                                                                 uint32_t *out_feature_count
@@ -246,35 +246,35 @@ data_error_t json_deserializer_private_get_next_feature_array ( json_deserialize
  *
  *  \param this_ pointer to own object attributes
  *  \param out_object pointer to storage location for the result. Must not be NULL.
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
- *          DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
- *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
- *          DATA_ERROR_NONE if structure of the input is valid.
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
+ *          U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
  */
-data_error_t json_deserializer_private_get_next_feature ( json_deserializer_t *this_, data_feature_t *out_object );
+u8_error_t json_deserializer_private_get_next_feature ( json_deserializer_t *this_, data_feature_t *out_object );
 
 /*!
  *  \brief parses the next diagramelement array
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
- *          DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
- *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
- *          DATA_ERROR_NONE if structure of the input is valid.
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
+ *          U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
  */
-data_error_t json_deserializer_private_skip_next_diagramelement_array ( json_deserializer_t *this_ );
+u8_error_t json_deserializer_private_skip_next_diagramelement_array ( json_deserializer_t *this_ );
 
 /*!
  *  \brief parses an array of strings and merges the entries
  *
  *  \param this_ pointer to own object attributes
  *  \param out_joined_string stringbuffer to copy joined string elements to;
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_joined_string,
- *          DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
- *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
- *          DATA_ERROR_NONE if structure of the input is valid.
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_joined_string,
+ *          U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
  */
-data_error_t json_deserializer_private_read_string_array ( json_deserializer_t *this_,
+u8_error_t json_deserializer_private_read_string_array ( json_deserializer_t *this_,
                                                            utf8stringbuf_t out_joined_string
                                                          );
 

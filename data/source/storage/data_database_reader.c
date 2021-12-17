@@ -7,11 +7,11 @@
 #include <sqlite3.h>
 #include <assert.h>
 
-data_error_t data_database_reader_init ( data_database_reader_t *this_, data_database_t *database )
+u8_error_t data_database_reader_init ( data_database_reader_t *this_, data_database_t *database )
 {
     TRACE_BEGIN();
     assert( NULL != database );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     (*this_).database = database;
     (*this_).is_open = false;
@@ -29,10 +29,10 @@ data_error_t data_database_reader_init ( data_database_reader_t *this_, data_dat
     return result;
 }
 
-data_error_t data_database_reader_destroy ( data_database_reader_t *this_ )
+u8_error_t data_database_reader_destroy ( data_database_reader_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -50,7 +50,7 @@ data_error_t data_database_reader_destroy ( data_database_reader_t *this_ )
 void data_database_reader_db_change_callback ( data_database_reader_t *this_, data_database_listener_signal_t signal_id )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     switch ( signal_id )
     {
@@ -86,10 +86,10 @@ void data_database_reader_db_change_callback ( data_database_reader_t *this_, da
 
 /* ================================ DIAGRAM ================================ */
 
-data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, data_row_id_t id, data_diagram_t *out_diagram )
+u8_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, data_row_id_t id, data_diagram_t *out_diagram )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -97,7 +97,7 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -105,10 +105,10 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
     return result;
 }
 
-data_error_t data_database_reader_get_diagram_by_uuid ( data_database_reader_t *this_, const char *uuid, data_diagram_t *out_diagram )
+u8_error_t data_database_reader_get_diagram_by_uuid ( data_database_reader_t *this_, const char *uuid, data_diagram_t *out_diagram )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -116,7 +116,7 @@ data_error_t data_database_reader_get_diagram_by_uuid ( data_database_reader_t *
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -124,14 +124,14 @@ data_error_t data_database_reader_get_diagram_by_uuid ( data_database_reader_t *
     return result;
 }
 
-data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_,
+u8_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_,
                                                               data_row_id_t parent_id,
                                                               uint32_t max_out_array_size,
                                                               data_diagram_t (*out_diagram)[],
                                                               uint32_t *out_diagram_count )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -144,7 +144,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -152,14 +152,14 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
     return result;
 }
 
-data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_reader_t *this_,
+u8_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_reader_t *this_,
                                                                   data_row_id_t classifier_id,
                                                                   uint32_t max_out_array_size,
                                                                   data_diagram_t (*out_diagram)[],
                                                                   uint32_t *out_diagram_count )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -172,7 +172,7 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -180,12 +180,12 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
     return result;
 }
 
-data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_reader_t *this_,
+u8_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_reader_t *this_,
                                                                  data_row_id_t parent_id,
                                                                  data_small_set_t *out_diagram_ids )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -196,7 +196,7 @@ data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_r
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -204,12 +204,12 @@ data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_r
     return result;
 }
 
-data_error_t data_database_reader_get_diagram_ids_by_classifier_id ( data_database_reader_t *this_,
+u8_error_t data_database_reader_get_diagram_ids_by_classifier_id ( data_database_reader_t *this_,
                                                                      data_row_id_t classifier_id,
                                                                      data_small_set_t *out_diagram_ids )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -220,7 +220,7 @@ data_error_t data_database_reader_get_diagram_ids_by_classifier_id ( data_databa
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -230,10 +230,10 @@ data_error_t data_database_reader_get_diagram_ids_by_classifier_id ( data_databa
 
 /* ================================ CLASSIFIER ================================ */
 
-data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, data_row_id_t id, data_classifier_t *out_classifier )
+u8_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, data_row_id_t id, data_classifier_t *out_classifier )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -244,7 +244,7 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -252,10 +252,10 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
     return result;
 }
 
-data_error_t data_database_reader_get_classifier_by_name ( data_database_reader_t *this_, const char *name, data_classifier_t *out_classifier )
+u8_error_t data_database_reader_get_classifier_by_name ( data_database_reader_t *this_, const char *name, data_classifier_t *out_classifier )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -266,7 +266,7 @@ data_error_t data_database_reader_get_classifier_by_name ( data_database_reader_
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -274,10 +274,10 @@ data_error_t data_database_reader_get_classifier_by_name ( data_database_reader_
     return result;
 }
 
-data_error_t data_database_reader_get_classifier_by_uuid ( data_database_reader_t *this_, const char *uuid, data_classifier_t *out_classifier )
+u8_error_t data_database_reader_get_classifier_by_uuid ( data_database_reader_t *this_, const char *uuid, data_classifier_t *out_classifier )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -288,7 +288,7 @@ data_error_t data_database_reader_get_classifier_by_uuid ( data_database_reader_
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -296,14 +296,14 @@ data_error_t data_database_reader_get_classifier_by_uuid ( data_database_reader_
     return result;
 }
 
-data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_,
+u8_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_,
                                                                   data_row_id_t diagram_id,
                                                                   uint32_t max_out_array_size,
                                                                   data_visible_classifier_t (*out_visible_classifier)[],
                                                                   uint32_t *out_visible_classifier_count )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -316,7 +316,7 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -324,12 +324,12 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
     return result;
 }
 
-data_error_t data_database_reader_get_all_classifiers_iterator ( data_database_reader_t *this_,
+u8_error_t data_database_reader_get_all_classifiers_iterator ( data_database_reader_t *this_,
                                                                  data_database_iterator_classifiers_t *io_classifier_iterator
                                                                )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -339,7 +339,7 @@ data_error_t data_database_reader_get_all_classifiers_iterator ( data_database_r
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -349,12 +349,12 @@ data_error_t data_database_reader_get_all_classifiers_iterator ( data_database_r
 
 /* ================================ DIAGRAMELEMENT ================================ */
 
-data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_,
+u8_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_,
                                                              data_row_id_t id,
                                                              data_diagramelement_t *out_diagramelement )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -365,7 +365,7 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -373,12 +373,12 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
     return result;
 }
 
-data_error_t data_database_reader_get_diagramelement_by_uuid ( data_database_reader_t *this_,
+u8_error_t data_database_reader_get_diagramelement_by_uuid ( data_database_reader_t *this_,
                                                                const char *uuid,
                                                                data_diagramelement_t *out_diagramelement )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -389,7 +389,7 @@ data_error_t data_database_reader_get_diagramelement_by_uuid ( data_database_rea
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -397,14 +397,14 @@ data_error_t data_database_reader_get_diagramelement_by_uuid ( data_database_rea
     return result;
 }
 
-data_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_database_reader_t *this_,
+u8_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_database_reader_t *this_,
                                                                       data_row_id_t diagram_id,
                                                                       uint32_t max_out_array_size,
                                                                       data_diagramelement_t (*out_diagramelement)[],
                                                                       uint32_t *out_diagramelement_count )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -417,7 +417,7 @@ data_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_datab
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -425,14 +425,14 @@ data_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_datab
     return result;
 }
 
-data_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_database_reader_t *this_,
+u8_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_database_reader_t *this_,
                                                                          data_row_id_t classifier_id,
                                                                          uint32_t max_out_array_size,
                                                                          data_diagramelement_t (*out_diagramelement)[],
                                                                          uint32_t *out_diagramelement_count )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -445,7 +445,7 @@ data_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_da
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -455,12 +455,12 @@ data_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_da
 
 /* ================================ FEATURE ================================ */
 
-data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *this_,
+u8_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *this_,
                                                       data_row_id_t id,
                                                       data_feature_t *out_feature )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -471,7 +471,7 @@ data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *th
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -479,12 +479,12 @@ data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *th
     return result;
 }
 
-data_error_t data_database_reader_get_feature_by_uuid ( data_database_reader_t *this_,
+u8_error_t data_database_reader_get_feature_by_uuid ( data_database_reader_t *this_,
                                                         const char *uuid,
                                                         data_feature_t *out_feature )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -495,7 +495,7 @@ data_error_t data_database_reader_get_feature_by_uuid ( data_database_reader_t *
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -504,14 +504,14 @@ data_error_t data_database_reader_get_feature_by_uuid ( data_database_reader_t *
 }
 
 
-data_error_t data_database_reader_get_features_by_classifier_id ( data_database_reader_t *this_,
+u8_error_t data_database_reader_get_features_by_classifier_id ( data_database_reader_t *this_,
                                                                   data_row_id_t classifier_id,
                                                                   uint32_t max_out_array_size,
                                                                   data_feature_t (*out_feature)[],
                                                                   uint32_t *out_feature_count )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -524,7 +524,7 @@ data_error_t data_database_reader_get_features_by_classifier_id ( data_database_
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -532,14 +532,14 @@ data_error_t data_database_reader_get_features_by_classifier_id ( data_database_
     return result;
 }
 
-data_error_t data_database_reader_get_features_by_diagram_id ( data_database_reader_t *this_,
+u8_error_t data_database_reader_get_features_by_diagram_id ( data_database_reader_t *this_,
                                                                data_row_id_t diagram_id,
                                                                uint32_t max_out_array_size,
                                                                data_feature_t (*out_feature)[],
                                                                uint32_t *out_feature_count )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -552,7 +552,7 @@ data_error_t data_database_reader_get_features_by_diagram_id ( data_database_rea
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -562,12 +562,12 @@ data_error_t data_database_reader_get_features_by_diagram_id ( data_database_rea
 
 /* ================================ RELATIONSHIP ================================ */
 
-data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t *this_,
+u8_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t *this_,
                                                            data_row_id_t id,
                                                            data_relationship_t *out_relationship )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -578,7 +578,7 @@ data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -586,12 +586,12 @@ data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_
     return result;
 }
 
-data_error_t data_database_reader_get_relationship_by_uuid ( data_database_reader_t *this_,
+u8_error_t data_database_reader_get_relationship_by_uuid ( data_database_reader_t *this_,
                                                              const char *uuid,
                                                              data_relationship_t *out_relationship )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -602,7 +602,7 @@ data_error_t data_database_reader_get_relationship_by_uuid ( data_database_reade
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -610,14 +610,14 @@ data_error_t data_database_reader_get_relationship_by_uuid ( data_database_reade
     return result;
 }
 
-data_error_t data_database_reader_get_relationships_by_classifier_id ( data_database_reader_t *this_,
+u8_error_t data_database_reader_get_relationships_by_classifier_id ( data_database_reader_t *this_,
                                                                        data_row_id_t classifier_id,
                                                                        uint32_t max_out_array_size,
                                                                        data_relationship_t (*out_relationship)[],
                                                                        uint32_t *out_relationship_count )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -630,7 +630,7 @@ data_error_t data_database_reader_get_relationships_by_classifier_id ( data_data
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -638,14 +638,14 @@ data_error_t data_database_reader_get_relationships_by_classifier_id ( data_data
     return result;
 }
 
-data_error_t data_database_reader_get_relationships_by_feature_id ( data_database_reader_t *this_,
+u8_error_t data_database_reader_get_relationships_by_feature_id ( data_database_reader_t *this_,
                                                                     data_row_id_t feature_id,
                                                                     uint32_t max_out_array_size,
                                                                     data_relationship_t (*out_relationship)[],
                                                                     uint32_t *out_relationship_count )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -658,7 +658,7 @@ data_error_t data_database_reader_get_relationships_by_feature_id ( data_databas
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -666,14 +666,14 @@ data_error_t data_database_reader_get_relationships_by_feature_id ( data_databas
     return result;
 }
 
-data_error_t data_database_reader_get_relationships_by_diagram_id ( data_database_reader_t *this_,
+u8_error_t data_database_reader_get_relationships_by_diagram_id ( data_database_reader_t *this_,
                                                                     data_row_id_t diagram_id,
                                                                     uint32_t max_out_array_size,
                                                                     data_relationship_t (*out_relationship)[],
                                                                     uint32_t *out_relationship_count )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -686,7 +686,7 @@ data_error_t data_database_reader_get_relationships_by_diagram_id ( data_databas
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
@@ -696,24 +696,24 @@ data_error_t data_database_reader_get_relationships_by_diagram_id ( data_databas
 
 /* ================================ private ================================ */
 
-data_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
+u8_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( ! (*this_).is_open )
     {
         result |= data_database_classifier_reader_init( &((*this_).temp_classifier_reader), (*this_).database );
         result |= data_database_diagram_reader_init( &((*this_).temp_diagram_reader), (*this_).database );
 
-        if ( result == DATA_ERROR_NONE )
+        if ( result == U8_ERROR_NONE )
         {
             (*this_).is_open = true;
         }
     }
     else
     {
-        result |= DATA_ERROR_INVALID_REQUEST;
+        result |= U8_ERROR_INVALID_REQUEST;
         TSLOG_WARNING( "Database is already open." );
     }
 
@@ -721,10 +721,10 @@ data_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
     return result;
 }
 
-data_error_t data_database_reader_private_close ( data_database_reader_t *this_ )
+u8_error_t data_database_reader_private_close ( data_database_reader_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -735,7 +735,7 @@ data_error_t data_database_reader_private_close ( data_database_reader_t *this_ 
     }
     else
     {
-        result |= DATA_ERROR_INVALID_REQUEST;
+        result |= U8_ERROR_INVALID_REQUEST;
         TSLOG_WARNING( "Database was not open." );
     }
 

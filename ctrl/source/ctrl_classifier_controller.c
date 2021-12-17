@@ -39,7 +39,7 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ )
 
 /* ================================ CLASSIFIER ================================ */
 
-ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_controller_t *this_,
                                                             const data_classifier_t *new_classifier,
                                                             ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                             data_row_id_t* out_new_id )
@@ -47,15 +47,15 @@ ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_cont
     TRACE_BEGIN();
     assert( NULL != new_classifier );
     data_classifier_t to_be_created;
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_row_id_t new_id;
 
     data_classifier_copy( &to_be_created, new_classifier );
     data_classifier_set_row_id( &to_be_created, DATA_ROW_ID_VOID );
 
     data_result = data_database_writer_create_classifier( (*this_).db_writer, &to_be_created, &new_id );
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         /* store new id to data_classifier_t object */
         data_classifier_set_row_id( &to_be_created, new_id );
@@ -63,9 +63,9 @@ ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_cont
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
-            ctrl_error_t internal_err;
+            u8_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
-            if ( CTRL_ERROR_NONE != internal_err )
+            if ( U8_ERROR_NONE != internal_err )
             {
                 TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
@@ -81,7 +81,7 @@ ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_cont
             *out_new_id = new_id;
         }
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     data_classifier_destroy( &to_be_created );
 
@@ -89,13 +89,13 @@ ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_cont
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_controller_t *this_,
                                                            data_row_id_t obj_id,
                                                            ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
 
     /* check if the classifier is still referenced by diagramelements */
     bool is_still_referenced = true;
@@ -109,34 +109,34 @@ ctrl_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_contr
                                                                            &out_diagram_count
                                                                          );
 
-        if ( DATA_ERROR_ARRAY_BUFFER_EXCEEDED == data_result )
+        if ( U8_ERROR_ARRAY_BUFFER_EXCEEDED == data_result )
         {
             is_still_referenced = true;
         }
-        else if ( DATA_ERROR_NONE == data_result )
+        else if ( U8_ERROR_NONE == data_result )
         {
             is_still_referenced = ( out_diagram_count == 0 ) ? false : true;
         }
         else
         {
             /* some other error */
-            result |= (ctrl_error_t) data_result;
+            result |= (u8_error_t) data_result;
         }
     }
 
     /* if the classifier is still referenced by diagramelements, do not do anything, report an error */
     if ( is_still_referenced )
     {
-        result |= CTRL_ERROR_OBJECT_STILL_REFERENCED;
+        result |= U8_ERROR_OBJECT_STILL_REFERENCED;
     }
     else
     {
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
-            ctrl_error_t internal_err;
+            u8_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
-            if ( CTRL_ERROR_NONE != internal_err )
+            if ( U8_ERROR_NONE != internal_err )
             {
                 TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
@@ -157,12 +157,12 @@ ctrl_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_contr
                                                                                    &out_feature_count
                                                                                  );
 
-                if (( DATA_ERROR_ARRAY_BUFFER_EXCEEDED == data_result ) || ( out_feature_count == 1 ))
+                if (( U8_ERROR_ARRAY_BUFFER_EXCEEDED == data_result ) || ( out_feature_count == 1 ))
                 {
                     data_result = data_database_writer_delete_feature( (*this_).db_writer, data_feature_get_row_id( &(out_feature[0]) ), NULL );
 
-                    result |= (ctrl_error_t) data_result;
-                    if ( DATA_ERROR_NONE == data_result )
+                    result |= (u8_error_t) data_result;
+                    if ( U8_ERROR_NONE == data_result )
                     {
                         /* store the deleted feature to the undo redo list */
                         ctrl_undo_redo_list_add_delete_feature( (*this_).undo_redo_list, &(out_feature[0]) );
@@ -171,7 +171,7 @@ ctrl_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_contr
                 }
                 else
                 {
-                    result |= (ctrl_error_t) data_result;
+                    result |= (u8_error_t) data_result;
                     no_more_features = true;
                 }
             }
@@ -194,13 +194,13 @@ ctrl_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_contr
                                                                                         &out_relationship_count
                                                                                       );
 
-                if (( DATA_ERROR_ARRAY_BUFFER_EXCEEDED == data_result ) || ( out_relationship_count == 1 ))
+                if (( U8_ERROR_ARRAY_BUFFER_EXCEEDED == data_result ) || ( out_relationship_count == 1 ))
                 {
                     data_result = data_database_writer_delete_relationship( (*this_).db_writer, data_relationship_get_row_id( &(out_relationship[0]) ), NULL );
 
-                    result |= (ctrl_error_t) data_result;
+                    result |= (u8_error_t) data_result;
 
-                    if ( DATA_ERROR_NONE == data_result )
+                    if ( U8_ERROR_NONE == data_result )
                     {
                         /* store the deleted relationship to the undo redo list */
                         ctrl_undo_redo_list_add_delete_relationship( (*this_).undo_redo_list, &(out_relationship[0]) );
@@ -209,7 +209,7 @@ ctrl_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_contr
                 }
                 else
                 {
-                    result |= (ctrl_error_t) data_result;
+                    result |= (u8_error_t) data_result;
                     no_more_relationships = true;
                 }
             }
@@ -223,23 +223,23 @@ ctrl_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_contr
                                                                   &old_classifier
                                                                 );
 
-            if ( DATA_ERROR_NONE == data_result )
+            if ( U8_ERROR_NONE == data_result )
             {
                 /* store the deleted classifier to the undo redo list */
                 ctrl_undo_redo_list_add_delete_classifier( (*this_).undo_redo_list, &old_classifier );
 
                 data_classifier_destroy( &old_classifier );
             }
-            else if ( DATA_ERROR_NONE != ( data_result & DATA_ERROR_OBJECT_STILL_REFERENCED ))
+            else if ( U8_ERROR_NONE != ( data_result & U8_ERROR_OBJECT_STILL_REFERENCED ))
             {
                 /* report this unexpected error */
                 TSLOG_ERROR( "The classifier cannot be deleted because it is still referenced." );
-                result |= (ctrl_error_t) data_result;
+                result |= (u8_error_t) data_result;
             }
             else
             {
                 /* report this unexpected error */
-                result |= (ctrl_error_t) data_result;
+                result |= (u8_error_t) data_result;
             }
         }
 
@@ -251,17 +251,17 @@ ctrl_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_contr
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classifier_controller_t *this_,
                                                                        data_row_id_t classifier_id,
                                                                        const char* new_classifier_stereotype )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_classifier_t old_classifier;
 
     data_result = data_database_writer_update_classifier_stereotype( (*this_).db_writer, classifier_id, new_classifier_stereotype, &old_classifier );
-    if  (( DATA_ERROR_NONE == data_result ) || ( DATA_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
+    if  (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new classifier */
         data_classifier_t new_classifier;
@@ -274,23 +274,23 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_clas
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_classifier_controller_t *this_,
                                                                         data_row_id_t classifier_id,
                                                                         const char* new_classifier_description )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_classifier_t old_classifier;
 
     data_result = data_database_writer_update_classifier_description( (*this_).db_writer, classifier_id, new_classifier_description, &old_classifier );
-    if (( DATA_ERROR_NONE == data_result ) || ( DATA_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
+    if (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new classifier */
         data_classifier_t new_classifier;
@@ -303,23 +303,23 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_cla
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_controller_t *this_,
                                                                  data_row_id_t classifier_id,
                                                                  const char* new_classifier_name )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_classifier_t old_classifier;
 
     data_result = data_database_writer_update_classifier_name( (*this_).db_writer, classifier_id, new_classifier_name, &old_classifier );
-    if  (( DATA_ERROR_NONE == data_result ) || ( DATA_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
+    if  (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new classifier */
         data_classifier_t new_classifier;
@@ -332,23 +332,23 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classifier_controller_t *this_,
                                                                       data_row_id_t classifier_id,
                                                                       data_classifier_type_t new_classifier_main_type )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_classifier_t old_classifier;
 
     data_result = data_database_writer_update_classifier_main_type( (*this_).db_writer, classifier_id, new_classifier_main_type, &old_classifier );
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         /* prepare the new classifier */
         data_classifier_t new_classifier;
@@ -361,23 +361,23 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_class
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_classifier_x_order ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_update_classifier_x_order ( ctrl_classifier_controller_t *this_,
                                                                     data_row_id_t classifier_id,
                                                                     int32_t new_classifier_x_order )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_classifier_t old_classifier;
 
     data_result = data_database_writer_update_classifier_x_order( (*this_).db_writer, classifier_id, new_classifier_x_order, &old_classifier );
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         /* prepare the new classifier */
         data_classifier_t new_classifier;
@@ -390,23 +390,23 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_x_order ( ctrl_classif
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_classifier_y_order ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_update_classifier_y_order ( ctrl_classifier_controller_t *this_,
                                                                     data_row_id_t classifier_id,
                                                                     int32_t new_classifier_y_order )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_classifier_t old_classifier;
 
     data_result = data_database_writer_update_classifier_y_order( (*this_).db_writer, classifier_id, new_classifier_y_order, &old_classifier );
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         /* prepare the new classifier */
         data_classifier_t new_classifier;
@@ -419,27 +419,27 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_y_order ( ctrl_classif
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl_classifier_controller_t *this_,
                                                                             data_row_id_t classifier_id,
                                                                             int32_t new_classifier_x_order,
                                                                             int32_t new_classifier_y_order )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_classifier_t old_classifier;
 
     data_result = data_database_writer_update_classifier_x_order( (*this_).db_writer, classifier_id, new_classifier_x_order, &old_classifier );
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         data_result = data_database_writer_update_classifier_y_order( (*this_).db_writer, classifier_id, new_classifier_y_order, NULL );
-        if ( DATA_ERROR_NONE == data_result )
+        if ( U8_ERROR_NONE == data_result )
         {
             /* prepare the new classifier */
             data_classifier_t new_classifier;
@@ -454,23 +454,23 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl
         }
         data_classifier_destroy( &old_classifier );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_classifier_controller_t *this_,
                                                                        data_row_id_t classifier_id,
                                                                        int32_t new_classifier_list_order )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_classifier_t old_classifier;
 
     data_result = data_database_writer_update_classifier_list_order( (*this_).db_writer, classifier_id, new_classifier_list_order, &old_classifier );
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         /* prepare the new classifier */
         data_classifier_t new_classifier;
@@ -483,7 +483,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_clas
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
@@ -491,7 +491,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_clas
 
 /* ================================ FEATURE ================================ */
 
-ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controller_t *this_,
                                                          const data_feature_t *new_feature,
                                                          ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                          data_row_id_t* out_new_id )
@@ -499,15 +499,15 @@ ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_control
     TRACE_BEGIN();
     assert( NULL != new_feature );
     data_feature_t to_be_created;
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_row_id_t new_id;
 
     data_feature_copy( &to_be_created, new_feature );
     data_feature_set_row_id( &to_be_created, DATA_ROW_ID_VOID );
 
     data_result = data_database_writer_create_feature( (*this_).db_writer, &to_be_created, &new_id );
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         /* store new id to data_feature_t object */
         data_feature_set_row_id( &to_be_created, new_id );
@@ -515,9 +515,9 @@ ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_control
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
-            ctrl_error_t internal_err;
+            u8_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
-            if ( CTRL_ERROR_NONE != internal_err )
+            if ( U8_ERROR_NONE != internal_err )
             {
                 TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
@@ -533,7 +533,7 @@ ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_control
             *out_new_id = new_id;
         }
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     data_feature_destroy( &to_be_created );
 
@@ -541,20 +541,20 @@ ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_control
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controller_t *this_,
                                                          data_row_id_t obj_id,
                                                          ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
 
     /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
     if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
     {
-        ctrl_error_t internal_err;
+        u8_error_t internal_err;
         internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
-        if ( CTRL_ERROR_NONE != internal_err )
+        if ( U8_ERROR_NONE != internal_err )
         {
             TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
         }
@@ -575,13 +575,13 @@ ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_control
                                                                                  &out_relationship_count
                                                                                );
 
-            if (( DATA_ERROR_ARRAY_BUFFER_EXCEEDED == data_result ) || ( out_relationship_count == 1 ))
+            if (( U8_ERROR_ARRAY_BUFFER_EXCEEDED == data_result ) || ( out_relationship_count == 1 ))
             {
                 data_result = data_database_writer_delete_relationship( (*this_).db_writer, data_relationship_get_row_id( &(out_relationship[0]) ), NULL );
 
-                result |= (ctrl_error_t) data_result;
+                result |= (u8_error_t) data_result;
 
-                if ( DATA_ERROR_NONE == data_result )
+                if ( U8_ERROR_NONE == data_result )
                 {
                     /* store the deleted relationship to the undo redo list */
                     ctrl_undo_redo_list_add_delete_relationship( (*this_).undo_redo_list, &(out_relationship[0]) );
@@ -590,7 +590,7 @@ ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_control
             }
             else
             {
-                result |= (ctrl_error_t) data_result;
+                result |= (u8_error_t) data_result;
                 no_more_relationships = true;
             }
         }
@@ -598,25 +598,25 @@ ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_control
 
     /* delete the feature */
     data_feature_t old_feature;
-    data_error_t feature_result;
+    u8_error_t feature_result;
     {
         /* delete feature */
         feature_result = data_database_writer_delete_feature( (*this_).db_writer, obj_id, &old_feature );
 
-        if ( DATA_ERROR_NONE == feature_result )
+        if ( U8_ERROR_NONE == feature_result )
         {
             /* store the deleted feature to the undo redo list */
             ctrl_undo_redo_list_add_delete_feature( (*this_).undo_redo_list, &old_feature );
         }
 
-        result |= (ctrl_error_t) feature_result;
+        result |= (u8_error_t) feature_result;
     }
 
     /* add boundary to undo-redo-list */
     ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
 
     /* apply policy rules */
-    if ( DATA_ERROR_NONE == feature_result )
+    if ( U8_ERROR_NONE == feature_result )
     {
         result |= ctrl_classifier_policy_enforcer_post_delete_feature ( (*this_).policy_enforcer, &old_feature );
         data_feature_destroy( &old_feature );
@@ -626,17 +626,17 @@ ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_control
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_feature_main_type ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_update_feature_main_type ( ctrl_classifier_controller_t *this_,
                                                                    data_row_id_t feature_id,
                                                                    data_feature_type_t new_feature_type )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_feature_t old_feature;
 
     data_result = data_database_writer_update_feature_main_type( (*this_).db_writer, feature_id, new_feature_type, &old_feature );
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         /* prepare the new feature */
         data_feature_t new_feature;
@@ -649,23 +649,23 @@ ctrl_error_t ctrl_classifier_controller_update_feature_main_type ( ctrl_classifi
         data_feature_destroy( &new_feature );
         data_feature_destroy( &old_feature );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_controller_t *this_,
                                                              data_row_id_t feature_id,
                                                              const char* new_feature_key )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_feature_t old_feature;
 
     data_result = data_database_writer_update_feature_key( (*this_).db_writer, feature_id, new_feature_key, &old_feature );
-    if  (( DATA_ERROR_NONE == data_result ) || ( DATA_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
+    if  (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new feature */
         data_feature_t new_feature;
@@ -678,23 +678,23 @@ ctrl_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_con
         data_feature_destroy( &new_feature );
         data_feature_destroy( &old_feature );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_controller_t *this_,
                                                                data_row_id_t feature_id,
                                                                const char* new_feature_value )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_feature_t old_feature;
 
     data_result = data_database_writer_update_feature_value( (*this_).db_writer, feature_id, new_feature_value, &old_feature );
-    if  (( DATA_ERROR_NONE == data_result ) || ( DATA_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
+    if  (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new feature */
         data_feature_t new_feature;
@@ -707,23 +707,23 @@ ctrl_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_c
         data_feature_destroy( &new_feature );
         data_feature_destroy( &old_feature );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classifier_controller_t *this_,
                                                                      data_row_id_t feature_id,
                                                                      const char* new_feature_description )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_feature_t old_feature;
 
     data_result = data_database_writer_update_feature_description( (*this_).db_writer, feature_id, new_feature_description, &old_feature );
-    if  (( DATA_ERROR_NONE == data_result ) || ( DATA_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
+    if  (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new feature */
         data_feature_t new_feature;
@@ -736,23 +736,23 @@ ctrl_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classi
         data_feature_destroy( &new_feature );
         data_feature_destroy( &old_feature );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classifier_controller_t *this_,
                                                                     data_row_id_t feature_id,
                                                                     int32_t new_feature_list_order )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_feature_t old_feature;
 
     data_result = data_database_writer_update_feature_list_order( (*this_).db_writer, feature_id, new_feature_list_order, &old_feature );
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         /* prepare the new feature */
         data_feature_t new_feature;
@@ -765,7 +765,7 @@ ctrl_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classif
         data_feature_destroy( &new_feature );
         data_feature_destroy( &old_feature );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
@@ -773,7 +773,7 @@ ctrl_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classif
 
 /* ================================ RELATIONSHIP ================================ */
 
-ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_controller_t *this_,
                                                               const data_relationship_t *new_relationship,
                                                               ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                               data_row_id_t* out_new_id )
@@ -781,15 +781,15 @@ ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_co
     TRACE_BEGIN();
     assert( NULL != new_relationship );
     data_relationship_t to_be_created;
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_row_id_t new_id;
 
     data_relationship_copy( &to_be_created, new_relationship );
     data_relationship_set_row_id( &to_be_created, DATA_ROW_ID_VOID );
 
     data_result = data_database_writer_create_relationship( (*this_).db_writer, &to_be_created, &new_id );
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         /* store new id to data_relationship_t object */
         data_relationship_set_row_id( &to_be_created, new_id );
@@ -797,9 +797,9 @@ ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_co
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
-            ctrl_error_t internal_err;
+            u8_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
-            if ( CTRL_ERROR_NONE != internal_err )
+            if ( U8_ERROR_NONE != internal_err )
             {
                 TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
@@ -815,7 +815,7 @@ ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_co
             *out_new_id = new_id;
         }
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     data_relationship_destroy( &to_be_created );
 
@@ -823,26 +823,26 @@ ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_co
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_controller_t *this_,
                                                               data_row_id_t obj_id,
                                                               ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* delete relationship */
     data_relationship_t old_relation;
-    data_error_t current_result5;
+    u8_error_t current_result5;
     current_result5 = data_database_writer_delete_relationship( (*this_).db_writer, obj_id, &old_relation );
 
-    if ( DATA_ERROR_NONE == current_result5 )
+    if ( U8_ERROR_NONE == current_result5 )
     {
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
-            ctrl_error_t internal_err;
+            u8_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
-            if ( CTRL_ERROR_NONE != internal_err )
+            if ( U8_ERROR_NONE != internal_err )
             {
                 TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
@@ -855,23 +855,23 @@ ctrl_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_co
         data_relationship_destroy( &old_relation );
     }
 
-    result |= (ctrl_error_t) current_result5;
+    result |= (u8_error_t) current_result5;
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_classifier_controller_t *this_,
                                                                         data_row_id_t relationship_id,
                                                                         data_relationship_type_t new_relationship_type )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_relationship_t old_relation;
 
     data_result = data_database_writer_update_relationship_main_type( (*this_).db_writer, relationship_id, new_relationship_type, &old_relation );
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         /* prepare the new relation */
         data_relationship_t new_relation;
@@ -884,23 +884,23 @@ ctrl_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_cla
         data_relationship_destroy( &new_relation );
         data_relationship_destroy( &old_relation );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifier_controller_t *this_,
                                                                    data_row_id_t relationship_id,
                                                                    const char* new_relationship_name )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_relationship_t old_relation;
 
     data_result = data_database_writer_update_relationship_name( (*this_).db_writer, relationship_id, new_relationship_name, &old_relation );
-    if  (( DATA_ERROR_NONE == data_result ) || ( DATA_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
+    if  (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new relation */
         data_relationship_t new_relation;
@@ -913,23 +913,23 @@ ctrl_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifi
         data_relationship_destroy( &new_relation );
         data_relationship_destroy( &old_relation );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_classifier_controller_t *this_,
                                                                           data_row_id_t relationship_id,
                                                                           const char* new_relationship_description )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_relationship_t old_relation;
 
     data_result = data_database_writer_update_relationship_description( (*this_).db_writer, relationship_id, new_relationship_description, &old_relation );
-    if  (( DATA_ERROR_NONE == data_result ) || ( DATA_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
+    if  (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new relation */
         data_relationship_t new_relation;
@@ -942,23 +942,23 @@ ctrl_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_c
         data_relationship_destroy( &new_relation );
         data_relationship_destroy( &old_relation );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_relationship_list_order ( ctrl_classifier_controller_t *this_,
+u8_error_t ctrl_classifier_controller_update_relationship_list_order ( ctrl_classifier_controller_t *this_,
                                                                          data_row_id_t relationship_id,
                                                                          int32_t new_relationship_list_order )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_relationship_t old_relation;
 
     data_result = data_database_writer_update_relationship_list_order( (*this_).db_writer, relationship_id, new_relationship_list_order, &old_relation );
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         /* prepare the new relation */
         data_relationship_t new_relation;
@@ -971,7 +971,7 @@ ctrl_error_t ctrl_classifier_controller_update_relationship_list_order ( ctrl_cl
         data_relationship_destroy( &new_relation );
         data_relationship_destroy( &old_relation );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;

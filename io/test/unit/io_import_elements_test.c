@@ -83,8 +83,8 @@ static void tear_down(void)
 
 static data_row_id_t set_mode_paste_to_root_diag()
 {
-    ctrl_error_t ctrl_err;
-    data_error_t data_err;
+    u8_error_t ctrl_err;
+    u8_error_t data_err;
     ctrl_diagram_controller_t *diagram_ctrl;
 
     diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
@@ -103,7 +103,7 @@ static data_row_id_t set_mode_paste_to_root_diag()
                                   DATA_DIAGRAM_FLAG_NONE,
                                   "93055a07-ed69-40c8-ba80-469e94242de3"
                                 );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     root_diag_id = DATA_ROW_ID_VOID;
     ctrl_err = ctrl_diagram_controller_create_diagram ( diagram_ctrl,
@@ -111,7 +111,7 @@ static data_row_id_t set_mode_paste_to_root_diag()
                                                         CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                         &root_diag_id
                                                       );
-    TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == ctrl_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
     data_diagram_destroy ( &root_diagram );
 
@@ -128,7 +128,7 @@ static void test_reject_duplicates(void)
     int err;
 
     data_classifier_t my_classifier;
-    const data_error_t data_err_1
+    const u8_error_t data_err_1
         = data_classifier_init( &my_classifier,
                                 36,  /* id */
                                 DATA_CLASSIFIER_TYPE_COMMENT,
@@ -140,7 +140,7 @@ static void test_reject_duplicates(void)
                                 100,  /* list_order */
                                 "2dac33c1-0fdb-4a5f-80b2-3789f935a700"
                               );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err_1 );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err_1 );
 
     err = io_import_elements_sync_classifier( &elements_importer, &my_classifier );
     TEST_ASSERT_EQUAL_INT( 0, err );
@@ -153,7 +153,7 @@ static void test_reject_duplicates(void)
     TEST_ASSERT_EQUAL_INT( 2, data_stat_get_table_count( &stats, DATA_TABLE_CLASSIFIER ) );
 
     data_classifier_t cloned_classifier;
-    const data_error_t data_err_2
+    const u8_error_t data_err_2
         = data_classifier_init( &cloned_classifier,
                                 55,  /* id */
                                 DATA_CLASSIFIER_TYPE_COMMENT,
@@ -165,19 +165,19 @@ static void test_reject_duplicates(void)
                                 100,  /* list_order */
                                 "87950246-9fe2-4acf-ba83-1eb9b813b6d8"
                               );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err_2 );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err_2 );
 
     err = io_import_elements_sync_classifier( &elements_importer, &my_classifier );
     TEST_ASSERT_EQUAL_INT( -1, err );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stats, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR ) );
     TEST_ASSERT_EQUAL_INT( 3, data_stat_get_table_count( &stats, DATA_TABLE_CLASSIFIER ) );
 
-    const data_error_t d_err_1
+    const u8_error_t d_err_1
         = data_classifier_set_name( &cloned_classifier, "other name" );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == d_err_1 );
-    const data_error_t d_err_2
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == d_err_1 );
+    const u8_error_t d_err_2
         = data_classifier_set_uuid( &cloned_classifier, "2dac33c1-0fdb-4a5f-80b2-3789f935a700" );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == d_err_2 );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == d_err_2 );
 
     err = io_import_elements_sync_classifier( &elements_importer, &my_classifier );
     TEST_ASSERT_EQUAL_INT( -1, err );

@@ -1,7 +1,7 @@
 /* File: io_import_elements.c; Copyright and License: see below */
 
 #include "io_import_elements.h"
-#include "ctrl_error.h"
+#include "u8/u8_error.h"
 #include "util/string/utf8string.h"
 #include "trace.h"
 #include <assert.h>
@@ -51,7 +51,7 @@ void io_import_elements_init_for_paste( io_import_elements_t *this_,
                                                       (*this_).paste_to_diagram,
                                                       &((*this_).temp_diagram)
                                                     );
-        if ( DATA_ERROR_NONE != sync_error )
+        if ( U8_ERROR_NONE != sync_error )
         {
             TSLOG_ERROR_INT( "diagram id where to import json data does not exist (anymore)", (*this_).paste_to_diagram );
             (*this_).paste_to_diagram = DATA_ROW_ID_VOID;
@@ -105,12 +105,12 @@ int io_import_elements_sync_diagram( io_import_elements_t *this_,
     {
         if ( ! utf8string_equals_str( parent_uuid, "" ) )
         {
-            const data_error_t try_read
+            const u8_error_t try_read
                 = data_database_reader_get_diagram_by_uuid( (*this_).db_reader,
                                                             parent_uuid,
                                                             &((*this_).temp_diagram)
                                                           );
-            if ( try_read != DATA_ERROR_NONE )
+            if ( try_read != U8_ERROR_NONE )
             {
                 sync_error = -1;
                 TRACE_INFO_STR( "parent diagram not found", parent_uuid );
@@ -143,7 +143,7 @@ int io_import_elements_sync_diagram( io_import_elements_t *this_,
         ctrl_diagram_controller_t *diag_ctrl;
         diag_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
 
-        ctrl_error_t write_error3;
+        u8_error_t write_error3;
         data_row_id_t new_diag_id;
         write_error3 = ctrl_diagram_controller_create_diagram ( diag_ctrl,
                                                                 diagram_ptr,
@@ -154,9 +154,9 @@ int io_import_elements_sync_diagram( io_import_elements_t *this_,
                                                               );
         data_stat_inc_count( (*this_).stat,
                              DATA_TABLE_DIAGRAM,
-                             (CTRL_ERROR_NONE==write_error3)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                             (U8_ERROR_NONE==write_error3)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                            );
-        if ( CTRL_ERROR_NONE != write_error3 )
+        if ( U8_ERROR_NONE != write_error3 )
         {
             TSLOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagram" );
             sync_error = -1;
@@ -216,17 +216,17 @@ int io_import_elements_sync_classifier( io_import_elements_t *this_,
         ctrl_classifier_controller_t *classifier_ctrl;
         classifier_ctrl = ctrl_controller_get_classifier_control_ptr( (*this_).controller );
 
-        data_error_t read_error;
+        u8_error_t read_error;
         data_classifier_t existing_classifier;
         read_error = data_database_reader_get_classifier_by_uuid( (*this_).db_reader,
                                                                   data_classifier_get_uuid_const( classifier_ptr ),
                                                                   &existing_classifier
                                                                 );
-        const bool classifier_exists = ( DATA_ERROR_NONE == read_error );
+        const bool classifier_exists = ( U8_ERROR_NONE == read_error );
 
         if ( ! classifier_exists )
         {
-            ctrl_error_t write_error;
+            u8_error_t write_error;
             write_error = ctrl_classifier_controller_create_classifier( classifier_ctrl,
                                                                         classifier_ptr,
                                                                         ( (*this_).is_first_undo_action
@@ -236,10 +236,10 @@ int io_import_elements_sync_classifier( io_import_elements_t *this_,
                                                                       );
             data_stat_inc_count( (*this_).stat,
                                  DATA_TABLE_CLASSIFIER,
-                                 (CTRL_ERROR_NONE==write_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                 (U8_ERROR_NONE==write_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                );
 
-            if ( CTRL_ERROR_NONE != write_error )
+            if ( U8_ERROR_NONE != write_error )
             {
                 TSLOG_ERROR( "unexpected error at ctrl_classifier_controller_create_classifier/feature" );
                 sync_error = -1;
@@ -280,7 +280,7 @@ int io_import_elements_private_create_diagramelement( io_import_elements_t *this
         ctrl_diagram_controller_t *diag_ctrl;
         diag_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
 
-        ctrl_error_t write_error2;
+        u8_error_t write_error2;
         data_row_id_t new_element_id;
         data_diagramelement_t diag_ele;
         data_diagramelement_init_new( &diag_ele,
@@ -298,9 +298,9 @@ int io_import_elements_private_create_diagramelement( io_import_elements_t *this
                                                                     );
         data_stat_inc_count( (*this_).stat,
                              DATA_TABLE_DIAGRAMELEMENT,
-                             (CTRL_ERROR_NONE==write_error2)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                             (U8_ERROR_NONE==write_error2)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                            );
-        if ( CTRL_ERROR_NONE != write_error2 )
+        if ( U8_ERROR_NONE != write_error2 )
         {
             TSLOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagramelement" );
             sync_error = -1;
@@ -330,12 +330,12 @@ int io_import_elements_sync_feature( io_import_elements_t *this_,
     {
         if ( ! utf8string_equals_str( classifier_uuid, "" ) )
         {
-            const data_error_t try_read
+            const u8_error_t try_read
                 = data_database_reader_get_classifier_by_uuid( (*this_).db_reader,
                                                                classifier_uuid,
                                                                &((*this_).temp_classifier)
                                                              );
-            if ( try_read != DATA_ERROR_NONE )
+            if ( try_read != U8_ERROR_NONE )
             {
                 sync_error = -1;
                 TRACE_INFO_STR( "parent classifier not found", classifier_uuid );
@@ -359,7 +359,7 @@ int io_import_elements_sync_feature( io_import_elements_t *this_,
             ctrl_classifier_controller_t *classifier_ctrl
                 = ctrl_controller_get_classifier_control_ptr( (*this_).controller );
 
-            const ctrl_error_t write_error
+            const u8_error_t write_error
                 = ctrl_classifier_controller_create_feature( classifier_ctrl,
                                                              feature_ptr,
                                                              ( (*this_).is_first_undo_action
@@ -369,9 +369,9 @@ int io_import_elements_sync_feature( io_import_elements_t *this_,
                                                            );
             data_stat_inc_count( (*this_).stat,
                                  DATA_TABLE_FEATURE,
-                                 (CTRL_ERROR_NONE==write_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                 (U8_ERROR_NONE==write_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                );
-            if ( CTRL_ERROR_NONE != write_error )
+            if ( U8_ERROR_NONE != write_error )
             {
                 TSLOG_ERROR( "unexpected error at ctrl_classifier_controller_create_feature" );
                 sync_error = -1;
@@ -418,12 +418,12 @@ int io_import_elements_sync_relationship( io_import_elements_t *this_,
         if ( ! utf8string_equals_str( from_node_uuid, "" ) )
         {
             /* search source classifier id */
-            const data_error_t read_error1
+            const u8_error_t read_error1
                 = data_database_reader_get_classifier_by_uuid( (*this_).db_reader,
                                                                from_node_uuid,
                                                                &((*this_).temp_classifier)
                                                              );
-            if ( DATA_ERROR_NONE == read_error1 )
+            if ( U8_ERROR_NONE == read_error1 )
             {
                 from_classifier_id = data_classifier_get_row_id( &((*this_).temp_classifier) );
                 TRACE_INFO_STR( "id found for src classifier:", from_node_uuid );
@@ -432,12 +432,12 @@ int io_import_elements_sync_relationship( io_import_elements_t *this_,
             else
             {
                 /* search source feature id */
-                const data_error_t read_error2
+                const u8_error_t read_error2
                     = data_database_reader_get_feature_by_uuid( (*this_).db_reader,
                                                                 from_node_uuid,
                                                                 &((*this_).temp_feature)
                                                               );
-                if ( DATA_ERROR_NONE == read_error2 )
+                if ( U8_ERROR_NONE == read_error2 )
                 {
                     from_classifier_id = data_feature_get_classifier_row_id( &((*this_).temp_feature) );
                     from_feature_id = data_feature_get_row_id( &((*this_).temp_feature) );
@@ -459,12 +459,12 @@ int io_import_elements_sync_relationship( io_import_elements_t *this_,
         if ( ! utf8string_equals_str( to_node_uuid, "" ) )
         {
             /* search destination classifier id */
-            const data_error_t read_error3
+            const u8_error_t read_error3
                 = data_database_reader_get_classifier_by_uuid( (*this_).db_reader,
                                                                to_node_uuid,
                                                                &((*this_).temp_classifier)
                                                              );
-            if ( DATA_ERROR_NONE == read_error3 )
+            if ( U8_ERROR_NONE == read_error3 )
             {
                 to_classifier_id = data_classifier_get_row_id( &((*this_).temp_classifier) );
                 TRACE_INFO_STR( "id found for dst classifier:", to_node_uuid );
@@ -473,12 +473,12 @@ int io_import_elements_sync_relationship( io_import_elements_t *this_,
             else
             {
                 /* search dst feature id */
-                const data_error_t read_error4
+                const u8_error_t read_error4
                     = data_database_reader_get_feature_by_uuid( (*this_).db_reader,
                                                                 to_node_uuid,
                                                                 &((*this_).temp_feature)
                                                               );
-                if ( DATA_ERROR_NONE == read_error4 )
+                if ( U8_ERROR_NONE == read_error4 )
                 {
                     to_classifier_id = data_feature_get_classifier_row_id( &((*this_).temp_feature) );
                     to_feature_id = data_feature_get_row_id( &((*this_).temp_feature) );
@@ -533,7 +533,7 @@ int io_import_elements_sync_relationship( io_import_elements_t *this_,
         }
         else
         {
-            ctrl_error_t write_error4;
+            u8_error_t write_error4;
 
             /* get classifier controller */
             ctrl_classifier_controller_t *classifier_control4;
@@ -555,7 +555,7 @@ int io_import_elements_sync_relationship( io_import_elements_t *this_,
                                                                             : CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND ),
                                                                             &relationship_id
                                                                             );
-            if ( CTRL_ERROR_NONE != write_error4 )
+            if ( U8_ERROR_NONE != write_error4 )
             {
                 TSLOG_ERROR( "unexpected error at ctrl_classifier_controller_create_relationship" );
                 sync_error = -1;

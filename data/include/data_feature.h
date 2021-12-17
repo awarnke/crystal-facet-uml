@@ -13,7 +13,7 @@
 #include "data_id.h"
 #include "data_row_id.h"
 #include "data_uuid.h"
-#include "data_error.h"
+#include "u8/u8_error.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdbool.h>
 #include <stdint.h>
@@ -79,16 +79,16 @@ static inline void data_feature_reinit_empty ( data_feature_t *this_ );
  *  \param feature_value value/type of the feature. feature_value must not be NULL.
  *  \param feature_description description of the feature. feature_description must not be NULL.
  *  \param list_order list_order of the feature
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, U8_ERROR_NONE otherwise.
  */
-static inline data_error_t data_feature_init_new ( data_feature_t *this_,
-                                                   data_feature_type_t feature_main_type,
-                                                   data_row_id_t classifier_id,
-                                                   const char* feature_key,
-                                                   const char* feature_value,
-                                                   const char* feature_description,
-                                                   int32_t list_order
-                                                  );
+static inline u8_error_t data_feature_init_new ( data_feature_t *this_,
+                                                 data_feature_type_t feature_main_type,
+                                                 data_row_id_t classifier_id,
+                                                 const char* feature_key,
+                                                 const char* feature_value,
+                                                 const char* feature_description,
+                                                 int32_t list_order
+                                                );
 
 /*!
  *  \brief initializes the data_feature_t struct
@@ -102,19 +102,19 @@ static inline data_error_t data_feature_init_new ( data_feature_t *this_,
  *  \param feature_description description of the feature. feature_description must not be NULL.
  *  \param list_order list_order of the feature
  *  \param uuid a universal unique identifier according to rfc4122
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
- *          DATA_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, DATA_ERROR_NONE otherwise.
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
+ *          U8_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, U8_ERROR_NONE otherwise.
  */
-static inline data_error_t data_feature_init ( data_feature_t *this_,
-                                               data_row_id_t feature_id,
-                                               data_feature_type_t feature_main_type,
-                                               data_row_id_t classifier_id,
-                                               const char* feature_key,
-                                               const char* feature_value,
-                                               const char* feature_description,
-                                               int32_t list_order,
-                                               const char* uuid
-                                             );
+static inline u8_error_t data_feature_init ( data_feature_t *this_,
+                                             data_row_id_t feature_id,
+                                             data_feature_type_t feature_main_type,
+                                             data_row_id_t classifier_id,
+                                             const char* feature_key,
+                                             const char* feature_value,
+                                             const char* feature_description,
+                                             int32_t list_order,
+                                             const char* uuid
+                                           );
 
 /*!
  *  \brief initializes the data_feature_t struct with a copy
@@ -216,9 +216,9 @@ static inline const char *data_feature_get_key_const ( const data_feature_t *thi
  *
  *  \param this_ pointer to own object attributes
  *  \param key new key of this object
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if new string too long
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if new string too long
  */
-static inline data_error_t data_feature_set_key ( data_feature_t *this_, const char *key );
+static inline u8_error_t data_feature_set_key ( data_feature_t *this_, const char *key );
 
 /*!
  *  \brief gets the attribute value
@@ -241,9 +241,9 @@ static inline bool data_feature_has_value ( const data_feature_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param value new value of this object
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if new string too long
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if new string too long
  */
-static inline data_error_t data_feature_set_value ( data_feature_t *this_, const char *value );
+static inline u8_error_t data_feature_set_value ( data_feature_t *this_, const char *value );
 
 /*!
  *  \brief gets the attribute description
@@ -258,18 +258,18 @@ static inline const char *data_feature_get_description_const ( const data_featur
  *
  *  \param this_ pointer to own object attributes
  *  \param description new description of this object
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if new string too long
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if new string too long
  */
-static inline data_error_t data_feature_set_description ( data_feature_t *this_, const char *description );
+static inline u8_error_t data_feature_set_description ( data_feature_t *this_, const char *description );
 
 /*!
  *  \brief appends a string to the attribute description
  *
  *  \param this_ pointer to own object attributes
  *  \param description additional description of this object
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if concatenated string too long
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if concatenated string too long
  */
-static inline data_error_t data_feature_append_description ( data_feature_t *this_, const char *description );
+static inline u8_error_t data_feature_append_description ( data_feature_t *this_, const char *description );
 
 /*!
  *  \brief gets the attribute list_order
@@ -300,9 +300,9 @@ static inline const char *data_feature_get_uuid_const ( const data_feature_t *th
  *
  *  \param this_ pointer to own object attributes
  *  \param uuid new uuid of this object
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if new string too long
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if new string too long
  */
-static inline data_error_t data_feature_set_uuid ( data_feature_t *this_, const char *uuid );
+static inline u8_error_t data_feature_set_uuid ( data_feature_t *this_, const char *uuid );
 
 /*!
  *  \brief checks if attribute id is not DATA_ROW_ID_VOID

@@ -41,36 +41,36 @@ static void test_database_listener_register_and_notify(void)
     data_database_listener_t my_listener1;
     data_database_listener_t my_listener2;
     data_database_t db;
-    data_error_t d_err;
+    u8_error_t d_err;
 
     data_database_listener_init( &my_listener1, &callback_counter, (void (*)(void*,data_database_listener_signal_t)) &callback_notification );
     data_database_listener_init( &my_listener2, &callback_counter, (void (*)(void*,data_database_listener_signal_t)) &callback_notification );
     data_database_init ( &db );
 
     d_err = data_database_add_db_listener( &db, &my_listener1 );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, d_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
 
     d_err = data_database_add_db_listener( &db, &my_listener2 );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, d_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
 
     d_err = data_database_add_db_listener( &db, &my_listener1 );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_INVALID_REQUEST, d_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, d_err );
 
     d_err = data_database_private_notify_db_listeners( &db, DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, d_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
     TEST_ASSERT_EQUAL_INT( 2, callback_counter );
 
     d_err = data_database_remove_db_listener( &db, &my_listener1 );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, d_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
 
     d_err = data_database_remove_db_listener( &db, &my_listener2 );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, d_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
 
     d_err = data_database_remove_db_listener( &db, &my_listener1 );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_INVALID_REQUEST, d_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, d_err );
 
     d_err = data_database_private_notify_db_listeners( &db, DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, d_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
     TEST_ASSERT_EQUAL_INT( 2, callback_counter );
 
     data_database_destroy ( &db );
@@ -82,7 +82,7 @@ static void test_database_listener_registration_full(void)
 {
     data_database_listener_t my_listener[GUI_DATABASE_MAX_LISTENERS+1];
     data_database_t db;
-    data_error_t d_err;
+    u8_error_t d_err;
 
     data_database_init ( &db );
 
@@ -90,20 +90,20 @@ static void test_database_listener_registration_full(void)
     {
         data_database_listener_init( &my_listener[index], &callback_counter, (void (*)(void*,data_database_listener_signal_t)) &callback_notification );
         d_err = data_database_add_db_listener( &db, &my_listener[index] );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, d_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
     }
     data_database_listener_init( &my_listener[GUI_DATABASE_MAX_LISTENERS], &callback_counter, (void (*)(void*,data_database_listener_signal_t)) &callback_notification );
     d_err = data_database_add_db_listener( &db, &my_listener[GUI_DATABASE_MAX_LISTENERS] );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_ARRAY_BUFFER_EXCEEDED, d_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, d_err );
 
     d_err = data_database_private_notify_db_listeners( &db, DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, d_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
     TEST_ASSERT_EQUAL_INT( GUI_DATABASE_MAX_LISTENERS, callback_counter );
 
     data_database_private_clear_db_listener_list( &db );
 
     d_err = data_database_private_notify_db_listeners( &db, DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, d_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
     TEST_ASSERT_EQUAL_INT( GUI_DATABASE_MAX_LISTENERS, callback_counter );
 
     for ( int index = 0; index < (GUI_DATABASE_MAX_LISTENERS+1); index ++ )

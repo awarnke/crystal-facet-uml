@@ -47,66 +47,66 @@ static void tear_down(void)
 
 static void test_notifier_list_insert_and_remove(void)
 {
-    data_error_t result;
+    u8_error_t result;
 
     /* remove from empty list */
     result = data_change_notifier_remove_listener( &(data.notifier), &(data.test_object[0]));
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_INVALID_REQUEST, result );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, result );
 
     /* add one to list */
     result = data_change_notifier_add_listener( &(data.notifier), &(data.test_object[0]));
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, result );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, result );
 
     /* add another to list */
     result = data_change_notifier_add_listener( &(data.notifier), &(data.test_object[1]));
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, result );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, result );
 
     /* add the same again to list */
     result = data_change_notifier_add_listener( &(data.notifier), &(data.test_object[1]));
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_INVALID_REQUEST, result );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, result );
 
     /* remove not-contained from list */
     result = data_change_notifier_remove_listener( &(data.notifier), &(data.test_object[2]));
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_INVALID_REQUEST, result );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, result );
 
     /* remove second from list */
     result = data_change_notifier_remove_listener( &(data.notifier), &(data.test_object[1]));
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, result );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, result );
 
     /* remove second again from list */
     result = data_change_notifier_remove_listener( &(data.notifier), &(data.test_object[1]));
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_INVALID_REQUEST, result );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, result );
 
     /* remove first from list */
     result = data_change_notifier_remove_listener( &(data.notifier), &(data.test_object[0]));
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, result );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, result );
 }
 
 static void test_notifier_list_full(void)
 {
-    data_error_t result;
+    u8_error_t result;
 
     /* insert max_list_len */
     for ( int idx = 0; idx < data.max_list_len; idx ++ )
     {
         result = data_change_notifier_add_listener( &(data.notifier), &(data.test_object[idx]));
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, result );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, result );
     }
 
     /* add one more */
     result = data_change_notifier_add_listener( &(data.notifier), &(data.test_object[data.max_list_len]));
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_ARRAY_BUFFER_EXCEEDED, result );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, result );
 
     /* remove max_list_len */
     for ( int idx = 0; idx < data.max_list_len; idx ++ )
     {
         result = data_change_notifier_remove_listener( &(data.notifier), &(data.test_object[idx]));
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, result );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, result );
     }
 
     /* remove one more */
     result = data_change_notifier_remove_listener( &(data.notifier), &(data.test_object[data.max_list_len]));
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_INVALID_REQUEST, result );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, result );
 
     /* check that memory was not overwritten */
     TEST_ASSERT_EQUAL_INT( 0x4343f9f5u, data.guard_1 );

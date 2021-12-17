@@ -7,11 +7,11 @@
 #include <sqlite3.h>
 #include <assert.h>
 
-data_error_t data_database_consistency_checker_init ( data_database_consistency_checker_t *this_, data_database_t *database )
+u8_error_t data_database_consistency_checker_init ( data_database_consistency_checker_t *this_, data_database_t *database )
 {
     TRACE_BEGIN();
     assert( NULL != database );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     (*this_).database = database;
 
@@ -20,10 +20,10 @@ data_error_t data_database_consistency_checker_init ( data_database_consistency_
 }
 
 
-data_error_t data_database_consistency_checker_destroy ( data_database_consistency_checker_t *this_ )
+u8_error_t data_database_consistency_checker_destroy ( data_database_consistency_checker_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     (*this_).database = NULL;
 
@@ -265,11 +265,11 @@ static const int RESULT_FEATURE_RELATIONSHIPS_DEST_FEATURE_ID_COLUMN = 7;
  */
 static const int RESULT_FEATURE_RELATIONSHIPS_DEST_FEATURE_CLASSIFIER_ID_COLUMN = 8;
 
-data_error_t data_database_consistency_checker_find_circular_diagram_parents ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
+u8_error_t data_database_consistency_checker_find_circular_diagram_parents ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
 {
     TRACE_BEGIN();
     assert( NULL != io_set );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* fetch all diagram ids from the database */
     uint32_t diagram_id_pair_count;
@@ -329,7 +329,7 @@ data_error_t data_database_consistency_checker_find_circular_diagram_parents ( d
     return result;
 }
 
-data_error_t data_database_consistency_checker_private_get_diagram_ids ( data_database_consistency_checker_t *this_,
+u8_error_t data_database_consistency_checker_private_get_diagram_ids ( data_database_consistency_checker_t *this_,
                                                                          uint32_t max_out_array_size,
                                                                          data_row_id_t (*out_diagram_id_pair)[][2],
                                                                          uint32_t *out_diagram_id_pair_count )
@@ -338,13 +338,13 @@ data_error_t data_database_consistency_checker_private_get_diagram_ids ( data_da
     assert( NULL != out_diagram_id_pair );
     assert( NULL != out_diagram_id_pair_count );
     assert( max_out_array_size <= MAX_ROWS_TO_CHECK );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     (*out_diagram_id_pair_count) = 0;
 
     if ( ! data_database_is_open( (*this_).database ) )
     {
-        result = DATA_ERROR_NO_DB;
+        result = U8_ERROR_NO_DB;
         TSLOG_WARNING( "Database not open, cannot request data." );
     }
     else
@@ -364,12 +364,12 @@ data_error_t data_database_consistency_checker_private_get_diagram_ids ( data_da
         if ( 0 != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
+            result |= U8_ERROR_AT_DB;
         }
         else
         {
             sqlite_err = SQLITE_ROW;
-            for ( uint_fast32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK) && (result == DATA_ERROR_NONE); row_index ++ )
+            for ( uint_fast32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK) && (result == U8_ERROR_NONE); row_index ++ )
             {
                 TRACE_INFO( "sqlite3_step()" );
                 sqlite_err = sqlite3_step( prepared_statement );
@@ -402,13 +402,13 @@ data_error_t data_database_consistency_checker_private_get_diagram_ids ( data_da
                     else
                     {
                         TSLOG_ERROR_INT( "Number of diagrams in the database exceeds max_out_array_size:", max_out_array_size );
-                        result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                        result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
                     }
                 }
                 else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
                 {
                     TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                    result |= DATA_ERROR_AT_DB;
+                    result |= U8_ERROR_AT_DB;
                 }
             }
         }
@@ -417,7 +417,7 @@ data_error_t data_database_consistency_checker_private_get_diagram_ids ( data_da
         if ( 0 != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
+            result |= U8_ERROR_AT_DB;
         }
     }
 
@@ -425,16 +425,16 @@ data_error_t data_database_consistency_checker_private_get_diagram_ids ( data_da
     return result;
 }
 
-data_error_t data_database_consistency_checker_find_nonreferencing_diagramelements ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
+u8_error_t data_database_consistency_checker_find_nonreferencing_diagramelements ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
 {
     TRACE_BEGIN();
     assert( NULL != io_set );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
 
     if ( ! data_database_is_open( (*this_).database ) )
     {
-        result = DATA_ERROR_NO_DB;
+        result = U8_ERROR_NO_DB;
         TSLOG_WARNING( "Database not open, cannot request data." );
     }
     else
@@ -454,7 +454,7 @@ data_error_t data_database_consistency_checker_find_nonreferencing_diagramelemen
         if ( 0 != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
+            result |= U8_ERROR_AT_DB;
         }
         else
         {
@@ -504,7 +504,7 @@ data_error_t data_database_consistency_checker_find_nonreferencing_diagramelemen
                 else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
                 {
                     TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                    result |= DATA_ERROR_AT_DB;
+                    result |= U8_ERROR_AT_DB;
                 }
             }
         }
@@ -513,7 +513,7 @@ data_error_t data_database_consistency_checker_find_nonreferencing_diagramelemen
         if ( 0 != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
+            result |= U8_ERROR_AT_DB;
         }
     }
 
@@ -521,16 +521,16 @@ data_error_t data_database_consistency_checker_find_nonreferencing_diagramelemen
     return result;
 }
 
-data_error_t data_database_consistency_checker_find_invalid_focused_features ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
+u8_error_t data_database_consistency_checker_find_invalid_focused_features ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
 {
     TRACE_BEGIN();
     assert( NULL != io_set );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
 
     if ( ! data_database_is_open( (*this_).database ) )
     {
-        result = DATA_ERROR_NO_DB;
+        result = U8_ERROR_NO_DB;
         TSLOG_WARNING( "Database not open, cannot request data." );
     }
     else
@@ -550,7 +550,7 @@ data_error_t data_database_consistency_checker_find_invalid_focused_features ( d
         if ( 0 != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
+            result |= U8_ERROR_AT_DB;
         }
         else
         {
@@ -628,7 +628,7 @@ data_error_t data_database_consistency_checker_find_invalid_focused_features ( d
                 else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
                 {
                     TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                    result |= DATA_ERROR_AT_DB;
+                    result |= U8_ERROR_AT_DB;
                 }
             }
         }
@@ -637,7 +637,7 @@ data_error_t data_database_consistency_checker_find_invalid_focused_features ( d
         if ( 0 != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
+            result |= U8_ERROR_AT_DB;
         }
     }
 
@@ -645,16 +645,16 @@ data_error_t data_database_consistency_checker_find_invalid_focused_features ( d
     return result;
 }
 
-data_error_t data_database_consistency_checker_find_unreferenced_classifiers ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
+u8_error_t data_database_consistency_checker_find_unreferenced_classifiers ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
 {
     TRACE_BEGIN();
     assert( NULL != io_set );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
 
     if ( ! data_database_is_open( (*this_).database ) )
     {
-        result = DATA_ERROR_NO_DB;
+        result = U8_ERROR_NO_DB;
         TSLOG_WARNING( "Database not open, cannot request data." );
     }
     else
@@ -674,7 +674,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_classifiers ( d
         if ( 0 != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
+            result |= U8_ERROR_AT_DB;
         }
         else
         {
@@ -710,7 +710,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_classifiers ( d
                 else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
                 {
                     TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                    result |= DATA_ERROR_AT_DB;
+                    result |= U8_ERROR_AT_DB;
                 }
             }
         }
@@ -719,7 +719,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_classifiers ( d
         if ( 0 != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
+            result |= U8_ERROR_AT_DB;
         }
     }
 
@@ -727,16 +727,16 @@ data_error_t data_database_consistency_checker_find_unreferenced_classifiers ( d
     return result;
 }
 
-data_error_t data_database_consistency_checker_find_unreferenced_features ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
+u8_error_t data_database_consistency_checker_find_unreferenced_features ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
 {
     TRACE_BEGIN();
     assert( NULL != io_set );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
 
     if ( ! data_database_is_open( (*this_).database ) )
     {
-        result = DATA_ERROR_NO_DB;
+        result = U8_ERROR_NO_DB;
         TSLOG_WARNING( "Database not open, cannot request data." );
     }
     else
@@ -756,7 +756,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_features ( data
         if ( 0 != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
+            result |= U8_ERROR_AT_DB;
         }
         else
         {
@@ -790,7 +790,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_features ( data
                 else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
                 {
                     TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                    result |= DATA_ERROR_AT_DB;
+                    result |= U8_ERROR_AT_DB;
                 }
             }
         }
@@ -799,7 +799,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_features ( data
         if ( 0 != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
+            result |= U8_ERROR_AT_DB;
         }
     }
 
@@ -807,16 +807,16 @@ data_error_t data_database_consistency_checker_find_unreferenced_features ( data
     return result;
 }
 
-data_error_t data_database_consistency_checker_find_unreferenced_relationships ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
+u8_error_t data_database_consistency_checker_find_unreferenced_relationships ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
 {
     TRACE_BEGIN();
     assert( NULL != io_set );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
 
     if ( ! data_database_is_open( (*this_).database ) )
     {
-        result = DATA_ERROR_NO_DB;
+        result = U8_ERROR_NO_DB;
         TSLOG_WARNING( "Database not open, cannot request data." );
     }
     else
@@ -836,7 +836,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_relationships (
         if ( 0 != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
+            result |= U8_ERROR_AT_DB;
         }
         else
         {
@@ -886,7 +886,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_relationships (
                 else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
                 {
                     TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                    result |= DATA_ERROR_AT_DB;
+                    result |= U8_ERROR_AT_DB;
                 }
             }
         }
@@ -895,7 +895,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_relationships (
         if ( 0 != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
+            result |= U8_ERROR_AT_DB;
         }
     }
 
@@ -903,16 +903,16 @@ data_error_t data_database_consistency_checker_find_unreferenced_relationships (
     return result;
 }
 
-data_error_t data_database_consistency_checker_find_invalid_relationship_features ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
+u8_error_t data_database_consistency_checker_find_invalid_relationship_features ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
 {
     TRACE_BEGIN();
     assert( NULL != io_set );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
 
     if ( ! data_database_is_open( (*this_).database ) )
     {
-        result = DATA_ERROR_NO_DB;
+        result = U8_ERROR_NO_DB;
         TSLOG_WARNING( "Database not open, cannot request data." );
     }
     else
@@ -932,7 +932,7 @@ data_error_t data_database_consistency_checker_find_invalid_relationship_feature
         if ( 0 != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
+            result |= U8_ERROR_AT_DB;
         }
         else
         {
@@ -1091,7 +1091,7 @@ data_error_t data_database_consistency_checker_find_invalid_relationship_feature
                 else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
                 {
                     TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                    result |= DATA_ERROR_AT_DB;
+                    result |= U8_ERROR_AT_DB;
                 }
             }
         }
@@ -1100,7 +1100,7 @@ data_error_t data_database_consistency_checker_find_invalid_relationship_feature
         if ( 0 != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
+            result |= U8_ERROR_AT_DB;
         }
     }
 
@@ -1131,10 +1131,10 @@ static const char *DATA_DATABASE_CONSISTENCY_CHECKER_DELETE_CLASSIFIER_PREFIX =
  */
 static const char *DATA_DATABASE_CONSISTENCY_CHECKER_DELETE_CLASSIFIER_POSTFIX = ");";
 
-data_error_t data_database_consistency_checker_kill_classifier( data_database_consistency_checker_t *this_, data_row_id_t obj_id )
+u8_error_t data_database_consistency_checker_kill_classifier( data_database_consistency_checker_t *this_, data_row_id_t obj_id )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     char *error_msg = NULL;
     sqlite3 *db = data_database_get_database_ptr( (*this_).database );
@@ -1147,7 +1147,7 @@ data_error_t data_database_consistency_checker_kill_classifier( data_database_co
         {
             TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CONSISTENCY_CHECKER_BEGIN_TRANSACTION );
             TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
+            result |= U8_ERROR_AT_DB;
         }
         if ( error_msg != NULL )
         {
@@ -1167,7 +1167,7 @@ data_error_t data_database_consistency_checker_kill_classifier( data_database_co
         {
             TSLOG_ERROR_STR( "sqlite3_exec() failed:", utf8stringbuf_get_string(delete_statement) );
             TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-            result |= (sqlite_err == SQLITE_READONLY) ? DATA_ERROR_READ_ONLY_DB : DATA_ERROR_AT_DB;
+            result |= (sqlite_err == SQLITE_READONLY) ? U8_ERROR_READ_ONLY_DB : U8_ERROR_AT_DB;
         }
         if ( error_msg != NULL )
         {
@@ -1182,7 +1182,7 @@ data_error_t data_database_consistency_checker_kill_classifier( data_database_co
         {
             TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CONSISTENCY_CHECKER_COMMIT_TRANSACTION );
             TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
+            result |= U8_ERROR_AT_DB;
         }
         if ( error_msg != NULL )
         {
@@ -1194,7 +1194,7 @@ data_error_t data_database_consistency_checker_kill_classifier( data_database_co
     else
     {
         TSLOG_WARNING( "database not open." );
-        result = DATA_ERROR_NO_DB;
+        result = U8_ERROR_NO_DB;
     }
 
     TRACE_END_ERR( result );

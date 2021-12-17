@@ -53,9 +53,9 @@ int io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_trave
 
     /* load data to be drawn */
     data_visible_set_init( (*this_).input_data );
-    const data_error_t d_err
+    const u8_error_t d_err
         = data_visible_set_load( (*this_).input_data, data_id_get_row_id( &diagram_id ), (*this_).db_reader );
-    if( d_err != DATA_ERROR_NONE )
+    if( d_err != U8_ERROR_NONE )
     {
         write_err = -1;
         assert(false);
@@ -75,9 +75,9 @@ int io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_trave
         const data_row_id_t parent_id = data_diagram_get_parent_row_id( diag_ptr );
         if ( DATA_ROW_ID_VOID != parent_id )
         {
-            const data_error_t d_err2
+            const u8_error_t d_err2
                 = data_database_reader_get_diagram_by_id( (*this_).db_reader, parent_id, &((*this_).temp_parent_diag) );
-            if( d_err2 != DATA_ERROR_NONE )
+            if( d_err2 != U8_ERROR_NONE )
             {
                 write_err = -1;
                 assert(false);
@@ -113,9 +113,9 @@ int io_export_diagram_traversal_end_diagram ( io_export_diagram_traversal_t *thi
 
     /* load diagram only to be drawn */
     data_diagram_t *const diagram_ptr = data_visible_set_get_diagram_ptr ( (*this_).input_data );
-    const data_error_t d_err
+    const u8_error_t d_err
         = data_database_reader_get_diagram_by_id( (*this_).db_reader, data_id_get_row_id( &diagram_id ), diagram_ptr );
-    if( d_err != DATA_ERROR_NONE )
+    if( d_err != U8_ERROR_NONE )
     {
         write_err = -1;
         assert(false);

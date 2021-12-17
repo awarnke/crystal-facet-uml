@@ -79,8 +79,8 @@ static void tear_down(void)
 
 static data_row_id_t create_root_diag()
 {
-    ctrl_error_t ctrl_err;
-    data_error_t data_err;
+    u8_error_t ctrl_err;
+    u8_error_t data_err;
     ctrl_diagram_controller_t *diagram_ctrl;
 
     diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
@@ -99,7 +99,7 @@ static data_row_id_t create_root_diag()
                                   DATA_DIAGRAM_FLAG_NONE,
                                   "8a086be4-e05d-4299-a56a-10c5b9037835"
                                 );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     root_diag_id = DATA_ROW_ID_VOID;
     ctrl_err = ctrl_diagram_controller_create_diagram ( diagram_ctrl,
@@ -107,7 +107,7 @@ static data_row_id_t create_root_diag()
                                                         CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                         &root_diag_id
                                                       );
-    TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == ctrl_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
     data_diagram_destroy ( &root_diagram );
 
@@ -274,7 +274,7 @@ static void insert_invalid_json(void)
     io_importer_t importer;
     io_importer_init ( &importer, &db_reader, &controller );
 
-    data_error_t data_err;
+    u8_error_t data_err;
     data_stat_t stat;
     data_stat_init(&stat);
     uint32_t read_line;
@@ -285,7 +285,7 @@ static void insert_invalid_json(void)
                                                  &stat,
                                                  &read_line
                                                );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_PARSER_STRUCTURE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, data_err );
     TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
     TEST_ASSERT_EQUAL_INT( read_line, 2 );
     /* error happens at char 24 according to the log */
@@ -298,7 +298,7 @@ static void insert_invalid_json(void)
                                                  &stat,
                                                  &read_line
                                                );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_PARSER_STRUCTURE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, data_err );
     TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
     TEST_ASSERT_EQUAL_INT( read_line, 2 );
 
@@ -313,7 +313,7 @@ static void insert_invalid_parent_diag(void)
     io_importer_t importer;
     io_importer_init ( &importer, &db_reader, &controller );
 
-    data_error_t data_err;
+    u8_error_t data_err;
     data_stat_t stat;
     data_stat_init(&stat);
     uint32_t read_line;
@@ -323,7 +323,7 @@ static void insert_invalid_parent_diag(void)
                                              &stat,
                                              &read_line
                                            );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
     TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
     TEST_ASSERT_EQUAL_INT( read_line, 1 );
 
@@ -338,7 +338,7 @@ static void insert_empty_set(void)
     io_importer_t importer;
     io_importer_init ( &importer, &db_reader, &controller );
 
-    data_error_t data_err;
+    u8_error_t data_err;
     data_stat_t stat;
     data_stat_init(&stat);
     uint32_t read_line;
@@ -349,7 +349,7 @@ static void insert_empty_set(void)
                                              &stat,
                                              &read_line
                                            );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
     TEST_ASSERT_EQUAL_INT( read_line, 2 );
 
@@ -364,7 +364,7 @@ static void insert_new_classifier_to_existing_diagram(void)
     io_importer_t importer;
     io_importer_init ( &importer, &db_reader, &controller );
 
-    data_error_t data_err;
+    u8_error_t data_err;
     data_stat_t stat;
     data_stat_init(&stat);
     uint32_t read_pos;
@@ -374,7 +374,7 @@ static void insert_new_classifier_to_existing_diagram(void)
                                              &stat,
                                              &read_pos
                                            );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
@@ -399,7 +399,7 @@ static void insert_new_classifier_to_new_diagram(void)
     io_importer_t importer;
     io_importer_init ( &importer, &db_reader, &controller );
 
-    data_error_t data_err;
+    u8_error_t data_err;
     data_stat_t stat;
     data_stat_init(&stat);
     uint32_t read_pos;
@@ -409,7 +409,7 @@ static void insert_new_classifier_to_new_diagram(void)
                                              &stat,
                                              &read_pos
                                            );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
@@ -434,7 +434,7 @@ static void insert_existing_classifier_to_existing_diagram(void)
     io_importer_t importer;
     io_importer_init ( &importer, &db_reader, &controller );
 
-    data_error_t data_err;
+    u8_error_t data_err;
     {
         data_stat_t stat;
         data_stat_init(&stat);
@@ -445,7 +445,7 @@ static void insert_existing_classifier_to_existing_diagram(void)
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_existing_diagram */
         TEST_ASSERT_EQUAL_INT( 64, read_pos );
         data_stat_destroy(&stat);
@@ -460,7 +460,7 @@ static void insert_existing_classifier_to_existing_diagram(void)
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
@@ -489,7 +489,7 @@ static void insert_existing_classifier_to_new_diagram(void)
     io_importer_t importer;
     io_importer_init ( &importer, &db_reader, &controller );
 
-    data_error_t data_err;
+    u8_error_t data_err;
     {
         data_stat_t stat;
         data_stat_init(&stat);
@@ -500,7 +500,7 @@ static void insert_existing_classifier_to_new_diagram(void)
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
         TEST_ASSERT_EQUAL_INT( 87, read_pos );
         data_stat_destroy(&stat);
@@ -515,7 +515,7 @@ static void insert_existing_classifier_to_new_diagram(void)
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
@@ -544,7 +544,7 @@ static void insert_unconditional_relationships(void)
     io_importer_t importer;
     io_importer_init ( &importer, &db_reader, &controller );
 
-    data_error_t data_err;
+    u8_error_t data_err;
     {
         data_stat_t stat;
         data_stat_init(&stat);
@@ -555,7 +555,7 @@ static void insert_unconditional_relationships(void)
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
         TEST_ASSERT_EQUAL_INT( 87, read_pos );
         data_stat_destroy(&stat);
@@ -570,7 +570,7 @@ static void insert_unconditional_relationships(void)
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
@@ -665,7 +665,7 @@ static void insert_scenario_relationships_to_scenario(void)
     io_importer_t importer;
     io_importer_init ( &importer, &db_reader, &controller );
 
-    data_error_t data_err;
+    u8_error_t data_err;
     data_stat_t stat;
     data_stat_init(&stat);
     uint32_t read_pos;
@@ -675,7 +675,7 @@ static void insert_scenario_relationships_to_scenario(void)
                                              &stat,
                                              &read_pos
                                            );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     /* type 13 == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM; is scenario */
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
     TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
@@ -729,7 +729,7 @@ static void insert_scenario_relationships_to_non_scenario(void)
     io_importer_t importer;
     io_importer_init ( &importer, &db_reader, &controller );
 
-    data_error_t data_err;
+    u8_error_t data_err;
     {
         data_stat_t stat;
         data_stat_init(&stat);
@@ -740,7 +740,7 @@ static void insert_scenario_relationships_to_non_scenario(void)
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_existing_diagram */
         TEST_ASSERT_EQUAL_INT( 64, read_pos );
         data_stat_destroy(&stat);
@@ -755,7 +755,7 @@ static void insert_scenario_relationships_to_non_scenario(void)
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         /* type 13 == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM; is scenario */
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAMELEMENT ) );

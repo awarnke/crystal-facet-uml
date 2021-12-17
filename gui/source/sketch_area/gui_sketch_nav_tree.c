@@ -57,11 +57,11 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
 
     gui_sketch_nav_tree_invalidate_data( this_ );
 
-    data_error_t db_err = DATA_ERROR_NONE;
+    u8_error_t db_err = U8_ERROR_NONE;
 
     /* get ancestors */
     bool finished = false;
-    for ( unsigned int anc_index = 0; ( anc_index < GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS ) && ( db_err == DATA_ERROR_NONE ) && ( ! finished ); anc_index ++ )
+    for ( unsigned int anc_index = 0; ( anc_index < GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS ) && ( db_err == U8_ERROR_NONE ) && ( ! finished ); anc_index ++ )
     {
         data_row_id_t id_to_load;
         if ( anc_index == 0 )
@@ -76,7 +76,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
         if ( id_to_load != DATA_ROW_ID_VOID )
         {
             db_err = data_database_reader_get_diagram_by_id ( db_reader, id_to_load, &((*this_).ancestor_diagrams[anc_index]) );
-            if ( db_err == DATA_ERROR_NONE )
+            if ( db_err == U8_ERROR_NONE )
             {
                 (*this_).ancestors_count = anc_index+1;
             }
@@ -89,12 +89,12 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
 
     if ( (*this_).ancestors_count == 0 )
     {
-        db_err = DATA_ERROR_INVALID_REQUEST;
+        db_err = U8_ERROR_INVALID_REQUEST;
         TSLOG_ANOMALY_INT( "gui_sketch_nav_tree_load_data cannot load diagram", diagram_id );
     }
 
     /* get siblings */
-    if ( db_err == DATA_ERROR_NONE )
+    if ( db_err == U8_ERROR_NONE )
     {
         data_row_id_t parent_id;
         parent_id = data_diagram_get_parent_row_id( &((*this_).ancestor_diagrams[0]) );
@@ -121,7 +121,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
     }
 
     /* get children */
-    if ( db_err == DATA_ERROR_NONE )
+    if ( db_err == U8_ERROR_NONE )
     {
 
         db_err = data_database_reader_get_diagrams_by_parent_id ( db_reader,

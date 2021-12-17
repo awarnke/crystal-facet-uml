@@ -10,7 +10,7 @@
  */
 
 #include "storage/data_change_event_type.h"
-#include "data_error.h"
+#include "u8/u8_error.h"
 #include "data_table.h"
 #include "data_row_id.h"
 #include <glib-object.h>
@@ -102,21 +102,21 @@ static inline void data_change_notifier_emit_signal_without_parent ( data_change
  *
  *  \param this_ pointer to own object attributes
  *  \param new_listener pointer to a GObject that shall listen on the DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME signal
- *  \return DATA_ERROR_NONE in case of success,
- *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if too many listeners are registered,
- *          DATA_ERROR_INVALID_REQUEST if the object was already a listener or data_change_notifier_t not initialized.
+ *  \return U8_ERROR_NONE in case of success,
+ *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if too many listeners are registered,
+ *          U8_ERROR_INVALID_REQUEST if the object was already a listener or data_change_notifier_t not initialized.
  */
-data_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, GObject *new_listener );
+u8_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, GObject *new_listener );
 
 /*!
  *  \brief removes an object as listener
  *
  *  \param this_ pointer to own object attributes
  *  \param no_listener pointer to a GObject that shall be removed from the listener list
- *  \return DATA_ERROR_NONE in case of success,
- *          DATA_ERROR_INVALID_REQUEST if the object was no listener or data_change_notifier_t not initialized.
+ *  \return U8_ERROR_NONE in case of success,
+ *          U8_ERROR_INVALID_REQUEST if the object was no listener or data_change_notifier_t not initialized.
  */
-data_error_t data_change_notifier_remove_listener ( data_change_notifier_t *this_, GObject *no_listener );
+u8_error_t data_change_notifier_remove_listener ( data_change_notifier_t *this_, GObject *no_listener );
 
 #include "storage/data_change_notifier.inl"
 

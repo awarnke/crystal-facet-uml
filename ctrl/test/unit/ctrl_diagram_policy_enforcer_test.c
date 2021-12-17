@@ -69,8 +69,8 @@ static void tear_down(void)
 
 static void diagram_to_lifeline_consistency(void)
 {
-    ctrl_error_t ctrl_err;
-    data_error_t data_err;
+    u8_error_t ctrl_err;
+    u8_error_t data_err;
     ctrl_classifier_controller_t *classifier_ctrl;
     ctrl_diagram_controller_t *diagram_ctrl;
 
@@ -91,7 +91,7 @@ static void diagram_to_lifeline_consistency(void)
                                       DATA_DIAGRAM_FLAG_NONE,
                                       "4db26042-d7ce-4e2f-b8dc-cc9c9c61f39c"
                                     );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
         root_diag_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_diagram_controller_create_diagram ( diagram_ctrl,
@@ -99,7 +99,7 @@ static void diagram_to_lifeline_consistency(void)
                                                             CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                             &root_diag_id
                                                           );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
         data_diagram_destroy ( &root_diagram );
     }
@@ -118,7 +118,7 @@ static void diagram_to_lifeline_consistency(void)
                                       DATA_DIAGRAM_FLAG_NONE,
                                       "e89207d2-c7d2-4996-9bfc-bc6e1a9ff6b3"
                                     );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
         child_diag_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_diagram_controller_create_diagram ( diagram_ctrl,
@@ -126,7 +126,7 @@ static void diagram_to_lifeline_consistency(void)
                                                             CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                             &child_diag_id
                                                           );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT( child_diag_id != DATA_ROW_ID_VOID );
         data_diagram_destroy ( &child_diagram );
     }
@@ -144,7 +144,7 @@ static void diagram_to_lifeline_consistency(void)
                                              4500,
                                              450000
                                            );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
         classifier_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,
@@ -152,7 +152,7 @@ static void diagram_to_lifeline_consistency(void)
                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                   &classifier_id
                                                                 );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT( DATA_ROW_ID_VOID != classifier_id );
         data_classifier_destroy ( &new_classifier );
     }
@@ -174,7 +174,7 @@ static void diagram_to_lifeline_consistency(void)
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                    &root_diag_element_id
                                                                  );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         data_diagramelement_destroy ( &new_diagele );
         TEST_ASSERT( DATA_ROW_ID_VOID != root_diag_element_id );
     }
@@ -196,7 +196,7 @@ static void diagram_to_lifeline_consistency(void)
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                    &child_diag_element_id
                                                                  );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         data_diagramelement_destroy ( &new_diagele2 );
         TEST_ASSERT( DATA_ROW_ID_VOID != child_diag_element_id );
     }
@@ -204,19 +204,19 @@ static void diagram_to_lifeline_consistency(void)
     /* change the type of the child diagram to DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM */
     {
         ctrl_err = ctrl_diagram_controller_update_diagram_type ( diagram_ctrl, child_diag_id, DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     }
 
     /* change the type of the child diagram to DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM */
     {
         ctrl_err = ctrl_diagram_controller_update_diagram_type ( diagram_ctrl, child_diag_id, DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     }
 
     /* change the type of the child diagram to DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM */
     {
         ctrl_err = ctrl_diagram_controller_update_diagram_type ( diagram_ctrl, child_diag_id, DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     }
 
     /* check that the classifier now has one feature of type DATA_FEATURE_TYPE_LIFELINE */
@@ -230,7 +230,7 @@ static void diagram_to_lifeline_consistency(void)
                                                                         &features,
                                                                         &feature_count
                                                                       );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 1, feature_count );
         TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &(features[0]) ) );
     }
@@ -239,7 +239,7 @@ static void diagram_to_lifeline_consistency(void)
     {
         data_diagramelement_t check_diagele2;
         data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, child_diag_element_id, &check_diagele2 );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
         TEST_ASSERT_EQUAL_INT( data_feature_get_row_id( &(features[0])), data_diagramelement_get_focused_feature_row_id( &check_diagele2 ) );
 
@@ -252,13 +252,13 @@ static void diagram_to_lifeline_consistency(void)
                                                                    child_diag_element_id,
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
                                                                  );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
         ctrl_err = ctrl_diagram_controller_delete_diagram ( diagram_ctrl,
                                                             child_diag_id,
                                                             CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                           );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     }
 
     /* check that the feature of type DATA_FEATURE_TYPE_LIFELINE is deleted */
@@ -269,15 +269,15 @@ static void diagram_to_lifeline_consistency(void)
                                                                         &features,
                                                                         &feature_count
                                                                       );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 0, feature_count );
     }
 }
 
 static void diagramelement_to_lifeline_consistency(void)
 {
-    ctrl_error_t ctrl_err;
-    data_error_t data_err;
+    u8_error_t ctrl_err;
+    u8_error_t data_err;
     ctrl_classifier_controller_t *classifier_ctrl;
     ctrl_diagram_controller_t *diagram_ctrl;
 
@@ -298,7 +298,7 @@ static void diagramelement_to_lifeline_consistency(void)
                                       DATA_DIAGRAM_FLAG_NONE,
                                       "bad218e0-d633-4a2c-b0bb-d636c28d3496"
                                     );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
         root_diag_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_diagram_controller_create_diagram ( diagram_ctrl,
@@ -306,7 +306,7 @@ static void diagramelement_to_lifeline_consistency(void)
                                                             CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                             &root_diag_id
         );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
         data_diagram_destroy ( &root_diagram );
     }
@@ -324,7 +324,7 @@ static void diagramelement_to_lifeline_consistency(void)
                                              4500,
                                              450000
                                            );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
         classifier_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,
@@ -332,7 +332,7 @@ static void diagramelement_to_lifeline_consistency(void)
                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                                   &classifier_id
         );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT( DATA_ROW_ID_VOID != classifier_id );
         data_classifier_destroy ( &new_classifier );
     }
@@ -354,7 +354,7 @@ static void diagramelement_to_lifeline_consistency(void)
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                    &first_diag_element_id
                                                                  );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         data_diagramelement_destroy ( &new_diagele );
         TEST_ASSERT( DATA_ROW_ID_VOID != first_diag_element_id );
     }
@@ -376,7 +376,7 @@ static void diagramelement_to_lifeline_consistency(void)
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                    &second_diag_element_id
                                                                  );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         data_diagramelement_destroy ( &new_diagele2 );
         TEST_ASSERT( DATA_ROW_ID_VOID != second_diag_element_id );
     }
@@ -392,7 +392,7 @@ static void diagramelement_to_lifeline_consistency(void)
                                                                         &features,
                                                                         &feature_count
                                                                       );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 2, feature_count );
         TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &(features[0]) ) );
         TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &(features[1]) ) );
@@ -404,7 +404,7 @@ static void diagramelement_to_lifeline_consistency(void)
                                                                    first_diag_element_id,
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
                                                                  );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     }
 
     /* check that one feature of type DATA_FEATURE_TYPE_LIFELINE is deleted */
@@ -415,7 +415,7 @@ static void diagramelement_to_lifeline_consistency(void)
                                                                         &features,
                                                                         &feature_count
                                                                       );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 1, feature_count );
         TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &(features[0]) ) );
     }
@@ -424,7 +424,7 @@ static void diagramelement_to_lifeline_consistency(void)
     {
         data_diagramelement_t check_diagele2;
         data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, second_diag_element_id, &check_diagele2 );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
         TEST_ASSERT_EQUAL_INT( data_feature_get_row_id( &(features[0])), data_diagramelement_get_focused_feature_row_id( &check_diagele2 ) );
 
@@ -468,20 +468,20 @@ static void no_hidden_relationships(void)
                                                    "local relation", &controller );
 
     /* delete the local diagramelement of the test classifier */
-    const ctrl_error_t c_err
+    const u8_error_t c_err
         = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl, test_local_diagele, CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, c_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, c_err );
 
     /* is local rel deleted? */
     data_relationship_t probe;
-    const data_error_t local_err
+    const u8_error_t local_err
         = data_database_reader_get_relationship_by_id( &db_reader, local_rel, &probe );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, local_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, local_err );
 
     /* is double rel existing? */
-    const data_error_t double_err
+    const u8_error_t double_err
         = data_database_reader_get_relationship_by_id( &db_reader, double_rel, &probe );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, double_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, double_err );
 }
 
 

@@ -15,7 +15,7 @@
 #include "storage/data_database_reader.h"
 #include "set/data_stat.h"
 #include "universal_utf8_writer.h"
-#include "u8_error.h"
+#include "u8/u8_error.h"
 
 /*!
  *  \brief attributes of the import object
@@ -67,7 +67,7 @@ void io_importer_destroy ( io_importer_t *this_ );
  *                 or no destination)
  *                 Statistics are only added, *io_stat shall be initialized by caller.
  *  \param out_read_line read position in the stream, in case of an error, this may help finding the cause
- *  \return U8_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
  */
 u8_error_t io_importer_import_clipboard( io_importer_t *this_,
                                          const char *json_text,
@@ -93,8 +93,8 @@ u8_error_t io_importer_import_clipboard( io_importer_t *this_,
  *                 Statistics are only added, *io_stat shall be initialized by caller.
  *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
  *  \return U8_ERROR_NONE in case of success,
- *          DATA_ERROR_INVALID_REQUEST if file cannot be opened,
- *          DATA_ERROR_AT_FILE_READ in case of reading errors after open,
+ *          U8_ERROR_INVALID_REQUEST if file cannot be opened,
+ *          U8_ERROR_AT_FILE_READ in case of reading errors after open,
  *          other error code otherwise
  */
 u8_error_t io_importer_import_file( io_importer_t *this_,

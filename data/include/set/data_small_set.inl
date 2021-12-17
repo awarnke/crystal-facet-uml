@@ -92,11 +92,11 @@ static inline bool data_small_set_contains_row_id ( const data_small_set_t *this
     return result;
 }
 
-static inline data_error_t data_small_set_add_obj ( data_small_set_t *this_, data_id_t obj_id )
+static inline u8_error_t data_small_set_add_obj ( data_small_set_t *this_, data_id_t obj_id )
 {
     assert( (*this_).count <= DATA_SMALL_SET_MAX_SET_SIZE );
-    data_error_t result;
-    result = DATA_ERROR_NONE;
+    u8_error_t result;
+    result = U8_ERROR_NONE;
 
     if ( data_id_is_valid( &obj_id ) )
     {
@@ -104,10 +104,10 @@ static inline data_error_t data_small_set_add_obj ( data_small_set_t *this_, dat
         {
             if ( data_id_equals( &obj_id, &((*this_).id_set[index]) ) )
             {
-                result = DATA_ERROR_DUPLICATE_ID;
+                result = U8_ERROR_DUPLICATE_ID;
             }
         }
-        if ( result == DATA_ERROR_NONE )
+        if ( result == U8_ERROR_NONE )
         {
             if ( (*this_).count < DATA_SMALL_SET_MAX_SET_SIZE )
             {
@@ -116,19 +116,19 @@ static inline data_error_t data_small_set_add_obj ( data_small_set_t *this_, dat
             }
             else
             {
-                result = DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                result = U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
         }
     }
     else
     {
-        result = DATA_ERROR_INVALID_REQUEST;
+        result = U8_ERROR_INVALID_REQUEST;
     }
 
     return result;
 }
 
-static inline data_error_t data_small_set_add_row_id ( data_small_set_t *this_, data_table_t table, data_row_id_t row_id )
+static inline u8_error_t data_small_set_add_row_id ( data_small_set_t *this_, data_table_t table, data_row_id_t row_id )
 {
     bool result;
     data_id_t my_id;
@@ -138,17 +138,17 @@ static inline data_error_t data_small_set_add_row_id ( data_small_set_t *this_, 
     return result;
 }
 
-static inline data_error_t data_small_set_delete_obj ( data_small_set_t *this_, data_id_t obj_id )
+static inline u8_error_t data_small_set_delete_obj ( data_small_set_t *this_, data_id_t obj_id )
 {
     assert( (*this_).count <= DATA_SMALL_SET_MAX_SET_SIZE );
-    data_error_t result;
-    result = DATA_ERROR_INVALID_REQUEST;
+    u8_error_t result;
+    result = U8_ERROR_INVALID_REQUEST;
 
     for ( uint32_t index = 0; index < (*this_).count; index ++ )
     {
         if ( data_id_equals( &obj_id, &((*this_).id_set[index]) ) )
         {
-            result = DATA_ERROR_NONE;
+            result = U8_ERROR_NONE;
             data_id_destroy( &((*this_).id_set[index]) );
 
             (*this_).count --;
@@ -159,14 +159,14 @@ static inline data_error_t data_small_set_delete_obj ( data_small_set_t *this_, 
     return result;
 }
 
-static inline data_error_t data_small_set_toggle_obj ( data_small_set_t *this_, data_id_t obj_id )
+static inline u8_error_t data_small_set_toggle_obj ( data_small_set_t *this_, data_id_t obj_id )
 {
-    data_error_t result;
+    u8_error_t result;
 
     if ( data_small_set_contains( this_, obj_id ) )
     {
         result = data_small_set_delete_obj( this_, obj_id );
-        assert( result == DATA_ERROR_NONE );
+        assert( result == U8_ERROR_NONE );
     }
     else
     {

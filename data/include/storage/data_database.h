@@ -54,10 +54,10 @@ void data_database_init ( data_database_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param db_file_path a relative or absolute file path
- *  \return DATA_ERROR_NO_DB or DATA_ERROR_AT_DB if file cannot be opened,
- *          DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
+ *          U8_ERROR_NONE in case of success
  */
-static inline data_error_t data_database_open ( data_database_t *this_, const char* db_file_path );
+static inline u8_error_t data_database_open ( data_database_t *this_, const char* db_file_path );
 
 /*!
  *  \brief opens a database file in read only mode
@@ -66,10 +66,10 @@ static inline data_error_t data_database_open ( data_database_t *this_, const ch
  *
  *  \param this_ pointer to own object attributes
  *  \param db_file_path a relative or absolute file path
- *  \return DATA_ERROR_NO_DB or DATA_ERROR_AT_DB if file cannot be opened,
- *          DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
+ *          U8_ERROR_NONE in case of success
  */
-static inline data_error_t data_database_open_read_only ( data_database_t *this_, const char* db_file_path );
+static inline u8_error_t data_database_open_read_only ( data_database_t *this_, const char* db_file_path );
 
 /*!
  *  \brief opens a new database in memory
@@ -77,18 +77,18 @@ static inline data_error_t data_database_open_read_only ( data_database_t *this_
  *  Creates a new datanase in memory for testing purposes
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NO_DB or DATA_ERROR_AT_DB if in-memory db cannot be created,
- *          DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if in-memory db cannot be created,
+ *          U8_ERROR_NONE in case of success
  */
-static inline data_error_t data_database_open_in_memory ( data_database_t *this_ );
+static inline u8_error_t data_database_open_in_memory ( data_database_t *this_ );
 
 /*!
  *  \brief closes the current database file
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t data_database_close ( data_database_t *this_ );
+u8_error_t data_database_close ( data_database_t *this_ );
 
 /*!
  *  \brief destroys the data_database_t struct
@@ -103,10 +103,10 @@ void data_database_destroy ( data_database_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param db_file_path a relative or absolute file path
  *  \param sqlite3_flags sqlite3 flags as required for sqlite3_open_v2()
- *  \return DATA_ERROR_NO_DB or DATA_ERROR_AT_DB if file cannot be opened,
- *          DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
+ *          U8_ERROR_NONE in case of success
  */
-data_error_t data_database_private_open ( data_database_t *this_, const char* db_file_path, int sqlite3_flags );
+u8_error_t data_database_private_open ( data_database_t *this_, const char* db_file_path, int sqlite3_flags );
 
 /*!
  *  \brief returns a pointer to the sqlite database
@@ -120,17 +120,17 @@ static inline sqlite3 *data_database_get_database_ptr ( data_database_t *this_ )
  *  \brief flushes caches of the current database
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_AT_DB in case of an error
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_DB in case of an error
  */
-data_error_t data_database_flush_caches ( data_database_t *this_ );
+u8_error_t data_database_flush_caches ( data_database_t *this_ );
 
 /*!
  *  \brief prints statistics of the current database file to the trace output
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t data_database_trace_stats ( data_database_t *this_ );
+u8_error_t data_database_trace_stats ( data_database_t *this_ );
 
 /*!
  *  \brief returns the database filename
@@ -151,42 +151,42 @@ static inline data_change_notifier_t *data_database_get_notifier_ptr ( data_data
 /*!
  *  \brief initializes the tables in the database if not yet existant
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_AT_DB if the current database is not a database or is encrypted; DATA_ERROR_READ_ONLY_DB if read only
+ *  \return U8_ERROR_AT_DB if the current database is not a database or is encrypted; U8_ERROR_READ_ONLY_DB if read only
  */
-data_error_t data_database_private_initialize_tables( data_database_t *this_ );
+u8_error_t data_database_private_initialize_tables( data_database_t *this_ );
 
 /*!
  *  \brief initializes the indexes in the database if not yet existant
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_AT_DB in case of an error; DATA_ERROR_READ_ONLY_DB if read only
+ *  \return U8_ERROR_AT_DB in case of an error; U8_ERROR_READ_ONLY_DB if read only
  */
-data_error_t data_database_private_initialize_indexes( data_database_t *this_ );
+u8_error_t data_database_private_initialize_indexes( data_database_t *this_ );
 
 /*!
  *  \brief upgrades old tables from oder versions to current database scheme
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_AT_DB if the current database is not a database or is encrypted; DATA_ERROR_READ_ONLY_DB if read only
+ *  \return U8_ERROR_AT_DB if the current database is not a database or is encrypted; U8_ERROR_READ_ONLY_DB if read only
  */
-data_error_t data_database_private_upgrade_tables( data_database_t *this_ );
+u8_error_t data_database_private_upgrade_tables( data_database_t *this_ );
 
 /*!
  *  \brief adds a db-file changed listener to the database
  *
  *  \param this_ pointer to own object attributes
  *  \param listener pointer to a listener to be added; the referenced object needs to stay valid till removal
- *  \return DATA_ERROR_ARRAY_BUFFER_EXCEEDED if max listeners reached, DATA_ERROR_INVALID_REQUEST if listener already registered, DATA_ERROR_NONE otherwise.
+ *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED if max listeners reached, U8_ERROR_INVALID_REQUEST if listener already registered, U8_ERROR_NONE otherwise.
  */
-data_error_t data_database_add_db_listener( data_database_t *this_, data_database_listener_t *listener );
+u8_error_t data_database_add_db_listener( data_database_t *this_, data_database_listener_t *listener );
 
 /*!
  *  \brief removes a db-file changed listener to the database
  *
  *  \param this_ pointer to own object attributes
  *  \param listener pointer to a listener to be removed
- *  \return DATA_ERROR_INVALID_REQUEST if listener was not registered, DATA_ERROR_NONE otherwise.
+ *  \return U8_ERROR_INVALID_REQUEST if listener was not registered, U8_ERROR_NONE otherwise.
  */
-data_error_t data_database_remove_db_listener( data_database_t *this_, data_database_listener_t *listener );
+u8_error_t data_database_remove_db_listener( data_database_t *this_, data_database_listener_t *listener );
 
 /*!
  *  \brief clears the db-file changed listerner array
@@ -200,25 +200,25 @@ static inline void data_database_private_clear_db_listener_list( data_database_t
  *
  *  \param this_ pointer to own object attributes
  *  \param signal_id one of DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE and DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED, depending on the reason for this notification
- *  \return DATA_ERROR_NONE in case of success.
+ *  \return U8_ERROR_NONE in case of success.
  */
-data_error_t data_database_private_notify_db_listeners( data_database_t *this_, data_database_listener_signal_t signal_id );
+u8_error_t data_database_private_notify_db_listeners( data_database_t *this_, data_database_listener_signal_t signal_id );
 
 /*!
  *  \brief gets a lock to protect data in data_database_t from concurrent access.
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline data_error_t data_database_private_lock ( data_database_t *this_ );
+static inline u8_error_t data_database_private_lock ( data_database_t *this_ );
 
 /*!
  *  \brief releases the lock.
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline data_error_t data_database_private_unlock ( data_database_t *this_ );
+static inline u8_error_t data_database_private_unlock ( data_database_t *this_ );
 
 /*!
  *  \brief checks if the database file is open
@@ -234,9 +234,9 @@ static inline bool data_database_is_open( data_database_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param sql_command the sqk statement to execute
  *  \param ignore_errors if true, no errors are printed to syslog
- *  \return DATA_ERROR_READ_ONLY_DB if read oly, DATA_ERROR_AT_DB if other error, DATA_ERROR_NONE if no error
+ *  \return U8_ERROR_READ_ONLY_DB if read oly, U8_ERROR_AT_DB if other error, U8_ERROR_NONE if no error
  */
-static inline data_error_t data_database_private_exec_sql( data_database_t *this_, const char* sql_command, bool ignore_errors );
+static inline u8_error_t data_database_private_exec_sql( data_database_t *this_, const char* sql_command, bool ignore_errors );
 
 #include "storage/data_database.inl"
 

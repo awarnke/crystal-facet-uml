@@ -89,11 +89,11 @@ void data_change_notifier_emit_signal ( data_change_notifier_t *this_,
     TRACE_END();
 }
 
-data_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, GObject *new_listener )
+u8_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, GObject *new_listener )
 {
     TRACE_BEGIN();
     assert( NULL != new_listener );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* check for duplicates */
     bool duplicate = false;
@@ -102,7 +102,7 @@ data_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, 
         if( new_listener == (*this_).listener_array[pos] )
         {
             duplicate = true;
-            result = DATA_ERROR_INVALID_REQUEST;
+            result = U8_ERROR_INVALID_REQUEST;
             TSLOG_ERROR( "duplicate call to data_change_notifier_add_listener for same listener." );
         }
     }
@@ -116,7 +116,7 @@ data_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, 
         }
         else
         {
-            result = DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+            result = U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             TSLOG_ERROR( "data_change_notifier_add_listener has too many listeners." );
         }
     }
@@ -125,11 +125,11 @@ data_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, 
     return result;
 }
 
-data_error_t data_change_notifier_remove_listener ( data_change_notifier_t *this_, GObject *no_listener )
+u8_error_t data_change_notifier_remove_listener ( data_change_notifier_t *this_, GObject *no_listener )
 {
     TRACE_BEGIN();
     assert( NULL != no_listener );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* search listener to remove */
     int32_t found_at_pos = -1;  /* -1 means: not found */
@@ -153,7 +153,7 @@ data_error_t data_change_notifier_remove_listener ( data_change_notifier_t *this
     }
     else
     {
-        result = DATA_ERROR_INVALID_REQUEST;
+        result = U8_ERROR_INVALID_REQUEST;
         TSLOG_ERROR( "data_change_notifier_remove_listener did not find listener to remove." );
     }
 

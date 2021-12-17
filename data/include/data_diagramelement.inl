@@ -35,16 +35,16 @@ static inline void data_diagramelement_init_new ( data_diagramelement_t *this_,
     data_uuid_init_new( &((*this_).uuid) );
 }
 
-static inline data_error_t data_diagramelement_init ( data_diagramelement_t *this_,
-                                              data_row_id_t id,
-                                              data_row_id_t diagram_id,
-                                              data_row_id_t classifier_id,
-                                              data_diagramelement_flag_t display_flags,
-                                              data_row_id_t focused_feature_id,
-                                              const char* uuid )
+static inline u8_error_t data_diagramelement_init ( data_diagramelement_t *this_,
+                                                    data_row_id_t id,
+                                                    data_row_id_t diagram_id,
+                                                    data_row_id_t classifier_id,
+                                                    data_diagramelement_flag_t display_flags,
+                                                    data_row_id_t focused_feature_id,
+                                                    const char* uuid )
 {
     assert( NULL != uuid );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     (*this_).id = id;
     (*this_).diagram_id = diagram_id;
@@ -56,16 +56,16 @@ static inline data_error_t data_diagramelement_init ( data_diagramelement_t *thi
     return result;
 }
 
-static inline data_error_t data_diagramelement_reinit ( data_diagramelement_t *this_,
-                                                data_row_id_t id,
-                                                data_row_id_t diagram_id,
-                                                data_row_id_t classifier_id,
-                                                data_diagramelement_flag_t display_flags,
-                                                data_row_id_t focused_feature_id,
-                                                const char* uuid )
+static inline u8_error_t data_diagramelement_reinit ( data_diagramelement_t *this_,
+                                                      data_row_id_t id,
+                                                      data_row_id_t diagram_id,
+                                                      data_row_id_t classifier_id,
+                                                      data_diagramelement_flag_t display_flags,
+                                                      data_row_id_t focused_feature_id,
+                                                      const char* uuid )
 {
     assert( NULL != uuid );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     (*this_).id = id;
     (*this_).diagram_id = diagram_id;
@@ -194,11 +194,11 @@ static inline const char *data_diagramelement_get_uuid_const ( const data_diagra
     return data_uuid_get_string( &((*this_).uuid) );
 }
 
-static inline data_error_t data_diagramelement_set_uuid ( data_diagramelement_t *this_, const char *uuid )
+static inline u8_error_t data_diagramelement_set_uuid ( data_diagramelement_t *this_, const char *uuid )
 {
     assert( NULL != uuid );
 
-    const data_error_t result = data_uuid_reinit( &((*this_).uuid), uuid );
+    const u8_error_t result = data_uuid_reinit( &((*this_).uuid), uuid );
 
     return result;
 }

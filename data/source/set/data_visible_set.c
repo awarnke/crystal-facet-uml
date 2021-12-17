@@ -44,11 +44,11 @@ void data_visible_set_destroy( data_visible_set_t *this_ )
     TRACE_END();
 }
 
-data_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader )
+u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( DATA_ROW_ID_VOID == diagram_id )
     {
@@ -61,7 +61,7 @@ data_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t dia
     }
     else
     {
-        data_error_t db_err;
+        u8_error_t db_err;
 
         data_diagram_destroy( &((*this_).diagram) );
         data_visible_set_private_destroy_visible_classifiers( this_ );
@@ -71,15 +71,15 @@ data_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t dia
         /* load diagram */
         db_err = data_database_reader_get_diagram_by_id ( db_reader, diagram_id, &((*this_).diagram) );
 
-        if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_STRING_BUFFER_EXCEEDED) )
+        if ( U8_ERROR_NONE != (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
         {
-            TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
+            TSLOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
         }
-        if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_ARRAY_BUFFER_EXCEEDED) )
+        if ( U8_ERROR_NONE != (db_err & U8_ERROR_ARRAY_BUFFER_EXCEEDED) )
         {
-            TSLOG_ERROR( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at loading a diagram" );
+            TSLOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading a diagram" );
         }
-        if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED|DATA_ERROR_ARRAY_BUFFER_EXCEEDED)) )
+        if ( U8_ERROR_NONE != (db_err & ~(U8_ERROR_STRING_BUFFER_EXCEEDED|U8_ERROR_ARRAY_BUFFER_EXCEEDED)) )
         {
             /* error at loading */
             data_diagram_reinit_empty( &((*this_).diagram) );
@@ -94,15 +94,15 @@ data_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t dia
                                                                       &((*this_).visible_classifier_count)
                                                                     );
 
-        if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_STRING_BUFFER_EXCEEDED) )
+        if ( U8_ERROR_NONE != (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
         {
-            TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading visible classifiers of a diagram" );
+            TSLOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading visible classifiers of a diagram" );
         }
-        if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_ARRAY_BUFFER_EXCEEDED) )
+        if ( U8_ERROR_NONE != (db_err & U8_ERROR_ARRAY_BUFFER_EXCEEDED) )
         {
-            TSLOG_ERROR( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at loading visible classifiers of a diagram" );
+            TSLOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading visible classifiers of a diagram" );
         }
-        if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED|DATA_ERROR_ARRAY_BUFFER_EXCEEDED)) )
+        if ( U8_ERROR_NONE != (db_err & ~(U8_ERROR_STRING_BUFFER_EXCEEDED|U8_ERROR_ARRAY_BUFFER_EXCEEDED)) )
         {
             /* error at loading */
             (*this_).visible_classifier_count = 0;
@@ -117,15 +117,15 @@ data_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t dia
                                                                    &((*this_).feature_count)
                                                                  );
 
-        if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_STRING_BUFFER_EXCEEDED) )
+        if ( U8_ERROR_NONE != (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
         {
-            TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading features of a diagram" );
+            TSLOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading features of a diagram" );
         }
-        if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_ARRAY_BUFFER_EXCEEDED) )
+        if ( U8_ERROR_NONE != (db_err & U8_ERROR_ARRAY_BUFFER_EXCEEDED) )
         {
-            TSLOG_ERROR( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at loading features of a diagram" );
+            TSLOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading features of a diagram" );
         }
-        if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED|DATA_ERROR_ARRAY_BUFFER_EXCEEDED)) )
+        if ( U8_ERROR_NONE != (db_err & ~(U8_ERROR_STRING_BUFFER_EXCEEDED|U8_ERROR_ARRAY_BUFFER_EXCEEDED)) )
         {
             /* error at loading */
             (*this_).feature_count = 0;
@@ -140,15 +140,15 @@ data_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t dia
                                                                         &((*this_).relationship_count)
                                                                       );
 
-        if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_STRING_BUFFER_EXCEEDED) )
+        if ( U8_ERROR_NONE != (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
         {
-            TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading relationships of a diagram" );
+            TSLOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading relationships of a diagram" );
         }
-        if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_ARRAY_BUFFER_EXCEEDED) )
+        if ( U8_ERROR_NONE != (db_err & U8_ERROR_ARRAY_BUFFER_EXCEEDED) )
         {
-            TSLOG_ERROR( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at loading relationships of a diagram" );
+            TSLOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading relationships of a diagram" );
         }
-        if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED|DATA_ERROR_ARRAY_BUFFER_EXCEEDED)) )
+        if ( U8_ERROR_NONE != (db_err & ~(U8_ERROR_STRING_BUFFER_EXCEEDED|U8_ERROR_ARRAY_BUFFER_EXCEEDED)) )
         {
             /* error at loading */
             (*this_).relationship_count = 0;

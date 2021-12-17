@@ -58,10 +58,10 @@ static inline bool json_token_reader_private_is_value_end ( json_token_reader_t 
     return result;
 }
 
-static inline data_error_t json_token_reader_private_read_string ( json_token_reader_t *this_, universal_output_stream_t *out_stream )
+static inline u8_error_t json_token_reader_private_read_string ( json_token_reader_t *this_, universal_output_stream_t *out_stream )
 {
     assert( out_stream != NULL );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     bool str_end_reached = false;
     char esc_incomplete = false;
     char out_buffer[64];
@@ -72,7 +72,7 @@ static inline data_error_t json_token_reader_private_read_string ( json_token_re
         if ( '\0' == current )
         {
             str_end_reached = true;
-            result = DATA_ERROR_LEXICAL_STRUCTURE;
+            result = U8_ERROR_LEXICAL_STRUCTURE;
         }
         else if (( JSON_CONSTANTS_CHAR_END_STRING == current )&&( ! esc_incomplete ))
         {
@@ -100,7 +100,7 @@ static inline data_error_t json_token_reader_private_read_string ( json_token_re
                 if ( err != 0 )
                 {
                     TRACE_INFO( "could not write all data to output stream in json_token_reader_private_read_string." );
-                    result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
+                    result = U8_ERROR_STRING_BUFFER_EXCEEDED;
                 }
             }
         }
@@ -112,18 +112,18 @@ static inline data_error_t json_token_reader_private_read_string ( json_token_re
         if ( err2 != 0 )
         {
             TRACE_INFO( "could not write all data to output stream in json_token_reader_private_read_string" );
-            result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
+            result = U8_ERROR_STRING_BUFFER_EXCEEDED;
         }
     }
 
     return result;
 }
 
-static inline data_error_t json_token_reader_private_parse_integer ( json_token_reader_t *this_, int64_t *out_int )
+static inline u8_error_t json_token_reader_private_parse_integer ( json_token_reader_t *this_, int64_t *out_int )
 {
     assert( out_int != NULL );
     int64_t result;
-    data_error_t err = DATA_ERROR_NONE;
+    u8_error_t err = U8_ERROR_NONE;
 
     char first = universal_buffer_input_stream_peek_next( &((*this_).in_stream) );
     if ( '0' == first )
@@ -175,7 +175,7 @@ static inline data_error_t json_token_reader_private_parse_integer ( json_token_
         if ( ( ! has_digits ) || minus_zero_error )
         {
             result = 0;
-            err = DATA_ERROR_LEXICAL_STRUCTURE;
+            err = U8_ERROR_LEXICAL_STRUCTURE;
         }
     }
 
@@ -183,9 +183,9 @@ static inline data_error_t json_token_reader_private_parse_integer ( json_token_
     return err;
 }
 
-static inline data_error_t json_token_reader_private_skip_number ( json_token_reader_t *this_ )
+static inline u8_error_t json_token_reader_private_skip_number ( json_token_reader_t *this_ )
 {
-    data_error_t result = DATA_ERROR_LEXICAL_STRUCTURE;
+    u8_error_t result = U8_ERROR_LEXICAL_STRUCTURE;
 
     bool num_end_reached = false;
     while ( ! num_end_reached )
@@ -200,7 +200,7 @@ static inline data_error_t json_token_reader_private_skip_number ( json_token_re
         {
             /* could be part of a valid number */
             universal_buffer_input_stream_read_next( &((*this_).in_stream) );
-            result = DATA_ERROR_NONE;
+            result = U8_ERROR_NONE;
         }
         else
         {

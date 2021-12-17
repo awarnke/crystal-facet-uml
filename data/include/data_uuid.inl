@@ -8,11 +8,11 @@
 
 #define data_uuid_unused(variable) ((void)(variable))
 
-static inline data_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t uuid_string )
+static inline u8_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t uuid_string )
 {
     assert( NULL != uuid_string );
     utf8error_t strerr;
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     (*this_).uuid_string = utf8stringbuf_init( sizeof((*this_).private_uuid_string_buffer),
                                                (*this_).private_uuid_string_buffer
@@ -21,18 +21,18 @@ static inline data_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t uui
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
-        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+        result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     else if ( utf8stringbuf_get_length( (*this_).uuid_string ) != DATA_UUID_STRING_LENGTH )
     {
         TSLOG_ERROR_INT( "uuid_string too short:", utf8stringbuf_get_length( (*this_).uuid_string ) );
-        result |= DATA_ERROR_VALUE_OUT_OF_RANGE;
+        result |= U8_ERROR_VALUE_OUT_OF_RANGE;
     }
 
     return result;
 }
 
-static inline data_error_t data_uuid_reinit ( data_uuid_t *this_, utf8string_t uuid_string )
+static inline u8_error_t data_uuid_reinit ( data_uuid_t *this_, utf8string_t uuid_string )
 {
     return data_uuid_init( this_, uuid_string );
 }

@@ -63,7 +63,7 @@ static void set_up(void)
     data_database_writer_init( &db_writer, &db_reader, &database );
 
     /* initialize some entries */
-    data_error_t data_err;
+    u8_error_t data_err;
 
     /* create a valid root diagram */
     data_diagram_t root_diagram;
@@ -77,10 +77,10 @@ static void set_up(void)
                                   DATA_DIAGRAM_FLAG_EMPHASIS,
                                   "5aeb80ad-a3a1-4ee1-91a9-2f4d0dbd495a"
                                 );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_diagram ( &db_writer, &root_diagram, NULL /*=out_new_id*/ );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     /* create a valid child diagram */
     data_diagram_t current_diagram;
@@ -94,10 +94,10 @@ static void set_up(void)
                                   DATA_DIAGRAM_FLAG_GRAY_OUT,
                                   "f6d0084a-5d5b-4c26-8c64-782c150feec8"
                                 );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     /* create two valid classifiers */
     data_classifier_t current_classifier;
@@ -112,10 +112,10 @@ static void set_up(void)
                                      -7000, /*=list_order*/
                                      "1966d7f8-675d-4062-adc3-264672747377"
                                    );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_classifier_t second_classifier;
     data_err = data_classifier_init( &second_classifier,
@@ -129,10 +129,10 @@ static void set_up(void)
                                      -58000, /*=list_order*/
                                      "b9495b71-99c3-406d-88d5-1aa233b09e2d"
                                    );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_classifier( &db_writer, &second_classifier, NULL /*=out_new_id*/ );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     /* create four valid diagramelements */
     data_diagramelement_t first_diagramelement;
@@ -144,10 +144,10 @@ static void set_up(void)
                                          DATA_ROW_ID_VOID,
                                          "c9dc1401-4b2c-48d2-a85c-efa6194f9aec"
                                        );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &first_diagramelement, NULL /*=out_new_id*/ );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_diagramelement_t duplicate_diagramelement;
     data_err = data_diagramelement_init( &duplicate_diagramelement,
@@ -158,10 +158,10 @@ static void set_up(void)
                                          8192,
                                          "11e795e5-3666-405a-8c56-26ace2f5a46e"
                                        );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &duplicate_diagramelement, NULL /*=out_new_id*/ );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_diagramelement_t second_diagramelement;
     data_err = data_diagramelement_init( &second_diagramelement,
@@ -172,10 +172,10 @@ static void set_up(void)
                                          DATA_ROW_ID_VOID,
                                          "ffde926f-efbf-45d5-bd71-ecd932f5143c"
                                        );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &second_diagramelement, NULL /*=out_new_id*/ );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_diagramelement_t third_diagramelement;
     data_err = data_diagramelement_init( &third_diagramelement,
@@ -186,10 +186,10 @@ static void set_up(void)
                                          DATA_ROW_ID_VOID,
                                          "02088b41-e71d-466d-a413-2551ba3bf10a"
                                        );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &third_diagramelement, NULL /*=out_new_id*/ );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     /* define two valid relationships */
     data_relationship_t v_relation;
@@ -205,10 +205,10 @@ static void set_up(void)
                                        18, /* to_feature_id */
                                        "ef90ab9d-6da4-4f3c-b8b8-50d9c955f113"
                                      );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_relationship ( &db_writer, &v_relation, NULL /*=out_new_id*/ );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_relationship_t second_relation;
     data_err = data_relationship_init( &second_relation,
@@ -223,10 +223,10 @@ static void set_up(void)
                                        DATA_ROW_ID_VOID, /* to_feature_id */
                                        "100f8e76-ef34-4735-b7e1-fe8077b91184"
                                      );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_relationship ( &db_writer, &second_relation, NULL /*=out_new_id*/ );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     /* create three valid features */
     data_feature_t v_feature;
@@ -240,10 +240,10 @@ static void set_up(void)
                                   5000000, /* list order */
                                   "5d13a3d4-4f14-4d2f-ae13-137d9082839f"
                                 );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_feature ( &db_writer, &v_feature, NULL /*=out_new_id*/ );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_feature_t second_feature;
     data_err = data_feature_init( &second_feature,
@@ -256,10 +256,10 @@ static void set_up(void)
                                   5000000, /* list order */
                                   "17d8377a-cf84-402c-b4d8-0dbfc8f8222e"
                                 );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_feature ( &db_writer, &second_feature, NULL /*=out_new_id*/ );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_feature_t thrid_feature;
     data_err = data_feature_init( &thrid_feature,
@@ -272,10 +272,10 @@ static void set_up(void)
                                   5000000, /* list order */
                                   "56a4cb87-b6d0-4f8f-aab1-ccdca445d323"
                                 );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_feature ( &db_writer, &thrid_feature, NULL /*=out_new_id*/ );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 }
 
 static void tear_down(void)
@@ -294,21 +294,21 @@ static void tear_down(void)
 
 static void test_search_diagrams(void)
 {
-    data_error_t data_err;
+    u8_error_t data_err;
     data_diagram_t diagram_list[3];
     static const int MAX_ARRAY_SIZE = 3;
     uint32_t out_diagram_count;
 
     /* test 1 */
     data_err = data_database_reader_get_diagram_by_id ( &db_reader, 7, &(diagram_list[0]) );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 1b */
     data_err = data_database_reader_get_diagram_by_uuid ( &db_reader,
                                                           "f6d0084a-5d5b-4c26-8c64-782c150feec8",
                                                           &(diagram_list[0])
                                                         );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 7, data_diagram_get_row_id( &(diagram_list[0]) ) );
 
     /* test 2 */
@@ -318,7 +318,7 @@ static void test_search_diagrams(void)
                                                                 &(diagram_list),
                                                                 &out_diagram_count
                                                               );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 1, out_diagram_count );
 
     /* test 3 */
@@ -328,7 +328,7 @@ static void test_search_diagrams(void)
                                                                    6,
                                                                    &out_diagram_ids
                                                                  );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 1, data_small_set_get_count( &out_diagram_ids ) );
 
     /* test 4 */
@@ -338,7 +338,7 @@ static void test_search_diagrams(void)
                                                                     &(diagram_list),
                                                                     &out_diagram_count
                                                                   );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 2, out_diagram_count );
 
     /* test 5 */
@@ -348,31 +348,31 @@ static void test_search_diagrams(void)
                                                                        12,
                                                                        &out_showing_diagram_ids
                                                                      );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 2, data_small_set_get_count( &out_showing_diagram_ids ) );
 }
 
 static void test_search_diagramelements(void)
 {
-    data_error_t data_err;
+    u8_error_t data_err;
     data_diagramelement_t out_diagramelement;
 
     /* test 1 */
     data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, 130, &out_diagramelement );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 1b */
     data_err = data_database_reader_get_diagramelement_by_uuid ( &db_reader,
                                                                  "02088b41-e71d-466d-a413-2551ba3bf10a",
                                                                  &out_diagramelement
                                                                );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 133, data_diagramelement_get_row_id( &out_diagramelement ) );
 }
 
 static void test_search_classifiers(void)
 {
-    data_error_t data_err;
+    u8_error_t data_err;
     data_classifier_t out_classifier;
     data_visible_classifier_t visible_classifier_list[3];
     static const int MAX_ARRAY_SIZE = 3;
@@ -380,14 +380,14 @@ static void test_search_classifiers(void)
 
     /* test 1 */
     data_err = data_database_reader_get_classifier_by_id ( &db_reader, 13, &out_classifier );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 1b */
     data_err = data_database_reader_get_classifier_by_uuid ( &db_reader,
                                                              "b9495b71-99c3-406d-88d5-1aa233b09e2d",
                                                              &out_classifier
                                                            );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 13, data_classifier_get_row_id( &out_classifier ) );
 
     /* test 2 */
@@ -397,7 +397,7 @@ static void test_search_classifiers(void)
                                                                     &(visible_classifier_list),
                                                                     &out_classifier_count
                                                                   );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 3, out_classifier_count );
 
     /* test 3 */
@@ -405,7 +405,7 @@ static void test_search_classifiers(void)
                                                              "name-12",
                                                              &out_classifier
                                                            );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 12, data_classifier_get_row_id( &out_classifier ) );
 
     /* test 4 */
@@ -413,26 +413,26 @@ static void test_search_classifiers(void)
                                                              "does not exist",
                                                              &out_classifier
                                                            );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
 }
 
 static void test_search_features(void)
 {
-    data_error_t data_err;
+    u8_error_t data_err;
     data_feature_t feature_list[4];
     static const int MAX_ARRAY_SIZE = 4;
     uint32_t out_feature_count;
 
     /* test 1 */
     data_err = data_database_reader_get_feature_by_id ( &db_reader, 19, &(feature_list[0]) );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 1b */
     data_err = data_database_reader_get_feature_by_uuid ( &db_reader,
                                                           "17d8377a-cf84-402c-b4d8-0dbfc8f8222e",
                                                           &(feature_list[0])
                                                         );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 18, data_feature_get_row_id( &(feature_list[0]) ) );
 
     /* test 2 */
@@ -442,7 +442,7 @@ static void test_search_features(void)
                                                                     &(feature_list),
                                                                     &out_feature_count
                                                                   );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 2, out_feature_count );
 
     /* test 3 */
@@ -452,27 +452,27 @@ static void test_search_features(void)
                                                                  &(feature_list),
                                                                  &out_feature_count
                                                                );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 3, out_feature_count );
 }
 
 static void test_search_relationships(void)
 {
-    data_error_t data_err;
+    u8_error_t data_err;
     data_relationship_t relation_list[3];
     static const int MAX_ARRAY_SIZE = 3;
     uint32_t out_relationship_count;
 
     /* test 1 */
     data_err = data_database_reader_get_relationship_by_id ( &db_reader, 34, &(relation_list[0]) );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 1b */
     data_err = data_database_reader_get_relationship_by_uuid ( &db_reader,
                                                                "ef90ab9d-6da4-4f3c-b8b8-50d9c955f113",
                                                                &(relation_list[0])
                                                              );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 34, data_relationship_get_row_id( &(relation_list[0]) ) );
 
     /* test 2 */
@@ -482,7 +482,7 @@ static void test_search_relationships(void)
                                                                          &(relation_list),
                                                                          &out_relationship_count
                                                                        );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 2, out_relationship_count );
 
     /* test 3 */
@@ -492,13 +492,13 @@ static void test_search_relationships(void)
                                                                       &(relation_list),
                                                                       &out_relationship_count
                                                                     );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 2, out_relationship_count );
 }
 
 static void test_iterate_over_classifiers(void)
 {
-    data_error_t data_err;
+    u8_error_t data_err;
     data_database_iterator_classifiers_t classifier_iterator;
     data_classifier_t out_classifier;
     bool has_next;
@@ -506,31 +506,31 @@ static void test_iterate_over_classifiers(void)
     /* test the iterator, init */
     data_database_iterator_classifiers_init_empty( &classifier_iterator );
     data_err = data_database_reader_get_all_classifiers_iterator ( &db_reader, &classifier_iterator );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test the iterator, step 1 */
     has_next = data_database_iterator_classifiers_has_next( &classifier_iterator );
     TEST_ASSERT( has_next );
     data_err = data_database_iterator_classifiers_next( &classifier_iterator, &out_classifier );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 12, data_classifier_get_row_id( &out_classifier ) );
 
     /* test the iterator, step 2 */
     has_next = data_database_iterator_classifiers_has_next( &classifier_iterator );
     TEST_ASSERT( has_next );
     data_err = data_database_iterator_classifiers_next( &classifier_iterator, &out_classifier );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 13, data_classifier_get_row_id( &out_classifier ) );
 
     /* test the iterator, step 3 */
     has_next = data_database_iterator_classifiers_has_next( &classifier_iterator );
     TEST_ASSERT( ! has_next );
     data_err = data_database_iterator_classifiers_next( &classifier_iterator, &out_classifier );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_INVALID_REQUEST, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, data_err );
 
     /* test the iterator, destroy */
     data_err = data_database_iterator_classifiers_destroy( &classifier_iterator );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 }
 
 

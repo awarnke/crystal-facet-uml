@@ -52,9 +52,9 @@ int main_commands_upgrade ( main_commands_t *this_, const char *database_path, u
     data_database_init( &((*this_).temp_database) );
 
     TRACE_INFO("upgrading DB...");
-    const data_error_t up_err
+    const u8_error_t up_err
         = data_database_open( &((*this_).temp_database), database_path );  /* upgrade is implicitely done */
-    if ( up_err != DATA_ERROR_NONE )
+    if ( up_err != U8_ERROR_NONE )
     {
         universal_utf8_writer_write_str( out_english_report, "error opening database " );
         universal_utf8_writer_write_str( out_english_report, database_path );
@@ -84,11 +84,11 @@ int main_commands_repair ( main_commands_t *this_,
 
     TRACE_INFO("starting DB...");
     data_database_init( &((*this_).temp_database) );
-    const data_error_t db_err
+    const u8_error_t db_err
         = ( check_only )
         ? data_database_open_read_only( &((*this_).temp_database), database_path )
         : data_database_open( &((*this_).temp_database), database_path );
-    if ( db_err != DATA_ERROR_NONE )
+    if ( db_err != U8_ERROR_NONE )
     {
         universal_utf8_writer_write_str( out_english_report, "error opening database " );
         universal_utf8_writer_write_str( out_english_report, database_path );
@@ -127,9 +127,9 @@ int main_commands_start_gui ( main_commands_t *this_, const char *database_path,
     data_database_init( &((*this_).temp_database) );
     if ( NULL != database_path )
     {
-        const data_error_t db_err
+        const u8_error_t db_err
             = data_database_open( &((*this_).temp_database), database_path );
-        if ( db_err != DATA_ERROR_NONE )
+        if ( db_err != U8_ERROR_NONE )
         {
             universal_utf8_writer_write_str( out_english_report, "error opening database " );
             universal_utf8_writer_write_str( out_english_report, database_path );
@@ -173,9 +173,9 @@ int main_commands_export ( main_commands_t *this_,
 
     TRACE_INFO("starting DB...");
     data_database_init( &((*this_).temp_database) );
-    const data_error_t db_err
+    const u8_error_t db_err
         = data_database_open_read_only( &((*this_).temp_database), database_path );
-    if ( db_err != DATA_ERROR_NONE )
+    if ( db_err != U8_ERROR_NONE )
     {
             universal_utf8_writer_write_str( out_english_report, "error opening database " );
             universal_utf8_writer_write_str( out_english_report, database_path );
@@ -239,9 +239,9 @@ int main_commands_import ( main_commands_t *this_,
 
     TRACE_INFO("starting DB...");
     data_database_init( &((*this_).temp_database) );
-    const data_error_t db_err
+    const u8_error_t db_err
         = data_database_open( &((*this_).temp_database), database_path );
-    if ( db_err != DATA_ERROR_NONE )
+    if ( db_err != U8_ERROR_NONE )
     {
         universal_utf8_writer_write_str( out_english_report, "error opening database " );
         universal_utf8_writer_write_str( out_english_report, database_path );

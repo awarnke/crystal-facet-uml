@@ -3,7 +3,7 @@
 #include "gui_clipboard.h"
 #include "trace.h"
 #include "json/json_deserializer.h"
-#include "ctrl_error.h"
+#include "u8/u8_error.h"
 #include "set/data_stat.h"
 #include "util/string/utf8string.h"
 #include <assert.h>
@@ -118,7 +118,7 @@ void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const c
     assert( NULL != json_text );
     TRACE_INFO_INT ( "(*this_).destination_diagram_id:", (*this_).destination_diagram_id );
 
-    data_error_t parse_error;
+    u8_error_t parse_error;
     data_stat_t stat;
     data_stat_init(&stat);
     uint32_t read_err_pos;
@@ -129,7 +129,7 @@ void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const c
                                                 &read_err_pos
                                               );
 
-    if ( DATA_ERROR_NONE != parse_error )
+    if ( U8_ERROR_NONE != parse_error )
     {
         gui_simple_message_to_user_show_message_with_line ( (*this_).message_to_user,
                                                             GUI_SIMPLE_MESSAGE_TYPE_ERROR,

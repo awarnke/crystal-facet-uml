@@ -47,9 +47,9 @@ static inline void ctrl_undo_redo_list_clear ( ctrl_undo_redo_list_t *this_ )
     (*this_).buffer_incomplete = false;
 }
 
-static inline ctrl_error_t ctrl_undo_redo_list_add_boundary ( ctrl_undo_redo_list_t *this_ )
+static inline u8_error_t ctrl_undo_redo_list_add_boundary ( ctrl_undo_redo_list_t *this_ )
 {
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     ctrl_undo_redo_entry_t *list_entry;
 
     /* add and re-initialize the list entry */
@@ -59,16 +59,16 @@ static inline ctrl_error_t ctrl_undo_redo_list_add_boundary ( ctrl_undo_redo_lis
     /* check if >=1 complete set of transactions is still in the undo-redo-list */
     if ( 1 == ctrl_undo_redo_list_private_count_boundaries( this_, (*this_).start, (*this_).length ) )
     {
-        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
+        result = U8_ERROR_ARRAY_BUFFER_EXCEEDED;
     }
 
     return result;
 }
 
-static inline ctrl_error_t ctrl_undo_redo_list_get_last_statistics ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat )
+static inline u8_error_t ctrl_undo_redo_list_get_last_statistics ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat )
 {
     assert( NULL != io_stat );
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     bool finished = false;
     if ( (*this_).current > 0 )
@@ -92,7 +92,7 @@ static inline ctrl_error_t ctrl_undo_redo_list_get_last_statistics ( ctrl_undo_r
     }
     if ( ! finished )
     {
-        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
+        result = U8_ERROR_ARRAY_BUFFER_EXCEEDED;
     }
     return result;
 }

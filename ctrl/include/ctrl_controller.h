@@ -9,7 +9,7 @@
  *  \brief Provides an entry point for write access and consistency checks to the database
  */
 
-#include "ctrl_error.h"
+#include "u8/u8_error.h"
 #include "ctrl_classifier_controller.h"
 #include "ctrl_diagram_controller.h"
 #include "ctrl_undo_redo_list.h"
@@ -77,11 +77,11 @@ static inline ctrl_diagram_controller_t *ctrl_controller_get_diagram_control_ptr
  *                         DATA_STAT_SERIES_DELETED and
  *                         DATA_STAT_SERIES_ERROR (e.g. if name not unique due to parallel working on same db).
  *                         *io_stat shall be initialized by caller, statistics are added to initial values.
- *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if there is no more complete set of actions to be un-done due to limits of buffer.
- *          CTRL_ERROR_INVALID_REQUEST if there is no more set of actions to be un-done
- *          CTRL_ERROR_NONE otherwise.
+ *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED if there is no more complete set of actions to be un-done due to limits of buffer.
+ *          U8_ERROR_INVALID_REQUEST if there is no more set of actions to be un-done
+ *          U8_ERROR_NONE otherwise.
  */
-static inline ctrl_error_t ctrl_controller_undo ( ctrl_controller_t *this_, data_stat_t *io_stat );
+static inline u8_error_t ctrl_controller_undo ( ctrl_controller_t *this_, data_stat_t *io_stat );
 
 /*!
  *  \brief re-does a set of actions.
@@ -91,10 +91,10 @@ static inline ctrl_error_t ctrl_controller_undo ( ctrl_controller_t *this_, data
  *                         DATA_STAT_SERIES_DELETED and
  *                         DATA_STAT_SERIES_ERROR (e.g. if name not unique due to parallel working on same db).
  *                         *io_stat shall be initialized by caller, statistics are added to initial values.
- *  \return CTRL_ERROR_INVALID_REQUEST if there is no more set of actions to be re-done.
- *          CTRL_ERROR_NONE otherwise.
+ *  \return U8_ERROR_INVALID_REQUEST if there is no more set of actions to be re-done.
+ *          U8_ERROR_NONE otherwise.
  */
-static inline ctrl_error_t ctrl_controller_redo ( ctrl_controller_t *this_, data_stat_t *io_stat );
+static inline u8_error_t ctrl_controller_redo ( ctrl_controller_t *this_, data_stat_t *io_stat );
 
 /* ================================ interface for database file ================================ */
 
@@ -103,10 +103,10 @@ static inline ctrl_error_t ctrl_controller_redo ( ctrl_controller_t *this_, data
  *
  *  \param this_ pointer to own object attributes
  *  \param db_file_path file name of the new database to be used
- *  \return CTRL_ERROR_NO_DB or CTRL_ERROR_AT_DB if file cannot be opened,
- *          CTRL_ERROR_NONE in case of success
+ *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
+ *          U8_ERROR_NONE in case of success
  */
-ctrl_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const char* db_file_path );
+u8_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const char* db_file_path );
 
 /*!
  *  \brief checks and repairs the database
@@ -116,16 +116,16 @@ ctrl_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const c
  *  \param[out] out_err number of errors detected (NULL if not requested)
  *  \param[out] out_fix number of errors fixed (NULL if not requested)
  *  \param[out] out_report english text stating what was checked and the results and what was reparied and the results
- *  \return CTRL_ERROR_NONE in case of success,
- *          CTRL_ERROR_NO_DB if database not open/loaded,
- *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ *  \return U8_ERROR_NONE in case of success,
+ *          U8_ERROR_NO_DB if database not open/loaded,
+ *          U8_ERROR_DB_STRUCTURE if database was corrupted
  */
-static inline ctrl_error_t ctrl_controller_repair_database ( ctrl_controller_t *this_,
-                                                             bool modify_db,
-                                                             uint32_t *out_err,
-                                                             uint32_t *out_fix,
-                                                             utf8stringbuf_t out_report
-                                                           );
+static inline u8_error_t ctrl_controller_repair_database ( ctrl_controller_t *this_,
+                                                           bool modify_db,
+                                                           uint32_t *out_err,
+                                                           uint32_t *out_fix,
+                                                           utf8stringbuf_t out_report
+                                                         );
 
 /* ================================ interface for sets of elements ================================ */
 
@@ -137,12 +137,12 @@ static inline ctrl_error_t ctrl_controller_repair_database ( ctrl_controller_t *
  *  \param[in,out] io_stat Statistics on DATA_STAT_SERIES_DELETED and
  *                         DATA_STAT_SERIES_ERROR (e.g. if a diagram still contains objects).
  *                         *io_stat shall be initialized by caller, statistics are added to initial values.
- *  \return error id in case of an error, e.g. CTRL_ERROR_INPUT_EMPTY in case of empty set, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, e.g. U8_ERROR_INPUT_EMPTY in case of empty set, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
-                                          const data_small_set_t *objects,
-                                          data_stat_t *io_stat
-                                        );
+u8_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
+                                        const data_small_set_t *objects,
+                                        data_stat_t *io_stat
+                                      );
 
 #include "ctrl_controller.inl"
 

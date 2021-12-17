@@ -64,9 +64,9 @@ void gui_sketch_object_creator_destroy ( gui_sketch_object_creator_t *this_ );
  *  \param y_order y order where the new classifier shall be located
  *  \param out_diagramelement_id row_id of the newly created diagramelement
  *  \param out_classifier_id row_id of the newly created classifier
- *  \return CTRL_ERROR_NONE in case of success, CTRL_ERROR_DUPLICATE_NAME in case of error
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_DUPLICATE_NAME in case of error
  */
-ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creator_t *this_,
+u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creator_t *this_,
                                                            data_row_id_t diagram_id,
                                                            int32_t x_order,
                                                            int32_t y_order,
@@ -85,9 +85,9 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
  *  \param out_diagramelement_id row_id of the newly created diagramelement
  *  \param out_classifier_id row_id of the newly created classifier
  *  \param out_relationship_id row_id of the newly created relationship
- *  \return CTRL_ERROR_NONE in case of success, CTRL_ERROR_DUPLICATE_NAME in case of error
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_DUPLICATE_NAME in case of error
  */
-ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_object_creator_t *this_,
+u8_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_object_creator_t *this_,
                                                                     data_row_id_t diagram_id,
                                                                     data_row_id_t parent_classifier_id,
                                                                     int32_t x_order,
@@ -104,9 +104,9 @@ ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_o
  *  \param parent_diagram_id id of the parent diagram where the new diagram shall appear. DATA_ROW_ID_VOID if a root diagram shall be created.
  *  \param list_order order of the new diagram
  *  \param out_diagram_id row_id of the newly created diagram
- *  \return CTRL_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creator_t *this_,
+u8_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creator_t *this_,
                                                         data_row_id_t parent_diagram_id,
                                                         int32_t list_order,
                                                         data_row_id_t *out_diagram_id
@@ -123,9 +123,9 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
  *  \param to_feature_id optional id of the feature where the new relationship shall end at; alternatively DATA_ROW_ID_VOID
  *  \param list_order order where the new relationship shall be located
  *  \param out_relationship_id row_id of the newly created relationship
- *  \return CTRL_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_creator_t *this_,
+u8_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_creator_t *this_,
                                                              data_diagram_type_t diag_type,
                                                              data_row_id_t from_classifier_id,
                                                              data_row_id_t from_feature_id,
@@ -144,9 +144,9 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
  *  \param std_list_order order where the new feature shall be located, if not a port
  *  \param port_list_order order where the new feature shall be located, if a port
  *  \param out_feature_id row_id of the newly created feature
- *  \return CTRL_ERROR_NONE in case of success, CTRL_ERROR_DUPLICATE_NAME in case of error
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_DUPLICATE_NAME in case of error
  */
-ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_t *this_,
+u8_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_t *this_,
                                                         data_diagram_type_t diag_type,
                                                         data_row_id_t parent_classifier_id,
                                                         int32_t std_list_order,

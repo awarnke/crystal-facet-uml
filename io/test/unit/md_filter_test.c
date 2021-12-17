@@ -92,8 +92,8 @@ static void tear_down(void)
 
 static data_row_id_t create_root_diag()
 {
-    ctrl_error_t ctrl_err;
-    data_error_t data_err;
+    u8_error_t ctrl_err;
+    u8_error_t data_err;
     ctrl_diagram_controller_t *diagram_ctrl;
 
     diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
@@ -110,7 +110,7 @@ static data_row_id_t create_root_diag()
                                       10555 ,/*=list_order*/
                                       DATA_DIAGRAM_FLAG_NONE
                                     );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     root_diag_id = DATA_ROW_ID_VOID;
     ctrl_err = ctrl_diagram_controller_create_diagram ( diagram_ctrl,
@@ -118,7 +118,7 @@ static data_row_id_t create_root_diag()
                                                         CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                         &root_diag_id
                                                       );
-    TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == ctrl_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
     data_diagram_destroy ( &root_diagram );
 

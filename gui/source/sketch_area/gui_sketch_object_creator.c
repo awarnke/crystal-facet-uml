@@ -36,7 +36,7 @@ void gui_sketch_object_creator_destroy ( gui_sketch_object_creator_t *this_ )
     TRACE_END();
 }
 
-ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creator_t *this_,
+u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creator_t *this_,
                                                            data_row_id_t diagram_id,
                                                            int32_t x_order,
                                                            int32_t y_order,
@@ -48,7 +48,7 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
     assert ( NULL != out_diagramelement_id );
     assert ( DATA_ROW_ID_VOID != diagram_id );
 
-    ctrl_error_t c_result;
+    u8_error_t c_result;
 
     /* get classifier controller */
     ctrl_classifier_controller_t *classifier_control;
@@ -61,12 +61,12 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
     /* get type of diagram */
     data_diagram_type_t diag_type = DATA_DIAGRAM_TYPE_LIST;
     {
-        const data_error_t diag_err
+        const u8_error_t diag_err
             = data_database_reader_get_diagram_by_id( (*this_).db_reader,
                                                       diagram_id,
                                                       &((*this_).private_temp_diagram)
                                                     );
-        if ( DATA_ERROR_NONE == diag_err )
+        if ( U8_ERROR_NONE == diag_err )
         {
             diag_type = data_diagram_get_diagram_type( &((*this_).private_temp_diagram) );
             data_diagram_destroy ( &((*this_).private_temp_diagram) );
@@ -96,12 +96,12 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
             utf8stringbuf_append_int( full_new_name, my_counter+search_step );
 
             /* check if that name is already in use */
-            const data_error_t exists_err
+            const u8_error_t exists_err
                 = data_database_reader_get_classifier_by_name( (*this_).db_reader,
                                                                utf8stringbuf_get_string( full_new_name ),
                                                                &((*this_).private_temp_classifier)
                                                              );
-            if ( DATA_ERROR_NONE == exists_err )
+            if ( U8_ERROR_NONE == exists_err )
             {
                 data_classifier_destroy ( &((*this_).private_temp_classifier) );
                 name_ok = false;  /* name already in use */
@@ -114,7 +114,7 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
     }
 
     /* define classifier */
-    const data_error_t d_err
+    const u8_error_t d_err
         = data_classifier_init_new ( &((*this_).private_temp_classifier),
                                      type_of_new_classifier,
                                      "",  /* stereotype */
@@ -124,7 +124,7 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
                                      y_order,
                                      y_order  /* y_order used also as list_order */
                                    );
-    if ( d_err != DATA_ERROR_NONE )
+    if ( d_err != U8_ERROR_NONE )
     {
         TSLOG_ERROR_HEX("data_classifier_init_new failed in gui_sketch_object_creator_create_classifier:",d_err);
     }
@@ -135,7 +135,7 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
                                                               out_classifier_id
                                                             );
 
-    if ( CTRL_ERROR_NONE == c_result )
+    if ( U8_ERROR_NONE == c_result )
     {
         data_diagramelement_t new_diagele;
         data_diagramelement_init_new ( &new_diagele,
@@ -154,7 +154,7 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
         /* cleanup */
         data_diagramelement_destroy ( &new_diagele );
     }
-    else if ( CTRL_ERROR_READ_ONLY_DB == c_result )
+    else if ( U8_ERROR_READ_ONLY_DB == c_result )
     {
         /* notify read-only warning to user */
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -170,7 +170,7 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
     return c_result;
 }
 
-ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_object_creator_t *this_,
+u8_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_object_creator_t *this_,
                                                                     data_row_id_t diagram_id,
                                                                     data_row_id_t parent_classifier_id,
                                                                     int32_t x_order,
@@ -186,7 +186,7 @@ ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_o
     assert ( DATA_ROW_ID_VOID != parent_classifier_id );
     assert ( DATA_ROW_ID_VOID != diagram_id );
 
-    ctrl_error_t c_result;
+    u8_error_t c_result;
 
     c_result = gui_sketch_object_creator_create_classifier( this_,
                                                             diagram_id,
@@ -196,14 +196,14 @@ ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_o
                                                             out_classifier_id
                                                           );
 
-    if ( CTRL_ERROR_NONE == c_result )
+    if ( U8_ERROR_NONE == c_result )
     {
         /* get classifier controller */
         ctrl_classifier_controller_t *classifier_control;
         classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
         /* define relationship */
-        const data_error_t d_err
+        const u8_error_t d_err
             = data_relationship_init_new( &((*this_).private_temp_relationship),
                                           DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
                                           parent_classifier_id,
@@ -214,7 +214,7 @@ ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_o
                                           DATA_ROW_ID_VOID,
                                           DATA_ROW_ID_VOID
                                         );
-        if ( d_err != DATA_ERROR_NONE )
+        if ( d_err != U8_ERROR_NONE )
         {
             TSLOG_ERROR_HEX("data_relationship_init failed in gui_sketch_object_creator_create_classifier_as_child:",d_err);
         }
@@ -234,7 +234,7 @@ ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_o
     return c_result;
 }
 
-ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creator_t *this_,
+u8_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creator_t *this_,
                                                         data_row_id_t parent_diagram_id,
                                                         int32_t list_order,
                                                         data_row_id_t *out_diagram_id )
@@ -242,7 +242,7 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
     TRACE_BEGIN();
     assert ( NULL != out_diagram_id );
 
-    ctrl_error_t c_result;
+    u8_error_t c_result;
 
     ctrl_diagram_controller_t *diag_control;
     diag_control = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
@@ -252,7 +252,7 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
     gui_sketch_object_creator_private_propose_diagram_name( this_, new_name );
 
     /* create the diagram */
-    const data_error_t d_err
+    const u8_error_t d_err
         = data_diagram_init_new( &((*this_).private_temp_diagram),
                                  parent_diagram_id,
                                  DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM,
@@ -261,7 +261,7 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
                                  list_order,
                                  DATA_DIAGRAM_FLAG_NONE
                                );
-    if ( d_err != DATA_ERROR_NONE )
+    if ( d_err != U8_ERROR_NONE )
     {
         TSLOG_ERROR_HEX("data_diagram_init_new failed in gui_sketch_object_creator_create_diagram:",d_err);
     }
@@ -271,7 +271,7 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
                                                        CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                        out_diagram_id
                                                      );
-    if ( CTRL_ERROR_READ_ONLY_DB == c_result )
+    if ( U8_ERROR_READ_ONLY_DB == c_result )
     {
         /* notify read-only warning to user */
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -281,7 +281,7 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
     }
 
     /* cleanup */
-    if ( d_err == DATA_ERROR_NONE )
+    if ( d_err == U8_ERROR_NONE )
     {
         data_diagram_destroy ( &((*this_).private_temp_diagram) );
     }
@@ -290,7 +290,7 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
     return c_result;
 }
 
-ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_creator_t *this_,
+u8_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_creator_t *this_,
                                                              data_diagram_type_t diag_type,
                                                              data_row_id_t from_classifier_id,
                                                              data_row_id_t from_feature_id,
@@ -304,7 +304,7 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
     assert ( DATA_ROW_ID_VOID != from_classifier_id );
     assert ( DATA_ROW_ID_VOID != to_classifier_id );
 
-    ctrl_error_t c_result;
+    u8_error_t c_result;
 
     /* get classifier controller */
     ctrl_classifier_controller_t *classifier_control;
@@ -316,12 +316,12 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
         /* get type of from_classifier */
         data_classifier_type_t from_class_type = DATA_CLASSIFIER_TYPE_CLASS;
         {
-            const data_error_t clsfy_err
+            const u8_error_t clsfy_err
                 = data_database_reader_get_classifier_by_id( (*this_).db_reader,
                                                              from_classifier_id,
                                                              &((*this_).private_temp_classifier)
                                                            );
-            if ( DATA_ERROR_NONE == clsfy_err )
+            if ( U8_ERROR_NONE == clsfy_err )
             {
                 from_class_type = data_classifier_get_main_type( &((*this_).private_temp_classifier) );
                 data_classifier_destroy ( &((*this_).private_temp_classifier) );
@@ -336,12 +336,12 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
         data_feature_type_t from_feature_type = DATA_FEATURE_TYPE_VOID;
         if ( from_feature_id != DATA_ROW_ID_VOID )
         {
-            const data_error_t feat_err
+            const u8_error_t feat_err
                 = data_database_reader_get_feature_by_id( (*this_).db_reader,
                                                           from_feature_id,
                                                           &((*this_).private_temp_feature)
                                                         );
-            if ( DATA_ERROR_NONE == feat_err )
+            if ( U8_ERROR_NONE == feat_err )
             {
                 from_feature_type = data_feature_get_main_type( &((*this_).private_temp_feature) );
                 data_feature_destroy ( &((*this_).private_temp_feature) );
@@ -355,7 +355,7 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
     }
 
     /* define relationship struct */
-    const data_error_t d_err
+    const u8_error_t d_err
         = data_relationship_init_new( &((*this_).private_temp_relationship),
                                       new_rel_type,
                                       from_classifier_id,
@@ -366,7 +366,7 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
                                       from_feature_id,
                                       to_feature_id
                                     );
-    if ( d_err != DATA_ERROR_NONE )
+    if ( d_err != U8_ERROR_NONE )
     {
         TSLOG_ERROR_HEX("data_relationship_init failed in gui_sketch_object_creator_create_relationship:",d_err);
     }
@@ -385,7 +385,7 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                                    out_relationship_id
                                                                  );
-        if ( CTRL_ERROR_READ_ONLY_DB == c_result )
+        if ( U8_ERROR_READ_ONLY_DB == c_result )
         {
             /* notify read-only warning to user */
             gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -401,7 +401,7 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_NO_RELATIONSHIPS
                                                );
-        c_result = CTRL_ERROR_DIAGRAM_HIDES_RELATIONSHIPS;
+        c_result = U8_ERROR_DIAGRAM_HIDES_RELATIONSHIPS;
     }
 
     /* cleanup */
@@ -411,7 +411,7 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
     return c_result;
 }
 
-ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_t *this_,
+u8_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_t *this_,
                                                         data_diagram_type_t diag_type,
                                                         data_row_id_t parent_classifier_id,
                                                         int32_t std_list_order,
@@ -422,7 +422,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
     assert ( NULL != out_feature_id );
     assert ( DATA_ROW_ID_VOID != parent_classifier_id );
 
-    ctrl_error_t c_result;
+    u8_error_t c_result;
 
     /* get classifier controller */
     ctrl_classifier_controller_t *classifier_control;
@@ -431,12 +431,12 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
     /* get type of parent classifier */
     data_classifier_type_t parent_class_type = DATA_CLASSIFIER_TYPE_CLASS;
     {
-        const data_error_t clsfy_err
+        const u8_error_t clsfy_err
             = data_database_reader_get_classifier_by_id( (*this_).db_reader,
                                                          parent_classifier_id,
                                                          &((*this_).private_temp_classifier)
                                                        );
-        if ( DATA_ERROR_NONE == clsfy_err )
+        if ( U8_ERROR_NONE == clsfy_err )
         {
             parent_class_type = data_classifier_get_main_type( &((*this_).private_temp_classifier) );
             data_classifier_destroy( &((*this_).private_temp_classifier) );
@@ -474,7 +474,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
     gui_sketch_object_creator_private_propose_feature_name( this_, new_feature_type, full_new_name );
 
     /* define feature struct */
-    const data_error_t data_err
+    const u8_error_t data_err
         = data_feature_init_new( &((*this_).private_temp_feature),
                                  new_feature_type,
                                  parent_classifier_id,
@@ -483,7 +483,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
                                  "",
                                  list_order
                                );
-    if ( data_err != DATA_ERROR_NONE )
+    if ( data_err != U8_ERROR_NONE )
     {
         TSLOG_ERROR_HEX("data_feature_init failed in gui_sketch_object_creator_create_feature:",data_err);
     }
@@ -504,7 +504,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                               out_feature_id
                                                             );
-        if ( CTRL_ERROR_READ_ONLY_DB == c_result )
+        if ( U8_ERROR_READ_ONLY_DB == c_result )
         {
             /* notify read-only warning to user */
             gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -520,7 +520,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_FEATURELESS_CLASSIFIER
                                                );
-        c_result = CTRL_ERROR_CLASSIFIER_REFUSES_FEATURE;
+        c_result = U8_ERROR_CLASSIFIER_REFUSES_FEATURE;
     }
     else
     {
@@ -529,7 +529,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_NO_FEATURES
                                                );
-        c_result = CTRL_ERROR_DIAGRAM_HIDES_FEATURES;
+        c_result = U8_ERROR_DIAGRAM_HIDES_FEATURES;
     }
 
     /* cleanup */

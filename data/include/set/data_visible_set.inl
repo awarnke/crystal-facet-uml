@@ -15,11 +15,11 @@ static inline data_diagram_t *data_visible_set_get_diagram_ptr ( data_visible_se
     return &((*this_).diagram);
 }
 
-static inline data_error_t data_visible_set_set_diagram( data_visible_set_t *this_, const data_diagram_t *new_diagram )
+static inline u8_error_t data_visible_set_set_diagram( data_visible_set_t *this_, const data_diagram_t *new_diagram )
 {
     assert( NULL != new_diagram );
     data_diagram_replace( &((*this_).diagram), new_diagram );
-    return DATA_ERROR_NONE;
+    return U8_ERROR_NONE;
 }
 
 /* ================================ classifiers ================================ */
@@ -188,11 +188,11 @@ static inline uint32_t data_visible_set_get_classifier_index_from_pointer ( cons
     return ( classifier_ptr - (*this_).visible_classifiers );
 }
 
-static inline data_error_t data_visible_set_append_classifier( data_visible_set_t *this_, const data_visible_classifier_t *new_classifier )
+static inline u8_error_t data_visible_set_append_classifier( data_visible_set_t *this_, const data_visible_classifier_t *new_classifier )
 {
     assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
     assert( NULL != new_classifier );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     
     const uint32_t new_index = (*this_).visible_classifier_count;
     if ( new_index < DATA_VISIBLE_SET_MAX_CLASSIFIERS )
@@ -202,7 +202,7 @@ static inline data_error_t data_visible_set_append_classifier( data_visible_set_
     }
     else
     {
-        result = DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+        result = U8_ERROR_ARRAY_BUFFER_EXCEEDED;
     }
     
     return result;
@@ -295,11 +295,11 @@ static inline data_feature_t *data_visible_set_get_feature_list_ptr ( data_visib
     return (*this_).features;
 }
 
-static inline data_error_t data_visible_set_append_feature( data_visible_set_t *this_, const data_feature_t *new_feature )
+static inline u8_error_t data_visible_set_append_feature( data_visible_set_t *this_, const data_feature_t *new_feature )
 {
     assert( (*this_).feature_count <= DATA_VISIBLE_SET_MAX_FEATURES );
     assert( NULL != new_feature );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     
     const uint32_t new_index = (*this_).feature_count;
     if ( new_index < DATA_VISIBLE_SET_MAX_FEATURES )
@@ -309,7 +309,7 @@ static inline data_error_t data_visible_set_append_feature( data_visible_set_t *
     }
     else
     {
-        result = DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+        result = U8_ERROR_ARRAY_BUFFER_EXCEEDED;
     }
     
     return result;
@@ -441,11 +441,11 @@ static inline uint32_t data_visible_set_count_descendants_of_index ( const data_
     return result;
 }
 
-static inline data_error_t data_visible_set_append_relationship( data_visible_set_t *this_, const data_relationship_t *new_relationship )
+static inline u8_error_t data_visible_set_append_relationship( data_visible_set_t *this_, const data_relationship_t *new_relationship )
 {
     assert( (*this_).relationship_count <= DATA_VISIBLE_SET_MAX_RELATIONSHIPS );
     assert( NULL != new_relationship );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     
     const uint32_t new_index = (*this_).relationship_count;
     if ( new_index < DATA_VISIBLE_SET_MAX_RELATIONSHIPS )
@@ -455,7 +455,7 @@ static inline data_error_t data_visible_set_append_relationship( data_visible_se
     }
     else
     {
-        result = DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+        result = U8_ERROR_ARRAY_BUFFER_EXCEEDED;
     }
     
     return result;

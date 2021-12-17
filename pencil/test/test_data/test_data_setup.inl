@@ -191,7 +191,7 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
     data_uuid_init_new( &diag_uuid );
 
     data_diagram_t *diag = data_visible_set_get_diagram_ptr( io_data_set );
-    const data_error_t d_err = data_diagram_init( diag,
+    const u8_error_t d_err = data_diagram_init( diag,
                                                   (*this_).variant, /* diagram_id */
                                                   DATA_ROW_ID_VOID, /* parent_diagram_id */
                                                   diagram_type,
@@ -201,7 +201,7 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
                                                   flag_emph,
                                                   data_uuid_get_string( &diag_uuid )
                                                 );
-    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == d_err );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == d_err );
 
     data_uuid_destroy( &diag_uuid );
 }
@@ -325,7 +325,7 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
         data_uuid_init_new( &diagele_uuid );
 
         const data_row_id_t classifier_id = ((pseudo_random_1 % 5)==0) ? (index+2) : (index+1); /* some classifiers exist twice */
-        const data_error_t d1_err = data_classifier_init( classifier,
+        const u8_error_t d1_err = data_classifier_init( classifier,
                                                           classifier_id,
                                                           class_type,
                                                           stereotype,
@@ -336,7 +336,7 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
                                                           list_order,
                                                           data_uuid_get_string( &clsfr_uuid )
                                                         );
-        TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( DATA_ERROR_NONE, d1_err&(~DATA_ERROR_STRING_BUFFER_EXCEEDED) );
+        TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( U8_ERROR_NONE, d1_err&(~U8_ERROR_STRING_BUFFER_EXCEEDED) );
 
         const data_row_id_t diagram_id = data_diagram_get_row_id( data_visible_set_get_diagram_const( io_data_set ) );
         const data_diagramelement_flag_t flag_inst
@@ -351,7 +351,7 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
             : ((pseudo_random_2 % 3)==1)
             ? DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT
             : DATA_DIAGRAMELEMENT_FLAG_NONE;
-        const data_error_t d2_err = data_diagramelement_init( diagramelement,
+        const u8_error_t d2_err = data_diagramelement_init( diagramelement,
                                                               index+1,  /* = id */
                                                               diagram_id,
                                                               classifier_id,
@@ -359,10 +359,10 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
                                                               index+10001,  /* = focused_feature_id */
                                                               data_uuid_get_string( &diagele_uuid )
                                                             );
-        TEST_ENVIRONMENT_ASSERT ( d2_err == DATA_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT ( d2_err == U8_ERROR_NONE );
 
-        const data_error_t d3_err = data_visible_set_append_classifier( io_data_set, &vis_classfy );
-        TEST_ENVIRONMENT_ASSERT ( d3_err == DATA_ERROR_NONE );
+        const u8_error_t d3_err = data_visible_set_append_classifier( io_data_set, &vis_classfy );
+        TEST_ENVIRONMENT_ASSERT ( d3_err == U8_ERROR_NONE );
 
         data_visible_classifier_destroy ( &vis_classfy );
         data_uuid_destroy( &clsfr_uuid );
@@ -388,7 +388,7 @@ static inline void test_data_setup_private_add_lifelines( const test_data_setup_
         data_uuid_init_new( &feat_uuid );
 
         data_feature_t feat;
-        const data_error_t d1_err = data_feature_init( &feat,
+        const u8_error_t d1_err = data_feature_init( &feat,
                                                        data_diagramelement_get_focused_feature_row_id( diagele ),  /* = feature_id */
                                                        feat_type,
                                                        data_diagramelement_get_classifier_row_id( diagele ),  /* = classifier_id */
@@ -398,10 +398,10 @@ static inline void test_data_setup_private_add_lifelines( const test_data_setup_
                                                        list_order,
                                                        data_uuid_get_string( &feat_uuid )
                                                      );
-        TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( DATA_ERROR_NONE, d1_err );
+        TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( U8_ERROR_NONE, d1_err );
 
-        const data_error_t d2_err = data_visible_set_append_feature( io_data_set, &feat );
-        TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( DATA_ERROR_NONE, d2_err );
+        const u8_error_t d2_err = data_visible_set_append_feature( io_data_set, &feat );
+        TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( U8_ERROR_NONE, d2_err );
 
         data_feature_destroy ( &feat );
         data_uuid_destroy( &feat_uuid );
@@ -506,7 +506,7 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
         data_uuid_init_new( &feat_uuid );
 
         data_feature_t feat;
-        const data_error_t d1_err = data_feature_init( &feat,
+        const u8_error_t d1_err = data_feature_init( &feat,
                                                        index+1,  /* = feature_id */
                                                        feat_type,
                                                        index+1,  /* = classifier_id */
@@ -516,10 +516,10 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
                                                        list_order,
                                                        data_uuid_get_string( &feat_uuid )
                                                      );
-        TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( DATA_ERROR_NONE, d1_err&(~DATA_ERROR_STRING_BUFFER_EXCEEDED) );
+        TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( U8_ERROR_NONE, d1_err&(~U8_ERROR_STRING_BUFFER_EXCEEDED) );
 
-        const data_error_t d2_err = data_visible_set_append_feature( io_data_set, &feat );
-        TEST_ENVIRONMENT_ASSERT ( d2_err == DATA_ERROR_NONE );
+        const u8_error_t d2_err = data_visible_set_append_feature( io_data_set, &feat );
+        TEST_ENVIRONMENT_ASSERT ( d2_err == U8_ERROR_NONE );
 
         data_feature_destroy ( &feat );
         data_uuid_destroy ( &feat_uuid );
@@ -692,7 +692,7 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
         data_uuid_init_new( &rel_uuid );
 
         data_relationship_t rel;
-        const data_error_t d1_err = data_relationship_init( &rel,
+        const u8_error_t d1_err = data_relationship_init( &rel,
                                                             index+1,  /* =  relationship_id */
                                                             rel_type,
                                                             from_classifier_row_id,
@@ -704,10 +704,10 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
                                                             to_feature_row_id,
                                                             data_uuid_get_string( &rel_uuid )
                                                           );
-        TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( DATA_ERROR_NONE, d1_err&(~DATA_ERROR_STRING_BUFFER_EXCEEDED) );
+        TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( U8_ERROR_NONE, d1_err&(~U8_ERROR_STRING_BUFFER_EXCEEDED) );
 
-        const data_error_t d2_err = data_visible_set_append_relationship( io_data_set, &rel );
-        TEST_ENVIRONMENT_ASSERT ( d2_err == DATA_ERROR_NONE );
+        const u8_error_t d2_err = data_visible_set_append_relationship( io_data_set, &rel );
+        TEST_ENVIRONMENT_ASSERT ( d2_err == U8_ERROR_NONE );
 
         data_relationship_destroy ( &rel );
         data_uuid_destroy ( &rel_uuid );

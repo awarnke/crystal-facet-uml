@@ -36,13 +36,13 @@ void ctrl_diagram_policy_enforcer_destroy ( ctrl_diagram_policy_enforcer_t *this
 
 /* ================================ LIFELINES ================================ */
 
-ctrl_error_t ctrl_diagram_policy_enforcer_private_create_lifelines ( ctrl_diagram_policy_enforcer_t *this_,
+u8_error_t ctrl_diagram_policy_enforcer_private_create_lifelines ( ctrl_diagram_policy_enforcer_t *this_,
                                                                      const data_diagram_t *updated_diagram )
 {
     TRACE_BEGIN();
     assert( NULL != updated_diagram );
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
 
     data_diagram_type_t new_type;
     new_type = data_diagram_get_diagram_type ( updated_diagram );
@@ -64,9 +64,9 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_lifelines ( ctrl_diagra
                                                                                &((*this_).private_temp_diagele_buf),
                                                                                &diagramelement_count
                                                                              );
-        result |= (ctrl_error_t) data_result;
+        result |= (u8_error_t) data_result;
 
-        if ( DATA_ERROR_NONE == data_result )
+        if ( U8_ERROR_NONE == data_result )
         {
             /* search the diagramelements */
             for ( uint32_t index = 0; index < diagramelement_count; index ++ )
@@ -89,13 +89,13 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_lifelines ( ctrl_diagra
     return result;
 }
 
-ctrl_error_t ctrl_diagram_policy_enforcer_private_create_a_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
+u8_error_t ctrl_diagram_policy_enforcer_private_create_a_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
                                                                       const data_diagramelement_t *new_diagramelement )
 {
     TRACE_BEGIN();
     assert( NULL != new_diagramelement );
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
 
     /* load the diagram and check the type */
     data_diagram_t the_diag;
@@ -104,7 +104,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_a_lifeline ( ctrl_diagr
                                                            &the_diag
                                                          );
 
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         data_diagram_type_t dig_type = data_diagram_get_diagram_type( &the_diag );
         if (( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == dig_type )
@@ -117,20 +117,20 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_a_lifeline ( ctrl_diagr
     }
     else
     {
-        result |= (ctrl_error_t) data_result;
+        result |= (u8_error_t) data_result;
     }
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_diagram_policy_enforcer_private_create_one_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
+u8_error_t ctrl_diagram_policy_enforcer_private_create_one_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
                                                                         const data_diagramelement_t *the_diagramelement )
 {
     TRACE_BEGIN();
     assert( NULL != the_diagramelement );
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
 
     /* define the lifeline to create */
     data_feature_t new_lifeline;
@@ -142,7 +142,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_one_lifeline ( ctrl_dia
                                          "",  /* description */
                                          0  /* list_order */
                                        );
-    result |= (ctrl_error_t) data_result;
+    result |= (u8_error_t) data_result;
 
     /* create the lifeline */
     data_row_id_t new_feature_id;
@@ -168,12 +168,12 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_one_lifeline ( ctrl_dia
     return result;
 }
 
-ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_a_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
+u8_error_t ctrl_diagram_policy_enforcer_private_delete_a_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
                                                                       const data_diagramelement_t *deleted_diagramelement )
 {
     TRACE_BEGIN();
     assert( NULL != deleted_diagramelement );
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* delete the lifeline of the already deleted data_diagramelement_t */
     data_row_id_t focused_feature_id;
@@ -192,22 +192,22 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_a_lifeline ( ctrl_diagr
 
 /* ================================ NO ABANDONED CLASSIFIERS ================================ */
 
-ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_unreferenced_classifier ( ctrl_diagram_policy_enforcer_t *this_,
+u8_error_t ctrl_diagram_policy_enforcer_private_delete_unreferenced_classifier ( ctrl_diagram_policy_enforcer_t *this_,
                                                                                    const data_diagramelement_t *deleted_diagramelement )
 {
     TRACE_BEGIN();
     assert( NULL != deleted_diagramelement );
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* try to also delete the classifier, ignore errors because it is ok if the classifier is still referenced */
-    ctrl_error_t my_ctrl_result;
+    u8_error_t my_ctrl_result;
 
     my_ctrl_result = ctrl_classifier_controller_delete_classifier( (*this_).clfy_ctrl,
                                                                    data_diagramelement_get_classifier_row_id( deleted_diagramelement ),
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                                  );
 
-    if ( CTRL_ERROR_NONE != ( my_ctrl_result & CTRL_ERROR_OBJECT_STILL_REFERENCED ))
+    if ( U8_ERROR_NONE != ( my_ctrl_result & U8_ERROR_OBJECT_STILL_REFERENCED ))
     {
         TSLOG_ANOMALY( "The classifier cannot be deleted because it is still referenced." );
     }
@@ -223,25 +223,25 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_unreferenced_classifier
 
 /* ================================ NO INVISIBLE RELATIONSHIPS ================================ */
 
-ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_invisible_relationships ( ctrl_diagram_policy_enforcer_t *this_,
+u8_error_t ctrl_diagram_policy_enforcer_private_delete_invisible_relationships ( ctrl_diagram_policy_enforcer_t *this_,
                                                                                    const data_diagramelement_t *deleted_diagramelement )
 {
     TRACE_BEGIN();
     assert( NULL != deleted_diagramelement );
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     data_row_id_t classifier_id = data_diagramelement_get_classifier_row_id( deleted_diagramelement );
 
     /* load relationships to be checked */
     uint32_t relationship_count = 0;
-    const data_error_t d_err
+    const u8_error_t d_err
         = data_database_reader_get_relationships_by_classifier_id ( (*this_).db_reader,
                                                                     classifier_id,
                                                                     CTRL_DIAGRAM_POLICY_ENFORCER_CONST_MAX_TEMP_RELATIONS,
                                                                     &((*this_).private_temp_rel_buf),
                                                                     &relationship_count
                                                                   );
-    if ( d_err == DATA_ERROR_ARRAY_BUFFER_EXCEEDED )
+    if ( d_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED )
     {
         TSLOG_ANOMALY( "The dereferenced classifier has more relationships than can be checked for being superfluous now." );
         TRACE_INFO_INT( "classifier has too many relationships:", classifier_id );
@@ -252,23 +252,23 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_invisible_relationships
         result |= d_err;
     }
 
-    if ( result == CTRL_ERROR_NONE )
+    if ( result == U8_ERROR_NONE )
     {
         for ( uint_fast32_t rel_idx = 0; rel_idx < relationship_count; rel_idx ++ )
         {
             const data_relationship_t *relation = &((*this_).private_temp_rel_buf[rel_idx]);
 
             bool visible = true;
-            const ctrl_error_t vis_err
+            const u8_error_t vis_err
                 = ctrl_diagram_policy_enforcer_private_has_relationship_a_diagram( this_, relation, &visible );
 
-            if ( vis_err == CTRL_ERROR_ARRAY_BUFFER_EXCEEDED )
+            if ( vis_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED )
             {
                 TSLOG_ANOMALY( "A relationship is connected to a classifier that is too often referenced to check for being superfluous now." );
                 TRACE_INFO_INT( "classifier or related classifier has too many diagramelements:", classifier_id );
                 /* no further error propagation. */
             }
-            else if ( vis_err == CTRL_ERROR_NONE )
+            else if ( vis_err == U8_ERROR_NONE )
             {
                 if ( ! visible )
                 {
@@ -290,14 +290,14 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_invisible_relationships
     return result;
 }
 
-ctrl_error_t ctrl_diagram_policy_enforcer_private_has_relationship_a_diagram ( ctrl_diagram_policy_enforcer_t *this_,
+u8_error_t ctrl_diagram_policy_enforcer_private_has_relationship_a_diagram ( ctrl_diagram_policy_enforcer_t *this_,
                                                                                const data_relationship_t *relation,
                                                                                bool *out_result )
 {
     TRACE_BEGIN();
     assert( NULL != relation );
     assert( NULL != out_result );
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     const data_row_id_t from_classifier_id = data_relationship_get_from_classifier_row_id( relation );
     const data_row_id_t to_classifier_id = data_relationship_get_to_classifier_row_id( relation );
@@ -311,7 +311,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_has_relationship_a_diagram ( c
     {
         data_small_set_t from_diagrams;
         data_small_set_init( &from_diagrams );
-        data_error_t from_err;
+        u8_error_t from_err;
 
         /* load diagramelements that are referenced by the relationships from end */
         {
@@ -323,16 +323,16 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_has_relationship_a_diagram ( c
                                                                               &((*this_).private_temp_diagele_buf),
                                                                               &from_diagramelement_count
                                                                             );
-            if ( from_err == DATA_ERROR_NONE )
+            if ( from_err == U8_ERROR_NONE )
             {
                 /* copy diagram ids to id-set */
                 for ( uint_fast32_t from_idx = 0; from_idx < from_diagramelement_count; from_idx ++ )
                 {
                     const data_id_t from_diag_id
                         = data_diagramelement_get_diagram_data_id ( &((*this_).private_temp_diagele_buf[from_idx]) );
-                    const data_error_t ins_err
+                    const u8_error_t ins_err
                         = data_small_set_add_obj( &from_diagrams, from_diag_id );
-                    if ( ins_err == DATA_ERROR_DUPLICATE_ID )
+                    if ( ins_err == U8_ERROR_DUPLICATE_ID )
                     {
                         /* not an error */
                     }
@@ -346,7 +346,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_has_relationship_a_diagram ( c
 
         /* load diagramelements that are referenced by the relationships to end */
         uint32_t to_diagramelement_count = 0;
-        const data_error_t to_err
+        const u8_error_t to_err
             = data_database_reader_get_diagramelements_by_classifier_id ( (*this_).db_reader,
                                                                           to_classifier_id,
                                                                           CTRL_DIAGRAM_POLICY_ENFORCER_CONST_MAX_TEMP_DIAGELES,
@@ -354,7 +354,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_has_relationship_a_diagram ( c
                                                                           &to_diagramelement_count
                                                                         );
         /* check for same diagram */
-        if (( from_err == DATA_ERROR_NONE )&&( to_err == DATA_ERROR_NONE ))
+        if (( from_err == U8_ERROR_NONE )&&( to_err == U8_ERROR_NONE ))
         {
             bool same_diag = false;
             for ( uint_fast32_t to_idx = 0; to_idx < to_diagramelement_count; to_idx ++ )

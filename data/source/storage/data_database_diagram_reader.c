@@ -7,11 +7,11 @@
 #include <sqlite3.h>
 #include <assert.h>
 
-data_error_t data_database_diagram_reader_init ( data_database_diagram_reader_t *this_, data_database_t *database )
+u8_error_t data_database_diagram_reader_init ( data_database_diagram_reader_t *this_, data_database_t *database )
 {
     TRACE_BEGIN();
     assert( NULL != database );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     (*this_).database = database;
 
@@ -36,10 +36,10 @@ data_error_t data_database_diagram_reader_init ( data_database_diagram_reader_t 
     return result;
 }
 
-data_error_t data_database_diagram_reader_destroy ( data_database_diagram_reader_t *this_ )
+u8_error_t data_database_diagram_reader_destroy ( data_database_diagram_reader_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     result |= data_database_diagram_reader_private_close( this_ );
 
@@ -158,13 +158,13 @@ static const char DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_CLASSIFIER_ID[] =
     "GROUP BY diagrams.id "  /* filter duplicates if a classifier exists twice in a diagram */
     "ORDER BY diagrams.list_order ASC;";
 
-data_error_t data_database_diagram_reader_get_diagram_by_id ( data_database_diagram_reader_t *this_,
+u8_error_t data_database_diagram_reader_get_diagram_by_id ( data_database_diagram_reader_t *this_,
                                                               data_row_id_t id,
                                                               data_diagram_t *out_diagram )
 {
     TRACE_BEGIN();
     assert( NULL != out_diagram );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -178,7 +178,7 @@ data_error_t data_database_diagram_reader_get_diagram_by_id ( data_database_diag
         if ( SQLITE_ROW != sqlite_err )
         {
             TSLOG_ANOMALY( "sqlite3_step did not find a row." );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
 
         if ( SQLITE_ROW == sqlite_err )
@@ -205,7 +205,7 @@ data_error_t data_database_diagram_reader_get_diagram_by_id ( data_database_diag
         if ( SQLITE_DONE != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
     }
 
@@ -213,13 +213,13 @@ data_error_t data_database_diagram_reader_get_diagram_by_id ( data_database_diag
     return result;
 }
 
-data_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_diagram_reader_t *this_,
+u8_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_diagram_reader_t *this_,
                                                                 const char *uuid,
                                                                 data_diagram_t *out_diagram )
 {
     TRACE_BEGIN();
     assert( NULL != out_diagram );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -233,7 +233,7 @@ data_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_di
         if ( SQLITE_ROW != sqlite_err )
         {
             TSLOG_ANOMALY( "sqlite3_step did not find a row." );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
 
         if ( SQLITE_ROW == sqlite_err )
@@ -260,7 +260,7 @@ data_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_di
         if ( SQLITE_DONE != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
     }
 
@@ -268,7 +268,7 @@ data_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_di
     return result;
 }
 
-data_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_database_diagram_reader_t *this_,
+u8_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_database_diagram_reader_t *this_,
                                                                       data_row_id_t parent_id,
                                                                       uint32_t max_out_array_size,
                                                                       data_diagram_t (*out_diagram)[],
@@ -277,7 +277,7 @@ data_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_datab
     TRACE_BEGIN();
     assert( NULL != out_diagram_count );
     assert( NULL != out_diagram );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -302,7 +302,7 @@ data_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_datab
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
                 TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                result |= DATA_ERROR_AT_DB;
+                result |= U8_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
             {
@@ -329,7 +329,7 @@ data_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_datab
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
                 TSLOG_ANOMALY_INT( "out_diagram[] full:", (row_index+1) );
-                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
             {
@@ -343,7 +343,7 @@ data_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_datab
 }
 
 #ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
-data_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_database_diagram_reader_t *this_,
+u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_database_diagram_reader_t *this_,
                                                                           data_row_id_t classifier_id,
                                                                           uint32_t max_out_array_size,
                                                                           data_diagram_t (*out_diagram)[],
@@ -352,7 +352,7 @@ data_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_d
     TRACE_BEGIN();
     assert( NULL != out_diagram_count );
     assert( NULL != out_diagram );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -370,7 +370,7 @@ data_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_d
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
                 TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                result |= DATA_ERROR_AT_DB;
+                result |= U8_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
             {
@@ -397,7 +397,7 @@ data_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_d
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
                 TSLOG_ANOMALY_INT( "out_diagram[] full:", (row_index+1) );
-                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
             {
@@ -411,13 +411,13 @@ data_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_d
 }
 #endif
 
-data_error_t data_database_diagram_reader_get_diagram_ids_by_parent_id ( data_database_diagram_reader_t *this_,
+u8_error_t data_database_diagram_reader_get_diagram_ids_by_parent_id ( data_database_diagram_reader_t *this_,
                                                                          data_row_id_t parent_id,
                                                                          data_small_set_t *out_diagram_ids )
 {
     TRACE_BEGIN();
     assert( NULL != out_diagram_ids );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -442,7 +442,7 @@ data_error_t data_database_diagram_reader_get_diagram_ids_by_parent_id ( data_da
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
                 TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                result |= DATA_ERROR_AT_DB;
+                result |= U8_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < DATA_SMALL_SET_MAX_SET_SIZE))
             {
@@ -453,7 +453,7 @@ data_error_t data_database_diagram_reader_get_diagram_ids_by_parent_id ( data_da
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= DATA_SMALL_SET_MAX_SET_SIZE))
             {
                 TSLOG_ANOMALY_INT( "out_diagram_ids[] full:", (row_index+1) );
-                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
             {
@@ -467,13 +467,13 @@ data_error_t data_database_diagram_reader_get_diagram_ids_by_parent_id ( data_da
     return result;
 }
 
-data_error_t data_database_diagram_reader_get_diagram_ids_by_classifier_id ( data_database_diagram_reader_t *this_,
+u8_error_t data_database_diagram_reader_get_diagram_ids_by_classifier_id ( data_database_diagram_reader_t *this_,
                                                                              data_row_id_t classifier_id,
                                                                              data_small_set_t *out_diagram_ids )
 {
     TRACE_BEGIN();
     assert( NULL != out_diagram_ids );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -490,7 +490,7 @@ data_error_t data_database_diagram_reader_get_diagram_ids_by_classifier_id ( dat
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
                 TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                result |= DATA_ERROR_AT_DB;
+                result |= U8_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < DATA_SMALL_SET_MAX_SET_SIZE))
             {
@@ -502,7 +502,7 @@ data_error_t data_database_diagram_reader_get_diagram_ids_by_classifier_id ( dat
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= DATA_SMALL_SET_MAX_SET_SIZE))
             {
                 TSLOG_ANOMALY_INT( "out_diagram_ids[] full:", (row_index+1) );
-                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
             {
@@ -577,13 +577,13 @@ static const int RESULT_DIAGRAMELEMENT_FOCUSED_FEATURE_ID_COLUMN = 4;
  */
 static const int RESULT_DIAGRAMELEMENT_UUID_COLUMN = 5;
 
-data_error_t data_database_diagram_reader_get_diagramelement_by_id ( data_database_diagram_reader_t *this_,
+u8_error_t data_database_diagram_reader_get_diagramelement_by_id ( data_database_diagram_reader_t *this_,
                                                                      data_row_id_t id,
                                                                      data_diagramelement_t *out_diagramelement )
 {
     TRACE_BEGIN();
     assert( NULL != out_diagramelement );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -597,7 +597,7 @@ data_error_t data_database_diagram_reader_get_diagramelement_by_id ( data_databa
         if ( SQLITE_ROW != sqlite_err )
         {
             TSLOG_ANOMALY( "sqlite3_step did not find a row." );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
 
         if ( SQLITE_ROW == sqlite_err )
@@ -622,7 +622,7 @@ data_error_t data_database_diagram_reader_get_diagramelement_by_id ( data_databa
         if ( SQLITE_DONE != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
     }
 
@@ -630,13 +630,13 @@ data_error_t data_database_diagram_reader_get_diagramelement_by_id ( data_databa
     return result;
 }
 
-data_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_database_diagram_reader_t *this_,
+u8_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_database_diagram_reader_t *this_,
                                                                        const char *uuid,
                                                                        data_diagramelement_t *out_diagramelement )
 {
     TRACE_BEGIN();
     assert( NULL != out_diagramelement );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -650,7 +650,7 @@ data_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_data
         if ( SQLITE_ROW != sqlite_err )
         {
             TSLOG_ANOMALY( "sqlite3_step did not find a row." );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
 
         if ( SQLITE_ROW == sqlite_err )
@@ -675,7 +675,7 @@ data_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_data
         if ( SQLITE_DONE != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
     }
 
@@ -683,7 +683,7 @@ data_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_data
     return result;
 }
 
-data_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id ( data_database_diagram_reader_t *this_,
+u8_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id ( data_database_diagram_reader_t *this_,
                                                                               data_row_id_t diagram_id,
                                                                               uint32_t max_out_array_size,
                                                                               data_diagramelement_t (*out_diagramelement)[],
@@ -692,7 +692,7 @@ data_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id ( da
     TRACE_BEGIN();
     assert( NULL != out_diagramelement_count );
     assert( NULL != out_diagramelement );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -710,7 +710,7 @@ data_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id ( da
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
                 TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                result |= DATA_ERROR_AT_DB;
+                result |= U8_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
             {
@@ -735,7 +735,7 @@ data_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id ( da
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
                 TSLOG_ANOMALY_INT( "out_diagramelement[] full:", (row_index+1) );
-                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
             {
@@ -748,7 +748,7 @@ data_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id ( da
     return result;
 }
 
-data_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id( data_database_diagram_reader_t *this_,
+u8_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id( data_database_diagram_reader_t *this_,
                                                                                 data_row_id_t classifier_id,
                                                                                 uint32_t max_out_array_size,
                                                                                 data_diagramelement_t (*out_diagramelement)[],
@@ -757,7 +757,7 @@ data_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id( 
     TRACE_BEGIN();
     assert( NULL != out_diagramelement_count );
     assert( NULL != out_diagramelement );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -775,7 +775,7 @@ data_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id( 
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
                 TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                result |= DATA_ERROR_AT_DB;
+                result |= U8_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
             {
@@ -800,7 +800,7 @@ data_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id( 
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
                 TSLOG_ANOMALY_INT( "out_diagramelement[] full:", (row_index+1) );
-                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
             {
@@ -815,10 +815,10 @@ data_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id( 
 
 /* ================================ private ================================ */
 
-data_error_t data_database_diagram_reader_private_open ( data_database_diagram_reader_t *this_ )
+u8_error_t data_database_diagram_reader_private_open ( data_database_diagram_reader_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     {
         result |= data_database_diagram_reader_private_prepare_statement ( this_,
@@ -895,7 +895,7 @@ data_error_t data_database_diagram_reader_private_open ( data_database_diagram_r
                                                                            &((*this_).private_prepared_query_diagramelements_by_classifier_id)
                                                                          );
 
-        if ( result != DATA_ERROR_NONE )
+        if ( result != U8_ERROR_NONE )
         {
             TSLOG_ERROR( "A prepared statement could not be prepared." );
         }
@@ -905,10 +905,10 @@ data_error_t data_database_diagram_reader_private_open ( data_database_diagram_r
     return result;
 }
 
-data_error_t data_database_diagram_reader_private_close ( data_database_diagram_reader_t *this_ )
+u8_error_t data_database_diagram_reader_private_close ( data_database_diagram_reader_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     {
         result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_by_id );

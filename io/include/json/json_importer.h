@@ -75,9 +75,9 @@ void json_importer_destroy( json_importer_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param json_text stream in json format, not NULL
  *  \param out_read_line read position in the stream, in case of an error, this may help finding the cause
- *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
  */
-data_error_t json_importer_import_stream( json_importer_t *this_,
+u8_error_t json_importer_import_stream( json_importer_t *this_,
                                           universal_input_stream_t *json_text,
                                           uint32_t *out_read_line
                                         );
@@ -88,9 +88,9 @@ data_error_t json_importer_import_stream( json_importer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param in_stream input stream where to import the data from
  *  \param out_english_report non translated report on errors in input file and warnings from importing
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t json_importer_prescan( json_importer_t *this_,
+u8_error_t json_importer_prescan( json_importer_t *this_,
                                     universal_input_stream_t *in_stream,
                                     universal_utf8_writer_t *out_english_report
                                   );
@@ -99,25 +99,25 @@ data_error_t json_importer_prescan( json_importer_t *this_,
  *  \brief imports views to the focused diagram
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
  */
-data_error_t json_importer_private_import_views( json_importer_t *this_ );
+u8_error_t json_importer_private_import_views( json_importer_t *this_ );
 
 /*!
  *  \brief imports nodes to the focused diagram
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
  */
-data_error_t json_importer_private_import_nodes( json_importer_t *this_ );
+u8_error_t json_importer_private_import_nodes( json_importer_t *this_ );
 
 /*!
  *  \brief imports edges to the focused diagram
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
  */
-data_error_t json_importer_private_import_edges( json_importer_t *this_ );
+u8_error_t json_importer_private_import_edges( json_importer_t *this_ );
 
 #endif  /* JSON_IMPORTER_H */
 

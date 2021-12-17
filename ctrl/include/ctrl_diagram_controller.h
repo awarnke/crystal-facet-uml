@@ -9,7 +9,7 @@
  *  \brief Provides write access and triggers consistency checks to diagrams in the database
  */
 
-#include "ctrl_error.h"
+#include "u8/u8_error.h"
 #include "ctrl_undo_redo_list.h"
 #include "ctrl_diagram_policy_enforcer.h"
 #include "ctrl_undo_redo_action_boundary.h"
@@ -72,13 +72,13 @@ void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ );
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
  *  \param[out] out_new_id id of the newly created diagram, NULL if the new id is not needed.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_,
-                                                      const data_diagram_t *new_diagram,
-                                                      ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
-                                                      data_row_id_t* out_new_id
-                                                    );
+u8_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_,
+                                                    const data_diagram_t *new_diagram,
+                                                    ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
+                                                    data_row_id_t* out_new_id
+                                                  );
 
 /*!
  *  \brief creates a new diagram
@@ -88,14 +88,14 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
  *  \param diagram_type type of the new diagram
  *  \param diagram_name name of the new diagram
  *  \param[out] out_new_id id of the newly created diagram, NULL if the new id is not needed.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram_controller_t *this_,
-                                                                    data_row_id_t parent_diagram_id,
-                                                                    data_diagram_type_t diagram_type,
-                                                                    const char* diagram_name,
-                                                                    data_row_id_t* out_new_id
-                                                                  );
+u8_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram_controller_t *this_,
+                                                                  data_row_id_t parent_diagram_id,
+                                                                  data_diagram_type_t diagram_type,
+                                                                  const char* diagram_name,
+                                                                  data_row_id_t* out_new_id
+                                                                );
 
 /*!
  *  \brief checks if a root diagram exists and creates one if not
@@ -104,13 +104,13 @@ ctrl_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram
  *  \param diagram_type type of the root diagram
  *  \param diagram_name name of the root diagram
  *  \param[out] out_new_id id of the created root diagram or DATA_ROW_ID_VOID if a root diagram already existed, NULL if the new id is not needed.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_diagram_controller_t *this_,
-                                                                         data_diagram_type_t diagram_type,
-                                                                         const char* diagram_name,
-                                                                         data_row_id_t* out_new_id
-                                                                       );
+u8_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_diagram_controller_t *this_,
+                                                                       data_diagram_type_t diagram_type,
+                                                                       const char* diagram_name,
+                                                                       data_row_id_t* out_new_id
+                                                                     );
 
 /*!
  *  \brief deletes a diagram record
@@ -127,12 +127,12 @@ ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_di
  *                                to the last set of actions in the undo_redo_list_t,
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-ctrl_error_t ctrl_diagram_controller_delete_diagram ( ctrl_diagram_controller_t *this_,
-                                                      data_row_id_t obj_id,
-                                                      ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
-                                                    );
+u8_error_t ctrl_diagram_controller_delete_diagram ( ctrl_diagram_controller_t *this_,
+                                                    data_row_id_t obj_id,
+                                                    ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
+                                                  );
 
 /*!
  *  \brief updates the diagram attribute: parent_id
@@ -144,13 +144,13 @@ ctrl_error_t ctrl_diagram_controller_delete_diagram ( ctrl_diagram_controller_t 
  *                                to the last set of actions in the undo_redo_list_t,
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_controller_t *this_,
-                                                                data_row_id_t diagram_id,
-                                                                data_row_id_t new_diagram_parent_id,
-                                                                ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
-                                                              );
+u8_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_controller_t *this_,
+                                                              data_row_id_t diagram_id,
+                                                              data_row_id_t new_diagram_parent_id,
+                                                              ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
+                                                            );
 
 /*!
  *  \brief updates the diagram attribute: description
@@ -158,12 +158,12 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_con
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_description new description text of the diagram
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_controller_t *this_,
-                                                                  data_row_id_t diagram_id,
-                                                                  const char* new_diagram_description
-                                                                );
+u8_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_controller_t *this_,
+                                                                data_row_id_t diagram_id,
+                                                                const char* new_diagram_description
+                                                              );
 
 /*!
  *  \brief updates the diagram attribute: name
@@ -171,12 +171,12 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_c
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_name new name of the diagram
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controller_t *this_,
-                                                           data_row_id_t diagram_id,
-                                                           const char* new_diagram_name
-                                                         );
+u8_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controller_t *this_,
+                                                         data_row_id_t diagram_id,
+                                                         const char* new_diagram_name
+                                                       );
 
 /*!
  *  \brief updates the diagram attribute: diagram_type
@@ -184,12 +184,12 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controll
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_type new diagram_type of the diagram
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller_t *this_,
-                                                           data_row_id_t diagram_id,
-                                                           data_diagram_type_t new_diagram_type
-                                                         );
+u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller_t *this_,
+                                                         data_row_id_t diagram_id,
+                                                         data_diagram_type_t new_diagram_type
+                                                       );
 
 /*!
  *  \brief updates the diagram attribute: list_order
@@ -197,12 +197,12 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controll
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_list_order new list_order of the diagram
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_controller_t *this_,
-                                                                 data_row_id_t diagram_id,
-                                                                 int32_t new_diagram_list_order
-                                                               );
+u8_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_controller_t *this_,
+                                                               data_row_id_t diagram_id,
+                                                               int32_t new_diagram_list_order
+                                                             );
 
 /* ================================ DIAGRAMELEMENT ================================ */
 
@@ -216,13 +216,13 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_co
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
  *  \param[out] out_new_id id of the newly created diagramelement, NULL if the new id is not needed.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_controller_t *this_,
-                                                             const data_diagramelement_t *new_diagramelement,
-                                                             ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
-                                                             data_row_id_t* out_new_id
-                                                           );
+u8_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_controller_t *this_,
+                                                           const data_diagramelement_t *new_diagramelement,
+                                                           ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
+                                                           data_row_id_t* out_new_id
+                                                         );
 
 /*!
  *  \brief deletes a diagramelement record
@@ -236,12 +236,12 @@ ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_contro
  *                                to the last set of actions in the undo_redo_list_t,
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-ctrl_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_controller_t *this_,
-                                                             data_row_id_t obj_id,
-                                                             ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
-                                                           );
+u8_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_controller_t *this_,
+                                                           data_row_id_t obj_id,
+                                                           ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
+                                                         );
 
 /*!
  *  \brief updates the diagramelement attribute: display_flags
@@ -253,13 +253,13 @@ ctrl_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_contro
  *                                to the last set of actions in the undo_redo_list_t,
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_diagram_controller_t *this_,
-                                                                           data_row_id_t diagramelement_id,
-                                                                           data_diagramelement_flag_t new_diagramelement_display_flags,
-                                                                           ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
-                                                                         );
+u8_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_diagram_controller_t *this_,
+                                                                         data_row_id_t diagramelement_id,
+                                                                         data_diagramelement_flag_t new_diagramelement_display_flags,
+                                                                         ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
+                                                                       );
 
 /*!
  *  \brief updates the diagramelement attribute: focused_feature_id
@@ -271,13 +271,13 @@ ctrl_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_
  *                                to the last set of actions in the undo_redo_list_t,
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id ( ctrl_diagram_controller_t *this_,
-                                                                                data_row_id_t diagramelement_id,
-                                                                                data_row_id_t new_diagramelement_focused_feature_id,
-                                                                                ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
-                                                                              );
+u8_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id ( ctrl_diagram_controller_t *this_,
+                                                                              data_row_id_t diagramelement_id,
+                                                                              data_row_id_t new_diagramelement_focused_feature_id,
+                                                                              ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
+                                                                            );
 
 #endif  /* CTRL_DIAGRAM_CONTROLLER_H */
 

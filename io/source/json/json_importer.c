@@ -1,7 +1,7 @@
 /* File: json_importer.c; Copyright and License: see below */
 
 #include "json/json_importer.h"
-#include "ctrl_error.h"
+#include "u8/u8_error.h"
 #include "util/string/utf8string.h"
 #include "trace.h"
 #include <assert.h>
@@ -38,7 +38,7 @@ void json_importer_destroy( json_importer_t *this_ )
     TRACE_END();
 }
 
-data_error_t json_importer_import_stream( json_importer_t *this_,
+u8_error_t json_importer_import_stream( json_importer_t *this_,
                                           universal_input_stream_t *json_text,
                                           uint32_t *out_read_line )
 {
@@ -46,32 +46,32 @@ data_error_t json_importer_import_stream( json_importer_t *this_,
     assert( NULL != json_text );
     assert( NULL != out_read_line );
 
-    data_error_t parse_error = DATA_ERROR_NONE;
+    u8_error_t parse_error = U8_ERROR_NONE;
 
     json_deserializer_init( &((*this_).temp_deserializer), json_text );
 
     /* read header */
-    if ( DATA_ERROR_NONE == parse_error )
+    if ( U8_ERROR_NONE == parse_error )
     {
         parse_error = json_deserializer_expect_header( &((*this_).temp_deserializer) );
     }
 
-    if ( DATA_ERROR_NONE == parse_error )
+    if ( U8_ERROR_NONE == parse_error )
     {
         parse_error = json_importer_private_import_views( this_ );
     }
 
-    if ( DATA_ERROR_NONE == parse_error )
+    if ( U8_ERROR_NONE == parse_error )
     {
         parse_error = json_importer_private_import_nodes( this_ );
     }
 
-    if ( DATA_ERROR_NONE == parse_error )
+    if ( U8_ERROR_NONE == parse_error )
     {
         parse_error = json_importer_private_import_edges( this_ );
     }
 
-    if ( DATA_ERROR_NONE == parse_error )
+    if ( U8_ERROR_NONE == parse_error )
     {
         parse_error = json_deserializer_expect_footer( &((*this_).temp_deserializer) );
     }
@@ -83,28 +83,28 @@ data_error_t json_importer_import_stream( json_importer_t *this_,
     return parse_error;
 }
 
-data_error_t json_importer_private_import_views( json_importer_t *this_ )
+u8_error_t json_importer_private_import_views( json_importer_t *this_ )
 {
     TRACE_BEGIN();
 
-    data_error_t parse_error = DATA_ERROR_NONE;
+    u8_error_t parse_error = U8_ERROR_NONE;
 
-    if ( DATA_ERROR_NONE == parse_error )
+    if ( U8_ERROR_NONE == parse_error )
     {
         parse_error = json_deserializer_expect_begin_data( &((*this_).temp_deserializer) );
     }
 
-    if ( DATA_ERROR_NONE == parse_error )
+    if ( U8_ERROR_NONE == parse_error )
     {
         data_table_t next_object_type;
         bool set_end = false;  /* end of data set reached or error at parsing */
         parse_error = json_deserializer_check_end_data( &((*this_).temp_deserializer), &set_end );
-        bool any_error = ( parse_error != DATA_ERROR_NONE );  /* consolidation of parser errors and writer errors */
+        bool any_error = ( parse_error != U8_ERROR_NONE );  /* consolidation of parser errors and writer errors */
         static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* do not import more things than can be undone */
         for ( int count = 0; ( ! set_end ) && ( ! any_error ) && ( count < MAX_LOOP_COUNTER ); count ++ )
         {
             parse_error = json_deserializer_expect_begin_type_of_element( &((*this_).temp_deserializer), &next_object_type );
-            if ( DATA_ERROR_NONE == parse_error )
+            if ( U8_ERROR_NONE == parse_error )
             {
                 switch ( next_object_type )
                 {
@@ -124,7 +124,7 @@ data_error_t json_importer_private_import_views( json_importer_t *this_ )
                                                                            &new_diagram,
                                                                            diag_parent_uuid
                                                                          );
-                        if ( DATA_ERROR_NONE != parse_error )
+                        if ( U8_ERROR_NONE != parse_error )
                         {
                             /* parser error, break loop: */
                             any_error = true;
@@ -146,11 +146,11 @@ data_error_t json_importer_private_import_views( json_importer_t *this_ )
                         any_error = true;
                     }
                 }
-                if ( DATA_ERROR_NONE == parse_error )
+                if ( U8_ERROR_NONE == parse_error )
                 {
                     parse_error = json_deserializer_expect_end_type_of_element( &((*this_).temp_deserializer) );
                     /* parser error, break loop: */
-                    any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
+                    any_error = ( any_error ||( U8_ERROR_NONE != parse_error ));
                 }
             }
             else
@@ -159,11 +159,11 @@ data_error_t json_importer_private_import_views( json_importer_t *this_ )
                 any_error = true;
             }
 
-            if ( DATA_ERROR_NONE == parse_error )
+            if ( U8_ERROR_NONE == parse_error )
             {
                 parse_error = json_deserializer_check_end_data( &((*this_).temp_deserializer), &set_end );
                 /* parser error, break loop: */
-                any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
+                any_error = ( any_error ||( U8_ERROR_NONE != parse_error ));
             }
         }
     }
@@ -172,28 +172,28 @@ data_error_t json_importer_private_import_views( json_importer_t *this_ )
     return parse_error;
 }
 
-data_error_t json_importer_private_import_nodes( json_importer_t *this_ )
+u8_error_t json_importer_private_import_nodes( json_importer_t *this_ )
 {
     TRACE_BEGIN();
 
-    data_error_t parse_error = DATA_ERROR_NONE;
+    u8_error_t parse_error = U8_ERROR_NONE;
 
-    if ( DATA_ERROR_NONE == parse_error )
+    if ( U8_ERROR_NONE == parse_error )
     {
         parse_error = json_deserializer_expect_begin_data( &((*this_).temp_deserializer) );
     }
 
-    if ( DATA_ERROR_NONE == parse_error )
+    if ( U8_ERROR_NONE == parse_error )
     {
         data_table_t next_object_type;
         bool set_end = false;  /* end of data set reached or error at parsing */
         parse_error = json_deserializer_check_end_data( &((*this_).temp_deserializer), &set_end );
-        bool any_error = ( parse_error != DATA_ERROR_NONE );  /* consolidation of parser errors and writer errors */
+        bool any_error = ( parse_error != U8_ERROR_NONE );  /* consolidation of parser errors and writer errors */
         static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* do not import more things than can be undone */
         for ( int count = 0; ( ! set_end ) && ( ! any_error ) && ( count < MAX_LOOP_COUNTER ); count ++ )
         {
             parse_error = json_deserializer_expect_begin_type_of_element( &((*this_).temp_deserializer), &next_object_type );
-            if ( DATA_ERROR_NONE == parse_error )
+            if ( U8_ERROR_NONE == parse_error )
             {
                 switch ( next_object_type )
                 {
@@ -214,7 +214,7 @@ data_error_t json_importer_private_import_nodes( json_importer_t *this_ )
                                                                               &((*this_).temp_features),
                                                                               &feature_count
                                                                             );
-                        if ( DATA_ERROR_NONE != parse_error )
+                        if ( U8_ERROR_NONE != parse_error )
                         {
                             /* parser error, break loop: */
                             any_error = true;
@@ -249,11 +249,11 @@ data_error_t json_importer_private_import_nodes( json_importer_t *this_ )
                         any_error = true;
                     }
                 }
-                if ( DATA_ERROR_NONE == parse_error )
+                if ( U8_ERROR_NONE == parse_error )
                 {
                     parse_error = json_deserializer_expect_end_type_of_element( &((*this_).temp_deserializer) );
                     /* parser error, break loop: */
-                    any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
+                    any_error = ( any_error ||( U8_ERROR_NONE != parse_error ));
                 }
             }
             else
@@ -262,11 +262,11 @@ data_error_t json_importer_private_import_nodes( json_importer_t *this_ )
                 any_error = true;
             }
 
-            if ( DATA_ERROR_NONE == parse_error )
+            if ( U8_ERROR_NONE == parse_error )
             {
                 parse_error = json_deserializer_check_end_data( &((*this_).temp_deserializer), &set_end );
                 /* parser error, break loop: */
-                any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
+                any_error = ( any_error ||( U8_ERROR_NONE != parse_error ));
             }
         }
     }
@@ -275,28 +275,28 @@ data_error_t json_importer_private_import_nodes( json_importer_t *this_ )
     return parse_error;
 }
 
-data_error_t json_importer_private_import_edges( json_importer_t *this_ )
+u8_error_t json_importer_private_import_edges( json_importer_t *this_ )
 {
     TRACE_BEGIN();
 
-    data_error_t parse_error = DATA_ERROR_NONE;
+    u8_error_t parse_error = U8_ERROR_NONE;
 
-    if ( DATA_ERROR_NONE == parse_error )
+    if ( U8_ERROR_NONE == parse_error )
     {
         parse_error = json_deserializer_expect_begin_data( &((*this_).temp_deserializer) );
     }
 
-    if ( DATA_ERROR_NONE == parse_error )
+    if ( U8_ERROR_NONE == parse_error )
     {
         data_table_t next_object_type;
         bool set_end = false;  /* end of data set reached or error at parsing */
         parse_error = json_deserializer_check_end_data( &((*this_).temp_deserializer), &set_end );
-        bool any_error = ( parse_error != DATA_ERROR_NONE );  /* consolidation of parser errors and writer errors */
+        bool any_error = ( parse_error != U8_ERROR_NONE );  /* consolidation of parser errors and writer errors */
         static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* do not import more things than can be undone */
         for ( int count = 0; ( ! set_end ) && ( ! any_error ) && ( count < MAX_LOOP_COUNTER ); count ++ )
         {
             parse_error = json_deserializer_expect_begin_type_of_element( &((*this_).temp_deserializer), &next_object_type );
-            if ( DATA_ERROR_NONE == parse_error )
+            if ( U8_ERROR_NONE == parse_error )
             {
                 switch ( next_object_type )
                 {
@@ -320,7 +320,7 @@ data_error_t json_importer_private_import_edges( json_importer_t *this_ )
                                                                                 rel_to_node_uuid
                                                                               );
 
-                        if ( DATA_ERROR_NONE != parse_error )
+                        if ( U8_ERROR_NONE != parse_error )
                         {
                             /* parser error, break loop: */
                             any_error = true;
@@ -345,11 +345,11 @@ data_error_t json_importer_private_import_edges( json_importer_t *this_ )
                         any_error = true;
                     }
                 }
-                if ( DATA_ERROR_NONE == parse_error )
+                if ( U8_ERROR_NONE == parse_error )
                 {
                     parse_error = json_deserializer_expect_end_type_of_element( &((*this_).temp_deserializer) );
                     /* parser error, break loop: */
-                    any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
+                    any_error = ( any_error ||( U8_ERROR_NONE != parse_error ));
                 }
             }
             else
@@ -358,11 +358,11 @@ data_error_t json_importer_private_import_edges( json_importer_t *this_ )
                 any_error = true;
             }
 
-            if ( DATA_ERROR_NONE == parse_error )
+            if ( U8_ERROR_NONE == parse_error )
             {
                 parse_error = json_deserializer_check_end_data( &((*this_).temp_deserializer), &set_end );
                 /* parser error, break loop: */
-                any_error = ( any_error ||( DATA_ERROR_NONE != parse_error ));
+                any_error = ( any_error ||( U8_ERROR_NONE != parse_error ));
             }
         }
     }

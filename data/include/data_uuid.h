@@ -9,7 +9,7 @@
  *  \brief creates snd stores a string according to rfc4122, UUID version 4
  */
 
-#include "data_error.h"
+#include "u8/u8_error.h"
 #include "util/string/utf8stringbuf.h"
 #include "util/string/utf8string.h"
 #include "util/string/utf8error.h"
@@ -39,20 +39,20 @@ typedef struct data_uuid_struct data_uuid_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param uuid_string a uuid string formatted according to rfc4122
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
- *          DATA_ERROR_VALUE_OUT_OF_RANGE if string invalid, DATA_ERROR_NONE otherwise.
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
+ *          U8_ERROR_VALUE_OUT_OF_RANGE if string invalid, U8_ERROR_NONE otherwise.
  */
-static inline data_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t uuid_string );
+static inline u8_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t uuid_string );
 
 /*!
  *  \brief re-initializes the data_uuid_t struct
  *
  *  \param this_ pointer to own object attributes
  *  \param uuid_string a uuid string formatted according to rfc4122
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
- *          DATA_ERROR_VALUE_OUT_OF_RANGE if string invalid, DATA_ERROR_NONE otherwise.
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
+ *          U8_ERROR_VALUE_OUT_OF_RANGE if string invalid, U8_ERROR_NONE otherwise.
  */
-static inline data_error_t data_uuid_reinit ( data_uuid_t *this_, utf8string_t uuid_string );
+static inline u8_error_t data_uuid_reinit ( data_uuid_t *this_, utf8string_t uuid_string );
 
 /*!
  *  \brief generates a uuid version 4

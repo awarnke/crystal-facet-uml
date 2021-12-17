@@ -42,13 +42,13 @@ int io_export_flat_traversal_iterate_classifiers ( io_export_flat_traversal_t *t
     int write_err = 0;
 
     {
-        data_error_t data_err;
+        u8_error_t data_err;
         data_database_iterator_classifiers_t classifier_iterator;
 
         /* init the iterator */
         data_database_iterator_classifiers_init_empty( &classifier_iterator );
         data_err = data_database_reader_get_all_classifiers_iterator ( (*this_).db_reader, &classifier_iterator );
-        if ( data_err != DATA_ERROR_NONE )
+        if ( data_err != U8_ERROR_NONE )
         {
             write_err = -1;
         }
@@ -57,7 +57,7 @@ int io_export_flat_traversal_iterate_classifiers ( io_export_flat_traversal_t *t
             while( data_database_iterator_classifiers_has_next( &classifier_iterator ) && ( write_err==0 ) )
             {
                 data_err = data_database_iterator_classifiers_next( &classifier_iterator, &((*this_).temp_classifier) );
-                if ( data_err != DATA_ERROR_NONE )
+                if ( data_err != U8_ERROR_NONE )
                 {
                     write_err = -1;
                 }
@@ -70,7 +70,7 @@ int io_export_flat_traversal_iterate_classifiers ( io_export_flat_traversal_t *t
             }
         }
         data_err = data_database_iterator_classifiers_destroy( &classifier_iterator );
-        if ( data_err != DATA_ERROR_NONE )
+        if ( data_err != U8_ERROR_NONE )
         {
             write_err = -1;
         }
@@ -98,13 +98,13 @@ int io_export_flat_traversal_private_traverse_classifier ( io_export_flat_traver
     /* start features and relationships */
     {
         data_node_set_init( &((*this_).temp_node_data) );
-        const data_error_t data_err_2
+        const u8_error_t data_err_2
             = data_node_set_load( &((*this_).temp_node_data),
                                   data_classifier_get_row_id( classifier ),
                                   (*this_).db_reader
                                 );
 
-        if ( data_err_2 != DATA_ERROR_NONE )
+        if ( data_err_2 != U8_ERROR_NONE )
         {
             write_err = -1;
         }
@@ -208,7 +208,7 @@ int io_export_flat_traversal_private_iterate_relationships ( io_export_flat_trav
                 data_classifier_init_empty( &((*this_).temp_to_classifier) );
                 data_feature_init_empty( &((*this_).temp_to_feature) );
 
-                const data_error_t d_err
+                const u8_error_t d_err
                     = io_export_flat_traversal_private_get_relationship_ends( this_,
                                                                               relation,
                                                                               node_data,
@@ -218,7 +218,7 @@ int io_export_flat_traversal_private_iterate_relationships ( io_export_flat_trav
                                                                               &((*this_).temp_to_feature)
                                                                             );
 
-                if ( d_err == DATA_ERROR_NONE )
+                if ( d_err == U8_ERROR_NONE )
                 {
                     /* all classifiers found, print the relation */
                     write_err |= io_element_writer_start_relationship( (*this_).element_writer, host_type, relation );
@@ -253,7 +253,7 @@ int io_export_flat_traversal_private_iterate_relationships ( io_export_flat_trav
     return write_err;
 }
 
-data_error_t io_export_flat_traversal_private_get_relationship_ends( io_export_flat_traversal_t *this_,
+u8_error_t io_export_flat_traversal_private_get_relationship_ends( io_export_flat_traversal_t *this_,
                                                                      const data_relationship_t *relation,
                                                                      const data_node_set_t *node_data,
                                                                      data_classifier_t *out_from_c,
@@ -268,7 +268,7 @@ data_error_t io_export_flat_traversal_private_get_relationship_ends( io_export_f
     assert( out_from_f != NULL );
     assert( out_to_c != NULL );
     assert( out_to_f != NULL );
-    data_error_t data_err = DATA_ERROR_NONE;
+    u8_error_t data_err = U8_ERROR_NONE;
 
     {
         /* get from classifier */
@@ -358,7 +358,7 @@ data_error_t io_export_flat_traversal_private_get_relationship_ends( io_export_f
         }
     }
 
-    if ( data_err != DATA_ERROR_NONE )
+    if ( data_err != U8_ERROR_NONE )
     {
         TSLOG_ERROR_INT( "A relationship references classifier(s) and/or feature(s) that do not exist:",
                          data_relationship_get_row_id ( relation )

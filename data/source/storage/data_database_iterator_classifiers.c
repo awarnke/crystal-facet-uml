@@ -8,10 +8,10 @@
 #include <assert.h>
 #include <stdint.h>
 
-data_error_t data_database_iterator_classifiers_init_empty ( data_database_iterator_classifiers_t *this_ )
+u8_error_t data_database_iterator_classifiers_init_empty ( data_database_iterator_classifiers_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     (*this_).is_valid = false;
     (*this_).database = NULL;
@@ -22,12 +22,12 @@ data_error_t data_database_iterator_classifiers_init_empty ( data_database_itera
     return result;
 }
 
-data_error_t data_database_iterator_classifiers_reinit ( data_database_iterator_classifiers_t *this_, data_database_t *database, sqlite3_stmt* classifiers_sql_statement_result )
+u8_error_t data_database_iterator_classifiers_reinit ( data_database_iterator_classifiers_t *this_, data_database_t *database, sqlite3_stmt* classifiers_sql_statement_result )
 {
     TRACE_BEGIN();
     assert( NULL != database );
     assert( NULL != classifiers_sql_statement_result );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* destroy old state */
     result = data_database_iterator_classifiers_destroy( this_ );
@@ -42,10 +42,10 @@ data_error_t data_database_iterator_classifiers_reinit ( data_database_iterator_
     return result;
 }
 
-data_error_t data_database_iterator_classifiers_destroy ( data_database_iterator_classifiers_t *this_ )
+u8_error_t data_database_iterator_classifiers_destroy ( data_database_iterator_classifiers_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_valid )
     {
@@ -57,7 +57,7 @@ data_error_t data_database_iterator_classifiers_destroy ( data_database_iterator
         {
             TSLOG_ERROR_STR( "sqlite3_finalize() failed:", sqlite3_sql( (*this_).classifiers_sql_statement_result ) );
             TSLOG_ERROR_INT( "sqlite3_finalize() failed:", sqlite_err );
-            result = DATA_ERROR_AT_DB;
+            result = U8_ERROR_AT_DB;
         }
     }
 
@@ -125,11 +125,11 @@ static const int RESULT_CLASSIFIER_UUID_COLUMN = 8;
  */
 static const int RESULT_CLASSIFIER_CONTAINMENT_PARENTS_COLUMN = 9;
 
-data_error_t data_database_iterator_classifiers_next ( data_database_iterator_classifiers_t *this_, data_classifier_t *out_classifier )
+u8_error_t data_database_iterator_classifiers_next ( data_database_iterator_classifiers_t *this_, data_classifier_t *out_classifier )
 {
     TRACE_BEGIN();
     assert( NULL != out_classifier );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_valid )
     {
@@ -158,12 +158,12 @@ data_error_t data_database_iterator_classifiers_next ( data_database_iterator_cl
         {
             TRACE_INFO( "iterator already at end" );
             (*this_).is_at_end = true;
-            result |= DATA_ERROR_INVALID_REQUEST;
+            result |= U8_ERROR_INVALID_REQUEST;
         }
     }
     else
     {
-        result |= DATA_ERROR_NO_DB;
+        result |= U8_ERROR_NO_DB;
         TRACE_INFO( "No valid sql statement, cannot request data." );
     }
 
@@ -171,12 +171,12 @@ data_error_t data_database_iterator_classifiers_next ( data_database_iterator_cl
     return result;
 }
 
-data_error_t data_database_iterator_private_step_to_next ( data_database_iterator_classifiers_t *this_ )
+u8_error_t data_database_iterator_private_step_to_next ( data_database_iterator_classifiers_t *this_ )
 {
     TRACE_BEGIN();
     assert( (*this_).is_valid );
     assert( NULL != (*this_).classifiers_sql_statement_result );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* do one step, check if is_at_end */
     {
@@ -197,7 +197,7 @@ data_error_t data_database_iterator_private_step_to_next ( data_database_iterato
             TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
             (*this_).is_at_end = true;
             result |= data_database_iterator_classifiers_destroy( this_ );
-            result |= DATA_ERROR_AT_DB;
+            result |= U8_ERROR_AT_DB;
         }
     }
 

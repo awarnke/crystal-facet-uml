@@ -14,7 +14,7 @@
 #include "storage/data_database_iterator_classifiers.h"
 #include "storage/data_database.h"
 #include "data_diagram.h"
-#include "data_error.h"
+#include "u8/u8_error.h"
 #include "data_classifier.h"
 #include "set/data_visible_classifier.h"
 #include "set/data_small_set.h"
@@ -56,9 +56,9 @@ typedef struct data_database_classifier_reader_struct data_database_classifier_r
  *
  *  \param this_ pointer to own object attributes
  *  \param database database which this reader uses
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t data_database_classifier_reader_init ( data_database_classifier_reader_t *this_, data_database_t *database );
+u8_error_t data_database_classifier_reader_init ( data_database_classifier_reader_t *this_, data_database_t *database );
 
 /*!
  *  \brief destroys the data_database_classifier_reader_t struct
@@ -66,9 +66,9 @@ data_error_t data_database_classifier_reader_init ( data_database_classifier_rea
  *  This object shall be destroyed before closing the database.
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t data_database_classifier_reader_destroy ( data_database_classifier_reader_t *this_ );
+u8_error_t data_database_classifier_reader_destroy ( data_database_classifier_reader_t *this_ );
 
 /* ================================ CLASSIFIER ================================ */
 
@@ -78,13 +78,13 @@ data_error_t data_database_classifier_reader_destroy ( data_database_classifier_
  *  \param this_ pointer to own object attributes
  *  \param id the classifier to be read from the database
  *  \param[out] out_classifier the classifier read from the database (in case of success)
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_classifier_reader_get_classifier_by_id ( data_database_classifier_reader_t *this_,
-                                                                    data_row_id_t id,
-                                                                    data_classifier_t *out_classifier
-                                                                  );
+u8_error_t data_database_classifier_reader_get_classifier_by_id ( data_database_classifier_reader_t *this_,
+                                                                  data_row_id_t id,
+                                                                  data_classifier_t *out_classifier
+                                                                );
 
 /*!
  *  \brief reads a classifier from the database
@@ -92,13 +92,13 @@ data_error_t data_database_classifier_reader_get_classifier_by_id ( data_databas
  *  \param this_ pointer to own object attributes
  *  \param name the classifier to be read from the database
  *  \param[out] out_classifier the classifier read from the database (in case of success)
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_DB_STRUCTURE if name does not exist or DATA_ERROR_NO_DB if the database is not open.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_DB_STRUCTURE if name does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_classifier_reader_get_classifier_by_name ( data_database_classifier_reader_t *this_,
-                                                                      const char *name,
-                                                                      data_classifier_t *out_classifier
-                                                                    );
+u8_error_t data_database_classifier_reader_get_classifier_by_name ( data_database_classifier_reader_t *this_,
+                                                                    const char *name,
+                                                                    data_classifier_t *out_classifier
+                                                                  );
 
 /*!
  *  \brief reads a classifier from the database
@@ -106,13 +106,13 @@ data_error_t data_database_classifier_reader_get_classifier_by_name ( data_datab
  *  \param this_ pointer to own object attributes
  *  \param uuid the classifier to be read from the database
  *  \param[out] out_classifier the classifier read from the database (in case of success)
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_DB_STRUCTURE if uuid does not exist or DATA_ERROR_NO_DB if the database is not open.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_DB_STRUCTURE if uuid does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_classifier_reader_get_classifier_by_uuid ( data_database_classifier_reader_t *this_,
-                                                                      const char *uuid,
-                                                                      data_classifier_t *out_classifier
-                                                                    );
+u8_error_t data_database_classifier_reader_get_classifier_by_uuid ( data_database_classifier_reader_t *this_,
+                                                                    const char *uuid,
+                                                                    data_classifier_t *out_classifier
+                                                                  );
 
 /*!
  *  \brief reads all classifiers of a diagram from the database.
@@ -124,16 +124,16 @@ data_error_t data_database_classifier_reader_get_classifier_by_uuid ( data_datab
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
  *  \param[out] out_visible_classifier array of classifiers (and diagramelements) read from the database (in case of success)
  *  \param[out] out_visible_classifier_count number of classifier records stored in out_visible_classifier
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          DATA_ERROR_NO_DB if the database is not open,
- *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          U8_ERROR_NO_DB if the database is not open,
+ *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
-data_error_t data_database_classifier_reader_get_classifiers_by_diagram_id ( data_database_classifier_reader_t *this_,
-                                                                             data_row_id_t diagram_id,
-                                                                             uint32_t max_out_array_size,
-                                                                             data_visible_classifier_t (*out_visible_classifier)[],
-                                                                             uint32_t *out_visible_classifier_count
-                                                                           );
+u8_error_t data_database_classifier_reader_get_classifiers_by_diagram_id ( data_database_classifier_reader_t *this_,
+                                                                           data_row_id_t diagram_id,
+                                                                           uint32_t max_out_array_size,
+                                                                           data_visible_classifier_t (*out_visible_classifier)[],
+                                                                           uint32_t *out_visible_classifier_count
+                                                                         );
 
 /*!
  *  \brief iterates over all classifiers from the database.
@@ -143,12 +143,12 @@ data_error_t data_database_classifier_reader_get_classifiers_by_diagram_id ( dat
  *  \param this_ pointer to own object attributes
  *  \param io_classifier_iterator iterator over all classifiers. The caller is responsible for initializing before
  *                                and destroying this object afterwards.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_classifier_reader_get_all_classifiers_iterator ( data_database_classifier_reader_t *this_,
-                                                                            data_database_iterator_classifiers_t *io_classifier_iterator
-                                                                          );
+u8_error_t data_database_classifier_reader_get_all_classifiers_iterator ( data_database_classifier_reader_t *this_,
+                                                                          data_database_iterator_classifiers_t *io_classifier_iterator
+                                                                        );
 
 /* ================================ FEATURE ================================ */
 
@@ -158,13 +158,13 @@ data_error_t data_database_classifier_reader_get_all_classifiers_iterator ( data
  *  \param this_ pointer to own object attributes
  *  \param id the feature to be read from the database
  *  \param[out] out_feature the feature read from the database (in case of success)
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_classifier_reader_get_feature_by_id ( data_database_classifier_reader_t *this_,
-                                                                 data_row_id_t id,
-                                                                 data_feature_t *out_feature
-                                                               );
+u8_error_t data_database_classifier_reader_get_feature_by_id ( data_database_classifier_reader_t *this_,
+                                                               data_row_id_t id,
+                                                               data_feature_t *out_feature
+                                                             );
 
 /*!
  *  \brief reads a feature from the database
@@ -172,13 +172,13 @@ data_error_t data_database_classifier_reader_get_feature_by_id ( data_database_c
  *  \param this_ pointer to own object attributes
  *  \param uuid the feature to be read from the database
  *  \param[out] out_feature the feature read from the database (in case of success)
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_DB_STRUCTURE if uuid does not exist or DATA_ERROR_NO_DB if the database is not open.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_DB_STRUCTURE if uuid does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_classifier_reader_get_feature_by_uuid ( data_database_classifier_reader_t *this_,
-                                                                   const char *uuid,
-                                                                   data_feature_t *out_feature
-                                                                 );
+u8_error_t data_database_classifier_reader_get_feature_by_uuid ( data_database_classifier_reader_t *this_,
+                                                                 const char *uuid,
+                                                                 data_feature_t *out_feature
+                                                               );
 /*!
  *  \brief reads all features of a classifier from the database
  *
@@ -187,16 +187,16 @@ data_error_t data_database_classifier_reader_get_feature_by_uuid ( data_database
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
  *  \param[out] out_feature array of features read from the database (in case of success)
  *  \param[out] out_feature_count number of feature records stored in out_feature
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          DATA_ERROR_NO_DB if the database is not open,
- *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          U8_ERROR_NO_DB if the database is not open,
+ *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
-data_error_t data_database_classifier_reader_get_features_by_classifier_id ( data_database_classifier_reader_t *this_,
-                                                                             data_row_id_t classifier_id,
-                                                                             uint32_t max_out_array_size,
-                                                                             data_feature_t (*out_feature)[],
-                                                                             uint32_t *out_feature_count
-                                                                           );
+u8_error_t data_database_classifier_reader_get_features_by_classifier_id ( data_database_classifier_reader_t *this_,
+                                                                           data_row_id_t classifier_id,
+                                                                           uint32_t max_out_array_size,
+                                                                           data_feature_t (*out_feature)[],
+                                                                           uint32_t *out_feature_count
+                                                                         );
 
 /*!
  *  \brief reads all features of a diagram from the database
@@ -208,16 +208,16 @@ data_error_t data_database_classifier_reader_get_features_by_classifier_id ( dat
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
  *  \param[out] out_feature array of features read from the database (in case of success)
  *  \param[out] out_feature_count number of feature records stored in out_feature
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          DATA_ERROR_NO_DB if the database is not open,
- *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          U8_ERROR_NO_DB if the database is not open,
+ *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
-data_error_t data_database_classifier_reader_get_features_by_diagram_id ( data_database_classifier_reader_t *this_,
-                                                                          data_row_id_t diagram_id,
-                                                                          uint32_t max_out_array_size,
-                                                                          data_feature_t (*out_feature)[],
-                                                                          uint32_t *out_feature_count
-                                                                        );
+u8_error_t data_database_classifier_reader_get_features_by_diagram_id ( data_database_classifier_reader_t *this_,
+                                                                        data_row_id_t diagram_id,
+                                                                        uint32_t max_out_array_size,
+                                                                        data_feature_t (*out_feature)[],
+                                                                        uint32_t *out_feature_count
+                                                                      );
 
 /* ================================ RELATIONSHIP ================================ */
 
@@ -227,13 +227,13 @@ data_error_t data_database_classifier_reader_get_features_by_diagram_id ( data_d
  *  \param this_ pointer to own object attributes
  *  \param id the relationship to be read from the database
  *  \param[out] out_relationship the relationship read from the database (in case of success)
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_classifier_reader_get_relationship_by_id ( data_database_classifier_reader_t *this_,
-                                                                      data_row_id_t id,
-                                                                      data_relationship_t *out_relationship
-                                                                    );
+u8_error_t data_database_classifier_reader_get_relationship_by_id ( data_database_classifier_reader_t *this_,
+                                                                    data_row_id_t id,
+                                                                    data_relationship_t *out_relationship
+                                                                  );
 
 /*!
  *  \brief reads a relationship from the database
@@ -241,13 +241,13 @@ data_error_t data_database_classifier_reader_get_relationship_by_id ( data_datab
  *  \param this_ pointer to own object attributes
  *  \param uuid the relationship to be read from the database
  *  \param[out] out_relationship the relationship read from the database (in case of success)
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_DB_STRUCTURE if uuid does not exist or DATA_ERROR_NO_DB if the database is not open.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_DB_STRUCTURE if uuid does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_classifier_reader_get_relationship_by_uuid ( data_database_classifier_reader_t *this_,
-                                                                        const char *uuid,
-                                                                        data_relationship_t *out_relationship
-                                                                      );
+u8_error_t data_database_classifier_reader_get_relationship_by_uuid ( data_database_classifier_reader_t *this_,
+                                                                      const char *uuid,
+                                                                      data_relationship_t *out_relationship
+                                                                    );
 
 /*!
  *  \brief reads all relationships of a classifier from the database
@@ -259,16 +259,16 @@ data_error_t data_database_classifier_reader_get_relationship_by_uuid ( data_dat
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
  *  \param[out] out_relationship array of relationships read from the database (in case of success)
  *  \param[out] out_relationship_count number of relationship records stored in out_relationship
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          DATA_ERROR_NO_DB if the database is not open,
- *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          U8_ERROR_NO_DB if the database is not open,
+ *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
-data_error_t data_database_classifier_reader_get_relationships_by_classifier_id ( data_database_classifier_reader_t *this_,
-                                                                                  data_row_id_t classifier_id,
-                                                                                  uint32_t max_out_array_size,
-                                                                                  data_relationship_t (*out_relationship)[],
-                                                                                  uint32_t *out_relationship_count
-                                                                                );
+u8_error_t data_database_classifier_reader_get_relationships_by_classifier_id ( data_database_classifier_reader_t *this_,
+                                                                                data_row_id_t classifier_id,
+                                                                                uint32_t max_out_array_size,
+                                                                                data_relationship_t (*out_relationship)[],
+                                                                                uint32_t *out_relationship_count
+                                                                              );
 
 /*!
  *  \brief reads all relationships of a feature from the database
@@ -280,16 +280,16 @@ data_error_t data_database_classifier_reader_get_relationships_by_classifier_id 
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
  *  \param[out] out_relationship array of relationships read from the database (in case of success)
  *  \param[out] out_relationship_count number of relationship records stored in out_relationship
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          DATA_ERROR_NO_DB if the database is not open,
- *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          U8_ERROR_NO_DB if the database is not open,
+ *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
-data_error_t data_database_classifier_reader_get_relationships_by_feature_id ( data_database_classifier_reader_t *this_,
-                                                                               data_row_id_t feature_id,
-                                                                               uint32_t max_out_array_size,
-                                                                               data_relationship_t (*out_relationship)[],
-                                                                               uint32_t *out_relationship_count
-                                                                             );
+u8_error_t data_database_classifier_reader_get_relationships_by_feature_id ( data_database_classifier_reader_t *this_,
+                                                                             data_row_id_t feature_id,
+                                                                             uint32_t max_out_array_size,
+                                                                             data_relationship_t (*out_relationship)[],
+                                                                             uint32_t *out_relationship_count
+                                                                           );
 
 /*!
  *  \brief reads all relationships of a diagram from the database
@@ -301,16 +301,16 @@ data_error_t data_database_classifier_reader_get_relationships_by_feature_id ( d
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
  *  \param[out] out_relationship array of relationships read from the database (in case of success)
  *  \param[out] out_relationship_count number of relationship records stored in out_relationship
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          DATA_ERROR_NO_DB if the database is not open,
- *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          U8_ERROR_NO_DB if the database is not open,
+ *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
-data_error_t data_database_classifier_reader_get_relationships_by_diagram_id ( data_database_classifier_reader_t *this_,
-                                                                               data_row_id_t diagram_id,
-                                                                               uint32_t max_out_array_size,
-                                                                               data_relationship_t (*out_relationship)[],
-                                                                               uint32_t *out_relationship_count
-                                                                             );
+u8_error_t data_database_classifier_reader_get_relationships_by_diagram_id ( data_database_classifier_reader_t *this_,
+                                                                             data_row_id_t diagram_id,
+                                                                             uint32_t max_out_array_size,
+                                                                             data_relationship_t (*out_relationship)[],
+                                                                             uint32_t *out_relationship_count
+                                                                           );
 
 /* ================================ private ================================ */
 
@@ -318,17 +318,17 @@ data_error_t data_database_classifier_reader_get_relationships_by_diagram_id ( d
  *  \brief initializes the data_database_classifier_reader_t struct and allows access to the database after the database is opened
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t data_database_classifier_reader_private_open ( data_database_classifier_reader_t *this_ );
+u8_error_t data_database_classifier_reader_private_open ( data_database_classifier_reader_t *this_ );
 
 /*!
  *  \brief closes the data_database_classifier_reader_t struct (prohibits access to the database) before the database is closed
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t data_database_classifier_reader_private_close ( data_database_classifier_reader_t *this_ );
+u8_error_t data_database_classifier_reader_private_close ( data_database_classifier_reader_t *this_ );
 
 /*!
  *  \brief creates a prepared statement.
@@ -337,24 +337,24 @@ data_error_t data_database_classifier_reader_private_close ( data_database_class
  *  \param string_statement statement as string to be prepared
  *  \param string_size size of string_statement in bytes, including the terminating zero
  *  \param[out] out_statement_ptr address of a pointer. The pointer is modifies as to point to a statement object.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline data_error_t data_database_classifier_reader_private_prepare_statement ( data_database_classifier_reader_t *this_,
-                                                                                       const char *string_statement,
-                                                                                       int string_size,
-                                                                                       sqlite3_stmt **out_statement_ptr
-                                                                                     );
+static inline u8_error_t data_database_classifier_reader_private_prepare_statement ( data_database_classifier_reader_t *this_,
+                                                                                     const char *string_statement,
+                                                                                     int string_size,
+                                                                                     sqlite3_stmt **out_statement_ptr
+                                                                                   );
 
 /*!
  *  \brief finalizes a prepared statement.
  *
  *  \param this_ pointer to own object attributes
  *  \param statement_ptr pointer to a statement object
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline data_error_t data_database_classifier_reader_private_finalize_statement ( data_database_classifier_reader_t *this_,
-                                                                                        sqlite3_stmt *statement_ptr
-                                                                                      );
+static inline u8_error_t data_database_classifier_reader_private_finalize_statement ( data_database_classifier_reader_t *this_,
+                                                                                      sqlite3_stmt *statement_ptr
+                                                                                    );
 
 /*!
  *  \brief binds a single integer to a prepared statement (after reset).
@@ -364,12 +364,12 @@ static inline data_error_t data_database_classifier_reader_private_finalize_stat
  *  \param this_ pointer to own object attributes
  *  \param statement_ptr pointer to a statement object
  *  \param id integer to bind to the prepared statement. DATA_ROW_ID_VOID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline data_error_t data_database_classifier_reader_private_bind_id_to_statement ( data_database_classifier_reader_t *this_,
-                                                                                          sqlite3_stmt *statement_ptr,
-                                                                                          data_row_id_t id
-                                                                                        );
+static inline u8_error_t data_database_classifier_reader_private_bind_id_to_statement ( data_database_classifier_reader_t *this_,
+                                                                                        sqlite3_stmt *statement_ptr,
+                                                                                        data_row_id_t id
+                                                                                      );
 
 /*!
  *  \brief binds two integers to a prepared statement (after reset).
@@ -380,13 +380,13 @@ static inline data_error_t data_database_classifier_reader_private_bind_id_to_st
  *  \param statement_ptr pointer to a statement object
  *  \param id1 first integer to bind to the prepared statement. DATA_ROW_ID_VOID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
  *  \param id2 second integer to bind to the prepared statement. DATA_ROW_ID_VOID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline data_error_t data_database_classifier_reader_private_bind_two_ids_to_statement ( data_database_classifier_reader_t *this_,
-                                                                                               sqlite3_stmt *statement_ptr,
-                                                                                               data_row_id_t id1,
-                                                                                               data_row_id_t id2
-                                                                                             );
+static inline u8_error_t data_database_classifier_reader_private_bind_two_ids_to_statement ( data_database_classifier_reader_t *this_,
+                                                                                             sqlite3_stmt *statement_ptr,
+                                                                                             data_row_id_t id1,
+                                                                                             data_row_id_t id2
+                                                                                           );
 
 /*!
  *  \brief binds a single string to a prepared statement (after reset).
@@ -396,12 +396,12 @@ static inline data_error_t data_database_classifier_reader_private_bind_two_ids_
  *  \param this_ pointer to own object attributes
  *  \param statement_ptr pointer to a statement object
  *  \param text char sequence to bind to the prepared statement.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline data_error_t data_database_classifier_reader_private_bind_text_to_statement ( data_database_classifier_reader_t *this_,
-                                                                                            sqlite3_stmt *statement_ptr,
-                                                                                            const char *text
-                                                                                          );
+static inline u8_error_t data_database_classifier_reader_private_bind_text_to_statement ( data_database_classifier_reader_t *this_,
+                                                                                          sqlite3_stmt *statement_ptr,
+                                                                                          const char *text
+                                                                                        );
 
 #include "storage/data_database_classifier_reader.inl"
 

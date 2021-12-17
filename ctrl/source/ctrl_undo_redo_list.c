@@ -5,19 +5,19 @@
 #include "tslog.h"
 #include <assert.h>
 
-ctrl_error_t ctrl_undo_redo_list_remove_boundary_from_end ( ctrl_undo_redo_list_t *this_ )
+u8_error_t ctrl_undo_redo_list_remove_boundary_from_end ( ctrl_undo_redo_list_t *this_ )
 {
     assert( (*this_).start < CTRL_UNDO_REDO_LIST_MAX_SIZE );
     assert( (*this_).length <= CTRL_UNDO_REDO_LIST_MAX_SIZE );
     assert( (*this_).current <= (*this_).length );
 
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     ctrl_undo_redo_entry_t *boundary_entry;
 
     if ( (*this_).current == 0 )
     {
         /* there is no entry - therefore no boundary - to be removed */
-        result = CTRL_ERROR_INVALID_REQUEST;
+        result = U8_ERROR_INVALID_REQUEST;
     }
     else
     {
@@ -31,7 +31,7 @@ ctrl_error_t ctrl_undo_redo_list_remove_boundary_from_end ( ctrl_undo_redo_list_
         if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY != action )
         {
             /* current is not a boundary */
-            result = CTRL_ERROR_INVALID_REQUEST;
+            result = U8_ERROR_INVALID_REQUEST;
         }
         else
         {
@@ -61,22 +61,22 @@ ctrl_error_t ctrl_undo_redo_list_remove_boundary_from_end ( ctrl_undo_redo_list_
     return result;
 }
 
-ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat )
+u8_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat )
 {
     TRACE_BEGIN();
     assert ( NULL != io_stat );
 
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( 2 > ctrl_undo_redo_list_private_count_boundaries( this_, (*this_).start, (*this_).current ) )
     {
         if ( (*this_).buffer_incomplete )
         {
-            result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
+            result = U8_ERROR_ARRAY_BUFFER_EXCEEDED;
         }
         else
         {
-            result = CTRL_ERROR_INVALID_REQUEST;
+            result = U8_ERROR_INVALID_REQUEST;
         }
     }
     else
@@ -101,8 +101,8 @@ ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_, data_stat_
             {
                 TRACE_INFO("undo");
                 const uint32_t current_before = (*this_).current;
-                const ctrl_error_t cur_err = ctrl_undo_redo_list_private_do_action( this_, cur_entry, true );
-                ctrl_undo_redo_entry_to_statistics ( cur_entry, true /*=undo*/, (CTRL_ERROR_NONE!=cur_err), io_stat );
+                const u8_error_t cur_err = ctrl_undo_redo_list_private_do_action( this_, cur_entry, true );
+                ctrl_undo_redo_entry_to_statistics ( cur_entry, true /*=undo*/, (U8_ERROR_NONE!=cur_err), io_stat );
                 result |= cur_err;
                 if ( (*this_).current != current_before )
                 {
@@ -119,17 +119,17 @@ ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_, data_stat_
     return result;
 }
 
-ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat )
+u8_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat )
 {
     TRACE_BEGIN();
     assert ( NULL != io_stat );
 
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).current == (*this_).length )
     {
         /* current points already to the end of the list - no redo possible */
-        result = CTRL_ERROR_INVALID_REQUEST;
+        result = U8_ERROR_INVALID_REQUEST;
     }
     else
     {
@@ -159,13 +159,13 @@ ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_
             {
                 TRACE_INFO("redo");
                 const uint32_t current_before = (*this_).current;
-                const ctrl_error_t cur_err = ctrl_undo_redo_list_private_do_action( this_, cur_entry, false );
-                ctrl_undo_redo_entry_to_statistics ( cur_entry, false /*=undo*/, (CTRL_ERROR_NONE!=cur_err), io_stat );
+                const u8_error_t cur_err = ctrl_undo_redo_list_private_do_action( this_, cur_entry, false );
+                ctrl_undo_redo_entry_to_statistics ( cur_entry, false /*=undo*/, (U8_ERROR_NONE!=cur_err), io_stat );
                 result |= cur_err;
                 if ( (*this_).current != current_before )
                 {
                     TSLOG_ERROR("ctrl_undo_redo_list_t was modified while performing redo.");
-                    result |= CTRL_ERROR_INVALID_REQUEST;
+                    result |= U8_ERROR_INVALID_REQUEST;
                     finished = true;
                 }
             }
@@ -239,11 +239,11 @@ ctrl_undo_redo_entry_t *ctrl_undo_redo_list_private_add_entry_ptr ( ctrl_undo_re
     return result;
 }
 
-ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_, ctrl_undo_redo_entry_t *action, bool undo )
+u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_, ctrl_undo_redo_entry_t *action, bool undo )
 {
     TRACE_BEGIN();
 
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     switch ( ctrl_undo_redo_entry_get_action_type( action ) )
     {
@@ -253,12 +253,12 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             data_diagram_t *diag = ctrl_undo_redo_entry_get_diagram_before_action_ptr ( action );
             if ( undo )
             {
-                result |= (ctrl_error_t) data_database_writer_create_diagram ( (*this_).db_writer, diag, NULL );
+                result |= (u8_error_t) data_database_writer_create_diagram ( (*this_).db_writer, diag, NULL );
             }
             else
             {
                 data_row_id_t obj_id = data_diagram_get_row_id ( diag );
-                result |= (ctrl_error_t) data_database_writer_delete_diagram ( (*this_).db_writer, obj_id, NULL );
+                result |= (u8_error_t) data_database_writer_delete_diagram ( (*this_).db_writer, obj_id, NULL );
             }
         }
         break;
@@ -281,11 +281,11 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             const char* diag_name = data_diagram_get_name_const ( diag );
             const char* diag_description = data_diagram_get_description_const ( diag );
             int32_t diag_list_oder = data_diagram_get_list_order ( diag );
-            result |= (ctrl_error_t) data_database_writer_update_diagram_parent_id ( (*this_).db_writer, diag_id, diag_parent_id, NULL );
-            result |= (ctrl_error_t) data_database_writer_update_diagram_type ( (*this_).db_writer, diag_id, diag_type, NULL );
-            result |= (ctrl_error_t) data_database_writer_update_diagram_name ( (*this_).db_writer, diag_id, diag_name, NULL );
-            result |= (ctrl_error_t) data_database_writer_update_diagram_description ( (*this_).db_writer, diag_id, diag_description, NULL );
-            result |= (ctrl_error_t) data_database_writer_update_diagram_list_order ( (*this_).db_writer, diag_id, diag_list_oder, NULL );
+            result |= (u8_error_t) data_database_writer_update_diagram_parent_id ( (*this_).db_writer, diag_id, diag_parent_id, NULL );
+            result |= (u8_error_t) data_database_writer_update_diagram_type ( (*this_).db_writer, diag_id, diag_type, NULL );
+            result |= (u8_error_t) data_database_writer_update_diagram_name ( (*this_).db_writer, diag_id, diag_name, NULL );
+            result |= (u8_error_t) data_database_writer_update_diagram_description ( (*this_).db_writer, diag_id, diag_description, NULL );
+            result |= (u8_error_t) data_database_writer_update_diagram_list_order ( (*this_).db_writer, diag_id, diag_list_oder, NULL );
         }
         break;
 
@@ -296,11 +296,11 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             if ( undo )
             {
                 data_row_id_t obj_id = data_diagram_get_row_id ( diag );
-                result |= (ctrl_error_t) data_database_writer_delete_diagram ( (*this_).db_writer, obj_id, NULL );
+                result |= (u8_error_t) data_database_writer_delete_diagram ( (*this_).db_writer, obj_id, NULL );
             }
             else
             {
-                result |= (ctrl_error_t) data_database_writer_create_diagram ( (*this_).db_writer, diag, NULL );
+                result |= (u8_error_t) data_database_writer_create_diagram ( (*this_).db_writer, diag, NULL );
             }
         }
         break;
@@ -311,12 +311,12 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             data_diagramelement_t *diag_ele = ctrl_undo_redo_entry_get_diagramelement_before_action_ptr ( action );
             if ( undo )
             {
-                result |= (ctrl_error_t) data_database_writer_create_diagramelement ( (*this_).db_writer, diag_ele, NULL );
+                result |= (u8_error_t) data_database_writer_create_diagramelement ( (*this_).db_writer, diag_ele, NULL );
             }
             else
             {
                 data_row_id_t obj_id = data_diagramelement_get_row_id ( diag_ele );
-                result |= (ctrl_error_t) data_database_writer_delete_diagramelement ( (*this_).db_writer, obj_id, NULL );
+                result |= (u8_error_t) data_database_writer_delete_diagramelement ( (*this_).db_writer, obj_id, NULL );
             }
         }
         break;
@@ -336,8 +336,8 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             data_row_id_t diag_elem_id = data_diagramelement_get_row_id ( diag_element );
             data_diagramelement_flag_t diag_elem_display_flags = data_diagramelement_get_display_flags ( diag_element );
             data_row_id_t diag_feature_id = data_diagramelement_get_focused_feature_row_id ( diag_element );
-            result |= (ctrl_error_t) data_database_writer_update_diagramelement_display_flags ( (*this_).db_writer, diag_elem_id, diag_elem_display_flags, NULL );
-            result |= (ctrl_error_t) data_database_writer_update_diagramelement_focused_feature_id ( (*this_).db_writer, diag_elem_id, diag_feature_id, NULL );
+            result |= (u8_error_t) data_database_writer_update_diagramelement_display_flags ( (*this_).db_writer, diag_elem_id, diag_elem_display_flags, NULL );
+            result |= (u8_error_t) data_database_writer_update_diagramelement_focused_feature_id ( (*this_).db_writer, diag_elem_id, diag_feature_id, NULL );
         }
         break;
 
@@ -348,11 +348,11 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             if ( undo )
             {
                 data_row_id_t obj_id = data_diagramelement_get_row_id ( diag_ele );
-                result |= (ctrl_error_t) data_database_writer_delete_diagramelement ( (*this_).db_writer, obj_id, NULL );
+                result |= (u8_error_t) data_database_writer_delete_diagramelement ( (*this_).db_writer, obj_id, NULL );
             }
             else
             {
-                result |= (ctrl_error_t) data_database_writer_create_diagramelement ( (*this_).db_writer, diag_ele, NULL );
+                result |= (u8_error_t) data_database_writer_create_diagramelement ( (*this_).db_writer, diag_ele, NULL );
             }
         }
         break;
@@ -363,12 +363,12 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             data_classifier_t *classfy = ctrl_undo_redo_entry_get_classifier_before_action_ptr ( action );
             if ( undo )
             {
-                result |= (ctrl_error_t) data_database_writer_create_classifier ( (*this_).db_writer, classfy, NULL );
+                result |= (u8_error_t) data_database_writer_create_classifier ( (*this_).db_writer, classfy, NULL );
             }
             else
             {
                 data_row_id_t obj_id = data_classifier_get_row_id ( classfy );
-                result |= (ctrl_error_t) data_database_writer_delete_classifier ( (*this_).db_writer, obj_id, NULL );
+                result |= (u8_error_t) data_database_writer_delete_classifier ( (*this_).db_writer, obj_id, NULL );
             }
         }
         break;
@@ -393,13 +393,13 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             int32_t classfy_x_order = data_classifier_get_x_order ( classfy );
             int32_t classfy_y_order = data_classifier_get_y_order ( classfy );
             int32_t classfy_list_order = data_classifier_get_list_order ( classfy );
-            result |= (ctrl_error_t) data_database_writer_update_classifier_main_type ( (*this_).db_writer, classfy_id, classfy_main_type, NULL );
-            result |= (ctrl_error_t) data_database_writer_update_classifier_stereotype ( (*this_).db_writer, classfy_id, classfy_stereotype, NULL );
-            result |= (ctrl_error_t) data_database_writer_update_classifier_name ( (*this_).db_writer, classfy_id, classfy_name, NULL );
-            result |= (ctrl_error_t) data_database_writer_update_classifier_description ( (*this_).db_writer, classfy_id, classfy_description, NULL );
-            result |= (ctrl_error_t) data_database_writer_update_classifier_x_order ( (*this_).db_writer, classfy_id, classfy_x_order, NULL );
-            result |= (ctrl_error_t) data_database_writer_update_classifier_y_order ( (*this_).db_writer, classfy_id, classfy_y_order, NULL );
-            result |= (ctrl_error_t) data_database_writer_update_classifier_list_order ( (*this_).db_writer, classfy_id, classfy_list_order, NULL );
+            result |= (u8_error_t) data_database_writer_update_classifier_main_type ( (*this_).db_writer, classfy_id, classfy_main_type, NULL );
+            result |= (u8_error_t) data_database_writer_update_classifier_stereotype ( (*this_).db_writer, classfy_id, classfy_stereotype, NULL );
+            result |= (u8_error_t) data_database_writer_update_classifier_name ( (*this_).db_writer, classfy_id, classfy_name, NULL );
+            result |= (u8_error_t) data_database_writer_update_classifier_description ( (*this_).db_writer, classfy_id, classfy_description, NULL );
+            result |= (u8_error_t) data_database_writer_update_classifier_x_order ( (*this_).db_writer, classfy_id, classfy_x_order, NULL );
+            result |= (u8_error_t) data_database_writer_update_classifier_y_order ( (*this_).db_writer, classfy_id, classfy_y_order, NULL );
+            result |= (u8_error_t) data_database_writer_update_classifier_list_order ( (*this_).db_writer, classfy_id, classfy_list_order, NULL );
         }
         break;
 
@@ -410,11 +410,11 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             if ( undo )
             {
                 data_row_id_t obj_id = data_classifier_get_row_id ( classfy );
-                result |= (ctrl_error_t) data_database_writer_delete_classifier ( (*this_).db_writer, obj_id, NULL );
+                result |= (u8_error_t) data_database_writer_delete_classifier ( (*this_).db_writer, obj_id, NULL );
             }
             else
             {
-                result |= (ctrl_error_t) data_database_writer_create_classifier ( (*this_).db_writer, classfy, NULL );
+                result |= (u8_error_t) data_database_writer_create_classifier ( (*this_).db_writer, classfy, NULL );
             }
         }
         break;
@@ -425,12 +425,12 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             data_feature_t *feat = ctrl_undo_redo_entry_get_feature_before_action_ptr ( action );
             if ( undo )
             {
-                result |= (ctrl_error_t) data_database_writer_create_feature ( (*this_).db_writer, feat, NULL );
+                result |= (u8_error_t) data_database_writer_create_feature ( (*this_).db_writer, feat, NULL );
             }
             else
             {
                 data_row_id_t obj_id = data_feature_get_row_id ( feat );
-                result |= (ctrl_error_t) data_database_writer_delete_feature ( (*this_).db_writer, obj_id, NULL );
+                result |= (u8_error_t) data_database_writer_delete_feature ( (*this_).db_writer, obj_id, NULL );
             }
         }
         break;
@@ -453,11 +453,11 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             const char* new_feature_value = data_feature_get_value_const ( feat );
             const char* new_feature_description = data_feature_get_description_const ( feat );
             int32_t new_feature_list_order = data_feature_get_list_order ( feat );
-            result |= (ctrl_error_t) data_database_writer_update_feature_main_type ( (*this_).db_writer, feature_id, new_feature_type, NULL );
-            result |= (ctrl_error_t) data_database_writer_update_feature_key ( (*this_).db_writer, feature_id, new_feature_key, NULL );
-            result |= (ctrl_error_t) data_database_writer_update_feature_value ( (*this_).db_writer, feature_id, new_feature_value, NULL );
-            result |= (ctrl_error_t) data_database_writer_update_feature_description ( (*this_).db_writer, feature_id, new_feature_description, NULL );
-            result |= (ctrl_error_t) data_database_writer_update_feature_list_order ( (*this_).db_writer, feature_id, new_feature_list_order, NULL );
+            result |= (u8_error_t) data_database_writer_update_feature_main_type ( (*this_).db_writer, feature_id, new_feature_type, NULL );
+            result |= (u8_error_t) data_database_writer_update_feature_key ( (*this_).db_writer, feature_id, new_feature_key, NULL );
+            result |= (u8_error_t) data_database_writer_update_feature_value ( (*this_).db_writer, feature_id, new_feature_value, NULL );
+            result |= (u8_error_t) data_database_writer_update_feature_description ( (*this_).db_writer, feature_id, new_feature_description, NULL );
+            result |= (u8_error_t) data_database_writer_update_feature_list_order ( (*this_).db_writer, feature_id, new_feature_list_order, NULL );
         }
         break;
 
@@ -468,11 +468,11 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             if ( undo )
             {
                 data_row_id_t obj_id = data_feature_get_row_id ( feat );
-                result |= (ctrl_error_t) data_database_writer_delete_feature ( (*this_).db_writer, obj_id, NULL );
+                result |= (u8_error_t) data_database_writer_delete_feature ( (*this_).db_writer, obj_id, NULL );
             }
             else
             {
-                result |= (ctrl_error_t) data_database_writer_create_feature ( (*this_).db_writer, feat, NULL );
+                result |= (u8_error_t) data_database_writer_create_feature ( (*this_).db_writer, feat, NULL );
             }
         }
         break;
@@ -483,12 +483,12 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             data_relationship_t *relation = ctrl_undo_redo_entry_get_relationship_before_action_ptr ( action );
             if ( undo )
             {
-                result |= (ctrl_error_t) data_database_writer_create_relationship ( (*this_).db_writer, relation, NULL );
+                result |= (u8_error_t) data_database_writer_create_relationship ( (*this_).db_writer, relation, NULL );
             }
             else
             {
                 data_row_id_t obj_id = data_relationship_get_row_id ( relation );
-                result |= (ctrl_error_t) data_database_writer_delete_relationship ( (*this_).db_writer, obj_id, NULL );
+                result |= (u8_error_t) data_database_writer_delete_relationship ( (*this_).db_writer, obj_id, NULL );
             }
         }
         break;
@@ -510,10 +510,10 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             const char* new_relationship_name = data_relationship_get_name_const ( relation );
             const char* new_relationship_description = data_relationship_get_description_const ( relation );
             int32_t new_relationship_list_order = data_relationship_get_list_order ( relation );
-            result |= (ctrl_error_t) data_database_writer_update_relationship_main_type ( (*this_).db_writer, relationship_id, new_relationship_type, NULL );
-            result |= (ctrl_error_t) data_database_writer_update_relationship_name ( (*this_).db_writer, relationship_id, new_relationship_name, NULL );
-            result |= (ctrl_error_t) data_database_writer_update_relationship_description ( (*this_).db_writer, relationship_id, new_relationship_description, NULL );
-            result |= (ctrl_error_t) data_database_writer_update_relationship_list_order ( (*this_).db_writer, relationship_id, new_relationship_list_order, NULL );
+            result |= (u8_error_t) data_database_writer_update_relationship_main_type ( (*this_).db_writer, relationship_id, new_relationship_type, NULL );
+            result |= (u8_error_t) data_database_writer_update_relationship_name ( (*this_).db_writer, relationship_id, new_relationship_name, NULL );
+            result |= (u8_error_t) data_database_writer_update_relationship_description ( (*this_).db_writer, relationship_id, new_relationship_description, NULL );
+            result |= (u8_error_t) data_database_writer_update_relationship_list_order ( (*this_).db_writer, relationship_id, new_relationship_list_order, NULL );
         }
         break;
 
@@ -524,11 +524,11 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             if ( undo )
             {
                 data_row_id_t obj_id = data_relationship_get_row_id ( relation );
-                result |= (ctrl_error_t) data_database_writer_delete_relationship ( (*this_).db_writer, obj_id, NULL );
+                result |= (u8_error_t) data_database_writer_delete_relationship ( (*this_).db_writer, obj_id, NULL );
             }
             else
             {
-                result |= (ctrl_error_t) data_database_writer_create_relationship ( (*this_).db_writer, relation, NULL );
+                result |= (u8_error_t) data_database_writer_create_relationship ( (*this_).db_writer, relation, NULL );
             }
         }
         break;

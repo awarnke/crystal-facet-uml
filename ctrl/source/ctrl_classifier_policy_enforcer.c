@@ -36,13 +36,13 @@ void ctrl_classifier_policy_enforcer_destroy ( ctrl_classifier_policy_enforcer_t
 
 /* ================================ LIFELINES ================================ */
 
-ctrl_error_t ctrl_classifier_policy_enforcer_private_unlink_lifeline ( ctrl_classifier_policy_enforcer_t *this_,
+u8_error_t ctrl_classifier_policy_enforcer_private_unlink_lifeline ( ctrl_classifier_policy_enforcer_t *this_,
                                                                        const data_feature_t *deleted_feature )
 {
     TRACE_BEGIN();
     assert( NULL != deleted_feature );
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
 
     if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type ( deleted_feature ) )
     {
@@ -59,9 +59,9 @@ ctrl_error_t ctrl_classifier_policy_enforcer_private_unlink_lifeline ( ctrl_clas
                                                                                   &((*this_).private_temp_diagele_buf),
                                                                                   &diagramelement_count
                                                                                 );
-        result |= (ctrl_error_t) data_result;
+        result |= (u8_error_t) data_result;
 
-        if ( DATA_ERROR_NONE == data_result )
+        if ( U8_ERROR_NONE == data_result )
         {
             /* search the diagramelements */
             for ( uint32_t index = 0; index < diagramelement_count; index ++ )

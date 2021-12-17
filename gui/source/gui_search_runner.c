@@ -20,8 +20,8 @@ void gui_search_runner_init ( gui_search_runner_t *this_,
 
     (*this_).message_to_user = message_to_user;
     (*this_).db_reader = db_reader;
-    const data_error_t d_err = data_database_text_search_init ( &((*this_).db_searcher), database );
-    if ( DATA_ERROR_NONE != d_err )
+    const u8_error_t d_err = data_database_text_search_init ( &((*this_).db_searcher), database );
+    if ( U8_ERROR_NONE != d_err )
     {
         TSLOG_WARNING_HEX( "data_database_text_search_t could not be constructed.", d_err );
     }
@@ -37,8 +37,8 @@ void gui_search_runner_destroy ( gui_search_runner_t *this_ )
 
     (*this_).message_to_user = NULL;
     (*this_).db_reader = NULL;
-    const data_error_t d_err = data_database_text_search_destroy ( &((*this_).db_searcher) );
-    if ( DATA_ERROR_NONE != d_err )
+    const u8_error_t d_err = data_database_text_search_destroy ( &((*this_).db_searcher) );
+    if ( U8_ERROR_NONE != d_err )
     {
         TSLOG_WARNING_HEX( "data_database_text_search_t could not be destructed.", d_err );
     }
@@ -61,7 +61,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
 
         data_search_result_list_clear( &((*this_).temp_result_list) );
         const data_row_id_t search_row_id = data_id_get_row_id(&search_id);
-        data_error_t d_err = DATA_ERROR_NONE;
+        u8_error_t d_err = U8_ERROR_NONE;
 
         if ( data_id_is_valid( &search_id ))
         {
@@ -73,7 +73,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                                         search_row_id,
                                                                         &((*this_).temp_classifier)
                                                                       );
-                    if ( d_err == DATA_ERROR_NONE )
+                    if ( d_err == U8_ERROR_NONE )
                     {
                         data_search_result_t half_initialized;
                         data_search_result_init_classifier( &half_initialized,
@@ -100,7 +100,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                                      search_row_id,
                                                                      &((*this_).temp_feature)
                                                                    );
-                    if ( d_err == DATA_ERROR_NONE )
+                    if ( d_err == U8_ERROR_NONE )
                     {
                         data_row_id_t classifier_id = data_feature_get_classifier_row_id( &((*this_).temp_feature) );
                         data_search_result_t half_initialized;
@@ -129,7 +129,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                                           search_row_id,
                                                                           &((*this_).temp_relationship)
                                                                         );
-                    if ( d_err == DATA_ERROR_NONE )
+                    if ( d_err == U8_ERROR_NONE )
                     {
                         data_row_id_t classifier_id = data_relationship_get_from_classifier_row_id( &((*this_).temp_relationship) );
                         data_search_result_t half_initialized;
@@ -159,7 +159,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                                             search_row_id,
                                                                             &((*this_).temp_diagramelement)
                                                                           );
-                    if ( d_err == DATA_ERROR_NONE )
+                    if ( d_err == U8_ERROR_NONE )
                     {
                         data_search_result_t half_initialized;
                         data_search_result_init_classifier( &half_initialized,
@@ -171,8 +171,8 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                         int err = data_search_result_list_add( &((*this_).temp_result_list), &half_initialized );
                         if ( err != 0 )
                         {
-                            /*d_err = DATA_ERROR_ARRAY_BUFFER_EXCEEDED;*/
-                            TSLOG_WARNING( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
+                            /*d_err = U8_ERROR_ARRAY_BUFFER_EXCEEDED;*/
+                            TSLOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
                         }
 
                         data_diagramelement_destroy( &((*this_).temp_diagramelement) );
@@ -189,7 +189,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                 {
                     assert( GUI_SEARCH_RUNNER_MAX_DIAGRAMS > 0 );
                     d_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, search_row_id, &((*this_).temp_diagrams[0]) );
-                    if ( d_err == DATA_ERROR_NONE )
+                    if ( d_err == U8_ERROR_NONE )
                     {
                         data_search_result_t half_initialized;
                         data_search_result_init_diagram( &half_initialized,
@@ -200,8 +200,8 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                         int err = data_search_result_list_add( &((*this_).temp_result_list), &half_initialized );
                         if ( err != 0 )
                         {
-                            /*d_err = DATA_ERROR_ARRAY_BUFFER_EXCEEDED;*/
-                            TSLOG_WARNING( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
+                            /*d_err = U8_ERROR_ARRAY_BUFFER_EXCEEDED;*/
+                            TSLOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
                         }
 
                         data_diagram_destroy( &((*this_).temp_diagrams[0]) );
@@ -231,7 +231,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                                         search_string,
                                                                         &((*this_).temp_result_list)
                                                                       );
-        if ( DATA_ERROR_NONE != d_err )
+        if ( U8_ERROR_NONE != d_err )
         {
             TSLOG_ERROR_HEX( "data_database_text_search_t could not search.", d_err );
         }
@@ -255,7 +255,7 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
     TRACE_BEGIN();
     assert( classifier_template != NULL );
     assert( io_list != NULL );
-    data_error_t d_err = DATA_ERROR_NONE;
+    u8_error_t d_err = U8_ERROR_NONE;
 
     data_row_id_t classifier_row_id;
     if ( DATA_TABLE_CLASSIFIER == data_id_get_table( data_search_result_get_match_id_const( classifier_template )))
@@ -273,12 +273,12 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
                                                                  &((*this_).temp_diagrams),
                                                                  &diagram_count
                                                                );
-    if ( d_err == DATA_ERROR_ARRAY_BUFFER_EXCEEDED )
+    if ( d_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED )
     {
-        TSLOG_WARNING( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at searching diagrams" );
+        TSLOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at searching diagrams" );
     }
 
-    if (( d_err == DATA_ERROR_NONE )||( d_err == DATA_ERROR_ARRAY_BUFFER_EXCEEDED ))
+    if (( d_err == U8_ERROR_NONE )||( d_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED ))
     {
         assert ( diagram_count <= GUI_SEARCH_RUNNER_MAX_DIAGRAMS );
         for ( uint32_t idx = 0; idx < diagram_count; idx ++ )
@@ -315,8 +315,8 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
                 const int err = data_search_result_list_add( io_list, classifier_template );
                 if ( err != 0 )
                 {
-                    /*d_err |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;*/
-                    TSLOG_WARNING( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
+                    /*d_err |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;*/
+                    TSLOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
                 }
             }
 

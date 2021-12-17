@@ -44,7 +44,7 @@ static data_visible_set_t* init_empty_input_data()
 
 static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint_fast32_t features, uint_fast32_t relationships )
 {
-    data_error_t data_err;
+    u8_error_t data_err;
     static data_visible_set_t fake_input_data;
 
     data_visible_set_init( &fake_input_data );
@@ -62,7 +62,7 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
                                       DATA_DIAGRAM_FLAG_NONE,
                                       "bfe86725-1507-4789-ac92-82f1090a1984"
                                     );
-        TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT( data_err == U8_ERROR_NONE );
     }
 
     /* initialize the fake_input_data.visible_classifiers */
@@ -87,7 +87,7 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
                                          4000*c_idx,  /* list_order */
                                          "19e0f597-9b9d-4e27-b69d-fc648370ae46"
                                        );
-        TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT( data_err == U8_ERROR_NONE );
 
         data_err = data_diagramelement_init( diagele,
                                              c_idx,  /* id */
@@ -97,7 +97,7 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
                                              DATA_ROW_ID_VOID,  /* focused_feature_id */
                                              "bcb8a819-90c7-49ad-b21d-feccfd5bcf96"
                                            );
-        TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT( data_err == U8_ERROR_NONE );
 
         TEST_ENVIRONMENT_ASSERT( data_visible_classifier_is_valid( current ) );
     }
@@ -120,7 +120,7 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
                                       6000*f_idx,  /* list_order */
                                       "17c18bbd-c1d3-438d-bd85-5ec2704f8511"
                                     );
-        TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT( data_err == U8_ERROR_NONE );
 
         TEST_ENVIRONMENT_ASSERT( data_feature_is_valid( current ) );
     }
@@ -143,7 +143,7 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
                                            DATA_ROW_ID_VOID,  /* to_feature_id */
                                            "a0feb041-647e-422f-a4ff-2e6647c08f77"
                                          );
-        TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT( data_err == U8_ERROR_NONE );
 
         TEST_ENVIRONMENT_ASSERT( data_relationship_is_valid( current ) );
     }

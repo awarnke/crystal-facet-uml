@@ -4,7 +4,7 @@
 #include "json/json_deserializer.h"
 #include "stream/universal_file_input_stream.h"
 #include "stream/universal_memory_input_stream.h"
-#include "ctrl_error.h"
+#include "u8/u8_error.h"
 #include "util/string/utf8string.h"
 #include "trace.h"
 #include <assert.h>
@@ -45,7 +45,7 @@ u8_error_t io_importer_import_clipboard( io_importer_t *this_,
 {
     TRACE_BEGIN();
     assert( NULL != json_text );
-    u8_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     io_import_elements_init_for_paste( &((*this_).temp_elements_importer),
                                        diagram_id,
@@ -83,7 +83,7 @@ u8_error_t io_importer_import_file( io_importer_t *this_,
     assert( import_file_path != NULL );
     assert( io_stat != NULL );
     assert( out_english_report != NULL );
-    u8_error_t parse_error = DATA_ERROR_NONE;
+    u8_error_t parse_error = U8_ERROR_NONE;
 
     io_import_elements_init( &((*this_).temp_elements_importer), (*this_).db_reader, (*this_).controller, io_stat );
     json_importer_init( &((*this_).temp_json_importer), &((*this_).temp_elements_importer), io_stat );
@@ -98,7 +98,7 @@ u8_error_t io_importer_import_file( io_importer_t *this_,
     const int err1 = universal_file_input_stream_open( &in_file, import_file_path );
     if ( err1 != 0 )
     {
-        parse_error = DATA_ERROR_INVALID_REQUEST;
+        parse_error = U8_ERROR_INVALID_REQUEST;
     }
     else
     {
@@ -107,7 +107,7 @@ u8_error_t io_importer_import_file( io_importer_t *this_,
 
         /* create a list of diagram elements, check if the referenced diagrams and classifiers really exist */
 
-        const data_error_t err3 = DATA_ERROR_NONE;
+        const u8_error_t err3 = U8_ERROR_NONE;
         /*
             = json_importer_prescan( &((*this_).temp_json_importer),
                                      universal_file_input_stream_get_input_stream( &in_file ),
@@ -116,7 +116,7 @@ u8_error_t io_importer_import_file( io_importer_t *this_,
         */
         if ( err3 != 0 )
         {
-            parse_error = DATA_ERROR_AT_FILE_READ;
+            parse_error = U8_ERROR_AT_FILE_READ;
         }
 
         /* import */
@@ -124,7 +124,7 @@ u8_error_t io_importer_import_file( io_importer_t *this_,
         const int err5 = universal_file_input_stream_reset( &in_file );
         if ( err5 != 0 )
         {
-            parse_error = DATA_ERROR_AT_FILE_READ;
+            parse_error = U8_ERROR_AT_FILE_READ;
         }
         else
         {
@@ -143,13 +143,13 @@ u8_error_t io_importer_import_file( io_importer_t *this_,
         const int err7 = universal_file_input_stream_close( &in_file );
         if ( err7 != 0 )
         {
-            parse_error = DATA_ERROR_AT_FILE_READ;
+            parse_error = U8_ERROR_AT_FILE_READ;
         }
     }
     const int err8 = universal_file_input_stream_destroy( &in_file );
     if ( err8  != 0 )
     {
-        parse_error = DATA_ERROR_AT_FILE_READ;
+        parse_error = U8_ERROR_AT_FILE_READ;
     }
 
     json_importer_destroy( &((*this_).temp_json_importer) );

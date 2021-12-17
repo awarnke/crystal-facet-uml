@@ -60,10 +60,10 @@ void json_token_reader_destroy ( json_token_reader_t *this_ )
     TRACE_END();
 }
 
-data_error_t json_token_reader_expect_begin_object ( json_token_reader_t *this_ )
+u8_error_t json_token_reader_expect_begin_object ( json_token_reader_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result_err = DATA_ERROR_NONE;
+    u8_error_t result_err = U8_ERROR_NONE;
 
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
@@ -76,17 +76,17 @@ data_error_t json_token_reader_expect_begin_object ( json_token_reader_t *this_ 
     else
     {
         /* expected token missing */
-        result_err = DATA_ERROR_PARSER_STRUCTURE;
+        result_err = U8_ERROR_PARSER_STRUCTURE;
     }
 
     TRACE_END_ERR( result_err );
     return result_err;
 }
 
-data_error_t json_token_reader_read_member_name ( json_token_reader_t *this_, utf8stringbuf_t out_name )
+u8_error_t json_token_reader_read_member_name ( json_token_reader_t *this_, utf8stringbuf_t out_name )
 {
     TRACE_BEGIN();
-    data_error_t result_err = DATA_ERROR_NONE;
+    u8_error_t result_err = U8_ERROR_NONE;
 
     result_err = json_token_reader_read_string_value( this_, out_name );
 
@@ -96,11 +96,11 @@ data_error_t json_token_reader_read_member_name ( json_token_reader_t *this_, ut
     return result_err;
 }
 
-data_error_t json_token_reader_check_end_object ( json_token_reader_t *this_, bool *end_object )
+u8_error_t json_token_reader_check_end_object ( json_token_reader_t *this_, bool *end_object )
 {
     TRACE_BEGIN();
     assert( NULL != end_object );
-    data_error_t result_err = DATA_ERROR_NONE;
+    u8_error_t result_err = U8_ERROR_NONE;
 
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
@@ -122,10 +122,10 @@ data_error_t json_token_reader_check_end_object ( json_token_reader_t *this_, bo
     return result_err;
 }
 
-data_error_t json_token_reader_expect_name_separator ( json_token_reader_t *this_ )
+u8_error_t json_token_reader_expect_name_separator ( json_token_reader_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result_err = DATA_ERROR_NONE;
+    u8_error_t result_err = U8_ERROR_NONE;
 
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
@@ -138,17 +138,17 @@ data_error_t json_token_reader_expect_name_separator ( json_token_reader_t *this
     else
     {
         /* expected token missing */
-        result_err = DATA_ERROR_PARSER_STRUCTURE;
+        result_err = U8_ERROR_PARSER_STRUCTURE;
     }
 
     TRACE_END_ERR( result_err );
     return result_err;
 }
 
-data_error_t json_token_reader_expect_begin_array ( json_token_reader_t *this_ )
+u8_error_t json_token_reader_expect_begin_array ( json_token_reader_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result_err = DATA_ERROR_NONE;
+    u8_error_t result_err = U8_ERROR_NONE;
 
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
@@ -161,18 +161,18 @@ data_error_t json_token_reader_expect_begin_array ( json_token_reader_t *this_ )
     else
     {
         /* expected token missing */
-        result_err = DATA_ERROR_PARSER_STRUCTURE;
+        result_err = U8_ERROR_PARSER_STRUCTURE;
     }
 
     TRACE_END_ERR( result_err );
     return result_err;
 }
 
-data_error_t json_token_reader_check_end_array ( json_token_reader_t *this_, bool *end_array )
+u8_error_t json_token_reader_check_end_array ( json_token_reader_t *this_, bool *end_array )
 {
     TRACE_BEGIN();
     assert( NULL != end_array );
-    data_error_t result_err = DATA_ERROR_NONE;
+    u8_error_t result_err = U8_ERROR_NONE;
 
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
@@ -194,10 +194,10 @@ data_error_t json_token_reader_check_end_array ( json_token_reader_t *this_, boo
     return result_err;
 }
 
-data_error_t json_token_reader_expect_value_separator ( json_token_reader_t *this_ )
+u8_error_t json_token_reader_expect_value_separator ( json_token_reader_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result_err = DATA_ERROR_NONE;
+    u8_error_t result_err = U8_ERROR_NONE;
 
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
@@ -210,18 +210,18 @@ data_error_t json_token_reader_expect_value_separator ( json_token_reader_t *thi
     else
     {
         /* expected token missing */
-        result_err = DATA_ERROR_PARSER_STRUCTURE;
+        result_err = U8_ERROR_PARSER_STRUCTURE;
     }
 
     TRACE_END_ERR( result_err );
     return result_err;
 }
 
-data_error_t json_token_reader_get_value_type ( json_token_reader_t *this_, json_value_type_t *value_type )
+u8_error_t json_token_reader_get_value_type ( json_token_reader_t *this_, json_value_type_t *value_type )
 {
     TRACE_BEGIN();
     assert( NULL != value_type );
-    data_error_t result_err = DATA_ERROR_NONE;
+    u8_error_t result_err = U8_ERROR_NONE;
 
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
@@ -260,17 +260,17 @@ data_error_t json_token_reader_get_value_type ( json_token_reader_t *this_, json
     else
     {
         *value_type = JSON_VALUE_TYPE_UNDEF;
-        result_err = DATA_ERROR_PARSER_STRUCTURE;  /* this could also be a lexical error (invalid next token) instead of unexpected next token */
+        result_err = U8_ERROR_PARSER_STRUCTURE;  /* this could also be a lexical error (invalid next token) instead of unexpected next token */
     }
 
     TRACE_END_ERR( result_err );
     return result_err;
 }
 
-data_error_t json_token_reader_read_string_value ( json_token_reader_t *this_, utf8stringbuf_t out_value )
+u8_error_t json_token_reader_read_string_value ( json_token_reader_t *this_, utf8stringbuf_t out_value )
 {
     TRACE_BEGIN();
-    data_error_t result_err = DATA_ERROR_NONE;
+    u8_error_t result_err = U8_ERROR_NONE;
 
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
@@ -303,7 +303,7 @@ data_error_t json_token_reader_read_string_value ( json_token_reader_t *this_, u
             = universal_memory_output_stream_write_0term( &mem_out );
         if ( 0 != out_err )
         {
-            result_err = DATA_ERROR_STRING_BUFFER_EXCEEDED;
+            result_err = U8_ERROR_STRING_BUFFER_EXCEEDED;
         }
         universal_memory_output_stream_destroy( &mem_out );
 
@@ -313,7 +313,7 @@ data_error_t json_token_reader_read_string_value ( json_token_reader_t *this_, u
             = ( JSON_CONSTANTS_CHAR_END_STRING != universal_buffer_input_stream_peek_next( &((*this_).in_stream) ) );
         if ( in_err )
         {
-            result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+            result_err = U8_ERROR_LEXICAL_STRUCTURE;
         }
         else
         {
@@ -321,25 +321,25 @@ data_error_t json_token_reader_read_string_value ( json_token_reader_t *this_, u
 
             if ( ! json_token_reader_private_is_value_end( this_ ) )
             {
-                result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+                result_err = U8_ERROR_LEXICAL_STRUCTURE;
             }
         }
     }
     else
     {
         /* expected start token missing */
-        result_err = DATA_ERROR_PARSER_STRUCTURE;
+        result_err = U8_ERROR_PARSER_STRUCTURE;
     }
 
     TRACE_END_ERR( result_err );
     return result_err;
 }
 
-data_error_t json_token_reader_read_int_value ( json_token_reader_t *this_, int64_t *out_int )
+u8_error_t json_token_reader_read_int_value ( json_token_reader_t *this_, int64_t *out_int )
 {
     TRACE_BEGIN();
     assert( NULL != out_int );
-    data_error_t result_err = DATA_ERROR_NONE;
+    u8_error_t result_err = U8_ERROR_NONE;
 
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
@@ -348,18 +348,18 @@ data_error_t json_token_reader_read_int_value ( json_token_reader_t *this_, int6
 
     if ( ! json_token_reader_private_is_value_end( this_ ) )
     {
-        result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+        result_err = U8_ERROR_LEXICAL_STRUCTURE;
     }
 
     TRACE_END_ERR( result_err );
     return result_err;
 }
 
-data_error_t json_token_reader_read_number_value ( json_token_reader_t *this_, double *out_number )
+u8_error_t json_token_reader_read_number_value ( json_token_reader_t *this_, double *out_number )
 {
     TRACE_BEGIN();
     assert( NULL != out_number );
-    data_error_t result_err = DATA_ERROR_NONE;
+    u8_error_t result_err = U8_ERROR_NONE;
 
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
@@ -368,23 +368,23 @@ data_error_t json_token_reader_read_number_value ( json_token_reader_t *this_, d
 
     if ( ! json_token_reader_private_is_value_end( this_ ) )
     {
-        result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+        result_err = U8_ERROR_LEXICAL_STRUCTURE;
     }
     else
     {
         (*out_number) = 0.0;
-        result_err = DATA_ERROR_NOT_YET_IMPLEMENTED;
+        result_err = U8_ERROR_NOT_YET_IMPLEMENTED;
     }
 
     TRACE_END_ERR( result_err );
     return result_err;
 }
 
-data_error_t json_token_reader_read_boolean_value ( json_token_reader_t *this_, bool *out_bool )
+u8_error_t json_token_reader_read_boolean_value ( json_token_reader_t *this_, bool *out_bool )
 {
     TRACE_BEGIN();
     assert( NULL != out_bool );
-    data_error_t result_err = DATA_ERROR_NONE;
+    u8_error_t result_err = U8_ERROR_NONE;
 
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
@@ -401,12 +401,12 @@ data_error_t json_token_reader_read_boolean_value ( json_token_reader_t *this_, 
             }
             else
             {
-                result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+                result_err = U8_ERROR_LEXICAL_STRUCTURE;
             }
         }
         if ( ! json_token_reader_private_is_value_end( this_ ) )
         {
-            result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+            result_err = U8_ERROR_LEXICAL_STRUCTURE;
         }
     }
     else if ( JSON_CONSTANTS_CHAR_BEGIN_TRUE == current )
@@ -420,27 +420,27 @@ data_error_t json_token_reader_read_boolean_value ( json_token_reader_t *this_, 
             }
             else
             {
-                result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+                result_err = U8_ERROR_LEXICAL_STRUCTURE;
             }
         }
         if ( ! json_token_reader_private_is_value_end( this_ ) )
         {
-            result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+            result_err = U8_ERROR_LEXICAL_STRUCTURE;
         }
     }
     else
     {
-        result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+        result_err = U8_ERROR_LEXICAL_STRUCTURE;
     }
 
     TRACE_END_ERR( result_err );
     return result_err;
 }
 
-data_error_t json_token_reader_expect_null_value ( json_token_reader_t *this_ )
+u8_error_t json_token_reader_expect_null_value ( json_token_reader_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result_err = DATA_ERROR_NONE;
+    u8_error_t result_err = U8_ERROR_NONE;
 
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
@@ -452,27 +452,27 @@ data_error_t json_token_reader_expect_null_value ( json_token_reader_t *this_ )
         {
             if ( JSON_CONSTANTS_NULL[n_pos] != universal_buffer_input_stream_read_next( &((*this_).in_stream) ) )
             {
-                result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+                result_err = U8_ERROR_LEXICAL_STRUCTURE;
             }
         }
         if ( ! json_token_reader_private_is_value_end( this_ ) )
         {
-            result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+            result_err = U8_ERROR_LEXICAL_STRUCTURE;
         }
     }
     else
     {
-        result_err = DATA_ERROR_PARSER_STRUCTURE;
+        result_err = U8_ERROR_PARSER_STRUCTURE;
     }
 
     TRACE_END_ERR( result_err );
     return result_err;
 }
 
-data_error_t json_token_reader_expect_eof ( json_token_reader_t *this_ )
+u8_error_t json_token_reader_expect_eof ( json_token_reader_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result_err = DATA_ERROR_NONE;
+    u8_error_t result_err = U8_ERROR_NONE;
 
     /* skip whitespace */
     json_token_reader_private_skip_whitespace( this_ );
@@ -485,7 +485,7 @@ data_error_t json_token_reader_expect_eof ( json_token_reader_t *this_ )
     else
     {
         /* expected token missing */
-        result_err = DATA_ERROR_PARSER_STRUCTURE;
+        result_err = U8_ERROR_PARSER_STRUCTURE;
     }
 
     TRACE_END_ERR( result_err );

@@ -62,8 +62,8 @@ static void tear_down(void)
 
 static void undo_redo_classifier(void)
 {
-    ctrl_error_t ctrl_err;
-    data_error_t data_err;
+    u8_error_t ctrl_err;
+    u8_error_t data_err;
     data_row_id_t root_diagram_id;
     data_row_id_t classifier_id;
     data_row_id_t diagele_id;
@@ -79,7 +79,7 @@ static void undo_redo_classifier(void)
                                                                           "my_root_diag",
                                                                           &root_diagram_id
                                                                         );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_ASSERT( DATA_ROW_ID_VOID != root_diagram_id );
 
     /* create a classifier and a diagramelement */
@@ -96,13 +96,13 @@ static void undo_redo_classifier(void)
                                      170000,
                                      "d8df8d54-1916-4150-899e-48bde90c3bbe"
                                    );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     ctrl_err = ctrl_classifier_controller_create_classifier( classifier_ctrl,
                                                              &new_classifier,
                                                              CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                              &classifier_id
                                                            );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     data_classifier_destroy ( &new_classifier );
     TEST_ASSERT( DATA_ROW_ID_VOID != classifier_id );
 
@@ -116,26 +116,26 @@ static void undo_redo_classifier(void)
                                          DATA_ROW_ID_VOID,
                                          "98e479f0-9112-483e-b64f-251d55a50c13"
                                        );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     ctrl_err = ctrl_diagram_controller_create_diagramelement( diag_ctrl,
                                                               &new_diagele,
                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                               &diagele_id
                                                             );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     data_diagramelement_destroy ( &new_diagele );
     TEST_ASSERT( DATA_ROW_ID_VOID != diagele_id );
 
     /* update the classifier */
     ctrl_err = ctrl_classifier_controller_update_classifier_stereotype ( classifier_ctrl, classifier_id, "my_stereo" );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
     /* undo classifier update */
     {
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_MODIFIED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -146,7 +146,7 @@ static void undo_redo_classifier(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_DELETED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_DELETED ));
         TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
@@ -159,7 +159,7 @@ static void undo_redo_classifier(void)
         data_visible_classifier_t read_vis_classifiers[1];
 
         data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader, root_diagram_id, 1, &read_vis_classifiers, &read_vis_classifiers_count );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 0, read_vis_classifiers_count );
     }
 
@@ -168,7 +168,7 @@ static void undo_redo_classifier(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -178,7 +178,7 @@ static void undo_redo_classifier(void)
     {
         data_diagram_t read_diagram;
         data_err = data_database_reader_get_diagram_by_id ( &db_reader, root_diagram_id, &read_diagram );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
     }
 
     /* redo root diagram creation */
@@ -186,7 +186,7 @@ static void undo_redo_classifier(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -196,7 +196,7 @@ static void undo_redo_classifier(void)
     {
         data_diagram_t read_diagram;
         data_err = data_database_reader_get_diagram_by_id ( &db_reader, root_diagram_id, &read_diagram );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( root_diagram_id, data_diagram_get_row_id( &read_diagram ) );
         TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_row_id( &read_diagram ) );
         TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, data_diagram_get_diagram_type( &read_diagram ) );
@@ -210,7 +210,7 @@ static void undo_redo_classifier(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ));
         TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
@@ -222,7 +222,7 @@ static void undo_redo_classifier(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_MODIFIED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -234,7 +234,7 @@ static void undo_redo_classifier(void)
         data_visible_classifier_t read_vis_classifiers[1];
 
         data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader, root_diagram_id, 1, &read_vis_classifiers, &read_vis_classifiers_count );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 1, read_vis_classifiers_count );
 
         data_classifier_t *first_classifier;
@@ -263,7 +263,7 @@ static void undo_redo_classifier(void)
 
 static void undo_redo_list_limits(void)
 {
-    ctrl_error_t ctrl_err;
+    u8_error_t ctrl_err;
     data_row_id_t root_diagram_id;
     data_row_id_t child_diag_id;
     ctrl_diagram_controller_t *diag_ctrl;
@@ -275,14 +275,14 @@ static void undo_redo_list_limits(void)
                                                                            "my_root_diag",
                                                                            &root_diagram_id
                                                                          );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
     /* undo root diagram creation */
     {
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -293,7 +293,7 @@ static void undo_redo_list_limits(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -303,7 +303,7 @@ static void undo_redo_list_limits(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -314,7 +314,7 @@ static void undo_redo_list_limits(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -329,7 +329,7 @@ static void undo_redo_list_limits(void)
                                                                           "diagram_name",
                                                                           &child_diag_id
                                                                         );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     }
 
     /* create one more diagram */
@@ -339,7 +339,7 @@ static void undo_redo_list_limits(void)
                                                                       "diagram_name",
                                                                       &child_diag_id
                                                                     );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
     /* undo everything that is possible */
     for ( int32_t pos = 0; pos < (CTRL_UNDO_REDO_LIST_MAX_SIZE-0/*first boundary is overwritten*/-2/*diagram and boundary*/)/2/*list entries per diagram*/; pos ++ )
@@ -348,7 +348,7 @@ static void undo_redo_list_limits(void)
             data_stat_t stat;
             data_stat_init(&stat);
             ctrl_err = ctrl_controller_undo ( &controller, &stat );
-            TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+            TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
             TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
             TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
             data_stat_destroy(&stat);
@@ -360,7 +360,7 @@ static void undo_redo_list_limits(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_ARRAY_BUFFER_EXCEEDED, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -370,7 +370,7 @@ static void undo_redo_list_limits(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -383,14 +383,14 @@ static void undo_redo_list_limits(void)
                                                                       "diagram_name",
                                                                       &child_diag_id
                                                                     );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
     /* redo one but already at end of the list */
     {
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -401,7 +401,7 @@ static void undo_redo_list_limits(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -412,7 +412,7 @@ static void undo_redo_list_limits(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -423,7 +423,7 @@ static void undo_redo_list_limits(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_ARRAY_BUFFER_EXCEEDED, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -431,8 +431,8 @@ static void undo_redo_list_limits(void)
 
 static void undo_redo_feature_and_relationship(void)
 {
-    ctrl_error_t ctrl_err;
-    data_error_t data_err;
+    u8_error_t ctrl_err;
+    u8_error_t data_err;
     ctrl_classifier_controller_t *classifier_ctrl;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
     data_feature_t check_f;
@@ -450,7 +450,7 @@ static void undo_redo_feature_and_relationship(void)
                                   5000000, /* list order */
                                   "8490c942-e425-4764-8212-37d2bfcc7e1e"
                                 );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* 1. create the feature in the db */
     data_row_id_t new_feature_id;
@@ -459,21 +459,21 @@ static void undo_redo_feature_and_relationship(void)
                                                            CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                            &new_feature_id
                                                          );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
     /* 2. update the feature in the db */
     ctrl_err = ctrl_classifier_controller_update_feature_main_type ( classifier_ctrl,
                                                                      new_feature_id,
                                                                      DATA_FEATURE_TYPE_OPERATION
                                                                    );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
     /* 3a. update the feature in the db */
     ctrl_err = ctrl_classifier_controller_update_feature_value ( classifier_ctrl,
                                                                  new_feature_id,
                                                                  "(void)->(uint64_t)"
                                                                );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
     /* define a relationship */
     data_relationship_t step3b;
@@ -489,7 +489,7 @@ static void undo_redo_feature_and_relationship(void)
                                        150160, /* to_feature_id */
                                        "57d93512-91d6-41eb-860f-0408b79a9aaf"
                                      );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* 3b. create the relationship in the db */
     data_row_id_t new_relationship_id;
@@ -498,14 +498,14 @@ static void undo_redo_feature_and_relationship(void)
                                                                 CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                 &new_relationship_id
                                                               );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
     /* 4. update the relationship in the db */
     ctrl_err = ctrl_classifier_controller_update_relationship_description ( classifier_ctrl,
                                                                             new_relationship_id,
                                                                             "good for modularization"
                                                                           );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
     /* 5. delete the feature and the relationship from the database */
     {
@@ -514,16 +514,16 @@ static void undo_redo_feature_and_relationship(void)
         data_small_set_init( &small_set );
         data_id_init( &element_id, DATA_TABLE_FEATURE, new_feature_id );
         data_err = data_small_set_add_obj ( &small_set, element_id );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         data_id_reinit( &element_id, DATA_TABLE_RELATIONSHIP, new_relationship_id );
         data_err = data_small_set_add_obj ( &small_set, element_id );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
         {
             data_stat_t stat;
             data_stat_init(&stat);
             ctrl_err = ctrl_controller_delete_set ( &controller, &small_set, &stat );
-            TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+            TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
             TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
             TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
             TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
@@ -538,7 +538,7 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ));
         TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
@@ -548,7 +548,7 @@ static void undo_redo_feature_and_relationship(void)
     /* check what is in the database */
     {
         data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( new_feature_id, data_feature_get_row_id( &check_f ) );
         TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_OPERATION, data_feature_get_main_type( &check_f ) );
         TEST_ASSERT_EQUAL_INT( 35000, data_feature_get_classifier_row_id( &check_f ) );
@@ -559,7 +559,7 @@ static void undo_redo_feature_and_relationship(void)
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "8490c942-e425-4764-8212-37d2bfcc7e1e", data_feature_get_uuid_const( &check_f ) ) );
 
         data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( new_relationship_id, data_relationship_get_row_id( &check_r ) );
         TEST_ASSERT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, data_relationship_get_main_type( &check_r ) );
         TEST_ASSERT_EQUAL_INT( 86000, data_relationship_get_from_classifier_row_id( &check_r ) );
@@ -577,7 +577,7 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_MODIFIED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -586,7 +586,7 @@ static void undo_redo_feature_and_relationship(void)
     /* check what is in the database */
     {
         data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "than the sum of its parts", data_relationship_get_description_const( &check_r ) ) );
     }
 
@@ -595,7 +595,7 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_MODIFIED ));
         TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
@@ -605,11 +605,11 @@ static void undo_redo_feature_and_relationship(void)
     /* check what is in the database */
     {
         data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "uint64_t", data_feature_get_value_const( &check_f ) ) );
 
         data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
     }
 
     /* undo step 2 */
@@ -617,7 +617,7 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_MODIFIED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -626,7 +626,7 @@ static void undo_redo_feature_and_relationship(void)
     /* check what is in the database */
     {
         data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_PROPERTY, data_feature_get_main_type( &check_f ) );
     }
 
@@ -635,7 +635,7 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -644,10 +644,10 @@ static void undo_redo_feature_and_relationship(void)
     /* check what is in the database */
     {
         data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
 
         data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
     }
 
     /* undo step 0 */
@@ -655,7 +655,7 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -665,7 +665,7 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -674,7 +674,7 @@ static void undo_redo_feature_and_relationship(void)
     /* check what is in the database */
     {
         data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_PROPERTY, data_feature_get_main_type( &check_f ) );
     }
 
@@ -683,7 +683,7 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_MODIFIED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -692,11 +692,11 @@ static void undo_redo_feature_and_relationship(void)
     /* check what is in the database */
     {
         data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "uint64_t", data_feature_get_value_const( &check_f ) ) );
 
         data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
     }
 
     /* redo step 3 */
@@ -704,7 +704,7 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_MODIFIED ));
         TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
@@ -714,7 +714,7 @@ static void undo_redo_feature_and_relationship(void)
     /* check what is in the database */
     {
         data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "than the sum of its parts", data_relationship_get_description_const( &check_r ) ) );
     }
 
@@ -723,7 +723,7 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_MODIFIED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -732,7 +732,7 @@ static void undo_redo_feature_and_relationship(void)
     /* check what is in the database */
     {
         data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( new_feature_id, data_feature_get_row_id( &check_f ) );
         TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_OPERATION, data_feature_get_main_type( &check_f ) );
         TEST_ASSERT_EQUAL_INT( 35000, data_feature_get_classifier_row_id( &check_f ) );
@@ -743,7 +743,7 @@ static void undo_redo_feature_and_relationship(void)
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "8490c942-e425-4764-8212-37d2bfcc7e1e", data_feature_get_uuid_const( &check_f ) ) );
 
         data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( new_relationship_id, data_relationship_get_row_id( &check_r ) );
         TEST_ASSERT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, data_relationship_get_main_type( &check_r ) );
         TEST_ASSERT_EQUAL_INT( 86000, data_relationship_get_from_classifier_row_id( &check_r ) );
@@ -761,7 +761,7 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
         TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
@@ -771,10 +771,10 @@ static void undo_redo_feature_and_relationship(void)
     /* check what is in the database */
     {
         data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
 
         data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
     }
 
     /* redo step 6 */
@@ -782,7 +782,7 @@ static void undo_redo_feature_and_relationship(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -790,8 +790,8 @@ static void undo_redo_feature_and_relationship(void)
 
 static void undo_redo_update_diagram(void)
 {
-    ctrl_error_t ctrl_err;
-    data_error_t data_err;
+    u8_error_t ctrl_err;
+    u8_error_t data_err;
     ctrl_diagram_controller_t *diag_ctrl;
     diag_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
 
@@ -803,7 +803,7 @@ static void undo_redo_update_diagram(void)
                                                                            "the_requirements",
                                                                            &root_diagram_id
                                                                          );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_ASSERT( DATA_ROW_ID_VOID != root_diagram_id );
 
     /* step 2: create a diagramelement */
@@ -821,7 +821,7 @@ static void undo_redo_update_diagram(void)
                                                                CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                &diagele_id
                                                              );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     data_diagramelement_destroy ( &new_diagele );
     TEST_ASSERT( DATA_ROW_ID_VOID != diagele_id );
 
@@ -830,14 +830,14 @@ static void undo_redo_update_diagram(void)
                                                              root_diagram_id,
                                                              "MY_NEW_NAME"
                                                            );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
     /* step 3b: update the diagram type */
     ctrl_err = ctrl_diagram_controller_update_diagram_type ( diag_ctrl,
                                                              root_diagram_id,
                                                              DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM
                                                            );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
     /* step 4a: update the diagramelement display_flags */
     ctrl_err = ctrl_diagram_controller_update_diagramelement_display_flags ( diag_ctrl,
@@ -845,7 +845,7 @@ static void undo_redo_update_diagram(void)
                                                                              DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE,
                                                                              CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
                                                                            );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
     /* step 4b: update the diagramelement focused_feature_id */
     ctrl_err = ctrl_diagram_controller_update_diagramelement_focused_feature_id ( diag_ctrl,
@@ -853,14 +853,14 @@ static void undo_redo_update_diagram(void)
                                                                                   DATA_ROW_ID_VOID,
                                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                                                 );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
     /* undo step 4b and 4a */
     {
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED ));
         TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -871,7 +871,7 @@ static void undo_redo_update_diagram(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -882,7 +882,7 @@ static void undo_redo_update_diagram(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -892,7 +892,7 @@ static void undo_redo_update_diagram(void)
     {
         data_diagram_t read_diagram;
         data_err = data_database_reader_get_diagram_by_id ( &db_reader, root_diagram_id, &read_diagram );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( root_diagram_id, data_diagram_get_row_id( &read_diagram ) );
         TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_row_id( &read_diagram ) );
         TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_SYSML_REQUIREMENTS_DIAGRAM, data_diagram_get_diagram_type( &read_diagram ) );
@@ -903,7 +903,7 @@ static void undo_redo_update_diagram(void)
     {
         data_diagramelement_t read_diagele;
         data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, diagele_id, &read_diagele );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( diagele_id, data_diagramelement_get_row_id( &read_diagele ) );
         TEST_ASSERT_EQUAL_INT( DATA_DIAGRAMELEMENT_FLAG_EMPHASIS, data_diagramelement_get_display_flags( &read_diagele ) );
         TEST_ASSERT_EQUAL_INT( 2044, data_diagramelement_get_focused_feature_row_id( &read_diagele ) );
@@ -914,7 +914,7 @@ static void undo_redo_update_diagram(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -925,7 +925,7 @@ static void undo_redo_update_diagram(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -936,7 +936,7 @@ static void undo_redo_update_diagram(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED ));
         TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -946,7 +946,7 @@ static void undo_redo_update_diagram(void)
     {
         data_diagram_t read_diagram;
         data_err = data_database_reader_get_diagram_by_id ( &db_reader, root_diagram_id, &read_diagram );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( root_diagram_id, data_diagram_get_row_id( &read_diagram ) );
         TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_row_id( &read_diagram ) );
         TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM, data_diagram_get_diagram_type( &read_diagram ) );
@@ -957,7 +957,7 @@ static void undo_redo_update_diagram(void)
     {
         data_diagramelement_t read_diagele;
         data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, diagele_id, &read_diagele );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( diagele_id, data_diagramelement_get_row_id( &read_diagele ) );
         TEST_ASSERT_EQUAL_INT( DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE, data_diagramelement_get_display_flags( &read_diagele ) );
         TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagramelement_get_focused_feature_row_id( &read_diagele ) );

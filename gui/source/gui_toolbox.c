@@ -2,7 +2,7 @@
 
 #include "gui_toolbox.h"
 #include "trace.h"
-#include "ctrl_error.h"
+#include "u8/u8_error.h"
 #include "util/string/utf8string.h"
 #include <assert.h>
 #include <gtk/gtk.h>
@@ -168,7 +168,7 @@ void gui_toolbox_cut_btn_callback( GtkWidget* button, gpointer data )
 void gui_toolbox_cut( gui_toolbox_t *this_ )
 {
     TRACE_BEGIN();
-    ctrl_error_t ctrl_err;
+    u8_error_t ctrl_err;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
@@ -185,21 +185,21 @@ void gui_toolbox_cut( gui_toolbox_t *this_ )
 
     gui_marked_set_clear_selected_set( (*this_).marker );
 
-    if ( CTRL_ERROR_INPUT_EMPTY == ctrl_err )
+    if ( U8_ERROR_INPUT_EMPTY == ctrl_err )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
                                                );
     }
-    else if ( CTRL_ERROR_NONE != ( ctrl_err & CTRL_ERROR_OBJECT_STILL_REFERENCED ))
+    else if ( U8_ERROR_NONE != ( ctrl_err & U8_ERROR_OBJECT_STILL_REFERENCED ))
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_DELETING_NOT_POSSIBLE
                                                );
     }
-    else if ( CTRL_ERROR_NONE != ctrl_err )
+    else if ( U8_ERROR_NONE != ctrl_err )
     {
         TSLOG_ERROR_HEX( "Error in ctrl_classifier_controller_delete_set_from_diagram", ctrl_err );
     }
@@ -316,7 +316,7 @@ void gui_toolbox_delete_btn_callback( GtkWidget* button, gpointer data )
 void gui_toolbox_delete( gui_toolbox_t *this_ )
 {
     TRACE_BEGIN();
-    ctrl_error_t ctrl_err;
+    u8_error_t ctrl_err;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
@@ -331,21 +331,21 @@ void gui_toolbox_delete( gui_toolbox_t *this_ )
 
     gui_marked_set_clear_selected_set( (*this_).marker );
 
-    if ( CTRL_ERROR_INPUT_EMPTY == ctrl_err )
+    if ( U8_ERROR_INPUT_EMPTY == ctrl_err )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
                                                );
     }
-    else if ( CTRL_ERROR_NONE != ( ctrl_err & CTRL_ERROR_OBJECT_STILL_REFERENCED ))
+    else if ( U8_ERROR_NONE != ( ctrl_err & U8_ERROR_OBJECT_STILL_REFERENCED ))
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_DELETING_NOT_POSSIBLE
                                                );
     }
-    else if ( CTRL_ERROR_NONE != ctrl_err )
+    else if ( U8_ERROR_NONE != ctrl_err )
     {
         TSLOG_ERROR_HEX( "Error in ctrl_classifier_controller_delete_set_from_diagram", ctrl_err );
     }
@@ -363,14 +363,14 @@ void gui_toolbox_delete( gui_toolbox_t *this_ )
     TRACE_END();
 }
 
-ctrl_error_t gui_toolbox_private_delete_set( gui_toolbox_t *this_,
+u8_error_t gui_toolbox_private_delete_set( gui_toolbox_t *this_,
                                              const data_small_set_t *set_to_be_deleted,
                                              data_stat_t *io_stat )
 {
     TRACE_BEGIN();
     assert( NULL != set_to_be_deleted );
     assert( NULL != io_stat );
-    ctrl_error_t ctrl_err;
+    u8_error_t ctrl_err;
 
     ctrl_err = ctrl_controller_delete_set ( (*this_).controller, set_to_be_deleted, io_stat );
 
@@ -437,7 +437,7 @@ void gui_toolbox_reset_btn_callback( GtkWidget* button, gpointer data )
 void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_, const data_small_set_t *set_to_be_toggled, data_diagramelement_flag_t flag_bits_to_toggle )
 {
     TRACE_BEGIN();
-    ctrl_error_t error = CTRL_ERROR_NONE;
+    u8_error_t error = U8_ERROR_NONE;
     bool new_pattern_initialized = false;
     data_diagramelement_flag_t new_pattern = DATA_DIAGRAMELEMENT_FLAG_NONE;
     bool is_first = true;
@@ -452,7 +452,7 @@ void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_, const
             {
                 /* program internal error */
                 TSLOG_WARNING( "gui_toolbox_private_toggle_display_flag_in_set cannot toggle display flags in non-diagramelements." );
-                error |= CTRL_ERROR_INVALID_REQUEST;
+                error |= U8_ERROR_INVALID_REQUEST;
             }
             break;
 
@@ -460,7 +460,7 @@ void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_, const
             {
                 /* program internal error */
                 TSLOG_WARNING( "gui_toolbox_private_toggle_display_flag_in_set cannot toggle display flags in non-diagramelements." );
-                error |= CTRL_ERROR_INVALID_REQUEST;
+                error |= U8_ERROR_INVALID_REQUEST;
             }
             break;
 
@@ -468,7 +468,7 @@ void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_, const
             {
                 /* program internal error */
                 TSLOG_WARNING( "gui_toolbox_private_toggle_display_flag_in_set cannot toggle display flags in non-diagramelements." );
-                error |= CTRL_ERROR_INVALID_REQUEST;
+                error |= U8_ERROR_INVALID_REQUEST;
             }
             break;
 
@@ -479,7 +479,7 @@ void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_, const
                 ctrl_diagram_controller_t *diag_ctrl;
                 diag_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
 
-                error |= (ctrl_error_t) data_database_reader_get_diagramelement_by_id ( (*this_).db_reader,
+                error |= (u8_error_t) data_database_reader_get_diagramelement_by_id ( (*this_).db_reader,
                                                                                         diag_elem_id,
                                                                                         &out_diagramelement
                                                                                       );
@@ -532,7 +532,7 @@ void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_, const
             {
                 /* program internal error */
                 TSLOG_WARNING( "gui_toolbox_private_toggle_display_flag_in_set cannot toggle display flags in non-diagramelements." );
-                error |= CTRL_ERROR_INVALID_REQUEST;
+                error |= U8_ERROR_INVALID_REQUEST;
             }
             break;
 
@@ -545,7 +545,7 @@ void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_, const
         }
     }
 
-    if ( error != CTRL_ERROR_NONE )
+    if ( error != U8_ERROR_NONE )
     {
         /* error to be shown to the user */
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -569,7 +569,7 @@ void gui_toolbox_undo_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_toolbox_t *this_ = data;
-    ctrl_error_t ctrl_err;
+    u8_error_t ctrl_err;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
@@ -577,14 +577,14 @@ void gui_toolbox_undo_btn_callback( GtkWidget* button, gpointer data )
     data_stat_init(&stat);
 
     ctrl_err = ctrl_controller_undo( (*this_).controller, &stat );
-    if ( CTRL_ERROR_INVALID_REQUEST == ctrl_err )
+    if ( U8_ERROR_INVALID_REQUEST == ctrl_err )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_NO_MORE_UNDO
         );
     }
-    else if ( CTRL_ERROR_ARRAY_BUFFER_EXCEEDED == ctrl_err )
+    else if ( U8_ERROR_ARRAY_BUFFER_EXCEEDED == ctrl_err )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
@@ -611,7 +611,7 @@ void gui_toolbox_redo_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_toolbox_t *this_ = data;
-    ctrl_error_t ctrl_err;
+    u8_error_t ctrl_err;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
@@ -619,7 +619,7 @@ void gui_toolbox_redo_btn_callback( GtkWidget* button, gpointer data )
     data_stat_init(&stat);
 
     ctrl_err = ctrl_controller_redo( (*this_).controller, &stat );
-    if ( CTRL_ERROR_INVALID_REQUEST == ctrl_err )
+    if ( U8_ERROR_INVALID_REQUEST == ctrl_err )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,

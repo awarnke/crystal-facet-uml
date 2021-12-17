@@ -104,7 +104,7 @@ static void create_mini_model( data_row_id_t * out_root_diagram,
 {
     ctrl_classifier_controller_t *classifier_ctrl;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
-    ctrl_error_t c_err;
+    u8_error_t c_err;
 
     *out_root_diagram = test_env_setup_data_create_diagram( DATA_ROW_ID_VOID, "root diag", &controller );
 
@@ -135,7 +135,7 @@ static void create_mini_model( data_row_id_t * out_root_diagram,
                                                                            from_parent_rel_id,
                                                                            DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT
                                                                          );
-        TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == c_err );
+        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == c_err );
     }
 
     /* to child has parent */
@@ -151,7 +151,7 @@ static void create_mini_model( data_row_id_t * out_root_diagram,
                                                                            to_parent_rel_id,
                                                                            DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT
                                                                          );
-        TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == c_err );
+        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == c_err );
     }
 
     *out_relation_clas_clas = test_env_setup_data_create_relationship( *out_from_classifier_parent,
@@ -310,7 +310,7 @@ static void iterate_types_on_mini_model(void)
                             ? feat1_idx  /* same feature type for all features */
                             :  ( rel1_idx + clas1_idx + feat1_idx + variation_idx ) % feat_cnt;  /* high variation otherwise */
 
-                        ctrl_error_t c_err = CTRL_ERROR_NONE;
+                        u8_error_t c_err = U8_ERROR_NONE;
                         c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_clas_clas, relationship_types[rel1_idx] );
                         c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_clas_feat, relationship_types[rel2_idx] );
                         c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_feat_clas, relationship_types[rel1_idx] );
@@ -321,7 +321,7 @@ static void iterate_types_on_mini_model(void)
                         c_err |= ctrl_classifier_controller_update_classifier_main_type ( c_ctrl, to_classifier, classifier_types[clas2_idx] );
                         c_err |= ctrl_classifier_controller_update_feature_main_type ( c_ctrl, from_feature, feature_types[feat1_idx] );
                         c_err |= ctrl_classifier_controller_update_feature_main_type ( c_ctrl, to_feature, feature_types[feat2_idx] );
-                        TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == c_err );
+                        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == c_err );
                     }
 
                     data_stat_t stat;

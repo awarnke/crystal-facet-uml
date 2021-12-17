@@ -14,7 +14,7 @@
  *  e.g. relations link existing objects instead of invalid ids.
  */
 
-#include "ctrl_error.h"
+#include "u8/u8_error.h"
 #include "storage/data_database_reader.h"
 #include <stdio.h>
 #include <stdbool.h>
@@ -74,11 +74,11 @@ void ctrl_classifier_policy_enforcer_destroy ( ctrl_classifier_policy_enforcer_t
  *
  *  \param this_ pointer to own object attributes
  *  \param deleted_feature data of the deleted feature.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-static inline ctrl_error_t ctrl_classifier_policy_enforcer_post_delete_feature ( ctrl_classifier_policy_enforcer_t *this_,
-                                                                                 const data_feature_t *deleted_feature
-                                                                               );
+static inline u8_error_t ctrl_classifier_policy_enforcer_post_delete_feature ( ctrl_classifier_policy_enforcer_t *this_,
+                                                                               const data_feature_t *deleted_feature
+                                                                             );
 
 /* ================================ LIFELINES ================================ */
 
@@ -91,11 +91,11 @@ static inline ctrl_error_t ctrl_classifier_policy_enforcer_post_delete_feature (
  *
  *  \param this_ pointer to own object attributes
  *  \param deleted_feature data of the deleted feature.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_policy_enforcer_private_unlink_lifeline ( ctrl_classifier_policy_enforcer_t *this_,
-                                                                       const data_feature_t *deleted_feature
-                                                                     );
+u8_error_t ctrl_classifier_policy_enforcer_private_unlink_lifeline ( ctrl_classifier_policy_enforcer_t *this_,
+                                                                     const data_feature_t *deleted_feature
+                                                                   );
 
 #include "ctrl_classifier_policy_enforcer.inl"
 

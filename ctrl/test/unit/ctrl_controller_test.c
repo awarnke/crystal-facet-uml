@@ -61,7 +61,7 @@ static void tear_down(void)
 
 static void create_new_db(void)
 {
-    ctrl_error_t ctrl_err;
+    u8_error_t ctrl_err;
     bool isopen;
 
     isopen = data_database_is_open( &database );
@@ -69,7 +69,7 @@ static void create_new_db(void)
 
     /* create a new db */
     ctrl_err = ctrl_controller_switch_database ( &controller, DATABASE_FILENAME );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
     isopen = data_database_is_open( &database );
     TEST_ASSERT_EQUAL_INT( true, isopen );
@@ -77,8 +77,8 @@ static void create_new_db(void)
 
 static void open_existing_db(void)
 {
-    ctrl_error_t ctrl_err;
-    data_error_t data_err;
+    u8_error_t ctrl_err;
+    u8_error_t data_err;
     bool isopen;
 
     isopen = data_database_is_open( &database );
@@ -86,17 +86,17 @@ static void open_existing_db(void)
 
     /* create a db first */
     data_err = data_database_open ( &database, DATABASE_FILENAME );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     data_err = data_database_close ( &database );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     isopen = data_database_is_open( &database );
     TEST_ASSERT_EQUAL_INT( false, isopen );
 
     /* open an existing db */
     ctrl_err = ctrl_controller_switch_database ( &controller, DATABASE_FILENAME );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
     isopen = data_database_is_open( &database );
     TEST_ASSERT_EQUAL_INT( true, isopen );
@@ -104,7 +104,7 @@ static void open_existing_db(void)
 
 static void open_invalid_file(void)
 {
-    ctrl_error_t ctrl_err;
+    u8_error_t ctrl_err;
     int stdio_err;
     bool isopen;
 
@@ -126,7 +126,7 @@ static void open_invalid_file(void)
 
     /* open an existing non-db file */
     ctrl_err = ctrl_controller_switch_database ( &controller, DATABASE_FILENAME );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_AT_DB, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_AT_DB, ctrl_err );
 
     isopen = data_database_is_open( &database );
     TEST_ASSERT_EQUAL_INT( false, isopen );

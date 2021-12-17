@@ -7,11 +7,11 @@
 #include <sqlite3.h>
 #include <assert.h>
 
-data_error_t data_database_classifier_reader_init ( data_database_classifier_reader_t *this_, data_database_t *database )
+u8_error_t data_database_classifier_reader_init ( data_database_classifier_reader_t *this_, data_database_t *database )
 {
     TRACE_BEGIN();
     assert( NULL != database );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     (*this_).database = database;
 
@@ -35,10 +35,10 @@ data_error_t data_database_classifier_reader_init ( data_database_classifier_rea
     return result;
 }
 
-data_error_t data_database_classifier_reader_destroy ( data_database_classifier_reader_t *this_ )
+u8_error_t data_database_classifier_reader_destroy ( data_database_classifier_reader_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     result |= data_database_classifier_reader_private_close( this_ );
 
@@ -163,13 +163,13 @@ static const int RESULT_CLASSIFIER_FOCUSED_FEATURE_ID_COLUMN = 11;
  */
 static const int RESULT_CLASSIFIER_DIAGELE_UUID_COLUMN = 12;
 
-data_error_t data_database_classifier_reader_get_classifier_by_id( data_database_classifier_reader_t *this_,
+u8_error_t data_database_classifier_reader_get_classifier_by_id( data_database_classifier_reader_t *this_,
                                                                    data_row_id_t id,
                                                                    data_classifier_t *out_classifier )
 {
     TRACE_BEGIN();
     assert( NULL != out_classifier );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -183,7 +183,7 @@ data_error_t data_database_classifier_reader_get_classifier_by_id( data_database
         if ( SQLITE_ROW != sqlite_err )
         {
             TSLOG_ANOMALY( "sqlite3_step did not find a row." );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
 
         if ( SQLITE_ROW == sqlite_err )
@@ -207,7 +207,7 @@ data_error_t data_database_classifier_reader_get_classifier_by_id( data_database
         if ( SQLITE_DONE != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
     }
 
@@ -215,14 +215,14 @@ data_error_t data_database_classifier_reader_get_classifier_by_id( data_database
     return result;
 }
 
-data_error_t data_database_classifier_reader_get_classifier_by_name( data_database_classifier_reader_t *this_,
+u8_error_t data_database_classifier_reader_get_classifier_by_name( data_database_classifier_reader_t *this_,
                                                                      const char *name,
                                                                      data_classifier_t *out_classifier )
 {
     TRACE_BEGIN();
     assert( NULL != out_classifier );
     assert( NULL != name );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -236,7 +236,7 @@ data_error_t data_database_classifier_reader_get_classifier_by_name( data_databa
         if ( SQLITE_ROW != sqlite_err )
         {
             TSLOG_EVENT( "sqlite3_step did not find a row." );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
 
         if ( SQLITE_ROW == sqlite_err )
@@ -260,7 +260,7 @@ data_error_t data_database_classifier_reader_get_classifier_by_name( data_databa
         if ( SQLITE_DONE != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
     }
 
@@ -268,14 +268,14 @@ data_error_t data_database_classifier_reader_get_classifier_by_name( data_databa
     return result;
 }
 
-data_error_t data_database_classifier_reader_get_classifier_by_uuid ( data_database_classifier_reader_t *this_,
+u8_error_t data_database_classifier_reader_get_classifier_by_uuid ( data_database_classifier_reader_t *this_,
                                                                       const char *uuid,
                                                                       data_classifier_t *out_classifier )
 {
     TRACE_BEGIN();
     assert( NULL != out_classifier );
     assert( NULL != uuid );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -289,7 +289,7 @@ data_error_t data_database_classifier_reader_get_classifier_by_uuid ( data_datab
         if ( SQLITE_ROW != sqlite_err )
         {
             TSLOG_EVENT( "sqlite3_step did not find a row." );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
 
         if ( SQLITE_ROW == sqlite_err )
@@ -313,7 +313,7 @@ data_error_t data_database_classifier_reader_get_classifier_by_uuid ( data_datab
         if ( SQLITE_DONE != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
     }
 
@@ -321,7 +321,7 @@ data_error_t data_database_classifier_reader_get_classifier_by_uuid ( data_datab
     return result;
 }
 
-data_error_t data_database_classifier_reader_get_classifiers_by_diagram_id( data_database_classifier_reader_t *this_,
+u8_error_t data_database_classifier_reader_get_classifiers_by_diagram_id( data_database_classifier_reader_t *this_,
                                                                             data_row_id_t diagram_id,
                                                                             uint32_t max_out_array_size,
                                                                             data_visible_classifier_t (*out_visible_classifier)[],
@@ -330,7 +330,7 @@ data_error_t data_database_classifier_reader_get_classifiers_by_diagram_id( data
     TRACE_BEGIN();
     assert( NULL != out_visible_classifier_count );
     assert( NULL != out_visible_classifier );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -348,7 +348,7 @@ data_error_t data_database_classifier_reader_get_classifiers_by_diagram_id( data
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
                 TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                result |= DATA_ERROR_AT_DB;
+                result |= U8_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
             {
@@ -393,7 +393,7 @@ data_error_t data_database_classifier_reader_get_classifiers_by_diagram_id( data
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
                 TSLOG_ANOMALY_INT( "out_visible_classifier[] full:", (row_index+1) );
-                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
             {
@@ -406,13 +406,13 @@ data_error_t data_database_classifier_reader_get_classifiers_by_diagram_id( data
     return result;
 }
 
-data_error_t data_database_classifier_reader_get_all_classifiers_iterator( data_database_classifier_reader_t *this_,
+u8_error_t data_database_classifier_reader_get_all_classifiers_iterator( data_database_classifier_reader_t *this_,
                                                                            data_database_iterator_classifiers_t *io_classifier_iterator
                                                                          )
 {
     TRACE_BEGIN();
     assert( NULL != io_classifier_iterator );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     {
         sqlite3_stmt *prepared_statement;
@@ -422,7 +422,7 @@ data_error_t data_database_classifier_reader_get_all_classifiers_iterator( data_
                                                                    sizeof( DATA_DATABASE_READER_SELECT_ALL_CLASSIFIERS ),
                                                                    &prepared_statement
                                                                  );
-        if ( result == DATA_ERROR_NONE )
+        if ( result == U8_ERROR_NONE )
         {
             result |= data_database_iterator_classifiers_reinit ( io_classifier_iterator, (*this_).database, prepared_statement );
         }
@@ -511,13 +511,13 @@ static const int RESULT_FEATURE_LIST_UUID_COLUMN = 7;
  */
 static const int RESULT_FEATURE_DIAGRAMELEMENTS_ID_COLUMN = 8;
 
-data_error_t data_database_classifier_reader_get_feature_by_id ( data_database_classifier_reader_t *this_,
+u8_error_t data_database_classifier_reader_get_feature_by_id ( data_database_classifier_reader_t *this_,
                                                                  data_row_id_t id,
                                                                  data_feature_t *out_feature )
 {
     TRACE_BEGIN();
     assert( NULL != out_feature );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -531,7 +531,7 @@ data_error_t data_database_classifier_reader_get_feature_by_id ( data_database_c
         if ( SQLITE_ROW != sqlite_err )
         {
             TSLOG_ANOMALY( "sqlite3_step did not find a row." );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
 
         if ( SQLITE_ROW == sqlite_err )
@@ -554,7 +554,7 @@ data_error_t data_database_classifier_reader_get_feature_by_id ( data_database_c
         if ( SQLITE_DONE != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
     }
 
@@ -562,13 +562,13 @@ data_error_t data_database_classifier_reader_get_feature_by_id ( data_database_c
     return result;
 }
 
-data_error_t data_database_classifier_reader_get_feature_by_uuid ( data_database_classifier_reader_t *this_,
+u8_error_t data_database_classifier_reader_get_feature_by_uuid ( data_database_classifier_reader_t *this_,
                                                                    const char *uuid,
                                                                    data_feature_t *out_feature )
 {
     TRACE_BEGIN();
     assert( NULL != out_feature );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -582,7 +582,7 @@ data_error_t data_database_classifier_reader_get_feature_by_uuid ( data_database
         if ( SQLITE_ROW != sqlite_err )
         {
             TSLOG_ANOMALY( "sqlite3_step did not find a row." );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
 
         if ( SQLITE_ROW == sqlite_err )
@@ -605,7 +605,7 @@ data_error_t data_database_classifier_reader_get_feature_by_uuid ( data_database
         if ( SQLITE_DONE != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
     }
 
@@ -613,7 +613,7 @@ data_error_t data_database_classifier_reader_get_feature_by_uuid ( data_database
     return result;
 }
 
-data_error_t data_database_classifier_reader_get_features_by_classifier_id ( data_database_classifier_reader_t *this_,
+u8_error_t data_database_classifier_reader_get_features_by_classifier_id ( data_database_classifier_reader_t *this_,
                                                                              data_row_id_t classifier_id,
                                                                              uint32_t max_out_array_size,
                                                                              data_feature_t (*out_feature)[],
@@ -622,7 +622,7 @@ data_error_t data_database_classifier_reader_get_features_by_classifier_id ( dat
     TRACE_BEGIN();
     assert( NULL != out_feature_count );
     assert( NULL != out_feature );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -640,7 +640,7 @@ data_error_t data_database_classifier_reader_get_features_by_classifier_id ( dat
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
                 TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                result |= DATA_ERROR_AT_DB;
+                result |= U8_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
             {
@@ -664,7 +664,7 @@ data_error_t data_database_classifier_reader_get_features_by_classifier_id ( dat
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
                 TSLOG_ANOMALY_INT( "out_feature[] full:", (row_index+1) );
-                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
             {
@@ -677,7 +677,7 @@ data_error_t data_database_classifier_reader_get_features_by_classifier_id ( dat
     return result;
 }
 
-data_error_t data_database_classifier_reader_get_features_by_diagram_id ( data_database_classifier_reader_t *this_,
+u8_error_t data_database_classifier_reader_get_features_by_diagram_id ( data_database_classifier_reader_t *this_,
                                                                           data_row_id_t diagram_id,
                                                                           uint32_t max_out_array_size,
                                                                           data_feature_t (*out_feature)[],
@@ -686,7 +686,7 @@ data_error_t data_database_classifier_reader_get_features_by_diagram_id ( data_d
     TRACE_BEGIN();
     assert( NULL != out_feature_count );
     assert( NULL != out_feature );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -704,7 +704,7 @@ data_error_t data_database_classifier_reader_get_features_by_diagram_id ( data_d
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
                 TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                result |= DATA_ERROR_AT_DB;
+                result |= U8_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
             {
@@ -729,7 +729,7 @@ data_error_t data_database_classifier_reader_get_features_by_diagram_id ( data_d
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
                 TSLOG_ANOMALY_INT( "out_feature[] full:", (row_index+1) );
-                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
             {
@@ -855,11 +855,11 @@ static const int RESULT_RELATIONSHIP_SOURCE_DIAGRAMELEMENTS_ID_COLUMN = 10;
  */
 static const int RESULT_RELATIONSHIP_DEST_DIAGRAMELEMENTS_ID_COLUMN = 11;
 
-data_error_t data_database_classifier_reader_get_relationship_by_id ( data_database_classifier_reader_t *this_, data_row_id_t id, data_relationship_t *out_relationship )
+u8_error_t data_database_classifier_reader_get_relationship_by_id ( data_database_classifier_reader_t *this_, data_row_id_t id, data_relationship_t *out_relationship )
 {
     TRACE_BEGIN();
     assert( NULL != out_relationship );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -873,7 +873,7 @@ data_error_t data_database_classifier_reader_get_relationship_by_id ( data_datab
         if ( SQLITE_ROW != sqlite_err )
         {
             TSLOG_ANOMALY( "sqlite3_step did not find a row." );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
 
         if ( SQLITE_ROW == sqlite_err )
@@ -906,7 +906,7 @@ data_error_t data_database_classifier_reader_get_relationship_by_id ( data_datab
         if ( SQLITE_DONE != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
     }
 
@@ -914,13 +914,13 @@ data_error_t data_database_classifier_reader_get_relationship_by_id ( data_datab
     return result;
 }
 
-data_error_t data_database_classifier_reader_get_relationship_by_uuid ( data_database_classifier_reader_t *this_,
+u8_error_t data_database_classifier_reader_get_relationship_by_uuid ( data_database_classifier_reader_t *this_,
                                                                         const char *uuid,
                                                                         data_relationship_t *out_relationship )
 {
     TRACE_BEGIN();
     assert( NULL != out_relationship );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -934,7 +934,7 @@ data_error_t data_database_classifier_reader_get_relationship_by_uuid ( data_dat
         if ( SQLITE_ROW != sqlite_err )
         {
             TSLOG_ANOMALY( "sqlite3_step did not find a row." );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
 
         if ( SQLITE_ROW == sqlite_err )
@@ -967,7 +967,7 @@ data_error_t data_database_classifier_reader_get_relationship_by_uuid ( data_dat
         if ( SQLITE_DONE != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-            result |= DATA_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;
         }
     }
 
@@ -975,7 +975,7 @@ data_error_t data_database_classifier_reader_get_relationship_by_uuid ( data_dat
     return result;
 }
 
-data_error_t data_database_classifier_reader_get_relationships_by_classifier_id ( data_database_classifier_reader_t *this_,
+u8_error_t data_database_classifier_reader_get_relationships_by_classifier_id ( data_database_classifier_reader_t *this_,
                                                                                   data_row_id_t classifier_id,
                                                                                   uint32_t max_out_array_size,
                                                                                   data_relationship_t (*out_relationship)[],
@@ -984,7 +984,7 @@ data_error_t data_database_classifier_reader_get_relationships_by_classifier_id 
     TRACE_BEGIN();
     assert( NULL != out_relationship_count );
     assert( NULL != out_relationship );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -1002,7 +1002,7 @@ data_error_t data_database_classifier_reader_get_relationships_by_classifier_id 
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
                 TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                result |= DATA_ERROR_AT_DB;
+                result |= U8_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
             {
@@ -1036,7 +1036,7 @@ data_error_t data_database_classifier_reader_get_relationships_by_classifier_id 
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
                 TSLOG_ANOMALY_INT( "out_relationship[] full:", (row_index+1) );
-                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
             {
@@ -1049,7 +1049,7 @@ data_error_t data_database_classifier_reader_get_relationships_by_classifier_id 
     return result;
 }
 
-data_error_t data_database_classifier_reader_get_relationships_by_feature_id ( data_database_classifier_reader_t *this_,
+u8_error_t data_database_classifier_reader_get_relationships_by_feature_id ( data_database_classifier_reader_t *this_,
                                                                                data_row_id_t feature_id,
                                                                                uint32_t max_out_array_size,
                                                                                data_relationship_t (*out_relationship)[],
@@ -1058,7 +1058,7 @@ data_error_t data_database_classifier_reader_get_relationships_by_feature_id ( d
     TRACE_BEGIN();
     assert( NULL != out_relationship_count );
     assert( NULL != out_relationship );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -1076,7 +1076,7 @@ data_error_t data_database_classifier_reader_get_relationships_by_feature_id ( d
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
                 TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                result |= DATA_ERROR_AT_DB;
+                result |= U8_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
             {
@@ -1110,7 +1110,7 @@ data_error_t data_database_classifier_reader_get_relationships_by_feature_id ( d
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
                 TSLOG_ANOMALY_INT( "out_relationship[] full:", (row_index+1) );
-                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
             {
@@ -1123,7 +1123,7 @@ data_error_t data_database_classifier_reader_get_relationships_by_feature_id ( d
     return result;
 }
 
-data_error_t data_database_classifier_reader_get_relationships_by_diagram_id ( data_database_classifier_reader_t *this_,
+u8_error_t data_database_classifier_reader_get_relationships_by_diagram_id ( data_database_classifier_reader_t *this_,
                                                                                data_row_id_t diagram_id,
                                                                                uint32_t max_out_array_size,
                                                                                data_relationship_t (*out_relationship)[],
@@ -1132,7 +1132,7 @@ data_error_t data_database_classifier_reader_get_relationships_by_diagram_id ( d
     TRACE_BEGIN();
     assert( NULL != out_relationship_count );
     assert( NULL != out_relationship );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
@@ -1150,7 +1150,7 @@ data_error_t data_database_classifier_reader_get_relationships_by_diagram_id ( d
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
                 TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                result |= DATA_ERROR_AT_DB;
+                result |= U8_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
             {
@@ -1186,7 +1186,7 @@ data_error_t data_database_classifier_reader_get_relationships_by_diagram_id ( d
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
                 TSLOG_ANOMALY_INT( "out_relationship[] full:", (row_index+1) );
-                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
             {
@@ -1201,10 +1201,10 @@ data_error_t data_database_classifier_reader_get_relationships_by_diagram_id ( d
 
 /* ================================ private ================================ */
 
-data_error_t data_database_classifier_reader_private_open ( data_database_classifier_reader_t *this_ )
+u8_error_t data_database_classifier_reader_private_open ( data_database_classifier_reader_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     {
         result |= data_database_classifier_reader_private_prepare_statement ( this_,
@@ -1285,7 +1285,7 @@ data_error_t data_database_classifier_reader_private_open ( data_database_classi
                                                                               &((*this_).private_prepared_query_relationships_by_diagram_id)
                                                                             );
 
-        if ( result != DATA_ERROR_NONE )
+        if ( result != U8_ERROR_NONE )
         {
             TSLOG_ERROR( "A prepared statement could not be prepared." );
         }
@@ -1295,10 +1295,10 @@ data_error_t data_database_classifier_reader_private_open ( data_database_classi
     return result;
 }
 
-data_error_t data_database_classifier_reader_private_close ( data_database_classifier_reader_t *this_ )
+u8_error_t data_database_classifier_reader_private_close ( data_database_classifier_reader_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     {
         result |= data_database_classifier_reader_private_finalize_statement( this_, (*this_).private_prepared_query_classifier_by_id );

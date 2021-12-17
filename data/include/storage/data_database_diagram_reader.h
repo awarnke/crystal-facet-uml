@@ -14,7 +14,7 @@
 #include "storage/data_database_iterator_classifiers.h"
 #include "storage/data_database.h"
 #include "data_diagram.h"
-#include "data_error.h"
+#include "u8/u8_error.h"
 #include "data_classifier.h"
 #include "set/data_visible_classifier.h"
 #include "set/data_small_set.h"
@@ -59,9 +59,9 @@ typedef struct data_database_diagram_reader_struct data_database_diagram_reader_
  *
  *  \param this_ pointer to own object attributes
  *  \param database database which this reader uses
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t data_database_diagram_reader_init ( data_database_diagram_reader_t *this_, data_database_t *database );
+u8_error_t data_database_diagram_reader_init ( data_database_diagram_reader_t *this_, data_database_t *database );
 
 /*!
  *  \brief destroys the data_database_diagram_reader_t struct
@@ -69,9 +69,9 @@ data_error_t data_database_diagram_reader_init ( data_database_diagram_reader_t 
  *  This object shall be destroyed before closing the database.
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t data_database_diagram_reader_destroy ( data_database_diagram_reader_t *this_ );
+u8_error_t data_database_diagram_reader_destroy ( data_database_diagram_reader_t *this_ );
 
 /* ================================ DIAGRAM ================================ */
 
@@ -81,13 +81,13 @@ data_error_t data_database_diagram_reader_destroy ( data_database_diagram_reader
  *  \param this_ pointer to own object attributes
  *  \param id the diagram to be read from the database
  *  \param[out] out_diagram the diagram read from the database (in case of success)
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_diagram_reader_get_diagram_by_id ( data_database_diagram_reader_t *this_,
-                                                              data_row_id_t id,
-                                                              data_diagram_t *out_diagram
-                                                            );
+u8_error_t data_database_diagram_reader_get_diagram_by_id ( data_database_diagram_reader_t *this_,
+                                                            data_row_id_t id,
+                                                            data_diagram_t *out_diagram
+                                                          );
 
 /*!
  *  \brief reads a diagram from the database
@@ -95,13 +95,13 @@ data_error_t data_database_diagram_reader_get_diagram_by_id ( data_database_diag
  *  \param this_ pointer to own object attributes
  *  \param uuid the diagram to be read from the database
  *  \param[out] out_diagram the diagram read from the database (in case of success)
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_DB_STRUCTURE if uuid does not exist or DATA_ERROR_NO_DB if the database is not open.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_DB_STRUCTURE if uuid does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_diagram_reader_t *this_,
-                                                                const char *uuid,
-                                                                data_diagram_t *out_diagram
-                                                              );
+u8_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_diagram_reader_t *this_,
+                                                              const char *uuid,
+                                                              data_diagram_t *out_diagram
+                                                            );
 
 /*!
  *  \brief reads all child-diagrams from the database
@@ -111,16 +111,16 @@ data_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_di
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
  *  \param[out] out_diagram array of diagrams read from the database (in case of success)
  *  \param[out] out_diagram_count number of diagram records stored in out_diagram
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          DATA_ERROR_NO_DB if the database is not open,
- *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          U8_ERROR_NO_DB if the database is not open,
+ *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
-data_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_database_diagram_reader_t *this_,
-                                                                      data_row_id_t parent_id,
-                                                                      uint32_t max_out_array_size,
-                                                                      data_diagram_t (*out_diagram)[],
-                                                                      uint32_t *out_diagram_count
-                                                                    );
+u8_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_database_diagram_reader_t *this_,
+                                                                    data_row_id_t parent_id,
+                                                                    uint32_t max_out_array_size,
+                                                                    data_diagram_t (*out_diagram)[],
+                                                                    uint32_t *out_diagram_count
+                                                                  );
 
 #ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
 /*!
@@ -133,16 +133,16 @@ data_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_datab
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
  *  \param[out] out_diagram array of diagrams read from the database (in case of success)
  *  \param[out] out_diagram_count number of diagram records stored in out_diagram
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          DATA_ERROR_NO_DB if the database is not open,
- *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          U8_ERROR_NO_DB if the database is not open,
+ *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
-data_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_database_diagram_reader_t *this_,
-                                                                          data_row_id_t classifier_id,
-                                                                          uint32_t max_out_array_size,
-                                                                          data_diagram_t (*out_diagram)[],
-                                                                          uint32_t *out_diagram_count
-                                                                        );
+u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_database_diagram_reader_t *this_,
+                                                                        data_row_id_t classifier_id,
+                                                                        uint32_t max_out_array_size,
+                                                                        data_diagram_t (*out_diagram)[],
+                                                                        uint32_t *out_diagram_count
+                                                                      );
 #endif
 
 /*!
@@ -151,13 +151,13 @@ data_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_d
  *  \param this_ pointer to own object attributes
  *  \param parent_id id of the parent diagram, DATA_ROW_ID_VOID to get all root diagram ids
  *  \param[out] out_diagram_ids set of diagram ids read from the database (in case of success). The provided set shall be initialized.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_diagram_reader_get_diagram_ids_by_parent_id ( data_database_diagram_reader_t *this_,
-                                                                         data_row_id_t parent_id,
-                                                                         data_small_set_t *out_diagram_ids
-                                                                       );
+u8_error_t data_database_diagram_reader_get_diagram_ids_by_parent_id ( data_database_diagram_reader_t *this_,
+                                                                       data_row_id_t parent_id,
+                                                                       data_small_set_t *out_diagram_ids
+                                                                     );
 
 /*!
  *  \brief reads all classifier-displaying diagrams ids from the database
@@ -167,13 +167,13 @@ data_error_t data_database_diagram_reader_get_diagram_ids_by_parent_id ( data_da
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier
  *  \param[out] out_diagram_ids set of diagram ids read from the database (in case of success). The provided set shall be initialized.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_diagram_reader_get_diagram_ids_by_classifier_id ( data_database_diagram_reader_t *this_,
-                                                                             data_row_id_t classifier_id,
-                                                                             data_small_set_t *out_diagram_ids
-                                                                           );
+u8_error_t data_database_diagram_reader_get_diagram_ids_by_classifier_id ( data_database_diagram_reader_t *this_,
+                                                                           data_row_id_t classifier_id,
+                                                                           data_small_set_t *out_diagram_ids
+                                                                         );
 
 /* ================================ DIAGRAMELEMENT ================================ */
 
@@ -183,13 +183,13 @@ data_error_t data_database_diagram_reader_get_diagram_ids_by_classifier_id ( dat
  *  \param this_ pointer to own object attributes
  *  \param id the diagramelement to be read from the database
  *  \param[out] out_diagramelement the diagramelement read from the database (in case of success)
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_diagram_reader_get_diagramelement_by_id ( data_database_diagram_reader_t *this_,
-                                                                     data_row_id_t id,
-                                                                     data_diagramelement_t *out_diagramelement
-                                                                   );
+u8_error_t data_database_diagram_reader_get_diagramelement_by_id ( data_database_diagram_reader_t *this_,
+                                                                   data_row_id_t id,
+                                                                   data_diagramelement_t *out_diagramelement
+                                                                 );
 
 /*!
  *  \brief reads a diagramelement from the database
@@ -197,13 +197,13 @@ data_error_t data_database_diagram_reader_get_diagramelement_by_id ( data_databa
  *  \param this_ pointer to own object attributes
  *  \param uuid the diagramelement to be read from the database
  *  \param[out] out_diagramelement the diagramelement read from the database (in case of success)
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_DB_STRUCTURE if uuid does not exist or DATA_ERROR_NO_DB if the database is not open.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_DB_STRUCTURE if uuid does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_database_diagram_reader_t *this_,
-                                                                       const char *uuid,
-                                                                       data_diagramelement_t *out_diagramelement
-                                                                     );
+u8_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_database_diagram_reader_t *this_,
+                                                                     const char *uuid,
+                                                                     data_diagramelement_t *out_diagramelement
+                                                                   );
 
 /*!
  *  \brief reads all diagramelements of a diagram from the database
@@ -213,16 +213,16 @@ data_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_data
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
  *  \param[out] out_diagramelement array of diagramelements read from the database (in case of success)
  *  \param[out] out_diagramelement_count number of diagramelement records stored in out_diagramelement
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          DATA_ERROR_NO_DB if the database is not open,
- *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          U8_ERROR_NO_DB if the database is not open,
+ *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
-data_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id ( data_database_diagram_reader_t *this_,
-                                                                              data_row_id_t diagram_id,
-                                                                              uint32_t max_out_array_size,
-                                                                              data_diagramelement_t (*out_diagramelement)[],
-                                                                              uint32_t *out_diagramelement_count
-                                                                            );
+u8_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id ( data_database_diagram_reader_t *this_,
+                                                                            data_row_id_t diagram_id,
+                                                                            uint32_t max_out_array_size,
+                                                                            data_diagramelement_t (*out_diagramelement)[],
+                                                                            uint32_t *out_diagramelement_count
+                                                                          );
 
 /*!
  *  \brief reads all diagramelements of a classifier from the database
@@ -232,16 +232,16 @@ data_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id ( da
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
  *  \param[out] out_diagramelement array of diagramelements read from the database (in case of success)
  *  \param[out] out_diagramelement_count number of diagramelement records stored in out_diagramelement
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          DATA_ERROR_NO_DB if the database is not open,
- *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          U8_ERROR_NO_DB if the database is not open,
+ *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
-data_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id ( data_database_diagram_reader_t *this_,
-                                                                                 data_row_id_t classifier_id,
-                                                                                 uint32_t max_out_array_size,
-                                                                                 data_diagramelement_t (*out_diagramelement)[],
-                                                                                 uint32_t *out_diagramelement_count
-                                                                               );
+u8_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id ( data_database_diagram_reader_t *this_,
+                                                                               data_row_id_t classifier_id,
+                                                                               uint32_t max_out_array_size,
+                                                                               data_diagramelement_t (*out_diagramelement)[],
+                                                                               uint32_t *out_diagramelement_count
+                                                                             );
 
 /* ================================ private ================================ */
 
@@ -249,17 +249,17 @@ data_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id (
  *  \brief initializes the data_database_diagram_reader_t struct and allows access to the database after the database is opened
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t data_database_diagram_reader_private_open ( data_database_diagram_reader_t *this_ );
+u8_error_t data_database_diagram_reader_private_open ( data_database_diagram_reader_t *this_ );
 
 /*!
  *  \brief closes the data_database_diagram_reader_t struct (prohibits access to the database) before the database is closed
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t data_database_diagram_reader_private_close ( data_database_diagram_reader_t *this_ );
+u8_error_t data_database_diagram_reader_private_close ( data_database_diagram_reader_t *this_ );
 
 /*!
  *  \brief creates a prepared statement.
@@ -268,31 +268,31 @@ data_error_t data_database_diagram_reader_private_close ( data_database_diagram_
  *  \param string_statement statement as string to be prepared
  *  \param string_size size of string_statement in bytes, including the terminating zero
  *  \param[out] out_statement_ptr address of a pointer. The pointer is modifies as to point to a statement object.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline data_error_t data_database_diagram_reader_private_prepare_statement ( data_database_diagram_reader_t *this_,
-                                                                            const char *string_statement,
-                                                                            int string_size,
-                                                                            sqlite3_stmt **out_statement_ptr
-                                                                          );
+static inline u8_error_t data_database_diagram_reader_private_prepare_statement ( data_database_diagram_reader_t *this_,
+                                                                                  const char *string_statement,
+                                                                                  int string_size,
+                                                                                  sqlite3_stmt **out_statement_ptr
+                                                                                );
 
 /*!
  *  \brief finalizes a prepared statement.
  *
  *  \param this_ pointer to own object attributes
  *  \param statement_ptr pointer to a statement object
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline data_error_t data_database_diagram_reader_private_finalize_statement ( data_database_diagram_reader_t *this_, sqlite3_stmt *statement_ptr );
+static inline u8_error_t data_database_diagram_reader_private_finalize_statement ( data_database_diagram_reader_t *this_, sqlite3_stmt *statement_ptr );
 
 /*!
  *  \brief resets a statement only, without binding.
  *
  *  \param this_ pointer to own object attributes
  *  \param statement_ptr pointer to a statement object
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline data_error_t data_database_diagram_reader_private_bind_void_to_statement ( data_database_diagram_reader_t *this_, sqlite3_stmt *statement_ptr );
+static inline u8_error_t data_database_diagram_reader_private_bind_void_to_statement ( data_database_diagram_reader_t *this_, sqlite3_stmt *statement_ptr );
 
 /*!
  *  \brief binds a single integer to a prepared statement (after reset).
@@ -302,9 +302,9 @@ static inline data_error_t data_database_diagram_reader_private_bind_void_to_sta
  *  \param this_ pointer to own object attributes
  *  \param statement_ptr pointer to a statement object
  *  \param id integer to bind to the prepared statement. DATA_ROW_ID_VOID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline data_error_t data_database_diagram_reader_private_bind_id_to_statement ( data_database_diagram_reader_t *this_, sqlite3_stmt *statement_ptr, data_row_id_t id );
+static inline u8_error_t data_database_diagram_reader_private_bind_id_to_statement ( data_database_diagram_reader_t *this_, sqlite3_stmt *statement_ptr, data_row_id_t id );
 
 /*!
  *  \brief binds a single string to a prepared statement (after reset).
@@ -314,9 +314,9 @@ static inline data_error_t data_database_diagram_reader_private_bind_id_to_state
  *  \param this_ pointer to own object attributes
  *  \param statement_ptr pointer to a statement object
  *  \param text char sequence to bind to the prepared statement.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline data_error_t data_database_diagram_reader_private_bind_text_to_statement ( data_database_diagram_reader_t *this_, sqlite3_stmt *statement_ptr, const char *text );
+static inline u8_error_t data_database_diagram_reader_private_bind_text_to_statement ( data_database_diagram_reader_t *this_, sqlite3_stmt *statement_ptr, const char *text );
 
 #include "storage/data_database_diagram_reader.inl"
 

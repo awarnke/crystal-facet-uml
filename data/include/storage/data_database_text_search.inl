@@ -11,16 +11,16 @@ static inline bool data_database_text_search_is_open( data_database_text_search_
     return result;
 }
 
-static inline data_error_t data_database_text_search_get_objects_by_text_fragment ( data_database_text_search_t *this_,
-                                                                                    const char *textfragment,
-                                                                                    unsigned int max_out_results,
-                                                                                    data_search_result_t (*out_results)[],
-                                                                                    unsigned int* out_result_count )
+static inline u8_error_t data_database_text_search_get_objects_by_text_fragment ( data_database_text_search_t *this_,
+                                                                                  const char *textfragment,
+                                                                                  unsigned int max_out_results,
+                                                                                  data_search_result_t (*out_results)[],
+                                                                                  unsigned int* out_result_count )
 {
     assert( NULL != out_results );
     assert( NULL != out_result_count );
     assert( NULL != textfragment );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     data_search_result_list_t out_list;
     data_search_result_list_init ( &out_list, max_out_results, out_results );
@@ -36,14 +36,14 @@ static inline data_error_t data_database_text_search_get_objects_by_text_fragmen
 
 /* ================================ private ================================ */
 
-static inline data_error_t data_database_text_search_private_prepare_statement ( data_database_text_search_t *this_,
-                                                                                 const char *string_statement,
-                                                                                 unsigned int string_size,
-                                                                                 sqlite3_stmt **out_statement_ptr )
+static inline u8_error_t data_database_text_search_private_prepare_statement ( data_database_text_search_t *this_,
+                                                                               const char *string_statement,
+                                                                               unsigned int string_size,
+                                                                               sqlite3_stmt **out_statement_ptr )
 {
     assert( NULL != string_statement );
     assert( NULL != out_statement_ptr );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     const char *first_unused_statement_char;
     int sqlite_err;
     sqlite3 *db;
@@ -63,16 +63,16 @@ static inline data_error_t data_database_text_search_private_prepare_statement (
         TSLOG_ERROR_STR( "sqlite3_prepare_v2() failed:", string_statement );
         TSLOG_ERROR_INT( "sqlite3_prepare_v2() failed:", sqlite_err );
         TSLOG_ERROR_STR( "sqlite3_prepare_v2() failed:", sqlite3_errmsg( db ) );
-        result |= DATA_ERROR_AT_DB;
+        result |= U8_ERROR_AT_DB;
     }
 
     return result;
 }
 
-static inline data_error_t data_database_text_search_private_finalize_statement ( data_database_text_search_t *this_, sqlite3_stmt *statement_ptr )
+static inline u8_error_t data_database_text_search_private_finalize_statement ( data_database_text_search_t *this_, sqlite3_stmt *statement_ptr )
 {
     assert( NULL != statement_ptr );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
 
     TRACE_INFO_STR( "sqlite3_finalize():", sqlite3_sql(statement_ptr) );
@@ -81,21 +81,21 @@ static inline data_error_t data_database_text_search_private_finalize_statement 
     {
         TSLOG_ERROR_STR( "sqlite3_finalize() failed:", sqlite3_sql(statement_ptr) );
         TSLOG_ERROR_INT( "sqlite3_finalize() failed:", sqlite_err );
-        result |= DATA_ERROR_AT_DB;
+        result |= U8_ERROR_AT_DB;
     }
 
     return result;
 }
 
-static inline data_error_t data_database_text_search_private_bind_two_texts_to_statement ( data_database_text_search_t *this_,
-                                                                                           sqlite3_stmt *statement_ptr,
-                                                                                           const char *text_1,
-                                                                                           const char *text_2 )
+static inline u8_error_t data_database_text_search_private_bind_two_texts_to_statement ( data_database_text_search_t *this_,
+                                                                                         sqlite3_stmt *statement_ptr,
+                                                                                         const char *text_1,
+                                                                                         const char *text_2 )
 {
     assert( NULL != statement_ptr );
     assert( NULL != text_1 );
     assert( NULL != text_2 );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     static const int FIRST_SQL_BIND_PARAM = 1;
     static const int SECOND_SQL_BIND_PARAM = 2;
     int sqlite_err;
@@ -104,7 +104,7 @@ static inline data_error_t data_database_text_search_private_bind_two_texts_to_s
     if ( SQLITE_OK != sqlite_err )
     {
         TSLOG_ERROR_INT( "sqlite3_reset() failed:", sqlite_err );
-        result |= DATA_ERROR_AT_DB;
+        result |= U8_ERROR_AT_DB;
     }
 
     TRACE_INFO_STR( "sqlite3_bind_text():", sqlite3_sql(statement_ptr) );
@@ -115,30 +115,30 @@ static inline data_error_t data_database_text_search_private_bind_two_texts_to_s
     if ( SQLITE_OK != sqlite_err )
     {
         TSLOG_ERROR_INT( "sqlite3_bind_text() failed:", sqlite_err );
-        result |= DATA_ERROR_AT_DB;
+        result |= U8_ERROR_AT_DB;
     }
     TRACE_INFO_STR( "sqlite3_bind_text():", text_2 );
     sqlite_err = sqlite3_bind_text( statement_ptr, SECOND_SQL_BIND_PARAM, text_2, -1, SQLITE_STATIC );
     if ( SQLITE_OK != sqlite_err )
     {
         TSLOG_ERROR_INT( "sqlite3_bind_text() failed:", sqlite_err );
-        result |= DATA_ERROR_AT_DB;
+        result |= U8_ERROR_AT_DB;
     }
 
     return result;
 }
 
-static inline data_error_t data_database_text_search_private_bind_three_texts_to_statement ( data_database_text_search_t *this_,
-                                                                                             sqlite3_stmt *statement_ptr,
-                                                                                             const char *text_1,
-                                                                                             const char *text_2,
-                                                                                             const char *text_3 )
+static inline u8_error_t data_database_text_search_private_bind_three_texts_to_statement ( data_database_text_search_t *this_,
+                                                                                           sqlite3_stmt *statement_ptr,
+                                                                                           const char *text_1,
+                                                                                           const char *text_2,
+                                                                                           const char *text_3 )
 {
     assert( NULL != statement_ptr );
     assert( NULL != text_1 );
     assert( NULL != text_2 );
     assert( NULL != text_3 );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     static const int FIRST_SQL_BIND_PARAM = 1;
     static const int SECOND_SQL_BIND_PARAM = 2;
     static const int THIRD_SQL_BIND_PARAM = 3;
@@ -148,7 +148,7 @@ static inline data_error_t data_database_text_search_private_bind_three_texts_to
     if ( SQLITE_OK != sqlite_err )
     {
         TSLOG_ERROR_INT( "sqlite3_reset() failed:", sqlite_err );
-        result |= DATA_ERROR_AT_DB;
+        result |= U8_ERROR_AT_DB;
     }
 
     TRACE_INFO_STR( "sqlite3_bind_text():", sqlite3_sql(statement_ptr) );
@@ -159,21 +159,21 @@ static inline data_error_t data_database_text_search_private_bind_three_texts_to
     if ( SQLITE_OK != sqlite_err )
     {
         TSLOG_ERROR_INT( "sqlite3_bind_text() failed:", sqlite_err );
-        result |= DATA_ERROR_AT_DB;
+        result |= U8_ERROR_AT_DB;
     }
     TRACE_INFO_STR( "sqlite3_bind_text():", text_2 );
     sqlite_err = sqlite3_bind_text( statement_ptr, SECOND_SQL_BIND_PARAM, text_2, -1, SQLITE_STATIC );
     if ( SQLITE_OK != sqlite_err )
     {
         TSLOG_ERROR_INT( "sqlite3_bind_text() failed:", sqlite_err );
-        result |= DATA_ERROR_AT_DB;
+        result |= U8_ERROR_AT_DB;
     }
     TRACE_INFO_STR( "sqlite3_bind_text():", text_3 );
     sqlite_err = sqlite3_bind_text( statement_ptr, THIRD_SQL_BIND_PARAM, text_3, -1, SQLITE_STATIC );
     if ( SQLITE_OK != sqlite_err )
     {
         TSLOG_ERROR_INT( "sqlite3_bind_text() failed:", sqlite_err );
-        result |= DATA_ERROR_AT_DB;
+        result |= U8_ERROR_AT_DB;
     }
 
     return result;

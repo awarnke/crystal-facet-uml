@@ -3,24 +3,24 @@
 #include "tslog.h"
 #include <assert.h>
 
-static inline data_error_t data_database_open ( data_database_t *this_, const char* db_file_path )
+static inline u8_error_t data_database_open ( data_database_t *this_, const char* db_file_path )
 {
-    const data_error_t err
+    const u8_error_t err
         = data_database_private_open( this_, db_file_path, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE );
     return err;
 }
 
-static inline data_error_t data_database_open_read_only ( data_database_t *this_, const char* db_file_path )
+static inline u8_error_t data_database_open_read_only ( data_database_t *this_, const char* db_file_path )
 {
-    const data_error_t err
+    const u8_error_t err
         = data_database_private_open( this_, db_file_path, SQLITE_OPEN_READONLY );
     return err;
 }
 
-static inline data_error_t data_database_open_in_memory ( data_database_t *this_ )
+static inline u8_error_t data_database_open_in_memory ( data_database_t *this_ )
 {
     const char* const IN_MEMORY_FILENAME = ":memory:"; /* magic filename, see https://www.sqlite.org/c3ref/open.html */
-    const data_error_t err
+    const u8_error_t err
         = data_database_private_open( this_,
                                       IN_MEMORY_FILENAME,
                                       SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_MEMORY
@@ -51,18 +51,18 @@ static inline void data_database_private_clear_db_listener_list( data_database_t
     }
 }
 
-static inline data_error_t data_database_private_lock ( data_database_t *this_ )
+static inline u8_error_t data_database_private_lock ( data_database_t *this_ )
 {
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     g_mutex_lock ( &((*this_).private_lock) );
 
     return result;
 }
 
-static inline data_error_t data_database_private_unlock ( data_database_t *this_ )
+static inline u8_error_t data_database_private_unlock ( data_database_t *this_ )
 {
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     g_mutex_unlock ( &((*this_).private_lock) );
 
@@ -72,19 +72,19 @@ static inline data_error_t data_database_private_unlock ( data_database_t *this_
 static inline bool data_database_is_open( data_database_t *this_ )
 {
     bool result;
-    data_error_t locking_error;
+    u8_error_t locking_error;
     locking_error = data_database_private_lock( this_ );
     result = (*this_).is_open;
     locking_error |= data_database_private_unlock( this_ );
     return result;
 }
 
-static inline data_error_t data_database_private_exec_sql( data_database_t *this_, const char* sql_command, bool ignore_errors )
+static inline u8_error_t data_database_private_exec_sql( data_database_t *this_, const char* sql_command, bool ignore_errors )
 {
     assert( sql_command != NULL );
     int sqlite_err;
     char *error_msg = NULL;
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     sqlite3 *const db = (*this_).db;
 
     TSLOG_EVENT_STR( "sqlite3_exec:", sql_command );
@@ -96,7 +96,7 @@ static inline data_error_t data_database_private_exec_sql( data_database_t *this
         {
             TSLOG_WARNING_STR( "sqlite3_exec() failed:", sql_command );
         }
-        result |=  DATA_ERROR_READ_ONLY_DB;
+        result |=  U8_ERROR_READ_ONLY_DB;
     }
     else if ( SQLITE_OK != sqlite_err )
     {
@@ -105,7 +105,7 @@ static inline data_error_t data_database_private_exec_sql( data_database_t *this
             TSLOG_ERROR_STR( "sqlite3_exec() failed:", sql_command );
             TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
         }
-        result |= DATA_ERROR_AT_DB;
+        result |= U8_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {

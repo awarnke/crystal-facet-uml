@@ -406,12 +406,12 @@ void gui_attributes_editor_commit_clicked_callback (GtkButton *button, gpointer 
 
     gui_attributes_editor_commit_changes ( this_ );
 
-    data_error_t d_err;
-    d_err = DATA_ERROR_NONE;
+    u8_error_t d_err;
+    d_err = U8_ERROR_NONE;
     d_err |= data_database_trace_stats( (*this_).database );
     d_err |= data_database_flush_caches( (*this_).database );
     d_err |= data_database_trace_stats( (*this_).database );
-    if ( DATA_ERROR_NONE != d_err )
+    if ( U8_ERROR_NONE != d_err )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,
@@ -570,21 +570,21 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
 
             /* load the object */
             {
-                data_error_t db_err;
+                u8_error_t db_err;
 
                 data_classifier_destroy( &((*this_).private_classifier_cache) );
                 db_err = data_database_reader_get_classifier_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_classifier_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
-                if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_STRING_BUFFER_EXCEEDED) )
+                if ( U8_ERROR_NONE != (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
                 {
-                    TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a classifier" );
+                    TSLOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a classifier" );
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
-                if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
+                if ( U8_ERROR_NONE != (db_err & ~(U8_ERROR_STRING_BUFFER_EXCEEDED)) )
                 {
                     /* error at loading */
                     data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
@@ -602,21 +602,21 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
 
             /* load the object */
             {
-                data_error_t db_err;
+                u8_error_t db_err;
 
                 data_feature_destroy( &((*this_).private_feature_cache) );
                 db_err = data_database_reader_get_feature_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_feature_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
-                if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_STRING_BUFFER_EXCEEDED) )
+                if ( U8_ERROR_NONE != (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
                 {
-                    TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a feature" );
+                    TSLOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a feature" );
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
-                if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
+                if ( U8_ERROR_NONE != (db_err & ~(U8_ERROR_STRING_BUFFER_EXCEEDED)) )
                 {
                     /* error at loading */
                     data_feature_reinit_empty( &((*this_).private_feature_cache) );
@@ -634,21 +634,21 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
 
             /* load the object */
             {
-                data_error_t db_err;
+                u8_error_t db_err;
 
                 data_relationship_destroy( &((*this_).private_relationship_cache) );
                 db_err = data_database_reader_get_relationship_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_relationship_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
-                if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_STRING_BUFFER_EXCEEDED) )
+                if ( U8_ERROR_NONE != (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
                 {
-                    TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a relationship" );
+                    TSLOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a relationship" );
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
-                if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
+                if ( U8_ERROR_NONE != (db_err & ~(U8_ERROR_STRING_BUFFER_EXCEEDED)) )
                 {
                     /* error at loading */
                     data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
@@ -677,21 +677,21 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
 
             /* load the object */
             {
-                data_error_t db_err;
+                u8_error_t db_err;
 
                 data_diagram_destroy( &((*this_).private_diagram_cache) );
                 db_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_diagram_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
-                if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_STRING_BUFFER_EXCEEDED) )
+                if ( U8_ERROR_NONE != (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
                 {
-                    TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
+                    TSLOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
-                if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
+                if ( U8_ERROR_NONE != (db_err & ~(U8_ERROR_STRING_BUFFER_EXCEEDED)) )
                 {
                     /* error at loading */
                     data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
@@ -731,7 +731,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
 
     TRACE_INFO_STR( "text:", text );
 
-    ctrl_error_t ctrl_err;
+    u8_error_t ctrl_err;
     switch ( data_id_get_table( &((*this_).selected_object_id) ) )
     {
         case DATA_TABLE_VOID:
@@ -754,7 +754,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                                                                               data_id_get_row_id( &((*this_).selected_object_id) ),
                                                                               text
                                                                             );
-                if ( CTRL_ERROR_DUPLICATE_NAME == ctrl_err )
+                if ( U8_ERROR_DUPLICATE_NAME == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
                                                                        GUI_SIMPLE_MESSAGE_TYPE_ERROR,
@@ -762,14 +762,14 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                                                                        text
                                                                      );
                 }
-                else if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                else if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
-                else if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                else if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -777,7 +777,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                                                              GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
                                                            );
                 }
-                else if ( CTRL_ERROR_NONE != ctrl_err )
+                else if ( U8_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update name failed:", ctrl_err );
                 }
@@ -798,14 +798,14 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                                                                           data_id_get_row_id( &((*this_).selected_object_id) ),
                                                                           text
                                                                         );
-                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
-                else if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                else if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -813,7 +813,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                                                              GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
                                                            );
                 }
-                else if ( CTRL_ERROR_NONE != ctrl_err )
+                else if ( U8_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update key/name failed:", ctrl_err );
                 }
@@ -834,14 +834,14 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                                                                                 data_id_get_row_id( &((*this_).selected_object_id) ),
                                                                                 text
                                                                               );
-                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
-                else if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                else if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -849,7 +849,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                                                              GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
                                                            );
                 }
-                else if ( CTRL_ERROR_NONE != ctrl_err )
+                else if ( U8_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update name failed:", ctrl_err );
                 }
@@ -877,14 +877,14 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                                                                         data_id_get_row_id( &((*this_).selected_object_id) ),
                                                                         text
                                                                       );
-                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
-                else if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                else if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -892,7 +892,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                                                              GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
                                                            );
                 }
-                else if ( CTRL_ERROR_NONE != ctrl_err )
+                else if ( U8_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update name failed:", ctrl_err );
                 }
@@ -921,7 +921,7 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
 
     TRACE_INFO_STR( "text:", text );
 
-    ctrl_error_t ctrl_err;
+    u8_error_t ctrl_err;
     switch ( data_id_get_table( &((*this_).selected_object_id) ) )
     {
         case DATA_TABLE_VOID:
@@ -941,14 +941,14 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_classifier_controller_update_classifier_stereotype ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
-                else if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                else if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -956,7 +956,7 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
                                                         );
                 }
-                else if ( CTRL_ERROR_NONE != ctrl_err )
+                else if ( U8_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update stereotype failed:", ctrl_err );
                 }
@@ -974,14 +974,14 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_classifier_controller_update_feature_value ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
-                else if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                else if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -989,7 +989,7 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
                                                         );
                 }
-                else if ( CTRL_ERROR_NONE != ctrl_err )
+                else if ( U8_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update value/stereotype failed:", ctrl_err );
                 }
@@ -1032,7 +1032,7 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
 
     TRACE_INFO_INT( "obj_type:", obj_type );
 
-    ctrl_error_t ctrl_err;
+    u8_error_t ctrl_err;
     switch ( data_id_get_table( &((*this_).selected_object_id) ) )
     {
         case DATA_TABLE_VOID:
@@ -1052,7 +1052,7 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_classifier_controller_update_classifier_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
-                if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -1060,7 +1060,7 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
                                                         );
                 }
-                else if ( CTRL_ERROR_NONE != ctrl_err )
+                else if ( U8_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
                 }
@@ -1078,7 +1078,7 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_classifier_controller_update_feature_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
-                if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -1086,7 +1086,7 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
                                                         );
                 }
-                else if ( CTRL_ERROR_NONE != ctrl_err )
+                else if ( U8_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
                 }
@@ -1104,7 +1104,7 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_classifier_controller_update_relationship_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
-                if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -1112,7 +1112,7 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
                                                         );
                 }
-                else if ( CTRL_ERROR_NONE != ctrl_err )
+                else if ( U8_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
                 }
@@ -1137,7 +1137,7 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                 diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_diagram_controller_update_diagram_type ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
-                if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -1145,7 +1145,7 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
                                                         );
                 }
-                else if ( CTRL_ERROR_NONE != ctrl_err )
+                else if ( U8_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update type failed:", ctrl_err );
                 }
@@ -1181,7 +1181,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
 
     TRACE_INFO_STR( "text:", text );
 
-    ctrl_error_t ctrl_err;
+    u8_error_t ctrl_err;
     switch ( data_id_get_table( &((*this_).selected_object_id) ) )
     {
         case DATA_TABLE_VOID:
@@ -1201,14 +1201,14 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_classifier_controller_update_classifier_description ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
-                else if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                else if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -1216,7 +1216,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
                                                         );
                 }
-                else if ( CTRL_ERROR_NONE != ctrl_err )
+                else if ( U8_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update description failed:", ctrl_err );
                 }
@@ -1234,14 +1234,14 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_classifier_controller_update_feature_description ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
-                else if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                else if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -1249,7 +1249,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
                                                         );
                 }
-                else if ( CTRL_ERROR_NONE != ctrl_err )
+                else if ( U8_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update description failed:", ctrl_err );
                 }
@@ -1267,14 +1267,14 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_classifier_controller_update_relationship_description ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
-                else if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                else if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -1282,7 +1282,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
                                                         );
                 }
-                else if ( CTRL_ERROR_NONE != ctrl_err )
+                else if ( U8_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update description failed:", ctrl_err );
                 }
@@ -1307,14 +1307,14 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_diagram_controller_update_diagram_description ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
-                else if ( CTRL_ERROR_READ_ONLY_DB == ctrl_err )
+                else if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -1322,7 +1322,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
                                                         );
                 }
-                else if ( CTRL_ERROR_NONE != ctrl_err )
+                else if ( U8_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update description failed:", ctrl_err );
                 }

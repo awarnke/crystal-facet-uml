@@ -53,21 +53,21 @@ void ctrl_controller_destroy ( ctrl_controller_t *this_ )
 
 /* ================================ interface for database file ================================ */
 
-ctrl_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const char* db_file_path )
+u8_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const char* db_file_path )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
-    const data_error_t close_result = data_database_close( (*this_).database );
+    const u8_error_t close_result = data_database_close( (*this_).database );
     ctrl_undo_redo_list_clear( &((*this_).undo_redo_list) );
-    if ( DATA_ERROR_NONE != close_result )
+    if ( U8_ERROR_NONE != close_result )
     {
         /* we do not care about errors at closing, trace and ignore close_result */
         TRACE_INFO_HEX( "Error at data_database_close", close_result );
     }
 
-    const data_error_t open_result = data_database_open( (*this_).database, db_file_path );
-    result = (ctrl_error_t) open_result;
+    const u8_error_t open_result = data_database_open( (*this_).database, db_file_path );
+    result = (u8_error_t) open_result;
 
     TRACE_END_ERR( result );
     return result;
@@ -75,17 +75,17 @@ ctrl_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const c
 
 /* ================================ interface for sets of elements ================================ */
 
-ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
+u8_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
                                           const data_small_set_t *objects,
                                           data_stat_t *io_stat )
 {
     TRACE_BEGIN();
     assert ( NULL != io_stat );
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( data_small_set_is_empty( objects ) )
     {
-        result = CTRL_ERROR_INPUT_EMPTY;
+        result = U8_ERROR_INPUT_EMPTY;
     }
     else
     {
@@ -141,7 +141,7 @@ ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
 
                 default:
                 {
-                    result |= CTRL_ERROR_VALUE_OUT_OF_RANGE;
+                    result |= U8_ERROR_VALUE_OUT_OF_RANGE;
                 }
                 break;
             }

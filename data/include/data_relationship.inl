@@ -27,20 +27,20 @@ static inline void data_relationship_reinit_empty ( data_relationship_t *this_ )
     data_relationship_init_empty( this_ );
 }
 
-static inline data_error_t data_relationship_init_new ( data_relationship_t *this_,
-                                                        data_relationship_type_t relationship_main_type,
-                                                        data_row_id_t from_classifier_id,
-                                                        data_row_id_t to_classifier_id,
-                                                        const char* relationship_name,
-                                                        const char* relationship_description,
-                                                        int32_t list_order,
-                                                        data_row_id_t from_feature_id,
-                                                        data_row_id_t to_feature_id )
+static inline u8_error_t data_relationship_init_new ( data_relationship_t *this_,
+                                                      data_relationship_type_t relationship_main_type,
+                                                      data_row_id_t from_classifier_id,
+                                                      data_row_id_t to_classifier_id,
+                                                      const char* relationship_name,
+                                                      const char* relationship_description,
+                                                      int32_t list_order,
+                                                      data_row_id_t from_feature_id,
+                                                      data_row_id_t to_feature_id )
 {
     assert( NULL != relationship_name );
     assert( NULL != relationship_description );
     utf8error_t strerr;
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     (*this_).id = DATA_ROW_ID_VOID;
     (*this_).from_classifier_id = from_classifier_id;
@@ -54,7 +54,7 @@ static inline data_error_t data_relationship_init_new ( data_relationship_t *thi
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
-        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+        result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
@@ -62,7 +62,7 @@ static inline data_error_t data_relationship_init_new ( data_relationship_t *thi
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
-        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+        result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
     (*this_).list_order = list_order;
@@ -71,23 +71,23 @@ static inline data_error_t data_relationship_init_new ( data_relationship_t *thi
     return result;
 }
 
-static inline data_error_t data_relationship_init ( data_relationship_t *this_,
-                                                    data_row_id_t relationship_id,
-                                                    data_relationship_type_t relationship_main_type,
-                                                    data_row_id_t from_classifier_id,
-                                                    data_row_id_t to_classifier_id,
-                                                    const char* relationship_name,
-                                                    const char* relationship_description,
-                                                    int32_t list_order,
-                                                    data_row_id_t from_feature_id,
-                                                    data_row_id_t to_feature_id,
-                                                    const char* uuid )
+static inline u8_error_t data_relationship_init ( data_relationship_t *this_,
+                                                  data_row_id_t relationship_id,
+                                                  data_relationship_type_t relationship_main_type,
+                                                  data_row_id_t from_classifier_id,
+                                                  data_row_id_t to_classifier_id,
+                                                  const char* relationship_name,
+                                                  const char* relationship_description,
+                                                  int32_t list_order,
+                                                  data_row_id_t from_feature_id,
+                                                  data_row_id_t to_feature_id,
+                                                  const char* uuid )
 {
     assert( NULL != relationship_name );
     assert( NULL != relationship_description );
     assert( NULL != uuid );
     utf8error_t strerr;
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     (*this_).id = relationship_id;
     (*this_).from_classifier_id = from_classifier_id;
@@ -101,7 +101,7 @@ static inline data_error_t data_relationship_init ( data_relationship_t *this_,
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
-        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+        result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
@@ -109,7 +109,7 @@ static inline data_error_t data_relationship_init ( data_relationship_t *this_,
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
-        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+        result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
     (*this_).list_order = list_order;
@@ -246,16 +246,16 @@ static inline const char *data_relationship_get_name_const ( const data_relation
     return utf8stringbuf_get_string( (*this_).name );
 }
 
-static inline data_error_t data_relationship_set_name ( data_relationship_t *this_, const char *name )
+static inline u8_error_t data_relationship_set_name ( data_relationship_t *this_, const char *name )
 {
     assert( NULL != name );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     utf8error_t strerr;
     strerr = utf8stringbuf_copy_str( (*this_).name, name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
-        result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
+        result = U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;
 }
@@ -265,30 +265,30 @@ static inline const char *data_relationship_get_description_const ( const data_r
     return utf8stringbuf_get_string( (*this_).description );
 }
 
-static inline data_error_t data_relationship_set_description ( data_relationship_t *this_, const char *description )
+static inline u8_error_t data_relationship_set_description ( data_relationship_t *this_, const char *description )
 {
     assert( NULL != description );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     utf8error_t strerr;
     strerr = utf8stringbuf_copy_str( (*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
-        result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
+        result = U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;
 }
 
-static inline data_error_t data_relationship_append_description ( data_relationship_t *this_, const char *description )
+static inline u8_error_t data_relationship_append_description ( data_relationship_t *this_, const char *description )
 {
     assert( NULL != description );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     utf8error_t strerr;
     strerr = utf8stringbuf_append_str( (*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         TSLOG_ERROR_HEX( "utf8stringbuf_append_str() failed:", strerr );
-        result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
+        result = U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;
 }
@@ -308,11 +308,11 @@ static inline const char *data_relationship_get_uuid_const ( const data_relation
     return data_uuid_get_string( &((*this_).uuid) );
 }
 
-static inline data_error_t data_relationship_set_uuid ( data_relationship_t *this_, const char *uuid )
+static inline u8_error_t data_relationship_set_uuid ( data_relationship_t *this_, const char *uuid )
 {
     assert( NULL != uuid );
 
-    const data_error_t result = data_uuid_reinit( &((*this_).uuid), uuid );
+    const u8_error_t result = data_uuid_reinit( &((*this_).uuid), uuid );
 
     return result;
 }

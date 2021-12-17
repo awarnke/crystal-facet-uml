@@ -64,8 +64,8 @@ static void tear_down(void)
 
 static void lifeline_to_diagramelement_consistency(void)
 {
-    ctrl_error_t ctrl_err;
-    data_error_t data_err;
+    u8_error_t ctrl_err;
+    u8_error_t data_err;
     ctrl_classifier_controller_t *classifier_ctrl;
     ctrl_diagram_controller_t *diagram_ctrl;
 
@@ -84,7 +84,7 @@ static void lifeline_to_diagramelement_consistency(void)
                                           10555, /*=list_order*/
                                           DATA_DIAGRAM_FLAG_NONE
                                         );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
         root_diag_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_diagram_controller_create_diagram( diagram_ctrl,
@@ -92,7 +92,7 @@ static void lifeline_to_diagramelement_consistency(void)
                                                            CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                            &root_diag_id
                                                          );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
         data_diagram_destroy ( &root_diagram );
     }
@@ -110,7 +110,7 @@ static void lifeline_to_diagramelement_consistency(void)
                                               4500,
                                               450000
                                             );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
         classifier_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,
@@ -118,7 +118,7 @@ static void lifeline_to_diagramelement_consistency(void)
                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                                   &classifier_id
                                                                 );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT( DATA_ROW_ID_VOID != classifier_id );
         data_classifier_destroy ( &new_classifier );
     }
@@ -140,7 +140,7 @@ static void lifeline_to_diagramelement_consistency(void)
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                    &first_diag_element_id
                                                                  );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         data_diagramelement_destroy ( &new_diagele );
         TEST_ASSERT( DATA_ROW_ID_VOID != first_diag_element_id );
     }
@@ -157,7 +157,7 @@ static void lifeline_to_diagramelement_consistency(void)
                                                                         &features,
                                                                         &feature_count
                                                                       );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 1, feature_count );
         TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &(features[0]) ) );
         lifeline_id = data_feature_get_row_id( &(features[0]) );
@@ -170,14 +170,14 @@ static void lifeline_to_diagramelement_consistency(void)
                                                                lifeline_id,
                                                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
                                                              );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     }
 
     /* check that the diagramelement does not reference the deleted lifeline anymore */
     {
         data_diagramelement_t check_diagele2;
         data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, first_diag_element_id, &check_diagele2 );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
         TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagramelement_get_focused_feature_row_id( &check_diagele2 ) );
 
@@ -189,7 +189,7 @@ static void lifeline_to_diagramelement_consistency(void)
         data_stat_t stat;
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
-        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED ));
         TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
@@ -200,7 +200,7 @@ static void lifeline_to_diagramelement_consistency(void)
     {
         data_feature_t check_feature;
         data_err = data_database_reader_get_feature_by_id ( &db_reader, lifeline_id, &check_feature );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
         data_feature_destroy( &check_feature );
     }
@@ -209,7 +209,7 @@ static void lifeline_to_diagramelement_consistency(void)
     {
         data_diagramelement_t check_diagele3;
         data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, first_diag_element_id, &check_diagele3 );
-        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
         TEST_ASSERT_EQUAL_INT( lifeline_id, data_diagramelement_get_focused_feature_row_id( &check_diagele3 ) );
 

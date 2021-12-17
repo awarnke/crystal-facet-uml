@@ -135,12 +135,12 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_sea
     {
         const data_search_result_t *diag_rec = data_search_result_list_get_const( result_list, index );
         const data_id_t diag_id = data_search_result_get_diagram_id( diag_rec );
-        const data_error_t d_err = data_small_set_add_obj( requested_diagrams, diag_id );
-        if ( d_err == DATA_ERROR_DUPLICATE_ID )
+        const u8_error_t d_err = data_small_set_add_obj( requested_diagrams, diag_id );
+        if ( d_err == U8_ERROR_DUPLICATE_ID )
         {
             dropped_duplicates ++;
         }
-        else if ( d_err == DATA_ERROR_ARRAY_BUFFER_EXCEEDED )
+        else if ( d_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED )
         {
             dropped_too_many ++;
         }
@@ -216,17 +216,17 @@ void gui_sketch_area_show_diagram ( gui_sketch_area_t *this_, data_id_t main_dia
         /* load all without parent */
         data_small_set_t roots;
         data_small_set_init( &roots );
-        const data_error_t db_err
+        const u8_error_t db_err
             = data_database_reader_get_diagram_ids_by_parent_id( (*this_).db_reader,
                                                                  DATA_ROW_ID_VOID,
                                                                  &roots
                                                                );
         const uint32_t count = data_small_set_get_count( &roots );
-        if ( DATA_ERROR_NONE != ( db_err & DATA_ERROR_NO_DB ) )
+        if ( U8_ERROR_NONE != ( db_err & U8_ERROR_NO_DB ) )
         {
             TRACE_INFO( "database not open.");
         }
-        else if ( DATA_ERROR_NONE != db_err )
+        else if ( U8_ERROR_NONE != db_err )
         {
             TSLOG_ERROR_HEX( "data_database_reader_get_diagrams_by_parent_id failed.", db_err );
         }
@@ -378,16 +378,16 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
                 /* load all children (up to GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS)*/
                 data_small_set_t children;
                 data_small_set_init( &children );
-                const data_error_t db_err
+                const u8_error_t db_err
                     = data_database_reader_get_diagram_ids_by_parent_id( (*this_).db_reader,
                                                                          selected_diagram_row_id,
                                                                          &children
                                                                        );
-                if ( DATA_ERROR_NONE != ( db_err & DATA_ERROR_NO_DB ) )
+                if ( U8_ERROR_NONE != ( db_err & U8_ERROR_NO_DB ) )
                 {
                     TRACE_INFO( "database not open.");
                 }
-                else if ( DATA_ERROR_NONE != db_err )
+                else if ( U8_ERROR_NONE != db_err )
                 {
                     TSLOG_ERROR_HEX( "data_database_reader_get_diagram_ids_by_parent_id failed.", db_err );
                 }
@@ -832,7 +832,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     if ( action_button_id != GUI_SKETCH_ACTION_NONE )
                     {
                         /* create a new diagram */
-                        ctrl_error_t c_result = CTRL_ERROR_NONE;
+                        u8_error_t c_result = U8_ERROR_NONE;
                         data_row_id_t new_diag_id = DATA_ROW_ID_VOID;
 
                         {
@@ -886,13 +886,13 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                                 {
                                     TSLOG_ERROR_INT("illegal action value in gui_sketch_action_t:",action_button_id);
                                     assert(false);
-                                    c_result = DATA_ERROR_INVALID_REQUEST;
+                                    c_result = U8_ERROR_INVALID_REQUEST;
                                 }
                                 break;
                             }
                         }
 
-                        if ( CTRL_ERROR_NONE != c_result )
+                        if ( U8_ERROR_NONE != c_result )
                         {
                             TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_diagram");
                         }
@@ -1062,7 +1062,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                         TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
 
                         /* create a classifier or a child-classifier */
-                        ctrl_error_t c_result;
+                        u8_error_t c_result;
                         data_row_id_t new_diagele_id;
                         data_row_id_t new_classifier_id;
                         if ( DATA_TABLE_CLASSIFIER == data_id_get_table( surrounding_classifier ) )
@@ -1089,7 +1089,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                                                                                    );
                         }
 
-                        if ( CTRL_ERROR_DUPLICATE_NAME == c_result )
+                        if ( U8_ERROR_DUPLICATE_NAME == c_result )
                         {
                             /* this should not happen: names are auto-generated */
                             gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
@@ -1098,7 +1098,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                                                                                ""
                                                                              );
                         }
-                        else if ( CTRL_ERROR_NONE != c_result )
+                        else if ( U8_ERROR_NONE != c_result )
                         {
                             TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_classifier/_as_child");
                         }
@@ -1208,23 +1208,23 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             ctrl_diagram_controller_t *diag_control;
                             diag_control = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
-                            ctrl_error_t c_err;
+                            u8_error_t c_err;
                             c_err = ctrl_diagram_controller_update_diagram_list_order( diag_control,
                                                                                        data_id_get_row_id( &dragged_diagram ),
                                                                                        target_list_order
                                                                                      );
-                            if ( CTRL_ERROR_NONE != c_err )
+                            if ( U8_ERROR_NONE != c_err )
                             {
-                                TSLOG_ERROR_HEX( "CTRL_ERROR_NONE !=", c_err );
+                                TSLOG_ERROR_HEX( "U8_ERROR_NONE !=", c_err );
                             }
                             c_err = ctrl_diagram_controller_update_diagram_parent_id( diag_control,
                                                                                       data_id_get_row_id( &dragged_diagram ),
                                                                                       data_id_get_row_id( &target_parent_id ),
                                                                                       CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                                                     );
-                            if ( CTRL_ERROR_NONE != c_err )
+                            if ( U8_ERROR_NONE != c_err )
                             {
-                                TSLOG_ERROR_HEX( "CTRL_ERROR_NONE !=", c_err );
+                                TSLOG_ERROR_HEX( "U8_ERROR_NONE !=", c_err );
                             }
                         }
                         else if ( DATA_ROW_ID_VOID == data_id_get_row_id( &target_parent_id ) )
@@ -1237,24 +1237,24 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                 = gui_sketch_nav_tree_get_root_diagram_id ( &((*this_).nav_tree) );
                             if (( root_id != DATA_ROW_ID_VOID )&&( root_id != data_id_get_row_id( &dragged_diagram ) ))
                             {
-                                ctrl_error_t c_err;
+                                u8_error_t c_err;
                                 c_err = ctrl_diagram_controller_update_diagram_parent_id( diag_control2,
                                                                                           data_id_get_row_id( &dragged_diagram ),
                                                                                           DATA_ROW_ID_VOID,
                                                                                           CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
                                                                                         );
-                                if ( CTRL_ERROR_NONE != c_err )
+                                if ( U8_ERROR_NONE != c_err )
                                 {
-                                    TSLOG_ERROR_HEX( "CTRL_ERROR_NONE !=", c_err );
+                                    TSLOG_ERROR_HEX( "U8_ERROR_NONE !=", c_err );
                                 }
                                 c_err = ctrl_diagram_controller_update_diagram_parent_id( diag_control2,
                                                                                           root_id,
                                                                                           data_id_get_row_id( &dragged_diagram ),
                                                                                           CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                                                         );
-                                if ( CTRL_ERROR_NONE != c_err )
+                                if ( U8_ERROR_NONE != c_err )
                                 {
-                                    TSLOG_ERROR_HEX( "CTRL_ERROR_NONE !=", c_err );
+                                    TSLOG_ERROR_HEX( "U8_ERROR_NONE !=", c_err );
                                 }
                             }
                             else
@@ -1342,12 +1342,12 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             /* update db */
                             ctrl_classifier_controller_t *const classifier_control
                                 = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-                            const ctrl_error_t mov_result
+                            const u8_error_t mov_result
                                 = ctrl_classifier_controller_update_classifier_list_order( classifier_control,
                                                                                            data_id_get_row_id( &dragged_classifier ),
                                                                                            list_order
                                                                                          );
-                            if ( CTRL_ERROR_NONE != mov_result )
+                            if ( U8_ERROR_NONE != mov_result )
                             {
                                 TSLOG_ERROR( "changing order failed: ctrl_classifier_controller_update_classifier_list_order" );
                             }
@@ -1361,13 +1361,13 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             /* update db */
                             ctrl_classifier_controller_t *const classifier_control
                                 = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-                            const ctrl_error_t mov_result
+                            const u8_error_t mov_result
                                 = ctrl_classifier_controller_update_classifier_x_order_y_order( classifier_control,
                                                                                                 data_id_get_row_id( &dragged_classifier ),
                                                                                                 x_order,
                                                                                                 y_order
                                                                                               );
-                            if ( CTRL_ERROR_NONE != mov_result )
+                            if ( U8_ERROR_NONE != mov_result )
                             {
                                 TSLOG_ERROR( "changing order failed: ctrl_classifier_controller_update_classifier_x_order_y_order" );
                             }
@@ -1384,12 +1384,12 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             /* update db */
                             ctrl_classifier_controller_t *const classifier_control
                                 = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-                            const ctrl_error_t mov_result
+                            const u8_error_t mov_result
                                 = ctrl_classifier_controller_update_relationship_list_order( classifier_control,
                                                                                              data_id_get_row_id( &dragged_element ),
                                                                                              list_order
                                                                                            );
-                            if ( CTRL_ERROR_NONE != mov_result )
+                            if ( U8_ERROR_NONE != mov_result )
                             {
                                 TSLOG_ERROR( "changing order failed: ctrl_classifier_controller_update_relationship_list_order" );
                             }
@@ -1406,12 +1406,12 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             /* update db */
                             ctrl_classifier_controller_t *const classifier_control
                                 = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-                            const ctrl_error_t mov_result
+                            const u8_error_t mov_result
                                 = ctrl_classifier_controller_update_feature_list_order( classifier_control,
                                                                                         data_id_get_row_id( &dragged_element ),
                                                                                         list_order
                                                                                       );
-                            if ( CTRL_ERROR_NONE != mov_result )
+                            if ( U8_ERROR_NONE != mov_result )
                             {
                                 TSLOG_ERROR( "changing order failed: ctrl_classifier_controller_update_feature_list_order" );
                             }
@@ -1542,7 +1542,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             }
 
                             data_row_id_t new_relationship_id;
-                            const ctrl_error_t c_result
+                            const u8_error_t c_result
                                 = gui_sketch_object_creator_create_relationship( &((*this_).object_creator),
                                                                                  diag_type,
                                                                                  new_from_classifier_id,
@@ -1553,7 +1553,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                                                                  &new_relationship_id
                                                                                );
 
-                            if ( CTRL_ERROR_NONE != c_result )
+                            if ( U8_ERROR_NONE != c_result )
                             {
                                 TSLOG_ANOMALY_HEX("anomaly at gui_sketch_object_creator_create_relationship",c_result);
                             }
@@ -1616,7 +1616,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
 
                             /* create a feature */
                             data_row_id_t new_feature_id;
-                            const ctrl_error_t ctrl_err
+                            const u8_error_t ctrl_err
                                 = gui_sketch_object_creator_create_feature( &((*this_).object_creator),
                                                                             diag_type,
                                                                             classifier_id,
@@ -1625,7 +1625,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                                                             &new_feature_id
                                                                           );
 
-                            if ( CTRL_ERROR_NONE != ctrl_err )
+                            if ( U8_ERROR_NONE != ctrl_err )
                             {
                                 TSLOG_ANOMALY_HEX("anomaly at gui_sketch_object_creator_create_feature",ctrl_err);
                             }

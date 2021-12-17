@@ -109,9 +109,9 @@ int md_filter_transform ( md_filter_t *this_, const char *text )
 
                 if ( show_id || show_name )
                 {
-                    data_error_t d_err;
+                    u8_error_t d_err;
                     d_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, data_id_get_row_id( &probe_id ), &((*this_).temp_diagram) );
-                    if ( d_err == DATA_ERROR_NONE )
+                    if ( d_err == U8_ERROR_NONE )
                     {
                         /* write previously parsed characters */
                         utf8stringview_t str_view = utf8stringview_init( &(text[text_start_byte]), text_current_byte-text_start_byte );

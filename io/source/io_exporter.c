@@ -256,11 +256,11 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
     /* recursion to children */
     if (( result == 0 )&&( max_recursion > 0 ))
     {
-        data_error_t db_err;
+        u8_error_t db_err;
         data_small_set_t the_set;
         data_small_set_init( &the_set );
         db_err = data_database_reader_get_diagram_ids_by_parent_id ( (*this_).db_reader, diagram_row_id, &the_set );
-        if ( db_err != DATA_ERROR_NONE )
+        if ( db_err != U8_ERROR_NONE )
         {
             TSLOG_ERROR("error reading database.");
             result = -1;
@@ -490,11 +490,11 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
     /* recursion to children */
     if (( export_err == 0 )&&( max_recursion > 0 ))
     {
-        data_error_t db_err;
+        u8_error_t db_err;
         data_small_set_t the_set;
         data_small_set_init( &the_set );
         db_err = data_database_reader_get_diagram_ids_by_parent_id ( (*this_).db_reader, diagram_row_id, &the_set );
-        if ( db_err != DATA_ERROR_NONE )
+        if ( db_err != U8_ERROR_NONE )
         {
             TSLOG_ERROR("error reading database.");
             export_err |= -1;
@@ -543,9 +543,9 @@ int io_exporter_private_export_table_of_contents( io_exporter_t *this_,
         export_err |= xhtml_element_writer_start_toc_entry( format_writer );
 
         /* load data to be drawn */
-        data_error_t db_err;
+        u8_error_t db_err;
         db_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, diagram_row_id, &((*this_).temp_diagram) );
-        if ( db_err != DATA_ERROR_NONE )
+        if ( db_err != U8_ERROR_NONE )
         {
             TSLOG_ERROR("error reading database.");
             export_err |= -1;
@@ -560,11 +560,11 @@ int io_exporter_private_export_table_of_contents( io_exporter_t *this_,
     /* recursion to children */
     if (( export_err == 0 )&&( max_recursion > 0 ))
     {
-        data_error_t db_err;
+        u8_error_t db_err;
         data_small_set_t the_set;
         data_small_set_init( &the_set );
         db_err = data_database_reader_get_diagram_ids_by_parent_id ( (*this_).db_reader, diagram_row_id, &the_set );
-        if ( db_err != DATA_ERROR_NONE )
+        if ( db_err != U8_ERROR_NONE )
         {
             TSLOG_ERROR("error reading database.");
             export_err |= -1;
@@ -608,9 +608,9 @@ int io_exporter_private_get_filename_for_diagram( io_exporter_t *this_,
     int result = 0;
     utf8stringbuf_clear( filename );
 
-    data_error_t db_err;
+    u8_error_t db_err;
     db_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, data_id_get_row_id( &diagram_id ), &((*this_).temp_diagram) );
-    if ( db_err != DATA_ERROR_NONE )
+    if ( db_err != U8_ERROR_NONE )
     {
         TSLOG_ERROR("error reading database.");
         result |= -1;

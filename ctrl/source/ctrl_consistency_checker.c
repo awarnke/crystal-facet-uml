@@ -36,14 +36,14 @@ void ctrl_consistency_checker_destroy ( ctrl_consistency_checker_t *this_ )
     TRACE_END();
 }
 
-ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t *this_,
+u8_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t *this_,
                                                         bool modify_db,
                                                         uint32_t *out_err,
                                                         uint32_t *out_fix,
                                                         utf8stringbuf_t out_report )
 {
     TRACE_BEGIN();
-    ctrl_error_t err_result = CTRL_ERROR_NONE;
+    u8_error_t err_result = U8_ERROR_NONE;
     uint32_t error_count = 0;
     uint32_t fix_count = 0;
 
@@ -113,7 +113,7 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
     return err_result;
 }
 
-ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_consistency_checker_t *this_,
+u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_consistency_checker_t *this_,
                                                                            bool modify_db,
                                                                            uint32_t *io_err,
                                                                            uint32_t *io_fix,
@@ -122,8 +122,8 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_
     TRACE_BEGIN();
     assert ( NULL != io_err );
     assert ( NULL != io_fix );
-    ctrl_error_t err_result = CTRL_ERROR_NONE;
-    data_error_t data_err;
+    u8_error_t err_result = U8_ERROR_NONE;
+    u8_error_t data_err;
 
     /* write report title */
     utf8stringbuf_append_str( out_report, "STEP: Ensure a single root diagram\n" );
@@ -137,7 +137,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_
                                                                 &out_diagram_count
                                                               );
 
-    if ( DATA_ERROR_NONE == data_err )
+    if ( U8_ERROR_NONE == data_err )
     {
         utf8stringbuf_append_str( out_report, "    ROOT DIAGRAM COUNT: " );
         utf8stringbuf_append_int( out_report, out_diagram_count );
@@ -174,7 +174,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_
                                                                                proposed_root_diagram_id,
                                                                                NULL
                                                                              );
-                    if ( DATA_ERROR_NONE == data_err )
+                    if ( U8_ERROR_NONE == data_err )
                     {
                         utf8stringbuf_append_str( out_report, "    FIX: Diagram " );
                         utf8stringbuf_append_int( out_report, data_diagram_get_row_id( &((*this_).temp_diagram_buffer[list_pos]) ) );
@@ -186,7 +186,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_
                     else
                     {
                         utf8stringbuf_append_str( out_report, "ERROR WRITING DATABASE.\n" );
-                        err_result |= (ctrl_error_t) data_err;
+                        err_result |= (u8_error_t) data_err;
                     }
                 }
             }
@@ -195,14 +195,14 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_
     else
     {
         utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
-        err_result |= (ctrl_error_t) data_err;
+        err_result |= (u8_error_t) data_err;
     }
 
     TRACE_END_ERR( err_result );
     return err_result;
 }
 
-ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_consistency_checker_t *this_,
+u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_consistency_checker_t *this_,
                                                                                  bool modify_db,
                                                                                  uint32_t *io_err,
                                                                                  uint32_t *io_fix,
@@ -210,8 +210,8 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctr
 {
     TRACE_BEGIN();
     assert ( NULL != io_err );
-    ctrl_error_t err_result = CTRL_ERROR_NONE;
-    data_error_t data_err;
+    u8_error_t err_result = U8_ERROR_NONE;
+    u8_error_t data_err;
 
     /* write report title */
     utf8stringbuf_append_str( out_report, "STEP: Ensure that no circular/invalid references of diagram parents exist\n" );
@@ -219,7 +219,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctr
     data_small_set_t circ_ref;
     data_small_set_init( &circ_ref );
     data_err = data_database_consistency_checker_find_circular_diagram_parents ( &((*this_).db_checker), &circ_ref );
-    if ( DATA_ERROR_NONE == data_err )
+    if ( U8_ERROR_NONE == data_err )
     {
         uint32_t circ_ref_count = data_small_set_get_count( &circ_ref );
 
@@ -241,7 +241,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctr
                                                                             &((*this_).temp_diagram_buffer),
                                                                             &out_diagram_count
                 );
-                if (( DATA_ERROR_NONE == data_err )&&( out_diagram_count > 0 ))
+                if (( U8_ERROR_NONE == data_err )&&( out_diagram_count > 0 ))
                 {
                     root_diag_id = data_diagram_get_row_id( &((*this_).temp_diagram_buffer[0]) );
                 }
@@ -267,7 +267,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctr
                                                                                root_diag_id,
                                                                                NULL /*out_old_diagram*/
                     );
-                    if ( DATA_ERROR_NONE == data_err )
+                    if ( U8_ERROR_NONE == data_err )
                     {
                         utf8stringbuf_append_str( out_report, "    FIX: Diagram " );
                         utf8stringbuf_append_int( out_report, diagram_row_id );
@@ -279,7 +279,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctr
                     else
                     {
                         utf8stringbuf_append_str( out_report, "ERROR WRITING DATABASE.\n" );
-                        err_result |= (ctrl_error_t) data_err;
+                        err_result |= (u8_error_t) data_err;
                     }
                 }
             }
@@ -288,14 +288,14 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctr
     else
     {
         utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
-        err_result |= (ctrl_error_t) data_err;
+        err_result |= (u8_error_t) data_err;
     }
 
     TRACE_END_ERR( err_result );
     return err_result;
 }
 
-ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_consistency_checker_t *this_,
+u8_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_consistency_checker_t *this_,
                                                                              bool modify_db,
                                                                              uint32_t *io_err,
                                                                              uint32_t *io_fix,
@@ -304,8 +304,8 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctr
     TRACE_BEGIN();
     assert ( NULL != io_err );
     assert ( NULL != io_fix );
-    ctrl_error_t err_result = CTRL_ERROR_NONE;
-    data_error_t data_err;
+    u8_error_t err_result = U8_ERROR_NONE;
+    u8_error_t data_err;
 
     /* write report title */
     utf8stringbuf_append_str( out_report, "STEP: Ensure that diagramelements reference valid diagrams and classifiers\n" );
@@ -313,7 +313,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctr
     data_small_set_t unref;
     data_small_set_init( &unref );
     data_err = data_database_consistency_checker_find_nonreferencing_diagramelements ( &((*this_).db_checker), &unref );
-    if ( DATA_ERROR_NONE == data_err )
+    if ( U8_ERROR_NONE == data_err )
     {
         uint32_t unref_count = data_small_set_get_count( &unref );
 
@@ -338,7 +338,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctr
                     data_id_t diagramelement_id = data_small_set_get_id( &unref, list_pos );
                     data_row_id_t diagramelement_row_id = data_id_get_row_id( &diagramelement_id );
                     data_err = data_database_writer_delete_diagramelement ( (*this_).db_writer, diagramelement_row_id, NULL );
-                    if ( DATA_ERROR_NONE == data_err )
+                    if ( U8_ERROR_NONE == data_err )
                     {
                         utf8stringbuf_append_str( out_report, "    FIX: Diagramelement " );
                         utf8stringbuf_append_int( out_report, diagramelement_row_id );
@@ -348,7 +348,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctr
                     else
                     {
                         utf8stringbuf_append_str( out_report, "ERROR WRITING DATABASE.\n" );
-                        err_result |= (ctrl_error_t) data_err;
+                        err_result |= (u8_error_t) data_err;
                     }
                 }
             }
@@ -357,14 +357,14 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctr
     else
     {
         utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
-        err_result |= (ctrl_error_t) data_err;
+        err_result |= (u8_error_t) data_err;
     }
 
     TRACE_END_ERR( err_result );
     return err_result;
 }
 
-ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl_consistency_checker_t *this_,
+u8_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl_consistency_checker_t *this_,
                                                                               bool modify_db,
                                                                               uint32_t *io_err,
                                                                               uint32_t *io_fix,
@@ -373,8 +373,8 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ct
     TRACE_BEGIN();
     assert ( NULL != io_err );
     assert ( NULL != io_fix );
-    ctrl_error_t err_result = CTRL_ERROR_NONE;
-    data_error_t data_err;
+    u8_error_t err_result = U8_ERROR_NONE;
+    u8_error_t data_err;
 
     /* write report title */
     utf8stringbuf_append_str( out_report, "STEP: Ensure that diagramelements reference NULL or valid features\n" );
@@ -382,7 +382,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ct
     data_small_set_t unref;
     data_small_set_init( &unref );
     data_err = data_database_consistency_checker_find_invalid_focused_features ( &((*this_).db_checker), &unref );
-    if ( DATA_ERROR_NONE == data_err )
+    if ( U8_ERROR_NONE == data_err )
     {
         uint32_t unref_count = data_small_set_get_count( &unref );
 
@@ -407,7 +407,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ct
                     data_id_t diagramelement_id = data_small_set_get_id( &unref, list_pos );
                     data_row_id_t diagramelement_row_id = data_id_get_row_id( &diagramelement_id );
                     data_err = data_database_writer_update_diagramelement_focused_feature_id ( (*this_).db_writer, diagramelement_row_id, DATA_ROW_ID_VOID, NULL );
-                    if ( DATA_ERROR_NONE == data_err )
+                    if ( U8_ERROR_NONE == data_err )
                     {
                         utf8stringbuf_append_str( out_report, "    FIX: Focused features unlinked from " );
                         utf8stringbuf_append_int( out_report, diagramelement_row_id );
@@ -417,7 +417,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ct
                     else
                     {
                         utf8stringbuf_append_str( out_report, "ERROR WRITING DATABASE.\n" );
-                        err_result |= (ctrl_error_t) data_err;
+                        err_result |= (u8_error_t) data_err;
                     }
                 }
             }
@@ -426,14 +426,14 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ct
     else
     {
         utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
-        err_result |= (ctrl_error_t) data_err;
+        err_result |= (u8_error_t) data_err;
     }
 
     TRACE_END_ERR( err_result );
     return err_result;
 }
 
-ctrl_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl_consistency_checker_t *this_,
+u8_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl_consistency_checker_t *this_,
                                                                               bool modify_db,
                                                                               uint32_t *io_err,
                                                                               uint32_t *io_fix,
@@ -442,8 +442,8 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ct
     TRACE_BEGIN();
     assert ( NULL != io_err );
     assert ( NULL != io_fix );
-    ctrl_error_t err_result = CTRL_ERROR_NONE;
-    data_error_t data_err;
+    u8_error_t err_result = U8_ERROR_NONE;
+    u8_error_t data_err;
 
     /* write report title */
     utf8stringbuf_append_str( out_report, "STEP: Ensure that classifiers are referenced\n" );
@@ -451,7 +451,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ct
     data_small_set_t unref;
     data_small_set_init( &unref );
     data_err = data_database_consistency_checker_find_unreferenced_classifiers ( &((*this_).db_checker), &unref );
-    if ( DATA_ERROR_NONE == data_err )
+    if ( U8_ERROR_NONE == data_err )
     {
         uint32_t unref_count = data_small_set_get_count( &unref );
 
@@ -476,7 +476,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ct
                     data_id_t classifier_id = data_small_set_get_id( &unref, list_pos );
                     data_row_id_t classifier_row_id = data_id_get_row_id( &classifier_id );
                     err_result |= data_database_consistency_checker_kill_classifier ( &((*this_).db_checker), classifier_row_id );
-                    if ( CTRL_ERROR_NONE == err_result )
+                    if ( U8_ERROR_NONE == err_result )
                     {
                         utf8stringbuf_append_str( out_report, "    FIX: Classifier " );
                         utf8stringbuf_append_int( out_report, classifier_row_id );
@@ -494,14 +494,14 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ct
     else
     {
         utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
-        err_result |= (ctrl_error_t) data_err;
+        err_result |= (u8_error_t) data_err;
     }
 
     TRACE_END_ERR( err_result );
     return err_result;
 }
 
-ctrl_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_consistency_checker_t *this_,
+u8_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_consistency_checker_t *this_,
                                                                              bool modify_db,
                                                                              uint32_t *io_err,
                                                                              uint32_t *io_fix,
@@ -510,8 +510,8 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctr
     TRACE_BEGIN();
     assert ( NULL != io_err );
     assert ( NULL != io_fix );
-    ctrl_error_t err_result = CTRL_ERROR_NONE;
-    data_error_t data_err;
+    u8_error_t err_result = U8_ERROR_NONE;
+    u8_error_t data_err;
 
     /* write report title */
     utf8stringbuf_append_str( out_report, "STEP: Ensure that features have valid classifiers\n" );
@@ -519,7 +519,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctr
     data_small_set_t unref;
     data_small_set_init( &unref );
     data_err = data_database_consistency_checker_find_unreferenced_features ( &((*this_).db_checker), &unref );
-    if ( DATA_ERROR_NONE == data_err )
+    if ( U8_ERROR_NONE == data_err )
     {
         uint32_t unref_count = data_small_set_get_count( &unref );
 
@@ -544,7 +544,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctr
                     data_id_t feature_id = data_small_set_get_id( &unref, list_pos );
                     data_row_id_t feature_row_id = data_id_get_row_id( &feature_id );
                     data_err = data_database_writer_delete_feature ( (*this_).db_writer, feature_row_id, NULL );
-                    if ( DATA_ERROR_NONE == data_err )
+                    if ( U8_ERROR_NONE == data_err )
                     {
                         utf8stringbuf_append_str( out_report, "    FIX: Feature " );
                         utf8stringbuf_append_int( out_report, feature_row_id );
@@ -554,7 +554,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctr
                     else
                     {
                         utf8stringbuf_append_str( out_report, "ERROR WRITING DATABASE.\n" );
-                        err_result |= (ctrl_error_t) data_err;
+                        err_result |= (u8_error_t) data_err;
                     }
                 }
             }
@@ -563,14 +563,14 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctr
     else
     {
         utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
-        err_result |= (ctrl_error_t) data_err;
+        err_result |= (u8_error_t) data_err;
     }
 
     TRACE_END_ERR( err_result );
     return err_result;
 }
 
-ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifiers ( ctrl_consistency_checker_t *this_,
+u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifiers ( ctrl_consistency_checker_t *this_,
                                                                                       bool modify_db,
                                                                                       uint32_t *io_err,
                                                                                       uint32_t *io_fix,
@@ -579,8 +579,8 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifi
     TRACE_BEGIN();
     assert ( NULL != io_err );
     assert ( NULL != io_fix );
-    ctrl_error_t err_result = CTRL_ERROR_NONE;
-    data_error_t data_err;
+    u8_error_t err_result = U8_ERROR_NONE;
+    u8_error_t data_err;
 
     /* write report title */
     utf8stringbuf_append_str( out_report, "STEP: Ensure that relationships link valid classifiers\n" );
@@ -588,7 +588,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifi
     data_small_set_t unref;
     data_small_set_init( &unref );
     data_err = data_database_consistency_checker_find_unreferenced_relationships ( &((*this_).db_checker), &unref );
-    if ( DATA_ERROR_NONE == data_err )
+    if ( U8_ERROR_NONE == data_err )
     {
         uint32_t unref_count = data_small_set_get_count( &unref );
 
@@ -613,7 +613,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifi
                     data_id_t relationship_id = data_small_set_get_id( &unref, list_pos );
                     data_row_id_t relation_row_id = data_id_get_row_id( &relationship_id );
                     data_err = data_database_writer_delete_relationship ( (*this_).db_writer, relation_row_id, NULL );
-                    if ( DATA_ERROR_NONE == data_err )
+                    if ( U8_ERROR_NONE == data_err )
                     {
                         utf8stringbuf_append_str( out_report, "    FIX: Relationship " );
                         utf8stringbuf_append_int( out_report, relation_row_id );
@@ -623,7 +623,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifi
                     else
                     {
                         utf8stringbuf_append_str( out_report, "ERROR WRITING DATABASE.\n" );
-                        err_result |= (ctrl_error_t) data_err;
+                        err_result |= (u8_error_t) data_err;
                     }
                 }
             }
@@ -632,14 +632,14 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifi
     else
     {
         utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
-        err_result |= (ctrl_error_t) data_err;
+        err_result |= (u8_error_t) data_err;
     }
 
     TRACE_END_ERR( err_result );
     return err_result;
 }
 
-ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features ( ctrl_consistency_checker_t *this_,
+u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features ( ctrl_consistency_checker_t *this_,
                                                                                    bool modify_db,
                                                                                    uint32_t *io_err,
                                                                                    uint32_t *io_fix,
@@ -648,8 +648,8 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features
     TRACE_BEGIN();
     assert ( NULL != io_err );
     assert ( NULL != io_fix );
-    ctrl_error_t err_result = CTRL_ERROR_NONE;
-    data_error_t data_err;
+    u8_error_t err_result = U8_ERROR_NONE;
+    u8_error_t data_err;
 
     /* write report title */
     utf8stringbuf_append_str( out_report, "STEP: Ensure that relationships link NULL or valid features\n" );
@@ -657,7 +657,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features
     data_small_set_t unref;
     data_small_set_init( &unref );
     data_err = data_database_consistency_checker_find_invalid_relationship_features ( &((*this_).db_checker), &unref );
-    if ( DATA_ERROR_NONE == data_err )
+    if ( U8_ERROR_NONE == data_err )
     {
         uint32_t unref_count = data_small_set_get_count( &unref );
 
@@ -682,7 +682,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features
                     data_id_t relationship_id = data_small_set_get_id( &unref, list_pos );
                     data_row_id_t relation_row_id = data_id_get_row_id( &relationship_id );
                     data_err = data_database_writer_delete_relationship ( (*this_).db_writer, relation_row_id, NULL );
-                    if ( DATA_ERROR_NONE == data_err )
+                    if ( U8_ERROR_NONE == data_err )
                     {
                         utf8stringbuf_append_str( out_report, "    FIX: Relationship " );
                         utf8stringbuf_append_int( out_report, relation_row_id );
@@ -692,7 +692,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features
                     else
                     {
                         utf8stringbuf_append_str( out_report, "ERROR WRITING DATABASE.\n" );
-                        err_result |= (ctrl_error_t) data_err;
+                        err_result |= (u8_error_t) data_err;
                     }
                 }
             }
@@ -701,7 +701,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features
     else
     {
         utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
-        err_result |= (ctrl_error_t) data_err;
+        err_result |= (u8_error_t) data_err;
     }
 
     TRACE_END_ERR( err_result );

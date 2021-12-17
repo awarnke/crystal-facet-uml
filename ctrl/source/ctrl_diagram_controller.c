@@ -37,7 +37,7 @@ void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ )
 
 /* ================================ DIAGRAM ================================ */
 
-ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_,
+u8_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_,
                                                       const data_diagram_t *new_diagram,
                                                       ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                       data_row_id_t* out_new_id )
@@ -45,15 +45,15 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
     TRACE_BEGIN();
     assert( NULL != new_diagram );
     data_diagram_t to_be_created;
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_row_id_t new_id;
 
     data_diagram_copy( &to_be_created, new_diagram );
     data_diagram_set_row_id( &to_be_created, DATA_ROW_ID_VOID );
 
     data_result = data_database_writer_create_diagram( (*this_).db_writer, &to_be_created, &new_id );
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         /* store new id to diagram object */
         data_diagram_set_row_id( &to_be_created, new_id );
@@ -61,9 +61,9 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
-            ctrl_error_t internal_err;
+            u8_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
-            if ( CTRL_ERROR_NONE != internal_err )
+            if ( U8_ERROR_NONE != internal_err )
             {
                 TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
@@ -79,7 +79,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
             *out_new_id = new_id;
         }
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     data_diagram_destroy( &to_be_created );
 
@@ -87,7 +87,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
     return result;
 }
 
-ctrl_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram_controller_t *this_,
+u8_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram_controller_t *this_,
                                                                     data_row_id_t parent_diagram_id,
                                                                     data_diagram_type_t diagram_type,
                                                                     const char* diagram_name,
@@ -95,14 +95,14 @@ ctrl_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram
 {
     TRACE_BEGIN();
     data_diagram_t to_be_created;
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_row_id_t new_id;
 
     data_diagram_init_new( &to_be_created, parent_diagram_id, diagram_type, diagram_name, "", 0, DATA_DIAGRAM_FLAG_NONE );
 
     data_result = data_database_writer_create_diagram( (*this_).db_writer, &to_be_created, &new_id );
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         /* store new id to diagram object */
         data_diagram_set_row_id( &to_be_created, new_id );
@@ -117,7 +117,7 @@ ctrl_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram
             *out_new_id = new_id;
         }
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     data_diagram_destroy( &to_be_created );
 
@@ -125,14 +125,14 @@ ctrl_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram
     return result;
 }
 
-ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_diagram_controller_t *this_,
+u8_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_diagram_controller_t *this_,
                                                                          data_diagram_type_t diagram_type,
                                                                          const char* diagram_name,
                                                                          data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_diagram_t root_diag_buf[1];
 
     /* load all without parent */
@@ -143,9 +143,9 @@ ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_di
                                                                   &(root_diag_buf),
                                                                   &count
                                                                 );
-    if ( DATA_ERROR_NONE != data_result )
+    if ( U8_ERROR_NONE != data_result )
     {
-        result = (ctrl_error_t) data_result;
+        result = (u8_error_t) data_result;
     }
     else
     {
@@ -167,29 +167,29 @@ ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_di
     return result;
 }
 
-ctrl_error_t ctrl_diagram_controller_delete_diagram ( ctrl_diagram_controller_t *this_,
+u8_error_t ctrl_diagram_controller_delete_diagram ( ctrl_diagram_controller_t *this_,
                                                       data_row_id_t obj_id,
                                                       ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* delete diagram */
     /* data_database_writer_delete_diagram checks that this diagram is not a parent */
     /* and is not referenced by diagramelements */
-    /* fails otherwise: DATA_ERROR_OBJECT_STILL_REFERENCED */
+    /* fails otherwise: U8_ERROR_OBJECT_STILL_REFERENCED */
     data_diagram_t old_diagram;
-    data_error_t current_result3;
+    u8_error_t current_result3;
     current_result3 = data_database_writer_delete_diagram ( (*this_).db_writer, obj_id, &old_diagram );
 
-    if ( DATA_ERROR_NONE == current_result3 )
+    if ( U8_ERROR_NONE == current_result3 )
     {
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
-            ctrl_error_t internal_err;
+            u8_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
-            if ( CTRL_ERROR_NONE != internal_err )
+            if ( U8_ERROR_NONE != internal_err )
             {
                 TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
@@ -202,24 +202,24 @@ ctrl_error_t ctrl_diagram_controller_delete_diagram ( ctrl_diagram_controller_t 
         data_diagram_destroy( &old_diagram );
     }
 
-    result |= (ctrl_error_t) current_result3;
+    result |= (u8_error_t) current_result3;
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_controller_t *this_,
+u8_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_controller_t *this_,
                                                                 data_row_id_t diagram_id,
                                                                 data_row_id_t new_diagram_parent_id,
                                                                 ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_diagram_t old_diagram;
 
     data_result = data_database_writer_update_diagram_parent_id( (*this_).db_writer, diagram_id, new_diagram_parent_id, &old_diagram );
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         /* prepare the new diagram */
         data_diagram_t new_diagram;
@@ -229,9 +229,9 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_con
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
-            ctrl_error_t internal_err;
+            u8_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
-            if ( CTRL_ERROR_NONE != internal_err )
+            if ( U8_ERROR_NONE != internal_err )
             {
                 TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
@@ -244,23 +244,23 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_con
         data_diagram_destroy( &new_diagram );
         data_diagram_destroy( &old_diagram );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_controller_t *this_,
+u8_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_controller_t *this_,
                                                                   data_row_id_t diagram_id,
                                                                   const char* new_diagram_description )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_diagram_t old_diagram;
 
     data_result = data_database_writer_update_diagram_description( (*this_).db_writer, diagram_id, new_diagram_description, &old_diagram );
-    if  (( DATA_ERROR_NONE == data_result ) || ( DATA_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
+    if  (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new diagram */
         data_diagram_t new_diagram;
@@ -273,23 +273,23 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_c
         data_diagram_destroy( &new_diagram );
         data_diagram_destroy( &old_diagram );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controller_t *this_,
+u8_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controller_t *this_,
                                                            data_row_id_t diagram_id,
                                                            const char* new_diagram_name )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_diagram_t old_diagram;
 
     data_result = data_database_writer_update_diagram_name( (*this_).db_writer, diagram_id, new_diagram_name, &old_diagram );
-    if  (( DATA_ERROR_NONE == data_result ) || ( DATA_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
+    if  (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new diagram */
         data_diagram_t new_diagram;
@@ -302,23 +302,23 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controll
         data_diagram_destroy( &new_diagram );
         data_diagram_destroy( &old_diagram );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller_t *this_,
+u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller_t *this_,
                                                            data_row_id_t diagram_id,
                                                            data_diagram_type_t new_diagram_type )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_diagram_t old_diagram;
 
     data_result = data_database_writer_update_diagram_type( (*this_).db_writer, diagram_id, new_diagram_type, &old_diagram );
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         /* prepare the new diagram */
         data_diagram_t new_diagram;
@@ -339,24 +339,24 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controll
     }
     else
     {
-        result = (ctrl_error_t) data_result;
+        result = (u8_error_t) data_result;
     }
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_controller_t *this_,
+u8_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_controller_t *this_,
                                                                  data_row_id_t diagram_id,
                                                                  int32_t new_diagram_list_order )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_diagram_t old_diagram;
 
     data_result = data_database_writer_update_diagram_list_order( (*this_).db_writer, diagram_id, new_diagram_list_order, &old_diagram );
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         /* prepare the new diagram */
         data_diagram_t new_diagram;
@@ -369,7 +369,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_co
         data_diagram_destroy( &new_diagram );
         data_diagram_destroy( &old_diagram );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
@@ -377,7 +377,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_co
 
 /* ================================ DIAGRAMELEMENT ================================ */
 
-ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_controller_t *this_,
+u8_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_controller_t *this_,
                                                              const data_diagramelement_t *new_diagramelement,
                                                              ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                              data_row_id_t* out_new_id )
@@ -385,15 +385,15 @@ ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_contro
     TRACE_BEGIN();
     assert( NULL != new_diagramelement );
     data_diagramelement_t to_be_created;
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_row_id_t new_id;
 
     data_diagramelement_copy( &to_be_created, new_diagramelement );
     data_diagramelement_set_row_id( &to_be_created, DATA_ROW_ID_VOID );
 
     data_result = data_database_writer_create_diagramelement( (*this_).db_writer, &to_be_created, &new_id );
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         /* store new id to data_diagramelement_t object */
         data_diagramelement_set_row_id( &to_be_created, new_id );
@@ -401,9 +401,9 @@ ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_contro
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
-            ctrl_error_t internal_err;
+            u8_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
-            if ( CTRL_ERROR_NONE != internal_err )
+            if ( U8_ERROR_NONE != internal_err )
             {
                 TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
@@ -426,7 +426,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_contro
     }
     else
     {
-        result = (ctrl_error_t) data_result;
+        result = (u8_error_t) data_result;
     }
 
     data_diagramelement_destroy( &to_be_created );
@@ -435,29 +435,29 @@ ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_contro
     return result;
 }
 
-ctrl_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_controller_t *this_,
+u8_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_controller_t *this_,
                                                              data_row_id_t obj_id,
                                                              ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* delete diagramelement */
-    data_error_t current_result;
+    u8_error_t current_result;
     data_diagramelement_t old_diagramelement;
     current_result = data_database_writer_delete_diagramelement( (*this_).db_writer,
                                                                  obj_id,
                                                                  &old_diagramelement
                                                                );
 
-    if ( DATA_ERROR_NONE == current_result )
+    if ( U8_ERROR_NONE == current_result )
     {
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
-            ctrl_error_t internal_err;
+            u8_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
-            if ( CTRL_ERROR_NONE != internal_err )
+            if ( U8_ERROR_NONE != internal_err )
             {
                 TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
@@ -476,21 +476,21 @@ ctrl_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_contro
     }
     else
     {
-        result |= (ctrl_error_t) current_result;
+        result |= (u8_error_t) current_result;
     }
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_diagram_controller_t *this_,
+u8_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_diagram_controller_t *this_,
                                                                            data_row_id_t diagramelement_id,
                                                                            data_diagramelement_flag_t new_diagramelement_display_flags,
                                                                            ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_diagramelement_t old_diagramelement;
 
     data_result = data_database_writer_update_diagramelement_display_flags( (*this_).db_writer,
@@ -498,7 +498,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_
                                                                             new_diagramelement_display_flags,
                                                                             &old_diagramelement
                                                                           );
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         /* prepare the new diagram */
         data_diagramelement_t new_diagramelement;
@@ -508,9 +508,9 @@ ctrl_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
-            ctrl_error_t internal_err;
+            u8_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
-            if ( CTRL_ERROR_NONE != internal_err )
+            if ( U8_ERROR_NONE != internal_err )
             {
                 TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
@@ -523,20 +523,20 @@ ctrl_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_
         data_diagramelement_destroy( &new_diagramelement );
         data_diagramelement_destroy( &old_diagramelement );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
 }
 
-ctrl_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id ( ctrl_diagram_controller_t *this_,
+u8_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id ( ctrl_diagram_controller_t *this_,
                                                                                 data_row_id_t diagramelement_id,
                                                                                 data_row_id_t new_diagramelement_focused_feature_id,
                                                                                 ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
     data_diagramelement_t old_diagramelement;
 
     data_result = data_database_writer_update_diagramelement_focused_feature_id( (*this_).db_writer,
@@ -544,7 +544,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id ( 
                                                                                  new_diagramelement_focused_feature_id,
                                                                                  &old_diagramelement
                                                                                );
-    if ( DATA_ERROR_NONE == data_result )
+    if ( U8_ERROR_NONE == data_result )
     {
         /* prepare the new diagram */
         data_diagramelement_t new_diagramelement;
@@ -554,9 +554,9 @@ ctrl_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id ( 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
         {
-            ctrl_error_t internal_err;
+            u8_error_t internal_err;
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
-            if ( CTRL_ERROR_NONE != internal_err )
+            if ( U8_ERROR_NONE != internal_err )
             {
                 TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
@@ -569,7 +569,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id ( 
         data_diagramelement_destroy( &new_diagramelement );
         data_diagramelement_destroy( &old_diagramelement );
     }
-    result = (ctrl_error_t) data_result;
+    result = (u8_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;

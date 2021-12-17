@@ -212,9 +212,9 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
  *  \param out_from_f (a copy of) the feature at source end; !is_valid() if no feature specified
  *  \param out_to_c (a copy of) the classifier at target end
  *  \param out_to_f (a copy of) the feature at target end; !is_valid() if no feature specified
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t io_export_model_traversal_private_get_relationship_ends( io_export_model_traversal_t *this_,
+u8_error_t io_export_model_traversal_private_get_relationship_ends( io_export_model_traversal_t *this_,
                                                                       const data_relationship_t *relation,
                                                                       const data_node_set_t *node_data,
                                                                       data_classifier_t *out_from_c,

@@ -10,7 +10,7 @@
  */
 
 #include "ctrl_undo_redo_entry.h"
-#include "ctrl_error.h"
+#include "u8/u8_error.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
 #include "set/data_stat.h"
@@ -77,10 +77,10 @@ static inline void ctrl_undo_redo_list_clear ( ctrl_undo_redo_list_t *this_ );
  *  not at the end of the list anymore).
  *
  *  \param this_ pointer to own object attributes
- *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if the last boundary in the list is overwritten and the current set of actions cannot be undone.
- *          CTRL_ERROR_NONE otherwise.
+ *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED if the last boundary in the list is overwritten and the current set of actions cannot be undone.
+ *          U8_ERROR_NONE otherwise.
  */
-static inline ctrl_error_t ctrl_undo_redo_list_add_boundary ( ctrl_undo_redo_list_t *this_ );
+static inline u8_error_t ctrl_undo_redo_list_add_boundary ( ctrl_undo_redo_list_t *this_ );
 
 /*!
  *  \brief removes the last boundary entry (CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY) from the end of the list.
@@ -89,10 +89,10 @@ static inline ctrl_error_t ctrl_undo_redo_list_add_boundary ( ctrl_undo_redo_lis
  *  This method may be useful if a boundary was already added but more actions shall be added to the latest set.
  *
  *  \param this_ pointer to own object attributes
- *  \return CTRL_ERROR_INVALID_REQUEST if the last list entry is not a boundary.
- *          CTRL_ERROR_NONE otherwise.
+ *  \return U8_ERROR_INVALID_REQUEST if the last list entry is not a boundary.
+ *          U8_ERROR_NONE otherwise.
  */
-ctrl_error_t ctrl_undo_redo_list_remove_boundary_from_end ( ctrl_undo_redo_list_t *this_ );
+u8_error_t ctrl_undo_redo_list_remove_boundary_from_end ( ctrl_undo_redo_list_t *this_ );
 
 /*!
  *  \brief un-does a set of actions till the last boundary.
@@ -102,11 +102,11 @@ ctrl_error_t ctrl_undo_redo_list_remove_boundary_from_end ( ctrl_undo_redo_list_
  *                 DATA_STAT_SERIES_DELETED and
  *                 DATA_STAT_SERIES_ERROR (e.g. if name not unique due to parallel working on same db).
  *                 *io_stat shall be initialized by caller, statistics are added to initial values.
- *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if there is no more complete set of actions to be un-done due to limits of buffer.
- *          CTRL_ERROR_INVALID_REQUEST if there is no more set of actions to be un-done
- *          CTRL_ERROR_NONE otherwise.
+ *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED if there is no more complete set of actions to be un-done due to limits of buffer.
+ *          U8_ERROR_INVALID_REQUEST if there is no more set of actions to be un-done
+ *          U8_ERROR_NONE otherwise.
  */
-ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat );
+u8_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat );
 
 /*!
  *  \brief re-does a set of actions till the next boundary.
@@ -116,10 +116,10 @@ ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_, data_stat_
  *                 DATA_STAT_SERIES_DELETED and
  *                 DATA_STAT_SERIES_ERROR (e.g. if name not unique due to parallel working on same db).
  *                 *io_stat shall be initialized by caller, statistics are added to initial values.
- *  \return CTRL_ERROR_INVALID_REQUEST if there is no more set of actions to be re-done.
- *          CTRL_ERROR_NONE otherwise.
+ *  \return U8_ERROR_INVALID_REQUEST if there is no more set of actions to be re-done.
+ *          U8_ERROR_NONE otherwise.
  */
-ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat );
+u8_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat );
 
 /*!
  *  \brief determines the statistics between the current position and the last boundary entry
@@ -128,10 +128,10 @@ ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_
  *  \param io_stat Statistics on DATA_STAT_SERIES_CREATED, DATA_STAT_SERIES_MODIFIED,
  *                 DATA_STAT_SERIES_DELETED.
  *                 *io_stat shall be initialized by caller, statistics are added to initial values.
- *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if there is no more complete set of actions to be counted,
- *          CTRL_ERROR_NONE otherwise.
+ *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED if there is no more complete set of actions to be counted,
+ *          U8_ERROR_NONE otherwise.
  */
-static inline ctrl_error_t ctrl_undo_redo_list_get_last_statistics ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat );
+static inline u8_error_t ctrl_undo_redo_list_get_last_statistics ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat );
 
 /* ================================ DIAGRAM ================================ */
 
@@ -366,9 +366,9 @@ static inline void ctrl_undo_redo_list_add_create_relationship ( ctrl_undo_redo_
  *  \param this_ pointer to own object attributes
  *  \param action pointer to the action to be undone or redone
  *  \param undo true if the action shall be reverted, false if it shall be re-done.
- *  \return CTRL_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_, ctrl_undo_redo_entry_t *action, bool undo );
+u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_, ctrl_undo_redo_entry_t *action, bool undo );
 
 /*!
  *  \brief adds an entry to the list.

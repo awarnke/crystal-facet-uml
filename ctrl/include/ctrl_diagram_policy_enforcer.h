@@ -14,7 +14,7 @@
  *  e.g. relations link existing objects instead of invalid ids.
  */
 
-#include "ctrl_error.h"
+#include "u8/u8_error.h"
 #include "storage/data_database_reader.h"
 #include "set/data_node_set.h"
 #include <stdio.h>
@@ -77,33 +77,33 @@ void ctrl_diagram_policy_enforcer_destroy ( ctrl_diagram_policy_enforcer_t *this
  *
  *  \param this_ pointer to own object attributes
  *  \param updated_diagram data of the updated diagram.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-static inline ctrl_error_t ctrl_diagram_policy_enforcer_post_update_diagram_type ( ctrl_diagram_policy_enforcer_t *this_,
-                                                                                   const data_diagram_t *updated_diagram
-                                                                                 );
+static inline u8_error_t ctrl_diagram_policy_enforcer_post_update_diagram_type ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                                 const data_diagram_t *updated_diagram
+                                                                               );
 
 /*!
  *  \brief executes policies involved in creating a diagramelement.
  *
  *  \param this_ pointer to own object attributes
  *  \param new_diagramelement data of the new diagramelement.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-static inline ctrl_error_t ctrl_diagram_policy_enforcer_post_create_diagramelement ( ctrl_diagram_policy_enforcer_t *this_,
-                                                                                     const data_diagramelement_t *new_diagramelement
-                                                                                   );
+static inline u8_error_t ctrl_diagram_policy_enforcer_post_create_diagramelement ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                                   const data_diagramelement_t *new_diagramelement
+                                                                                 );
 
 /*!
  *  \brief executes policies involved in deleting a diagramelement.
  *
  *  \param this_ pointer to own object attributes
  *  \param deleted_diagramelement data of the deleted diagramelement.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-static inline ctrl_error_t ctrl_diagram_policy_enforcer_post_delete_diagramelement ( ctrl_diagram_policy_enforcer_t *this_,
-                                                                                     const data_diagramelement_t *deleted_diagramelement
-                                                                                   );
+static inline u8_error_t ctrl_diagram_policy_enforcer_post_delete_diagramelement ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                                   const data_diagramelement_t *deleted_diagramelement
+                                                                                 );
 
 /* ================================ LIFELINES ================================ */
 
@@ -120,11 +120,11 @@ static inline ctrl_error_t ctrl_diagram_policy_enforcer_post_delete_diagrameleme
  *
  *  \param this_ pointer to own object attributes
  *  \param updated_diagram data of the updated diagram.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_policy_enforcer_private_create_lifelines ( ctrl_diagram_policy_enforcer_t *this_,
-                                                                     const data_diagram_t *updated_diagram
-                                                                   );
+u8_error_t ctrl_diagram_policy_enforcer_private_create_lifelines ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                   const data_diagram_t *updated_diagram
+                                                                 );
 
 /*!
  *  \brief executes policies involved in creating a diagramelement.
@@ -140,22 +140,22 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_lifelines ( ctrl_diagra
  *
  *  \param this_ pointer to own object attributes
  *  \param new_diagramelement data of the new diagramelement.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_policy_enforcer_private_create_a_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
-                                                                      const data_diagramelement_t *new_diagramelement
-                                                                    );
+u8_error_t ctrl_diagram_policy_enforcer_private_create_a_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                    const data_diagramelement_t *new_diagramelement
+                                                                  );
 
 /*!
  *  \brief creates one lifeline, unconditional
  *
  *  \param this_ pointer to own object attributes
  *  \param the_diagramelement data of the diagramelement.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_policy_enforcer_private_create_one_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
-                                                                        const data_diagramelement_t *the_diagramelement
-                                                                      );
+u8_error_t ctrl_diagram_policy_enforcer_private_create_one_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                      const data_diagramelement_t *the_diagramelement
+                                                                    );
 
 /*!
  *  \brief executes policies involved in deleting a diagramelement.
@@ -171,11 +171,11 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_one_lifeline ( ctrl_dia
  *
  *  \param this_ pointer to own object attributes
  *  \param deleted_diagramelement data of the deleted diagramelement.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_a_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
-                                                                      const data_diagramelement_t *deleted_diagramelement
-                                                                    );
+u8_error_t ctrl_diagram_policy_enforcer_private_delete_a_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                    const data_diagramelement_t *deleted_diagramelement
+                                                                  );
 
 /* ================================ NO ABANDONED CLASSIFIERS ================================ */
 
@@ -190,11 +190,11 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_a_lifeline ( ctrl_diagr
  *
  *  \param this_ pointer to own object attributes
  *  \param deleted_diagramelement data of the deleted diagramelement.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_unreferenced_classifier ( ctrl_diagram_policy_enforcer_t *this_,
-                                                                                   const data_diagramelement_t *deleted_diagramelement
-                                                                                 );
+u8_error_t ctrl_diagram_policy_enforcer_private_delete_unreferenced_classifier ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                                 const data_diagramelement_t *deleted_diagramelement
+                                                                               );
 
 /* ================================ NO INVISIBLE RELATIONSHIPS ================================ */
 
@@ -204,14 +204,14 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_unreferenced_classifier
  *  Current rules are:
  *  - after deleting a diagramelement,
  *    delete relationships where from classifier and to classifier have no diagram in common
- * 
+ *
  *  \param this_ pointer to own object attributes
  *  \param deleted_diagramelement data of the deleted diagramelement.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_invisible_relationships ( ctrl_diagram_policy_enforcer_t *this_,
-                                                                                   const data_diagramelement_t *deleted_diagramelement
-                                                                                 );
+u8_error_t ctrl_diagram_policy_enforcer_private_delete_invisible_relationships ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                                 const data_diagramelement_t *deleted_diagramelement
+                                                                               );
 
 /*!
  *  \brief checks if a relationship is visible in a diagram.
@@ -220,12 +220,12 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_invisible_relationships
  *  \param relation relationship to be checked for visibility.
  *  \param[out] out_result true if the relatinoship end classifiers are visible in the same diagram
  *                         (except diagram-type-specific filtering).
- *  \return error id in case of an error, e.g. CTRL_ERROR_ARRAY_BUFFER_EXCEEDED; CTRL_ERROR_NONE in case of success
+ *  \return error id in case of an error, e.g. U8_ERROR_ARRAY_BUFFER_EXCEEDED; U8_ERROR_NONE in case of success
  */
-ctrl_error_t ctrl_diagram_policy_enforcer_private_has_relationship_a_diagram ( ctrl_diagram_policy_enforcer_t *this_,
-                                                                               const data_relationship_t *relation,
-                                                                               bool *out_result
-                                                                             );
+u8_error_t ctrl_diagram_policy_enforcer_private_has_relationship_a_diagram ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                             const data_relationship_t *relation,
+                                                                             bool *out_result
+                                                                           );
 
 
 #include "ctrl_diagram_policy_enforcer.inl"

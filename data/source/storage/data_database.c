@@ -330,10 +330,10 @@ static const char *DATA_DATABASE_ALTER_DIAGRAMELEMENT_TABLE_UUID =
 static const char *DATA_DATABASE_UPDATE_DIAGRAMELEMENT_UUID =
     "UPDATE diagramelements SET uuid=(SELECT " DATA_DATABASE_CREATE_UUID " WHERE diagramelements.id!=-1) WHERE uuid=\'\';";
 
-data_error_t data_database_private_initialize_tables( data_database_t *this_ )
+u8_error_t data_database_private_initialize_tables( data_database_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_CLASSIFIER_TABLE, false );
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_RELATIONSHIP_TABLE, false );
@@ -345,10 +345,10 @@ data_error_t data_database_private_initialize_tables( data_database_t *this_ )
     return result;
 }
 
-data_error_t data_database_private_initialize_indexes( data_database_t *this_ )
+u8_error_t data_database_private_initialize_indexes( data_database_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     /*
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_CLASSIFIERORDERING_INDEX, false );
@@ -361,10 +361,10 @@ data_error_t data_database_private_initialize_indexes( data_database_t *this_ )
     return result;
 }
 
-data_error_t data_database_private_upgrade_tables( data_database_t *this_ )
+u8_error_t data_database_private_upgrade_tables( data_database_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
 #if 0
     /* update table relationships from version 1.0.0 to later versions */
@@ -396,10 +396,10 @@ data_error_t data_database_private_upgrade_tables( data_database_t *this_ )
     data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAMELEMENT_TABLE_UUID, true );
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_DIAGRAMELEMENT_UUID, true );
 
-    if ( ( result & DATA_ERROR_READ_ONLY_DB ) != DATA_ERROR_NONE )
+    if ( ( result & U8_ERROR_READ_ONLY_DB ) != U8_ERROR_NONE )
     {
         TSLOG_EVENT( "sqlite3 database is read only." );
-        result = result & ~DATA_ERROR_READ_ONLY_DB;
+        result = result & ~U8_ERROR_READ_ONLY_DB;
     }
 
     TRACE_END_ERR( result );
@@ -425,12 +425,12 @@ void data_database_init ( data_database_t *this_ )
     TRACE_END();
 }
 
-data_error_t data_database_private_open ( data_database_t *this_, const char* db_file_path, int sqlite3_flags )
+u8_error_t data_database_private_open ( data_database_t *this_, const char* db_file_path, int sqlite3_flags )
 {
     TRACE_BEGIN();
     assert( NULL != db_file_path );
     int sqlite_err;
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     bool notify_listeners = false;
 
     result |= data_database_private_lock( this_ );
@@ -438,7 +438,7 @@ data_error_t data_database_private_open ( data_database_t *this_, const char* db
     if ( (*this_).is_open )
     {
         TRACE_INFO("data_database_open called on database that was not closed.");
-        result |= DATA_ERROR_INVALID_REQUEST;
+        result |= U8_ERROR_INVALID_REQUEST;
     }
     else
     {
@@ -455,22 +455,22 @@ data_error_t data_database_private_open ( data_database_t *this_, const char* db
             TSLOG_ERROR_INT( "sqlite3_open_v2() failed:", sqlite_err );
             TSLOG_ERROR_STR( "sqlite3_open_v2() failed:", utf8stringbuf_get_string( (*this_).db_file_name ) );
             (*this_).is_open = false;
-            result |= DATA_ERROR_NO_DB;  /* no db to use */
+            result |= U8_ERROR_NO_DB;  /* no db to use */
         }
         else
         {
-            data_error_t init_err;
+            u8_error_t init_err;
             init_err = data_database_private_initialize_tables( this_ );
-            if ( init_err == DATA_ERROR_NONE )
+            if ( init_err == U8_ERROR_NONE )
             {
                 init_err = data_database_private_initialize_indexes( this_ );
             }
-            if ( init_err == DATA_ERROR_NONE )
+            if ( init_err == U8_ERROR_NONE )
             {
                 init_err = data_database_private_upgrade_tables( this_ );
             }
 
-            if ( init_err == DATA_ERROR_NONE )
+            if ( init_err == U8_ERROR_NONE )
             {
                 (*this_).is_open = true;
                 notify_listeners = true;
@@ -511,11 +511,11 @@ data_error_t data_database_private_open ( data_database_t *this_, const char* db
     return result;
 }
 
-data_error_t data_database_close ( data_database_t *this_ )
+u8_error_t data_database_close ( data_database_t *this_ )
 {
     TRACE_BEGIN();
     int sqlite_err;
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     bool notify_change_listeners = false;
 
     if ( (*this_).is_open )
@@ -543,7 +543,7 @@ data_error_t data_database_close ( data_database_t *this_ )
         if ( SQLITE_OK != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_close() failed:", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
+            result |= U8_ERROR_AT_DB;
         }
 
         utf8stringbuf_clear( (*this_).db_file_name );
@@ -554,7 +554,7 @@ data_error_t data_database_close ( data_database_t *this_ )
     else
     {
         TRACE_INFO("data_database_close called on database that was not open.");
-        result |= DATA_ERROR_INVALID_REQUEST;
+        result |= U8_ERROR_INVALID_REQUEST;
     }
 
     result |= data_database_private_unlock( this_ );
@@ -591,10 +591,10 @@ void data_database_destroy ( data_database_t *this_ )
     TRACE_END();
 }
 
-data_error_t data_database_flush_caches ( data_database_t *this_ )
+u8_error_t data_database_flush_caches ( data_database_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -609,7 +609,7 @@ data_error_t data_database_flush_caches ( data_database_t *this_ )
             if ( SQLITE_OK != sqlite_err )
             {
                 TSLOG_ERROR_INT( "sqlite3_db_cacheflush() failed:", sqlite_err );
-                result = DATA_ERROR_AT_DB;
+                result = U8_ERROR_AT_DB;
             }
 #else
             TSLOG_WARNING_INT( "The compile-time version of sqlite3 did not provide the sqlite3_db_cacheflush() function.", SQLITE_VERSION_NUMBER );
@@ -625,10 +625,10 @@ data_error_t data_database_flush_caches ( data_database_t *this_ )
     return result;
 }
 
-data_error_t data_database_trace_stats ( data_database_t *this_ )
+u8_error_t data_database_trace_stats ( data_database_t *this_ )
 {
     TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -648,11 +648,11 @@ data_error_t data_database_trace_stats ( data_database_t *this_ )
     return result;
 }
 
-data_error_t data_database_add_db_listener( data_database_t *this_, data_database_listener_t *listener )
+u8_error_t data_database_add_db_listener( data_database_t *this_, data_database_listener_t *listener )
 {
     TRACE_BEGIN();
     assert( NULL != listener );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     bool already_registered = false;
 
     result |= data_database_private_lock( this_ );
@@ -673,7 +673,7 @@ data_error_t data_database_add_db_listener( data_database_t *this_, data_databas
     if ( already_registered )
     {
         TSLOG_ERROR( "Listener already registered." );
-        result |= DATA_ERROR_INVALID_REQUEST;
+        result |= U8_ERROR_INVALID_REQUEST;
     }
     else if ( -1 != pos )
     {
@@ -682,7 +682,7 @@ data_error_t data_database_add_db_listener( data_database_t *this_, data_databas
     else
     {
         TSLOG_ERROR_INT( "Maximum number of listeners reached.", GUI_DATABASE_MAX_LISTENERS );
-        result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+        result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
     }
 
     result |= data_database_private_unlock( this_ );
@@ -691,13 +691,13 @@ data_error_t data_database_add_db_listener( data_database_t *this_, data_databas
     return result;
 }
 
-data_error_t data_database_remove_db_listener( data_database_t *this_, data_database_listener_t *listener )
+u8_error_t data_database_remove_db_listener( data_database_t *this_, data_database_listener_t *listener )
 {
     TRACE_BEGIN();
 
     assert( NULL != listener );
 
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     int count_closed = 0;
 
     result |= data_database_private_lock( this_ );
@@ -716,18 +716,18 @@ data_error_t data_database_remove_db_listener( data_database_t *this_, data_data
     if ( count_closed == 0 )
     {
         TSLOG_ERROR( "listener not found" );
-        result |= DATA_ERROR_INVALID_REQUEST;
+        result |= U8_ERROR_INVALID_REQUEST;
     }
 
     TRACE_END_ERR( result );
     return result;
 }
 
-data_error_t data_database_private_notify_db_listeners( data_database_t *this_, data_database_listener_signal_t signal_id )
+u8_error_t data_database_private_notify_db_listeners( data_database_t *this_, data_database_listener_signal_t signal_id )
 {
     TRACE_BEGIN();
     data_database_listener_t *(listener_list_copy[GUI_DATABASE_MAX_LISTENERS]);
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     result |= data_database_private_lock( this_ );
 

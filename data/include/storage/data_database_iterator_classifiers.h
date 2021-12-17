@@ -10,7 +10,7 @@
  */
 
 #include "storage/data_database.h"
-#include "data_error.h"
+#include "u8/u8_error.h"
 #include "data_classifier.h"
 #include <sqlite3.h>
 #include <stdbool.h>
@@ -34,9 +34,9 @@ typedef struct data_database_iterator_classifiers_struct data_database_iterator_
  *  \brief initializes the data_database_iterator_classifiers_t struct to an empty set
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t data_database_iterator_classifiers_init_empty ( data_database_iterator_classifiers_t *this_ );
+u8_error_t data_database_iterator_classifiers_init_empty ( data_database_iterator_classifiers_t *this_ );
 
 /*!
  *  \brief re-initializes the data_database_iterator_classifiers_t struct to iterate over a db-result-set of classifiers
@@ -44,9 +44,9 @@ data_error_t data_database_iterator_classifiers_init_empty ( data_database_itera
  *  \param this_ pointer to own object attributes
  *  \param database database which this iterator uses
  *  \param classifiers_sql_statement_result sql statement to access the result set
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t data_database_iterator_classifiers_reinit ( data_database_iterator_classifiers_t *this_, data_database_t *database, sqlite3_stmt* classifiers_sql_statement_result );
+u8_error_t data_database_iterator_classifiers_reinit ( data_database_iterator_classifiers_t *this_, data_database_t *database, sqlite3_stmt* classifiers_sql_statement_result );
 
 /*!
  *  \brief destroys the data_database_iterator_classifiers_t struct
@@ -54,9 +54,9 @@ data_error_t data_database_iterator_classifiers_reinit ( data_database_iterator_
  *  This destructor frees the resources occupied by the database.
  * 
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t data_database_iterator_classifiers_destroy ( data_database_iterator_classifiers_t *this_ );
+u8_error_t data_database_iterator_classifiers_destroy ( data_database_iterator_classifiers_t *this_ );
 
 /*!
  *  \brief checks if a next element exists in the iterator - does not modify the iterator state
@@ -71,18 +71,18 @@ bool data_database_iterator_classifiers_has_next ( const data_database_iterator_
  *
  *  \param this_ pointer to own object attributes
  *  \param out_classifier the next classifier read from the database (in case of success)
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_INVALID_REQUEST if there is no next element in the iterator.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_INVALID_REQUEST if there is no next element in the iterator.
  */
-data_error_t data_database_iterator_classifiers_next ( data_database_iterator_classifiers_t *this_, data_classifier_t *out_classifier );
+u8_error_t data_database_iterator_classifiers_next ( data_database_iterator_classifiers_t *this_, data_classifier_t *out_classifier );
 
 /*!
  *  \brief moves the iterator to the next element, updates (*this_).is_at_end
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t data_database_iterator_private_step_to_next ( data_database_iterator_classifiers_t *this_ );
+u8_error_t data_database_iterator_private_step_to_next ( data_database_iterator_classifiers_t *this_ );
 
 #endif  /* DATA_DATABASE_ITERATOR_CLASSIFIERS_H */
 

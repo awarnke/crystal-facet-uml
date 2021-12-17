@@ -62,8 +62,8 @@ int image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
     int result = 0;
 
     data_visible_set_init( (*this_).input_data );
-    const data_error_t d_err = data_visible_set_load( (*this_).input_data, diagram_row_id, (*this_).db_reader );
-    if( d_err != DATA_ERROR_NONE )
+    const u8_error_t d_err = data_visible_set_load( (*this_).input_data, diagram_row_id, (*this_).db_reader );
+    if( d_err != U8_ERROR_NONE )
     {
         result = -1;
         assert(false);

@@ -26,18 +26,18 @@ static inline void data_diagram_reinit_empty ( data_diagram_t *this_ )
     data_diagram_init_empty( this_ );
 }
 
-static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
-                                                   data_row_id_t parent_diagram_id,
-                                                   data_diagram_type_t diagram_type,
-                                                   const char* diagram_name,
-                                                   const char* diagram_description,
-                                                   int32_t list_order,
-                                                   data_diagram_flag_t display_flags )
+static inline u8_error_t data_diagram_init_new ( data_diagram_t *this_,
+                                                 data_row_id_t parent_diagram_id,
+                                                 data_diagram_type_t diagram_type,
+                                                 const char* diagram_name,
+                                                 const char* diagram_description,
+                                                 int32_t list_order,
+                                                 data_diagram_flag_t display_flags )
 {
     assert( NULL != diagram_name );
     assert( NULL != diagram_description );
     utf8error_t strerr;
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     (*this_).id = DATA_ROW_ID_VOID;
     (*this_).parent_id = parent_diagram_id;
@@ -48,7 +48,7 @@ static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
-        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+        result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
@@ -56,7 +56,7 @@ static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
-        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+        result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
     (*this_).list_order = list_order;
@@ -66,21 +66,21 @@ static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
     return result;
 }
 
-static inline data_error_t data_diagram_init ( data_diagram_t *this_,
-                                               data_row_id_t diagram_id,
-                                               data_row_id_t parent_diagram_id,
-                                               data_diagram_type_t diagram_type,
-                                               const char* diagram_name,
-                                               const char* diagram_description,
-                                               int32_t list_order,
-                                               data_diagram_flag_t display_flags,
-                                               const char* uuid )
+static inline u8_error_t data_diagram_init ( data_diagram_t *this_,
+                                             data_row_id_t diagram_id,
+                                             data_row_id_t parent_diagram_id,
+                                             data_diagram_type_t diagram_type,
+                                             const char* diagram_name,
+                                             const char* diagram_description,
+                                             int32_t list_order,
+                                             data_diagram_flag_t display_flags,
+                                             const char* uuid )
 {
     assert( NULL != diagram_name );
     assert( NULL != diagram_description );
     assert( NULL != uuid );
     utf8error_t strerr;
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
 
     (*this_).id = diagram_id;
     (*this_).parent_id = parent_diagram_id;
@@ -96,7 +96,7 @@ static inline data_error_t data_diagram_init ( data_diagram_t *this_,
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
-        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+        result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
@@ -104,7 +104,7 @@ static inline data_error_t data_diagram_init ( data_diagram_t *this_,
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
-        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+        result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     (*this_).list_order = list_order;
     (*this_).display_flags = display_flags;
@@ -204,16 +204,16 @@ static inline const char *data_diagram_get_name_const ( const data_diagram_t *th
     return utf8stringbuf_get_string( (*this_).name );
 }
 
-static inline data_error_t data_diagram_set_name ( data_diagram_t *this_, const char *name )
+static inline u8_error_t data_diagram_set_name ( data_diagram_t *this_, const char *name )
 {
     assert( NULL != name );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     utf8error_t strerr;
     strerr = utf8stringbuf_copy_str( (*this_).name, name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
-        result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
+        result = U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;
 }
@@ -223,30 +223,30 @@ static inline const char *data_diagram_get_description_const ( const data_diagra
     return utf8stringbuf_get_string( (*this_).description );
 }
 
-static inline data_error_t data_diagram_set_description ( data_diagram_t *this_, const char *description )
+static inline u8_error_t data_diagram_set_description ( data_diagram_t *this_, const char *description )
 {
     assert( NULL != description );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     utf8error_t strerr;
     strerr = utf8stringbuf_copy_str( (*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
-        result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
+        result = U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;
 }
 
-static inline data_error_t data_diagram_append_description ( data_diagram_t *this_, const char *description )
+static inline u8_error_t data_diagram_append_description ( data_diagram_t *this_, const char *description )
 {
     assert( NULL != description );
-    data_error_t result = DATA_ERROR_NONE;
+    u8_error_t result = U8_ERROR_NONE;
     utf8error_t strerr;
     strerr = utf8stringbuf_append_str( (*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         TSLOG_ERROR_HEX( "utf8stringbuf_append_str() failed:", strerr );
-        result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
+        result = U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;
 }
@@ -276,11 +276,11 @@ static inline const char *data_diagram_get_uuid_const ( const data_diagram_t *th
     return data_uuid_get_string( &((*this_).uuid) );
 }
 
-static inline data_error_t data_diagram_set_uuid ( data_diagram_t *this_, const char *uuid )
+static inline u8_error_t data_diagram_set_uuid ( data_diagram_t *this_, const char *uuid )
 {
     assert( NULL != uuid );
 
-    const data_error_t result = data_uuid_reinit( &((*this_).uuid), uuid );
+    const u8_error_t result = data_uuid_reinit( &((*this_).uuid), uuid );
 
     return result;
 }

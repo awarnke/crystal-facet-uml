@@ -64,14 +64,14 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
     int write_err = 0;
 
     {
-        data_error_t data_err;
+        u8_error_t data_err;
         data_database_iterator_classifiers_t classifier_iterator;
         universal_array_list_clear( &((*this_).written_id_set) );
 
         /* init the iterator */
         data_database_iterator_classifiers_init_empty( &classifier_iterator );
         data_err = data_database_reader_get_all_classifiers_iterator ( (*this_).db_reader, &classifier_iterator );
-        if ( data_err != DATA_ERROR_NONE )
+        if ( data_err != U8_ERROR_NONE )
         {
             write_err = -1;
         }
@@ -80,7 +80,7 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
             while( data_database_iterator_classifiers_has_next( &classifier_iterator ) && ( write_err==0 ) )
             {
                 data_err = data_database_iterator_classifiers_next( &classifier_iterator, &((*this_).temp_classifier) );
-                if ( data_err != DATA_ERROR_NONE )
+                if ( data_err != U8_ERROR_NONE )
                 {
                     write_err = -1;
                 }
@@ -99,7 +99,7 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
             }
         }
         data_err = data_database_iterator_classifiers_destroy( &classifier_iterator );
-        if ( data_err != DATA_ERROR_NONE )
+        if ( data_err != U8_ERROR_NONE )
         {
             write_err = -1;
         }
@@ -135,21 +135,21 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
     /* tasks before recursion */
     if ( ! duplicate_classifier )
     {
-        const data_error_t data_err_1
+        const u8_error_t data_err_1
             = ( ! data_id_is_valid( &host_id ) )
-            ? DATA_ERROR_NONE
+            ? U8_ERROR_NONE
             : data_database_reader_get_classifier_by_id( (*this_).db_reader,
                                                          data_id_get_row_id(&host_id),
                                                          &((*this_).temp_classifier)
                                                        );
         data_node_set_init( &((*this_).temp_node_data) );
-        const data_error_t data_err_2
+        const u8_error_t data_err_2
             = data_node_set_load( &((*this_).temp_node_data),
                                   data_id_get_row_id( &classifier_id ),
                                   (*this_).db_reader
                                 );
 
-        if (( data_err_1 != DATA_ERROR_NONE )||( data_err_2 != DATA_ERROR_NONE ))
+        if (( data_err_1 != U8_ERROR_NONE )||( data_err_2 != U8_ERROR_NONE ))
         {
             write_err = -1;
         }
@@ -231,20 +231,20 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
 
     /* tasks after recursion */
     {
-        const data_error_t data_err_3
+        const u8_error_t data_err_3
             = ( ! data_id_is_valid( &host_id ) )
-            ? DATA_ERROR_NONE
+            ? U8_ERROR_NONE
             : data_database_reader_get_classifier_by_id( (*this_).db_reader,
                                                          data_id_get_row_id(&host_id),
                                                          &((*this_).temp_classifier)
                                                        );
         data_node_set_init( &((*this_).temp_node_data) );
-        const data_error_t data_err_4
+        const u8_error_t data_err_4
             = data_node_set_load( &((*this_).temp_node_data),
                                   data_id_get_row_id( &classifier_id ),
                                   (*this_).db_reader
                                 );
-        if (( data_err_3 != DATA_ERROR_NONE )||( data_err_4 != DATA_ERROR_NONE ))
+        if (( data_err_3 != U8_ERROR_NONE )||( data_err_4 != U8_ERROR_NONE ))
         {
             write_err = -1;
         }
@@ -534,7 +534,7 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                     data_classifier_init_empty( &((*this_).temp_to_classifier) );
                     data_feature_init_empty( &((*this_).temp_to_feature) );
 
-                    const data_error_t d_err
+                    const u8_error_t d_err
                         = io_export_model_traversal_private_get_relationship_ends( this_,
                                                                                    relation,
                                                                                    node_data,
@@ -544,7 +544,7 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                                                                                    &((*this_).temp_to_feature)
                                                                                  );
 
-                    if ( d_err == DATA_ERROR_NONE )
+                    if ( d_err == U8_ERROR_NONE )
                     {
                         /* destination classifier found, print the relation */
                         write_err |= io_element_writer_start_relationship( (*this_).element_writer, host_type, relation );
@@ -580,7 +580,7 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
     return write_err;
 }
 
-data_error_t io_export_model_traversal_private_get_relationship_ends( io_export_model_traversal_t *this_,
+u8_error_t io_export_model_traversal_private_get_relationship_ends( io_export_model_traversal_t *this_,
                                                                       const data_relationship_t *relation,
                                                                       const data_node_set_t *node_data,
                                                                       data_classifier_t *out_from_c,
@@ -594,7 +594,7 @@ data_error_t io_export_model_traversal_private_get_relationship_ends( io_export_
     assert( out_from_f != NULL );
     assert( out_to_c != NULL );
     assert( out_to_f != NULL );
-    data_error_t data_err = DATA_ERROR_NONE;
+    u8_error_t data_err = U8_ERROR_NONE;
 
     {
         /* get from classifier */
@@ -684,7 +684,7 @@ data_error_t io_export_model_traversal_private_get_relationship_ends( io_export_
         }
     }
 
-    if ( data_err != DATA_ERROR_NONE )
+    if ( data_err != U8_ERROR_NONE )
     {
         TSLOG_ERROR_INT( "A relationship references classifier(s) and/or feature(s) that do not exist:",
                          data_relationship_get_row_id ( relation )

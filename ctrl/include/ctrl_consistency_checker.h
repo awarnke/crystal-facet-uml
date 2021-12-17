@@ -39,7 +39,7 @@
  *
  */
 
-#include "ctrl_error.h"
+#include "u8/u8_error.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
 #include "storage/data_database_consistency_checker.h"
@@ -95,16 +95,16 @@ void ctrl_consistency_checker_destroy ( ctrl_consistency_checker_t *this_ );
  *  \param out_err number of errors detected (NULL if not requested)
  *  \param out_fix number of errors fixed (NULL if not requested)
  *  \param out_report english text stating what was checked and the results and what was reparied and the results
- *  \return CTRL_ERROR_NONE in case of success,
- *          CTRL_ERROR_NO_DB if database not open/loaded,
- *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ *  \return U8_ERROR_NONE in case of success,
+ *          U8_ERROR_NO_DB if database not open/loaded,
+ *          U8_ERROR_DB_STRUCTURE if database was corrupted
  */
-ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t *this_,
-                                                        bool modify_db,
-                                                        uint32_t *out_err,
-                                                        uint32_t *out_fix,
-                                                        utf8stringbuf_t out_report
-                                                      );
+u8_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t *this_,
+                                                      bool modify_db,
+                                                      uint32_t *out_err,
+                                                      uint32_t *out_fix,
+                                                      utf8stringbuf_t out_report
+                                                    );
 
 /*!
  *  \brief checks and repairs the database with regards to providing a single root diagram
@@ -114,16 +114,16 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
  *  \param io_err number of errors detected (not NULL)
  *  \param io_fix number of errors fixed (not NULL)
  *  \param out_report english text stating what was checked and the results and what was reparied and the results
- *  \return CTRL_ERROR_NONE in case of success,
- *          CTRL_ERROR_NO_DB if database not open/loaded,
- *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ *  \return U8_ERROR_NONE in case of success,
+ *          U8_ERROR_NO_DB if database not open/loaded,
+ *          U8_ERROR_DB_STRUCTURE if database was corrupted
  */
-ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_consistency_checker_t *this_,
-                                                                           bool modify_db,
-                                                                           uint32_t *io_err,
-                                                                           uint32_t *io_fix,
-                                                                           utf8stringbuf_t out_report
-                                                                         );
+u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_consistency_checker_t *this_,
+                                                                         bool modify_db,
+                                                                         uint32_t *io_err,
+                                                                         uint32_t *io_fix,
+                                                                         utf8stringbuf_t out_report
+                                                                       );
 
 /*!
  *  \brief checks the database with regards to invalid and circular references to parent diagrams
@@ -133,16 +133,16 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_
  *  \param io_err number of errors detected (not NULL)
  *  \param io_fix number of errors fixed (not NULL)
  *  \param out_report english text stating what was checked and the results and what was reparied and the results
- *  \return CTRL_ERROR_NONE in case of success,
- *          CTRL_ERROR_NO_DB if database not open/loaded,
- *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ *  \return U8_ERROR_NONE in case of success,
+ *          U8_ERROR_NO_DB if database not open/loaded,
+ *          U8_ERROR_DB_STRUCTURE if database was corrupted
  */
-ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_consistency_checker_t *this_,
-                                                                             bool modify_db,
-                                                                             uint32_t *io_err,
-                                                                             uint32_t *io_fix,
-                                                                             utf8stringbuf_t out_report
-                                                                           );
+u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_consistency_checker_t *this_,
+                                                                           bool modify_db,
+                                                                           uint32_t *io_err,
+                                                                           uint32_t *io_fix,
+                                                                           utf8stringbuf_t out_report
+                                                                         );
 
 /*!
  *  \brief checks and repairs the database with regards to diagramelements having a valid references to diagrams and classifiers
@@ -152,16 +152,16 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctr
  *  \param io_err number of errors detected (not NULL)
  *  \param io_fix number of errors fixed (not NULL)
  *  \param out_report english text stating what was checked and the results and what was reparied and the results
- *  \return CTRL_ERROR_NONE in case of success,
- *          CTRL_ERROR_NO_DB if database not open/loaded,
- *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ *  \return U8_ERROR_NONE in case of success,
+ *          U8_ERROR_NO_DB if database not open/loaded,
+ *          U8_ERROR_DB_STRUCTURE if database was corrupted
  */
-ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_consistency_checker_t *this_,
-                                                                             bool modify_db,
-                                                                             uint32_t *io_err,
-                                                                             uint32_t *io_fix,
-                                                                             utf8stringbuf_t out_report
-                                                                           );
+u8_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_consistency_checker_t *this_,
+                                                                           bool modify_db,
+                                                                           uint32_t *io_err,
+                                                                           uint32_t *io_fix,
+                                                                           utf8stringbuf_t out_report
+                                                                         );
 
 /*!
  *  \brief checks and repairs the database with regards to diagramelements having NULL or valid references to focused features
@@ -171,16 +171,16 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctr
  *  \param io_err number of errors detected (not NULL)
  *  \param io_fix number of errors fixed (not NULL)
  *  \param out_report english text stating what was checked and the results and what was reparied and the results
- *  \return CTRL_ERROR_NONE in case of success,
- *          CTRL_ERROR_NO_DB if database not open/loaded,
- *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ *  \return U8_ERROR_NONE in case of success,
+ *          U8_ERROR_NO_DB if database not open/loaded,
+ *          U8_ERROR_DB_STRUCTURE if database was corrupted
  */
-ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl_consistency_checker_t *this_,
-                                                                              bool modify_db,
-                                                                              uint32_t *io_err,
-                                                                              uint32_t *io_fix,
-                                                                              utf8stringbuf_t out_report
-                                                                            );
+u8_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl_consistency_checker_t *this_,
+                                                                            bool modify_db,
+                                                                            uint32_t *io_err,
+                                                                            uint32_t *io_fix,
+                                                                            utf8stringbuf_t out_report
+                                                                          );
 
 /*!
  *  \brief checks and repairs the database with regards to classifiers being referenced by diagramelements
@@ -190,16 +190,16 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ct
  *  \param io_err number of errors detected (not NULL)
  *  \param io_fix number of errors fixed (not NULL)
  *  \param out_report english text stating what was checked and the results and what was reparied and the results
- *  \return CTRL_ERROR_NONE in case of success,
- *          CTRL_ERROR_NO_DB if database not open/loaded,
- *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ *  \return U8_ERROR_NONE in case of success,
+ *          U8_ERROR_NO_DB if database not open/loaded,
+ *          U8_ERROR_DB_STRUCTURE if database was corrupted
  */
-ctrl_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl_consistency_checker_t *this_,
-                                                                              bool modify_db,
-                                                                              uint32_t *io_err,
-                                                                              uint32_t *io_fix,
-                                                                              utf8stringbuf_t out_report
-                                                                            );
+u8_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl_consistency_checker_t *this_,
+                                                                            bool modify_db,
+                                                                            uint32_t *io_err,
+                                                                            uint32_t *io_fix,
+                                                                            utf8stringbuf_t out_report
+                                                                          );
 
 /*!
  *  \brief checks and repairs the database with regards to features having a valid parent classifier
@@ -209,16 +209,16 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ct
  *  \param io_err number of errors detected (not NULL)
  *  \param io_fix number of errors fixed (not NULL)
  *  \param out_report english text stating what was checked and the results and what was reparied and the results
- *  \return CTRL_ERROR_NONE in case of success,
- *          CTRL_ERROR_NO_DB if database not open/loaded,
- *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ *  \return U8_ERROR_NONE in case of success,
+ *          U8_ERROR_NO_DB if database not open/loaded,
+ *          U8_ERROR_DB_STRUCTURE if database was corrupted
  */
-ctrl_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_consistency_checker_t *this_,
-                                                                             bool modify_db,
-                                                                             uint32_t *io_err,
-                                                                             uint32_t *io_fix,
-                                                                             utf8stringbuf_t out_report
-                                                                           );
+u8_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_consistency_checker_t *this_,
+                                                                           bool modify_db,
+                                                                           uint32_t *io_err,
+                                                                           uint32_t *io_fix,
+                                                                           utf8stringbuf_t out_report
+                                                                         );
 
 /*!
  *  \brief checks and repairs the database with regards to relationships referencing valid to and from classifiers
@@ -228,16 +228,16 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctr
  *  \param io_err number of errors detected (not NULL)
  *  \param io_fix number of errors fixed (not NULL)
  *  \param out_report english text stating what was checked and the results and what was reparied and the results
- *  \return CTRL_ERROR_NONE in case of success,
- *          CTRL_ERROR_NO_DB if database not open/loaded,
- *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ *  \return U8_ERROR_NONE in case of success,
+ *          U8_ERROR_NO_DB if database not open/loaded,
+ *          U8_ERROR_DB_STRUCTURE if database was corrupted
  */
-ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifiers ( ctrl_consistency_checker_t *this_,
-                                                                                      bool modify_db,
-                                                                                      uint32_t *io_err,
-                                                                                      uint32_t *io_fix,
-                                                                                      utf8stringbuf_t out_report
-                                                                                    );
+u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifiers ( ctrl_consistency_checker_t *this_,
+                                                                                    bool modify_db,
+                                                                                    uint32_t *io_err,
+                                                                                    uint32_t *io_fix,
+                                                                                    utf8stringbuf_t out_report
+                                                                                  );
 
 /*!
  *  \brief checks and repairs the database with regards to relationships referencing NULL or valid to and from features
@@ -247,16 +247,16 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifi
  *  \param io_err number of errors detected (not NULL)
  *  \param io_fix number of errors fixed (not NULL)
  *  \param out_report english text stating what was checked and the results and what was reparied and the results
- *  \return CTRL_ERROR_NONE in case of success,
- *          CTRL_ERROR_NO_DB if database not open/loaded,
- *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ *  \return U8_ERROR_NONE in case of success,
+ *          U8_ERROR_NO_DB if database not open/loaded,
+ *          U8_ERROR_DB_STRUCTURE if database was corrupted
  */
-ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features ( ctrl_consistency_checker_t *this_,
-                                                                                   bool modify_db,
-                                                                                   uint32_t *io_err,
-                                                                                   uint32_t *io_fix,
-                                                                                   utf8stringbuf_t out_report
-                                                                                 );
+u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features ( ctrl_consistency_checker_t *this_,
+                                                                                 bool modify_db,
+                                                                                 uint32_t *io_err,
+                                                                                 uint32_t *io_fix,
+                                                                                 utf8stringbuf_t out_report
+                                                                               );
 
 #endif  /* CTRL_CONSISTENCY_CHECKER_H */
 

@@ -66,11 +66,11 @@ int io_export_interaction_traversal_iterate_classifier_occurrences ( io_export_i
     data_small_set_t out_showing_diagram_ids;
     data_small_set_init( &out_showing_diagram_ids );
     {
-        const data_error_t data_err = data_database_reader_get_diagram_ids_by_classifier_id ( (*this_).db_reader,
+        const u8_error_t data_err = data_database_reader_get_diagram_ids_by_classifier_id ( (*this_).db_reader,
                                                                                               data_id_get_row_id( &classifier_id ),
                                                                                               &out_showing_diagram_ids
                                                                                             );
-        if( data_err == DATA_ERROR_NONE )
+        if( data_err == U8_ERROR_NONE )
         {
             const uint32_t diag_count = data_small_set_get_count( &out_showing_diagram_ids );
             for ( uint32_t diag_idx = 0; diag_idx < diag_count; diag_idx ++ )
@@ -111,11 +111,11 @@ int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction
     {
         /* load data to be drawn */
         data_visible_set_init( (*this_).input_data );
-        const data_error_t d_err = data_visible_set_load( (*this_).input_data,
+        const u8_error_t d_err = data_visible_set_load( (*this_).input_data,
                                                           data_id_get_row_id( &diagram_id ),
                                                           (*this_).db_reader
                                                         );
-        if( d_err != DATA_ERROR_NONE )
+        if( d_err != U8_ERROR_NONE )
         {
             write_err = -1;
             assert(false);

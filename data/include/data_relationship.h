@@ -13,7 +13,7 @@
 #include "data_id.h"
 #include "data_row_id.h"
 #include "data_uuid.h"
-#include "data_error.h"
+#include "u8/u8_error.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdint.h>
 #include <stdbool.h>
@@ -79,18 +79,18 @@ static inline void data_relationship_reinit_empty ( data_relationship_t *this_ )
  *  \param list_order list_order of the relationship
  *  \param from_feature_id id of the source feature if the relationship starts at a feature, DATA_ROW_ID_VOID otherwise
  *  \param to_feature_id id of the destination feature if the relationship ends at a feature, DATA_ROW_ID_VOID otherwise
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, U8_ERROR_NONE otherwise.
  */
-static inline data_error_t data_relationship_init_new ( data_relationship_t *this_,
-                                                        data_relationship_type_t relationship_main_type,
-                                                        data_row_id_t from_classifier_id,
-                                                        data_row_id_t to_classifier_id,
-                                                        const char* relationship_name,
-                                                        const char* relationship_description,
-                                                        int32_t list_order,
-                                                        data_row_id_t from_feature_id,
-                                                        data_row_id_t to_feature_id
-                                                      );
+static inline u8_error_t data_relationship_init_new ( data_relationship_t *this_,
+                                                      data_relationship_type_t relationship_main_type,
+                                                      data_row_id_t from_classifier_id,
+                                                      data_row_id_t to_classifier_id,
+                                                      const char* relationship_name,
+                                                      const char* relationship_description,
+                                                      int32_t list_order,
+                                                      data_row_id_t from_feature_id,
+                                                      data_row_id_t to_feature_id
+                                                    );
 
 /*!
  *  \brief initializes the data_relationship_t struct
@@ -106,20 +106,20 @@ static inline data_error_t data_relationship_init_new ( data_relationship_t *thi
  *  \param from_feature_id id of the source feature if the relationship starts at a feature, DATA_ROW_ID_VOID otherwise
  *  \param to_feature_id id of the destination feature if the relationship ends at a feature, DATA_ROW_ID_VOID otherwise
  *  \param uuid a universal unique identifier according to rfc4122
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
- *          DATA_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, DATA_ERROR_NONE otherwise.
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
+ *          U8_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, U8_ERROR_NONE otherwise.
  */
-static inline data_error_t data_relationship_init ( data_relationship_t *this_,
-                                                    data_row_id_t relationship_id,
-                                                    data_relationship_type_t relationship_main_type,
-                                                    data_row_id_t from_classifier_id,
-                                                    data_row_id_t to_classifier_id,
-                                                    const char* relationship_name,
-                                                    const char* relationship_description,
-                                                    int32_t list_order,
-                                                    data_row_id_t from_feature_id,
-                                                    data_row_id_t to_feature_id,
-                                                    const char* uuid
+static inline u8_error_t data_relationship_init ( data_relationship_t *this_,
+                                                  data_row_id_t relationship_id,
+                                                  data_relationship_type_t relationship_main_type,
+                                                  data_row_id_t from_classifier_id,
+                                                  data_row_id_t to_classifier_id,
+                                                  const char* relationship_name,
+                                                  const char* relationship_description,
+                                                  int32_t list_order,
+                                                  data_row_id_t from_feature_id,
+                                                  data_row_id_t to_feature_id,
+                                                  const char* uuid
                                                   );
 
 /*!
@@ -294,9 +294,9 @@ static inline const char *data_relationship_get_name_const ( const data_relation
  *
  *  \param this_ pointer to own object attributes
  *  \param name new name of this object
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if new string too long
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if new string too long
  */
-static inline data_error_t data_relationship_set_name ( data_relationship_t *this_, const char *name );
+static inline u8_error_t data_relationship_set_name ( data_relationship_t *this_, const char *name );
 
 /*!
  *  \brief gets the attribute description
@@ -311,18 +311,18 @@ static inline const char *data_relationship_get_description_const ( const data_r
  *
  *  \param this_ pointer to own object attributes
  *  \param description new description of this object
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if new string too long
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if new string too long
  */
-static inline data_error_t data_relationship_set_description ( data_relationship_t *this_, const char *description );
+static inline u8_error_t data_relationship_set_description ( data_relationship_t *this_, const char *description );
 
 /*!
  *  \brief appends a string to the attribute description
  *
  *  \param this_ pointer to own object attributes
  *  \param description additional description of this object
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if concatenated string too long
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if concatenated string too long
  */
-static inline data_error_t data_relationship_append_description ( data_relationship_t *this_, const char *description );
+static inline u8_error_t data_relationship_append_description ( data_relationship_t *this_, const char *description );
 
 /*!
  *  \brief gets the attribute list_order
@@ -353,9 +353,9 @@ static inline const char *data_relationship_get_uuid_const ( const data_relation
  *
  *  \param this_ pointer to own object attributes
  *  \param uuid new uuid of this object
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if new string too long
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if new string too long
  */
-static inline data_error_t data_relationship_set_uuid ( data_relationship_t *this_, const char *uuid );
+static inline u8_error_t data_relationship_set_uuid ( data_relationship_t *this_, const char *uuid );
 
 /*!
  *  \brief checks if attribute id is not DATA_ROW_ID_VOID

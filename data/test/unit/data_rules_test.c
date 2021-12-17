@@ -53,7 +53,7 @@ static const data_row_id_t TEST_FEATURE_ID_GAP=12;  /* features have consecutive
  */
 static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
 {
-    data_error_t data_err;
+    u8_error_t data_err;
     static data_visible_set_t test_input_data;
 
     data_visible_set_init( &test_input_data );
@@ -71,7 +71,7 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
                                        DATA_DIAGRAM_FLAG_EMPHASIS,
                                        "fa8800f9-58d8-4d2a-8f09-66a54109b9f4"
                                      );
-        TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT( data_err == U8_ERROR_NONE );
     }
 
     /* initialize the test_input_data.visible_classifiers */
@@ -99,7 +99,7 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
                                          4000*classifier_id,  /* list_order */
                                          "0bc0667f-2009-4c12-a30b-975627b19889"
                                        );
-        TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT( data_err == U8_ERROR_NONE );
 
         TEST_ENVIRONMENT_ASSERT( DATA_VISIBLE_SET_MAX_FEATURES >= TEST_LIFELINE_COUNT );
         TEST_ENVIRONMENT_ASSERT( TEST_LIFELINE_REFS < TEST_LIFELINE_COUNT );  /* not all lifelines shall be visible */
@@ -113,7 +113,7 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
                                              with_lifeline ? (TEST_FEATURE_ID_OFFSET+vc_idx) : DATA_ROW_ID_VOID,  /* focused_feature_id */
                                              "6bfe2cbc-498b-4f96-93dd-6293e8ffe443"
                                            );
-        TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT( data_err == U8_ERROR_NONE );
 
         TEST_ENVIRONMENT_ASSERT( data_visible_classifier_is_valid( current ) );
     }
@@ -140,7 +140,7 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
                                       6000*f_idx,  /* list_order */
                                       "79464edf-be17-4497-98ec-175913eff4e5"
                                     );
-        TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT( data_err == U8_ERROR_NONE );
 
         TEST_ENVIRONMENT_ASSERT( data_feature_is_valid( current ) );
     }
@@ -165,7 +165,7 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
                                            to_feat ? (TEST_FEATURE_ID_OFFSET+(r_idx+1)) : DATA_ROW_ID_VOID,  /* to_feature_id */
                                            "dc1dc264-e50b-4140-bfb7-591977e21a37"
                                          );
-        TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT( data_err == U8_ERROR_NONE );
 
         TEST_ENVIRONMENT_ASSERT( data_relationship_is_valid( current ) );
     }

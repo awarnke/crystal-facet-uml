@@ -9,7 +9,7 @@
  *  \brief Provides write access and triggers consistency checks to classifiers in the database
  */
 
-#include "ctrl_error.h"
+#include "u8/u8_error.h"
 #include "ctrl_consistency_checker.h"
 #include "ctrl_classifier_policy_enforcer.h"
 #include "ctrl_undo_redo_list.h"
@@ -77,13 +77,13 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ );
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
  *  \param[out] out_new_id id of the newly created classifier.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_controller_t *this_,
-                                                            const data_classifier_t *new_classifier,
-                                                            ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
-                                                            data_row_id_t* out_new_id
-                                                          );
+u8_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_controller_t *this_,
+                                                          const data_classifier_t *new_classifier,
+                                                          ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
+                                                          data_row_id_t* out_new_id
+                                                        );
 
 /*!
  *  \brief deletes a classifier record and associated relationships and features
@@ -97,12 +97,12 @@ ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_cont
  *                                to the last set of actions in the undo_redo_list_t,
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-ctrl_error_t ctrl_classifier_controller_delete_classifier ( ctrl_classifier_controller_t *this_,
-                                                            data_row_id_t obj_id,
-                                                            ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
-                                                          );
+u8_error_t ctrl_classifier_controller_delete_classifier ( ctrl_classifier_controller_t *this_,
+                                                          data_row_id_t obj_id,
+                                                          ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
+                                                        );
 
 /*!
  *  \brief updates the classifier attribute: stereotype
@@ -110,12 +110,12 @@ ctrl_error_t ctrl_classifier_controller_delete_classifier ( ctrl_classifier_cont
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_stereotype new description text of the classifier
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classifier_controller_t *this_,
-                                                                       data_row_id_t classifier_id,
-                                                                       const char* new_classifier_stereotype
-                                                                     );
+u8_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classifier_controller_t *this_,
+                                                                     data_row_id_t classifier_id,
+                                                                     const char* new_classifier_stereotype
+                                                                   );
 
 /*!
  *  \brief updates the classifier attribute: description
@@ -123,12 +123,12 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_clas
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_description new description text of the classifier
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_classifier_controller_t *this_,
-                                                                        data_row_id_t classifier_id,
-                                                                        const char* new_classifier_description
-                                                                      );
+u8_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_classifier_controller_t *this_,
+                                                                      data_row_id_t classifier_id,
+                                                                      const char* new_classifier_description
+                                                                    );
 
 /*!
  *  \brief updates the classifier attribute: name
@@ -136,12 +136,12 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_cla
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_name new name of the classifier
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_controller_t *this_,
-                                                                 data_row_id_t classifier_id,
-                                                                 const char* new_classifier_name
-                                                               );
+u8_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_controller_t *this_,
+                                                               data_row_id_t classifier_id,
+                                                               const char* new_classifier_name
+                                                             );
 
 /*!
  *  \brief updates the classifier attribute: main_type
@@ -149,12 +149,12 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_main_type new main_type of the classifier
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classifier_controller_t *this_,
-                                                                      data_row_id_t classifier_id,
-                                                                      data_classifier_type_t new_classifier_main_type
-                                                                    );
+u8_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classifier_controller_t *this_,
+                                                                    data_row_id_t classifier_id,
+                                                                    data_classifier_type_t new_classifier_main_type
+                                                                  );
 
 /*!
  *  \brief updates the classifier attribute: x_order
@@ -162,12 +162,12 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_class
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_x_order new x_order of the classifier
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_classifier_x_order ( ctrl_classifier_controller_t *this_,
-                                                                    data_row_id_t classifier_id,
-                                                                    int32_t new_classifier_x_order
-                                                                  );
+u8_error_t ctrl_classifier_controller_update_classifier_x_order ( ctrl_classifier_controller_t *this_,
+                                                                  data_row_id_t classifier_id,
+                                                                  int32_t new_classifier_x_order
+                                                                );
 
 /*!
  *  \brief updates the classifier attribute: y_order
@@ -175,12 +175,12 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_x_order ( ctrl_classif
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_y_order new y_order of the classifier
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_classifier_y_order ( ctrl_classifier_controller_t *this_,
-                                                                    data_row_id_t classifier_id,
-                                                                    int32_t new_classifier_y_order
-                                                                  );
+u8_error_t ctrl_classifier_controller_update_classifier_y_order ( ctrl_classifier_controller_t *this_,
+                                                                  data_row_id_t classifier_id,
+                                                                  int32_t new_classifier_y_order
+                                                                );
 
 /*!
  *  \brief updates the classifier attributes: x_order and y_order
@@ -189,13 +189,13 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_y_order ( ctrl_classif
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_x_order new x_order of the classifier
  *  \param new_classifier_y_order new y_order of the classifier
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl_classifier_controller_t *this_,
-                                                                            data_row_id_t classifier_id,
-                                                                            int32_t new_classifier_x_order,
-                                                                            int32_t new_classifier_y_order
-                                                                          );
+u8_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl_classifier_controller_t *this_,
+                                                                          data_row_id_t classifier_id,
+                                                                          int32_t new_classifier_x_order,
+                                                                          int32_t new_classifier_y_order
+                                                                        );
 
 /*!
  *  \brief updates the classifier attribute: list_order
@@ -203,12 +203,12 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_list_order new list_order of the classifier
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_classifier_controller_t *this_,
-                                                                       data_row_id_t classifier_id,
-                                                                       int32_t new_classifier_list_order
-                                                                     );
+u8_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_classifier_controller_t *this_,
+                                                                     data_row_id_t classifier_id,
+                                                                     int32_t new_classifier_list_order
+                                                                   );
 
 /* ================================ FEATURE ================================ */
 
@@ -222,13 +222,13 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_clas
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
  *  \param[out] out_new_id id of the newly created feature, NULL if the new id is not needed.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controller_t *this_,
-                                                         const data_feature_t *new_feature,
-                                                         ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
-                                                         data_row_id_t* out_new_id
-                                                       );
+u8_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controller_t *this_,
+                                                       const data_feature_t *new_feature,
+                                                       ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
+                                                       data_row_id_t* out_new_id
+                                                     );
 
 /*!
  *  \brief deletes a feature record
@@ -241,12 +241,12 @@ ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_control
  *                                to the last set of actions in the undo_redo_list_t,
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controller_t *this_,
-                                                         data_row_id_t obj_id,
-                                                         ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
-                                                       );
+u8_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controller_t *this_,
+                                                       data_row_id_t obj_id,
+                                                       ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
+                                                     );
 
 /*!
  *  \brief updates the feature attribute: main_type
@@ -254,12 +254,12 @@ ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_control
  *  \param this_ pointer to own object attributes
  *  \param feature_id id of the feature to be updated
  *  \param new_feature_type new main_type of the feature
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_feature_main_type ( ctrl_classifier_controller_t *this_,
-                                                                   data_row_id_t feature_id,
-                                                                   data_feature_type_t new_feature_type
-                                                                 );
+u8_error_t ctrl_classifier_controller_update_feature_main_type ( ctrl_classifier_controller_t *this_,
+                                                                 data_row_id_t feature_id,
+                                                                 data_feature_type_t new_feature_type
+                                                               );
 
 /*!
  *  \brief updates the feature attribute: key
@@ -267,12 +267,12 @@ ctrl_error_t ctrl_classifier_controller_update_feature_main_type ( ctrl_classifi
  *  \param this_ pointer to own object attributes
  *  \param feature_id id of the feature to be updated
  *  \param new_feature_key new key of the feature
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_controller_t *this_,
-                                                             data_row_id_t feature_id,
-                                                             const char* new_feature_key
-                                                           );
+u8_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_controller_t *this_,
+                                                           data_row_id_t feature_id,
+                                                           const char* new_feature_key
+                                                         );
 
 /*!
  *  \brief updates the feature attribute: value
@@ -280,12 +280,12 @@ ctrl_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_con
  *  \param this_ pointer to own object attributes
  *  \param feature_id id of the feature to be updated
  *  \param new_feature_value new value of the feature
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_controller_t *this_,
-                                                               data_row_id_t feature_id,
-                                                               const char* new_feature_value
-                                                             );
+u8_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_controller_t *this_,
+                                                             data_row_id_t feature_id,
+                                                             const char* new_feature_value
+                                                           );
 
 /*!
  *  \brief updates the feature attribute: description
@@ -293,12 +293,12 @@ ctrl_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_c
  *  \param this_ pointer to own object attributes
  *  \param feature_id id of the feature to be updated
  *  \param new_feature_description new description text of the feature
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classifier_controller_t *this_,
-                                                                     data_row_id_t feature_id,
-                                                                     const char* new_feature_description
-                                                                   );
+u8_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classifier_controller_t *this_,
+                                                                   data_row_id_t feature_id,
+                                                                   const char* new_feature_description
+                                                                 );
 
 /*!
  *  \brief updates the feature attribute: list_order
@@ -306,12 +306,12 @@ ctrl_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classi
  *  \param this_ pointer to own object attributes
  *  \param feature_id id of the feature to be updated
  *  \param new_feature_list_order new list_order of the feature
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classifier_controller_t *this_,
-                                                                    data_row_id_t feature_id,
-                                                                    int32_t new_feature_list_order
-                                                                  );
+u8_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classifier_controller_t *this_,
+                                                                  data_row_id_t feature_id,
+                                                                  int32_t new_feature_list_order
+                                                                );
 
 /* ================================ RELATIONSHIP ================================ */
 
@@ -325,13 +325,13 @@ ctrl_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classif
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
  *  \param[out] out_new_id id of the newly created relationship, NULL if the new id is not needed.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_controller_t *this_,
-                                                              const data_relationship_t *new_relationship,
-                                                              ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
-                                                              data_row_id_t* out_new_id
-                                                            );
+u8_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_controller_t *this_,
+                                                            const data_relationship_t *new_relationship,
+                                                            ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
+                                                            data_row_id_t* out_new_id
+                                                          );
 
 /*!
  *  \brief deletes a relationship record
@@ -343,12 +343,12 @@ ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_co
  *                                to the last set of actions in the undo_redo_list_t,
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-ctrl_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_controller_t *this_,
-                                                              data_row_id_t obj_id,
-                                                              ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
-                                                            );
+u8_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_controller_t *this_,
+                                                            data_row_id_t obj_id,
+                                                            ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
+                                                          );
 
 /*!
  *  \brief updates the relationship attribute: main_type
@@ -356,12 +356,12 @@ ctrl_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_co
  *  \param this_ pointer to own object attributes
  *  \param relationship_id id of the diagram to be updated
  *  \param new_relationship_type new main_type of the diagram
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_classifier_controller_t *this_,
-                                                                        data_row_id_t relationship_id,
-                                                                        data_relationship_type_t new_relationship_type
-                                                                      );
+u8_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_classifier_controller_t *this_,
+                                                                      data_row_id_t relationship_id,
+                                                                      data_relationship_type_t new_relationship_type
+                                                                    );
 
 /*!
  *  \brief updates the relationship attribute: name
@@ -369,12 +369,12 @@ ctrl_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_cla
  *  \param this_ pointer to own object attributes
  *  \param relationship_id id of the relationship to be updated
  *  \param new_relationship_name new name of the relationship
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifier_controller_t *this_,
-                                                                   data_row_id_t relationship_id,
-                                                                   const char* new_relationship_name
-                                                                 );
+u8_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifier_controller_t *this_,
+                                                                 data_row_id_t relationship_id,
+                                                                 const char* new_relationship_name
+                                                               );
 
 /*!
  *  \brief updates the relationship attribute: description
@@ -382,12 +382,12 @@ ctrl_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifi
  *  \param this_ pointer to own object attributes
  *  \param relationship_id id of the relationship to be updated
  *  \param new_relationship_description new description text of the relationship
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_classifier_controller_t *this_,
-                                                                          data_row_id_t relationship_id,
-                                                                          const char* new_relationship_description
-                                                                        );
+u8_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_classifier_controller_t *this_,
+                                                                        data_row_id_t relationship_id,
+                                                                        const char* new_relationship_description
+                                                                      );
 
 /*!
  *  \brief updates the relationship attribute: list_order
@@ -395,12 +395,12 @@ ctrl_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_c
  *  \param this_ pointer to own object attributes
  *  \param relationship_id id of the relationship to be updated
  *  \param new_relationship_list_order new list_order of the relationship
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_relationship_list_order ( ctrl_classifier_controller_t *this_,
-                                                                         data_row_id_t relationship_id,
-                                                                         int32_t new_relationship_list_order
-                                                                       );
+u8_error_t ctrl_classifier_controller_update_relationship_list_order ( ctrl_classifier_controller_t *this_,
+                                                                       data_row_id_t relationship_id,
+                                                                       int32_t new_relationship_list_order
+                                                                     );
 
 #endif  /* CTRL_CLASSIFIER_CONTROLLER_H */
 

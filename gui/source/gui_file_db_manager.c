@@ -45,7 +45,7 @@ void gui_file_db_manager_use_db_response_callback( GtkDialog *dialog, gint respo
         case GTK_RESPONSE_ACCEPT:
         {
             TSLOG_EVENT( "GTK_RESPONSE_ACCEPT" );
-            ctrl_error_t error;
+            u8_error_t error;
 
             gchar *filename;
             filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
@@ -53,7 +53,7 @@ void gui_file_db_manager_use_db_response_callback( GtkDialog *dialog, gint respo
 
             error = ctrl_controller_switch_database ( (*this_).controller, filename );
 
-            if ( CTRL_ERROR_NONE != error )
+            if ( U8_ERROR_NONE != error )
             {
                 if ( data_database_is_open( (*this_).database ) )
                 {
@@ -77,7 +77,7 @@ void gui_file_db_manager_use_db_response_callback( GtkDialog *dialog, gint respo
 
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
 
-            if ( CTRL_ERROR_NONE == error )
+            if ( U8_ERROR_NONE == error )
             {
                 /* ensure that at least one diagram exists - otherwise the first window looks a bit empty */
                 ctrl_diagram_controller_t *diag_control;

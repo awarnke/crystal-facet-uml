@@ -15,7 +15,7 @@
 #include "storage/data_database_listener_signal.h"
 #include "storage/data_database.h"
 #include "data_diagram.h"
-#include "data_error.h"
+#include "u8/u8_error.h"
 #include "data_classifier.h"
 #include "set/data_visible_classifier.h"
 #include "set/data_small_set.h"
@@ -52,17 +52,17 @@ typedef struct data_database_text_search_struct data_database_text_search_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param database database which this reader uses
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t data_database_text_search_init ( data_database_text_search_t *this_, data_database_t *database );
+u8_error_t data_database_text_search_init ( data_database_text_search_t *this_, data_database_t *database );
 
 /*!
  *  \brief destroys the data_database_text_search_t struct
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t data_database_text_search_destroy ( data_database_text_search_t *this_ );
+u8_error_t data_database_text_search_destroy ( data_database_text_search_t *this_ );
 
 /*!
  *  \brief prepares a database change and re-initializes afterwards
@@ -88,15 +88,15 @@ static inline bool data_database_text_search_is_open( data_database_text_search_
  *  \param max_out_results size of the array where to store the results. If size is too small for the actual result set, this is an error.
  *  \param out_results the object ids found in the database
  *  \param out_result_count number of objects stored in out_results
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_NO_DB if the database is not open.
  */
-static inline data_error_t data_database_text_search_get_objects_by_text_fragment ( data_database_text_search_t *this_,
-                                                                                    const char *textfragment,
-                                                                                    unsigned int max_out_results,
-                                                                                    data_search_result_t (*out_results)[],
-                                                                                    unsigned int* out_result_count
-                                                                                  );
+static inline u8_error_t data_database_text_search_get_objects_by_text_fragment ( data_database_text_search_t *this_,
+                                                                                  const char *textfragment,
+                                                                                  unsigned int max_out_results,
+                                                                                  data_search_result_t (*out_results)[],
+                                                                                  unsigned int* out_result_count
+                                                                                );
 
 /*!
  *  \brief reads a set of objects from the database
@@ -104,13 +104,13 @@ static inline data_error_t data_database_text_search_get_objects_by_text_fragmen
  *  \param this_ pointer to own object attributes
  *  \param textfragment text pattern for the objects which to search in the database
  *  \param io_results the list where to append the object ids found in the database
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_text_search_get_objects_by_textfragment ( data_database_text_search_t *this_,
-                                                                     const char *textfragment,
-                                                                     data_search_result_list_t *io_results
-                                                                   );
+u8_error_t data_database_text_search_get_objects_by_textfragment ( data_database_text_search_t *this_,
+                                                                   const char *textfragment,
+                                                                   data_search_result_list_t *io_results
+                                                                 );
 
 /*!
  *  \brief reads a set of diagrams from the database
@@ -118,13 +118,13 @@ data_error_t data_database_text_search_get_objects_by_textfragment ( data_databa
  *  \param this_ pointer to own object attributes
  *  \param textfragment text pattern for the objects which to search in the database
  *  \param io_results the list where to append the object ids found in the database
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_text_search_private_get_diagrams_by_textfragment ( data_database_text_search_t *this_,
-                                                                              const char *textfragment,
-                                                                              data_search_result_list_t *io_results
-                                                                            );
+u8_error_t data_database_text_search_private_get_diagrams_by_textfragment ( data_database_text_search_t *this_,
+                                                                            const char *textfragment,
+                                                                            data_search_result_list_t *io_results
+                                                                          );
 
 /*!
  *  \brief reads a set of classifiers from the database
@@ -132,13 +132,13 @@ data_error_t data_database_text_search_private_get_diagrams_by_textfragment ( da
  *  \param this_ pointer to own object attributes
  *  \param textfragment text pattern for the objects which to search in the database
  *  \param io_results the list where to append the object ids found in the database
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_text_search_private_get_classifiers_by_textfragment ( data_database_text_search_t *this_,
-                                                                                 const char *textfragment,
-                                                                                 data_search_result_list_t *io_results
-                                                                               );
+u8_error_t data_database_text_search_private_get_classifiers_by_textfragment ( data_database_text_search_t *this_,
+                                                                               const char *textfragment,
+                                                                               data_search_result_list_t *io_results
+                                                                             );
 
 /*!
  *  \brief reads a set of features from the database
@@ -146,13 +146,13 @@ data_error_t data_database_text_search_private_get_classifiers_by_textfragment (
  *  \param this_ pointer to own object attributes
  *  \param textfragment text pattern for the objects which to search in the database
  *  \param io_results the list where to append the object ids found in the database
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_text_search_private_get_features_by_textfragment ( data_database_text_search_t *this_,
-                                                                              const char *textfragment,
-                                                                              data_search_result_list_t *io_results
-                                                                            );
+u8_error_t data_database_text_search_private_get_features_by_textfragment ( data_database_text_search_t *this_,
+                                                                            const char *textfragment,
+                                                                            data_search_result_list_t *io_results
+                                                                          );
 
 /*!
  *  \brief reads a set of relationships from the database
@@ -160,29 +160,29 @@ data_error_t data_database_text_search_private_get_features_by_textfragment ( da
  *  \param this_ pointer to own object attributes
  *  \param textfragment text pattern for the objects which to search in the database
  *  \param io_results the list where to append the object ids found in the database
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_NO_DB if the database is not open.
  */
-data_error_t data_database_text_search_private_get_relationships_by_textfragment ( data_database_text_search_t *this_,
-                                                                                   const char *textfragment,
-                                                                                   data_search_result_list_t *io_results
-                                                                                 );
+u8_error_t data_database_text_search_private_get_relationships_by_textfragment ( data_database_text_search_t *this_,
+                                                                                 const char *textfragment,
+                                                                                 data_search_result_list_t *io_results
+                                                                               );
 
 /*!
  *  \brief initializes the data_database_text_search_t struct and allows access to the database after the database is opened
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t data_database_text_search_private_open ( data_database_text_search_t *this_ );
+u8_error_t data_database_text_search_private_open ( data_database_text_search_t *this_ );
 
 /*!
  *  \brief closes the data_database_text_search_t struct (prohibits access to the database) before the database is closed
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t data_database_text_search_private_close ( data_database_text_search_t *this_ );
+u8_error_t data_database_text_search_private_close ( data_database_text_search_t *this_ );
 
 /*!
  *  \brief creates a prepared statement.
@@ -191,24 +191,24 @@ data_error_t data_database_text_search_private_close ( data_database_text_search
  *  \param string_statement statement as string to be prepared
  *  \param string_size size of string_statement in bytes, including the terminating zero
  *  \param out_statement_ptr address of a pointer. The pointer is modifies as to point to a statement object.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline data_error_t data_database_text_search_private_prepare_statement ( data_database_text_search_t *this_,
-                                                                                 const char *string_statement,
-                                                                                 unsigned int string_size,
-                                                                                 sqlite3_stmt **out_statement_ptr
-                                                                               );
+static inline u8_error_t data_database_text_search_private_prepare_statement ( data_database_text_search_t *this_,
+                                                                               const char *string_statement,
+                                                                               unsigned int string_size,
+                                                                               sqlite3_stmt **out_statement_ptr
+                                                                             );
 
 /*!
  *  \brief finalizes a prepared statement.
  *
  *  \param this_ pointer to own object attributes
  *  \param statement_ptr pointer to a statement object
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline data_error_t data_database_text_search_private_finalize_statement ( data_database_text_search_t *this_,
-                                                                                  sqlite3_stmt *statement_ptr
-                                                                                );
+static inline u8_error_t data_database_text_search_private_finalize_statement ( data_database_text_search_t *this_,
+                                                                                sqlite3_stmt *statement_ptr
+                                                                              );
 
 /*!
  *  \brief binds two strings to a prepared statement (after reset).
@@ -219,13 +219,13 @@ static inline data_error_t data_database_text_search_private_finalize_statement 
  *  \param statement_ptr pointer to a statement object
  *  \param text_1 first char sequence to bind to the prepared statement.
  *  \param text_2 second char sequence to bind to the prepared statement.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline data_error_t data_database_text_search_private_bind_two_texts_to_statement ( data_database_text_search_t *this_,
-                                                                                           sqlite3_stmt *statement_ptr,
-                                                                                           const char *text_1,
-                                                                                           const char *text_2
-                                                                                         );
+static inline u8_error_t data_database_text_search_private_bind_two_texts_to_statement ( data_database_text_search_t *this_,
+                                                                                         sqlite3_stmt *statement_ptr,
+                                                                                         const char *text_1,
+                                                                                         const char *text_2
+                                                                                       );
 
 /*!
  *  \brief binds three strings to a prepared statement (after reset).
@@ -237,14 +237,14 @@ static inline data_error_t data_database_text_search_private_bind_two_texts_to_s
  *  \param text_1 first char sequence to bind to the prepared statement.
  *  \param text_2 second char sequence to bind to the prepared statement.
  *  \param text_3 third char sequence to bind to the prepared statement.
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline data_error_t data_database_text_search_private_bind_three_texts_to_statement ( data_database_text_search_t *this_,
-                                                                                             sqlite3_stmt *statement_ptr,
-                                                                                             const char *text_1,
-                                                                                             const char *text_2,
-                                                                                             const char *text_3
-                                                                                           );
+static inline u8_error_t data_database_text_search_private_bind_three_texts_to_statement ( data_database_text_search_t *this_,
+                                                                                           sqlite3_stmt *statement_ptr,
+                                                                                           const char *text_1,
+                                                                                           const char *text_2,
+                                                                                           const char *text_3
+                                                                                         );
 
 #include "storage/data_database_text_search.inl"
 

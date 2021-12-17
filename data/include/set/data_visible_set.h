@@ -73,9 +73,9 @@ void data_visible_set_destroy( data_visible_set_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram for which the data shall be loaded
  *  \param db_reader database reader to use when acquiring data
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-data_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader );
+u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader );
 
 /* ================================ diagram ================================ */
 
@@ -100,9 +100,9 @@ static inline data_diagram_t *data_visible_set_get_diagram_ptr ( data_visible_se
  *
  *  \param this_ pointer to own object attributes
  *  \param new_diagram pointer to diagram record that shall be copied
- *  \return DATA_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline data_error_t data_visible_set_set_diagram( data_visible_set_t *this_, const data_diagram_t *new_diagram );
+static inline u8_error_t data_visible_set_set_diagram( data_visible_set_t *this_, const data_diagram_t *new_diagram );
 
 /* ================================ classifiers ================================ */
 
@@ -192,9 +192,9 @@ static inline uint32_t data_visible_set_get_classifier_index_from_pointer ( cons
  *
  *  \param this_ pointer to own object attributes
  *  \param new_classifier pointer to visible_classifier record that shall be copied
- *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_ARRAY_BUFFER_EXCEEDED if array is full
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_ARRAY_BUFFER_EXCEEDED if array is full
  */
-static inline data_error_t data_visible_set_append_classifier( data_visible_set_t *this_, const data_visible_classifier_t *new_classifier );
+static inline u8_error_t data_visible_set_append_classifier( data_visible_set_t *this_, const data_visible_classifier_t *new_classifier );
 
 /* ================================ features ================================ */
 
@@ -254,9 +254,9 @@ static inline data_feature_t *data_visible_set_get_feature_list_ptr ( data_visib
  *
  *  \param this_ pointer to own object attributes
  *  \param new_feature pointer to feature record that shall be copied
- *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_ARRAY_BUFFER_EXCEEDED if array is full
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_ARRAY_BUFFER_EXCEEDED if array is full
  */
-static inline data_error_t data_visible_set_append_feature( data_visible_set_t *this_, const data_feature_t *new_feature );
+static inline u8_error_t data_visible_set_append_feature( data_visible_set_t *this_, const data_feature_t *new_feature );
 
 /* ================================ relationships ================================ */
 
@@ -336,9 +336,9 @@ static inline uint32_t data_visible_set_count_descendants_of_index ( const data_
  *
  *  \param this_ pointer to own object attributes
  *  \param new_relationship pointer to relationship record that shall be copied
- *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_ARRAY_BUFFER_EXCEEDED if array is full
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_ARRAY_BUFFER_EXCEEDED if array is full
  */
-static inline data_error_t data_visible_set_append_relationship( data_visible_set_t *this_, const data_relationship_t *new_relationship );
+static inline u8_error_t data_visible_set_append_relationship( data_visible_set_t *this_, const data_relationship_t *new_relationship );
 
 /* ================================ misc ================================ */
 

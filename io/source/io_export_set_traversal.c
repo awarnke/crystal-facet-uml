@@ -105,7 +105,7 @@ int io_export_set_traversal_private_export_diagram( io_export_set_traversal_t *t
     assert( data_id_is_valid( &id ) );
     assert( DATA_TABLE_DIAGRAM == data_id_get_table( &id ) );
     int serialize_error = 0;
-    data_error_t read_error;
+    u8_error_t read_error;
 
     data_diagram_t out_diagram;
     read_error = data_database_reader_get_diagram_by_id ( (*this_).db_reader,
@@ -113,7 +113,7 @@ int io_export_set_traversal_private_export_diagram( io_export_set_traversal_t *t
                                                           &out_diagram
                                                         );
 
-    if ( read_error == DATA_ERROR_NONE )
+    if ( read_error == U8_ERROR_NONE )
     {
         /* write diagram */
         const char *const diagram_file_base_name = "";
@@ -142,7 +142,7 @@ int io_export_set_traversal_private_export_diagramelement( io_export_set_travers
     assert( data_id_is_valid( &id ) );
     assert( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &id ) );
     int serialize_error = 0;
-    data_error_t read_error;
+    u8_error_t read_error;
 
     data_classifier_t out_classifier;
     data_diagramelement_t out_diagramelement;
@@ -153,7 +153,7 @@ int io_export_set_traversal_private_export_diagramelement( io_export_set_travers
                                                                 &out_diagramelement
                                                               );
 
-    if ( read_error == DATA_ERROR_NONE )
+    if ( read_error == U8_ERROR_NONE )
     {
         /* get classifier */
         const data_row_id_t classifier_id = data_diagramelement_get_classifier_row_id( &out_diagramelement );
@@ -188,7 +188,7 @@ int io_export_set_traversal_private_export_diagramelement( io_export_set_travers
                                                              );
         */
 
-        if ( read_error == DATA_ERROR_NONE )
+        if ( read_error == U8_ERROR_NONE )
         {
             /* intentionally not supported: diagramelements */
             TRACE_INFO( "io_export_set_traversal_export_set does not copy single diagramelements, only referenced classifiers." );
@@ -220,7 +220,7 @@ int io_export_set_traversal_private_export_diagramelement( io_export_set_travers
                                                                          &feature_count
                                                                        );
 
-        if ( read_error == DATA_ERROR_NONE )
+        if ( read_error == U8_ERROR_NONE )
         {
             /* write classifier */
             serialize_error |= io_element_writer_start_classifier( (*this_).element_writer,
@@ -282,7 +282,7 @@ int io_export_set_traversal_private_export_classifier( io_export_set_traversal_t
     assert( data_id_is_valid( &id ) );
     assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &id ) );
     int serialize_error = 0;
-    data_error_t read_error;
+    u8_error_t read_error;
 
     data_classifier_t out_classifier;
     read_error = data_database_reader_get_classifier_by_id( (*this_).db_reader,
@@ -298,7 +298,7 @@ int io_export_set_traversal_private_export_classifier( io_export_set_traversal_t
                                                                      &feature_count
                                                                    );
 
-    if ( read_error == DATA_ERROR_NONE )
+    if ( read_error == U8_ERROR_NONE )
     {
         /* write classifier */
         serialize_error |= io_element_writer_start_classifier( (*this_).element_writer,
@@ -353,7 +353,7 @@ int io_export_set_traversal_private_export_relationship( io_export_set_traversal
     assert( data_id_is_valid( &id ) );
     assert( DATA_TABLE_RELATIONSHIP == data_id_get_table( &id ) );
     int serialize_error = 0;
-    data_error_t read_error;
+    u8_error_t read_error;
 
     data_relationship_t out_relation;
     read_error = data_database_reader_get_relationship_by_id ( (*this_).db_reader,
@@ -361,7 +361,7 @@ int io_export_set_traversal_private_export_relationship( io_export_set_traversal
                                                                &out_relation
                                                              );
 
-    if ( read_error == DATA_ERROR_NONE )
+    if ( read_error == U8_ERROR_NONE )
     {
         data_classifier_t from_classifier;
         data_classifier_t to_classifier;
@@ -402,7 +402,7 @@ int io_export_set_traversal_private_export_relationship( io_export_set_traversal
         }
 
         /* serialize */
-        if ( read_error == DATA_ERROR_NONE )
+        if ( read_error == U8_ERROR_NONE )
         {
             /* write relationship */
             serialize_error |= io_element_writer_start_relationship( (*this_).element_writer,

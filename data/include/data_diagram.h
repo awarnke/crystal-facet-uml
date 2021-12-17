@@ -14,7 +14,7 @@
 #include "data_row_id.h"
 #include "data_diagram_flag.h"
 #include "data_uuid.h"
-#include "data_error.h"
+#include "u8/u8_error.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdbool.h>
 #include <stdint.h>
@@ -73,17 +73,17 @@ static inline void data_diagram_reinit_empty ( data_diagram_t *this_ );
  *  \param diagram_description description of the diagram. diagram_description must not be NULL.
  *  \param list_order list_order of the diagram
  *  \param display_flags flags how to display this diagram. \see data_diagram_flag_enum
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
- *          DATA_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, DATA_ERROR_NONE otherwise.
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
+ *          U8_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, U8_ERROR_NONE otherwise.
  */
-static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
-                                                   data_row_id_t parent_diagram_id,
-                                                   data_diagram_type_t diagram_type,
-                                                   const char* diagram_name,
-                                                   const char* diagram_description,
-                                                   int32_t list_order,
-                                                   data_diagram_flag_t display_flags
-                                                 );
+static inline u8_error_t data_diagram_init_new ( data_diagram_t *this_,
+                                                 data_row_id_t parent_diagram_id,
+                                                 data_diagram_type_t diagram_type,
+                                                 const char* diagram_name,
+                                                 const char* diagram_description,
+                                                 int32_t list_order,
+                                                 data_diagram_flag_t display_flags
+                                               );
 
 /*!
  *  \brief initializes the data_diagram_t struct
@@ -97,19 +97,19 @@ static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
  *  \param list_order list_order of the diagram
  *  \param display_flags flags how to display this diagram. \see data_diagram_flag_enum
  *  \param uuid a universal unique identifier according to rfc4122
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
- *          DATA_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, DATA_ERROR_NONE otherwise.
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
+ *          U8_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, U8_ERROR_NONE otherwise.
  */
-static inline data_error_t data_diagram_init ( data_diagram_t *this_,
-                                               data_row_id_t diagram_id,
-                                               data_row_id_t parent_diagram_id,
-                                               data_diagram_type_t diagram_type,
-                                               const char* diagram_name,
-                                               const char* diagram_description,
-                                               int32_t list_order,
-                                               data_diagram_flag_t display_flags,
-                                               const char* uuid
-                                             );
+static inline u8_error_t data_diagram_init ( data_diagram_t *this_,
+                                             data_row_id_t diagram_id,
+                                             data_row_id_t parent_diagram_id,
+                                             data_diagram_type_t diagram_type,
+                                             const char* diagram_name,
+                                             const char* diagram_description,
+                                             int32_t list_order,
+                                             data_diagram_flag_t display_flags,
+                                             const char* uuid
+                                           );
 
 /*!
  *  \brief initializes the data_diagram_t struct with a copy
@@ -217,9 +217,9 @@ static inline const char *data_diagram_get_name_const ( const data_diagram_t *th
  *
  *  \param this_ pointer to own object attributes
  *  \param name new name of this object
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if new string too long
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if new string too long
  */
-static inline data_error_t data_diagram_set_name ( data_diagram_t *this_, const char *name );
+static inline u8_error_t data_diagram_set_name ( data_diagram_t *this_, const char *name );
 
 /*!
  *  \brief gets the attribute description
@@ -234,18 +234,18 @@ static inline const char *data_diagram_get_description_const ( const data_diagra
  *
  *  \param this_ pointer to own object attributes
  *  \param description new description of this object
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if new string too long
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if new string too long
  */
-static inline data_error_t data_diagram_set_description ( data_diagram_t *this_, const char *description );
+static inline u8_error_t data_diagram_set_description ( data_diagram_t *this_, const char *description );
 
 /*!
  *  \brief appends a string to the attribute description
  *
  *  \param this_ pointer to own object attributes
  *  \param description additional description of this object
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if concatenated string too long
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if concatenated string too long
  */
-static inline data_error_t data_diagram_append_description ( data_diagram_t *this_, const char *description );
+static inline u8_error_t data_diagram_append_description ( data_diagram_t *this_, const char *description );
 
 /*!
  *  \brief gets the attribute list_order
@@ -292,9 +292,9 @@ static inline const char *data_diagram_get_uuid_const ( const data_diagram_t *th
  *
  *  \param this_ pointer to own object attributes
  *  \param uuid new uuid of this object
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if new string too long
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if new string too long
  */
-static inline data_error_t data_diagram_set_uuid ( data_diagram_t *this_, const char *uuid );
+static inline u8_error_t data_diagram_set_uuid ( data_diagram_t *this_, const char *uuid );
 
 /*!
  *  \brief checks if attribute id is not DATA_ROW_ID_VOID

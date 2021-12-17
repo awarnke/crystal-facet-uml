@@ -74,17 +74,17 @@ static inline void data_diagramelement_init_new ( data_diagramelement_t *this_,
  *  \param display_flags flags how to display the classifier in the context of this diagram. \see data_diagramelement_flag_enum
  *  \param focused_feature_id id of the focused feature_t or DATA_ROW_ID_VOID if no feature is focused
  *  \param uuid a universal unique identifier according to rfc4122
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
- *          DATA_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, DATA_ERROR_NONE otherwise.
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
+ *          U8_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, U8_ERROR_NONE otherwise.
  */
-static inline data_error_t data_diagramelement_init ( data_diagramelement_t *this_,
-                                              data_row_id_t id,
-                                              data_row_id_t diagram_id,
-                                              data_row_id_t classifier_id,
-                                              data_diagramelement_flag_t display_flags,
-                                              data_row_id_t focused_feature_id,
-                                              const char* uuid
-                                            );
+static inline u8_error_t data_diagramelement_init ( data_diagramelement_t *this_,
+                                                    data_row_id_t id,
+                                                    data_row_id_t diagram_id,
+                                                    data_row_id_t classifier_id,
+                                                    data_diagramelement_flag_t display_flags,
+                                                    data_row_id_t focused_feature_id,
+                                                    const char* uuid
+                                                  );
 
 /*!
  *  \brief re-initializes the data_diagramelement_t struct
@@ -96,17 +96,17 @@ static inline data_error_t data_diagramelement_init ( data_diagramelement_t *thi
  *  \param display_flags flags how to display the classifier in the context of this diagram. \see data_diagramelement_display_flag_enum
  *  \param focused_feature_id id of the focused feature_t or DATA_ROW_ID_VOID if no feature is focused
  *  \param uuid a universal unique identifier according to rfc4122
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
- *          DATA_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, DATA_ERROR_NONE otherwise.
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
+ *          U8_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, U8_ERROR_NONE otherwise.
  */
-static inline data_error_t data_diagramelement_reinit ( data_diagramelement_t *this_,
-                                                data_row_id_t id,
-                                                data_row_id_t diagram_id,
-                                                data_row_id_t classifier_id,
-                                                data_diagramelement_flag_t display_flags,
-                                                data_row_id_t focused_feature_id,
-                                                const char* uuid
-                                              );
+static inline u8_error_t data_diagramelement_reinit ( data_diagramelement_t *this_,
+                                                      data_row_id_t id,
+                                                      data_row_id_t diagram_id,
+                                                      data_row_id_t classifier_id,
+                                                      data_diagramelement_flag_t display_flags,
+                                                      data_row_id_t focused_feature_id,
+                                                      const char* uuid
+                                                    );
 
 /*!
  *  \brief initializes the data_diagramelement_t struct with a copy
@@ -255,9 +255,9 @@ static inline const char *data_diagramelement_get_uuid_const ( const data_diagra
  *
  *  \param this_ pointer to own object attributes
  *  \param uuid new uuid of this object
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if new string too long
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if new string too long
  */
-static inline data_error_t data_diagramelement_set_uuid ( data_diagramelement_t *this_, const char *uuid );
+static inline u8_error_t data_diagramelement_set_uuid ( data_diagramelement_t *this_, const char *uuid );
 
 #include "data_diagramelement.inl"
 

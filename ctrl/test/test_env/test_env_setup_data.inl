@@ -13,8 +13,8 @@
 
 static data_row_id_t test_env_setup_data_create_diagram( data_row_id_t parent_diagram_id, const char* name, ctrl_controller_t *controller )
 {
-    ctrl_error_t ctrl_err;
-    data_error_t data_err;
+    u8_error_t ctrl_err;
+    u8_error_t data_err;
     ctrl_diagram_controller_t *diagram_ctrl;
     diagram_ctrl = ctrl_controller_get_diagram_control_ptr( controller );
 
@@ -32,7 +32,7 @@ static data_row_id_t test_env_setup_data_create_diagram( data_row_id_t parent_di
                                       DATA_DIAGRAM_FLAG_NONE,
                                       "d017a037-efb8-454e-b62a-a33628e90ece"
                                     );
-        TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
         root_diag_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_diagram_controller_create_diagram ( diagram_ctrl,
@@ -40,7 +40,7 @@ static data_row_id_t test_env_setup_data_create_diagram( data_row_id_t parent_di
                                                             CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                             &root_diag_id
                                                         );
-        TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == ctrl_err );
+        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
         data_diagram_destroy ( &new_diagram );
     }
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
@@ -51,8 +51,8 @@ static data_row_id_t test_env_setup_data_create_diagram( data_row_id_t parent_di
 static data_row_id_t test_env_setup_data_create_classifier( const char* name,
                                                             ctrl_controller_t *controller )
 {
-    ctrl_error_t ctrl_err;
-    data_error_t data_err;
+    u8_error_t ctrl_err;
+    u8_error_t data_err;
     ctrl_classifier_controller_t *classifier_ctrl;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( controller );
 
@@ -71,13 +71,13 @@ static data_row_id_t test_env_setup_data_create_classifier( const char* name,
                                          450000,
                                          "7958d381-1859-49fc-b6c5-49fbc2bfebe8"
                                        );
-        TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
         ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,
                                                                   &new_classifier,
                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                                   &classifier_id
                                                                 );
-        TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == ctrl_err );
+        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
         data_classifier_destroy ( &new_classifier );
     }
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_id );
@@ -90,8 +90,8 @@ static data_row_id_t test_env_setup_data_create_diagramelement( data_row_id_t di
                                                                 data_row_id_t focused_feature_id,
                                                                 ctrl_controller_t *controller )
 {
-    ctrl_error_t ctrl_err;
-    data_error_t data_err;
+    u8_error_t ctrl_err;
+    u8_error_t data_err;
     ctrl_diagram_controller_t *diagram_ctrl;
     diagram_ctrl = ctrl_controller_get_diagram_control_ptr( controller );
 
@@ -107,13 +107,13 @@ static data_row_id_t test_env_setup_data_create_diagramelement( data_row_id_t di
                                              DATA_ROW_ID_VOID,
                                              "0fea7d08-3888-4186-9ba1-7af85edf383e"
                                            );
-        TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
         ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                    &new_diagele,
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                                    &diagele_id
                                                                  );
-        TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == ctrl_err );
+        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
         data_diagramelement_destroy ( &new_diagele );
     }
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != diagele_id );
@@ -125,8 +125,8 @@ static data_row_id_t test_env_setup_data_create_feature( data_row_id_t parent_cl
                                                          const char* name,
                                                          ctrl_controller_t *controller )
 {
-    ctrl_error_t ctrl_err;
-    data_error_t data_err;
+    u8_error_t ctrl_err;
+    u8_error_t data_err;
     ctrl_classifier_controller_t *classifier_ctrl;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( controller );
 
@@ -144,7 +144,7 @@ static data_row_id_t test_env_setup_data_create_feature( data_row_id_t parent_cl
                                       5000000, /* list order */
                                       "679bc9cd-092e-4386-8a83-e3b528a9632f"
                                     );
-        TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
         /* 1. create the feature in the db */
         ctrl_err = ctrl_classifier_controller_create_feature( classifier_ctrl,
@@ -152,7 +152,7 @@ static data_row_id_t test_env_setup_data_create_feature( data_row_id_t parent_cl
                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                               &new_feature_id
                                                             );
-        TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == ctrl_err );
+        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
     }
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != new_feature_id );
 
@@ -166,8 +166,8 @@ static data_row_id_t test_env_setup_data_create_relationship( data_row_id_t from
                                                               const char* name,
                                                               ctrl_controller_t *controller )
 {
-    ctrl_error_t ctrl_err;
-    data_error_t data_err;
+    u8_error_t ctrl_err;
+    u8_error_t data_err;
     ctrl_classifier_controller_t *classifier_ctrl;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( controller );
 
@@ -187,7 +187,7 @@ static data_row_id_t test_env_setup_data_create_relationship( data_row_id_t from
                                            to_feature_id,
                                            "a93377a1-1de5-491d-b092-0332636a8fcc"
                                         );
-        TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
+        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
         /* 3b. create the relationship in the db */
         ctrl_err = ctrl_classifier_controller_create_relationship( classifier_ctrl,
@@ -195,7 +195,7 @@ static data_row_id_t test_env_setup_data_create_relationship( data_row_id_t from
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                                    &new_relationship_id
                                                                  );
-        TEST_ENVIRONMENT_ASSERT( CTRL_ERROR_NONE == ctrl_err );
+        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
     }
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != new_relationship_id );
 

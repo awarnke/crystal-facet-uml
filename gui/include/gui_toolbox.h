@@ -191,9 +191,9 @@ void gui_toolbox_delete( gui_toolbox_t *this_ );
  *                 DATA_STAT_SERIES_IGNORED (e.g. lifelines) and
  *                 DATA_STAT_SERIES_ERROR (e.g. if t.b.d.).
  *                 Statistics are only added, *io_stat shall be initialized by caller.
- *  \return CTRL_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-ctrl_error_t gui_toolbox_private_delete_set( gui_toolbox_t *this_,
+u8_error_t gui_toolbox_private_delete_set( gui_toolbox_t *this_,
                                              const data_small_set_t *set_to_be_deleted,
                                              data_stat_t *io_stat
                                            );
