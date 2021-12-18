@@ -70,39 +70,30 @@ static void delete_set_successfully(void)
 {
     /* create 2 diagrams */
     const data_row_id_t root_diagram = test_env_setup_data_create_diagram( DATA_ROW_ID_VOID, "root diag", &controller );
-    const data_row_id_t local_diagram = test_env_setup_data_create_diagram( root_diagram, "local diag", &controller );
+    const data_row_id_t test_diagram = test_env_setup_data_create_diagram( root_diagram, "test diag", &controller );
 
     /* create 3 classifiers */
     const data_row_id_t test_classifier = test_env_setup_data_create_classifier( "test classifier", &controller );
     const data_row_id_t omni_classifier = test_env_setup_data_create_classifier( "omni classifier", &controller );
-    const data_row_id_t local_classifier = test_env_setup_data_create_classifier( "local classifier", &controller );
+    const data_row_id_t orphaned_classifier = test_env_setup_data_create_classifier( "orphaned classifier", &controller );
 
-    /* create 5 diagramelements */
-    const data_row_id_t test_local_diagele
-        = test_env_setup_data_create_diagramelement( local_diagram, test_classifier, DATA_ROW_ID_VOID, &controller );
-    const data_row_id_t test_root_diagele
-        = test_env_setup_data_create_diagramelement( root_diagram, test_classifier, DATA_ROW_ID_VOID, &controller );
-    const data_row_id_t omni_local_diagele
-        = test_env_setup_data_create_diagramelement( local_diagram, omni_classifier, DATA_ROW_ID_VOID, &controller );
-    const data_row_id_t omni_root_diagele
-        = test_env_setup_data_create_diagramelement( root_diagram, omni_classifier, DATA_ROW_ID_VOID, &controller );
-    const data_row_id_t local_local_diagele
-        = test_env_setup_data_create_diagramelement( local_diagram, local_classifier, DATA_ROW_ID_VOID, &controller );
+    /* create 2 diagramelements */
+    test_env_setup_data_create_diagramelement( root_diagram, omni_classifier, DATA_ROW_ID_VOID, &controller );
+    const data_row_id_t test_diagele
+        = test_env_setup_data_create_diagramelement( test_diagram, test_classifier, DATA_ROW_ID_VOID, &controller );
 
-    /* create 3 features */
+    /* create 2 features */
     const data_row_id_t test_feature = test_env_setup_data_create_feature( test_classifier, "test feature", &controller );
     const data_row_id_t omni_feature = test_env_setup_data_create_feature( omni_classifier, "omni feature", &controller );
-    const data_row_id_t local_feature = test_env_setup_data_create_feature( local_classifier, "local feature", &controller );
 
     /* create 2 relationships */
-    const data_row_id_t double_rel
-        = test_env_setup_data_create_relationship( test_classifier, test_feature,
-                                                   omni_classifier, DATA_ROW_ID_VOID,
-                                                   "double relation", &controller );
-    const data_row_id_t local_rel
-        = test_env_setup_data_create_relationship( test_classifier, test_feature,
-                                                   local_classifier, DATA_ROW_ID_VOID,
-                                                   "local relation", &controller );
+    const data_row_id_t test_rel
+        = test_env_setup_data_create_relationship( omni_classifier, DATA_ROW_ID_VOID,
+                                                   omni_classifier, omni_feature,
+                                                   "test relation", &controller );
+    test_env_setup_data_create_relationship( test_classifier, test_feature,
+                                             omni_classifier, DATA_ROW_ID_VOID,
+                                             "collateral relation", &controller );
 
     /* delete each type once from the database */
     {
@@ -110,15 +101,15 @@ static void delete_set_successfully(void)
         u8_error_t add_ok;
         data_small_set_init( &small_set );
 
-        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_CLASSIFIER, omni_classifier );
+        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_CLASSIFIER, orphaned_classifier );
         TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, add_ok );
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_FEATURE, test_feature );
         TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, add_ok );
-        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_RELATIONSHIP, local_rel );
+        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_RELATIONSHIP, test_rel );
         TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, add_ok );
-        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAMELEMENT, omni_root_diagele );
+        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAMELEMENT, test_diagele );
         TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, add_ok );
-        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAM, local_diagram );
+        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAM, test_diagram );
         TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, add_ok );
 
         ctrl_multi_step_changer_t multi_stepper;
@@ -131,11 +122,12 @@ static void delete_set_successfully(void)
 
         TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_DELETED ));
-        TEST_ASSERT_EQUAL_INT( 3, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
+        /* The diagram type is DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM - therefore 1 lifeline is additionally deleted: */
+        TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
         TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
-        TEST_ASSERT_EQUAL_INT( 3, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_DELETED ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_DELETED ));
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
+        TEST_ASSERT_EQUAL_INT( 8, data_stat_get_total_count ( &stat ));
 
         data_stat_destroy(&stat);
         ctrl_multi_step_changer_destroy( &multi_stepper );
