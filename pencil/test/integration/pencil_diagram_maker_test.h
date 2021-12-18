@@ -10,7 +10,7 @@
 
 #include "test_suite.h"
 
-test_suite_t pencil_diagram_maker_test_get_list(void);
+test_suite_t pencil_diagram_maker_test_get_suite(void);
 
 #endif  /* PENCIL_DIAGRAM_MAKER_TEST_H */
 

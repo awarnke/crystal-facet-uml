@@ -13,7 +13,7 @@ static void test_data_rules_filter_standard(void);
 static void test_data_rules_filter_incomplete(void);
 static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type );
 
-test_suite_t data_rules_test_get_list(void)
+test_suite_t data_rules_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result, "data_rules_test", &set_up, &tear_down );

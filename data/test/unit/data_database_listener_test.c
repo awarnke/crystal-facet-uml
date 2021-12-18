@@ -10,7 +10,7 @@ static void tear_down(void);
 static void test_database_listener_register_and_notify(void);
 static void test_database_listener_registration_full(void);
 
-test_suite_t data_database_listener_test_get_list(void)
+test_suite_t data_database_listener_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result, "data_database_listener_test", &set_up, &tear_down );

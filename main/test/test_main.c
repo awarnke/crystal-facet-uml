@@ -129,66 +129,68 @@ int main (int argc, char *argv[]) {
     if ( do_unit_tests )
     {
         /* data */
-        test_runner_run_suite( &runner, data_small_set_test_get_list() );
-        test_runner_run_suite( &runner, data_rules_test_get_list() );
-        test_runner_run_suite( &runner, data_uuid_test_get_list() );
-        test_runner_run_suite( &runner, data_change_notifier_test_get_list() );
-        test_runner_run_suite( &runner, data_database_listener_test_get_list() );
+        test_runner_run_suite( &runner, data_small_set_test_get_suite() );
+        test_runner_run_suite( &runner, data_rules_test_get_suite() );
+        test_runner_run_suite( &runner, data_uuid_test_get_suite() );
+        test_runner_run_suite( &runner, data_change_notifier_test_get_suite() );
+        test_runner_run_suite( &runner, data_database_listener_test_get_suite() );
         /* ctrl */
         /* pencil */
-        test_runner_run_suite( &runner, geometry_rectangle_test_get_list() );
-        test_runner_run_suite( &runner, geometry_connector_test_get_list() );
-        test_runner_run_suite( &runner, geometry_non_linear_scale_test_get_list() );
-        test_runner_run_suite( &runner, draw_classifier_contour_test_get_list() );
-        test_runner_run_suite( &runner, pencil_classifier_composer_test_get_list() );
-        test_runner_run_suite( &runner, pencil_layout_data_test_get_list() );
+        test_runner_run_suite( &runner, geometry_rectangle_test_get_suite() );
+        test_runner_run_suite( &runner, geometry_connector_test_get_suite() );
+        test_runner_run_suite( &runner, geometry_non_linear_scale_test_get_suite() );
+        test_runner_run_suite( &runner, draw_classifier_contour_test_get_suite() );
+        test_runner_run_suite( &runner, pencil_classifier_composer_test_get_suite() );
+        test_runner_run_suite( &runner, pencil_layout_data_test_get_suite() );
         /* gui */
         /* io */
-        test_runner_run_suite( &runner, txt_writer_test_get_list() );
-        test_runner_run_suite( &runner, json_token_reader_test_get_list() );
-        test_runner_run_suite( &runner, io_import_elements_test_get_list() );
+        test_runner_run_suite( &runner, txt_writer_test_get_suite() );
+        test_runner_run_suite( &runner, json_token_reader_test_get_suite() );
+        test_runner_run_suite( &runner, io_import_elements_test_get_suite() );
         /* universal */
-        test_runner_run_suite( &runner, universal_array_index_sorter_test_get_list() );
-        test_runner_run_suite( &runner, universal_array_list_test_get_list() );
-        test_runner_run_suite( &runner, universal_memory_output_stream_test_get_list() );
-        test_runner_run_suite( &runner, universal_escaping_output_stream_test_get_list() );
-        test_runner_run_suite( &runner, universal_memory_input_stream_test_get_list() );
-        test_runner_run_suite( &runner, universal_buffer_input_stream_test_get_list() );
-        test_runner_run_suite( &runner, universal_buffer_output_stream_test_get_list() );
-        test_runner_run_suite( &runner, universal_memory_arena_test_get_list() );
-        test_runner_run_suite( &runner, universal_arena_list_test_get_list() );
+        test_runner_run_suite( &runner, universal_array_index_sorter_test_get_suite() );
+        test_runner_run_suite( &runner, universal_array_list_test_get_suite() );
+        test_runner_run_suite( &runner, universal_memory_output_stream_test_get_suite() );
+        test_runner_run_suite( &runner, universal_escaping_output_stream_test_get_suite() );
+        test_runner_run_suite( &runner, universal_memory_input_stream_test_get_suite() );
+        test_runner_run_suite( &runner, universal_buffer_input_stream_test_get_suite() );
+        test_runner_run_suite( &runner, universal_buffer_output_stream_test_get_suite() );
+        test_runner_run_suite( &runner, universal_memory_arena_test_get_suite() );
+        test_runner_run_suite( &runner, universal_arena_list_test_get_suite() );
         /* utf8stringbuf */
-        test_runner_run_suite( &runner, utf8codepoint_test_get_list() );
-        test_runner_run_suite( &runner, utf8codepointiterator_test_get_list() );
-        test_runner_run_suite( &runner, utf8stringbuf_test_get_list() );
-        test_runner_run_suite( &runner, utf8string_test_get_list() );
+        test_runner_run_suite( &runner, utf8codepoint_test_get_suite() );
+        test_runner_run_suite( &runner, utf8codepointiterator_test_get_suite() );
+        test_runner_run_suite( &runner, utf8stringbuf_test_get_suite() );
+        test_runner_run_suite( &runner, utf8string_test_get_suite() );
         /* test_runner_run_suite( &runner, utf8stringbuf_performance_get_list() ); -- performance measurements are not reliable - depend on system config+load */
-        test_runner_run_suite( &runner, utf8stringview_test_get_list() );
-        test_runner_run_suite( &runner, utf8stringviewiterator_test_get_list() );
-        test_runner_run_suite( &runner, gui_sketch_nav_tree_test_get_list() );
+        test_runner_run_suite( &runner, utf8stringview_test_get_suite() );
+        test_runner_run_suite( &runner, utf8stringviewiterator_test_get_suite() );
+        test_runner_run_suite( &runner, gui_sketch_nav_tree_test_get_suite() );
     }
 
     /* integration tests test multiple software units and their interactions */
     if ( do_integration_tests )
     {
+#if 0
         /* data */
-        test_runner_run_suite( &runner, data_database_reader_test_get_list() );
+        test_runner_run_suite( &runner, data_database_reader_test_get_suite() );
         /* ctrl */
-        test_runner_run_suite( &runner, ctrl_controller_test_get_list() );
-        test_runner_run_suite( &runner, ctrl_diagram_controller_test_get_list() );
-        test_runner_run_suite( &runner, ctrl_classifier_controller_test_get_list() );
-        test_runner_run_suite( &runner, ctrl_consistency_checker_test_get_list() );
-        test_runner_run_suite( &runner, ctrl_undo_redo_list_test_get_list() );
-        test_runner_run_suite( &runner, ctrl_diagram_policy_enforcer_test_get_list() );
-        test_runner_run_suite( &runner, ctrl_classifier_policy_enforcer_test_get_list() );
+        test_runner_run_suite( &runner, ctrl_controller_test_get_suite() );
+        test_runner_run_suite( &runner, ctrl_diagram_controller_test_get_suite() );
+        test_runner_run_suite( &runner, ctrl_classifier_controller_test_get_suite() );
+        test_runner_run_suite( &runner, ctrl_consistency_checker_test_get_suite() );
+        test_runner_run_suite( &runner, ctrl_undo_redo_list_test_get_suite() );
+        test_runner_run_suite( &runner, ctrl_diagram_policy_enforcer_test_get_suite() );
+        test_runner_run_suite( &runner, ctrl_classifier_policy_enforcer_test_get_suite() );
         /* pencil */
-        test_runner_run_suite( &runner, pencil_layouter_test_get_list() );
-        test_runner_run_suite( &runner, pencil_diagram_maker_test_get_list() );
+        test_runner_run_suite( &runner, pencil_layouter_test_get_suite() );
+        test_runner_run_suite( &runner, pencil_diagram_maker_test_get_suite() );
         /* gui */
+#endif
         /* io */
-        test_runner_run_suite( &runner, io_importer_test_get_list() );
-        test_runner_run_suite( &runner, md_filter_test_get_list() );
-        test_runner_run_suite( &runner, io_export_model_traversal_test_get_list() );
+        test_runner_run_suite( &runner, io_importer_test_get_suite() );
+        test_runner_run_suite( &runner, md_filter_test_get_suite() );
+        test_runner_run_suite( &runner, io_export_model_traversal_test_get_suite() );
         /* universal */
         /* utf8stringbuf */
     }

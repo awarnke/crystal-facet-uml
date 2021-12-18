@@ -10,10 +10,10 @@ static void test_expand_space(void);
 static void test_set_envelope_box(void);
 static void test_set_envelope_box_too_small(void);
 
-test_suite_t pencil_classifier_composer_test_get_list(void)
+test_suite_t pencil_classifier_composer_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "pencil_classifier_composer_test_get_list", &set_up, &tear_down );
+    test_suite_init( &result, "pencil_classifier_composer_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "test_expand_space", &test_expand_space );
     test_suite_add_test_case( &result, "test_set_envelope_box", &test_set_envelope_box );
     test_suite_add_test_case( &result, "test_set_envelope_box_too_small", &test_set_envelope_box_too_small );

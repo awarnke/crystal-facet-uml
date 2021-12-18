@@ -10,7 +10,7 @@
 
 #include "test_suite.h"
 
-test_suite_t data_small_set_test_get_list(void);
+test_suite_t data_small_set_test_get_suite(void);
 
 #endif  /* DATA_SMALL_SET_TEST_H */
 

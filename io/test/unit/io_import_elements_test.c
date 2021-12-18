@@ -45,10 +45,10 @@ data_stat_t stats;
  */
 static io_import_elements_t elements_importer;
 
-test_suite_t io_import_elements_test_get_list(void)
+test_suite_t io_import_elements_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "io_import_elements_test_get_list", &set_up, &tear_down );
+    test_suite_init( &result, "io_import_elements_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "test_reject_duplicates", &test_reject_duplicates );
     return result;
 }
@@ -125,7 +125,7 @@ static void test_reject_duplicates(void)
 {
     data_row_id_t root_diag_id = set_mode_paste_to_root_diag();
     TEST_ENVIRONMENT_ASSERT( 1 == root_diag_id );
-    int err;
+    u8_error_t err;
 
     data_classifier_t my_classifier;
     const u8_error_t data_err_1
@@ -143,12 +143,12 @@ static void test_reject_duplicates(void)
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err_1 );
 
     err = io_import_elements_sync_classifier( &elements_importer, &my_classifier );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stats, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_table_count( &stats, DATA_TABLE_CLASSIFIER ) );
 
     err = io_import_elements_sync_classifier( &elements_importer, &my_classifier );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stats, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
     TEST_ASSERT_EQUAL_INT( 2, data_stat_get_table_count( &stats, DATA_TABLE_CLASSIFIER ) );
 
@@ -168,7 +168,7 @@ static void test_reject_duplicates(void)
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err_2 );
 
     err = io_import_elements_sync_classifier( &elements_importer, &my_classifier );
-    TEST_ASSERT_EQUAL_INT( -1, err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_DUPLICATE_NAME, err );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stats, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR ) );
     TEST_ASSERT_EQUAL_INT( 3, data_stat_get_table_count( &stats, DATA_TABLE_CLASSIFIER ) );
 
@@ -180,7 +180,7 @@ static void test_reject_duplicates(void)
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == d_err_2 );
 
     err = io_import_elements_sync_classifier( &elements_importer, &my_classifier );
-    TEST_ASSERT_EQUAL_INT( -1, err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_DUPLICATE_ID, err );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stats, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_MODIFIED ) );
     TEST_ASSERT_EQUAL_INT( 4, data_stat_get_table_count( &stats, DATA_TABLE_CLASSIFIER ) );
 }

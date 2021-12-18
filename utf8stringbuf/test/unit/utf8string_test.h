@@ -5,7 +5,7 @@
 
 #include "test_suite.h"
 
-test_suite_t utf8string_test_get_list(void);
+test_suite_t utf8string_test_get_suite(void);
 
 #endif /*UTF8STRING_TEST_H_*/
 

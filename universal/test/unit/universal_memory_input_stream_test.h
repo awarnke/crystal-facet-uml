@@ -10,7 +10,7 @@
 
 #include "test_suite.h"
 
-test_suite_t universal_memory_input_stream_test_get_list(void);
+test_suite_t universal_memory_input_stream_test_get_suite(void);
 
 #endif  /* UNIVERSAL_MEMORY_INPUT_STREAM_TEST_H */
 

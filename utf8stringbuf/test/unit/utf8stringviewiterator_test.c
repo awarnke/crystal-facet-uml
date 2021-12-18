@@ -17,7 +17,7 @@ static void testEmptySeparatorUseCase(void);
 static void testNullListUseCase(void);
 static void testNullSeparatorUseCase(void);
 
-test_suite_t utf8stringviewiterator_test_get_list(void)
+test_suite_t utf8stringviewiterator_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result, "utf8StringViewIteratorTest", &setUp, &tearDown );

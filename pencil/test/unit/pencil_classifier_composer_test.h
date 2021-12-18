@@ -10,7 +10,7 @@
 
 #include "test_suite.h"
 
-test_suite_t pencil_classifier_composer_test_get_list(void);
+test_suite_t pencil_classifier_composer_test_get_suite(void);
 
 #endif  /* PENCIL_CLASSIFIER_COMPOSER_TEST_H */
 

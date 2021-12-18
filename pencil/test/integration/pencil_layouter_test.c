@@ -18,23 +18,23 @@ static void layout_edge_cases(void);
 
 /*
 STATISTICS OF VERSION: 1.28.0
-test suite: pencil_layouter_test_get_list
+test suite: pencil_layouter_test_get_suite
     test case: layout_good_cases
     #Diag=432, total=1624 |  ERR=0, W/C=10, W/F=181, W/R=125
   test case: layout_challenging_cases
     #Diag=432, total=11793 |  ERR=617, W/C=7833, W/F=9706, W/R=11167
 STATISTICS OF VERSION: 1.28.0 - other fonts installed:
-[  337s] test suite: pencil_layouter_test_get_list
+[  337s] test suite: pencil_layouter_test_get_suite
 [  337s]   test case: layout_good_cases
 [  337s]     #Diag=432, total=1596 |  ERR=28, W/C=10, W/F=174, W/R=139
 [  337s]   test case: layout_challenging_cases
 [  337s]     #Diag=432, total=11205 |  ERR=1205, W/C=8675, W/F=13081, W/R=15725
 */
     
-test_suite_t pencil_layouter_test_get_list(void)
+test_suite_t pencil_layouter_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "pencil_layouter_test_get_list", &set_up, &tear_down );
+    test_suite_init( &result, "pencil_layouter_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "layout_good_cases", &layout_good_cases );
     test_suite_add_test_case( &result, "layout_challenging_cases", &layout_challenging_cases );
 #ifndef NDEBUG                

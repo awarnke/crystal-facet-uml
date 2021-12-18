@@ -40,10 +40,10 @@ static data_database_reader_t db_reader;
  */
 static ctrl_controller_t controller;
 
-test_suite_t io_importer_test_get_list(void)
+test_suite_t io_importer_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "io_importer_test_test_get_list", &set_up, &tear_down );
+    test_suite_init( &result, "io_importer_test_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "insert_invalid_json", &insert_invalid_json );
     test_suite_add_test_case( &result, "insert_invalid_parent_diag", &insert_invalid_parent_diag );
     test_suite_add_test_case( &result, "insert_empty_set", &insert_empty_set );
@@ -280,11 +280,11 @@ static void insert_invalid_json(void)
     uint32_t read_line;
     static const char *json_text_p = "{\"head\":{},\"views\":[{\n\"unknown-type\"\n:{}}]}";
     data_err = io_importer_import_clipboard( &importer,
-                                                 json_text_p,
-                                                 root_diag_id,
-                                                 &stat,
-                                                 &read_line
-                                               );
+                                             json_text_p,
+                                             root_diag_id,
+                                             &stat,
+                                             &read_line
+                                           );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, data_err );
     TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
     TEST_ASSERT_EQUAL_INT( read_line, 2 );
@@ -293,11 +293,11 @@ static void insert_invalid_json(void)
 
     static const char *json_text_l = "{\"head\":{},\"views\":[{\"diagram\":\nnullnul\n}]}";
     data_err = io_importer_import_clipboard( &importer,
-                                                 json_text_l,
-                                                 root_diag_id,
-                                                 &stat,
-                                                 &read_line
-                                               );
+                                             json_text_l,
+                                             root_diag_id,
+                                             &stat,
+                                             &read_line
+                                           );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, data_err );
     TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
     TEST_ASSERT_EQUAL_INT( read_line, 2 );
@@ -323,9 +323,9 @@ static void insert_invalid_parent_diag(void)
                                              &stat,
                                              &read_line
                                            );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_FOCUS_EMPTY, data_err );
     TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
-    TEST_ASSERT_EQUAL_INT( read_line, 1 );
+    TEST_ASSERT_EQUAL_INT( read_line, 40 );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );

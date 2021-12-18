@@ -10,7 +10,7 @@
 
 #include "test_suite.h"
 
-test_suite_t universal_memory_arena_test_get_list(void);
+test_suite_t universal_memory_arena_test_get_suite(void);
 
 #endif  /* UNIVERSAL_MEMORY_ARENA_TEST_H */
 

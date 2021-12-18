@@ -35,7 +35,7 @@ static data_database_reader_t db_reader;
  */
 static data_database_writer_t db_writer;
 
-test_suite_t data_database_reader_test_get_list(void)
+test_suite_t data_database_reader_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result, "data_database_reader_test", &set_up, &tear_down );

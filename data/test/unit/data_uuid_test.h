@@ -10,7 +10,7 @@
 
 #include "test_suite.h"
 
-test_suite_t data_uuid_test_get_list(void);
+test_suite_t data_uuid_test_get_suite(void);
 
 #endif  /* DATA_UUID_TEST_H */
 

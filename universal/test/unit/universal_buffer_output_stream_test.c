@@ -17,10 +17,10 @@ static universal_memory_output_stream_t my_mem_out_stream;
 static char my_buffer[6];
 static universal_buffer_output_stream_t my_buf_out_stream;
 
-test_suite_t universal_buffer_output_stream_test_get_list(void)
+test_suite_t universal_buffer_output_stream_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "universal_buffer_output_stream_test_get_list", &set_up, &tear_down );
+    test_suite_init( &result, "universal_buffer_output_stream_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "test_append_regular", &test_append_regular );
     test_suite_add_test_case( &result, "test_append_border_cases", &test_append_border_cases );
     return result;

@@ -10,7 +10,7 @@ static void test_small_set_add_and_remove(void);
 static void test_small_set_full(void);
 static void test_small_set_clear(void);
 
-test_suite_t data_small_set_test_get_list(void)
+test_suite_t data_small_set_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result, "data_small_set_test", &set_up, &tear_down );

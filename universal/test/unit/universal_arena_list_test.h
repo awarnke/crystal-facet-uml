@@ -10,7 +10,7 @@
 
 #include "test_suite.h"
 
-test_suite_t universal_arena_list_test_get_list(void);
+test_suite_t universal_arena_list_test_get_suite(void);
 
 #endif  /* UNIVERSAL_ARENA_LIST_TEST_H */
 

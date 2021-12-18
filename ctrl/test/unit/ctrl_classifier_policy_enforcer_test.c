@@ -32,7 +32,7 @@ static data_database_writer_t db_writer;
  */
 static ctrl_controller_t controller;
 
-test_suite_t ctrl_classifier_policy_enforcer_test_get_list(void)
+test_suite_t ctrl_classifier_policy_enforcer_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result, "ctrl_classifier_policy_enforcer_test", &set_up, &tear_down );

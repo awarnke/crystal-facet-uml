@@ -13,7 +13,7 @@ static void testStandardUseCase(void);
 static void testEmptyUseCase(void);
 static void testIllegalUseCase(void);
 
-test_suite_t utf8codepointiterator_test_get_list(void)
+test_suite_t utf8codepointiterator_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result, "utf8CodePointIteratorTest", &setUp, &tearDown );

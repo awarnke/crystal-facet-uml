@@ -34,7 +34,7 @@ static const char DATABASE_FILENAME[] = "unittest_crystal_facet_uml_default.cfu1
  */
 static ctrl_controller_t controller;
 
-test_suite_t ctrl_controller_test_get_list(void)
+test_suite_t ctrl_controller_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result, "ctrl_controller_test", &set_up, &tear_down );

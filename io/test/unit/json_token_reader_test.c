@@ -16,7 +16,7 @@ static void test_skip_number(void);
 static void test_parse(void);
 
 
-test_suite_t json_token_reader_test_get_list(void)
+test_suite_t json_token_reader_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result, "json_token_reader_test", &set_up, &tear_down );

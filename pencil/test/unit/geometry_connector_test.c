@@ -15,10 +15,10 @@ static void test_connector_intersects(void);
 static void test_calc_waypoint_good(void);
 static void test_calc_waypoint_zero(void);
 
-test_suite_t geometry_connector_test_get_list(void)
+test_suite_t geometry_connector_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "geometry_connector_test_get_list", &set_up, &tear_down );
+    test_suite_init( &result, "geometry_connector_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "test_base_methods", &test_base_methods );
     test_suite_add_test_case( &result, "test_bounding_rectangle", &test_bounding_rectangle );
     test_suite_add_test_case( &result, "test_intersecting_rectangle_simple", &test_intersecting_rectangle_simple );

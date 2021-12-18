@@ -10,10 +10,10 @@ static void set_up(void);
 static void tear_down(void);
 static void test_insert_and_retrieve(void);
 
-test_suite_t universal_array_index_sorter_test_get_list(void)
+test_suite_t universal_array_index_sorter_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "universal_array_index_sorter_test_get_list", &set_up, &tear_down );
+    test_suite_init( &result, "universal_array_index_sorter_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "test_insert_and_retrieve", &test_insert_and_retrieve );
     return result;
 }

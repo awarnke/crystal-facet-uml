@@ -146,7 +146,7 @@ static void testJoin(void);
 static void testSplitAndJoin(void);
 static void testGetEnd(void);
 
-test_suite_t utf8stringbuf_test_get_list(void)
+test_suite_t utf8stringbuf_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result, "utf8StringBufTest", &setUp, &tearDown );

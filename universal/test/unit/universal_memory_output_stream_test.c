@@ -15,10 +15,10 @@ static void test_null_termination(void);
 static char my_out_buffer[10];
 static universal_memory_output_stream_t my_mem_out_stream;
 
-test_suite_t universal_memory_output_stream_test_get_list(void)
+test_suite_t universal_memory_output_stream_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "universal_memory_output_stream_test_get_list", &set_up, &tear_down );
+    test_suite_init( &result, "universal_memory_output_stream_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "test_insert_regular", &test_insert_regular );
     test_suite_add_test_case( &result, "test_insert_border_cases", &test_insert_border_cases );
     test_suite_add_test_case( &result, "test_null_termination", &test_null_termination );

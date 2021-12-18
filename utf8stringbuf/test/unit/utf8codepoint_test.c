@@ -15,7 +15,7 @@ static void testIntToUtf8ToInt(void);
 static void testIntToUtf8(void);
 static void testUnicode(void);
 
-test_suite_t utf8codepoint_test_get_list(void)
+test_suite_t utf8codepoint_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result, "utf8CodePointTest", &setUp, &tearDown );

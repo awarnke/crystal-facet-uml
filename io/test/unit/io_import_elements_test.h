@@ -10,7 +10,7 @@
 
 #include "test_suite.h"
 
-test_suite_t io_import_elements_test_get_list(void);
+test_suite_t io_import_elements_test_get_suite(void);
 
 #endif  /* IO_IMPORT_ELEMENTSTEST_H */
 

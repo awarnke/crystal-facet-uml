@@ -22,7 +22,7 @@ static void testCharAt(void);
 static void testCharAtLoops(void);
 static void testParseInt(void);
 
-test_suite_t utf8string_test_get_list(void)
+test_suite_t utf8string_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result, "utf8StringTest", &setUp, &tearDown );

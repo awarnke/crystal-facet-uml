@@ -10,7 +10,7 @@
 
 #include "test_suite.h"
 
-test_suite_t gui_sketch_nav_tree_test_get_list(void);
+test_suite_t gui_sketch_nav_tree_test_get_suite(void);
 
 #endif  /* GUI_SKETCH_NAV_TREE_TEST_H */
 

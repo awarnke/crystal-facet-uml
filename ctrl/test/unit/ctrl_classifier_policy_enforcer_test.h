@@ -10,7 +10,7 @@
 
 #include "test_suite.h"
 
-test_suite_t ctrl_classifier_policy_enforcer_test_get_list(void);
+test_suite_t ctrl_classifier_policy_enforcer_test_get_suite(void);
 
 #endif  /* CTRL_CLASSIFIER_POLICY_ENFORCER_TEST_H */
 

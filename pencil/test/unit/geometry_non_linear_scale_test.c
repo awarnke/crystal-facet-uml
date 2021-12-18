@@ -8,10 +8,10 @@ static void set_up(void);
 static void tear_down(void);
 static void test_scale_conversion(void);
 
-test_suite_t geometry_non_linear_scale_test_get_list(void)
+test_suite_t geometry_non_linear_scale_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "geometry_non_linear_scale_test_get_list", &set_up, &tear_down );
+    test_suite_init( &result, "geometry_non_linear_scale_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "test_scale_conversion", &test_scale_conversion );
     return result;
 }

@@ -48,10 +48,10 @@ static char my_out_buffer[200];
 static universal_memory_output_stream_t my_out_stream;
 static xml_writer_t xml_writer;
 
-test_suite_t md_filter_test_get_list(void)
+test_suite_t md_filter_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "md_filter_test_get_list", &set_up, &tear_down );
+    test_suite_init( &result, "md_filter_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "test_md_plain_mixed", &test_md_plain_mixed );
     test_suite_add_test_case( &result, "test_valid_links", &test_valid_links );
     test_suite_add_test_case( &result, "test_invalid_links", &test_invalid_links );

@@ -17,10 +17,10 @@ static void test_write_indent_multiline_string_dual(void);
 static void test_write_indent_multiline_string_crnl(void);
 static void test_write_indent_multiline_string_cr(void);
 
-test_suite_t txt_writer_test_get_list(void)
+test_suite_t txt_writer_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "txt_writer_test_get_list", &set_up, &tear_down );
+    test_suite_init( &result, "txt_writer_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "test_write_indent_multiline_string_null", &test_write_indent_multiline_string_null );
     test_suite_add_test_case( &result, "test_write_indent_multiline_string_empty", &test_write_indent_multiline_string_empty );
     test_suite_add_test_case( &result, "test_write_indent_multiline_string_empty_last", &test_write_indent_multiline_string_empty_last );

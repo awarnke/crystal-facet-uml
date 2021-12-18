@@ -51,7 +51,7 @@ static const bool TEST_ONLY = false;
  */
 static const bool FIX_ERRORS = true;
 
-test_suite_t ctrl_consistency_checker_test_get_list(void)
+test_suite_t ctrl_consistency_checker_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result, "ctrl_classifier_policy_enforcer_test", &set_up, &tear_down );

@@ -17,10 +17,10 @@ static universal_memory_output_stream_t my_mem_out_stream;
 static universal_escaping_output_stream_t my_esc_out_stream;
 const char *const ((my_patterns_and_replacements)[][2]) = {{"&","&amp;"},{"--","- - "},{"\n","  \n"},{NULL,NULL}};
 
-test_suite_t universal_escaping_output_stream_test_get_list(void)
+test_suite_t universal_escaping_output_stream_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "universal_escaping_output_stream_test_get_list", &set_up, &tear_down );
+    test_suite_init( &result, "universal_escaping_output_stream_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "test_write_regular", &test_write_regular );
     test_suite_add_test_case( &result, "test_write_border_cases", &test_write_border_cases );
     return result;

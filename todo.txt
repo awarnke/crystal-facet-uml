@@ -25,7 +25,7 @@ ideas for future versions:
   [ ] import XMI format
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
   [ ] xmi export: improve error message if exported file exists and is read-only
-  [ ] uuid is lost at cut+paste, a new uuid is assigned.
+  [ ] uuid are preserved at paste from clipboard. It is not checked if these uuids are unique in all tables.
   @data
   [?] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> add a "display_flags" field to "diagrams"

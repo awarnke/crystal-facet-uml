@@ -10,7 +10,7 @@
 
 #include "test_suite.h"
 
-test_suite_t geometry_non_linear_scale_test_get_list(void);
+test_suite_t geometry_non_linear_scale_test_get_suite(void);
 
 #endif  /* GEOMETRY_NON_LINEAR_SCALE_TEST_H */
 

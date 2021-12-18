@@ -69,17 +69,17 @@ void io_import_elements_init( io_import_elements_t *this_,
  *  \brief initializes the io_import_elements_t
  *
  *  \param this_ pointer to own object attributes
- *  \param paste_to_diagram the diagram where pasted objects shall be attached to
+ *  \param paste_to_diagram the parent diagram where pasted objects shall be attached to
  *  \param db_reader pointer to a database reader
  *  \param controller pointer to a controller object which can modify the database
  *  \param io_stat Statistics are only added, *io_stat shall be initialized by caller
  */
 void io_import_elements_init_for_paste( io_import_elements_t *this_,
-                                        data_row_id_t paste_to_diagram,
-                                        data_database_reader_t *db_reader,
-                                        ctrl_controller_t *controller,
-                                        data_stat_t *io_stat
-                                      );
+                                         data_row_id_t paste_to_diagram,
+                                         data_database_reader_t *db_reader,
+                                         ctrl_controller_t *controller,
+                                         data_stat_t *io_stat
+                                       );
 
 /*!
  *  \brief destroys the io_import_elements_t.
@@ -102,12 +102,12 @@ void io_import_elements_set_mode( io_import_elements_t *this_, io_import_mode_t 
  *  \param this_ pointer to own object attributes
  *  \param diag_ptr pointer to diagram that shall be written, not NULL, (diagram may be modified)
  *  \param parent_uuid uuid of the parent diagram, NULL if root diagram
- *  \return U8_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_FOCUS_EMPTY if no parent diagram provided
  */
-int io_import_elements_sync_diagram( io_import_elements_t *this_,
-                                     data_diagram_t *diagram_ptr,
-                                     const char *parent_uuid
-                                   );
+u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
+                                            data_diagram_t *diagram_ptr,
+                                            const char *parent_uuid
+                                          );
 
 /*!
  *  \brief synchronizes a diagramelement with the database
@@ -119,22 +119,22 @@ int io_import_elements_sync_diagram( io_import_elements_t *this_,
  *                   uuid of the classifier otherwise.
  *  \return U8_ERROR_NONE in case of success
  */
-int io_import_elements_sync_diagramelement( io_import_elements_t *this_,
-                                            const data_diagramelement_t *diagramelement_ptr,
-                                            const char *diagram_uuid,
-                                            const char *node_uuid
-                                          );
+u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
+                                                   const data_diagramelement_t *diagramelement_ptr,
+                                                   const char *diagram_uuid,
+                                                   const char *node_uuid
+                                                 );
 
 /*!
  *  \brief synchronizes a classifier with the database
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
- *  \return U8_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_FOCUS_EMPTY if no parent diagram provided
  */
-int io_import_elements_sync_classifier( io_import_elements_t *this_,
-                                        const data_classifier_t *classifier_ptr
-                                      );
+u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
+                                               const data_classifier_t *classifier_ptr
+                                             );
 
 /*!
  *  \brief creates a diagramelement to attach a new classifier to a diagram
@@ -143,7 +143,7 @@ int io_import_elements_sync_classifier( io_import_elements_t *this_,
  *  \param classifier_id id of the classifier for which a diagramelement shall be created
  *  \return U8_ERROR_NONE in case of success
  */
-int io_import_elements_private_create_diagramelement( io_import_elements_t *this_, data_row_id_t classifier_id );
+u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_t *this_, data_row_id_t classifier_id );
 
 /*!
  *  \brief synchronizes a feature with the database
@@ -153,10 +153,10 @@ int io_import_elements_private_create_diagramelement( io_import_elements_t *this
  *  \param classifier_uuid uuid of the parent classifier
  *  \return U8_ERROR_NONE in case of success
  */
-int io_import_elements_sync_feature( io_import_elements_t *this_,
-                                     data_feature_t *feature_ptr,
-                                     const char *classifier_uuid
-                                   );
+u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
+                                            data_feature_t *feature_ptr,
+                                            const char *classifier_uuid
+                                          );
 
 /*!
  *  \brief synchronizes a relationship with the database
@@ -169,11 +169,11 @@ int io_import_elements_sync_feature( io_import_elements_t *this_,
  *                      uuid of the destination classifier otherwise.
  *  \return U8_ERROR_NONE in case of success
  */
-int io_import_elements_sync_relationship( io_import_elements_t *this_,
-                                          data_relationship_t *relation_ptr,
-                                          const char *from_node_uuid,
-                                          const char *to_node_uuid
-                                        );
+u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
+                                                 data_relationship_t *relation_ptr,
+                                                 const char *from_node_uuid,
+                                                 const char *to_node_uuid
+                                               );
 
 #endif  /* IO_IMPORT_ELEMENTS_H */
 

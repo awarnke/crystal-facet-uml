@@ -14,10 +14,10 @@ static void test_inconsistent_model(void);
 static data_visible_set_t* init_empty_input_data();
 static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint_fast32_t features, uint_fast32_t relationships );
 
-test_suite_t pencil_layout_data_test_get_list(void)
+test_suite_t pencil_layout_data_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "pencil_layout_data_test_get_list", &set_up, &tear_down );
+    test_suite_init( &result, "pencil_layout_data_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "test_empty_model", &test_empty_model );
     test_suite_add_test_case( &result, "test_normal_model", &test_normal_model );
     test_suite_add_test_case( &result, "test_too_big_model", &test_too_big_model );

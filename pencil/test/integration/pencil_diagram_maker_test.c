@@ -15,10 +15,10 @@ static void layout_challenging_cases(void);
 static void layout_edge_cases(void);
 #endif
 
-test_suite_t pencil_diagram_maker_test_get_list(void)
+test_suite_t pencil_diagram_maker_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "pencil_diagram_maker_test_get_list", &set_up, &tear_down );
+    test_suite_init( &result, "pencil_diagram_maker_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "layout_good_cases", &layout_good_cases );
     test_suite_add_test_case( &result, "layout_challenging_cases", &layout_challenging_cases );
 #ifndef NDEBUG                

@@ -13,7 +13,7 @@ static void testInitMacros(void);
 static void testInitFunctions(void);
 static void testFindFirst(void);
 
-test_suite_t utf8stringview_test_get_list(void)
+test_suite_t utf8stringview_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result, "utf8StringViewTest", &setUp, &tearDown );

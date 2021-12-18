@@ -10,10 +10,10 @@ static void tear_down(void);
 static void test_calc_inner_area_and_back(void);
 static void test_calc_inner_area_too_small(void);
 
-test_suite_t draw_classifier_contour_test_get_list(void)
+test_suite_t draw_classifier_contour_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "draw_classifier_contour_test_get_list", &set_up, &tear_down );
+    test_suite_init( &result, "draw_classifier_contour_test_get_suite", &set_up, &tear_down );
 
     test_suite_add_test_case( &result, "test_calc_inner_area_and_back", &test_calc_inner_area_and_back );
     test_suite_add_test_case( &result, "test_calc_inner_area_too_small", &test_calc_inner_area_too_small );

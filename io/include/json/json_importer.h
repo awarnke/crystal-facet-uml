@@ -75,12 +75,13 @@ void json_importer_destroy( json_importer_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param json_text stream in json format, not NULL
  *  \param out_read_line read position in the stream, in case of an error, this may help finding the cause
- *  \return U8_ERROR_NONE in case of success, U8_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_DB_STRUCTURE if diagram_id does not exist,
+ *          U8_ERROR_PARSER_STRUCTURE if unexpected order of tokens, other error code otherwise
  */
 u8_error_t json_importer_import_stream( json_importer_t *this_,
-                                          universal_input_stream_t *json_text,
-                                          uint32_t *out_read_line
-                                        );
+                                        universal_input_stream_t *json_text,
+                                        uint32_t *out_read_line
+                                      );
 
 /*!
  *  \brief prescans which object ids are to be imported and which already exist in the current db
@@ -91,9 +92,9 @@ u8_error_t json_importer_import_stream( json_importer_t *this_,
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t json_importer_prescan( json_importer_t *this_,
-                                    universal_input_stream_t *in_stream,
-                                    universal_utf8_writer_t *out_english_report
-                                  );
+                                  universal_input_stream_t *in_stream,
+                                  universal_utf8_writer_t *out_english_report
+                                );
 
 /*!
  *  \brief imports views to the focused diagram

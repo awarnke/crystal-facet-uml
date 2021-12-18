@@ -10,7 +10,7 @@
 
 #include "test_suite.h"
 
-test_suite_t draw_classifier_contour_test_get_list(void);
+test_suite_t draw_classifier_contour_test_get_suite(void);
 
 #endif  /* DRAW_CLASSIFIER_CONTOUR_TEST_H */
 

@@ -59,10 +59,10 @@ static universal_memory_output_stream_t mem_output_stream;
  */
 static char mem_buffer[16384];
 
-test_suite_t io_export_model_traversal_test_get_list(void)
+test_suite_t io_export_model_traversal_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "io_export_model_traversal_test_get_list", &set_up, &tear_down );
+    test_suite_init( &result, "io_export_model_traversal_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "iterate_types_on_mini_model", &iterate_types_on_mini_model );
     return result;
 }

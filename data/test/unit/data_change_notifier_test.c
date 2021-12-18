@@ -22,7 +22,7 @@ typedef struct test_data_struct test_data_t;
 
 static test_data_t data;
 
-test_suite_t data_change_notifier_test_get_list(void)
+test_suite_t data_change_notifier_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result, "data_change_notifier_test", &set_up, &tear_down );

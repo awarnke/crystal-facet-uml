@@ -10,7 +10,7 @@
 
 #include "test_suite.h"
 
-test_suite_t io_export_model_traversal_test_get_list(void);
+test_suite_t io_export_model_traversal_test_get_suite(void);
 
 #endif  /* IO_EXPORT_MODEL_TRAVERSAL_TEST_H */
 

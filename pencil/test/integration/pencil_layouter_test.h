@@ -10,7 +10,7 @@
 
 #include "test_suite.h"
 
-test_suite_t pencil_layouter_test_get_list(void);
+test_suite_t pencil_layouter_test_get_suite(void);
 
 #endif  /* PENCIL_LAYOUTER_TEST_H */
 

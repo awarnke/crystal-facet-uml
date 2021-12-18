@@ -11,7 +11,7 @@
 
 #include "test_suite.h"
 
-test_suite_t ctrl_consistency_checker_test_get_list(void);
+test_suite_t ctrl_consistency_checker_test_get_suite(void);
 
 #endif  /* CTRL_CONSISTENCY_CHECKER_TEST_H */
 

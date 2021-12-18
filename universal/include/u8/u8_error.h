@@ -10,7 +10,6 @@
  */
 
 #include "u8/u8_error_cat.h"
-#include "util/string/utf8error.h"
 
 /*!
  *  \brief error constants which explain and categorize errors
@@ -32,6 +31,8 @@ enum data_error_enum {
     /* DB_SQL    = 0x0200 */
     /* DB_STRUCT = 0x0400 */
     /* MUTEX     = 0x0800 */
+    /* PARAM     = 0x2000 */
+    /* STRING    = 0x4000 */
 
     U8_ERROR_NONE          = U8_ERROR_CAT_NONE,
     U8_ERROR_LOGIC_ANOMALY = U8_ERROR_CAT_LOGIC_ANOMALY,
@@ -58,18 +59,19 @@ enum data_error_enum {
     U8_ERROR_DIAGRAM_HIDES_RELATIONSHIPS = U8_ERROR_CAT_USE_MODE + 0x0004,  /*!< the diagram type does not show the relationship type */
     U8_ERROR_DIAGRAM_HIDES_FEATURES = U8_ERROR_CAT_USE_MODE + 0x0008,  /*!< the diagram type does not show the feature type */
     U8_ERROR_CLASSIFIER_REFUSES_FEATURE = U8_ERROR_CAT_USE_MODE + 0x0001,  /*!< the classifier type does not allow the feature type */
+    U8_ERROR_FOCUS_EMPTY            = U8_ERROR_CAT_USE_MODE + 0x0040,  /*!< no focused diagram or focused object */
 
     U8_ERROR_USE_INPUT     = U8_ERROR_CAT_USE_INPUT,
-    U8_ERROR_STRING_BUFFER_EXCEEDED = UTF8ERROR_TRUNCATED,          /*!< a string does not fit to the string storage buffer */
+    U8_ERROR_STRING_BUFFER_EXCEEDED = U8_ERROR_CAT_USE_INPUT + 0x4000,  /*!< a string does not fit to the string storage buffer */
     U8_ERROR_ARRAY_BUFFER_EXCEEDED  = U8_ERROR_CAT_USE_INPUT + 0x0080,  /*!< a set of objects does not fit to the array storage buffer */
     U8_ERROR_INVALID_REQUEST        = U8_ERROR_CAT_USE_INPUT + 0x0010,  /*!< function call not allowed or parameters wrong */
     U8_ERROR_INPUT_EMPTY            = U8_ERROR_CAT_USE_INPUT + 0x0040,  /*!< input parameter is empty or void */
     U8_ERROR_LEXICAL_STRUCTURE      = U8_ERROR_CAT_USE_INPUT + 0x0001,  /*!< the lexical structure of the input-string is corrupted */
-                                                                      /*!< (contains invalid tokens) */
+                                                                        /*!< (contains invalid tokens) */
     U8_ERROR_PARSER_STRUCTURE       = U8_ERROR_CAT_USE_INPUT + 0x0002,  /*!< the parser structure of the input-string is corrupted */
-                                                                      /*!< (wrong order of tokens) */
+                                                                        /*!< (wrong order of tokens) */
     U8_ERROR_AT_FILE_READ           = U8_ERROR_CAT_USE_INPUT + 0x0100,  /*!< unexpected error at reading a file/stream */
-    U8_ERROR_VALUE_OUT_OF_RANGE     = UTF8ERROR_OUT_OF_RANGE,       /*!< unexpected internal db error: enum/integer out of range */
+    U8_ERROR_VALUE_OUT_OF_RANGE     = U8_ERROR_CAT_USE_INPUT + 0x2000,  /*!< unexpected internal db error: enum/integer out of range */
 
     U8_ERROR_USE_OUTPUT    = U8_ERROR_CAT_USE_OUTPUT,
     U8_ERROR_AT_FILE_WRITE          = U8_ERROR_CAT_USE_OUTPUT + 0x0100,  /*!< unexpected error at writing a file/stream */

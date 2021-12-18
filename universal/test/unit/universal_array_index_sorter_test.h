@@ -10,7 +10,7 @@
 
 #include "test_suite.h"
 
-test_suite_t universal_array_index_sorter_test_get_list(void);
+test_suite_t universal_array_index_sorter_test_get_suite(void);
 
 #endif  /* UNIVERSAL_ARRAY_INDEX_SORTER_TEST_H */
 

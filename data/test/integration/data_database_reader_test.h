@@ -10,7 +10,7 @@
 
 #include "test_suite.h"
 
-test_suite_t data_database_reader_test_get_list(void);
+test_suite_t data_database_reader_test_get_suite(void);
 
 #endif  /* DATA_DATABASE_READER_TEST_H */
 

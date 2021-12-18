@@ -14,10 +14,10 @@ static void test_read_all(void);
 static char my_in_buffer[10];
 static universal_memory_input_stream_t my_mem_in_stream;
 
-test_suite_t universal_memory_input_stream_test_get_list(void)
+test_suite_t universal_memory_input_stream_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "universal_memory_input_stream_test_get_list", &set_up, &tear_down );
+    test_suite_init( &result, "universal_memory_input_stream_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "test_read_chunks", &test_read_chunks );
     test_suite_add_test_case( &result, "test_read_all", &test_read_all );
     return result;

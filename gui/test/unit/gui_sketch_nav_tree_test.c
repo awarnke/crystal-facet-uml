@@ -14,10 +14,10 @@ static void test_get_object_at_pos_on_single_diagram(void); /* no parent, no sib
 static void test_get_object_at_pos_on_1parent_1child_diagram(void); /* standard case, but no siblings */
 static void test_get_object_at_pos_on_2parent_2siblings_diagram(void); /* standard case, but no children */
 
-test_suite_t gui_sketch_nav_tree_test_get_list(void)
+test_suite_t gui_sketch_nav_tree_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "gui_sketch_nav_tree_test_get_list", &set_up, &tear_down );
+    test_suite_init( &result, "gui_sketch_nav_tree_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "test_get_object_at_pos_on_no_diagram", &test_get_object_at_pos_on_no_diagram );
     test_suite_add_test_case( &result, "test_get_object_at_pos_on_single_diagram", &test_get_object_at_pos_on_single_diagram );
     test_suite_add_test_case( &result, "test_get_object_at_pos_on_1parent_1child_diagram", &test_get_object_at_pos_on_1parent_1child_diagram );

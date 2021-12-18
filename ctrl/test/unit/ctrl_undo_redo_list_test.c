@@ -29,7 +29,7 @@ static data_database_reader_t db_reader;
  */
 static ctrl_controller_t controller;
 
-test_suite_t ctrl_undo_redo_list_test_get_list(void)
+test_suite_t ctrl_undo_redo_list_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result, "ctrl_undo_redo_list_test", &set_up, &tear_down );

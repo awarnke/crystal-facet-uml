@@ -9,7 +9,7 @@ static void tear_down(void);
 static void test_format(void);
 static void test_unique(void);
 
-test_suite_t data_uuid_test_get_list(void)
+test_suite_t data_uuid_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result, "data_uuid_test", &set_up, &tear_down );

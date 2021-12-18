@@ -10,7 +10,7 @@
 
 #include "test_suite.h"
 
-test_suite_t data_change_notifier_test_get_list(void);
+test_suite_t data_change_notifier_test_get_suite(void);
 
 #endif  /* DATA_CHANGE_NOTIFIER_TEST_H */
 
