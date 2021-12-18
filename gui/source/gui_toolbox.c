@@ -1,6 +1,7 @@
 /* File: gui_toolbox.c; Copyright and License: see below */
 
 #include "gui_toolbox.h"
+#include "ctrl_multi_step_changer.h"
 #include "trace.h"
 #include "u8/u8_error.h"
 #include "util/string/utf8string.h"
@@ -372,7 +373,12 @@ u8_error_t gui_toolbox_private_delete_set( gui_toolbox_t *this_,
     assert( NULL != io_stat );
     u8_error_t ctrl_err;
 
-    ctrl_err = ctrl_controller_delete_set ( (*this_).controller, set_to_be_deleted, io_stat );
+    ctrl_multi_step_changer_t multi_stepper;
+    ctrl_multi_step_changer_init( &multi_stepper, (*this_).controller, (*this_).db_reader );
+
+    ctrl_err = ctrl_multi_step_changer_delete_set ( &multi_stepper, set_to_be_deleted, io_stat );
+
+    ctrl_multi_step_changer_destroy( &multi_stepper );
 
     TRACE_END_ERR( ctrl_err );
     return ctrl_err;

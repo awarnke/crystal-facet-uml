@@ -321,20 +321,11 @@ static void features_CRURDR(void)
 
     /* delete the feature from the database */
     {
-        data_small_set_t small_set;
-        data_id_t element_id;
-        data_small_set_init( &small_set );
-        data_id_init( &element_id, DATA_TABLE_FEATURE, new_feature_id );
-        data_err = data_small_set_add_obj ( &small_set, element_id );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-
-        data_stat_t stat;
-        data_stat_init(&stat);
-        ctrl_err = ctrl_controller_delete_set ( &controller, &small_set, &stat );
+        data_err = ctrl_classifier_controller_delete_feature ( classifier_ctrl,
+                                                               new_feature_id,
+                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
+                                                             );
         TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
-        data_stat_destroy(&stat);
     }
 
     /* check what was deleted in the database */
@@ -446,20 +437,11 @@ static void relationship_CRURDR(void)
 
     /* delete the relationship from the database */
     {
-        data_small_set_t small_set;
-        data_id_t element_id;
-        data_small_set_init( &small_set );
-        data_id_init( &element_id, DATA_TABLE_RELATIONSHIP, new_relationship_id );
-        data_err = data_small_set_add_obj ( &small_set, element_id );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-
-        data_stat_t stat;
-        data_stat_init(&stat);
-        ctrl_err = ctrl_controller_delete_set ( &controller, &small_set, &stat );
+        data_err = ctrl_classifier_controller_delete_relationship( classifier_ctrl,
+                                                                   new_relationship_id,
+                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
+                                                                 );
         TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
-        data_stat_destroy(&stat);
     }
 
     /* check what was deleted in the database */

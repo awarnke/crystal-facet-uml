@@ -166,8 +166,6 @@ static void create_diagramelements_and_delete(void)
     data_diagramelement_t diag_element;
     uint32_t out_diagram_count;
     data_diagram_t out_diagram[2];
-    data_small_set_t small_set;
-    data_id_t element_id;
 
     /* create the root diagram */
     {
@@ -225,7 +223,12 @@ static void create_diagramelements_and_delete(void)
 
     /* get the id of the diagramelement */
     {
-        data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader, diagram_id, 2, &read_vis_classifiers, &read_vis_classifiers_count );
+        data_err = data_database_reader_get_classifiers_by_diagram_id( &db_reader,
+                                                                       diagram_id,
+                                                                       2,
+                                                                       &read_vis_classifiers,
+                                                                       &read_vis_classifiers_count
+                                                                     );
         TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 1, read_vis_classifiers_count );
         diag_element_ptr = data_visible_classifier_get_diagramelement_ptr( &(read_vis_classifiers[0]) );
@@ -246,7 +249,12 @@ static void create_diagramelements_and_delete(void)
 
     /* get all diagrams by classifier id */
     {
-        data_err = data_database_reader_get_diagrams_by_classifier_id ( &db_reader, classifier_id, 2, &out_diagram, &out_diagram_count );
+        data_err = data_database_reader_get_diagrams_by_classifier_id( &db_reader,
+                                                                       classifier_id,
+                                                                       2,
+                                                                       &out_diagram,
+                                                                       &out_diagram_count
+                                                                     );
         TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 1, out_diagram_count );
         TEST_ASSERT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(out_diagram[0]) ) );
@@ -259,18 +267,11 @@ static void create_diagramelements_and_delete(void)
 
     /* delete the diagramelement */
     {
-        data_small_set_init( &small_set );
-        data_id_init( &element_id, DATA_TABLE_DIAGRAMELEMENT, diag_element_id );
-        data_err = data_small_set_add_obj ( &small_set, element_id );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        data_stat_t stat;
-        data_stat_init(&stat);
-        ctrl_err = ctrl_controller_delete_set ( &controller, &small_set, &stat );
+        ctrl_err = ctrl_diagram_controller_delete_diagramelement( diagram_ctrl,
+                                                                  diag_element_id,
+                                                                  CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
+                                                                );
         TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_DELETED ));
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_DELETED ));
-        TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
-        data_stat_destroy(&stat);
     }
 
     /* get the deleted data_diagramelement_t */

@@ -96,6 +96,18 @@ static inline u8_error_t ctrl_controller_undo ( ctrl_controller_t *this_, data_s
  */
 static inline u8_error_t ctrl_controller_redo ( ctrl_controller_t *this_, data_stat_t *io_stat );
 
+/*!
+ *  \brief determines the statistics between the current history position and the last history boundary entry
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param io_stat Statistics on DATA_STAT_SERIES_CREATED, DATA_STAT_SERIES_MODIFIED,
+ *                 DATA_STAT_SERIES_DELETED.
+ *                 *io_stat shall be initialized by caller, statistics are added to initial values.
+ *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED if there is no more complete set of undo actions to be counted,
+ *          U8_ERROR_NONE otherwise.
+ */
+static inline u8_error_t ctrl_controller_get_statistics ( ctrl_controller_t *this_, data_stat_t *io_stat );
+
 /* ================================ interface for database file ================================ */
 
 /*!
@@ -126,23 +138,6 @@ static inline u8_error_t ctrl_controller_repair_database ( ctrl_controller_t *th
                                                            uint32_t *out_fix,
                                                            utf8stringbuf_t out_report
                                                          );
-
-/* ================================ interface for sets of elements ================================ */
-
-/*!
- *  \brief deletes a set of classifiers, diagramelements, features, relations
- *
- *  \param this_ pointer to own object attributes
- *  \param objects set of object ids to be deleted
- *  \param[in,out] io_stat Statistics on DATA_STAT_SERIES_DELETED and
- *                         DATA_STAT_SERIES_ERROR (e.g. if a diagram still contains objects).
- *                         *io_stat shall be initialized by caller, statistics are added to initial values.
- *  \return error id in case of an error, e.g. U8_ERROR_INPUT_EMPTY in case of empty set, U8_ERROR_NONE otherwise
- */
-u8_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
-                                        const data_small_set_t *objects,
-                                        data_stat_t *io_stat
-                                      );
 
 #include "ctrl_controller.inl"
 

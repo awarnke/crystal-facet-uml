@@ -1,8 +1,9 @@
- /* File: ctrl_undo_redo_list_test.c; Copyright and License: see below */
+/* File: ctrl_undo_redo_list_test.c; Copyright and License: see below */
 
 #include "ctrl_undo_redo_list_test.h"
 #include "ctrl_controller.h"
 #include "ctrl_classifier_controller.h"
+#include "ctrl_multi_step_changer.h"
 #include "storage/data_database.h"
 #include "storage/data_database_reader.h"
 #include "test_assert.h"
@@ -520,14 +521,19 @@ static void undo_redo_feature_and_relationship(void)
         TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
         {
+            ctrl_multi_step_changer_t multi_stepper;
+            ctrl_multi_step_changer_init( &multi_stepper, &controller, &db_reader );
             data_stat_t stat;
             data_stat_init(&stat);
-            ctrl_err = ctrl_controller_delete_set ( &controller, &small_set, &stat );
+
+            ctrl_err = ctrl_multi_step_changer_delete_set ( &multi_stepper, &small_set, &stat );
+
             TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
             TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
             TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
             TEST_ASSERT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
             data_stat_destroy(&stat);
+            ctrl_multi_step_changer_destroy( &multi_stepper );
         }
     }
 

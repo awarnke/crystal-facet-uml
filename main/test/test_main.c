@@ -10,6 +10,7 @@
 /* ctrl */
 #include "unit/ctrl_diagram_controller_test.h"
 #include "unit/ctrl_controller_test.h"
+#include "unit/ctrl_multi_step_changer_test.h"
 #include "unit/ctrl_classifier_controller_test.h"
 #include "unit/ctrl_consistency_checker_test.h"
 #include "unit/ctrl_undo_redo_list_test.h"
@@ -171,11 +172,11 @@ int main (int argc, char *argv[]) {
     /* integration tests test multiple software units and their interactions */
     if ( do_integration_tests )
     {
-#if 0
         /* data */
         test_runner_run_suite( &runner, data_database_reader_test_get_suite() );
         /* ctrl */
         test_runner_run_suite( &runner, ctrl_controller_test_get_suite() );
+        test_runner_run_suite( &runner, ctrl_multi_step_changer_test_get_suite() );
         test_runner_run_suite( &runner, ctrl_diagram_controller_test_get_suite() );
         test_runner_run_suite( &runner, ctrl_classifier_controller_test_get_suite() );
         test_runner_run_suite( &runner, ctrl_consistency_checker_test_get_suite() );
@@ -186,7 +187,6 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, pencil_layouter_test_get_suite() );
         test_runner_run_suite( &runner, pencil_diagram_maker_test_get_suite() );
         /* gui */
-#endif
         /* io */
         test_runner_run_suite( &runner, io_importer_test_get_suite() );
         test_runner_run_suite( &runner, md_filter_test_get_suite() );
