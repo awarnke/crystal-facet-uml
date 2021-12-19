@@ -13,6 +13,7 @@
 #include "ctrl_controller.h"
 #include "ctrl_classifier_controller.h"
 #include "ctrl_diagram_controller.h"
+#include "ctrl_undo_redo_action_boundary.h"
 #include "storage/data_database_reader.h"
 #include "set/data_stat.h"
 
@@ -21,10 +22,14 @@
  *
  *  Lifecycle: A ctrl_multi_step_changer_t shall perform a single set of operations only.
  *  It may be initialized before one set of actions and be destroyed afterwards.
+ *
+ *  All operations that are performed using one instance of this class are stored to the same undo/redo action set.
  */
 struct ctrl_multi_step_changer_struct {
     ctrl_controller_t* controller;  /*!< pointer to external classifier controller */
     data_database_reader_t* db_reader;  /*!< pointer to external database reader */
+
+    ctrl_undo_redo_action_boundary_t is_first_step;  /*!< keep track if to add a boundary to the undo redo list */
 };
 
 typedef struct ctrl_multi_step_changer_struct ctrl_multi_step_changer_t;
@@ -51,7 +56,7 @@ void ctrl_multi_step_changer_destroy ( ctrl_multi_step_changer_t *this_ );
 /* ================================ interface for sets of elements ================================ */
 
 /*!
- *  \brief deletes a set of classifiers, diagramelements, features, relations
+ *  \brief deletes a set of diagrams, diagramelements, classifiers, features, relations
  *
  *  \param this_ pointer to own object attributes
  *  \param objects set of object ids to be deleted
@@ -64,6 +69,95 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                                                 const data_small_set_t *objects,
                                                 data_stat_t *io_stat
                                               );
+
+/* ================================ create elements without duplicate ids ================================ */
+
+/*!
+ *  \brief creates a new diagram.
+ *
+ *  Additionally to ctrl_diagram_controller, this function tries to preserve the proposed id.
+ *  If this is duplicate, it generates a new one.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param[in,out] new_diagram data of the new diagram to be created; the id is taken as proposal.
+ *                             The id may be changed when returning from this function.
+ *  \param[out] out_info U8_ERROR_DUPLICATE_ID or U8_ERROR_NONE
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ */
+
+u8_error_t ctrl_multi_step_changer_create_diagram ( ctrl_multi_step_changer_t *this_,
+                                                    data_diagram_t *new_diagram,
+                                                    u8_error_t* out_info
+                                                  );
+
+/*!
+ *  \brief creates a new diagramelement.
+ *
+ *  Additionally to ctrl_diagram_controller, this function tries to preserve the proposed id.
+ *  If this is duplicate, it generates a new one.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param[in,out] new_diagramelement data of the new diagramelement to be created; the id is taken as proposal.
+ *                                    The id may be changed when returning from this function.
+ *  \param[out] out_info U8_ERROR_DUPLICATE_ID or U8_ERROR_NONE
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ */
+u8_error_t ctrl_multi_step_changer_create_diagramelement ( ctrl_multi_step_changer_t *this_,
+                                                           data_diagramelement_t *new_diagramelement,
+                                                           u8_error_t* out_info
+                                                         );
+
+
+/*!
+ *  \brief creates a new classifier but does not attach it to a diagram - which leaves the classifier unreferenced.
+ *
+ *  Additionally to ctrl_classifier_controller, this function tries to preserve the proposed id and name.
+ *  If these are duplicate, it generates new ones.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param[in,out] new_classifier data of the new classifier to be created; id and name are taken as proposal.
+ *                                The id and the name may be changed when returning from this function.
+ *  \param[out] out_info U8_ERROR_NONE or U8_ERROR_DUPLICATE_ID and/or U8_ERROR_DUPLICATE_NAME
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ */
+u8_error_t ctrl_multi_step_changer_create_classifier ( ctrl_multi_step_changer_t *this_,
+                                                       data_classifier_t *new_classifier,
+                                                       u8_error_t* out_info
+                                                     );
+
+/*!
+ *  \brief creates a new feature.
+ *
+ *  Additionally to ctrl_classifier_controller, this function tries to preserve the proposed id.
+ *  If this is duplicate, it generates a new one.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param[in,out] new_feature data of the new feature to be created; the id is taken as proposal.
+ *                             The id may be changed when returning from this function.
+ *  \param[out] out_info U8_ERROR_DUPLICATE_ID or U8_ERROR_NONE
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ */
+u8_error_t ctrl_multi_step_changer_create_feature ( ctrl_multi_step_changer_t *this_,
+                                                    data_feature_t *new_feature,
+                                                    u8_error_t* out_info
+                                                  );
+
+/*!
+ *  \brief creates a new relationship.
+ *
+ *  Additionally to ctrl_classifier_controller, this function tries to preserve the proposed id.
+ *  If this is duplicate, it generates a new one.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param[in,out] new_relationship data of the new relationship to be created; the id is taken as proposal.
+ *                                  The id may be changed when returning from this function.
+ *  \param[out] out_info U8_ERROR_DUPLICATE_ID or U8_ERROR_NONE
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ */
+u8_error_t ctrl_multi_step_changer_create_relationship ( ctrl_multi_step_changer_t *this_,
+                                                         data_relationship_t *new_relationship,
+                                                         u8_error_t* out_info
+                                                       );
 
 #endif  /* CTRL_MULTI_STEP_CHANGER_H */
 

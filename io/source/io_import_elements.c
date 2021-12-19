@@ -25,7 +25,7 @@ void io_import_elements_init ( io_import_elements_t *this_,
     (*this_).mode = IO_IMPORT_MODE_CHECK;
     (*this_).paste_to_diagram = DATA_ROW_ID_VOID;
 
-    (*this_).is_first_undo_action = true;
+    ctrl_multi_step_changer_init( &((*this_).multi_step_changer), controller, db_reader );
 
     data_rules_init ( &((*this_).data_rules) );
 
@@ -73,6 +73,8 @@ void io_import_elements_destroy ( io_import_elements_t *this_ )
     assert( NULL != (*this_).stat );
 
     data_rules_destroy ( &((*this_).data_rules) );
+
+    ctrl_multi_step_changer_destroy( &((*this_).multi_step_changer) );
 
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
@@ -138,16 +140,10 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
     if (( (*this_).mode != IO_IMPORT_MODE_CHECK )&&( sync_error == U8_ERROR_NONE ))
     {
         /* create the parsed diagram as child below the current diagram */
-        ctrl_diagram_controller_t *diag_ctrl;
-        diag_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
-
-        data_row_id_t new_diag_id;
-        sync_error = ctrl_diagram_controller_create_diagram ( diag_ctrl,
+        u8_error_t modified_info;
+        sync_error = ctrl_multi_step_changer_create_diagram ( &((*this_).multi_step_changer),
                                                               diagram_ptr,
-                                                              ( (*this_).is_first_undo_action
-                                                              ? CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
-                                                              : CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND ),
-                                                              &new_diag_id
+                                                              &modified_info
                                                             );
         data_stat_inc_count( (*this_).stat,
                              DATA_TABLE_DIAGRAM,
@@ -160,9 +156,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
         else
         {
             /* insert all consecutive elements to this new diagram */
-            (*this_).paste_to_diagram = new_diag_id;
-
-            (*this_).is_first_undo_action = false;
+            (*this_).paste_to_diagram = data_diagram_get_row_id( diagram_ptr );
         }
     }
 
@@ -171,7 +165,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
 }
 
 u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
-                                                   const data_diagramelement_t *diagramelement_ptr,
+                                                   data_diagramelement_t *diagramelement_ptr,
                                                    const char *diagram_uuid,
                                                    const char *node_uuid )
 {
@@ -190,12 +184,11 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
 }
 
 u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
-                                               const data_classifier_t *classifier_ptr )
+                                               data_classifier_t *classifier_ptr )
 {
     TRACE_BEGIN();
     assert( NULL != classifier_ptr );
     u8_error_t sync_error = U8_ERROR_NONE;
-    data_row_id_t the_classifier_id = DATA_ROW_ID_VOID;
 
     if (( (*this_).mode == IO_IMPORT_MODE_PASTE )&&( sync_error == U8_ERROR_NONE ))
     {
@@ -209,9 +202,6 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
     if (( (*this_).mode != IO_IMPORT_MODE_CHECK )&&( sync_error == U8_ERROR_NONE ))
     {
         /* check if the parsed classifier already exists in this database; if not, create it */
-        ctrl_classifier_controller_t *classifier_ctrl;
-        classifier_ctrl = ctrl_controller_get_classifier_control_ptr( (*this_).controller );
-
         u8_error_t read_error;
         data_classifier_t existing_classifier;
         read_error = data_database_reader_get_classifier_by_uuid( (*this_).db_reader,
@@ -222,13 +212,11 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
 
         if ( ! classifier_exists )
         {
-            sync_error = ctrl_classifier_controller_create_classifier( classifier_ctrl,
-                                                                       classifier_ptr,
-                                                                       ( (*this_).is_first_undo_action
-                                                                       ? CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
-                                                                       : CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND ),
-                                                                       &the_classifier_id
-                                                                     );
+            u8_error_t modified_info;
+            sync_error = ctrl_multi_step_changer_create_classifier( &((*this_).multi_step_changer),
+                                                                    classifier_ptr,
+                                                                    &modified_info
+                                                                  );
             data_stat_inc_count( (*this_).stat,
                                  DATA_TABLE_CLASSIFIER,
                                  (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
@@ -240,9 +228,9 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
             }
             else
             {
-                (*this_).is_first_undo_action = false;
-
-                sync_error = io_import_elements_private_create_diagramelement( this_, the_classifier_id );
+                sync_error = io_import_elements_private_create_diagramelement( this_,
+                                                                               data_classifier_get_row_id( classifier_ptr )
+                                                                             );
             }
         }
         else
@@ -252,9 +240,7 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
                                  DATA_TABLE_CLASSIFIER,
                                  DATA_STAT_SERIES_IGNORED
                                );
-            TRACE_INFO( "classifier did already exist." );
-            /* set the the_classifier_id */
-            the_classifier_id = data_classifier_get_row_id( &existing_classifier );
+            TRACE_INFO_INT( "classifier did already exist:", data_classifier_get_row_id( &existing_classifier ) );
         }
     }
 
@@ -271,10 +257,6 @@ u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_
     if (( (*this_).mode != IO_IMPORT_MODE_CHECK )&&( sync_error == U8_ERROR_NONE ))
     {
         /* link the classifier to the current diagram */
-        ctrl_diagram_controller_t *diag_ctrl;
-        diag_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
-
-        data_row_id_t new_element_id;
         data_diagramelement_t diag_ele;
         data_diagramelement_init_new( &diag_ele,
                                       (*this_).paste_to_diagram,
@@ -282,12 +264,10 @@ u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_
                                       DATA_DIAGRAMELEMENT_FLAG_NONE,
                                       DATA_ROW_ID_VOID
                                     );
-        sync_error = ctrl_diagram_controller_create_diagramelement( diag_ctrl,
+        u8_error_t modified_info;
+        sync_error = ctrl_multi_step_changer_create_diagramelement( &((*this_).multi_step_changer),
                                                                     &diag_ele,
-                                                                    ( (*this_).is_first_undo_action
-                                                                    ? CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
-                                                                    : CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND ),
-                                                                    &new_element_id
+                                                                    &modified_info
                                                                   );
         data_stat_inc_count( (*this_).stat,
                              DATA_TABLE_DIAGRAMELEMENT,
@@ -299,7 +279,6 @@ u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_
         }
         else
         {
-            (*this_).is_first_undo_action = false;
         }
     }
 
@@ -341,21 +320,15 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
 
     if (( (*this_).mode != IO_IMPORT_MODE_CHECK )&&( sync_error == U8_ERROR_NONE ))
     {
-        data_row_id_t new_feature_id;
         /* filter lifelines */
         if ( ! data_rules_feature_is_scenario_cond( &((*this_).data_rules),
                                                     data_feature_get_main_type( feature_ptr ) ) )
         {
-            ctrl_classifier_controller_t *classifier_ctrl
-                = ctrl_controller_get_classifier_control_ptr( (*this_).controller );
-
-            sync_error = ctrl_classifier_controller_create_feature( classifier_ctrl,
-                                                                    feature_ptr,
-                                                                    ( (*this_).is_first_undo_action
-                                                                    ? CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
-                                                                    : CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND ),
-                                                                    &new_feature_id
-                                                                  );
+            u8_error_t modified_info;
+            sync_error = ctrl_multi_step_changer_create_feature( &((*this_).multi_step_changer),
+                                                                 feature_ptr,
+                                                                 &modified_info
+                                                               );
             data_stat_inc_count( (*this_).stat,
                                  DATA_TABLE_FEATURE,
                                  (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
@@ -366,7 +339,6 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
             }
             else
             {
-                (*this_).is_first_undo_action = false;
             }
         }
         else  /* lifeline */
@@ -519,10 +491,6 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
         }
         else
         {
-            /* get classifier controller */
-            ctrl_classifier_controller_t *classifier_control4;
-            classifier_control4 = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-
             /* update the json-parsed relationship struct */
             data_relationship_set_row_id ( relation_ptr, DATA_ROW_ID_VOID );
             data_relationship_set_from_classifier_row_id ( relation_ptr, from_classifier_id );
@@ -531,21 +499,17 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
             data_relationship_set_to_feature_row_id ( relation_ptr, to_feature_id );
 
             /* create relationship */
-            data_row_id_t relationship_id;
-            sync_error = ctrl_classifier_controller_create_relationship ( classifier_control4,
-                                                                          relation_ptr,
-                                                                          ( (*this_).is_first_undo_action
-                                                                          ? CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
-                                                                          : CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND ),
-                                                                          &relationship_id
-                                                                        );
+            u8_error_t modified_info;
+            sync_error = ctrl_multi_step_changer_create_relationship ( &((*this_).multi_step_changer),
+                                                                       relation_ptr,
+                                                                       &modified_info
+                                                                     );
             if ( U8_ERROR_NONE != sync_error )
             {
                 TSLOG_ERROR( "unexpected error at ctrl_classifier_controller_create_relationship" );
             }
             else
             {
-                (*this_).is_first_undo_action = false;
             }
         }
 

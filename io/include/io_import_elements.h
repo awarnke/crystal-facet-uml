@@ -22,6 +22,7 @@
 #include "set/data_stat.h"
 #include "set/data_visible_set.h"
 #include "ctrl_controller.h"
+#include "ctrl_multi_step_changer.h"
 #include "u8/u8_error.h"
 
 /*!
@@ -37,8 +38,8 @@ struct io_import_elements_struct {
 
     io_import_mode_t mode;  /*!< the import mode */
     data_row_id_t paste_to_diagram;  /*!< the diagram where pasted objects shall be attached to if IO_IMPORT_MODE_PASTE */
-    bool is_first_undo_action;  /*!< is this the first action in the undo redo list? */
-                                /*!< if false, database changes are appended to the last undo_redo_set */
+    ctrl_multi_step_changer_t multi_step_changer;  /*!< own instance of a controller */
+                                                   /*!< that can handle preferred ids and proposed names */
 
     data_stat_t *stat;  /*!< pointer to import statistics */
 
@@ -113,14 +114,14 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
  *  \brief synchronizes a diagramelement with the database
  *
  *  \param this_ pointer to own object attributes
- *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
+ *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL, (diagramelement may be modified)
  *  \param diagram_uuid uuid of the parent diagram
  *  \param node_uuid uuid of the referenced focused feature (lifeline) if there is one,
  *                   uuid of the classifier otherwise.
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
-                                                   const data_diagramelement_t *diagramelement_ptr,
+                                                   data_diagramelement_t *diagramelement_ptr,
                                                    const char *diagram_uuid,
                                                    const char *node_uuid
                                                  );
@@ -129,11 +130,11 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
  *  \brief synchronizes a classifier with the database
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier_ptr pointer to classifier that shall be written, not NULL
+ *  \param classifier_ptr pointer to classifier that shall be written, not NULL, (classifier may be modified)
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_FOCUS_EMPTY if no parent diagram provided
  */
 u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
-                                               const data_classifier_t *classifier_ptr
+                                               data_classifier_t *classifier_ptr
                                              );
 
 /*!
@@ -162,7 +163,7 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
  *  \brief synchronizes a relationship with the database
  *
  *  \param this_ pointer to own object attributes
- *  \param relation_ptr pointer to relationship that shall be written, not NULL
+ *  \param relation_ptr pointer to relationship that shall be written, not NULL, (relationship may be modified)
  *  \param from_node_uuid uuid of the source feature if there is one,
  *                        uuid of the source classifier otherwise.
  *  \param to_node_uuid uuid of the destination feature if there is one,

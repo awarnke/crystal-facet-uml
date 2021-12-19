@@ -17,6 +17,8 @@ void ctrl_multi_step_changer_init ( ctrl_multi_step_changer_t *this_,
     (*this_).controller = controller;
     (*this_).db_reader = db_reader;
 
+    (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW;
+
     TRACE_END();
 }
 
@@ -51,11 +53,8 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
     {
         int index;
 
-        /* keep track if to add a boundary to the undo redo list before each deletion action */
-        ctrl_undo_redo_action_boundary_t append_next = CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW;
-
-        ctrl_classifier_controller_t *classifier_ctrl = ctrl_controller_get_classifier_control_ptr( (*this_).controller);
-        ctrl_diagram_controller_t *diagram_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
+        ctrl_classifier_controller_t *const classifier_ctrl = ctrl_controller_get_classifier_control_ptr( (*this_).controller);
+        ctrl_diagram_controller_t *const diagram_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
 
         /* STEP ZERO: Delete all objects that can be immediately deleted */
 
@@ -75,11 +74,11 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                 {
                     result |= ctrl_classifier_controller_delete_feature ( classifier_ctrl,
                                                                           data_id_get_row_id( &current_id ),
-                                                                          append_next
+                                                                          (*this_).is_first_step
                                                                         );
                     if ( result == U8_ERROR_NONE )
                     {
-                        append_next = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
+                        (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
                     }
                     else
                     {
@@ -91,12 +90,12 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                 case DATA_TABLE_RELATIONSHIP:
                 {
                     result |= ctrl_classifier_controller_delete_relationship ( classifier_ctrl,
-                                                                                data_id_get_row_id( &current_id ),
-                                                                                append_next
-                                                                              );
+                                                                               data_id_get_row_id( &current_id ),
+                                                                               (*this_).is_first_step
+                                                                             );
                     if ( result == U8_ERROR_NONE )
                     {
-                        append_next = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
+                        (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
                     }
                     else
                     {
@@ -155,11 +154,11 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                 {
                     result |= ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl,
                                                                               data_id_get_row_id( &current_id ),
-                                                                              append_next
+                                                                              (*this_).is_first_step
                                                                             );
                     if ( result == U8_ERROR_NONE )
                     {
-                        append_next = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
+                        (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
                     }
                     else
                     {
@@ -194,11 +193,11 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                 {
                     result |= ctrl_classifier_controller_delete_classifier( classifier_ctrl,
                                                                             data_id_get_row_id( &current_id ),
-                                                                            append_next
+                                                                            (*this_).is_first_step
                                                                           );
                     if ( result == U8_ERROR_NONE )
                     {
-                        append_next = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
+                        (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
                     }
                     else
                     {
@@ -229,11 +228,11 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                 {
                     result |= ctrl_diagram_controller_delete_diagram ( diagram_ctrl,
                                                                        data_id_get_row_id( &current_id ),
-                                                                       append_next
+                                                                       (*this_).is_first_step
                                                                      );
                     if ( result == U8_ERROR_NONE )
                     {
-                        append_next = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
+                        (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
                     }
                     else
                     {
@@ -252,6 +251,273 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
 
         /* update statistics based on undo redo list */
         result |= ctrl_controller_get_statistics( (*this_).controller, io_stat );
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+/* ================================ create elements without duplicate ids ================================ */
+
+u8_error_t ctrl_multi_step_changer_create_diagram ( ctrl_multi_step_changer_t *this_,
+                                                    data_diagram_t *new_diagram,
+                                                    u8_error_t* out_info )
+{
+    TRACE_BEGIN();
+    assert( NULL != new_diagram );
+    assert( NULL != out_info );
+    u8_error_t result = U8_ERROR_NONE;
+
+    ctrl_diagram_controller_t *const diagram_ctrl
+        = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
+
+    data_row_id_t new_diagram_id;
+    const u8_error_t create_err
+        = ctrl_diagram_controller_create_diagram( diagram_ctrl,
+                                                  new_diagram,
+                                                  (*this_).is_first_step,
+                                                  &new_diagram_id
+                                                );
+    *out_info = create_err;
+    if ( create_err == U8_ERROR_NONE )
+    {
+        (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
+        data_diagram_set_row_id( new_diagram, new_diagram_id );
+    }
+    else if ( create_err == U8_ERROR_DUPLICATE_ID )
+    {
+        data_diagram_set_row_id( new_diagram, DATA_ROW_ID_VOID );
+        const u8_error_t alt_create_err
+            = ctrl_diagram_controller_create_diagram( diagram_ctrl,
+                                                      new_diagram,
+                                                      (*this_).is_first_step,
+                                                      &new_diagram_id
+                                                    );
+        if ( alt_create_err == U8_ERROR_NONE )
+        {
+            (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
+            data_diagram_set_row_id( new_diagram, new_diagram_id );
+        }
+        else
+        {
+            result = alt_create_err;
+        }
+    }
+    else
+    {
+        result = create_err;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t ctrl_multi_step_changer_create_diagramelement ( ctrl_multi_step_changer_t *this_,
+                                                           data_diagramelement_t *new_diagramelement,
+                                                           u8_error_t* out_info )
+{
+    TRACE_BEGIN();
+    assert( NULL != new_diagramelement );
+    assert( NULL != out_info );
+    u8_error_t result = U8_ERROR_NONE;
+
+    ctrl_diagram_controller_t *const diagram_ctrl
+        = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
+
+    data_row_id_t new_diagramelement_id;
+    const u8_error_t create_err
+        = ctrl_diagram_controller_create_diagramelement( diagram_ctrl,
+                                                         new_diagramelement,
+                                                         (*this_).is_first_step,
+                                                         &new_diagramelement_id
+                                                       );
+    *out_info = create_err;
+    if ( create_err == U8_ERROR_NONE )
+    {
+        (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
+        data_diagramelement_set_row_id( new_diagramelement, new_diagramelement_id );
+    }
+    else if ( create_err == U8_ERROR_DUPLICATE_ID )
+    {
+        data_diagramelement_set_row_id( new_diagramelement, DATA_ROW_ID_VOID );
+        const u8_error_t alt_create_err
+            = ctrl_diagram_controller_create_diagramelement( diagram_ctrl,
+                                                             new_diagramelement,
+                                                             (*this_).is_first_step,
+                                                             &new_diagramelement_id
+                                                           );
+        if ( alt_create_err == U8_ERROR_NONE )
+        {
+            (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
+            data_diagramelement_set_row_id( new_diagramelement, new_diagramelement_id );
+        }
+        else
+        {
+            result = alt_create_err;
+        }
+    }
+    else
+    {
+        result = create_err;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t ctrl_multi_step_changer_create_classifier ( ctrl_multi_step_changer_t *this_,
+                                                       data_classifier_t *new_classifier,
+                                                       u8_error_t* out_info )
+{
+    TRACE_BEGIN();
+    assert( NULL != new_classifier );
+    assert( NULL != out_info );
+    u8_error_t result = U8_ERROR_NONE;
+
+    ctrl_classifier_controller_t *const classifier_ctrl
+        = ctrl_controller_get_classifier_control_ptr( (*this_).controller);
+
+    data_row_id_t new_classifier_id;
+    const u8_error_t create_err
+        = ctrl_classifier_controller_create_classifier( classifier_ctrl,
+                                                        new_classifier,
+                                                        (*this_).is_first_step,
+                                                        &new_classifier_id
+                                                      );
+    *out_info = create_err;
+    if ( create_err == U8_ERROR_NONE )
+    {
+        (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
+        data_classifier_set_row_id( new_classifier, new_classifier_id );
+    }
+    else if ( create_err == U8_ERROR_DUPLICATE_ID )
+    {
+        data_classifier_set_row_id( new_classifier, DATA_ROW_ID_VOID );
+        const u8_error_t alt_create_err
+            = ctrl_classifier_controller_create_classifier( classifier_ctrl,
+                                                            new_classifier,
+                                                            (*this_).is_first_step,
+                                                            &new_classifier_id
+                                                          );
+        if ( alt_create_err == U8_ERROR_NONE )
+        {
+            (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
+            data_classifier_set_row_id( new_classifier, new_classifier_id );
+        }
+        else
+        {
+            result = alt_create_err;
+        }
+    }
+    else
+    {
+        result = create_err;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t ctrl_multi_step_changer_create_feature ( ctrl_multi_step_changer_t *this_,
+                                                    data_feature_t *new_feature,
+                                                    u8_error_t* out_info )
+{
+    TRACE_BEGIN();
+    assert( NULL != new_feature );
+    assert( NULL != out_info );
+    u8_error_t result = U8_ERROR_NONE;
+
+    ctrl_classifier_controller_t *const classifier_ctrl
+        = ctrl_controller_get_classifier_control_ptr( (*this_).controller);
+
+    data_row_id_t new_feature_id;
+    const u8_error_t create_err
+        = ctrl_classifier_controller_create_feature( classifier_ctrl,
+                                                     new_feature,
+                                                     (*this_).is_first_step,
+                                                     &new_feature_id
+                                                   );
+    *out_info = create_err;
+    if ( create_err == U8_ERROR_NONE )
+    {
+        (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
+        data_feature_set_row_id( new_feature, new_feature_id );
+    }
+    else if ( create_err == U8_ERROR_DUPLICATE_ID )
+    {
+        data_feature_set_row_id( new_feature, DATA_ROW_ID_VOID );
+        const u8_error_t alt_create_err
+            = ctrl_classifier_controller_create_feature( classifier_ctrl,
+                                                         new_feature,
+                                                         (*this_).is_first_step,
+                                                         &new_feature_id
+                                                       );
+        if ( alt_create_err == U8_ERROR_NONE )
+        {
+            (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
+            data_feature_set_row_id( new_feature, new_feature_id );
+        }
+        else
+        {
+            result = alt_create_err;
+        }
+    }
+    else
+    {
+        result = create_err;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t ctrl_multi_step_changer_create_relationship ( ctrl_multi_step_changer_t *this_,
+                                                         data_relationship_t *new_relationship,
+                                                         u8_error_t* out_info )
+{
+    TRACE_BEGIN();
+    assert( NULL != new_relationship );
+    assert( NULL != out_info );
+    u8_error_t result = U8_ERROR_NONE;
+
+    ctrl_classifier_controller_t *const classifier_ctrl
+        = ctrl_controller_get_classifier_control_ptr( (*this_).controller);
+
+    data_row_id_t new_relationship_id;
+    const u8_error_t create_err
+        = ctrl_classifier_controller_create_relationship( classifier_ctrl,
+                                                          new_relationship,
+                                                          (*this_).is_first_step,
+                                                          &new_relationship_id
+                                                        );
+    *out_info = create_err;
+    if ( create_err == U8_ERROR_NONE )
+    {
+        (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
+        data_relationship_set_row_id( new_relationship, new_relationship_id );
+    }
+    else if ( create_err == U8_ERROR_DUPLICATE_ID )
+    {
+        data_relationship_set_row_id( new_relationship, DATA_ROW_ID_VOID );
+        const u8_error_t alt_create_err
+            = ctrl_classifier_controller_create_relationship( classifier_ctrl,
+                                                              new_relationship,
+                                                              (*this_).is_first_step,
+                                                              &new_relationship_id
+                                                            );
+        if ( alt_create_err == U8_ERROR_NONE )
+        {
+            (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
+            data_relationship_set_row_id( new_relationship, new_relationship_id );
+        }
+        else
+        {
+            result = alt_create_err;
+        }
+    }
+    else
+    {
+        result = create_err;
     }
 
     TRACE_END_ERR( result );
