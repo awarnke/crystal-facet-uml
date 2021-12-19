@@ -64,6 +64,52 @@ static void tear_down(void)
 
 static void delete_set_not_possible(void)
 {
+    /* create 2 diagrams */
+    const data_row_id_t root_diagram = test_env_setup_data_create_diagram( DATA_ROW_ID_VOID, "root diag", &controller );
+    const data_row_id_t test_diagram = test_env_setup_data_create_diagram( root_diagram, "test diag", &controller );
+
+    /* create 1 classifiers */
+    const data_row_id_t test_classifier = test_env_setup_data_create_classifier( "test classifier", &controller );
+
+    /* create 1 diagramelement */
+    test_env_setup_data_create_diagramelement( root_diagram, test_classifier, DATA_ROW_ID_VOID, &controller );
+
+    /* try to delete each type once from the database */
+    {
+        data_small_set_t small_set;
+        u8_error_t add_ok;
+        data_small_set_init( &small_set );
+
+        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_CLASSIFIER, test_classifier );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_FEATURE, (data_row_id_t)50000 );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_RELATIONSHIP, (data_row_id_t)50000 );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAMELEMENT, (data_row_id_t)50000 );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAM, root_diagram );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+
+        ctrl_multi_step_changer_t multi_stepper;
+        ctrl_multi_step_changer_init( &multi_stepper, &controller, &db_reader );
+        data_stat_t stat;
+        data_stat_init(&stat);
+
+        const u8_error_t ctrl_err
+            = ctrl_multi_step_changer_delete_set ( &multi_stepper, &small_set, &stat );
+
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE | U8_ERROR_OBJECT_STILL_REFERENCED, ctrl_err );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_ERROR ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR ));
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR ));
+        TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count ( &stat ));
+
+        data_stat_destroy(&stat);
+        ctrl_multi_step_changer_destroy( &multi_stepper );
+    }
 }
 
 static void delete_set_successfully(void)
@@ -135,10 +181,16 @@ static void delete_set_successfully(void)
 
     /* check the set was really deleted in the database */
     {
-        data_feature_t check3;
-        const u8_error_t data_err
-            = data_database_reader_get_feature_by_id ( &db_reader, test_feature, &check3 );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
+        data_feature_t check2;
+        const u8_error_t data_err2
+            = data_database_reader_get_feature_by_id ( &db_reader, test_feature, &check2 );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err2 );
+    }
+    {
+        data_diagramelement_t check3;
+        const u8_error_t data_err3
+            = data_database_reader_get_diagramelement_by_id ( &db_reader, test_diagele, &check3 );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err3 );
     }
 }
 

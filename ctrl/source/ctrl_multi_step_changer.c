@@ -81,6 +81,10 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                     {
                         append_next = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
                     }
+                    else
+                    {
+                        data_stat_inc_count( io_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_ERROR );
+                    }
                 }
                 break;
 
@@ -93,6 +97,10 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                     if ( result == U8_ERROR_NONE )
                     {
                         append_next = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
+                    }
+                    else
+                    {
+                        data_stat_inc_count( io_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
                     }
                 }
                 break;
@@ -153,6 +161,10 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                     {
                         append_next = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
                     }
+                    else
+                    {
+                        data_stat_inc_count( io_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR );
+                    }
                 }
                 break;
 
@@ -188,6 +200,10 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                     {
                         append_next = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
                     }
+                    else
+                    {
+                        data_stat_inc_count( io_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
+                    }
                 }
                 break;
 
@@ -218,6 +234,10 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                     if ( result == U8_ERROR_NONE )
                     {
                         append_next = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
+                    }
+                    else
+                    {
+                        data_stat_inc_count( io_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR );
                     }
                 }
                 break;
