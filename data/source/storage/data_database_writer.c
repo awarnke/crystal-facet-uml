@@ -84,8 +84,8 @@ void data_database_writer_db_change_callback ( data_database_writer_t *this_, da
 /* ================================ DIAGRAM ================================ */
 
 u8_error_t data_database_writer_create_diagram ( data_database_writer_t *this_,
-                                                   const data_diagram_t *diagram,
-                                                   data_row_id_t* out_new_id )
+                                                 const data_diagram_t *diagram,
+                                                 data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
     assert( NULL != diagram );
@@ -119,8 +119,8 @@ u8_error_t data_database_writer_create_diagram ( data_database_writer_t *this_,
 }
 
 u8_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_,
-                                                   data_row_id_t obj_id,
-                                                   data_diagram_t *out_old_diagram )
+                                                 data_row_id_t obj_id,
+                                                 data_diagram_t *out_old_diagram )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -184,9 +184,9 @@ u8_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_,
 }
 
 u8_error_t data_database_writer_update_diagram_description ( data_database_writer_t *this_,
-                                                               data_row_id_t diagram_id,
-                                                               const char* new_diagram_description,
-                                                               data_diagram_t *out_old_diagram )
+                                                             data_row_id_t diagram_id,
+                                                             const char* new_diagram_description,
+                                                             data_diagram_t *out_old_diagram )
 {
     TRACE_BEGIN();
     assert( NULL != new_diagram_description );
@@ -220,9 +220,9 @@ u8_error_t data_database_writer_update_diagram_description ( data_database_write
 }
 
 u8_error_t data_database_writer_update_diagram_name ( data_database_writer_t *this_,
-                                                        data_row_id_t diagram_id,
-                                                        const char* new_diagram_name,
-                                                        data_diagram_t *out_old_diagram )
+                                                      data_row_id_t diagram_id,
+                                                      const char* new_diagram_name,
+                                                      data_diagram_t *out_old_diagram )
 {
     TRACE_BEGIN();
     assert( NULL != new_diagram_name );
@@ -256,9 +256,9 @@ u8_error_t data_database_writer_update_diagram_name ( data_database_writer_t *th
 }
 
 u8_error_t data_database_writer_update_diagram_type ( data_database_writer_t *this_,
-                                                        data_row_id_t diagram_id,
-                                                        data_diagram_type_t new_diagram_type,
-                                                        data_diagram_t *out_old_diagram )
+                                                      data_row_id_t diagram_id,
+                                                      data_diagram_type_t new_diagram_type,
+                                                      data_diagram_t *out_old_diagram )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -291,9 +291,9 @@ u8_error_t data_database_writer_update_diagram_type ( data_database_writer_t *th
 }
 
 u8_error_t data_database_writer_update_diagram_list_order ( data_database_writer_t *this_,
-                                                              data_row_id_t diagram_id,
-                                                              int32_t new_diagram_list_order,
-                                                              data_diagram_t *out_old_diagram )
+                                                            data_row_id_t diagram_id,
+                                                            int32_t new_diagram_list_order,
+                                                            data_diagram_t *out_old_diagram )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -326,9 +326,9 @@ u8_error_t data_database_writer_update_diagram_list_order ( data_database_writer
 }
 
 u8_error_t data_database_writer_update_diagram_parent_id ( data_database_writer_t *this_,
-                                                             data_row_id_t diagram_id,
-                                                             data_row_id_t new_diagram_parent_id,
-                                                             data_diagram_t *out_old_diagram )
+                                                           data_row_id_t diagram_id,
+                                                           data_row_id_t new_diagram_parent_id,
+                                                           data_diagram_t *out_old_diagram )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -365,8 +365,8 @@ u8_error_t data_database_writer_update_diagram_parent_id ( data_database_writer_
 /* ================================ CLASSIFIER ================================ */
 
 u8_error_t data_database_writer_create_classifier( data_database_writer_t *this_,
-                                                     const data_classifier_t *classifier,
-                                                     data_row_id_t* out_new_id )
+                                                   const data_classifier_t *classifier,
+                                                   data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
     assert( NULL != classifier );
@@ -398,8 +398,8 @@ u8_error_t data_database_writer_create_classifier( data_database_writer_t *this_
 }
 
 u8_error_t data_database_writer_delete_classifier( data_database_writer_t *this_,
-                                                     data_row_id_t obj_id,
-                                                     data_classifier_t *out_old_classifier )
+                                                   data_row_id_t obj_id,
+                                                   data_classifier_t *out_old_classifier )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -473,9 +473,9 @@ u8_error_t data_database_writer_delete_classifier( data_database_writer_t *this_
 }
 
 u8_error_t data_database_writer_update_classifier_stereotype ( data_database_writer_t *this_,
-                                                                 data_row_id_t classifier_id,
-                                                                 const char* new_classifier_stereotype,
-                                                                 data_classifier_t *out_old_classifier )
+                                                               data_row_id_t classifier_id,
+                                                               const char* new_classifier_stereotype,
+                                                               data_classifier_t *out_old_classifier )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -508,9 +508,9 @@ u8_error_t data_database_writer_update_classifier_stereotype ( data_database_wri
 }
 
 u8_error_t data_database_writer_update_classifier_description ( data_database_writer_t *this_,
-                                                                  data_row_id_t classifier_id,
-                                                                  const char* new_classifier_description,
-                                                                  data_classifier_t *out_old_classifier )
+                                                                data_row_id_t classifier_id,
+                                                                const char* new_classifier_description,
+                                                                data_classifier_t *out_old_classifier )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -543,9 +543,9 @@ u8_error_t data_database_writer_update_classifier_description ( data_database_wr
 }
 
 u8_error_t data_database_writer_update_classifier_name ( data_database_writer_t *this_,
-                                                           data_row_id_t classifier_id,
-                                                           const char* new_classifier_name,
-                                                           data_classifier_t *out_old_classifier )
+                                                         data_row_id_t classifier_id,
+                                                         const char* new_classifier_name,
+                                                         data_classifier_t *out_old_classifier )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -578,9 +578,9 @@ u8_error_t data_database_writer_update_classifier_name ( data_database_writer_t 
 }
 
 u8_error_t data_database_writer_update_classifier_main_type ( data_database_writer_t *this_,
-                                                                data_row_id_t classifier_id,
-                                                                data_classifier_type_t new_classifier_main_type,
-                                                                data_classifier_t *out_old_classifier )
+                                                              data_row_id_t classifier_id,
+                                                              data_classifier_type_t new_classifier_main_type,
+                                                              data_classifier_t *out_old_classifier )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -613,9 +613,9 @@ u8_error_t data_database_writer_update_classifier_main_type ( data_database_writ
 }
 
 u8_error_t data_database_writer_update_classifier_x_order ( data_database_writer_t *this_,
-                                                              data_row_id_t classifier_id,
-                                                              int32_t new_classifier_x_order,
-                                                              data_classifier_t *out_old_classifier )
+                                                            data_row_id_t classifier_id,
+                                                            int32_t new_classifier_x_order,
+                                                            data_classifier_t *out_old_classifier )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -648,9 +648,9 @@ u8_error_t data_database_writer_update_classifier_x_order ( data_database_writer
 }
 
 u8_error_t data_database_writer_update_classifier_y_order ( data_database_writer_t *this_,
-                                                              data_row_id_t classifier_id,
-                                                              int32_t new_classifier_y_order,
-                                                              data_classifier_t *out_old_classifier )
+                                                            data_row_id_t classifier_id,
+                                                            int32_t new_classifier_y_order,
+                                                            data_classifier_t *out_old_classifier )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -683,9 +683,9 @@ u8_error_t data_database_writer_update_classifier_y_order ( data_database_writer
 }
 
 u8_error_t data_database_writer_update_classifier_list_order ( data_database_writer_t *this_,
-                                                                 data_row_id_t classifier_id,
-                                                                 int32_t new_classifier_list_order,
-                                                                 data_classifier_t *out_old_classifier )
+                                                               data_row_id_t classifier_id,
+                                                               int32_t new_classifier_list_order,
+                                                               data_classifier_t *out_old_classifier )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -720,8 +720,8 @@ u8_error_t data_database_writer_update_classifier_list_order ( data_database_wri
 /* ================================ DIAGRAMELEMENT ================================ */
 
 u8_error_t data_database_writer_create_diagramelement( data_database_writer_t *this_,
-                                                         const data_diagramelement_t *diagramelement,
-                                                         data_row_id_t* out_new_id )
+                                                       const data_diagramelement_t *diagramelement,
+                                                       data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
     assert( NULL != diagramelement );
@@ -755,8 +755,8 @@ u8_error_t data_database_writer_create_diagramelement( data_database_writer_t *t
 }
 
 u8_error_t data_database_writer_delete_diagramelement( data_database_writer_t *this_,
-                                                         data_row_id_t obj_id,
-                                                         data_diagramelement_t *out_old_diagramelement )
+                                                       data_row_id_t obj_id,
+                                                       data_diagramelement_t *out_old_diagramelement )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -789,9 +789,9 @@ u8_error_t data_database_writer_delete_diagramelement( data_database_writer_t *t
 }
 
 u8_error_t data_database_writer_update_diagramelement_display_flags ( data_database_writer_t *this_,
-                                                                        data_row_id_t diagramelement_id,
-                                                                        data_diagramelement_flag_t new_display_flags,
-                                                                        data_diagramelement_t *out_old_diagramelement )
+                                                                      data_row_id_t diagramelement_id,
+                                                                      data_diagramelement_flag_t new_display_flags,
+                                                                      data_diagramelement_t *out_old_diagramelement )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -824,9 +824,9 @@ u8_error_t data_database_writer_update_diagramelement_display_flags ( data_datab
 }
 
 u8_error_t data_database_writer_update_diagramelement_focused_feature_id ( data_database_writer_t *this_,
-                                                                             data_row_id_t diagramelement_id,
-                                                                             data_row_id_t new_focused_feature_id,
-                                                                             data_diagramelement_t *out_old_diagramelement )
+                                                                           data_row_id_t diagramelement_id,
+                                                                           data_row_id_t new_focused_feature_id,
+                                                                           data_diagramelement_t *out_old_diagramelement )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -1313,9 +1313,10 @@ u8_error_t data_database_writer_private_execute_create_command ( data_database_w
         sqlite_err = sqlite3_exec( db, sql_statement, NULL, NULL, &error_msg );
         if ( SQLITE_CONSTRAINT == (0xff & sqlite_err) )
         {
+            /* This case happens if id is not unique and/or if a classifier name is not unique*/
             TSLOG_ERROR( "sqlite3_exec() failed due to UNIQUE constraint: sql_statement (see trace)" );
             TRACE_INFO_STR( "sqlite3_exec() failed due to UNIQUE constraint:", sql_statement );
-            result |= U8_ERROR_DUPLICATE_NAME;
+            result |= U8_ERROR_DUPLICATE;
         }
         else if ( SQLITE_OK != sqlite_err )
         {

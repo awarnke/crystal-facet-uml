@@ -284,7 +284,7 @@ u8_error_t ctrl_multi_step_changer_create_diagram ( ctrl_multi_step_changer_t *t
         (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
         data_diagram_set_row_id( new_diagram, new_diagram_id );
     }
-    else if ( create_err == U8_ERROR_DUPLICATE_ID )
+    else if ( (create_err & U8_ERROR_DUPLICATE) == U8_ERROR_DUPLICATE )
     {
         data_diagram_set_row_id( new_diagram, DATA_ROW_ID_VOID );
         const u8_error_t alt_create_err
@@ -337,7 +337,7 @@ u8_error_t ctrl_multi_step_changer_create_diagramelement ( ctrl_multi_step_chang
         (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
         data_diagramelement_set_row_id( new_diagramelement, new_diagramelement_id );
     }
-    else if ( create_err == U8_ERROR_DUPLICATE_ID )
+    else if ( (create_err & U8_ERROR_DUPLICATE) == U8_ERROR_DUPLICATE )
     {
         data_diagramelement_set_row_id( new_diagramelement, DATA_ROW_ID_VOID );
         const u8_error_t alt_create_err
@@ -390,7 +390,7 @@ u8_error_t ctrl_multi_step_changer_create_classifier ( ctrl_multi_step_changer_t
         (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
         data_classifier_set_row_id( new_classifier, new_classifier_id );
     }
-    else if ( create_err == U8_ERROR_DUPLICATE_ID )
+    else if ( (create_err & U8_ERROR_DUPLICATE) == U8_ERROR_DUPLICATE )
     {
         data_classifier_set_row_id( new_classifier, DATA_ROW_ID_VOID );
         const u8_error_t alt_create_err
@@ -403,6 +403,7 @@ u8_error_t ctrl_multi_step_changer_create_classifier ( ctrl_multi_step_changer_t
         {
             (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
             data_classifier_set_row_id( new_classifier, new_classifier_id );
+            *out_info |= U8_ERROR_DUPLICATE_ID;
         }
         else
         {
@@ -412,6 +413,55 @@ u8_error_t ctrl_multi_step_changer_create_classifier ( ctrl_multi_step_changer_t
     else
     {
         result = create_err;
+    }
+
+    if ( (result & U8_ERROR_DUPLICATE) == U8_ERROR_DUPLICATE )
+    {
+        /* find an alternative, unused name */
+        char newname_buf[DATA_CLASSIFIER_MAX_NAME_SIZE];
+        utf8stringbuf_t full_new_name = UTF8STRINGBUF( newname_buf );
+        const unsigned int name_chars = utf8string_get_length( data_classifier_get_name_const( new_classifier ) );
+        const unsigned int keep_chars = (name_chars < DATA_CLASSIFIER_MAX_NAME_LENGTH-4)
+                                        ? name_chars
+                                        : DATA_CLASSIFIER_MAX_NAME_LENGTH-4;
+        {
+            bool name_ok = false;
+            static const int MAX_SEARCH_STEP = 1000;
+            static const int FIRST_STEP = 2;
+            for ( int search_step = FIRST_STEP; ( search_step < MAX_SEARCH_STEP )&&( ! name_ok ); search_step ++ )
+            {
+                utf8error_t trunc_err
+                    = utf8stringbuf_copy_region_from_str( full_new_name,
+                                                          data_classifier_get_name_const( new_classifier ),
+                                                          0,  /* start */
+                                                          keep_chars  /* length */
+                                                        );
+                trunc_err |= utf8stringbuf_append_str( full_new_name, "'" );
+                trunc_err |= utf8stringbuf_append_int( full_new_name, search_step );
+                data_classifier_set_name( new_classifier, utf8stringbuf_get_string( full_new_name ) );
+                if ( trunc_err != UTF8ERROR_SUCCESS )
+                {
+                    TRACE_INFO_STR("Name truncated at search for alternative:", utf8stringbuf_get_string( full_new_name ) );
+                }
+
+                result = ctrl_classifier_controller_create_classifier( classifier_ctrl,
+                                                                       new_classifier,
+                                                                       (*this_).is_first_step,
+                                                                       &new_classifier_id
+                                                                     );
+                if ( result == U8_ERROR_NONE )
+                {
+                    name_ok = true;  /* name unused */
+                    (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
+                    data_classifier_set_row_id( new_classifier, new_classifier_id );
+                    *out_info |= U8_ERROR_DUPLICATE_NAME;
+                }
+                else
+                {
+                    name_ok = false;  /* name already in use */
+                }
+            }
+        }
     }
 
     TRACE_END_ERR( result );
@@ -443,7 +493,7 @@ u8_error_t ctrl_multi_step_changer_create_feature ( ctrl_multi_step_changer_t *t
         (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
         data_feature_set_row_id( new_feature, new_feature_id );
     }
-    else if ( create_err == U8_ERROR_DUPLICATE_ID )
+    else if ( (create_err & U8_ERROR_DUPLICATE) == U8_ERROR_DUPLICATE )
     {
         data_feature_set_row_id( new_feature, DATA_ROW_ID_VOID );
         const u8_error_t alt_create_err
@@ -496,7 +546,7 @@ u8_error_t ctrl_multi_step_changer_create_relationship ( ctrl_multi_step_changer
         (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
         data_relationship_set_row_id( new_relationship, new_relationship_id );
     }
-    else if ( create_err == U8_ERROR_DUPLICATE_ID )
+    else if ( (create_err & U8_ERROR_DUPLICATE) == U8_ERROR_DUPLICATE )
     {
         data_relationship_set_row_id( new_relationship, DATA_ROW_ID_VOID );
         const u8_error_t alt_create_err

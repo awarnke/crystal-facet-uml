@@ -58,7 +58,9 @@ typedef struct io_import_elements_struct io_import_elements_t;
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader
  *  \param controller pointer to a controller object which can modify the database
- *  \param io_stat Statistics are only added, *io_stat shall be initialized by caller
+ *  \param io_stat Statistics are only added, *io_stat shall be initialized by caller.
+ *                 In case the element can be created but id or name have to be adapted to be unique,
+ *                 a warning is added.
  */
 void io_import_elements_init( io_import_elements_t *this_,
                               data_database_reader_t *db_reader,
@@ -73,7 +75,9 @@ void io_import_elements_init( io_import_elements_t *this_,
  *  \param paste_to_diagram the parent diagram where pasted objects shall be attached to
  *  \param db_reader pointer to a database reader
  *  \param controller pointer to a controller object which can modify the database
- *  \param io_stat Statistics are only added, *io_stat shall be initialized by caller
+ *  \param io_stat Statistics are only added, *io_stat shall be initialized by caller.
+ *                 In case the element can be created but id or name have to be adapted to be unique,
+ *                 a warning is added.
  */
 void io_import_elements_init_for_paste( io_import_elements_t *this_,
                                          data_row_id_t paste_to_diagram,

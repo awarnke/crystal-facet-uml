@@ -141,7 +141,8 @@ u8_error_t data_database_writer_update_diagram_list_order ( data_database_writer
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_parent_id new parent diagram id of the diagram
- *  \param[out] out_old_diagram storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_diagram storage, where the contents of the old, unmodified record is stored.
+ *                              NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t data_database_writer_update_diagram_parent_id ( data_database_writer_t *this_, data_row_id_t diagram_id, data_row_id_t new_diagram_parent_id, data_diagram_t *out_old_diagram );
@@ -152,7 +153,8 @@ u8_error_t data_database_writer_update_diagram_parent_id ( data_database_writer_
  *  \brief creates a new classifier and returns its id
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier data of the new classifier record to be created. The id should be DATA_ROW_ID_VOID unless a classifier with known, unique id shall be created.
+ *  \param classifier data of the new classifier record to be created.
+ *                    The id should be DATA_ROW_ID_VOID unless a classifier with known, unique id shall be created.
  *  \param[out] out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
@@ -165,7 +167,8 @@ u8_error_t data_database_writer_create_classifier( data_database_writer_t *this_
  *
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the classifier record to be deleted.
- *  \param[out] out_old_classifier storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_classifier storage, where the contents of the deleted, old record is stored.
+ *                                 NULL if old data shall not be returned.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
 u8_error_t data_database_writer_delete_classifier( data_database_writer_t *this_, data_row_id_t obj_id, data_classifier_t *out_old_classifier );
@@ -176,7 +179,8 @@ u8_error_t data_database_writer_delete_classifier( data_database_writer_t *this_
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_stereotype new stereotype text of the classifier
- *  \param[out] out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \param[out] out_old_classifier storage, where the contents of the old, unmodified record is stored.
+ *                                 NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t data_database_writer_update_classifier_stereotype ( data_database_writer_t *this_, data_row_id_t classifier_id, const char* new_classifier_stereotype, data_classifier_t *out_old_classifier );
@@ -444,7 +448,7 @@ u8_error_t data_database_writer_update_relationship_list_order ( data_database_w
  *  \param this_ pointer to own object attributes
  *  \param sql_statement statement to be executed.
  *  \param[out] out_new_id if fetch_new_id, the id of the newly created row is returned
- *  \return U8_ERROR_NONE in case of success, an error id otherwise; U8_ERROR_READ_ONLY_DB if read only
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_DUPLICATE if a key is not unique; U8_ERROR_READ_ONLY_DB if read only
  */
 u8_error_t data_database_writer_private_execute_create_command ( data_database_writer_t *this_, const char* sql_statement, data_row_id_t* out_new_id );
 

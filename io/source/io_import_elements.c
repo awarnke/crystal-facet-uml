@@ -221,6 +221,10 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
                                  DATA_TABLE_CLASSIFIER,
                                  (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                );
+            if ( (U8_ERROR_DUPLICATE_NAME & modified_info) == U8_ERROR_DUPLICATE_NAME )
+            {
+                data_stat_inc_count( (*this_).stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
+            }
 
             if ( U8_ERROR_NONE != sync_error )
             {

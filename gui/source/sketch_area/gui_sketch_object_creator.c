@@ -2,6 +2,7 @@
 
 #include "sketch_area/gui_sketch_object_creator.h"
 #include "util/geometry/geometry_rectangle.h"
+//#include "ctrl_multi_step_changer.h"
 #include "data_table.h"
 #include "data_id.h"
 #include "trace.h"
@@ -37,11 +38,11 @@ void gui_sketch_object_creator_destroy ( gui_sketch_object_creator_t *this_ )
 }
 
 u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creator_t *this_,
-                                                           data_row_id_t diagram_id,
-                                                           int32_t x_order,
-                                                           int32_t y_order,
-                                                           data_row_id_t *out_diagramelement_id,
-                                                           data_row_id_t *out_classifier_id )
+                                                         data_row_id_t diagram_id,
+                                                         int32_t x_order,
+                                                         int32_t y_order,
+                                                         data_row_id_t *out_diagramelement_id,
+                                                         data_row_id_t *out_classifier_id )
 {
     TRACE_BEGIN();
     assert ( NULL != out_classifier_id );
@@ -80,6 +81,11 @@ u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creat
     /* determine type of new classifier */
     data_classifier_type_t type_of_new_classifier;
     type_of_new_classifier = data_rules_get_default_classifier_type( &((*this_).data_rules), diag_type );
+
+    /* propose a name */
+    // char newname_buf[DATA_CLASSIFIER_MAX_NAME_SIZE];
+    // utf8stringbuf_t full_new_name = UTF8STRINGBUF( newname_buf );
+    // gui_sketch_object_creator_private_propose_classifier_name( this_, type_of_new_classifier, full_new_name );
 
     /* find a good, unused name */
     char newname_buf[DATA_CLASSIFIER_MAX_NAME_SIZE];
@@ -129,11 +135,17 @@ u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creat
         TSLOG_ERROR_HEX("data_classifier_init_new failed in gui_sketch_object_creator_create_classifier:",d_err);
     }
 
+    // ctrl_multi_step_changer_t multi_stepper;
+    // ctrl_multi_step_changer_init( &multi_stepper, &controller, &db_reader );
+    // u8_error_t* out_info;
+
     c_result = ctrl_classifier_controller_create_classifier ( classifier_control,
                                                               &((*this_).private_temp_classifier),
                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                               out_classifier_id
                                                             );
+
+    // ctrl_multi_step_changer_destroy( &multi_stepper );
 
     if ( U8_ERROR_NONE == c_result )
     {
@@ -171,13 +183,13 @@ u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creat
 }
 
 u8_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_object_creator_t *this_,
-                                                                    data_row_id_t diagram_id,
-                                                                    data_row_id_t parent_classifier_id,
-                                                                    int32_t x_order,
-                                                                    int32_t y_order,
-                                                                    data_row_id_t *out_diagramelement_id,
-                                                                    data_row_id_t *out_classifier_id,
-                                                                    data_row_id_t *out_relationship_id )
+                                                                  data_row_id_t diagram_id,
+                                                                  data_row_id_t parent_classifier_id,
+                                                                  int32_t x_order,
+                                                                  int32_t y_order,
+                                                                  data_row_id_t *out_diagramelement_id,
+                                                                  data_row_id_t *out_classifier_id,
+                                                                  data_row_id_t *out_relationship_id )
 {
     TRACE_BEGIN();
     assert ( NULL != out_classifier_id );
@@ -235,9 +247,9 @@ u8_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_obj
 }
 
 u8_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creator_t *this_,
-                                                        data_row_id_t parent_diagram_id,
-                                                        int32_t list_order,
-                                                        data_row_id_t *out_diagram_id )
+                                                      data_row_id_t parent_diagram_id,
+                                                      int32_t list_order,
+                                                      data_row_id_t *out_diagram_id )
 {
     TRACE_BEGIN();
     assert ( NULL != out_diagram_id );
@@ -291,13 +303,13 @@ u8_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creator_
 }
 
 u8_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_creator_t *this_,
-                                                             data_diagram_type_t diag_type,
-                                                             data_row_id_t from_classifier_id,
-                                                             data_row_id_t from_feature_id,
-                                                             data_row_id_t to_classifier_id,
-                                                             data_row_id_t to_feature_id,
-                                                             int32_t list_order,
-                                                             data_row_id_t *out_relationship_id )
+                                                           data_diagram_type_t diag_type,
+                                                           data_row_id_t from_classifier_id,
+                                                           data_row_id_t from_feature_id,
+                                                           data_row_id_t to_classifier_id,
+                                                           data_row_id_t to_feature_id,
+                                                           int32_t list_order,
+                                                           data_row_id_t *out_relationship_id )
 {
     TRACE_BEGIN();
     assert ( NULL != out_relationship_id );
@@ -412,11 +424,11 @@ u8_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_cre
 }
 
 u8_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_t *this_,
-                                                        data_diagram_type_t diag_type,
-                                                        data_row_id_t parent_classifier_id,
-                                                        int32_t std_list_order,
-                                                        int32_t port_list_order,
-                                                        data_row_id_t *out_feature_id )
+                                                      data_diagram_type_t diag_type,
+                                                      data_row_id_t parent_classifier_id,
+                                                      int32_t std_list_order,
+                                                      int32_t port_list_order,
+                                                      data_row_id_t *out_feature_id )
 {
     TRACE_BEGIN();
     assert ( NULL != out_feature_id );
