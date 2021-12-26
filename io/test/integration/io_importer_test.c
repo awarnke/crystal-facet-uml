@@ -230,8 +230,7 @@ static const char *const test_json_no_diag =
     "            \"key\": \"\",\n"
     "            \"value\": \"\",\n"
     "            \"description\": [ \"i am a lifeline\" ],\n"
-    "            \"list_order\": 0,\n"
-    "            \"uuid\": \"67c2bc6d-ddc7-458a-80f1-be353c197381\"\n"
+    "            \"list_order\": 0\n"
     "          },\n"
     "          {\n"
     "            \"id\": 11,\n"
@@ -239,7 +238,8 @@ static const char *const test_json_no_diag =
     "            \"key\": \"new_get_mode\",\n"
     "            \"value\": \"enum\",\n"
     "            \"description\": [ ],\n"
-    "            \"list_order\": 425984\n"
+    "            \"list_order\": 425984,\n"
+    "            \"uuid\": \"67c2bc6d-ddc7-458a-80f1-be353c197381\"\n"
     "          }\n"
     "        ]\n"
     "      }\n"
@@ -289,7 +289,7 @@ static void insert_invalid_json(void)
     TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
     TEST_ASSERT_EQUAL_INT( read_line, 2 );
     /* error happens at char 24 according to the log */
-    /* but this happens in json_deserializer_get_type_of_next_element which does not advance the read pos */
+    /* but this happens in json_element_reader_get_type_of_next_element which does not advance the read pos */
 
     static const char *json_text_l = "{\"head\":{},\"views\":[{\"diagram\":\nnullnul\n}]}";
     data_err = io_importer_import_clipboard( &importer,
@@ -463,18 +463,18 @@ static void insert_existing_classifier_to_existing_diagram(void)
         TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
-        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
-        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING ) );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
         /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
         /* DATA_TABLE_FEATURE a feature of an already existing classifier is dropped */
-        TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING ) );
         /* DATA_TABLE_RELATIONSHIP: no names of auto-generated lifelines are mentioned, therefore only unconditional relationships */
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
         /* DATA_TABLE_RELATIONSHIP: source does not exist */
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ) );
-        TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
+        TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );
         TEST_ASSERT_EQUAL_INT( 64, read_pos );
 
         data_stat_destroy(&stat);
@@ -517,7 +517,7 @@ static void insert_existing_classifier_to_new_diagram(void)
                                                );
         TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
+        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED ) );
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
@@ -529,7 +529,7 @@ static void insert_existing_classifier_to_new_diagram(void)
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
         /* DATA_TABLE_RELATIONSHIP: destination does not exist */
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ) );
-        TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );
+        TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
         TEST_ASSERT_EQUAL_INT( 87, read_pos );
 
         data_stat_destroy(&stat);

@@ -8,7 +8,7 @@
  *  \brief Deserializes a set of objects from the clipboard
  */
 
-#include "json/json_deserializer.h"
+#include "json/json_element_reader.h"
 #include "io_import_elements.h"
 #include "data_rules.h"
 #include "set/data_stat.h"
@@ -32,7 +32,7 @@ enum json_importer_max_enum {
 struct json_importer_struct {
     data_rules_t data_rules;  /*!< own instance of uml and sysml consistency rules */
 
-    json_deserializer_t temp_deserializer;  /*!< own instance of a json element deserializer */
+    json_element_reader_t temp_element_reader;  /*!< own instance of a json element deserializer */
     io_import_elements_t *elements_importer;  /*!< pointer to external db-element sync to database */
 
     data_stat_t *stat;  /*!< pointer to import statistics */
@@ -46,8 +46,7 @@ typedef struct json_importer_struct json_importer_t;
  *  \brief initializes the json_importer_t struct
  *
  *  \param this_ pointer to own object attributes
- *  \param db_reader pointer to a database reader
- *  \param controller pointer to a controller object which can modify the database
+ *  \param elements_importer pointer to an object that synchronizes the json-object with the database
  *  \param io_stat undefined in case of an error in the return value,
  *                 otherwise statistics on DATA_STAT_SERIES_CREATED,
  *                 DATA_STAT_SERIES_MODIFIED (e.g. in future) and

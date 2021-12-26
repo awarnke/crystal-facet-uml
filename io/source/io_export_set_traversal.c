@@ -2,7 +2,7 @@
 
 #include "io_export_set_traversal.h"
 
-#include "json/json_deserializer.h"
+#include "json/json_element_reader.h"
 #include "util/string/utf8string.h"
 #include "stream/universal_memory_output_stream.h"
 #include "trace.h"

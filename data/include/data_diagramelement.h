@@ -179,6 +179,14 @@ static inline data_id_t data_diagramelement_get_data_id ( const data_diagramelem
 static inline data_row_id_t data_diagramelement_get_diagram_row_id ( const data_diagramelement_t *this_ );
 
 /*!
+ *  \brief sets the attribute diagram_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id new diagram_id of this object
+ */
+static inline void data_diagramelement_set_diagram_row_id ( data_diagramelement_t *this_, data_row_id_t diagram_id );
+
+/*!
  *  \brief gets the data_id derived from the attribute diagram_id
  *
  *  \param this_ pointer to own object attributes
@@ -193,6 +201,14 @@ static inline data_id_t data_diagramelement_get_diagram_data_id ( const data_dia
  *  \return attribute classifier_id, DATA_ROW_ID_VOID if the referenced classifier is not valid
  */
 static inline data_row_id_t data_diagramelement_get_classifier_row_id ( const data_diagramelement_t *this_ );
+
+/*!
+ *  \brief sets the attribute classifier_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id new classifier_id of this object
+ */
+static inline void data_diagramelement_set_classifier_row_id ( data_diagramelement_t *this_, data_row_id_t classifier_id );
 
 /*!
  *  \brief gets the data_id derived from the attribute classifier_id

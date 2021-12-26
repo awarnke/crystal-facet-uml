@@ -136,6 +136,11 @@ static inline data_row_id_t data_diagramelement_get_diagram_row_id ( const data_
     return (*this_).diagram_id;
 }
 
+static inline void data_diagramelement_set_diagram_row_id ( data_diagramelement_t *this_, data_row_id_t diagram_id )
+{
+    (*this_).diagram_id = diagram_id;
+}
+
 static inline data_id_t data_diagramelement_get_diagram_data_id ( const data_diagramelement_t *this_ )
 {
     data_id_t result;
@@ -146,6 +151,11 @@ static inline data_id_t data_diagramelement_get_diagram_data_id ( const data_dia
 static inline data_row_id_t data_diagramelement_get_classifier_row_id ( const data_diagramelement_t *this_ )
 {
     return (*this_).classifier_id;
+}
+
+static inline void data_diagramelement_set_classifier_row_id ( data_diagramelement_t *this_, data_row_id_t classifier_id )
+{
+    (*this_).classifier_id = classifier_id;
 }
 
 static inline data_id_t data_diagramelement_get_classifier_data_id ( const data_diagramelement_t *this_ )

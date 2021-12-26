@@ -297,6 +297,7 @@ u8_error_t ctrl_multi_step_changer_create_diagram ( ctrl_multi_step_changer_t *t
         {
             (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
             data_diagram_set_row_id( new_diagram, new_diagram_id );
+            *out_info |= U8_ERROR_DUPLICATE_ID;
         }
         else
         {
@@ -350,6 +351,7 @@ u8_error_t ctrl_multi_step_changer_create_diagramelement ( ctrl_multi_step_chang
         {
             (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
             data_diagramelement_set_row_id( new_diagramelement, new_diagramelement_id );
+            *out_info |= U8_ERROR_DUPLICATE_ID;
         }
         else
         {
@@ -506,6 +508,7 @@ u8_error_t ctrl_multi_step_changer_create_feature ( ctrl_multi_step_changer_t *t
         {
             (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
             data_feature_set_row_id( new_feature, new_feature_id );
+            *out_info |= U8_ERROR_DUPLICATE_ID;
         }
         else
         {
@@ -559,6 +562,7 @@ u8_error_t ctrl_multi_step_changer_create_relationship ( ctrl_multi_step_changer
         {
             (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
             data_relationship_set_row_id( new_relationship, new_relationship_id );
+            *out_info |= U8_ERROR_DUPLICATE_ID;
         }
         else
         {

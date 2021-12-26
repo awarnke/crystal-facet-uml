@@ -1,7 +1,7 @@
 /* File: io_importer.c; Copyright and License: see below */
 
 #include "io_importer.h"
-#include "json/json_deserializer.h"
+#include "json/json_element_reader.h"
 #include "stream/universal_file_input_stream.h"
 #include "stream/universal_memory_input_stream.h"
 #include "u8/u8_error.h"

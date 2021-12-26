@@ -1,7 +1,7 @@
-/* File: json_deserializer.h; Copyright and License: see below */
+/* File: json_element_reader.h; Copyright and License: see below */
 
-#ifndef JSON_DESERIALIZER_H
-#define JSON_DESERIALIZER_H
+#ifndef JSON_ELEMENT_READER_H
+#define JSON_ELEMENT_READER_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -12,12 +12,14 @@
  */
 
 #include "json/json_token_reader.h"
+#include "io_import_elements.h"
 #include "u8/u8_error.h"
 #include "data_table.h"
 #include "data_classifier.h"
-#include "data_diagram.h"
 #include "data_feature.h"
 #include "data_relationship.h"
+#include "data_diagram.h"
+#include "data_diagramelement.h"
 #include "stream/universal_input_stream.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdbool.h>
@@ -32,37 +34,53 @@
  *  Lifecycle: A json deserializer shall perform a single import operation only.
  *  It may be initialized before one import operation and be destroyed afterwards.
  */
-struct json_deserializer_struct {
+struct json_element_reader_struct {
     json_token_reader_t tokenizer;  /*!< own token_reader instance to consecutively fetch tokens from the json input file */
     bool after_first_array_entry;  /*!< true if the first array entry has already been parsed */
     utf8stringbuf_t temp_string;  /*!< a local buffer to buffer streamed strings before assigning them to data objects */
     char temp_string_buffer[DATA_DIAGRAM_MAX_DESCRIPTION_SIZE];
+
+    data_diagram_t temp_diagram;  /*!< memory buffer to store a diagram temporarily when reading a json object */
+    data_diagramelement_t temp_diagramelement;  /*!< memory buffer to store a diagramelement temporarily when reading a json object */
+    data_classifier_t temp_classifier;  /*!< memory buffer to store a classifier temporarily when reading a json object */
+    data_feature_t temp_feature;  /*!< memory buffer to store a feature temporarily when reading a json object */
+    data_relationship_t temp_relationship;  /*!< memory buffer to store a relationship temporarily when reading a json object */
+
+    io_import_elements_t *elements_importer;  /*!< pointer to external db-element sync to database */
 };
 
-typedef struct json_deserializer_struct json_deserializer_t;
+typedef struct json_element_reader_struct json_element_reader_t;
 
 /*!
- *  \brief initializes the json_deserializer_t struct
+ *  \brief initializes the json_element_reader_t struct
  *
  *  \param this_ pointer to own object attributes
  *  \param in_data json text to be parsed
+ *  \param elements_importer pointer to an object that synchronizes the json-object with the database
  */
-void json_deserializer_init ( json_deserializer_t *this_, universal_input_stream_t *in_data );
+void json_element_reader_init ( json_element_reader_t *this_,
+                                universal_input_stream_t *in_data,
+                                io_import_elements_t *elements_importer
+                              );
 
 /*!
- *  \brief re-initializes the json_deserializer_t struct
+ *  \brief re-initializes the json_element_reader_t struct
  *
  *  \param this_ pointer to own object attributes
  *  \param in_data json text to be parsed
+ *  \param elements_importer pointer to an object that synchronizes the json-object with the database
  */
-void json_deserializer_reinit ( json_deserializer_t *this_, universal_input_stream_t *in_data );
+void json_element_reader_reinit ( json_element_reader_t *this_,
+                                  universal_input_stream_t *in_data,
+                                  io_import_elements_t *elements_importer
+                                );
 
 /*!
- *  \brief destroys the json_deserializer_t struct
+ *  \brief destroys the json_element_reader_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-void json_deserializer_destroy ( json_deserializer_t *this_ );
+void json_element_reader_destroy ( json_element_reader_t *this_ );
 
 /*!
  *  \brief checks that the header of the json data is valid
@@ -72,7 +90,7 @@ void json_deserializer_destroy ( json_deserializer_t *this_ );
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
  */
-u8_error_t json_deserializer_expect_header ( json_deserializer_t *this_ );
+u8_error_t json_element_reader_expect_header ( json_element_reader_t *this_ );
 
 /*!
  *  \brief checks that the footer/ending of the json data is valid
@@ -82,7 +100,7 @@ u8_error_t json_deserializer_expect_header ( json_deserializer_t *this_ );
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
  */
-u8_error_t json_deserializer_expect_footer ( json_deserializer_t *this_ );
+u8_error_t json_element_reader_expect_footer ( json_element_reader_t *this_ );
 
 /*!
  *  \brief checks that the beginning of the json data is valid
@@ -92,7 +110,7 @@ u8_error_t json_deserializer_expect_footer ( json_deserializer_t *this_ );
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
  */
-u8_error_t json_deserializer_expect_begin_data ( json_deserializer_t *this_ );
+u8_error_t json_element_reader_expect_begin_data ( json_element_reader_t *this_ );
 
 /*!
  *  \brief checks if the data array is at end.
@@ -105,7 +123,7 @@ u8_error_t json_deserializer_expect_begin_data ( json_deserializer_t *this_ );
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
  */
-u8_error_t json_deserializer_check_end_data ( json_deserializer_t *this_, bool* out_end );
+u8_error_t json_element_reader_check_end_data ( json_element_reader_t *this_, bool* out_end );
 
 /*!
  *  \brief determines the type of object which is contained in this object
@@ -120,7 +138,7 @@ u8_error_t json_deserializer_check_end_data ( json_deserializer_t *this_, bool* 
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
  */
-u8_error_t json_deserializer_expect_begin_type_of_element ( json_deserializer_t *this_, data_table_t *out_type );
+u8_error_t json_element_reader_expect_begin_type_of_element ( json_element_reader_t *this_, data_table_t *out_type );
 
 /*!
  *  \brief checks that the ending of the json type-object is valid
@@ -130,7 +148,7 @@ u8_error_t json_deserializer_expect_begin_type_of_element ( json_deserializer_t 
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
  */
-u8_error_t json_deserializer_expect_end_type_of_element ( json_deserializer_t *this_ );
+u8_error_t json_element_reader_expect_end_type_of_element ( json_element_reader_t *this_ );
 
 /*!
  *  \brief parses the next object as classifier
@@ -145,7 +163,7 @@ u8_error_t json_deserializer_expect_end_type_of_element ( json_deserializer_t *t
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
  */
-u8_error_t json_deserializer_get_next_classifier ( json_deserializer_t *this_,
+u8_error_t json_element_reader_get_next_classifier ( json_element_reader_t *this_,
                                                      data_classifier_t *out_object,
                                                      uint32_t max_out_array_size,
                                                      data_feature_t (*out_feature)[],
@@ -165,8 +183,9 @@ u8_error_t json_deserializer_get_next_classifier ( json_deserializer_t *this_,
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
  */
-u8_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_,
-                                                  data_diagram_t *out_object,                                                      utf8stringbuf_t out_parent_uuid
+u8_error_t json_element_reader_get_next_diagram ( json_element_reader_t *this_,
+                                                  data_diagram_t *out_object,
+                                                  utf8stringbuf_t out_parent_uuid
                                                 );
 
 /*!
@@ -185,7 +204,7 @@ u8_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_,
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
  */
-u8_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this_,
+u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *this_,
                                                        data_relationship_t *out_object,
                                                        utf8stringbuf_t out_from_node_uuid,
                                                        utf8stringbuf_t out_to_node_uuid
@@ -199,7 +218,7 @@ u8_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this_,
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
  */
-u8_error_t json_deserializer_skip_next_object ( json_deserializer_t *this_ );
+u8_error_t json_element_reader_skip_next_object ( json_element_reader_t *this_ );
 
 /*!
  *  \brief skips the next string, e.g. a key or string-value of no interest
@@ -209,7 +228,7 @@ u8_error_t json_deserializer_skip_next_object ( json_deserializer_t *this_ );
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
  */
-u8_error_t json_deserializer_skip_next_string ( json_deserializer_t *this_ );
+u8_error_t json_element_reader_skip_next_string ( json_element_reader_t *this_ );
 
 /*!
  *  \brief gets the line number at the current read position
@@ -219,7 +238,7 @@ u8_error_t json_deserializer_skip_next_string ( json_deserializer_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param out_read_pos pointer to storage location for the result. Must not be NULL.
  */
-void json_deserializer_get_read_line ( json_deserializer_t *this_, uint32_t *out_read_pos );
+void json_element_reader_get_read_line ( json_element_reader_t *this_, uint32_t *out_read_pos );
 
 /*!
  *  \brief parses the next feature array
@@ -233,7 +252,7 @@ void json_deserializer_get_read_line ( json_deserializer_t *this_, uint32_t *out
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
  */
-u8_error_t json_deserializer_private_get_next_feature_array ( json_deserializer_t *this_,
+u8_error_t json_element_reader_private_get_next_feature_array ( json_element_reader_t *this_,
                                                                 uint32_t max_out_array_size,
                                                                 data_feature_t (*out_feature)[],
                                                                 uint32_t *out_feature_count
@@ -251,7 +270,7 @@ u8_error_t json_deserializer_private_get_next_feature_array ( json_deserializer_
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
  */
-u8_error_t json_deserializer_private_get_next_feature ( json_deserializer_t *this_, data_feature_t *out_object );
+u8_error_t json_element_reader_private_get_next_feature ( json_element_reader_t *this_, data_feature_t *out_object );
 
 /*!
  *  \brief parses the next diagramelement array
@@ -262,7 +281,21 @@ u8_error_t json_deserializer_private_get_next_feature ( json_deserializer_t *thi
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
  */
-u8_error_t json_deserializer_private_skip_next_diagramelement_array ( json_deserializer_t *this_ );
+u8_error_t json_element_reader_private_get_next_diagramelement_array ( json_element_reader_t *this_ );
+
+/*!
+ *  \brief parses the next object as diagramelement
+ *
+ *  This function may only be called from within parsing a diagram.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param out_object pointer to storage location for the result. Must not be NULL.
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
+ *          U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
+ */
+u8_error_t json_element_reader_private_get_next_diagramelement ( json_element_reader_t *this_, data_diagramelement_t *out_object );
 
 /*!
  *  \brief parses an array of strings and merges the entries
@@ -274,11 +307,11 @@ u8_error_t json_deserializer_private_skip_next_diagramelement_array ( json_deser
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
  */
-u8_error_t json_deserializer_private_read_string_array ( json_deserializer_t *this_,
+u8_error_t json_element_reader_private_read_string_array ( json_element_reader_t *this_,
                                                            utf8stringbuf_t out_joined_string
                                                          );
 
-#endif  /* JSON_DESERIALIZER_H */
+#endif  /* JSON_ELEMENT_READER_H */
 
 
 /*

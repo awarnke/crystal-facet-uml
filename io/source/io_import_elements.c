@@ -177,6 +177,7 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
 
     if ( (*this_).mode != IO_IMPORT_MODE_CHECK )
     {
+        data_stat_inc_count( (*this_).stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED );
     }
 
     TRACE_END_ERR( sync_error );
@@ -203,10 +204,9 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
     {
         /* check if the parsed classifier already exists in this database; if not, create it */
         u8_error_t read_error;
-        data_classifier_t existing_classifier;
         read_error = data_database_reader_get_classifier_by_uuid( (*this_).db_reader,
                                                                   data_classifier_get_uuid_const( classifier_ptr ),
-                                                                  &existing_classifier
+                                                                  &((*this_).temp_classifier)
                                                                 );
         const bool classifier_exists = ( U8_ERROR_NONE == read_error );
 
@@ -244,7 +244,8 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
                                  DATA_TABLE_CLASSIFIER,
                                  DATA_STAT_SERIES_IGNORED
                                );
-            TRACE_INFO_INT( "classifier did already exist:", data_classifier_get_row_id( &existing_classifier ) );
+            TRACE_INFO_INT( "classifier did already exist:", data_classifier_get_row_id( &((*this_).temp_classifier) ) );
+            data_classifier_destroy( &((*this_).temp_classifier) );
         }
     }
 
