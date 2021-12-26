@@ -48,7 +48,7 @@ u8_error_t json_importer_import_stream( json_importer_t *this_,
 
     u8_error_t sync_error = U8_ERROR_NONE;
 
-    json_element_reader_init( &((*this_).temp_element_reader), json_text, (*this_).elements_importer );
+    json_element_reader_init( &((*this_).temp_element_reader), json_text );
 
     /* read header */
     if ( U8_ERROR_NONE == sync_error )
@@ -91,14 +91,14 @@ u8_error_t json_importer_private_import_views( json_importer_t *this_ )
 
     if ( U8_ERROR_NONE == sync_error )
     {
-        sync_error = json_element_reader_expect_begin_data( &((*this_).temp_element_reader) );
+        sync_error = json_element_reader_expect_begin_top_array( &((*this_).temp_element_reader) );
     }
 
     if ( U8_ERROR_NONE == sync_error )
     {
         data_table_t next_object_type;
         bool set_end = false;  /* end of data set reached or error at parsing */
-        sync_error = json_element_reader_check_end_data( &((*this_).temp_element_reader), &set_end );
+        sync_error = json_element_reader_check_end_top_array( &((*this_).temp_element_reader), &set_end );
         static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* do not import more things than can be undone */
         for ( int count = 0; ( ! set_end ) && ( sync_error == U8_ERROR_NONE ) && ( count < MAX_LOOP_COUNTER ); count ++ )
         {
@@ -116,20 +116,30 @@ u8_error_t json_importer_private_import_views( json_importer_t *this_ )
 
                     case DATA_TABLE_DIAGRAM:
                     {
-                        data_diagram_t new_diagram;
+                        data_diagram_init_empty( &((*this_).temp_diagram) );
                         char diag_parent_buf[DATA_UUID_STRING_SIZE] = "";
                         utf8stringbuf_t diag_parent_uuid = UTF8STRINGBUF(diag_parent_buf);
+                        bool has_diagramelements;
                         sync_error = json_element_reader_get_next_diagram( &((*this_).temp_element_reader),
-                                                                           &new_diagram,
-                                                                           diag_parent_uuid
+                                                                           &((*this_).temp_diagram),
+                                                                           diag_parent_uuid,
+                                                                           &has_diagramelements
                                                                          );
                         if ( U8_ERROR_NONE == sync_error )
                         {
                             sync_error = io_import_elements_sync_diagram( (*this_).elements_importer,
-                                                                          &new_diagram,
+                                                                          &((*this_).temp_diagram),
                                                                           utf8stringbuf_get_string( diag_parent_uuid )
                                                                         );
-                            data_diagram_destroy( &new_diagram );
+
+                            if ( has_diagramelements )
+                            {
+                                const char *const diag_uuid = data_diagram_get_uuid_const( &((*this_).temp_diagram) );
+                                sync_error |= json_importer_private_import_diagramelement_array( this_, diag_uuid );
+                                sync_error |= json_element_reader_end_unfinished_object( &((*this_).temp_element_reader) );
+                            }
+
+                            data_diagram_destroy( &((*this_).temp_diagram) );
                         }
                     }
                     break;
@@ -148,7 +158,7 @@ u8_error_t json_importer_private_import_views( json_importer_t *this_ )
 
             if ( U8_ERROR_NONE == sync_error )
             {
-                sync_error = json_element_reader_check_end_data( &((*this_).temp_element_reader), &set_end );
+                sync_error = json_element_reader_check_end_top_array( &((*this_).temp_element_reader), &set_end );
             }
         }
     }
@@ -165,14 +175,14 @@ u8_error_t json_importer_private_import_nodes( json_importer_t *this_ )
 
     if ( U8_ERROR_NONE == sync_error )
     {
-        sync_error = json_element_reader_expect_begin_data( &((*this_).temp_element_reader) );
+        sync_error = json_element_reader_expect_begin_top_array( &((*this_).temp_element_reader) );
     }
 
     if ( U8_ERROR_NONE == sync_error )
     {
         data_table_t next_object_type;
         bool set_end = false;  /* end of data set reached or error at parsing */
-        sync_error = json_element_reader_check_end_data( &((*this_).temp_element_reader), &set_end );
+        sync_error = json_element_reader_check_end_top_array( &((*this_).temp_element_reader), &set_end );
         static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* do not import more things than can be undone */
         for ( int count = 0; ( ! set_end ) && ( sync_error == U8_ERROR_NONE ) && ( count < MAX_LOOP_COUNTER ); count ++ )
         {
@@ -190,34 +200,25 @@ u8_error_t json_importer_private_import_nodes( json_importer_t *this_ )
 
                     case DATA_TABLE_CLASSIFIER:
                     {
-                        data_classifier_t new_classifier;
-                        uint32_t feature_count;
+                        data_classifier_init_empty( &((*this_).temp_classifier) );
+                        bool has_features;
                         sync_error = json_element_reader_get_next_classifier( &((*this_).temp_element_reader),
-                                                                              &new_classifier,
-                                                                              JSON_IMPORT_TO_DATABASE_MAX_FEATURES,
-                                                                              &((*this_).temp_features),
-                                                                              &feature_count
+                                                                              &((*this_).temp_classifier),
+                                                                              &has_features
                                                                             );
                         if ( U8_ERROR_NONE == sync_error )
                         {
                             sync_error = io_import_elements_sync_classifier( (*this_).elements_importer,
-                                                                             &new_classifier );
+                                                                             &((*this_).temp_classifier) );
 
-                            if ( sync_error == U8_ERROR_NONE )
+                            if ( has_features )
                             {
-                                /* create also the features */
-                                for ( int f_index = 0; f_index < feature_count; f_index ++ )
-                                {
-                                    data_feature_t *current_feature = &((*this_).temp_features[f_index]);
-
-                                    sync_error |= io_import_elements_sync_feature( (*this_).elements_importer,
-                                                                                   current_feature,
-                                                                                   data_classifier_get_uuid_const( &new_classifier )
-                                                                                 );
-                                }
+                                const char *const class_uuid = data_classifier_get_uuid_const( &((*this_).temp_classifier) );
+                                sync_error |= json_importer_private_import_feature_array( this_, class_uuid );
+                                sync_error |= json_element_reader_end_unfinished_object( &((*this_).temp_element_reader) );
                             }
 
-                            data_classifier_destroy( &new_classifier );
+                            data_classifier_destroy( &((*this_).temp_classifier) );
                         }
                     }
                     break;
@@ -236,7 +237,7 @@ u8_error_t json_importer_private_import_nodes( json_importer_t *this_ )
 
             if ( U8_ERROR_NONE == sync_error )
             {
-                sync_error = json_element_reader_check_end_data( &((*this_).temp_element_reader), &set_end );
+                sync_error = json_element_reader_check_end_top_array( &((*this_).temp_element_reader), &set_end );
             }
         }
     }
@@ -253,14 +254,14 @@ u8_error_t json_importer_private_import_edges( json_importer_t *this_ )
 
     if ( U8_ERROR_NONE == sync_error )
     {
-        sync_error = json_element_reader_expect_begin_data( &((*this_).temp_element_reader) );
+        sync_error = json_element_reader_expect_begin_top_array( &((*this_).temp_element_reader) );
     }
 
     if ( U8_ERROR_NONE == sync_error )
     {
         data_table_t next_object_type;
         bool set_end = false;  /* end of data set reached or error at parsing */
-        sync_error = json_element_reader_check_end_data( &((*this_).temp_element_reader), &set_end );
+        sync_error = json_element_reader_check_end_top_array( &((*this_).temp_element_reader), &set_end );
         static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* do not import more things than can be undone */
         for ( int count = 0; ( ! set_end ) && ( sync_error == U8_ERROR_NONE ) && ( count < MAX_LOOP_COUNTER ); count ++ )
         {
@@ -278,13 +279,13 @@ u8_error_t json_importer_private_import_edges( json_importer_t *this_ )
 
                     case DATA_TABLE_RELATIONSHIP:
                     {
-                        data_relationship_t new_relationship;
+                        data_relationship_init_empty( &((*this_).temp_relationship) );
                         char rel_from_node_buf[DATA_UUID_STRING_SIZE] = "";
                         utf8stringbuf_t rel_from_node_uuid = UTF8STRINGBUF(rel_from_node_buf);
                         char rel_to_node_buf[DATA_UUID_STRING_SIZE] = "";
                         utf8stringbuf_t rel_to_node_uuid = UTF8STRINGBUF(rel_to_node_buf);
                         sync_error = json_element_reader_get_next_relationship( &((*this_).temp_element_reader),
-                                                                                &new_relationship,
+                                                                                &((*this_).temp_relationship),
                                                                                 rel_from_node_uuid,
                                                                                 rel_to_node_uuid
                                                                               );
@@ -292,13 +293,13 @@ u8_error_t json_importer_private_import_edges( json_importer_t *this_ )
                         if ( U8_ERROR_NONE == sync_error )
                         {
                             sync_error = io_import_elements_sync_relationship( (*this_).elements_importer,
-                                                                               &new_relationship,
+                                                                               &((*this_).temp_relationship),
                                                                                utf8stringbuf_get_string( rel_from_node_uuid ),
                                                                                utf8stringbuf_get_string( rel_to_node_uuid )
                                                                              );
 
                             /* cleanup */
-                            data_relationship_destroy ( &new_relationship );
+                            data_relationship_destroy( &((*this_).temp_relationship) );
                         }
                     }
                     break;
@@ -317,7 +318,7 @@ u8_error_t json_importer_private_import_edges( json_importer_t *this_ )
 
             if ( U8_ERROR_NONE == sync_error )
             {
-                sync_error = json_element_reader_check_end_data( &((*this_).temp_element_reader), &set_end );
+                sync_error = json_element_reader_check_end_top_array( &((*this_).temp_element_reader), &set_end );
             }
         }
     }
@@ -325,6 +326,103 @@ u8_error_t json_importer_private_import_edges( json_importer_t *this_ )
     TRACE_END_ERR( sync_error );
     return sync_error;
 }
+
+u8_error_t json_importer_private_import_diagramelement_array( json_importer_t *this_, const char *diagram_uuid )
+{
+    TRACE_BEGIN();
+    assert ( NULL != diagram_uuid );
+    u8_error_t sync_error = U8_ERROR_NONE;
+
+    sync_error = json_element_reader_expect_begin_sub_array( &((*this_).temp_element_reader) );
+
+    bool end_array = false;
+    while (( ! end_array )&&( U8_ERROR_NONE == sync_error ))
+    {
+        sync_error = json_element_reader_check_end_sub_array( &((*this_).temp_element_reader), &end_array );
+        if ( U8_ERROR_NONE == sync_error )
+        {
+            if ( ! end_array )
+            {
+                data_diagramelement_init_empty( &((*this_).temp_diagramelement) );
+                char node_uuid_buf[DATA_UUID_STRING_SIZE] = "";
+                utf8stringbuf_t node_uuid = UTF8STRINGBUF(node_uuid_buf);
+                sync_error |= json_element_reader_get_next_diagramelement( &((*this_).temp_element_reader),
+                                                                           &((*this_).temp_diagramelement),
+                                                                           node_uuid
+                                                                         );
+                if ( U8_ERROR_NONE == sync_error )
+                {
+                    sync_error |= io_import_elements_sync_diagramelement( (*this_).elements_importer,
+                                                                          &((*this_).temp_diagramelement),
+                                                                          diagram_uuid,
+                                                                          utf8stringbuf_get_string( node_uuid )
+                                                                        );
+                    data_diagramelement_destroy( &((*this_).temp_diagramelement) );
+                }
+                else
+                {
+                    /* error, break loop */
+                    end_array = true;
+                }
+            }
+        }
+        else
+        {
+            /* error, break loop */
+            sync_error |= U8_ERROR_PARSER_STRUCTURE;
+            end_array = true;
+        }
+    }
+
+    TRACE_END_ERR( sync_error );
+    return sync_error;
+}
+
+u8_error_t json_importer_private_import_feature_array( json_importer_t *this_, const char *classifier_uuid )
+{
+    TRACE_BEGIN();
+    assert ( NULL != classifier_uuid );
+    u8_error_t sync_error = U8_ERROR_NONE;
+
+    sync_error = json_element_reader_expect_begin_sub_array( &((*this_).temp_element_reader) );
+
+    bool end_array = false;
+    while (( ! end_array )&&( U8_ERROR_NONE == sync_error ))
+    {
+        sync_error = json_element_reader_check_end_sub_array( &((*this_).temp_element_reader), &end_array );
+        if ( U8_ERROR_NONE == sync_error )
+        {
+            if ( ! end_array )
+            {
+                data_feature_init_empty( &((*this_).temp_feature) );
+                sync_error |= json_element_reader_get_next_feature( &((*this_).temp_element_reader), &((*this_).temp_feature) );
+                if ( U8_ERROR_NONE == sync_error )
+                {
+                    sync_error |= io_import_elements_sync_feature( (*this_).elements_importer,
+                                                                   &((*this_).temp_feature),
+                                                                   classifier_uuid
+                                                                 );
+                    data_feature_destroy( &((*this_).temp_feature) );
+                }
+                else
+                {
+                    /* error, break loop */
+                    end_array = true;
+                }
+            }
+        }
+        else
+        {
+            /* error, break loop */
+            sync_error |= U8_ERROR_PARSER_STRUCTURE;
+            end_array = true;
+        }
+    }
+
+    TRACE_END_ERR( sync_error );
+    return sync_error;
+}
+
 
 
 /*

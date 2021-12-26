@@ -5,35 +5,28 @@
 #include "tslog.h"
 #include <assert.h>
 
-void json_element_reader_init ( json_element_reader_t *this_,
-                                universal_input_stream_t *in_data,
-                                io_import_elements_t *elements_importer )
+void json_element_reader_init ( json_element_reader_t *this_, universal_input_stream_t *in_data )
 {
     TRACE_BEGIN();
     assert( NULL != in_data );
-    assert( NULL != elements_importer );
 
     (*this_).temp_string = utf8stringbuf_init( sizeof((*this_).temp_string_buffer), (*this_).temp_string_buffer );
 
     json_token_reader_init( &((*this_).tokenizer), in_data );
 
-    (*this_).after_first_array_entry = false;
-
-    (*this_).elements_importer = elements_importer;
+    (*this_).top_array_after_first_entry = false;
+    (*this_).sub_array_after_first_entry = false;
 
     TRACE_END();
 }
 
-void json_element_reader_reinit ( json_element_reader_t *this_,
-                                  universal_input_stream_t *in_data,
-                                  io_import_elements_t *elements_importer )
+void json_element_reader_reinit ( json_element_reader_t *this_, universal_input_stream_t *in_data )
 {
     TRACE_BEGIN();
     assert( NULL != in_data );
-    assert( NULL != elements_importer );
 
     json_element_reader_destroy( this_ );
-    json_element_reader_init( this_, in_data, elements_importer );
+    json_element_reader_init( this_, in_data );
 
     TRACE_END();
 }
@@ -41,9 +34,7 @@ void json_element_reader_reinit ( json_element_reader_t *this_,
 void json_element_reader_destroy ( json_element_reader_t *this_ )
 {
     TRACE_BEGIN();
-    assert( NULL != (*this_).elements_importer );
 
-    (*this_).elements_importer = NULL;
     json_token_reader_destroy( &((*this_).tokenizer) );
 
     TRACE_END();
@@ -84,7 +75,7 @@ u8_error_t json_element_reader_expect_header ( json_element_reader_t *this_ )
     return result;
 }
 
-u8_error_t json_element_reader_expect_begin_data ( json_element_reader_t *this_ )
+u8_error_t json_element_reader_expect_begin_top_array ( json_element_reader_t *this_ )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -145,7 +136,7 @@ u8_error_t json_element_reader_expect_footer ( json_element_reader_t *this_ )
     return result;
 }
 
-u8_error_t json_element_reader_check_end_data ( json_element_reader_t *this_, bool* out_end )
+u8_error_t json_element_reader_check_end_top_array ( json_element_reader_t *this_, bool* out_end )
 {
     TRACE_BEGIN();
     assert( NULL != out_end );
@@ -155,7 +146,53 @@ u8_error_t json_element_reader_check_end_data ( json_element_reader_t *this_, bo
 
     if (( U8_ERROR_NONE == result ) && ( *out_end ))
     {
-        (*this_).after_first_array_entry = false;
+        (*this_).top_array_after_first_entry = false;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t json_element_reader_expect_begin_sub_array ( json_element_reader_t *this_ )
+{
+    TRACE_BEGIN();
+    u8_error_t result = U8_ERROR_NONE;
+
+    result = json_token_reader_expect_begin_array( &((*this_).tokenizer) );
+    if ( U8_ERROR_NONE == result )
+    {
+        (*this_).sub_array_after_first_entry = false;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t json_element_reader_check_end_sub_array ( json_element_reader_t *this_, bool* out_end )
+{
+    TRACE_BEGIN();
+    assert( NULL != out_end );
+    u8_error_t result = U8_ERROR_NONE;
+
+    result = json_token_reader_check_end_array ( &((*this_).tokenizer), out_end );
+
+    if ( U8_ERROR_NONE == result )
+    {
+        if ( *out_end )
+        {
+            (*this_).sub_array_after_first_entry = false;
+        }
+        else
+        {
+            if ( (*this_).sub_array_after_first_entry )
+            {
+                result = json_token_reader_expect_value_separator ( &((*this_).tokenizer) );
+            }
+            else
+            {
+                (*this_).sub_array_after_first_entry = true;
+            }
+        }
     }
 
     TRACE_END_ERR( result );
@@ -182,13 +219,13 @@ u8_error_t json_element_reader_expect_begin_type_of_element ( json_element_reade
         }
         else
         {
-            if ( (*this_).after_first_array_entry )
+            if ( (*this_).top_array_after_first_entry )
             {
                 result = json_token_reader_expect_value_separator ( &((*this_).tokenizer) );
             }
             else
             {
-                (*this_).after_first_array_entry = true;
+                (*this_).top_array_after_first_entry = true;
             }
             if ( U8_ERROR_NONE == result )
             {
@@ -264,14 +301,11 @@ u8_error_t json_element_reader_expect_end_type_of_element ( json_element_reader_
 
 u8_error_t json_element_reader_get_next_classifier ( json_element_reader_t *this_,
                                                      data_classifier_t *out_object,
-                                                     uint32_t max_out_array_size,
-                                                     data_feature_t (*out_feature)[],
-                                                     uint32_t *out_feature_count )
+                                                     bool* out_has_features_array )
 {
     TRACE_BEGIN();
     assert ( NULL != out_object );
-    assert ( NULL != out_feature );
-    assert ( NULL != out_feature_count );
+    assert ( NULL != out_has_features_array );
     u8_error_t result = U8_ERROR_NONE;
 
     char member_name_buf[24];
@@ -287,10 +321,11 @@ u8_error_t json_element_reader_get_next_classifier ( json_element_reader_t *this
 
     bool first_member_passed = false;
     bool object_end = false;
-    static const int MAX_MEMBERS = 16;  /* mamimum number of members to parse */
+    bool break_at_features = false;
+    static const int MAX_MEMBERS = 16;  /* mamimum number of members/attributes to parse */
     if ( U8_ERROR_NONE == result )
     {
-        for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ); count ++ )
+        for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ) && ( ! break_at_features ); count ++ )
         {
             result = json_token_reader_check_end_object ( &((*this_).tokenizer), &object_end );
             if ( U8_ERROR_NONE == result )
@@ -375,11 +410,7 @@ u8_error_t json_element_reader_get_next_classifier ( json_element_reader_t *this
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_FEATURES ) )
                         {
-                            result = json_element_reader_private_get_next_feature_array( this_,
-                                                                                       max_out_array_size,
-                                                                                       out_feature,
-                                                                                       out_feature_count
-                                                                                     );
+                            break_at_features = true;  /* end the loop */
                         }
                         else
                         {
@@ -413,12 +444,33 @@ u8_error_t json_element_reader_get_next_classifier ( json_element_reader_t *this
     return result;
 }
 
+u8_error_t json_element_reader_end_unfinished_object ( json_element_reader_t *this_ )
+{
+    TRACE_BEGIN();
+    u8_error_t result = U8_ERROR_NONE;
+
+    bool object_end = false;
+    result = json_token_reader_check_end_object ( &((*this_).tokenizer), &object_end );
+    if ( U8_ERROR_NONE == result )
+    {
+        if (! object_end)
+        {
+            result = U8_ERROR_PARSER_STRUCTURE;
+        }
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 u8_error_t json_element_reader_get_next_diagram ( json_element_reader_t *this_,
                                                   data_diagram_t *out_object,
-                                                  utf8stringbuf_t out_parent_uuid )
+                                                  utf8stringbuf_t out_parent_uuid,
+                                                  bool* out_has_diagramelements_array )
 {
     TRACE_BEGIN();
     assert ( NULL != out_object );
+    assert ( NULL != out_has_diagramelements_array );
     u8_error_t result = U8_ERROR_NONE;
 
     char member_name_buf[24];
@@ -435,10 +487,11 @@ u8_error_t json_element_reader_get_next_diagram ( json_element_reader_t *this_,
 
     bool first_member_passed = false;
     bool object_end = false;
+    bool break_at_subelements = false;
     static const int MAX_MEMBERS = 16;  /* mamimum number of members to parse */
     if ( U8_ERROR_NONE == result )
     {
-        for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ); count ++ )
+        for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ) && ( ! break_at_subelements ); count ++ )
         {
             result = json_token_reader_check_end_object ( &((*this_).tokenizer), &object_end );
             if ( U8_ERROR_NONE == result )
@@ -520,7 +573,7 @@ u8_error_t json_element_reader_get_next_diagram ( json_element_reader_t *this_,
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS ) )
                         {
-                            result = json_element_reader_private_get_next_diagramelement_array ( this_ );
+                            break_at_subelements = true;  /* end the loop */
                         }
                         else
                         {
@@ -885,71 +938,7 @@ void json_element_reader_get_read_line ( json_element_reader_t *this_, uint32_t 
     TRACE_END();
 }
 
-u8_error_t json_element_reader_private_get_next_feature_array ( json_element_reader_t *this_,
-                                                              uint32_t max_out_array_size,
-                                                              data_feature_t (*out_feature)[],
-                                                              uint32_t *out_feature_count )
-{
-    TRACE_BEGIN();
-    assert ( NULL != out_feature );
-    assert ( NULL != out_feature_count );
-    u8_error_t result = U8_ERROR_NONE;
-    uint32_t feature_count = 0;
-
-    result = json_token_reader_expect_begin_array( &((*this_).tokenizer) );
-
-    if ( U8_ERROR_NONE == result )
-    {
-        bool end_array = false;
-        bool first_element_passed = false;
-        for ( int count = 0; ( ! end_array ) && ( count < max_out_array_size ); count ++ )
-        {
-            result = json_token_reader_check_end_array( &((*this_).tokenizer), &end_array );
-            if ( U8_ERROR_NONE == result )
-            {
-                if ( ! end_array )
-                {
-                    if ( first_element_passed )
-                    {
-                        result = json_token_reader_expect_value_separator ( &((*this_).tokenizer) );
-                    }
-                    else
-                    {
-                        first_element_passed = true;
-                    }
-                    result |= json_element_reader_private_get_next_feature( this_, &((*out_feature)[count]) );
-                    if ( U8_ERROR_NONE == result )
-                    {
-                        feature_count = count+1;
-                    }
-                    else
-                    {
-                        /* error, break loop */
-                        end_array = true;
-                    }
-                }
-            }
-            else
-            {
-                /* error, break loop */
-                TSLOG_ERROR_INT( "unexpected array contents at line",
-                                 json_token_reader_get_input_line( &((*this_).tokenizer) )
-                               );
-                result |= U8_ERROR_PARSER_STRUCTURE;
-                end_array = true;
-            }
-        }
-    }
-
-    if ( U8_ERROR_NONE == result )
-    {
-        *out_feature_count = feature_count;
-    }
-    TRACE_END_ERR( result );
-    return result;
-}
-
-u8_error_t json_element_reader_private_get_next_feature ( json_element_reader_t *this_, data_feature_t *out_object )
+u8_error_t json_element_reader_get_next_feature ( json_element_reader_t *this_, data_feature_t *out_object )
 {
     TRACE_BEGIN();
     assert ( NULL != out_object );
@@ -1075,57 +1064,9 @@ u8_error_t json_element_reader_private_get_next_feature ( json_element_reader_t 
     return result;
 }
 
-u8_error_t json_element_reader_private_get_next_diagramelement_array ( json_element_reader_t *this_ )
-{
-    TRACE_BEGIN();
-    u8_error_t result = U8_ERROR_NONE;
-
-    result = json_token_reader_expect_begin_array( &((*this_).tokenizer) );
-
-    bool end_array = false;
-    bool first_element_passed = false;
-    while (( ! end_array )&&( U8_ERROR_NONE == result ))
-    {
-        result = json_token_reader_check_end_array( &((*this_).tokenizer), &end_array );
-        if ( U8_ERROR_NONE == result )
-        {
-            if ( ! end_array )
-            {
-                if ( first_element_passed )
-                {
-                    result = json_token_reader_expect_value_separator ( &((*this_).tokenizer) );
-                }
-                else
-                {
-                    first_element_passed = true;
-                }
-                result |= json_element_reader_private_get_next_diagramelement( this_, &((*this_).temp_diagramelement) );
-                if ( U8_ERROR_NONE == result )
-                {
-                    /* feature_count = count+1; */
-                }
-                else
-                {
-                    /* error, break loop */
-                    end_array = true;
-                }
-            }
-        }
-        else
-        {
-            /* error, break loop */
-            TSLOG_ERROR_INT( "unexpected array contents at line",
-                             json_token_reader_get_input_line( &((*this_).tokenizer) )
-                           );
-        }
-    }
-
-    TRACE_END_ERR( result );
-    return result;
-}
-
-u8_error_t json_element_reader_private_get_next_diagramelement( json_element_reader_t *this_,
-                                                                data_diagramelement_t *out_object )
+u8_error_t json_element_reader_get_next_diagramelement( json_element_reader_t *this_,
+                                                        data_diagramelement_t *out_object,
+                                                        utf8stringbuf_t out_node_uuid )
 {
     TRACE_BEGIN();
     assert ( NULL != out_object );
@@ -1205,12 +1146,7 @@ u8_error_t json_element_reader_private_get_next_diagramelement( json_element_rea
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE ) )
                         {
-                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            /*
-                            data_diagramelement_set_value( out_object,
-                                                    utf8stringbuf_get_string( (*this_).temp_string )
-                                                  );
-                            */
+                            result = json_token_reader_read_string_value( &((*this_).tokenizer), out_node_uuid );
                         }
                         else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
                         {

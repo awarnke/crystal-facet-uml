@@ -17,13 +17,6 @@
 #include "util/string/utf8stringbuf.h"
 
 /*!
- *  \brief constants for maximum values of json_importer_t
- */
-enum json_importer_max_enum {
-    JSON_IMPORT_TO_DATABASE_MAX_FEATURES = 64,  /*!< maximum number of features per classifier */
-};
-
-/*!
  *  \brief attributes of the json import object
  *
  *  Lifecycle: A json importer shall perform a single import operation only.
@@ -37,7 +30,11 @@ struct json_importer_struct {
 
     data_stat_t *stat;  /*!< pointer to import statistics */
 
-    data_feature_t temp_features[JSON_IMPORT_TO_DATABASE_MAX_FEATURES];  /*!< temporary memory for feature list */
+    data_diagram_t temp_diagram;  /*!< memory buffer to store a diagram temporarily when reading a json object */
+    data_diagramelement_t temp_diagramelement;  /*!< memory buffer to store a diagramelement temporarily when reading a json object */
+    data_classifier_t temp_classifier;  /*!< memory buffer to store a classifier temporarily when reading a json object */
+    data_feature_t temp_feature;  /*!< memory buffer to store a feature temporarily when reading a json object */
+    data_relationship_t temp_relationship;  /*!< memory buffer to store a relationship temporarily when reading a json object */
 };
 
 typedef struct json_importer_struct json_importer_t;
@@ -83,19 +80,6 @@ u8_error_t json_importer_import_stream( json_importer_t *this_,
                                       );
 
 /*!
- *  \brief prescans which object ids are to be imported and which already exist in the current db
- *
- *  \param this_ pointer to own object attributes
- *  \param in_stream input stream where to import the data from
- *  \param out_english_report non translated report on errors in input file and warnings from importing
- *  \return U8_ERROR_NONE in case of success
- */
-u8_error_t json_importer_prescan( json_importer_t *this_,
-                                  universal_input_stream_t *in_stream,
-                                  universal_utf8_writer_t *out_english_report
-                                );
-
-/*!
  *  \brief imports views to the focused diagram
  *
  *  \param this_ pointer to own object attributes
@@ -118,6 +102,32 @@ u8_error_t json_importer_private_import_nodes( json_importer_t *this_ );
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
  */
 u8_error_t json_importer_private_import_edges( json_importer_t *this_ );
+
+/*!
+ *  \brief parses the next diagramelement array
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_uuid uuid of surrounding diagram, empty string if none available, never NULL
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
+ *          U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
+ */
+u8_error_t json_importer_private_import_diagramelement_array ( json_importer_t *this_, const char *diagram_uuid );
+
+
+/*!
+ *  \brief parses the next feature array
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_uuid uuid of surrounding classifier, empty string if none available, never NULL
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
+ *          U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
+ */
+u8_error_t json_importer_private_import_feature_array ( json_importer_t *this_, const char *classifier_uuid );
+
 
 #endif  /* JSON_IMPORTER_H */
 

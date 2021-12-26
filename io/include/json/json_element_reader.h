@@ -12,7 +12,6 @@
  */
 
 #include "json/json_token_reader.h"
-#include "io_import_elements.h"
 #include "u8/u8_error.h"
 #include "data_table.h"
 #include "data_classifier.h"
@@ -36,17 +35,10 @@
  */
 struct json_element_reader_struct {
     json_token_reader_t tokenizer;  /*!< own token_reader instance to consecutively fetch tokens from the json input file */
-    bool after_first_array_entry;  /*!< true if the first array entry has already been parsed */
+    bool top_array_after_first_entry;  /*!< true if the first entry of the top-level array has already been parsed */
+    bool sub_array_after_first_entry;  /*!< true if the first entry of the 2nd-level array has already been parsed */
     utf8stringbuf_t temp_string;  /*!< a local buffer to buffer streamed strings before assigning them to data objects */
     char temp_string_buffer[DATA_DIAGRAM_MAX_DESCRIPTION_SIZE];
-
-    data_diagram_t temp_diagram;  /*!< memory buffer to store a diagram temporarily when reading a json object */
-    data_diagramelement_t temp_diagramelement;  /*!< memory buffer to store a diagramelement temporarily when reading a json object */
-    data_classifier_t temp_classifier;  /*!< memory buffer to store a classifier temporarily when reading a json object */
-    data_feature_t temp_feature;  /*!< memory buffer to store a feature temporarily when reading a json object */
-    data_relationship_t temp_relationship;  /*!< memory buffer to store a relationship temporarily when reading a json object */
-
-    io_import_elements_t *elements_importer;  /*!< pointer to external db-element sync to database */
 };
 
 typedef struct json_element_reader_struct json_element_reader_t;
@@ -56,11 +48,9 @@ typedef struct json_element_reader_struct json_element_reader_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param in_data json text to be parsed
- *  \param elements_importer pointer to an object that synchronizes the json-object with the database
  */
 void json_element_reader_init ( json_element_reader_t *this_,
-                                universal_input_stream_t *in_data,
-                                io_import_elements_t *elements_importer
+                                universal_input_stream_t *in_data
                               );
 
 /*!
@@ -68,11 +58,9 @@ void json_element_reader_init ( json_element_reader_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param in_data json text to be parsed
- *  \param elements_importer pointer to an object that synchronizes the json-object with the database
  */
 void json_element_reader_reinit ( json_element_reader_t *this_,
-                                  universal_input_stream_t *in_data,
-                                  io_import_elements_t *elements_importer
+                                  universal_input_stream_t *in_data
                                 );
 
 /*!
@@ -103,17 +91,17 @@ u8_error_t json_element_reader_expect_header ( json_element_reader_t *this_ );
 u8_error_t json_element_reader_expect_footer ( json_element_reader_t *this_ );
 
 /*!
- *  \brief checks that the beginning of the json data is valid
+ *  \brief checks that the beginning of the json top-level array is valid
  *
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
  */
-u8_error_t json_element_reader_expect_begin_data ( json_element_reader_t *this_ );
+u8_error_t json_element_reader_expect_begin_top_array ( json_element_reader_t *this_ );
 
 /*!
- *  \brief checks if the data array is at end.
+ *  \brief checks if the top-level array is at its end.
  *
  *  If yes, the end is read and consumed.
  *
@@ -123,17 +111,41 @@ u8_error_t json_element_reader_expect_begin_data ( json_element_reader_t *this_ 
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
  */
-u8_error_t json_element_reader_check_end_data ( json_element_reader_t *this_, bool* out_end );
+u8_error_t json_element_reader_check_end_top_array ( json_element_reader_t *this_, bool* out_end );
+
+/*!
+ *  \brief checks that the beginning of the json 2nd-level array is valid
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
+ */
+u8_error_t json_element_reader_expect_begin_sub_array ( json_element_reader_t *this_ );
+
+/*!
+ *  \brief checks if the 2nd-level array is at its end.
+ *
+ *  If yes, the end is read and consumed.
+ *  If no, a possible object separater is read and consumed.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param[out] out_end true if the data array is at its end.
+ *  \return U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
+ */
+u8_error_t json_element_reader_check_end_sub_array ( json_element_reader_t *this_, bool* out_end );
 
 /*!
  *  \brief determines the type of object which is contained in this object
  *
  *  \param this_ pointer to own object attributes
- *  \param out_type pointer to storage location for the result. Must not be NULL.
- *                  DATA_TABLE_CLASSIFIER if the next object is a classifier,
- *                  DATA_TABLE_DIAGRAM if the next object is a diagram,
- *                  DATA_TABLE_RELATIONSHIP if the next object is a relationship,
- *                  DATA_TABLE_VOID if there is no next object.
+ *  \param[out] out_type pointer to storage location for the result. Must not be NULL.
+ *                       DATA_TABLE_CLASSIFIER if the next object is a classifier,
+ *                       DATA_TABLE_DIAGRAM if the next object is a diagram,
+ *                       DATA_TABLE_RELATIONSHIP if the next object is a relationship,
+ *                       DATA_TABLE_VOID if there is no next object.
  *  \return U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
@@ -154,10 +166,10 @@ u8_error_t json_element_reader_expect_end_type_of_element ( json_element_reader_
  *  \brief parses the next object as classifier
  *
  *  \param this_ pointer to own object attributes
- *  \param out_object pointer to storage location for the result. Must not be NULL.
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_feature array of features read from the database (in case of success), must not be NULL
- *  \param out_feature_count number of feature records stored in out_feature
+ *  \param[out] out_object pointer to storage location for the result. Must not be NULL.
+ *  \param[out] out_has_features_array pointer to a flag that says if subelements array needs to be parsed.
+ *                                     Must not be NULL.
+ *                                     If true, json_element_reader_end_unfinished_object shall be called afterwards.
  *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
  *          U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
@@ -165,19 +177,31 @@ u8_error_t json_element_reader_expect_end_type_of_element ( json_element_reader_
  */
 u8_error_t json_element_reader_get_next_classifier ( json_element_reader_t *this_,
                                                      data_classifier_t *out_object,
-                                                     uint32_t max_out_array_size,
-                                                     data_feature_t (*out_feature)[],
-                                                     uint32_t *out_feature_count
+                                                     bool* out_has_features_array
                                                    );
+
+/*!
+ *  \brief parses the end token of the current object
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
+ *          U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
+ */
+u8_error_t json_element_reader_end_unfinished_object ( json_element_reader_t *this_ );
 
 /*!
  *  \brief parses the next object as diagram
  *
  *  \param this_ pointer to own object attributes
- *  \param out_object pointer to storage location for the result. Must not be NULL.
- *  \param out_parent_uuid stringbuffer to copy the parent into;
- *                         If there is no parent, the stringbuffer shall contani the empty string;
+ *  \param[out] out_object pointer to storage location for the result. Must not be NULL.
+ *  \param[out] out_parent_uuid stringbuffer to copy the parent into;
+ *                         If there is no parent, the stringbuffer shall contain the empty string;
  *                         size should be DATA_UUID_STRING_SIZE.
+ *  \param[out] out_has_diagramelements_array pointer to a flag that says if subelements array needs to be parsed.
+ *                                            Must not be NULL.
+ *                                            If true, json_element_reader_end_unfinished_object shall be called afterwards.
  *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
  *          U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
@@ -185,18 +209,19 @@ u8_error_t json_element_reader_get_next_classifier ( json_element_reader_t *this
  */
 u8_error_t json_element_reader_get_next_diagram ( json_element_reader_t *this_,
                                                   data_diagram_t *out_object,
-                                                  utf8stringbuf_t out_parent_uuid
+                                                  utf8stringbuf_t out_parent_uuid,
+                                                  bool* out_has_diagramelements_array
                                                 );
 
 /*!
  *  \brief parses the next object as relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param out_object pointer to storage location for the result. Must not be NULL.
- *  \param out_from_node_uuid stringbuffer to copy the from node into;
+ *  \param[out] out_object pointer to storage location for the result. Must not be NULL.
+ *  \param[out] out_from_node_uuid stringbuffer to copy the from node into;
  *                            This node may refer to a lifeline, another feature or a classifier;
  *                            size should be DATA_UUID_STRING_SIZE.
- *  \param out_to_node_uuid stringbuffer to copy the to node into;
+ *  \param[out] out_to_node_uuid stringbuffer to copy the to node into;
  *                          This node may refer to a lifeline, another feature or a classifier;
  *                          size should be DATA_UUID_STRING_SIZE.
  *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
@@ -236,27 +261,9 @@ u8_error_t json_element_reader_skip_next_string ( json_element_reader_t *this_ )
  *  May be used to determine the position where a parse error occurred.
  *
  *  \param this_ pointer to own object attributes
- *  \param out_read_pos pointer to storage location for the result. Must not be NULL.
+ *  \param[out] out_read_pos pointer to storage location for the result. Must not be NULL.
  */
 void json_element_reader_get_read_line ( json_element_reader_t *this_, uint32_t *out_read_pos );
-
-/*!
- *  \brief parses the next feature array
- *
- *  \param this_ pointer to own object attributes
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_feature array of features read from the database (in case of success), must not be NULL
- *  \param out_feature_count number of feature records stored in out_feature
- *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
- *          U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
- *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
- *          U8_ERROR_NONE if structure of the input is valid.
- */
-u8_error_t json_element_reader_private_get_next_feature_array ( json_element_reader_t *this_,
-                                                                uint32_t max_out_array_size,
-                                                                data_feature_t (*out_feature)[],
-                                                                uint32_t *out_feature_count
-                                                              );
 
 /*!
  *  \brief parses the next object as feature
@@ -264,24 +271,13 @@ u8_error_t json_element_reader_private_get_next_feature_array ( json_element_rea
  *  This function may only be called from within parsing a classifier.
  *
  *  \param this_ pointer to own object attributes
- *  \param out_object pointer to storage location for the result. Must not be NULL.
+ *  \param[out] out_object pointer to storage location for the result. Must not be NULL.
  *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
  *          U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
  */
-u8_error_t json_element_reader_private_get_next_feature ( json_element_reader_t *this_, data_feature_t *out_object );
-
-/*!
- *  \brief parses the next diagramelement array
- *
- *  \param this_ pointer to own object attributes
- *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
- *          U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
- *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
- *          U8_ERROR_NONE if structure of the input is valid.
- */
-u8_error_t json_element_reader_private_get_next_diagramelement_array ( json_element_reader_t *this_ );
+u8_error_t json_element_reader_get_next_feature ( json_element_reader_t *this_, data_feature_t *out_object );
 
 /*!
  *  \brief parses the next object as diagramelement
@@ -289,19 +285,23 @@ u8_error_t json_element_reader_private_get_next_diagramelement_array ( json_elem
  *  This function may only be called from within parsing a diagram.
  *
  *  \param this_ pointer to own object attributes
- *  \param out_object pointer to storage location for the result. Must not be NULL.
+ *  \param[out] out_object pointer to storage location for the result. Must not be NULL.
+ *  \param[out] out_node_uuid stringbuffer to copy the node uuid into;
  *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
  *          U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
  */
-u8_error_t json_element_reader_private_get_next_diagramelement ( json_element_reader_t *this_, data_diagramelement_t *out_object );
+u8_error_t json_element_reader_get_next_diagramelement ( json_element_reader_t *this_,
+                                                         data_diagramelement_t *out_object,
+                                                         utf8stringbuf_t out_node_uuid
+                                                       );
 
 /*!
  *  \brief parses an array of strings and merges the entries
  *
  *  \param this_ pointer to own object attributes
- *  \param out_joined_string stringbuffer to copy joined string elements to;
+ *  \param[out] out_joined_string stringbuffer to copy joined string elements to;
  *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_joined_string,
  *          U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
