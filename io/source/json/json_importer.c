@@ -134,9 +134,15 @@ u8_error_t json_importer_private_import_views( json_importer_t *this_ )
 
                             if ( has_diagramelements )
                             {
-                                const char *const diag_uuid = data_diagram_get_uuid_const( &((*this_).temp_diagram) );
-                                sync_error |= json_importer_private_import_diagramelement_array( this_, diag_uuid );
-                                sync_error |= json_element_reader_end_unfinished_object( &((*this_).temp_element_reader) );
+                                if ( U8_ERROR_NONE == sync_error )  /* stop reading in case of error */
+                                {
+                                    const char *const diag_uuid = data_diagram_get_uuid_const( &((*this_).temp_diagram) );
+                                    sync_error = json_importer_private_import_diagramelement_array( this_, diag_uuid );
+                                }
+                                if ( U8_ERROR_NONE == sync_error )  /* stop reading in case of error */
+                                {
+                                    sync_error = json_element_reader_end_unfinished_object( &((*this_).temp_element_reader) );
+                                }
                             }
 
                             data_diagram_destroy( &((*this_).temp_diagram) );
@@ -213,9 +219,15 @@ u8_error_t json_importer_private_import_nodes( json_importer_t *this_ )
 
                             if ( has_features )
                             {
-                                const char *const class_uuid = data_classifier_get_uuid_const( &((*this_).temp_classifier) );
-                                sync_error |= json_importer_private_import_feature_array( this_, class_uuid );
-                                sync_error |= json_element_reader_end_unfinished_object( &((*this_).temp_element_reader) );
+                                if ( U8_ERROR_NONE == sync_error )  /* stop reading in case of error */
+                                {
+                                    const char *const class_uuid = data_classifier_get_uuid_const( &((*this_).temp_classifier) );
+                                    sync_error = json_importer_private_import_feature_array( this_, class_uuid );
+                                }
+                                if ( U8_ERROR_NONE == sync_error )  /* stop reading in case of error */
+                                {
+                                    sync_error = json_element_reader_end_unfinished_object( &((*this_).temp_element_reader) );
+                                }
                             }
 
                             data_classifier_destroy( &((*this_).temp_classifier) );

@@ -322,114 +322,110 @@ u8_error_t json_element_reader_get_next_classifier ( json_element_reader_t *this
     bool first_member_passed = false;
     bool object_end = false;
     bool break_at_features = false;
-    static const int MAX_MEMBERS = 16;  /* mamimum number of members/attributes to parse */
-    if ( U8_ERROR_NONE == result )
+    while (( ! object_end )&&( ! break_at_features )&&( U8_ERROR_NONE == result ))
     {
-        for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ) && ( ! break_at_features ); count ++ )
+        result = json_token_reader_check_end_object ( &((*this_).tokenizer), &object_end );
+        if ( U8_ERROR_NONE == result )
         {
-            result = json_token_reader_check_end_object ( &((*this_).tokenizer), &object_end );
-            if ( U8_ERROR_NONE == result )
+            if ( ! object_end )
             {
-                if ( ! object_end )
+                if ( first_member_passed )
                 {
-                    if ( first_member_passed )
+                    result = json_token_reader_expect_value_separator ( &((*this_).tokenizer) );
+                }
+                else
+                {
+                    first_member_passed = true;
+                }
+                if ( U8_ERROR_NONE == result )
+                {
+                    result = json_token_reader_read_member_name ( &((*this_).tokenizer), member_name );
+                }
+                if ( U8_ERROR_NONE == result )
+                {
+                    result = json_token_reader_expect_name_separator ( &((*this_).tokenizer) );
+                }
+                if ( U8_ERROR_NONE == result )
+                {
+                    if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_ID ) )
                     {
-                        result = json_token_reader_expect_value_separator ( &((*this_).tokenizer) );
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
+                        data_classifier_set_row_id ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE ) )
+                    {
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
+                        data_classifier_set_main_type ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_X_ORDER ) )
+                    {
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
+                        data_classifier_set_x_order ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_Y_ORDER ) )
+                    {
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
+                        data_classifier_set_y_order ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_LIST_ORDER ) )
+                    {
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
+                        data_classifier_set_list_order ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_STEREOTYPE ) )
+                    {
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                        data_classifier_set_stereotype( out_object,
+                                                        utf8stringbuf_get_string( (*this_).temp_string )
+                                                      );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_NAME ) )
+                    {
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                        data_classifier_set_name( out_object,
+                                                  utf8stringbuf_get_string( (*this_).temp_string )
+                                                );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_DESCRIPTION ) )
+                    {
+                        result = json_element_reader_private_read_string_array( this_, (*this_).temp_string );
+                        data_classifier_set_description( out_object,
+                                                         utf8stringbuf_get_string( (*this_).temp_string )
+                                                       );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
+                    {
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                        result |= data_classifier_set_uuid( out_object,
+                                                            utf8stringbuf_get_string( (*this_).temp_string )
+                                                          );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_FEATURES ) )
+                    {
+                        break_at_features = true;  /* end the loop */
                     }
                     else
                     {
-                        first_member_passed = true;
-                    }
-                    if ( U8_ERROR_NONE == result )
-                    {
-                        result = json_token_reader_read_member_name ( &((*this_).tokenizer), member_name );
-                    }
-                    if ( U8_ERROR_NONE == result )
-                    {
-                        result = json_token_reader_expect_name_separator ( &((*this_).tokenizer) );
-                    }
-                    if ( U8_ERROR_NONE == result )
-                    {
-                        if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_ID ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                            data_classifier_set_row_id ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                            data_classifier_set_main_type ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_X_ORDER ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                            data_classifier_set_x_order ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_Y_ORDER ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                            data_classifier_set_y_order ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_LIST_ORDER ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                            data_classifier_set_list_order ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_STEREOTYPE ) )
-                        {
-                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            data_classifier_set_stereotype( out_object,
-                                                            utf8stringbuf_get_string( (*this_).temp_string )
-                                                          );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_NAME ) )
-                        {
-                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            data_classifier_set_name( out_object,
-                                                      utf8stringbuf_get_string( (*this_).temp_string )
-                                                    );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_DESCRIPTION ) )
-                        {
-                            result = json_element_reader_private_read_string_array( this_, (*this_).temp_string );
-                            data_classifier_set_description( out_object,
-                                                             utf8stringbuf_get_string( (*this_).temp_string )
-                                                           );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
-                        {
-                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            result |= data_classifier_set_uuid( out_object,
-                                                                utf8stringbuf_get_string( (*this_).temp_string )
-                                                              );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_CLASSIFIER_FEATURES ) )
-                        {
-                            break_at_features = true;  /* end the loop */
-                        }
-                        else
-                        {
-                            TSLOG_ERROR_INT( "unexpected member name at line",
-                                             json_token_reader_get_input_line( &((*this_).tokenizer) )
-                                           );
-                            result = U8_ERROR_PARSER_STRUCTURE;
-                        }
+                        TSLOG_ERROR_INT( "unexpected member name at line",
+                                            json_token_reader_get_input_line( &((*this_).tokenizer) )
+                                        );
+                        result = U8_ERROR_PARSER_STRUCTURE;
                     }
                 }
             }
-            else
-            {
-                TSLOG_ERROR_INT( "unexpected character at line",
-                                 json_token_reader_get_input_line( &((*this_).tokenizer) )
-                               );
-                result = U8_ERROR_PARSER_STRUCTURE;
-                object_end = true;
-            }
+        }
+        else
+        {
+            TSLOG_ERROR_INT( "unexpected character at line",
+                             json_token_reader_get_input_line( &((*this_).tokenizer) )
+                           );
+            result = U8_ERROR_PARSER_STRUCTURE;
+            object_end = true;
         }
     }
 
@@ -440,6 +436,7 @@ u8_error_t json_element_reader_get_next_classifier ( json_element_reader_t *this
         data_classifier_trace( out_object );
     }
 
+    *out_has_features_array = break_at_features;
     TRACE_END_ERR( result );
     return result;
 }
@@ -488,111 +485,107 @@ u8_error_t json_element_reader_get_next_diagram ( json_element_reader_t *this_,
     bool first_member_passed = false;
     bool object_end = false;
     bool break_at_subelements = false;
-    static const int MAX_MEMBERS = 16;  /* mamimum number of members to parse */
-    if ( U8_ERROR_NONE == result )
+    while (( ! object_end )&&( ! break_at_subelements )&&( U8_ERROR_NONE == result ))
     {
-        for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ) && ( ! break_at_subelements ); count ++ )
+        result = json_token_reader_check_end_object ( &((*this_).tokenizer), &object_end );
+        if ( U8_ERROR_NONE == result )
         {
-            result = json_token_reader_check_end_object ( &((*this_).tokenizer), &object_end );
-            if ( U8_ERROR_NONE == result )
+            if ( ! object_end )
             {
-                if ( ! object_end )
+                if ( first_member_passed )
                 {
-                    if ( first_member_passed )
+                    result = json_token_reader_expect_value_separator ( &((*this_).tokenizer) );
+                }
+                else
+                {
+                    first_member_passed = true;
+                }
+                if ( U8_ERROR_NONE == result )
+                {
+                    result = json_token_reader_read_member_name ( &((*this_).tokenizer), member_name );
+                }
+                if ( U8_ERROR_NONE == result )
+                {
+                    result = json_token_reader_expect_name_separator ( &((*this_).tokenizer) );
+                }
+                if ( U8_ERROR_NONE == result )
+                {
+                    if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_ID ) )
                     {
-                        result = json_token_reader_expect_value_separator ( &((*this_).tokenizer) );
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
+                        data_diagram_set_row_id ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_PARENT_ID ) )
+                    {
+                        int64_t ignored_integer;
+                        result = json_token_reader_read_int_value ( &((*this_).tokenizer), &ignored_integer );
+                        (void) ignored_integer;
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE ) )
+                    {
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
+                        data_diagram_set_diagram_type ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_LIST_ORDER ) )
+                    {
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
+                        data_diagram_set_list_order ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_DESCRIPTION ) )
+                    {
+                        result = json_element_reader_private_read_string_array( this_, (*this_).temp_string );
+                        data_diagram_set_description( out_object,
+                                                      utf8stringbuf_get_string( (*this_).temp_string )
+                                                    );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_NAME ) )
+                    {
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                        result |= data_diagram_set_name( out_object,
+                                                         utf8stringbuf_get_string( (*this_).temp_string )
+                                                       );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS ) )
+                    {
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
+                        data_diagram_set_display_flags ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_PARENT ) )
+                    {
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), out_parent_uuid );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
+                    {
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                        result |= data_diagram_set_uuid( out_object,
+                                                         utf8stringbuf_get_string( (*this_).temp_string )
+                                                       );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS ) )
+                    {
+                        break_at_subelements = true;  /* end the loop */
                     }
                     else
                     {
-                        first_member_passed = true;
-                    }
-                    if ( U8_ERROR_NONE == result )
-                    {
-                        result = json_token_reader_read_member_name ( &((*this_).tokenizer), member_name );
-                    }
-                    if ( U8_ERROR_NONE == result )
-                    {
-                        result = json_token_reader_expect_name_separator ( &((*this_).tokenizer) );
-                    }
-                    if ( U8_ERROR_NONE == result )
-                    {
-                        if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_ID ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                            data_diagram_set_row_id ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_PARENT_ID ) )
-                        {
-                            int64_t ignored_integer;
-                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &ignored_integer );
-                            (void) ignored_integer;
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                            data_diagram_set_diagram_type ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_LIST_ORDER ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                            data_diagram_set_list_order ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_DESCRIPTION ) )
-                        {
-                            result = json_element_reader_private_read_string_array( this_, (*this_).temp_string );
-                            data_diagram_set_description( out_object,
-                                                          utf8stringbuf_get_string( (*this_).temp_string )
-                                                        );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_NAME ) )
-                        {
-                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            result |= data_diagram_set_name( out_object,
-                                                             utf8stringbuf_get_string( (*this_).temp_string )
-                                                           );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
-                            data_diagram_set_display_flags ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_PARENT ) )
-                        {
-                            result = json_token_reader_read_string_value( &((*this_).tokenizer), out_parent_uuid );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
-                        {
-                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            result |= data_diagram_set_uuid( out_object,
-                                                             utf8stringbuf_get_string( (*this_).temp_string )
-                                                           );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS ) )
-                        {
-                            break_at_subelements = true;  /* end the loop */
-                        }
-                        else
-                        {
-                            TSLOG_ERROR_INT( "unexpected member name at line",
-                                             json_token_reader_get_input_line( &((*this_).tokenizer) )
-                                           );
-                            result = U8_ERROR_PARSER_STRUCTURE;
-                        }
+                        TSLOG_ERROR_INT( "unexpected member name at line",
+                                         json_token_reader_get_input_line( &((*this_).tokenizer) )
+                                       );
+                        result = U8_ERROR_PARSER_STRUCTURE;
                     }
                 }
             }
-            else
-            {
-                TSLOG_ERROR_INT( "unexpected character at line",
-                                 json_token_reader_get_input_line( &((*this_).tokenizer) )
-                               );
-                result = U8_ERROR_PARSER_STRUCTURE;
-                object_end = true;
-            }
+        }
+        else
+        {
+            TSLOG_ERROR_INT( "unexpected character at line",
+                             json_token_reader_get_input_line( &((*this_).tokenizer) )
+                           );
+            result = U8_ERROR_PARSER_STRUCTURE;
+            object_end = true;
         }
     }
 
@@ -603,6 +596,7 @@ u8_error_t json_element_reader_get_next_diagram ( json_element_reader_t *this_,
         data_diagram_trace( out_object );
     }
 
+    *out_has_diagramelements_array = break_at_subelements;
     TRACE_END_ERR( result );
     return result;
 }
@@ -632,144 +626,140 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
 
     bool first_member_passed = false;
     bool object_end = false;
-    static const int MAX_MEMBERS = 24;  /* mamimum number of members to parse */
-    if ( U8_ERROR_NONE == result )
+    while (( ! object_end )&&( U8_ERROR_NONE == result ))
     {
-        for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ); count ++ )
+        result = json_token_reader_check_end_object ( &((*this_).tokenizer), &object_end );
+        if ( U8_ERROR_NONE == result )
         {
-            result = json_token_reader_check_end_object ( &((*this_).tokenizer), &object_end );
-            if ( U8_ERROR_NONE == result )
+            if ( ! object_end )
             {
-                if ( ! object_end )
+                if ( first_member_passed )
                 {
-                    if ( first_member_passed )
+                    result = json_token_reader_expect_value_separator ( &((*this_).tokenizer) );
+                }
+                else
+                {
+                    first_member_passed = true;
+                }
+                if ( U8_ERROR_NONE == result )
+                {
+                    result = json_token_reader_read_member_name ( &((*this_).tokenizer), member_name );
+                }
+                if ( U8_ERROR_NONE == result )
+                {
+                    result = json_token_reader_expect_name_separator ( &((*this_).tokenizer) );
+                }
+                if ( U8_ERROR_NONE == result )
+                {
+                    if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_ID ) )
                     {
-                        result = json_token_reader_expect_value_separator ( &((*this_).tokenizer) );
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
+                        data_relationship_set_row_id ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE ) )
+                    {
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
+                        data_relationship_set_main_type ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_LIST_ORDER ) )
+                    {
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
+                        data_relationship_set_list_order ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_DESCRIPTION ) )
+                    {
+                        result = json_element_reader_private_read_string_array( this_, (*this_).temp_string );
+                        data_relationship_set_description( out_object,
+                                                           utf8stringbuf_get_string( (*this_).temp_string )
+                                                         );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_NAME ) )
+                    {
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                        data_relationship_set_name( out_object,
+                                                    utf8stringbuf_get_string( (*this_).temp_string )
+                                                  );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_ID ) )
+                    {
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
+                        data_relationship_set_from_classifier_row_id ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_NAME ) )
+                    {
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                        TRACE_INFO_STR( "from-classifier name:", utf8stringbuf_get_string( (*this_).temp_string ) );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_ID ) )
+                    {
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
+                        data_relationship_set_from_feature_row_id ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_KEY ) )
+                    {
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                        TRACE_INFO_STR( "from-feature key:", utf8stringbuf_get_string( (*this_).temp_string ) );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_ID ) )
+                    {
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
+                        data_relationship_set_to_classifier_row_id ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_NAME ) )
+                    {
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                        TRACE_INFO_STR( "to-classifier name:", utf8stringbuf_get_string( (*this_).temp_string ) );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_ID ) )
+                    {
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
+                        data_relationship_set_to_feature_row_id ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_KEY ) )
+                    {
+
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                        TRACE_INFO_STR( "to-feature key:", utf8stringbuf_get_string( (*this_).temp_string ) );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE ) )
+                    {
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), out_from_node_uuid );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE ) )
+                    {
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), out_to_node_uuid );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
+                    {
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                        result |= data_relationship_set_uuid( out_object,
+                                                              utf8stringbuf_get_string( (*this_).temp_string )
+                                                            );
                     }
                     else
                     {
-                        first_member_passed = true;
-                    }
-                    if ( U8_ERROR_NONE == result )
-                    {
-                        result = json_token_reader_read_member_name ( &((*this_).tokenizer), member_name );
-                    }
-                    if ( U8_ERROR_NONE == result )
-                    {
-                        result = json_token_reader_expect_name_separator ( &((*this_).tokenizer) );
-                    }
-                    if ( U8_ERROR_NONE == result )
-                    {
-                        if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_ID ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                            data_relationship_set_row_id ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                            data_relationship_set_main_type ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_LIST_ORDER ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                            data_relationship_set_list_order ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_DESCRIPTION ) )
-                        {
-                            result = json_element_reader_private_read_string_array( this_, (*this_).temp_string );
-                            data_relationship_set_description( out_object,
-                                                               utf8stringbuf_get_string( (*this_).temp_string )
-                                                             );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_NAME ) )
-                        {
-                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            data_relationship_set_name( out_object,
-                                                        utf8stringbuf_get_string( (*this_).temp_string )
-                                                      );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_ID ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
-                            data_relationship_set_from_classifier_row_id ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_NAME ) )
-                        {
-                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            TRACE_INFO_STR( "from-classifier name:", utf8stringbuf_get_string( (*this_).temp_string ) );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_ID ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
-                            data_relationship_set_from_feature_row_id ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_KEY ) )
-                        {
-                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            TRACE_INFO_STR( "from-feature key:", utf8stringbuf_get_string( (*this_).temp_string ) );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_ID ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
-                            data_relationship_set_to_classifier_row_id ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_NAME ) )
-                        {
-                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            TRACE_INFO_STR( "to-classifier name:", utf8stringbuf_get_string( (*this_).temp_string ) );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_ID ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
-                            data_relationship_set_to_feature_row_id ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_KEY ) )
-                        {
-
-                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            TRACE_INFO_STR( "to-feature key:", utf8stringbuf_get_string( (*this_).temp_string ) );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE ) )
-                        {
-                            result = json_token_reader_read_string_value( &((*this_).tokenizer), out_from_node_uuid );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE ) )
-                        {
-                            result = json_token_reader_read_string_value( &((*this_).tokenizer), out_to_node_uuid );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
-                        {
-                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            result |= data_relationship_set_uuid( out_object,
-                                                                  utf8stringbuf_get_string( (*this_).temp_string )
-                                                                );
-                        }
-                        else
-                        {
-                            TSLOG_ERROR_INT( "unexpected member name at line",
-                                             json_token_reader_get_input_line( &((*this_).tokenizer) )
-                                           );
-                            result = U8_ERROR_PARSER_STRUCTURE;
-                        }
+                        TSLOG_ERROR_INT( "unexpected member name at line",
+                                         json_token_reader_get_input_line( &((*this_).tokenizer) )
+                                       );
+                        result = U8_ERROR_PARSER_STRUCTURE;
                     }
                 }
             }
-            else
-            {
-                TSLOG_ERROR_INT( "unexpected character at line",
-                                 json_token_reader_get_input_line( &((*this_).tokenizer) )
-                               );
-                result = U8_ERROR_PARSER_STRUCTURE;
-                object_end = true;
-            }
+        }
+        else
+        {
+            TSLOG_ERROR_INT( "unexpected character at line",
+                             json_token_reader_get_input_line( &((*this_).tokenizer) )
+                           );
+            result = U8_ERROR_PARSER_STRUCTURE;
+            object_end = true;
         }
     }
 
@@ -800,107 +790,103 @@ u8_error_t json_element_reader_skip_next_object ( json_element_reader_t *this_ )
 
     bool first_member_passed = false;
     bool object_end = false;
-    static const int MAX_MEMBERS = 16;  /* mamimum number of members to parse */
-    if ( U8_ERROR_NONE == result )
+    while (( ! object_end )&&( U8_ERROR_NONE == result ))
     {
-        for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ); count ++ )
+        result = json_token_reader_check_end_object ( &((*this_).tokenizer), &object_end );
+        if ( U8_ERROR_NONE == result )
         {
-            result = json_token_reader_check_end_object ( &((*this_).tokenizer), &object_end );
-            if ( U8_ERROR_NONE == result )
+            if ( ! object_end )
             {
-                if ( ! object_end )
+                if ( first_member_passed )
                 {
-                    if ( first_member_passed )
+                    result = json_token_reader_expect_value_separator ( &((*this_).tokenizer) );
+                }
+                else
+                {
+                    first_member_passed = true;
+                }
+                if ( U8_ERROR_NONE == result )
+                {
+                    result = json_token_reader_read_member_name ( &((*this_).tokenizer), member_name );
+                }
+                if ( U8_ERROR_NONE == result )
+                {
+                    result = json_token_reader_expect_name_separator ( &((*this_).tokenizer) );
+                }
+                json_value_type_t v_type;
+                if ( U8_ERROR_NONE == result )
+                {
+                    result = json_token_reader_get_value_type ( &((*this_).tokenizer), &v_type );
+                }
+                if ( U8_ERROR_NONE == result )
+                {
+                    switch ( v_type )
                     {
-                        result = json_token_reader_expect_value_separator ( &((*this_).tokenizer) );
-                    }
-                    else
-                    {
-                        first_member_passed = true;
-                    }
-                    if ( U8_ERROR_NONE == result )
-                    {
-                        result = json_token_reader_read_member_name ( &((*this_).tokenizer), member_name );
-                    }
-                    if ( U8_ERROR_NONE == result )
-                    {
-                        result = json_token_reader_expect_name_separator ( &((*this_).tokenizer) );
-                    }
-                    json_value_type_t v_type;
-                    if ( U8_ERROR_NONE == result )
-                    {
-                        result = json_token_reader_get_value_type ( &((*this_).tokenizer), &v_type );
-                    }
-                    if ( U8_ERROR_NONE == result )
-                    {
-                        switch ( v_type )
+                        case JSON_VALUE_TYPE_OBJECT:
                         {
-                            case JSON_VALUE_TYPE_OBJECT:
-                            {
-                                result = U8_ERROR_PARSER_STRUCTURE; /* this function does not expect objects in objects */
-                            }
-                            break;
-
-                            case JSON_VALUE_TYPE_ARRAY:
-                            {
-                                result = U8_ERROR_PARSER_STRUCTURE; /* this function does not expect arrays in objects */
-                            }
-                            break;
-
-                            case JSON_VALUE_TYPE_NUMBER:
-                            {
-                                double parsed_number;
-                                result = json_token_reader_read_number_value ( &((*this_).tokenizer), &parsed_number );
-                            }
-                            break;
-
-                            case JSON_VALUE_TYPE_INTEGER:
-                            {
-                                int64_t parsed_integer;
-                                result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                            }
-                            break;
-
-                            case JSON_VALUE_TYPE_STRING:
-                            {
-                                result = json_element_reader_skip_next_string( this_ );
-                            }
-                            break;
-
-                            case JSON_VALUE_TYPE_BOOLEAN:
-                            {
-                                bool parsed_bool;
-                                result = json_token_reader_read_boolean_value ( &((*this_).tokenizer), &parsed_bool );
-                            }
-                            break;
-
-                            case JSON_VALUE_TYPE_NULL:
-                            {
-                                result = json_token_reader_expect_null_value ( &((*this_).tokenizer) );
-                            }
-                            break;
-
-                            case JSON_VALUE_TYPE_UNDEF:
-                            default:
-                            {
-                                TSLOG_ERROR_INT( "unexpected member name at line",
-                                                 json_token_reader_get_input_line( &((*this_).tokenizer) )
-                                               );
-                                result = U8_ERROR_PARSER_STRUCTURE; /* this function does not expect objects in objects */
-                            }
-                            break;
+                            result = U8_ERROR_PARSER_STRUCTURE; /* this function does not expect objects in objects */
                         }
+                        break;
+
+                        case JSON_VALUE_TYPE_ARRAY:
+                        {
+                            result = U8_ERROR_PARSER_STRUCTURE; /* this function does not expect arrays in objects */
+                        }
+                        break;
+
+                        case JSON_VALUE_TYPE_NUMBER:
+                        {
+                            double parsed_number;
+                            result = json_token_reader_read_number_value ( &((*this_).tokenizer), &parsed_number );
+                        }
+                        break;
+
+                        case JSON_VALUE_TYPE_INTEGER:
+                        {
+                            int64_t parsed_integer;
+                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
+                        }
+                        break;
+
+                        case JSON_VALUE_TYPE_STRING:
+                        {
+                            result = json_element_reader_skip_next_string( this_ );
+                        }
+                        break;
+
+                        case JSON_VALUE_TYPE_BOOLEAN:
+                        {
+                            bool parsed_bool;
+                            result = json_token_reader_read_boolean_value ( &((*this_).tokenizer), &parsed_bool );
+                        }
+                        break;
+
+                        case JSON_VALUE_TYPE_NULL:
+                        {
+                            result = json_token_reader_expect_null_value ( &((*this_).tokenizer) );
+                        }
+                        break;
+
+                        case JSON_VALUE_TYPE_UNDEF:
+                        default:
+                        {
+                            TSLOG_ERROR_INT( "unexpected member name at line",
+                                             json_token_reader_get_input_line( &((*this_).tokenizer) )
+                                           );
+                            result = U8_ERROR_PARSER_STRUCTURE; /* this function does not expect objects in objects */
+                        }
+                        break;
                     }
                 }
             }
-            else
-            {
-                TSLOG_ERROR_INT( "unexpected character at line",
-                                 json_token_reader_get_input_line( &((*this_).tokenizer) )
-                               );
-                result = U8_ERROR_PARSER_STRUCTURE;
-                object_end = true;
-            }
+        }
+        else
+        {
+            TSLOG_ERROR_INT( "unexpected character at line",
+                             json_token_reader_get_input_line( &((*this_).tokenizer) )
+                           );
+            result = U8_ERROR_PARSER_STRUCTURE;
+            object_end = true;
         }
     }
 
@@ -928,12 +914,13 @@ u8_error_t json_element_reader_skip_next_string ( json_element_reader_t *this_ )
     return result;
 }
 
-void json_element_reader_get_read_line ( json_element_reader_t *this_, uint32_t *out_read_pos )
+void json_element_reader_get_read_line ( json_element_reader_t *this_, uint32_t *out_read_line )
 {
     TRACE_BEGIN();
-    assert ( NULL != out_read_pos );
+    assert ( NULL != out_read_line );
 
-    (*out_read_pos) = json_token_reader_get_input_line( &((*this_).tokenizer) );
+    (*out_read_line) = json_token_reader_get_input_line( &((*this_).tokenizer) );
+    TRACE_INFO_INT( "line", *out_read_line );
 
     TRACE_END();
 }
@@ -958,98 +945,94 @@ u8_error_t json_element_reader_get_next_feature ( json_element_reader_t *this_, 
 
     bool first_member_passed = false;
     bool object_end = false;
-    static const int MAX_MEMBERS = 16;  /* mamimum number of members to parse */
-    if ( U8_ERROR_NONE == result )
+    while (( ! object_end )&&( U8_ERROR_NONE == result ))
     {
-        for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ); count ++ )
+        result = json_token_reader_check_end_object ( &((*this_).tokenizer), &object_end );
+        if ( U8_ERROR_NONE == result )
         {
-            result = json_token_reader_check_end_object ( &((*this_).tokenizer), &object_end );
-            if ( U8_ERROR_NONE == result )
+            if ( ! object_end )
             {
-                if ( ! object_end )
+                if ( first_member_passed )
                 {
-                    if ( first_member_passed )
+                    result = json_token_reader_expect_value_separator ( &((*this_).tokenizer) );
+                }
+                else
+                {
+                    first_member_passed = true;
+                }
+                if ( U8_ERROR_NONE == result )
+                {
+                    result = json_token_reader_read_member_name( &((*this_).tokenizer), member_name );
+                }
+                if ( U8_ERROR_NONE == result )
+                {
+                    result = json_token_reader_expect_name_separator( &((*this_).tokenizer) );
+                }
+                if ( U8_ERROR_NONE == result )
+                {
+                    if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_FEATURE_ID ) )
                     {
-                        result = json_token_reader_expect_value_separator ( &((*this_).tokenizer) );
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
+                        data_feature_set_row_id ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE ) )
+                    {
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
+                        data_feature_set_main_type( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_FEATURE_LIST_ORDER ) )
+                    {
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
+                        data_feature_set_list_order ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_FEATURE_DESCRIPTION ) )
+                    {
+                        result = json_element_reader_private_read_string_array( this_, (*this_).temp_string );
+                        data_feature_set_description( out_object,
+                                                      utf8stringbuf_get_string( (*this_).temp_string )
+                                                    );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_FEATURE_KEY ) )
+                    {
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                        data_feature_set_key( out_object,
+                                              utf8stringbuf_get_string( (*this_).temp_string )
+                                            );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_FEATURE_VALUE ) )
+                    {
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                        data_feature_set_value( out_object,
+                                                utf8stringbuf_get_string( (*this_).temp_string )
+                                              );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
+                    {
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                        result |= data_feature_set_uuid( out_object,
+                                                         utf8stringbuf_get_string( (*this_).temp_string )
+                                                       );
                     }
                     else
                     {
-                        first_member_passed = true;
-                    }
-                    if ( U8_ERROR_NONE == result )
-                    {
-                        result = json_token_reader_read_member_name( &((*this_).tokenizer), member_name );
-                    }
-                    if ( U8_ERROR_NONE == result )
-                    {
-                        result = json_token_reader_expect_name_separator( &((*this_).tokenizer) );
-                    }
-                    if ( U8_ERROR_NONE == result )
-                    {
-                        if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_FEATURE_ID ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
-                            data_feature_set_row_id ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
-                            data_feature_set_main_type( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_FEATURE_LIST_ORDER ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                            data_feature_set_list_order ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_FEATURE_DESCRIPTION ) )
-                        {
-                            result = json_element_reader_private_read_string_array( this_, (*this_).temp_string );
-                            data_feature_set_description( out_object,
-                                                          utf8stringbuf_get_string( (*this_).temp_string )
-                                                        );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_FEATURE_KEY ) )
-                        {
-                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            data_feature_set_key( out_object,
-                                                  utf8stringbuf_get_string( (*this_).temp_string )
-                                                );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_FEATURE_VALUE ) )
-                        {
-                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            data_feature_set_value( out_object,
-                                                    utf8stringbuf_get_string( (*this_).temp_string )
-                                                  );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
-                        {
-                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            result |= data_feature_set_uuid( out_object,
-                                                             utf8stringbuf_get_string( (*this_).temp_string )
-                                                           );
-                        }
-                        else
-                        {
-                            TSLOG_ERROR_INT( "unexpected member name at line",
-                                             json_token_reader_get_input_line( &((*this_).tokenizer) )
-                                           );
-                            result = U8_ERROR_PARSER_STRUCTURE;
-                        }
+                        TSLOG_ERROR_INT( "unexpected member name at line",
+                                         json_token_reader_get_input_line( &((*this_).tokenizer) )
+                                       );
+                        result = U8_ERROR_PARSER_STRUCTURE;
                     }
                 }
             }
-            else
-            {
-                TSLOG_ERROR_INT( "unexpected character at line",
-                                 json_token_reader_get_input_line( &((*this_).tokenizer) )
-                               );
-                result = U8_ERROR_PARSER_STRUCTURE;
-                object_end = true;
-            }
+        }
+        else
+        {
+            TSLOG_ERROR_INT( "unexpected character at line",
+                             json_token_reader_get_input_line( &((*this_).tokenizer) )
+                           );
+            result = U8_ERROR_PARSER_STRUCTURE;
+            object_end = true;
         }
     }
 
@@ -1086,93 +1069,89 @@ u8_error_t json_element_reader_get_next_diagramelement( json_element_reader_t *t
 
     bool first_member_passed = false;
     bool object_end = false;
-    static const int MAX_MEMBERS = 16;  /* mamimum number of members to parse */
-    if ( U8_ERROR_NONE == result )
+    while (( ! object_end )&&( U8_ERROR_NONE == result ))
     {
-        for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ); count ++ )
+        result = json_token_reader_check_end_object ( &((*this_).tokenizer), &object_end );
+        if ( U8_ERROR_NONE == result )
         {
-            result = json_token_reader_check_end_object ( &((*this_).tokenizer), &object_end );
-            if ( U8_ERROR_NONE == result )
+            if ( ! object_end )
             {
-                if ( ! object_end )
+                if ( first_member_passed )
                 {
-                    if ( first_member_passed )
+                    result = json_token_reader_expect_value_separator ( &((*this_).tokenizer) );
+                }
+                else
+                {
+                    first_member_passed = true;
+                }
+                if ( U8_ERROR_NONE == result )
+                {
+                    result = json_token_reader_read_member_name( &((*this_).tokenizer), member_name );
+                }
+                if ( U8_ERROR_NONE == result )
+                {
+                    result = json_token_reader_expect_name_separator( &((*this_).tokenizer) );
+                }
+                if ( U8_ERROR_NONE == result )
+                {
+                    if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_ID ) )
                     {
-                        result = json_token_reader_expect_value_separator ( &((*this_).tokenizer) );
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
+                        data_diagramelement_set_row_id ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DIAGRAM_ID ) )
+                    {
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
+                        data_diagramelement_set_diagram_row_id( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_CLASSIFIER_ID ) )
+                    {
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
+                        data_diagramelement_set_classifier_row_id ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE_ID ) )
+                    {
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
+                        data_diagramelement_set_focused_feature_row_id ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS ) )
+                    {
+                        int64_t parsed_integer;
+                        result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
+                        data_diagramelement_set_display_flags ( out_object, parsed_integer );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE ) )
+                    {
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), out_node_uuid );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
+                    {
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                        result |= data_diagramelement_set_uuid( out_object,
+                                                                utf8stringbuf_get_string( (*this_).temp_string )
+                                                              );
                     }
                     else
                     {
-                        first_member_passed = true;
-                    }
-                    if ( U8_ERROR_NONE == result )
-                    {
-                        result = json_token_reader_read_member_name( &((*this_).tokenizer), member_name );
-                    }
-                    if ( U8_ERROR_NONE == result )
-                    {
-                        result = json_token_reader_expect_name_separator( &((*this_).tokenizer) );
-                    }
-                    if ( U8_ERROR_NONE == result )
-                    {
-                        if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_ID ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
-                            data_diagramelement_set_row_id ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DIAGRAM_ID ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
-                            data_diagramelement_set_diagram_row_id( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_CLASSIFIER_ID ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                            data_diagramelement_set_classifier_row_id ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE_ID ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                            data_diagramelement_set_focused_feature_row_id ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS ) )
-                        {
-                            int64_t parsed_integer;
-                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                            data_diagramelement_set_display_flags ( out_object, parsed_integer );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE ) )
-                        {
-                            result = json_token_reader_read_string_value( &((*this_).tokenizer), out_node_uuid );
-                        }
-                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_UUID ) )
-                        {
-                            result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                            result |= data_diagramelement_set_uuid( out_object,
-                                                                    utf8stringbuf_get_string( (*this_).temp_string )
-                                                                  );
-                        }
-                        else
-                        {
-                            TSLOG_ERROR_INT( "unexpected member name at line",
-                                             json_token_reader_get_input_line( &((*this_).tokenizer) )
-                                           );
-                            result = U8_ERROR_PARSER_STRUCTURE;
-                        }
+                        TSLOG_ERROR_INT( "unexpected member name at line",
+                                         json_token_reader_get_input_line( &((*this_).tokenizer) )
+                                       );
+                        result = U8_ERROR_PARSER_STRUCTURE;
                     }
                 }
             }
-            else
-            {
-                TSLOG_ERROR_INT( "unexpected character at line",
-                                 json_token_reader_get_input_line( &((*this_).tokenizer) )
-                               );
-                result = U8_ERROR_PARSER_STRUCTURE;
-                object_end = true;
-            }
+        }
+        else
+        {
+            TSLOG_ERROR_INT( "unexpected character at line",
+                             json_token_reader_get_input_line( &((*this_).tokenizer) )
+                           );
+            result = U8_ERROR_PARSER_STRUCTURE;
+            object_end = true;
         }
     }
 

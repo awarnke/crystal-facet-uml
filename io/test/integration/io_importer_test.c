@@ -135,7 +135,7 @@ static const char *const test_json_own_diagram =
     "          {\n"
     "            \"id\": 89,\n"
     "            \"classifier_id\": 15,\n"
-    "            \"focused_feature_id\": \"-1\",\n"
+    "            \"focused_feature_id\": -1,\n"
     "            \"display_flags\": 0,\n"
     "            \"uuid\": \"7fa23aed-0e92-4f00-9fb4-9b97930d58f2\"\n"
     "          }\n"
@@ -325,7 +325,7 @@ static void insert_invalid_parent_diag(void)
                                            );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_FOCUS_EMPTY, data_err );
     TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
-    TEST_ASSERT_EQUAL_INT( read_line, 40 );
+    TEST_ASSERT_EQUAL_INT( read_line, 20 );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -412,6 +412,7 @@ static void insert_new_classifier_to_new_diagram(void)
     TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
+    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED ) );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
     /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
@@ -420,7 +421,7 @@ static void insert_new_classifier_to_new_diagram(void)
     TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
     /* DATA_TABLE_RELATIONSHIP: destination does not exist */
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ) );
-    TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );
+    TEST_ASSERT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );
     TEST_ASSERT_EQUAL_INT( 87, read_pos );
 
     data_stat_destroy(&stat);
@@ -501,7 +502,7 @@ static void insert_existing_classifier_to_new_diagram(void)
                                                  &read_pos
                                                );
         TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
+        TEST_ASSERT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
         TEST_ASSERT_EQUAL_INT( 87, read_pos );
         data_stat_destroy(&stat);
     }
@@ -517,7 +518,7 @@ static void insert_existing_classifier_to_new_diagram(void)
                                                );
         TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
-        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED ) );
+        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED ) );
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
@@ -529,7 +530,7 @@ static void insert_existing_classifier_to_new_diagram(void)
         TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
         /* DATA_TABLE_RELATIONSHIP: destination does not exist */
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ) );
-        TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
+        TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );
         TEST_ASSERT_EQUAL_INT( 87, read_pos );
 
         data_stat_destroy(&stat);

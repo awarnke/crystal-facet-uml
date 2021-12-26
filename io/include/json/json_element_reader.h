@@ -261,9 +261,9 @@ u8_error_t json_element_reader_skip_next_string ( json_element_reader_t *this_ )
  *  May be used to determine the position where a parse error occurred.
  *
  *  \param this_ pointer to own object attributes
- *  \param[out] out_read_pos pointer to storage location for the result. Must not be NULL.
+ *  \param[out] out_read_line pointer to storage location for the read line number. Must not be NULL.
  */
-void json_element_reader_get_read_line ( json_element_reader_t *this_, uint32_t *out_read_pos );
+void json_element_reader_get_read_line ( json_element_reader_t *this_, uint32_t *out_read_line );
 
 /*!
  *  \brief parses the next object as feature
