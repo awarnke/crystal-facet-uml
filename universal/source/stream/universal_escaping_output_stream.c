@@ -10,8 +10,8 @@
 /* the vmt implementing the interface */
 static const universal_output_stream_if_t universal_escaping_output_stream_private_if
     = {
-        .write = (int (*)(universal_output_stream_impl_t*, const void*, size_t)) &universal_escaping_output_stream_write,
-        .flush = (int (*)(universal_output_stream_impl_t*)) &universal_escaping_output_stream_flush
+        .write = (u8_error_t (*)(universal_output_stream_impl_t*, const void*, size_t)) &universal_escaping_output_stream_write,
+        .flush = (u8_error_t (*)(universal_output_stream_impl_t*)) &universal_escaping_output_stream_flush
     };
 
 void universal_escaping_output_stream_init ( universal_escaping_output_stream_t *this_,
@@ -29,10 +29,10 @@ void universal_escaping_output_stream_init ( universal_escaping_output_stream_t 
     TRACE_END();
 }
 
-int universal_escaping_output_stream_destroy( universal_escaping_output_stream_t *this_ )
+u8_error_t universal_escaping_output_stream_destroy( universal_escaping_output_stream_t *this_ )
 {
     TRACE_BEGIN();
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     (*this_).patterns_and_replacements = NULL;
     (*this_).sink = NULL;
@@ -53,13 +53,13 @@ void universal_escaping_output_stream_change_rules( universal_escaping_output_st
     TRACE_END();
 }
 
-int universal_escaping_output_stream_write ( universal_escaping_output_stream_t *this_, const void *start, size_t length )
+u8_error_t universal_escaping_output_stream_write ( universal_escaping_output_stream_t *this_, const void *start, size_t length )
 {
     /*TRACE_BEGIN();*/
     assert( start != NULL );
     assert( (*this_).patterns_and_replacements != NULL );
     assert( (*this_).sink != NULL );
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
     const char (*char_buf)[] = (void*)start;
 
     /* count and analyze input patterns */
@@ -138,12 +138,12 @@ int universal_escaping_output_stream_write ( universal_escaping_output_stream_t 
     return err;
 }
 
-int universal_escaping_output_stream_flush( universal_escaping_output_stream_t *this_ )
+u8_error_t universal_escaping_output_stream_flush( universal_escaping_output_stream_t *this_ )
 {
     TRACE_BEGIN();
     assert( (*this_).sink != NULL );
 
-    const int err = universal_output_stream_flush( (*this_).sink );
+    const u8_error_t err = universal_output_stream_flush( (*this_).sink );
 
     TRACE_END_ERR(err);
     return err;

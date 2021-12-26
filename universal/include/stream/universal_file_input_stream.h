@@ -33,26 +33,26 @@ void universal_file_input_stream_init( universal_file_input_stream_t *this_ );
  *  \brief destroys the universal_file_input_stream_t
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_READ otherwise
  */
-int universal_file_input_stream_destroy( universal_file_input_stream_t *this_ );
+u8_error_t universal_file_input_stream_destroy( universal_file_input_stream_t *this_ );
 
 /*!
  *  \brief resets the read position to 0
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_READ otherwise
  */
-int universal_file_input_stream_reset ( universal_file_input_stream_t *this_ );
+u8_error_t universal_file_input_stream_reset ( universal_file_input_stream_t *this_ );
 
 /*!
  *  \brief opens a file
  *
  *  \param this_ pointer to own object attributes
  *  \param path file path identifying the file to open for reading
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_READ otherwise
  */
-int universal_file_input_stream_open ( universal_file_input_stream_t *this_, const char *path );
+u8_error_t universal_file_input_stream_open ( universal_file_input_stream_t *this_, const char *path );
 
 /*!
  *  \brief reads a buffer from a file
@@ -61,17 +61,17 @@ int universal_file_input_stream_open ( universal_file_input_stream_t *this_, con
  *  \param out_buffer buffer to write read bytes
  *  \param max_size length of the buffer to write
  *  \param out_length number of bytes read
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_READ otherwise
  */
-int universal_file_input_stream_read ( universal_file_input_stream_t *this_, void *out_buffer, size_t max_size, size_t *out_length );
+u8_error_t universal_file_input_stream_read ( universal_file_input_stream_t *this_, void *out_buffer, size_t max_size, size_t *out_length );
 
 /*!
  *  \brief closes the universal_file_input_stream_t
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_READ otherwise
  */
-int universal_file_input_stream_close( universal_file_input_stream_t *this_ );
+u8_error_t universal_file_input_stream_close( universal_file_input_stream_t *this_ );
 
 /*!
  *  \brief gets the input stream interface of this universal_file_input_stream_t

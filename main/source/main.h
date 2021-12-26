@@ -10,6 +10,7 @@
  */
 
 #include "io_file_format.h"
+#include "io_import_mode.h"
 
 /*!
  *  \brief main starts the gui (or a headless feature)
@@ -22,6 +23,13 @@ int main (int argc, char *argv[]);
  *  \return one or more bits of the io_file_format_t enumeration, 0 if no format could be determined.
  */
 io_file_format_t main_private_get_selected_format( char *arg_fmt );
+
+/*!
+ *  \brief compares the command line options to the available import modes
+ *
+ *  \return one or more bits of the io_import_mode_t enumeration, IO_IMPORT_MODE_CHECK if no mode could be determined.
+ */
+io_import_mode_t main_private_get_selected_mode( char *arg_fmt );
 
 #endif  /* MAIN_H */
 

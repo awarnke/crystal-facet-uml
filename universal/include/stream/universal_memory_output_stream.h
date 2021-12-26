@@ -46,9 +46,9 @@ void universal_memory_output_stream_destroy( universal_memory_output_stream_t *t
  *  \brief resets write position to 0 of this memory output stream,
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-int universal_memory_output_stream_reset ( universal_memory_output_stream_t *this_ );
+u8_error_t universal_memory_output_stream_reset ( universal_memory_output_stream_t *this_ );
 
 /*!
  *  \brief writes a buffer (e.g. a stringview) to a memory output stream
@@ -56,17 +56,17 @@ int universal_memory_output_stream_reset ( universal_memory_output_stream_t *thi
  *  \param this_ pointer to own object attributes
  *  \param start buffer to write, not 0-terminated
  *  \param length length of the buffer to write
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-int universal_memory_output_stream_write ( universal_memory_output_stream_t *this_, const void *start, size_t length );
+u8_error_t universal_memory_output_stream_write ( universal_memory_output_stream_t *this_, const void *start, size_t length );
 
 /*!
  *  \brief flushes buffers
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-int universal_memory_output_stream_flush( universal_memory_output_stream_t *this_ );
+u8_error_t universal_memory_output_stream_flush( universal_memory_output_stream_t *this_ );
 
 /*!
  *  \brief writes a terminating zero to a memory output stream
@@ -75,9 +75,9 @@ int universal_memory_output_stream_flush( universal_memory_output_stream_t *this
  *  to ensure that even in this error case, the buffer is null-terminated.
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 if last byte gets overwritten or buffer of size 0
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-int universal_memory_output_stream_write_0term ( universal_memory_output_stream_t *this_ );
+u8_error_t universal_memory_output_stream_write_0term ( universal_memory_output_stream_t *this_ );
 
 /*!
  *  \brief gets the output stream interface of this universal_memory_output_stream_t

@@ -40,6 +40,7 @@ enum data_error_enum {
     U8_ERROR_DUPLICATE_ID           = U8_ERROR_CAT_LOGIC_ANOMALY + 0x0011,  /*!< internal error: an id is used twice */
     U8_ERROR_DUPLICATE_NAME         = U8_ERROR_CAT_LOGIC_ANOMALY + 0x0012,  /*!< internal error: a name is used twice */
     U8_ERROR_DUPLICATE_UUID         = U8_ERROR_CAT_LOGIC_ANOMALY + 0x0014,  /*!< internal error: an uuid is used twice */
+    U8_ERROR_END_OF_STREAM          = U8_ERROR_CAT_LOGIC_ANOMALY + 0x0100,  /*!< internal error: a file or stream is at the end */
 
     U8_ERROR_LOGIC_STATE   = U8_ERROR_CAT_LOGIC_STATE,
     U8_ERROR_NOT_YET_IMPLEMENTED    = U8_ERROR_CAT_LOGIC_STATE,  /*!< internal error: function not yet implemented */

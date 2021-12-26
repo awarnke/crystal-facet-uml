@@ -10,7 +10,7 @@
 /* the vmt implementing the interface */
 static const universal_input_stream_if_t universal_memory_input_stream_private_if
     = {
-        .read = (int (*)(universal_input_stream_impl_t*, void*, size_t, size_t*)) &universal_memory_input_stream_read
+        .read = (u8_error_t (*)(universal_input_stream_impl_t*, void*, size_t, size_t*)) &universal_memory_input_stream_read
     };
 
 void universal_memory_input_stream_init ( universal_memory_input_stream_t *this_,
@@ -52,11 +52,11 @@ void universal_memory_input_stream_destroy( universal_memory_input_stream_t *thi
     TRACE_END();
 }
 
-int universal_memory_input_stream_reset ( universal_memory_input_stream_t *this_ )
+u8_error_t universal_memory_input_stream_reset ( universal_memory_input_stream_t *this_ )
 {
     TRACE_BEGIN();
     assert( (*this_).mem_buf_start != NULL );
-    const int err = 0;
+    const u8_error_t err = U8_ERROR_NONE;
 
     (*this_).mem_buf_pos = 0;
 
@@ -64,14 +64,14 @@ int universal_memory_input_stream_reset ( universal_memory_input_stream_t *this_
     return err;
 }
 
-int universal_memory_input_stream_read ( universal_memory_input_stream_t *this_, void *out_buffer, size_t max_size, size_t *out_length )
+u8_error_t universal_memory_input_stream_read ( universal_memory_input_stream_t *this_, void *out_buffer, size_t max_size, size_t *out_length )
 {
     /*TRACE_BEGIN();*/
     assert( out_buffer != NULL );
     assert( max_size != 0 );
     assert( out_length != NULL );
     assert( (*this_).mem_buf_start != NULL );
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     const size_t stream_bytes_left = ( (*this_).mem_buf_size - (*this_).mem_buf_pos );
     if ( stream_bytes_left != 0 )
@@ -85,7 +85,7 @@ int universal_memory_input_stream_read ( universal_memory_input_stream_t *this_,
     }
     else
     {
-        err = -1;  /* finished, no more bytes to read */
+        err = U8_ERROR_END_OF_STREAM;  /* finished, no more bytes to read */
         *out_length = 0;
     }
 

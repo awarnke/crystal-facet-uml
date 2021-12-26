@@ -2,7 +2,6 @@
 
 #include "main.h"
 #include "main_commands.h"
-#include "io_file_format.h"
 #include "trace.h"
 #include "tslog.h"
 #include "meta/meta_info.h"
@@ -22,7 +21,7 @@ static const char *const MAIN_HELP
     "    -h for help\n"
     "    -v for version\n"
     "    -e <database_file> <export_format> <target_directory> to export all diagrams\n"
-    "    -i <database_file> json            <input_file>       to import elements\n"
+    "    -i <database_file> <import_mode>   <input_file>       to import elements\n"
     "    -u <database_file> to use/create a database file\n"
     "    -g <database_file> to upgrade the database tables from version 1.32.1 and older\n"
     "    -t <database_file> to test the database file\n"
@@ -43,7 +42,7 @@ int main (int argc, char *argv[]) {
     bool do_upgrade = false;
     bool do_import = false;
     io_file_format_t export_format = 0;
-    io_file_format_t import_format = 0;
+    io_import_mode_t import_mode = 0;
     universal_stream_output_stream_t out_stream;
     universal_stream_output_stream_init( &out_stream, stdout );
     universal_utf8_writer_t writer;
@@ -103,7 +102,7 @@ int main (int argc, char *argv[]) {
         if ( utf8string_equals_str( argv[1], "-i" ) )
         {
             database_file = argv[2];
-            import_format = main_private_get_selected_format(argv[3]);
+            import_mode = main_private_get_selected_mode(argv[3]);
             import_file = argv[4];
             do_not_start = true;
             do_import = true;
@@ -133,7 +132,7 @@ int main (int argc, char *argv[]) {
 
         if ( do_import )
         {
-            exit_code |= main_commands_import( &commands, database_file, import_format, import_file, &writer );
+            exit_code |= main_commands_import( &commands, database_file, import_mode, import_file, &writer );
         }
 
         /* run program */
@@ -194,6 +193,25 @@ io_file_format_t main_private_get_selected_format( char *arg_fmt )
     else if ( utf8string_equals_str( arg_fmt, "json" ) )
     {
         result = IO_FILE_FORMAT_JSON;
+    }
+
+    TRACE_END();
+    return result;
+}
+
+io_import_mode_t main_private_get_selected_mode( char *arg_fmt )
+{
+    TRACE_BEGIN();
+    assert( arg_fmt != NULL );
+    io_import_mode_t result = IO_IMPORT_MODE_CHECK;
+
+    if ( utf8string_equals_str( arg_fmt, "check" ) )
+    {
+        result = IO_IMPORT_MODE_CHECK;
+    }
+    else if ( utf8string_equals_str( arg_fmt, "update" ) )
+    {
+        result = IO_IMPORT_MODE_CREATE|IO_IMPORT_MODE_LINK;
     }
 
     TRACE_END();

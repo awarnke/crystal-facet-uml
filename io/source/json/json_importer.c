@@ -99,8 +99,7 @@ u8_error_t json_importer_private_import_views( json_importer_t *this_ )
         data_table_t next_object_type;
         bool set_end = false;  /* end of data set reached or error at parsing */
         sync_error = json_element_reader_check_end_top_array( &((*this_).temp_element_reader), &set_end );
-        static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* do not import more things than can be undone */
-        for ( int count = 0; ( ! set_end ) && ( sync_error == U8_ERROR_NONE ) && ( count < MAX_LOOP_COUNTER ); count ++ )
+        while (( ! set_end ) && ( sync_error == U8_ERROR_NONE ))
         {
             sync_error = json_element_reader_expect_begin_type_of_element( &((*this_).temp_element_reader), &next_object_type );
             if ( U8_ERROR_NONE == sync_error )
@@ -189,8 +188,7 @@ u8_error_t json_importer_private_import_nodes( json_importer_t *this_ )
         data_table_t next_object_type;
         bool set_end = false;  /* end of data set reached or error at parsing */
         sync_error = json_element_reader_check_end_top_array( &((*this_).temp_element_reader), &set_end );
-        static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* do not import more things than can be undone */
-        for ( int count = 0; ( ! set_end ) && ( sync_error == U8_ERROR_NONE ) && ( count < MAX_LOOP_COUNTER ); count ++ )
+        while (( ! set_end ) && ( sync_error == U8_ERROR_NONE ))
         {
             sync_error = json_element_reader_expect_begin_type_of_element( &((*this_).temp_element_reader), &next_object_type );
             if ( U8_ERROR_NONE == sync_error )
@@ -274,8 +272,7 @@ u8_error_t json_importer_private_import_edges( json_importer_t *this_ )
         data_table_t next_object_type;
         bool set_end = false;  /* end of data set reached or error at parsing */
         sync_error = json_element_reader_check_end_top_array( &((*this_).temp_element_reader), &set_end );
-        static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* do not import more things than can be undone */
-        for ( int count = 0; ( ! set_end ) && ( sync_error == U8_ERROR_NONE ) && ( count < MAX_LOOP_COUNTER ); count ++ )
+        while (( ! set_end ) && ( sync_error == U8_ERROR_NONE ))
         {
             sync_error = json_element_reader_expect_begin_type_of_element( &((*this_).temp_element_reader), &next_object_type );
             if ( U8_ERROR_NONE == sync_error )

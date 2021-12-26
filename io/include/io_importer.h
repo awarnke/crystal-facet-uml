@@ -81,7 +81,7 @@ u8_error_t io_importer_import_clipboard( io_importer_t *this_,
  *  \brief imports the file contents to the database
  *
  *  \param this_ pointer to own object attributes
- *  \param import_format file format, currently only IO_FILE_FORMAT_JSON is supported
+ *  \param import_mode import mode, e.g. check-only or update-overwrite
  *  \param import_file_path null-terminated file path, not NULL
  *  \param io_stat undefined in case of an error in the return value,
  *                 otherwise statistics on DATA_STAT_SERIES_CREATED,
@@ -98,7 +98,7 @@ u8_error_t io_importer_import_clipboard( io_importer_t *this_,
  *          other error code otherwise
  */
 u8_error_t io_importer_import_file( io_importer_t *this_,
-                                    io_file_format_t import_format,
+                                    io_import_mode_t import_mode,
                                     const char *import_file_path,
                                     data_stat_t *io_stat,
                                     universal_utf8_writer_t *out_english_report

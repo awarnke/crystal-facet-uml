@@ -11,6 +11,7 @@
  */
 
 #include "stream/universal_output_stream_if.h"
+#include "u8/u8_error.h"
 
 /*!
  *  \brief object (vmt+data) of a universal_output_stream_t.
@@ -41,9 +42,9 @@ static inline void universal_output_stream_private_init( universal_output_stream
  *  This function does NOT call \c destroy on the \c interface.
  *
  *  \param this_ pointer to own object attributes
- *  \return returns 0 if success, -1 in case of error
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-static inline int universal_output_stream_private_destroy( universal_output_stream_t *this_ );
+static inline u8_error_t universal_output_stream_private_destroy( universal_output_stream_t *this_ );
 
 /*!
  *  \brief gets the set of interface functions
@@ -67,17 +68,17 @@ static inline universal_output_stream_impl_t* universal_output_stream_get_object
  *  \param this_ pointer to own object attributes
  *  \param start start address from where to write
  *  \param length length in bytes to write
- *  \return returns 0 if success, -1 in case of error
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-static inline int universal_output_stream_write (universal_output_stream_t* this_, const void *start, size_t length);
+static inline u8_error_t universal_output_stream_write (universal_output_stream_t* this_, const void *start, size_t length);
 
 /*!
  *  \brief calls \c flush on the \c interface
  *
  *  \param this_ pointer to own object attributes
- *  \return returns 0 if success, -1 in case of error
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-static inline int universal_output_stream_flush (universal_output_stream_t* this_);
+static inline u8_error_t universal_output_stream_flush (universal_output_stream_t* this_);
 
 #include "universal_output_stream.inl"
 

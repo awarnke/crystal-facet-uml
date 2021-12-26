@@ -10,8 +10,8 @@
 /* the vmt implementing the interface */
 static const universal_output_stream_if_t universal_file_output_stream_private_if
     = {
-        .write = (int (*)(universal_output_stream_impl_t*, const void*, size_t)) &universal_file_output_stream_write,
-        .flush = (int (*)(universal_output_stream_impl_t*)) &universal_file_output_stream_flush
+        .write = (u8_error_t (*)(universal_output_stream_impl_t*, const void*, size_t)) &universal_file_output_stream_write,
+        .flush = (u8_error_t (*)(universal_output_stream_impl_t*)) &universal_file_output_stream_flush
     };
 
 void universal_file_output_stream_init ( universal_file_output_stream_t *this_ )
@@ -24,10 +24,10 @@ void universal_file_output_stream_init ( universal_file_output_stream_t *this_ )
     TRACE_END();
 }
 
-int universal_file_output_stream_destroy( universal_file_output_stream_t *this_ )
+u8_error_t universal_file_output_stream_destroy( universal_file_output_stream_t *this_ )
 {
     TRACE_BEGIN();
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     if ( (*this_).output != NULL )
     {
@@ -40,39 +40,39 @@ int universal_file_output_stream_destroy( universal_file_output_stream_t *this_ 
     return err;
 }
 
-int universal_file_output_stream_open ( universal_file_output_stream_t *this_, const char *path )
+u8_error_t universal_file_output_stream_open ( universal_file_output_stream_t *this_, const char *path )
 {
     TRACE_BEGIN();
     assert( (*this_).output == NULL );
     assert( path != NULL );
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     (*this_).output = fopen( path, "w" );
     if ( NULL == (*this_).output )
     {
         TSLOG_ERROR("error at opening file for writing.");
-        err = -1;
+        err = U8_ERROR_AT_FILE_WRITE;
     }
 
     TRACE_END_ERR(err);
     return err;
 }
 
-int universal_file_output_stream_write ( universal_file_output_stream_t *this_, const void *start, size_t length )
+u8_error_t universal_file_output_stream_write ( universal_file_output_stream_t *this_, const void *start, size_t length )
 {
     /*TRACE_BEGIN();*/
     assert( (*this_).output != NULL );
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     size_t written = 0;
-    while (( written < length )&&( err == 0 ))
+    while (( written < length )&&( err == U8_ERROR_NONE ))
     {
         ssize_t out_count;
         out_count = fwrite( ((const char*)start)+written, 1, length-written, (*this_).output );
         if ( out_count < 0 )
         {
             TSLOG_ERROR_INT( "not all bytes could be written. missing:", length-written );
-            err = -1;
+            err = U8_ERROR_AT_FILE_WRITE;
         }
         else
         {
@@ -84,36 +84,36 @@ int universal_file_output_stream_write ( universal_file_output_stream_t *this_, 
     return err;
 }
 
-int universal_file_output_stream_flush( universal_file_output_stream_t *this_ )
+u8_error_t universal_file_output_stream_flush( universal_file_output_stream_t *this_ )
 {
     TRACE_BEGIN();
     assert( (*this_).output != NULL );
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     int flush_err;
     flush_err = fflush( (*this_).output );
     if ( 0 != flush_err )
     {
         TSLOG_ERROR_INT("error at flushing file:",flush_err);
-        err = -1;
+        err = U8_ERROR_AT_FILE_WRITE;
     }
 
     TRACE_END_ERR(err);
     return err;
 }
 
-int universal_file_output_stream_close( universal_file_output_stream_t *this_ )
+u8_error_t universal_file_output_stream_close( universal_file_output_stream_t *this_ )
 {
     TRACE_BEGIN();
     assert( (*this_).output != NULL );
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     int close_err;
     close_err = fclose( (*this_).output );
     if ( 0 != close_err )
     {
         TSLOG_ERROR_INT("error at closing file:",close_err);
-        err = -1;
+        err = U8_ERROR_AT_FILE_WRITE;
     }
     (*this_).output = NULL;
 

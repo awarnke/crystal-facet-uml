@@ -74,7 +74,7 @@ u8_error_t io_importer_import_clipboard( io_importer_t *this_,
 }
 
 u8_error_t io_importer_import_file( io_importer_t *this_,
-                                    io_file_format_t import_format,
+                                    io_import_mode_t import_mode,
                                     const char *import_file_path,
                                     data_stat_t *io_stat,
                                     universal_utf8_writer_t *out_english_report )
@@ -90,67 +90,89 @@ u8_error_t io_importer_import_file( io_importer_t *this_,
 
     universal_utf8_writer_write_str( out_english_report, "importing not yet implemented.\n" );
 
-    /*int id_mapper;*/
-
     /* open file */
     universal_file_input_stream_t in_file;
     universal_file_input_stream_init( &in_file );
-    const int err1 = universal_file_input_stream_open( &in_file, import_file_path );
-    if ( err1 != 0 )
+    parse_error |= universal_file_input_stream_open( &in_file, import_file_path );
+
+    /* check json structure */
+    if ( parse_error == U8_ERROR_NONE )
     {
-        parse_error = U8_ERROR_INVALID_REQUEST;
-    }
-    else
-    {
-        /* id scan */
         TRACE_INFO("scanning file...");
-
-        /* create a list of diagram elements, check if the referenced diagrams and classifiers really exist */
-
-        const u8_error_t err3 = U8_ERROR_NONE;
-        /*
-            = json_importer_prescan( &((*this_).temp_json_importer),
-                                     universal_file_input_stream_get_input_stream( &in_file ),
-                                     out_english_report
-                                   );
-        */
-        if ( err3 != 0 )
+        uint32_t error_line;
+        io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_CHECK );
+        parse_error = json_importer_import_stream( &((*this_).temp_json_importer),
+                                                   universal_file_input_stream_get_input_stream( &in_file ),
+                                                   &error_line
+                                                 );
+        if ( parse_error != U8_ERROR_NONE )
         {
-            parse_error = U8_ERROR_AT_FILE_READ;
+            const u8_error_t log_err
+                = universal_utf8_writer_write_str( out_english_report, "error in input file, line: " )
+                | universal_utf8_writer_write_int( out_english_report, error_line )
+                | universal_utf8_writer_write_str( out_english_report, "\n" );
+            parse_error |= log_err;
         }
 
-        /* import */
-        TRACE_INFO("importing file...");
-        const int err5 = universal_file_input_stream_reset( &in_file );
-        if ( err5 != 0 )
-        {
-            parse_error = U8_ERROR_AT_FILE_READ;
-        }
-        else
-        {
-            /* intelligent loop */
-            /*     import lightweight diagram without description */
-            /* create fake diagrams for orphaned classifiers */
-            /* loop */
-            /*     update diagram descriptions */
-            /*     import classifier and diagramelements */
-            /*     import features */
-            /* loop */
-            /*     import relationship */
-        }
-
-        /* close */
-        const int err7 = universal_file_input_stream_close( &in_file );
-        if ( err7 != 0 )
-        {
-            parse_error = U8_ERROR_AT_FILE_READ;
-        }
     }
-    const int err8 = universal_file_input_stream_destroy( &in_file );
-    if ( err8  != 0 )
+
+    /* reset file */
+    if ( parse_error == U8_ERROR_NONE )
     {
-        parse_error = U8_ERROR_AT_FILE_READ;
+        parse_error |= universal_file_input_stream_reset( &in_file );
     }
+
+    /* import: create elements */
+    if (( import_mode != IO_IMPORT_MODE_CHECK )&&( parse_error == U8_ERROR_NONE ))
+    {
+        TRACE_INFO("importing file...");
+
+        uint32_t error_line;
+        io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_CREATE );
+        parse_error = json_importer_import_stream( &((*this_).temp_json_importer),
+                                                   universal_file_input_stream_get_input_stream( &in_file ),
+                                                   &error_line
+                                                 );
+        if ( parse_error != U8_ERROR_NONE )
+        {
+            const u8_error_t log_err
+                = universal_utf8_writer_write_str( out_english_report, "error in input file, line: " )
+                | universal_utf8_writer_write_int( out_english_report, error_line )
+                | universal_utf8_writer_write_str( out_english_report, "\n" );
+            parse_error |= log_err;
+        }
+    }
+
+    /* reset file once more */
+    if ( parse_error == U8_ERROR_NONE )
+    {
+        parse_error |= universal_file_input_stream_reset( &in_file );
+    }
+
+    /* import: create elements */
+    if (( import_mode != IO_IMPORT_MODE_CHECK )&&( parse_error == U8_ERROR_NONE ))
+    {
+        TRACE_INFO("importing file...");
+
+        uint32_t error_line;
+        io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_LINK );
+        parse_error = json_importer_import_stream( &((*this_).temp_json_importer),
+                                                   universal_file_input_stream_get_input_stream( &in_file ),
+                                                   &error_line
+                                                 );
+        if ( parse_error != U8_ERROR_NONE )
+        {
+            const u8_error_t log_err
+                = universal_utf8_writer_write_str( out_english_report, "error in input file, line: " )
+                | universal_utf8_writer_write_int( out_english_report, error_line )
+                | universal_utf8_writer_write_str( out_english_report, "\n" );
+            parse_error |= log_err;
+        }
+    }
+
+    /* close file */
+    parse_error |= universal_file_input_stream_close( &in_file );
+    parse_error |= universal_file_input_stream_destroy( &in_file );
 
     json_importer_destroy( &((*this_).temp_json_importer) );
     io_import_elements_destroy( &((*this_).temp_elements_importer) );

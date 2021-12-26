@@ -10,8 +10,8 @@
 /* the vmt implementing the interface */
 static const universal_output_stream_if_t universal_memory_output_stream_private_if
     = {
-        .write = (int (*)(universal_output_stream_impl_t*, const void*, size_t)) &universal_memory_output_stream_write,
-        .flush = (int (*)(universal_output_stream_impl_t*)) &universal_memory_output_stream_flush
+        .write = (u8_error_t (*)(universal_output_stream_impl_t*, const void*, size_t)) &universal_memory_output_stream_write,
+        .flush = (u8_error_t (*)(universal_output_stream_impl_t*)) &universal_memory_output_stream_flush
     };
 
 void universal_memory_output_stream_init ( universal_memory_output_stream_t *this_,
@@ -41,11 +41,11 @@ void universal_memory_output_stream_destroy( universal_memory_output_stream_t *t
     TRACE_END();
 }
 
-int universal_memory_output_stream_reset ( universal_memory_output_stream_t *this_ )
+u8_error_t universal_memory_output_stream_reset ( universal_memory_output_stream_t *this_ )
 {
     TRACE_BEGIN();
     assert( (*this_).mem_buf_start != NULL );
-    const int err = 0;
+    const u8_error_t err = U8_ERROR_NONE;
 
     (*this_).mem_buf_filled = 0;
 
@@ -53,12 +53,12 @@ int universal_memory_output_stream_reset ( universal_memory_output_stream_t *thi
     return err;
 }
 
-int universal_memory_output_stream_write ( universal_memory_output_stream_t *this_, const void *start, size_t length )
+u8_error_t universal_memory_output_stream_write ( universal_memory_output_stream_t *this_, const void *start, size_t length )
 {
     /*TRACE_BEGIN();*/
     assert( start != NULL );
     assert( (*this_).mem_buf_start != NULL );
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     const size_t space_left = ( (*this_).mem_buf_size - (*this_).mem_buf_filled );
     char *const buf_first_free = &(  (*(  (char(*)[])(*this_).mem_buf_start  ))[(*this_).mem_buf_filled]  );
@@ -72,33 +72,33 @@ int universal_memory_output_stream_write ( universal_memory_output_stream_t *thi
         memcpy( buf_first_free, start, space_left );
         (*this_).mem_buf_filled += space_left;
         TSLOG_WARNING_INT( "not all bytes could be written. missing:", length-space_left );
-        err = -1;
+        err = U8_ERROR_AT_FILE_WRITE;
     }
 
     /*TRACE_END_ERR(err);*/
     return err;
 }
 
-int universal_memory_output_stream_flush( universal_memory_output_stream_t *this_ )
+u8_error_t universal_memory_output_stream_flush( universal_memory_output_stream_t *this_ )
 {
     TRACE_BEGIN();
     assert( (*this_).mem_buf_start != NULL );
-    const int err = 0;
+    const u8_error_t err = U8_ERROR_NONE;
 
     TRACE_END_ERR(err);
     return err;
 }
 
-int universal_memory_output_stream_write_0term ( universal_memory_output_stream_t *this_ )
+u8_error_t universal_memory_output_stream_write_0term ( universal_memory_output_stream_t *this_ )
 {
     TRACE_BEGIN();
     assert( (*this_).mem_buf_start != NULL );
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     if ( (*this_).mem_buf_size == 0 )
     {
         TSLOG_ERROR( "buffer size is 0; buffer is not terminated by zero." );
-        err = -1;
+        err = U8_ERROR_LOGIC_STATE;
     }
 
     else if ( (*this_).mem_buf_size == (*this_).mem_buf_filled )
@@ -106,7 +106,7 @@ int universal_memory_output_stream_write_0term ( universal_memory_output_stream_
         char *const last_char = &(  (*(  (char(*)[])(*this_).mem_buf_start  ))[(*this_).mem_buf_size - 1]  );
         *last_char = '\0';
         TSLOG_WARNING( "last byte overwritten by terminating zero" );
-        err = -1;
+        err = U8_ERROR_AT_FILE_WRITE;
     }
     else
     {

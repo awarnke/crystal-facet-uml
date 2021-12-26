@@ -16,23 +16,23 @@ static inline void universal_utf8_writer_destroy ( universal_utf8_writer_t *this
     (*this_).output_stream = NULL;
 }
 
-static inline int universal_utf8_writer_write_str ( universal_utf8_writer_t *this_, const void *utf8_string )
+static inline u8_error_t universal_utf8_writer_write_str ( universal_utf8_writer_t *this_, const void *utf8_string )
 {
     assert( (*this_).output_stream != NULL );
     assert( utf8_string != NULL );
 
     const size_t length = strlen(utf8_string);
-    const int err = universal_output_stream_write( (*this_).output_stream, utf8_string, length );
+    const u8_error_t err = universal_output_stream_write( (*this_).output_stream, utf8_string, length );
 
     return err;
 }
 
-static inline int universal_utf8_writer_write_int ( universal_utf8_writer_t *this_, const int64_t number ) {
+static inline u8_error_t universal_utf8_writer_write_int ( universal_utf8_writer_t *this_, const int64_t number ) {
     char number_str[21]; /* this is sufficient for signed 64 bit integers: -9223372036854775806 */
     /* Note: snprintf is not available on every OS */
     sprintf( number_str, "%" PRIi64, number );
     const size_t length = strlen(number_str);
-    const int err = universal_output_stream_write( (*this_).output_stream, number_str, length );
+    const u8_error_t err = universal_output_stream_write( (*this_).output_stream, number_str, length );
 
     return err;
 }
@@ -41,7 +41,7 @@ static inline int universal_utf8_writer_flush ( universal_utf8_writer_t *this_ )
 {
     assert( (*this_).output_stream != NULL );
 
-    const int err = universal_output_stream_flush( (*this_).output_stream );
+    const u8_error_t err = universal_output_stream_flush( (*this_).output_stream );
 
     return err;
 }

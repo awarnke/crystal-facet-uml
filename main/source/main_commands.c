@@ -10,10 +10,10 @@
 #include <stdbool.h>
 #include <assert.h>
 
-int main_commands_init ( main_commands_t *this_, bool start_gui, int argc, char *argv[] )
+u8_error_t main_commands_init ( main_commands_t *this_, bool start_gui, int argc, char *argv[] )
 {
     TRACE_BEGIN();
-    int result = 0;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* initialize the base libraries: gobject, gio, glib, gdk and gtk */
     if ( start_gui )
@@ -41,10 +41,10 @@ void main_commands_destroy ( main_commands_t *this_ )
     TRACE_END();
 }
 
-int main_commands_upgrade ( main_commands_t *this_, const char *database_path, universal_utf8_writer_t *out_english_report )
+u8_error_t main_commands_upgrade ( main_commands_t *this_, const char *database_path, universal_utf8_writer_t *out_english_report )
 {
     TRACE_BEGIN();
-    int result = 0;
+    u8_error_t result = U8_ERROR_NONE;
 
     assert( database_path != NULL );
 
@@ -70,7 +70,7 @@ int main_commands_upgrade ( main_commands_t *this_, const char *database_path, u
     return result;
 }
 
-int main_commands_repair ( main_commands_t *this_,
+u8_error_t main_commands_repair ( main_commands_t *this_,
                            const char *database_path,
                            bool check_only,
                            universal_utf8_writer_t *out_english_report )
@@ -80,7 +80,7 @@ int main_commands_repair ( main_commands_t *this_,
     const bool do_repair = ( ! check_only );
     static char repair_log_buffer[10000] = "";
     static utf8stringbuf_t repair_log = UTF8STRINGBUF( repair_log_buffer );
-    int result = 0;
+    u8_error_t result = U8_ERROR_NONE;
 
     TRACE_INFO("starting DB...");
     data_database_init( &((*this_).temp_database) );
@@ -117,10 +117,10 @@ int main_commands_repair ( main_commands_t *this_,
     return result;
 }
 
-int main_commands_start_gui ( main_commands_t *this_, const char *database_path, universal_utf8_writer_t *out_english_report )
+u8_error_t main_commands_start_gui ( main_commands_t *this_, const char *database_path, universal_utf8_writer_t *out_english_report )
 {
     TRACE_BEGIN();
-    int result = 0;
+    u8_error_t result = U8_ERROR_NONE;
 
     TRACE_INFO("starting DB...");
     TRACE_INFO_INT("sizeof(data_database_t)/B:",sizeof(data_database_t));
@@ -160,16 +160,16 @@ int main_commands_start_gui ( main_commands_t *this_, const char *database_path,
     return result;
 }
 
-int main_commands_export ( main_commands_t *this_,
-                           const char *database_path,
-                           io_file_format_t export_format,
-                           const char *export_directory,
-                           universal_utf8_writer_t *out_english_report )
+u8_error_t main_commands_export( main_commands_t *this_,
+                                 const char *database_path,
+                                 io_file_format_t export_format,
+                                 const char *export_directory,
+                                 universal_utf8_writer_t *out_english_report )
 {
     TRACE_BEGIN();
     assert( database_path != NULL );
     assert( export_directory != NULL );
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     TRACE_INFO("starting DB...");
     data_database_init( &((*this_).temp_database) );
@@ -226,16 +226,16 @@ int main_commands_export ( main_commands_t *this_,
     return export_err;
 }
 
-int main_commands_import ( main_commands_t *this_,
-                           const char *database_path,
-                           io_file_format_t import_format,
-                           const char *import_file_path,
-                           universal_utf8_writer_t *out_english_report )
+u8_error_t main_commands_import( main_commands_t *this_,
+                                 const char *database_path,
+                                 io_import_mode_t import_mode,
+                                 const char *import_file_path,
+                                 universal_utf8_writer_t *out_english_report )
 {
     TRACE_BEGIN();
     assert( database_path != NULL );
     assert( import_file_path != NULL );
-    int import_err = 0;
+    u8_error_t import_err = U8_ERROR_NONE;
 
     TRACE_INFO("starting DB...");
     data_database_init( &((*this_).temp_database) );
@@ -262,7 +262,7 @@ int main_commands_import ( main_commands_t *this_,
         {
             data_stat_t import_stat;
             data_stat_init ( &import_stat );
-            import_err = io_importer_import_file( &importer, import_format, import_file_path, &import_stat, out_english_report );
+            import_err = io_importer_import_file( &importer, import_mode, import_file_path, &import_stat, out_english_report );
             {
                 const unsigned int stat_ok = data_stat_get_series_count( &import_stat, DATA_STAT_SERIES_EXPORTED );
                 const unsigned int stat_warn = data_stat_get_series_count( &import_stat, DATA_STAT_SERIES_WARNING );

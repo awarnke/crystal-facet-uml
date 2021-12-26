@@ -11,6 +11,7 @@
  */
 
 #include "stream/universal_input_stream_if.h"
+#include "u8/u8_error.h"
 
 /*!
  *  \brief object (vmt+data) of a universal_input_stream_t.
@@ -68,7 +69,7 @@ static inline universal_input_stream_impl_t* universal_input_stream_get_objectda
  *  \param out_buffer buffer to write read bytes
  *  \param max_size length of the buffer to write
  *  \param out_length number of bytes read
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_END_OF_STREAM when at end, U8_ERROR_AT_FILE_READ otherwise
  */
 static inline int universal_input_stream_read ( universal_input_stream_t *this_, void *out_buffer, size_t max_size, size_t *out_length );
 

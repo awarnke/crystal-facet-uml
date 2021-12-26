@@ -58,9 +58,9 @@ void universal_memory_input_stream_destroy ( universal_memory_input_stream_t *th
  *  \brief resets the read position to 0
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_READ otherwise
  */
-int universal_memory_input_stream_reset ( universal_memory_input_stream_t *this_ );
+u8_error_t universal_memory_input_stream_reset ( universal_memory_input_stream_t *this_ );
 
 /*!
  *  \brief reads a buffer from a memory region
@@ -69,13 +69,13 @@ int universal_memory_input_stream_reset ( universal_memory_input_stream_t *this_
  *  \param out_buffer buffer to write read bytes
  *  \param max_size length of the buffer to write
  *  \param out_length number of bytes read
- *  \return 0 in case of success, -1 if there are no further bytes to read
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_READ otherwise
  */
-int universal_memory_input_stream_read ( universal_memory_input_stream_t *this_,
-                                         void *out_buffer,
-                                         size_t max_size,
-                                         size_t *out_length
-                                       );
+u8_error_t universal_memory_input_stream_read ( universal_memory_input_stream_t *this_,
+                                                void *out_buffer,
+                                                size_t max_size,
+                                                size_t *out_length
+                                              );
 
 /*!
  *  \brief gets the input stream interface of this universal_memory_input_stream_t

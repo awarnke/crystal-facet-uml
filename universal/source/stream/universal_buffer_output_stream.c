@@ -10,8 +10,8 @@
 /* the vmt implementing the interface */
 static const universal_output_stream_if_t universal_buffer_output_stream_private_if
     = {
-        .write = (int (*)(universal_output_stream_impl_t*, const void*, size_t)) &universal_buffer_output_stream_write,
-        .flush = (int (*)(universal_output_stream_impl_t*)) &universal_buffer_output_stream_flush
+        .write = (u8_error_t (*)(universal_output_stream_impl_t*, const void*, size_t)) &universal_buffer_output_stream_write,
+        .flush = (u8_error_t (*)(universal_output_stream_impl_t*)) &universal_buffer_output_stream_flush
     };
 
 void universal_buffer_output_stream_init( universal_buffer_output_stream_t *this_,
@@ -33,12 +33,12 @@ void universal_buffer_output_stream_init( universal_buffer_output_stream_t *this
     TRACE_END();
 }
 
-int universal_buffer_output_stream_destroy( universal_buffer_output_stream_t *this_ )
+u8_error_t universal_buffer_output_stream_destroy( universal_buffer_output_stream_t *this_ )
 {
     TRACE_BEGIN();
     assert( (*this_).mem_buf_start != NULL );
     assert( (*this_).sink != NULL );
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     err = universal_buffer_output_stream_flush( this_ );
 
@@ -53,13 +53,13 @@ int universal_buffer_output_stream_destroy( universal_buffer_output_stream_t *th
     return err;
 }
 
-int universal_buffer_output_stream_write ( universal_buffer_output_stream_t *this_, const void *start, size_t length )
+u8_error_t universal_buffer_output_stream_write ( universal_buffer_output_stream_t *this_, const void *start, size_t length )
 {
     /*TRACE_BEGIN();*/
     assert( start != NULL );
     assert( (*this_).mem_buf_start != NULL );
     assert( (*this_).sink != NULL );
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     const size_t space_left = (*this_).mem_buf_size - (*this_).mem_buf_filled;
     char *const buf_first_free = &(  (*(  (char(*)[])(*this_).mem_buf_start  ))[(*this_).mem_buf_filled]  );
@@ -94,12 +94,12 @@ int universal_buffer_output_stream_write ( universal_buffer_output_stream_t *thi
     return err;
 }
 
-int universal_buffer_output_stream_flush( universal_buffer_output_stream_t *this_ )
+u8_error_t universal_buffer_output_stream_flush( universal_buffer_output_stream_t *this_ )
 {
     TRACE_BEGIN();
     assert( (*this_).mem_buf_start != NULL );
     assert( (*this_).sink != NULL );
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     if ( (*this_).mem_buf_filled > 0 )
     {

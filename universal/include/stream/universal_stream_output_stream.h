@@ -43,17 +43,17 @@ void universal_stream_output_stream_destroy( universal_stream_output_stream_t *t
  *  \param this_ pointer to own object attributes
  *  \param start buffer to write, not 0-terminated
  *  \param length length of the buffer to write
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-int universal_stream_output_stream_write ( universal_stream_output_stream_t *this_, const void *start, size_t length );
+u8_error_t universal_stream_output_stream_write ( universal_stream_output_stream_t *this_, const void *start, size_t length );
 
 /*!
  *  \brief flushes buffers
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-int universal_stream_output_stream_flush( universal_stream_output_stream_t *this_ );
+u8_error_t universal_stream_output_stream_flush( universal_stream_output_stream_t *this_ );
 
 /*!
  *  \brief gets the output stream interface of this universal_stream_output_stream_t

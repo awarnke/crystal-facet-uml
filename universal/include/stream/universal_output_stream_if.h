@@ -15,6 +15,7 @@
  *  and b) a pointer to an object that implements the interface (this_).
  */
 
+#include "u8/u8_error.h"
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -30,10 +31,10 @@ typedef void universal_output_stream_impl_t;
  *  Lifecycle functions like init and destroy are not part of the interface.
  */
 struct universal_output_stream_if_struct {
-    int (*write)(universal_output_stream_impl_t* this_, const void *start, size_t length); /*!< a function to write data to an output stream; */
-                                                                                           /*!< returns 0 if success, -1 in case of error */
-    int (*flush)(universal_output_stream_impl_t* this_); /*!< a function to flush data to an output stream; */
-                                                         /*!< returns 0 if success, -1 in case of error */
+    u8_error_t (*write)(universal_output_stream_impl_t* this_, const void *start, size_t length); /*!< a function to write data to an output stream; */
+                                                                                                  /*!< returns U8_ERROR_NONE in case of success */
+    u8_error_t (*flush)(universal_output_stream_impl_t* this_); /*!< a function to flush data to an output stream; */
+                                                                /*!< returns U8_ERROR_NONE in case of success */
 };
 
 typedef struct universal_output_stream_if_struct universal_output_stream_if_t;

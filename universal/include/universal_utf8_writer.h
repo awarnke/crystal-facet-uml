@@ -41,26 +41,26 @@ static inline void universal_utf8_writer_destroy ( universal_utf8_writer_t *this
  *
  *  \param this_ pointer to own object attributes
  *  \param utf8_string 0-terminated string to write
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-static inline int universal_utf8_writer_write_str ( universal_utf8_writer_t *this_, const void *utf8_string );
+static inline u8_error_t universal_utf8_writer_write_str ( universal_utf8_writer_t *this_, const void *utf8_string );
 
 /*!
  *  \brief writes an integer to a stream
  *
  *  \param this_ pointer to own object attributes
  *  \param number number to write
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-static inline int universal_utf8_writer_write_int ( universal_utf8_writer_t *this_, const int64_t number );
+static inline u8_error_t universal_utf8_writer_write_int ( universal_utf8_writer_t *this_, const int64_t number );
 
 /*!
  *  \brief flushes buffers
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-static inline int universal_utf8_writer_flush ( universal_utf8_writer_t *this_ );
+static inline u8_error_t universal_utf8_writer_flush ( universal_utf8_writer_t *this_ );
 
 #include "universal_utf8_writer.inl"
 

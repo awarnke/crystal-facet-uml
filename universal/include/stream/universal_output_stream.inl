@@ -12,7 +12,7 @@ static inline void universal_output_stream_private_init( universal_output_stream
     (*this_).objectdata = objectdata;
 }
 
-static inline int universal_output_stream_private_destroy( universal_output_stream_t *this_ )
+static inline u8_error_t universal_output_stream_private_destroy( universal_output_stream_t *this_ )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
@@ -20,7 +20,7 @@ static inline int universal_output_stream_private_destroy( universal_output_stre
     (*this_).interface = NULL;
     (*this_).objectdata = NULL;
     /*return result;*/
-    return 0;
+    return U8_ERROR_NONE;
 }
 
 static inline const universal_output_stream_if_t* universal_output_stream_get_interface ( universal_output_stream_t *this_ )
@@ -35,7 +35,7 @@ static inline universal_output_stream_impl_t* universal_output_stream_get_object
     return (*this_).objectdata;
 }
 
-static inline int universal_output_stream_write ( universal_output_stream_t* this_, const void *start, size_t length )
+static inline u8_error_t universal_output_stream_write ( universal_output_stream_t* this_, const void *start, size_t length )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
@@ -43,7 +43,7 @@ static inline int universal_output_stream_write ( universal_output_stream_t* thi
     return (*(  (*((*this_).interface)).write  )) ( (*this_).objectdata, start, length );
 }
 
-static inline int universal_output_stream_flush ( universal_output_stream_t* this_ )
+static inline u8_error_t universal_output_stream_flush ( universal_output_stream_t* this_ )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );

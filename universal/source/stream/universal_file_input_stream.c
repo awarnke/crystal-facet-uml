@@ -10,7 +10,7 @@
 /* the vmt implementing the interface */
 static const universal_input_stream_if_t universal_file_input_stream_private_if
     = {
-        .read = (int (*)(universal_input_stream_impl_t*, void*, size_t, size_t*)) &universal_file_input_stream_read
+        .read = (u8_error_t (*)(universal_input_stream_impl_t*, void*, size_t, size_t*)) &universal_file_input_stream_read
     };
 
 void universal_file_input_stream_init ( universal_file_input_stream_t *this_ )
@@ -23,10 +23,10 @@ void universal_file_input_stream_init ( universal_file_input_stream_t *this_ )
     TRACE_END();
 }
 
-int universal_file_input_stream_destroy( universal_file_input_stream_t *this_ )
+u8_error_t universal_file_input_stream_destroy( universal_file_input_stream_t *this_ )
 {
     TRACE_BEGIN();
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     if ( (*this_).input != NULL )
     {
@@ -39,46 +39,46 @@ int universal_file_input_stream_destroy( universal_file_input_stream_t *this_ )
     return err;
 }
 
-int universal_file_input_stream_reset ( universal_file_input_stream_t *this_ )
+u8_error_t universal_file_input_stream_reset ( universal_file_input_stream_t *this_ )
 {
     TRACE_BEGIN();
     assert( (*this_).input != NULL );
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
-    err = fseek( (*this_).input, 0, SEEK_SET );
-    if ( err != 0 )
+    const int seek_err = fseek( (*this_).input, 0, SEEK_SET );
+    if ( seek_err != 0 )
     {
         TSLOG_ERROR("error at resetting the read-cursor in a file.");
-        err = -1;
+        err = U8_ERROR_AT_FILE_READ;
     }
 
     TRACE_END_ERR(err);
     return err;
 }
 
-int universal_file_input_stream_open ( universal_file_input_stream_t *this_, const char *path )
+u8_error_t universal_file_input_stream_open ( universal_file_input_stream_t *this_, const char *path )
 {
     TRACE_BEGIN();
     assert( (*this_).input == NULL );
     assert( path != NULL );
-    int err = 0;
+    u8_error_t err = 0;
 
     (*this_).input = fopen( path, "r" );
     if ( NULL == (*this_).input )
     {
         TSLOG_ERROR("error at opening file for reading.");
-        err = -1;
+        err = U8_ERROR_AT_FILE_READ;
     }
 
     TRACE_END_ERR(err);
     return err;
 }
 
-int universal_file_input_stream_read ( universal_file_input_stream_t *this_, void *out_buffer, size_t max_size, size_t *out_length )
+u8_error_t universal_file_input_stream_read ( universal_file_input_stream_t *this_, void *out_buffer, size_t max_size, size_t *out_length )
 {
     /*TRACE_BEGIN();*/
     assert( (*this_).input != NULL );
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     size_t read_bytes = fread( out_buffer, 1, max_size, (*this_).input );
     if ( read_bytes != 0 )
@@ -87,7 +87,7 @@ int universal_file_input_stream_read ( universal_file_input_stream_t *this_, voi
     }
     else
     {
-        err = -1;  /* finished, no more bytes to read or other error */
+        err = U8_ERROR_END_OF_STREAM;  /* finished, no more bytes to read or other error */
         *out_length = 0;
     }
 
@@ -95,18 +95,18 @@ int universal_file_input_stream_read ( universal_file_input_stream_t *this_, voi
     return err;
 }
 
-int universal_file_input_stream_close( universal_file_input_stream_t *this_ )
+u8_error_t universal_file_input_stream_close( universal_file_input_stream_t *this_ )
 {
     TRACE_BEGIN();
     assert( (*this_).input != NULL );
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     int close_err;
     close_err = fclose( (*this_).input );
     if ( 0 != close_err )
     {
-        TSLOG_ERROR_INT("error at closing file:",close_err);
-        err = -1;
+        TSLOG_ERROR_INT( "error at closing file:", close_err );
+        err = U8_ERROR_AT_FILE_READ;
     }
     (*this_).input = NULL;
 

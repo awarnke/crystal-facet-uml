@@ -10,7 +10,7 @@
 /* the vmt implementing the interface */
 static const universal_input_stream_if_t universal_buffer_input_stream_private_if
     = {
-        .read = (int (*)(universal_input_stream_impl_t*, void*, size_t, size_t*)) &universal_buffer_input_stream_read
+        .read = (u8_error_t (*)(universal_input_stream_impl_t*, void*, size_t, size_t*)) &universal_buffer_input_stream_read
     };
 
 void universal_buffer_input_stream_init( universal_buffer_input_stream_t *this_,
@@ -65,7 +65,7 @@ void universal_buffer_input_stream_reset ( universal_buffer_input_stream_t *this
     TRACE_END();
 }
 
-int universal_buffer_input_stream_read ( universal_buffer_input_stream_t *this_, void *out_buffer, size_t max_size, size_t *out_length )
+u8_error_t universal_buffer_input_stream_read ( universal_buffer_input_stream_t *this_, void *out_buffer, size_t max_size, size_t *out_length )
 {
     /*TRACE_BEGIN();*/
     assert( out_buffer != NULL );
@@ -73,7 +73,7 @@ int universal_buffer_input_stream_read ( universal_buffer_input_stream_t *this_,
     assert( out_length != NULL );
     assert( (*this_).mem_buf_start != NULL );
     assert( (*this_).source != NULL );
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     const size_t buf_available1 = (*this_).mem_buf_fill - (*this_).mem_buf_pos;
     char *const buf_first_read = &(  (*(  (char(*)[])(*this_).mem_buf_start  ))[(*this_).mem_buf_pos]  );

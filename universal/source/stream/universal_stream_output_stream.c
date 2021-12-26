@@ -10,8 +10,8 @@
 /* the vmt implementing the interface */
 static const universal_output_stream_if_t universal_stream_output_stream_private_if
     = {
-        .write = (int (*)(universal_output_stream_impl_t*, const void*, size_t)) &universal_stream_output_stream_write,
-        .flush = (int (*)(universal_output_stream_impl_t*)) &universal_stream_output_stream_flush
+        .write = (u8_error_t (*)(universal_output_stream_impl_t*, const void*, size_t)) &universal_stream_output_stream_write,
+        .flush = (u8_error_t (*)(universal_output_stream_impl_t*)) &universal_stream_output_stream_flush
     };
 
 void universal_stream_output_stream_init( universal_stream_output_stream_t *this_, FILE* out_stream )
@@ -35,21 +35,21 @@ void universal_stream_output_stream_destroy( universal_stream_output_stream_t *t
     TRACE_END();
 }
 
-int universal_stream_output_stream_write ( universal_stream_output_stream_t *this_, const void *start, size_t length )
+u8_error_t universal_stream_output_stream_write ( universal_stream_output_stream_t *this_, const void *start, size_t length )
 {
     /*TRACE_BEGIN();*/
     assert( (*this_).output != NULL );
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     size_t written = 0;
-    while (( written < length )&&( err == 0 ))
+    while (( written < length )&&( err == U8_ERROR_NONE ))
     {
         ssize_t out_count;
         out_count = fwrite( ((const char*)start)+written, 1, length-written, (*this_).output );
         if ( out_count < 0 )
         {
             TSLOG_ERROR_INT( "not all bytes could be written. missing:", length-written );
-            err = -1;
+            err = U8_ERROR_AT_FILE_WRITE;
         }
         else
         {
@@ -61,18 +61,18 @@ int universal_stream_output_stream_write ( universal_stream_output_stream_t *thi
     return err;
 }
 
-int universal_stream_output_stream_flush( universal_stream_output_stream_t *this_ )
+u8_error_t universal_stream_output_stream_flush( universal_stream_output_stream_t *this_ )
 {
     TRACE_BEGIN();
     assert( (*this_).output != NULL );
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     int flush_err;
     flush_err = fflush( (*this_).output );
     if ( 0 != flush_err )
     {
         TSLOG_ERROR_INT("error at flushing file:",flush_err);
-        err = -1;
+        err = U8_ERROR_AT_FILE_WRITE;
     }
 
     TRACE_END_ERR(err);

@@ -836,8 +836,10 @@ u8_error_t json_element_reader_skip_next_object ( json_element_reader_t *this_ )
 
                         case JSON_VALUE_TYPE_NUMBER:
                         {
-                            double parsed_number;
-                            result = json_token_reader_read_number_value ( &((*this_).tokenizer), &parsed_number );
+                            /* double parsed_number; */
+                            /* result = json_token_reader_read_number_value ( &((*this_).tokenizer), &parsed_number ); */
+                            int64_t parsed_integer;
+                            result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                         }
                         break;
 

@@ -12,28 +12,31 @@ static inline void universal_input_stream_private_init( universal_input_stream_t
     (*this_).objectdata = objectdata;
 }
 
-static inline int universal_input_stream_private_destroy( universal_input_stream_t *this_ )
+static inline u8_error_t universal_input_stream_private_destroy( universal_input_stream_t *this_ )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
     (*this_).interface = NULL;
     (*this_).objectdata = NULL;
-    return 0;
+    return U8_ERROR_NONE;
 }
 
-static inline const universal_input_stream_if_t* universal_input_stream_get_interface ( universal_input_stream_t *this_ )
+static inline const universal_input_stream_if_t* universal_input_stream_get_interface( universal_input_stream_t *this_ )
 {
     assert( (*this_).interface != NULL );
     return (*this_).interface;
 }
 
-static inline universal_input_stream_impl_t* universal_input_stream_get_objectdata ( universal_input_stream_t *this_ )
+static inline universal_input_stream_impl_t* universal_input_stream_get_objectdata( universal_input_stream_t *this_ )
 {
     assert( (*this_).objectdata != NULL );
     return (*this_).objectdata;
 }
 
-static inline int universal_input_stream_read ( universal_input_stream_t* this_, void *out_buffer, size_t max_size, size_t *out_length )
+static inline u8_error_t universal_input_stream_read( universal_input_stream_t* this_,
+                                                      void *out_buffer,
+                                                      size_t max_size,
+                                                      size_t *out_length )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
