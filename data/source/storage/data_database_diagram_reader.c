@@ -233,7 +233,7 @@ u8_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_diag
         if ( SQLITE_ROW != sqlite_err )
         {
             TSLOG_ANOMALY( "sqlite3_step did not find a row." );
-            result |= U8_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_NOT_FOUND;
         }
 
         if ( SQLITE_ROW == sqlite_err )
@@ -259,7 +259,7 @@ u8_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_diag
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_DONE != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+            TSLOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
             result |= U8_ERROR_DB_STRUCTURE;
         }
     }
@@ -650,7 +650,7 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_databa
         if ( SQLITE_ROW != sqlite_err )
         {
             TSLOG_ANOMALY( "sqlite3_step did not find a row." );
-            result |= U8_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_NOT_FOUND;
         }
 
         if ( SQLITE_ROW == sqlite_err )
@@ -674,7 +674,7 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_databa
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_DONE != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+            TSLOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
             result |= U8_ERROR_DB_STRUCTURE;
         }
     }

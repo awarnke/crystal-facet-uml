@@ -28,7 +28,7 @@ extern "C" {
  */
 enum utf8error_enum {
     UTF8ERROR_SUCCESS         = 0x00000000, /*!< success, there was no error */
-    UTF8ERROR_NOT_FOUND       = -2147483648, /*!< pattern not found */
+    UTF8ERROR_NOT_FOUND       = -2147483648 + 0x0040, /*!< pattern not found */
     UTF8ERROR_NULL_PARAM      = 0x00401000, /*!< NULL was provided as parameter instead of a valid pointer */
     UTF8ERROR_OUT_OF_RANGE    = 0x00402000, /*!< some integer parameter was out of range */
     UTF8ERROR_TRUNCATED       = 0x00404000, /*!< the resulting string did not fit into the buffer, the string was truncated */

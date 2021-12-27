@@ -155,7 +155,7 @@ u8_error_t io_importer_import_file( io_importer_t *this_,
         TRACE_INFO("importing file...");
 
         uint32_t error_line;
-        io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_LINK );
+        //io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_LINK );
         parse_error = json_importer_import_stream( &((*this_).temp_json_importer),
                                                    universal_file_input_stream_get_input_stream( &in_file ),
                                                    &error_line

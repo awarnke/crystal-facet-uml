@@ -93,7 +93,7 @@ u8_error_t data_database_classifier_reader_get_classifier_by_id ( data_database_
  *  \param name the classifier to be read from the database
  *  \param[out] out_classifier the classifier read from the database (in case of success)
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. U8_ERROR_DB_STRUCTURE if name does not exist or U8_ERROR_NO_DB if the database is not open.
+ *          E.g. U8_ERROR_NOT_FOUND if name does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_classifier_reader_get_classifier_by_name ( data_database_classifier_reader_t *this_,
                                                                     const char *name,
@@ -107,7 +107,7 @@ u8_error_t data_database_classifier_reader_get_classifier_by_name ( data_databas
  *  \param uuid the classifier to be read from the database
  *  \param[out] out_classifier the classifier read from the database (in case of success)
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. U8_ERROR_DB_STRUCTURE if uuid does not exist or U8_ERROR_NO_DB if the database is not open.
+ *          E.g. U8_ERROR_NOT_FOUND if uuid does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_classifier_reader_get_classifier_by_uuid ( data_database_classifier_reader_t *this_,
                                                                     const char *uuid,
@@ -173,7 +173,7 @@ u8_error_t data_database_classifier_reader_get_feature_by_id ( data_database_cla
  *  \param uuid the feature to be read from the database
  *  \param[out] out_feature the feature read from the database (in case of success)
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. U8_ERROR_DB_STRUCTURE if uuid does not exist or U8_ERROR_NO_DB if the database is not open.
+ *          E.g. U8_ERROR_NOT_FOUND if uuid does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_classifier_reader_get_feature_by_uuid ( data_database_classifier_reader_t *this_,
                                                                  const char *uuid,
@@ -242,7 +242,7 @@ u8_error_t data_database_classifier_reader_get_relationship_by_id ( data_databas
  *  \param uuid the relationship to be read from the database
  *  \param[out] out_relationship the relationship read from the database (in case of success)
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. U8_ERROR_DB_STRUCTURE if uuid does not exist or U8_ERROR_NO_DB if the database is not open.
+ *          E.g. U8_ERROR_NOT_FOUND if uuid does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_classifier_reader_get_relationship_by_uuid ( data_database_classifier_reader_t *this_,
                                                                       const char *uuid,

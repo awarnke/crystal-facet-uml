@@ -25,6 +25,7 @@ enum data_error_enum {
 
     /* Origin bit patterns: */
     /* APP_SPECI = 0x000x */
+    /* DATA      = 0x0020 */
     /* EMPTY     = 0x0040 */
     /* MEM_SIZE  = 0x0080 */
     /* FILE      = 0x0100 */
@@ -36,10 +37,11 @@ enum data_error_enum {
 
     U8_ERROR_NONE          = U8_ERROR_CAT_NONE,
     U8_ERROR_LOGIC_ANOMALY = U8_ERROR_CAT_LOGIC_ANOMALY,
-    U8_ERROR_DUPLICATE              = U8_ERROR_CAT_LOGIC_ANOMALY + 0x0010,  /*!< internal error: any unique key is not unique */
-    U8_ERROR_DUPLICATE_ID           = U8_ERROR_CAT_LOGIC_ANOMALY + 0x0011,  /*!< internal error: an id is used twice */
-    U8_ERROR_DUPLICATE_NAME         = U8_ERROR_CAT_LOGIC_ANOMALY + 0x0012,  /*!< internal error: a name is used twice */
-    U8_ERROR_DUPLICATE_UUID         = U8_ERROR_CAT_LOGIC_ANOMALY + 0x0014,  /*!< internal error: an uuid is used twice */
+    U8_ERROR_DUPLICATE              = U8_ERROR_CAT_LOGIC_ANOMALY + 0x0020,  /*!< internal error: any unique key is not unique */
+    U8_ERROR_DUPLICATE_ID           = U8_ERROR_CAT_LOGIC_ANOMALY + 0x0021,  /*!< internal error: an id is used twice */
+    U8_ERROR_DUPLICATE_NAME         = U8_ERROR_CAT_LOGIC_ANOMALY + 0x0022,  /*!< internal error: a name is used twice */
+    U8_ERROR_DUPLICATE_UUID         = U8_ERROR_CAT_LOGIC_ANOMALY + 0x0024,  /*!< internal error: an uuid is used twice */
+    U8_ERROR_NOT_FOUND              = U8_ERROR_CAT_LOGIC_ANOMALY + 0x0040,  /*!< internal error: requested data not found */
     U8_ERROR_END_OF_STREAM          = U8_ERROR_CAT_LOGIC_ANOMALY + 0x0100,  /*!< internal error: a file or stream is at the end */
 
     U8_ERROR_LOGIC_STATE   = U8_ERROR_CAT_LOGIC_STATE,

@@ -96,7 +96,7 @@ u8_error_t data_database_diagram_reader_get_diagram_by_id ( data_database_diagra
  *  \param uuid the diagram to be read from the database
  *  \param[out] out_diagram the diagram read from the database (in case of success)
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. U8_ERROR_DB_STRUCTURE if uuid does not exist or U8_ERROR_NO_DB if the database is not open.
+ *          E.g. U8_ERROR_NOT_FOUND if uuid does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_diagram_reader_t *this_,
                                                               const char *uuid,
@@ -198,7 +198,7 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_id ( data_database
  *  \param uuid the diagramelement to be read from the database
  *  \param[out] out_diagramelement the diagramelement read from the database (in case of success)
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. U8_ERROR_DB_STRUCTURE if uuid does not exist or U8_ERROR_NO_DB if the database is not open.
+ *          E.g. U8_ERROR_NOT_FOUND if uuid does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_database_diagram_reader_t *this_,
                                                                      const char *uuid,

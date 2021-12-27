@@ -107,19 +107,25 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
     {
         if ( ! utf8string_equals_str( parent_uuid, "" ) )
         {
+            data_diagram_init_empty( &((*this_).temp_diagram ) );
             sync_error = data_database_reader_get_diagram_by_uuid( (*this_).db_reader,
                                                                    parent_uuid,
                                                                    &((*this_).temp_diagram)
                                                                  );
-            if ( sync_error != U8_ERROR_NONE )
+            if ( sync_error == U8_ERROR_NOT_FOUND )
+            {
+                TRACE_INFO_STR( "no parent found, uuid:", parent_uuid );
+                sync_error = U8_ERROR_NONE;
+            }
+            else if ( sync_error != U8_ERROR_NONE )
             {
                 TRACE_INFO_STR( "parent diagram not found", parent_uuid );
             }
             else
             {
                 parent_row_id = data_diagram_get_row_id( &((*this_).temp_diagram ) );
-                data_diagram_destroy( &((*this_).temp_diagram ) );
             }
+            data_diagram_destroy( &((*this_).temp_diagram ) );
         }
     }
     data_diagram_set_parent_row_id( diagram_ptr, parent_row_id );
@@ -139,24 +145,41 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
 
     if (( (*this_).mode != IO_IMPORT_MODE_CHECK )&&( sync_error == U8_ERROR_NONE ))
     {
-        /* create the parsed diagram as child below the current diagram */
-        u8_error_t modified_info;
-        sync_error = ctrl_multi_step_changer_create_diagram ( &((*this_).multi_step_changer),
-                                                              diagram_ptr,
-                                                              &modified_info
-                                                            );
-        data_stat_inc_count( (*this_).stat,
-                             DATA_TABLE_DIAGRAM,
-                             (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
-                           );
-        if ( U8_ERROR_NONE != sync_error )
+        /* check if the parsed diagram already exists in this database; if not, create it */
+        data_diagram_init_empty( &((*this_).temp_diagram ) );
+        u8_error_t read_error;
+        read_error = data_database_reader_get_diagram_by_uuid( (*this_).db_reader,
+                                                               data_diagram_get_uuid_const( diagram_ptr ),
+                                                               &((*this_).temp_diagram)
+                                                             );
+        data_diagram_destroy( &((*this_).temp_diagram ) );
+        const bool diagram_exists = ( U8_ERROR_NONE == read_error );
+
+        if ( diagram_exists )
         {
-            TSLOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagram" );
+
         }
         else
         {
-            /* insert all consecutive elements to this new diagram */
-            (*this_).paste_to_diagram = data_diagram_get_row_id( diagram_ptr );
+            /* create the parsed diagram as child below the current diagram */
+            u8_error_t modified_info;
+            sync_error = ctrl_multi_step_changer_create_diagram ( &((*this_).multi_step_changer),
+                                                                diagram_ptr,
+                                                                &modified_info
+                                                                );
+            data_stat_inc_count( (*this_).stat,
+                                DATA_TABLE_DIAGRAM,
+                                (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                            );
+            if ( U8_ERROR_NONE != sync_error )
+            {
+                TSLOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagram" );
+            }
+            else
+            {
+                /* insert all consecutive elements to this new diagram */
+                (*this_).paste_to_diagram = data_diagram_get_row_id( diagram_ptr );
+            }
         }
     }
 
@@ -203,11 +226,13 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
     if (( (*this_).mode != IO_IMPORT_MODE_CHECK )&&( sync_error == U8_ERROR_NONE ))
     {
         /* check if the parsed classifier already exists in this database; if not, create it */
+        data_classifier_init_empty( &((*this_).temp_classifier ) );
         u8_error_t read_error;
         read_error = data_database_reader_get_classifier_by_uuid( (*this_).db_reader,
                                                                   data_classifier_get_uuid_const( classifier_ptr ),
                                                                   &((*this_).temp_classifier)
                                                                 );
+        data_classifier_destroy( &((*this_).temp_classifier ) );
         const bool classifier_exists = ( U8_ERROR_NONE == read_error );
 
         if ( ! classifier_exists )
@@ -259,7 +284,7 @@ u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_
     assert( DATA_ROW_ID_VOID != classifier_id );
     u8_error_t sync_error = U8_ERROR_NONE;
 
-    if (( (*this_).mode != IO_IMPORT_MODE_CHECK )&&( sync_error == U8_ERROR_NONE ))
+    if (( (*this_).mode == IO_IMPORT_MODE_LINK )&&( sync_error == U8_ERROR_NONE ))
     {
         /* link the classifier to the current diagram */
         data_diagramelement_t diag_ele;
@@ -310,7 +335,12 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
                                                                       classifier_uuid,
                                                                       &((*this_).temp_classifier)
                                                                     );
-            if ( sync_error != U8_ERROR_NONE )
+            if ( sync_error == U8_ERROR_NOT_FOUND )
+            {
+                TRACE_INFO_STR( "no classifier found, uuid:", classifier_uuid );
+                sync_error = U8_ERROR_NONE;
+            }
+            else if ( sync_error != U8_ERROR_NONE )
             {
                 TRACE_INFO_STR( "parent classifier not found", classifier_uuid );
             }
@@ -325,34 +355,51 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
 
     if (( (*this_).mode != IO_IMPORT_MODE_CHECK )&&( sync_error == U8_ERROR_NONE ))
     {
-        /* filter lifelines */
-        if ( ! data_rules_feature_is_scenario_cond( &((*this_).data_rules),
-                                                    data_feature_get_main_type( feature_ptr ) ) )
+        /* check if the parsed feature already exists in this database; if not, create it */
+        data_feature_init_empty( &((*this_).temp_feature ) );
+        u8_error_t read_error;
+        read_error = data_database_reader_get_feature_by_uuid( (*this_).db_reader,
+                                                               data_feature_get_uuid_const( feature_ptr ),
+                                                               &((*this_).temp_feature)
+                                                             );
+        data_feature_destroy( &((*this_).temp_feature ) );
+        const bool feature_exists = ( U8_ERROR_NONE == read_error );
+
+        if ( feature_exists )
         {
-            u8_error_t modified_info;
-            sync_error = ctrl_multi_step_changer_create_feature( &((*this_).multi_step_changer),
-                                                                 feature_ptr,
-                                                                 &modified_info
-                                                               );
-            data_stat_inc_count( (*this_).stat,
-                                 DATA_TABLE_FEATURE,
-                                 (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
-                               );
-            if ( U8_ERROR_NONE != sync_error )
-            {
-                TSLOG_ERROR( "unexpected error at ctrl_classifier_controller_create_feature" );
-            }
-            else
-            {
-            }
+
         }
-        else  /* lifeline */
+        else
         {
-            data_stat_inc_count ( (*this_).stat,
-                                    DATA_TABLE_FEATURE,
-                                    DATA_STAT_SERIES_IGNORED
-                                );
-            TRACE_INFO( "lifeline dropped at json import." );
+            /* filter lifelines */
+            if ( ! data_rules_feature_is_scenario_cond( &((*this_).data_rules),
+                                                        data_feature_get_main_type( feature_ptr ) ) )
+            {
+                u8_error_t modified_info;
+                sync_error = ctrl_multi_step_changer_create_feature( &((*this_).multi_step_changer),
+                                                                     feature_ptr,
+                                                                     &modified_info
+                                                                   );
+                data_stat_inc_count( (*this_).stat,
+                                     DATA_TABLE_FEATURE,
+                                     (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                   );
+                if ( U8_ERROR_NONE != sync_error )
+                {
+                    TSLOG_ERROR( "unexpected error at ctrl_classifier_controller_create_feature" );
+                }
+                else
+                {
+                }
+            }
+            else  /* lifeline */
+            {
+                data_stat_inc_count ( (*this_).stat,
+                                        DATA_TABLE_FEATURE,
+                                        DATA_STAT_SERIES_IGNORED
+                                    );
+                TRACE_INFO( "lifeline dropped at json import." );
+            }
         }
     }
 
@@ -458,78 +505,93 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
         }
     }
 
-    if ( (*this_).mode != IO_IMPORT_MODE_CHECK )
+    if (( (*this_).mode == IO_IMPORT_MODE_PASTE )||( (*this_).mode == IO_IMPORT_MODE_LINK ))
     {
         /* check if the parsed relationship already exists in this database; if not, create it */
+        data_relationship_init_empty( &((*this_).temp_relationship ) );
+        u8_error_t read_error;
+        read_error = data_database_reader_get_relationship_by_uuid( (*this_).db_reader,
+                                                                    data_relationship_get_uuid_const( relation_ptr ),
+                                                                    &((*this_).temp_relationship)
+                                                                  );
+        data_relationship_destroy( &((*this_).temp_relationship ) );
+        const bool relationship_exists = ( U8_ERROR_NONE == read_error );
 
-        /* create relationship */
-        bool dropped=false;
-        if ( from_classifier_id == DATA_ROW_ID_VOID )
+        if ( relationship_exists )
         {
-            TSLOG_ERROR_STR( "A relationship could not be created because the source classifier could not be found.",
-                             from_node_uuid
-                           );
-            dropped = true;
-        }
-        else if ( to_classifier_id == DATA_ROW_ID_VOID )
-        {
-            TSLOG_ERROR_STR( "A relationship could not be created because the destination classifier could not be found.",
-                             to_node_uuid
-                           );
-            dropped = true;
-        }
-        else if (( data_relationship_get_from_feature_row_id( relation_ptr ) != DATA_ROW_ID_VOID )
-            && ( from_feature_id == DATA_ROW_ID_VOID ))
-        {
-            TSLOG_ERROR_STR( "A relationship could not be created because the source feature could not be found.",
-                             from_node_uuid
-                           );
-            dropped = true;
-        }
-        else if (( data_relationship_get_to_feature_row_id( relation_ptr ) != DATA_ROW_ID_VOID )
-            && ( to_feature_id == DATA_ROW_ID_VOID ))
-        {
-            TSLOG_ERROR_STR( "A relationship could not be created because the destination feature could not be found.",
-                             to_node_uuid
-                           );
-            dropped = true;
+
         }
         else
         {
-            /* update the json-parsed relationship struct */
-            data_relationship_set_row_id ( relation_ptr, DATA_ROW_ID_VOID );
-            data_relationship_set_from_classifier_row_id ( relation_ptr, from_classifier_id );
-            data_relationship_set_from_feature_row_id ( relation_ptr, from_feature_id );
-            data_relationship_set_to_classifier_row_id ( relation_ptr, to_classifier_id );
-            data_relationship_set_to_feature_row_id ( relation_ptr, to_feature_id );
-
             /* create relationship */
-            u8_error_t modified_info;
-            sync_error = ctrl_multi_step_changer_create_relationship ( &((*this_).multi_step_changer),
-                                                                       relation_ptr,
-                                                                       &modified_info
-                                                                     );
-            if ( U8_ERROR_NONE != sync_error )
+            bool dropped=false;
+            if ( from_classifier_id == DATA_ROW_ID_VOID )
             {
-                TSLOG_ERROR( "unexpected error at ctrl_classifier_controller_create_relationship" );
+                TSLOG_ERROR_STR( "A relationship could not be created because the source classifier could not be found.",
+                                from_node_uuid
+                            );
+                dropped = true;
+            }
+            else if ( to_classifier_id == DATA_ROW_ID_VOID )
+            {
+                TSLOG_ERROR_STR( "A relationship could not be created because the destination classifier could not be found.",
+                                to_node_uuid
+                            );
+                dropped = true;
+            }
+            else if (( data_relationship_get_from_feature_row_id( relation_ptr ) != DATA_ROW_ID_VOID )
+                && ( from_feature_id == DATA_ROW_ID_VOID ))
+            {
+                TSLOG_ERROR_STR( "A relationship could not be created because the source feature could not be found.",
+                                from_node_uuid
+                            );
+                dropped = true;
+            }
+            else if (( data_relationship_get_to_feature_row_id( relation_ptr ) != DATA_ROW_ID_VOID )
+                && ( to_feature_id == DATA_ROW_ID_VOID ))
+            {
+                TSLOG_ERROR_STR( "A relationship could not be created because the destination feature could not be found.",
+                                to_node_uuid
+                            );
+                dropped = true;
             }
             else
             {
-            }
-        }
+                /* update the json-parsed relationship struct */
+                data_relationship_set_row_id ( relation_ptr, DATA_ROW_ID_VOID );
+                data_relationship_set_from_classifier_row_id ( relation_ptr, from_classifier_id );
+                data_relationship_set_from_feature_row_id ( relation_ptr, from_feature_id );
+                data_relationship_set_to_classifier_row_id ( relation_ptr, to_classifier_id );
+                data_relationship_set_to_feature_row_id ( relation_ptr, to_feature_id );
 
-        /* update statistics */
-        data_stat_inc_count ( (*this_).stat,
-                              DATA_TABLE_RELATIONSHIP,
-                              (!dropped)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
-                            );
-        if ( dropped )
-        {
-            const bool is_scenario = data_rules_relationship_is_scenario_cond ( &((*this_).data_rules),
-                                                                                from_feature_type,
-                                                                                to_feature_type
-                                                                              );
-            TRACE_INFO( is_scenario ? "relationship in interaction scenario dropped" : "general relationship dropped" );
+                /* create relationship */
+                u8_error_t modified_info;
+                sync_error = ctrl_multi_step_changer_create_relationship ( &((*this_).multi_step_changer),
+                                                                        relation_ptr,
+                                                                        &modified_info
+                                                                        );
+                if ( U8_ERROR_NONE != sync_error )
+                {
+                    TSLOG_ERROR( "unexpected error at ctrl_classifier_controller_create_relationship" );
+                }
+                else
+                {
+                }
+            }
+
+            /* update statistics */
+            data_stat_inc_count ( (*this_).stat,
+                                DATA_TABLE_RELATIONSHIP,
+                                (!dropped)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                                );
+            if ( dropped )
+            {
+                const bool is_scenario = data_rules_relationship_is_scenario_cond ( &((*this_).data_rules),
+                                                                                    from_feature_type,
+                                                                                    to_feature_type
+                                                                                );
+                TRACE_INFO( is_scenario ? "relationship in interaction scenario dropped" : "general relationship dropped" );
+            }
         }
     }
 

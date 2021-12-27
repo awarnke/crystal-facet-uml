@@ -20,8 +20,10 @@ static const char *const MAIN_HELP
     = "\nUsage:\n"
     "    -h for help\n"
     "    -v for version\n"
-    "    -e <database_file> <export_format> <target_directory> to export all diagrams\n"
-    "    -i <database_file> <import_mode>   <input_file>       to import elements\n"
+    "    -e <database_file> <export_format> <target_directory> to export all diagrams,\n"
+    "       export_format: docbook|json|pdf|png|ps|svg|txt|xhtml|xmi\n"
+    "    -i <database_file> <import_mode>   <input_file>       to import elements,\n"
+    "       import_mode: check|update\n"
     "    -u <database_file> to use/create a database file\n"
     "    -g <database_file> to upgrade the database tables from version 1.32.1 and older\n"
     "    -t <database_file> to test the database file\n"
@@ -158,7 +160,15 @@ io_file_format_t main_private_get_selected_format( char *arg_fmt )
     assert( arg_fmt != NULL );
     io_file_format_t result = 0;
 
-    if ( utf8string_equals_str( arg_fmt, "pdf" ) )
+    if ( utf8string_equals_str( arg_fmt, "docbook" ) )
+    {
+        result = IO_FILE_FORMAT_DOCBOOK;
+    }
+    else if ( utf8string_equals_str( arg_fmt, "json" ) )
+    {
+        result = IO_FILE_FORMAT_JSON;
+    }
+    else if ( utf8string_equals_str( arg_fmt, "pdf" ) )
     {
         result = IO_FILE_FORMAT_PDF;
     }
@@ -178,10 +188,6 @@ io_file_format_t main_private_get_selected_format( char *arg_fmt )
     {
         result = IO_FILE_FORMAT_TXT;
     }
-    else if ( utf8string_equals_str( arg_fmt, "docbook" ) )
-    {
-        result = IO_FILE_FORMAT_DOCBOOK;
-    }
     else if ( utf8string_equals_str( arg_fmt, "xhtml" ) )
     {
         result = IO_FILE_FORMAT_XHTML;
@@ -189,10 +195,6 @@ io_file_format_t main_private_get_selected_format( char *arg_fmt )
     else if ( utf8string_equals_str( arg_fmt, "xmi" ) )
     {
         result = IO_FILE_FORMAT_XMI2;
-    }
-    else if ( utf8string_equals_str( arg_fmt, "json" ) )
-    {
-        result = IO_FILE_FORMAT_JSON;
     }
 
     TRACE_END();
