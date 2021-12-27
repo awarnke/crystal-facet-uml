@@ -78,7 +78,7 @@ u8_error_t main_commands_repair ( main_commands_t *this_,
     TRACE_BEGIN();
     assert( database_path != NULL );
     const bool do_repair = ( ! check_only );
-    static char repair_log_buffer[10000] = "";
+    static char repair_log_buffer[32000] = "";
     static utf8stringbuf_t repair_log = UTF8STRINGBUF( repair_log_buffer );
     u8_error_t result = U8_ERROR_NONE;
 

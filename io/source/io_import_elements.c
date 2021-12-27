@@ -8,10 +8,10 @@
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
-void io_import_elements_init ( io_import_elements_t *this_,
-                               data_database_reader_t *db_reader,
-                               ctrl_controller_t *controller,
-                               data_stat_t *io_stat )
+void io_import_elements_init( io_import_elements_t *this_,
+                              data_database_reader_t *db_reader,
+                              ctrl_controller_t *controller,
+                              data_stat_t *io_stat )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
@@ -46,6 +46,7 @@ void io_import_elements_init_for_paste( io_import_elements_t *this_,
 
     /* check if diagram id exists */
     {
+        data_diagram_init_empty( &((*this_).temp_diagram) );
         const int sync_error
             = data_database_reader_get_diagram_by_id( (*this_).db_reader,
                                                       (*this_).paste_to_diagram,
@@ -58,14 +59,14 @@ void io_import_elements_init_for_paste( io_import_elements_t *this_,
         }
         else
         {
-            data_diagram_destroy( &((*this_).temp_diagram) );
         }
+        data_diagram_destroy( &((*this_).temp_diagram) );
     }
 
     TRACE_END();
 }
 
-void io_import_elements_destroy ( io_import_elements_t *this_ )
+void io_import_elements_destroy( io_import_elements_t *this_ )
 {
     TRACE_BEGIN();
     assert( NULL != (*this_).db_reader );
@@ -101,9 +102,9 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
      /* parent_uuid is NULL if root diagram */
     u8_error_t sync_error = U8_ERROR_NONE;
 
-    /* determine parent id */
+    /* ANY MODE: determine parent id */
     data_row_id_t parent_row_id = DATA_ROW_ID_VOID;
-    if ( parent_uuid != NULL )
+    if (( parent_uuid != NULL )&&( sync_error == U8_ERROR_NONE ))
     {
         if ( ! utf8string_equals_str( parent_uuid, "" ) )
         {
@@ -193,14 +194,149 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
                                                    const char *node_uuid )
 {
     TRACE_BEGIN();
-    u8_error_t sync_error = U8_ERROR_NONE;
     assert( NULL != diagramelement_ptr );
     assert( NULL != diagram_uuid );
     assert( NULL != node_uuid );
+    u8_error_t sync_error = U8_ERROR_NONE;
 
-    if ( (*this_).mode != IO_IMPORT_MODE_CHECK )
+    /* ANY MODE: determine classifier/feature id */
+    data_row_id_t node_classifier_id = DATA_ROW_ID_VOID;
+    data_row_id_t node_feature_id = DATA_ROW_ID_VOID;
+    data_feature_type_t node_feature_type = DATA_FEATURE_TYPE_VOID;
+    if (( node_uuid != NULL )&&( sync_error == U8_ERROR_NONE ))
     {
-        data_stat_inc_count( (*this_).stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED );
+        if ( ! utf8string_equals_str( node_uuid, "" ) )
+        {
+            /* search source classifier id */
+            data_classifier_init_empty( &((*this_).temp_classifier ) );
+            const u8_error_t read_error1
+                = data_database_reader_get_classifier_by_uuid( (*this_).db_reader,
+                                                               node_uuid,
+                                                               &((*this_).temp_classifier)
+                                                             );
+            if ( U8_ERROR_NONE == read_error1 )
+            {
+                node_classifier_id = data_classifier_get_row_id( &((*this_).temp_classifier) );
+                TRACE_INFO_STR( "id found for classifier:", node_uuid );
+            }
+            else
+            {
+                /* search source feature id */
+                data_feature_init_empty( &((*this_).temp_feature) );
+                const u8_error_t read_error2
+                    = data_database_reader_get_feature_by_uuid( (*this_).db_reader,
+                                                                node_uuid,
+                                                                &((*this_).temp_feature)
+                                                              );
+                if ( U8_ERROR_NONE == read_error2 )
+                {
+                    node_classifier_id = data_feature_get_classifier_row_id( &((*this_).temp_feature) );
+                    node_feature_id = data_feature_get_row_id( &((*this_).temp_feature) );
+                    node_feature_type = data_feature_get_main_type( &((*this_).temp_feature) );
+                    TRACE_INFO_STR( "id found for feature:", node_uuid );
+                }
+                else
+                {
+                    TRACE_INFO_STR( "diagramelement node not found", node_uuid );
+                }
+                data_feature_destroy( &((*this_).temp_feature) );
+            }
+            data_classifier_destroy( &((*this_).temp_classifier ) );
+        }
+    }
+
+    /* ANY MODE: determine diagram id */
+    data_row_id_t diagram_row_id = DATA_ROW_ID_VOID;
+    if (( diagram_uuid != NULL )&&( sync_error == U8_ERROR_NONE ))
+    {
+        if ( ! utf8string_equals_str( diagram_uuid, "" ) )
+        {
+            data_diagram_init_empty( &((*this_).temp_diagram ) );
+            sync_error = data_database_reader_get_diagram_by_uuid( (*this_).db_reader,
+                                                                   diagram_uuid,
+                                                                   &((*this_).temp_diagram)
+                                                                 );
+            if ( sync_error == U8_ERROR_NOT_FOUND )
+            {
+                TRACE_INFO_STR( "no diagram found, uuid:", diagram_uuid );
+                sync_error = U8_ERROR_NONE;
+            }
+            else if ( sync_error != U8_ERROR_NONE )
+            {
+                TRACE_INFO_STR( "diagram not found", diagram_uuid );
+            }
+            else
+            {
+                diagram_uuid = data_diagram_get_row_id( &((*this_).temp_diagram ) );
+            }
+            data_diagram_destroy( &((*this_).temp_diagram ) );
+        }
+    }
+
+    if (( (*this_).mode == IO_IMPORT_MODE_LINK )&&( sync_error == U8_ERROR_NONE ))
+    {
+        /* check if the parsed diagramelement already exists in this database; if not, create it */
+        data_diagramelement_init_empty( &((*this_).temp_diagramelement ) );
+        const u8_error_t read_error3
+            = data_database_reader_get_diagramelement_by_uuid( (*this_).db_reader,
+                                                               data_diagramelement_get_uuid_const( diagramelement_ptr ),
+                                                               &((*this_).temp_diagramelement)
+                                                             );
+        const bool diagramelement_exists = ( U8_ERROR_NONE == read_error3 );
+
+        if ( ! diagramelement_exists )
+        {
+            data_stat_inc_count( (*this_).stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR );
+        }
+        else
+        {
+            /* do the statistics */
+            data_stat_inc_count( (*this_).stat,
+                                 DATA_TABLE_DIAGRAMELEMENT,
+                                 DATA_STAT_SERIES_IGNORED
+                               );
+            TRACE_INFO_INT( "diagramelement did already exist:", data_diagramelement_get_row_id( &((*this_).temp_diagramelement) ) );
+        }
+        data_diagramelement_destroy( &((*this_).temp_diagramelement ) );
+
+    }
+
+    TRACE_END_ERR( sync_error );
+    return sync_error;
+}
+
+u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_t *this_, data_row_id_t classifier_id )
+{
+    TRACE_BEGIN();
+    assert( DATA_ROW_ID_VOID != classifier_id );
+    u8_error_t sync_error = U8_ERROR_NONE;
+
+    if (( (*this_).mode == IO_IMPORT_MODE_PASTE )&&( sync_error == U8_ERROR_NONE ))
+    {
+        /* link the classifier to the current diagram */
+        data_diagramelement_t diag_ele;
+        data_diagramelement_init_new( &diag_ele,
+                                      (*this_).paste_to_diagram,
+                                      classifier_id,
+                                      DATA_DIAGRAMELEMENT_FLAG_NONE,
+                                      DATA_ROW_ID_VOID
+                                    );
+        u8_error_t modified_info;
+        sync_error = ctrl_multi_step_changer_create_diagramelement( &((*this_).multi_step_changer),
+                                                                    &diag_ele,
+                                                                    &modified_info
+                                                                  );
+        data_stat_inc_count( (*this_).stat,
+                             DATA_TABLE_DIAGRAMELEMENT,
+                             (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                           );
+        if ( U8_ERROR_NONE != sync_error )
+        {
+            TSLOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagramelement" );
+        }
+        else
+        {
+        }
     }
 
     TRACE_END_ERR( sync_error );
@@ -232,7 +368,6 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
                                                                   data_classifier_get_uuid_const( classifier_ptr ),
                                                                   &((*this_).temp_classifier)
                                                                 );
-        data_classifier_destroy( &((*this_).temp_classifier ) );
         const bool classifier_exists = ( U8_ERROR_NONE == read_error );
 
         if ( ! classifier_exists )
@@ -270,46 +405,8 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
                                  DATA_STAT_SERIES_IGNORED
                                );
             TRACE_INFO_INT( "classifier did already exist:", data_classifier_get_row_id( &((*this_).temp_classifier) ) );
-            data_classifier_destroy( &((*this_).temp_classifier) );
         }
-    }
-
-    TRACE_END_ERR( sync_error );
-    return sync_error;
-}
-
-u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_t *this_, data_row_id_t classifier_id )
-{
-    TRACE_BEGIN();
-    assert( DATA_ROW_ID_VOID != classifier_id );
-    u8_error_t sync_error = U8_ERROR_NONE;
-
-    if (( (*this_).mode == IO_IMPORT_MODE_LINK )&&( sync_error == U8_ERROR_NONE ))
-    {
-        /* link the classifier to the current diagram */
-        data_diagramelement_t diag_ele;
-        data_diagramelement_init_new( &diag_ele,
-                                      (*this_).paste_to_diagram,
-                                      classifier_id,
-                                      DATA_DIAGRAMELEMENT_FLAG_NONE,
-                                      DATA_ROW_ID_VOID
-                                    );
-        u8_error_t modified_info;
-        sync_error = ctrl_multi_step_changer_create_diagramelement( &((*this_).multi_step_changer),
-                                                                    &diag_ele,
-                                                                    &modified_info
-                                                                  );
-        data_stat_inc_count( (*this_).stat,
-                             DATA_TABLE_DIAGRAMELEMENT,
-                             (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
-                           );
-        if ( U8_ERROR_NONE != sync_error )
-        {
-            TSLOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagramelement" );
-        }
-        else
-        {
-        }
+        data_classifier_destroy( &((*this_).temp_classifier ) );
     }
 
     TRACE_END_ERR( sync_error );
@@ -325,12 +422,13 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
     assert( NULL != classifier_uuid );
     u8_error_t sync_error = U8_ERROR_NONE;
 
-    /* determine classifier id */
+    /* ANY MODE: determine classifier id */
     data_row_id_t classifier_row_id = DATA_ROW_ID_VOID;
-    if ( classifier_uuid != NULL )
+    if (( classifier_uuid != NULL )&&( sync_error == U8_ERROR_NONE ))
     {
         if ( ! utf8string_equals_str( classifier_uuid, "" ) )
         {
+            data_classifier_init_empty( &((*this_).temp_classifier ) );
             sync_error = data_database_reader_get_classifier_by_uuid( (*this_).db_reader,
                                                                       classifier_uuid,
                                                                       &((*this_).temp_classifier)
@@ -347,8 +445,8 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
             else
             {
                 classifier_row_id = data_classifier_get_row_id( &((*this_).temp_classifier ) );
-                data_classifier_destroy( &((*this_).temp_classifier ) );
             }
+            data_classifier_destroy( &((*this_).temp_classifier ) );
         }
     }
     data_feature_set_classifier_row_id( feature_ptr, classifier_row_id );
@@ -394,10 +492,10 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
             }
             else  /* lifeline */
             {
-                data_stat_inc_count ( (*this_).stat,
-                                        DATA_TABLE_FEATURE,
-                                        DATA_STAT_SERIES_IGNORED
-                                    );
+                data_stat_inc_count( (*this_).stat,
+                                     DATA_TABLE_FEATURE,
+                                     DATA_STAT_SERIES_IGNORED
+                                   );
                 TRACE_INFO( "lifeline dropped at json import." );
             }
         }
@@ -425,11 +523,13 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
     data_row_id_t to_feature_id = DATA_ROW_ID_VOID;
     data_feature_type_t to_feature_type = DATA_FEATURE_TYPE_VOID;
 
+    /* ANY MODE: determine from classifier/feature */
     if ( from_node_uuid != NULL )
     {
         if ( ! utf8string_equals_str( from_node_uuid, "" ) )
         {
             /* search source classifier id */
+            data_classifier_init_empty( &((*this_).temp_classifier ) );
             const u8_error_t read_error1
                 = data_database_reader_get_classifier_by_uuid( (*this_).db_reader,
                                                                from_node_uuid,
@@ -439,11 +539,11 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
             {
                 from_classifier_id = data_classifier_get_row_id( &((*this_).temp_classifier) );
                 TRACE_INFO_STR( "id found for src classifier:", from_node_uuid );
-                data_classifier_destroy( &((*this_).temp_classifier) );
             }
             else
             {
                 /* search source feature id */
+                data_feature_init_empty( &((*this_).temp_feature) );
                 const u8_error_t read_error2
                     = data_database_reader_get_feature_by_uuid( (*this_).db_reader,
                                                                 from_node_uuid,
@@ -455,21 +555,24 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
                     from_feature_id = data_feature_get_row_id( &((*this_).temp_feature) );
                     from_feature_type = data_feature_get_main_type( &((*this_).temp_feature) );
                     TRACE_INFO_STR( "id found for src feature:", from_node_uuid );
-                    data_feature_destroy( &((*this_).temp_feature) );
                 }
                 else
                 {
                     TRACE_INFO_STR( "relationship source not found", from_node_uuid );
                 }
+                data_feature_destroy( &((*this_).temp_feature) );
             }
+            data_classifier_destroy( &((*this_).temp_classifier ) );
         }
     }
 
+    /* ANY MODE: determine to classifier/feature */
     if ( to_node_uuid != NULL )
     {
         if ( ! utf8string_equals_str( to_node_uuid, "" ) )
         {
             /* search destination classifier id */
+            data_classifier_init_empty( &((*this_).temp_classifier ) );
             const u8_error_t read_error3
                 = data_database_reader_get_classifier_by_uuid( (*this_).db_reader,
                                                                to_node_uuid,
@@ -479,11 +582,11 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
             {
                 to_classifier_id = data_classifier_get_row_id( &((*this_).temp_classifier) );
                 TRACE_INFO_STR( "id found for dst classifier:", to_node_uuid );
-                data_classifier_destroy( &((*this_).temp_classifier) );
             }
             else
             {
                 /* search dst feature id */
+                data_feature_init_empty( &((*this_).temp_feature) );
                 const u8_error_t read_error4
                     = data_database_reader_get_feature_by_uuid( (*this_).db_reader,
                                                                 to_node_uuid,
@@ -495,13 +598,14 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
                     to_feature_id = data_feature_get_row_id( &((*this_).temp_feature) );
                     to_feature_type = data_feature_get_main_type( &((*this_).temp_feature) );
                     TRACE_INFO_STR( "id found for src feature:", to_node_uuid );
-                    data_feature_destroy( &((*this_).temp_feature) );
                 }
                 else
                 {
                     TRACE_INFO_STR( "relationship destination not found", to_node_uuid );
                 }
+                data_feature_destroy( &((*this_).temp_feature) );
             }
+            data_classifier_destroy( &((*this_).temp_classifier ) );
         }
     }
 

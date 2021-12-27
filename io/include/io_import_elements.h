@@ -131,6 +131,15 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
                                                  );
 
 /*!
+ *  \brief invents a diagramelement to attach a new classifier to a diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier for which a diagramelement shall be created
+ *  \return U8_ERROR_NONE in case of success
+ */
+u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_t *this_, data_row_id_t classifier_id );
+
+/*!
  *  \brief synchronizes a classifier with the database
  *
  *  \param this_ pointer to own object attributes
@@ -140,15 +149,6 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
 u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
                                                data_classifier_t *classifier_ptr
                                              );
-
-/*!
- *  \brief creates a diagramelement to attach a new classifier to a diagram
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_id id of the classifier for which a diagramelement shall be created
- *  \return U8_ERROR_NONE in case of success
- */
-u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_t *this_, data_row_id_t classifier_id );
 
 /*!
  *  \brief synchronizes a feature with the database
