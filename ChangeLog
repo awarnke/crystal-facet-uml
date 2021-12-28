@@ -6,8 +6,9 @@ crystal-facet-uml (1.35.0) UNRELEASED; urgency=medium
   * pasting messages-between-lifelines from the clipboard to other diagrams
     is not possible anymore, please create new messages when needed.
   * when creating features, the type field is not pre-filled by a proposal
+  * json files can be imported
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 27 Dec 2021 20:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 01 Jan 2022 20:00:00 +0200
 
 crystal-facet-uml (1.34.1) UNRELEASED; urgency=medium
 

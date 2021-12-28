@@ -125,7 +125,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
-                                                   data_diagramelement_t *diagramelement_ptr,
+                                                   const data_diagramelement_t *diagramelement_ptr,
                                                    const char *diagram_uuid,
                                                    const char *node_uuid
                                                  );
