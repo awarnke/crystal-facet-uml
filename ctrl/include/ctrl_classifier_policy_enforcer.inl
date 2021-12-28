@@ -1,11 +1,11 @@
 /* File: ctrl_classifier_policy_enforcer.inl; Copyright and License: see below */
 
-static inline u8_error_t ctrl_classifier_policy_enforcer_post_delete_feature ( ctrl_classifier_policy_enforcer_t *this_,
-                                                                                 const data_feature_t *deleted_feature )
+static inline u8_error_t ctrl_classifier_policy_enforcer_post_delete_feature( ctrl_classifier_policy_enforcer_t *this_,
+                                                                              const data_feature_t *deleted_feature )
 {
     u8_error_t result_err = U8_ERROR_NONE;
 
-    result_err |= ctrl_classifier_policy_enforcer_private_unlink_lifeline ( this_, deleted_feature );
+    result_err |= ctrl_classifier_policy_enforcer_private_unlink_lifeline( this_, deleted_feature );
 
     return result_err;
 }

@@ -505,7 +505,7 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
         }
     }
 
-    if ( (( (*this_).mode == IO_IMPORT_MODE_CREATE )||( (*this_).mode == IO_IMPORT_MODE_PASTE ))
+    if ((( (*this_).mode == IO_IMPORT_MODE_CREATE )||( (*this_).mode == IO_IMPORT_MODE_PASTE ))
         &&( sync_error == U8_ERROR_NONE ))
     {
         /* check if the parsed feature already exists in this database; if not, create it */
@@ -569,14 +569,10 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
     assert( NULL != to_node_uuid );
     u8_error_t sync_error = U8_ERROR_NONE;
 
+    /* ANY MODE: determine from classifier/feature */
     data_row_id_t from_classifier_id = DATA_ROW_ID_VOID;
     data_row_id_t from_feature_id = DATA_ROW_ID_VOID;
     data_feature_type_t from_feature_type = DATA_FEATURE_TYPE_VOID;
-    data_row_id_t to_classifier_id = DATA_ROW_ID_VOID;
-    data_row_id_t to_feature_id = DATA_ROW_ID_VOID;
-    data_feature_type_t to_feature_type = DATA_FEATURE_TYPE_VOID;
-
-    /* ANY MODE: determine from classifier/feature */
     if ( from_node_uuid != NULL )
     {
         if ( ! utf8string_equals_str( from_node_uuid, "" ) )
@@ -620,6 +616,9 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
     }
 
     /* ANY MODE: determine to classifier/feature */
+    data_row_id_t to_classifier_id = DATA_ROW_ID_VOID;
+    data_row_id_t to_feature_id = DATA_ROW_ID_VOID;
+    data_feature_type_t to_feature_type = DATA_FEATURE_TYPE_VOID;
     if ( to_node_uuid != NULL )
     {
         if ( ! utf8string_equals_str( to_node_uuid, "" ) )
@@ -662,7 +661,31 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
         }
     }
 
+    /* check preconditions */
     if (( (*this_).mode == IO_IMPORT_MODE_PASTE )||( (*this_).mode == IO_IMPORT_MODE_LINK ))
+    {
+        if ( from_classifier_id == DATA_ROW_ID_VOID )
+        {
+            sync_error |= U8_ERROR_VALUE_OUT_OF_RANGE;
+            TSLOG_ERROR( "A relationship could not be created because the source classifier could not be found." );
+        }
+        if ( to_classifier_id == DATA_ROW_ID_VOID )
+        {
+            sync_error |= U8_ERROR_VALUE_OUT_OF_RANGE;
+            TSLOG_ERROR( "A relationship could not be created because the destination classifier could not be found." );
+        }
+        if ( sync_error != U8_ERROR_NONE )
+        {
+            const bool is_scenario = data_rules_relationship_is_scenario_cond( &((*this_).data_rules),
+                                                                               from_feature_type,
+                                                                               to_feature_type
+                                                                             );
+            TRACE_INFO( is_scenario ? "relationship in interaction scenario dropped" : "general relationship dropped" );
+        }
+    }
+
+    if ((( (*this_).mode == IO_IMPORT_MODE_PASTE )||( (*this_).mode == IO_IMPORT_MODE_LINK ))
+        &&( sync_error == U8_ERROR_NONE ))
     {
         /* check if the parsed relationship already exists in this database; if not, create it */
         data_relationship_init_empty( &((*this_).temp_relationship ) );
@@ -681,38 +704,6 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
         else
         {
             /* create relationship */
-            bool dropped=false;
-            if ( from_classifier_id == DATA_ROW_ID_VOID )
-            {
-                TSLOG_ERROR_STR( "A relationship could not be created because the source classifier could not be found.",
-                                from_node_uuid
-                            );
-                dropped = true;
-            }
-            else if ( to_classifier_id == DATA_ROW_ID_VOID )
-            {
-                TSLOG_ERROR_STR( "A relationship could not be created because the destination classifier could not be found.",
-                                to_node_uuid
-                            );
-                dropped = true;
-            }
-            else if (( data_relationship_get_from_feature_row_id( relation_ptr ) != DATA_ROW_ID_VOID )
-                && ( from_feature_id == DATA_ROW_ID_VOID ))
-            {
-                TSLOG_ERROR_STR( "A relationship could not be created because the source feature could not be found.",
-                                from_node_uuid
-                            );
-                dropped = true;
-            }
-            else if (( data_relationship_get_to_feature_row_id( relation_ptr ) != DATA_ROW_ID_VOID )
-                && ( to_feature_id == DATA_ROW_ID_VOID ))
-            {
-                TSLOG_ERROR_STR( "A relationship could not be created because the destination feature could not be found.",
-                                to_node_uuid
-                            );
-                dropped = true;
-            }
-            else
             {
                 /* update the json-parsed relationship struct */
                 data_relationship_set_row_id ( relation_ptr, DATA_ROW_ID_VOID );
@@ -723,9 +714,9 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
 
                 /* create relationship */
                 u8_error_t modified_info;
-                sync_error = ctrl_multi_step_changer_create_relationship ( &((*this_).multi_step_changer),
-                                                                        relation_ptr,
-                                                                        &modified_info
+                sync_error = ctrl_multi_step_changer_create_relationship( &((*this_).multi_step_changer),
+                                                                          relation_ptr,
+                                                                          &modified_info
                                                                         );
                 if ( U8_ERROR_NONE != sync_error )
                 {
@@ -737,18 +728,10 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
             }
 
             /* update statistics */
-            data_stat_inc_count ( (*this_).stat,
-                                DATA_TABLE_RELATIONSHIP,
-                                (!dropped)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
-                                );
-            if ( dropped )
-            {
-                const bool is_scenario = data_rules_relationship_is_scenario_cond ( &((*this_).data_rules),
-                                                                                    from_feature_type,
-                                                                                    to_feature_type
-                                                                                );
-                TRACE_INFO( is_scenario ? "relationship in interaction scenario dropped" : "general relationship dropped" );
-            }
+            data_stat_inc_count( (*this_).stat,
+                                 DATA_TABLE_RELATIONSHIP,
+                                 (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                               );
         }
     }
 

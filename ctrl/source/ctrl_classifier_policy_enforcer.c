@@ -6,10 +6,10 @@
 #include "trace.h"
 #include "tslog.h"
 
-void ctrl_classifier_policy_enforcer_init ( ctrl_classifier_policy_enforcer_t *this_,
-                                            data_database_reader_t *db_reader,
-                                            struct ctrl_classifier_controller_struct *clfy_ctrl,
-                                            struct ctrl_diagram_controller_struct *diag_ctrl )
+void ctrl_classifier_policy_enforcer_init( ctrl_classifier_policy_enforcer_t *this_,
+                                           data_database_reader_t *db_reader,
+                                           struct ctrl_classifier_controller_struct *clfy_ctrl,
+                                           struct ctrl_diagram_controller_struct *diag_ctrl )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
@@ -23,7 +23,7 @@ void ctrl_classifier_policy_enforcer_init ( ctrl_classifier_policy_enforcer_t *t
     TRACE_END();
 }
 
-void ctrl_classifier_policy_enforcer_destroy ( ctrl_classifier_policy_enforcer_t *this_ )
+void ctrl_classifier_policy_enforcer_destroy( ctrl_classifier_policy_enforcer_t *this_ )
 {
     TRACE_BEGIN();
 
@@ -36,8 +36,8 @@ void ctrl_classifier_policy_enforcer_destroy ( ctrl_classifier_policy_enforcer_t
 
 /* ================================ LIFELINES ================================ */
 
-u8_error_t ctrl_classifier_policy_enforcer_private_unlink_lifeline ( ctrl_classifier_policy_enforcer_t *this_,
-                                                                       const data_feature_t *deleted_feature )
+u8_error_t ctrl_classifier_policy_enforcer_private_unlink_lifeline( ctrl_classifier_policy_enforcer_t *this_,
+                                                                    const data_feature_t *deleted_feature )
 {
     TRACE_BEGIN();
     assert( NULL != deleted_feature );
@@ -53,12 +53,12 @@ u8_error_t ctrl_classifier_policy_enforcer_private_unlink_lifeline ( ctrl_classi
 
         /* search all diagramelements of the classifier */
         uint32_t diagramelement_count;
-        data_result = data_database_reader_get_diagramelements_by_classifier_id ( (*this_).db_reader,
-                                                                                  classifier_id,
-                                                                                  CTRL_CLASSIFIER_POLICY_ENFORCER_CONST_MAX_TEMP_DIAGELES,
-                                                                                  &((*this_).private_temp_diagele_buf),
-                                                                                  &diagramelement_count
-                                                                                );
+        data_result = data_database_reader_get_diagramelements_by_classifier_id( (*this_).db_reader,
+                                                                                 classifier_id,
+                                                                                 CTRL_CLASSIFIER_POLICY_ENFORCER_CONST_MAX_TEMP_DIAGELES,
+                                                                                 &((*this_).private_temp_diagele_buf),
+                                                                                 &diagramelement_count
+                                                                               );
         result |= (u8_error_t) data_result;
 
         if ( U8_ERROR_NONE == data_result )
@@ -76,11 +76,11 @@ u8_error_t ctrl_classifier_policy_enforcer_private_unlink_lifeline ( ctrl_classi
                     data_row_id_t diagele_id;
                     diagele_id = data_diagramelement_get_row_id( current_diagele );
 
-                    result |= ctrl_diagram_controller_update_diagramelement_focused_feature_id ( (*this_).diag_ctrl,
-                                                                                                 diagele_id,
-                                                                                                 DATA_ROW_ID_VOID,
-                                                                                                 CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
-                                                                                               );
+                    result |= ctrl_diagram_controller_update_diagramelement_focused_feature_id( (*this_).diag_ctrl,
+                                                                                                diagele_id,
+                                                                                                DATA_ROW_ID_VOID,
+                                                                                                CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
+                                                                                              );
                 }
             }
         }

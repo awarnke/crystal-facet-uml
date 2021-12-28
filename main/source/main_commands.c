@@ -195,18 +195,7 @@ u8_error_t main_commands_export( main_commands_t *this_,
             data_stat_t export_stat;
             data_stat_init ( &export_stat );
             export_err = io_exporter_export_files( &exporter, export_format, export_directory, document_filename, &export_stat );
-            {
-                const unsigned int stat_ok = data_stat_get_series_count( &export_stat, DATA_STAT_SERIES_EXPORTED );
-                const unsigned int stat_warn = data_stat_get_series_count( &export_stat, DATA_STAT_SERIES_WARNING );
-                const unsigned int stat_err = data_stat_get_series_count( &export_stat, DATA_STAT_SERIES_ERROR );
-                universal_utf8_writer_write_str( out_english_report, "\nexported: " );
-                universal_utf8_writer_write_int( out_english_report, stat_ok );
-                universal_utf8_writer_write_str( out_english_report, "; warnings: " );
-                universal_utf8_writer_write_int( out_english_report, stat_warn );
-                universal_utf8_writer_write_str( out_english_report, "; errors: " );
-                universal_utf8_writer_write_int( out_english_report, stat_err );
-                universal_utf8_writer_write_str( out_english_report, "\n" );
-            }
+            export_err |= main_commands_private_report_stat( this_, &export_stat, "exported", out_english_report );
             data_stat_trace( &export_stat );
             data_stat_destroy ( &export_stat );
         }
@@ -215,7 +204,7 @@ u8_error_t main_commands_export( main_commands_t *this_,
     }
     else
     {
-        export_err = -1;
+        export_err = U8_ERROR_NO_DB;
     }
 
     TRACE_INFO("stopping DB...");
@@ -263,18 +252,7 @@ u8_error_t main_commands_import( main_commands_t *this_,
             data_stat_t import_stat;
             data_stat_init ( &import_stat );
             import_err = io_importer_import_file( &importer, import_mode, import_file_path, &import_stat, out_english_report );
-            {
-                const unsigned int stat_ok = data_stat_get_series_count( &import_stat, DATA_STAT_SERIES_EXPORTED );
-                const unsigned int stat_warn = data_stat_get_series_count( &import_stat, DATA_STAT_SERIES_WARNING );
-                const unsigned int stat_err = data_stat_get_series_count( &import_stat, DATA_STAT_SERIES_ERROR );
-                universal_utf8_writer_write_str( out_english_report, "\nimported: " );
-                universal_utf8_writer_write_int( out_english_report, stat_ok );
-                universal_utf8_writer_write_str( out_english_report, "; warnings: " );
-                universal_utf8_writer_write_int( out_english_report, stat_warn );
-                universal_utf8_writer_write_str( out_english_report, "; errors: " );
-                universal_utf8_writer_write_int( out_english_report, stat_err );
-                universal_utf8_writer_write_str( out_english_report, "\n" );
-            }
+            import_err |= main_commands_private_report_stat( this_, &import_stat, "imported", out_english_report );
             data_stat_trace( &import_stat );
             data_stat_destroy ( &import_stat );
         }
@@ -283,7 +261,7 @@ u8_error_t main_commands_import( main_commands_t *this_,
     }
     else
     {
-        import_err = -1;
+        import_err = U8_ERROR_NO_DB;
     }
 
     TRACE_INFO("destroying controller...");
@@ -295,6 +273,91 @@ u8_error_t main_commands_import( main_commands_t *this_,
 
     TRACE_END_ERR( import_err );
     return import_err;
+}
+
+static const char *const series[DATA_STAT_SERIES_MAX] = {
+    [DATA_STAT_SERIES_CREATED]  = " new/exp",
+    [DATA_STAT_SERIES_MODIFIED] = "modified",
+    [DATA_STAT_SERIES_DELETED]  = " deleted",
+    [DATA_STAT_SERIES_IGNORED]  = " ignored",
+    [DATA_STAT_SERIES_WARNING]  = "warnings",
+    [DATA_STAT_SERIES_ERROR]    = "  errors",
+};
+
+static const char *const tables[DATA_STAT_TABLES_MAX] = {
+    [DATA_TABLE_VOID] = "-",
+    [DATA_TABLE_CLASSIFIER] = "clas",
+    [DATA_TABLE_FEATURE] = "feat",
+    [DATA_TABLE_RELATIONSHIP] = "rel",
+    [DATA_TABLE_DIAGRAMELEMENT] = "d_ele",
+    [DATA_TABLE_DIAGRAM] = "diag",
+};
+
+u8_error_t main_commands_private_report_stat ( main_commands_t *this_,
+                                               const data_stat_t *stat,
+                                               const char* mode_name,
+                                               universal_utf8_writer_t *out_english_report )
+{
+    TRACE_BEGIN();
+    assert( database_path != NULL );
+    assert( import_file_path != NULL );
+    u8_error_t write_err = U8_ERROR_NONE;
+
+    /* HEADLINE */
+    write_err |= universal_utf8_writer_write_str( out_english_report, "\n\t" );
+
+    for ( int tables_idx = 1; tables_idx < DATA_STAT_TABLES_MAX; tables_idx ++ )
+    {
+        write_err |= universal_utf8_writer_write_str( out_english_report, "\t" );
+        write_err |= universal_utf8_writer_write_str( out_english_report, tables[tables_idx] );
+    }
+    write_err |= universal_utf8_writer_write_str( out_english_report, "\n" );
+
+    /* TABLE */
+    for ( int series_idx = 0; series_idx < DATA_STAT_SERIES_MAX; series_idx ++ )
+    {
+        const uint_fast32_t s_cnt = data_stat_get_series_count( stat, series_idx );
+
+        if ( series_idx == DATA_STAT_SERIES_CREATED )
+        {
+            write_err |= universal_utf8_writer_write_str( out_english_report, mode_name );
+        }
+        else
+        {
+            write_err |= universal_utf8_writer_write_str( out_english_report, series[series_idx] );
+        }
+        write_err |= universal_utf8_writer_write_str( out_english_report, ": " );
+
+        for ( int tables_idx = 1; tables_idx < DATA_STAT_TABLES_MAX; tables_idx ++ )
+        {
+            write_err |= universal_utf8_writer_write_str( out_english_report, "\t" );
+            const uint_fast32_t cnt = data_stat_get_count( stat, tables_idx, series_idx );
+            if ( cnt != 0 )
+            {
+                write_err |= universal_utf8_writer_write_int( out_english_report, cnt );
+            }
+        }
+
+        write_err |= universal_utf8_writer_write_str( out_english_report, "\t: " );
+        write_err |= universal_utf8_writer_write_int( out_english_report, s_cnt );
+        write_err |= universal_utf8_writer_write_str( out_english_report, "\n" );
+    }
+
+    /* ROW OF SUMS */
+    write_err |= universal_utf8_writer_write_str( out_english_report, "^^^^ SUM:" );
+    for ( int tables_idx = 1; tables_idx < DATA_STAT_TABLES_MAX; tables_idx ++ )
+    {
+        const uint_fast32_t t_cnt = data_stat_get_table_count( stat, tables_idx );
+        write_err |= universal_utf8_writer_write_str( out_english_report, "\t" );
+        write_err |= universal_utf8_writer_write_int( out_english_report, t_cnt );
+    }
+    const uint_fast32_t total = data_stat_get_total_count( stat );
+    write_err |= universal_utf8_writer_write_str( out_english_report, "\t: " );
+    write_err |= universal_utf8_writer_write_int( out_english_report, total );
+    write_err |= universal_utf8_writer_write_str( out_english_report, "\n" );
+
+    TRACE_END_ERR( write_err );
+    return write_err;
 }
 
 

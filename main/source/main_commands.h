@@ -65,10 +65,10 @@ u8_error_t main_commands_upgrade ( main_commands_t *this_, const char *database_
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t main_commands_repair ( main_commands_t *this_,
-                           const char *database_path,
-                           bool check_only,
-                           universal_utf8_writer_t *out_english_report
-                         );
+                                  const char *database_path,
+                                  bool check_only,
+                                  universal_utf8_writer_t *out_english_report
+                                );
 
 /*!
  *  \brief starts the graphical user interface
@@ -78,7 +78,10 @@ u8_error_t main_commands_repair ( main_commands_t *this_,
  *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
  *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t main_commands_start_gui ( main_commands_t *this_, const char *database_path, universal_utf8_writer_t *out_english_report );
+u8_error_t main_commands_start_gui ( main_commands_t *this_,
+                                     const char *database_path,
+                                     universal_utf8_writer_t *out_english_report
+                                   );
 
 /*!
  *  \brief exports the database in the selected data format to the export_directory
@@ -113,6 +116,21 @@ u8_error_t main_commands_import ( main_commands_t *this_,
                                   const char *import_file_path,
                                   universal_utf8_writer_t *out_english_report
                                 );
+
+/*!
+ *  \brief prints statistics to an utf8 writer
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param stat statistics
+ *  \param mode_name imported or exported
+ *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
+ *  \return U8_ERROR_NONE in case of success
+ */
+u8_error_t main_commands_private_report_stat ( main_commands_t *this_,
+                                               const data_stat_t *stat,
+                                               const char* mode_name,
+                                               universal_utf8_writer_t *out_english_report
+                                             );
 
 #endif  /* MAIN_COMMANDS_H */
 

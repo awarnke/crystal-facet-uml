@@ -88,12 +88,11 @@ u8_error_t io_importer_import_file( io_importer_t *this_,
     io_import_elements_init( &((*this_).temp_elements_importer), (*this_).db_reader, (*this_).controller, io_stat );
     json_importer_init( &((*this_).temp_json_importer), &((*this_).temp_elements_importer), io_stat );
 
-    universal_utf8_writer_write_str( out_english_report, "importing not yet implemented.\n" );
-
     /* open file */
     universal_file_input_stream_t in_file;
     universal_file_input_stream_init( &in_file );
     parse_error |= universal_file_input_stream_open( &in_file, import_file_path );
+    universal_utf8_writer_write_str( out_english_report, "PASS: CHECK\n" );
 
     /* check json structure */
     if ( parse_error == U8_ERROR_NONE )
@@ -120,6 +119,7 @@ u8_error_t io_importer_import_file( io_importer_t *this_,
     if ( parse_error == U8_ERROR_NONE )
     {
         parse_error |= universal_file_input_stream_reset( &in_file );
+        universal_utf8_writer_write_str( out_english_report, "PASS: CREATE\n" );
     }
 
     /* import: create elements */
@@ -147,6 +147,7 @@ u8_error_t io_importer_import_file( io_importer_t *this_,
     if ( parse_error == U8_ERROR_NONE )
     {
         parse_error |= universal_file_input_stream_reset( &in_file );
+        universal_utf8_writer_write_str( out_english_report, "PASS: LINK\n" );
     }
 
     /* import: create elements */
