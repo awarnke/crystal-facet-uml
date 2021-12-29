@@ -413,7 +413,7 @@ static void test_search_classifiers(void)
                                                              "does not exist",
                                                              &out_classifier
                                                            );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NOT_FOUND, data_err );
 }
 
 static void test_search_features(void)

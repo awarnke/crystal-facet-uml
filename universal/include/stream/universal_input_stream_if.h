@@ -32,7 +32,9 @@ typedef void universal_input_stream_impl_t;
  */
 struct universal_input_stream_if_struct {
     /*! a function to read bytes from an input stream into a buffer */
-    u8_error_t (*read)(universal_input_stream_impl_t *this_, void *out_buffer, size_t max_size, size_t *out_length );
+    u8_error_t (*read)(universal_input_stream_impl_t *this_, void *out_buffer, size_t max_size, size_t *out_length);
+    /*! a function to reset the read position to a starting point */
+    u8_error_t (*reset)(universal_input_stream_impl_t *this_ );
 };
 
 typedef struct universal_input_stream_if_struct universal_input_stream_if_t;

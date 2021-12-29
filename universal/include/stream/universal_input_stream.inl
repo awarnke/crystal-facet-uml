@@ -44,6 +44,13 @@ static inline u8_error_t universal_input_stream_read( universal_input_stream_t* 
     return (*(  (*((*this_).interface)).read  )) ( (*this_).objectdata, out_buffer, max_size, out_length );
 }
 
+static inline u8_error_t universal_input_stream_reset( universal_input_stream_t *this_ )
+{
+    assert( (*this_).interface != NULL );
+    assert( (*this_).objectdata != NULL );
+    assert( (*((*this_).interface)).reset != NULL );
+    return (*(  (*((*this_).interface)).reset  )) ( (*this_).objectdata );
+}
 
 /*
 Copyright 2021-2021 Andreas Warnke

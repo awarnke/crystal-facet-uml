@@ -356,7 +356,12 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
             }
         }
         data_diagramelement_destroy( &((*this_).temp_diagramelement ) );
+    }
 
+    if ( (*this_).mode == IO_IMPORT_MODE_PASTE )
+    {
+        /* in paste mode, ignore diagramelements */
+        data_stat_inc_count( (*this_).stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED );
     }
 
     TRACE_END_ERR( sync_error );

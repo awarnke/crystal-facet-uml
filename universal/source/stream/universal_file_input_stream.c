@@ -10,7 +10,8 @@
 /* the vmt implementing the interface */
 static const universal_input_stream_if_t universal_file_input_stream_private_if
     = {
-        .read = (u8_error_t (*)(universal_input_stream_impl_t*, void*, size_t, size_t*)) &universal_file_input_stream_read
+        .read = (u8_error_t (*)(universal_input_stream_impl_t*, void*, size_t, size_t*)) &universal_file_input_stream_read,
+        .reset = (u8_error_t (*)(universal_input_stream_impl_t*)) &universal_file_input_stream_reset
     };
 
 void universal_file_input_stream_init ( universal_file_input_stream_t *this_ )

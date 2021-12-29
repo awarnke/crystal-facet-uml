@@ -15,6 +15,7 @@
 #include "storage/data_database_reader.h"
 #include "set/data_stat.h"
 #include "universal_utf8_writer.h"
+#include "stream/universal_input_stream.h"
 #include "u8/u8_error.h"
 
 /*!
@@ -76,7 +77,6 @@ u8_error_t io_importer_import_clipboard( io_importer_t *this_,
                                          uint32_t *out_read_line
                                        );
 
-
 /*!
  *  \brief imports the file contents to the database
  *
@@ -103,6 +103,33 @@ u8_error_t io_importer_import_file( io_importer_t *this_,
                                     data_stat_t *io_stat,
                                     universal_utf8_writer_t *out_english_report
                                   );
+
+/*!
+ *  \brief imports the file contents to the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param import_mode import mode, e.g. check-only or update-overwrite
+ *  \param in_stream input stream, must be resettable
+ *  \param io_stat undefined in case of an error in the return value,
+ *                 otherwise statistics on DATA_STAT_SERIES_CREATED,
+ *                 DATA_STAT_SERIES_MODIFIED (e.g. in future) and
+ *                 DATA_STAT_SERIES_IGNORED (e.g. at import of lifelines
+ *                 or if classifier and its features already exist) and
+ *                 DATA_STAT_SERIES_ERROR (e.g. if a relation has no source
+ *                 or no destination)
+ *                 Statistics are only added, *io_stat shall be initialized by caller.
+ *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
+ *  \return U8_ERROR_NONE in case of success,
+ *          U8_ERROR_INVALID_REQUEST if file cannot be opened,
+ *          U8_ERROR_AT_FILE_READ in case of reading errors after open,
+ *          other error code otherwise
+ */
+u8_error_t io_importer_import_stream( io_importer_t *this_,
+                                      io_import_mode_t import_mode,
+                                      universal_input_stream_t *in_stream,
+                                      data_stat_t *io_stat,
+                                      universal_utf8_writer_t *out_english_report
+                                    );
 
 
 #endif  /* IO_IMPORTER_H */

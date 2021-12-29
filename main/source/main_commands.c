@@ -299,8 +299,9 @@ u8_error_t main_commands_private_report_stat ( main_commands_t *this_,
                                                universal_utf8_writer_t *out_english_report )
 {
     TRACE_BEGIN();
-    assert( database_path != NULL );
-    assert( import_file_path != NULL );
+    assert( stat != NULL );
+    assert( mode_name != NULL );
+    assert( out_english_report != NULL );
     u8_error_t write_err = U8_ERROR_NONE;
 
     /* HEADLINE */

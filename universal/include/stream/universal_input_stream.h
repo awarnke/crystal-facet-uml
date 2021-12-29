@@ -42,9 +42,9 @@ static inline void universal_input_stream_private_init( universal_input_stream_t
  *  This function does NOT call \c destroy on the \c interface.
  *
  *  \param this_ pointer to own object attributes
- *  \return returns 0 if success, -1 in case of error
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int universal_input_stream_private_destroy( universal_input_stream_t *this_ );
+static inline u8_error_t universal_input_stream_private_destroy( universal_input_stream_t *this_ );
 
 /*!
  *  \brief gets the set of interface functions
@@ -71,7 +71,15 @@ static inline universal_input_stream_impl_t* universal_input_stream_get_objectda
  *  \param out_length number of bytes read
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_END_OF_STREAM when at end, U8_ERROR_AT_FILE_READ otherwise
  */
-static inline int universal_input_stream_read ( universal_input_stream_t *this_, void *out_buffer, size_t max_size, size_t *out_length );
+static inline u8_error_t universal_input_stream_read ( universal_input_stream_t *this_, void *out_buffer, size_t max_size, size_t *out_length );
+
+/*!
+ *  \brief resets the read position to a starting point
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_READ otherwise
+ */
+static inline u8_error_t universal_input_stream_reset ( universal_input_stream_t *this_ );
 
 #include "universal_input_stream.inl"
 
