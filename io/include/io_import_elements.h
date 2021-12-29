@@ -80,11 +80,11 @@ void io_import_elements_init( io_import_elements_t *this_,
  *                 a warning is added.
  */
 void io_import_elements_init_for_paste( io_import_elements_t *this_,
-                                         data_row_id_t paste_to_diagram,
-                                         data_database_reader_t *db_reader,
-                                         ctrl_controller_t *controller,
-                                         data_stat_t *io_stat
-                                       );
+                                        data_row_id_t paste_to_diagram,
+                                        data_database_reader_t *db_reader,
+                                        ctrl_controller_t *controller,
+                                        data_stat_t *io_stat
+                                      );
 
 /*!
  *  \brief destroys the io_import_elements_t.
@@ -147,7 +147,7 @@ u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_FOCUS_EMPTY if no parent diagram provided
  */
 u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
-                                               data_classifier_t *classifier_ptr
+                                               const data_classifier_t *classifier_ptr
                                              );
 
 /*!

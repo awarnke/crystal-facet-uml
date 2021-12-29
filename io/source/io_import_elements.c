@@ -404,7 +404,7 @@ u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_
 }
 
 u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
-                                               data_classifier_t *classifier_ptr )
+                                               const data_classifier_t *classifier_ptr )
 {
     TRACE_BEGIN();
     assert( NULL != classifier_ptr );
@@ -419,7 +419,8 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
         }
     }
 
-    if (( (*this_).mode != IO_IMPORT_MODE_CHECK )&&( sync_error == U8_ERROR_NONE ))
+    if ((( (*this_).mode == IO_IMPORT_MODE_CREATE )||( (*this_).mode == IO_IMPORT_MODE_PASTE ))
+        &&( sync_error == U8_ERROR_NONE ))
     {
         /* check if the parsed classifier already exists in this database; if not, create it */
         data_classifier_init_empty( &((*this_).temp_classifier ) );
@@ -438,9 +439,11 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
         }
         else
         {
+            data_classifier_replace( &((*this_).temp_classifier ), classifier_ptr );
+
             u8_error_t modified_info;
             sync_error = ctrl_multi_step_changer_create_classifier( &((*this_).multi_step_changer),
-                                                                    classifier_ptr,
+                                                                    &((*this_).temp_classifier ),
                                                                     &modified_info
                                                                   );
             data_stat_inc_count( (*this_).stat,
@@ -456,13 +459,15 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
             {
                 TSLOG_ERROR( "unexpected error at ctrl_classifier_controller_create_classifier/feature" );
             }
-            else
-            {
-                sync_error = io_import_elements_private_create_diagramelement( this_,
-                                                                               data_classifier_get_row_id( classifier_ptr )
-                                                                             );
-            }
         }
+
+        if (( (*this_).mode == IO_IMPORT_MODE_PASTE )&&( sync_error == U8_ERROR_NONE ))
+        {
+            /* in paste mode, create a diagramelement in the current diagram */
+            const data_row_id_t classifier_row_id = data_classifier_get_row_id( &((*this_).temp_classifier ) );
+            sync_error = io_import_elements_private_create_diagramelement( this_, classifier_row_id );
+        }
+
         data_classifier_destroy( &((*this_).temp_classifier ) );
     }
 
