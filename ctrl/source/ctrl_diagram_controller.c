@@ -376,10 +376,10 @@ u8_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_cont
 
 /* ================================ DIAGRAMELEMENT ================================ */
 
-u8_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_controller_t *this_,
-                                                           const data_diagramelement_t *new_diagramelement,
-                                                           ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
-                                                           data_row_id_t* out_new_id )
+u8_error_t ctrl_diagram_controller_create_diagramelement( ctrl_diagram_controller_t *this_,
+                                                          const data_diagramelement_t *new_diagramelement,
+                                                          ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
+                                                          data_row_id_t* out_new_id )
 {
     TRACE_BEGIN();
     assert( NULL != new_diagramelement );
@@ -433,9 +433,9 @@ u8_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_controll
     return result;
 }
 
-u8_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_controller_t *this_,
-                                                           data_row_id_t obj_id,
-                                                           ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
+u8_error_t ctrl_diagram_controller_delete_diagramelement( ctrl_diagram_controller_t *this_,
+                                                          data_row_id_t obj_id,
+                                                          ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -481,10 +481,10 @@ u8_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_controll
     return result;
 }
 
-u8_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_diagram_controller_t *this_,
-                                                                         data_row_id_t diagramelement_id,
-                                                                         data_diagramelement_flag_t new_diagramelement_display_flags,
-                                                                         ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
+u8_error_t ctrl_diagram_controller_update_diagramelement_display_flags( ctrl_diagram_controller_t *this_,
+                                                                        data_row_id_t diagramelement_id,
+                                                                        data_diagramelement_flag_t new_diagramelement_display_flags,
+                                                                        ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -527,10 +527,10 @@ u8_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_di
     return result;
 }
 
-u8_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id ( ctrl_diagram_controller_t *this_,
-                                                                              data_row_id_t diagramelement_id,
-                                                                              data_row_id_t new_diagramelement_focused_feature_id,
-                                                                              ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
+u8_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id( ctrl_diagram_controller_t *this_,
+                                                                             data_row_id_t diagramelement_id,
+                                                                             data_row_id_t new_diagramelement_focused_feature_id,
+                                                                             ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;

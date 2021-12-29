@@ -101,13 +101,13 @@ static void test_insert_border_cases(void)
     /* write */
     const char test_2[] = "7890abc";
     err = universal_output_stream_write ( my_out_stream, test_2, strlen(test_2) );
-    TEST_ASSERT_EQUAL_INT( -1, err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
     TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "1234567890", sizeof(my_out_buffer) ) );
 
     /* write */
     const char test_3[] = "lo!";
     err = universal_output_stream_write ( my_out_stream, test_3, sizeof(test_3) );
-    TEST_ASSERT_EQUAL_INT( -1, err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
     TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "1234567890", sizeof(my_out_buffer) ) );
 
     /* write */
@@ -135,12 +135,12 @@ static void test_null_termination(void)
     /* write */
     const char test_2[] = "7890abc";
     err = universal_memory_output_stream_write ( &my_mem_out_stream, test_2, strlen(test_2) );
-    TEST_ASSERT_EQUAL_INT( -1, err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
     TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "123456" "\0" "789", sizeof(my_out_buffer) ) );
 
     /* write null term*/
     err = universal_memory_output_stream_write_0term( &my_mem_out_stream );
-    TEST_ASSERT_EQUAL_INT( -1, err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
     TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "123456" "\0" "78" "\0", sizeof(my_out_buffer) ) );
 }
 

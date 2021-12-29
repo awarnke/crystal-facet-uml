@@ -110,7 +110,7 @@ void io_import_elements_set_mode( io_import_elements_t *this_, io_import_mode_t 
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_FOCUS_EMPTY if no parent diagram provided
  */
 u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
-                                            data_diagram_t *diagram_ptr,
+                                            const data_diagram_t *diagram_ptr,
                                             const char *parent_uuid
                                           );
 
@@ -159,7 +159,7 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
-                                            data_feature_t *feature_ptr,
+                                            const data_feature_t *feature_ptr,
                                             const char *classifier_uuid
                                           );
 
@@ -175,7 +175,7 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
-                                                 data_relationship_t *relation_ptr,
+                                                 const data_relationship_t *relation_ptr,
                                                  const char *from_node_uuid,
                                                  const char *to_node_uuid
                                                );

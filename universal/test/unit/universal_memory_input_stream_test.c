@@ -67,7 +67,7 @@ static void test_read_chunks(void)
 
     /* read after end */
     err = universal_input_stream_read ( my_in_stream, &buf5, sizeof(buf5), &len );
-    TEST_ASSERT_EQUAL_INT( -1, err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_END_OF_STREAM, err );
     TEST_ASSERT_EQUAL_INT( 0, len );
     TEST_ASSERT_EQUAL_INT( 0, memcmp( &buf5, "6789", sizeof(buf5) ) );
 }
@@ -101,7 +101,7 @@ static void test_read_all(void)
 
     /* read after end */
     err = universal_input_stream_read ( my_in_stream, &buf12, sizeof(buf12), &len );
-    TEST_ASSERT_EQUAL_INT( -1, err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_END_OF_STREAM, err );
     TEST_ASSERT_EQUAL_INT( 0, len );
 }
 

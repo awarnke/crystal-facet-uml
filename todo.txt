@@ -25,7 +25,8 @@ ideas for future versions:
   [ ] import XMI format
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
   [ ] xmi export: improve error message if exported file exists and is read-only
-  [ ] uuid are preserved at paste from clipboard. It is not checked if these uuids are unique in all tables.
+  [ ] uuid are preserved at paste from clipboard. It is not checked if these uuids are unique in _all_ tables.
+  [ ] json import: Only new objects are created, never existing ones updated
   @data
   [?] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> add a "display_flags" field to "diagrams"

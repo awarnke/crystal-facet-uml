@@ -88,7 +88,7 @@ static void test_write_border_cases(void)
     /* write */
     const char test_1[] = "0123456789abcdef";
     err = universal_output_stream_write ( my_out_stream, test_1, sizeof(test_1) );
-    TEST_ASSERT_EQUAL_INT( -1, err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
     TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), test_1, sizeof(my_out_buffer) ) );
 
     /* reset underlying memory output stream */
@@ -98,13 +98,13 @@ static void test_write_border_cases(void)
     /* write */
     const char test_2[] = "&&-----";
     err = universal_output_stream_write ( my_out_stream, test_2, strlen(test_2) );
-    TEST_ASSERT_EQUAL_INT( -1, err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
     TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "&amp;&amp;- - - ", sizeof(my_out_buffer) ) );
 
     /* write */
     const char test_3[] = "\n";
     err = universal_output_stream_write ( my_out_stream, test_3, sizeof(test_3) );
-    TEST_ASSERT_EQUAL_INT( -1, err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
     TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "&amp;&amp;- - - ", sizeof(my_out_buffer) ) );
 }
 

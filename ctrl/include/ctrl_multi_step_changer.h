@@ -53,7 +53,7 @@ void ctrl_multi_step_changer_init ( ctrl_multi_step_changer_t *this_,
  */
 void ctrl_multi_step_changer_destroy ( ctrl_multi_step_changer_t *this_ );
 
-/* ================================ interface for sets of elements ================================ */
+/* ================================ delete sets of elements ================================ */
 
 /*!
  *  \brief deletes a set of diagrams, diagramelements, classifiers, features, relations
@@ -158,6 +158,21 @@ u8_error_t ctrl_multi_step_changer_create_relationship ( ctrl_multi_step_changer
                                                          data_relationship_t *new_relationship,
                                                          u8_error_t* out_info
                                                        );
+
+/* ================================ update links of existing elements  ================================ */
+
+/*!
+ *  \brief updates the diagram attribute: parent_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram to be updated
+ *  \param new_diagram_parent_id new parent_id of the diagram
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ */
+u8_error_t ctrl_multi_step_changer_update_diagram_parent_id ( ctrl_multi_step_changer_t *this_,
+                                                              data_row_id_t diagram_id,
+                                                              data_row_id_t new_diagram_parent_id
+                                                            );
 
 #endif  /* CTRL_MULTI_STEP_CHANGER_H */
 

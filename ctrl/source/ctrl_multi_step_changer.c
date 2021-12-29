@@ -35,7 +35,7 @@ void ctrl_multi_step_changer_destroy ( ctrl_multi_step_changer_t *this_ )
     TRACE_END();
 }
 
-/* ================================ interface for sets of elements ================================ */
+/* ================================ delete sets of elements ================================ */
 
 u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_,
                                                 const data_small_set_t *objects,
@@ -268,6 +268,15 @@ u8_error_t ctrl_multi_step_changer_create_diagram ( ctrl_multi_step_changer_t *t
     assert( NULL != out_info );
     u8_error_t result = U8_ERROR_NONE;
 
+    /* ensure that a uuid exists */
+    if ( 0 == utf8string_get_length( data_diagram_get_uuid_const( new_diagram ) ) )
+    {
+        data_uuid_t new_uuid;
+        data_uuid_init_new( &new_uuid );
+        data_diagram_set_uuid( new_diagram, data_uuid_get_string( &new_uuid ) );
+        data_uuid_destroy( &new_uuid );
+    }
+
     ctrl_diagram_controller_t *const diagram_ctrl
         = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
 
@@ -322,6 +331,15 @@ u8_error_t ctrl_multi_step_changer_create_diagramelement ( ctrl_multi_step_chang
     assert( NULL != out_info );
     u8_error_t result = U8_ERROR_NONE;
 
+    /* ensure that a uuid exists */
+    if ( 0 == utf8string_get_length( data_diagramelement_get_uuid_const( new_diagramelement ) ) )
+    {
+        data_uuid_t new_uuid;
+        data_uuid_init_new( &new_uuid );
+        data_diagramelement_set_uuid( new_diagramelement, data_uuid_get_string( &new_uuid ) );
+        data_uuid_destroy( &new_uuid );
+    }
+
     ctrl_diagram_controller_t *const diagram_ctrl
         = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
 
@@ -375,6 +393,15 @@ u8_error_t ctrl_multi_step_changer_create_classifier ( ctrl_multi_step_changer_t
     assert( NULL != new_classifier );
     assert( NULL != out_info );
     u8_error_t result = U8_ERROR_NONE;
+
+    /* ensure that a uuid exists */
+    if ( 0 == utf8string_get_length( data_classifier_get_uuid_const( new_classifier ) ) )
+    {
+        data_uuid_t new_uuid;
+        data_uuid_init_new( &new_uuid );
+        data_classifier_set_uuid( new_classifier, data_uuid_get_string( &new_uuid ) );
+        data_uuid_destroy( &new_uuid );
+    }
 
     ctrl_classifier_controller_t *const classifier_ctrl
         = ctrl_controller_get_classifier_control_ptr( (*this_).controller);
@@ -479,6 +506,15 @@ u8_error_t ctrl_multi_step_changer_create_feature ( ctrl_multi_step_changer_t *t
     assert( NULL != out_info );
     u8_error_t result = U8_ERROR_NONE;
 
+    /* ensure that a uuid exists */
+    if ( 0 == utf8string_get_length( data_feature_get_uuid_const( new_feature ) ) )
+    {
+        data_uuid_t new_uuid;
+        data_uuid_init_new( &new_uuid );
+        data_feature_set_uuid( new_feature, data_uuid_get_string( &new_uuid ) );
+        data_uuid_destroy( &new_uuid );
+    }
+
     ctrl_classifier_controller_t *const classifier_ctrl
         = ctrl_controller_get_classifier_control_ptr( (*this_).controller);
 
@@ -533,6 +569,15 @@ u8_error_t ctrl_multi_step_changer_create_relationship ( ctrl_multi_step_changer
     assert( NULL != out_info );
     u8_error_t result = U8_ERROR_NONE;
 
+    /* ensure that a uuid exists */
+    if ( 0 == utf8string_get_length( data_relationship_get_uuid_const( new_relationship ) ) )
+    {
+        data_uuid_t new_uuid;
+        data_uuid_init_new( &new_uuid );
+        data_relationship_set_uuid( new_relationship, data_uuid_get_string( &new_uuid ) );
+        data_uuid_destroy( &new_uuid );
+    }
+
     ctrl_classifier_controller_t *const classifier_ctrl
         = ctrl_controller_get_classifier_control_ptr( (*this_).controller);
 
@@ -572,6 +617,32 @@ u8_error_t ctrl_multi_step_changer_create_relationship ( ctrl_multi_step_changer
     else
     {
         result = create_err;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+/* ================================ update links of existing elements  ================================ */
+
+u8_error_t ctrl_multi_step_changer_update_diagram_parent_id ( ctrl_multi_step_changer_t *this_,
+                                                              data_row_id_t diagram_id,
+                                                              data_row_id_t new_diagram_parent_id )
+{
+    TRACE_BEGIN();
+    u8_error_t result = U8_ERROR_NONE;
+
+    ctrl_diagram_controller_t *const diagram_ctrl
+        = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
+
+    result = ctrl_diagram_controller_update_diagram_parent_id( diagram_ctrl,
+                                                               diagram_id,
+                                                               new_diagram_parent_id,
+                                                               (*this_).is_first_step
+                                                             );
+    if ( result == U8_ERROR_NONE )
+    {
+        (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
     }
 
     TRACE_END_ERR( result );
