@@ -66,7 +66,7 @@ static void delete_set_not_possible(void)
 {
     /* create 2 diagrams */
     const data_row_id_t root_diagram = test_env_setup_data_create_diagram( DATA_ROW_ID_VOID, "root diag", &controller );
-    const data_row_id_t test_diagram = test_env_setup_data_create_diagram( root_diagram, "test diag", &controller );
+    test_env_setup_data_create_diagram( root_diagram, "test diag", &controller );
 
     /* create 1 classifiers */
     const data_row_id_t test_classifier = test_env_setup_data_create_classifier( "test classifier", &controller );

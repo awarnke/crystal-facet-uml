@@ -102,7 +102,7 @@ static inline void data_stat_add_count ( data_stat_t *this_,
  *  \brief adds all values of a stat
  *
  *  \param this_ pointer to own object attributes
- *  \param that the values to add 
+ *  \param that the values to add
  */
 static inline void data_stat_add ( data_stat_t *this_, const data_stat_t *that );
 
@@ -141,7 +141,6 @@ static inline uint_fast32_t data_stat_get_total_count ( const data_stat_t *this_
  *
  *  \param this_ pointer to own object attributes
  *  \param series the data series to reset
- *  \return the sum of all data entities
  */
 static void inline data_stat_reset_series( data_stat_t *this_, data_stat_series_t series );
 

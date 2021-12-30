@@ -101,8 +101,6 @@ u8_error_t json_token_reader_check_end_object ( json_token_reader_t *this_, bool
  *  \brief checks that the next token is a "name-separator" json token
  *
  *  \param this_ pointer to own object attributes
- *  \param in_data utf8 encoded string where to read from
- *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is a "name-separator".
  *  \return U8_ERROR_NONE if the lexical+parser structure of the input is valid,
  *          U8_ERROR_PARSER_STRUCTURE if there is no end-object token,
  *          U8_ERROR_LEXICAL_STRUCTURE otherwise.
@@ -173,8 +171,6 @@ u8_error_t json_token_reader_read_string_value ( json_token_reader_t *this_, utf
  *  \brief determines the next value of type integer (subtype of number)
  *
  *  \param this_ pointer to own object attributes
- *  \param in_data utf8 encoded string where to read from
- *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is an integer.
  *  \param out_int return value: integer-contents of the value-token. This parameter must not be NULL.
  *  \return U8_ERROR_NONE if the lexical+parser structure of the input is valid,
  *          U8_ERROR_PARSER_STRUCTURE if there is no integer-value-token,

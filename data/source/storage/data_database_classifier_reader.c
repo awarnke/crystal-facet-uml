@@ -82,7 +82,11 @@ static const char DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID[] =
     "FROM classifiers "
     "INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
     "WHERE diagramelements.diagram_id=? "
-    "ORDER BY classifiers.list_order ASC;";
+    "ORDER BY diagramelements.id ASC;";
+    /* To ensure reporducible results of json esports, ordering by a unique key is required here. */
+    /* Ordering by 2 keys did not produce the expected results with sqlite3 3.34.1 */
+    /* "ORDER BY classifiers.list_order ASC,diagramelements.id ASC;"; */
+    /* see also https://sqlite.org/forum/forumpost/e1033dab18c262ac4b36cdf7c65bf87a5aaaecab3b3ba100e4588fc30e50f9fb */
 
 /*!
  *  \brief search statement to iterate over all classifiers sorted by number of parent-containers

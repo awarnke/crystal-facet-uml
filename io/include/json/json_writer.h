@@ -149,7 +149,7 @@ static inline int json_writer_write_stringlist_view_enc ( json_writer_t *this_, 
  *  \param this_ pointer to own object attributes
  *  \param indent indentation level: number of tabs, 0 <= indent <= JSON_WRITER_MAX_INDENT
  *  \param enc_name name of the object member, json encoded string
- *  \param number the integer to print
+ *  \param number_value the integer to print
  *  \param next_follows true if another member follows (a comma will be printed)
  *  \return 0 in case of success, -1 otherwise
  */

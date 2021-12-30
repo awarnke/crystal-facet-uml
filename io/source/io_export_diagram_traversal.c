@@ -158,26 +158,26 @@ int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_
 
             /* start+assemble classifier */
             write_err |= io_element_writer_start_classifier( (*this_).element_writer,
-                                                                DATA_CLASSIFIER_TYPE_VOID,  /* no host */
-                                                                classifier
-                                                            );
+                                                             DATA_CLASSIFIER_TYPE_VOID,  /* no host */
+                                                             classifier
+                                                           );
 
             write_err |= io_element_writer_assemble_classifier( (*this_).element_writer,
                                                                 DATA_CLASSIFIER_TYPE_VOID,   /* no host */
                                                                 classifier
-                                                                );
+                                                              );
 
             /* print all features of the classifier */
             write_err |= io_export_diagram_traversal_private_iterate_classifier_features( this_,
-                                                                                            diagram_data,
-                                                                                            classifier_id
+                                                                                          diagram_data,
+                                                                                          classifier_id
                                                                                         );
 
             /* end classifier */
             write_err |= io_element_writer_end_classifier( (*this_).element_writer,
-                                                            DATA_CLASSIFIER_TYPE_VOID,  /* no host */
-                                                            classifier
-                                                            );
+                                                           DATA_CLASSIFIER_TYPE_VOID,  /* no host */
+                                                           classifier
+                                                         );
 
             /* print all relationships starting from classifier_id */
             write_err |= io_export_diagram_traversal_private_iterate_classifier_relationships( this_,

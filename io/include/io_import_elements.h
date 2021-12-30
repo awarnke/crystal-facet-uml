@@ -105,7 +105,7 @@ void io_import_elements_set_mode( io_import_elements_t *this_, io_import_mode_t 
  *  \brief synchronizes a diagram with the database
  *
  *  \param this_ pointer to own object attributes
- *  \param diag_ptr pointer to diagram that shall be written, not NULL, (diagram may be modified)
+ *  \param diagram_ptr pointer to diagram that shall be written, not NULL, (diagram may be modified)
  *  \param parent_uuid uuid of the parent diagram, NULL if root diagram
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_FOCUS_EMPTY if no parent diagram provided
  */
