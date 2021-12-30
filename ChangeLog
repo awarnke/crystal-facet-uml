@@ -5,6 +5,8 @@ crystal-facet-uml (1.35.0) UNRELEASED; urgency=medium
   * when pasting from the clipboard, uuids are preserved.
   * pasting messages-between-lifelines from the clipboard to other diagrams
     is not possible anymore, please create new messages when needed.
+  * pasting diagrams as duplicate to existing diagrams
+    is not possible anymore, please create new diagrams when needed.
   * when creating features, the type field is not pre-filled by a proposal
   * json export produces identical text files if there are no changes
   * json files can be imported

@@ -271,6 +271,13 @@ u8_error_t main_commands_import( main_commands_t *this_,
     data_database_close( &((*this_).temp_database) );
     data_database_destroy( &((*this_).temp_database) );
 
+    {
+        universal_utf8_writer_write_str( out_english_report, "\nplease test the integrity of the database:\n" );
+        universal_utf8_writer_write_str( out_english_report, "crystal-facet-uml -t " );
+        universal_utf8_writer_write_str( out_english_report, database_path );
+        universal_utf8_writer_write_str( out_english_report, "\n\n" );
+    }
+
     TRACE_END_ERR( import_err );
     return import_err;
 }
@@ -345,7 +352,7 @@ u8_error_t main_commands_private_report_stat ( main_commands_t *this_,
     }
 
     /* ROW OF SUMS */
-    write_err |= universal_utf8_writer_write_str( out_english_report, "^^^^ SUM:" );
+    write_err |= universal_utf8_writer_write_str( out_english_report, "     SUM:" );
     for ( int tables_idx = 1; tables_idx < DATA_STAT_TABLES_MAX; tables_idx ++ )
     {
         const uint_fast32_t t_cnt = data_stat_get_table_count( stat, tables_idx );

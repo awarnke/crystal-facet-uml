@@ -120,13 +120,14 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
     io_import_elements_init( &((*this_).temp_elements_importer), (*this_).db_reader, (*this_).controller, io_stat );
     json_importer_init( &((*this_).temp_json_importer), &((*this_).temp_elements_importer), io_stat );
 
-    /* start file */
-    universal_utf8_writer_write_str( out_english_report, "PASS: CHECK\n" );
-
     /* check json structure */
     if ( parse_error == U8_ERROR_NONE )
     {
         TRACE_INFO("scanning file...");
+        static const char *const PASS_CHECK_TITLE
+            = "PASS: Check that the file structure is valid\n";
+        universal_utf8_writer_write_str( out_english_report, PASS_CHECK_TITLE );
+
         uint32_t error_line;
         io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_CHECK );
         parse_error = json_importer_import_stream( &((*this_).temp_json_importer),
@@ -148,13 +149,15 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
     if ( parse_error == U8_ERROR_NONE )
     {
         parse_error |= universal_input_stream_reset( in_stream );
-        universal_utf8_writer_write_str( out_english_report, "PASS: CREATE\n" );
     }
 
     /* import: create elements */
     if (( import_mode != IO_IMPORT_MODE_CHECK )&&( parse_error == U8_ERROR_NONE ))
     {
         TRACE_INFO("importing file...");
+        static const char *const PASS_CREATE_TITLE
+            = "PASS: Create/update diagrams, classifiers and features\n";
+        universal_utf8_writer_write_str( out_english_report, PASS_CREATE_TITLE );
 
         uint32_t error_line;
         io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_CREATE );
@@ -176,13 +179,15 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
     if ( parse_error == U8_ERROR_NONE )
     {
         parse_error |= universal_input_stream_reset( in_stream );
-        universal_utf8_writer_write_str( out_english_report, "PASS: LINK\n" );
     }
 
     /* import: create elements */
     if (( import_mode != IO_IMPORT_MODE_CHECK )&&( parse_error == U8_ERROR_NONE ))
     {
         TRACE_INFO("importing file...");
+        static const char *const PASS_LINK_TITLE
+            = "PASS: Link diagrams to parents, classifiers to diagrams, create/update relationships\n";
+        universal_utf8_writer_write_str( out_english_report, PASS_LINK_TITLE );
 
         uint32_t error_line;
         io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_LINK );

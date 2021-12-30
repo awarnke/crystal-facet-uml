@@ -164,8 +164,8 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
     {
         if ( (*this_).paste_to_diagram == DATA_ROW_ID_VOID )
         {
-            sync_error = U8_ERROR_FOCUS_EMPTY;
-            TRACE_INFO_STR( "in paste-clipboard mode, parent diagram must be valid", parent_uuid );
+            data_row_id_t parent_row_id = (*this_).root_diagram;
+            TRACE_INFO_INT( "in paste-clipboard mode, missing parent diagram set to", parent_row_id );
         }
         else
         {
