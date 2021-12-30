@@ -29,6 +29,35 @@ void io_import_elements_init( io_import_elements_t *this_,
 
     data_rules_init ( &((*this_).data_rules) );
 
+    /* get the id of the root diagram if there is one */
+    (*this_).root_diagram = DATA_ROW_ID_VOID;
+    {
+        data_small_set_t roots;
+        data_small_set_init( &roots );
+        const u8_error_t read_error
+            = data_database_reader_get_diagram_ids_by_parent_id( (*this_).db_reader,
+                                                                 DATA_ROW_ID_VOID,
+                                                                 &roots
+                                                               );
+        if ( read_error != U8_ERROR_NONE )
+        {
+            TSLOG_ERROR_HEX( "error at reading root", read_error );
+        }
+        else
+        {
+            if ( 1 <= data_small_set_get_count( &roots ) )
+            {
+                data_id_t first_root = data_small_set_get_id( &roots, 0 );
+                (*this_).root_diagram = data_id_get_row_id( &first_root );
+            }
+            else
+            {
+                TSLOG_EVENT( "importing to empty database" );
+            }
+        }
+        data_small_set_destroy( &roots );
+    }
+
     TRACE_END();
 }
 
@@ -103,7 +132,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
     u8_error_t sync_error = U8_ERROR_NONE;
 
     /* ANY MODE: determine parent id */
-    data_row_id_t parent_row_id = DATA_ROW_ID_VOID;
+    data_row_id_t parent_row_id = (*this_).root_diagram;
     if ( parent_uuid != NULL )
     {
         if ( ! utf8string_equals_str( parent_uuid, "" ) )
@@ -120,7 +149,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
             }
             else if ( read_error1 != U8_ERROR_NONE )
             {
-                TRACE_INFO_STR( "parent diagram not found:", parent_uuid );
+                TRACE_INFO_STR( "error at searching for parent diagram:", parent_uuid );
             }
             else
             {
@@ -199,6 +228,10 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
             {
                 /* insert all consecutive elements to this new diagram */
                 (*this_).paste_to_diagram = data_diagram_get_row_id( &((*this_).temp_diagram) );
+                if ( (*this_).root_diagram == DATA_ROW_ID_VOID )
+                {
+                    (*this_).root_diagram = data_diagram_get_row_id( &((*this_).temp_diagram) );
+                }
             }
         }
         data_diagram_destroy( &((*this_).temp_diagram) );

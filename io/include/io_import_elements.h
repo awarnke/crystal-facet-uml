@@ -38,6 +38,7 @@ struct io_import_elements_struct {
 
     io_import_mode_t mode;  /*!< the import mode */
     data_row_id_t paste_to_diagram;  /*!< the diagram where pasted objects shall be attached to if IO_IMPORT_MODE_PASTE */
+    data_row_id_t root_diagram;  /*!< the root diagram */
     ctrl_multi_step_changer_t multi_step_changer;  /*!< own instance of a controller */
                                                    /*!< that can handle preferred ids and proposed names */
 
