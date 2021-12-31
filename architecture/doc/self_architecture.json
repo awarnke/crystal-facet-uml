@@ -2438,7 +2438,8 @@
         "diagram_type": 31,
         "name": "io: Black Box View",
         "description": [
-                ""
+                "The io module imports and exports data and diagrams.\n",
+                "Either the filesystem or the clipboard are source and destination."
         ],
         "list_order": 18432,
         "display_flags": 0,
