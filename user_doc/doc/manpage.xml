@@ -26,7 +26,7 @@
       </author>
     </authorgroup>
     <copyright>
-      <year><!-- Copyright -->2018-2021</year>
+      <year><!-- Copyright -->2018-2022</year>
       <holder>&dhusername;</holder>
     </copyright>
     <legalnotice>
@@ -51,7 +51,7 @@
     <cmdsynopsis>
       <command>&dhpackage;</command>
       <arg choice="opt">
-        <option>-u <replaceable class="option">databasefile</replaceable>
+        <option>-u <replaceable class="option">database_file</replaceable>
         </option>
       </arg>
     </cmdsynopsis>
@@ -62,7 +62,7 @@
           <arg choice="plain"><option>-t</option></arg>
           <arg choice="plain"><option>-r</option></arg>
         </group>
-        <replaceable class="option">databasefile</replaceable>
+        <replaceable class="option">database_file</replaceable>
       </arg>
     </cmdsynopsis>
     <cmdsynopsis>
@@ -77,9 +77,18 @@
     <cmdsynopsis>
       <command>&dhpackage;</command>
       <arg choice="opt">
-        <option>-e <replaceable class="option">databasefile</replaceable>
-            <replaceable class="option">file_format</replaceable>
+        <option>-e <replaceable class="option">database_file</replaceable>
+            <replaceable class="option">export_format</replaceable>
             <replaceable class="option">export_directory</replaceable>
+        </option>
+      </arg>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      <command>&dhpackage;</command>
+      <arg choice="opt">
+        <option>-i <replaceable class="option">database_file</replaceable>
+            <replaceable class="option">import_mode</replaceable>
+            <replaceable class="option">json_input_file</replaceable>
         </option>
       </arg>
     </cmdsynopsis>
@@ -96,21 +105,21 @@
     </para>
     <variablelist>
       <varlistentry>
-        <term><option>-u <replaceable>databasefile</replaceable></option></term>
+        <term><option>-u <replaceable>database_file</replaceable></option></term>
         <listitem>
-          <para>Starts in graphical mode and opens the databasefile immediately.</para>
+          <para>Starts in graphical mode and opens the database_file immediately.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
-        <term><option>-t <replaceable>databasefile</replaceable></option></term>
+        <term><option>-t <replaceable>database_file</replaceable></option></term>
         <listitem>
-          <para>Tests the consistency of a databasefile.</para>
+          <para>Tests the consistency of a database_file.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
-          <term><option>-r <replaceable>databasefile</replaceable></option></term>
+          <term><option>-r <replaceable>database_file</replaceable></option></term>
           <listitem>
-              <para>Tests the consistency of a databasefile and repairs found issues.</para>
+              <para>Tests the consistency of a database_file and repairs found issues.</para>
           </listitem>
       </varlistentry>
       <varlistentry>
@@ -126,12 +135,23 @@
         </listitem>
       </varlistentry>
       <varlistentry>
-        <term><option>-e <replaceable>databasefile</replaceable>
-                <replaceable>file_format</replaceable>
+        <term><option>-e <replaceable>database_file</replaceable>
+                <replaceable>export_format</replaceable>
                 <replaceable>export_directory</replaceable></option></term>
         <listitem>
-          <para>Exports all diagrams of a databasefile in file_format to the export_directory.
+          <para>Exports all diagrams of a database_file in export_format to the export_directory.
               Valid formats are: docbook, json, pdf, png, ps, svg, txt, xhtml, xmi.
+              </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><option>-i <replaceable>database_file</replaceable>
+                <replaceable>import_mode</replaceable>
+                <replaceable>json_input_file</replaceable></option></term>
+        <listitem>
+          <para>Imports elements from json_input_file to the database_file.
+              Valid modes are: check, update.
+              Please create a backup of your database_file before importing.
               </para>
         </listitem>
       </varlistentry>

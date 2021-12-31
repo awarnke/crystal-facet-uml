@@ -18,21 +18,21 @@
 
 static const char *const MAIN_HELP
     = "\nUsage:\n"
-    "    -h for help\n"
-    "    -v for version\n"
-    "    -e <database_file> <export_format> <target_directory> to export all diagrams,\n"
+    "    -h : for help\n"
+    "    -v : for version\n"
+    "    -e <database_file> <export_format> <export_directory> : to export all diagrams,\n"
     "       export_format: docbook|json|pdf|png|ps|svg|txt|xhtml|xmi\n"
-    "    -i <database_file> <import_mode>   <input_file>       to import elements,\n"
+    "    -i <database_file> <import_mode>   <json_input_file>  : to import elements,\n"
     "       import_mode: check|update\n"
-    "    -u <database_file> to use/create a database file\n"
-    "    -g <database_file> to upgrade the database tables from version 1.32.1 and older\n"
-    "    -t <database_file> to test the database file\n"
-    "    -r <database_file> to test and repair the database file\n";
+    "    -u <database_file> : to use/create a database file\n"
+    /*"    -g <database_file> to upgrade the database tables from version 1.32.1 and older\n"*/
+    "    -t <database_file> : to test the database file\n"
+    "    -r <database_file> : to test and repair the database file\n";
 
 int main (int argc, char *argv[]) {
     TRACE_BEGIN();
     TRACE_TIMESTAMP();
-    int exit_code = 0;
+    u8_error_t exit_code = U8_ERROR_NONE;
     TSLOG_INIT(META_INFO_PROGRAM_ID_STR);
     char *database_file = NULL;
     char *export_directory = NULL;
@@ -150,8 +150,9 @@ int main (int argc, char *argv[]) {
 
     TSLOG_DESTROY();
     TRACE_TIMESTAMP();
-    TRACE_END_ERR(exit_code);
-    return exit_code;
+    int exit_byte = ((exit_code >> 24)|(exit_code >> 16)|(exit_code >> 8)|(exit_code))&0xff;
+    TRACE_END_ERR(exit_byte);
+    return exit_byte;
 }
 
 io_file_format_t main_private_get_selected_format( char *arg_fmt )

@@ -109,6 +109,12 @@ u8_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t
     utf8stringbuf_append_int( out_report, fix_count );
     utf8stringbuf_append_str( out_report, "\n" );
 
+    /* if not all errors fixed, set result to U8_ERROR_DB_STRUCTURE */
+    if ( error_count > fix_count )
+    {
+        err_result |= U8_ERROR_DB_STRUCTURE;
+    }
+
     TRACE_END_ERR( err_result );
     return err_result;
 }
@@ -186,7 +192,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_co
                     else
                     {
                         utf8stringbuf_append_str( out_report, "ERROR WRITING DATABASE.\n" );
-                        err_result |= (u8_error_t) data_err;
+                        err_result |= data_err;
                     }
                 }
             }
@@ -195,7 +201,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_co
     else
     {
         utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
-        err_result |= (u8_error_t) data_err;
+        err_result |= data_err;
     }
 
     TRACE_END_ERR( err_result );
@@ -279,7 +285,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
                     else
                     {
                         utf8stringbuf_append_str( out_report, "ERROR WRITING DATABASE.\n" );
-                        err_result |= (u8_error_t) data_err;
+                        err_result |= data_err;
                     }
                 }
             }
@@ -288,7 +294,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
     else
     {
         utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
-        err_result |= (u8_error_t) data_err;
+        err_result |= data_err;
     }
 
     TRACE_END_ERR( err_result );
@@ -348,7 +354,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_
                     else
                     {
                         utf8stringbuf_append_str( out_report, "ERROR WRITING DATABASE.\n" );
-                        err_result |= (u8_error_t) data_err;
+                        err_result |= data_err;
                     }
                 }
             }
@@ -357,7 +363,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_
     else
     {
         utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
-        err_result |= (u8_error_t) data_err;
+        err_result |= data_err;
     }
 
     TRACE_END_ERR( err_result );
@@ -417,7 +423,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl
                     else
                     {
                         utf8stringbuf_append_str( out_report, "ERROR WRITING DATABASE.\n" );
-                        err_result |= (u8_error_t) data_err;
+                        err_result |= data_err;
                     }
                 }
             }
@@ -426,7 +432,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl
     else
     {
         utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
-        err_result |= (u8_error_t) data_err;
+        err_result |= data_err;
     }
 
     TRACE_END_ERR( err_result );
@@ -494,7 +500,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl
     else
     {
         utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
-        err_result |= (u8_error_t) data_err;
+        err_result |= data_err;
     }
 
     TRACE_END_ERR( err_result );
@@ -554,7 +560,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_
                     else
                     {
                         utf8stringbuf_append_str( out_report, "ERROR WRITING DATABASE.\n" );
-                        err_result |= (u8_error_t) data_err;
+                        err_result |= data_err;
                     }
                 }
             }
@@ -563,7 +569,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_
     else
     {
         utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
-        err_result |= (u8_error_t) data_err;
+        err_result |= data_err;
     }
 
     TRACE_END_ERR( err_result );
@@ -623,7 +629,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifier
                     else
                     {
                         utf8stringbuf_append_str( out_report, "ERROR WRITING DATABASE.\n" );
-                        err_result |= (u8_error_t) data_err;
+                        err_result |= data_err;
                     }
                 }
             }
@@ -632,7 +638,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifier
     else
     {
         utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
-        err_result |= (u8_error_t) data_err;
+        err_result |= data_err;
     }
 
     TRACE_END_ERR( err_result );
@@ -692,7 +698,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features (
                     else
                     {
                         utf8stringbuf_append_str( out_report, "ERROR WRITING DATABASE.\n" );
-                        err_result |= (u8_error_t) data_err;
+                        err_result |= data_err;
                     }
                 }
             }
@@ -701,7 +707,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features (
     else
     {
         utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
-        err_result |= (u8_error_t) data_err;
+        err_result |= data_err;
     }
 
     TRACE_END_ERR( err_result );

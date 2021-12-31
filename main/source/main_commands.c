@@ -71,9 +71,9 @@ u8_error_t main_commands_upgrade ( main_commands_t *this_, const char *database_
 }
 
 u8_error_t main_commands_repair ( main_commands_t *this_,
-                           const char *database_path,
-                           bool check_only,
-                           universal_utf8_writer_t *out_english_report )
+                                  const char *database_path,
+                                  bool check_only,
+                                  universal_utf8_writer_t *out_english_report )
 {
     TRACE_BEGIN();
     assert( database_path != NULL );
@@ -99,7 +99,7 @@ u8_error_t main_commands_repair ( main_commands_t *this_,
     ctrl_controller_init( &((*this_).temp_controller), &((*this_).temp_database) );
 
     TRACE_INFO("reparing/testing...");
-    ctrl_controller_repair_database( &((*this_).temp_controller), do_repair, NULL, NULL, repair_log );
+    result |= ctrl_controller_repair_database( &((*this_).temp_controller), do_repair, NULL, NULL, repair_log );
     TRACE_INFO("reparing/testing finished.");
 
     TRACE_INFO("destroying controller...");

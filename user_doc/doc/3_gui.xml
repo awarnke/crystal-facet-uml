@@ -54,7 +54,7 @@
                 </inlinemediaobject>
                 <itemizedlist>
                 <listitem><para>Exports all diagrams to the selected folder.
-                        Supported formats are png, pdf, ps, svg, txt, xhtml, docbook, json, xmi.</para></listitem>
+                        Supported formats are docbook, json, pdf, png, ps, svg, txt, xhtml, xmi.</para></listitem>
                 </itemizedlist>
             </para>
 
@@ -176,7 +176,7 @@
                     All other elements are pasted into the new diagram.</para></listitem>
                 <listitem><para>If the clipboard does not contain diagrams, classifiers and relationships from the clipboard
                     are copied into the current diagram.</para></listitem>
-                <listitem><para>If the name of a classifier is identical to an existing one,
+                <listitem><para>If a classifier is identical to an existing one (same uuid),
                     an instance of the existing classifier is pasted to the diagram.
                     Otherwise a new classifier is created.</para></listitem>
                 </itemizedlist>

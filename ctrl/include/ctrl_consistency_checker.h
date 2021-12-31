@@ -97,7 +97,7 @@ void ctrl_consistency_checker_destroy ( ctrl_consistency_checker_t *this_ );
  *  \param out_report english text stating what was checked and the results and what was reparied and the results
  *  \return U8_ERROR_NONE in case of success,
  *          U8_ERROR_NO_DB if database not open/loaded,
- *          U8_ERROR_DB_STRUCTURE if database was corrupted
+ *          U8_ERROR_DB_STRUCTURE if database was corrupted and is not fully fixed yet
  */
 u8_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t *this_,
                                                       bool modify_db,
