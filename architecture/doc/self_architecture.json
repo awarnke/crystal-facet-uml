@@ -16,7 +16,7 @@
         "id": 42,
         "parent_id": -1,
         "diagram_type": 34,
-        "name": "crystal_facet_uml Architecture",
+        "name": "crystal-facet-uml Architecture",
         "description": [
                 "About this Document:\n",
                 "\n",
@@ -48,12 +48,12 @@
         "diagram_type": 10,
         "name": "Introduction and Goals",
         "description": [
-                "crystal_facet_uml creates sysml\/uml diagrams to document system and software architecture.\n",
+                "crystal-facet-uml creates sysml\/uml diagrams to document system and software architecture.\n",
                 "\n",
                 "As software architect, you create a set of diagrams describing \n",
                 "use-cases, requirements, structural views, behavioral and deployment views.\n",
                 "\n",
-                "This diagram shows the use-cases that crystal facet uml addresses."
+                "This diagram shows the use-cases that crystal-facet-uml addresses."
         ],
         "list_order": 0,
         "display_flags": 0,
@@ -342,8 +342,8 @@
         "name": "UML\/SysML Overview",
         "description": [
                 "This diagram shows an overview on UML\n",
-                "and aims to explain what parts are available in crystal_facet_uml\n",
-                "and how this is mapped to the crystal_facet_uml database."
+                "and aims to explain what parts are available in crystal-facet-uml\n",
+                "and how this is mapped to the crystal-facet-uml database."
         ],
         "list_order": 0,
         "display_flags": 0,
@@ -1190,7 +1190,7 @@
         "name": "Solution Strategy",
         "description": [
                 "During operation, \n",
-                "crystal_facet_uml runs as application\n",
+                "crystal-facet-uml runs as application\n",
                 "based on the libraries sqlite and gtk."
         ],
         "list_order": 98304,
@@ -3461,7 +3461,7 @@
         "name": "External Libraries",
         "description": [
                 "This diagram shows the base libraries.\n",
-                "crystal_facet_uml links to these dynamically."
+                "crystal-facet-uml links to these dynamically."
         ],
         "list_order": 32768,
         "display_flags": 0,
@@ -4461,7 +4461,7 @@
         "diagram_type": 9,
         "name": "Alternatives on persistent Data Storage",
         "description": [
-                "This diagram shows fundamental design decisions of the crystal_facet_uml architecture."
+                "This diagram shows fundamental design decisions of the crystal-facet-uml architecture."
         ],
         "list_order": 0,
         "display_flags": 0,
@@ -6210,7 +6210,7 @@
                 "Logging functionality may be enabled even in RELEASE\/NDEBUG code.\n",
                 "Logs must not contain confidential data:\n",
                 "These may be forwarded to syslog or the filesystem\n",
-                "where access rights differ from the OS-process in which crystal_facet_uml runs."
+                "where access rights differ from the OS-process in which crystal-facet-uml runs."
         ],
         "x_order": -13670836,
         "y_order": -585666635,
@@ -6867,7 +6867,7 @@
                 "         easy conversion to XMI and back\n",
                 "\n",
                 "    con: the UML meta model is complex.\n",
-                "         Not suitable for a small diagram-drawing application like crystal_facet_uml."
+                "         Not suitable for a small diagram-drawing application like crystal-facet-uml."
         ],
         "x_order": 223452528,
         "y_order": 1884271437,
@@ -6914,7 +6914,7 @@
         "description": [
                 "The OMG UML definition model is quite complex\n",
                 "and exceeds the possibilities of a small OSS program\n",
-                "like crystal_facet_uml."
+                "like crystal-facet-uml."
         ],
         "x_order": 1411454849,
         "y_order": 673979301,
@@ -7546,7 +7546,7 @@
         "stereotype": "",
         "name": "Standards: UML, SysML",
         "description": [
-                "crystal_facet_uml shall draw diagrams that are compliant (subset) to UML or SysML."
+                "crystal-facet-uml shall draw diagrams that are compliant (subset) to UML or SysML."
         ],
         "x_order": -382272100,
         "y_order": 0,
@@ -7564,7 +7564,7 @@
         "stereotype": "",
         "name": "Output: png, svg, pdf, ps, txt \/ db, xhtml, xmi",
         "description": [
-                "crystal_facet_uml shall produce output suitable to be processed by text layout engines:\n",
+                "crystal-facet-uml shall produce output suitable to be processed by text layout engines:\n",
                 "- latex\n",
                 "- docbook\n",
                 "- doxygen\n",
@@ -7584,7 +7584,7 @@
         "id": 164,
         "main_type": 124,
         "stereotype": "",
-        "name": "crystal_facet_uml",
+        "name": "crystal-facet-uml",
         "description": [
                 ""
         ],
@@ -7753,7 +7753,7 @@
         "stereotype": "",
         "name": "PC: Hardware",
         "description": [
-                ""
+                "The physical or virtual environment within the software runs."
         ],
         "x_order": -550118132,
         "y_order": -2136379269,
@@ -7886,7 +7886,7 @@
         "stereotype": "",
         "name": "technical strategy",
         "description": [
-                "crystal_facet_uml shall be portable,\n",
+                "crystal-facet-uml shall be portable,\n",
                 "therefore as few as possible 3rd party libraries\n",
                 "shall be linked against:\n",
                 "- To store the data, the sqlite database is used.\n",
@@ -7913,7 +7913,7 @@
                 "- be able to order classifiers left-to-right and top-to-bottom\n",
                 "- be forced to use the same elements in different diagrams\n",
                 "\n",
-                "crystal_facet_uml shall\n",
+                "crystal-facet-uml shall\n",
                 "- auto-layout classifier locations and sizes,\n",
                 "- auto-layout features and relationships\n",
                 "- hide the meta-model from the user"
@@ -7953,7 +7953,7 @@
         "name": "Static Memory Allocation",
         "description": [
                 "Except for the libraries gtk and sqlite (sqlite is configured for dynamic allocations),\n",
-                "crystal_facet_uml holds fixed-size arrays and strings for all displayed data.\n",
+                "crystal-facet-uml holds fixed-size arrays and strings for all displayed data.\n",
                 "\n",
                 "One could change this - but for most use cases, valid upper memory limits can be stated."
         ],
@@ -7973,7 +7973,7 @@
         "stereotype": "",
         "name": "Interoperability",
         "description": [
-                "crystal_facet_uml has its strenghts.\n",
+                "crystal-facet-uml has its strenghts.\n",
                 "Providing a full-featured text layout engine is not one of them.\n",
                 "\n",
                 "Therefore it is important to be interoperable with text layout engines like\n",
@@ -8617,7 +8617,7 @@
         "stereotype": "",
         "name": "Static Allocations",
         "description": [
-                "All data structures of crystal_facet_uml\n",
+                "All data structures of crystal-facet-uml\n",
                 "shall be statically allocated."
         ],
         "x_order": 1078986841,
@@ -9150,7 +9150,7 @@
         "description": [
                 "In case of low memory,\n",
                 "the base functionality of\n",
-                "crystal_facet_uml\n",
+                "crystal-facet-uml\n",
                 "shall still work reliably."
         ],
         "x_order": 872869537,
@@ -11709,7 +11709,7 @@
         "stereotype": "",
         "name": "Linux\/Win: OS",
         "description": [
-                ""
+                "The operating system that allows to run crystal-facet-uml."
         ],
         "x_order": -550118132,
         "y_order": 544434877,
@@ -11725,7 +11725,7 @@
         "id": 177,
         "main_type": 120,
         "stereotype": "",
-        "name": "crystal_facet_uml process",
+        "name": "crystal-facet-uml process",
         "description": [
                 ""
         ],
@@ -11743,7 +11743,7 @@
         "id": 178,
         "main_type": 121,
         "stereotype": "",
-        "name": "crystal_facet_uml application",
+        "name": "crystal-facet-uml application",
         "description": [
                 ""
         ],
@@ -15068,7 +15068,7 @@
         "from_classifier_id": 46,
         "from_classifier_name": "SW Architect",
         "to_classifier_id": 164,
-        "to_classifier_name": "crystal_facet_uml",
+        "to_classifier_name": "crystal-facet-uml",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "c87cd518-84ef-43b2-aeb3-85ef8499a7a4",
@@ -16450,7 +16450,7 @@
         ],
         "list_order": 511156,
         "from_classifier_id": 164,
-        "from_classifier_name": "crystal_facet_uml",
+        "from_classifier_name": "crystal-facet-uml",
         "to_classifier_id": 169,
         "to_classifier_name": "high quality layouted documentation",
         "from_feature_id": -1,
@@ -16512,7 +16512,7 @@
         "from_classifier_id": 185,
         "from_classifier_name": "technical strategy",
         "to_classifier_id": 178,
-        "to_classifier_name": "crystal_facet_uml application",
+        "to_classifier_name": "crystal-facet-uml application",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "f7f1c101-5148-4385-8c01-2619170347db",
@@ -16572,7 +16572,7 @@
         "from_classifier_id": 186,
         "from_classifier_name": "user interface strategy",
         "to_classifier_id": 178,
-        "to_classifier_name": "crystal_facet_uml application",
+        "to_classifier_name": "crystal-facet-uml application",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "dcbd8bc9-776d-4bd3-a76f-d1bd97eb6105",
@@ -21170,7 +21170,7 @@
         "from_classifier_id": 176,
         "from_classifier_name": "Linux\/Win: OS",
         "to_classifier_id": 177,
-        "to_classifier_name": "crystal_facet_uml process",
+        "to_classifier_name": "crystal-facet-uml process",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "3247c991-db58-47c6-adbf-24bf365357b4",
@@ -21248,9 +21248,9 @@
         ],
         "list_order": 1411496389,
         "from_classifier_id": 177,
-        "from_classifier_name": "crystal_facet_uml process",
+        "from_classifier_name": "crystal-facet-uml process",
         "to_classifier_id": 178,
-        "to_classifier_name": "crystal_facet_uml application",
+        "to_classifier_name": "crystal-facet-uml application",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "35f2ce1e-9555-4251-b4c1-a2c87db2341f",
@@ -21268,7 +21268,7 @@
         ],
         "list_order": 1411365317,
         "from_classifier_id": 178,
-        "from_classifier_name": "crystal_facet_uml application",
+        "from_classifier_name": "crystal-facet-uml application",
         "to_classifier_id": 1,
         "to_classifier_name": "gui",
         "from_feature_id": -1,
@@ -21288,7 +21288,7 @@
         ],
         "list_order": 1411398085,
         "from_classifier_id": 178,
-        "from_classifier_name": "crystal_facet_uml application",
+        "from_classifier_name": "crystal-facet-uml application",
         "to_classifier_id": 2,
         "to_classifier_name": "pencil",
         "from_feature_id": -1,
@@ -21308,7 +21308,7 @@
         ],
         "list_order": 1411430853,
         "from_classifier_id": 178,
-        "from_classifier_name": "crystal_facet_uml application",
+        "from_classifier_name": "crystal-facet-uml application",
         "to_classifier_id": 3,
         "to_classifier_name": "ctrl",
         "from_feature_id": -1,
@@ -21328,7 +21328,7 @@
         ],
         "list_order": 1411463621,
         "from_classifier_id": 178,
-        "from_classifier_name": "crystal_facet_uml application",
+        "from_classifier_name": "crystal-facet-uml application",
         "to_classifier_id": 4,
         "to_classifier_name": "data\/storage",
         "from_feature_id": -1,
@@ -21348,7 +21348,7 @@
         ],
         "list_order": 1411660229,
         "from_classifier_id": 178,
-        "from_classifier_name": "crystal_facet_uml application",
+        "from_classifier_name": "crystal-facet-uml application",
         "to_classifier_id": 195,
         "to_classifier_name": "io",
         "from_feature_id": -1,
@@ -21368,7 +21368,7 @@
         ],
         "list_order": 1412217285,
         "from_classifier_id": 178,
-        "from_classifier_name": "crystal_facet_uml application",
+        "from_classifier_name": "crystal-facet-uml application",
         "to_classifier_id": 235,
         "to_classifier_name": "data",
         "from_feature_id": -1,
@@ -21388,7 +21388,7 @@
         ],
         "list_order": 1411529157,
         "from_classifier_id": 178,
-        "from_classifier_name": "crystal_facet_uml application",
+        "from_classifier_name": "crystal-facet-uml application",
         "to_classifier_id": 382,
         "to_classifier_name": "Database File",
         "from_feature_id": -1,
@@ -21408,7 +21408,7 @@
         ],
         "list_order": 1411594693,
         "from_classifier_id": 178,
-        "from_classifier_name": "crystal_facet_uml application",
+        "from_classifier_name": "crystal-facet-uml application",
         "to_classifier_id": 383,
         "to_classifier_name": "JSON Data Exchange",
         "from_feature_id": -1,
@@ -21428,7 +21428,7 @@
         ],
         "list_order": 1411627461,
         "from_classifier_id": 178,
-        "from_classifier_name": "crystal_facet_uml application",
+        "from_classifier_name": "crystal-facet-uml application",
         "to_classifier_id": 385,
         "to_classifier_name": "Other export formats",
         "from_feature_id": -1,
