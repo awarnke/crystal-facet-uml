@@ -133,30 +133,29 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
 
     /* ANY MODE: determine parent id */
     data_row_id_t parent_row_id = (*this_).root_diagram;
-    if ( parent_uuid != NULL )
+    const bool parent_uuid_specified
+        = (( parent_uuid != NULL )&&( ! utf8string_equals_str( parent_uuid, "" )));
+    if ( parent_uuid_specified )
     {
-        if ( ! utf8string_equals_str( parent_uuid, "" ) )
+        data_diagram_init_empty( &((*this_).temp_diagram ) );
+        const u8_error_t read_error1
+            = data_database_reader_get_diagram_by_uuid( (*this_).db_reader,
+                                                        parent_uuid,
+                                                        &((*this_).temp_diagram)
+                                                        );
+        if ( read_error1 == U8_ERROR_NOT_FOUND )
         {
-            data_diagram_init_empty( &((*this_).temp_diagram ) );
-            const u8_error_t read_error1
-                = data_database_reader_get_diagram_by_uuid( (*this_).db_reader,
-                                                            parent_uuid,
-                                                            &((*this_).temp_diagram)
-                                                          );
-            if ( read_error1 == U8_ERROR_NOT_FOUND )
-            {
-                TRACE_INFO_STR( "no parent found, uuid:", parent_uuid );
-            }
-            else if ( read_error1 != U8_ERROR_NONE )
-            {
-                TRACE_INFO_STR( "error at searching for parent diagram:", parent_uuid );
-            }
-            else
-            {
-                parent_row_id = data_diagram_get_row_id( &((*this_).temp_diagram ) );
-            }
-            data_diagram_destroy( &((*this_).temp_diagram ) );
+            TRACE_INFO_STR( "no parent found, uuid:", parent_uuid );
         }
+        else if ( read_error1 != U8_ERROR_NONE )
+        {
+            TRACE_INFO_STR( "error at searching for parent diagram:", parent_uuid );
+        }
+        else
+        {
+            parent_row_id = data_diagram_get_row_id( &((*this_).temp_diagram ) );
+        }
+        data_diagram_destroy( &((*this_).temp_diagram ) );
     }
 
     /* update default parent diagram id */
@@ -174,11 +173,12 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
         }
     }
 
-    /* create new uuid for diagram if paste */
+    /* if PASTE */
     if (( (*this_).mode == IO_IMPORT_MODE_PASTE )&&( sync_error == U8_ERROR_NONE ))
     {
         data_diagram_copy( &((*this_).temp_diagram), diagram_ptr );
         data_diagram_set_parent_row_id( &((*this_).temp_diagram), parent_row_id );
+        /* create new uuid for diagram if paste */
         {
             data_uuid_t new_uuid;
             data_uuid_init_new( &new_uuid );
@@ -189,13 +189,13 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
         /* create the parsed diagram as child below the current diagram */
         u8_error_t modified_info;
         sync_error = ctrl_multi_step_changer_create_diagram( &((*this_).multi_step_changer),
-                                                                &((*this_).temp_diagram),
-                                                                &modified_info
-                                                            );
+                                                             &((*this_).temp_diagram),
+                                                             &modified_info
+                                                           );
         data_stat_inc_count( (*this_).stat,
-                                DATA_TABLE_DIAGRAM,
-                                (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
-                            );
+                             DATA_TABLE_DIAGRAM,
+                             (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
+                           );
         if ( U8_ERROR_NONE != sync_error )
         {
             TSLOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagram" );
@@ -213,6 +213,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
         data_diagram_destroy( &((*this_).temp_diagram) );
     }
 
+    /* if CREATE/LINK */
     if ((( (*this_).mode == IO_IMPORT_MODE_CREATE )||( (*this_).mode == IO_IMPORT_MODE_LINK ))
         &&( sync_error == U8_ERROR_NONE ))
     {
@@ -229,14 +230,25 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
         {
             if ( (*this_).mode == IO_IMPORT_MODE_LINK )
             {
-                /* update the parent if necessary */
-                if (( DATA_ROW_ID_VOID != parent_row_id )
-                    &&( data_diagram_get_parent_row_id( &((*this_).temp_diagram) ) != parent_row_id ))
+                /* if (*this_).temp_diagram is the only valid root, set parent_row_id to DATA_ROW_ID_VOID */
+                if ( data_diagram_get_row_id( &((*this_).temp_diagram) ) == (*this_).root_diagram )
+                {
+                    parent_row_id = DATA_ROW_ID_VOID;
+                }
+
+                /* update the parent if wrong parent stored */
+                if ( data_diagram_get_parent_row_id( &((*this_).temp_diagram) ) != parent_row_id )
                 {
                     sync_error = ctrl_multi_step_changer_update_diagram_parent_id( &((*this_).multi_step_changer),
                                                                                    data_diagram_get_row_id( &((*this_).temp_diagram) ),
                                                                                    parent_row_id
                                                                                  );
+
+                    /* update root diag if this is root */
+                    if (( parent_row_id == DATA_ROW_ID_VOID )&&( sync_error == U8_ERROR_NONE ))
+                    {
+                        (*this_).root_diagram = data_diagram_get_row_id( &((*this_).temp_diagram) );
+                    }
                 }
             }
             else
@@ -266,8 +278,9 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
             }
             else
             {
-                /* this new diagram is root if it is the first diagram */
-                if ( (*this_).root_diagram == DATA_ROW_ID_VOID )
+                /* this new diagram is root if it is the first root diagram, further diagrams will not be root */
+                if (( (*this_).root_diagram == DATA_ROW_ID_VOID )&&( parent_row_id == DATA_ROW_ID_VOID )
+                    &&( ! parent_uuid_specified ))
                 {
                     (*this_).root_diagram = data_diagram_get_row_id( &((*this_).temp_diagram) );
                 }
