@@ -15078,7 +15078,7 @@
     {
       "relationship": {
         "id": 361,
-        "main_type": 200,
+        "main_type": 220,
         "name": "search_start_callback",
         "description": [
                 ""
@@ -15100,7 +15100,7 @@
     {
       "relationship": {
         "id": 362,
-        "main_type": 200,
+        "main_type": 220,
         "name": "enter search string",
         "description": [
                 ""
@@ -17394,7 +17394,7 @@
     {
       "relationship": {
         "id": 363,
-        "main_type": 230,
+        "main_type": 221,
         "name": "run",
         "description": [
                 ""

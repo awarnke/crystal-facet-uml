@@ -185,8 +185,7 @@ int json_element_writer_start_main( json_element_writer_t *this_, const char *do
 
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_QUOTE
-                                        JSON_CONSTANTS_DEF
-                                        JSON_CONSTANTS_NL
+                                        JSON_CONSTANTS_DEF_NL
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_BEGIN_ARRAY
                                       );
@@ -368,8 +367,7 @@ int json_element_writer_assemble_classifier( json_element_writer_t *this_,
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_KEY_CLASSIFIER_FEATURES
                                             JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF
-                                            JSON_CONSTANTS_NL
+                                            JSON_CONSTANTS_DEF_NL
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
@@ -1110,8 +1108,7 @@ int json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS
                                             JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF
-                                            JSON_CONSTANTS_NL
+                                            JSON_CONSTANTS_DEF_NL
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
