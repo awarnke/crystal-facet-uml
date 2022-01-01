@@ -2,8 +2,8 @@
 <component type="desktop">
   <!-- file format specification available at https://www.freedesktop.org/software/appstream/docs/ -->
   <id>crystal-facet-uml.desktop</id>
+  <!-- License: Expat and MIT are expected to be synonyms. If not, choose one. -->
   <metadata_license>MIT</metadata_license>
-  <!-- MIT and Expat License are expected to be synonyms. If not, choose one. -->
   <name>crystal-facet-uml</name>
   <summary>crystal-facet-uml creates diagrams to document system and software architecture</summary>
   <project_license>Apache-2.0</project_license>
@@ -17,7 +17,7 @@
       crystal-facet-uml keeps element names and element hierarchies consistent.
       It exports diagrams in svg, pdf, ps and png formats
       to be used in text processing systems like DocBook, html, LaTeX.
-      crystal-facet-uml exports the model to xmi format.
+      crystal-facet-uml exports the model to json and xmi format.
     </p>
   </description>
   <categories>

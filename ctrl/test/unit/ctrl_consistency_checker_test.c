@@ -190,7 +190,7 @@ static void diagram_two_roots_consistency(void)
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
     TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* two roots, not fixed */
     TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* two roots */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 
@@ -266,7 +266,7 @@ static void diagram_missing_parent_consistency(void)
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
     TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
     TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 without parent */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 
@@ -342,7 +342,7 @@ static void diagram_circular_referenced_diagrams_consistency( void )
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
     TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
     TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 referencing each other as parent */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 
@@ -431,7 +431,7 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
     TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
     TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* id-15,17,19 */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 
@@ -542,7 +542,7 @@ static void diagram_illreferencing_diagramelements_consistency(void)
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
     TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
     TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* 2nd and 3rd diagramelements have non-healthy references */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 
@@ -600,7 +600,7 @@ static void repair_unreferenced_classifiers(void)
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
     TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
     TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* id-13 is unreferenced */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 
@@ -698,7 +698,7 @@ static void repair_unreferenced_classifiers_2(void)
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
     TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
     TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* id-6 is unreferenced */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 
@@ -774,7 +774,7 @@ static void repair_invalid_feature_parent(void)
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
     TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
     TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* id-19 is unreferenced */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 
@@ -896,7 +896,7 @@ static void repair_invalid_relationship(void)
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
     TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
     TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* id-35,36,37 is unreferenced */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 
@@ -1093,7 +1093,7 @@ static void repair_ill_feature_relationship(void)
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
     TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
     TEST_ASSERT_EQUAL_INT( 3, found_errors );  /*! illegal: relationships 35, 36 and 37 */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 
@@ -1116,7 +1116,7 @@ static void repair_ill_feature_relationship(void)
 
 
 /*
- * Copyright 2016-2021 Andreas Warnke
+ * Copyright 2016-2022 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
