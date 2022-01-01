@@ -29,7 +29,7 @@ const char XMI_XML_ATTR_NAME_END[3]
     = "\" ";
 
 /*
-Copyright 2020-2021 Andreas Warnke
+Copyright 2020-2022 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

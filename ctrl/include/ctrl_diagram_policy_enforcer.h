@@ -234,7 +234,7 @@ u8_error_t ctrl_diagram_policy_enforcer_private_has_relationship_a_diagram ( ctr
 
 
 /*
-Copyright 2018-2021 Andreas Warnke
+Copyright 2018-2022 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

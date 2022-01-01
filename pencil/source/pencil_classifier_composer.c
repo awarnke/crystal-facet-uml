@@ -964,7 +964,7 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
 }
 
 /*
-Copyright 2016-2021 Andreas Warnke
+Copyright 2016-2022 Andreas Warnke
     http://www.apache.org/licenses/LICENSE-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");

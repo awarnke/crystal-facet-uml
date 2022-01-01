@@ -118,7 +118,7 @@ sudo zypper install crystal-facet-uml
         <title>License</title>
         <para>
             License of crystal-facet-uml is Apache-2.0.
-            Copyright 2016-2021 Andreas Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
+            Copyright 2016-2022 Andreas Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
         </para>
     </section>
 </section>

@@ -330,7 +330,7 @@ uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *thi
 
 
 /*
-Copyright 2017-2021 Andreas Warnke
+Copyright 2017-2022 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

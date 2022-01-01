@@ -135,7 +135,7 @@ u8_error_t io_export_flat_traversal_private_get_relationship_ends( io_export_fla
 
 
 /*
-Copyright 2020-2021 Andreas Warnke
+Copyright 2020-2022 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -4,7 +4,7 @@
  *  \file utf8codepoint.inl
  *
  *  \note License: Use this code according to the license: Apache 2.0.
- *  \author Copyright 2012-2021 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
+ *  \author Copyright 2012-2022 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */
 
 /*#ifndef UTF8CODEPOINT_INL_*/
@@ -297,7 +297,7 @@ static inline utf8codepoint_t utf8codepoint_private_init_from_multi_byte( const 
 
 
 /*
- * Copyright 2012-2021 Andreas Warnke
+ * Copyright 2012-2022 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

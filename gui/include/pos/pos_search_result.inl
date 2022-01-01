@@ -67,7 +67,7 @@ static inline data_id_t pos_search_result_get_data_id ( const pos_search_result_
 
 
 /*
-Copyright 2021-2021 Andreas Warnke
+Copyright 2021-2022 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

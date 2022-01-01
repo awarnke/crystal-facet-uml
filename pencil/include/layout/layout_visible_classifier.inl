@@ -208,7 +208,7 @@ static inline void layout_visible_classifier_private_update_envelope_box ( layou
 
 
 /*
-Copyright 2018-2021 Andreas Warnke
+Copyright 2018-2022 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

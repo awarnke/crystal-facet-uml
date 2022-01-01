@@ -122,7 +122,7 @@ u8_error_t data_node_set_load( data_node_set_t *this_, data_row_id_t classifier_
 
 
 /*
-Copyright 2020-2021 Andreas Warnke
+Copyright 2020-2022 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

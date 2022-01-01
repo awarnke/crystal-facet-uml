@@ -68,7 +68,7 @@ static inline u8_error_t universal_utf8_writer_flush ( universal_utf8_writer_t *
 
 
 /*
-Copyright 2021-2021 Andreas Warnke
+Copyright 2021-2022 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

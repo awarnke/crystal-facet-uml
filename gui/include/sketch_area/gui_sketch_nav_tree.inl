@@ -266,7 +266,7 @@ static inline uint32_t gui_sketch_nav_tree_get_gap_count ( const gui_sketch_nav_
 
 
 /*
-Copyright 2018-2021 Andreas Warnke
+Copyright 2018-2022 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

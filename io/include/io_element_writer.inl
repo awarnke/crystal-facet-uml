@@ -255,7 +255,7 @@ static inline int io_element_writer_write_footer( io_element_writer_t *this_ )
 
 
 /*
-Copyright 2021-2021 Andreas Warnke
+Copyright 2021-2022 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

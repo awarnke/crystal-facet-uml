@@ -264,7 +264,7 @@ static inline void pencil_classifier_2d_layouter_private_move_descendants( penci
 
 
 /*
-Copyright 2017-2021 Andreas Warnke
+Copyright 2017-2022 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
