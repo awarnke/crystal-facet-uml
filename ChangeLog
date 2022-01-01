@@ -11,7 +11,7 @@ crystal-facet-uml (1.35.0) UNRELEASED; urgency=medium
   * database test and repair options return with non-zero result if error,
     check via echo $?
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 01 Jan 2022 20:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 01 Jan 2022 16:00:00 +0200
 
 crystal-facet-uml (1.34.1) UNRELEASED; urgency=medium
 
