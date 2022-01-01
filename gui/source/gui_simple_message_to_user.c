@@ -80,6 +80,12 @@ void gui_simple_message_to_user_show_message ( gui_simple_message_to_user_t *thi
         }
         break;
 
+        case GUI_SIMPLE_MESSAGE_CONTENT_NO_FOCUS:
+        {
+            utf8stringbuf_append_str( (*this_).private_temp_str, "No element is focused." );
+        }
+        break;
+
         case GUI_SIMPLE_MESSAGE_CONTENT_DELETING_NOT_POSSIBLE:
         {
             utf8stringbuf_append_str( (*this_).private_temp_str, "Some objects could not be deleted: They are still referenced/used." );

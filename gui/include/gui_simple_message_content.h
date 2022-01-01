@@ -17,7 +17,8 @@ enum gui_simple_message_content_enum {
     GUI_SIMPLE_MESSAGE_CONTENT_NO_MESSAGE,  /*!< there is no message */
     GUI_SIMPLE_MESSAGE_CONTENT_ABOUT,  /*!< shows the about text */
     GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED,  /*!< a stringlength is exceeded, a string was truncated */
-    GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION,  /*!< nothing is selected, action could not be performed */
+    GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION,  /*!< selected set is empty, action could not be performed */
+    GUI_SIMPLE_MESSAGE_CONTENT_NO_FOCUS,  /*!< no element is focused, action could not be performed */
     GUI_SIMPLE_MESSAGE_CONTENT_DELETING_NOT_POSSIBLE,  /*!< some objects could not be deleted because they are still referenced */
     GUI_SIMPLE_MESSAGE_CONTENT_NO_MORE_UNDO,  /*!< undo failed, nothing more to undo */
     GUI_SIMPLE_MESSAGE_CONTENT_UNDO_NOT_POSSIBLE,  /*!< undo failed, list bounds of undo exceeded */

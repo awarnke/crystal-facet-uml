@@ -295,10 +295,21 @@ void gui_toolbox_paste( gui_toolbox_t *this_ )
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
     const data_id_t destination_diagram_id = gui_marked_set_get_focused_diagram( (*this_).marker );
-    const data_row_id_t dest_diagram_row_id = data_id_get_row_id( &destination_diagram_id );
-    gui_clipboard_request_clipboard_text( &((*this_).clipboard), dest_diagram_row_id );
+    if ( data_id_is_valid( &destination_diagram_id ) )
+    {
+        const data_row_id_t dest_diagram_row_id = data_id_get_row_id( &destination_diagram_id );
+        gui_clipboard_request_clipboard_text( &((*this_).clipboard), dest_diagram_row_id );
 
-    /* Note: (*this_).message_to_user is updated by (*this_).clipboard already - nothing to do here */
+        /* Note: (*this_).message_to_user is updated by (*this_).clipboard already - nothing to do here */
+    }
+    else
+    {
+        /* error to be shown to the user */
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_FOCUS
+                                               );
+    }
 
     TRACE_END();
 }
