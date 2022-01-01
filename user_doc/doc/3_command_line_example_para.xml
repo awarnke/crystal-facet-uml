@@ -1,0 +1,32 @@
+<!DOCTYPE para>
+<para>
+
+To store a database in a version control system (vcs), you have several options:
+<itemizedlist>
+  <listitem>
+    <para>
+        Store the binary database format to your vcs,
+        lock the file while modifying it.
+        Advantage is the simple usage;
+        disadvantage is the lack of control on
+        a) diff and merge of files,
+        b) who changed which line when and with which commit message,
+        c) concurrent modifications.
+    </para>
+  </listitem>
+  <listitem>
+    <para>
+        Store the json export to your vcs,
+        import it to an empty crystal-facet-uml database before modifying it;
+        export it back to json after modification (and before any pull/merge/rebase action).
+        Afterwards, one can
+        a) merge and diff files,
+        b) find out who to ask on which change.
+        Disadvantage is that this feature requires version 1.35.0,
+        some additional scripts for the import and export operations,
+        consistency checks on the database after import.
+    </para>
+  </listitem>
+</itemizedlist>
+
+</para>
