@@ -60,6 +60,8 @@ crystal-facet-uml can also be started from command line
 <itemizedlist>
     <listitem><para>to export all diagrams automatically or</para>
     </listitem>
+    <listitem><para>to import a previously exported json file or</para>
+    </listitem>
     <listitem><para>to check and repair database files.</para>
     </listitem>
 </itemizedlist>

@@ -24,7 +24,7 @@ MAN_STYLESHEET_ROOT=`find /usr/share/xml/docbook/stylesheet -name manpages`
 #MAN_STYLESHEET_2="/usr/share/xml/docbook/stylesheet/docbook-xsl/manpages/docbook.xsl"
 MANPAGE_FILE="crystal-facet-uml.1"
 
-crystal-facet-uml.1.gz: ../../user_doc/doc/manpage.xml ../../user_doc/doc/1_non_tech_intro_para.xml
+crystal-facet-uml.1.gz: ../../user_doc/doc/manpage.xml ../../user_doc/doc/1_non_tech_intro_para.xml ../../user_doc/doc/3_command_line_example_para.xml
 	rm -f ${MANPAGE_FILE}.gz ${MAPGAPE_FILE}i &&\
 	if [ -e "${MAN_STYLESHEET_ROOT}/docbook.xsl" ] ; then\
 	  echo "using ${MAN_STYLESHEET_ROOT}/docbook.xsl ...\n" &&\

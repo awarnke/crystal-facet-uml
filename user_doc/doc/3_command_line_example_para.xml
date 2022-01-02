@@ -7,11 +7,16 @@ To store a database in a version control system (vcs), you have several options:
     <para>
         Store the binary database format to your vcs,
         lock the file while modifying it.
+    </para>
+    <para>
         Advantage is the simple usage;
         disadvantage is the lack of control on
         a) diff and merge of files,
-        b) who changed which line when and with which commit message,
+        b) identify who changed which line when and with which commit message,
         c) concurrent modifications.
+    </para>
+    <para>
+        <command>crystal-facet-uml -u my_database_file.cfu1</command>
     </para>
   </listitem>
   <listitem>
@@ -19,12 +24,34 @@ To store a database in a version control system (vcs), you have several options:
         Store the json export to your vcs,
         import it to an empty crystal-facet-uml database before modifying it;
         export it back to json after modification (and before any pull/merge/rebase action).
+    </para>
+    <para>
         Afterwards, one can
         a) merge and diff files,
         b) find out who to ask on which change.
-        Disadvantage is that this feature requires version 1.35.0,
-        some additional scripts for the import and export operations,
-        consistency checks on the database after import.
+        Disadvantage is that this feature requires version 1.35.0 or later,
+        possibly some additional scripts for the import and export operations and
+        consistency checks on the database after import are recommended.
+    </para>
+    <para>
+        <command>crystal-facet-uml -e my_database_file.cfu1 json .</command>
+    </para>
+    <para>
+        When all your changes are stored in json format, sync with your version control system.
+    </para>
+    <para>
+        <command>crystal-facet-uml -i my_database_file.cfu1 update my_database_file.json</command>
+    </para>
+    <para>
+        <command>crystal-facet-uml -t my_database_file.cfu1 json || echo "error!"</command>
+    </para>
+    <para>
+        When the json format has been imported successfully,
+        continue working on the file my_database_file.cfu1
+        (which is a binary sqlite database format).
+    </para>
+    <para>
+        <command>crystal-facet-uml -u my_database_file.cfu1</command>
     </para>
   </listitem>
 </itemizedlist>
