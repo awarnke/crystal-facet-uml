@@ -219,7 +219,7 @@
         "description": [
                 "During development, new use cases are identified."
         ],
-        "list_order": 32768,
+        "list_order": 0,
         "display_flags": 0,
         "parent": "7ffb648b-2a4c-46ce-918e-96fc2d76b747",
         "uuid": "77b03775-f77a-4870-98b6-ad3a46484fd0",
@@ -272,22 +272,56 @@
             "focused_feature_id": -1,
             "node": "7db4676c-d805-4532-925b-9df162f9cadf",
             "uuid": "c0a81a34-aa3f-4dad-9f05-160cccdcb6f2"
-          },
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 96,
+        "parent_id": 1,
+        "diagram_type": 10,
+        "name": "Import\/Sync Use Cases",
+        "description": [
+                ""
+        ],
+        "list_order": 0,
+        "display_flags": 0,
+        "parent": "7ffb648b-2a4c-46ce-918e-96fc2d76b747",
+        "uuid": "f56fb1a7-d241-4530-b9ae-687cd0751be6",
+        "diagramelements":
+        [
           {
-            "id": 557,
-            "display_flags": 0,
-            "classifier_id": 371,
-            "focused_feature_id": -1,
-            "node": "a3574e32-b14d-4816-8d57-9a083d9cec70",
-            "uuid": "e6975482-b792-4421-bec5-7b9bc0f987f8"
-          },
-          {
-            "id": 559,
+            "id": 631,
             "display_flags": 0,
             "classifier_id": 370,
             "focused_feature_id": -1,
             "node": "42a10aba-e450-4749-8543-0340f33ba69b",
-            "uuid": "fa97686b-8f1a-4fc3-a37e-4ca13b22431c"
+            "uuid": "e02d53af-8e63-4dec-a4cb-2897f23b56b6"
+          },
+          {
+            "id": 632,
+            "display_flags": 0,
+            "classifier_id": 371,
+            "focused_feature_id": -1,
+            "node": "a3574e32-b14d-4816-8d57-9a083d9cec70",
+            "uuid": "c14162bb-d8ef-40f3-bff7-981c24ac8351"
+          },
+          {
+            "id": 633,
+            "display_flags": 0,
+            "classifier_id": 319,
+            "focused_feature_id": -1,
+            "node": "99d03c55-2113-44e9-a536-60e3273d5735",
+            "uuid": "1b067624-c6d9-4e96-990c-3d18739208ee"
+          },
+          {
+            "id": 634,
+            "display_flags": 0,
+            "classifier_id": 408,
+            "focused_feature_id": -1,
+            "node": "34d7224f-94d5-429b-ab1a-10833abb7926",
+            "uuid": "f64d28fe-0254-4b3e-a941-dcd746804074"
           }
         ]
       }
@@ -9419,7 +9453,7 @@
         "stereotype": "",
         "name": "Export model",
         "description": [
-                ""
+                "The model can be exported in a machine-readable format."
         ],
         "x_order": -1169967405,
         "y_order": -68455007,
@@ -10294,6 +10328,44 @@
         "y_order": 655015428,
         "list_order": 655015428,
         "uuid": "8ab9f023-a800-439c-8e1b-e360e9ac9452",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 408,
+        "main_type": 101,
+        "stereotype": "",
+        "name": "Import model",
+        "description": [
+                "The model can be imported from a machine-readable data format.\n",
+                "\n",
+                "Supported modes are:\n",
+                "\n",
+                "- Import all elements to an empty database\n",
+                "- Import only new elements,\n",
+                "  ignore existing and deleted elements\n",
+                "  (or notify on modifications)\n",
+                "\n",
+                "Unsupported modes are:\n",
+                "\n",
+                "- Import new elements,\n",
+                "  overwrite existing elements,\n",
+                "  ignore deleted elements\n",
+                "- Import new elements,\n",
+                "  overwrite existing elements,\n",
+                "  delete missing elements\n",
+                "- 3-Way merge\n",
+                "\n",
+                "The unsupported use cases have to be solved by external scripts if needed. A possible solution may be to a) export all elements, b) modify the export, c) import all elements to a new, empty database.\n",
+                ""
+        ],
+        "x_order": -1169967405,
+        "y_order": 780854572,
+        "list_order": 780854572,
+        "uuid": "34d7224f-94d5-429b-ab1a-10833abb7926",
         "features":
         [
         ]
@@ -18778,6 +18850,46 @@
     },
     {
       "relationship": {
+        "id": 608,
+        "main_type": 261,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_id": 370,
+        "from_classifier_name": "data exchange with external scripts",
+        "to_classifier_id": 319,
+        "to_classifier_name": "Export model",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "42a10aba-e450-4749-8543-0340f33ba69b",
+        "to_node": "99d03c55-2113-44e9-a536-60e3273d5735",
+        "uuid": "b7c1b2d5-a8db-4b4f-99cf-ecb2078f5a7a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 611,
+        "main_type": 261,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_id": 370,
+        "from_classifier_name": "data exchange with external scripts",
+        "to_classifier_id": 408,
+        "to_classifier_name": "Import model",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "42a10aba-e450-4749-8543-0340f33ba69b",
+        "to_node": "34d7224f-94d5-429b-ab1a-10833abb7926",
+        "uuid": "079031dd-7351-482e-921f-73ca93a01ab9"
+      }
+    },
+    {
+      "relationship": {
         "id": 519,
         "main_type": 261,
         "name": "",
@@ -18834,6 +18946,46 @@
         "from_node": "a3574e32-b14d-4816-8d57-9a083d9cec70",
         "to_node": "be8010eb-d263-453f-9ce9-a93120bc35b4",
         "uuid": "cb688245-d9d8-4923-a2d1-f0df61a713c2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 609,
+        "main_type": 261,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_id": 371,
+        "from_classifier_name": "git support",
+        "to_classifier_id": 319,
+        "to_classifier_name": "Export model",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "a3574e32-b14d-4816-8d57-9a083d9cec70",
+        "to_node": "99d03c55-2113-44e9-a536-60e3273d5735",
+        "uuid": "0c099092-2b66-49a4-8fdf-1e9e334caa4c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 610,
+        "main_type": 261,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_id": 371,
+        "from_classifier_name": "git support",
+        "to_classifier_id": 408,
+        "to_classifier_name": "Import model",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "a3574e32-b14d-4816-8d57-9a083d9cec70",
+        "to_node": "34d7224f-94d5-429b-ab1a-10833abb7926",
+        "uuid": "eb0d31ec-49e4-47ee-9e09-149e2db3025c"
       }
     },
     {

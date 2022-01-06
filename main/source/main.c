@@ -23,7 +23,7 @@ static const char *const MAIN_HELP
     "    -e <database_file> <export_format> <export_directory> : to export all diagrams,\n"
     "       export_format: docbook|json|pdf|png|ps|svg|txt|xhtml|xmi\n"
     "    -i <database_file> <import_mode>   <json_input_file>  : to import elements,\n"
-    "       import_mode: check|update\n"
+    "       import_mode: check|add|update\n"
     "    -u <database_file> : to use/create a database file\n"
     /*"    -g <database_file> to upgrade the database tables from version 1.32.1 and older\n"*/
     "    -t <database_file> : to test the database file\n"
@@ -212,7 +212,11 @@ io_import_mode_t main_private_get_selected_mode( char *arg_fmt )
     {
         result = IO_IMPORT_MODE_CHECK;
     }
-    else if ( utf8string_equals_str( arg_fmt, "update" ) )
+    else if ( utf8string_equals_str( arg_fmt, "add" ) )
+    {
+        result = IO_IMPORT_MODE_CREATE|IO_IMPORT_MODE_LINK;
+    }
+    else if ( utf8string_equals_str( arg_fmt, "update" ) )  /* legacy option */
     {
         result = IO_IMPORT_MODE_CREATE|IO_IMPORT_MODE_LINK;
     }
