@@ -4,6 +4,7 @@
 #include "json/json_element_reader.h"
 #include "stream/universal_file_input_stream.h"
 #include "stream/universal_memory_input_stream.h"
+#include "stream/universal_null_output_stream.h"
 #include "u8/u8_error.h"
 #include "util/string/utf8string.h"
 #include "trace.h"
@@ -47,13 +48,19 @@ u8_error_t io_importer_import_clipboard( io_importer_t *this_,
     assert( NULL != json_text );
     u8_error_t result = U8_ERROR_NONE;
 
+    universal_null_output_stream_t null_out;
+    universal_null_output_stream_init( &null_out );
+    universal_utf8_writer_t out_writer;
+    universal_utf8_writer_init( &out_writer, universal_null_output_stream_get_output_stream( &null_out ) );
+
     io_import_elements_init_for_paste( &((*this_).temp_elements_importer),
                                        diagram_id,
                                        (*this_).db_reader,
                                        (*this_).controller,
-                                       io_stat
+                                       io_stat,
+                                       &out_writer
                                      );
-    json_importer_init( &((*this_).temp_json_importer), &((*this_).temp_elements_importer), io_stat );
+    json_importer_init( &((*this_).temp_json_importer), &((*this_).temp_elements_importer) );
 
     universal_memory_input_stream_t in_mem_stream;
     universal_memory_input_stream_init( &in_mem_stream, json_text, strlen(json_text) );
@@ -68,6 +75,9 @@ u8_error_t io_importer_import_clipboard( io_importer_t *this_,
 
     json_importer_destroy( &((*this_).temp_json_importer) );
     io_import_elements_destroy( &((*this_).temp_elements_importer) );
+
+    universal_utf8_writer_destroy( &out_writer );
+    universal_null_output_stream_destroy( &null_out );
 
     TRACE_END_ERR( result );
     return result;
@@ -117,8 +127,13 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
     assert( out_english_report != NULL );
     u8_error_t parse_error = U8_ERROR_NONE;
 
-    io_import_elements_init( &((*this_).temp_elements_importer), (*this_).db_reader, (*this_).controller, io_stat );
-    json_importer_init( &((*this_).temp_json_importer), &((*this_).temp_elements_importer), io_stat );
+    io_import_elements_init( &((*this_).temp_elements_importer),
+                             (*this_).db_reader,
+                             (*this_).controller,
+                             io_stat,
+                             out_english_report
+                           );
+    json_importer_init( &((*this_).temp_json_importer), &((*this_).temp_elements_importer) );
 
     /* check json structure */
     if ( parse_error == U8_ERROR_NONE )
@@ -156,7 +171,7 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
     {
         TRACE_INFO("importing file...");
         static const char *const PASS_CREATE_TITLE
-            = "PASS: Create/update diagrams, classifiers and features\n";
+            = "PASS: Create diagrams, classifiers and features\n";
         universal_utf8_writer_write_str( out_english_report, PASS_CREATE_TITLE );
 
         uint32_t error_line;
@@ -186,7 +201,7 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
     {
         TRACE_INFO("importing file...");
         static const char *const PASS_LINK_TITLE
-            = "PASS: Link diagrams to parents, classifiers to diagrams, create/update relationships\n";
+            = "PASS: Link diagrams to parents, classifiers to diagrams, create relationships\n";
         universal_utf8_writer_write_str( out_english_report, PASS_LINK_TITLE );
 
         uint32_t error_line;

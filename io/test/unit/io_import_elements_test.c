@@ -7,7 +7,7 @@
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
 #include "set/data_stat.h"
-#include "stream/universal_memory_output_stream.h"
+#include "stream/universal_null_output_stream.h"
 #include "trace.h"
 #include "test_assert.h"
 
@@ -38,12 +38,22 @@ static ctrl_controller_t controller;
 /*!
  *  \brief statistics
  */
-data_stat_t stats;
+static data_stat_t stats;
 
 /*!
  *  \brief io_import_elements to be tested
  */
 static io_import_elements_t elements_importer;
+
+/*!
+ *  \brief ignore report of io_import_elements_t
+ */
+static universal_null_output_stream_t null_out;
+
+/*!
+ *  \brief ignore report of io_import_elements_t
+ */
+static universal_utf8_writer_t out_writer;
 
 test_suite_t io_import_elements_test_get_suite(void)
 {
@@ -64,12 +74,16 @@ static void set_up(void)
 
     data_stat_init( &stats );
 
-    io_import_elements_init( &elements_importer, &db_reader, &controller, &stats );
+    universal_null_output_stream_init( &null_out );
+    universal_utf8_writer_init( &out_writer, universal_null_output_stream_get_output_stream( &null_out ) );
+    io_import_elements_init( &elements_importer, &db_reader, &controller, &stats, &out_writer );
 }
 
 static void tear_down(void)
 {
     io_import_elements_destroy( &elements_importer );
+    universal_utf8_writer_destroy( &out_writer );
+    universal_null_output_stream_destroy( &null_out );
 
     data_stat_destroy( &stats );
 
@@ -116,7 +130,7 @@ static data_row_id_t set_mode_paste_to_root_diag()
     data_diagram_destroy ( &root_diagram );
 
     io_import_elements_destroy( &elements_importer );
-    io_import_elements_init_for_paste( &elements_importer, root_diag_id, &db_reader, &controller, &stats );
+    io_import_elements_init_for_paste( &elements_importer, root_diag_id, &db_reader, &controller, &stats, &out_writer );
 
     return root_diag_id;
 }

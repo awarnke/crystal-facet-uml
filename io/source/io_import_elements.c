@@ -11,7 +11,8 @@
 void io_import_elements_init( io_import_elements_t *this_,
                               data_database_reader_t *db_reader,
                               ctrl_controller_t *controller,
-                              data_stat_t *io_stat )
+                              data_stat_t *io_stat,
+                              universal_utf8_writer_t *out_english_report )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
@@ -65,11 +66,12 @@ void io_import_elements_init_for_paste( io_import_elements_t *this_,
                                         data_row_id_t paste_to_diagram,
                                         data_database_reader_t *db_reader,
                                         ctrl_controller_t *controller,
-                                        data_stat_t *io_stat )
+                                        data_stat_t *io_stat,
+                                        universal_utf8_writer_t *out_english_report )
 {
     TRACE_BEGIN();
 
-    io_import_elements_init( this_, db_reader, controller, io_stat );
+    io_import_elements_init( this_, db_reader, controller, io_stat, out_english_report );
     (*this_).mode = IO_IMPORT_MODE_PASTE;
 
     /* check if diagram id exists */

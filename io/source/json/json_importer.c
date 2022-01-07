@@ -8,16 +8,12 @@
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
-void json_importer_init( json_importer_t *this_,
-                         io_import_elements_t *elements_importer,
-                         data_stat_t *io_stat )
+void json_importer_init( json_importer_t *this_, io_import_elements_t *elements_importer )
 {
     TRACE_BEGIN();
     assert( NULL != elements_importer );
-    assert( NULL != io_stat );
 
     (*this_).elements_importer = elements_importer;
-    (*this_).stat = io_stat;
 
     data_rules_init ( &((*this_).data_rules) );
 
@@ -28,12 +24,10 @@ void json_importer_destroy( json_importer_t *this_ )
 {
     TRACE_BEGIN();
     assert( NULL != (*this_).elements_importer );
-    assert( NULL != (*this_).stat );
 
     data_rules_destroy ( &((*this_).data_rules) );
 
     (*this_).elements_importer = NULL;
-    (*this_).stat = NULL;
 
     TRACE_END();
 }
@@ -431,7 +425,6 @@ u8_error_t json_importer_private_import_feature_array( json_importer_t *this_, c
     TRACE_END_ERR( sync_error );
     return sync_error;
 }
-
 
 
 /*

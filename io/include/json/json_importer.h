@@ -5,7 +5,7 @@
 
 /* public file for the doxygen documentation: */
 /*! \file
- *  \brief Deserializes a set of objects from the clipboard
+ *  \brief Reads objects from a jsno stream and forwards these to the database synchronizer io_import_elements_t
  */
 
 #include "json/json_element_reader.h"
@@ -28,8 +28,6 @@ struct json_importer_struct {
     json_element_reader_t temp_element_reader;  /*!< own instance of a json element deserializer */
     io_import_elements_t *elements_importer;  /*!< pointer to external db-element sync to database */
 
-    data_stat_t *stat;  /*!< pointer to import statistics */
-
     data_diagram_t temp_diagram;  /*!< memory buffer to store a diagram temporarily when reading a json object */
     data_diagramelement_t temp_diagramelement;  /*!< memory buffer to store a diagramelement temporarily when reading a json object */
     data_classifier_t temp_classifier;  /*!< memory buffer to store a classifier temporarily when reading a json object */
@@ -44,19 +42,8 @@ typedef struct json_importer_struct json_importer_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param elements_importer pointer to an object that synchronizes the json-object with the database
- *  \param io_stat undefined in case of an error in the return value,
- *                 otherwise statistics on DATA_STAT_SERIES_CREATED,
- *                 DATA_STAT_SERIES_MODIFIED (e.g. in future) and
- *                 DATA_STAT_SERIES_IGNORED (e.g. at import of lifelines
- *                 or if classifier and its features already exist) and
- *                 DATA_STAT_SERIES_ERROR (e.g. if a relation has no source
- *                 or no destination).
- *                 Statistics are only added, *io_stat shall be initialized by caller.
  */
-void json_importer_init( json_importer_t *this_,
-                         io_import_elements_t *elements_importer,
-                         data_stat_t *io_stat
-                       );
+void json_importer_init( json_importer_t *this_, io_import_elements_t *elements_importer );
 
 /*!
  *  \brief destroys the json_importer_t struct
@@ -127,7 +114,6 @@ u8_error_t json_importer_private_import_diagramelement_array ( json_importer_t *
  *          U8_ERROR_NONE if structure of the input is valid.
  */
 u8_error_t json_importer_private_import_feature_array ( json_importer_t *this_, const char *classifier_uuid );
-
 
 #endif  /* JSON_IMPORTER_H */
 

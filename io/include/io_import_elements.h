@@ -23,6 +23,7 @@
 #include "set/data_visible_set.h"
 #include "ctrl_controller.h"
 #include "ctrl_multi_step_changer.h"
+#include "universal_utf8_writer.h"
 #include "u8/u8_error.h"
 
 /*!
@@ -41,7 +42,6 @@ struct io_import_elements_struct {
     data_row_id_t root_diagram;  /*!< the root diagram */
     ctrl_multi_step_changer_t multi_step_changer;  /*!< own instance of a controller */
                                                    /*!< that can handle preferred ids and proposed names */
-
     data_stat_t *stat;  /*!< pointer to import statistics */
 
     data_diagram_t temp_diagram;  /*!< memory buffer to load a diagram temporarily from the database */
@@ -62,11 +62,13 @@ typedef struct io_import_elements_struct io_import_elements_t;
  *  \param io_stat Statistics are only added, *io_stat shall be initialized by caller.
  *                 In case the element can be created but id or name have to be adapted to be unique,
  *                 a warning is added.
+ *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
  */
 void io_import_elements_init( io_import_elements_t *this_,
                               data_database_reader_t *db_reader,
                               ctrl_controller_t *controller,
-                              data_stat_t *io_stat
+                              data_stat_t *io_stat,
+                              universal_utf8_writer_t *out_english_report
                             );
 
 /*!
@@ -79,12 +81,14 @@ void io_import_elements_init( io_import_elements_t *this_,
  *  \param io_stat Statistics are only added, *io_stat shall be initialized by caller.
  *                 In case the element can be created but id or name have to be adapted to be unique,
  *                 a warning is added.
+ *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
  */
 void io_import_elements_init_for_paste( io_import_elements_t *this_,
                                         data_row_id_t paste_to_diagram,
                                         data_database_reader_t *db_reader,
                                         ctrl_controller_t *controller,
-                                        data_stat_t *io_stat
+                                        data_stat_t *io_stat,
+                                        universal_utf8_writer_t *out_english_report
                                       );
 
 /*!
