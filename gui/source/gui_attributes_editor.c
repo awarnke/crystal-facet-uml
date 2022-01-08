@@ -8,6 +8,10 @@
 #include "util/string/utf8string.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
+#ifndef NDEBUG
+#include "stream/universal_stream_output_stream.h"
+#include "universal_utf8_writer.h"
+#endif
 
 void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
                                   GtkLabel *id_label,
@@ -422,12 +426,14 @@ void gui_attributes_editor_commit_clicked_callback (GtkButton *button, gpointer 
     {
 #ifndef NDEBUG
         /* in debug mode, also check consistency of database */
-        char repair_log_buffer[2000] = "";
-        utf8stringbuf_t repair_log = UTF8STRINGBUF( repair_log_buffer );
+        universal_stream_output_stream_t out_stream;
+        universal_stream_output_stream_init( &out_stream, stdout );
+        universal_output_stream_t *const out_base = universal_stream_output_stream_get_output_stream( &out_stream );
+        universal_utf8_writer_t out_report;
+        universal_utf8_writer_init( &out_report, out_base );
         uint32_t found_errors;
         uint32_t fixed_errors;
-        ctrl_controller_repair_database( (*this_).controller, false /* no repair, just test */, &found_errors, &fixed_errors, repair_log );
-        fprintf( stdout, "\n\n%s\n", utf8stringbuf_get_string(repair_log) );
+        ctrl_controller_repair_database( (*this_).controller, false /* no repair, just test */, &found_errors, &fixed_errors, &out_report );
         if (( found_errors != 0 ) || ( fixed_errors != 0 ))
         {
             gui_simple_message_to_user_show_message_with_quantity( (*this_).message_to_user,
@@ -436,6 +442,8 @@ void gui_attributes_editor_commit_clicked_callback (GtkButton *button, gpointer 
                                                                    found_errors
                                                                  );
         }
+        universal_utf8_writer_destroy( &out_report );
+        universal_stream_output_stream_destroy( &out_stream );
 #endif
     }
 

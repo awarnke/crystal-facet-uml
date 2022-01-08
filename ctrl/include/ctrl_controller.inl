@@ -36,10 +36,15 @@ static inline u8_error_t ctrl_controller_repair_database ( ctrl_controller_t *th
                                                            bool modify_db,
                                                            uint32_t *out_err,
                                                            uint32_t *out_fix,
-                                                           utf8stringbuf_t out_report )
+                                                           universal_utf8_writer_t *out_english_report )
 {
     const u8_error_t result
-        = ctrl_consistency_checker_repair_database( &((*this_).consistency_checker), modify_db, out_err, out_fix, out_report );
+        = ctrl_consistency_checker_repair_database( &((*this_).consistency_checker),
+                                                    modify_db,
+                                                    out_err,
+                                                    out_fix,
+                                                    out_english_report
+                                                  );
     return result;
 }
 

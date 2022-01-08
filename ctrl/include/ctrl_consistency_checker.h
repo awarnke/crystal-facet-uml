@@ -44,7 +44,7 @@
 #include "storage/data_database_reader.h"
 #include "storage/data_database_consistency_checker.h"
 #include "data_diagram.h"
-#include "util/string/utf8stringbuf.h"
+#include "universal_utf8_writer.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -103,7 +103,7 @@ u8_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t
                                                       bool modify_db,
                                                       uint32_t *out_err,
                                                       uint32_t *out_fix,
-                                                      utf8stringbuf_t out_report
+                                                      universal_utf8_writer_t *out_english_report
                                                     );
 
 /*!
@@ -122,7 +122,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_co
                                                                          bool modify_db,
                                                                          uint32_t *io_err,
                                                                          uint32_t *io_fix,
-                                                                         utf8stringbuf_t out_report
+                                                                         universal_utf8_writer_t *out_english_report
                                                                        );
 
 /*!
@@ -141,7 +141,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
                                                                            bool modify_db,
                                                                            uint32_t *io_err,
                                                                            uint32_t *io_fix,
-                                                                           utf8stringbuf_t out_report
+                                                                           universal_utf8_writer_t *out_english_report
                                                                          );
 
 /*!
@@ -160,7 +160,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_
                                                                            bool modify_db,
                                                                            uint32_t *io_err,
                                                                            uint32_t *io_fix,
-                                                                           utf8stringbuf_t out_report
+                                                                           universal_utf8_writer_t *out_english_report
                                                                          );
 
 /*!
@@ -179,7 +179,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl
                                                                             bool modify_db,
                                                                             uint32_t *io_err,
                                                                             uint32_t *io_fix,
-                                                                            utf8stringbuf_t out_report
+                                                                            universal_utf8_writer_t *out_english_report
                                                                           );
 
 /*!
@@ -198,7 +198,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl
                                                                             bool modify_db,
                                                                             uint32_t *io_err,
                                                                             uint32_t *io_fix,
-                                                                            utf8stringbuf_t out_report
+                                                                            universal_utf8_writer_t *out_english_report
                                                                           );
 
 /*!
@@ -217,7 +217,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_
                                                                            bool modify_db,
                                                                            uint32_t *io_err,
                                                                            uint32_t *io_fix,
-                                                                           utf8stringbuf_t out_report
+                                                                           universal_utf8_writer_t *out_english_report
                                                                          );
 
 /*!
@@ -236,7 +236,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifier
                                                                                     bool modify_db,
                                                                                     uint32_t *io_err,
                                                                                     uint32_t *io_fix,
-                                                                                    utf8stringbuf_t out_report
+                                                                                    universal_utf8_writer_t *out_english_report
                                                                                   );
 
 /*!
@@ -255,7 +255,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features (
                                                                                  bool modify_db,
                                                                                  uint32_t *io_err,
                                                                                  uint32_t *io_fix,
-                                                                                 utf8stringbuf_t out_report
+                                                                                 universal_utf8_writer_t *out_english_report
                                                                                );
 
 #endif  /* CTRL_CONSISTENCY_CHECKER_H */

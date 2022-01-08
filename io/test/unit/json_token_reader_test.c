@@ -266,7 +266,7 @@ static void test_parse_integer(void)
         test_err = json_token_reader_read_int_value( &tok, &int_result );
         TEST_ASSERT_EQUAL_INT( (err_results[index]!=0)?U8_ERROR_LEXICAL_STRUCTURE:U8_ERROR_NONE, test_err );
         TEST_ASSERT_EQUAL_INT( int_results[index], int_result );
-        printf("parsed: %" PRId64 "\n",int_result);
+        /* printf("parsed: %" PRId64 "\n",int_result); */
     }
 
     json_token_reader_destroy( &tok );

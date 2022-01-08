@@ -19,7 +19,7 @@
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
 #include "set/data_stat.h"
-#include "util/string/utf8stringbuf.h"
+#include "universal_utf8_writer.h"
 
 /*!
  *  \brief all data attributes needed for the controller functions
@@ -127,7 +127,7 @@ u8_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const cha
  *  \param modify_db true if the database shall be repaired and modified
  *  \param[out] out_err number of errors detected (NULL if not requested)
  *  \param[out] out_fix number of errors fixed (NULL if not requested)
- *  \param[out] out_report english text stating what was checked and the results and what was reparied and the results
+ *  \param[out] out_english_report english text stating what was checked and the results and what was reparied and the results
  *  \return U8_ERROR_NONE in case of success,
  *          U8_ERROR_NO_DB if database not open/loaded,
  *          U8_ERROR_DB_STRUCTURE if database was corrupted and is not fully fixed yet
@@ -136,7 +136,7 @@ static inline u8_error_t ctrl_controller_repair_database ( ctrl_controller_t *th
                                                            bool modify_db,
                                                            uint32_t *out_err,
                                                            uint32_t *out_fix,
-                                                           utf8stringbuf_t out_report
+                                                           universal_utf8_writer_t *out_english_report
                                                          );
 
 #include "ctrl_controller.inl"

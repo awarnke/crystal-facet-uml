@@ -78,8 +78,6 @@ u8_error_t main_commands_repair ( main_commands_t *this_,
     TRACE_BEGIN();
     assert( database_path != NULL );
     const bool do_repair = ( ! check_only );
-    static char repair_log_buffer[32000] = "";
-    static utf8stringbuf_t repair_log = UTF8STRINGBUF( repair_log_buffer );
     u8_error_t result = U8_ERROR_NONE;
 
     TRACE_INFO("starting DB...");
@@ -99,7 +97,9 @@ u8_error_t main_commands_repair ( main_commands_t *this_,
     ctrl_controller_init( &((*this_).temp_controller), &((*this_).temp_database) );
 
     TRACE_INFO("reparing/testing...");
-    result |= ctrl_controller_repair_database( &((*this_).temp_controller), do_repair, NULL, NULL, repair_log );
+    universal_utf8_writer_write_str( out_english_report, "\n\n" );
+    result |= ctrl_controller_repair_database( &((*this_).temp_controller), do_repair, NULL, NULL, out_english_report );
+    universal_utf8_writer_write_str( out_english_report, "\n" );
     TRACE_INFO("reparing/testing finished.");
 
     TRACE_INFO("destroying controller...");
@@ -108,10 +108,6 @@ u8_error_t main_commands_repair ( main_commands_t *this_,
     TRACE_INFO("stopping DB...");
     data_database_close( &((*this_).temp_database) );
     data_database_destroy( &((*this_).temp_database) );
-
-    universal_utf8_writer_write_str( out_english_report, "\n\n" );
-    universal_utf8_writer_write_str( out_english_report, utf8stringbuf_get_string(repair_log) );
-    universal_utf8_writer_write_str( out_english_report, "\n" );
 
     TRACE_END_ERR( result );
     return result;
