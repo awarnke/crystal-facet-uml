@@ -18,10 +18,12 @@ void io_import_elements_init( io_import_elements_t *this_,
     assert( NULL != db_reader );
     assert( NULL != controller );
     assert( NULL != io_stat );
+    assert( NULL != out_english_report );
 
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
     (*this_).stat = io_stat;
+    (*this_).english_report = out_english_report;
 
     (*this_).mode = IO_IMPORT_MODE_CHECK;
     (*this_).paste_to_diagram = DATA_ROW_ID_VOID;
@@ -103,6 +105,7 @@ void io_import_elements_destroy( io_import_elements_t *this_ )
     assert( NULL != (*this_).db_reader );
     assert( NULL != (*this_).controller );
     assert( NULL != (*this_).stat );
+    assert( NULL != (*this_).english_report );
 
     data_rules_destroy ( &((*this_).data_rules) );
 
@@ -111,6 +114,7 @@ void io_import_elements_destroy( io_import_elements_t *this_ )
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
     (*this_).stat = NULL;
+    (*this_).english_report = NULL;
 
     TRACE_END();
 }
@@ -274,6 +278,12 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
                                  DATA_TABLE_DIAGRAM,
                                  (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                );
+            if ( (U8_ERROR_DUPLICATE_ID & modified_info) == U8_ERROR_DUPLICATE_ID )
+            {
+                /* warn on changed diagram ids. This is important because links in description texts may be affected. */
+                data_stat_inc_count( (*this_).stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_WARNING );
+            }
+
             if ( U8_ERROR_NONE != sync_error )
             {
                 TSLOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagram" );
@@ -286,6 +296,15 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
                 {
                     (*this_).root_diagram = data_diagram_get_row_id( &((*this_).temp_diagram) );
                 }
+            }
+
+            /* write report in case of anomalies */
+            if ( (U8_ERROR_DUPLICATE_ID & modified_info) == U8_ERROR_DUPLICATE_ID )
+            {
+                io_import_elements_private_report_id_differs( this_,
+                                                              data_diagram_get_data_id( diagram_ptr ),
+                                                              data_diagram_get_data_id( &((*this_).temp_diagram ) )
+                                                            );
             }
         }
         data_diagram_destroy( &((*this_).temp_diagram) );
@@ -441,6 +460,15 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
             {
                 TSLOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagramelement" );
             }
+
+            /* write report in case of anomalies */
+            if ( (U8_ERROR_DUPLICATE_ID & modified_info) == U8_ERROR_DUPLICATE_ID )
+            {
+                io_import_elements_private_report_id_differs( this_,
+                                                              data_diagramelement_get_data_id( diagramelement_ptr ),
+                                                              data_diagramelement_get_data_id( &((*this_).temp_diagramelement ) )
+                                                            );
+            }
         }
         data_diagramelement_destroy( &((*this_).temp_diagramelement ) );
     }
@@ -544,12 +572,29 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
                                );
             if ( (U8_ERROR_DUPLICATE_NAME & modified_info) == U8_ERROR_DUPLICATE_NAME )
             {
+                /* warn on changed classifier names. */
                 data_stat_inc_count( (*this_).stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
             }
 
             if ( U8_ERROR_NONE != sync_error )
             {
                 TSLOG_ERROR( "unexpected error at ctrl_classifier_controller_create_classifier/feature" );
+            }
+
+            /* write report in case of anomalies */
+            if ( (U8_ERROR_DUPLICATE_ID & modified_info) == U8_ERROR_DUPLICATE_ID )
+            {
+                io_import_elements_private_report_id_differs( this_,
+                                                              data_classifier_get_data_id( classifier_ptr ),
+                                                              data_classifier_get_data_id( &((*this_).temp_classifier ) )
+                                                            );
+            }
+            if ( (U8_ERROR_DUPLICATE_NAME & modified_info) == U8_ERROR_DUPLICATE_NAME )
+            {
+                io_import_elements_private_report_name_differs( this_,
+                                                                data_classifier_get_name_const( classifier_ptr ),
+                                                                data_classifier_get_name_const( &((*this_).temp_classifier ) )
+                                                              );
             }
         }
 
@@ -656,6 +701,15 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
                 if ( U8_ERROR_NONE != sync_error )
                 {
                     TSLOG_ERROR( "unexpected error at ctrl_classifier_controller_create_feature" );
+                }
+
+                /* write report in case of anomalies */
+                if ( (U8_ERROR_DUPLICATE_ID & modified_info) == U8_ERROR_DUPLICATE_ID )
+                {
+                    io_import_elements_private_report_id_differs( this_,
+                                                                  data_feature_get_data_id( feature_ptr ),
+                                                                  data_feature_get_data_id( &((*this_).temp_feature ) )
+                                                                );
                 }
 
                 data_feature_destroy( &((*this_).temp_feature ) );
@@ -849,12 +903,59 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
                                  (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                );
 
+            /* write report in case of anomalies */
+            if ( (U8_ERROR_DUPLICATE_ID & modified_info) == U8_ERROR_DUPLICATE_ID )
+            {
+                io_import_elements_private_report_id_differs( this_,
+                                                              data_relationship_get_data_id( relation_ptr ),
+                                                              data_relationship_get_data_id( &((*this_).temp_relationship ) )
+                                                            );
+            }
+
             data_relationship_destroy( &((*this_).temp_relationship ) );
         }
     }
 
     TRACE_END_ERR( sync_error );
     return sync_error;
+}
+
+void io_import_elements_private_report_id_differs( io_import_elements_t *this_, data_id_t req_id, data_id_t act_id )
+{
+    TRACE_BEGIN();
+    u8_error_t report_err = U8_ERROR_NONE;
+
+    report_err |= universal_utf8_writer_write_str( (*this_).english_report, "Id changed: " );
+    report_err |= data_id_to_utf8_writer( &req_id, (*this_).english_report );
+    report_err |= universal_utf8_writer_write_str( (*this_).english_report, " -> " );
+    report_err |= data_id_to_utf8_writer( &act_id, (*this_).english_report );
+    report_err |= universal_utf8_writer_write_str( (*this_).english_report, ", " );
+    if ( report_err != U8_ERROR_NONE )
+    {
+        TSLOG_ERROR_HEX( "Could not write report on import, ERR:", report_err );
+    }
+
+    TRACE_END();
+}
+
+void io_import_elements_private_report_name_differs( io_import_elements_t *this_, const char *req_name, const char *act_name )
+{
+    TRACE_BEGIN();
+    assert( NULL != req_name );
+    assert( NULL != act_name );
+    u8_error_t report_err = U8_ERROR_NONE;
+
+    report_err |= universal_utf8_writer_write_str( (*this_).english_report, "Name changed: \"" );
+    report_err |= universal_utf8_writer_write_str( (*this_).english_report, req_name );
+    report_err |= universal_utf8_writer_write_str( (*this_).english_report, "\" -> \"" );
+    report_err |= universal_utf8_writer_write_str( (*this_).english_report, act_name );
+    report_err |= universal_utf8_writer_write_str( (*this_).english_report, "\", " );
+    if ( report_err != U8_ERROR_NONE )
+    {
+        TSLOG_ERROR_HEX( "Could not write report on import, ERR:", report_err );
+    }
+
+    TRACE_END();
 }
 
 

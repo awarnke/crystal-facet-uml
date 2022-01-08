@@ -252,6 +252,91 @@ static inline utf8error_t data_id_to_utf8stringbuf ( const data_id_t *this_, utf
     return result;
 }
 
+static inline u8_error_t data_id_to_utf8_writer ( const data_id_t *this_, universal_utf8_writer_t *out_writer )
+{
+    u8_error_t result = U8_ERROR_NONE;
+    switch ( (*this_).table )
+    {
+        case DATA_TABLE_VOID:
+        {
+            result |= universal_utf8_writer_write_str( out_writer, "void" );
+        }
+        break;
+
+        case DATA_TABLE_CLASSIFIER:
+        {
+            result |= universal_utf8_writer_write_str( out_writer, "C" );
+        }
+        break;
+
+        case DATA_TABLE_FEATURE:
+        {
+            result |= universal_utf8_writer_write_str( out_writer, "F" );
+        }
+        break;
+
+        case DATA_TABLE_RELATIONSHIP:
+        {
+            result |= universal_utf8_writer_write_str( out_writer, "R" );
+        }
+        break;
+
+        case DATA_TABLE_DIAGRAMELEMENT:
+        {
+            result |= universal_utf8_writer_write_str( out_writer, "E" );
+        }
+        break;
+
+        case DATA_TABLE_DIAGRAM:
+        {
+            result |= universal_utf8_writer_write_str( out_writer, "D" );
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR( "data_id_to_utf8_writer has incomplete switch on data_table_t" );
+        }
+        break;
+    }
+
+    if ( (*this_).table != DATA_TABLE_VOID )
+    {
+        if ( 100 > (*this_).row_id )
+        {
+            if ( 10 > (*this_).row_id )
+            {
+                if ( 0 <= (*this_).row_id )
+                {
+                    result |= universal_utf8_writer_write_str( out_writer, "000" );
+                }
+                else
+                {
+                    /* row_id is negative */
+                }
+            }
+            else
+            {
+                result |= universal_utf8_writer_write_str( out_writer, "00" );
+            }
+        }
+        else
+        {
+            if ( 1000 > (*this_).row_id )
+            {
+                result |= universal_utf8_writer_write_str( out_writer, "0" );
+            }
+            else
+            {
+                /* row_id is greater than 1000 */
+            }
+        }
+        result |= universal_utf8_writer_write_int( out_writer, (*this_).row_id );
+    }
+
+    return result;
+}
+
 
 /*
 Copyright 2016-2022 Andreas Warnke

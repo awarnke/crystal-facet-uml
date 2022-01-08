@@ -43,6 +43,7 @@ struct io_import_elements_struct {
     ctrl_multi_step_changer_t multi_step_changer;  /*!< own instance of a controller */
                                                    /*!< that can handle preferred ids and proposed names */
     data_stat_t *stat;  /*!< pointer to import statistics */
+    universal_utf8_writer_t *english_report;  /*!< pointer to a writer that writes an english report */
 
     data_diagram_t temp_diagram;  /*!< memory buffer to load a diagram temporarily from the database */
     data_diagramelement_t temp_diagramelement;  /*!< memory buffer to load a diagramelement temporarily from the database */
@@ -184,6 +185,24 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
                                                  const char *from_node_uuid,
                                                  const char *to_node_uuid
                                                );
+
+/*!
+ *  \brief writes a note to the report that the requested id differes frmo the created id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param req_id requested id for an element to be imported
+ *  \param act_id actual id of the imported element
+ */
+void io_import_elements_private_report_id_differs( io_import_elements_t *this_, data_id_t req_id, data_id_t act_id );
+
+/*!
+ *  \brief writes a note to the report that the requested id differes frmo the created id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param req_name requested name for an element to be imported (not NULL)
+ *  \param act_name actual name of the imported element (not NULL)
+ */
+void io_import_elements_private_report_name_differs( io_import_elements_t *this_, const char *req_name, const char *act_name );
 
 #endif  /* IO_IMPORT_ELEMENTS_H */
 

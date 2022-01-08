@@ -13,6 +13,8 @@
 #include "data_row_id.h"
 #include "util/string/utf8stringbuf.h"
 #include "util/string/utf8error.h"
+#include "universal_utf8_writer.h"
+#include "u8/u8_error.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -184,6 +186,15 @@ static inline bool data_id_equals_id ( const data_id_t *this_, data_table_t tabl
  *          (this may happen if the stringbuf is smaller than DATA_ID_MAX_UTF8STRING_LENGTH)
  */
 static inline utf8error_t data_id_to_utf8stringbuf ( const data_id_t *this_, utf8stringbuf_t out_str );
+
+/*!
+ *  \brief prints a textual representation of this id to an universal_utf8_writer_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param out_writer writer to which to append the id
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
+ */
+static inline u8_error_t data_id_to_utf8_writer ( const data_id_t *this_, universal_utf8_writer_t *out_writer );
 
 #include "data_id.inl"
 

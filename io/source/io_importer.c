@@ -140,7 +140,7 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
     {
         TRACE_INFO("scanning file...");
         static const char *const PASS_CHECK_TITLE
-            = "PASS: Check that the file structure is valid\n";
+            = "PASS: Check that the file structure is valid\n      ";
         universal_utf8_writer_write_str( out_english_report, PASS_CHECK_TITLE );
 
         uint32_t error_line;
@@ -158,6 +158,7 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
             parse_error |= log_err;
         }
 
+        universal_utf8_writer_write_str( out_english_report, "\n" );
     }
 
     /* reset file */
@@ -171,7 +172,7 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
     {
         TRACE_INFO("importing file...");
         static const char *const PASS_CREATE_TITLE
-            = "PASS: Create diagrams, classifiers and features\n";
+            = "PASS: Create diagrams, classifiers and features\n      ";
         universal_utf8_writer_write_str( out_english_report, PASS_CREATE_TITLE );
 
         uint32_t error_line;
@@ -188,6 +189,8 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
                 | universal_utf8_writer_write_str( out_english_report, "\n" );
             parse_error |= log_err;
         }
+
+        universal_utf8_writer_write_str( out_english_report, "\n" );
     }
 
     /* reset file once more */
@@ -201,7 +204,7 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
     {
         TRACE_INFO("importing file...");
         static const char *const PASS_LINK_TITLE
-            = "PASS: Link diagrams to parents, classifiers to diagrams, create relationships\n";
+            = "PASS: Link diagrams to parents, classifiers to diagrams, create relationships\n      ";
         universal_utf8_writer_write_str( out_english_report, PASS_LINK_TITLE );
 
         uint32_t error_line;
@@ -218,6 +221,8 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
                 | universal_utf8_writer_write_str( out_english_report, "\n" );
             parse_error |= log_err;
         }
+
+        universal_utf8_writer_write_str( out_english_report, "\n" );
     }
 
     json_importer_destroy( &((*this_).temp_json_importer) );
