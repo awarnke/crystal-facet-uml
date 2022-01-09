@@ -15,23 +15,27 @@ mouse_droid/mouse_droid.pdf: $(SRCDIR)/mouse_droid.cfu1
 	[ ! -f /home/pi/Downloads/docbook.xsd ] || xmllint --noout --schema /home/pi/Downloads/docbook.xsd mouse_droid/mouse_droid.xml
 	(cd mouse_droid && dblatex mouse_droid.xml)
 
-quality/quality.xhtml: $(SRCDIR)/quality.cfu1
+quality/quality.cfu1: $(SRCDIR)/quality.json
 	mkdir -p quality
-	crystal-facet-uml -e $(SRCDIR)/quality.cfu1 xhtml quality
+	crystal-facet-uml -i quality/quality.cfu1 add $(SRCDIR)/quality.json
 
-quality/quality.pdf: $(SRCDIR)/quality.cfu1
-	mkdir -p quality
-	crystal-facet-uml -e $(SRCDIR)/quality.cfu1 docbook quality
+quality/quality.xhtml: quality/quality.cfu1
+	crystal-facet-uml -e quality/quality.cfu1 xhtml quality
+
+quality/quality.pdf: quality/quality.cfu1
+	crystal-facet-uml -e quality/quality.cfu1 docbook quality
 	[ ! -f /home/pi/Downloads/docbook.xsd ] || xmllint --noout --schema /home/pi/Downloads/docbook.xsd quality/quality.xml
 	(cd quality && dblatex quality.xml)
 
-self_architecture/self_architecture.xhtml: $(ARCDIR)/self_architecture.cfu1
+self_architecture/self_architecture.cfu1: $(ARCDIR)/self_architecture.json
 	mkdir -p self_architecture
-	crystal-facet-uml -e $(ARCDIR)/self_architecture.cfu1 xhtml self_architecture
+	crystal-facet-uml -i self_architecture/self_architecture.cfu1 add $(ARCDIR)/self_architecture.json
 
-self_architecture/self_architecture.pdf: $(ARCDIR)/self_architecture.cfu1
-	mkdir -p self_architecture
-	crystal-facet-uml -e $(ARCDIR)/self_architecture.cfu1 docbook self_architecture
+self_architecture/self_architecture.xhtml: self_architecture/self_architecture.cfu1
+	crystal-facet-uml -e self_architecture/self_architecture.cfu1 xhtml self_architecture
+
+self_architecture/self_architecture.pdf: self_architecture/self_architecture.cfu1
+	crystal-facet-uml -e self_architecture/self_architecture.cfu1 docbook self_architecture
 	[ ! -f /home/pi/Downloads/docbook.xsd ] || xmllint --noout --schema /home/pi/Downloads/docbook.xsd self_architecture/self_architecture
 	(cd self_architecture && dblatex self_architecture.xml)
 
@@ -100,4 +104,4 @@ install: all_export_test
 
 .PHONY: clean
 clean:
-	rm -fr mouse_droid quality pencil_tests export_test
+	rm -fr mouse_droid quality pencil_tests export_test self_architecture

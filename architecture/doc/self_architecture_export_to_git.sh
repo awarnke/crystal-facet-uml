@@ -10,5 +10,8 @@ if test -e "self_architecture.cfu1"; then
     else
         echo "self_architecture.cfu1 is deleted..."
         rm "self_architecture.cfu1"
+        echo "finished."
     fi
+else
+    echo "ERROR: nothing to export."
 fi

@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.35.0"
+    "generator_version": "1.35.1"
   }
   ,
   "views":
@@ -30,7 +30,7 @@
                 "Also, the developed and operated product has to encompass\n",
                 "technical measures to provide expected quality characteristics.\n",
                 "\n",
-                "(c) 2019-2020 Andreas Warnke\n",
+                "(c) 2019-2022 Andreas Warnke\n",
                 "License:\n",
                 "Choose either Apache-2.0\n",
                 "or Creative Commons Attribution (BY) Licence"
@@ -5573,7 +5573,7 @@
         "id": 202,
         "main_type": 99,
         "stereotype": "",
-        "name": "Memory shall be available",
+        "name": "Access Memory immediately",
         "description": [
                 "For dedicated use cases and functions, the software shall access required memory within 1 usec."
         ],
@@ -5593,7 +5593,7 @@
         "stereotype": "",
         "name": "Sufficient Memory",
         "description": [
-                "For dedicated use cases and functions, ste software shall be able to access sufficient memory."
+                "For dedicated use cases and functions, the software shall be able to access sufficient memory."
         ],
         "x_order": 1551085054,
         "y_order": -1642926881,
@@ -10159,7 +10159,7 @@
         ],
         "list_order": 942544,
         "from_classifier_id": 202,
-        "from_classifier_name": "Memory shall be available",
+        "from_classifier_name": "Access Memory immediately",
         "to_classifier_id": 25,
         "to_classifier_name": "Time Behaviour",
         "from_feature_id": -1,
@@ -10179,7 +10179,7 @@
         ],
         "list_order": 32768,
         "from_classifier_id": 202,
-        "from_classifier_name": "Memory shall be available",
+        "from_classifier_name": "Access Memory immediately",
         "to_classifier_id": 186,
         "to_classifier_name": "Reliable-Fkt Use-Case",
         "from_feature_id": -1,

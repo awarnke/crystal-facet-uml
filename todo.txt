@@ -27,25 +27,15 @@ ideas for future versions:
   [ ] import XMI format
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
   [ ] xmi export: improve error message if exported file exists and is read-only
-  [ ] uuid are preserved at paste from clipboard. It is not checked if these uuids are unique in _all_ tables.
-  [ ] json import: Only new objects are created, never existing ones updated
+  [ ] uuid are preserved at json import. It is not checked if these uuids are unique in _all_ tables.
+  [ ] json import: check if the input bytes are valid utf8 characters
+  [ ] json export: add names of linked objects and human readable enums for understandability
   @data
   [?] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> add a "display_flags" field to "diagrams"
   [ ] performance optimization: possibly the feature and relationship filter on a visible_set is slow?
   [?] diagrams need some kind of category/classification/stereotype like idea-for-future, rejected-alternative, ...
       --> add a "stereotype" field to "diagrams"
-  [ ] some way to compare two database files / and/or to merge
-      - maybe there are already solutions for sqlite3 and git:
-      a) store an sqlite3 dump to git, not the binary
-      Note that a cfu1 database file contains many ids and foreign-keys and ordering-hints,
-      this is not mergeable by humans
-      see e.g "sqlite3 mouse_droid.cfu1 .dump"
-      b) setup git hooks and use a custom merge/diff tool for binary db
-      documentation needed
-      maybe rowid should be replaced by GUID to make this easier
-      maybe a database schema file is needed
-      c) define an own simple, sorted, line-based text format for version-control-system storage
   [ ] links unclear:
       interactionuse(diag-reference)-to-fragment(diag);
       part-to-component, object-to-class
