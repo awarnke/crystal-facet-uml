@@ -14,10 +14,6 @@ html: ../../user_doc/doc/*.xml ../../user_doc/doc/2_feature_gallery_export/*.png
 	find ./html -name '*.html' | xargs sed -i -e 's/\.\.\/\.\.\/gui\/source\/resources\///g' &&\
 	find ./html -name '*.html' | xargs sed -i -e 's/2_feature_gallery_export\///g'
 
-# xmlto chosen:
-# daps exists only on opensuse, not on ubuntu
-# pandoc is not fit with xinclude and drops the images (at least when i tried to use it in 2018)
-
 MAN_STYLESHEET_ROOT=`find /usr/share/xml/docbook/stylesheet -name manpages`
 #MAN_STYLESHEET_0="/usr/share/xml/docbook/stylesheet/nwalsh/1.78.1/manpages/docbook.xsl"
 #MAN_STYLESHEET_1="/usr/share/xml/docbook/stylesheet/suse/manpages/docbook.xsl"
