@@ -46,7 +46,9 @@ cd ../..
 
 
 # Thanks to many inspiring webpages, especially of help were:
-# https://zwyuan.github.io/2016/07/17/cross-compile-glib-for-android/ (Jan 2022)
+# 1) http://www.tarnyko.net/repo/gtk3_build_system/gtk+-bundle_3.6.4-20130513_win64.zip
+#    folder: src/tarnyko/scripts/ (2013-2022)
+# 2) https://zwyuan.github.io/2016/07/17/cross-compile-glib-for-android/ (Jan 2022)
 
 
 # Copyright 2022-2022 Andreas Warnke
