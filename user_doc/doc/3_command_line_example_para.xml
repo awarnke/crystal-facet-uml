@@ -1,7 +1,8 @@
 <!DOCTYPE para>
 <para>
 
-To store a database in a version control system (vcs), you have several options:
+To store a database in a version control system (vcs) like svn or git,
+you have several options:
 <itemizedlist>
   <listitem>
     <para>
@@ -43,7 +44,7 @@ To store a database in a version control system (vcs), you have several options:
         <command>crystal-facet-uml -i my_database_file.cfu1 update my_database_file.json</command>
     </para>
     <para>
-        <command>crystal-facet-uml -t my_database_file.cfu1 json || echo "ERROR $?"</command>
+        <command>crystal-facet-uml -t my_database_file.cfu1 || echo "ERROR $?"</command>
     </para>
     <para>
         When the json format has been imported successfully,
