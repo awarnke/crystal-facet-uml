@@ -491,9 +491,13 @@
         </section>
     </section>
     <section>
-        <title>Example on Command Line Usage</title>
-
-        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="3_command_line_example_para.xml" />
-
+        <title>Command Line Usage</title>
+        <para>
+            If starting crystal-facet-uml from command line, there are a couple of options,
+            call <command>crystal-facet-uml -h</command> for a list.
+        </para>
+        <section><title>Storing data in a version control system</title>
+            <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="3_command_line_example_para.xml" />
+        </section>
     </section>
 </section>

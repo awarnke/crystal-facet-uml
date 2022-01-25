@@ -2,6 +2,27 @@
 mkdir -p packed_src/
 cd packed_src/
 
+if test ! -f libiconv* ; then
+    echo "fetching libiconv"
+    wget https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz
+fi
+
+if test ! -f libffi* ; then
+    echo "fetching libffi"
+    wget ftp://sourceware.org/pub/libffi/libffi-3.3.tar.gz
+fi
+
+if test ! -f gettext* ; then
+    echo "fetching gettext"
+    wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.21.tar.xz
+fi
+
+if test ! -f glib* ; then
+    echo "fetching glib"
+    wget https://download.gnome.org/sources/glib/2.71/glib-2.71.0.tar.xz
+    # Alternative may be here: http://www.gtk.org/
+fi
+
 if test ! -f gtk* ; then
     echo "fetching gtk"
     wget https://download.gnome.org/sources/gtk%2B/3.94/gtk%2B-3.94.0.tar.xz
@@ -31,17 +52,6 @@ fi
 if test ! -f fontconfig* ; then
     echo "fetching fontconfig"
     wget https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.94.tar.xz
-fi
-
-if test ! -f glib* ; then
-    echo "fetching glib"
-    wget https://download.gnome.org/sources/glib/2.9/glib-2.9.6.tar.gz
-    # Alternative may be here: http://www.gtk.org/
-fi
-
-if test ! -f libiconv* ; then
-    echo "fetching libiconv"
-    wget https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz
 fi
 
 if test ! -f gdk-pixbuf* ; then

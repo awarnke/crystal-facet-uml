@@ -1,5 +1,6 @@
 #!/bin/sh
 rm -fr src/
+rm -fr my_usr/
 echo "to clean up also the downloaded archives, type: rm -fr packed_src/"
 
 

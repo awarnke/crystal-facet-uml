@@ -4,13 +4,16 @@
 
     <para>
 
-        This page lists remarks on creating a software architecture and design document in general
-        and it lists hints on efficiently using the tool crystal-facet-uml.
+        This section
+        lists hints on efficiently using the tool crystal-facet-uml
+        and provides some general remarks on creating a software architecture and design document.
     </para>
 
     <section>
         <title>crystal-facet-uml Hints</title>
         <para>
+            Modelling aspects that are special to the tool crystal-facet-uml
+            are describes in this section.
         </para>
 
         <section>
@@ -29,6 +32,7 @@
                 </mediaobject>
             </para>
             <para>
+
                 In case you show several layers of abstraction, each building block may contain
                 its sub-blocks, sub-blocks may again show sub-sub-blocks.
                 In this case, structure the specification of the sub-blocks in the same way:
@@ -39,7 +43,6 @@
                     <imageobject><imagedata fileref="5_modeling_hint_on_structure_rec.png"/></imageobject>
                 </mediaobject>
             </para>
-
         </section>
         <section>
             <title>Focus</title>
@@ -50,7 +53,14 @@
                 Put further aspects of a topic into a separate diagram. Do not hesitate to copy an element from one diagram
                 to the next. This is what crystal-facet-uml is good at: it keeps the model in sync.
             </para>
+            <para>
 
+                When distributing different aspects to different diagrams,
+                a remaining challenge may be that there is no filter on relationships.
+                If e.g. two classes are connected via a generalization arrow and an aggregation arrow,
+                each diagram will show both arrows even if only one is of interest for the shown aspect
+                (except for interaction diagrams).
+            </para>
         </section>
         <section>
             <title>Namespaces</title>
@@ -73,6 +83,7 @@
     <section>
         <title>General Hints on Architecture Documentation</title>
         <para>
+            This section povides some general remarks on creating a software architecture and detailed design document.
         </para>
 
         <section>
