@@ -1,6 +1,9 @@
 #!/bin/sh
 mkdir -p bin
 
+echo "==== install:"
+echo "sudo zypper install mingw64-cross-gcc mingw-cross-pkgconfig wine"
+
 echo "configuring libiconv..."
 cd src/libiconv-1*
     # host is the prefix of the compiler executables

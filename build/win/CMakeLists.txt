@@ -1,5 +1,5 @@
 PROJECT(crystal-facet-uml LANGUAGES C)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
 SET(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Build Environment Settings ==== ==== ==== ==== ==== ==== ==== ====
