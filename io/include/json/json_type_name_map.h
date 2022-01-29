@@ -11,10 +11,10 @@
  */
 
 #include "data_diagram.h"
+#include "data_diagramelement.h"
 #include "data_classifier.h"
-#include "data_table.h"
-#include "util/string/utf8string.h"
-#include "util/string/utf8stringview.h"
+#include "data_feature.h"
+#include "data_relationship.h"
 
 /*!
  *  \brief attributes of the json_type_name_map
@@ -40,13 +40,45 @@ static inline void json_type_name_map_init( json_type_name_map_t *this_ );
 static inline void json_type_name_map_destroy( json_type_name_map_t *this_ );
 
 /*!
- *  \brief writes a string to a file, unencoded
+ *  \brief gets the type name of the classifier_type id.
  *
  *  \param this_ pointer to own object attributes
- *  \param text string to write
- *  \return 0 in case of success, -1 otherwise
+ *  \param parent_type for some classifiers, the result depends on the used context,
+ *                     therefore the parent type is needed to select the xmi_element_info_t
+ *  \param classifier_type id for which to select the name
+ *  \return type name of classifier_type id; empty string if the id is unknown
  */
-static inline const char * json_type_name_map_get_classifier_type ( json_type_name_map_t *this_, data_classifier_type_t c_type );
+static inline const char * json_type_name_map_get_classifier_type ( const json_type_name_map_t *this_,
+                                                                    data_classifier_type_t parent_type,
+                                                                    data_classifier_type_t classifier_type
+                                                                  );
+
+/*!
+ *  \brief gets the type name of the feature_type id.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_type data_classifier_type_t of the parent of which the feature type shall be determined
+ *  \param feature_type id for which to select the name
+ *  \return type name of feature_type id; empty string if the id is unknown
+ */
+static inline const char * json_type_name_map_get_feature_type ( const json_type_name_map_t *this_,
+                                                                 data_classifier_type_t parent_type,
+                                                                 data_feature_type_t feature_type
+                                                               );
+
+/*!
+ *  \brief gets the type name of the data_relationship_type_t id.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param statemachine_context for some relationships, the result depends on the used context,
+ *                              e.g. transition in statemachine or control flow in activities
+ *  \param rel_type id for which to select the name
+ *  \return type name of rel_type id; empty string if the id is unknown
+ */
+static inline const char * json_type_name_map_get_relationship_type ( const json_type_name_map_t *this_,
+                                                                      bool statemachine_context,
+                                                                      data_relationship_type_t rel_type
+                                                                    );
 
 #include "json_type_name_map.inl"
 
