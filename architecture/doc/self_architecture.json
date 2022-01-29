@@ -3733,7 +3733,7 @@
         "diagram_type": 11,
         "name": "Runtime View",
         "description": [
-                ""
+                "This diagram depicts the run modes of the software."
         ],
         "list_order": 163840,
         "display_flags": 0,

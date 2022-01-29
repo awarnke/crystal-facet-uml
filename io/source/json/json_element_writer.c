@@ -302,6 +302,9 @@ int json_element_writer_assemble_classifier( json_element_writer_t *this_,
                                             JSON_CONSTANTS_NEXT_NL
                                           );
 
+        /* main type name */
+        // TODO JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE_NAME "type"
+
         /* stereotype */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
                                                     4,
@@ -516,6 +519,9 @@ int json_element_writer_assemble_feature( json_element_writer_t *this_,
                                             JSON_CONSTANTS_NEXT_NL
                                           );
 
+        /* type name */
+        // TODO JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE_NAME "type"
+
         /* key */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
                                                     6,
@@ -684,6 +690,9 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_NEXT_NL
                                           );
+
+        /* main type name */
+        // TODO JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE_NAME "type"
 
         /* name */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
@@ -1029,6 +1038,19 @@ int json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                             JSON_CONSTANTS_NEXT_NL
                                           );
 
+        const bool parent_valid = ( parent == NULL ) ? false : data_diagram_is_valid( parent );
+
+        /* parent_name */
+        if( parent_valid )
+        {
+            out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                        4,
+                                                        JSON_CONSTANTS_KEY_DIAGRAM_PARENT_NAME,
+                                                        data_diagram_get_name_const( parent ),
+                                                        true
+                                                    );
+        }
+
         /* diagram type */
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_TAB
@@ -1046,6 +1068,9 @@ int json_element_writer_assemble_diagram( json_element_writer_t *this_,
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_NEXT_NL
                                           );
+
+        /* diagram type name */
+        // TODO JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE_NAME "type"
 
         /* name */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
@@ -1079,8 +1104,10 @@ int json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                                  true
                                                );
 
+        /* display_tags - flag names */
+        // TODO JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAG_NAMES "display_tags"
+
         /* parent uuid */
-        const bool parent_valid = ( parent == NULL ) ? false : data_diagram_is_valid( parent );
         if ( parent_valid )
         {
             out_err |= json_writer_write_member_string( &((*this_).json_writer),
@@ -1234,7 +1261,6 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
     TRACE_BEGIN();
     assert( parent != NULL );
     assert( diagramelement_ptr != NULL );
-    assert( parent != NULL );
     assert( occurrence != NULL );
     /* feat_occur may be NULL */
     int out_err = 0;
@@ -1260,6 +1286,9 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
                                                  true
                                                );
 
+        /* display_tags -- flag names */
+        // TODO JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAG_NAMES "display_tags"
+
         /* classifier_id */
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_TAB
@@ -1280,6 +1309,14 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
                                             JSON_CONSTANTS_NEXT_NL
                                           );
 
+        /* classifier_name */
+        out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                    6,
+                                                    JSON_CONSTANTS_KEY_DIAGRAMELEMENT_CLASSIFIER_NAME,
+                                                    data_classifier_get_name_const( occurrence ),
+                                                    true
+                                                  );
+
         /* focused_feature_id */
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_TAB
@@ -1299,6 +1336,21 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_NEXT_NL
                                           );
+
+        /* focused_feature_name */
+        /* note that focused features are always lifelines and these never have names */
+#if 0
+        const bool feature_valid = ( feat_occur == NULL ) ? false : data_feature_is_valid( feat_occur );
+        if ( feature_valid )
+        {
+            out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                        6,
+                                                        JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE_NAME,
+                                                        data_feature_get_key_const( feat_occur ),
+                                                        true
+                                                      );
+        }
+#endif
 
         /* ref_uuid */
         const bool feat_valid = ( feat_occur == NULL ) ? false : data_feature_is_valid( feat_occur );

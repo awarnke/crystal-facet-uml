@@ -3,6 +3,9 @@ mkdir -p my_usr
 
 # host is the prefix of the compiler executables
 
+echo "possibly some tools need to be installed first:"
+echo "sudo zypper install meson ninja mingw64-cross-pkgconf mingw64-cross-gcc"
+
 echo "building libiconv..."
 cd src/libiconv-1*
     ./configure --host=x86_64-w64-mingw32 --enable-relocatable --prefix=`pwd`/../../my_usr --disable-rpath --enable-static-pie > ../../log_iconv.txt 2>&1
@@ -26,15 +29,15 @@ cd ../..
 
 echo "building glib..."
 cd src/glib-2*
+    meson setup . builddir --cross-file ../../cross_file.txt > ../../log_glib.txt 2>&1
+    cd builddir
+    meson compile >> ../../log_glib.txt 2>&1
+    meson install >> ../../log_glib.txt 2>&1
+
     # see ../3rd_party/src/glib-2.9.6/docs/reference/glib/html/glib-cross-compiling.html
-    echo "glib_cv_long_long_format=I64
-glib_cv_stack_grows=no" > win32.cache
-    chmod a-w win32.cache   # prevent configure from changing it
     export CFLAGS=-I`pwd`/../../my_usr/include/" -I/usr/x86_64-w64-mingw32/include"
     export LDFLAGS=-L`pwd`/../../my_usr/lib
-    ./configure --cache-file=win32.cache --host=x86_64-w64-mingw32 --enable-relocatable --with-libiconv=gnu --prefix=`pwd`/../../my_usr > ../../log_glib.txt 2>&1
-    make >> ../../log_glib.txt 2>&1
-    make install >> ../../log_glib.txt 2>&1
+    cd ..
 cd ../..
 
 
