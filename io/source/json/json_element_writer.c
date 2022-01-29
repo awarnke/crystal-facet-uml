@@ -56,6 +56,8 @@ void json_element_writer_init( json_element_writer_t *this_,
 
     json_writer_init( &((*this_).json_writer), output );
 
+    json_type_name_map_init( &((*this_).type_map) );
+
     (*this_).in_outer_array = false;
     (*this_).is_outer_first = false;
     (*this_).in_inner_array = false;
@@ -70,6 +72,8 @@ void json_element_writer_init( json_element_writer_t *this_,
 void json_element_writer_destroy( json_element_writer_t *this_ )
 {
     TRACE_BEGIN();
+
+    json_type_name_map_destroy( &((*this_).type_map) );
 
     json_writer_destroy( &((*this_).json_writer) );
 

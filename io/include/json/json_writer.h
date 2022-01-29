@@ -44,7 +44,7 @@ extern const char JSON_CONSTANTS_INDENT_QUOTE[(2*JSON_WRITER_MAX_INDENT)+sizeof(
  */
 struct json_writer_struct {
     universal_output_stream_t *output;  /*!< output stream where to write the generated document to */
-    universal_escaping_output_stream_t esc_output;  /*!< escaping output stream filter that does the xml escaping */
+    universal_escaping_output_stream_t esc_output;  /*!< escaping output stream filter that does the json escaping */
 
     const char *const ((*json_string_encode_table)[][2]);  /*!< table for json encode string replacements */
     const char *const ((*json_stringlist_encode_table)[][2]);  /*!< table for json encode stringlist replacements */
@@ -53,7 +53,7 @@ struct json_writer_struct {
 typedef struct json_writer_struct json_writer_t;
 
 /*!
- *  \brief initializes the xml writer
+ *  \brief initializes the json writer
  *
  *  \param this_ pointer to own object attributes
  *  \param output output stream where to write the generated document to
@@ -63,7 +63,7 @@ void json_writer_init( json_writer_t *this_,
                      );
 
 /*!
- *  \brief destroys the xml writer
+ *  \brief destroys the json writer
  *
  *  \param this_ pointer to own object attributes
  */
@@ -129,7 +129,7 @@ static inline int json_writer_write_string_view_enc ( json_writer_t *this_, utf8
  *  \brief writes a string to a file, encoded as list of json-strings, one string per line
  *
  *  \param this_ pointer to own object attributes
- *  \param text string to write, encoded for xml comments
+ *  \param text string to write, encoded for json comments
  *  \return 0 in case of success, -1 otherwise
  */
 static inline int json_writer_write_stringlist_enc ( json_writer_t *this_, utf8string_t text );
