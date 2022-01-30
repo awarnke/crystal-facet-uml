@@ -2,6 +2,8 @@
 
 #include "xmi/xmi_element_info_map.h"
 #include "xmi/xmi_element_info.h"
+#include "xmi/xmi_diagram_info_map.h"
+#include "xmi/xmi_diagram_info.h"
 #include <assert.h>
 
 static inline void json_type_name_map_init( json_type_name_map_t *this_ )
@@ -52,6 +54,18 @@ static inline const char * json_type_name_map_get_relationship_type( const json_
                                                            &element_info
                                                          );
     const char *const type_name = (err!=0) ? "" : xmi_element_info_get_name( element_info );
+    return type_name;
+}
+
+static inline const char * json_type_name_map_get_diagram_type ( const json_type_name_map_t *this_,
+                                                                 data_diagram_type_t diagram_type )
+{
+    const xmi_diagram_info_t *diagram_info;
+    const u8_error_t err = xmi_diagram_info_map_get_diagram( &xmi_diagram_info_map_standard,
+                                                             diagram_type,
+                                                             &diagram_info
+                                                           );
+    const char *const type_name = (err!=U8_ERROR_NONE) ? "" : xmi_diagram_info_get_name( diagram_info );
     return type_name;
 }
 

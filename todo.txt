@@ -1,5 +1,6 @@
 ideas for future versions:
   @gui
+  [ ] when creating features and relationships, the screenlayout suddenly shifts
   [ ] performance optimization: redraw only when shown(=visible) items have changed;
       do not redraw 3 times when changing 3 attributes simultaneously. (especially at undo/redo)
       do not redraw twice, once for deactivating a tool and again for activating another

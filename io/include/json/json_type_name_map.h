@@ -40,7 +40,7 @@ static inline void json_type_name_map_init( json_type_name_map_t *this_ );
 static inline void json_type_name_map_destroy( json_type_name_map_t *this_ );
 
 /*!
- *  \brief gets the type name of the classifier_type id.
+ *  \brief gets the type name of the data_classifier_type_t id.
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_type for some classifiers, the result depends on the used context,
@@ -54,7 +54,7 @@ static inline const char * json_type_name_map_get_classifier_type ( const json_t
                                                                   );
 
 /*!
- *  \brief gets the type name of the feature_type id.
+ *  \brief gets the type name of the data_feature_type_t id.
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_type data_classifier_type_t of the parent of which the feature type shall be determined
@@ -79,6 +79,17 @@ static inline const char * json_type_name_map_get_relationship_type ( const json
                                                                       bool statemachine_context,
                                                                       data_relationship_type_t rel_type
                                                                     );
+
+/*!
+ *  \brief gets the type name of the data_diagram_type_t id.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_type id for which to select the name
+ *  \return type name of classifier_type id; empty string if the id is unknown
+ */
+static inline const char * json_type_name_map_get_diagram_type ( const json_type_name_map_t *this_,
+                                                                 data_diagram_type_t diagram_type
+                                                               );
 
 #include "json_type_name_map.inl"
 
