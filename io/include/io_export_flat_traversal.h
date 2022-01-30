@@ -54,7 +54,7 @@ typedef struct io_export_flat_traversal_struct io_export_flat_traversal_t;
  *                        Statistics are only added, *io_stat shall be initialized by caller.
  *  \param out_element_writer pointer to an external io_element_writer_t which is the output sink
  */
-void io_export_flat_traversal_init( io_export_flat_traversal_t *this_,
+void io_export_flat_traversal_init ( io_export_flat_traversal_t *this_,
                                      data_database_reader_t *db_reader,
                                      data_stat_t *io_export_stat,
                                      io_element_writer_t *out_element_writer
@@ -95,7 +95,7 @@ int io_export_flat_traversal_private_traverse_classifier ( io_export_flat_traver
  *  \return -1 in case of error, 0 in case of success.
  */
 int io_export_flat_traversal_private_iterate_features ( io_export_flat_traversal_t *this_,
-                                                         const data_node_set_t *node_data
+                                                        const data_node_set_t *node_data
                                                       );
 
 /*!
@@ -121,15 +121,14 @@ int io_export_flat_traversal_private_iterate_relationships ( io_export_flat_trav
  *  \param out_to_f (a copy of) the feature at target end; !is_valid() if no feature specified
  *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t io_export_flat_traversal_private_get_relationship_ends( io_export_flat_traversal_t *this_,
-                                                                      const data_relationship_t *relation,
-                                                                      const data_node_set_t *node_data,
-                                                                      data_classifier_t *out_from_c,
-                                                                      data_feature_t *out_from_f,
-                                                                      data_classifier_t *out_to_c,
-                                                                      data_feature_t *out_to_f
-                                                                    );
-
+u8_error_t io_export_flat_traversal_private_get_relationship_ends ( io_export_flat_traversal_t *this_,
+                                                                    const data_relationship_t *relation,
+                                                                    const data_node_set_t *node_data,
+                                                                    data_classifier_t *out_from_c,
+                                                                    data_feature_t *out_from_f,
+                                                                    data_classifier_t *out_to_c,
+                                                                    data_feature_t *out_to_f
+                                                                  );
 
 #endif  /* IO_EXPORT_FLAT_TRAVERSAL_H */
 

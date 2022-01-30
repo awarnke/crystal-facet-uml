@@ -130,9 +130,6 @@ int io_export_flat_traversal_private_traverse_classifier ( io_export_flat_traver
     return write_err;
 }
 
-
-
-
 int io_export_flat_traversal_private_iterate_features ( io_export_flat_traversal_t *this_,
                                                         const data_node_set_t *node_data )
 {

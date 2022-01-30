@@ -307,7 +307,17 @@ int json_element_writer_assemble_classifier( json_element_writer_t *this_,
                                           );
 
         /* main type name */
-        // TODO JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE_NAME "type"
+        const char *const type_name
+            = json_type_name_map_get_classifier_type( &((*this_).type_map),
+                                                      host_type,
+                                                      data_classifier_get_main_type( classifier_ptr )
+                                                    );
+        out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                    4,
+                                                    JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE_NAME,
+                                                    type_name,
+                                                    true
+                                                  );
 
         /* stereotype */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
@@ -524,7 +534,17 @@ int json_element_writer_assemble_feature( json_element_writer_t *this_,
                                           );
 
         /* type name */
-        // TODO JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE_NAME "type"
+        const char *const type_name
+            = json_type_name_map_get_feature_type( &((*this_).type_map),
+                                                   parent_type,
+                                                   data_feature_get_main_type( feature_ptr )
+                                                 );
+        out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                    6,
+                                                    JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE_NAME,
+                                                    type_name,
+                                                    true
+                                                  );
 
         /* key */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
@@ -669,6 +689,11 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
         assert( (*this_).in_outer_array == true );
         assert( (*this_).in_inner_array == false );
 
+        const bool from_f_valid = ( from_f == NULL ) ? false : data_feature_is_valid( from_f );
+        const bool from_c_valid = ( from_c == NULL ) ? false : data_classifier_is_valid( from_c );
+        const bool to_f_valid = ( to_f == NULL ) ? false : data_feature_is_valid( to_f );
+        const bool to_c_valid = ( to_c == NULL ) ? false : data_classifier_is_valid( to_c );
+
         /* id */
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                                  4,
@@ -696,7 +721,26 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
                                           );
 
         /* main type name */
-        // TODO JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE_NAME "type"
+        const bool statemachine_context
+            = (from_c_valid
+            && ((data_classifier_get_main_type( from_c ) == DATA_CLASSIFIER_TYPE_STATE)
+            || (data_classifier_get_main_type( from_c ) == DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY)
+            || (data_classifier_get_main_type( from_c ) == DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY)))
+            || (to_c_valid
+            && (( data_classifier_get_main_type( to_c ) == DATA_CLASSIFIER_TYPE_STATE)
+            || (data_classifier_get_main_type( to_c ) == DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY)
+            || (data_classifier_get_main_type( to_c ) == DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY)));
+        const char *const type_name
+            = json_type_name_map_get_relationship_type( &((*this_).type_map),
+                                                        statemachine_context,
+                                                        data_relationship_get_main_type( relation_ptr )
+                                                      );
+        out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                    4,
+                                                    JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE_NAME,
+                                                    type_name,
+                                                    true
+                                                  );
 
         /* name */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
@@ -721,11 +765,6 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
                                                  data_relationship_get_list_order( relation_ptr ),
                                                  true
                                                );
-
-        const bool from_f_valid = ( from_f == NULL ) ? false : data_feature_is_valid( from_f );
-        const bool from_c_valid = ( from_c == NULL ) ? false : data_classifier_is_valid( from_c );
-        const bool to_f_valid = ( to_f == NULL ) ? false : data_feature_is_valid( to_f );
-        const bool to_c_valid = ( to_c == NULL ) ? false : data_classifier_is_valid( to_c );
 
         /* from_classifier_id */
         out_err |= json_writer_write_plain( &((*this_).json_writer),
