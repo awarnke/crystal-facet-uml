@@ -22,21 +22,21 @@ cd ../..
 
 echo "building gettext..."
 cd src/gettext-0*
+    export CFLAGS=-I`pwd`/../../my_usr/include/" "-I/usr/x86_64-w64-mingw32/include
+    export LDFLAGS=-L`pwd`/../../my_usr/lib" "-L`pwd`/../../my_usr/lib64
     ./configure --host=x86_64-w64-mingw32 --enable-relocatable --prefix=`pwd`/../../my_usr --disable-rpath --disable-libasprintf --disable-java --disable-native-java --disable-openmp --disable-curses > ../../log_gettext.txt 2>&1
     make >> ../../log_gettext.txt 2>&1
     make install >> ../../log_gettext.txt 2>&1
 cd ../..
 
 echo "building glib..."
+echo "you possibly need to install a couple of packages like meson, ninja, mingw64-cross-gcc-c++, ..."
 cd src/glib-2*
     meson setup . builddir --cross-file ../../cross_file.txt > ../../log_glib.txt 2>&1
     cd builddir
-    meson compile >> ../../log_glib.txt 2>&1
-    meson install >> ../../log_glib.txt 2>&1
-
-    # see ../3rd_party/src/glib-2.9.6/docs/reference/glib/html/glib-cross-compiling.html
-    export CFLAGS=-I`pwd`/../../my_usr/include/" -I/usr/x86_64-w64-mingw32/include"
-    export LDFLAGS=-L`pwd`/../../my_usr/lib
+        meson compile >> ../../log_glib.txt 2>&1
+        meson install >> ../../log_glib.txt 2>&1
+        # see ../3rd_party/src/glib-2.9.6/docs/reference/glib/html/glib-cross-compiling.html
     cd ..
 cd ../..
 
