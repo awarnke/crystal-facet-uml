@@ -1113,7 +1113,16 @@ int json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                           );
 
         /* diagram type name */
-        // TODO JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE_NAME "type"
+        const char *const type_name
+            = json_type_name_map_get_diagram_type( &((*this_).type_map),
+                                                   data_diagram_get_diagram_type( diag_ptr )
+                                                 );
+        out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                    4,
+                                                    JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE_NAME,
+                                                    type_name,
+                                                    true
+                                                  );
 
         /* name */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
@@ -1148,7 +1157,19 @@ int json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                                );
 
         /* display_tags - flag names */
-        // TODO JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAG_NAMES "display_tags"
+        if ( data_diagram_get_display_flags( diag_ptr ) != DATA_DIAGRAM_FLAG_NONE )
+        {
+            const char *const tag_names
+                = json_type_name_map_get_diagram_tags( &((*this_).type_map),
+                                                       data_diagram_get_display_flags( diag_ptr )
+                                                     );
+            out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                        4,
+                                                        JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAG_NAMES,
+                                                        tag_names,
+                                                        true
+                                                      );
+        }
 
         /* parent uuid */
         if ( parent_valid )
@@ -1330,7 +1351,19 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
                                                );
 
         /* display_tags -- flag names */
-        // TODO JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAG_NAMES "display_tags"
+        if ( data_diagramelement_get_display_flags( diagramelement_ptr ) != DATA_DIAGRAMELEMENT_FLAG_NONE )
+        {
+            const char *const tag_names
+                = json_type_name_map_get_diagramelement_tags( &((*this_).type_map),
+                                                              data_diagramelement_get_display_flags( diagramelement_ptr )
+                                                            );
+            out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                        6,
+                                                        JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAG_NAMES,
+                                                        tag_names,
+                                                        true
+                                                      );
+        }
 
         /* classifier_id */
         out_err |= json_writer_write_plain( &((*this_).json_writer),

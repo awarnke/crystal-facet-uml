@@ -4,6 +4,7 @@
 #include "xmi/xmi_element_info.h"
 #include "xmi/xmi_diagram_info_map.h"
 #include "xmi/xmi_diagram_info.h"
+#include <stdint.h>
 #include <assert.h>
 
 static inline void json_type_name_map_init( json_type_name_map_t *this_ )
@@ -57,8 +58,8 @@ static inline const char * json_type_name_map_get_relationship_type( const json_
     return type_name;
 }
 
-static inline const char * json_type_name_map_get_diagram_type ( const json_type_name_map_t *this_,
-                                                                 data_diagram_type_t diagram_type )
+static inline const char * json_type_name_map_get_diagram_type( const json_type_name_map_t *this_,
+                                                                data_diagram_type_t diagram_type )
 {
     const xmi_diagram_info_t *diagram_info;
     const u8_error_t err = xmi_diagram_info_map_get_diagram( &xmi_diagram_info_map_standard,
@@ -67,6 +68,100 @@ static inline const char * json_type_name_map_get_diagram_type ( const json_type
                                                            );
     const char *const type_name = (err!=U8_ERROR_NONE) ? "" : xmi_diagram_info_get_name( diagram_info );
     return type_name;
+}
+
+static inline const char * json_type_name_map_get_diagram_tags( const json_type_name_map_t *this_,
+                                                                data_diagram_flag_t diagram_flag )
+{
+    const char * tag_names = "";
+
+    switch( diagram_flag )
+    {
+        case DATA_DIAGRAM_FLAG_EMPHASIS:
+        {
+            tag_names = "Emphasis";
+        }
+        break;
+
+        case DATA_DIAGRAM_FLAG_GRAY_OUT:
+        {
+            tag_names = "GrayOut";
+        }
+        break;
+
+        default:
+        {
+            tag_names = "";
+        }
+        break;
+    }
+
+    return tag_names;
+}
+
+static inline const char * json_type_name_map_get_diagramelement_tags( const json_type_name_map_t *this_,
+                                                                       data_diagramelement_flag_t diagramelement_flag )
+{
+    const char * tag_names = "";
+
+    switch( (int_fast32_t) diagramelement_flag )
+    {
+        case DATA_DIAGRAMELEMENT_FLAG_EMPHASIS:
+        {
+            tag_names = "Emphasis";
+        }
+        break;
+
+        case DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT:
+        {
+            tag_names = "GrayOut";
+        }
+        break;
+
+        case DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE:
+        {
+            tag_names = "NamedInstance";
+        }
+        break;
+
+        case DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_EMPHASIS:
+        {
+            tag_names = "NamedInstance, Emphasis";
+        }
+        break;
+
+        case DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT:
+        {
+            tag_names = "NamedInstance, GrayOut";
+        }
+        break;
+
+        case DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE:
+        {
+            tag_names = "AnonymousInstance";
+        }
+        break;
+
+        case DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_EMPHASIS:
+        {
+            tag_names = "AnonymousInstance, Emphasis";
+        }
+        break;
+
+        case DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT:
+        {
+            tag_names = "AnonymousInstance, GrayOut";
+        }
+        break;
+
+        default:
+        {
+            tag_names = "";
+        }
+        break;
+    }
+
+    return tag_names;
 }
 
 

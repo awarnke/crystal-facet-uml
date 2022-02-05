@@ -16,6 +16,7 @@
         "id": 42,
         "parent_id": -1,
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "crystal-facet-uml Architecture",
         "description": [
                 "About this Document:\n",
@@ -48,6 +49,7 @@
         "parent_id": 42,
         "parent_name": "crystal-facet-uml Architecture",
         "diagram_type": 10,
+        "type": "UMLUseCaseDiagram",
         "name": "Introduction and Goals",
         "description": [
                 "crystal-facet-uml creates sysml\/uml diagrams to document system and software architecture.\n",
@@ -135,6 +137,7 @@
         "parent_id": 1,
         "parent_name": "Introduction and Goals",
         "diagram_type": 10,
+        "type": "UMLUseCaseDiagram",
         "name": "Use cases to address",
         "description": [
                 "This diagram lists the main features of crystal facet uml."
@@ -148,6 +151,7 @@
           {
             "id": 9,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 9,
             "classifier_name": "Show Classifiers",
             "focused_feature_id": -1,
@@ -157,6 +161,7 @@
           {
             "id": 10,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 10,
             "classifier_name": "Classifier is contained (child)",
             "focused_feature_id": -1,
@@ -175,6 +180,7 @@
           {
             "id": 12,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 12,
             "classifier_name": "Classifier has relations",
             "focused_feature_id": -1,
@@ -184,6 +190,7 @@
           {
             "id": 13,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 13,
             "classifier_name": "Mark Classifiers",
             "focused_feature_id": -1,
@@ -202,6 +209,7 @@
           {
             "id": 15,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 15,
             "classifier_name": "Classifier is implicit instance",
             "focused_feature_id": -1,
@@ -235,6 +243,7 @@
         "parent_id": 1,
         "parent_name": "Introduction and Goals",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Newly identified Use-Cases",
         "description": [
                 "During development, new use cases are identified."
@@ -293,6 +302,7 @@
           {
             "id": 537,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 347,
             "classifier_name": "Export (Model and\/or Diagrams)",
             "focused_feature_id": -1,
@@ -308,6 +318,7 @@
         "parent_id": 1,
         "parent_name": "Introduction and Goals",
         "diagram_type": 10,
+        "type": "UMLUseCaseDiagram",
         "name": "Import\/Sync Use Cases",
         "description": [
                 ""
@@ -363,6 +374,7 @@
         "parent_id": 42,
         "parent_name": "crystal-facet-uml Architecture",
         "diagram_type": 0,
+        "type": "CFUListDiagram",
         "name": "Constraints",
         "description": [
                 ""
@@ -409,6 +421,7 @@
         "parent_id": 33,
         "parent_name": "Constraints",
         "diagram_type": 33,
+        "type": "UMLPackageDiagram",
         "name": "UML\/SysML Overview",
         "description": [
                 "This diagram shows an overview on UML\n",
@@ -442,6 +455,7 @@
           {
             "id": 156,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 113,
             "classifier_name": "User Model (M1)",
             "focused_feature_id": -1,
@@ -451,6 +465,7 @@
           {
             "id": 157,
             "display_flags": 33554433,
+            "display_tags": "NamedInstance, GrayOut",
             "classifier_id": 114,
             "classifier_name": "Objects of Reality (M0)",
             "focused_feature_id": -1,
@@ -475,6 +490,7 @@
         "parent_id": 25,
         "parent_name": "UML\/SysML Overview",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "MOF Overview",
         "description": [
                 "This diagram shows a selection of MOF meta classes."
@@ -530,6 +546,7 @@
         "parent_id": 25,
         "parent_name": "UML\/SysML Overview",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "Base classes of UML ",
         "description": [
                 "This diagram shows the base classes of the UML "
@@ -588,6 +605,7 @@
           {
             "id": 181,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 125,
             "classifier_name": "UML::Classifier",
             "focused_feature_id": -1,
@@ -597,6 +615,7 @@
           {
             "id": 183,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 129,
             "classifier_name": "UML::Feature",
             "focused_feature_id": -1,
@@ -612,6 +631,7 @@
         "parent_id": 27,
         "parent_name": "Base classes of UML ",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "UML Classifier Ancestors",
         "description": [
                 "description: see http:\/\/www.omg.org\/spec\/UML\/2.5"
@@ -625,6 +645,7 @@
           {
             "id": 167,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 122,
             "classifier_name": "UML::TemplateableElement",
             "focused_feature_id": -1,
@@ -634,6 +655,7 @@
           {
             "id": 168,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 123,
             "classifier_name": "UML::Type",
             "focused_feature_id": -1,
@@ -643,6 +665,7 @@
           {
             "id": 169,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 124,
             "classifier_name": "UML::Namespace",
             "focused_feature_id": -1,
@@ -661,6 +684,7 @@
           {
             "id": 171,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 126,
             "classifier_name": "UML::RedefinableElement",
             "focused_feature_id": -1,
@@ -670,6 +694,7 @@
           {
             "id": 172,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 127,
             "classifier_name": "UML::NamedElement",
             "focused_feature_id": -1,
@@ -688,6 +713,7 @@
           {
             "id": 174,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 128,
             "classifier_name": "UML::PackageableElement",
             "focused_feature_id": -1,
@@ -703,6 +729,7 @@
         "parent_id": 28,
         "parent_name": "UML Classifier Ancestors",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "UML Structural Elements (Non-Classifiers)",
         "description": [
                 ""
@@ -716,6 +743,7 @@
           {
             "id": 367,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 128,
             "classifier_name": "UML::PackageableElement",
             "focused_feature_id": -1,
@@ -725,6 +753,7 @@
           {
             "id": 368,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 124,
             "classifier_name": "UML::Namespace",
             "focused_feature_id": -1,
@@ -734,6 +763,7 @@
           {
             "id": 369,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 122,
             "classifier_name": "UML::TemplateableElement",
             "focused_feature_id": -1,
@@ -752,6 +782,7 @@
           {
             "id": 371,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 127,
             "classifier_name": "UML::NamedElement",
             "focused_feature_id": -1,
@@ -770,6 +801,7 @@
           {
             "id": 373,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 254,
             "classifier_name": "UML::DeployedArtifact",
             "focused_feature_id": -1,
@@ -779,6 +811,7 @@
           {
             "id": 374,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 255,
             "classifier_name": "UML::DeploymentTarget",
             "focused_feature_id": -1,
@@ -803,6 +836,7 @@
         "parent_id": 28,
         "parent_name": "UML Classifier Ancestors",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "UML Structure: Classifier Descendants",
         "description": [
                 ""
@@ -834,6 +868,7 @@
           {
             "id": 198,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 138,
             "classifier_name": "UML::StructuredClassifier",
             "focused_feature_id": -1,
@@ -843,6 +878,7 @@
           {
             "id": 199,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 139,
             "classifier_name": "UML::EncapsulatedClassifier",
             "focused_feature_id": -1,
@@ -861,6 +897,7 @@
           {
             "id": 201,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 141,
             "classifier_name": "UML::BehavioredClassifier",
             "focused_feature_id": -1,
@@ -885,6 +922,7 @@
         "parent_id": 28,
         "parent_name": "UML Classifier Ancestors",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "UML Classifier Behavioral Descendants",
         "description": [
                 ""
@@ -907,6 +945,7 @@
           {
             "id": 215,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 144,
             "classifier_name": "UML::Behavior",
             "focused_feature_id": -1,
@@ -925,6 +964,7 @@
           {
             "id": 217,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 141,
             "classifier_name": "UML::BehavioredClassifier",
             "focused_feature_id": -1,
@@ -934,6 +974,7 @@
           {
             "id": 218,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 138,
             "classifier_name": "UML::StructuredClassifier",
             "focused_feature_id": -1,
@@ -943,6 +984,7 @@
           {
             "id": 219,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 139,
             "classifier_name": "UML::EncapsulatedClassifier",
             "focused_feature_id": -1,
@@ -979,6 +1021,7 @@
           {
             "id": 223,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 126,
             "classifier_name": "UML::RedefinableElement",
             "focused_feature_id": -1,
@@ -1003,6 +1046,7 @@
         "parent_id": 27,
         "parent_name": "Base classes of UML ",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "UML Feature Ancestors",
         "description": [
                 ""
@@ -1025,6 +1069,7 @@
           {
             "id": 176,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 126,
             "classifier_name": "UML::RedefinableElement",
             "focused_feature_id": -1,
@@ -1034,6 +1079,7 @@
           {
             "id": 177,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 127,
             "classifier_name": "UML::NamedElement",
             "focused_feature_id": -1,
@@ -1067,6 +1113,7 @@
         "parent_id": 29,
         "parent_name": "UML Feature Ancestors",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "UML Feature Descendants",
         "description": [
                 ""
@@ -1089,6 +1136,7 @@
           {
             "id": 184,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 130,
             "classifier_name": "UML::StructuralFeature",
             "focused_feature_id": -1,
@@ -1098,6 +1146,7 @@
           {
             "id": 185,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 131,
             "classifier_name": "UML::BehavioralFeature",
             "focused_feature_id": -1,
@@ -1125,6 +1174,7 @@
           {
             "id": 188,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 127,
             "classifier_name": "UML::NamedElement",
             "focused_feature_id": -1,
@@ -1158,6 +1208,7 @@
         "parent_id": 25,
         "parent_name": "UML\/SysML Overview",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "Selected classes of SysML",
         "description": [
                 ""
@@ -1195,6 +1246,7 @@
         "parent_id": 42,
         "parent_name": "crystal-facet-uml Architecture",
         "diagram_type": 33,
+        "type": "UMLPackageDiagram",
         "name": "Context And Scope",
         "description": [
                 ""
@@ -1349,6 +1401,7 @@
         "parent_id": 42,
         "parent_name": "crystal-facet-uml Architecture",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Solution Strategy",
         "description": [
                 "During operation, \n",
@@ -1415,6 +1468,7 @@
         "parent_id": 40,
         "parent_name": "Solution Strategy",
         "diagram_type": 11,
+        "type": "UMLActivityDiagram",
         "name": "Development View: Tools",
         "description": [
                 "This diagram shows the tools for designing, implementing, documenting, configuring and building the software."
@@ -1479,6 +1533,7 @@
         "parent_id": 42,
         "parent_name": "crystal-facet-uml Architecture",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Building Block View",
         "description": [
                 "This diagram shows the layering of the main software modules.\n",
@@ -1505,6 +1560,7 @@
           {
             "id": 1,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 1,
             "classifier_name": "gui",
             "focused_feature_id": -1,
@@ -1514,6 +1570,7 @@
           {
             "id": 2,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 2,
             "classifier_name": "pencil",
             "focused_feature_id": -1,
@@ -1523,6 +1580,7 @@
           {
             "id": 3,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 3,
             "classifier_name": "ctrl",
             "focused_feature_id": -1,
@@ -1532,6 +1590,7 @@
           {
             "id": 4,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 4,
             "classifier_name": "data\/storage",
             "focused_feature_id": -1,
@@ -1550,6 +1609,7 @@
           {
             "id": 286,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 195,
             "classifier_name": "io",
             "focused_feature_id": -1,
@@ -1559,6 +1619,7 @@
           {
             "id": 346,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 235,
             "classifier_name": "data",
             "focused_feature_id": -1,
@@ -1574,6 +1635,7 @@
         "parent_id": 2,
         "parent_name": "Building Block View",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "data: Black Box View",
         "description": [
                 ""
@@ -1611,6 +1673,7 @@
         "parent_id": 50,
         "parent_name": "data: Black Box View",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "data: White Box View",
         "description": [
                 "This diagram shows the main classes in the data package."
@@ -1675,6 +1738,7 @@
         "parent_id": 9,
         "parent_name": "data: White Box View",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "Database Structure",
         "description": [
                 "This diagram shows the tables and relationships of the database."
@@ -1688,6 +1752,7 @@
           {
             "id": 84,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 80,
             "classifier_name": "classifiers",
             "focused_feature_id": -1,
@@ -1697,6 +1762,7 @@
           {
             "id": 85,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 81,
             "classifier_name": "relationships",
             "focused_feature_id": -1,
@@ -1715,6 +1781,7 @@
           {
             "id": 87,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 83,
             "classifier_name": "features",
             "focused_feature_id": -1,
@@ -1733,6 +1800,7 @@
           {
             "id": 296,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 4,
             "classifier_name": "data\/storage",
             "focused_feature_id": -1,
@@ -1748,6 +1816,7 @@
         "parent_id": 9,
         "parent_name": "data: White Box View",
         "diagram_type": 9,
+        "type": "SysMLRequirementDiagram",
         "name": "JSON Storage Format",
         "description": [
                 ""
@@ -1875,6 +1944,7 @@
         "parent_id": 50,
         "parent_name": "data: Black Box View",
         "diagram_type": 13,
+        "type": "UMLInteractionDiagram\/sequence",
         "name": "data: Runtime View",
         "description": [
                 ""
@@ -1897,6 +1967,7 @@
           {
             "id": 353,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 242,
             "classifier_name": "thread-2",
             "focused_feature_id": 59,
@@ -1906,6 +1977,7 @@
           {
             "id": 355,
             "display_flags": 2,
+            "display_tags": "AnonymousInstance",
             "classifier_id": 37,
             "classifier_name": "data_database",
             "focused_feature_id": 61,
@@ -1915,6 +1987,7 @@
           {
             "id": 357,
             "display_flags": 2,
+            "display_tags": "AnonymousInstance",
             "classifier_id": 39,
             "classifier_name": "data_database _writer",
             "focused_feature_id": 63,
@@ -1924,6 +1997,7 @@
           {
             "id": 359,
             "display_flags": 1,
+            "display_tags": "NamedInstance",
             "classifier_id": 244,
             "classifier_name": "r1 :data_data base_reader",
             "focused_feature_id": 65,
@@ -1933,6 +2007,7 @@
           {
             "id": 360,
             "display_flags": 33554433,
+            "display_tags": "NamedInstance, GrayOut",
             "classifier_id": 245,
             "classifier_name": "r2 :data_data base_reader",
             "focused_feature_id": 66,
@@ -1948,6 +2023,7 @@
         "parent_id": 2,
         "parent_name": "Building Block View",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "ctrl: Black Box View",
         "description": [
                 ""
@@ -1970,6 +2046,7 @@
           {
             "id": 622,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 235,
             "classifier_name": "data",
             "focused_feature_id": -1,
@@ -1979,6 +2056,7 @@
           {
             "id": 623,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 4,
             "classifier_name": "data\/storage",
             "focused_feature_id": -1,
@@ -1994,6 +2072,7 @@
         "parent_id": 51,
         "parent_name": "ctrl: Black Box View",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "ctrl: White Box View",
         "description": [
                 "This diagram shows the main classes in the ctrl package."
@@ -2094,6 +2173,7 @@
         "parent_id": 2,
         "parent_name": "Building Block View",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "pencil: Black Box View",
         "description": [
                 ""
@@ -2116,6 +2196,7 @@
           {
             "id": 624,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 235,
             "classifier_name": "data",
             "focused_feature_id": -1,
@@ -2125,6 +2206,7 @@
           {
             "id": 625,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 4,
             "classifier_name": "data\/storage",
             "focused_feature_id": -1,
@@ -2140,6 +2222,7 @@
         "parent_id": 54,
         "parent_name": "pencil: Black Box View",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "pencil: White Box View",
         "description": [
                 "This diagram shows the main classes in the pencil package."
@@ -2207,6 +2290,7 @@
           {
             "id": 295,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 196,
             "classifier_name": "pencil.layout",
             "focused_feature_id": -1,
@@ -2216,6 +2300,7 @@
           {
             "id": 304,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 205,
             "classifier_name": "pencil.draw",
             "focused_feature_id": -1,
@@ -2231,6 +2316,7 @@
         "parent_id": 8,
         "parent_name": "pencil: White Box View",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "pencil detailed structure",
         "description": [
                 ""
@@ -2271,6 +2357,7 @@
           {
             "id": 135,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 35,
             "classifier_name": "data_visible_set",
             "focused_feature_id": -1,
@@ -2358,6 +2445,7 @@
         "parent_id": 8,
         "parent_name": "pencil: White Box View",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "pencil.layout package",
         "description": [
                 ""
@@ -2416,6 +2504,7 @@
           {
             "id": 300,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 80,
             "classifier_name": "classifiers",
             "focused_feature_id": -1,
@@ -2425,6 +2514,7 @@
           {
             "id": 301,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 83,
             "classifier_name": "features",
             "focused_feature_id": -1,
@@ -2434,6 +2524,7 @@
           {
             "id": 302,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 81,
             "classifier_name": "relationships",
             "focused_feature_id": -1,
@@ -2443,6 +2534,7 @@
           {
             "id": 303,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 204,
             "classifier_name": "visible_classifier",
             "focused_feature_id": -1,
@@ -2458,6 +2550,7 @@
         "parent_id": 54,
         "parent_name": "pencil: Black Box View",
         "diagram_type": 11,
+        "type": "UMLActivityDiagram",
         "name": "pencil: Runtime View",
         "description": [
                 "This diagram shows the different entry points for layouting and rendering a diagram."
@@ -2525,6 +2618,7 @@
           {
             "id": 459,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 312,
             "classifier_name": "pencil::activities",
             "focused_feature_id": -1,
@@ -2540,6 +2634,7 @@
         "parent_id": 64,
         "parent_name": "pencil: Runtime View",
         "diagram_type": 11,
+        "type": "UMLActivityDiagram",
         "name": "Layouting Steps",
         "description": [
                 ""
@@ -2634,6 +2729,7 @@
           {
             "id": 544,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 358,
             "classifier_name": "Layouting Algorithm",
             "focused_feature_id": -1,
@@ -2649,6 +2745,7 @@
         "parent_id": 54,
         "parent_name": "pencil: Black Box View",
         "diagram_type": 11,
+        "type": "UMLActivityDiagram",
         "name": "pencil: Crosscutting Concepts",
         "description": [
                 "Whenever one of several layouting solutions shall be selected, the following algorithm applies."
@@ -2731,6 +2828,7 @@
         "parent_id": 2,
         "parent_name": "Building Block View",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "io: Black Box View",
         "description": [
                 "The io module imports and exports data and diagrams.\n",
@@ -2754,6 +2852,7 @@
           {
             "id": 626,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 2,
             "classifier_name": "pencil",
             "focused_feature_id": -1,
@@ -2763,6 +2862,7 @@
           {
             "id": 627,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 235,
             "classifier_name": "data",
             "focused_feature_id": -1,
@@ -2772,6 +2872,7 @@
           {
             "id": 628,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 4,
             "classifier_name": "data\/storage",
             "focused_feature_id": -1,
@@ -2787,6 +2888,7 @@
         "parent_id": 53,
         "parent_name": "io: Black Box View",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "io: White Box View",
         "description": [
                 "This component implements input output functionality, currently:\n",
@@ -2852,6 +2954,7 @@
         "parent_id": 46,
         "parent_name": "io: White Box View",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "io_export components",
         "description": [
                 ""
@@ -2961,6 +3064,7 @@
         "parent_id": 53,
         "parent_name": "io: Black Box View",
         "diagram_type": 14,
+        "type": "UMLInteractionDiagram\/communication",
         "name": "io: Runtime View",
         "description": [
                 "The io_exporter sets up the data pipe"
@@ -3010,6 +3114,7 @@
           {
             "id": 446,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 208,
             "classifier_name": "io_exporter",
             "focused_feature_id": 81,
@@ -3034,6 +3139,7 @@
         "parent_id": 2,
         "parent_name": "Building Block View",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "gui: Black Box View",
         "description": [
                 ""
@@ -3056,6 +3162,7 @@
           {
             "id": 629,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 2,
             "classifier_name": "pencil",
             "focused_feature_id": -1,
@@ -3065,6 +3172,7 @@
           {
             "id": 630,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 3,
             "classifier_name": "ctrl",
             "focused_feature_id": -1,
@@ -3080,6 +3188,7 @@
         "parent_id": 52,
         "parent_name": "gui: Black Box View",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "gui: White Box View",
         "description": [
                 "This diagram shows the main classes in the gui package."
@@ -3102,6 +3211,7 @@
           {
             "id": 45,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 45,
             "classifier_name": "gui_window_manager",
             "focused_feature_id": -1,
@@ -3162,6 +3272,7 @@
         "parent_id": 11,
         "parent_name": "gui: White Box View",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "gui search blocks",
         "description": [
                 ""
@@ -3226,6 +3337,7 @@
         "parent_id": 11,
         "parent_name": "gui: White Box View",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "gui event notifications",
         "description": [
                 ""
@@ -3299,6 +3411,7 @@
         "parent_id": 52,
         "parent_name": "gui: Black Box View",
         "diagram_type": 11,
+        "type": "UMLActivityDiagram",
         "name": "gui: Runtime View",
         "description": [
                 ""
@@ -3354,6 +3467,7 @@
         "parent_id": 62,
         "parent_name": "gui: Runtime View",
         "diagram_type": 13,
+        "type": "UMLInteractionDiagram\/sequence",
         "name": "gui search sequence",
         "description": [
                 ""
@@ -3427,6 +3541,7 @@
         "parent_id": 52,
         "parent_name": "gui: Black Box View",
         "diagram_type": 12,
+        "type": "UMLStateMachineDiagram",
         "name": "gui: Crosscutting Concepts",
         "description": [
                 ""
@@ -3500,6 +3615,7 @@
         "parent_id": 2,
         "parent_name": "Building Block View",
         "diagram_type": 33,
+        "type": "UMLPackageDiagram",
         "name": "Utilities Overview",
         "description": [
                 "This diagram shows small utility modules."
@@ -3654,6 +3770,7 @@
         "parent_id": 6,
         "parent_name": "Utilities Overview",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "universal: WhiteBox View",
         "description": [
                 ""
@@ -3763,6 +3880,7 @@
         "parent_id": 72,
         "parent_name": "universal: WhiteBox View",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Stream",
         "description": [
                 ""
@@ -3863,6 +3981,7 @@
         "parent_id": 2,
         "parent_name": "Building Block View",
         "diagram_type": 33,
+        "type": "UMLPackageDiagram",
         "name": "External Libraries",
         "description": [
                 "This diagram shows the base libraries.\n",
@@ -3895,6 +4014,7 @@
           {
             "id": 26,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 26,
             "classifier_name": "glib",
             "focused_feature_id": -1,
@@ -3904,6 +4024,7 @@
           {
             "id": 27,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 27,
             "classifier_name": "gdk",
             "focused_feature_id": -1,
@@ -3913,6 +4034,7 @@
           {
             "id": 28,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 28,
             "classifier_name": "cairo",
             "focused_feature_id": -1,
@@ -3922,6 +4044,7 @@
           {
             "id": 29,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 29,
             "classifier_name": "pango",
             "focused_feature_id": -1,
@@ -3931,6 +4054,7 @@
           {
             "id": 347,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 236,
             "classifier_name": "atk",
             "focused_feature_id": -1,
@@ -3940,6 +4064,7 @@
           {
             "id": 348,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 237,
             "classifier_name": "gio",
             "focused_feature_id": -1,
@@ -3955,6 +4080,7 @@
         "parent_id": 2,
         "parent_name": "Building Block View",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "test_fw: Black Box View",
         "description": [
                 "This diagram shows the sw-components involved in unit-testing."
@@ -4055,6 +4181,7 @@
         "parent_id": 5,
         "parent_name": "test_fw: Black Box View",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "test_fw: White Box View",
         "description": [
                 ""
@@ -4113,6 +4240,7 @@
           {
             "id": 340,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 231,
             "classifier_name": "test_fixture",
             "focused_feature_id": -1,
@@ -4128,6 +4256,7 @@
         "parent_id": 42,
         "parent_name": "crystal-facet-uml Architecture",
         "diagram_type": 11,
+        "type": "UMLActivityDiagram",
         "name": "Runtime View",
         "description": [
                 "This diagram depicts the run modes of the software."
@@ -4204,6 +4333,7 @@
           {
             "id": 460,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 313,
             "classifier_name": "runmodes",
             "focused_feature_id": -1,
@@ -4219,6 +4349,7 @@
         "parent_id": 42,
         "parent_name": "crystal-facet-uml Architecture",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Deployment View",
         "description": [
                 ""
@@ -4310,6 +4441,7 @@
         "parent_id": 42,
         "parent_name": "crystal-facet-uml Architecture",
         "diagram_type": 1,
+        "type": "CFUBoxDiagram",
         "name": "Crosscutting Concepts",
         "description": [
                 "This chapter shows concepts\n",
@@ -4340,6 +4472,7 @@
         "parent_id": 39,
         "parent_name": "Crosscutting Concepts",
         "diagram_type": 9,
+        "type": "SysMLRequirementDiagram",
         "name": "Assert",
         "description": [
                 ""
@@ -4404,6 +4537,7 @@
         "parent_id": 39,
         "parent_name": "Crosscutting Concepts",
         "diagram_type": 9,
+        "type": "SysMLRequirementDiagram",
         "name": "Log, Trace",
         "description": [
                 ""
@@ -4459,6 +4593,7 @@
         "parent_id": 39,
         "parent_name": "Crosscutting Concepts",
         "diagram_type": 9,
+        "type": "SysMLRequirementDiagram",
         "name": "Memory Management",
         "description": [
                 ""
@@ -4523,6 +4658,7 @@
         "parent_id": 39,
         "parent_name": "Crosscutting Concepts",
         "diagram_type": 10,
+        "type": "UMLUseCaseDiagram",
         "name": "Error Propagation",
         "description": [
                 ""
@@ -4560,6 +4696,7 @@
         "parent_id": 59,
         "parent_name": "Error Propagation",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "Top Level Errors",
         "description": [
                 ""
@@ -4660,6 +4797,7 @@
         "parent_id": 59,
         "parent_name": "Error Propagation",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "Logic Errors",
         "description": [
                 ""
@@ -4733,6 +4871,7 @@
         "parent_id": 59,
         "parent_name": "Error Propagation",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "Operations Error",
         "description": [
                 ""
@@ -4824,6 +4963,7 @@
         "parent_id": 59,
         "parent_name": "Error Propagation",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "User Errors",
         "description": [
                 ""
@@ -4906,6 +5046,7 @@
         "parent_id": 42,
         "parent_name": "crystal-facet-uml Architecture",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "Architectural Decisions",
         "description": [
                 "This diagram shows which major design decisions were taken."
@@ -4919,6 +5060,7 @@
           {
             "id": 89,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 85,
             "classifier_name": "Question, Alternatives, selected Decision",
             "focused_feature_id": -1,
@@ -4970,6 +5112,7 @@
         "parent_id": 16,
         "parent_name": "Architectural Decisions",
         "diagram_type": 9,
+        "type": "SysMLRequirementDiagram",
         "name": "Alternatives on persistent Data Storage",
         "description": [
                 "This diagram shows fundamental design decisions of the crystal-facet-uml architecture."
@@ -4983,6 +5126,7 @@
           {
             "id": 78,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 74,
             "classifier_name": "XML DB",
             "focused_feature_id": -1,
@@ -5001,6 +5145,7 @@
           {
             "id": 80,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 76,
             "classifier_name": "Json DB",
             "focused_feature_id": -1,
@@ -5019,6 +5164,7 @@
           {
             "id": 82,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 78,
             "classifier_name": "Key-Value Pairs DB",
             "focused_feature_id": -1,
@@ -5028,6 +5174,7 @@
           {
             "id": 83,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 79,
             "classifier_name": "SQLite is chosen",
             "focused_feature_id": -1,
@@ -5037,6 +5184,7 @@
           {
             "id": 546,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 360,
             "classifier_name": "Json as second\/optional storage format",
             "focused_feature_id": -1,
@@ -5052,6 +5200,7 @@
         "parent_id": 16,
         "parent_name": "Architectural Decisions",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "Alternatives on data structure of UML-Model",
         "description": [
                 ""
@@ -5083,6 +5232,7 @@
           {
             "id": 99,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 89,
             "classifier_name": "Copy of the OMG UML Defintion Model",
             "focused_feature_id": -1,
@@ -5092,6 +5242,7 @@
           {
             "id": 106,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 91,
             "classifier_name": "Simple structure is chosen",
             "focused_feature_id": -1,
@@ -5107,6 +5258,7 @@
         "parent_id": 17,
         "parent_name": "Alternatives on data structure of UML-Model",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "Details on simple data structure",
         "description": [
                 "This diagram shows the data structure of the \"Simple data structure\" alternative."
@@ -5162,6 +5314,7 @@
         "parent_id": 16,
         "parent_name": "Architectural Decisions",
         "diagram_type": 33,
+        "type": "UMLPackageDiagram",
         "name": "Alternatives on UML-Model selection for Diagram",
         "description": [
                 ""
@@ -5184,6 +5337,7 @@
           {
             "id": 105,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 90,
             "classifier_name": "Classifier selection defines view",
             "focused_feature_id": -1,
@@ -5193,6 +5347,7 @@
           {
             "id": 107,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 92,
             "classifier_name": "Classifier or Relationship selection def. view",
             "focused_feature_id": -1,
@@ -5202,6 +5357,7 @@
           {
             "id": 111,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 96,
             "classifier_name": "Diagrams have filters",
             "focused_feature_id": -1,
@@ -5211,6 +5367,7 @@
           {
             "id": 112,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 97,
             "classifier_name": "Classifier+Lifeline solution is chosen",
             "focused_feature_id": -1,
@@ -5235,6 +5392,7 @@
         "parent_id": 18,
         "parent_name": "Alternatives on UML-Model selection for Diagram",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "Details on Classifier or Relationship Sel.",
         "description": [
                 "Depending on the diagram type, selection of contents is done on classifiers or relationships."
@@ -5248,6 +5406,7 @@
           {
             "id": 113,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 81,
             "classifier_name": "relationships",
             "focused_feature_id": -1,
@@ -5257,6 +5416,7 @@
           {
             "id": 114,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 80,
             "classifier_name": "classifiers",
             "focused_feature_id": -1,
@@ -5266,6 +5426,7 @@
           {
             "id": 115,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 83,
             "classifier_name": "features",
             "focused_feature_id": -1,
@@ -5275,6 +5436,7 @@
           {
             "id": 116,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 84,
             "classifier_name": "diagrams",
             "focused_feature_id": -1,
@@ -5284,6 +5446,7 @@
           {
             "id": 117,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 82,
             "classifier_name": "diagramelements",
             "focused_feature_id": -1,
@@ -5293,6 +5456,7 @@
           {
             "id": 120,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 95,
             "classifier_name": "diagramrelationships",
             "focused_feature_id": -1,
@@ -5317,6 +5481,7 @@
         "parent_id": 18,
         "parent_name": "Alternatives on UML-Model selection for Diagram",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "Details on Classifier Selected View",
         "description": [
                 "The simple solution is to not implement special mechanisms\n",
@@ -5334,6 +5499,7 @@
           {
             "id": 126,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 90,
             "classifier_name": "Classifier selection defines view",
             "focused_feature_id": -1,
@@ -5343,6 +5509,7 @@
           {
             "id": 128,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 84,
             "classifier_name": "diagrams",
             "focused_feature_id": -1,
@@ -5352,6 +5519,7 @@
           {
             "id": 129,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 81,
             "classifier_name": "relationships",
             "focused_feature_id": -1,
@@ -5361,6 +5529,7 @@
           {
             "id": 130,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 80,
             "classifier_name": "classifiers",
             "focused_feature_id": -1,
@@ -5370,6 +5539,7 @@
           {
             "id": 131,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 83,
             "classifier_name": "features",
             "focused_feature_id": -1,
@@ -5379,6 +5549,7 @@
           {
             "id": 225,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 152,
             "classifier_name": "diagramelements_simple",
             "focused_feature_id": -1,
@@ -5394,6 +5565,7 @@
         "parent_id": 18,
         "parent_name": "Alternatives on UML-Model selection for Diagram",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "Classifier and Port\/Lifeline selection def view",
         "description": [
                 "This (finally chosen and implemented) solution\n",
@@ -5421,6 +5593,7 @@
           {
             "id": 146,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 80,
             "classifier_name": "classifiers",
             "focused_feature_id": -1,
@@ -5439,6 +5612,7 @@
           {
             "id": 148,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 84,
             "classifier_name": "diagrams",
             "focused_feature_id": -1,
@@ -5448,6 +5622,7 @@
           {
             "id": 149,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 82,
             "classifier_name": "diagramelements",
             "focused_feature_id": -1,
@@ -5463,6 +5638,7 @@
         "parent_id": 16,
         "parent_name": "Architectural Decisions",
         "diagram_type": 10,
+        "type": "UMLUseCaseDiagram",
         "name": "Alternatives on XMI export\/model traverse",
         "description": [
                 ""
@@ -5485,6 +5661,7 @@
           {
             "id": 429,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 299,
             "classifier_name": "same as doc export is chosen in 1.23.0",
             "focused_feature_id": -1,
@@ -5512,6 +5689,7 @@
           {
             "id": 461,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 314,
             "classifier_name": "classifier list is iterated in 1.24.0",
             "focused_feature_id": -1,
@@ -5527,6 +5705,7 @@
         "parent_id": 70,
         "parent_name": "Alternatives on XMI export\/model traverse",
         "diagram_type": 10,
+        "type": "UMLUseCaseDiagram",
         "name": "Interaction Diagrams",
         "description": [
                 ""
@@ -5540,6 +5719,7 @@
           {
             "id": 462,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 301,
             "classifier_name": "sort classifiers by number of parents",
             "focused_feature_id": -1,
@@ -5576,6 +5756,7 @@
           {
             "id": 466,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 318,
             "classifier_name": "planned solution",
             "focused_feature_id": -1,
@@ -5591,6 +5772,7 @@
         "parent_id": 42,
         "parent_name": "crystal-facet-uml Architecture",
         "diagram_type": 9,
+        "type": "SysMLRequirementDiagram",
         "name": "Quality Requirements",
         "description": [
                 ""
@@ -5646,6 +5828,7 @@
         "parent_id": 38,
         "parent_name": "Quality Requirements",
         "diagram_type": 0,
+        "type": "CFUListDiagram",
         "name": "Quality Tree",
         "description": [
                 "This section shows quality requirements (structured into a quality tree)"
@@ -5692,6 +5875,7 @@
         "parent_id": 76,
         "parent_name": "Quality Tree",
         "diagram_type": 9,
+        "type": "SysMLRequirementDiagram",
         "name": "Performance Efficiency (Time+Resource)",
         "description": [
                 ""
@@ -5747,6 +5931,7 @@
         "parent_id": 67,
         "parent_name": "Performance Efficiency (Time+Resource)",
         "diagram_type": 9,
+        "type": "SysMLRequirementDiagram",
         "name": "Reliability in Low-Memory Situations",
         "description": [
                 ""
@@ -5769,6 +5954,7 @@
           {
             "id": 502,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 288,
             "classifier_name": "Degradation Mode Scenario",
             "focused_feature_id": -1,
@@ -5823,6 +6009,7 @@
           {
             "id": 512,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 344,
             "classifier_name": "Other operations shall work reliable if OOM",
             "focused_feature_id": -1,
@@ -5838,6 +6025,7 @@
         "parent_id": 76,
         "parent_name": "Quality Tree",
         "diagram_type": 9,
+        "type": "SysMLRequirementDiagram",
         "name": "Usability (Attactiveness,...)",
         "description": [
                 ""
@@ -5866,6 +6054,7 @@
         "parent_id": 76,
         "parent_name": "Quality Tree",
         "diagram_type": 9,
+        "type": "SysMLRequirementDiagram",
         "name": "Compatibility (Replace,Interop.,...)",
         "description": [
                 ""
@@ -5903,6 +6092,7 @@
         "parent_id": 38,
         "parent_name": "Quality Requirements",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Quality Scenarios",
         "description": [
                 "This section shows scenarios which are of special importance for the quallity requirements stated in D0076#name."
@@ -5985,6 +6175,7 @@
         "parent_id": 77,
         "parent_name": "Quality Scenarios",
         "diagram_type": 9,
+        "type": "SysMLRequirementDiagram",
         "name": "Program Start and About Window",
         "description": [
                 ""
@@ -6022,6 +6213,7 @@
         "parent_id": 77,
         "parent_name": "Quality Scenarios",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Open a Model Database",
         "description": [
                 ""
@@ -6050,6 +6242,7 @@
         "parent_id": 77,
         "parent_name": "Quality Scenarios",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Export Database Model \/ Diagrams",
         "description": [
                 ""
@@ -6078,6 +6271,7 @@
         "parent_id": 77,
         "parent_name": "Quality Scenarios",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Navigate and Search and Open multiple Windows",
         "description": [
                 ""
@@ -6133,6 +6327,7 @@
         "parent_id": 77,
         "parent_name": "Quality Scenarios",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Modify \/ Create \/ Delete Diagrams and Elements",
         "description": [
                 ""
@@ -6161,6 +6356,7 @@
         "parent_id": 77,
         "parent_name": "Quality Scenarios",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Undo and Redo",
         "description": [
                 ""
@@ -6198,6 +6394,7 @@
         "parent_id": 77,
         "parent_name": "Quality Scenarios",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Check and Repair Database",
         "description": [
                 ""
@@ -6226,6 +6423,7 @@
         "parent_id": 42,
         "parent_name": "crystal-facet-uml Architecture",
         "diagram_type": 0,
+        "type": "CFUListDiagram",
         "name": "Risks and Technical Debt",
         "description": [
                 ""
@@ -6263,6 +6461,7 @@
         "parent_id": 42,
         "parent_name": "crystal-facet-uml Architecture",
         "diagram_type": 1,
+        "type": "CFUBoxDiagram",
         "name": "Glossary",
         "description": [
                 ""
@@ -6294,6 +6493,7 @@
           {
             "id": 351,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 240,
             "classifier_name": "Structure",
             "focused_feature_id": -1,
@@ -6318,6 +6518,7 @@
         "parent_id": 36,
         "parent_name": "Glossary",
         "diagram_type": 0,
+        "type": "CFUListDiagram",
         "name": "GUI Terms",
         "description": [
                 ""
@@ -6364,6 +6565,7 @@
         "parent_id": 43,
         "parent_name": "GUI Terms",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "Pencil Terms",
         "description": [
                 "This diagram explains terms used mainly in pencil module."
@@ -6437,6 +6639,7 @@
         "parent_id": 43,
         "parent_name": "GUI Terms",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "GUI\/Pencil Terms",
         "description": [
                 ""
@@ -6468,6 +6671,7 @@
           {
             "id": 496,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 327,
             "classifier_name": "icon",
             "focused_feature_id": -1,
@@ -6477,6 +6681,7 @@
           {
             "id": 497,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 329,
             "classifier_name": "label",
             "focused_feature_id": -1,
@@ -6486,6 +6691,7 @@
           {
             "id": 500,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 334,
             "classifier_name": "space",
             "focused_feature_id": -1,
@@ -6501,6 +6707,7 @@
         "parent_id": 36,
         "parent_name": "Glossary",
         "diagram_type": 0,
+        "type": "CFUListDiagram",
         "name": "Code Terms",
         "description": [
                 ""
@@ -6547,6 +6754,7 @@
         "parent_id": 36,
         "parent_name": "Glossary",
         "diagram_type": 0,
+        "type": "CFUListDiagram",
         "name": "Database Terms",
         "description": [
                 ""

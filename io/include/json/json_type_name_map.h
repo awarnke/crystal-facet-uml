@@ -15,6 +15,8 @@
 #include "data_classifier.h"
 #include "data_feature.h"
 #include "data_relationship.h"
+#include "data_diagramelement_flag.h"
+#include "data_diagram_flag.h"
 
 /*!
  *  \brief attributes of the json_type_name_map
@@ -85,11 +87,33 @@ static inline const char * json_type_name_map_get_relationship_type ( const json
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_type id for which to select the name
- *  \return type name of classifier_type id; empty string if the id is unknown
+ *  \return type name of diagram_type id; empty string if the id is unknown
  */
 static inline const char * json_type_name_map_get_diagram_type ( const json_type_name_map_t *this_,
                                                                  data_diagram_type_t diagram_type
                                                                );
+
+/*!
+ *  \brief gets the tag name of the data_diagram_flag_t.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_flag flags for which to select the name
+ *  \return tag names of diagram_flag id; empty string if the id is unknown
+ */
+static inline const char * json_type_name_map_get_diagram_tags ( const json_type_name_map_t *this_,
+                                                                 data_diagram_flag_t diagram_flag
+                                                               );
+
+/*!
+ *  \brief gets the tag name of the data_diagramelement_flag_t.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagramelement_flag flags for which to select the name
+ *  \return tag names of diagramelement_flag id; empty string if the id is unknown
+ */
+static inline const char * json_type_name_map_get_diagramelement_tags ( const json_type_name_map_t *this_,
+                                                                        data_diagramelement_flag_t diagramelement_flag
+                                                                      );
 
 #include "json_type_name_map.inl"
 
