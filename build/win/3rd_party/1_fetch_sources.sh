@@ -19,9 +19,8 @@ fi
 
 if test ! -f glib* ; then
     echo "fetching glib"
-    wget https://download.gnome.org/sources/glib/2.69/glib-2.69.0.tar.xz
+    wget https://download.gnome.org/sources/glib/2.71/glib-2.71.0.tar.xz
     # Alternative may be here: http://www.gtk.org/
-    # Note: Newer glib versions may be incompatible to older gcc versions
 fi
 
 if test ! -f gtk* ; then

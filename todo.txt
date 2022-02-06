@@ -30,7 +30,6 @@ ideas for future versions:
   [ ] xmi export: improve error message if exported file exists and is read-only
   [ ] uuid are preserved at json import. It is not checked if these uuids are unique in _all_ tables.
   [ ] json import: check if the input bytes are valid utf8 characters
-  [ ] json export: add names of linked objects and human readable enums for understandability
   [ ] json export declares "type": "ActivityFinalNode" even if type is state-final
   [ ] json export declares "type": "DecisionNode" even if type is ChoiceNode (statemachine)
   [ ] json export: determining if statemachine_context - is a good guess but not 100% correct

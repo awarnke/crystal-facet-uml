@@ -20,10 +20,14 @@ cd src/libffi-3*
     make install >> ../../log_ffi.txt 2>&1
 cd ../..
 
+export CFLAGS=-I/usr/x86_64-w64-mingw32/include" "-I`pwd`/my_usr/include/
+export CXXFLAGS=-I/usr/x86_64-w64-mingw32/include" "-I`pwd`/my_usr/include/
+export LDFLAGS=-L`pwd`/../../my_usr/lib" "-L`pwd`/my_usr/lib64
+
 echo "building gettext..."
 cd src/gettext-0*
-    export CFLAGS=-I`pwd`/../../my_usr/include/" "-I/usr/x86_64-w64-mingw32/include
-    export LDFLAGS=-L`pwd`/../../my_usr/lib" "-L`pwd`/../../my_usr/lib64
+    # fix the ruby formatsting problem in this version:
+    sed -i -e 's/\&formatstring_ruby,/\&formatstring_php,/' gettext-tools/src/format.c
     ./configure --host=x86_64-w64-mingw32 --enable-relocatable --prefix=`pwd`/../../my_usr --disable-rpath --disable-libasprintf --disable-java --disable-native-java --disable-openmp --disable-curses > ../../log_gettext.txt 2>&1
     make >> ../../log_gettext.txt 2>&1
     make install >> ../../log_gettext.txt 2>&1
@@ -32,8 +36,12 @@ cd ../..
 echo "building glib..."
 echo "you possibly need to install a couple of packages like meson, ninja, mingw64-cross-gcc-c++, ..."
 cd src/glib-2*
+    # fix the preprocessor concatenation problem in this version:
+    sed -i -e 's/(G_GNUC_EXTENSION(val ##ULL))/val ## ULL/' glib/glibconfig.h.in
     meson setup . builddir --cross-file ../../cross_file.txt > ../../log_glib.txt 2>&1
     cd builddir
+        # gio tests do not work in my cross build environment:
+        meson configure -Dtests=false >> ../../log_glib.txt 2>&1
         meson compile >> ../../log_glib.txt 2>&1
         meson install >> ../../log_glib.txt 2>&1
         # see ../3rd_party/src/glib-2.9.6/docs/reference/glib/html/glib-cross-compiling.html
