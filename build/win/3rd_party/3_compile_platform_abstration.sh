@@ -26,7 +26,7 @@ export LDFLAGS=-L`pwd`/../../my_usr/lib" "-L`pwd`/my_usr/lib64
 
 echo "building gettext..."
 cd src/gettext-0*
-    # fix the ruby formatsting problem in this version:
+    # fix the ruby formatstring problem in this version:
     sed -i -e 's/\&formatstring_ruby,/\&formatstring_php,/' gettext-tools/src/format.c
     ./configure --host=x86_64-w64-mingw32 --enable-relocatable --prefix=`pwd`/../../my_usr --disable-rpath --disable-libasprintf --disable-java --disable-native-java --disable-openmp --disable-curses > ../../log_gettext.txt 2>&1
     make >> ../../log_gettext.txt 2>&1
@@ -37,7 +37,7 @@ echo "building glib..."
 echo "you possibly need to install a couple of packages like meson, ninja, mingw64-cross-gcc-c++, ..."
 cd src/glib-2*
     # fix the preprocessor concatenation problem in this version:
-    sed -i -e 's/(G_GNUC_EXTENSION(val ##ULL))/val ## ULL/' glib/glibconfig.h.in
+    sed -i -e 's/@guint64_constant@/(val ## ULL)/' glib/glibconfig.h.in
     meson setup . builddir --cross-file ../../cross_file.txt > ../../log_glib.txt 2>&1
     cd builddir
         # gio tests do not work in my cross build environment:
@@ -53,6 +53,7 @@ cd ../..
 # 1) http://www.tarnyko.net/repo/gtk3_build_system/gtk+-bundle_3.6.4-20130513_win64.zip
 #    folder: src/tarnyko/scripts/ (2013-2022)
 # 2) https://zwyuan.github.io/2016/07/17/cross-compile-glib-for-android/ (2016-2022)
+# 3) https://mesonbuild.com/Cross-compilation.html (2018-2022)
 
 
 # Copyright 2022-2022 Andreas Warnke
