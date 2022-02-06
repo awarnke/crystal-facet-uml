@@ -41,9 +41,9 @@ cd src/glib-2*
     meson setup . builddir --cross-file ../../cross_file.txt > ../../log_glib.txt 2>&1
     cd builddir
         # gio tests do not work in my cross build environment:
-        meson configure -Dtests=false >> ../../log_glib.txt 2>&1
-        meson compile >> ../../log_glib.txt 2>&1
-        meson install >> ../../log_glib.txt 2>&1
+        meson configure -Dtests=false >> ../../../log_glib.txt 2>&1
+        meson compile >> ../../../log_glib.txt 2>&1
+        meson install --destdir=../../../my_usr >> ../../../log_glib.txt 2>&1
         # see ../3rd_party/src/glib-2.9.6/docs/reference/glib/html/glib-cross-compiling.html
     cd ..
 cd ../..
