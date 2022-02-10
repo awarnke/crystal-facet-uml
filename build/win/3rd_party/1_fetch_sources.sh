@@ -39,14 +39,19 @@ if test ! -f pango* ; then
     wget https://download.gnome.org/sources/pango/1.50/pango-1.50.3.tar.xz
 fi
 
-if test ! -f rcairo* ; then
+if test ! -f cairo* ; then
     echo "fetching cairo"
-    wget https://www.cairographics.org/releases/rcairo-1.17.4.tar.gz
+    wget https://www.cairographics.org/releases/cairo-1.16.0.tar.xz
 fi
 
 if test ! -f pixman* ; then
     echo "fetching pixman"
     wget https://www.cairographics.org/releases/pixman-0.40.0.tar.gz
+fi
+
+if test ! -f expat* ; then
+    echo "fetching expat"
+    wget https://github.com/libexpat/libexpat/releases/download/R_2_4_4/expat-2.4.4.tar.xz
 fi
 
 if test ! -f fontconfig* ; then

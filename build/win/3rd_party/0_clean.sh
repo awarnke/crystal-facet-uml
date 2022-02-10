@@ -1,6 +1,7 @@
 #!/bin/sh
 rm -fr src/
-rm -fr my_usr/
+rm -fr ../root/
+rm -fr log_*.txt
 echo "to clean up also the downloaded archives, type: rm -fr packed_src/"
 
 

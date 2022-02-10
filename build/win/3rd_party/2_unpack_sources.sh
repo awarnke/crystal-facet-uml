@@ -2,8 +2,8 @@
 mkdir -p src
 cd src
 
-ls -1 ../packed_src/*.tar.xz | xargs -n 1 tar --xz -xf
-ls -1 ../packed_src/*.tar.gz | xargs -n 1 tar -xzf
+ls -1 ../packed_src/*.tar.xz | xargs -n 1 tar --xz --verbose -xf
+ls -1 ../packed_src/*.tar.gz | xargs -n 1 tar --verbose -xzf
 ls -1 ../packed_src/*.zip | xargs -n 1 unzip
 
 cd ..

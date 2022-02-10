@@ -1,5 +1,10 @@
 #!/bin/sh
-mkdir -p my_usr
+cd ..
+mkdir -p root/usr/local
+HOST_ROOT=`pwd`/root
+PREFIX=`pwd`/root/usr/local
+cd 3rd_party
+LOG_DIR=`pwd`
 
 # host is the prefix of the compiler executables
 
@@ -7,43 +12,47 @@ echo "possibly some tools need to be installed first:"
 echo "sudo zypper install meson ninja mingw64-cross-pkgconf mingw64-cross-gcc"
 
 echo "building libiconv..."
+LOGFILE=${LOG_DIR}/log_iconv.txt
 cd src/libiconv-1*
-    ./configure --host=x86_64-w64-mingw32 --enable-relocatable --prefix=`pwd`/../../my_usr --disable-rpath --enable-static-pie > ../../log_iconv.txt 2>&1
-    make >> ../../log_iconv.txt 2>&1
-    make install >> ../../log_iconv.txt 2>&1
+    ./configure --host=x86_64-w64-mingw32 --enable-relocatable --prefix=${PREFIX} --disable-rpath --enable-static-pie > ${LOGFILE} 2>&1
+    make >> ${LOGFILE} 2>&1
+    make install >> ${LOGFILE} 2>&1
 cd ../..
 
 echo "building libffi..."
+LOGFILE=${LOG_DIR}/log_ffi.txt
 cd src/libffi-3*
-    ./configure --host=x86_64-w64-mingw32 --prefix=`pwd`/../../my_usr --enable-static > ../../log_ffi.txt 2>&1
-    make >> ../../log_ffi.txt 2>&1
-    make install >> ../../log_ffi.txt 2>&1
+    ./configure --host=x86_64-w64-mingw32 --prefix=${PREFIX} --enable-static > ${LOGFILE} 2>&1
+    make >> ${LOGFILE} 2>&1
+    make install >> ${LOGFILE} 2>&1
 cd ../..
 
-export CFLAGS=-I/usr/x86_64-w64-mingw32/include" "-I`pwd`/my_usr/include/
-export CXXFLAGS=-I/usr/x86_64-w64-mingw32/include" "-I`pwd`/my_usr/include/
-export LDFLAGS=-L`pwd`/../../my_usr/lib" "-L`pwd`/my_usr/lib64
+export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
+export CXXFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
+export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64"
 
 echo "building gettext..."
+LOGFILE=${LOG_DIR}/log_gettext.txt
 cd src/gettext-0*
     # fix the ruby formatstring problem in this version:
     sed -i -e 's/\&formatstring_ruby,/\&formatstring_php,/' gettext-tools/src/format.c
-    ./configure --host=x86_64-w64-mingw32 --enable-relocatable --prefix=`pwd`/../../my_usr --disable-rpath --disable-libasprintf --disable-java --disable-native-java --disable-openmp --disable-curses > ../../log_gettext.txt 2>&1
-    make >> ../../log_gettext.txt 2>&1
-    make install >> ../../log_gettext.txt 2>&1
+    ./configure --host=x86_64-w64-mingw32 --enable-relocatable --prefix=${PREFIX} --disable-rpath --disable-libasprintf --disable-java --disable-native-java --disable-openmp --disable-curses > ${LOGFILE} 2>&1
+    make >> ${LOGFILE} 2>&1
+    make install >> ${LOGFILE} 2>&1
 cd ../..
 
 echo "building glib..."
 echo "you possibly need to install a couple of packages like meson, ninja, mingw64-cross-gcc-c++, ..."
+LOGFILE=${LOG_DIR}/log_glib.txt
 cd src/glib-2*
     # fix the preprocessor concatenation problem in this version:
     sed -i -e 's/@guint64_constant@/(val ## ULL)/' glib/glibconfig.h.in
-    meson setup . builddir --cross-file ../../cross_file.txt > ../../log_glib.txt 2>&1
+    meson setup . builddir --cross-file ../../cross_file.txt > ${LOGFILE} 2>&1
     cd builddir
         # gio tests do not work in my cross build environment:
-        meson configure -Dtests=false >> ../../../log_glib.txt 2>&1
-        meson compile >> ../../../log_glib.txt 2>&1
-        meson install --destdir=../../../my_usr >> ../../../log_glib.txt 2>&1
+        meson configure -Dtests=false >> ${LOGFILE} 2>&1
+        meson compile >> ${LOGFILE} 2>&1
+        meson install --destdir=${HOST_ROOT} >> ${LOGFILE} 2>&1
         # see ../3rd_party/src/glib-2.9.6/docs/reference/glib/html/glib-cross-compiling.html
     cd ..
 cd ../..
