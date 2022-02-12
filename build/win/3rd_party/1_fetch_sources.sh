@@ -4,88 +4,106 @@ cd packed_src/
 
 if test ! -f libiconv* ; then
     echo "fetching libiconv"
+    echo "  version 1.16 date 2019-04-26"
     wget https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz
 fi
 
 if test ! -f libffi* ; then
     echo "fetching libffi"
+    echo "  version 3.3 date 23-Nov-2019"
     wget ftp://sourceware.org/pub/libffi/libffi-3.3.tar.gz
+    # Alternative: https://ftp.gwdg.de/pub/linux/sources.redhat.com/libffi/
 fi
 
 if test ! -f gettext* ; then
     echo "fetching gettext"
+    echo "  version 0.21 date 2020-07-26"
     wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.21.tar.xz
 fi
 
 if test ! -f glib* ; then
     echo "fetching glib"
+    echo "  version 2.71 date 2022-Jan-27"
     wget https://download.gnome.org/sources/glib/2.71/glib-2.71.0.tar.xz
     # Alternative may be here: http://www.gtk.org/
 fi
 
 if test ! -f gtk* ; then
     echo "fetching gtk"
+    echo "  version 3.94 date 2018-Jun-26"
     wget https://download.gnome.org/sources/gtk%2B/3.94/gtk%2B-3.94.0.tar.xz
     # Note: there is an alternative download at https://download-fallback.gnome.org
 fi
 
 if test ! -f atk* ; then
     echo "fetching atk"
-    wget https://download.gnome.org/sources/atk/2.9/atk-2.9.4.tar.xz
+    echo "  version 2.36 date 2020-Apr-02"
+    wget https://download.gnome.org/sources/atk/2.36/atk-2.36.0.tar.xz
 fi
 
 if test ! -f pango* ; then
     echo "fetching pango"
-    wget https://download.gnome.org/sources/pango/1.50/pango-1.50.3.tar.xz
+    echo "  version 1.50.4 date 2022-Feb-09"
+    wget https://download.gnome.org/sources/pango/1.50/pango-1.50.4.tar.xz
 fi
 
 if test ! -f cairo* ; then
     echo "fetching cairo"
+    echo "  version 1.16.0 date 2018-10-19"
     wget https://www.cairographics.org/releases/cairo-1.16.0.tar.xz
 fi
 
 if test ! -f pixman* ; then
     echo "fetching pixman"
+    echo "  version 0.40.0 date 2020-04-19"
     wget https://www.cairographics.org/releases/pixman-0.40.0.tar.gz
 fi
 
 if test ! -f expat* ; then
     echo "fetching expat"
+    echo "  version 0.40.0 date 2020-04-19"
     wget https://github.com/libexpat/libexpat/releases/download/R_2_4_4/expat-2.4.4.tar.xz
 fi
 
 if test ! -f fontconfig* ; then
     echo "fetching fontconfig"
-    wget https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.94.tar.xz
+    echo "  version 2.13.96 date 2022-02-04"
+    wget https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.96.tar.xz
 fi
 
 if test ! -f gdk-pixbuf* ; then
     echo "fetching gdk-pixbuf"
+    echo "  version 2.42.6 date 2021-Apr-09"
     wget https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.6.tar.xz
 fi
 
 if test ! -f gail* ; then
     echo "fetching gail"
-    wget https://download.gnome.org/sources/gail/1.9/gail-1.9.4.tar.gz
+    echo "  version 1.22.3 date 2019-May-16"
+    wget https://download.gnome.org/sources/gail/1.22/gail-1.22.3.tar.gz
 fi
 
 if test ! -f libcroco* ; then
     echo "fetching libcroco"
-    wget https://download.gnome.org/sources/libcroco/0.6/libcroco-0.6.9.tar.xz
+    echo "  version 0.6.13 date 2019-Apr-06"
+    wget https://download.gnome.org/sources/libcroco/0.6/libcroco-0.6.13.tar.xz
 fi
 
 if test ! -f freetype* ; then
     echo "fetching freetype2"
+    echo "  version 2.11.1 date 2021-12-02"
     wget --output-document=freetype-2.11.1.tar.xz https://sourceforge.net/projects/freetype/files/freetype2/2.11.1/freetype-2.11.1.tar.xz/download
 fi
 
 if test ! -f xz* ; then
     echo "fetching lzma"
+    echo "  version 5.2.5 date 2020-03-17"
     wget https://tukaani.org/xz/xz-5.2.5.tar.gz
 fi
 
 if test ! -f sqlite* ; then
     echo "fetching sqlite3"
+    echo "  version 5.2.5 date 2022-01-12"
     wget https://sqlite.org/2022/sqlite-amalgamation-3370200.zip
 fi
 
