@@ -14,12 +14,13 @@ LOG_DIR=`pwd`
 export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
 export CXXFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
 export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64"
-export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig"
+export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
+#export LIBRARY_PATH="-L/usr/x86_64-w64-mingw32/sys-root/mingw/lib -L${PREFIX}/lib -L${PREFIX}/lib64"
 
 echo "building freetype..."
 LOGFILE=${LOG_DIR}/log_freetype.txt
 cd src/freetype-2*
-    ./configure --host=${HOST} --enable-relocatable --prefix=${PREFIX} --disable-rpath --enable-static-pie > ${LOGFILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOGFILE} 2>&1
     make >> ${LOGFILE} 2>&1
     make install >> ${LOGFILE} 2>&1
 cd ../..
@@ -27,27 +28,36 @@ cd ../..
 echo "building expat..."
 LOGFILE=${LOG_DIR}/log_expat.txt
 cd src/expat-2*
-    ./configure --host=${HOST} --enable-relocatable --prefix=${PREFIX} --disable-rpath --enable-static-pie > ${LOGFILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOGFILE} 2>&1
     make >> ${LOGFILE} 2>&1
     make install >> ${LOGFILE} 2>&1
 cd ../..
 
 echo "building fontconfig..."
 echo "you possibly need to install a couple of packages like gperf, ..."
-export FREETYPE_CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
-export FREETYPE_LIBS="${PREFIX}/lib64"
+#if pkg_config is not working, you may need to set a couple of environment variables:
+#export FREETYPE_CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
+#export FREETYPE_LIBS="${PREFIX}/lib64"
+#export FONTCONFIG_CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
+#export FONTCONFIG_LIBS="${PREFIX}/lib64"
+#export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/include/freetype2"
+#export LIBS="-lcairo -lcairo -lcairo -lm  -lcairo -lfreetype -lz -lfontconfig -lpng12 -lpangocairo-1.0 -lpango-1.0 -lcairo -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0 -lfreetype -lz -lfontconfig -lpng"
+#export LIBS="-lfreetype"
 LOGFILE=${LOG_DIR}/log_fontconfig.txt
 cd src/fontconfig-2*
     ./configure --host=${HOST} --prefix=${PREFIX} --disable-rpath > ${LOGFILE} 2>&1
     make >> ${LOGFILE} 2>&1
     make install >> ${LOGFILE} 2>&1
 cd ../..
+#export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
 
 echo "building atk..."
 LOGFILE=${LOG_DIR}/log_atk.txt
 cd src/atk-2*
     meson setup . builddir --cross-file ../../cross_file.txt > ${LOGFILE} 2>&1
     cd builddir
+        # introspection seems not to be available in glib in my cross build environment:
+        meson configure -Dintrospection=false >> ${LOGFILE} 2>&1
         meson compile >> ${LOGFILE} 2>&1
         meson install --destdir=${HOST_ROOT} >> ${LOGFILE} 2>&1
     cd ..

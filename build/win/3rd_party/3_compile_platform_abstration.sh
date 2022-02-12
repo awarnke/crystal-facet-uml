@@ -11,6 +11,7 @@ LOG_DIR=`pwd`
 export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
 export CXXFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
 export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64"
+export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
 
 echo "possibly some tools need to be installed first:"
 echo "sudo zypper install meson ninja mingw64-cross-pkgconf mingw64-cross-gcc"
