@@ -8,15 +8,16 @@ cd 3rd_party
 HOST=x86_64-w64-mingw32
 LOG_DIR=`pwd`
 
-export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
+export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/share/gettext"
 export CXXFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
 export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64"
 export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
+#export PATH="${PREFIX}/bin:${PATH}"
 
 echo "possibly some tools need to be installed first:"
 echo "sudo zypper install meson ninja mingw64-cross-pkgconf mingw64-cross-gcc"
 
-echo "building libiconv..."
+echo `date +'%H:%M'`" building libiconv..."
 LOGFILE=${LOG_DIR}/log_iconv.txt
 cd src/libiconv-1*
     ./configure --host=${HOST} --enable-relocatable --prefix=${PREFIX} --disable-rpath --enable-static-pie > ${LOGFILE} 2>&1
@@ -24,7 +25,7 @@ cd src/libiconv-1*
     make install >> ${LOGFILE} 2>&1
 cd ../..
 
-echo "building libffi..."
+echo `date +'%H:%M'`" building libffi..."
 LOGFILE=${LOG_DIR}/log_ffi.txt
 cd src/libffi-3*
     ./configure --host=${HOST} --prefix=${PREFIX} --enable-static > ${LOGFILE} 2>&1
@@ -32,7 +33,8 @@ cd src/libffi-3*
     make install >> ${LOGFILE} 2>&1
 cd ../..
 
-echo "building gettext..."
+echo `date +'%H:%M'`" building gettext..."
+echo "      expected duration: 40 min"
 LOGFILE=${LOG_DIR}/log_gettext.txt
 cd src/gettext-0*
     # fix the ruby formatstring problem in this version:
@@ -42,9 +44,10 @@ cd src/gettext-0*
     make install >> ${LOGFILE} 2>&1
 cd ../..
 
-echo "building glib (gio, glib, gobject, gmodule, gthread) ..."
-echo "  depending on libffi, pcre, proxy-libintl, zlib"
-echo "you possibly need to install a couple of packages like meson, ninja, mingw64-cross-gcc-c++, ..."
+echo `date +'%H:%M'`" building glib (gio, glib, gobject, gmodule, gthread) ..."
+echo "      depending on libffi, pcre, proxy-libintl, zlib"
+echo "      you possibly need to install a couple of packages like meson, ninja, mingw64-cross-gcc-c++, ..."
+echo "      expected duration: 15 min"
 LOGFILE=${LOG_DIR}/log_glib.txt
 cd src/glib-2*
     # fix the preprocessor concatenation problem in this version:
@@ -58,6 +61,8 @@ cd src/glib-2*
         # see ../3rd_party/src/glib-2.9.6/docs/reference/glib/html/glib-cross-compiling.html
     cd ..
 cd ../..
+
+echo `date +'%H:%M'`" finished. Please check the log files for errors."
 
 
 # Thanks to many inspiring webpages, especially of help were:
