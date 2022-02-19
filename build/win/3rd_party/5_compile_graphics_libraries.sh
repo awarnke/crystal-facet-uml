@@ -1,7 +1,7 @@
 #!/bin/sh
 cd ..
     if ! test -e root/usr/local; then
-        echo run step 3 first
+        echo run steps 3 and 4 first
         exit -1
     fi
     HOST_ROOT=`pwd`/root
@@ -26,14 +26,6 @@ cd src/freetype-2*
     make install >> ${LOGFILE} 2>&1
 cd ../..
 
-echo `date +'%H:%M'`" building expat..."
-LOGFILE=${LOG_DIR}/log_expat.txt
-cd src/expat-2*
-    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOGFILE} 2>&1
-    make >> ${LOGFILE} 2>&1
-    make install >> ${LOGFILE} 2>&1
-cd ../..
-
 echo `date +'%H:%M'`" building fontconfig..."
 echo "      you possibly need to install a couple of packages like gperf, ..."
 #if pkg_config is not working, you may need to set a couple of environment variables:
@@ -46,7 +38,7 @@ echo "      you possibly need to install a couple of packages like gperf, ..."
 #export LIBS="-lfreetype"
 LOGFILE=${LOG_DIR}/log_fontconfig.txt
 cd src/fontconfig-2*
-    ./configure --host=${HOST} --prefix=${PREFIX} --disable-rpath > ${LOGFILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} --disable-rpath --enable-static > ${LOGFILE} 2>&1
     make >> ${LOGFILE} 2>&1
     make install >> ${LOGFILE} 2>&1
 cd ../..
@@ -91,6 +83,7 @@ cd src/gdk-pixbuf-2*
 cd ../..
 
 echo `date +'%H:%M'`" building cairo..."
+echo "      expected duration: 15 min"
 LOGFILE=${LOG_DIR}/log_cairo.txt
 cd src/cairo-1*
     ./configure --host=${HOST} --prefix=${PREFIX} > ${LOGFILE} 2>&1
@@ -98,10 +91,10 @@ cd src/cairo-1*
     make install >> ${LOGFILE} 2>&1
 cd ../..
 
-echo `date +'%H:%M'`" building pango..."
+echo `date +'%H:%M'`" building pango (freebidi, harfbuzz) ..."
 LOGFILE=${LOG_DIR}/log_pango.txt
 cd src/pango-1*
-    meson setup . builddir --cross-file ../../cross_file.txt > ${LOGFILE} 2>&1
+    meson setup . builddir --cross-file ../../cross_file.txt -Ddefault_library=static > ${LOGFILE} 2>&1
     cd builddir
         meson compile >> ${LOGFILE} 2>&1
         meson install --destdir=${HOST_ROOT} >> ${LOGFILE} 2>&1

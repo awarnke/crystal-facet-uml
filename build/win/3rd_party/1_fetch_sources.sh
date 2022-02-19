@@ -28,6 +28,19 @@ if test ! -f glib* ; then
     # Alternative may be here: http://www.gtk.org/
 fi
 
+if test ! -f expat* ; then
+    echo "fetching expat"
+    echo "  version 0.40.0 date 2020-04-19"
+    wget https://github.com/libexpat/libexpat/releases/download/R_2_4_4/expat-2.4.4.tar.xz
+fi
+
+if test ! -f libxml2* ; then
+    echo "fetching libxml2"
+    echo "  version 2.9.9 date 2022-Feb-14"
+    wget https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.9.tar.xz
+    # Alternative may be here: http://www.xmlsoft.org/downloads.html
+fi
+
 if test ! -f gtk* ; then
     echo "fetching gtk"
     echo "  version 3.94 date 2018-Jun-26"
@@ -57,12 +70,6 @@ if test ! -f pixman* ; then
     echo "fetching pixman"
     echo "  version 0.40.0 date 2020-04-19"
     wget https://www.cairographics.org/releases/pixman-0.40.0.tar.gz
-fi
-
-if test ! -f expat* ; then
-    echo "fetching expat"
-    echo "  version 0.40.0 date 2020-04-19"
-    wget https://github.com/libexpat/libexpat/releases/download/R_2_4_4/expat-2.4.4.tar.xz
 fi
 
 if test ! -f fontconfig* ; then
@@ -95,11 +102,11 @@ if test ! -f freetype* ; then
     wget --output-document=freetype-2.11.1.tar.xz https://sourceforge.net/projects/freetype/files/freetype2/2.11.1/freetype-2.11.1.tar.xz/download
 fi
 
-if test ! -f xz* ; then
-    echo "fetching lzma"
-    echo "  version 5.2.5 date 2020-03-17"
-    wget https://tukaani.org/xz/xz-5.2.5.tar.gz
-fi
+#if test ! -f xz* ; then
+#    echo "fetching lzma"
+#    echo "  version 5.2.5 date 2020-03-17"
+#    wget https://tukaani.org/xz/xz-5.2.5.tar.gz
+#fi
 
 if test ! -f sqlite* ; then
     echo "fetching sqlite3"
