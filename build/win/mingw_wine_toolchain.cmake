@@ -1,5 +1,5 @@
 # call cmake providing this toolchain file:
-# cmake -DCMAKE_TOOLCHAIN_FILE=../crystal-facet-uml/build_win/mingw_wine_toolchain.cmake ../crystal-facet-uml/build_win
+# cmake -DCMAKE_TOOLCHAIN_FILE=../crystal-facet-uml/build/win/mingw_wine_toolchain.cmake ../crystal-facet-uml/build/win
 
 SET(CMAKE_SYSTEM_NAME "Windows")
 SET(CMAKE_C_COMPILER "/usr/bin/x86_64-w64-mingw32-gcc")

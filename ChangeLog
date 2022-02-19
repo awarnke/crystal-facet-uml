@@ -1,10 +1,10 @@
-crystal-facet-uml (1.35.1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.36.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * During import, changed ids and classifier-names are reported on stdout
   * The json export contains some more information to improve readability
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 13 Feb 2022 16:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 27 Feb 2022 16:00:00 +0200
 
 crystal-facet-uml (1.35.0) UNRELEASED; urgency=medium
 

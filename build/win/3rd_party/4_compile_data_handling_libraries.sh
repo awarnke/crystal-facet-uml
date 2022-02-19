@@ -32,6 +32,13 @@ cd src/libxml2-2*
     make install >> ${LOGFILE} 2>&1
 cd ../..
 
+echo `date +'%H:%M'`" copying sqlite3..."
+LOGFILE=${LOG_DIR}/log_sqlite.txt
+cd src/sqlite-amalgamation-3*
+    mkdir -p ${HOST_ROOT}/home/sqlite3
+    cp -r * ${HOST_ROOT}/home/sqlite3 > ${LOGFILE} 2>&1
+cd ../..
+
 echo `date +'%H:%M'`" finished. Please check the log files for errors."
 
 

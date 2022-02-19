@@ -52,7 +52,7 @@ LOGFILE=${LOG_DIR}/log_glib.txt
 cd src/glib-2*
     # fix the preprocessor concatenation problem in this version:
     sed -i -e 's/@guint64_constant@/(val ## ULL)/' glib/glibconfig.h.in
-    meson setup . builddir --cross-file ../../cross_file.txt > ${LOGFILE} 2>&1
+    meson setup . builddir --cross-file ../../cross_file_4_glib.txt > ${LOGFILE} 2>&1
     cd builddir
         # gio tests do not work in my cross build environment:
         meson configure -Dtests=false >> ${LOGFILE} 2>&1
