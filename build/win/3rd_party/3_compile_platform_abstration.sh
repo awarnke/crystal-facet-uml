@@ -12,6 +12,7 @@ export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}
 export CXXFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
 export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64"
 export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
+export PKG_CONFIG_SYSROOT_DIR="/usr/x86_64-w64-mingw32/sys-root/mingw"
 #export PATH="${PREFIX}/bin:${PATH}"
 
 echo "possibly some tools need to be installed first:"
@@ -21,7 +22,8 @@ echo `date +'%H:%M'`" building libiconv..."
 LOG_FILE=${LOG_DIR}/log_iconv.txt
 echo "      log: ${LOG_FILE}"
 cd src/libiconv-1*
-    ./configure --host=${HOST} --enable-relocatable --prefix=${PREFIX} --disable-rpath --enable-static-pie > ${LOG_FILE} 2>&1
+    #./configure --host=${HOST} --enable-relocatable --prefix=${PREFIX} --disable-rpath --enable-static-pie > ${LOG_FILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
@@ -30,7 +32,8 @@ echo `date +'%H:%M'`" building libffi..."
 LOG_FILE=${LOG_DIR}/log_ffi.txt
 echo "      log: ${LOG_FILE}"
 cd src/libffi-3*
-    ./configure --host=${HOST} --prefix=${PREFIX} --enable-static > ${LOG_FILE} 2>&1
+    #./configure --host=${HOST} --prefix=${PREFIX} --enable-static > ${LOG_FILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
@@ -42,7 +45,8 @@ echo "      expected duration: 40 min"
 cd src/gettext-0*
     # fix the ruby formatstring problem in this version:
     sed -i -e 's/\&formatstring_ruby,/\&formatstring_php,/' gettext-tools/src/format.c
-    ./configure --host=${HOST} --enable-relocatable --prefix=${PREFIX} --disable-rpath --disable-libasprintf --disable-java --disable-native-java --disable-openmp > ${LOG_FILE} 2>&1
+    #./configure --host=${HOST} --enable-relocatable --prefix=${PREFIX} --disable-rpath --disable-libasprintf --disable-java --disable-native-java --disable-openmp > ${LOG_FILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} --disable-libasprintf --disable-java --disable-native-java --disable-openmp > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
@@ -56,7 +60,7 @@ echo "      expected duration: 15 min"
 cd src/glib-2*
     # fix the preprocessor concatenation problem in this version:
     sed -i -e 's/@guint64_constant@/(val ## ULL)/' glib/glibconfig.h.in
-    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
+    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} --wipe > ${LOG_FILE} 2>&1
     cd builddir
         # gio tests do not work in my cross build environment:
         meson configure -Dtests=false >> ${LOG_FILE} 2>&1

@@ -15,6 +15,7 @@ export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}
 export CXXFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
 export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64"
 export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
+export PKG_CONFIG_SYSROOT_DIR="/usr/x86_64-w64-mingw32/sys-root/mingw"
 # some packages do not produce a package.config file:
 #export LIBRARY_PATH="-L/usr/x86_64-w64-mingw32/sys-root/mingw/lib -L${PREFIX}/lib -L${PREFIX}/lib64"
 
@@ -40,7 +41,8 @@ echo "      you possibly need to install a couple of packages like gperf, ..."
 LOG_FILE=${LOG_DIR}/log_fontconfig.txt
 echo "      log: ${LOG_FILE}"
 cd src/fontconfig-2*
-    ./configure --host=${HOST} --prefix=${PREFIX} --disable-rpath --enable-static > ${LOG_FILE} 2>&1
+    #./configure --host=${HOST} --prefix=${PREFIX} --disable-rpath --enable-static > ${LOG_FILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
@@ -52,7 +54,7 @@ echo "      log: ${LOG_FILE}"
 cd src/atk-2*
     # tun off introspection support, seems not to be available in my gobject:
     sed -i -e 's/true/false/' meson_options.txt
-    meson setup . builddir --cross-file ../../cross_file.txt > ${LOG_FILE} 2>&1
+    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} --wipe > ${LOG_FILE} 2>&1
     cd builddir
         meson compile >> ${LOG_FILE} 2>&1
         meson install --destdir=${HOST_ROOT} >> ${LOG_FILE} 2>&1
@@ -81,7 +83,7 @@ echo `date +'%H:%M'`" building gdk-pixbuf..."
 LOG_FILE=${LOG_DIR}/log_gdk-pixbuf.txt
 echo "      log: ${LOG_FILE}"
 cd src/gdk-pixbuf-2*
-    meson setup . builddir --cross-file ../../cross_file.txt > ${LOG_FILE} 2>&1
+    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} --wipe > ${LOG_FILE} 2>&1
     cd builddir
         meson compile >> ${LOG_FILE} 2>&1
         meson install --destdir=${HOST_ROOT} >> ${LOG_FILE} 2>&1
@@ -101,8 +103,10 @@ cd ../..
 echo `date +'%H:%M'`" building pango (freebidi, harfbuzz) ..."
 LOG_FILE=${LOG_DIR}/log_pango.txt
 echo "      log: ${LOG_FILE}"
+echo "      expected duration: 15 min"
 cd src/pango-1*
-    meson setup . builddir --cross-file ../../cross_file.txt -Ddefault_library=static -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
+    # meson setup . builddir --cross-file ../../cross_file.txt -Ddefault_library=static -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
+    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} --wipe > ${LOG_FILE} 2>&1
     cd builddir
         meson compile >> ${LOG_FILE} 2>&1
         meson install --destdir=${HOST_ROOT} >> ${LOG_FILE} 2>&1
@@ -113,7 +117,7 @@ echo `date +'%H:%M'`" building gtk..."
 LOG_FILE=${LOG_DIR}/log_gtk.txt
 echo "      log: ${LOG_FILE}"
 cd src/gtk+-3*
-    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
+    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} --wipe > ${LOG_FILE} 2>&1
     cd builddir
         meson compile >> ${LOG_FILE} 2>&1
         meson install --destdir=${HOST_ROOT} >> ${LOG_FILE} 2>&1
@@ -124,7 +128,8 @@ echo `date +'%H:%M'`" building gail..."
 LOG_FILE=${LOG_DIR}/log_gail.txt
 echo "      log: ${LOG_FILE}"
 cd src/gail-1*
-    ./configure --host=${HOST} --prefix=${PREFIX} --disable-rpath --enable-relocatable --enable-static-pie -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
+    # ./configure --host=${HOST} --prefix=${PREFIX} --disable-rpath --enable-relocatable --enable-static-pie > ${LOG_FILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..

@@ -15,6 +15,7 @@ export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}
 export CXXFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
 export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64"
 export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
+export PKG_CONFIG_SYSROOT_DIR="/usr/x86_64-w64-mingw32/sys-root/mingw"
 
 echo `date +'%H:%M'`" building expat..."
 LOG_FILE=${LOG_DIR}/log_expat.txt
