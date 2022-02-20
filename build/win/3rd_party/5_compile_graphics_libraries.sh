@@ -19,11 +19,12 @@ export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
 #export LIBRARY_PATH="-L/usr/x86_64-w64-mingw32/sys-root/mingw/lib -L${PREFIX}/lib -L${PREFIX}/lib64"
 
 echo `date +'%H:%M'`" building freetype..."
-LOGFILE=${LOG_DIR}/log_freetype.txt
+LOG_FILE=${LOG_DIR}/log_freetype.txt
+echo "      log: ${LOG_FILE}"
 cd src/freetype-2*
-    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOGFILE} 2>&1
-    make >> ${LOGFILE} 2>&1
-    make install >> ${LOGFILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
+    make >> ${LOG_FILE} 2>&1
+    make install >> ${LOG_FILE} 2>&1
 cd ../..
 
 echo `date +'%H:%M'`" building fontconfig..."
@@ -36,87 +37,96 @@ echo "      you possibly need to install a couple of packages like gperf, ..."
 #export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/include/freetype2"
 #export LIBS="-lcairo -lcairo -lcairo -lm  -lcairo -lfreetype -lz -lfontconfig -lpng12 -lpangocairo-1.0 -lpango-1.0 -lcairo -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0 -lfreetype -lz -lfontconfig -lpng"
 #export LIBS="-lfreetype"
-LOGFILE=${LOG_DIR}/log_fontconfig.txt
+LOG_FILE=${LOG_DIR}/log_fontconfig.txt
+echo "      log: ${LOG_FILE}"
 cd src/fontconfig-2*
-    ./configure --host=${HOST} --prefix=${PREFIX} --disable-rpath --enable-static > ${LOGFILE} 2>&1
-    make >> ${LOGFILE} 2>&1
-    make install >> ${LOGFILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} --disable-rpath --enable-static > ${LOG_FILE} 2>&1
+    make >> ${LOG_FILE} 2>&1
+    make install >> ${LOG_FILE} 2>&1
 cd ../..
 #export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
 
 echo `date +'%H:%M'`" building atk..."
-LOGFILE=${LOG_DIR}/log_atk.txt
+LOG_FILE=${LOG_DIR}/log_atk.txt
+echo "      log: ${LOG_FILE}"
 cd src/atk-2*
     # tun off introspection support, seems not to be available in my gobject:
     sed -i -e 's/true/false/' meson_options.txt
-    meson setup . builddir --cross-file ../../cross_file.txt > ${LOGFILE} 2>&1
+    meson setup . builddir --cross-file ../../cross_file.txt > ${LOG_FILE} 2>&1
     cd builddir
-        meson compile >> ${LOGFILE} 2>&1
-        meson install --destdir=${HOST_ROOT} >> ${LOGFILE} 2>&1
+        meson compile >> ${LOG_FILE} 2>&1
+        meson install --destdir=${HOST_ROOT} >> ${LOG_FILE} 2>&1
     cd ..
 cd ../..
 
 echo `date +'%H:%M'`" building croco..."
-LOGFILE=${LOG_DIR}/log_croco.txt
+LOG_FILE=${LOG_DIR}/log_croco.txt
+echo "      log: ${LOG_FILE}"
 cd src/libcroco-0*
-    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOGFILE} 2>&1
-    make >> ${LOGFILE} 2>&1
-    make install >> ${LOGFILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
+    make >> ${LOG_FILE} 2>&1
+    make install >> ${LOG_FILE} 2>&1
 cd ../..
 
 echo `date +'%H:%M'`" building pixman..."
-LOGFILE=${LOG_DIR}/log_pixman.txt
+LOG_FILE=${LOG_DIR}/log_pixman.txt
+echo "      log: ${LOG_FILE}"
 cd src/pixman-0*
-    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOGFILE} 2>&1
-    make >> ${LOGFILE} 2>&1
-    make install >> ${LOGFILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
+    make >> ${LOG_FILE} 2>&1
+    make install >> ${LOG_FILE} 2>&1
 cd ../..
 
 echo `date +'%H:%M'`" building gdk-pixbuf..."
-LOGFILE=${LOG_DIR}/log_gdk-pixbuf.txt
+LOG_FILE=${LOG_DIR}/log_gdk-pixbuf.txt
+echo "      log: ${LOG_FILE}"
 cd src/gdk-pixbuf-2*
-    meson setup . builddir --cross-file ../../cross_file.txt > ${LOGFILE} 2>&1
+    meson setup . builddir --cross-file ../../cross_file.txt > ${LOG_FILE} 2>&1
     cd builddir
-        meson compile >> ${LOGFILE} 2>&1
-        meson install --destdir=${HOST_ROOT} >> ${LOGFILE} 2>&1
+        meson compile >> ${LOG_FILE} 2>&1
+        meson install --destdir=${HOST_ROOT} >> ${LOG_FILE} 2>&1
     cd ..
 cd ../..
 
 echo `date +'%H:%M'`" building cairo..."
+LOG_FILE=${LOG_DIR}/log_cairo.txt
+echo "      log: ${LOG_FILE}"
 echo "      expected duration: 15 min"
-LOGFILE=${LOG_DIR}/log_cairo.txt
 cd src/cairo-1*
-    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOGFILE} 2>&1
-    make >> ${LOGFILE} 2>&1
-    make install >> ${LOGFILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
+    make >> ${LOG_FILE} 2>&1
+    make install >> ${LOG_FILE} 2>&1
 cd ../..
 
 echo `date +'%H:%M'`" building pango (freebidi, harfbuzz) ..."
-LOGFILE=${LOG_DIR}/log_pango.txt
+LOG_FILE=${LOG_DIR}/log_pango.txt
+echo "      log: ${LOG_FILE}"
 cd src/pango-1*
-    meson setup . builddir --cross-file ../../cross_file.txt -Ddefault_library=static > ${LOGFILE} 2>&1
+    meson setup . builddir --cross-file ../../cross_file.txt -Ddefault_library=static -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
     cd builddir
-        meson compile >> ${LOGFILE} 2>&1
-        meson install --destdir=${HOST_ROOT} >> ${LOGFILE} 2>&1
+        meson compile >> ${LOG_FILE} 2>&1
+        meson install --destdir=${HOST_ROOT} >> ${LOG_FILE} 2>&1
     cd ..
 cd ../..
 
 echo `date +'%H:%M'`" building gtk..."
-LOGFILE=${LOG_DIR}/log_gtk.txt
+LOG_FILE=${LOG_DIR}/log_gtk.txt
+echo "      log: ${LOG_FILE}"
 cd src/gtk+-3*
-    meson setup . builddir --cross-file ../../cross_file.txt > ${LOGFILE} 2>&1
+    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
     cd builddir
-        meson compile >> ${LOGFILE} 2>&1
-        meson install --destdir=${HOST_ROOT} >> ${LOGFILE} 2>&1
+        meson compile >> ${LOG_FILE} 2>&1
+        meson install --destdir=${HOST_ROOT} >> ${LOG_FILE} 2>&1
     cd ..
 cd ../..
 
 echo `date +'%H:%M'`" building gail..."
-LOGFILE=${LOG_DIR}/log_gail.txt
+LOG_FILE=${LOG_DIR}/log_gail.txt
+echo "      log: ${LOG_FILE}"
 cd src/gail-1*
-    ./configure --host=${HOST} --prefix=${PREFIX} --disable-rpath --enable-relocatable --enable-static-pie > ${LOGFILE} 2>&1
-    make >> ${LOGFILE} 2>&1
-    make install >> ${LOGFILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} --disable-rpath --enable-relocatable --enable-static-pie -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
+    make >> ${LOG_FILE} 2>&1
+    make install >> ${LOG_FILE} 2>&1
 cd ../..
 
 echo `date +'%H:%M'`" finished. Please check the log files for errors."

@@ -17,26 +17,29 @@ export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64"
 export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
 
 echo `date +'%H:%M'`" building expat..."
-LOGFILE=${LOG_DIR}/log_expat.txt
+LOG_FILE=${LOG_DIR}/log_expat.txt
+echo "      log: ${LOG_FILE}"
 cd src/expat-2*
-    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOGFILE} 2>&1
-    make >> ${LOGFILE} 2>&1
-    make install >> ${LOGFILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
+    make >> ${LOG_FILE} 2>&1
+    make install >> ${LOG_FILE} 2>&1
 cd ../..
 
 echo `date +'%H:%M'`" building libxml2..."
-LOGFILE=${LOG_DIR}/log_xml.txt
+LOG_FILE=${LOG_DIR}/log_xml.txt
+echo "      log: ${LOG_FILE}"
 cd src/libxml2-2*
-    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOGFILE} 2>&1
-    make >> ${LOGFILE} 2>&1
-    make install >> ${LOGFILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
+    make >> ${LOG_FILE} 2>&1
+    make install >> ${LOG_FILE} 2>&1
 cd ../..
 
 echo `date +'%H:%M'`" copying sqlite3..."
-LOGFILE=${LOG_DIR}/log_sqlite.txt
+LOG_FILE=${LOG_DIR}/log_sqlite.txt
+echo "      log: ${LOG_FILE}"
 cd src/sqlite-amalgamation-3*
     mkdir -p ${HOST_ROOT}/home/sqlite3
-    cp -r * ${HOST_ROOT}/home/sqlite3 > ${LOGFILE} 2>&1
+    cp -v * ${HOST_ROOT}/home/sqlite3 > ${LOG_FILE} 2>&1
 cd ../..
 
 echo `date +'%H:%M'`" finished. Please check the log files for errors."

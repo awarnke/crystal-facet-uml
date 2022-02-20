@@ -18,46 +18,50 @@ echo "possibly some tools need to be installed first:"
 echo "sudo zypper install meson ninja mingw64-cross-pkgconf mingw64-cross-gcc"
 
 echo `date +'%H:%M'`" building libiconv..."
-LOGFILE=${LOG_DIR}/log_iconv.txt
+LOG_FILE=${LOG_DIR}/log_iconv.txt
+echo "      log: ${LOG_FILE}"
 cd src/libiconv-1*
-    ./configure --host=${HOST} --enable-relocatable --prefix=${PREFIX} --disable-rpath --enable-static-pie > ${LOGFILE} 2>&1
-    make >> ${LOGFILE} 2>&1
-    make install >> ${LOGFILE} 2>&1
+    ./configure --host=${HOST} --enable-relocatable --prefix=${PREFIX} --disable-rpath --enable-static-pie > ${LOG_FILE} 2>&1
+    make >> ${LOG_FILE} 2>&1
+    make install >> ${LOG_FILE} 2>&1
 cd ../..
 
 echo `date +'%H:%M'`" building libffi..."
-LOGFILE=${LOG_DIR}/log_ffi.txt
+LOG_FILE=${LOG_DIR}/log_ffi.txt
+echo "      log: ${LOG_FILE}"
 cd src/libffi-3*
-    ./configure --host=${HOST} --prefix=${PREFIX} --enable-static > ${LOGFILE} 2>&1
-    make >> ${LOGFILE} 2>&1
-    make install >> ${LOGFILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} --enable-static > ${LOG_FILE} 2>&1
+    make >> ${LOG_FILE} 2>&1
+    make install >> ${LOG_FILE} 2>&1
 cd ../..
 
 echo `date +'%H:%M'`" building gettext..."
+LOG_FILE=${LOG_DIR}/log_gettext.txt
+echo "      log: ${LOG_FILE}"
 echo "      expected duration: 40 min"
-LOGFILE=${LOG_DIR}/log_gettext.txt
 cd src/gettext-0*
     # fix the ruby formatstring problem in this version:
     sed -i -e 's/\&formatstring_ruby,/\&formatstring_php,/' gettext-tools/src/format.c
-    ./configure --host=${HOST} --enable-relocatable --prefix=${PREFIX} --disable-rpath --disable-libasprintf --disable-java --disable-native-java --disable-openmp > ${LOGFILE} 2>&1
-    make >> ${LOGFILE} 2>&1
-    make install >> ${LOGFILE} 2>&1
+    ./configure --host=${HOST} --enable-relocatable --prefix=${PREFIX} --disable-rpath --disable-libasprintf --disable-java --disable-native-java --disable-openmp > ${LOG_FILE} 2>&1
+    make >> ${LOG_FILE} 2>&1
+    make install >> ${LOG_FILE} 2>&1
 cd ../..
 
 echo `date +'%H:%M'`" building glib (gio, glib, gobject, gmodule, gthread) ..."
 echo "      depending on libffi, pcre, proxy-libintl, zlib"
 echo "      you possibly need to install a couple of packages like meson, ninja, mingw64-cross-gcc-c++, ..."
+LOG_FILE=${LOG_DIR}/log_glib.txt
+echo "      log: ${LOG_FILE}"
 echo "      expected duration: 15 min"
-LOGFILE=${LOG_DIR}/log_glib.txt
 cd src/glib-2*
     # fix the preprocessor concatenation problem in this version:
     sed -i -e 's/@guint64_constant@/(val ## ULL)/' glib/glibconfig.h.in
-    meson setup . builddir --cross-file ../../cross_file_4_glib.txt > ${LOGFILE} 2>&1
+    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
     cd builddir
         # gio tests do not work in my cross build environment:
-        meson configure -Dtests=false >> ${LOGFILE} 2>&1
-        meson compile >> ${LOGFILE} 2>&1
-        meson install --destdir=${HOST_ROOT} >> ${LOGFILE} 2>&1
+        meson configure -Dtests=false >> ${LOG_FILE} 2>&1
+        meson compile >> ${LOG_FILE} 2>&1
+        meson install --destdir=${HOST_ROOT} >> ${LOG_FILE} 2>&1
         # see ../3rd_party/src/glib-2.9.6/docs/reference/glib/html/glib-cross-compiling.html
     cd ..
 cd ../..
