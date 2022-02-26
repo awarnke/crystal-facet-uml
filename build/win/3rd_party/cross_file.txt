@@ -1,3 +1,6 @@
+[constants]
+my_host_root = '/home/andi/Code/crystal-facet-uml/build/win/root'
+
 [binaries]
 c = '/usr/bin/x86_64-w64-mingw32-gcc'
 cpp = '/usr/bin/x86_64-w64-mingw32-g++'
@@ -10,14 +13,19 @@ exe_wrapper = 'wine64'
 cmake = '/usr/bin/cmake'
 
 [properties]
-#pkg_config_path = 'root/usr/local/lib/pkgconfig:root/usr/local/lib64/pkgconfig'
-pkg_config_libdir = 'root/usr/local/lib/pkgconfig'
+pkg_config_path = ''
+pkg_config_libdir = my_host_root + '/usr/local/lib/pkgconfig:' + my_host_root + '/usr/local/lib64/pkgconfig:' + my_host_root + my_host_root + '/usr/local/lib/pkgconfig:' + my_host_root + my_host_root + '/usr/local/lib64/pkgconfig'
+# pkg_config_path = my_host_root + '/usr/local/lib/pkgconfig:' + my_host_root + '/usr/local/lib64/pkgconfig'
+# pkg_config_libdir = my_host_root + '/usr/local/lib/pkgconfig'
+pkg_config_sysroot_dir = my_host_root + '/usr/local/lib/pkgconfig'
 needs_exe_wrapper = true
 # my install root
-root = 'root'
+# root = 'root'
+root = my_host_root
 # win system libraries root
 # needed to avoid including libraries of build-system from /usr/include/
-sys_root = '/usr/x86_64-w64-mingw32/sys-root/mingw'
+# sys_root = '/usr/x86_64-w64-mingw32/sys-root/mingw'
+sys_root = my_host_root
 
 [host_machine]
 system = 'windows'

@@ -10,13 +10,17 @@ LOG_DIR=`pwd`
 
 export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/share/gettext"
 export CXXFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
-export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64"
-export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
-export PKG_CONFIG_SYSROOT_DIR="/usr/x86_64-w64-mingw32/sys-root/mingw"
+export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin"
+#export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
+export PKG_CONFIG_PATH=
+export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig:${HOST_ROOT}${PREFIX}/lib/pkgconfig:${HOST_ROOT}${PREFIX}/lib64/pkgconfig"
+#export PKG_CONFIG_SYSROOT_DIR="/usr/x86_64-w64-mingw32/sys-root/mingw"
+export PKG_CONFIG_SYSROOT_DIR="${HOST_ROOT}"
+PKG_CONFIG="/usr/bin/x86_64-w64-mingw32-pkg-config"
 #export PATH="${PREFIX}/bin:${PATH}"
 
-echo "possibly some tools need to be installed first:"
-echo "sudo zypper install meson ninja mingw64-cross-pkgconf mingw64-cross-gcc"
+echo "      possibly some tools need to be installed first:"
+echo "      sudo zypper install meson ninja mingw64-cross-pkgconf mingw64-cross-gcc"
 
 echo `date +'%H:%M'`" building libiconv..."
 LOG_FILE=${LOG_DIR}/log_iconv.txt
@@ -37,6 +41,7 @@ cd src/libffi-3*
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
+echo "      lib: `${PKG_CONFIG} --libs libffi`"
 
 echo `date +'%H:%M'`" building gettext..."
 LOG_FILE=${LOG_DIR}/log_gettext.txt
@@ -60,7 +65,8 @@ echo "      expected duration: 15 min"
 cd src/glib-2*
     # fix the preprocessor concatenation problem in this version:
     sed -i -e 's/@guint64_constant@/(val ## ULL)/' glib/glibconfig.h.in
-    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} --wipe > ${LOG_FILE} 2>&1
+    rm -fr builddir  # remove artifacts from previous build
+    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
     cd builddir
         # gio tests do not work in my cross build environment:
         meson configure -Dtests=false >> ${LOG_FILE} 2>&1
@@ -69,6 +75,7 @@ cd src/glib-2*
         # see ../3rd_party/src/glib-2.9.6/docs/reference/glib/html/glib-cross-compiling.html
     cd ..
 cd ../..
+echo "      lib: `${PKG_CONFIG} --libs glib-2.0`"
 
 echo `date +'%H:%M'`" finished. Please check the log files for errors."
 
@@ -78,7 +85,7 @@ echo `date +'%H:%M'`" finished. Please check the log files for errors."
 #    folder: src/tarnyko/scripts/ (2013-2022)
 # 2) https://zwyuan.github.io/2016/07/17/cross-compile-glib-for-android/ (2016-2022)
 # 3) https://mesonbuild.com/Cross-compilation.html (2018-2022)
-
+# 4) https://autotools.info/pkgconfig/cross-compiling.html
 
 # Copyright 2022-2022 Andreas Warnke
 #

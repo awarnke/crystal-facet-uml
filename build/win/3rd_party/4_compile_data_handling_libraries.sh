@@ -13,9 +13,12 @@ LOG_DIR=`pwd`
 
 export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/share/gettext -I${PREFIX}/include/glib-2.0 -I${PREFIX}/lib/glib-2.0/include -I${PREFIX}/include/libpng16 -I${PREFIX}/include/freetype2"
 export CXXFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
-export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64"
-export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
-export PKG_CONFIG_SYSROOT_DIR="/usr/x86_64-w64-mingw32/sys-root/mingw"
+export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin"
+#export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
+export PKG_CONFIG_PATH=
+export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig:${HOST_ROOT}${PREFIX}/lib/pkgconfig:${HOST_ROOT}${PREFIX}/lib64/pkgconfig"
+#export PKG_CONFIG_SYSROOT_DIR="/usr/x86_64-w64-mingw32/sys-root/mingw"
+export PKG_CONFIG_SYSROOT_DIR="${HOST_ROOT}"
 
 echo `date +'%H:%M'`" building expat..."
 LOG_FILE=${LOG_DIR}/log_expat.txt
