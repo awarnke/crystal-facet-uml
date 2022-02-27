@@ -26,13 +26,13 @@ echo `date +'%H:%M'`" building freetype..."
 LOG_FILE=${LOG_DIR}/log_freetype.txt
 echo "      log: ${LOG_FILE}"
 cd src/freetype-2*
-    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} --enable-shared > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
 echo "      lib: `${PKG_CONFIG_EXE} --libs freetype2`"
 
-# echo `date +'%H:%M'`" building fontconfig..."
+echo `date +'%H:%M'`" building fontconfig..."
 echo "      you possibly need to install a couple of packages like gperf, ..."
 #if pkg_config is not working, you may need to set a couple of environment variables:
 #export FREETYPE_CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
@@ -45,8 +45,8 @@ echo "      you possibly need to install a couple of packages like gperf, ..."
 LOG_FILE=${LOG_DIR}/log_fontconfig.txt
 echo "      log: ${LOG_FILE}"
 cd src/fontconfig-2*
-    ./configure --host=${HOST} --prefix=${PREFIX} --disable-rpath --enable-static > ${LOG_FILE} 2>&1
-    #./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
+    #./configure --host=${HOST} --prefix=${PREFIX} --disable-rpath --enable-static > ${LOG_FILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
