@@ -56,7 +56,7 @@ echo `date +'%H:%M'`" building atk..."
 LOG_FILE=${LOG_DIR}/log_atk.txt
 echo "      log: ${LOG_FILE}"
 cd src/atk-2*
-    # tun off introspection support, seems not to be available in my gobject:
+    # turn off introspection support, seems not to be available in my gobject:
     sed -i -e 's/true/false/' meson_options.txt
     rm -fr builddir  # remove artifacts from previous build
     meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
@@ -65,6 +65,7 @@ cd src/atk-2*
         meson install >> ${LOG_FILE} 2>&1
     cd ..
 cd ../..
+echo "      lib: `${PKG_CONFIG_EXE} --libs atk`"
 
 echo `date +'%H:%M'`" building croco..."
 LOG_FILE=${LOG_DIR}/log_croco.txt
@@ -74,6 +75,7 @@ cd src/libcroco-0*
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
+echo "      lib: `${PKG_CONFIG_EXE} --libs libcroco-0.6`"
 
 echo `date +'%H:%M'`" building pixman..."
 LOG_FILE=${LOG_DIR}/log_pixman.txt
@@ -96,6 +98,7 @@ cd src/gdk-pixbuf-2*
         meson install >> ${LOG_FILE} 2>&1
     cd ..
 cd ../..
+echo "      lib: `${PKG_CONFIG_EXE} --libs gdk-pixbuf-2.0`"
 
 echo `date +'%H:%M'`" building cairo..."
 LOG_FILE=${LOG_DIR}/log_cairo.txt
