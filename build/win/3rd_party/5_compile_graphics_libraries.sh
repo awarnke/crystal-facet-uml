@@ -1,4 +1,5 @@
 #!/bin/sh
+
 cd ..
     if ! test -e root/usr/local; then
         echo run steps 3 and 4 first
@@ -21,6 +22,29 @@ export PKG_CONFIG_SYSROOT_DIR="${HOST_ROOT}"
 PKG_CONFIG_EXE="/usr/bin/x86_64-w64-mingw32-pkg-config"
 # some packages do not produce a package.config file:
 #export LIBRARY_PATH="-L/usr/x86_64-w64-mingw32/sys-root/mingw/lib -L${PREFIX}/lib -L${PREFIX}/lib64"
+
+echo `date +'%H:%M'`" building pixman..."
+LOG_FILE=${LOG_DIR}/log_pixman.txt
+echo "      log: ${LOG_FILE}"
+cd src/pixman-0*
+    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
+    make >> ${LOG_FILE} 2>&1
+    make install >> ${LOG_FILE} 2>&1
+cd ../..
+echo "      lib: `${PKG_CONFIG_EXE} --libs pixman-1`"
+
+echo `date +'%H:%M'`" building gdk-pixbuf..."
+LOG_FILE=${LOG_DIR}/log_gdk-pixbuf.txt
+echo "      log: ${LOG_FILE}"
+cd src/gdk-pixbuf-2*
+    rm -fr builddir  # remove artifacts from previous build
+    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
+    cd builddir
+        meson compile >> ${LOG_FILE} 2>&1
+        meson install >> ${LOG_FILE} 2>&1
+    cd ..
+cd ../..
+echo "      lib: `${PKG_CONFIG_EXE} --libs gdk-pixbuf-2.0`"
 
 echo `date +'%H:%M'`" building freetype..."
 LOG_FILE=${LOG_DIR}/log_freetype.txt
@@ -76,29 +100,6 @@ cd src/libcroco-0*
     make install >> ${LOG_FILE} 2>&1
 cd ../..
 echo "      lib: `${PKG_CONFIG_EXE} --libs libcroco-0.6`"
-
-echo `date +'%H:%M'`" building pixman..."
-LOG_FILE=${LOG_DIR}/log_pixman.txt
-echo "      log: ${LOG_FILE}"
-cd src/pixman-0*
-    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
-    make >> ${LOG_FILE} 2>&1
-    make install >> ${LOG_FILE} 2>&1
-cd ../..
-echo "      lib: `${PKG_CONFIG_EXE} --libs pixman-1`"
-
-echo `date +'%H:%M'`" building gdk-pixbuf..."
-LOG_FILE=${LOG_DIR}/log_gdk-pixbuf.txt
-echo "      log: ${LOG_FILE}"
-cd src/gdk-pixbuf-2*
-    rm -fr builddir  # remove artifacts from previous build
-    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
-    cd builddir
-        meson compile >> ${LOG_FILE} 2>&1
-        meson install >> ${LOG_FILE} 2>&1
-    cd ..
-cd ../..
-echo "      lib: `${PKG_CONFIG_EXE} --libs gdk-pixbuf-2.0`"
 
 echo `date +'%H:%M'`" building cairo..."
 LOG_FILE=${LOG_DIR}/log_cairo.txt

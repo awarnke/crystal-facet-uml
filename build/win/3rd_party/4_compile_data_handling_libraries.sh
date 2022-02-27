@@ -1,4 +1,5 @@
 #!/bin/sh
+
 cd ..
     if ! test -e root/usr/local; then
         echo run step 3 first

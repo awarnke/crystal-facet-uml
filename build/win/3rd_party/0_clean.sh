@@ -1,4 +1,5 @@
 #!/bin/sh
+
 rm -fr src/
 rm -fr ../root/
 rm -f log_*.txt

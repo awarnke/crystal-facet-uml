@@ -1,4 +1,5 @@
 #!/bin/sh
+
 cd ..
     mkdir -p root/usr/local
     HOST_ROOT=`pwd`/root

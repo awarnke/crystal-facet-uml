@@ -1,4 +1,5 @@
 #!/bin/sh
+
 mkdir -p src
 cd src
     ls -1 ../packed_src/*.tar.xz | xargs -n 1 tar --xz --verbose -xf

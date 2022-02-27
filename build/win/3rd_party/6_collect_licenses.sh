@@ -1,4 +1,5 @@
 #!/bin/sh
+
 find src/ -type f -a -name 'COPY*' -o -type f -a -name 'LICENSE*' \
 | sort \
 | tee LICENSES_of_3rd_party.txt \
