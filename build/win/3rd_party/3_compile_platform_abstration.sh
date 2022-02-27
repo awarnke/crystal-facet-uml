@@ -13,7 +13,7 @@ export CXXFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
 export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin"
 #export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
 export PKG_CONFIG_PATH=
-export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig:${HOST_ROOT}${PREFIX}/lib/pkgconfig:${HOST_ROOT}${PREFIX}/lib64/pkgconfig"
+export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
 export PKG_CONFIG_SYSROOT_DIR="${HOST_ROOT}"
 PKG_CONFIG_EXE="/usr/bin/x86_64-w64-mingw32-pkg-config"
 #export PATH="${PREFIX}/bin:${PATH}"
@@ -70,7 +70,7 @@ cd src/glib-2*
         # gio tests do not work in my cross build environment:
         meson configure -Dtests=false >> ${LOG_FILE} 2>&1
         meson compile >> ${LOG_FILE} 2>&1
-        meson install --destdir=${HOST_ROOT} >> ${LOG_FILE} 2>&1
+        meson install >> ${LOG_FILE} 2>&1
         # see ../3rd_party/src/glib-2.9.6/docs/reference/glib/html/glib-cross-compiling.html
     cd ..
 cd ../..

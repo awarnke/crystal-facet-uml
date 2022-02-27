@@ -16,7 +16,7 @@ export CXXFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
 export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin"
 #export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
 export PKG_CONFIG_PATH=
-export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig:${HOST_ROOT}${PREFIX}/lib/pkgconfig:${HOST_ROOT}${PREFIX}/lib64/pkgconfig"
+export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
 export PKG_CONFIG_SYSROOT_DIR="${HOST_ROOT}"
 PKG_CONFIG_EXE="/usr/bin/x86_64-w64-mingw32-pkg-config"
 # some packages do not produce a package.config file:
@@ -30,8 +30,9 @@ cd src/freetype-2*
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
+echo "      lib: `${PKG_CONFIG_EXE} --libs freetype2`"
 
-echo `date +'%H:%M'`" building fontconfig..."
+# echo `date +'%H:%M'`" building fontconfig..."
 echo "      you possibly need to install a couple of packages like gperf, ..."
 #if pkg_config is not working, you may need to set a couple of environment variables:
 #export FREETYPE_CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
@@ -44,8 +45,8 @@ echo "      you possibly need to install a couple of packages like gperf, ..."
 LOG_FILE=${LOG_DIR}/log_fontconfig.txt
 echo "      log: ${LOG_FILE}"
 cd src/fontconfig-2*
-    #./configure --host=${HOST} --prefix=${PREFIX} --disable-rpath --enable-static > ${LOG_FILE} 2>&1
-    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} --disable-rpath --enable-static > ${LOG_FILE} 2>&1
+    #./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
@@ -61,7 +62,7 @@ cd src/atk-2*
     meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
     cd builddir
         meson compile >> ${LOG_FILE} 2>&1
-        meson install --destdir=${HOST_ROOT} >> ${LOG_FILE} 2>&1
+        meson install >> ${LOG_FILE} 2>&1
     cd ..
 cd ../..
 
@@ -92,7 +93,7 @@ cd src/gdk-pixbuf-2*
     meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
     cd builddir
         meson compile >> ${LOG_FILE} 2>&1
-        meson install --destdir=${HOST_ROOT} >> ${LOG_FILE} 2>&1
+        meson install >> ${LOG_FILE} 2>&1
     cd ..
 cd ../..
 
@@ -118,7 +119,7 @@ cd src/pango-1*
         # gio tests do not work in my cross build environment:
         meson configure -Dtests=false -Dglib.tests=false >> ${LOG_FILE} 2>&1
         meson compile >> ${LOG_FILE} 2>&1
-        meson install --destdir=${HOST_ROOT} >> ${LOG_FILE} 2>&1
+        meson install >> ${LOG_FILE} 2>&1
     cd ..
 cd ../..
 
@@ -130,7 +131,7 @@ cd src/gtk+-3*
     meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
     cd builddir
         meson compile >> ${LOG_FILE} 2>&1
-        meson install --destdir=${HOST_ROOT} >> ${LOG_FILE} 2>&1
+        meson install >> ${LOG_FILE} 2>&1
     cd ..
 cd ../..
 
