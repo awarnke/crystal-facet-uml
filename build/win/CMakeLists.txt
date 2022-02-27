@@ -20,6 +20,9 @@ SET(SQLITE_BASE "${CMAKE_BINARY_DIR}/home/sqlite3")
 SET(GTK_BUNDLE_BASE "${CMAKE_BINARY_DIR}/crystal-facet-uml")
 MESSAGE("THIRD_PARTY_ROOT: ${THIRD_PARTY_ROOT}")
 
+set(ENV{PKG_CONFIG_PATH} "")
+set(ENV{PKG_CONFIG_LIBDIR} "${THIRD_PARTY_ROOT}/usr/local/lib/pkgconfig:${THIRD_PARTY_ROOT}/usr/local/lib64/pkgconfig:${THIRD_PARTY_ROOT}${THIRD_PARTY_ROOT}/usr/local/lib/pkgconfig:${THIRD_PARTY_ROOT}${THIRD_PARTY_ROOT}/usr/local/lib64/pkgconfig")
+set(ENV{PKG_CONFIG_SYSROOT_DIR} ${THIRD_PARTY_ROOT})
 set(PKG_CONFIG_EXECUTABLE /usr/bin/x86_64-w64-mingw32-pkg-config)
 include(FindPkgConfig)
 

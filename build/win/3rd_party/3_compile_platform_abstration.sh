@@ -14,9 +14,8 @@ export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin"
 #export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
 export PKG_CONFIG_PATH=
 export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig:${HOST_ROOT}${PREFIX}/lib/pkgconfig:${HOST_ROOT}${PREFIX}/lib64/pkgconfig"
-#export PKG_CONFIG_SYSROOT_DIR="/usr/x86_64-w64-mingw32/sys-root/mingw"
 export PKG_CONFIG_SYSROOT_DIR="${HOST_ROOT}"
-PKG_CONFIG="/usr/bin/x86_64-w64-mingw32-pkg-config"
+PKG_CONFIG_EXE="/usr/bin/x86_64-w64-mingw32-pkg-config"
 #export PATH="${PREFIX}/bin:${PATH}"
 
 echo "      possibly some tools need to be installed first:"
@@ -41,7 +40,7 @@ cd src/libffi-3*
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
-echo "      lib: `${PKG_CONFIG} --libs libffi`"
+echo "      lib: `${PKG_CONFIG_EXE} --libs libffi`"
 
 echo `date +'%H:%M'`" building gettext..."
 LOG_FILE=${LOG_DIR}/log_gettext.txt
@@ -75,7 +74,7 @@ cd src/glib-2*
         # see ../3rd_party/src/glib-2.9.6/docs/reference/glib/html/glib-cross-compiling.html
     cd ..
 cd ../..
-echo "      lib: `${PKG_CONFIG} --libs glib-2.0`"
+echo "      lib: `${PKG_CONFIG_EXE} --libs glib-2.0`"
 
 echo `date +'%H:%M'`" finished. Please check the log files for errors."
 

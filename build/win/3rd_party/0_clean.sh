@@ -1,8 +1,9 @@
 #!/bin/sh
 rm -fr src/
 rm -fr ../root/
-rm -fr log_*.txt
-echo "to clean up also the downloaded archives, type: rm -fr packed_src/"
+rm -f log_*.txt
+rm -f cross_file.txt
+echo "      to clean up also the downloaded archives, type: rm -fr packed_src/"
 
 
 # Copyright 2022-2022 Andreas Warnke

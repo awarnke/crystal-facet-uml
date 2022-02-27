@@ -17,8 +17,8 @@ export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin"
 #export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
 export PKG_CONFIG_PATH=
 export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig:${HOST_ROOT}${PREFIX}/lib/pkgconfig:${HOST_ROOT}${PREFIX}/lib64/pkgconfig"
-#export PKG_CONFIG_SYSROOT_DIR="/usr/x86_64-w64-mingw32/sys-root/mingw"
 export PKG_CONFIG_SYSROOT_DIR="${HOST_ROOT}"
+PKG_CONFIG_EXE="/usr/bin/x86_64-w64-mingw32-pkg-config"
 
 echo `date +'%H:%M'`" building expat..."
 LOG_FILE=${LOG_DIR}/log_expat.txt
@@ -28,6 +28,7 @@ cd src/expat-2*
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
+echo "      lib: `${PKG_CONFIG_EXE} --libs expat`"
 
 echo `date +'%H:%M'`" building libxml2..."
 LOG_FILE=${LOG_DIR}/log_xml.txt

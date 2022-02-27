@@ -17,8 +17,8 @@ export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin"
 #export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
 export PKG_CONFIG_PATH=
 export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig:${HOST_ROOT}${PREFIX}/lib/pkgconfig:${HOST_ROOT}${PREFIX}/lib64/pkgconfig"
-#export PKG_CONFIG_SYSROOT_DIR="/usr/x86_64-w64-mingw32/sys-root/mingw"
 export PKG_CONFIG_SYSROOT_DIR="${HOST_ROOT}"
+PKG_CONFIG_EXE="/usr/bin/x86_64-w64-mingw32-pkg-config"
 # some packages do not produce a package.config file:
 #export LIBRARY_PATH="-L/usr/x86_64-w64-mingw32/sys-root/mingw/lib -L${PREFIX}/lib -L${PREFIX}/lib64"
 
@@ -82,6 +82,7 @@ cd src/pixman-0*
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
+echo "      lib: `${PKG_CONFIG_EXE} --libs pixman-1`"
 
 echo `date +'%H:%M'`" building gdk-pixbuf..."
 LOG_FILE=${LOG_DIR}/log_gdk-pixbuf.txt
