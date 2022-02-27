@@ -33,7 +33,7 @@ cd src/pixman-0*
 cd ../..
 echo "      lib: `${PKG_CONFIG_EXE} --libs pixman-1`"
 
-echo `date +'%H:%M'`" building gdk-pixbuf..."
+echo `date +'%H:%M'`" building gdk-pixbuf (libpng)..."
 LOG_FILE=${LOG_DIR}/log_gdk-pixbuf.txt
 echo "      log: ${LOG_FILE}"
 cd src/gdk-pixbuf-2*
@@ -50,7 +50,7 @@ echo `date +'%H:%M'`" building freetype..."
 LOG_FILE=${LOG_DIR}/log_freetype.txt
 echo "      log: ${LOG_FILE}"
 cd src/freetype-2*
-    ./configure --host=${HOST} --prefix=${PREFIX} --enable-shared > ${LOG_FILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..

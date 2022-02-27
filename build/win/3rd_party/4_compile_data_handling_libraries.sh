@@ -29,7 +29,7 @@ cd src/expat-2*
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
-echo "      lib: `${PKG_CONFIG_EXE} --libs expat`"
+echo "      lib: "`${PKG_CONFIG_EXE} --libs expat`
 
 echo `date +'%H:%M'`" building libxml2..."
 LOG_FILE=${LOG_DIR}/log_xml.txt
@@ -39,7 +39,7 @@ cd src/libxml2-2*
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
-echo "      lib: `${PKG_CONFIG_EXE} --libs libxml-2.0`"
+echo "      lib: "`${PKG_CONFIG_EXE} --libs libxml-2.0`
 
 echo `date +'%H:%M'`" copying sqlite3..."
 LOG_FILE=${LOG_DIR}/log_sqlite.txt
@@ -48,6 +48,7 @@ cd src/sqlite-amalgamation-3*
     mkdir -p ${HOST_ROOT}/home/sqlite3
     cp -v * ${HOST_ROOT}/home/sqlite3 > ${LOG_FILE} 2>&1
 cd ../..
+echo "      code: "`ls ${HOST_ROOT}/home/sqlite3/sqlite3.c`
 
 echo `date +'%H:%M'`" finished. Please check the log files for errors."
 

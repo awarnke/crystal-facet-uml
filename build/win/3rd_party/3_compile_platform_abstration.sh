@@ -31,6 +31,7 @@ cd src/libiconv-1*
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
+echo "      lib: "`ls ${PREFIX}/bin/libiconv*`
 
 echo `date +'%H:%M'`" building libffi..."
 LOG_FILE=${LOG_DIR}/log_ffi.txt
@@ -41,7 +42,7 @@ cd src/libffi-3*
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
-echo "      lib: `${PKG_CONFIG_EXE} --libs libffi`"
+echo "      lib: "`${PKG_CONFIG_EXE} --libs libffi`
 
 echo `date +'%H:%M'`" building gettext..."
 LOG_FILE=${LOG_DIR}/log_gettext.txt
@@ -55,6 +56,7 @@ cd src/gettext-0*
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
+echo "      lib: "`ls ${PREFIX}/bin/libgettextlib*`
 
 echo `date +'%H:%M'`" building glib (gio, glib, gobject, gmodule, gthread) ..."
 echo "      depending on libffi, pcre, proxy-libintl, zlib"
@@ -75,7 +77,7 @@ cd src/glib-2*
         # see ../3rd_party/src/glib-2.9.6/docs/reference/glib/html/glib-cross-compiling.html
     cd ..
 cd ../..
-echo "      lib: `${PKG_CONFIG_EXE} --libs glib-2.0`"
+echo "      lib: "`${PKG_CONFIG_EXE} --libs glib-2.0`
 
 echo `date +'%H:%M'`" finished. Please check the log files for errors."
 
