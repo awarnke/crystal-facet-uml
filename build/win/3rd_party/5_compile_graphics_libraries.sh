@@ -57,7 +57,7 @@ cd ../..
 echo "      lib: `${PKG_CONFIG_EXE} --libs freetype2`"
 
 echo `date +'%H:%M'`" building fontconfig..."
-echo "      you possibly need to install a couple of packages like gperf, ..."
+echo "      you possibly need to install package gperf."
 #if pkg_config is not working, you may need to set a couple of environment variables:
 #export FREETYPE_CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
 #export FREETYPE_LIBS="${PREFIX}/lib64"
@@ -74,6 +74,7 @@ cd src/fontconfig-2*
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
+echo "      lib: `${PKG_CONFIG_EXE} --libs fontconfig`"
 #export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
 
 echo `date +'%H:%M'`" building atk..."
@@ -110,6 +111,7 @@ cd src/cairo-1*
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
+echo "      lib: `${PKG_CONFIG_EXE} --libs cairo`"
 
 echo `date +'%H:%M'`" building pango (freebidi, harfbuzz) ..."
 LOG_FILE=${LOG_DIR}/log_pango.txt
@@ -126,13 +128,17 @@ cd src/pango-1*
         meson install >> ${LOG_FILE} 2>&1
     cd ..
 cd ../..
+echo "      lib: `${PKG_CONFIG_EXE} --libs pango`"
 
 echo `date +'%H:%M'`" building gtk..."
 LOG_FILE=${LOG_DIR}/log_gtk.txt
 echo "      log: ${LOG_FILE}"
+echo "      expected duration: 30 min"
 cd src/gtk+-3*
+    # no xkbdep needed for wine
+    #sed -i -e "s/^\(xkbdep[^)]*\))$/\1, required: false)/" meson.build
     rm -fr builddir  # remove artifacts from previous build
-    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
+    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} -Denable-win32-backend=true -Denable-x11-backend=false -Denable-wayland-backend=false -Denable-broadway-backend=false -Denable-mir-backend=false -Denable-quartz-backend=false -Denable-cloudproviders=false -Dintrospection=false -Dbuild-tests=false -Ddemos=false -Dwith-included-immodules=none > ${LOG_FILE} 2>&1
     cd builddir
         meson compile >> ${LOG_FILE} 2>&1
         meson install >> ${LOG_FILE} 2>&1

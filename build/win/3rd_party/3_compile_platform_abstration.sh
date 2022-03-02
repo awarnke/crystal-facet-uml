@@ -44,7 +44,7 @@ cd src/libffi-3*
 cd ../..
 echo "      lib: "`${PKG_CONFIG_EXE} --libs libffi`
 
-echo `date +'%H:%M'`" building gettext..."
+echo `date +'%H:%M'`" building gettext (libintl) ..."
 LOG_FILE=${LOG_DIR}/log_gettext.txt
 echo "      log: ${LOG_FILE}"
 echo "      expected duration: 40 min"
@@ -78,6 +78,32 @@ cd src/glib-2*
     cd ..
 cd ../..
 echo "      lib: "`${PKG_CONFIG_EXE} --libs glib-2.0`
+
+#echo `date +'%H:%M'`" building xkbcommon ..."
+#LOG_FILE=${LOG_DIR}/log_xkbcommon.txt
+#echo "      you possibly need to install package byacc."
+#echo "      log: ${LOG_FILE}"
+#cd src/libxkbcommon*
+#    rm -fr builddir  # remove artifacts from previous build
+#    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} -Denable-x11=false -Denable-wayland=false -Denable-tools=false -Denable-docs=false > ${LOG_FILE} 2>&1
+#    cd builddir
+#        meson compile >> ${LOG_FILE} 2>&1
+#        meson install >> ${LOG_FILE} 2>&1
+#    cd ..
+#cd ../..
+#echo "      lib: "`${PKG_CONFIG_EXE} --libs xkbcommon`
+
+echo `date +'%H:%M'`" building xkbcommon"
+LOG_FILE=${LOG_DIR}/log_xkbcommon.txt
+echo "      log: ${LOG_FILE}"
+cd src/libxkbcommon*
+    # strndup not available on win:
+    sed -i -e 's/strndup(string, len);/strdup(string);/' src/atom.c
+    ./configure --host=${HOST} --prefix=${PREFIX} --disable-x11 --disable-selective-werror > ${LOG_FILE} 2>&1
+    make >> ${LOG_FILE} 2>&1
+    make install >> ${LOG_FILE} 2>&1
+cd ../..
+echo "      lib: "`${PKG_CONFIG_EXE} --libs xkbcommon`
 
 echo `date +'%H:%M'`" finished. Please check the log files for errors."
 

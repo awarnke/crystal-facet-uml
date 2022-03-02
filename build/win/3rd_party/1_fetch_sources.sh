@@ -29,6 +29,30 @@ if test ! -f glib* ; then
     # Alternative may be here: http://www.gtk.org/
 fi
 
+if test ! -f xkbcommon* ; then
+    echo "fetching xkbcommon"
+    echo "  version 0.4.3 date 19-Aug-2014"
+    wget https://xkbcommon.org/download/libxkbcommon-0.4.3.tar.xz
+fi
+
+#if test ! -f xkbcommon* ; then
+#    echo "fetching xkbcommon"
+#    echo "  version 0.8.4 date 22-Feb-2019"
+#    wget https://xkbcommon.org/download/libxkbcommon-0.8.4.tar.xz
+#fi
+
+#if test ! -f xkbcommon* ; then
+#    echo "fetching xkbcommon"
+#    echo "  version 1.2.1 date 07-Apr-2021"
+#    wget https://xkbcommon.org/download/libxkbcommon-1.2.1.tar.xz
+#fi
+
+#if test ! -f xkbcommon* ; then
+#    echo "fetching xkbcommon"
+#    echo "  version 1.4.0 date 04-Feb-2022"
+#    wget https://xkbcommon.org/download/libxkbcommon-1.4.0.tar.xz
+#fi
+
 if test ! -f expat* ; then
     echo "fetching expat"
     echo "  version 0.40.0 date 2020-04-19"
@@ -42,10 +66,17 @@ if test ! -f libxml2* ; then
     # Alternative may be here: http://www.xmlsoft.org/downloads.html
 fi
 
+#if test ! -f gtk* ; then
+#    echo "fetching gtk"
+#    echo "  version 3.94 date 2018-Jun-26"
+#    wget https://download.gnome.org/sources/gtk%2B/3.94/gtk%2B-3.94.0.tar.xz
+#    # Note: there is an alternative download at https://download-fallback.gnome.org
+#fi
+
 if test ! -f gtk* ; then
     echo "fetching gtk"
-    echo "  version 3.94 date 2018-Jun-26"
-    wget https://download.gnome.org/sources/gtk%2B/3.94/gtk%2B-3.94.0.tar.xz
+    echo "  version 3.92 date 2017-Oct-18"
+    wget https://download.gnome.org/sources/gtk%2B/3.92/gtk%2B-3.92.1.tar.xz
     # Note: there is an alternative download at https://download-fallback.gnome.org
 fi
 
