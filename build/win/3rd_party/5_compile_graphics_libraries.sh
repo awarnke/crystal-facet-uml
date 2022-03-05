@@ -23,6 +23,17 @@ PKG_CONFIG_EXE="/usr/bin/x86_64-w64-mingw32-pkg-config"
 # some packages do not produce a package.config file:
 #export LIBRARY_PATH="-L/usr/x86_64-w64-mingw32/sys-root/mingw/lib -L${PREFIX}/lib -L${PREFIX}/lib64"
 
+echo `date +'%H:%M'`" building jpeg..."
+LOG_FILE=${LOG_DIR}/log_jpeg.txt
+echo "      log: ${LOG_FILE}"
+cd src/libjpeg-turbo-2*
+    cmake -DCMAKE_TOOLCHAIN_FILE=../../../mingw_wine_toolchain.cmake -DCMAKE_INSTALL_PREFIX=${PREFIX} . > ${LOG_FILE} 2>&1
+    make >> ${LOG_FILE} 2>&1
+    make install >> ${LOG_FILE} 2>&1
+cd ../..
+echo "      lib: `${PKG_CONFIG_EXE} --libs libturbojpeg`"
+
+echo `date +'%H:%M'`" building gdk-pixbuf (libpng)..."
 echo `date +'%H:%M'`" building pixman..."
 LOG_FILE=${LOG_DIR}/log_pixman.txt
 echo "      log: ${LOG_FILE}"
@@ -134,11 +145,19 @@ echo `date +'%H:%M'`" building gtk..."
 LOG_FILE=${LOG_DIR}/log_gtk.txt
 echo "      log: ${LOG_FILE}"
 echo "      expected duration: 30 min"
-cd src/gtk+-3*
-    # no xkbdep needed for wine
-    #sed -i -e "s/^\(xkbdep[^)]*\))$/\1, required: false)/" meson.build
+#cd src/gtk+-3*
+#    # no xkbdep needed for wine
+#    #sed -i -e "s/^\(xkbdep[^)]*\))$/\1, required: false)/" meson.build
+#    rm -fr builddir  # remove artifacts from previous build
+#    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} -Denable-win32-backend=true -Denable-x11-backend=false -Denable-wayland-backend=false -Denable-broadway-backend=false -Denable-mir-backend=false -Denable-quartz-backend=false -Denable-cloudproviders=false -Dintrospection=false -Dbuild-tests=false -Ddemos=false -Dwith-included-immodules=none -Denable-cloudprint-print-backend=no -Denable-cups-print-backend=no -Denable-papi-print-backend=no -Denable-xinerama=no > ${LOG_FILE} 2>&1
+#    cd builddir
+#        meson compile >> ${LOG_FILE} 2>&1
+#        meson install >> ${LOG_FILE} 2>&1
+#    cd ..
+#cd ../..
+cd src/gtk-4*
     rm -fr builddir  # remove artifacts from previous build
-    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} -Denable-win32-backend=true -Denable-x11-backend=false -Denable-wayland-backend=false -Denable-broadway-backend=false -Denable-mir-backend=false -Denable-quartz-backend=false -Denable-cloudproviders=false -Dintrospection=false -Dbuild-tests=false -Ddemos=false -Dwith-included-immodules=none > ${LOG_FILE} 2>&1
+    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} -Denable-win32-backend=true -Denable-x11-backend=false -Denable-wayland-backend=false -Denable-broadway-backend=false -Denable-mir-backend=false -Denable-quartz-backend=false  -Denable-macos-backend=false -Denable-cloudproviders=false -Dintrospection=disabled -Dbuild-tests=false -Ddemos=false -Dwith-included-immodules=none -Denable-cloudprint-print-backend=no -Denable-cups-print-backend=no -Denable-papi-print-backend=no -Denable-xinerama=no -Dmedia-ffmpeg=disabled -Dmedia-gstreamer=disabled > ${LOG_FILE} 2>&1
     cd builddir
         meson compile >> ${LOG_FILE} 2>&1
         meson install >> ${LOG_FILE} 2>&1

@@ -29,7 +29,7 @@ if test ! -f glib* ; then
     # Alternative may be here: http://www.gtk.org/
 fi
 
-if test ! -f xkbcommon* ; then
+if test ! -f libxkbcommon* ; then
     echo "fetching xkbcommon"
     echo "  version 0.4.3 date 19-Aug-2014"
     wget https://xkbcommon.org/download/libxkbcommon-0.4.3.tar.xz
@@ -66,6 +66,12 @@ if test ! -f libxml2* ; then
     # Alternative may be here: http://www.xmlsoft.org/downloads.html
 fi
 
+if test ! -f libjpeg-turbo* ; then
+    echo "fetching libjpeg-turbo"
+    echo "  version 2.1.3 date 2022-02-25"
+    wget --output-document=libjpeg-turbo-2.1.3.tar.gz https://sourceforge.net/projects/libjpeg-turbo/files/2.1.3/libjpeg-turbo-2.1.3.tar.gz/download
+fi
+
 #if test ! -f gtk* ; then
 #    echo "fetching gtk"
 #    echo "  version 3.94 date 2018-Jun-26"
@@ -73,11 +79,17 @@ fi
 #    # Note: there is an alternative download at https://download-fallback.gnome.org
 #fi
 
+#if test ! -f gtk* ; then
+#    echo "fetching gtk"
+#    echo "  version 3.92 date 2017-Oct-18"
+#    wget https://download.gnome.org/sources/gtk%2B/3.92/gtk%2B-3.92.1.tar.xz
+#    # Note: there is an alternative download at https://download-fallback.gnome.org
+#fi
+
 if test ! -f gtk* ; then
     echo "fetching gtk"
-    echo "  version 3.92 date 2017-Oct-18"
-    wget https://download.gnome.org/sources/gtk%2B/3.92/gtk%2B-3.92.1.tar.xz
-    # Note: there is an alternative download at https://download-fallback.gnome.org
+    echo "  version 4.6.1 date 2022-Feb-12"
+    wget https://download.gnome.org/sources/gtk/4.6/gtk-4.6.1.tar.xz
 fi
 
 if test ! -f atk* ; then
