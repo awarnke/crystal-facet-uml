@@ -74,15 +74,15 @@ fi
 
 #if test ! -f gtk* ; then
 #    echo "fetching gtk"
-#    echo "  version 3.94 date 2018-Jun-26"
-#    wget https://download.gnome.org/sources/gtk%2B/3.94/gtk%2B-3.94.0.tar.xz
+#    echo "  version 3.92 date 2017-Oct-18"
+#    wget https://download.gnome.org/sources/gtk%2B/3.92/gtk%2B-3.92.1.tar.xz
 #    # Note: there is an alternative download at https://download-fallback.gnome.org
 #fi
 
 #if test ! -f gtk* ; then
 #    echo "fetching gtk"
-#    echo "  version 3.92 date 2017-Oct-18"
-#    wget https://download.gnome.org/sources/gtk%2B/3.92/gtk%2B-3.92.1.tar.xz
+#    echo "  version 3.94 date 2018-Jun-26"
+#    wget https://download.gnome.org/sources/gtk%2B/3.94/gtk%2B-3.94.0.tar.xz
 #    # Note: there is an alternative download at https://download-fallback.gnome.org
 #fi
 
@@ -128,11 +128,11 @@ if test ! -f gdk-pixbuf* ; then
     wget https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.6.tar.xz
 fi
 
-if test ! -f gail* ; then
-    echo "fetching gail"
-    echo "  version 1.22.3 date 2019-May-16"
-    wget https://download.gnome.org/sources/gail/1.22/gail-1.22.3.tar.gz
-fi
+#if test ! -f gail* ; then
+#    echo "fetching gail"
+#    echo "  version 1.22.3 date 2019-May-16"
+#    wget https://download.gnome.org/sources/gail/1.22/gail-1.22.3.tar.gz
+#fi
 
 if test ! -f libcroco* ; then
     echo "fetching libcroco"

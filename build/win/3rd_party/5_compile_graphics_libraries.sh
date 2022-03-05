@@ -27,6 +27,8 @@ echo `date +'%H:%M'`" building jpeg..."
 LOG_FILE=${LOG_DIR}/log_jpeg.txt
 echo "      log: ${LOG_FILE}"
 cd src/libjpeg-turbo-2*
+    #first configure for build, then for host ...
+    cmake . > ${LOG_FILE} 2>&1
     cmake -DCMAKE_TOOLCHAIN_FILE=../../../mingw_wine_toolchain.cmake -DCMAKE_INSTALL_PREFIX=${PREFIX} . > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
@@ -144,7 +146,7 @@ echo "      lib: `${PKG_CONFIG_EXE} --libs pango`"
 echo `date +'%H:%M'`" building gtk..."
 LOG_FILE=${LOG_DIR}/log_gtk.txt
 echo "      log: ${LOG_FILE}"
-echo "      expected duration: 30 min"
+echo "      expected duration: 15 min"
 #cd src/gtk+-3*
 #    # no xkbdep needed for wine
 #    #sed -i -e "s/^\(xkbdep[^)]*\))$/\1, required: false)/" meson.build
@@ -156,23 +158,35 @@ echo "      expected duration: 30 min"
 #    cd ..
 #cd ../..
 cd src/gtk-4*
+    # GetLocaleInfoEx is not available in my wine emulation (2022)
+    sed -i -e 's/#ifdef G_OS_WIN32/#if 0/' gtk/language-names.c
     rm -fr builddir  # remove artifacts from previous build
-    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} -Denable-win32-backend=true -Denable-x11-backend=false -Denable-wayland-backend=false -Denable-broadway-backend=false -Denable-mir-backend=false -Denable-quartz-backend=false  -Denable-macos-backend=false -Denable-cloudproviders=false -Dintrospection=disabled -Dbuild-tests=false -Ddemos=false -Dwith-included-immodules=none -Denable-cloudprint-print-backend=no -Denable-cups-print-backend=no -Denable-papi-print-backend=no -Denable-xinerama=no -Dmedia-ffmpeg=disabled -Dmedia-gstreamer=disabled > ${LOG_FILE} 2>&1
+    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} \
+    -Dwin32-backend=true -Dx11-backend=false -Dwayland-backend=false \
+    -Dbroadway-backend=false -Dmacos-backend=false \
+    -Dmedia-ffmpeg=disabled -Dmedia-gstreamer=disabled \
+    -Dprint-cups=disabled \
+    -Dsysprof=disabled -Dcloudproviders=disabled -Dvulkan=disabled \
+    -Dtracker=disabled -Dcolord=disabled \
+    -Dintrospection=disabled -Dmedia-gtk_doc=false -Dman-pages=false \
+    -Dbuild-tests=false -Ddemos=false \
+    -Dprofile=default -Dinstall-tests=false -Dbuild-examples=false > ${LOG_FILE} 2>&1
     cd builddir
         meson compile >> ${LOG_FILE} 2>&1
         meson install >> ${LOG_FILE} 2>&1
     cd ..
 cd ../..
+echo "      lib: `${PKG_CONFIG_EXE} --libs gtk4`"
 
-echo `date +'%H:%M'`" building gail..."
-LOG_FILE=${LOG_DIR}/log_gail.txt
-echo "      log: ${LOG_FILE}"
-cd src/gail-1*
-    # ./configure --host=${HOST} --prefix=${PREFIX} --disable-rpath --enable-relocatable --enable-static-pie > ${LOG_FILE} 2>&1
-    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
-    make >> ${LOG_FILE} 2>&1
-    make install >> ${LOG_FILE} 2>&1
-cd ../..
+#echo `date +'%H:%M'`" building gail..."
+#LOG_FILE=${LOG_DIR}/log_gail.txt
+#echo "      log: ${LOG_FILE}"
+#cd src/gail-1*
+#    # ./configure --host=${HOST} --prefix=${PREFIX} --disable-rpath --enable-relocatable --enable-static-pie > ${LOG_FILE} 2>&1
+#    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
+#    make >> ${LOG_FILE} 2>&1
+#    make install >> ${LOG_FILE} 2>&1
+#cd ../..
 
 echo `date +'%H:%M'`" finished. Please check the log files for errors."
 
