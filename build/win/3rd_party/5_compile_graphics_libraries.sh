@@ -14,7 +14,7 @@ LOG_DIR=`pwd`
 
 export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/share/gettext -I${PREFIX}/include/glib-2.0 -I${PREFIX}/lib/glib-2.0/include -I${PREFIX}/include/libpng16 -I${PREFIX}/include/freetype2"
 export CXXFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
-export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin"
+export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin -lharfbuzz -ljpeg"
 #export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
 export PKG_CONFIG_PATH=
 export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
@@ -27,15 +27,12 @@ echo `date +'%H:%M'`" building jpeg..."
 LOG_FILE=${LOG_DIR}/log_jpeg.txt
 echo "      log: ${LOG_FILE}"
 cd src/libjpeg-turbo-2*
-    #first configure for build, then for host ...
-    cmake . > ${LOG_FILE} 2>&1
     cmake -DCMAKE_TOOLCHAIN_FILE=../../../mingw_wine_toolchain.cmake -DCMAKE_INSTALL_PREFIX=${PREFIX} . > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
 echo "      lib: `${PKG_CONFIG_EXE} --libs libturbojpeg`"
 
-echo `date +'%H:%M'`" building gdk-pixbuf (libpng)..."
 echo `date +'%H:%M'`" building pixman..."
 LOG_FILE=${LOG_DIR}/log_pixman.txt
 echo "      log: ${LOG_FILE}"
