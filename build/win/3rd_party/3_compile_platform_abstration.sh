@@ -68,10 +68,11 @@ cd src/glib-2*
     # fix the preprocessor concatenation problem in this version:
     sed -i -e 's/@guint64_constant@/(val ## ULL)/' glib/glibconfig.h.in
     rm -fr builddir  # remove artifacts from previous build
-    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
+    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} \
+    -Dtests=false > ${LOG_FILE} 2>&1
     cd builddir
         # gio tests do not work in my cross build environment:
-        meson configure -Dtests=false >> ${LOG_FILE} 2>&1
+        # meson configure -Dtests=false >> ${LOG_FILE} 2>&1
         meson compile >> ${LOG_FILE} 2>&1
         meson install >> ${LOG_FILE} 2>&1
         # see ../3rd_party/src/glib-2.9.6/docs/reference/glib/html/glib-cross-compiling.html

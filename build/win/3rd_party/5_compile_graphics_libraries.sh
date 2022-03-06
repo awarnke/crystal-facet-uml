@@ -14,7 +14,7 @@ LOG_DIR=`pwd`
 
 export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/share/gettext -I${PREFIX}/include/glib-2.0 -I${PREFIX}/lib/glib-2.0/include -I${PREFIX}/include/libpng16 -I${PREFIX}/include/freetype2"
 export CXXFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
-export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin -lharfbuzz -ljpeg"
+export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin"
 #export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
 export PKG_CONFIG_PATH=
 export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
@@ -144,6 +144,7 @@ echo `date +'%H:%M'`" building gtk..."
 LOG_FILE=${LOG_DIR}/log_gtk.txt
 echo "      log: ${LOG_FILE}"
 echo "      expected duration: 15 min"
+export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin -lharfbuzz -ljpeg"
 #cd src/gtk+-3*
 #    # no xkbdep needed for wine
 #    #sed -i -e "s/^\(xkbdep[^)]*\))$/\1, required: false)/" meson.build
