@@ -60,7 +60,7 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
 
     (*this_).diagram_set_label = gtk_label_new ( "Diagram-sets:" );
     (*this_).document_label = gtk_label_new ( "Documents:" );
-#if (( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))
+#if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION >= 4 ))
     gtk_label_set_xalign (GTK_LABEL( (*this_).document_label ), 0.0 );
     gtk_label_set_xalign (GTK_LABEL( (*this_).diagram_set_label ), 0.0 );
 #else
@@ -91,13 +91,21 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_svg, 5, 0, 1, 1 );
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_txt, 6, 0, 1, 1 );
 
-    gtk_container_add ( GTK_CONTAINER(content_area), GTK_WIDGET( (*this_).options_layout ) );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    gtk_box_append( GTK_BOX(content_area), GTK_WIDGET( (*this_).options_layout ) );
+#else
+    gtk_container_add( GTK_CONTAINER(content_area), GTK_WIDGET( (*this_).options_layout ) );
+#endif
     /* no need to g_object_unref( content_area ); here */
 
     io_exporter_init( &((*this_).file_exporter), db_reader );
 
     g_signal_connect( G_OBJECT((*this_).export_file_chooser), "response", G_CALLBACK(gui_file_export_dialog_response_callback), this_ );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    gtk_window_set_hide_on_close( GTK_WINDOW((*this_).export_file_chooser), true);
+#else
     g_signal_connect( G_OBJECT((*this_).export_file_chooser), "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL );
+#endif
 
     TRACE_END();
 }
@@ -107,7 +115,11 @@ void gui_file_export_dialog_destroy( gui_file_export_dialog_t *this_ )
     TRACE_BEGIN();
 
     /* no need to g_object_unref ( (*this_).format_asciidoc ); here */
+#if ( GTK_MAJOR_VERSION >= 4 )
+    gtk_window_destroy( GTK_WINDOW((*this_).export_file_chooser) );
+#else
     gtk_widget_destroy( (*this_).export_file_chooser );
+#endif
     /* no need to g_object_unref ( (*this_).export_file_chooser ); here */
 
     io_exporter_destroy( &((*this_).file_exporter) );
@@ -122,7 +134,11 @@ void gui_file_export_dialog_show( gui_file_export_dialog_t *this_ )
 {
     TRACE_BEGIN();
 
+#if ( GTK_MAJOR_VERSION >= 4 )
+    gtk_widget_show( GTK_WIDGET( (*this_).export_file_chooser ) );
+#else
     gtk_widget_show_all( GTK_WIDGET( (*this_).export_file_chooser ) );
+#endif
 
     TRACE_END();
 }
@@ -149,8 +165,17 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
             data_stat_init ( &export_stat );
             io_file_format_t selected_format;
 
-            gchar *folder_path;
-            folder_path = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
+            gchar *folder_path = NULL;
+            GFile *selected_file = NULL;
+#if ( GTK_MAJOR_VERSION >= 4 )
+            selected_file = gtk_file_chooser_get_file( GTK_FILE_CHOOSER(dialog) );
+            if ( selected_file != NULL )
+            {
+                folder_path = g_file_get_path( selected_file );
+            }
+#else
+            folder_path = gtk_file_chooser_get_filename( GTK_FILE_CHOOSER(dialog) );
+#endif
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
             TRACE_INFO_STR( "chosen folder:", folder_path );
 
@@ -201,6 +226,10 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
             }
 
             g_free (folder_path);
+            if ( selected_file != NULL )
+            {
+                g_object_unref( selected_file );
+            }
             data_stat_trace( &export_stat );
             data_stat_destroy ( &export_stat );
         }

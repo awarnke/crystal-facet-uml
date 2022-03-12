@@ -29,7 +29,11 @@ void gui_file_use_db_dialog_init ( gui_file_use_db_dialog_t *this_,
     gui_file_db_manager_init( &((*this_).file_manager), controller, database, message_to_user );
 
     g_signal_connect( G_OBJECT((*this_).use_db_file_chooser), "response", G_CALLBACK(gui_file_db_manager_use_db_response_callback), &((*this_).file_manager) );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    gtk_window_set_hide_on_close( GTK_WINDOW((*this_).use_db_file_chooser), true);
+#else
     g_signal_connect( G_OBJECT((*this_).use_db_file_chooser), "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL );
+#endif
 
     TRACE_END();
 }
@@ -38,7 +42,11 @@ void gui_file_use_db_dialog_destroy( gui_file_use_db_dialog_t *this_ )
 {
     TRACE_BEGIN();
 
+#if ( GTK_MAJOR_VERSION >= 4 )
+    gtk_window_destroy( GTK_WINDOW((*this_).use_db_file_chooser) );
+#else
     gtk_widget_destroy( (*this_).use_db_file_chooser );
+#endif
     /* no need to g_object_unref ( (*this_).use_db_file_chooser ); here */
 
     gui_file_db_manager_destroy( &((*this_).file_manager) );
@@ -50,7 +58,11 @@ void gui_file_use_db_dialog_show( gui_file_use_db_dialog_t *this_ )
 {
     TRACE_BEGIN();
 
+#if ( GTK_MAJOR_VERSION >= 4 )
+    gtk_widget_show( GTK_WIDGET( (*this_).use_db_file_chooser ) );
+#else
     gtk_widget_show_all( GTK_WIDGET( (*this_).use_db_file_chooser ) );
+#endif
 
     TRACE_END();
 }
