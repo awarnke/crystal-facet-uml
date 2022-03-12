@@ -172,6 +172,7 @@ cd src/gtk-4*
     cd builddir
         meson compile >> ${LOG_FILE} 2>&1
         meson install >> ${LOG_FILE} 2>&1
+        cp subprojects/graphene/include/* ../../../../root/usr/local/include/graphene-1.0/
     cd ..
 cd ../..
 echo "      lib: `${PKG_CONFIG_EXE} --libs gtk4`"

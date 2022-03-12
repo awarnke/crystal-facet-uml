@@ -15,7 +15,12 @@
 #include "ctrl_controller.h"
 #include "data_rules.h"
 #include "util/string/utf8stringbuf.h"
+#if ( GTK_MAJOR_VERSION >= 4 )
+#include <gdk/gdkclipboard.h>
+#else
 #include <gtk/gtk.h>
+typedef GtkClipboard GdkClipboard;
+#endif
 
 /*!
  *  \brief attributes of the serdes object
@@ -27,7 +32,7 @@ struct gui_clipboard_struct {
     io_importer_t importer;  /*!< own instance of a json importer */
 
     data_row_id_t destination_diagram_id;  /*!< id of the diagram to which the deserialized objects shal  be added */
-    GtkClipboard *the_clipboard;  /*!< pointer to external GtkClipboard */
+    GdkClipboard *the_clipboard;  /*!< pointer to external GdkClipboard/GtkClipboard */
     utf8stringbuf_t clipboard_stringbuf;  /*!< stringbuffer to read and write to/from the clipboard */
     char private_clipboard_buffer[128*1024];  /*!< stringbuffer to read and write to/from the clipboard */
 };
@@ -44,7 +49,7 @@ typedef struct gui_clipboard_struct gui_clipboard_t;
  *  \param controller pointer to a controller object which can modify the database
  */
 void gui_clipboard_init ( gui_clipboard_t *this_,
-                          GtkClipboard *clipboard,
+                          GdkClipboard *clipboard,
                           gui_simple_message_to_user_t *message_to_user,
                           data_database_reader_t *db_reader,
                           ctrl_controller_t *controller
@@ -68,6 +73,22 @@ void gui_clipboard_destroy ( gui_clipboard_t *this_ );
  */
 void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, data_row_id_t destination_diagram_id );
 
+#if ( GTK_MAJOR_VERSION >= 4 )
+/*!
+ *  \brief callback that informs that the text from the clipboard is now available.
+ *
+ *  Thi function implicitly assumes that the clipboard text shall be imported and calls
+ *  gui_clipboard_private_copy_clipboard_to_db.
+ *
+ *  \param source_object pointer to the source GObject
+ *  \param res pointer to the clipboard text
+ *  \param user_data this_ pointer to own object attributes
+ */
+void gui_clipboard_clipboard_text_received_callback( GObject *source_object,
+                                                     GAsyncResult* res,
+                                                     gpointer user_data
+                                                   );
+#else
 /*!
  *  \brief callback that informs that the text from the clipboard is now available.
  *
@@ -78,7 +99,11 @@ void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, data_row_id_t
  *  \param text pointer to the clipboard text or NULL if there is no text
  *  \param data this_ pointer to own object attributes
  */
-void gui_clipboard_clipboard_text_received_callback ( GtkClipboard *clipboard, const gchar *text, gpointer data );
+void gui_clipboard_clipboard_text_received_callback( GdkClipboard *clipboard,
+                                                     const gchar *text,
+                                                     gpointer data
+                                                   );
+#endif
 
 /*!
  *  \brief copies a set of objects to the clipboard

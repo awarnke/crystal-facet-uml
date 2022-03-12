@@ -10,7 +10,7 @@
 #include <stdbool.h>
 
 void gui_clipboard_init ( gui_clipboard_t *this_,
-                          GtkClipboard *clipboard,
+                          GdkClipboard *clipboard,
                           gui_simple_message_to_user_t *message_to_user,
                           data_database_reader_t *db_reader,
                           ctrl_controller_t *controller )
@@ -62,13 +62,68 @@ int gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_, const data_smal
 
     if ( serialize_error == 0 )
     {
-        gtk_clipboard_set_text ( (*this_).the_clipboard, utf8stringbuf_get_string( (*this_).clipboard_stringbuf ), -1 );
+#if ( GTK_MAJOR_VERSION >= 4 )
+        gdk_clipboard_set_text( (*this_).the_clipboard, utf8stringbuf_get_string( (*this_).clipboard_stringbuf ) );
+#else
+        gtk_clipboard_set_text( (*this_).the_clipboard, utf8stringbuf_get_string( (*this_).clipboard_stringbuf ), -1 );
+#endif
     }
     TRACE_INFO( utf8stringbuf_get_string( (*this_).clipboard_stringbuf ) );
 
     TRACE_END_ERR( serialize_error );
     return serialize_error;
 }
+
+#if ( GTK_MAJOR_VERSION >= 4 )
+
+void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, data_row_id_t destination_diagram_id )
+{
+    TRACE_BEGIN();
+
+    utf8stringbuf_clear( (*this_).clipboard_stringbuf );
+
+    (*this_).destination_diagram_id = destination_diagram_id;
+    TRACE_INFO_INT ( "(*this_).destination_diagram_id:", destination_diagram_id );
+
+    gdk_clipboard_read_text_async( (*this_).the_clipboard,
+                                   NULL,  /* GCancellable* cancellable */
+                                   (GAsyncReadyCallback) gui_clipboard_clipboard_text_received_callback,
+                                   this_
+                                 );
+
+    TRACE_END();
+}
+
+void gui_clipboard_clipboard_text_received_callback( GObject *source_object,
+                                                     GAsyncResult* res,
+                                                     gpointer user_data  )
+{
+    TRACE_BEGIN();
+    assert( NULL != source_object );
+    assert( NULL != user_data );
+    gui_clipboard_t *this_ = user_data;
+
+    GError* error;
+    char* clipboard_text = gdk_clipboard_read_text_finish( (GdkClipboard*) source_object, res, &error );
+
+    if ( clipboard_text != NULL )
+    {
+        gui_clipboard_private_copy_clipboard_to_db( this_, clipboard_text );
+        g_object_unref( clipboard_text );
+    }
+    else
+    {
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_INPUT_DATA
+                                               );
+    }
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+#else
 
 void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, data_row_id_t destination_diagram_id )
 {
@@ -80,15 +135,15 @@ void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, data_row_id_t
     TRACE_INFO_INT ( "(*this_).destination_diagram_id:", destination_diagram_id );
 
     /* this more complicated call (compared to gtk_clipboard_wait_for_text) avoids recursive calls of the gdk main loop */
-    gtk_clipboard_request_text ( (*this_).the_clipboard,
-                                 (GtkClipboardTextReceivedFunc) gui_clipboard_clipboard_text_received_callback,
-                                 this_
-                               );
+    gtk_clipboard_request_text( (*this_).the_clipboard,
+                                (GtkClipboardTextReceivedFunc) gui_clipboard_clipboard_text_received_callback,
+                                this_
+                              );
 
     TRACE_END();
 }
 
-void gui_clipboard_clipboard_text_received_callback ( GtkClipboard *clipboard, const gchar *clipboard_text, gpointer data )
+void gui_clipboard_clipboard_text_received_callback( GdkClipboard *clipboard, const gchar *clipboard_text, gpointer data )
 {
     TRACE_BEGIN();
     assert( NULL != clipboard );
@@ -110,6 +165,8 @@ void gui_clipboard_clipboard_text_received_callback ( GtkClipboard *clipboard, c
     TRACE_TIMESTAMP();
     TRACE_END();
 }
+
+#endif
 
 void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const char *json_text )
 {

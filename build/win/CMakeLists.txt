@@ -15,15 +15,40 @@ INCLUDE_DIRECTORIES(../../pencil/include)
 INCLUDE_DIRECTORIES(../../io/include)
 INCLUDE_DIRECTORIES(../../universal/include)
 
-SET(THIRD_PARTY_ROOT "${-DCMAKE_PREFIX_PATH}/root")
-SET(SQLITE_BASE "${-DCMAKE_PREFIX_PATH}/home/sqlite3")
+SET(THIRD_PARTY_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/root")
+SET(SQLITE_BASE " ${CMAKE_CURRENT_SOURCE_DIR}/root//home/sqlite3")
 MESSAGE("THIRD_PARTY_ROOT: ${THIRD_PARTY_ROOT}")
 
 set(ENV{PKG_CONFIG_PATH} "")
-set(ENV{PKG_CONFIG_LIBDIR} "${THIRD_PARTY_ROOT}/usr/local/lib/pkgconfig:${THIRD_PARTY_ROOT}/usr/local/lib64/pkgconfig:${THIRD_PARTY_ROOT}${THIRD_PARTY_ROOT}/usr/local/lib/pkgconfig:${THIRD_PARTY_ROOT}${THIRD_PARTY_ROOT}/usr/local/lib64/pkgconfig")
-set(ENV{PKG_CONFIG_SYSROOT_DIR} ${THIRD_PARTY_ROOT})
-set(PKG_CONFIG_EXECUTABLE /usr/bin/x86_64-w64-mingw32-pkg-config)
-include(FindPkgConfig)
+set(ENV{PKG_CONFIG_LIBDIR} "${THIRD_PARTY_ROOT}/usr/local/lib/pkgconfig:${THIRD_PARTY_ROOT}/usr/local/lib64/pkgconfig")
+set(ENV{PKG_CONFIG_SYSROOT_DIR} "${THIRD_PARTY_ROOT}")
+set(PKG_CONFIG_EXECUTABLE "/usr/bin/x86_64-w64-mingw32-pkg-config")
+#include(FindPkgConfig)
+MESSAGE("ENV{PKG_CONFIG_PATH}:        $ENV{PKG_CONFIG_PATH}")
+MESSAGE("ENV{PKG_CONFIG_LIBDIR}:      $ENV{PKG_CONFIG_LIBDIR}")
+MESSAGE("ENV{PKG_CONFIG_SYSROOT_DIR}: $ENV{PKG_CONFIG_SYSROOT_DIR}")
+
+INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/cairo")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/gtk-4.0")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/pango-1.0")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/harfbuzz")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/gdk-pixbuf-2.0")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/libxml2")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/libxml2/libxml")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/xkbcommon")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/gio-win32-2.0")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/graphene-1.0")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/libcroco-0.6")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/glib-2.0")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/atk-1.0")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/epoxy")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/fontconfig")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/libpng16")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/fribidi")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/pixman-1")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/freetype2")
+#INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/textstyle")
 
 INCLUDE_DIRECTORIES("${SQLITE_BASE}")
 
@@ -63,23 +88,88 @@ FILE(GLOB utestSource  ../../main/test/*.c
                        ../../universal/test/unit/*.c
                        ../../utf8stringbuf/test/unit/*.c)
 
-FIND_LIBRARY( ATK_LIB atk-1.0 "${THIRD_PARTY_ROOT}/usr/local/")
-FIND_LIBRARY( CAIRO_LIB cairo "${THIRD_PARTY_ROOT}/usr/local/" )
-FIND_LIBRARY( FONTCNF_LIB fontconfig "${THIRD_PARTY_ROOT}/usr/local/" )
-FIND_LIBRARY( GAIL_LIB gailutil "${THIRD_PARTY_ROOT}/usr/local/" )
-FIND_LIBRARY( GDKPIX_LIB gdk_pixbuf-2.0 "${THIRD_PARTY_ROOT}/usr/local/" )
-FIND_LIBRARY( GDKWIN_LIB gdk-win32-3.0 "${THIRD_PARTY_ROOT}/usr/local/" )
-FIND_LIBRARY( GIO_LIB gio-2.0 "${THIRD_PARTY_ROOT}/usr/local/" )
-FIND_LIBRARY( GLIB_LIB glib-2.0 "${THIRD_PARTY_ROOT}/usr/local/" )
-FIND_LIBRARY( GMOD_LIB gmodule-2.0 "${THIRD_PARTY_ROOT}/usr/local/" )
-FIND_LIBRARY( GOBJ_LIB gobject-2.0 "${THIRD_PARTY_ROOT}/usr/local/" )
-FIND_LIBRARY( GTHREAD_LIB gthread-2.0 "${THIRD_PARTY_ROOT}/usr/local/" )
-FIND_LIBRARY( GTK_LIB gtk-win32-3.0 "${THIRD_PARTY_ROOT}/usr/local/" )
-FIND_LIBRARY( PANGO_LIB pango-1.0 "${THIRD_PARTY_ROOT}/usr/local/" )
-FIND_LIBRARY( PANGOCAIRO_LIB pangocairo-1.0 "${THIRD_PARTY_ROOT}/usr/local/" )
-FIND_LIBRARY( PANGOFT_LIB pangoft2-1.0 "${THIRD_PARTY_ROOT}/usr/local/" )
-FIND_LIBRARY( PANGOWIN_LIB pangowin32-1.0 "${THIRD_PARTY_ROOT}/usr/local/" )
-MESSAGE("gtk found at ${GTK_LIB}")
+EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs atk
+                OUTPUT_VARIABLE ATK_LIB OUTPUT_STRIP_TRAILING_WHITESPACE)
+#FIND_LIBRARY( ATK_LIB atk-1.0 "${THIRD_PARTY_ROOT}/usr/local/")
+MESSAGE("atk found at ${ATK_LIB}")
+#pkg_search_module(ATK_LIB REQUIRED atk)
+#MESSAGE("atk found at ${ATK_LIB_LIBRARIES} / ${ATK_LIB_INCLUDE_DIRS}")
+
+EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs cairo
+                OUTPUT_VARIABLE CAIRO_LIB OUTPUT_STRIP_TRAILING_WHITESPACE)
+#FIND_LIBRARY( CAIRO_LIB cairo "${THIRD_PARTY_ROOT}/usr/local/" )
+MESSAGE("atk found at ${CAIRO_LIB}")
+#pkg_search_module(CAIRO_LIB REQUIRED cairo)
+#MESSAGE("cairo found at ${CAIRO_LIB_LIBRARIES} / ${CAIRO_LIB_INCLUDE_DIRS}")
+
+EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs fontconfig
+                OUTPUT_VARIABLE FONTCNF_LIB OUTPUT_STRIP_TRAILING_WHITESPACE)
+#FIND_LIBRARY( FONTCNF_LIB fontconfig "${THIRD_PARTY_ROOT}/usr/local/bin/" )
+#FIND_LIBRARY( FONTCNF_LIB NAMES "libfontconfig-1.dll" PATHS "${THIRD_PARTY_ROOT}/usr/local/bin" NO_DEFAULT_PATH)
+MESSAGE("fontconfig found at ${FONTCNF_LIB}")
+
+set(GAIL_LIB "")
+#FIND_LIBRARY( GAIL_LIB gailutil "${THIRD_PARTY_ROOT}/usr/local/" )
+MESSAGE("gailutil found at ${GAIL_LIB}")
+
+EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs gdk-pixbuf-2.0
+                OUTPUT_VARIABLE GDKPIX_LIB OUTPUT_STRIP_TRAILING_WHITESPACE)
+#FIND_LIBRARY( GDKPIX_LIB gdk_pixbuf-2.0 "${THIRD_PARTY_ROOT}/usr/local/" )
+MESSAGE("gdk_pixbuf found at ${GDKPIX_LIB}")
+
+set(GDKWIN_LIB "")
+#FIND_LIBRARY( GDKWIN_LIB gdk-win32-3.0 "${THIRD_PARTY_ROOT}/usr/local/" )
+MESSAGE("gdk-win32 found at ${GDKWIN_LIB}")
+
+EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs gio-2.0
+                OUTPUT_VARIABLE GIO_LIB OUTPUT_STRIP_TRAILING_WHITESPACE)
+#FIND_LIBRARY( GIO_LIB gio-2.0 "${THIRD_PARTY_ROOT}/usr/local/" )
+MESSAGE("gio-2.0 found at ${GIO_LIB}")
+
+EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs glib-2.0
+                OUTPUT_VARIABLE GLIB_LIB OUTPUT_STRIP_TRAILING_WHITESPACE)
+#FIND_LIBRARY( GLIB_LIB glib-2.0 "${THIRD_PARTY_ROOT}/usr/local/" )
+MESSAGE("glib-2.0 found at ${GLIB_LIB}")
+
+EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs gmodule-2.0
+                OUTPUT_VARIABLE GMOD_LIB OUTPUT_STRIP_TRAILING_WHITESPACE)
+#FIND_LIBRARY( GMOD_LIB gmodule-2.0 "${THIRD_PARTY_ROOT}/usr/local/" )
+MESSAGE("gmodule-2.0 found at ${GMOD_LIB}")
+
+EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs gobject-2.0
+                OUTPUT_VARIABLE GOBJ_LIB OUTPUT_STRIP_TRAILING_WHITESPACE)
+#FIND_LIBRARY( GOBJ_LIB gobject-2.0 "${THIRD_PARTY_ROOT}/usr/local/" )
+MESSAGE("gobject-2.0 found at ${GOBJ_LIB}")
+
+EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs gthread-2.0
+                OUTPUT_VARIABLE GTHREAD_LIB OUTPUT_STRIP_TRAILING_WHITESPACE)
+#FIND_LIBRARY( GTHREAD_LIB gthread-2.0 "${THIRD_PARTY_ROOT}/usr/local/" )
+MESSAGE("gthread-2.0 found at ${GTHREAD_LIB}")
+
+EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs gtk4
+                OUTPUT_VARIABLE GTK_LIB OUTPUT_STRIP_TRAILING_WHITESPACE)
+#FIND_LIBRARY( GTK_LIB gtk4 "${THIRD_PARTY_ROOT}/usr/local/" )
+MESSAGE("gtk4 found at ${GTK_LIB}")
+
+EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs pango
+                OUTPUT_VARIABLE PANGO_LIB OUTPUT_STRIP_TRAILING_WHITESPACE)
+#FIND_LIBRARY( PANGO_LIB pango-1.0 "${THIRD_PARTY_ROOT}/usr/local/" )
+MESSAGE("pango found at ${PANGO_LIB}")
+
+EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs pangocairo
+                OUTPUT_VARIABLE PANGOCAIRO_LIB OUTPUT_STRIP_TRAILING_WHITESPACE)
+#FIND_LIBRARY( PANGOCAIRO_LIB pangocairo-1.0 "${THIRD_PARTY_ROOT}/usr/local/" )
+MESSAGE("pangocairo found at ${PANGOCAIRO_LIB}")
+
+EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs pangoft2
+                OUTPUT_VARIABLE PANGOFT_LIB OUTPUT_STRIP_TRAILING_WHITESPACE)
+#FIND_LIBRARY( PANGOFT_LIB pangoft2-1.0 "${THIRD_PARTY_ROOT}/usr/local/" )
+MESSAGE("pangoft2 found at ${PANGOFT_LIB}")
+
+EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs pangowin32
+                OUTPUT_VARIABLE PANGOWIN_LIB OUTPUT_STRIP_TRAILING_WHITESPACE)
+#FIND_LIBRARY( PANGOWIN_LIB pangowin32-1.0 "${THIRD_PARTY_ROOT}/usr/local/" )
+MESSAGE("pangowin32 found at ${PANGOWIN_LIB}")
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Check if CMAKE_BUILD_TYPE is set ==== ==== ==== ==== ==== ==== ==== ====
 
