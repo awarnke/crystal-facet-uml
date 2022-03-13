@@ -1,35 +1,51 @@
 /* File: gui_toolbox.inl; Copyright and License: see below */
 
-static inline gui_tool_t gui_toolbox_get_selected_tool ( gui_toolbox_t *this_ )
+static inline gui_tool_t gui_toolbox_get_selected_tool( gui_toolbox_t *this_ )
 {
     return (*this_).selected_tool;
 }
 
-static inline void gui_toolbox_set_selected_tool ( gui_toolbox_t *this_, gui_tool_t tool )
+static inline void gui_toolbox_set_selected_tool( gui_toolbox_t *this_, gui_tool_t tool )
 {
     switch ( tool )
     {
         case GUI_TOOL_NAVIGATE:
         {
-            gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_navigate ), true );
+#if ( GTK_MAJOR_VERSION >= 4 )
+            gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( (*this_).tool_navigate ), true );
+#else
+            gtk_toggle_tool_button_set_active( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_navigate ), true );
+#endif
         }
         break;
 
         case GUI_TOOL_EDIT:
         {
-            gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_edit ), true );
+#if ( GTK_MAJOR_VERSION >= 4 )
+            gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( (*this_).tool_edit ), true );
+#else
+            gtk_toggle_tool_button_set_active( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_edit ), true );
+#endif
         }
         break;
 
         case GUI_TOOL_SEARCH:
         {
-            gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_search ), true );
+#if ( GTK_MAJOR_VERSION >= 4 )
+            gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( (*this_).tool_search ), true );
+#else
+            gtk_toggle_tool_button_set_active( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_search ), true );
+#endif
         }
         break;
 
         case GUI_TOOL_CREATE:
         {
-            gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_create ), true );
+#if ( GTK_MAJOR_VERSION >= 4 )
+            gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( (*this_).tool_create ), true );
+#else
+            gtk_toggle_tool_button_set_active( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_create ), true );
+#endif
         }
         break;
 

@@ -29,10 +29,10 @@ struct gui_toolbox_struct {
     gui_clipboard_t clipboard;  /*!< own instance of a clipboard object */
 
     GtkWidget *toolbar;  /*!< pointer to external GObject which is used as origin of tool change signals */
-    GtkToolItem *tool_navigate;  /*!< pointer to external GtkRadioToolButton */
-    GtkToolItem *tool_edit;  /*!< pointer to external GtkRadioToolButton */
-    GtkToolItem *tool_create;  /*!< pointer to external GtkRadioToolButton */
-    GtkToolItem *tool_search;  /*!< pointer to external GtkRadioToolButton */
+    GtkWidget *tool_navigate;  /*!< pointer to external GtkRadioToolButton */
+    GtkWidget *tool_edit;  /*!< pointer to external GtkRadioToolButton */
+    GtkWidget *tool_create;  /*!< pointer to external GtkRadioToolButton */
+    GtkWidget *tool_search;  /*!< pointer to external GtkRadioToolButton */
 };
 
 typedef struct gui_toolbox_struct gui_toolbox_t;
@@ -48,7 +48,7 @@ extern const char *GUI_TOOLBOX_GLIB_SIGNAL_NAME;
  *  \param tool_edit the GTK widget. Ownership remains at caller.
  *  \param tool_create the GTK widget. Ownership remains at caller.
  *  \param tool_search the GTK widget. Ownership remains at caller.
- *  \param gtk_clipboard pointer to the main/primary GtkClipboard
+ *  \param gtk_clipboard pointer to the main/primary GdkClipboard
  *  \param marker pointer to the set of marked items
  *  \param message_to_user pointer to an object that can show a message to the user
  *  \param db_reader pointer to a database reader
@@ -56,11 +56,11 @@ extern const char *GUI_TOOLBOX_GLIB_SIGNAL_NAME;
  */
 void gui_toolbox_init ( gui_toolbox_t *this_,
                         GtkWidget *toolbar,
-                        GtkToolItem *tool_navigate,
-                        GtkToolItem *tool_edit,
-                        GtkToolItem *tool_create,
-                        GtkToolItem *tool_search,
-                        GtkClipboard *gtk_clipboard,
+                        GtkWidget *tool_navigate,
+                        GtkWidget *tool_edit,
+                        GtkWidget *tool_create,
+                        GtkWidget *tool_search,
+                        GdkClipboard *gtk_clipboard,
                         gui_marked_set_t *marker,
                         gui_simple_message_to_user_t *message_to_user,
                         data_database_reader_t *db_reader,
