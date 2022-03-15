@@ -5,7 +5,9 @@
 #include "gui_window_manager.h"
 #include "storage/data_database.h"
 #include "storage/data_database_reader.h"
+#include "meta/meta_info.h"
 #include "trace.h"
+#include "tslog.h"
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,7 +26,21 @@ void gui_main ( ctrl_controller_t *controller, data_database_t *database ) {
 
     TRACE_TIMESTAMP();
 
+#if ( GTK_MAJOR_VERSION >= 4 )
+    GApplication *const g_app
+        = g_application_new( META_INFO_PROGRAM_ID_STR,  /* application_id */
+                             G_APPLICATION_NON_UNIQUE
+                           );
+    const int argc = 0;
+    char * *const argv = NULL;
+    int error_code = g_application_run( g_app, argc, argv );
+    if ( error_code != 0 )
+    {
+        TSLOG_ERROR_INT("g_application_run:",error_code);
+    }
+#else
     gtk_main();
+#endif
 
     gui_window_manager_destroy( &window_manager );
 

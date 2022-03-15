@@ -76,6 +76,24 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
         TRACE_INFO_INT( "g_signal_new(\"cfu_object_selected\") returned new signal id", gui_sketch_area_glib_signal_id );
     }
 
+    /* connect draw/update and mouse move and key signals to the controllers of this widget */
+#if ( GTK_MAJOR_VERSION >= 4 )
+    gtk_drawing_area_set_draw_func( G_OBJECT((*this_).drawing_area), gui_sketch_area_draw_callback, NULL, NULL);
+#else
+    g_signal_connect( G_OBJECT((*this_).drawing_area), "draw", G_CALLBACK (gui_sketch_area_draw_callback_old), this_ );
+#endif
+    g_signal_connect( G_OBJECT((*this_).drawing_area), "motion_notify_event", G_CALLBACK(gui_sketch_area_mouse_motion_callback), this_ );
+    g_signal_connect( G_OBJECT((*this_).drawing_area), "button_press_event", G_CALLBACK(gui_sketch_area_button_press_callback), this_ );
+    g_signal_connect( G_OBJECT((*this_).drawing_area), "button_release_event", G_CALLBACK(gui_sketch_area_button_release_callback), this_ );
+    g_signal_connect( G_OBJECT((*this_).drawing_area), "leave_notify_event", G_CALLBACK(gui_sketch_area_leave_notify_callback), this_ );
+    g_signal_connect( G_OBJECT((*this_).drawing_area), "key_press_event", G_CALLBACK(gui_sketch_area_key_press_callback), this_ );
+#if ( GTK_MAJOR_VERSION >= 40000 )
+    GtkEventControllerMotion *evt_move = gtk_event_controller_motion_new();
+    g_signal_handler_connect( evt_move, "pressed", G_CALLBACK (click_cb), this_ );
+    gtk_widget_add_controller( (*this_).drawing_area, evt_move );
+#else
+#endif
+
     /* fetch initial data from the database */
     gui_sketch_area_show_diagram( this_, DATA_ID_VOID );
 
@@ -167,8 +185,15 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_sea
     TRACE_END();
 }
 
-gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer data )
+#if ( GTK_MAJOR_VERSION >= 4 )
+void gui_sketch_area_draw_callback( GtkDrawingArea *widget, cairo_t *cr, int width, int height, gpointer data )
 {
+    const void ret;
+#else
+gboolean gui_sketch_area_draw_callback_old( GtkWidget *widget, cairo_t *cr, gpointer data )
+{
+    const gboolean ret = FALSE;
+#endif
     TRACE_BEGIN();
     assert( NULL != cr );
 
@@ -198,7 +223,7 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
 
     TRACE_TIMESTAMP();
     TRACE_END();
-    return FALSE;
+    return ret;
 }
 
 void gui_sketch_area_show_diagram ( gui_sketch_area_t *this_, data_id_t main_diagram_id )

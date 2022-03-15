@@ -90,9 +90,11 @@ int main (int argc, char *argv[]) {
         {
             fprintf( stdout, "\nUsage:\n" );
             fprintf( stdout, "    %s -h for help\n", argv[0] );
-            fprintf( stdout, "    %s -u to run the unit-tests (test functions of single software units)\n", argv[0] );
-            fprintf( stdout, "    %s -i to run the integration tests (test interactions between several units)\n", argv[0] );
-            fprintf( stdout, "    %s -a to run all tests\n", argv[0] );
+            fprintf( stdout, "    G_ENABLE_DIAGNOSTIC=1 %s -u to run the unit-tests\n", argv[0] );
+            fprintf( stdout, "        (test functions of single software units\n" );
+            fprintf( stdout, "    G_ENABLE_DIAGNOSTIC=1 %s -i to run the integration tests\n", argv[0] );
+            fprintf( stdout, "        (test interactions between several software parts\n" );
+            fprintf( stdout, "    G_ENABLE_DIAGNOSTIC=1 %s -a to run all tests\n", argv[0] );
         }
         if ( utf8string_equals_str( argv[1], "-u" ) )
         {

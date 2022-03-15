@@ -183,7 +183,11 @@ static inline data_row_id_t gui_sketch_area_private_get_focused_diagram_id ( gui
 /*!
  *  \brief callback that redraws the sketch_area widget
  */
-gboolean gui_sketch_area_draw_callback ( GtkWidget *widget, cairo_t *cr, gpointer data );
+#if ( GTK_MAJOR_VERSION >= 4 )
+void gui_sketch_area_draw_callback ( GtkDrawingArea *widget, cairo_t *cr, int width, int height, gpointer data );
+#else
+gboolean gui_sketch_area_draw_callback_old ( GtkWidget *widget, cairo_t *cr, gpointer data );
+#endif
 
 /*!
  *  \brief callback that informs that the mouse cursor left the sketch_area widget

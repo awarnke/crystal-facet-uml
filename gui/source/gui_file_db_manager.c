@@ -47,8 +47,17 @@ void gui_file_db_manager_use_db_response_callback( GtkDialog *dialog, gint respo
             TSLOG_EVENT( "GTK_RESPONSE_ACCEPT" );
             u8_error_t error;
 
-            gchar *filename;
-            filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
+            gchar *filename = NULL;
+            GFile *selected_file = NULL;
+#if ( GTK_MAJOR_VERSION >= 4 )
+            selected_file = gtk_file_chooser_get_file( GTK_FILE_CHOOSER(dialog) );
+            if ( selected_file != NULL )
+            {
+                filename = g_file_get_path( selected_file );
+            }
+#else
+            filename = gtk_file_chooser_get_filename( GTK_FILE_CHOOSER(dialog) );
+#endif
             TRACE_INFO_STR( "File chosen:", filename );
 
             error = ctrl_controller_switch_database ( (*this_).controller, filename );
@@ -74,6 +83,10 @@ void gui_file_db_manager_use_db_response_callback( GtkDialog *dialog, gint respo
 
             }
             g_free (filename);
+            if ( selected_file != NULL )
+            {
+                g_object_unref( selected_file );
+            }
 
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
 

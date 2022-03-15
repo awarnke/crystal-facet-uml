@@ -50,13 +50,13 @@ struct gui_main_window_struct {
     GtkWidget *file_new_window_icon;
     GtkButton *file_new_window;
     GtkWidget *tool_navigate_icon;
-    GtkBin *tool_navigate;
+    GtkWidget *tool_navigate;
     GtkWidget *tool_edit_icon;
-    GtkBin *tool_edit;
+    GtkWidget *tool_edit;
     GtkWidget *tool_create_icon;
-    GtkBin *tool_create;
+    GtkWidget *tool_create;
     GtkWidget *tool_search_icon;
-    GtkBin *tool_search;
+    GtkWidget *tool_search;
     GtkWidget *edit_cut_icon;
     GtkButton *edit_cut;
     GtkWidget *edit_copy_icon;
@@ -78,7 +78,10 @@ struct gui_main_window_struct {
     GtkWidget *tool_about_icon;
     GtkButton *tool_about;
 
+#if ( GTK_MAJOR_VERSION >= 4 )
+#else
     GtkAccelGroup *keyboard_shortcut_group;
+#endif
 
     GtkWidget *attr_section_icon;
     GtkWidget *id_label;
