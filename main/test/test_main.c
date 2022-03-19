@@ -117,7 +117,11 @@ int main (int argc, char *argv[]) {
 
     /* initialize the base libraries: gobject, gio, glib, gdk and gtk */
     {
-        gboolean success = gtk_init_check(&argc, &argv);
+#if ( GTK_MAJOR_VERSION >= 4 )
+        const gboolean success = gtk_init_check();
+#else
+        const gboolean success = gtk_init_check(&argc, &argv);
+#endif
         if ( ! success )
         {
             TSLOG_WARNING("gtk could not be initialized.");
