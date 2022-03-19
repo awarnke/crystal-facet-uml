@@ -78,22 +78,26 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
 
     /* connect draw/update and mouse move and key signals to the controllers of this widget */
 #if ( GTK_MAJOR_VERSION >= 4 )
-    gtk_drawing_area_set_draw_func( G_OBJECT((*this_).drawing_area), gui_sketch_area_draw_callback, NULL, NULL);
+    gtk_drawing_area_set_draw_func( GTK_DRAWING_AREA((*this_).drawing_area),
+                                    (GtkDrawingAreaDrawFunc) gui_sketch_area_draw_callback,
+                                    NULL,
+                                    NULL
+                                  );
+
+    GtkEventController *evt_move = gtk_event_controller_motion_new();
+    g_signal_connect( evt_move, "enter", G_CALLBACK (gui_sketch_area_motion_notify_callback), this_ );
+    g_signal_connect( evt_move, "motion", G_CALLBACK (gui_sketch_area_motion_notify_callback), this_ );
+    g_signal_connect( evt_move, "leave", G_CALLBACK (gui_sketch_area_leave_notify_callback), this_ );
+    gtk_widget_add_controller( (*this_).drawing_area, GTK_EVENT_CONTROLLER(evt_move) );
+    /* alternative: GtkGestureSingle */
 #else
     g_signal_connect( G_OBJECT((*this_).drawing_area), "draw", G_CALLBACK (gui_sketch_area_draw_callback_old), this_ );
-#endif
+
     g_signal_connect( G_OBJECT((*this_).drawing_area), "motion_notify_event", G_CALLBACK(gui_sketch_area_mouse_motion_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).drawing_area), "button_press_event", G_CALLBACK(gui_sketch_area_button_press_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).drawing_area), "button_release_event", G_CALLBACK(gui_sketch_area_button_release_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).drawing_area), "leave_notify_event", G_CALLBACK(gui_sketch_area_leave_notify_callback), this_ );
-    g_signal_connect( G_OBJECT((*this_).drawing_area), "key_press_event", G_CALLBACK(gui_sketch_area_key_press_callback), this_ );
-#if ( GTK_MAJOR_VERSION >= 40000 )
-    GtkGestureSingle
-
-    GtkEventControllerMotion *evt_move = gtk_event_controller_motion_new();
-    g_signal_handler_connect( evt_move, "pressed", G_CALLBACK (click_cb), this_ );
-    gtk_widget_add_controller( (*this_).drawing_area, evt_move );
-#else
+    g_signal_connect( G_OBJECT((*this_).drawing_area), "key_press_event",     G_CALLBACK(gui_sketch_area_key_press_callback), this_ );
 #endif
 
     /* fetch initial data from the database */
@@ -190,20 +194,21 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_sea
 #if ( GTK_MAJOR_VERSION >= 4 )
 void gui_sketch_area_draw_callback( GtkDrawingArea *widget, cairo_t *cr, int width, int height, gpointer data )
 {
-    const void ret;
+    TRACE_BEGIN();
+    assert( NULL != cr );
+    gui_sketch_area_t *this_ = data;
+    assert( NULL != this_ );
 #else
 gboolean gui_sketch_area_draw_callback_old( GtkWidget *widget, cairo_t *cr, gpointer data )
 {
-    const gboolean ret = FALSE;
-#endif
     TRACE_BEGIN();
     assert( NULL != cr );
-
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
 
     const guint width = gtk_widget_get_allocated_width (widget);
     const guint height = gtk_widget_get_allocated_height (widget);
+#endif
 
     if ( ! data_database_reader_is_open( (*this_).db_reader ) )
     {
@@ -225,7 +230,11 @@ gboolean gui_sketch_area_draw_callback_old( GtkWidget *widget, cairo_t *cr, gpoi
 
     TRACE_TIMESTAMP();
     TRACE_END();
-    return ret;
+#if ( GTK_MAJOR_VERSION >= 4 )
+    return;
+#else
+    return FALSE;
+#endif
 }
 
 void gui_sketch_area_show_diagram ( gui_sketch_area_t *this_, data_id_t main_diagram_id )
@@ -589,6 +598,14 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
     TRACE_END();
 }
 
+#if ( GTK_MAJOR_VERSION >= 4 )
+void gui_sketch_area_leave_notify_callback( GtkEventControllerMotion* self, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_sketch_area_t *this_ = user_data;
+    assert( NULL != this_ );
+
+#else
 gboolean gui_sketch_area_leave_notify_callback( GtkWidget* widget, GdkEventCrossing* evt, gpointer data )
 {
     TRACE_BEGIN();
@@ -596,19 +613,37 @@ gboolean gui_sketch_area_leave_notify_callback( GtkWidget* widget, GdkEventCross
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
 
-    if (( (*evt).type == GDK_LEAVE_NOTIFY )&&( (*evt).mode == GDK_CROSSING_NORMAL )) {
-
+    if (( (*evt).type == GDK_LEAVE_NOTIFY )&&( (*evt).mode == GDK_CROSSING_NORMAL ))
+#endif
+    {
         gui_marked_set_clear_highlighted( (*this_).marker );
         /* mark dirty rect */
-        gtk_widget_queue_draw( widget );
-
+        gtk_widget_queue_draw( (*this_).drawing_area );
     }
 
     TRACE_TIMESTAMP();
     TRACE_END();
+#if ( GTK_MAJOR_VERSION >= 4 )
+    return;
+#else
     return TRUE;
+#endif
 }
 
+#if ( GTK_MAJOR_VERSION >= 4 )
+void gui_sketch_area_motion_notify_callback( GtkEventControllerMotion* self,
+                                             gdouble in_x,
+                                             gdouble in_y,
+                                             gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_sketch_area_t *this_ = user_data;
+    assert( NULL != this_ );
+
+    const int32_t x = (int32_t) in_x;
+    const int32_t y = (int32_t) in_y;
+    const int state = 0;
+#else
 gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotion* evt, gpointer data )
 {
     TRACE_BEGIN();
@@ -619,6 +654,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     const int32_t x = (int32_t) (*evt).x;
     const int32_t y = (int32_t) (*evt).y;
     const GdkModifierType state = (GdkModifierType) (*evt).state;
+#endif
     TRACE_INFO_INT_INT( "x/y", x, y );
 
     /* update drag coordinates */
@@ -639,7 +675,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
             if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
             {
                 /* always redraw while dragging */
-                gtk_widget_queue_draw( widget );
+                gtk_widget_queue_draw( (*this_).drawing_area );
             }
             else /* not dragging */
             {
@@ -665,7 +701,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
                     gui_marked_set_set_highlighted( (*this_).marker, object_under_mouse, diag_under_mouse );
 
                     /* mark dirty rect */
-                    gtk_widget_queue_draw( widget );
+                    gtk_widget_queue_draw( (*this_).drawing_area );
                 }
             }
         }
@@ -707,7 +743,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
                     }
 
                     /* mark dirty rect */
-                    gtk_widget_queue_draw( widget );
+                    gtk_widget_queue_draw( (*this_).drawing_area );
                 }
                 else
                 {
@@ -738,7 +774,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
                         gui_marked_set_set_highlighted( (*this_).marker, mouseover_element, diag_id );
 
                         /* mark dirty rect */
-                        gtk_widget_queue_draw( widget );
+                        gtk_widget_queue_draw( (*this_).drawing_area );
                     }
                 }
             }
@@ -768,18 +804,18 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
                     gui_marked_set_set_highlighted( (*this_).marker, classifier_under_mouse, diag_id );
 
                     /* mark dirty rect */
-                    gtk_widget_queue_draw( widget );
+                    gtk_widget_queue_draw( (*this_).drawing_area );
                 }
             }
             else if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
             {
                 /* always redraw while dragging */
-                gtk_widget_queue_draw( widget );
+                gtk_widget_queue_draw( (*this_).drawing_area );
             }
             else
             {
                 /* always redraw while moving the mouse to move the new-box-and-arrow icon */
-                gtk_widget_queue_draw( widget );
+                gtk_widget_queue_draw( (*this_).drawing_area );
             }
         }
         break;
@@ -792,8 +828,15 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     }
 
     TRACE_END();
+#if ( GTK_MAJOR_VERSION >= 4 )
+    return;
+#else
     return TRUE;
+#endif
 }
+
+#if ( GTK_MAJOR_VERSION >= 4 )
+#else
 
 gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data )
 {
@@ -1753,6 +1796,8 @@ gboolean gui_sketch_area_key_press_callback( GtkWidget* widget, GdkEventKey* evt
     TRACE_END();
     return result_event_handled;
 }
+
+#endif
 
 void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer data )
 {

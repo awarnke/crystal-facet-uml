@@ -25,7 +25,7 @@ echo `date +'%H:%M'`" building expat..."
 LOG_FILE=${LOG_DIR}/log_expat.txt
 echo "      log: ${LOG_FILE}"
 cd src/expat-2*
-    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} --enable-static --enable-wrapper=gcc > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..

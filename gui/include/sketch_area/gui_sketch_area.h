@@ -184,9 +184,9 @@ static inline data_row_id_t gui_sketch_area_private_get_focused_diagram_id ( gui
  *  \brief callback that redraws the sketch_area widget
  */
 #if ( GTK_MAJOR_VERSION >= 4 )
-void gui_sketch_area_draw_callback ( GtkDrawingArea *widget, cairo_t *cr, int width, int height, gpointer data );
+void gui_sketch_area_draw_callback( GtkDrawingArea *widget, cairo_t *cr, int width, int height, gpointer data );
 #else
-gboolean gui_sketch_area_draw_callback_old ( GtkWidget *widget, cairo_t *cr, gpointer data );
+gboolean gui_sketch_area_draw_callback_old( GtkWidget *widget, cairo_t *cr, gpointer data );
 #endif
 
 /*!
@@ -199,9 +199,14 @@ gboolean gui_sketch_area_leave_notify_callback( GtkWidget* widget, GdkEventCross
 #endif
 
 /*!
- *  \brief callback that informs that the mouse cursor moved on the sketch_area widget
+ *  \brief callback that informs that the mouse cursor entered or moved on the sketch_area widget
  */
 #if ( GTK_MAJOR_VERSION >= 4 )
+void gui_sketch_area_motion_notify_callback( GtkEventControllerMotion* self,
+                                             gdouble in_x,
+                                             gdouble in_y,
+                                             gpointer user_data
+                                           );
 #else
 gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotion* evt, gpointer data );
 #endif
