@@ -1,6 +1,7 @@
 /* File: gui_main_window.c; Copyright and License: see below */
 
 #include "gui_main_window.h"
+#include "gui_clipboard.h"
 #include "trace.h"
 #include "storage/data_change_notifier.h"
 #include "meta/meta_info.h"
@@ -8,6 +9,14 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdbool.h>
+
+#if ( GTK_MAJOR_VERSION >= 4 )
+static inline void gtk_button_set_image( GtkButton *btn, GtkWidget *icon )
+{
+    gtk_widget_insert_after( icon, GTK_WIDGET(btn), NULL );
+}
+#else
+#endif
 
 void gui_main_window_init ( gui_main_window_t *this_,
                             ctrl_controller_t *controller,
@@ -26,7 +35,11 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     /* init window */
 
+#if ( GTK_MAJOR_VERSION >= 4 )
+    (*this_).window = gtk_window_new();
+#else
     (*this_).window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+#endif
     const char *window_title;
     window_title = data_database_get_filename_ptr( database );
     gtk_window_set_title(GTK_WINDOW( (*this_).window ), ( window_title == NULL ) ? META_INFO_PROGRAM_NAME_STR : window_title );
@@ -78,23 +91,22 @@ void gui_main_window_init ( gui_main_window_t *this_,
 #if ( GTK_MAJOR_VERSION >= 4 )
     (*this_).tool_navigate = gtk_toggle_button_new();
     gtk_button_set_label( GTK_BUTTON((*this_).tool_navigate), "Navigate");
-    gtk_button_set_icon_widget( GTK_BUTTON((*this_).tool_navigate), (*this_).tool_navigate_icon);
+    gtk_widget_insert_after( (*this_).tool_navigate_icon, GTK_WIDGET((*this_).tool_navigate), NULL );
 
-    (*this_).tool_edit = gtk_toggle_button_new( group );
+    (*this_).tool_edit = gtk_toggle_button_new();
     gtk_button_set_label( GTK_BUTTON((*this_).tool_edit), "Edit");
-    gtk_button_set_icon_widget( GTK_BUTTON((*this_).tool_edit), (*this_).tool_edit_icon);
-    gtk_toggle_button_set_group( GTK_TOGGLE_BUTTON((*this_).tool_edit, GTK_TOGGLE_BUTTON((*this_).tool_navigate) );
+    gtk_widget_insert_after( (*this_).tool_edit_icon, GTK_WIDGET((*this_).tool_edit), NULL );
+    gtk_toggle_button_set_group( GTK_TOGGLE_BUTTON((*this_).tool_edit), GTK_TOGGLE_BUTTON((*this_).tool_navigate) );
 
-    (*this_).tool_create = gtk_toggle_button_new( group );
+    (*this_).tool_create = gtk_toggle_button_new();
     gtk_button_set_label( GTK_BUTTON((*this_).tool_create), "Create");
-    gtk_button_set_icon_widget( GTK_BUTTON((*this_).tool_create), (*this_).tool_create_icon);
-    gtk_toggle_button_set_group( GTK_TOGGLE_BUTTON((*this_).tool_create, GTK_TOGGLE_BUTTON((*this_).tool_edit) );
+    gtk_widget_insert_after( (*this_).tool_create_icon, GTK_WIDGET((*this_).tool_create), NULL );
+    gtk_toggle_button_set_group( GTK_TOGGLE_BUTTON((*this_).tool_create), GTK_TOGGLE_BUTTON((*this_).tool_edit) );
 
-    (*this_).tool_search = gtk_toggle_button_new( group );
+    (*this_).tool_search = gtk_toggle_button_new();
     gtk_button_set_label( GTK_BUTTON((*this_).tool_search), "Search");
-    gtk_button_set_icon_widget( GTK_BUTTON((*this_).tool_search), (*this_).tool_search_icon);
-    gtk_toggle_button_set_group( GTK_TOGGLE_BUTTON((*this_).tool_search, GTK_TOGGLE_BUTTON((*this_).tool_create) );
-)
+    gtk_widget_insert_after( (*this_).tool_search_icon, GTK_WIDGET((*this_).tool_search), NULL );
+    gtk_toggle_button_set_group( GTK_TOGGLE_BUTTON((*this_).tool_search), GTK_TOGGLE_BUTTON((*this_).tool_create) );
 #else
     GSList *group;
 
@@ -202,6 +214,8 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_button_set_label( GTK_BUTTON((*this_).edit_redo), "Redo" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_redo), "Redo (Ctrl-Y)" );
 #if ( GTK_MAJOR_VERSION >= 4 )
+    // For key bindings, check documentation at
+    // https://gnome.pages.gitlab.gnome.org/gtk/gtk4/class.ShortcutController.html
 #else
     gtk_widget_add_accelerator ( GTK_WIDGET((*this_).edit_redo),
                                  "clicked",
@@ -221,13 +235,17 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).toolbar = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, /*spacing:*/ 2 );
 
     /* determine the current/main clipboard */
-    GtkClipboard *current_clipboard;
+    GdkClipboard *current_clipboard;
     {
-        GdkScreen *current_screen;
-        current_screen = gtk_window_get_screen ( GTK_WINDOW( (*this_).window ) );
-        GdkDisplay *current_display;
-        current_display = gdk_screen_get_display ( current_screen );
-        current_clipboard = gtk_clipboard_get_for_display ( current_display, GDK_NONE ); /* GDK_SELECTION_PRIMARY does not work */
+#if ( GTK_MAJOR_VERSION >= 4 )
+        GdkDisplay *const current_display = gdk_display_get_default();
+        current_clipboard = gdk_display_get_primary_clipboard( current_display );
+#else
+        GdkScreen *const current_screen = gtk_window_get_screen( GTK_WINDOW( (*this_).window ) );
+        GdkDisplay *const current_display = gdk_screen_get_display( current_screen );
+        current_clipboard = gtk_clipboard_get_for_display( current_display, GDK_NONE ); /* GDK_SELECTION_PRIMARY does not work */
+#endif
+
     }
 
     gui_marked_set_init( &((*this_).marker_data) );
@@ -247,8 +265,11 @@ void gui_main_window_init ( gui_main_window_t *this_,
     /* init sketch area */
 
     (*this_).sketcharea = gtk_drawing_area_new();
+#if ( GTK_MAJOR_VERSION >= 4 )
+#else
     gtk_widget_set_events( (*this_).sketcharea, GDK_LEAVE_NOTIFY_MASK
         | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK );
+#endif
     gtk_widget_set_hexpand ( (*this_).sketcharea, TRUE);
     gtk_widget_set_vexpand ( (*this_).sketcharea, TRUE);
     gtk_widget_set_can_focus( GTK_WIDGET( (*this_).sketcharea ), TRUE );  /* this allows the text entry widgets to lose the focus */
@@ -289,15 +310,20 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     (*this_).name_entry = gtk_entry_new();
 
-    (*this_).description_text_view = gtk_text_view_new ();
+    (*this_).description_text_view = gtk_text_view_new();
     gtk_text_view_set_wrap_mode( GTK_TEXT_VIEW( (*this_).description_text_view ),
                                  GTK_WRAP_WORD_CHAR );
-    gtk_container_set_border_width ( GTK_CONTAINER( (*this_).description_text_view ), 12 );
     gtk_widget_set_vexpand( GTK_WIDGET( (*this_).description_text_view ), true );
     gtk_widget_set_hexpand( GTK_WIDGET( (*this_).description_text_view ), false );
     /* need own scroll window container - otherwise the gtk_grid will manage the text view */
-    (*this_).description_scroll_win = gtk_scrolled_window_new (NULL, NULL);
+#if ( GTK_MAJOR_VERSION >= 4 )
+    (*this_).description_scroll_win = gtk_scrolled_window_new();
+    gtk_widget_insert_after( (*this_).description_text_view, GTK_WIDGET( (*this_).description_scroll_win ), NULL );
+#else
+    (*this_).description_scroll_win = gtk_scrolled_window_new( NULL, NULL );
+    gtk_container_set_border_width ( GTK_CONTAINER( (*this_).description_text_view ), 12 );
     gtk_container_add( GTK_CONTAINER( (*this_).description_scroll_win ), (*this_).description_text_view );
+#endif
     gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( (*this_).description_scroll_win ),
                                     GTK_POLICY_AUTOMATIC,
                                     GTK_POLICY_AUTOMATIC
@@ -401,6 +427,25 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     TRACE_INFO("GTK+ Widgets are created.");
 
+#if ( GTK_MAJOR_VERSION >= 4 )
+    gtk_widget_insert_after( GTK_WIDGET((*this_).file_use_db), (*this_).toolbar, NULL );
+    gtk_widget_insert_after( GTK_WIDGET((*this_).file_export), (*this_).toolbar, GTK_WIDGET((*this_).file_use_db) );
+    gtk_widget_insert_after( GTK_WIDGET((*this_).file_new_window), (*this_).toolbar, GTK_WIDGET((*this_).file_export) );
+    gtk_widget_insert_after( GTK_WIDGET((*this_).tool_search), (*this_).toolbar, GTK_WIDGET((*this_).file_new_window) );
+    gtk_widget_insert_after( GTK_WIDGET((*this_).tool_navigate), (*this_).toolbar, GTK_WIDGET((*this_).tool_search) );
+    gtk_widget_insert_after( GTK_WIDGET((*this_).tool_edit), (*this_).toolbar, GTK_WIDGET((*this_).tool_navigate) );
+    gtk_widget_insert_after( GTK_WIDGET((*this_).tool_create), (*this_).toolbar, GTK_WIDGET((*this_).tool_edit) );
+    gtk_widget_insert_after( GTK_WIDGET((*this_).edit_cut), (*this_).toolbar, GTK_WIDGET((*this_).tool_create) );
+    gtk_widget_insert_after( GTK_WIDGET((*this_).edit_copy), (*this_).toolbar, GTK_WIDGET((*this_).edit_cut) );
+    gtk_widget_insert_after( GTK_WIDGET((*this_).edit_paste), (*this_).toolbar, GTK_WIDGET((*this_).edit_copy) );
+    gtk_widget_insert_after( GTK_WIDGET((*this_).edit_delete), (*this_).toolbar, GTK_WIDGET((*this_).edit_paste) );
+    gtk_widget_insert_after( GTK_WIDGET((*this_).edit_instantiate), (*this_).toolbar, GTK_WIDGET((*this_).edit_delete) );
+    gtk_widget_insert_after( GTK_WIDGET((*this_).edit_highlight), (*this_).toolbar, GTK_WIDGET((*this_).edit_instantiate) );
+    gtk_widget_insert_after( GTK_WIDGET((*this_).edit_reset), (*this_).toolbar, GTK_WIDGET((*this_).edit_highlight) );
+    gtk_widget_insert_after( GTK_WIDGET((*this_).edit_undo), (*this_).toolbar, GTK_WIDGET((*this_).edit_reset) );
+    gtk_widget_insert_after( GTK_WIDGET((*this_).edit_redo), (*this_).toolbar, GTK_WIDGET((*this_).edit_undo) );
+    gtk_widget_insert_after( GTK_WIDGET((*this_).tool_about), (*this_).toolbar, GTK_WIDGET((*this_).edit_redo) );
+#else
     gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).file_use_db) );
     gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).file_export) );
     gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).file_new_window) );
@@ -418,6 +463,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).edit_undo) );
     gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).edit_redo) );
     gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).tool_about) );
+#endif
 
     (*this_).layout = gtk_grid_new();
     gtk_grid_set_column_homogeneous ( GTK_GRID((*this_).layout), false );  /* if true, the window would get resized */
@@ -480,7 +526,11 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_text_label, 1, 14, 3, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).message_text_label ), false );
     gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).message_text_label ), false );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    gtk_widget_insert_after( (*this_).layout, GTK_WIDGET((*this_).window), NULL );
+#else
     gtk_container_add(GTK_CONTAINER((*this_).window), (*this_).layout);
+#endif
 
     TRACE_INFO("GTK+ Widgets are added to containers.");
 
@@ -539,7 +589,11 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     TRACE_INFO("GTK+ Widgets are registered as listeners at signal emitter.");
 
+#if ( GTK_MAJOR_VERSION >= 4 )
+    gtk_widget_show((*this_).window);
+#else
     gtk_widget_show_all((*this_).window);
+#endif
     gui_attributes_editor_update_widgets( &((*this_).attributes_editor) );  /* hide some widgets again */
 #ifdef NDEBUG
     gui_simple_message_to_user_hide( &((*this_).message_to_user) );

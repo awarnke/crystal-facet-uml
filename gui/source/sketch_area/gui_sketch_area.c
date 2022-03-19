@@ -88,6 +88,8 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
     g_signal_connect( G_OBJECT((*this_).drawing_area), "leave_notify_event", G_CALLBACK(gui_sketch_area_leave_notify_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).drawing_area), "key_press_event", G_CALLBACK(gui_sketch_area_key_press_callback), this_ );
 #if ( GTK_MAJOR_VERSION >= 40000 )
+    GtkGestureSingle
+
     GtkEventControllerMotion *evt_move = gtk_event_controller_motion_new();
     g_signal_handler_connect( evt_move, "pressed", G_CALLBACK (click_cb), this_ );
     gtk_widget_add_controller( (*this_).drawing_area, evt_move );

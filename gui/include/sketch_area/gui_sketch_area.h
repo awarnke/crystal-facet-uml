@@ -192,27 +192,43 @@ gboolean gui_sketch_area_draw_callback_old ( GtkWidget *widget, cairo_t *cr, gpo
 /*!
  *  \brief callback that informs that the mouse cursor left the sketch_area widget
  */
+#if ( GTK_MAJOR_VERSION >= 4 )
+void gui_sketch_area_leave_notify_callback( GtkEventControllerMotion* self, gpointer user_data );
+#else
 gboolean gui_sketch_area_leave_notify_callback( GtkWidget* widget, GdkEventCrossing* evt, gpointer data );
+#endif
 
 /*!
  *  \brief callback that informs that the mouse cursor moved on the sketch_area widget
  */
+#if ( GTK_MAJOR_VERSION >= 4 )
+#else
 gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotion* evt, gpointer data );
+#endif
 
 /*!
  *  \brief callback that informs that the mouse button was pressed on the sketch_area widget
  */
+#if ( GTK_MAJOR_VERSION >= 4 )
+#else
 gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data );
+#endif
 
 /*!
  *  \brief callback that informs that the mouse button was released on the sketch_area widget
  */
+#if ( GTK_MAJOR_VERSION >= 4 )
+#else
 gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data );
+#endif
 
 /*!
  *  \brief callback that informs that the keyboard was pressed
  */
+#if ( GTK_MAJOR_VERSION >= 4 )
+#else
 gboolean gui_sketch_area_key_press_callback( GtkWidget* widget, GdkEventKey* evt, gpointer data );
+#endif
 
 /*!
  *  \brief callback that informs that the displayed data changed
