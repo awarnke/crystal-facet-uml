@@ -209,26 +209,35 @@ void gui_attributes_editor_trace ( const gui_attributes_editor_t *this_ )
         const char* text;
         id_widget = GTK_LABEL( (*this_).id_label );
         text = gtk_label_get_text( id_widget );
+
         TRACE_INFO_STR( "- visible id:", text );
     }
 
     /* name: */
     if ( TRACE_ACTIVE )
     {
-        GtkEntry *name_widget;
         const char* text;
-        name_widget = GTK_ENTRY( (*this_).name_entry );
+        GtkEntry *const name_widget = GTK_ENTRY( (*this_).name_entry );
+#if ( GTK_MAJOR_VERSION >= 4 )
+        GtkEntryBuffer *const name_buf = gtk_entry_get_buffer( name_widget );
+        text = gtk_entry_buffer_get_text( name_buf );
+#else
         text = gtk_entry_get_text( name_widget );
+#endif
         TRACE_INFO_STR( "- visible name:", text );
     }
 
     /* stereotype: */
     if ( TRACE_ACTIVE )
     {
-        GtkEntry *stereotype_widget;
         const char* text;
-        stereotype_widget = GTK_ENTRY( (*this_).stereotype_entry );
+        GtkEntry *const stereotype_widget = GTK_ENTRY( (*this_).stereotype_entry );
+#if ( GTK_MAJOR_VERSION >= 4 )
+        GtkEntryBuffer *const stereotype_buf = gtk_entry_get_buffer( stereotype_widget );
+        text = gtk_entry_buffer_get_text( stereotype_buf );
+#else
         text = gtk_entry_get_text( stereotype_widget );
+#endif
         TRACE_INFO_STR( "- visible stereotype:", text );
     }
 
@@ -732,10 +741,14 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
 {
     TRACE_BEGIN();
 
-    GtkEntry *name_widget;
     const char* text;
-    name_widget = GTK_ENTRY( (*this_).name_entry );
+    GtkEntry *const name_widget = GTK_ENTRY( (*this_).name_entry );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    GtkEntryBuffer *const name_buf = gtk_entry_get_buffer( name_widget );
+    text = gtk_entry_buffer_get_text( name_buf );
+#else
     text = gtk_entry_get_text( name_widget );
+#endif
 
     TRACE_INFO_STR( "text:", text );
 
@@ -922,10 +935,14 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
 {
     TRACE_BEGIN();
 
-    GtkEntry *stereotype_widget;
     const char* text;
-    stereotype_widget = GTK_ENTRY( (*this_).stereotype_entry );
+    GtkEntry *const stereotype_widget = GTK_ENTRY( (*this_).stereotype_entry );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    GtkEntryBuffer *const stereotype_buf = gtk_entry_get_buffer( stereotype_widget );
+    text = gtk_entry_buffer_get_text( stereotype_buf );
+#else
     text = gtk_entry_get_text( stereotype_widget );
+#endif
 
     TRACE_INFO_STR( "text:", text );
 
@@ -1389,9 +1406,14 @@ void gui_attributes_editor_private_name_update_view ( gui_attributes_editor_t *t
         {
             gtk_widget_show ( GTK_WIDGET ( name_widget ) );
 
-            const char* text;
-            text = data_classifier_get_name_const( &((*this_).private_classifier_cache) );
+            const char *const text
+                = data_classifier_get_name_const( &((*this_).private_classifier_cache) );
+#if ( GTK_MAJOR_VERSION >= 4 )
+            GtkEntryBuffer *const name_buf = gtk_entry_get_buffer( name_widget );
+            gtk_entry_buffer_set_text( name_buf, text, -1 /* = n_chars */ );
+#else
             gtk_entry_set_text( GTK_ENTRY ( name_widget ), text );
+#endif
         }
         break;
 
@@ -1399,9 +1421,14 @@ void gui_attributes_editor_private_name_update_view ( gui_attributes_editor_t *t
         {
             gtk_widget_show ( GTK_WIDGET ( name_widget ) );
 
-            const char* text;
-            text = data_feature_get_key_const( &((*this_).private_feature_cache) );
+            const char *const text
+                = data_feature_get_key_const( &((*this_).private_feature_cache) );
+#if ( GTK_MAJOR_VERSION >= 4 )
+            GtkEntryBuffer *const name_buf = gtk_entry_get_buffer( name_widget );
+            gtk_entry_buffer_set_text( name_buf, text, -1 /* = n_chars */ );
+#else
             gtk_entry_set_text( GTK_ENTRY ( name_widget ), text );
+#endif
         }
         break;
 
@@ -1409,9 +1436,14 @@ void gui_attributes_editor_private_name_update_view ( gui_attributes_editor_t *t
         {
             gtk_widget_show ( GTK_WIDGET ( name_widget ) );
 
-            const char* text;
-            text = data_relationship_get_name_const( &((*this_).private_relationship_cache) );
+            const char *const text
+                = data_relationship_get_name_const( &((*this_).private_relationship_cache) );
+#if ( GTK_MAJOR_VERSION >= 4 )
+            GtkEntryBuffer *const name_buf = gtk_entry_get_buffer( name_widget );
+            gtk_entry_buffer_set_text( name_buf, text, -1 /* = n_chars */ );
+#else
             gtk_entry_set_text( GTK_ENTRY ( name_widget ), text );
+#endif
         }
         break;
 
@@ -1425,16 +1457,26 @@ void gui_attributes_editor_private_name_update_view ( gui_attributes_editor_t *t
         {
             gtk_widget_show ( GTK_WIDGET ( name_widget ) );
 
-            const char* text;
-            text = data_diagram_get_name_const( &((*this_).private_diagram_cache) );
+            const char *const text
+                = data_diagram_get_name_const( &((*this_).private_diagram_cache) );
+#if ( GTK_MAJOR_VERSION >= 4 )
+            GtkEntryBuffer *const name_buf = gtk_entry_get_buffer( name_widget );
+            gtk_entry_buffer_set_text( name_buf, text, -1 /* = n_chars */ );
+#else
             gtk_entry_set_text( GTK_ENTRY ( name_widget ), text );
+#endif
         }
         break;
 
         default:
         {
             TSLOG_ERROR( "invalid data in data_id_t." );
+#if ( GTK_MAJOR_VERSION >= 4 )
+            GtkEntryBuffer *const name_buf = gtk_entry_get_buffer( name_widget );
+            gtk_entry_buffer_set_text( name_buf, "", 0 /* = n_chars */ );
+#else
             gtk_entry_set_text( GTK_ENTRY ( name_widget ), "" );
+#endif
         }
         break;
     }
@@ -1464,9 +1506,14 @@ void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_edito
             gtk_widget_show( GTK_WIDGET ( stereotype_widget ) );
             gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), true );
 
-            const char* text;
-            text = data_classifier_get_stereotype_const( &((*this_).private_classifier_cache) );
+            const char *const text
+                = data_classifier_get_stereotype_const( &((*this_).private_classifier_cache) );
+#if ( GTK_MAJOR_VERSION >= 4 )
+            GtkEntryBuffer *const stereotype_buf = gtk_entry_get_buffer( stereotype_widget );
+            gtk_entry_buffer_set_text( stereotype_buf, text, -1 /* = n_chars */ );
+#else
             gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), text );
+#endif
         }
         break;
 
@@ -1475,9 +1522,14 @@ void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_edito
             gtk_widget_show( GTK_WIDGET ( stereotype_widget ) );
             gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), true );
 
-            const char* text;
-            text = data_feature_get_value_const( &((*this_).private_feature_cache) );
+            const char *const text
+                = data_feature_get_value_const( &((*this_).private_feature_cache) );
+#if ( GTK_MAJOR_VERSION >= 4 )
+            GtkEntryBuffer *const stereotype_buf = gtk_entry_get_buffer( stereotype_widget );
+            gtk_entry_buffer_set_text( stereotype_buf, text, -1 /* = n_chars */ );
+#else
             gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), text );
+#endif
         }
         break;
 
@@ -1486,9 +1538,13 @@ void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_edito
             /*gtk_widget_hide( GTK_WIDGET ( stereotype_widget ) );*/
             /* -- do not hide - otherwise the user interface looks inhomogenous -- */
             gtk_widget_show( GTK_WIDGET ( stereotype_widget ) );
+#if ( GTK_MAJOR_VERSION >= 4 )
+            GtkEntryBuffer *const stereotype_buf = gtk_entry_get_buffer( stereotype_widget );
+            gtk_entry_buffer_set_text( stereotype_buf, "    -- n/a --", -1 /* = n_chars */ );
+#else
             gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), "    -- n/a --" );
+#endif
             gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), false );
-
         }
         break;
 
@@ -1505,7 +1561,12 @@ void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_edito
             /*gtk_widget_hide( GTK_WIDGET ( stereotype_widget ) );*/
             /* -- do not hide - otherwise the user interface looks inhomogenous -- */
             gtk_widget_show( GTK_WIDGET ( stereotype_widget ) );
+#if ( GTK_MAJOR_VERSION >= 4 )
+            GtkEntryBuffer *const stereotype_buf = gtk_entry_get_buffer( stereotype_widget );
+            gtk_entry_buffer_set_text( stereotype_buf, "    -- n/a --", -1 /* = n_chars */ );
+#else
             gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), "    -- n/a --" );
+#endif
             gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), false );
         }
         break;

@@ -67,7 +67,7 @@ void gui_search_request_tool_changed_callback( GtkWidget *widget, gui_tool_t too
     assert( NULL != this_ );
 
     /* info: This function is called once for activating a tool and once for deactiaving it! */
-    
+
     switch ( tool )
     {
         case GUI_TOOL_NAVIGATE:
@@ -116,7 +116,12 @@ void gui_search_request_search_start_callback( GtkWidget* trigger_widget, gpoint
     /* note: button may bei either the text entry widget or the search button widget */
 
     const char* text;
+#if ( GTK_MAJOR_VERSION >= 4 )
+    GtkEntryBuffer *const search_buf = gtk_entry_get_buffer( GTK_ENTRY( (*this_).search_entry ) );
+    text = gtk_entry_buffer_get_text( search_buf );
+#else
     text = gtk_entry_get_text( GTK_ENTRY( (*this_).search_entry ) );
+#endif
 
     if ( text != NULL )
     {
@@ -137,15 +142,20 @@ void gui_search_request_data_changed_callback( GtkWidget *widget, data_change_me
     gui_search_request_t *this_ = user_data;
     assert( NULL != this_ );
     assert ( NULL != widget );
-    
+
     data_change_event_type_t evt_type;
     evt_type = data_change_message_get_event ( msg );
 
     if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_OPENED )
     {
+#if ( GTK_MAJOR_VERSION >= 4 )
+        GtkEntryBuffer *const search_buf = gtk_entry_get_buffer( GTK_ENTRY( (*this_).search_entry ) );
+        gtk_entry_buffer_set_text ( search_buf, "", 0 /* = n_chars */ );
+#else
         gtk_entry_set_text ( GTK_ENTRY( (*this_).search_entry ), "" );
+#endif
     }
-    
+
     TRACE_END();
 }
 
