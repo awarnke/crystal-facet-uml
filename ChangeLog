@@ -3,9 +3,10 @@ crystal-facet-uml (1.36.0) UNRELEASED; urgency=medium
   [ Andreas Warnke ]
   * During import, changed ids and classifier-names are reported on stdout
   * The json export contains some more information to improve readability
-  * build for wine using mingw uses sources not older that 4 years
+  * build for wine using mingw uses sources from last 4 years
+  * sources can be compiled and linked against gtk4
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 27 Feb 2022 16:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 03 Apr 2022 16:00:00 +0100
 
 crystal-facet-uml (1.35.0) UNRELEASED; urgency=medium
 

@@ -26,8 +26,9 @@ echo `date +'%H:%M'`" building libiconv..."
 LOG_FILE=${LOG_DIR}/log_iconv.txt
 echo "      log: ${LOG_FILE}"
 cd src/libiconv-1*
+    # Note: --enable-static-pie is needed to be able to run without msvcrt.dll
     #./configure --host=${HOST} --enable-relocatable --prefix=${PREFIX} --disable-rpath --enable-static-pie > ${LOG_FILE} 2>&1
-    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} --enable-static-pie > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
@@ -38,7 +39,7 @@ LOG_FILE=${LOG_DIR}/log_ffi.txt
 echo "      log: ${LOG_FILE}"
 cd src/libffi-3*
     #./configure --host=${HOST} --prefix=${PREFIX} --enable-static > ${LOG_FILE} 2>&1
-    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} --enable-static > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
@@ -47,13 +48,14 @@ echo "      lib: "`${PKG_CONFIG_EXE} --libs libffi`
 echo `date +'%H:%M'`" building gettext (libintl) ..."
 LOG_FILE=${LOG_DIR}/log_gettext.txt
 echo "      log: ${LOG_FILE}"
-echo "      expected duration: 40 min"
+echo "      expected duration: 20 min"
 cd src/gettext-0*
     # fix the ruby formatstring problem in this version:
     sed -i -e 's/\&formatstring_ruby,/\&formatstring_php,/' gettext-tools/src/format.c
+    # Note: --enable-static-pie is needed to be able to run without msvcrt.dll
     #./configure --host=${HOST} --enable-relocatable --prefix=${PREFIX} --disable-rpath --disable-libasprintf --disable-java --disable-native-java --disable-openmp > ${LOG_FILE} 2>&1
-    ./configure --host=${HOST} --prefix=${PREFIX} --disable-libasprintf --disable-java --disable-native-java --disable-openmp > ${LOG_FILE} 2>&1
-    make >> ${LOG_FILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} --disable-libasprintf --disable-java --disable-native-java --disable-openmp --enable-static-pie > ${LOG_FILE} 2>&1
+    make -j4 >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
 echo "      lib: "`ls ${PREFIX}/bin/libgettextlib*`
@@ -68,11 +70,13 @@ cd src/glib-2*
     # fix the preprocessor concatenation problem in this version:
     sed -i -e 's/@guint64_constant@/(val ## ULL)/' glib/glibconfig.h.in
     rm -fr builddir  # remove artifacts from previous build
+    # Note: -Db_pie is needed to be able to run without msvcrt.dll
     meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} \
-    -Dtests=false > ${LOG_FILE} 2>&1
+    -Dtests=false -Db_pie=true > ${LOG_FILE} 2>&1
     cd builddir
         # gio tests do not work in my cross build environment:
         # meson configure -Dtests=false >> ${LOG_FILE} 2>&1
+        # meson configure -Db_pie=true
         meson compile >> ${LOG_FILE} 2>&1
         meson install >> ${LOG_FILE} 2>&1
         # see ../3rd_party/src/glib-2.9.6/docs/reference/glib/html/glib-cross-compiling.html

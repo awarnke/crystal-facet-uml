@@ -52,7 +52,7 @@ openSuSE:
 >
 > sudo zypper install cmake
 >
-> sudo zypper install gtk3-devel
+> sudo zypper install gtk3-devel  # or gtk4-devel; switch also the comment in CMakeLists.txt
 >
 > sudo zypper install sqlite3-devel
 >

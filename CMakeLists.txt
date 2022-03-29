@@ -29,23 +29,27 @@ PKG_SEARCH_MODULE(SQLITE3 REQUIRED sqlite3)
 INCLUDE_DIRECTORIES(${SQLITE3_INCLUDE_DIRS})
 #MESSAGE("SQLITE3: ${SQLITE3_INCLUDE_DIRS}")
 
-#gtk3 dependencies
-
+#gtk dependencies
 PKG_SEARCH_MODULE(GLIB2 REQUIRED glib-2.0)
 INCLUDE_DIRECTORIES(${GLIB2_INCLUDE_DIRS})
 #MESSAGE("GLIB2:   ${GLIB2_INCLUDE_DIRS}")
 
-PKG_SEARCH_MODULE(GTK3 REQUIRED gtk+-3.0)
-#PKG_SEARCH_MODULE(GTK3 REQUIRED gtk4)
-INCLUDE_DIRECTORIES(${GTK3_INCLUDE_DIRS})
-#MESSAGE("GTK3:    ${GTK3_INCLUDE_DIRS}")
-#MESSAGE("GTK3:    ${GTK3_FOUND}")
-#MESSAGE("GTK3:    ${GTK3_LIBRARIES}")
-#MESSAGE("GTK3:    ${GTK3_LIBRARY_DIRS}")
-#MESSAGE("GTK3:    ${GTK3_LDFLAGS}")
-#MESSAGE("GTK3:    ${GTK3_LDFLAGS_OTHER}")
-#MESSAGE("GTK3:    ${GTK3_CFLAGS}")
-#MESSAGE("GTK3:    ${GTK3_CFLAGS_OTHER}")
+PKG_SEARCH_MODULE(GTK REQUIRED gtk+-3.0)
+#PKG_SEARCH_MODULE(GTK REQUIRED gtk4)
+INCLUDE_DIRECTORIES(${GTK_INCLUDE_DIRS})
+MESSAGE("GTK:    ${GTK_INCLUDE_DIRS}")
+MESSAGE("GTK:    ${GTK_FOUND}")
+MESSAGE("GTK:    ${GTK_LIBRARIES}")
+MESSAGE("GTK:    ${GTK_LIBRARY_DIRS}")
+MESSAGE("GTK:    ${GTK_LDFLAGS}")
+MESSAGE("GTK:    ${GTK_LDFLAGS_OTHER}")
+MESSAGE("GTK:    ${GTK_CFLAGS}")
+MESSAGE("GTK:    ${GTK_CFLAGS_OTHER}")
+#string(REPLACE "-mfpmath=sse;" "" GTK_CFLAGS_OTHER "${GTK_CFLAGS_OTHER}")
+#string(REPLACE "-msse;" "" GTK_CFLAGS_OTHER "${GTK_CFLAGS_OTHER}")
+#string(REPLACE "-msse2;" "" GTK_CFLAGS_OTHER "${GTK_CFLAGS_OTHER}")
+#string(REPLACE "-mms-bitfields;" "" GTK_CFLAGS_OTHER "${GTK_CFLAGS_OTHER}")
+#MESSAGE("GTK:    ${GTK_CFLAGS_OTHER}")
 
 PKG_SEARCH_MODULE(PANGOCAIRO REQUIRED pangocairo)
 INCLUDE_DIRECTORIES(${PANGOCAIRO_INCLUDE_DIRS})
@@ -98,13 +102,13 @@ MESSAGE( "Note: to build with asserts and traces, run    cmake -DCMAKE_BUILD_TYP
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Common Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Wno-overlength-strings ${GTK3_CFLAGS_OTHER}" )
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Wno-overlength-strings ${GTK_CFLAGS_OTHER}" )
 # Note: The GIMP-generated images are longer that 4095 characters, therefore -Wno-overlength-strings is required here.
 
 # ==== ==== ==== ==== ==== ==== ==== ==== EXE Target Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 ADD_EXECUTABLE(crystal-facet-uml ${appSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
-TARGET_LINK_LIBRARIES(crystal-facet-uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
+TARGET_LINK_LIBRARIES(crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== test Target Settings ==== ==== ==== ==== ==== ==== ==== ====
@@ -118,7 +122,7 @@ TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC io/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC pencil/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC universal/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC utf8stringbuf/test)
-TARGET_LINK_LIBRARIES(test_crystal-facet-uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
+TARGET_LINK_LIBRARIES(test_crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Install Settings ==== ==== ==== ==== ==== ==== ==== ====
@@ -144,7 +148,7 @@ if(CFU_ADD_GCOV_TARGET)
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC pencil/test)
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC universal/test)
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC utf8stringbuf/test)
-        TARGET_LINK_LIBRARIES(gcov_crystal-facet-uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
+        TARGET_LINK_LIBRARIES(gcov_crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
         SET_TARGET_PROPERTIES(gcov_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
         SET_TARGET_PROPERTIES(gcov_crystal-facet-uml PROPERTIES EXCLUDE_FROM_ALL TRUE)
     endif(CMAKE_COMPILER_IS_GNUCC)
