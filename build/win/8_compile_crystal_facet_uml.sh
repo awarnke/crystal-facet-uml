@@ -1,31 +1,32 @@
 #!/bin/sh
 
+HOST_ROOT=`pwd`/root
+PREFIX=`pwd`/root/usr/local
 if ! test -e root/usr/local; then
     echo run 3rd_party steps first
     exit -1
 fi
-HOST_ROOT=`pwd`/root
-PREFIX=`pwd`/root/usr/local
 # host is the prefix of the compiler executables
 HOST=x86_64-w64-mingw32
 LOG_DIR=`pwd`
 
-export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/share/gettext -I${PREFIX}/include/glib-2.0 -I${PREFIX}/lib/glib-2.0/include -I${PREFIX}/include/libpng16 -I${PREFIX}/include/freetype2"
-export CXXFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
-export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin"
-#export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
+export CFLAGS="-fPIE -I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/share/gettext -I${PREFIX}/include/glib-2.0 -I${PREFIX}/lib/glib-2.0/include -I${PREFIX}/include/libpng16 -I${PREFIX}/include/freetype2"
+export CXXFLAGS="${CFLAGS}"
+export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin -pie"
 
 export PKG_CONFIG_PATH=
 export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
-export PKG_CONFIG_SYSROOT_DIR "${PREFIX}/../.."
+export PKG_CONFIG_SYSROOT_DIR="${PREFIX}/../.."
 
 echo `date +'%H:%M'`" building crystal-facet-uml..."
 LOG_FILE=export PKG_CONFIG_PATH=
 export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
 export PKG_CONFIG_SYSROOT_DIR="${HOST_ROOT}"
 PKG_CONFIG_EXE="/usr/bin/x86_64-w64-mingw32-pkg-config"
-${LOG_DIR}/log_crystal-facet-uml.txt
+LOG_DIR=`pwd`
+LOG_FILE=${LOG_DIR}/log_crystal-facet-uml.txt
 echo "      log: ${LOG_FILE}"
+echo "      expected duration: 10 min"
 rm -fr builddir  # remove artifacts from previous build
 mkdir builddir
 cd builddir
@@ -33,11 +34,11 @@ cd builddir
     -DCMAKE_IMPORT_LIBRARY_PREFIX=${PREFIX} -DCMAKE_SHARED_LIBRARY_PREFIX=${PREFIX} \
     -DCMAKE_SHARED_MODULE_PREFIX=${PREFIX} -DCMAKE_STATIC_LIBRARY_PREFIX=${PREFIX} \
     -DCMAKE_FIND_LIBRARY_PREFIXES=${PREFIX} -DCMAKE_PREFIX_PATH=${PREFIX} .. \
-    | $tee {LOG_FILE} 2>&1
-    make | tee -a ${LOG_FILE} 2>&1
+    | tee {LOG_FILE} 2>&1
+    make -j4 | tee -a ${LOG_FILE} 2>&1
     make install | tee -a ${LOG_FILE} 2>&1
 cd ..
-echo "      lib: "`ls ${PREFIX}/bin/crystal-facet-uml*`
+echo "      exe: "`ls ${PREFIX}/bin/crystal-facet-uml*`
 
 echo `date +'%H:%M'`" finished. Please check the log files for errors."
 

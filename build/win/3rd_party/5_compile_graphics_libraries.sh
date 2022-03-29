@@ -1,27 +1,25 @@
 #!/bin/sh
 
-cd ..
-    if ! test -e root/usr/local; then
-        echo run steps 3 and 4 first
-        exit -1
-    fi
-    HOST_ROOT=`pwd`/root
-    PREFIX=`pwd`/root/usr/local
-cd 3rd_party
+HOST_ROOT=`cd .. && pwd`/root
+PREFIX=${HOST_ROOT}/usr/local
+if ! test -e ${PREFIX}; then
+    echo run steps 3 and 4 first
+    exit -1
+fi
 # host is the prefix of the compiler executables
 HOST=x86_64-w64-mingw32
 LOG_DIR=`pwd`
 
-export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/share/gettext -I${PREFIX}/include/glib-2.0 -I${PREFIX}/lib/glib-2.0/include -I${PREFIX}/include/libpng16 -I${PREFIX}/include/freetype2"
-export CXXFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
+# Note: position independant executable (PIE) is enabled:
+export CFLAGS="-fPIE -I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/share/gettext -I${PREFIX}/include/glib-2.0 -I${PREFIX}/lib/glib-2.0/include -I${PREFIX}/include/libpng16 -I${PREFIX}/include/freetype2"
+export CXXFLAGS="${CFLAGS}"
 export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin"
-#export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
+
+# for cross compiling, PKG_CONFIG_PATH shall be empty:
 export PKG_CONFIG_PATH=
 export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
 export PKG_CONFIG_SYSROOT_DIR="${HOST_ROOT}"
 PKG_CONFIG_EXE="/usr/bin/x86_64-w64-mingw32-pkg-config"
-# some packages do not produce a package.config file:
-#export LIBRARY_PATH="-L/usr/x86_64-w64-mingw32/sys-root/mingw/lib -L${PREFIX}/lib -L${PREFIX}/lib64"
 
 echo `date +'%H:%M'`" building jpeg..."
 LOG_FILE=${LOG_DIR}/log_jpeg.txt
@@ -48,7 +46,7 @@ LOG_FILE=${LOG_DIR}/log_gdk-pixbuf.txt
 echo "      log: ${LOG_FILE}"
 cd src/gdk-pixbuf-2*
     rm -fr builddir  # remove artifacts from previous build
-    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
+    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} -Db_pie=true > ${LOG_FILE} 2>&1
     cd builddir
         meson compile >> ${LOG_FILE} 2>&1
         meson install >> ${LOG_FILE} 2>&1
@@ -94,7 +92,7 @@ cd src/atk-2*
     # turn off introspection support, seems not to be available in my gobject:
     sed -i -e 's/true/false/' meson_options.txt
     rm -fr builddir  # remove artifacts from previous build
-    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
+    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} -Db_pie=true > ${LOG_FILE} 2>&1
     cd builddir
         meson compile >> ${LOG_FILE} 2>&1
         meson install >> ${LOG_FILE} 2>&1
@@ -130,7 +128,7 @@ echo "      expected duration: 15 min"
 cd src/pango-1*
     # meson setup . builddir --cross-file ../../cross_file.txt -Ddefault_library=static -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
     rm -fr builddir  # remove artifacts from previous build
-    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
+    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} -Db_pie=true > ${LOG_FILE} 2>&1
     cd builddir
         # gio tests do not work in my cross build environment:
         meson configure -Dtests=false -Dglib.tests=false >> ${LOG_FILE} 2>&1
@@ -168,7 +166,7 @@ cd src/gtk-4*
     -Dtracker=disabled -Dcolord=disabled \
     -Dintrospection=disabled -Dmedia-gtk_doc=false -Dman-pages=false \
     -Dbuild-tests=false -Ddemos=false \
-    -Dprofile=default -Dinstall-tests=false -Dbuild-examples=false > ${LOG_FILE} 2>&1
+    -Dprofile=default -Dinstall-tests=false -Dbuild-examples=false -Db_pie=true > ${LOG_FILE} 2>&1
     cd builddir
         meson compile >> ${LOG_FILE} 2>&1
         meson install >> ${LOG_FILE} 2>&1

@@ -7,3 +7,4 @@ find src/ -type f -a -name 'COPY*' -o -type f -a -name 'LICENSE*' \
 | sh \
 >> LICENSES_of_3rd_party.txt
 
+cp LICENSES_of_3rd_party.txt ../root/usr/local

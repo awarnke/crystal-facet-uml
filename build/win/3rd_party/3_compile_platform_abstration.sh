@@ -1,10 +1,8 @@
 #!/bin/sh
 
-cd ..
-    mkdir -p root/usr/local
-    HOST_ROOT=`pwd`/root
-    PREFIX=`pwd`/root/usr/local
-cd 3rd_party
+HOST_ROOT=`cd .. && pwd`/root
+PREFIX=${HOST_ROOT}/usr/local
+mkdir -p ${PREFIX}
 # host is the prefix of the compiler executables
 HOST=x86_64-w64-mingw32
 LOG_DIR=`pwd`
@@ -12,12 +10,12 @@ LOG_DIR=`pwd`
 export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/share/gettext"
 export CXXFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
 export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin"
-#export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
+
+# for cross compiling, PKG_CONFIG_PATH shall be empty:
 export PKG_CONFIG_PATH=
 export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
 export PKG_CONFIG_SYSROOT_DIR="${HOST_ROOT}"
 PKG_CONFIG_EXE="/usr/bin/x86_64-w64-mingw32-pkg-config"
-#export PATH="${PREFIX}/bin:${PATH}"
 
 echo "      possibly some tools need to be installed first:"
 echo "      sudo zypper install meson ninja mingw64-cross-pkgconf mingw64-cross-gcc"

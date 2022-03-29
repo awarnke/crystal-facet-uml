@@ -195,6 +195,12 @@ ADD_EXECUTABLE(crystal-facet-uml ${commonSource} ${appSource})
 TARGET_LINK_LIBRARIES(crystal-facet-uml ${ATK_LIB} ${CAIRO_LIB} ${FONTCNF_LIB} ${GAIL_LIB} ${GDKPIX_LIB} ${GDKWIN_LIB} ${GIO_LIB} ${GLIB_LIB} ${GMOD_LIB} ${GOBJ_LIB} ${GTHREAD_LIB} ${GTK_LIB} ${PANGO_LIB} ${PANGOCAIRO_LIB} ${PANGOFT_LIB} ${PANGOWIN_LIB} )
 SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
+# ==== ==== ==== ==== ==== ==== ==== ==== Install Settings ==== ==== ==== ==== ==== ==== ==== ====
+
+INSTALL(TARGETS crystal-facet-uml DESTINATION "${THIRD_PARTY_ROOT}/usr/local/bin/")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/../../installation_win/crystal-facet-uml.bat" DESTINATION "${THIRD_PARTY_ROOT}/usr/local/")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/../../installation_win/crystal-facet-uml_readme.txt" DESTINATION "${THIRD_PARTY_ROOT}/usr/local/")
+
 # ==== ==== ==== ==== ==== ==== ==== ==== test Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 ADD_EXECUTABLE(test_crystal-facet-uml ${commonSource} ${utestSource})
