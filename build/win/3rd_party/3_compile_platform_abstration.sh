@@ -7,7 +7,8 @@ mkdir -p ${PREFIX}
 HOST=x86_64-w64-mingw32
 LOG_DIR=`pwd`
 
-export CFLAGS="-static-libgcc -I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/share/gettext"
+# static-libgcc is disabled - seems not to work with wine or win
+export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/share/gettext"
 export CXXFLAGS="${CFLAGS}"
 export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin"
 
@@ -17,7 +18,7 @@ export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
 export PKG_CONFIG_SYSROOT_DIR="${HOST_ROOT}"
 PKG_CONFIG_EXE="/usr/bin/x86_64-w64-mingw32-pkg-config"
 
-echo "      possibly some tools need to be installed first:"
+echo "      pre: possibly some tools need to be installed first:"
 echo "      sudo zypper install meson ninja mingw64-cross-pkgconf mingw64-cross-gcc"
 
 echo `date +'%H:%M'`" building libiconv..."
@@ -60,7 +61,7 @@ echo "      lib: "`ls ${PREFIX}/bin/libgettextlib*`
 
 echo `date +'%H:%M'`" building glib (gio, glib, gobject, gmodule, gthread) ..."
 echo "      depending on libffi, pcre, proxy-libintl, zlib"
-echo "      you possibly need to install a couple of packages like meson, ninja, mingw64-cross-gcc-c++, ..."
+echo "      pre: you possibly need to install a couple of packages like meson, ninja, mingw64-cross-gcc-c++, ..."
 LOG_FILE=${LOG_DIR}/log_glib.txt
 echo "      log: ${LOG_FILE}"
 echo "      expected duration: 15 min"
