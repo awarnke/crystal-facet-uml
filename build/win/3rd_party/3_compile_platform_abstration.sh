@@ -7,8 +7,8 @@ mkdir -p ${PREFIX}
 HOST=x86_64-w64-mingw32
 LOG_DIR=`pwd`
 
-export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/share/gettext"
-export CXXFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
+export CFLAGS="-static-libgcc -I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/share/gettext"
+export CXXFLAGS="${CFLAGS}"
 export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin"
 
 # for cross compiling, PKG_CONFIG_PATH shall be empty:
