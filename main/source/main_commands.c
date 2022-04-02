@@ -6,7 +6,6 @@
 #include "io_importer.h"
 #include "trace.h"
 #include "tslog.h"
-#include <gtk/gtk.h>
 #include <stdbool.h>
 #include <assert.h>
 
@@ -19,9 +18,11 @@ u8_error_t main_commands_init ( main_commands_t *this_, bool start_gui, int argc
     if ( start_gui )
     {
 #if ( GTK_MAJOR_VERSION >= 4 )
-        gtk_init();
+        /* gtk_init(); */
+        (*this_).gtk_app = gtk_application_new( "crystal-facet-uml.desktop", G_APPLICATION_FLAGS_NONE );
 #else
         gtk_init( &argc, &argv );
+        (*this_).gtk_app = NULL;
 #endif
         /* if this program was not terminated, gtk init was successful. */
     }
@@ -37,6 +38,7 @@ u8_error_t main_commands_init ( main_commands_t *this_, bool start_gui, int argc
             TSLOG_WARNING("gtk could not be initialized.");
             /* no error here, if no gui requested - test fail otherwise */
         }
+        (*this_).gtk_app = NULL;
     }
 
     TRACE_END_ERR( result );
@@ -46,6 +48,15 @@ u8_error_t main_commands_init ( main_commands_t *this_, bool start_gui, int argc
 void main_commands_destroy ( main_commands_t *this_ )
 {
     TRACE_BEGIN();
+
+    if ( (*this_).gtk_app != NULL )
+    {
+#if ( GTK_MAJOR_VERSION >= 4 )
+        g_object_unref( (*this_).gtk_app );
+#endif
+        (*this_).gtk_app = NULL;
+    }
+
     TRACE_END();
 }
 

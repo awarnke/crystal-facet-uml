@@ -114,7 +114,7 @@ echo "      lib: `${PKG_CONFIG_EXE} --libs libcroco-0.6`"
 echo `date +'%H:%M'`" building cairo..."
 LOG_FILE=${LOG_DIR}/log_cairo.txt
 echo "      log: ${LOG_FILE}"
-echo "      expected duration: 15 min"
+echo "      t  : expected duration: 15 min"
 cd src/cairo-1*
     ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
@@ -125,7 +125,7 @@ echo "      lib: `${PKG_CONFIG_EXE} --libs cairo`"
 echo `date +'%H:%M'`" building pango (freebidi, harfbuzz) ..."
 LOG_FILE=${LOG_DIR}/log_pango.txt
 echo "      log: ${LOG_FILE}"
-echo "      expected duration: 15 min"
+echo "      t  : expected duration: 15 min"
 cd src/pango-1*
     # meson setup . builddir --cross-file ../../cross_file.txt -Ddefault_library=static -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
     rm -fr builddir  # remove artifacts from previous build
@@ -142,7 +142,7 @@ echo "      lib: `${PKG_CONFIG_EXE} --libs pango`"
 echo `date +'%H:%M'`" building gtk..."
 LOG_FILE=${LOG_DIR}/log_gtk.txt
 echo "      log: ${LOG_FILE}"
-echo "      expected duration: 15 min"
+echo "      t  : expected duration: 15 min"
 export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin -lharfbuzz -ljpeg"
 #cd src/gtk+-3*
 #    # no xkbdep needed for wine

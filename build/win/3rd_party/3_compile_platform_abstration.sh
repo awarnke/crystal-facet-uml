@@ -19,7 +19,7 @@ export PKG_CONFIG_SYSROOT_DIR="${HOST_ROOT}"
 PKG_CONFIG_EXE="/usr/bin/x86_64-w64-mingw32-pkg-config"
 
 echo "      pre: possibly some tools need to be installed first:"
-echo "      sudo zypper install meson ninja mingw64-cross-pkgconf mingw64-cross-gcc"
+echo "           sudo zypper install meson ninja mingw64-cross-pkgconf mingw64-cross-gcc"
 
 echo `date +'%H:%M'`" building libiconv..."
 LOG_FILE=${LOG_DIR}/log_iconv.txt
@@ -47,7 +47,7 @@ echo "      lib: "`${PKG_CONFIG_EXE} --libs libffi`
 echo `date +'%H:%M'`" building gettext (libintl) ..."
 LOG_FILE=${LOG_DIR}/log_gettext.txt
 echo "      log: ${LOG_FILE}"
-echo "      expected duration: 20 min"
+echo "      t  : expected duration: 20 min"
 cd src/gettext-0*
     # fix the ruby formatstring problem in this version:
     sed -i -e 's/\&formatstring_ruby,/\&formatstring_php,/' gettext-tools/src/format.c
@@ -60,11 +60,11 @@ cd ../..
 echo "      lib: "`ls ${PREFIX}/bin/libgettextlib*`
 
 echo `date +'%H:%M'`" building glib (gio, glib, gobject, gmodule, gthread) ..."
-echo "      depending on libffi, pcre, proxy-libintl, zlib"
+echo "      i  : depending on libffi, pcre, proxy-libintl, zlib"
 echo "      pre: you possibly need to install a couple of packages like meson, ninja, mingw64-cross-gcc-c++, ..."
 LOG_FILE=${LOG_DIR}/log_glib.txt
 echo "      log: ${LOG_FILE}"
-echo "      expected duration: 15 min"
+echo "      t  : expected duration: 15 min"
 cd src/glib-2*
     # fix the preprocessor concatenation problem in this version:
     sed -i -e 's/@guint64_constant@/(val ## ULL)/' glib/glibconfig.h.in

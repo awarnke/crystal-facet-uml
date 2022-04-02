@@ -29,7 +29,7 @@ PKG_CONFIG_EXE="/usr/bin/x86_64-w64-mingw32-pkg-config"
 LOG_DIR=`pwd`
 LOG_FILE=${LOG_DIR}/log_crystal-facet-uml.txt
 echo "      log: ${LOG_FILE}"
-echo "      expected duration: 10 min"
+echo "      t  : expected duration: 10 min"
 rm -fr builddir  # remove artifacts from previous build
 mkdir builddir
 cd builddir
@@ -41,6 +41,7 @@ cd builddir
     | tee {LOG_FILE} 2>&1
     make -j4 | tee -a ${LOG_FILE} 2>&1
     make install | tee -a ${LOG_FILE} 2>&1
+    cp test_crystal-facet-uml.exe ${PREFIX}/bin/
 cd ..
 echo "      exe: "`ls ${PREFIX}/bin/crystal-facet-uml*`
 

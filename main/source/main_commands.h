@@ -15,12 +15,14 @@
 #include "ctrl_controller.h"
 #include "universal_utf8_writer.h"
 #include "u8/u8_error.h"
+#include <gtk/gtk.h>
 #include <stdbool.h>
 
 /*!
  *  \brief attributes of the main_commands object
  */
 struct main_commands_struct {
+    GtkApplication *gtk_app;  /*!< shared instance of an gtk application object */
     data_database_t temp_database;  /*!< a database struct, is only temporarily initialized (and then destroyed again) */
     ctrl_controller_t temp_controller;  /*!< a controller struct, is only temporarily initialized (and then destroyed again) */
 };
