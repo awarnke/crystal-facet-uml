@@ -11,8 +11,8 @@ HOST=x86_64-w64-mingw32
 LOG_DIR=`pwd`
 
 # static-libgcc is disabled - seems not to work with wine or win
-# Position independant executable (PIE) is enabled:
-export CFLAGS="-fPIE -I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/share/gettext -I${PREFIX}/include/glib-2.0 -I${PREFIX}/lib/glib-2.0/include -I${PREFIX}/include/libpng16 -I${PREFIX}/include/freetype2"
+# Position independant executable (PIE) is NOT enabled: -fPIE
+export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/share/gettext -I${PREFIX}/include/glib-2.0 -I${PREFIX}/lib/glib-2.0/include -I${PREFIX}/include/libpng16 -I${PREFIX}/include/freetype2"
 export CXXFLAGS="${CFLAGS}"
 export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin -pie"
 

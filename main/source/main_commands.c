@@ -21,7 +21,7 @@ u8_error_t main_commands_init ( main_commands_t *this_, bool start_gui, int argc
 #if ( GTK_MAJOR_VERSION >= 4 )
         gtk_init();
 #else
-        gtk_init(&argc, &argv);
+        gtk_init( &argc, &argv );
 #endif
         /* if this program was not terminated, gtk init was successful. */
     }
@@ -30,7 +30,7 @@ u8_error_t main_commands_init ( main_commands_t *this_, bool start_gui, int argc
 #if ( GTK_MAJOR_VERSION >= 4 )
         const gboolean success = gtk_init_check();
 #else
-        const gboolean success = gtk_init_check(&argc, &argv);
+        const gboolean success = gtk_init_check( &argc, &argv );
 #endif
         if ( ! success )
         {

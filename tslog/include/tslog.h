@@ -36,6 +36,7 @@
 #define TSLOG_OUT_STREAM_ stdout
 
 #ifndef NDEBUG  /* SWITCH RELEASE/DEBUG */
+#ifdef __linux__  /* SWITCH RELEASE SYSLOG */
 
 #define TSLOG_RED_ "\033[37;1;41m"
 #define TSLOG_YELLOW_ "\033[30;43m"
@@ -72,6 +73,31 @@
     fprintf(TSLOG_OUT_STREAM_, "\n" TSLOG_PREFIX_EVT FMT "\n\n", P1, P2);\
     syslog(LOG_INFO, "EVT : " FMT, P1, P2);
 
+#else   /* SWITCH RELEASE SYSLOG */
+
+#define TSLOG_PREFIX_ERR "ERR : "
+#define TSLOG_PREFIX_WARN "WARN: "
+#define TSLOG_PREFIX_ANOM "ANOM: "
+#define TSLOG_PREFIX_EVT "EVT : "
+
+#define TSLOG_PRINTF_ERR_1_(FMT,P1) \
+    fprintf(TSLOG_OUT_STREAM_, "\n" TSLOG_PREFIX_ERR FMT "\n\n", P1); fflush(TSLOG_OUT_STREAM_);
+#define TSLOG_PRINTF_ERR_2_(FMT,P1,P2) \
+    fprintf(TSLOG_OUT_STREAM_, "\n" TSLOG_PREFIX_ERR FMT "\n\n", P1, P2); fflush(TSLOG_OUT_STREAM_);
+#define TSLOG_PRINTF_WARN_1_(FMT,P1) \
+    fprintf(TSLOG_OUT_STREAM_, "\n" TSLOG_PREFIX_WARN FMT "\n\n", P1); fflush(TSLOG_OUT_STREAM_);
+#define TSLOG_PRINTF_WARN_2_(FMT,P1,P2) \
+    fprintf(TSLOG_OUT_STREAM_, "\n" TSLOG_PREFIX_WARN FMT "\n\n", P1, P2); fflush(TSLOG_OUT_STREAM_);
+#define TSLOG_PRINTF_ANOM_1_(FMT,P1) \
+    fprintf(TSLOG_OUT_STREAM_, "\n" TSLOG_PREFIX_ANOM FMT "\n\n", P1);
+#define TSLOG_PRINTF_ANOM_2_(FMT,P1,P2) \
+    fprintf(TSLOG_OUT_STREAM_, "\n" TSLOG_PREFIX_ANOM FMT "\n\n", P1, P2);
+#define TSLOG_PRINTF_EVT_1_(FMT,P1) \
+    fprintf(TSLOG_OUT_STREAM_, "\n" TSLOG_PREFIX_EVT FMT "\n\n", P1);
+#define TSLOG_PRINTF_EVT_2_(FMT,P1,P2) \
+    fprintf(TSLOG_OUT_STREAM_, "\n" TSLOG_PREFIX_EVT FMT "\n\n", P1, P2);
+
+#endif  /* SWITCH RELEASE SYSLOG */
 #else             /* SWITCH RELEASE/DEBUG */
 #ifdef __linux__  /* SWITCH RELEASE SYSLOG */
 

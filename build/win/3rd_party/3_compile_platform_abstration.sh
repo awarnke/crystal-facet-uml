@@ -28,6 +28,7 @@ cd src/libiconv-1*
     # Note: --enable-static-pie is needed to be able to run without msvcrt.dll
     #./configure --host=${HOST} --enable-relocatable --prefix=${PREFIX} --disable-rpath --enable-static-pie > ${LOG_FILE} 2>&1
     ./configure --host=${HOST} --prefix=${PREFIX} --enable-static-pie > ${LOG_FILE} 2>&1
+    # ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
@@ -71,7 +72,7 @@ cd src/glib-2*
     rm -fr builddir  # remove artifacts from previous build
     # Note: -Db_pie is needed to be able to run without msvcrt.dll
     meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} \
-    -Dtests=false -Db_pie=true > ${LOG_FILE} 2>&1
+    -Dtests=false -Db_pie=false > ${LOG_FILE} 2>&1
     cd builddir
         # gio tests do not work in my cross build environment:
         # meson configure -Dtests=false >> ${LOG_FILE} 2>&1
