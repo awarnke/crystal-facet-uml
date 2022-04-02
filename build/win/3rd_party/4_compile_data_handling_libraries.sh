@@ -14,7 +14,8 @@ LOG_DIR=`pwd`
 # Position independant executable (PIE) is NOT enabled: -fPIE
 export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/share/gettext -I${PREFIX}/include/glib-2.0 -I${PREFIX}/lib/glib-2.0/include -I${PREFIX}/include/libpng16 -I${PREFIX}/include/freetype2"
 export CXXFLAGS="${CFLAGS}"
-export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin -pie"
+# export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin -pie"  ### < PIE disabled
+export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin"
 
 # for cross compiling, PKG_CONFIG_PATH shall be empty:
 export PKG_CONFIG_PATH=
@@ -26,7 +27,7 @@ echo `date +'%H:%M'`" building expat..."
 LOG_FILE=${LOG_DIR}/log_expat.txt
 echo "      log: ${LOG_FILE}"
 cd src/expat-2*
-    ./configure --host=${HOST} --prefix=${PREFIX} --enable-static > ${LOG_FILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} --enable-static --enable-wrapper=gcc > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..

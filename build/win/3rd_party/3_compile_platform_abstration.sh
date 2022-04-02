@@ -27,8 +27,7 @@ echo "      log: ${LOG_FILE}"
 cd src/libiconv-1*
     # Note: --enable-static-pie is needed to be able to run without msvcrt.dll
     #./configure --host=${HOST} --enable-relocatable --prefix=${PREFIX} --disable-rpath --enable-static-pie > ${LOG_FILE} 2>&1
-    ./configure --host=${HOST} --prefix=${PREFIX} --enable-static-pie > ${LOG_FILE} 2>&1
-    # ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
@@ -39,7 +38,7 @@ LOG_FILE=${LOG_DIR}/log_ffi.txt
 echo "      log: ${LOG_FILE}"
 cd src/libffi-3*
     #./configure --host=${HOST} --prefix=${PREFIX} --enable-static > ${LOG_FILE} 2>&1
-    ./configure --host=${HOST} --prefix=${PREFIX} --enable-static > ${LOG_FILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
@@ -54,7 +53,7 @@ cd src/gettext-0*
     sed -i -e 's/\&formatstring_ruby,/\&formatstring_php,/' gettext-tools/src/format.c
     # Note: --enable-static-pie is needed to be able to run without msvcrt.dll
     #./configure --host=${HOST} --enable-relocatable --prefix=${PREFIX} --disable-rpath --disable-libasprintf --disable-java --disable-native-java --disable-openmp > ${LOG_FILE} 2>&1
-    ./configure --host=${HOST} --prefix=${PREFIX} --disable-libasprintf --disable-java --disable-native-java --disable-openmp --enable-static-pie > ${LOG_FILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} --disable-libasprintf --disable-java --disable-native-java --disable-openmp > ${LOG_FILE} 2>&1
     make -j4 >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
