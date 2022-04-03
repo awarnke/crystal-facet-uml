@@ -15,6 +15,10 @@ static inline void gtk_button_set_image( GtkButton *btn, GtkWidget *icon )
 {
     gtk_widget_insert_after( icon, GTK_WIDGET(btn), NULL );
 }
+
+static inline void gtk_button_set_always_show_image( GtkButton *btn, gboolean show )
+{
+}
 #else
 #endif
 

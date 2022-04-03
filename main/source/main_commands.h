@@ -15,14 +15,14 @@
 #include "ctrl_controller.h"
 #include "universal_utf8_writer.h"
 #include "u8/u8_error.h"
-#include <gtk/gtk.h>
 #include <stdbool.h>
 
 /*!
  *  \brief attributes of the main_commands object
  */
 struct main_commands_struct {
-    GtkApplication *gtk_app;  /*!< shared instance of an gtk application object */
+    int argc;  /*!< the number of command line parameters */
+    char **argv;  /*!< the list of parameters */
     data_database_t temp_database;  /*!< a database struct, is only temporarily initialized (and then destroyed again) */
     ctrl_controller_t temp_controller;  /*!< a controller struct, is only temporarily initialized (and then destroyed again) */
 };
@@ -38,7 +38,7 @@ typedef struct main_commands_struct main_commands_t;
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t main_commands_init ( main_commands_t *this_, bool start_gui, int argc, char *argv[] );
+u8_error_t main_commands_init ( main_commands_t *this_, bool start_gui, int argc, char **argv );
 
 /*!
  *  \brief destroys the main_commands_t struct

@@ -14,35 +14,52 @@
 
 static gui_window_manager_t window_manager;
 
-void gui_main ( ctrl_controller_t *controller, data_database_t *database ) {
+#if ( GTK_MAJOR_VERSION >= 4 )
+static void gui_main_activate_callback( GtkApplication* app, gpointer user_data )
+{
     TRACE_BEGIN();
     TRACE_TIMESTAMP();
-    TRACE_INFO_INT("sizeof(gui_window_manager_t):",sizeof(gui_window_manager_t));
-    TRACE_INFO("initializing gui thread...");
-
-    gui_window_manager_init( &window_manager, controller, database );
 
     gui_window_manager_open_main_window( &window_manager );
 
-    TRACE_TIMESTAMP();
-
-#if ( GTK_MAJOR_VERSION >= 4 )
-    GApplication *const g_app
-        = g_application_new( META_INFO_PROGRAM_ID_STR,  /* application_id */
-                             G_APPLICATION_NON_UNIQUE
-                           );
-    const int argc = 0;
-    char * *const argv = NULL;
-    int error_code = g_application_run( g_app, argc, argv );
-    if ( error_code != 0 )
-    {
-        TSLOG_ERROR_INT("g_application_run:",error_code);
-    }
-#else
-    gtk_main();
+    TRACE_END();
+}
 #endif
 
+void gui_main ( ctrl_controller_t *controller, data_database_t *database, int argc, char **argv ) {
+    TRACE_BEGIN();
+    TRACE_TIMESTAMP();
+    TRACE_INFO_INT( "sizeof(gui_window_manager_t):", sizeof(gui_window_manager_t) );
+    TRACE_INFO( "initializing gui thread..." );
+
+#if ( GTK_MAJOR_VERSION >= 4 )
+    /* init */
+    gui_window_manager_init( &window_manager, controller, database );
+    GtkApplication *const gtk_app
+        = gtk_application_new( META_INFO_APPLICATION_ID_STR, G_APPLICATION_FLAGS_NONE );
+    g_signal_connect( gtk_app, "activate", G_CALLBACK( gui_main_activate_callback ), NULL);
+
+    /* run */
+    int error_code = g_application_run( G_APPLICATION(gtk_app), argc, argv );
+    if ( error_code != 0 )
+    {
+        TSLOG_ERROR_INT( "g_application_run:", error_code );
+    }
+
+    /* destroy */
     gui_window_manager_destroy( &window_manager );
+    g_object_unref( gtk_app );
+#else
+    /* init */
+    gui_window_manager_init( &window_manager, controller, database );
+    gui_window_manager_open_main_window( &window_manager );
+
+    /* run */
+    gtk_main();
+
+    /* destroy */
+    gui_window_manager_destroy( &window_manager );
+#endif
 
     TRACE_TIMESTAMP();
     TRACE_END();

@@ -112,6 +112,7 @@ void gui_window_manager_close_main_window( gui_window_manager_t *this_, gui_main
     if ( count_active == 0 )
     {
 #if ( GTK_MAJOR_VERSION >= 4 )
+        /* application states are managed by gtk */
 #else
         gtk_main_quit();
 #endif

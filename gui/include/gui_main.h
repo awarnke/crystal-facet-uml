@@ -17,8 +17,10 @@
  *
  *  \param controller pointer to a controller object which can modify the database
  *  \param database pointer to a database object
+ *  \param argc the number of command line parameters
+ *  \param argv the list of parameters
  */
-void gui_main ( ctrl_controller_t *controller, data_database_t *database );
+void gui_main ( ctrl_controller_t *controller, data_database_t *database, int argc, char **argv );
 
 #endif  /* GUI_MAIN_H */
 

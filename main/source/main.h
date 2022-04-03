@@ -15,7 +15,7 @@
 /*!
  *  \brief main starts the gui (or a headless feature)
  */
-int main (int argc, char *argv[]);
+int main (int argc, char **argv);
 
 /*!
  *  \brief compares the command line options to the available export file formats

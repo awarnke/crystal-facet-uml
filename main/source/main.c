@@ -29,7 +29,7 @@ static const char *const MAIN_HELP
     "    -t <database_file> : to test the database file\n"
     "    -r <database_file> : to test and repair the database file\n";
 
-int main (int argc, char *argv[]) {
+int main (int argc, char **argv) {
     TRACE_BEGIN();
     TRACE_TIMESTAMP();
     u8_error_t exit_code = U8_ERROR_NONE;
