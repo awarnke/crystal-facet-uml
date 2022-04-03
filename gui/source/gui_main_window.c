@@ -69,18 +69,21 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).file_use_db_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_use_db( res ));
     (*this_).file_use_db = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).file_use_db), (*this_).file_use_db_icon );
+    gtk_button_set_always_show_image( GTK_BUTTON((*this_).file_use_db), true );
     gtk_button_set_label( GTK_BUTTON((*this_).file_use_db), "Use DB" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_use_db), "Create/Use DB" );
 
     (*this_).file_export_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_export( res ));
     (*this_).file_export = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).file_export), (*this_).file_export_icon );
+    gtk_button_set_always_show_image( GTK_BUTTON((*this_).file_export), true );
     gtk_button_set_label( GTK_BUTTON((*this_).file_export), "Export" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_export), "Export" );
 
     (*this_).file_new_window_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_new_window( res ));
     (*this_).file_new_window = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).file_new_window), (*this_).file_new_window_icon );
+    gtk_button_set_always_show_image( GTK_BUTTON((*this_).file_new_window), true );
     gtk_button_set_label( GTK_BUTTON((*this_).file_new_window), "New Window" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_new_window), "New Window" );
 
@@ -137,6 +140,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).edit_cut_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_cut( res ));
     (*this_).edit_cut = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).edit_cut), (*this_).edit_cut_icon );
+    gtk_button_set_always_show_image( GTK_BUTTON((*this_).edit_cut), true );
     gtk_button_set_label( GTK_BUTTON((*this_).edit_cut), "Cut" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_cut), "Cut (Ctrl-X)" );
     /*
@@ -147,6 +151,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).edit_copy_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_copy( res ));
     (*this_).edit_copy = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).edit_copy), (*this_).edit_copy_icon );
+    gtk_button_set_always_show_image( GTK_BUTTON((*this_).edit_copy), true );
     gtk_button_set_label( GTK_BUTTON((*this_).edit_copy), "Copy" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_copy), "Copy (Ctrl-C)" );
     /*
@@ -157,6 +162,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).edit_paste_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_paste( res ));
     (*this_).edit_paste = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).edit_paste), (*this_).edit_paste_icon );
+    gtk_button_set_always_show_image( GTK_BUTTON((*this_).edit_paste), true );
     gtk_button_set_label( GTK_BUTTON((*this_).edit_paste), "Paste" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_paste), "Paste (Ctrl-V)" );
     /*
@@ -167,6 +173,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).edit_delete_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_delete( res ));
     (*this_).edit_delete = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).edit_delete), (*this_).edit_delete_icon );
+    gtk_button_set_always_show_image( GTK_BUTTON((*this_).edit_delete), true );
     gtk_button_set_label( GTK_BUTTON((*this_).edit_delete), "Delete" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_delete), "Delete (DEL)" );
     /*
@@ -177,24 +184,28 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).edit_instantiate_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_instantiate( res ));
     (*this_).edit_instantiate = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).edit_instantiate), (*this_).edit_instantiate_icon );
+    gtk_button_set_always_show_image( GTK_BUTTON((*this_).edit_instantiate), true );
     gtk_button_set_label( GTK_BUTTON((*this_).edit_instantiate), "Instantiate" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_instantiate), "Instantiate" );
 
     (*this_).edit_highlight_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_highlight( res ));
     (*this_).edit_highlight = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).edit_highlight), (*this_).edit_highlight_icon );
+    gtk_button_set_always_show_image( GTK_BUTTON((*this_).edit_highlight), true );
     gtk_button_set_label( GTK_BUTTON((*this_).edit_highlight), "Highlight" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_highlight), "Highlight" );
 
     (*this_).edit_reset_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_reset( res ));
     (*this_).edit_reset = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).edit_reset), (*this_).edit_reset_icon );
+    gtk_button_set_always_show_image( GTK_BUTTON((*this_).edit_reset), true );
     gtk_button_set_label( GTK_BUTTON((*this_).edit_reset), "Reset" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_reset), "Reset Selection" );
 
     (*this_).edit_undo_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_undo( res ));
     (*this_).edit_undo = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).edit_undo), (*this_).edit_undo_icon );
+    gtk_button_set_always_show_image( GTK_BUTTON((*this_).edit_undo), true );
     gtk_button_set_label( GTK_BUTTON((*this_).edit_undo), "Undo" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_undo), "Undo (Ctrl-Z)" );
 #if ( GTK_MAJOR_VERSION >= 4 )
@@ -211,6 +222,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).edit_redo_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_redo( res ));
     (*this_).edit_redo = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).edit_redo), (*this_).edit_redo_icon );
+    gtk_button_set_always_show_image( GTK_BUTTON((*this_).edit_redo), true );
     gtk_button_set_label( GTK_BUTTON((*this_).edit_redo), "Redo" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_redo), "Redo (Ctrl-Y)" );
 #if ( GTK_MAJOR_VERSION >= 4 )
@@ -229,6 +241,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).tool_about_icon = gtk_image_new_from_pixbuf( gui_resources_get_crystal_facet_uml( res ));
     (*this_).tool_about = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).tool_about), (*this_).tool_about_icon );
+    gtk_button_set_always_show_image( GTK_BUTTON((*this_).tool_about), true );
     gtk_button_set_label( GTK_BUTTON((*this_).tool_about), "About" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_about), "About" );
 
@@ -334,6 +347,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).edit_commit_button = gtk_button_new();
     (*this_).edit_commit_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_commit( res ));
     gtk_button_set_image( GTK_BUTTON((*this_).edit_commit_button), (*this_).edit_commit_icon );
+    gtk_button_set_always_show_image( GTK_BUTTON((*this_).edit_commit_button), true );
     gtk_button_set_label( GTK_BUTTON((*this_).edit_commit_button), NULL );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_commit_button), "Commit (Ctrl-S)" );
 #if ( GTK_MAJOR_VERSION >= 4 )
@@ -395,6 +409,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).search_button = gtk_button_new();
     (*this_).search_btn_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_search( res ));
     gtk_button_set_image ( GTK_BUTTON((*this_).search_button), (*this_).search_btn_icon );
+    gtk_button_set_always_show_image( GTK_BUTTON((*this_).search_button), true );
     gtk_button_set_label ( GTK_BUTTON((*this_).search_button), NULL );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).search_button), "Search" );
     gui_search_runner_init( &((*this_).search_runner),
