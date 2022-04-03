@@ -34,6 +34,7 @@ struct gui_window_manager_struct {
     data_database_t *database;  /*!< pointer to external data_database_t */
     data_database_reader_t db_reader;  /*!< own instance of data_database_reader_t */
     gui_resources_t gui_resources;  /*!< own instance of gui_resources_t */
+    GtkApplication *gtk_app;  /*!< the gtk application object */
     observer_t window_close_observer;  /*!< own instance of observer_t to observe window close events */
     observer_t window_open_observer;  /*!< own instance of observer_t to observe window open events */
 
@@ -49,8 +50,13 @@ typedef struct gui_window_manager_struct gui_window_manager_t;
  *  \param this_ pointer to own object attributes
  *  \param controller pointer to a controller object which can modify the database
  *  \param database pointer to a database object
+ *  \param gtk_app the gtk application object
  */
-void gui_window_manager_init( gui_window_manager_t *this_, ctrl_controller_t *controller, data_database_t *database );
+void gui_window_manager_init( gui_window_manager_t *this_,
+                              ctrl_controller_t *controller,
+                              data_database_t *database,
+                              GtkApplication *gtk_app
+                            );
 
 /*!
  *  \brief destroys the window manager

@@ -34,9 +34,10 @@ void gui_main ( ctrl_controller_t *controller, data_database_t *database, int ar
 
 #if ( GTK_MAJOR_VERSION >= 4 )
     /* init */
-    gui_window_manager_init( &window_manager, controller, database );
     GtkApplication *const gtk_app
         = gtk_application_new( META_INFO_APPLICATION_ID_STR, G_APPLICATION_FLAGS_NONE );
+    gui_window_manager_init( &window_manager, controller, database, gtk_app );
+
     g_signal_connect( gtk_app, "activate", G_CALLBACK( gui_main_activate_callback ), NULL);
 
     /* run */
@@ -51,7 +52,7 @@ void gui_main ( ctrl_controller_t *controller, data_database_t *database, int ar
     g_object_unref( gtk_app );
 #else
     /* init */
-    gui_window_manager_init( &window_manager, controller, database );
+    gui_window_manager_init( &window_manager, controller, database, NULL );
     gui_window_manager_open_main_window( &window_manager );
 
     /* run */

@@ -27,6 +27,9 @@ void gui_main_window_init ( gui_main_window_t *this_,
                             data_database_t *database,
                             data_database_reader_t *db_reader,
                             gui_resources_t *res,
+#if ( GTK_MAJOR_VERSION >= 4 )
+                            GtkApplication *gtk_app,
+#endif
                             observer_t *window_close_observer,
                             observer_t *window_open_observer )
 {
@@ -40,7 +43,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     /* init window */
 
 #if ( GTK_MAJOR_VERSION >= 4 )
-    (*this_).window = gtk_window_new();
+    (*this_).window = gtk_application_window_new( gtk_app );
 #else
     (*this_).window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 #endif

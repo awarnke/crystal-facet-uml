@@ -6,8 +6,8 @@ find src/ -type f -a -name "COPY*" -o -type f -a -name "LICENSE*" \
 | sort \
 > ${OUTFILE}
 
-echo "The standard C library (libc) is compiled-in using the -static-libgcc option" \
->> ${OUTFILE}
+# echo "The standard C library (libc) is compiled-in using the -static-libgcc option" \
+# >> ${OUTFILE}
 
 find src/ -type f -a -name "COPY*" -o -type f -a -name "LICENSE*" \
 | sort \

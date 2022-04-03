@@ -6,7 +6,10 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-void gui_window_manager_init ( gui_window_manager_t *this_, ctrl_controller_t *controller, data_database_t *database )
+void gui_window_manager_init( gui_window_manager_t *this_,
+                              ctrl_controller_t *controller,
+                              data_database_t *database,
+                              GtkApplication *gtk_app )
 {
     TRACE_BEGIN();
 
@@ -14,6 +17,7 @@ void gui_window_manager_init ( gui_window_manager_t *this_, ctrl_controller_t *c
     data_database_reader_init( &((*this_).db_reader), database );
     (*this_).controller = controller;
     (*this_).database = database;
+    (*this_).gtk_app = gtk_app;
     observer_init( &((*this_).window_close_observer), this_, (void (*)(void*,void*)) &gui_window_manager_close_main_window, "gui_window_manager_close_main_window()" );
     observer_init( &((*this_).window_open_observer), this_, (void (*)(void*,void*)) &gui_window_manager_open_main_window2, "gui_window_manager_open_main_window2()" );
     for( int index = 0; index < GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS; index ++ )
@@ -39,6 +43,9 @@ void gui_window_manager_destroy( gui_window_manager_t *this_ )
     observer_destroy( &((*this_).window_close_observer) );
     data_database_reader_destroy( &((*this_).db_reader) );
     gui_resources_destroy( &((*this_).gui_resources) );
+    (*this_).controller = NULL;
+    (*this_).database = NULL;
+    (*this_).gtk_app = NULL;
 
     TRACE_END();
 }
@@ -64,6 +71,9 @@ gui_main_window_t *gui_window_manager_open_main_window( gui_window_manager_t *th
                               (*this_).database,
                               &((*this_).db_reader),
                               &((*this_).gui_resources),
+#if ( GTK_MAJOR_VERSION >= 4 )
+                              (*this_).gtk_app,
+#endif
                               &((*this_).window_close_observer),
                               &((*this_).window_open_observer)
                             );

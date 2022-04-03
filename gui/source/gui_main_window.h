@@ -120,6 +120,7 @@ typedef struct gui_main_window_struct gui_main_window_t;
  *  \param database pointer to a database object
  *  \param db_reader pointer to a database reader object
  *  \param res pointer to a resource provider
+ *  \param gtk_app the gtk application object
  *  \param window_close_observer observer for a button press on the close window button
  *  \param window_open_observer observer for a button press on the open window button
  */
@@ -128,6 +129,9 @@ void gui_main_window_init( gui_main_window_t *this_,
                            data_database_t *database,
                            data_database_reader_t *db_reader,
                            gui_resources_t *res,
+#if ( GTK_MAJOR_VERSION >= 4 )
+                           GtkApplication *gtk_app,
+#endif
                            observer_t *window_close_observer,
                            observer_t *window_open_observer
 );
