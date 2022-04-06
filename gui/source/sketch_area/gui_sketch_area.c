@@ -80,10 +80,9 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
 #if ( GTK_MAJOR_VERSION >= 4 )
     gtk_drawing_area_set_draw_func( GTK_DRAWING_AREA((*this_).drawing_area),
                                     (GtkDrawingAreaDrawFunc) gui_sketch_area_draw_callback,
-                                    NULL,
+                                    this_,
                                     NULL
                                   );
-
     GtkEventController *evt_move = gtk_event_controller_motion_new();
     g_signal_connect( evt_move, "enter", G_CALLBACK (gui_sketch_area_motion_notify_callback), this_ );
     g_signal_connect( evt_move, "motion", G_CALLBACK (gui_sketch_area_motion_notify_callback), this_ );
