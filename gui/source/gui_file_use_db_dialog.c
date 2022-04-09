@@ -24,7 +24,10 @@ void gui_file_use_db_dialog_init ( gui_file_use_db_dialog_t *this_,
                                                                  GTK_RESPONSE_ACCEPT,
                                                                  NULL
                                                                );
+#if ( GTK_MAJOR_VERSION >= 4 )
+#else
     gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).use_db_file_chooser ), "untitled.cfu1" );
+#endif
 
     gui_file_db_manager_init( &((*this_).file_manager), controller, database, message_to_user );
 
@@ -34,7 +37,6 @@ void gui_file_use_db_dialog_init ( gui_file_use_db_dialog_t *this_,
 #else
     g_signal_connect( G_OBJECT((*this_).use_db_file_chooser), "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL );
 #endif
-
     TRACE_END();
 }
 
