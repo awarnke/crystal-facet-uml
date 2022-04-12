@@ -28,7 +28,11 @@ typedef struct observer_struct observer_t;
  *  \param observer_callback a callback function. Simply dereference the function name, omit parameters and add a typecast, e.g. (void (*)(void*,void*)) &my_callback_function
  *  \param callback_name name of the callback function, used for tracing and debugging
  */
-static inline void observer_init ( observer_t *this_, void *observer_instance, void (*observer_callback)(void *observer_instance, void *call_param), const char* callback_name );
+static inline void observer_init ( observer_t *this_,
+                                   void *observer_instance,
+                                   void (*observer_callback)(void *observer_instance, void *call_param),
+                                   const char* callback_name
+                                 );
 
 /*!
  *  \brief destroys the observer_t struct

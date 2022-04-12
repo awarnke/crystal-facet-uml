@@ -3,7 +3,10 @@
 #include "tslog.h"
 #include <assert.h>
 
-static inline void observer_init ( observer_t *this_, void *observer_instance, void (*observer_callback)(void *observer_instance, void *call_param), const char* callback_name )
+static inline void observer_init( observer_t *this_,
+                                  void *observer_instance,
+                                  void (*observer_callback)(void *observer_instance, void *call_param),
+                                  const char* callback_name )
 {
     assert( NULL != observer_instance );
     assert( NULL != observer_callback );
@@ -13,13 +16,13 @@ static inline void observer_init ( observer_t *this_, void *observer_instance, v
     (*this_).callback_name = callback_name;
 }
 
-static inline void observer_destroy ( observer_t *this_ )
+static inline void observer_destroy( observer_t *this_ )
 {
     (*this_).observer_instance = NULL;
     (*this_).observer_callback = NULL;
 }
 
-static inline void observer_notify ( observer_t *this_, void *call_param )
+static inline void observer_notify( observer_t *this_, void *call_param )
 {
     assert( (*this_).observer_instance != NULL );
     assert( (*this_).observer_callback != NULL );

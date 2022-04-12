@@ -143,6 +143,7 @@ u8_error_t data_change_notifier_remove_listener ( data_change_notifier_t *this_,
 
     /* remove if found */
     if ( found_at_pos != -1 ) {
+        TRACE_INFO_INT( "unsubscribing from pos", found_at_pos );
         (*this_).listener_array[found_at_pos] = NULL;
         if ( found_at_pos + 1 != (*this_).num_listeners )
         {

@@ -18,8 +18,16 @@ void gui_window_manager_init( gui_window_manager_t *this_,
     (*this_).controller = controller;
     (*this_).database = database;
     (*this_).gtk_app = gtk_app;
-    observer_init( &((*this_).window_close_observer), this_, (void (*)(void*,void*)) &gui_window_manager_close_main_window, "gui_window_manager_close_main_window()" );
-    observer_init( &((*this_).window_open_observer), this_, (void (*)(void*,void*)) &gui_window_manager_open_main_window2, "gui_window_manager_open_main_window2()" );
+    observer_init( &((*this_).window_close_observer),
+                   this_,
+                   (void (*)(void*,void*)) &gui_window_manager_close_main_window,
+                   "gui_window_manager_close_main_window()"
+                  );
+    observer_init( &((*this_).window_open_observer),
+                   this_,
+                   (void (*)(void*,void*)) &gui_window_manager_open_main_window2,
+                   "gui_window_manager_open_main_window2()"
+                  );
     for( int index = 0; index < GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS; index ++ )
     {
         (*this_).main_window_active[index] = false;

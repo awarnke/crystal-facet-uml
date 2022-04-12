@@ -420,14 +420,12 @@ void gui_main_window_init ( gui_main_window_t *this_,
     }
 
     /* init the file choosers */
-#if 1
     gui_file_use_db_dialog_init ( &((*this_).file_use_db_dialog),
                                   controller,
                                   database,
                                   GTK_WINDOW( (*this_).window ),
                                   &((*this_).message_to_user)
                                 );
-#endif
     gui_file_export_dialog_init( &((*this_).file_export_dialog),
                                  database,
                                  db_reader,
@@ -590,7 +588,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).edit_commit_button), "clicked", G_CALLBACK(gui_attributes_editor_commit_clicked_callback), &((*this_).attributes_editor) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_attributes_editor_selected_object_changed_callback), &((*this_).attributes_editor) );
     g_signal_connect( G_OBJECT((*this_).name_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_attributes_editor_data_changed_callback), &((*this_).attributes_editor) );
-        /* ^-- name is the  proxy for all widgets of attributes_editor */
+        /* ^-- name_entry is the  proxy for all widgets of attributes_editor */
     g_signal_connect( G_OBJECT((*this_).tool_about), "clicked", G_CALLBACK(gui_main_window_about_btn_callback), this_ );
 
     TRACE_INFO("GTK+ Callbacks are connected to widget events.");
@@ -601,7 +599,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).window) );
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).sketcharea) );
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).name_entry) );
-        /* ^-- name is the  proxy for all widgets of attributes_editor */
+        /* ^-- name_entry is the  proxy for all widgets of attributes_editor */
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).search_entry) );
 
     TRACE_INFO("GTK+ Widgets are registered as listeners at signal emitter.");
@@ -626,16 +624,15 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
 {
     TRACE_BEGIN();
 
-    data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).window) );
-    data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).sketcharea) );
-    data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).name_entry) );
-    data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).search_entry) );
+    /* Note: The widgets may be destroyed already. A cast by G_OBJECT is therefore illegal. */
+    data_change_notifier_remove_listener( (*this_).data_notifier, (GObject*)(*this_).window );
+    data_change_notifier_remove_listener( (*this_).data_notifier, (GObject*)(*this_).name_entry );
+    data_change_notifier_remove_listener( (*this_).data_notifier, (GObject*)(*this_).sketcharea );
+    data_change_notifier_remove_listener( (*this_).data_notifier, (GObject*)(*this_).search_entry );
 
     TRACE_INFO("GTK+ Widgets are unregistered as listeners from data module.");
-
     gui_file_export_dialog_destroy ( &((*this_).file_export_dialog) );
     gui_file_use_db_dialog_destroy ( &((*this_).file_use_db_dialog) );
-
     TRACE_INFO("GTK+ hidden windows are destroyed.");
 
     gui_search_request_destroy( &((*this_).search_request) );
@@ -654,6 +651,7 @@ void gui_main_window_destroy_event_callback( GtkWidget *widget, gpointer data )
 {
     TRACE_BEGIN();
     gui_main_window_t *this_ = data;
+    assert( (*this_).window == (void*)widget );
 
     /* forward destroy request to gui_window_manager: */
     observer_notify( (*this_).window_close_observer, this_ );
@@ -662,9 +660,15 @@ void gui_main_window_destroy_event_callback( GtkWidget *widget, gpointer data )
     TRACE_END();
 }
 
+#if ( GTK_MAJOR_VERSION >= 4 )
+gboolean gui_main_window_delete_event_callback( GtkWindow *widget, gpointer data )
+#else
 gboolean gui_main_window_delete_event_callback( GtkWidget *widget, GdkEvent *event, gpointer data )
+#endif
 {
     TRACE_BEGIN();
+    gui_main_window_t *this_ = data;
+    assert( (*this_).window == (void*)widget );
 
     TRACE_TIMESTAMP();
     TRACE_END();

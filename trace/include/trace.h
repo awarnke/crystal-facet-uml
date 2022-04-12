@@ -13,6 +13,7 @@
 #include <time.h>
 
 #define TRACE_OUT_STREAM stdout
+/* #define TRACE_OUT_STREAM stderr */  /* stderr helps to locate sudden termination errors */
 #define TRACE_INDENT_MOD (32u)
 #define TRACE_INDENT_MAX (31u)
 #define TRACE_INDENT_STEP (2u)

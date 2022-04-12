@@ -19,8 +19,10 @@ static void gui_main_activate_callback( GtkApplication* app, gpointer user_data 
 {
     TRACE_BEGIN();
     TRACE_TIMESTAMP();
+    gui_window_manager_t *const win_manager = user_data;
+    assert( win_manager != NULL );
 
-    gui_window_manager_open_main_window( &window_manager );
+    gui_window_manager_open_main_window( win_manager );
 
     TRACE_END();
 }
@@ -38,9 +40,10 @@ void gui_main ( ctrl_controller_t *controller, data_database_t *database, int ar
         = gtk_application_new( META_INFO_APPLICATION_ID_STR, G_APPLICATION_FLAGS_NONE );
     gui_window_manager_init( &window_manager, controller, database, gtk_app );
 
-    g_signal_connect( gtk_app, "activate", G_CALLBACK( gui_main_activate_callback ), NULL);
+    g_signal_connect( gtk_app, "activate", G_CALLBACK( gui_main_activate_callback ), &window_manager);
 
     /* run */
+    TSLOG_EVENT( "Connecting to a display (if display is remote, this may take some seconds) ..." );
     int error_code = g_application_run( G_APPLICATION(gtk_app), argc, argv );
     if ( error_code != 0 )
     {

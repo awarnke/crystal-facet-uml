@@ -153,7 +153,11 @@ void gui_main_window_destroy_event_callback( GtkWidget *widget, gpointer data );
  *
  *  \return true if the window shall not be deleted.
  */
+#if ( GTK_MAJOR_VERSION >= 4 )
+gboolean gui_main_window_delete_event_callback( GtkWindow *widget, gpointer data );
+#else
 gboolean gui_main_window_delete_event_callback( GtkWidget *widget, GdkEvent *event, gpointer data );
+#endif
 
 /*!
  *  \brief callback that informs that the use_db button was pressed
