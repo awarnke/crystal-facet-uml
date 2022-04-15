@@ -83,20 +83,39 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
                                     this_,
                                     NULL
                                   );
-    GtkEventController *evt_move = gtk_event_controller_motion_new();
-    g_signal_connect( evt_move, "enter", G_CALLBACK (gui_sketch_area_motion_notify_callback), this_ );
-    g_signal_connect( evt_move, "motion", G_CALLBACK (gui_sketch_area_motion_notify_callback), this_ );
-    g_signal_connect( evt_move, "leave", G_CALLBACK (gui_sketch_area_leave_notify_callback), this_ );
-    gtk_widget_add_controller( (*this_).drawing_area, GTK_EVENT_CONTROLLER(evt_move) );
-    /* alternative: GtkGestureSingle */
-#else
-    g_signal_connect( G_OBJECT((*this_).drawing_area), "draw", G_CALLBACK (gui_sketch_area_draw_callback_old), this_ );
+    gtk_widget_set_sensitive( (*this_).drawing_area, true );
+    gtk_widget_set_can_focus( (*this_).drawing_area, true );
+    gtk_widget_set_focusable( (*this_).drawing_area, true );
+    gtk_widget_set_can_target( (*this_).drawing_area, true );
+    gtk_widget_set_focus_on_click( (*this_).drawing_area, true );
 
-    g_signal_connect( G_OBJECT((*this_).drawing_area), "motion_notify_event", G_CALLBACK(gui_sketch_area_mouse_motion_callback), this_ );
-    g_signal_connect( G_OBJECT((*this_).drawing_area), "button_press_event", G_CALLBACK(gui_sketch_area_button_press_callback), this_ );
-    g_signal_connect( G_OBJECT((*this_).drawing_area), "button_release_event", G_CALLBACK(gui_sketch_area_button_release_callback), this_ );
-    g_signal_connect( G_OBJECT((*this_).drawing_area), "leave_notify_event", G_CALLBACK(gui_sketch_area_leave_notify_callback), this_ );
-    g_signal_connect( G_OBJECT((*this_).drawing_area), "key_press_event",     G_CALLBACK(gui_sketch_area_key_press_callback), this_ );
+    GtkEventController *evt_move = gtk_event_controller_motion_new();
+    g_signal_connect( evt_move, "enter", G_CALLBACK(gui_sketch_area_motion_notify_callback), this_ );
+    g_signal_connect( evt_move, "motion", G_CALLBACK(gui_sketch_area_motion_notify_callback), this_ );
+    g_signal_connect( evt_move, "leave", G_CALLBACK(gui_sketch_area_leave_notify_callback), this_ );
+    gtk_widget_add_controller( (*this_).drawing_area, GTK_EVENT_CONTROLLER(evt_move) );
+
+    GtkEventController *evt_key = gtk_event_controller_key_new();
+    g_signal_connect( evt_key, "key-pressed", G_CALLBACK(gui_sketch_area_key_press_callback), this_ );
+    /*
+    g_signal_connect( evt_key, "modifiers", G_CALLBACK(gui_sketch_area_key_callback), this_ );
+    g_signal_connect( evt_key, "key-released", G_CALLBACK(gui_sketch_area_key_release_callback), this_ );
+    */
+    gtk_widget_add_controller( (*this_).drawing_area, GTK_EVENT_CONTROLLER(evt_key) );
+
+    GtkGesture *evt_button = gtk_gesture_click_new();
+    g_signal_connect( evt_button, "pressed", G_CALLBACK(gui_sketch_area_button_press_callback), this_ );
+    g_signal_connect( evt_button, "released", G_CALLBACK(gui_sketch_area_button_release_callback), this_ );
+    gtk_widget_add_controller( (*this_).drawing_area, GTK_EVENT_CONTROLLER(evt_button) );
+
+#else
+    g_signal_connect( G_OBJECT((*this_).drawing_area), "draw", G_CALLBACK (gui_sketch_area_draw_old_callback), this_ );
+
+    g_signal_connect( G_OBJECT((*this_).drawing_area), "motion_notify_event", G_CALLBACK(gui_sketch_area_mouse_motion_old_callback), this_ );
+    g_signal_connect( G_OBJECT((*this_).drawing_area), "button_press_event", G_CALLBACK(gui_sketch_area_button_press_old_callback), this_ );
+    g_signal_connect( G_OBJECT((*this_).drawing_area), "button_release_event", G_CALLBACK(gui_sketch_area_button_release_old_callback), this_ );
+    g_signal_connect( G_OBJECT((*this_).drawing_area), "leave_notify_event", G_CALLBACK(gui_sketch_area_leave_notify_old_callback), this_ );
+    g_signal_connect( G_OBJECT((*this_).drawing_area), "key_press_event", G_CALLBACK(gui_sketch_area_key_press_old_callback), this_ );
 #endif
 
     /* fetch initial data from the database */
@@ -194,20 +213,40 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_sea
 void gui_sketch_area_draw_callback( GtkDrawingArea *widget, cairo_t *cr, int width, int height, gpointer data )
 {
     TRACE_BEGIN();
+    TRACE_TIMESTAMP();
     assert( NULL != cr );
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
+    assert( GTK_WIDGET(widget) == (*this_).drawing_area );
+
+    gui_sketch_area_draw( this_, width, height, cr );
+
+    TRACE_END();
+}
 #else
-gboolean gui_sketch_area_draw_callback_old( GtkWidget *widget, cairo_t *cr, gpointer data )
+gboolean gui_sketch_area_draw_old_callback( GtkWidget *widget, cairo_t *cr, gpointer data )
 {
     TRACE_BEGIN();
+    TRACE_TIMESTAMP();
     assert( NULL != cr );
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
+    assert( widget == (*this_).drawing_area );
 
     const guint width = gtk_widget_get_allocated_width (widget);
     const guint height = gtk_widget_get_allocated_height (widget);
+
+    gui_sketch_area_draw( this_, width, height, cr );
+
+    TRACE_END();
+    return FALSE;
+}
 #endif
+
+void gui_sketch_area_draw( gui_sketch_area_t *this_, int width, int height, cairo_t *cr )
+{
+    TRACE_BEGIN();
+    assert( NULL != cr );
 
     if ( ! data_database_reader_is_open( (*this_).db_reader ) )
     {
@@ -227,13 +266,7 @@ gboolean gui_sketch_area_draw_callback_old( GtkWidget *widget, cairo_t *cr, gpoi
         gui_sketch_area_private_draw_subwidgets( this_, bounds, cr );
     }
 
-    TRACE_TIMESTAMP();
     TRACE_END();
-#if ( GTK_MAJOR_VERSION >= 4 )
-    return;
-#else
-    return FALSE;
-#endif
 }
 
 void gui_sketch_area_show_diagram ( gui_sketch_area_t *this_, data_id_t main_diagram_id )
@@ -601,33 +634,36 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
 void gui_sketch_area_leave_notify_callback( GtkEventControllerMotion* self, gpointer user_data )
 {
     TRACE_BEGIN();
+    TRACE_TIMESTAMP();
     gui_sketch_area_t *this_ = user_data;
     assert( NULL != this_ );
 
+    gui_marked_set_clear_highlighted( (*this_).marker );
+    /* mark dirty rect */
+    gtk_widget_queue_draw( (*this_).drawing_area );
+
+    TRACE_END();
+}
 #else
-gboolean gui_sketch_area_leave_notify_callback( GtkWidget* widget, GdkEventCrossing* evt, gpointer data )
+gboolean gui_sketch_area_leave_notify_old_callback( GtkWidget* widget, GdkEventCrossing* evt, gpointer data )
 {
     TRACE_BEGIN();
+    TRACE_TIMESTAMP();
     assert( NULL != evt );
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
 
     if (( (*evt).type == GDK_LEAVE_NOTIFY )&&( (*evt).mode == GDK_CROSSING_NORMAL ))
-#endif
     {
         gui_marked_set_clear_highlighted( (*this_).marker );
         /* mark dirty rect */
         gtk_widget_queue_draw( (*this_).drawing_area );
     }
 
-    TRACE_TIMESTAMP();
     TRACE_END();
-#if ( GTK_MAJOR_VERSION >= 4 )
-    return;
-#else
     return TRUE;
-#endif
 }
+#endif
 
 #if ( GTK_MAJOR_VERSION >= 4 )
 void gui_sketch_area_motion_notify_callback( GtkEventControllerMotion* self,
@@ -639,11 +675,12 @@ void gui_sketch_area_motion_notify_callback( GtkEventControllerMotion* self,
     gui_sketch_area_t *this_ = user_data;
     assert( NULL != this_ );
 
-    const int32_t x = (int32_t) in_x;
-    const int32_t y = (int32_t) in_y;
-    const int state = 0;
+    gui_sketch_area_motion_notify( this_, (int)in_x, (int)in_y );
+
+    TRACE_END();
+}
 #else
-gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotion* evt, gpointer data )
+gboolean gui_sketch_area_mouse_motion_old_callback( GtkWidget* widget, GdkEventMotion* evt, gpointer data )
 {
     TRACE_BEGIN();
     assert( NULL != evt );
@@ -652,17 +689,27 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
 
     const int32_t x = (int32_t) (*evt).x;
     const int32_t y = (int32_t) (*evt).y;
+
     const GdkModifierType state = (GdkModifierType) (*evt).state;
-#endif
-    TRACE_INFO_INT_INT( "x/y", x, y );
-
-    /* update drag coordinates */
-    gui_sketch_drag_state_set_to ( &((*this_).drag_state), x, y );
-
     if ( (state & GDK_BUTTON1_MASK) != 0 )
     {
         TRACE_INFO( "GDK_BUTTON1_MASK" );
     }
+
+    gui_sketch_area_motion_notify( this_, x, y );
+
+    TRACE_END();
+    return TRUE;
+}
+#endif
+
+void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y )
+{
+    TRACE_BEGIN();
+    TRACE_INFO_INT_INT( "x/y", x, y );
+
+    /* update drag coordinates */
+    gui_sketch_drag_state_set_to ( &((*this_).drag_state), x, y );
 
     /* do highlight */
     const gui_tool_t selected_tool = gui_sketch_request_get_tool_mode( &((*this_).request) );
@@ -827,17 +874,77 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     }
 
     TRACE_END();
-#if ( GTK_MAJOR_VERSION >= 4 )
-    return;
-#else
-    return TRUE;
-#endif
 }
 
 #if ( GTK_MAJOR_VERSION >= 4 )
+gboolean gui_sketch_area_key_press_callback( GtkEventControllerKey* self,
+                                             guint keyval,
+                                             guint keycode,
+                                             GdkModifierType state,
+                                             gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_sketch_area_t *this_ = user_data;
+    assert( NULL != this_ );
+
+    TRACE_END();
+    return true;
+}
+
+/*
+gboolean gui_sketch_area_key_callback( GtkEventControllerKey* self, GdkModifierType keyval, gpointer data )
+{
+    TRACE_BEGIN();
+    gui_sketch_area_t *this_ = data;
+    assert( NULL != this_ );
+
+    TRACE_END();
+    return true;
+}
+
+void gui_sketch_area_key_release_callback( GtkEventControllerKey* self,
+                                           guint keyval,
+                                           guint keycode,
+                                           GdkModifierType state,
+                                           gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_sketch_area_t *this_ = user_data;
+    assert( NULL != this_ );
+
+    TRACE_END();
+}
+*/
+
+void gui_sketch_area_button_release_callback( GtkGestureClick* self,
+                                              gint n_press,
+                                              gdouble x,
+                                              gdouble y,
+                                              gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_sketch_area_t *this_ = user_data;
+    assert( NULL != this_ );
+
+    TRACE_END();
+}
+
+void gui_sketch_area_button_press_callback( GtkGestureClick* self,
+                                            gint n_press,
+                                            gdouble x,
+                                            gdouble y,
+                                            gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_sketch_area_t *this_ = user_data;
+    assert( NULL != this_ );
+
+    TRACE_END();
+}
+
 #else
 
-gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data )
+gboolean gui_sketch_area_button_press_old_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data )
 {
     TRACE_BEGIN();
     assert( NULL != evt );
@@ -1202,7 +1309,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
     return TRUE;
 }
 
-gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data )
+gboolean gui_sketch_area_button_release_old_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data )
 {
     TRACE_BEGIN();
     assert( NULL != evt );
@@ -1744,7 +1851,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
     return TRUE;
 }
 
-gboolean gui_sketch_area_key_press_callback( GtkWidget* widget, GdkEventKey* evt, gpointer data )
+gboolean gui_sketch_area_key_press_old_callback( GtkWidget* widget, GdkEventKey* evt, gpointer data )
 {
     TRACE_BEGIN();
     assert( NULL != evt );
