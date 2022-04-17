@@ -180,18 +180,18 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
             TRACE_INFO_STR( "chosen folder:", folder_path );
 
             selected_format = IO_FILE_FORMAT_NONE;
-            if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON((*this_).format_pdf) )) { selected_format |= IO_FILE_FORMAT_PDF; }
-            if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON((*this_).format_png) )) { selected_format |= IO_FILE_FORMAT_PNG; }
-            if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON((*this_).format_ps) )) { selected_format |= IO_FILE_FORMAT_PS; }
-            if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON((*this_).format_svg) )) { selected_format |= IO_FILE_FORMAT_SVG; }
-            if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON((*this_).format_txt) )) { selected_format |= IO_FILE_FORMAT_TXT; }
-            if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON((*this_).format_docbook) )) { selected_format |= IO_FILE_FORMAT_DOCBOOK; }
-            if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON((*this_).format_xhtml) )) { selected_format |= IO_FILE_FORMAT_XHTML; }
-            if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON((*this_).format_xmi2) )) { selected_format |= IO_FILE_FORMAT_XMI2; }
-            if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON((*this_).format_json) )) { selected_format |= IO_FILE_FORMAT_JSON; }
+            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_pdf) )) { selected_format |= IO_FILE_FORMAT_PDF; }
+            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_png) )) { selected_format |= IO_FILE_FORMAT_PNG; }
+            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_ps) )) { selected_format |= IO_FILE_FORMAT_PS; }
+            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_svg) )) { selected_format |= IO_FILE_FORMAT_SVG; }
+            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_txt) )) { selected_format |= IO_FILE_FORMAT_TXT; }
+            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_docbook) )) { selected_format |= IO_FILE_FORMAT_DOCBOOK; }
+            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_xhtml) )) { selected_format |= IO_FILE_FORMAT_XHTML; }
+            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_xmi2) )) { selected_format |= IO_FILE_FORMAT_XMI2; }
+            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_json) )) { selected_format |= IO_FILE_FORMAT_JSON; }
 
             /* determine the database file path */
-            const char *db_path = data_database_get_filename_ptr ( (*this_).database );
+            const char *db_path = data_database_get_filename_ptr( (*this_).database );
 
             if ( data_database_is_open((*this_).database) )
             {

@@ -19,7 +19,7 @@ ideas for future versions:
   [ ] file open dialog shall always overwrite without asking
   [ ] file open dialog sets no default file name
   [ ] file export dialog must choose child of parent, not be in target location
-  [ ] file export dialog does not evaluate selected formats
+  [x] file export dialog does not evaluate selected formats
   [ ] focus-out-event of edit-widgets are ignored
   [x] when clicking onto a diagam and thereby changing the tool, a readraw is missing
   [ ] edit-element-type icons are badly aligned

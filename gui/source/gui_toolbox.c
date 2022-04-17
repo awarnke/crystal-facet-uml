@@ -95,6 +95,70 @@ void gui_toolbox_destroy ( gui_toolbox_t *this_ )
     TRACE_END();
 }
 
+void gui_toolbox_set_selected_tool( gui_toolbox_t *this_, gui_tool_t tool )
+{
+    switch ( tool )
+    {
+        case GUI_TOOL_NAVIGATE:
+        {
+#if ( GTK_MAJOR_VERSION >= 4 )
+            gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( (*this_).tool_navigate ), true );
+            gui_simple_message_to_user_hide( (*this_).message_to_user );
+            (*this_).selected_tool = GUI_TOOL_NAVIGATE;
+            gui_toolbox_private_notify_listeners( this_ );
+#else
+            gtk_toggle_tool_button_set_active( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_navigate ), true );
+#endif
+        }
+        break;
+
+        case GUI_TOOL_EDIT:
+        {
+#if ( GTK_MAJOR_VERSION >= 4 )
+            gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( (*this_).tool_edit ), true );
+            gui_simple_message_to_user_hide( (*this_).message_to_user );
+            (*this_).selected_tool = GUI_TOOL_EDIT;
+            gui_toolbox_private_notify_listeners( this_ );
+#else
+            gtk_toggle_tool_button_set_active( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_edit ), true );
+#endif
+        }
+        break;
+
+        case GUI_TOOL_SEARCH:
+        {
+#if ( GTK_MAJOR_VERSION >= 4 )
+            gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( (*this_).tool_search ), true );
+            gui_simple_message_to_user_hide( (*this_).message_to_user );
+            (*this_).selected_tool = GUI_TOOL_SEARCH;
+            gui_toolbox_private_notify_listeners( this_ );
+#else
+            gtk_toggle_tool_button_set_active( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_search ), true );
+#endif
+        }
+        break;
+
+        case GUI_TOOL_CREATE:
+        {
+#if ( GTK_MAJOR_VERSION >= 4 )
+            gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( (*this_).tool_create ), true );
+            gui_simple_message_to_user_hide( (*this_).message_to_user );
+            (*this_).selected_tool = GUI_TOOL_CREATE;
+            gui_toolbox_private_notify_listeners( this_ );
+#else
+            gtk_toggle_tool_button_set_active( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_create ), true );
+#endif
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR( "invalid enum value" );
+        }
+        break;
+    }
+}
+
 void gui_toolbox_navigate_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();

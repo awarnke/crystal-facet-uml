@@ -537,6 +537,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).message_text_label ), false );
 #if ( GTK_MAJOR_VERSION >= 4 )
     gtk_window_set_child( GTK_WINDOW((*this_).window), (*this_).layout );
+    gtk_window_set_resizable( GTK_WINDOW((*this_).window), true );
 #else
     gtk_container_add(GTK_CONTAINER((*this_).window), (*this_).layout);
 #endif
