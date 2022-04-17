@@ -236,6 +236,11 @@ gboolean gui_sketch_area_button_press_old_callback( GtkWidget* widget, GdkEventB
 #endif
 
 /*!
+ *  \brief the primary mouse button was pressed on the sketch_area widget
+ */
+void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y );
+
+/*!
  *  \brief callback that informs that the mouse button was released on the sketch_area widget
  */
 #if ( GTK_MAJOR_VERSION >= 4 )
@@ -250,6 +255,11 @@ gboolean gui_sketch_area_button_release_old_callback( GtkWidget* widget, GdkEven
 #endif
 
 /*!
+ *  \brief the primary mouse button was released on the sketch_area widget
+ */
+void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y );
+
+/*!
  *  \brief callback that informs that the keyboard was pressed
  */
 #if ( GTK_MAJOR_VERSION >= 4 )
@@ -259,18 +269,14 @@ gboolean gui_sketch_area_key_press_callback( GtkEventControllerKey* self,
                                              GdkModifierType state,
                                              gpointer user_data
                                            );
-/*
-gboolean gui_sketch_area_key_callback( GtkEventControllerKey* self, GdkModifierType keyval, gpointer data );
-void gui_sketch_area_key_release_callback( GtkEventControllerKey* self,
-                                           guint keyval,
-                                           guint keycode,
-                                           GdkModifierType state,
-                                           gpointer user_data
-                                         );
-*/
 #else
 gboolean gui_sketch_area_key_press_old_callback( GtkWidget* widget, GdkEventKey* evt, gpointer data );
 #endif
+
+/*!
+ *  \brief the keyboard was pressed
+ */
+bool gui_sketch_area_key_press( gui_sketch_area_t *this_, bool ctrl_state, guint keyval );
 
 /*!
  *  \brief callback that informs that the displayed data changed

@@ -10,7 +10,7 @@ ideas for future versions:
   [ ] Move a child diagram out of and behind the parent is not possible in one single step
   [ ] After deselecting all elements, paste does not work. One has to select an element first.
   @gtk4
-  [ ] sketcharea does not react on click, drag, release
+  [x] sketcharea does not react on click, drag, release
   [ ] separator icon too small
   [ ] keyboard shortcuts/accellerators do not work
   [ ] resizing main window not possible
@@ -21,7 +21,7 @@ ideas for future versions:
   [ ] file export dialog must choose child of parent, not be in target location
   [ ] file export dialog does not evaluate selected formats
   [ ] focus-out-event of edit-widgets are ignored
-  [ ]
+  [ ] when clicking onto a diagam and thereby changing the tool, a readraw is missing
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes
