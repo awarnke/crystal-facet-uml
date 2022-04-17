@@ -59,6 +59,11 @@ void gui_main_window_init ( gui_main_window_t *this_,
         gtk_misc_set_alignment (GTK_MISC( (*this_).message_text_label ), 0.0, 0.0 );
 #endif
         (*this_).message_icon_image = gtk_image_new_from_pixbuf ( gui_resources_get_crystal_facet_uml( res ) );
+#if ( GTK_MAJOR_VERSION >= 4 )
+        // gtk_widget_set_size_request( GTK_WIDGET((*this_).message_icon_image), 32 /*=w*/ , 32 /*=h*/ );
+        // gtk_image_set_pixel_size( GTK_IMAGE((*this_).message_icon_image), 32 );
+#else
+#endif
         gui_simple_message_to_user_init( &((*this_).message_to_user), (*this_).message_text_label, (*this_).message_icon_image, res );
     }
 
@@ -293,6 +298,10 @@ void gui_main_window_init ( gui_main_window_t *this_,
     {
         (*this_).attr_section_icon = gtk_image_new_from_pixbuf ( gui_resources_get_edit_attributes_sect( res ) );
         gtk_widget_set_size_request( GTK_WIDGET((*this_).attr_section_icon), 48 /*=w*/ , 12 /*=h*/ );
+#if ( GTK_MAJOR_VERSION >= 4 )
+        gtk_image_set_pixel_size( GTK_IMAGE((*this_).attr_section_icon), 48 );
+#else
+#endif
         gtk_widget_set_halign( (*this_).attr_section_icon, GTK_ALIGN_START );
         (*this_).id_label = gtk_label_new( "" );
         (*this_).name_label = gtk_label_new( "Name:" );
@@ -364,7 +373,11 @@ void gui_main_window_init ( gui_main_window_t *this_,
         gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column2, "text", 1, NULL);
 
         (*this_).type_icon_grid = gtk_icon_view_new();
+#if ( GTK_MAJOR_VERSION >= 4 )
+        gtk_widget_set_halign( (*this_).type_icon_grid, GTK_ALIGN_START );
+#else
         gtk_widget_set_halign( (*this_).type_icon_grid, GTK_ALIGN_END );
+#endif
         gtk_icon_view_set_tooltip_column( GTK_ICON_VIEW((*this_).type_icon_grid), 1 );
         gtk_icon_view_set_pixbuf_column( GTK_ICON_VIEW((*this_).type_icon_grid), 2 );
         gtk_icon_view_set_selection_mode( GTK_ICON_VIEW((*this_).type_icon_grid), GTK_SELECTION_NONE );
@@ -493,8 +506,8 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).sketcharea ), true );
     gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).sketcharea ), true );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).attr_section_icon, 3, 2, 1, 1 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).id_label ), false );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).id_label ), false );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).attr_section_icon ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).attr_section_icon ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).id_label, 3, 3, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).id_label ), false );
     gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).id_label ), false );

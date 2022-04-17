@@ -11,14 +11,14 @@ ideas for future versions:
   [ ] After deselecting all elements, paste does not work. One has to select an element first.
   @gtk4
   [x] sketcharea does not react on click, drag, release
-  [ ] separator icon too small
+  [x] separator icon too small
   [ ] keyboard shortcuts/accellerators do not work
-  [ ] resizing main window not possible
-  [ ] resizing file open dialog not possible
-  [ ] resizing file export dialog not possible
-  [ ] file open dialog shall always overwrite without asking
-  [ ] file open dialog sets no default file name
-  [ ] file export dialog must choose child of parent, not be in target location
+  [x] resizing main window not possible (?)
+  [x] resizing file open dialog not possible (?)
+  [x] resizing file export dialog not possible (?)
+  [ ] file open dialog shall always overwrite without asking - not possible with gtk4 ?
+  [ ] file open dialog sets no default file name - seems to be a bug in gtk4 ?
+  [ ] file export dialog must choose child of parent, not be in target location - true ?
   [x] file export dialog does not evaluate selected formats
   [ ] focus-out-event of edit-widgets are ignored
   [x] when clicking onto a diagam and thereby changing the tool, a readraw is missing
