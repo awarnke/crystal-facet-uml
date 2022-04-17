@@ -686,6 +686,7 @@ gboolean gui_sketch_area_mouse_motion_old_callback( GtkWidget* widget, GdkEventM
     assert( NULL != evt );
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
+    assert( widget == (*this_).drawing_area );
 
     const int32_t x = (int32_t) (*evt).x;
     const int32_t y = (int32_t) (*evt).y;
@@ -900,7 +901,7 @@ gboolean gui_sketch_area_button_press_old_callback( GtkWidget* widget, GdkEventB
     assert( NULL != evt );
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
-    assert( widget != (*this_).drawing_area );
+    assert( widget == (*this_).drawing_area );
 
     if ( (*evt).button == 1 )
     {
@@ -1292,6 +1293,7 @@ gboolean gui_sketch_area_button_release_old_callback( GtkWidget* widget, GdkEven
     assert( NULL != evt );
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
+    assert( widget == (*this_).drawing_area );
 
     if ( (*evt).button == 1 )
     {
@@ -1861,6 +1863,7 @@ gboolean gui_sketch_area_key_press_old_callback( GtkWidget* widget, GdkEventKey*
     assert( NULL != evt );
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
+    assert( widget == (*this_).drawing_area );
 
     const gboolean result_event_handled = gui_sketch_area_key_press( this_, (*evt).state == GDK_CONTROL_MASK, (*evt).keyval );
 

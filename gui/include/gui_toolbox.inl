@@ -13,6 +13,9 @@ static inline void gui_toolbox_set_selected_tool( gui_toolbox_t *this_, gui_tool
         {
 #if ( GTK_MAJOR_VERSION >= 4 )
             gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( (*this_).tool_navigate ), true );
+            gui_simple_message_to_user_hide( (*this_).message_to_user );
+            (*this_).selected_tool = GUI_TOOL_NAVIGATE;
+            gui_toolbox_private_notify_listeners( this_ );
 #else
             gtk_toggle_tool_button_set_active( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_navigate ), true );
 #endif
@@ -23,6 +26,9 @@ static inline void gui_toolbox_set_selected_tool( gui_toolbox_t *this_, gui_tool
         {
 #if ( GTK_MAJOR_VERSION >= 4 )
             gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( (*this_).tool_edit ), true );
+            gui_simple_message_to_user_hide( (*this_).message_to_user );
+            (*this_).selected_tool = GUI_TOOL_EDIT;
+            gui_toolbox_private_notify_listeners( this_ );
 #else
             gtk_toggle_tool_button_set_active( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_edit ), true );
 #endif
@@ -33,6 +39,9 @@ static inline void gui_toolbox_set_selected_tool( gui_toolbox_t *this_, gui_tool
         {
 #if ( GTK_MAJOR_VERSION >= 4 )
             gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( (*this_).tool_search ), true );
+            gui_simple_message_to_user_hide( (*this_).message_to_user );
+            (*this_).selected_tool = GUI_TOOL_SEARCH;
+            gui_toolbox_private_notify_listeners( this_ );
 #else
             gtk_toggle_tool_button_set_active( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_search ), true );
 #endif
@@ -43,6 +52,9 @@ static inline void gui_toolbox_set_selected_tool( gui_toolbox_t *this_, gui_tool
         {
 #if ( GTK_MAJOR_VERSION >= 4 )
             gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( (*this_).tool_create ), true );
+            gui_simple_message_to_user_hide( (*this_).message_to_user );
+            (*this_).selected_tool = GUI_TOOL_CREATE;
+            gui_toolbox_private_notify_listeners( this_ );
 #else
             gtk_toggle_tool_button_set_active( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_create ), true );
 #endif
@@ -56,6 +68,7 @@ static inline void gui_toolbox_set_selected_tool( gui_toolbox_t *this_, gui_tool
         break;
     }
 }
+
 
 /*
 Copyright 2016-2022 Andreas Warnke
