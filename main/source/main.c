@@ -113,7 +113,8 @@ int main (int argc, char **argv) {
 
     {
         static main_commands_t commands;
-        exit_code |= main_commands_init( &commands, ( ! do_not_start ), argc, argv );
+        const int argc_remaining = 1;
+        exit_code |= main_commands_init( &commands, ( ! do_not_start ), argc_remaining, argv );
 
         if ( do_upgrade || do_check || do_export )
         {

@@ -25,7 +25,7 @@ ideas for future versions:
   [ ] edit-element-type icons are badly aligned
   [x] copy to clipboard does not yet work
   [x] paste from clipboard does not yet work
-  [ ] command line parameters do not yet work
+  [x] command line parameters do not yet work
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes
