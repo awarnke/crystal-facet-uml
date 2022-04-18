@@ -68,6 +68,10 @@ int gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_, const data_smal
         gtk_clipboard_set_text( (*this_).the_clipboard, utf8stringbuf_get_string( (*this_).clipboard_stringbuf ), -1 );
 #endif
     }
+    else
+    {
+        TSLOG_ERROR_HEX( "Exporting selected set to clipboard failed:", serialize_error );
+    }
     TRACE_INFO( utf8stringbuf_get_string( (*this_).clipboard_stringbuf ) );
 
     TRACE_END_ERR( serialize_error );

@@ -244,11 +244,23 @@ void gui_main_window_init ( gui_main_window_t *this_,
     }
 
     /* determine the current/main clipboard */
-    GdkClipboard *current_clipboard;
+    GdkClipboard *current_clipboard = NULL;
     {
 #if ( GTK_MAJOR_VERSION >= 4 )
+        current_clipboard = gtk_widget_get_clipboard( GTK_WIDGET((*this_).window) );
+        /*
         GdkDisplay *const current_display = gdk_display_get_default();
-        current_clipboard = gdk_display_get_primary_clipboard( current_display );
+        if ( current_display != NULL )
+        {
+            TRACE_INFO_STR( "GdkDisplay:", gdk_display_get_name( current_display ) );
+            current_clipboard = gdk_display_get_primary_clipboard( current_display );
+            Alternative: current_clipboard = gdk_display_get_clipboard( current_display );
+        }
+        else
+        {
+            TSLOG_WARNING( "No display could be found. No clipboard is available." );
+        }
+        */
 #else
         GdkScreen *const current_screen = gtk_window_get_screen( GTK_WINDOW( (*this_).window ) );
         GdkDisplay *const current_display = gdk_screen_get_display( current_screen );

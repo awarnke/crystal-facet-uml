@@ -22,6 +22,7 @@ cd root/usr
 
     zip ../../${PACK_FILE} crystal-facet-uml/bin/*.dll
     zip ../../${PACK_FILE} crystal-facet-uml/bin/glib-compile-schemas.exe
+    zip ../../${PACK_FILE} crystal-facet-uml/bin/gdbus.exe
     zip ../../${PACK_FILE} crystal-facet-uml/bin/*crystal-facet-uml*
     zip -r ../../${PACK_FILE} crystal-facet-uml/share/glib-2.0/schemas
     zip ../../${PACK_FILE} crystal-facet-uml/*.*
