@@ -128,7 +128,11 @@ void gui_attributes_editor_trace ( const gui_attributes_editor_t *this_ );
 /*!
  *  \brief callback that informs that the focus of a widget is lost
  */
+#if ( GTK_MAJOR_VERSION >= 4 )
+void gui_attributes_editor_name_state_changed_callback( GtkWidget *widget, GtkStateFlags flags, gpointer user_data );
+#else
 gboolean gui_attributes_editor_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data );
+#endif
 
 /*!
  *  \brief callback that informs that enter was pressed
@@ -138,7 +142,11 @@ void gui_attributes_editor_name_enter_callback ( GtkEntry *widget, gpointer user
 /*!
  *  \brief callback that informs that the focus of a widget is lost
  */
+#if ( GTK_MAJOR_VERSION >= 4 )
+void gui_attributes_editor_stereotype_state_changed_callback( GtkWidget *widget, GtkStateFlags flags, gpointer user_data );
+#else
 gboolean gui_attributes_editor_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data );
+#endif
 
 /*!
  *  \brief callback that informs that enter was pressed
@@ -158,7 +166,11 @@ void gui_attributes_editor_type_shortlist_callback ( GtkIconView *iconview, GtkT
 /*!
  *  \brief callback that informs that the focus of a widget is lost
  */
+#if ( GTK_MAJOR_VERSION >= 4 )
+void gui_attributes_editor_description_state_changed_callback( GtkWidget *widget, GtkStateFlags flags, gpointer user_data );
+#else
 gboolean gui_attributes_editor_description_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data );
+#endif
 
 /*!
  *  \brief callback that informs that the commit button was pressed

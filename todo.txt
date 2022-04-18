@@ -20,7 +20,7 @@ ideas for future versions:
   [ ] file open dialog sets no default file name - seems to be a bug in gtk4 ?
   [ ] file export dialog must choose child of parent, not be in target location - true ?
   [x] file export dialog does not evaluate selected formats
-  [ ] focus-out-event of edit-widgets are ignored
+  [x] focus-out-event of edit-widgets are ignored
   [x] when clicking onto a diagam and thereby changing the tool, a redraw is missing
   [ ] edit-element-type icons are badly aligned
   [x] copy to clipboard does not yet work

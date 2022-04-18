@@ -602,11 +602,37 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).edit_redo), "clicked", G_CALLBACK(gui_toolbox_redo_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).name_entry), "activate", G_CALLBACK(gui_attributes_editor_name_enter_callback), &((*this_).attributes_editor) );
 #if ( GTK_MAJOR_VERSION >= 4 )
-    /* TODO - solution similar to gui_sketch_area.c needed */
+    g_signal_connect( G_OBJECT((*this_).name_entry),
+                      "state-flags-changed",
+                      G_CALLBACK(gui_attributes_editor_name_state_changed_callback),
+                      &((*this_).attributes_editor)
+                    );
+    g_signal_connect( G_OBJECT((*this_).description_text_view),
+                      "state-flags-changed",
+                      G_CALLBACK(gui_attributes_editor_description_state_changed_callback),
+                      &((*this_).attributes_editor)
+                    );
+    g_signal_connect( G_OBJECT((*this_).stereotype_entry),
+                      "state-flags-changed",
+                      G_CALLBACK(gui_attributes_editor_stereotype_state_changed_callback),
+                      &((*this_).attributes_editor)
+                    );
 #else
-    g_signal_connect( G_OBJECT((*this_).name_entry), "focus-out-event", G_CALLBACK(gui_attributes_editor_name_focus_lost_callback), &((*this_).attributes_editor) );
-    g_signal_connect( G_OBJECT((*this_).description_text_view), "focus-out-event", G_CALLBACK(gui_attributes_editor_description_focus_lost_callback), &((*this_).attributes_editor) );
-    g_signal_connect( G_OBJECT((*this_).stereotype_entry), "focus-out-event", G_CALLBACK(gui_attributes_editor_stereotype_focus_lost_callback), &((*this_).attributes_editor) );
+    g_signal_connect( G_OBJECT((*this_).name_entry),
+                      "focus-out-event",
+                      G_CALLBACK(gui_attributes_editor_name_focus_lost_callback),
+                      &((*this_).attributes_editor)
+                    );
+    g_signal_connect( G_OBJECT((*this_).description_text_view),
+                      "focus-out-event",
+                      G_CALLBACK(gui_attributes_editor_description_focus_lost_callback),
+                      &((*this_).attributes_editor)
+                    );
+    g_signal_connect( G_OBJECT((*this_).stereotype_entry),
+                      "focus-out-event",
+                      G_CALLBACK(gui_attributes_editor_stereotype_focus_lost_callback),
+                      &((*this_).attributes_editor)
+                    );
 #endif
     g_signal_connect( G_OBJECT((*this_).stereotype_entry), "activate", G_CALLBACK(gui_attributes_editor_stereotype_enter_callback), &((*this_).attributes_editor) );
     g_signal_connect( G_OBJECT((*this_).type_combo_box), "changed", G_CALLBACK(gui_attributes_editor_type_changed_callback), &((*this_).attributes_editor) );
