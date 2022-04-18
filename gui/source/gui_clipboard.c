@@ -100,20 +100,29 @@ void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, data_row_id_t
 
 void gui_clipboard_clipboard_text_received_callback( GObject *source_object,
                                                      GAsyncResult* res,
-                                                     gpointer user_data  )
+                                                     gpointer user_data )
 {
     TRACE_BEGIN();
     assert( NULL != source_object );
+    assert( NULL != res );
     assert( NULL != user_data );
     gui_clipboard_t *this_ = user_data;
+    assert( GDK_CLIPBOARD(source_object) == (*this_).the_clipboard );
 
-    GError* error;
-    char* clipboard_text = gdk_clipboard_read_text_finish( (GdkClipboard*) source_object, res, &error );
+    GError* error = NULL;
+    char* clipboard_text = gdk_clipboard_read_text_finish( (*this_).the_clipboard, res, &error );
+
+    if ( error != NULL )
+    {
+        TSLOG_ERROR_STR( "Error:", (*error).message );
+        g_error_free( error );
+    }
 
     if ( clipboard_text != NULL )
     {
         gui_clipboard_private_copy_clipboard_to_db( this_, clipboard_text );
-        g_object_unref( clipboard_text );
+        /* g_object_unref( clipboard_text ); */
+        g_free( clipboard_text );
     }
     else
     {

@@ -191,6 +191,11 @@ gboolean gui_sketch_area_draw_old_callback( GtkWidget *widget, cairo_t *cr, gpoi
 
 /*!
  *  \brief redraws the sketch_area widget
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param width width of sketch widget
+ *  \param height height of sketch widget
+ *  \param cr cairo drawing context to draw the sketch widget
  */
 void gui_sketch_area_draw( gui_sketch_area_t *this_, int width, int height, cairo_t *cr );
 
@@ -218,6 +223,10 @@ gboolean gui_sketch_area_mouse_motion_old_callback( GtkWidget* widget, GdkEventM
 
 /*!
  *  \brief the mouse cursor entered or moved on the sketch_area widget
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x-position of mouse pointer
+ *  \param y y-position of mouse pointer
  */
 void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y );
 
@@ -237,6 +246,10 @@ gboolean gui_sketch_area_button_press_old_callback( GtkWidget* widget, GdkEventB
 
 /*!
  *  \brief the primary mouse button was pressed on the sketch_area widget
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x-position of mouse pointer
+ *  \param y y-position of mouse pointer
  */
 void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y );
 
@@ -256,6 +269,10 @@ gboolean gui_sketch_area_button_release_old_callback( GtkWidget* widget, GdkEven
 
 /*!
  *  \brief the primary mouse button was released on the sketch_area widget
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x-position of mouse pointer
+ *  \param y y-position of mouse pointer
  */
 void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y );
 
@@ -275,6 +292,11 @@ gboolean gui_sketch_area_key_press_old_callback( GtkWidget* widget, GdkEventKey*
 
 /*!
  *  \brief the keyboard was pressed
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param ctrl_state true if the ctrl button is pressed
+ *  \param keyval the key value of the pressed key
+ *  \return true if the keypress was handled by this sketch area
  */
 bool gui_sketch_area_key_press( gui_sketch_area_t *this_, bool ctrl_state, guint keyval );
 

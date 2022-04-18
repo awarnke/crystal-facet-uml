@@ -21,10 +21,11 @@ ideas for future versions:
   [ ] file export dialog must choose child of parent, not be in target location - true ?
   [x] file export dialog does not evaluate selected formats
   [ ] focus-out-event of edit-widgets are ignored
-  [x] when clicking onto a diagam and thereby changing the tool, a readraw is missing
+  [x] when clicking onto a diagam and thereby changing the tool, a redraw is missing
   [ ] edit-element-type icons are badly aligned
   [x] copy to clipboard does not yet work
-  [ ] paste from clipboard does not yet work
+  [x] paste from clipboard does not yet work
+  [ ] command line parameters do not yet work
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes
