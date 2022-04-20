@@ -60,6 +60,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
 #endif
         (*this_).message_icon_image = gtk_image_new_from_pixbuf ( gui_resources_get_crystal_facet_uml( res ) );
 #if ( GTK_MAJOR_VERSION >= 4 )
+        /* TODO check if GtkPicture is better suited than GtkImage because of setting the size */
         // gtk_widget_set_size_request( GTK_WIDGET((*this_).message_icon_image), 32 /*=w*/ , 32 /*=h*/ );
         // gtk_image_set_pixel_size( GTK_IMAGE((*this_).message_icon_image), 32 );
 #else
@@ -70,6 +71,8 @@ void gui_main_window_init ( gui_main_window_t *this_,
     /* init the keyboard shortcuts */
     {
 #if ( GTK_MAJOR_VERSION >= 4 )
+        (*this_).keyboard_shortcut_ctrl = GTK_SHORTCUT_CONTROLLER(gtk_shortcut_controller_new());
+        gtk_widget_add_controller( (*this_).window, GTK_EVENT_CONTROLLER((*this_).keyboard_shortcut_ctrl) );
 #else
         (*this_).keyboard_shortcut_group = gtk_accel_group_new();
         gtk_window_add_accel_group(GTK_WINDOW( (*this_).window ), (*this_).keyboard_shortcut_group);
@@ -206,6 +209,16 @@ void gui_main_window_init ( gui_main_window_t *this_,
         gtk_button_set_image( GTK_BUTTON((*this_).edit_undo), (*this_).edit_undo_icon );
         gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_undo), "Undo (Ctrl-Z)" );
 #if ( GTK_MAJOR_VERSION >= 4 )
+        GtkShortcutTrigger *undo_trig = gtk_shortcut_trigger_parse_string( "<Control>Z" );
+        GtkShortcutAction *undo_act = gtk_callback_action_new( &gui_toolbox_undo_shortcut_callback,
+                                                               &((*this_).tools_data),
+                                                               NULL
+                                                             );
+        GtkShortcut* ctrl_z = gtk_shortcut_new_with_arguments( undo_trig,
+                                                               undo_act,
+                                                               NULL /* = format_string */
+                                                             );
+        gtk_shortcut_controller_add_shortcut( (*this_).keyboard_shortcut_ctrl, ctrl_z );
 #else
         gtk_widget_add_accelerator( GTK_WIDGET((*this_).edit_undo),
                                     "clicked",
@@ -214,6 +227,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                     GDK_CONTROL_MASK,
                                     GTK_ACCEL_VISIBLE
                                   );
+
 #endif
 
         (*this_).edit_redo_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_redo( res ));
@@ -222,8 +236,16 @@ void gui_main_window_init ( gui_main_window_t *this_,
         gtk_button_set_image( GTK_BUTTON((*this_).edit_redo), (*this_).edit_redo_icon );
         gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_redo), "Redo (Ctrl-Y)" );
 #if ( GTK_MAJOR_VERSION >= 4 )
-        // For key bindings, check documentation at
-        // https://gnome.pages.gitlab.gnome.org/gtk/gtk4/class.ShortcutController.html
+        GtkShortcutTrigger *redo_trig = gtk_shortcut_trigger_parse_string( "<Control>Y" );
+        GtkShortcutAction *redo_act = gtk_callback_action_new( &gui_toolbox_redo_shortcut_callback,
+                                                               &((*this_).tools_data),
+                                                               NULL
+                                                             );
+        GtkShortcut* ctrl_y = gtk_shortcut_new_with_arguments( redo_trig,
+                                                               redo_act,
+                                                               NULL /* = format_string */
+                                                             );
+        gtk_shortcut_controller_add_shortcut( (*this_).keyboard_shortcut_ctrl, ctrl_y );
 #else
         gtk_widget_add_accelerator( GTK_WIDGET((*this_).edit_redo),
                                     "clicked",
@@ -364,6 +386,16 @@ void gui_main_window_init ( gui_main_window_t *this_,
         gtk_button_set_image( GTK_BUTTON((*this_).edit_commit_button), (*this_).edit_commit_icon );
         gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_commit_button), "Commit (Ctrl-S)" );
 #if ( GTK_MAJOR_VERSION >= 4 )
+        GtkShortcutTrigger *commit_trig = gtk_shortcut_trigger_parse_string( "<Control>S" );
+        GtkShortcutAction *commit_act = gtk_callback_action_new( &gui_attributes_editor_commit_shortcut_callback,
+                                                                 &((*this_).attributes_editor),
+                                                                 NULL
+                                                               );
+        GtkShortcut* ctrl_s = gtk_shortcut_new_with_arguments( commit_trig,
+                                                               commit_act,
+                                                               NULL /* = format_string */
+                                                             );
+        gtk_shortcut_controller_add_shortcut( (*this_).keyboard_shortcut_ctrl, ctrl_s );
 #else
         gtk_widget_add_accelerator( GTK_WIDGET((*this_).edit_commit_button),
                                     "clicked",
@@ -385,10 +417,10 @@ void gui_main_window_init ( gui_main_window_t *this_,
         gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column2, "text", 1, NULL);
 
         (*this_).type_icon_grid = gtk_icon_view_new();
-#if ( GTK_MAJOR_VERSION >= 4 )
-        gtk_widget_set_halign( (*this_).type_icon_grid, GTK_ALIGN_START );
-#else
         gtk_widget_set_halign( (*this_).type_icon_grid, GTK_ALIGN_END );
+#if ( GTK_MAJOR_VERSION >= 4 )
+        gtk_icon_view_set_activate_on_single_click( GTK_ICON_VIEW((*this_).type_icon_grid), true );
+#else
 #endif
         gtk_icon_view_set_tooltip_column( GTK_ICON_VIEW((*this_).type_icon_grid), 1 );
         gtk_icon_view_set_pixbuf_column( GTK_ICON_VIEW((*this_).type_icon_grid), 2 );
@@ -583,14 +615,17 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).file_use_db), "clicked", G_CALLBACK(gui_main_window_use_db_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).file_export), "clicked", G_CALLBACK(gui_main_window_export_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).file_new_window), "clicked", G_CALLBACK(gui_main_window_new_window_btn_callback), this_ );
+
     g_signal_connect( G_OBJECT((*this_).tool_navigate), "clicked", G_CALLBACK(gui_toolbox_navigate_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_edit), "clicked", G_CALLBACK(gui_toolbox_edit_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_create), "clicked", G_CALLBACK(gui_toolbox_create_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_search), "clicked", G_CALLBACK(gui_toolbox_search_btn_callback), &((*this_).tools_data) );
+
     g_signal_connect( G_OBJECT((*this_).toolbar), GUI_TOOLBOX_GLIB_SIGNAL_NAME, G_CALLBACK(gui_search_request_tool_changed_callback), &((*this_).search_request) );
     g_signal_connect( G_OBJECT((*this_).search_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_search_request_data_changed_callback), &((*this_).search_request) );
     g_signal_connect( G_OBJECT((*this_).search_entry), "activate", G_CALLBACK(gui_search_request_search_start_callback), &((*this_).search_request) );
     g_signal_connect( G_OBJECT((*this_).search_button), "clicked", G_CALLBACK(gui_search_request_search_start_callback), &((*this_).search_request) );
+
     g_signal_connect( G_OBJECT((*this_).edit_cut), "clicked", G_CALLBACK(gui_toolbox_cut_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_copy), "clicked", G_CALLBACK(gui_toolbox_copy_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_paste), "clicked", G_CALLBACK(gui_toolbox_paste_btn_callback), &((*this_).tools_data) );
@@ -600,8 +635,10 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).edit_reset), "clicked", G_CALLBACK(gui_toolbox_reset_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_undo), "clicked", G_CALLBACK(gui_toolbox_undo_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_redo), "clicked", G_CALLBACK(gui_toolbox_redo_btn_callback), &((*this_).tools_data) );
+
     g_signal_connect( G_OBJECT((*this_).name_entry), "activate", G_CALLBACK(gui_attributes_editor_name_enter_callback), &((*this_).attributes_editor) );
 #if ( GTK_MAJOR_VERSION >= 4 )
+    /* TODO: check if GtkEventControllerFocus is more suitable than state-flags-changed */
     g_signal_connect( G_OBJECT((*this_).name_entry),
                       "state-flags-changed",
                       G_CALLBACK(gui_attributes_editor_name_state_changed_callback),
@@ -641,6 +678,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).sketcharea), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_attributes_editor_selected_object_changed_callback), &((*this_).attributes_editor) );
     g_signal_connect( G_OBJECT((*this_).name_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_attributes_editor_data_changed_callback), &((*this_).attributes_editor) );
         /* ^-- name_entry is the  proxy for all widgets of attributes_editor */
+
     g_signal_connect( G_OBJECT((*this_).tool_about), "clicked", G_CALLBACK(gui_main_window_about_btn_callback), this_ );
 
     TRACE_INFO("GTK+ Callbacks are connected to widget events.");

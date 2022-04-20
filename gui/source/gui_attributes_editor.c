@@ -280,9 +280,9 @@ void gui_attributes_editor_trace ( const gui_attributes_editor_t *this_ )
 void gui_attributes_editor_name_state_changed_callback( GtkWidget *widget, GtkStateFlags flags, gpointer user_data )
 {
     TRACE_BEGIN();
-    assert ( user_data != NULL );
+    assert( user_data != NULL );
     gui_attributes_editor_t *const this_ = (gui_attributes_editor_t*) user_data;
-    assert ( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).name_entry ) );
+    assert( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).name_entry ) );
 
     const bool focus_lost = ( flags & GTK_STATE_FLAG_FOCUSED ) == 0;
     if ( focus_lost ) {
@@ -297,9 +297,9 @@ void gui_attributes_editor_name_state_changed_callback( GtkWidget *widget, GtkSt
 gboolean gui_attributes_editor_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
 {
     TRACE_BEGIN();
-    assert ( user_data != NULL );
+    assert( user_data != NULL );
     gui_attributes_editor_t *const this_ = (gui_attributes_editor_t*) user_data;
-    assert ( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).name_entry ) );
+    assert( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).name_entry ) );
 
     //gui_attributes_editor_private_name_commit_changes( this_ );
     gui_attributes_editor_commit_changes ( this_ );
@@ -313,9 +313,9 @@ gboolean gui_attributes_editor_name_focus_lost_callback ( GtkWidget *widget, Gdk
 void gui_attributes_editor_name_enter_callback ( GtkEntry *widget, gpointer user_data )
 {
     TRACE_BEGIN();
-    assert ( user_data != NULL );
+    assert( user_data != NULL );
     gui_attributes_editor_t *const this_ = (gui_attributes_editor_t*) user_data;
-    assert ( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).name_entry ) );
+    assert( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).name_entry ) );
 
     //gui_attributes_editor_private_name_commit_changes( this_ );
     gui_attributes_editor_commit_changes ( this_ );
@@ -328,9 +328,9 @@ void gui_attributes_editor_name_enter_callback ( GtkEntry *widget, gpointer user
 void gui_attributes_editor_stereotype_state_changed_callback( GtkWidget *widget, GtkStateFlags flags, gpointer user_data )
 {
     TRACE_BEGIN();
-    assert ( user_data != NULL );
+    assert( user_data != NULL );
     gui_attributes_editor_t *const this_ = (gui_attributes_editor_t*) user_data;
-    assert ( widget == GTK_ENTRY( (*this_).stereotype_entry ) );
+    assert( GTK_ENTRY(widget) == GTK_ENTRY( (*this_).stereotype_entry ) );
 
     const bool focus_lost = ( flags & GTK_STATE_FLAG_FOCUSED ) == 0;
     if ( focus_lost ) {
@@ -345,9 +345,9 @@ void gui_attributes_editor_stereotype_state_changed_callback( GtkWidget *widget,
 gboolean gui_attributes_editor_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
 {
     TRACE_BEGIN();
-    assert ( user_data != NULL );
+    assert( user_data != NULL );
     gui_attributes_editor_t *const this_ = (gui_attributes_editor_t*) user_data;
-    assert ( widget == GTK_ENTRY( (*this_).stereotype_entry ) );
+    assert( GTK_ENTRY(widget) == GTK_ENTRY( (*this_).stereotype_entry ) );
 
     //gui_attributes_editor_private_stereotype_commit_changes( this_ );
     gui_attributes_editor_commit_changes ( this_ );
@@ -361,9 +361,9 @@ gboolean gui_attributes_editor_stereotype_focus_lost_callback ( GtkWidget *widge
 void gui_attributes_editor_stereotype_enter_callback ( GtkEntry *widget, gpointer user_data )
 {
     TRACE_BEGIN();
-    assert ( user_data != NULL );
+    assert( user_data != NULL );
     gui_attributes_editor_t *const this_ = (gui_attributes_editor_t*) user_data;
-    assert ( widget == GTK_ENTRY( (*this_).stereotype_entry ) );
+    assert( GTK_ENTRY(widget) == GTK_ENTRY( (*this_).stereotype_entry ) );
 
     //gui_attributes_editor_private_stereotype_commit_changes( this_ );
     gui_attributes_editor_commit_changes ( this_ );
@@ -429,9 +429,9 @@ void gui_attributes_editor_type_shortlist_callback ( GtkIconView *iconview, GtkT
 void gui_attributes_editor_description_state_changed_callback( GtkWidget *widget, GtkStateFlags flags, gpointer user_data )
 {
     TRACE_BEGIN();
-    assert ( user_data != NULL );
+    assert( user_data != NULL );
     gui_attributes_editor_t *const this_ = (gui_attributes_editor_t*) user_data;
-    assert ( GTK_TEXT_VIEW( widget ) == GTK_TEXT_VIEW( (*this_).description_text_view ) );
+    assert( GTK_TEXT_VIEW( widget ) == GTK_TEXT_VIEW( (*this_).description_text_view ) );
 
     const bool focus_lost = ( flags & GTK_STATE_FLAG_FOCUSED ) == 0;
     if ( focus_lost ) {
@@ -446,9 +446,9 @@ void gui_attributes_editor_description_state_changed_callback( GtkWidget *widget
 gboolean gui_attributes_editor_description_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
 {
     TRACE_BEGIN();
-    assert ( user_data != NULL );
+    assert( user_data != NULL );
     gui_attributes_editor_t *const this_ = (gui_attributes_editor_t*) user_data;
-    assert ( GTK_TEXT_VIEW( widget ) == GTK_TEXT_VIEW( (*this_).description_text_view ) );
+    assert( GTK_TEXT_VIEW( widget ) == GTK_TEXT_VIEW( (*this_).description_text_view ) );
 
     gui_attributes_editor_commit_changes ( this_ );
     //gui_attributes_editor_private_description_commit_changes( this_ );
@@ -459,13 +459,12 @@ gboolean gui_attributes_editor_description_focus_lost_callback ( GtkWidget *widg
 }
 #endif
 
-void gui_attributes_editor_commit_clicked_callback (GtkButton *button, gpointer user_data )
+void gui_attributes_editor_commit_clicked_callback( GtkButton *button, gpointer user_data )
 {
     TRACE_BEGIN();
     gui_attributes_editor_t *this_;
     this_ = (gui_attributes_editor_t*) user_data;
-    assert ( NULL != this_ );
-    assert ( GTK_BUTTON( button ) == GTK_BUTTON( (*this_).commit_button ) );
+    assert( this_ != NULL );
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
@@ -511,6 +510,18 @@ void gui_attributes_editor_commit_clicked_callback (GtkButton *button, gpointer 
     TRACE_TIMESTAMP();
     TRACE_END();
 }
+
+#if ( GTK_MAJOR_VERSION >= 4 )
+/*!
+ *  \brief callback that informs that the commit shortcut was activated
+ */
+gboolean gui_attributes_editor_commit_shortcut_callback( GtkWidget* widget, GVariant* args, gpointer user_data )
+{
+    gui_attributes_editor_commit_clicked_callback( (GtkButton*)widget, user_data );
+    return TRUE;
+}
+#else
+#endif
 
 /* ================================ SELECTION or MODEL CHANGED CALLBACKS ================================ */
 
@@ -1648,7 +1659,7 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             gtk_widget_hide ( GTK_WIDGET ( type_widget ) );
             const GtkListStore * const undef_type_list = gui_attributes_editor_types_get_undef( &((*this_).type_lists) );
             gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( undef_type_list ) );
-            /* prevent that a user accitentially enters a type for a non-existing object */
+            /* prevent that a user accidentially enters a type for a non-existing object */
 
             /* the icon grid: */
             gtk_widget_hide ( GTK_WIDGET ( type_icon_grid ) );
@@ -1764,6 +1775,12 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
         }
         break;
     }
+
+#if ( GTK_MAJOR_VERSION >= 4 )
+    /* workaround for https://gitlab.gnome.org/GNOME/gtk/-/issues/4856 */
+    gtk_widget_set_size_request( GTK_WIDGET(type_icon_grid), 7*40, 5*30 );
+#else
+#endif
 
     TRACE_END();
 }

@@ -650,6 +650,7 @@ void gui_toolbox_undo_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_toolbox_t *this_ = data;
+    assert( this_ != NULL );
     u8_error_t ctrl_err;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
@@ -688,10 +689,20 @@ void gui_toolbox_undo_btn_callback( GtkWidget* button, gpointer data )
     TRACE_END();
 }
 
+#if ( GTK_MAJOR_VERSION >= 4 )
+gboolean gui_toolbox_undo_shortcut_callback( GtkWidget* widget, GVariant* args, gpointer user_data )
+{
+    gui_toolbox_undo_btn_callback( widget, user_data );
+    return TRUE;
+}
+#else
+#endif
+
 void gui_toolbox_redo_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_toolbox_t *this_ = data;
+    assert( this_ != NULL );
     u8_error_t ctrl_err;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
@@ -722,6 +733,18 @@ void gui_toolbox_redo_btn_callback( GtkWidget* button, gpointer data )
     TRACE_TIMESTAMP();
     TRACE_END();
 }
+
+#if ( GTK_MAJOR_VERSION >= 4 )
+/*!
+ *  \brief callback that informs that the redo shortcut was activated
+ */
+gboolean gui_toolbox_redo_shortcut_callback( GtkWidget* widget, GVariant* args, gpointer user_data )
+{
+    gui_toolbox_redo_btn_callback( widget, user_data );
+    return TRUE;
+}
+#else
+#endif
 
 void gui_toolbox_private_notify_listeners( gui_toolbox_t *this_ )
 {

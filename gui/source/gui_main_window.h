@@ -79,6 +79,7 @@ struct gui_main_window_struct {
     GtkButton *tool_about;
 
 #if ( GTK_MAJOR_VERSION >= 4 )
+    GtkShortcutController *keyboard_shortcut_ctrl;
 #else
     GtkAccelGroup *keyboard_shortcut_group;
 #endif
