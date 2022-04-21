@@ -61,9 +61,11 @@ void gui_file_use_db_dialog_show( gui_file_use_db_dialog_t *this_ )
     TRACE_BEGIN();
 
 #if ( GTK_MAJOR_VERSION >= 4 )
-    gtk_widget_show( GTK_WIDGET( (*this_).use_db_file_chooser ) );
     /* workaround for disabled file dialog widgets and accepting bug https://gitlab.gnome.org/GNOME/gtk/-/issues/4832 */
     gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).use_db_file_chooser ), "untitled.cfu1" );
+
+    gtk_widget_show( GTK_WIDGET( (*this_).use_db_file_chooser ) );
+    gtk_widget_set_receives_default( GTK_WIDGET( (*this_).use_db_file_chooser ), TRUE );  /* this may be needed on windows ? */
 #else
     gtk_widget_show_all( GTK_WIDGET( (*this_).use_db_file_chooser ) );
 #endif

@@ -136,6 +136,7 @@ void gui_file_export_dialog_show( gui_file_export_dialog_t *this_ )
 
 #if ( GTK_MAJOR_VERSION >= 4 )
     gtk_widget_show( GTK_WIDGET( (*this_).export_file_chooser ) );
+    gtk_widget_set_receives_default( GTK_WIDGET( (*this_).export_file_chooser ), TRUE );  /* this may be needed on windows ? */
 #else
     gtk_widget_show_all( GTK_WIDGET( (*this_).export_file_chooser ) );
 #endif

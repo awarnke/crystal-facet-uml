@@ -696,6 +696,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
 #if ( GTK_MAJOR_VERSION >= 4 )
     gtk_widget_show((*this_).window);
+    gtk_widget_set_receives_default( (*this_).window, TRUE );  /* this may be needed on windows ? */
 #else
     gtk_widget_show_all((*this_).window);
 #endif
