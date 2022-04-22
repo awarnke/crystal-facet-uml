@@ -695,8 +695,9 @@ void gui_main_window_init ( gui_main_window_t *this_,
     TRACE_INFO("GTK+ Widgets are registered as listeners at signal emitter.");
 
 #if ( GTK_MAJOR_VERSION >= 4 )
-    gtk_widget_show((*this_).window);
-    gtk_widget_set_receives_default( (*this_).window, TRUE );  /* this may be needed on windows ? */
+    //gtk_widget_show((*this_).window);
+    //gtk_widget_set_receives_default( (*this_).window, TRUE );  /* this may be needed on windows ? */
+    gtk_window_present( GTK_WINDOW((*this_).window) );
 #else
     gtk_widget_show_all((*this_).window);
 #endif
