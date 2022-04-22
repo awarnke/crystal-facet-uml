@@ -136,8 +136,10 @@ void gui_file_export_dialog_show( gui_file_export_dialog_t *this_ )
 
 #if ( GTK_MAJOR_VERSION >= 4 )
     gtk_window_present( GTK_WINDOW((*this_).export_file_chooser) );
-    gtk_widget_set_can_target( GTK_WIDGET((*this_).export_file_chooser), TRUE );  /* this may be needed on windows ? */
-    gtk_widget_set_focus_on_click( GTK_WIDGET((*this_).export_file_chooser), TRUE );  /* this may be needed on windows ? */
+    GdkSurface *surface = gtk_native_get_surface( GTK_NATIVE((*this_).export_file_chooser) );
+    gdk_surface_set_cursor( surface, NULL );
+    // gtk_widget_set_can_target( GTK_WIDGET((*this_).export_file_chooser), TRUE );  /* this may be needed on windows ? */
+    // gtk_widget_set_focus_on_click( GTK_WIDGET((*this_).export_file_chooser), TRUE );  /* this may be needed on windows ? */
     //gtk_widget_show( GTK_WIDGET( (*this_).export_file_chooser ) );
     //gtk_widget_set_receives_default( GTK_WIDGET( (*this_).export_file_chooser ), TRUE );  /* this may be needed on windows ? */
 #else
