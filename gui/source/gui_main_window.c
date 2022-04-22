@@ -698,6 +698,8 @@ void gui_main_window_init ( gui_main_window_t *this_,
     //gtk_widget_show((*this_).window);
     //gtk_widget_set_receives_default( (*this_).window, TRUE );  /* this may be needed on windows ? */
     gtk_window_present( GTK_WINDOW((*this_).window) );
+    gtk_widget_set_can_target( (*this_).window, TRUE );  /* this may be needed on windows ? */
+    gtk_widget_set_focus_on_click( (*this_).window, TRUE );  /* this may be needed on windows ? */
 #else
     gtk_widget_show_all((*this_).window);
 #endif
@@ -761,7 +763,6 @@ gboolean gui_main_window_delete_event_callback( GtkWidget *widget, GdkEvent *eve
     TRACE_BEGIN();
     gui_main_window_t *this_ = data;
     assert( (*this_).window == (void*)widget );
-    (void) this_;  /* unused in NDEBUG mode */
 
     TRACE_TIMESTAMP();
     TRACE_END();
