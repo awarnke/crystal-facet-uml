@@ -94,7 +94,7 @@ void ctrl_consistency_checker_destroy ( ctrl_consistency_checker_t *this_ );
  *  \param modify_db true if the database shall be repaired and modified
  *  \param out_err number of errors detected (NULL if not requested)
  *  \param out_fix number of errors fixed (NULL if not requested)
- *  \param out_report english text stating what was checked and the results and what was reparied and the results
+ *  \param out_english_report english text stating what was checked and the results and what was reparied and the results
  *  \return U8_ERROR_NONE in case of success,
  *          U8_ERROR_NO_DB if database not open/loaded,
  *          U8_ERROR_DB_STRUCTURE if database was corrupted and is not fully fixed yet
@@ -113,7 +113,7 @@ u8_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t
  *  \param modify_db true if the database shall be repaired and modified
  *  \param io_err number of errors detected (not NULL)
  *  \param io_fix number of errors fixed (not NULL)
- *  \param out_report english text stating what was checked and the results and what was reparied and the results
+ *  \param out_english_report english text stating what was checked and the results and what was reparied and the results
  *  \return U8_ERROR_NONE in case of success,
  *          U8_ERROR_NO_DB if database not open/loaded,
  *          U8_ERROR_DB_STRUCTURE if database was corrupted
@@ -132,7 +132,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_co
  *  \param modify_db true if the database shall be repaired and modified
  *  \param io_err number of errors detected (not NULL)
  *  \param io_fix number of errors fixed (not NULL)
- *  \param out_report english text stating what was checked and the results and what was reparied and the results
+ *  \param out_english_report english text stating what was checked and the results and what was reparied and the results
  *  \return U8_ERROR_NONE in case of success,
  *          U8_ERROR_NO_DB if database not open/loaded,
  *          U8_ERROR_DB_STRUCTURE if database was corrupted
@@ -151,7 +151,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
  *  \param modify_db true if the database shall be repaired and modified
  *  \param io_err number of errors detected (not NULL)
  *  \param io_fix number of errors fixed (not NULL)
- *  \param out_report english text stating what was checked and the results and what was reparied and the results
+ *  \param out_english_report english text stating what was checked and the results and what was reparied and the results
  *  \return U8_ERROR_NONE in case of success,
  *          U8_ERROR_NO_DB if database not open/loaded,
  *          U8_ERROR_DB_STRUCTURE if database was corrupted
@@ -170,7 +170,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_
  *  \param modify_db true if the database shall be repaired and modified
  *  \param io_err number of errors detected (not NULL)
  *  \param io_fix number of errors fixed (not NULL)
- *  \param out_report english text stating what was checked and the results and what was reparied and the results
+ *  \param out_english_report english text stating what was checked and the results and what was reparied and the results
  *  \return U8_ERROR_NONE in case of success,
  *          U8_ERROR_NO_DB if database not open/loaded,
  *          U8_ERROR_DB_STRUCTURE if database was corrupted
@@ -189,7 +189,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl
  *  \param modify_db true if the database shall be repaired and modified
  *  \param io_err number of errors detected (not NULL)
  *  \param io_fix number of errors fixed (not NULL)
- *  \param out_report english text stating what was checked and the results and what was reparied and the results
+ *  \param out_english_report english text stating what was checked and the results and what was reparied and the results
  *  \return U8_ERROR_NONE in case of success,
  *          U8_ERROR_NO_DB if database not open/loaded,
  *          U8_ERROR_DB_STRUCTURE if database was corrupted
@@ -208,7 +208,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl
  *  \param modify_db true if the database shall be repaired and modified
  *  \param io_err number of errors detected (not NULL)
  *  \param io_fix number of errors fixed (not NULL)
- *  \param out_report english text stating what was checked and the results and what was reparied and the results
+ *  \param out_english_report english text stating what was checked and the results and what was reparied and the results
  *  \return U8_ERROR_NONE in case of success,
  *          U8_ERROR_NO_DB if database not open/loaded,
  *          U8_ERROR_DB_STRUCTURE if database was corrupted
@@ -227,7 +227,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_
  *  \param modify_db true if the database shall be repaired and modified
  *  \param io_err number of errors detected (not NULL)
  *  \param io_fix number of errors fixed (not NULL)
- *  \param out_report english text stating what was checked and the results and what was reparied and the results
+ *  \param out_english_report english text stating what was checked and the results and what was reparied and the results
  *  \return U8_ERROR_NONE in case of success,
  *          U8_ERROR_NO_DB if database not open/loaded,
  *          U8_ERROR_DB_STRUCTURE if database was corrupted
@@ -246,7 +246,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifier
  *  \param modify_db true if the database shall be repaired and modified
  *  \param io_err number of errors detected (not NULL)
  *  \param io_fix number of errors fixed (not NULL)
- *  \param out_report english text stating what was checked and the results and what was reparied and the results
+ *  \param out_english_report english text stating what was checked and the results and what was reparied and the results
  *  \return U8_ERROR_NONE in case of success,
  *          U8_ERROR_NO_DB if database not open/loaded,
  *          U8_ERROR_DB_STRUCTURE if database was corrupted

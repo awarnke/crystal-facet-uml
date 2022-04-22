@@ -39,7 +39,8 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/file_use_db.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Opens an existing database file or creates a new database file</para></listitem>
+                <listitem><para>Opens an existing database file or creates a new database file.
+                        A confirmation of overwriting the existing file may be requested.</para></listitem>
                 </itemizedlist>
             </para>
 

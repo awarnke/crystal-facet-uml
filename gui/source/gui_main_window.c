@@ -760,6 +760,7 @@ gboolean gui_main_window_delete_event_callback( GtkWidget *widget, GdkEvent *eve
     TRACE_BEGIN();
     gui_main_window_t *this_ = data;
     assert( (*this_).window == (void*)widget );
+    (void) this_;  /* unused in NDEBUG mode */
 
     TRACE_TIMESTAMP();
     TRACE_END();
