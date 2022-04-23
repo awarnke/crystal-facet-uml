@@ -696,18 +696,19 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
 #if ( GTK_MAJOR_VERSION >= 4 )
     gtk_widget_show((*this_).window);
-    //gtk_widget_set_receives_default( (*this_).window, TRUE );  /* this may be needed on windows ? */
+    gtk_widget_set_receives_default( (*this_).window, TRUE );  /* this may be needed on windows ? */
     gtk_window_present( GTK_WINDOW((*this_).window) );
     gtk_widget_set_sensitive( (*this_).window, TRUE );
     GdkSurface *surface = gtk_native_get_surface( GTK_NATIVE((*this_).window) );
     gdk_surface_set_cursor( surface, NULL );
     gtk_widget_set_can_target( (*this_).window, TRUE );  /* this may be needed on windows ? */
-    // gtk_widget_set_focus_on_click( (*this_).window, TRUE );  /* this may be needed on windows ? */
+    gtk_widget_set_focus_on_click( (*this_).window, TRUE );  /* this may be needed on windows ? */
     const cairo_rectangle_int_t rect
         = { .x = 0, .y = 0, .width = gdk_surface_get_width( surface ), .height = gdk_surface_get_height( surface ) };
     cairo_region_t *region = cairo_region_create_rectangle( &rect );
     gdk_surface_set_input_region( surface, region );
     cairo_region_destroy( region );
+    gtk_widget_set_state_flags( (*this_).window), GTK_STATE_FLAG_NORMAL, FALSE /* clear */ );
 #else
     gtk_widget_show_all((*this_).window);
 #endif

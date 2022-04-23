@@ -65,13 +65,13 @@ void gui_file_use_db_dialog_show( gui_file_use_db_dialog_t *this_ )
     gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).use_db_file_chooser ), "untitled.cfu1" );
 
     gtk_widget_show( GTK_WIDGET( (*this_).use_db_file_chooser ) );
-    //gtk_widget_set_receives_default( GTK_WIDGET( (*this_).use_db_file_chooser ), TRUE );  /* this may be needed on windows ? */
+    gtk_widget_set_receives_default( GTK_WIDGET( (*this_).use_db_file_chooser ), TRUE );  /* this may be needed on windows ? */
     gtk_window_present( GTK_WINDOW((*this_).use_db_file_chooser) );
     gtk_widget_set_sensitive( GTK_WIDGET((*this_).use_db_file_chooser), TRUE );
     GdkSurface *surface = gtk_native_get_surface( GTK_NATIVE((*this_).use_db_file_chooser) );
     gdk_surface_set_cursor( surface, NULL );
     gtk_widget_set_can_target( GTK_WIDGET((*this_).use_db_file_chooser), TRUE );  /* this may be needed on windows ? */
-    // gtk_widget_set_focus_on_click( GTK_WIDGET((*this_).use_db_file_chooser), TRUE );  /* this may be needed on windows ? */
+    gtk_widget_set_focus_on_click( GTK_WIDGET((*this_).use_db_file_chooser), TRUE );  /* this may be needed on windows ? */
     const cairo_rectangle_int_t rect
         = { .x = 0, .y = 0, .width = gdk_surface_get_width( surface ), .height = gdk_surface_get_height( surface ) };
     cairo_region_t *region = cairo_region_create_rectangle( &rect );
