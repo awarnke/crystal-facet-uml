@@ -696,17 +696,19 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
 #if ( GTK_MAJOR_VERSION >= 4 )
     gtk_widget_show((*this_).window);
+#ifdef __linux__
+#else
     gtk_widget_set_receives_default( (*this_).window, TRUE );  /* this may be needed on windows ? */
-    gtk_window_minimize( GTK_WINDOW((*this_).window) );  /* workaround needed for win/gtk4.6.1 environment */
-    gtk_window_present( GTK_WINDOW((*this_).window) );  /* shows and positions nicely */
+    //gtk_window_minimize( GTK_WINDOW((*this_).window) );  /* workaround needed for win/gtk4.6.1 environment */
+    //gtk_window_present( GTK_WINDOW((*this_).window) );  /* shows and positions nicely */
 
-    gtk_widget_set_sensitive( (*this_).window, TRUE );
+    gtk_widget_set_can_target( GTK_WIDGET((*this_).window), TRUE );  /* this may be needed on windows ? */
+    gtk_widget_set_focus_on_click( GTK_WIDGET((*this_).window), TRUE );  /* this may be needed on windows ? */
+#endif
+    gtk_widget_set_sensitive( GTK_WIDGET((*this_).window), TRUE );  /* idea taken from gtk demo */
 
     GdkSurface *surface = gtk_native_get_surface( GTK_NATIVE((*this_).window) );
-    gdk_surface_set_cursor( surface, NULL );
-
-    gtk_widget_set_can_target( (*this_).window, TRUE );  /* this may be needed on windows ? */
-    gtk_widget_set_focus_on_click( (*this_).window, TRUE );  /* this may be needed on windows ? */
+    gdk_surface_set_cursor( surface, NULL );  /* idea taken from gtk3->4 guide */
 
     // const cairo_rectangle_int_t rect
     //    = { .x = 0, .y = 0, .width = gdk_surface_get_width( surface ), .height = gdk_surface_get_height( surface ) };

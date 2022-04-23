@@ -55,6 +55,7 @@
                 </inlinemediaobject>
                 <itemizedlist>
                 <listitem><para>Exports all diagrams to the selected folder.
+                        To select the export folder, navigate to the parent folder and select the target folder.
                         Supported formats are docbook, json, pdf, png, ps, svg, txt, xhtml, xmi.</para></listitem>
                 </itemizedlist>
             </para>
