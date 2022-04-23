@@ -27,7 +27,7 @@ ideas for future versions:
   [x] paste from clipboard does not yet work
   [x] command line parameters do not yet work
   [x] on windows, the file open dialog only works after de- and re- activation - fixed using minimize and present again
-  [ ] on windows, working with multiple main windows may lead to a freeze
+  [x] on windows, switching between multiple main windows may require to minimize windows - documented
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes

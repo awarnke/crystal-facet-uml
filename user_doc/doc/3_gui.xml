@@ -54,9 +54,11 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/file_export.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Exports all diagrams to the selected folder.
+                <listitem><para>
+                        Exports all diagrams to the selected folder.
                         To select the export folder, navigate to the parent folder and select the target folder.
-                        Supported formats are docbook, json, pdf, png, ps, svg, txt, xhtml, xmi.</para></listitem>
+                        Supported formats are docbook, json, pdf, png, ps, svg, txt, xhtml, xmi.
+                    </para></listitem>
                 </itemizedlist>
             </para>
 
@@ -70,7 +72,10 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/file_new_window.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Opens another window on the same database.</para></listitem>
+                <listitem><para>
+                        Opens another window on the same database.
+                        In case of issues with the focus switch between windows, try to minimize and re-activate these.
+                    </para></listitem>
                 </itemizedlist>
                 This new window allows you to work reliably with multiple windows on the same database.
                 <!-- opening the same database file using two instances of crystal facet uml

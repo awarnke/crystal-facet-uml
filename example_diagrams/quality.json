@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.35.1"
+    "generator_version": "1.36.0"
   }
   ,
   "views":
@@ -16,6 +16,7 @@
         "id": 1,
         "parent_id": -1,
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "Quality",
         "description": [
                 "Quality is a set of characteristics of a product.\n",
@@ -43,7 +44,9 @@
           {
             "id": 1,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 1,
+            "classifier_name": "Process Quality",
             "focused_feature_id": -1,
             "node": "e3f7b327-c7a3-468a-97d2-7ad7172636f6",
             "uuid": "918aecff-ed6f-4128-9537-f191e2c4eb33"
@@ -51,7 +54,9 @@
           {
             "id": 2,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 2,
+            "classifier_name": "Product Quality",
             "focused_feature_id": -1,
             "node": "1fe74536-812a-44e1-82a8-6bff746fac94",
             "uuid": "220901b9-2401-4480-96e5-ac92a103f428"
@@ -60,6 +65,7 @@
             "id": 142,
             "display_flags": 0,
             "classifier_id": 115,
+            "classifier_name": "How to create?",
             "focused_feature_id": -1,
             "node": "487af246-c0c0-4bce-a019-0a98414a1e89",
             "uuid": "843d73a9-e3b5-4b08-8fb1-99fd3d0f6bdc"
@@ -68,6 +74,7 @@
             "id": 143,
             "display_flags": 0,
             "classifier_id": 116,
+            "classifier_name": "What characteristics?",
             "focused_feature_id": -1,
             "node": "a07eaa4e-11cf-4285-a187-89ff577b068a",
             "uuid": "fef88081-e79c-41be-977e-857f989015c1"
@@ -79,7 +86,9 @@
       "diagram": {
         "id": 2,
         "parent_id": 1,
+        "parent_name": "Quality",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Product Quality",
         "description": [
                 "Some attributes of a product can be measured when analyzing the artifacts produced during development or when analyzing the finally created product. For example the existance of a firewall for security or the startup-time.\n",
@@ -96,6 +105,7 @@
             "id": 3,
             "display_flags": 0,
             "classifier_id": 3,
+            "classifier_name": "Ext\/Int Product Quality ",
             "focused_feature_id": -1,
             "node": "5cc16673-215f-4396-b544-62b84ac532e2",
             "uuid": "8b6e9063-e4db-4dfe-908f-185d2b75667b"
@@ -104,6 +114,7 @@
             "id": 4,
             "display_flags": 0,
             "classifier_id": 4,
+            "classifier_name": "Quality in Use",
             "focused_feature_id": -1,
             "node": "51ad1157-997f-4fbe-bcc3-273b455eef0a",
             "uuid": "a7d6a7f9-8e07-4dcf-96c4-9cc3e8846085"
@@ -115,7 +126,9 @@
       "diagram": {
         "id": 5,
         "parent_id": 2,
+        "parent_name": "Product Quality",
         "diagram_type": 10,
+        "type": "UMLUseCaseDiagram",
         "name": "Domains",
         "description": [
                 "The \"Quality in Use\" depends on the domain.\n",
@@ -134,6 +147,7 @@
             "id": 51,
             "display_flags": 0,
             "classifier_id": 51,
+            "classifier_name": "Aerospace",
             "focused_feature_id": -1,
             "node": "b417cb02-4678-48ff-b124-cc9706f31c12",
             "uuid": "b7faeab5-2958-4466-b2e6-72151d85a30c"
@@ -142,6 +156,7 @@
             "id": 52,
             "display_flags": 0,
             "classifier_id": 52,
+            "classifier_name": "Automotive",
             "focused_feature_id": -1,
             "node": "d3d5b250-dea6-41c8-80f5-cb85e78ff3f0",
             "uuid": "9efc4c51-a92e-40ee-83ae-3abbbd28be19"
@@ -150,6 +165,7 @@
             "id": 53,
             "display_flags": 0,
             "classifier_id": 53,
+            "classifier_name": "Defense",
             "focused_feature_id": -1,
             "node": "72d9a0dc-1600-4a93-b501-0e059245fe0a",
             "uuid": "d93e0901-ddd1-4890-9324-205311378b26"
@@ -158,6 +174,7 @@
             "id": 54,
             "display_flags": 0,
             "classifier_id": 54,
+            "classifier_name": "Avionics",
             "focused_feature_id": -1,
             "node": "02361930-dab4-4d63-8155-c4ffa811d736",
             "uuid": "b58350ec-a961-447c-8232-4a6267ccf24b"
@@ -166,6 +183,7 @@
             "id": 55,
             "display_flags": 0,
             "classifier_id": 55,
+            "classifier_name": "Industrial Machinery",
             "focused_feature_id": -1,
             "node": "1b3ff235-c6d8-4e37-87c8-f251028a189d",
             "uuid": "aeec17b0-d60c-4305-9035-f51cf016340f"
@@ -174,6 +192,7 @@
             "id": 56,
             "display_flags": 0,
             "classifier_id": 56,
+            "classifier_name": "Medical",
             "focused_feature_id": -1,
             "node": "60e57723-fafd-4f8f-bfb8-7cc598eb36de",
             "uuid": "b53dded1-c52e-4c84-ab9e-9cfd519678aa"
@@ -182,6 +201,7 @@
             "id": 57,
             "display_flags": 0,
             "classifier_id": 57,
+            "classifier_name": "Backend Server",
             "focused_feature_id": -1,
             "node": "312ec422-49cb-4ef2-965e-568b28649cdf",
             "uuid": "eee692a1-8904-4203-8ac3-d139a71b8af4"
@@ -190,6 +210,7 @@
             "id": 121,
             "display_flags": 0,
             "classifier_id": 105,
+            "classifier_name": "Finance",
             "focused_feature_id": -1,
             "node": "dd1b8ac2-21f5-41f4-9f99-268b005ecf91",
             "uuid": "cd34858b-2292-4714-a0dd-b020a95e65f7"
@@ -198,6 +219,7 @@
             "id": 122,
             "display_flags": 0,
             "classifier_id": 106,
+            "classifier_name": "Telecommunication",
             "focused_feature_id": -1,
             "node": "fa5d1a38-e6bb-4c14-a93b-ba2e5a069e47",
             "uuid": "622bf7c0-090e-4d94-9c28-9784e18f02d6"
@@ -206,6 +228,7 @@
             "id": 123,
             "display_flags": 0,
             "classifier_id": 107,
+            "classifier_name": "Rail",
             "focused_feature_id": -1,
             "node": "98283ab4-f124-46a4-b7fd-e7938bea1021",
             "uuid": "39fa7894-8477-4a98-bc8d-300f8aebd5f3"
@@ -214,6 +237,7 @@
             "id": 126,
             "display_flags": 0,
             "classifier_id": 110,
+            "classifier_name": "Energy",
             "focused_feature_id": -1,
             "node": "cb080ac7-a379-4696-a432-e4abca7f8e55",
             "uuid": "dfb12046-9ece-43c1-a58d-ae29751002a6"
@@ -222,6 +246,7 @@
             "id": 127,
             "display_flags": 0,
             "classifier_id": 111,
+            "classifier_name": "Transport and Logistics",
             "focused_feature_id": -1,
             "node": "4e29c1cf-ce06-494e-ab71-9d014d293ff2",
             "uuid": "1ba00de8-6dca-4e0b-8ba6-4b39ea7d9207"
@@ -230,6 +255,7 @@
             "id": 128,
             "display_flags": 0,
             "classifier_id": 112,
+            "classifier_name": "Government",
             "focused_feature_id": -1,
             "node": "8608c231-b31b-49fe-959c-854d87a13658",
             "uuid": "14ac2b1b-e310-42fb-b9ef-0010d3d244d4"
@@ -238,6 +264,7 @@
             "id": 151,
             "display_flags": 0,
             "classifier_id": 119,
+            "classifier_name": "Travel \/ Tourism",
             "focused_feature_id": -1,
             "node": "091630fe-7064-42eb-9974-e17049098240",
             "uuid": "e4abac7d-ed02-40a2-9913-b1794fc273ee"
@@ -246,6 +273,7 @@
             "id": 152,
             "display_flags": 0,
             "classifier_id": 120,
+            "classifier_name": "Media\/Press\/Publishing",
             "focused_feature_id": -1,
             "node": "bac2e57e-8069-492e-9fb1-f6d4a654188b",
             "uuid": "094f731e-c9e1-4bd1-a638-9976d18c3dc2"
@@ -254,6 +282,7 @@
             "id": 198,
             "display_flags": 0,
             "classifier_id": 145,
+            "classifier_name": "Entertainment, Sports",
             "focused_feature_id": -1,
             "node": "abbfbce5-eea6-4efe-8fe1-ddc3cfc800bc",
             "uuid": "981f32c5-161d-45db-ae14-384d12d8b367"
@@ -262,6 +291,7 @@
             "id": 199,
             "display_flags": 0,
             "classifier_id": 146,
+            "classifier_name": "Home Automation",
             "focused_feature_id": -1,
             "node": "fdc4ae7f-9a8f-433f-95bd-0d5c5264b9ca",
             "uuid": "5d772a61-3613-4058-b10b-7cd9e4531ee1"
@@ -270,6 +300,7 @@
             "id": 200,
             "display_flags": 0,
             "classifier_id": 147,
+            "classifier_name": "Education",
             "focused_feature_id": -1,
             "node": "1d6b1949-cbb8-4a6a-b136-5673b7ea4fab",
             "uuid": "b819f211-0a34-4b66-a59f-71756c38a8fb"
@@ -281,7 +312,9 @@
       "diagram": {
         "id": 21,
         "parent_id": 2,
+        "parent_name": "Product Quality",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "Product Quality Taxonomy",
         "description": [
                 "This diagram shows some terms\n",
@@ -301,6 +334,7 @@
             "id": 227,
             "display_flags": 0,
             "classifier_id": 156,
+            "classifier_name": "Quality Characteristic",
             "focused_feature_id": -1,
             "node": "50f704d5-3dcd-495c-a651-63dfc7ba73f7",
             "uuid": "e8f3665b-3d1b-4a66-9d0d-171619d1b76a"
@@ -309,6 +343,7 @@
             "id": 228,
             "display_flags": 0,
             "classifier_id": 157,
+            "classifier_name": "Quality Subcharacteristic",
             "focused_feature_id": -1,
             "node": "b59bf4ed-9525-4db9-9ec4-b0341f3b40eb",
             "uuid": "f28dfe18-1761-4ec0-afa1-2caf6c35c782"
@@ -317,6 +352,7 @@
             "id": 229,
             "display_flags": 0,
             "classifier_id": 158,
+            "classifier_name": "Quality Attribute",
             "focused_feature_id": -1,
             "node": "50d28143-8ad8-475c-b9e7-b06299cbff99",
             "uuid": "498c27f0-8b04-4726-90d1-9f51d37fd7ec"
@@ -325,6 +361,7 @@
             "id": 230,
             "display_flags": 0,
             "classifier_id": 159,
+            "classifier_name": "Quality Measure Element",
             "focused_feature_id": -1,
             "node": "19ba91bb-16c7-4cfa-a525-d53ed4f7f67c",
             "uuid": "317e00ca-deb0-4055-b2aa-8cfbc20aad2c"
@@ -333,6 +370,7 @@
             "id": 231,
             "display_flags": 0,
             "classifier_id": 160,
+            "classifier_name": "Tactic",
             "focused_feature_id": -1,
             "node": "49fdd556-501b-401b-b2a9-23e92e43a880",
             "uuid": "12f12bce-529a-4375-a673-02811992a309"
@@ -341,6 +379,7 @@
             "id": 232,
             "display_flags": 0,
             "classifier_id": 161,
+            "classifier_name": "Quality Scenario",
             "focused_feature_id": -1,
             "node": "7d516cbc-7b26-45a9-a3f4-9249c96dd97a",
             "uuid": "5706698b-1317-4eab-aca2-3743c1e3519c"
@@ -349,6 +388,7 @@
             "id": 233,
             "display_flags": 0,
             "classifier_id": 162,
+            "classifier_name": "Solution Strategy",
             "focused_feature_id": -1,
             "node": "67c866f2-36ac-478d-b6bb-c804f8a6ee78",
             "uuid": "72418a2d-7636-43b8-96df-d63af197d337"
@@ -357,6 +397,7 @@
             "id": 234,
             "display_flags": 0,
             "classifier_id": 163,
+            "classifier_name": "Topic\/Group (Quality tree)",
             "focused_feature_id": -1,
             "node": "0fb11db1-2e67-4914-b160-5f4814b6c18b",
             "uuid": "2699d28b-0860-4487-a205-cc4eb8dc3b60"
@@ -364,7 +405,9 @@
           {
             "id": 284,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 190,
+            "classifier_name": "entity",
             "focused_feature_id": -1,
             "node": "58cc8498-f7b2-471f-bcaa-cc9375cd399d",
             "uuid": "0853ced7-2d40-46cf-a3cd-9291bcd38812"
@@ -373,6 +416,7 @@
             "id": 285,
             "display_flags": 0,
             "classifier_id": 191,
+            "classifier_name": "Quality Measure",
             "focused_feature_id": -1,
             "node": "1e813afb-cc7c-4e35-983d-7b283d741d38",
             "uuid": "0dd05cc6-a507-4416-9407-f099f7a8811b"
@@ -381,6 +425,7 @@
             "id": 319,
             "display_flags": 0,
             "classifier_id": 208,
+            "classifier_name": "Design Pattern",
             "focused_feature_id": -1,
             "node": "cb3e49ab-e121-4f28-8e4a-123edfd37d14",
             "uuid": "c6de1c16-1a89-41aa-841b-eaf839befb82"
@@ -389,6 +434,7 @@
             "id": 320,
             "display_flags": 0,
             "classifier_id": 209,
+            "classifier_name": "Quality Requirement",
             "focused_feature_id": -1,
             "node": "8c7a9118-dbfd-4d99-a85a-55e1a3f8585c",
             "uuid": "b846b714-19f9-4962-9751-6ced8d323552"
@@ -400,7 +446,9 @@
       "diagram": {
         "id": 15,
         "parent_id": 2,
+        "parent_name": "Product Quality",
         "diagram_type": 1,
+        "type": "CFUBoxDiagram",
         "name": "Quality Characteristics",
         "description": [
                 "Charactersitics of Ext\/Int Product Quality \n",
@@ -416,6 +464,7 @@
             "id": 165,
             "display_flags": 0,
             "classifier_id": 15,
+            "classifier_name": "Functional Suitability",
             "focused_feature_id": -1,
             "node": "55441252-745f-4e23-bad4-d724d570ceb7",
             "uuid": "d04c0a1d-6c96-4a2b-be83-eadb576ec288"
@@ -424,6 +473,7 @@
             "id": 166,
             "display_flags": 0,
             "classifier_id": 22,
+            "classifier_name": "Compatibility",
             "focused_feature_id": -1,
             "node": "ee8fa4b7-4673-4d28-8343-28260de8b85b",
             "uuid": "34d62d11-9c2b-4026-844b-a68211f6e312"
@@ -432,6 +482,7 @@
             "id": 167,
             "display_flags": 0,
             "classifier_id": 21,
+            "classifier_name": "Reliability",
             "focused_feature_id": -1,
             "node": "3469bf40-881d-4466-b93a-43158b1e4fec",
             "uuid": "57b0ae08-1153-4444-9be5-1e0dba422dbe"
@@ -440,6 +491,7 @@
             "id": 168,
             "display_flags": 0,
             "classifier_id": 20,
+            "classifier_name": "Portability",
             "focused_feature_id": -1,
             "node": "1f993412-c4bc-4a80-883b-a34eaf4397fa",
             "uuid": "6d594e11-460a-46ea-b1f5-1fee812ae087"
@@ -448,6 +500,7 @@
             "id": 169,
             "display_flags": 0,
             "classifier_id": 23,
+            "classifier_name": "Performance Efficiency",
             "focused_feature_id": -1,
             "node": "c69e1e6d-086b-418f-bf72-78b23fef8718",
             "uuid": "65871143-3350-4a4c-a6a7-40f472cc3e05"
@@ -456,6 +509,7 @@
             "id": 170,
             "display_flags": 0,
             "classifier_id": 17,
+            "classifier_name": "Usability",
             "focused_feature_id": -1,
             "node": "4872cb70-1542-43f0-88fe-7f3984c5f93c",
             "uuid": "f5ea69bf-6fa3-4929-8aaf-a404c0af37e8"
@@ -464,6 +518,7 @@
             "id": 171,
             "display_flags": 0,
             "classifier_id": 12,
+            "classifier_name": "Maintainability",
             "focused_feature_id": -1,
             "node": "9288b6b6-64a9-4157-88b7-8e1226fed939",
             "uuid": "c2f1a656-98dc-4e39-82c2-b950979ed061"
@@ -472,6 +527,7 @@
             "id": 172,
             "display_flags": 0,
             "classifier_id": 18,
+            "classifier_name": "Security",
             "focused_feature_id": -1,
             "node": "0201be50-600f-44c8-aad8-6083621db401",
             "uuid": "f187e4c5-db49-4bb3-a0cb-d628346822bb"
@@ -480,6 +536,7 @@
             "id": 271,
             "display_flags": 0,
             "classifier_id": 180,
+            "classifier_name": "Satisfaction",
             "focused_feature_id": -1,
             "node": "a72211d7-244f-4ecc-928d-432fd1131579",
             "uuid": "31f81168-c86f-45a0-a575-2eeeb644dda6"
@@ -488,6 +545,7 @@
             "id": 272,
             "display_flags": 0,
             "classifier_id": 182,
+            "classifier_name": "Context Coverage",
             "focused_feature_id": -1,
             "node": "298f39de-0dad-45a8-893b-5b3ce27a48eb",
             "uuid": "c924d32a-a9a7-4148-92ef-97f3b0b7918d"
@@ -496,6 +554,7 @@
             "id": 273,
             "display_flags": 0,
             "classifier_id": 181,
+            "classifier_name": "Freedom from Risk",
             "focused_feature_id": -1,
             "node": "c93efa8b-36e9-49bd-87c4-5f236e4371e8",
             "uuid": "66a0a31c-4924-49d8-8f08-7ced1f66a26a"
@@ -504,6 +563,7 @@
             "id": 274,
             "display_flags": 0,
             "classifier_id": 178,
+            "classifier_name": "Effectiveness",
             "focused_feature_id": -1,
             "node": "8ec0dfb4-7547-40da-9b7e-0b1e6a235ac3",
             "uuid": "211f50a7-22b2-4119-a468-3a7f4cb47514"
@@ -512,6 +572,7 @@
             "id": 275,
             "display_flags": 0,
             "classifier_id": 179,
+            "classifier_name": "Efficiency",
             "focused_feature_id": -1,
             "node": "1cfd262b-29d8-4944-80a5-ef0297506a08",
             "uuid": "dab28a94-ff59-4708-9ae1-71cf23932776"
@@ -519,7 +580,9 @@
           {
             "id": 276,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 3,
+            "classifier_name": "Ext\/Int Product Quality ",
             "focused_feature_id": -1,
             "node": "5cc16673-215f-4396-b544-62b84ac532e2",
             "uuid": "fd877a2d-8c82-4200-a793-e140909cdb89"
@@ -527,7 +590,9 @@
           {
             "id": 277,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 4,
+            "classifier_name": "Quality in Use",
             "focused_feature_id": -1,
             "node": "51ad1157-997f-4fbe-bcc3-273b455eef0a",
             "uuid": "91c68bf9-8d12-44cc-84cd-b6a50ebd696c"
@@ -539,7 +604,9 @@
       "diagram": {
         "id": 4,
         "parent_id": 15,
+        "parent_name": "Quality Characteristics",
         "diagram_type": 9,
+        "type": "SysMLRequirementDiagram",
         "name": "Quality Subcharacteristics I",
         "description": [
                 ""
@@ -554,6 +621,7 @@
             "id": 13,
             "display_flags": 0,
             "classifier_id": 13,
+            "classifier_name": "Appropriate-ness",
             "focused_feature_id": -1,
             "node": "f986f420-5247-4585-a58c-1f5c3280e729",
             "uuid": "24bf22a8-ff3c-481c-8b5b-a2f3fb63fd5b"
@@ -562,6 +630,7 @@
             "id": 14,
             "display_flags": 0,
             "classifier_id": 14,
+            "classifier_name": "Correctness",
             "focused_feature_id": -1,
             "node": "63c02458-d018-489a-bde3-c3aa1bda9d7a",
             "uuid": "e6a15e90-1316-4cab-8d26-be6754add46e"
@@ -569,7 +638,9 @@
           {
             "id": 15,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 15,
+            "classifier_name": "Functional Suitability",
             "focused_feature_id": -1,
             "node": "55441252-745f-4e23-bad4-d724d570ceb7",
             "uuid": "f77ad9ca-1ff6-42a3-aea4-31d8978cc916"
@@ -578,6 +649,7 @@
             "id": 16,
             "display_flags": 0,
             "classifier_id": 16,
+            "classifier_name": "Complete-ness",
             "focused_feature_id": -1,
             "node": "5816fc48-eb17-4876-a0c9-fafd9aec11ba",
             "uuid": "6f25a9b5-c8bd-4de1-adcc-bf663ad253f5"
@@ -585,7 +657,9 @@
           {
             "id": 17,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 17,
+            "classifier_name": "Usability",
             "focused_feature_id": -1,
             "node": "4872cb70-1542-43f0-88fe-7f3984c5f93c",
             "uuid": "40fc8f69-b1b6-4e51-a50f-847147d98b7e"
@@ -594,6 +668,7 @@
             "id": 19,
             "display_flags": 0,
             "classifier_id": 19,
+            "classifier_name": "Resource Utilization",
             "focused_feature_id": -1,
             "node": "8444ed87-9733-44c1-b1a0-c6aca0781730",
             "uuid": "79e6741b-4977-443c-9cff-d1c23ed2c279"
@@ -601,7 +676,9 @@
           {
             "id": 22,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 22,
+            "classifier_name": "Compatibility",
             "focused_feature_id": -1,
             "node": "ee8fa4b7-4673-4d28-8343-28260de8b85b",
             "uuid": "d5346f9e-b460-4a97-aed9-54bd98a30379"
@@ -609,7 +686,9 @@
           {
             "id": 23,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 23,
+            "classifier_name": "Performance Efficiency",
             "focused_feature_id": -1,
             "node": "c69e1e6d-086b-418f-bf72-78b23fef8718",
             "uuid": "db3f8df6-f196-47d9-91f8-2a8744abfe71"
@@ -618,6 +697,7 @@
             "id": 24,
             "display_flags": 0,
             "classifier_id": 24,
+            "classifier_name": "Operability",
             "focused_feature_id": -1,
             "node": "4a7af1ad-72a9-4b1a-a6f7-9e983f152744",
             "uuid": "ea26218f-31ab-4d17-bb33-c09aef45b7a2"
@@ -626,6 +706,7 @@
             "id": 25,
             "display_flags": 0,
             "classifier_id": 25,
+            "classifier_name": "Time Behaviour",
             "focused_feature_id": -1,
             "node": "8799727e-7b56-431c-b5a7-d45bef123cc8",
             "uuid": "8b566865-385e-48fd-bc26-81de6cbe467b"
@@ -634,6 +715,7 @@
             "id": 26,
             "display_flags": 0,
             "classifier_id": 26,
+            "classifier_name": "Capacity",
             "focused_feature_id": -1,
             "node": "21a09838-b909-4906-b648-d2085d67ba08",
             "uuid": "9b5cb565-eef8-428e-a0df-5a808b1718d7"
@@ -642,6 +724,7 @@
             "id": 27,
             "display_flags": 0,
             "classifier_id": 27,
+            "classifier_name": "Co-existence",
             "focused_feature_id": -1,
             "node": "f8f99d9e-0bf6-4811-9e11-f5bcd6478cc0",
             "uuid": "26505bcd-75d9-4b02-8132-8eb81fb983ee"
@@ -650,6 +733,7 @@
             "id": 28,
             "display_flags": 0,
             "classifier_id": 28,
+            "classifier_name": "Inter-operability",
             "focused_feature_id": -1,
             "node": "237779b9-5980-48c3-91dd-8e55562cac2e",
             "uuid": "b166ebe0-f322-4862-a1f2-48cf8bd6a2e6"
@@ -658,6 +742,7 @@
             "id": 29,
             "display_flags": 0,
             "classifier_id": 29,
+            "classifier_name": "Accessibility",
             "focused_feature_id": -1,
             "node": "ebea7dad-8d40-461c-ab0e-086a1a391395",
             "uuid": "3e412a77-8360-495e-bc6a-d23ed469af41"
@@ -666,6 +751,7 @@
             "id": 30,
             "display_flags": 0,
             "classifier_id": 30,
+            "classifier_name": "Recogni-zability",
             "focused_feature_id": -1,
             "node": "d7e8f130-ce2c-481d-b7a3-9dac989da6cb",
             "uuid": "371173f4-abef-49f8-a3aa-abcddd4f9bd3"
@@ -674,6 +760,7 @@
             "id": 31,
             "display_flags": 0,
             "classifier_id": 31,
+            "classifier_name": "Aesthetics",
             "focused_feature_id": -1,
             "node": "4de93bfa-1cde-4f1d-acb1-28137d2077da",
             "uuid": "e7cc6e61-c203-402f-aad9-92d412d5715d"
@@ -682,6 +769,7 @@
             "id": 32,
             "display_flags": 0,
             "classifier_id": 32,
+            "classifier_name": "Learnability",
             "focused_feature_id": -1,
             "node": "733dcb73-f52c-4a4b-991b-1b757c1bd140",
             "uuid": "3acbf26d-ad13-4e31-9087-e608dd777082"
@@ -690,6 +778,7 @@
             "id": 33,
             "display_flags": 0,
             "classifier_id": 33,
+            "classifier_name": "User Error Protection",
             "focused_feature_id": -1,
             "node": "108ab8ad-0a0b-4df1-8dbe-f421a9cde4d4",
             "uuid": "f64193e6-be0a-4322-a29b-0c95822c2548"
@@ -701,7 +790,9 @@
       "diagram": {
         "id": 28,
         "parent_id": 4,
+        "parent_name": "Quality Subcharacteristics I",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Quality Tree for Performance Efficiency",
         "description": [
                 ""
@@ -715,7 +806,9 @@
           {
             "id": 302,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 23,
+            "classifier_name": "Performance Efficiency",
             "focused_feature_id": -1,
             "node": "c69e1e6d-086b-418f-bf72-78b23fef8718",
             "uuid": "8ed43f43-0e5b-4a5b-b4e7-9b9321858691"
@@ -724,6 +817,7 @@
             "id": 303,
             "display_flags": 0,
             "classifier_id": 25,
+            "classifier_name": "Time Behaviour",
             "focused_feature_id": -1,
             "node": "8799727e-7b56-431c-b5a7-d45bef123cc8",
             "uuid": "9adc9d3a-e6a8-4c72-9d32-bef6cad00d6e"
@@ -732,6 +826,7 @@
             "id": 304,
             "display_flags": 0,
             "classifier_id": 19,
+            "classifier_name": "Resource Utilization",
             "focused_feature_id": -1,
             "node": "8444ed87-9733-44c1-b1a0-c6aca0781730",
             "uuid": "3ff7ac66-ce1b-4137-8cbd-a349f7471466"
@@ -740,6 +835,7 @@
             "id": 305,
             "display_flags": 0,
             "classifier_id": 26,
+            "classifier_name": "Capacity",
             "focused_feature_id": -1,
             "node": "21a09838-b909-4906-b648-d2085d67ba08",
             "uuid": "9237aaa2-3e0c-4962-b096-159981c3a918"
@@ -747,7 +843,9 @@
           {
             "id": 307,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 202,
+            "classifier_name": "Access Memory immediately",
             "focused_feature_id": -1,
             "node": "0b0b4b6b-7987-4231-9879-dbc38d010a47",
             "uuid": "933fada6-318c-4bce-9b60-00528e2c8738"
@@ -755,7 +853,9 @@
           {
             "id": 308,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 203,
+            "classifier_name": "Sufficient Memory",
             "focused_feature_id": -1,
             "node": "2b493215-3a44-42ae-b404-c8c8f46b02af",
             "uuid": "d8279e1a-068c-4ddf-aac8-d0cd9e925c9c"
@@ -763,7 +863,9 @@
           {
             "id": 309,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 204,
+            "classifier_name": "Delay Function",
             "focused_feature_id": -1,
             "node": "092d3c98-3f75-467a-b463-35370dde5257",
             "uuid": "212811c9-98d7-4a03-b4d4-e64b5958b899"
@@ -771,7 +873,9 @@
           {
             "id": 310,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 205,
+            "classifier_name": "Degrade Result",
             "focused_feature_id": -1,
             "node": "e6dd211e-5dac-42a9-8055-375b0697eaee",
             "uuid": "ea419e41-f524-4e24-8390-b29f7d677d50"
@@ -779,7 +883,9 @@
           {
             "id": 311,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 206,
+            "classifier_name": "Stop and Restart Later",
             "focused_feature_id": -1,
             "node": "f657ba43-f828-4aed-b1ba-942316be2036",
             "uuid": "dd5e951a-f75a-4067-bedd-52354c6ead0d"
@@ -787,7 +893,9 @@
           {
             "id": 317,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 207,
+            "classifier_name": "Abort Function",
             "focused_feature_id": -1,
             "node": "7227037c-95ef-4ef9-8943-ec580f0a263a",
             "uuid": "63bae1d5-e02c-4395-9d0b-d633f1d89eea"
@@ -799,7 +907,9 @@
       "diagram": {
         "id": 24,
         "parent_id": 28,
+        "parent_name": "Quality Tree for Performance Efficiency",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Scenarios relating to Performance Efficiency",
         "description": [
                 ""
@@ -814,6 +924,7 @@
             "id": 266,
             "display_flags": 0,
             "classifier_id": 184,
+            "classifier_name": "Background-Fkt Use-Case2",
             "focused_feature_id": -1,
             "node": "60c47c6b-57d0-4255-87b2-d93357553268",
             "uuid": "12a8cefb-916e-45e2-870b-24f88643cf19"
@@ -822,6 +933,7 @@
             "id": 267,
             "display_flags": 0,
             "classifier_id": 185,
+            "classifier_name": "Dynamic-Fkt Use-Case",
             "focused_feature_id": -1,
             "node": "554e0173-da9a-4426-980b-e8b67d7fd108",
             "uuid": "a655b318-af23-41e3-96c6-5dc4e591390f"
@@ -830,6 +942,7 @@
             "id": 268,
             "display_flags": 0,
             "classifier_id": 186,
+            "classifier_name": "Reliable-Fkt Use-Case",
             "focused_feature_id": -1,
             "node": "49528fd5-341d-47c0-8785-11342edf6165",
             "uuid": "4faf28ee-3c1b-463f-af3d-4daac0a02cf6"
@@ -838,6 +951,7 @@
             "id": 269,
             "display_flags": 0,
             "classifier_id": 187,
+            "classifier_name": "Bounded-Fkt Use-Case",
             "focused_feature_id": -1,
             "node": "cd8ae650-1df1-408e-91ef-2fb5407db99c",
             "uuid": "fb3d3c11-f4b2-4b1b-a6ac-bc029c4072f0"
@@ -845,7 +959,9 @@
           {
             "id": 270,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 188,
+            "classifier_name": "Quality expectations depend on use cases",
             "focused_feature_id": -1,
             "node": "71590f02-9538-4c88-abce-bcc96ae2dec0",
             "uuid": "a343f0e9-b4cd-409e-b0e6-81840546f6bb"
@@ -854,6 +970,7 @@
             "id": 312,
             "display_flags": 0,
             "classifier_id": 203,
+            "classifier_name": "Sufficient Memory",
             "focused_feature_id": -1,
             "node": "2b493215-3a44-42ae-b404-c8c8f46b02af",
             "uuid": "f49bc3b1-0870-4d6b-a467-ff65bf7ebcb1"
@@ -862,6 +979,7 @@
             "id": 313,
             "display_flags": 0,
             "classifier_id": 202,
+            "classifier_name": "Access Memory immediately",
             "focused_feature_id": -1,
             "node": "0b0b4b6b-7987-4231-9879-dbc38d010a47",
             "uuid": "c50f8175-3724-4ee6-9408-ebb31069c5d8"
@@ -870,6 +988,7 @@
             "id": 314,
             "display_flags": 0,
             "classifier_id": 206,
+            "classifier_name": "Stop and Restart Later",
             "focused_feature_id": -1,
             "node": "f657ba43-f828-4aed-b1ba-942316be2036",
             "uuid": "21af5220-6e2e-4e89-b77f-3999c219294e"
@@ -878,6 +997,7 @@
             "id": 315,
             "display_flags": 0,
             "classifier_id": 204,
+            "classifier_name": "Delay Function",
             "focused_feature_id": -1,
             "node": "092d3c98-3f75-467a-b463-35370dde5257",
             "uuid": "90586682-c3f3-432a-8073-38d1bc2d5adf"
@@ -886,6 +1006,7 @@
             "id": 316,
             "display_flags": 0,
             "classifier_id": 205,
+            "classifier_name": "Degrade Result",
             "focused_feature_id": -1,
             "node": "e6dd211e-5dac-42a9-8055-375b0697eaee",
             "uuid": "165ec3b3-b8b3-4265-a61e-98b3cf373919"
@@ -894,6 +1015,7 @@
             "id": 318,
             "display_flags": 0,
             "classifier_id": 207,
+            "classifier_name": "Abort Function",
             "focused_feature_id": -1,
             "node": "7227037c-95ef-4ef9-8943-ec580f0a263a",
             "uuid": "976337ec-4c05-4154-84a8-432732232cfd"
@@ -905,7 +1027,9 @@
       "diagram": {
         "id": 22,
         "parent_id": 4,
+        "parent_name": "Quality Subcharacteristics I",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "Strategies for Performance Efficiency",
         "description": [
                 ""
@@ -920,6 +1044,7 @@
             "id": 235,
             "display_flags": 0,
             "classifier_id": 19,
+            "classifier_name": "Resource Utilization",
             "focused_feature_id": -1,
             "node": "8444ed87-9733-44c1-b1a0-c6aca0781730",
             "uuid": "91e4a4c0-20a5-48ca-a965-08a2cf3df83d"
@@ -927,7 +1052,9 @@
           {
             "id": 236,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 25,
+            "classifier_name": "Time Behaviour",
             "focused_feature_id": -1,
             "node": "8799727e-7b56-431c-b5a7-d45bef123cc8",
             "uuid": "7c1d824e-3c5d-4d6a-a808-99754f310ef1"
@@ -935,7 +1062,9 @@
           {
             "id": 237,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 26,
+            "classifier_name": "Capacity",
             "focused_feature_id": -1,
             "node": "21a09838-b909-4906-b648-d2085d67ba08",
             "uuid": "0324a42f-2acc-434e-bc5c-721cd2740513"
@@ -944,6 +1073,7 @@
             "id": 238,
             "display_flags": 0,
             "classifier_id": 164,
+            "classifier_name": "Memory",
             "focused_feature_id": -1,
             "node": "e27d3866-c7c5-4b3e-a426-855fc3f4f078",
             "uuid": "8e70c4ce-9e78-4fc2-89f0-67e09b8e78fe"
@@ -951,7 +1081,9 @@
           {
             "id": 243,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 169,
+            "classifier_name": "Control Resource Command",
             "focused_feature_id": -1,
             "node": "8d906615-bd68-4e4f-8f31-e68707ec7573",
             "uuid": "3a7ece87-c9ff-46f6-ac29-4cde3545d0bb"
@@ -959,7 +1091,9 @@
           {
             "id": 244,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 170,
+            "classifier_name": "Manage Resources",
             "focused_feature_id": -1,
             "node": "6f78148b-b8e2-4ae9-a0f7-b6f66c6ee703",
             "uuid": "995a7802-898c-4f94-a809-e702400a93ef"
@@ -968,6 +1102,7 @@
             "id": 306,
             "display_flags": 0,
             "classifier_id": 201,
+            "classifier_name": "Resource Competition",
             "focused_feature_id": -1,
             "node": "07843fea-7a6f-498b-9665-df4534ed3ab2",
             "uuid": "fb8b7f39-95b8-4254-a019-a9ff0d7ac067"
@@ -979,7 +1114,9 @@
       "diagram": {
         "id": 19,
         "parent_id": 22,
+        "parent_name": "Strategies for Performance Efficiency",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "Memory Controlling Patterns\/Tactics",
         "description": [
                 "This diagram shows patterns\n",
@@ -1001,6 +1138,7 @@
             "id": 201,
             "display_flags": 0,
             "classifier_id": 148,
+            "classifier_name": "Schedule tasks",
             "focused_feature_id": -1,
             "node": "609b6ca6-fa01-4c7c-9125-9f337dae32a8",
             "uuid": "71cc6322-056c-4a9f-802a-a342d7602de3"
@@ -1009,6 +1147,7 @@
             "id": 202,
             "display_flags": 0,
             "classifier_id": 149,
+            "classifier_name": "Region based Memory Management",
             "focused_feature_id": -1,
             "node": "307b73b6-22f1-41ca-8260-c279f4922c92",
             "uuid": "e7b844b1-e32b-42f4-918c-e8e5da29545a"
@@ -1017,6 +1156,7 @@
             "id": 203,
             "display_flags": 0,
             "classifier_id": 150,
+            "classifier_name": "Static Allocation",
             "focused_feature_id": -1,
             "node": "34229de4-def4-4247-923f-8c8a81987923",
             "uuid": "f58ea281-0b79-4bfe-a31c-738c2ab4bd78"
@@ -1025,6 +1165,7 @@
             "id": 204,
             "display_flags": 0,
             "classifier_id": 151,
+            "classifier_name": "Object Pools",
             "focused_feature_id": -1,
             "node": "3238aaeb-c1d5-462c-b889-bb5bdfa61a33",
             "uuid": "74dd3dd4-e147-4969-9975-e086cc51184a"
@@ -1033,6 +1174,7 @@
             "id": 288,
             "display_flags": 0,
             "classifier_id": 194,
+            "classifier_name": "Static Size Buffering",
             "focused_feature_id": -1,
             "node": "944c1d95-de36-448f-9a9e-4132e9a43369",
             "uuid": "b090044a-3421-41fa-849a-3c071c09a836"
@@ -1041,6 +1183,7 @@
             "id": 291,
             "display_flags": 0,
             "classifier_id": 197,
+            "classifier_name": "Concepts to plan and control memory usage",
             "focused_feature_id": -1,
             "node": "4af17c79-2d80-4a20-9512-c488e9540a0e",
             "uuid": "c3e247dc-0404-43c5-87af-4f86c2e4cb27"
@@ -1049,6 +1192,7 @@
             "id": 294,
             "display_flags": 0,
             "classifier_id": 169,
+            "classifier_name": "Control Resource Command",
             "focused_feature_id": -1,
             "node": "8d906615-bd68-4e4f-8f31-e68707ec7573",
             "uuid": "e55cc091-7ea3-48ca-ad26-045cdc6c1f7c"
@@ -1057,6 +1201,7 @@
             "id": 296,
             "display_flags": 0,
             "classifier_id": 199,
+            "classifier_name": "Stacks",
             "focused_feature_id": -1,
             "node": "6040bb89-3d97-4719-99b0-22699f11e6f3",
             "uuid": "00d60548-2336-43de-82f3-655719039ed2"
@@ -1068,7 +1213,9 @@
       "diagram": {
         "id": 13,
         "parent_id": 22,
+        "parent_name": "Strategies for Performance Efficiency",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "Memory Management Patterns\/Tactics",
         "description": [
                 "This diagram shows patterns\n",
@@ -1090,6 +1237,7 @@
             "id": 156,
             "display_flags": 0,
             "classifier_id": 123,
+            "classifier_name": "Dynamic Allocation accepting controlled death",
             "focused_feature_id": -1,
             "node": "892984fa-e51d-4084-9e56-ba7732347787",
             "uuid": "a897ed39-46bf-407b-b419-0812f0a3a7ee"
@@ -1098,6 +1246,7 @@
             "id": 158,
             "display_flags": 0,
             "classifier_id": 125,
+            "classifier_name": "Weak Pointers \/ Caches",
             "focused_feature_id": -1,
             "node": "bfba1101-4ab4-4cd3-be9d-947a23a01933",
             "uuid": "9a3a58ee-b261-4933-848b-3bb9cf129242"
@@ -1106,6 +1255,7 @@
             "id": 159,
             "display_flags": 0,
             "classifier_id": 126,
+            "classifier_name": "Moving Memory Objects",
             "focused_feature_id": -1,
             "node": "f58a884c-9129-4cee-a195-e618560951aa",
             "uuid": "f04690eb-d365-4875-ac1e-c1f46fb8e406"
@@ -1114,6 +1264,7 @@
             "id": 226,
             "display_flags": 0,
             "classifier_id": 155,
+            "classifier_name": "Dynamic Allocation accepting degradation",
             "focused_feature_id": -1,
             "node": "214728c9-b08a-43c4-9122-8e3c2f3edbbe",
             "uuid": "36ed6546-02e1-4eb4-8c94-edd90466f835"
@@ -1122,6 +1273,7 @@
             "id": 289,
             "display_flags": 0,
             "classifier_id": 195,
+            "classifier_name": "Remote Execution",
             "focused_feature_id": -1,
             "node": "13a4c5f0-8b29-4692-89ba-e6fb3715fc14",
             "uuid": "f53542bd-2374-4854-a46c-074d60d1142f"
@@ -1130,6 +1282,7 @@
             "id": 290,
             "display_flags": 0,
             "classifier_id": 196,
+            "classifier_name": "Dynamic Allocation accepting sudden death",
             "focused_feature_id": -1,
             "node": "9d37d98a-df43-4c76-862b-e6d75ea4205d",
             "uuid": "0b387ae4-00be-477b-931e-cdbf87bec796"
@@ -1138,6 +1291,7 @@
             "id": 292,
             "display_flags": 0,
             "classifier_id": 198,
+            "classifier_name": "Concepts to manage memory on the fly",
             "focused_feature_id": -1,
             "node": "1b326327-217d-4fa0-bb17-5b620aa6e719",
             "uuid": "917bd07e-adf4-4eb2-ab8e-b744f309c679"
@@ -1146,6 +1300,7 @@
             "id": 295,
             "display_flags": 0,
             "classifier_id": 170,
+            "classifier_name": "Manage Resources",
             "focused_feature_id": -1,
             "node": "6f78148b-b8e2-4ae9-a0f7-b6f66c6ee703",
             "uuid": "6b3842aa-bb2d-4539-a341-828ce50d7599"
@@ -1154,6 +1309,7 @@
             "id": 297,
             "display_flags": 0,
             "classifier_id": 200,
+            "classifier_name": "Memory Estimation",
             "focused_feature_id": -1,
             "node": "817b2388-65bc-496b-a37a-07eaeefc63b0",
             "uuid": "4891ed61-9afb-4b12-a976-aa2f7c563bc6"
@@ -1165,7 +1321,9 @@
       "diagram": {
         "id": 20,
         "parent_id": 15,
+        "parent_name": "Quality Characteristics",
         "diagram_type": 9,
+        "type": "SysMLRequirementDiagram",
         "name": "Quality Subcharacteristics II",
         "description": [
                 ""
@@ -1179,7 +1337,9 @@
           {
             "id": 205,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 21,
+            "classifier_name": "Reliability",
             "focused_feature_id": -1,
             "node": "3469bf40-881d-4466-b93a-43158b1e4fec",
             "uuid": "1bb846f2-5755-4eba-ae0e-49b764602b2e"
@@ -1188,6 +1348,7 @@
             "id": 206,
             "display_flags": 0,
             "classifier_id": 36,
+            "classifier_name": "Fault Tolerance",
             "focused_feature_id": -1,
             "node": "8066b80c-2170-4243-a1be-e8b0246701d7",
             "uuid": "2f2b1ee6-ca45-4b09-9734-384f678b40ef"
@@ -1196,6 +1357,7 @@
             "id": 207,
             "display_flags": 0,
             "classifier_id": 35,
+            "classifier_name": "Maturity",
             "focused_feature_id": -1,
             "node": "370d9b4a-221e-4965-8038-486df8fbe2a3",
             "uuid": "e84f89d1-2dec-4a76-9b72-3e6ab1f77859"
@@ -1204,6 +1366,7 @@
             "id": 208,
             "display_flags": 0,
             "classifier_id": 34,
+            "classifier_name": "Availability",
             "focused_feature_id": -1,
             "node": "434e57ae-2dd0-4d37-a8af-c4044307974b",
             "uuid": "20d05a8b-5c3f-4c38-bece-7666fe14c6da"
@@ -1212,6 +1375,7 @@
             "id": 209,
             "display_flags": 0,
             "classifier_id": 37,
+            "classifier_name": "Recover-ability",
             "focused_feature_id": -1,
             "node": "d6adf80b-9375-45be-aebb-81a62ce2d52d",
             "uuid": "a183f7b4-4210-4ffd-9948-4661d56f70f1"
@@ -1219,7 +1383,9 @@
           {
             "id": 210,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 20,
+            "classifier_name": "Portability",
             "focused_feature_id": -1,
             "node": "1f993412-c4bc-4a80-883b-a34eaf4397fa",
             "uuid": "3900cd1c-c7cb-4a76-9c51-4ce85ce26ca0"
@@ -1228,6 +1394,7 @@
             "id": 211,
             "display_flags": 0,
             "classifier_id": 152,
+            "classifier_name": "Adaptability",
             "focused_feature_id": -1,
             "node": "24ef8550-935f-4806-bbde-1a2bff8a0356",
             "uuid": "ec127138-0a61-48cd-b36d-88ce328d8993"
@@ -1236,6 +1403,7 @@
             "id": 212,
             "display_flags": 0,
             "classifier_id": 153,
+            "classifier_name": "Replace-ability",
             "focused_feature_id": -1,
             "node": "90277e08-7cd6-4299-bac6-6ebb4c75333e",
             "uuid": "368d2e3f-5ab1-4aa1-b7f4-15db9ccbc811"
@@ -1244,6 +1412,7 @@
             "id": 213,
             "display_flags": 0,
             "classifier_id": 154,
+            "classifier_name": "Installability",
             "focused_feature_id": -1,
             "node": "aec51b22-c57f-4694-a1ed-6b719fc1e0be",
             "uuid": "94cc5c85-acae-4e9c-908d-b75782f96efb"
@@ -1251,7 +1420,9 @@
           {
             "id": 214,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 18,
+            "classifier_name": "Security",
             "focused_feature_id": -1,
             "node": "0201be50-600f-44c8-aad8-6083621db401",
             "uuid": "df423cdb-1cb3-4740-b235-1b693c9d6e4c"
@@ -1260,6 +1431,7 @@
             "id": 215,
             "display_flags": 0,
             "classifier_id": 39,
+            "classifier_name": "Confidentiality",
             "focused_feature_id": -1,
             "node": "111f7cf4-c0d3-4bc1-bb39-f711347c95bf",
             "uuid": "9b1126b9-b277-4c9e-93f0-81df4ce2996e"
@@ -1268,6 +1440,7 @@
             "id": 216,
             "display_flags": 0,
             "classifier_id": 40,
+            "classifier_name": "Integrity",
             "focused_feature_id": -1,
             "node": "ba965295-bce7-4ccc-a39f-9ab7c671391d",
             "uuid": "d19f59f0-cb15-447f-801d-7c023d795556"
@@ -1276,6 +1449,7 @@
             "id": 217,
             "display_flags": 0,
             "classifier_id": 41,
+            "classifier_name": "Accountability",
             "focused_feature_id": -1,
             "node": "03692939-1bd3-4b25-8328-9c09e2220b17",
             "uuid": "b82c0efb-92c8-4502-ad47-6019a4e69395"
@@ -1284,6 +1458,7 @@
             "id": 218,
             "display_flags": 0,
             "classifier_id": 42,
+            "classifier_name": "Authenticity",
             "focused_feature_id": -1,
             "node": "a46db944-f3fb-40c0-872f-d02a03409e6a",
             "uuid": "fa7037cb-5d28-431f-b8c4-60ecaa7a6467"
@@ -1292,6 +1467,7 @@
             "id": 219,
             "display_flags": 0,
             "classifier_id": 38,
+            "classifier_name": "Non-Repudiation",
             "focused_feature_id": -1,
             "node": "6aefcb83-7281-4dc2-b4a1-2e58e33a1291",
             "uuid": "2d418718-d6a2-4c54-b428-fa7ddfa96a48"
@@ -1299,7 +1475,9 @@
           {
             "id": 220,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 12,
+            "classifier_name": "Maintainability",
             "focused_feature_id": -1,
             "node": "9288b6b6-64a9-4157-88b7-8e1226fed939",
             "uuid": "25c52962-2e7e-45b0-b902-4220af132e59"
@@ -1308,6 +1486,7 @@
             "id": 221,
             "display_flags": 0,
             "classifier_id": 45,
+            "classifier_name": "Analyzability",
             "focused_feature_id": -1,
             "node": "8e9683a3-d412-428d-a68c-374aa6ad703c",
             "uuid": "cc88dc32-c005-46d4-8e8e-a9701e76947f"
@@ -1316,6 +1495,7 @@
             "id": 222,
             "display_flags": 0,
             "classifier_id": 44,
+            "classifier_name": "Reusability",
             "focused_feature_id": -1,
             "node": "b56e8134-a6da-4fa8-bb27-617964b34c14",
             "uuid": "7c61ebda-9169-4812-9716-f8f2b42eabaa"
@@ -1324,6 +1504,7 @@
             "id": 223,
             "display_flags": 0,
             "classifier_id": 47,
+            "classifier_name": "Testability",
             "focused_feature_id": -1,
             "node": "c478e381-c500-4b3e-9305-57822f04e064",
             "uuid": "68a98d41-267b-4df7-99b0-1fe0d8f72ef3"
@@ -1332,6 +1513,7 @@
             "id": 224,
             "display_flags": 0,
             "classifier_id": 46,
+            "classifier_name": "Modifyability",
             "focused_feature_id": -1,
             "node": "aa863c2c-3274-4ec3-a028-5468d2c10f3e",
             "uuid": "7837c2eb-7f90-4956-b0f0-9b618ceef03c"
@@ -1340,6 +1522,7 @@
             "id": 225,
             "display_flags": 0,
             "classifier_id": 43,
+            "classifier_name": "Modularity",
             "focused_feature_id": -1,
             "node": "617511b6-6be3-4c76-b3d3-b4315cf029ba",
             "uuid": "1bd5cc4a-dd36-42a4-9deb-32641741e801"
@@ -1351,7 +1534,9 @@
       "diagram": {
         "id": 7,
         "parent_id": 20,
+        "parent_name": "Quality Subcharacteristics II",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Strategies for Maintainability",
         "description": [
                 "This diagram shows examples - not aiming for completeness."
@@ -1365,7 +1550,9 @@
           {
             "id": 61,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 47,
+            "classifier_name": "Testability",
             "focused_feature_id": -1,
             "node": "c478e381-c500-4b3e-9305-57822f04e064",
             "uuid": "9ebe4757-c564-483a-9262-39de2a9693ef"
@@ -1373,7 +1560,9 @@
           {
             "id": 62,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 46,
+            "classifier_name": "Modifyability",
             "focused_feature_id": -1,
             "node": "aa863c2c-3274-4ec3-a028-5468d2c10f3e",
             "uuid": "24c4e3d0-bcc2-4b9c-a565-45a5f4db4616"
@@ -1381,7 +1570,9 @@
           {
             "id": 63,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 45,
+            "classifier_name": "Analyzability",
             "focused_feature_id": -1,
             "node": "8e9683a3-d412-428d-a68c-374aa6ad703c",
             "uuid": "b6ea2aa8-cfbb-4cd4-94cd-06cd51771251"
@@ -1389,7 +1580,9 @@
           {
             "id": 64,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 44,
+            "classifier_name": "Reusability",
             "focused_feature_id": -1,
             "node": "b56e8134-a6da-4fa8-bb27-617964b34c14",
             "uuid": "2df57a09-5899-4adf-b99b-2c1677532b13"
@@ -1397,7 +1590,9 @@
           {
             "id": 65,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 43,
+            "classifier_name": "Modularity",
             "focused_feature_id": -1,
             "node": "617511b6-6be3-4c76-b3d3-b4315cf029ba",
             "uuid": "7ad17ee8-b2e3-41bc-8acd-f4b86a1c57e0"
@@ -1406,6 +1601,7 @@
             "id": 110,
             "display_flags": 0,
             "classifier_id": 96,
+            "classifier_name": "SOLID",
             "focused_feature_id": -1,
             "node": "2e9d9457-8a98-4e60-83cd-610851908b4a",
             "uuid": "69fd2fee-53c1-4b25-8f53-de986558c29a"
@@ -1414,6 +1610,7 @@
             "id": 112,
             "display_flags": 0,
             "classifier_id": 98,
+            "classifier_name": "Simplicity",
             "focused_feature_id": -1,
             "node": "b8e25e3b-fa91-4566-ad94-1b7756ebcecf",
             "uuid": "82f55c34-8365-4461-9b1b-bb16059577e6"
@@ -1422,6 +1619,7 @@
             "id": 117,
             "display_flags": 0,
             "classifier_id": 101,
+            "classifier_name": "Loose Coupling",
             "focused_feature_id": -1,
             "node": "f72a43f8-b222-4340-a5ef-c4d7fe628d3b",
             "uuid": "969cf462-4d82-4e83-a6d8-a847d7c92908"
@@ -1430,6 +1628,7 @@
             "id": 118,
             "display_flags": 0,
             "classifier_id": 102,
+            "classifier_name": "Information Hiding",
             "focused_feature_id": -1,
             "node": "a49d24cf-0ed2-4c39-b190-3b5fa6834825",
             "uuid": "a21edcc3-c13e-4f83-b8ce-1d9c9c0ae8a4"
@@ -1438,6 +1637,7 @@
             "id": 119,
             "display_flags": 0,
             "classifier_id": 103,
+            "classifier_name": "Least Astonishment",
             "focused_feature_id": -1,
             "node": "8a369a4a-85d8-4ec8-9c06-8c0a7452f127",
             "uuid": "ed092e6a-c7be-4bec-b20a-5bcd86a5b23e"
@@ -1446,6 +1646,7 @@
             "id": 120,
             "display_flags": 0,
             "classifier_id": 104,
+            "classifier_name": "Strong Cohesion",
             "focused_feature_id": -1,
             "node": "6592a6a4-b507-4faa-b060-757427ce6c55",
             "uuid": "80d572b5-f096-4465-bdb8-0a22090de853"
@@ -1454,6 +1655,7 @@
             "id": 145,
             "display_flags": 0,
             "classifier_id": 118,
+            "classifier_name": "automated Tests",
             "focused_feature_id": -1,
             "node": "d8b8bc49-d4bc-477e-b7aa-1444ddc3397a",
             "uuid": "53a2a553-27a5-4ea1-92d4-031bf6132019"
@@ -1465,7 +1667,9 @@
       "diagram": {
         "id": 12,
         "parent_id": 7,
+        "parent_name": "Strategies for Maintainability",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Simplicity Terms",
         "description": [
                 ""
@@ -1480,6 +1684,7 @@
             "id": 147,
             "display_flags": 0,
             "classifier_id": 98,
+            "classifier_name": "Simplicity",
             "focused_feature_id": -1,
             "node": "b8e25e3b-fa91-4566-ad94-1b7756ebcecf",
             "uuid": "7d81d4e7-a74b-45e5-a6d9-d977c24eb61e"
@@ -1488,6 +1693,7 @@
             "id": 148,
             "display_flags": 0,
             "classifier_id": 94,
+            "classifier_name": "KISS",
             "focused_feature_id": -1,
             "node": "222112dc-6f70-4dfe-b55e-590f6cd80ddd",
             "uuid": "2e026631-05d2-43ca-baa3-8deee69eee63"
@@ -1496,6 +1702,7 @@
             "id": 149,
             "display_flags": 0,
             "classifier_id": 97,
+            "classifier_name": "Occam's razor",
             "focused_feature_id": -1,
             "node": "7cd6c08b-5a4f-47eb-a9d3-d4bdcf576e93",
             "uuid": "30506ae9-2a22-4695-ba3d-c6d6e1baafac"
@@ -1504,6 +1711,7 @@
             "id": 150,
             "display_flags": 0,
             "classifier_id": 95,
+            "classifier_name": "YAGNI",
             "focused_feature_id": -1,
             "node": "2666f713-dc29-42eb-bf4d-1495133904e9",
             "uuid": "f85f890f-6963-4a45-a5da-0d069b57ce35"
@@ -1515,7 +1723,9 @@
       "diagram": {
         "id": 16,
         "parent_id": 7,
+        "parent_name": "Strategies for Maintainability",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "SOLID Principles",
         "description": [
                 ""
@@ -1530,6 +1740,7 @@
             "id": 173,
             "display_flags": 0,
             "classifier_id": 96,
+            "classifier_name": "SOLID",
             "focused_feature_id": -1,
             "node": "2e9d9457-8a98-4e60-83cd-610851908b4a",
             "uuid": "71f89ef9-1169-4984-8e18-80403c4f3175"
@@ -1538,6 +1749,7 @@
             "id": 174,
             "display_flags": 0,
             "classifier_id": 89,
+            "classifier_name": "Single Responsability",
             "focused_feature_id": -1,
             "node": "7cb37e63-27d6-4f92-ae09-7c22f9e7fa7e",
             "uuid": "9fbe42ff-59d5-456e-81d7-956d0f8ca49c"
@@ -1546,6 +1758,7 @@
             "id": 175,
             "display_flags": 0,
             "classifier_id": 90,
+            "classifier_name": "Open\/Closed",
             "focused_feature_id": -1,
             "node": "542f8c3e-7a92-4d33-9f44-4512738253db",
             "uuid": "5311b8a1-e396-4512-9304-0dd7976c9ee3"
@@ -1554,6 +1767,7 @@
             "id": 176,
             "display_flags": 0,
             "classifier_id": 92,
+            "classifier_name": "Interface Segregation",
             "focused_feature_id": -1,
             "node": "de76c9f1-9296-4e69-a640-1bfc57ba8a68",
             "uuid": "4bce6f95-a783-4886-9e41-d99da73749d6"
@@ -1562,6 +1776,7 @@
             "id": 177,
             "display_flags": 0,
             "classifier_id": 91,
+            "classifier_name": "Liskov Substitution",
             "focused_feature_id": -1,
             "node": "a9ebbede-9c49-4de1-a2d2-107af4fa7e09",
             "uuid": "32691096-0a22-4bd2-9aa6-df511da9a5d2"
@@ -1570,6 +1785,7 @@
             "id": 178,
             "display_flags": 0,
             "classifier_id": 93,
+            "classifier_name": "Dependency Inversion",
             "focused_feature_id": -1,
             "node": "6d515926-c548-486d-8304-dad434898ff8",
             "uuid": "7e97be82-20c5-446e-9724-bd3008e50329"
@@ -1581,7 +1797,9 @@
       "diagram": {
         "id": 8,
         "parent_id": 20,
+        "parent_name": "Quality Subcharacteristics II",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Strategies for Reliability",
         "description": [
                 "This diagram shows examples - not aiming for completeness."
@@ -1595,7 +1813,9 @@
           {
             "id": 66,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 37,
+            "classifier_name": "Recover-ability",
             "focused_feature_id": -1,
             "node": "d6adf80b-9375-45be-aebb-81a62ce2d52d",
             "uuid": "37914ebb-1dce-4b8c-b571-a422e862639d"
@@ -1603,7 +1823,9 @@
           {
             "id": 67,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 36,
+            "classifier_name": "Fault Tolerance",
             "focused_feature_id": -1,
             "node": "8066b80c-2170-4243-a1be-e8b0246701d7",
             "uuid": "b90c786d-0ff8-454b-97e8-64a4ed56f5a0"
@@ -1611,7 +1833,9 @@
           {
             "id": 68,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 34,
+            "classifier_name": "Availability",
             "focused_feature_id": -1,
             "node": "434e57ae-2dd0-4d37-a8af-c4044307974b",
             "uuid": "0658120b-047f-4710-aa65-06bd21314d64"
@@ -1619,7 +1843,9 @@
           {
             "id": 69,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 35,
+            "classifier_name": "Maturity",
             "focused_feature_id": -1,
             "node": "370d9b4a-221e-4965-8038-486df8fbe2a3",
             "uuid": "261b856d-bbed-4e1e-a4f6-284557f44553"
@@ -1628,6 +1854,7 @@
             "id": 70,
             "display_flags": 0,
             "classifier_id": 61,
+            "classifier_name": "Layered Architecture",
             "focused_feature_id": -1,
             "node": "ef0a13ea-1503-417b-84ab-fbb37eaf6602",
             "uuid": "9e9f0e45-b9cd-4bcf-9c9c-1e3065dd9112"
@@ -1636,6 +1863,7 @@
             "id": 71,
             "display_flags": 0,
             "classifier_id": 62,
+            "classifier_name": "Coding Guidelines",
             "focused_feature_id": -1,
             "node": "c8cbad0e-c0a9-43e0-811c-1cf7f0722b35",
             "uuid": "dad76391-a147-4446-8a28-c2cfa8c75853"
@@ -1644,6 +1872,7 @@
             "id": 72,
             "display_flags": 0,
             "classifier_id": 63,
+            "classifier_name": "Fault injection Tests",
             "focused_feature_id": -1,
             "node": "730e9920-d5af-484e-8d1c-cf07ea3b6c2d",
             "uuid": "c617591a-7e84-4060-99f6-b41bd9884766"
@@ -1652,6 +1881,7 @@
             "id": 83,
             "display_flags": 0,
             "classifier_id": 74,
+            "classifier_name": "Redundancy",
             "focused_feature_id": -1,
             "node": "06bc06e7-4ad3-405c-ae0b-8a66cd7a79b6",
             "uuid": "85d3645a-b7a1-40c7-9fb2-002551ed5602"
@@ -1660,6 +1890,7 @@
             "id": 100,
             "display_flags": 0,
             "classifier_id": 86,
+            "classifier_name": "Static Code Analysis",
             "focused_feature_id": -1,
             "node": "278a2f15-52b6-473f-9fd6-47ba33b932b4",
             "uuid": "a13170d9-563a-4047-9ae0-04c5dfa982b2"
@@ -1668,6 +1899,7 @@
             "id": 101,
             "display_flags": 0,
             "classifier_id": 87,
+            "classifier_name": "Code Generation",
             "focused_feature_id": -1,
             "node": "5ff9b00c-a0ec-4dae-a5cf-a900b8308e55",
             "uuid": "3b578f8a-e809-4130-abff-f5d48f5aec2d"
@@ -1676,6 +1908,7 @@
             "id": 125,
             "display_flags": 0,
             "classifier_id": 109,
+            "classifier_name": "Mature Platform",
             "focused_feature_id": -1,
             "node": "a7db8d16-489e-4261-bf08-54766983b73f",
             "uuid": "a63ebf34-87fa-43b5-a66a-86207facf9bd"
@@ -1684,6 +1917,7 @@
             "id": 140,
             "display_flags": 0,
             "classifier_id": 83,
+            "classifier_name": "Input Signal Validation",
             "focused_feature_id": -1,
             "node": "e82dad45-7be8-4a12-9f96-695752e6967c",
             "uuid": "57e33cde-629a-4677-9e4f-c1799da83038"
@@ -1692,6 +1926,7 @@
             "id": 141,
             "display_flags": 0,
             "classifier_id": 75,
+            "classifier_name": "Partitioning",
             "focused_feature_id": -1,
             "node": "152cb739-2190-47bc-9579-a24389e1fb5e",
             "uuid": "419f60fa-1004-440f-9b3d-d4b81483b4bf"
@@ -1700,6 +1935,7 @@
             "id": 146,
             "display_flags": 0,
             "classifier_id": 118,
+            "classifier_name": "automated Tests",
             "focused_feature_id": -1,
             "node": "d8b8bc49-d4bc-477e-b7aa-1444ddc3397a",
             "uuid": "17ee58f3-4566-4af3-b9ca-682d565ff9bc"
@@ -1708,6 +1944,7 @@
             "id": 255,
             "display_flags": 0,
             "classifier_id": 175,
+            "classifier_name": "Control and Manage Resources",
             "focused_feature_id": -1,
             "node": "1559a7e2-e811-481a-815e-66cd09abed1f",
             "uuid": "41eae2df-3557-4640-b0e6-e3385f376767"
@@ -1716,6 +1953,7 @@
             "id": 331,
             "display_flags": 0,
             "classifier_id": 220,
+            "classifier_name": "Error Handling Concept",
             "focused_feature_id": -1,
             "node": "2eea4132-85c8-4c7f-b92b-96d3edab25aa",
             "uuid": "dcc3a45a-a80d-4f38-a641-124cd268f099"
@@ -1727,7 +1965,9 @@
       "diagram": {
         "id": 26,
         "parent_id": 8,
+        "parent_name": "Strategies for Reliability",
         "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "Tactics for Maturity",
         "description": [
                 ""
@@ -1741,7 +1981,9 @@
           {
             "id": 256,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 35,
+            "classifier_name": "Maturity",
             "focused_feature_id": -1,
             "node": "370d9b4a-221e-4965-8038-486df8fbe2a3",
             "uuid": "84fe1f86-6b8f-4841-9f1c-5cbc2e7d85d2"
@@ -1749,7 +1991,9 @@
           {
             "id": 257,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 62,
+            "classifier_name": "Coding Guidelines",
             "focused_feature_id": -1,
             "node": "c8cbad0e-c0a9-43e0-811c-1cf7f0722b35",
             "uuid": "bea1c6ac-5d0c-4e35-b3ab-15a5d9f0ddef"
@@ -1758,6 +2002,7 @@
             "id": 258,
             "display_flags": 0,
             "classifier_id": 176,
+            "classifier_name": "Example Guidelines",
             "focused_feature_id": -1,
             "node": "f6ed2823-58d5-4482-86ec-49e197dd1971",
             "uuid": "26929b7c-e50a-4c03-a484-e5095804dbd1"
@@ -1769,7 +2014,9 @@
       "diagram": {
         "id": 10,
         "parent_id": 20,
+        "parent_name": "Quality Subcharacteristics II",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Strategies for Security",
         "description": [
                 "Functional safety and security are different goals \n",
@@ -1790,7 +2037,9 @@
           {
             "id": 84,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 39,
+            "classifier_name": "Confidentiality",
             "focused_feature_id": -1,
             "node": "111f7cf4-c0d3-4bc1-bb39-f711347c95bf",
             "uuid": "ada863c9-4175-49f3-ba2a-0d28be99035d"
@@ -1798,7 +2047,9 @@
           {
             "id": 85,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 40,
+            "classifier_name": "Integrity",
             "focused_feature_id": -1,
             "node": "ba965295-bce7-4ccc-a39f-9ab7c671391d",
             "uuid": "64a1ba7e-f977-4c01-be92-639360a44cb7"
@@ -1806,7 +2057,9 @@
           {
             "id": 86,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 42,
+            "classifier_name": "Authenticity",
             "focused_feature_id": -1,
             "node": "a46db944-f3fb-40c0-872f-d02a03409e6a",
             "uuid": "7e60f192-0d72-4007-bc3e-0b81d9e443d8"
@@ -1815,6 +2068,7 @@
             "id": 89,
             "display_flags": 0,
             "classifier_id": 75,
+            "classifier_name": "Partitioning",
             "focused_feature_id": -1,
             "node": "152cb739-2190-47bc-9579-a24389e1fb5e",
             "uuid": "133043db-19b3-4224-8d4c-f91a20a30c09"
@@ -1823,6 +2077,7 @@
             "id": 92,
             "display_flags": 0,
             "classifier_id": 78,
+            "classifier_name": "Over-the-Air Updates",
             "focused_feature_id": -1,
             "node": "e1c60485-44f6-4cc7-928b-04f4c9ca52d6",
             "uuid": "809f069a-8757-405b-be3f-78be8046c214"
@@ -1831,6 +2086,7 @@
             "id": 93,
             "display_flags": 0,
             "classifier_id": 79,
+            "classifier_name": "Cryptographic Signatures",
             "focused_feature_id": -1,
             "node": "6d99baa8-17a9-4da4-9ced-2b8af836acc4",
             "uuid": "2cae8c07-5944-4604-a7a0-b7a7c05768ab"
@@ -1839,6 +2095,7 @@
             "id": 94,
             "display_flags": 0,
             "classifier_id": 80,
+            "classifier_name": "Encryption",
             "focused_feature_id": -1,
             "node": "72586deb-b89f-4954-adec-2e1d9f38f534",
             "uuid": "7f044c51-e644-4908-bcc9-1e3517e8f42e"
@@ -1847,6 +2104,7 @@
             "id": 113,
             "display_flags": 0,
             "classifier_id": 99,
+            "classifier_name": "Least Priviledge",
             "focused_feature_id": -1,
             "node": "e55acb1b-b8f0-4669-b8c2-65f479e6d312",
             "uuid": "f038d0d3-54c8-4f53-b710-47c956450aa7"
@@ -1854,7 +2112,9 @@
           {
             "id": 114,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 38,
+            "classifier_name": "Non-Repudiation",
             "focused_feature_id": -1,
             "node": "6aefcb83-7281-4dc2-b4a1-2e58e33a1291",
             "uuid": "83da18aa-a2a5-4e1e-a122-86c3abb5e144"
@@ -1862,7 +2122,9 @@
           {
             "id": 115,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 41,
+            "classifier_name": "Accountability",
             "focused_feature_id": -1,
             "node": "03692939-1bd3-4b25-8328-9c09e2220b17",
             "uuid": "49959f7b-20fb-4e86-83e8-2b8e50b15cfb"
@@ -1871,6 +2133,7 @@
             "id": 124,
             "display_flags": 0,
             "classifier_id": 108,
+            "classifier_name": "Secure Boot",
             "focused_feature_id": -1,
             "node": "b9b37c5c-52fa-4ad6-a22b-41873523e665",
             "uuid": "2bb9d589-0c85-4c21-a6f1-b7a1474c977f"
@@ -1879,6 +2142,7 @@
             "id": 138,
             "display_flags": 0,
             "classifier_id": 113,
+            "classifier_name": "Groups",
             "focused_feature_id": -1,
             "node": "df92953a-2c96-4712-bdc3-07ea1e186d37",
             "uuid": "329924e6-61bc-4d06-8af2-11525dc15561"
@@ -1887,6 +2151,7 @@
             "id": 139,
             "display_flags": 0,
             "classifier_id": 114,
+            "classifier_name": "Certificates",
             "focused_feature_id": -1,
             "node": "e85a50ee-4173-4afd-bb02-241871dd28c8",
             "uuid": "5404f43a-ca60-4918-ac2b-73137f1e15ab"
@@ -1895,6 +2160,7 @@
             "id": 180,
             "display_flags": 0,
             "classifier_id": 83,
+            "classifier_name": "Input Signal Validation",
             "focused_feature_id": -1,
             "node": "e82dad45-7be8-4a12-9f96-695752e6967c",
             "uuid": "e8a194d6-1dd9-483d-ab4d-b29959eb90e6"
@@ -1903,6 +2169,7 @@
             "id": 186,
             "display_flags": 0,
             "classifier_id": 133,
+            "classifier_name": "Fail Secure",
             "focused_feature_id": -1,
             "node": "96b2fe54-2407-43b6-9cfe-bb17b2337f81",
             "uuid": "7685eeb4-54e1-4473-956e-fa8530639b6e"
@@ -1911,6 +2178,7 @@
             "id": 187,
             "display_flags": 0,
             "classifier_id": 134,
+            "classifier_name": "Secure Weakest Link",
             "focused_feature_id": -1,
             "node": "e8ce339c-66c9-4adf-afba-a36da2813136",
             "uuid": "1a36dddf-eef9-4eab-a791-0f9d422d1db4"
@@ -1919,6 +2187,7 @@
             "id": 188,
             "display_flags": 0,
             "classifier_id": 135,
+            "classifier_name": "Secure Defaults",
             "focused_feature_id": -1,
             "node": "ceabfa71-2d97-4073-9cd0-3d6c09669185",
             "uuid": "9f448af8-8326-47c3-be46-7913bd5d8343"
@@ -1927,6 +2196,7 @@
             "id": 189,
             "display_flags": 0,
             "classifier_id": 136,
+            "classifier_name": "Reduce Attack Surface",
             "focused_feature_id": -1,
             "node": "1c0235e9-cc6c-4b9c-aaca-3cf0e5602c10",
             "uuid": "9f5c49e3-373d-41de-95c3-5c89e045209e"
@@ -1938,7 +2208,9 @@
       "diagram": {
         "id": 17,
         "parent_id": 10,
+        "parent_name": "Strategies for Security",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Tactics for Partitioning",
         "description": [
                 ""
@@ -1953,6 +2225,7 @@
             "id": 181,
             "display_flags": 0,
             "classifier_id": 75,
+            "classifier_name": "Partitioning",
             "focused_feature_id": -1,
             "node": "152cb739-2190-47bc-9579-a24389e1fb5e",
             "uuid": "66035211-9fa9-4d7b-8fc0-ff9fc9a8d17c"
@@ -1961,6 +2234,7 @@
             "id": 182,
             "display_flags": 0,
             "classifier_id": 121,
+            "classifier_name": "SoC HW Partitions",
             "focused_feature_id": -1,
             "node": "06cbfec4-f818-4e7a-b27f-140993bdb745",
             "uuid": "25c049df-32ac-41df-9a49-9dc00a6d0b16"
@@ -1969,6 +2243,7 @@
             "id": 183,
             "display_flags": 0,
             "classifier_id": 76,
+            "classifier_name": "Network Partitioniong",
             "focused_feature_id": -1,
             "node": "f9275a5f-c4d0-40ac-89c4-0ee6e1bf50c1",
             "uuid": "4682be3b-31ed-481c-8fe5-da573999a126"
@@ -1977,6 +2252,7 @@
             "id": 184,
             "display_flags": 0,
             "classifier_id": 77,
+            "classifier_name": "SW Partitions",
             "focused_feature_id": -1,
             "node": "1c78e508-b9f0-43b0-8cb1-fea720c50183",
             "uuid": "c58e36bb-5f99-4c08-8636-88babec5c199"
@@ -1985,6 +2261,7 @@
             "id": 185,
             "display_flags": 0,
             "classifier_id": 132,
+            "classifier_name": "Trust Levels",
             "focused_feature_id": -1,
             "node": "94106649-3e4e-4731-8073-dc035b40df22",
             "uuid": "eb93c487-88d8-4e6e-ab72-d2454fdb9aaf"
@@ -1996,7 +2273,9 @@
       "diagram": {
         "id": 27,
         "parent_id": 15,
+        "parent_name": "Quality Characteristics",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Quality Subcharacteristics III",
         "description": [
                 ""
@@ -2010,7 +2289,9 @@
           {
             "id": 278,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 178,
+            "classifier_name": "Effectiveness",
             "focused_feature_id": -1,
             "node": "8ec0dfb4-7547-40da-9b7e-0b1e6a235ac3",
             "uuid": "bd7e1397-fcf6-4f8e-a9dd-fec5f52ecabc"
@@ -2018,7 +2299,9 @@
           {
             "id": 279,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 179,
+            "classifier_name": "Efficiency",
             "focused_feature_id": -1,
             "node": "1cfd262b-29d8-4944-80a5-ef0297506a08",
             "uuid": "7a2a79e9-b9c6-4634-9d70-b9606d9f55bd"
@@ -2026,7 +2309,9 @@
           {
             "id": 280,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 181,
+            "classifier_name": "Freedom from Risk",
             "focused_feature_id": -1,
             "node": "c93efa8b-36e9-49bd-87c4-5f236e4371e8",
             "uuid": "c688871d-6e09-430b-bcf6-38874f0ff58f"
@@ -2034,7 +2319,9 @@
           {
             "id": 281,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 182,
+            "classifier_name": "Context Coverage",
             "focused_feature_id": -1,
             "node": "298f39de-0dad-45a8-893b-5b3ce27a48eb",
             "uuid": "5b80f0ca-4cb8-46f9-ba52-c24c9ac1343e"
@@ -2042,7 +2329,9 @@
           {
             "id": 282,
             "display_flags": 16777216,
+            "display_tags": "Emphasis",
             "classifier_id": 180,
+            "classifier_name": "Satisfaction",
             "focused_feature_id": -1,
             "node": "a72211d7-244f-4ecc-928d-432fd1131579",
             "uuid": "fd585b9f-2a5f-4eff-951a-7592feabb999"
@@ -2054,7 +2343,9 @@
       "diagram": {
         "id": 25,
         "parent_id": 27,
+        "parent_name": "Quality Subcharacteristics III",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Strategies for Safety",
         "description": [
                 ""
@@ -2069,6 +2360,7 @@
             "id": 251,
             "display_flags": 0,
             "classifier_id": 75,
+            "classifier_name": "Partitioning",
             "focused_feature_id": -1,
             "node": "152cb739-2190-47bc-9579-a24389e1fb5e",
             "uuid": "6b65c417-3c85-4d13-9ad9-56d0066d4dd0"
@@ -2076,7 +2368,9 @@
           {
             "id": 252,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 81,
+            "classifier_name": "Functional Safety",
             "focused_feature_id": -1,
             "node": "486e43a4-edea-4ecb-a34e-0596617c298d",
             "uuid": "e81fb16f-1e46-4e9e-a9d6-a561428727e2"
@@ -2085,6 +2379,7 @@
             "id": 253,
             "display_flags": 0,
             "classifier_id": 84,
+            "classifier_name": "Monitoring",
             "focused_feature_id": -1,
             "node": "621cb7bd-15aa-43cc-81fb-65da0f5d70c5",
             "uuid": "d8e2afea-70f4-4816-b21f-c165d528ad65"
@@ -2093,6 +2388,7 @@
             "id": 254,
             "display_flags": 0,
             "classifier_id": 85,
+            "classifier_name": "Real Time Execution",
             "focused_feature_id": -1,
             "node": "fb10b08a-995e-4edf-ba1a-77b94668bb98",
             "uuid": "f1466cee-9c8c-4713-98a4-2fc711492ad2"
@@ -2104,7 +2400,9 @@
       "diagram": {
         "id": 11,
         "parent_id": 25,
+        "parent_name": "Strategies for Safety",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Tactics for Safety",
         "description": [
                 "This diagram shows examples for measures\n",
@@ -2122,7 +2420,9 @@
           {
             "id": 129,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 81,
+            "classifier_name": "Functional Safety",
             "focused_feature_id": -1,
             "node": "486e43a4-edea-4ecb-a34e-0596617c298d",
             "uuid": "02b6a97f-dcc5-4697-b337-64608fc5ebc8"
@@ -2130,7 +2430,9 @@
           {
             "id": 130,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 84,
+            "classifier_name": "Monitoring",
             "focused_feature_id": -1,
             "node": "621cb7bd-15aa-43cc-81fb-65da0f5d70c5",
             "uuid": "68b808fd-53ce-4f1c-910b-64d3419cabbc"
@@ -2139,6 +2441,7 @@
             "id": 131,
             "display_flags": 0,
             "classifier_id": 83,
+            "classifier_name": "Input Signal Validation",
             "focused_feature_id": -1,
             "node": "e82dad45-7be8-4a12-9f96-695752e6967c",
             "uuid": "07a6d418-6894-42f8-9641-6bed9981bb4e"
@@ -2146,7 +2449,9 @@
           {
             "id": 132,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 85,
+            "classifier_name": "Real Time Execution",
             "focused_feature_id": -1,
             "node": "fb10b08a-995e-4edf-ba1a-77b94668bb98",
             "uuid": "7ebd4776-ad39-40c1-887c-121db05fdb17"
@@ -2155,6 +2460,7 @@
             "id": 133,
             "display_flags": 0,
             "classifier_id": 82,
+            "classifier_name": "Trusted Data Paths",
             "focused_feature_id": -1,
             "node": "0167a278-643e-4f00-a507-ca9a1a028513",
             "uuid": "605d0f76-b86c-4e47-ba84-15e1ee9fef83"
@@ -2163,6 +2469,7 @@
             "id": 134,
             "display_flags": 0,
             "classifier_id": 79,
+            "classifier_name": "Cryptographic Signatures",
             "focused_feature_id": -1,
             "node": "6d99baa8-17a9-4da4-9ced-2b8af836acc4",
             "uuid": "90cf5b8d-da98-4cf6-9d9a-bae8ab4369ff"
@@ -2170,7 +2477,9 @@
           {
             "id": 135,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 75,
+            "classifier_name": "Partitioning",
             "focused_feature_id": -1,
             "node": "152cb739-2190-47bc-9579-a24389e1fb5e",
             "uuid": "b802443a-abda-4de4-b144-96186c0da29b"
@@ -2182,7 +2491,9 @@
       "diagram": {
         "id": 3,
         "parent_id": 1,
+        "parent_name": "Quality",
         "diagram_type": 11,
+        "type": "UMLActivityDiagram",
         "name": "Process Quality",
         "description": [
                 "The turtle diagram shows the elements of a process."
@@ -2197,6 +2508,7 @@
             "id": 5,
             "display_flags": 0,
             "classifier_id": 5,
+            "classifier_name": "Process",
             "focused_feature_id": -1,
             "node": "a6643993-8795-4007-aa72-a9bc650ee33a",
             "uuid": "211f0124-6684-433e-a2eb-7b9dab79cd45"
@@ -2205,6 +2517,7 @@
             "id": 6,
             "display_flags": 0,
             "classifier_id": 6,
+            "classifier_name": "With What",
             "focused_feature_id": -1,
             "node": "68514ef2-9469-4514-bf16-c9a90b65d489",
             "uuid": "6b42bae9-5534-4a39-8515-9fbdd02b1333"
@@ -2213,6 +2526,7 @@
             "id": 7,
             "display_flags": 0,
             "classifier_id": 7,
+            "classifier_name": "Output",
             "focused_feature_id": -1,
             "node": "d57e1279-e6f4-4264-9f19-17f61d65dcd4",
             "uuid": "e8696a6f-7397-429f-a195-5a661c5907b4"
@@ -2221,6 +2535,7 @@
             "id": 8,
             "display_flags": 0,
             "classifier_id": 8,
+            "classifier_name": "How",
             "focused_feature_id": -1,
             "node": "d41e81d7-d774-48cc-af28-d1c9c63196b9",
             "uuid": "320ba15b-476e-4716-b7e9-c1218ee41a1a"
@@ -2229,6 +2544,7 @@
             "id": 9,
             "display_flags": 0,
             "classifier_id": 9,
+            "classifier_name": "What Results",
             "focused_feature_id": -1,
             "node": "33915802-7b6f-44d0-9101-09704a5bb693",
             "uuid": "fd0bd0ee-5f2e-49fd-989c-709c5ced6e36"
@@ -2237,6 +2553,7 @@
             "id": 10,
             "display_flags": 0,
             "classifier_id": 10,
+            "classifier_name": "Who",
             "focused_feature_id": -1,
             "node": "02246985-7bc8-4cb0-ae07-42255d5a92f4",
             "uuid": "1c006669-e9e3-42d8-aa6b-37b5fba04a02"
@@ -2245,6 +2562,7 @@
             "id": 11,
             "display_flags": 0,
             "classifier_id": 11,
+            "classifier_name": "Input",
             "focused_feature_id": -1,
             "node": "e971ff52-173b-4bf5-ad7a-9c522ca0550e",
             "uuid": "4a0ec0b1-db2c-4760-90a8-d91e54e0b9b3"
@@ -2256,7 +2574,9 @@
       "diagram": {
         "id": 6,
         "parent_id": 3,
+        "parent_name": "Process Quality",
         "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Standard Process Models",
         "description": [
                 "Process Models that focus on Software Development"
@@ -2271,6 +2591,7 @@
             "id": 58,
             "display_flags": 0,
             "classifier_id": 58,
+            "classifier_name": "CMMI",
             "focused_feature_id": -1,
             "node": "7779f5cd-ca83-4f62-9f30-271ff6ce7d4d",
             "uuid": "1bb39322-a38b-446d-9cde-e5f4d70ebb6b"
@@ -2279,6 +2600,7 @@
             "id": 60,
             "display_flags": 0,
             "classifier_id": 60,
+            "classifier_name": "Medical SPICE",
             "focused_feature_id": -1,
             "node": "086c5edb-b8e4-49ba-aa99-4a1f3ded8e61",
             "uuid": "d560c8af-a0d1-47e5-aeb8-2c264edabf0f"
@@ -2287,6 +2609,7 @@
             "id": 330,
             "display_flags": 0,
             "classifier_id": 219,
+            "classifier_name": "Automotive SPICE",
             "focused_feature_id": -1,
             "node": "f591a38d-0ee5-4d0a-815b-55f8ec8e9b2b",
             "uuid": "4a8f5ca1-6aec-4a3a-82e2-4314c2edb654"
@@ -2298,7 +2621,9 @@
       "diagram": {
         "id": 9,
         "parent_id": 3,
+        "parent_name": "Process Quality",
         "diagram_type": 11,
+        "type": "UMLActivityDiagram",
         "name": "V Model",
         "description": [
                 ""
@@ -2312,7 +2637,9 @@
           {
             "id": 73,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 64,
+            "classifier_name": "Requirements Definition",
             "focused_feature_id": -1,
             "node": "23fe63a6-03df-423a-bc3d-2389308c6423",
             "uuid": "8d22f5c1-03cc-40c1-9725-3a44a8e01ed6"
@@ -2320,7 +2647,9 @@
           {
             "id": 74,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 65,
+            "classifier_name": "System Architecture",
             "focused_feature_id": -1,
             "node": "c9c266ac-3d61-41b5-b633-b2a556ec98e5",
             "uuid": "68223f33-6c57-4530-a44a-77e29094a3e2"
@@ -2329,6 +2658,7 @@
             "id": 75,
             "display_flags": 0,
             "classifier_id": 66,
+            "classifier_name": "Requirements Refinement",
             "focused_feature_id": -1,
             "node": "c555c670-19dd-4a2b-8039-eb1e047893d4",
             "uuid": "cb0562a1-b24e-4fba-9baf-5e10f4978d67"
@@ -2337,6 +2667,7 @@
             "id": 76,
             "display_flags": 0,
             "classifier_id": 67,
+            "classifier_name": "Software Architecture",
             "focused_feature_id": -1,
             "node": "dfd26366-dff5-41e3-b398-d4bc15cbfecb",
             "uuid": "70d991e5-6d25-453d-a576-2f4ceb43eadf"
@@ -2345,6 +2676,7 @@
             "id": 77,
             "display_flags": 0,
             "classifier_id": 68,
+            "classifier_name": "Construction",
             "focused_feature_id": -1,
             "node": "42a613bc-fe06-4b1c-8c4a-b6e6e064385b",
             "uuid": "ee2a5af2-297b-4221-8df3-f614b79eb9c2"
@@ -2353,6 +2685,7 @@
             "id": 78,
             "display_flags": 0,
             "classifier_id": 69,
+            "classifier_name": "Software Integration",
             "focused_feature_id": -1,
             "node": "c2e54cb9-f45b-4bdf-ab9a-a2a37c0cddbc",
             "uuid": "add0d476-a380-49ed-86c1-d61adee004f9"
@@ -2361,6 +2694,7 @@
             "id": 79,
             "display_flags": 0,
             "classifier_id": 70,
+            "classifier_name": "Software Test",
             "focused_feature_id": -1,
             "node": "2ab9c1fc-179b-4cd1-bd3c-09f92bb16eef",
             "uuid": "ed63c190-6913-4c60-a604-b36f07b118bf"
@@ -2368,7 +2702,9 @@
           {
             "id": 80,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 71,
+            "classifier_name": "System Integration",
             "focused_feature_id": -1,
             "node": "c96647b2-be2a-4413-8ae6-90976ed2c719",
             "uuid": "d8ee50c6-78b6-4860-b46c-7566175c0728"
@@ -2376,7 +2712,9 @@
           {
             "id": 81,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 72,
+            "classifier_name": "System Test",
             "focused_feature_id": -1,
             "node": "d79de9a5-bc92-4359-889f-d22771927c0c",
             "uuid": "19065303-65d3-4907-a315-04e5be90ca43"
@@ -2385,6 +2723,7 @@
             "id": 144,
             "display_flags": 0,
             "classifier_id": 117,
+            "classifier_name": "Unit Test",
             "focused_feature_id": -1,
             "node": "797687f9-c060-49e7-bc51-8790a725f4d0",
             "uuid": "24848726-6d41-4c96-87f4-6ea762aa5d3c"
@@ -2396,10 +2735,15 @@
       "diagram": {
         "id": 14,
         "parent_id": 3,
+        "parent_name": "Process Quality",
         "diagram_type": 0,
+        "type": "CFUListDiagram",
         "name": "Standard Methods",
         "description": [
-                "This diagram lists methods to ensure quality."
+                "This diagram lists methods to ensure quality.\n",
+                "\n",
+                "Outcome of these methods is either a list of requirements\/actions that needs to be implemented or a risk list that needs to be assessed and mitigations defined.\n",
+                ""
         ],
         "list_order": 32768,
         "display_flags": 0,
@@ -2411,6 +2755,7 @@
             "id": 162,
             "display_flags": 0,
             "classifier_id": 129,
+            "classifier_name": "FMEA (Technical Risk Management)",
             "focused_feature_id": -1,
             "node": "37a49d1d-1c9b-4c25-a988-da9c5beb14d8",
             "uuid": "77dd32a1-840b-4094-b48a-05dc6097a4b1"
@@ -2419,6 +2764,7 @@
             "id": 163,
             "display_flags": 0,
             "classifier_id": 130,
+            "classifier_name": "TARA (Security Analysis)",
             "focused_feature_id": -1,
             "node": "eb13495d-aed6-4fbd-9636-991873ff1dcb",
             "uuid": "b6b98771-55a2-49a4-a3a5-801beca75f94"
@@ -2427,6 +2773,7 @@
             "id": 164,
             "display_flags": 0,
             "classifier_id": 131,
+            "classifier_name": "Goal Structured Notation (Safety Case)",
             "focused_feature_id": -1,
             "node": "f5ee6c07-8ac1-46b7-aad9-c93c54b0ee9d",
             "uuid": "f59d42ec-ad0c-47c2-9a3e-89492eb53965"
@@ -2435,6 +2782,7 @@
             "id": 259,
             "display_flags": 0,
             "classifier_id": 177,
+            "classifier_name": "ATAM (Architecture Tradeoff Analysis)",
             "focused_feature_id": -1,
             "node": "06674066-9e31-465d-8010-00eb9b09e482",
             "uuid": "97b16102-7610-4ad0-a3fd-5f5d0ec441b5"
@@ -2446,7 +2794,9 @@
       "diagram": {
         "id": 18,
         "parent_id": 14,
+        "parent_name": "Standard Methods",
         "diagram_type": 11,
+        "type": "UMLActivityDiagram",
         "name": "Security Analysis",
         "description": [
                 "see Internet Security (C0172) in D0023#name."
@@ -2461,6 +2811,7 @@
             "id": 190,
             "display_flags": 0,
             "classifier_id": 137,
+            "classifier_name": "start analysis",
             "focused_feature_id": -1,
             "node": "089f57cf-0d48-4675-99a4-3735b738374c",
             "uuid": "f9e4682a-a7e0-4ef8-b361-24b9a0dc526c"
@@ -2469,6 +2820,7 @@
             "id": 191,
             "display_flags": 0,
             "classifier_id": 138,
+            "classifier_name": "Define Assets to Protect",
             "focused_feature_id": -1,
             "node": "8aabeeb4-d93e-4dc9-a1d8-9d02a381f531",
             "uuid": "df5449af-9eed-462d-adfa-cec5b892709c"
@@ -2477,6 +2829,7 @@
             "id": 192,
             "display_flags": 0,
             "classifier_id": 139,
+            "classifier_name": "Define System Context",
             "focused_feature_id": -1,
             "node": "d9b496a6-0974-4576-833f-9f590902a113",
             "uuid": "e63b91c4-3c3a-4ba4-9116-8cab19bca998"
@@ -2485,6 +2838,7 @@
             "id": 193,
             "display_flags": 0,
             "classifier_id": 140,
+            "classifier_name": "Show Locations of Assets",
             "focused_feature_id": -1,
             "node": "05ab5bd3-3957-4683-9c66-bad7ac0b84b9",
             "uuid": "bf279230-c53c-470e-946c-76b6fa199346"
@@ -2493,6 +2847,7 @@
             "id": 194,
             "display_flags": 0,
             "classifier_id": 141,
+            "classifier_name": "Define Attack Vectors",
             "focused_feature_id": -1,
             "node": "3bcff3f2-82ec-4c55-9163-117f5f997b88",
             "uuid": "2cc6c89e-1e3e-40e2-a401-17bdb707fd17"
@@ -2501,6 +2856,7 @@
             "id": 195,
             "display_flags": 0,
             "classifier_id": 142,
+            "classifier_name": "Define Mitigations",
             "focused_feature_id": -1,
             "node": "8927fab2-ff24-4c69-9fa4-c9863c153af7",
             "uuid": "b0ae8e10-7a1c-430d-a3dc-c01733a6e7aa"
@@ -2509,6 +2865,7 @@
             "id": 196,
             "display_flags": 0,
             "classifier_id": 143,
+            "classifier_name": "Re-evaluate Risks",
             "focused_feature_id": -1,
             "node": "593e4f3d-9bdd-46d3-987e-9e73704e6249",
             "uuid": "b6cd7d04-8d80-4891-82c3-c9f3a489ade8"
@@ -2517,6 +2874,7 @@
             "id": 197,
             "display_flags": 0,
             "classifier_id": 144,
+            "classifier_name": "finish analysis",
             "focused_feature_id": -1,
             "node": "8e0f872f-9683-45fc-97c0-e0f539c2974a",
             "uuid": "9285e34d-0aa3-4a1c-ad1a-618e0e8175ff"
@@ -2524,7 +2882,9 @@
           {
             "id": 286,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 192,
+            "classifier_name": "security analysis",
             "focused_feature_id": -1,
             "node": "3fbcd8c5-c46f-4f0f-9dce-9e4b8edad1b7",
             "uuid": "5645d124-5ee4-496e-afa6-e1c9efa2bdb0"
@@ -2533,6 +2893,7 @@
             "id": 321,
             "display_flags": 0,
             "classifier_id": 210,
+            "classifier_name": "Define Trust Boundaries",
             "focused_feature_id": -1,
             "node": "95295d8e-2ac8-41d0-b7f7-3852c7f15632",
             "uuid": "6f0c02f2-9a5f-4c07-b4a2-6cc659d03818"
@@ -2544,7 +2905,9 @@
       "diagram": {
         "id": 29,
         "parent_id": 14,
+        "parent_name": "Standard Methods",
         "diagram_type": 11,
+        "type": "UMLActivityDiagram",
         "name": "Security Incident Management",
         "description": [
                 "see also ISO 27001"
@@ -2559,6 +2922,7 @@
             "id": 322,
             "display_flags": 0,
             "classifier_id": 211,
+            "classifier_name": "start planning",
             "focused_feature_id": -1,
             "node": "c413a719-5784-4058-b6f6-ec3521c7d805",
             "uuid": "47e7629b-9140-4bd3-bcab-d94cc5817932"
@@ -2567,6 +2931,7 @@
             "id": 323,
             "display_flags": 0,
             "classifier_id": 212,
+            "classifier_name": "Define activities to observe the operation",
             "focused_feature_id": -1,
             "node": "bde690ee-81f1-4645-8770-322bd89c97e4",
             "uuid": "6d8bc1c4-360e-4c47-ab7d-2fc674664e70"
@@ -2575,6 +2940,7 @@
             "id": 324,
             "display_flags": 0,
             "classifier_id": 213,
+            "classifier_name": "par",
             "focused_feature_id": -1,
             "node": "a774b1e3-e23d-4797-9a75-72483d01651a",
             "uuid": "b654a5e9-5b9a-4d25-99d4-c7e8469a567a"
@@ -2583,6 +2949,7 @@
             "id": 325,
             "display_flags": 0,
             "classifier_id": 214,
+            "classifier_name": "Define rating for observed events",
             "focused_feature_id": -1,
             "node": "e776d357-0809-4124-aa2a-d3abb341421b",
             "uuid": "58a20d63-d823-4525-a062-0de2a3add57c"
@@ -2591,6 +2958,7 @@
             "id": 326,
             "display_flags": 0,
             "classifier_id": 215,
+            "classifier_name": "Define reactions based on rating",
             "focused_feature_id": -1,
             "node": "88232d20-233b-4b15-8814-4c403bdb62ed",
             "uuid": "3e14a65f-d867-4173-ad99-8730aa0f46c7"
@@ -2599,6 +2967,7 @@
             "id": 327,
             "display_flags": 0,
             "classifier_id": 216,
+            "classifier_name": "end par",
             "focused_feature_id": -1,
             "node": "7aa1e57b-c9e0-4c68-bbf5-d34fc97846bd",
             "uuid": "2019968c-2236-460e-82f2-0a9226c637c0"
@@ -2607,6 +2976,7 @@
             "id": 328,
             "display_flags": 0,
             "classifier_id": 217,
+            "classifier_name": "start operation",
             "focused_feature_id": -1,
             "node": "65a30a63-82a7-45da-9a24-4b22fcc53506",
             "uuid": "148954b2-c055-41b8-a1cd-99f6ad1c504f"
@@ -2614,7 +2984,9 @@
           {
             "id": 329,
             "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_id": 218,
+            "classifier_name": "incident management",
             "focused_feature_id": -1,
             "node": "2af7f9cb-aa19-4188-abe9-86808a626be5",
             "uuid": "6f6e270e-317e-4c2a-af90-e127c05e5cc0"
@@ -2626,7 +2998,9 @@
       "diagram": {
         "id": 23,
         "parent_id": 1,
+        "parent_name": "Quality",
         "diagram_type": 0,
+        "type": "CFUListDiagram",
         "name": "Bibliography",
         "description": [
                 ""
@@ -2641,6 +3015,7 @@
             "id": 239,
             "display_flags": 0,
             "classifier_id": 165,
+            "classifier_name": "Software Architecture in Practice",
             "focused_feature_id": -1,
             "node": "d492182d-4921-4649-8afe-ec0e64645868",
             "uuid": "52500f94-12a1-4eb8-b5fb-53b82bffb9b2"
@@ -2649,6 +3024,7 @@
             "id": 240,
             "display_flags": 0,
             "classifier_id": 166,
+            "classifier_name": "ISO\/IEC 9126",
             "focused_feature_id": -1,
             "node": "1851704c-2f60-4c99-b55b-fb1425b48ff2",
             "uuid": "cb57fefd-a373-4574-856c-f62af5da636a"
@@ -2657,6 +3033,7 @@
             "id": 241,
             "display_flags": 0,
             "classifier_id": 167,
+            "classifier_name": "ISO\/IEC 25010:2011",
             "focused_feature_id": -1,
             "node": "dc1df44a-b1f1-4ab7-8c1a-d4b6e3b104be",
             "uuid": "3d38689a-36ab-4e11-8b43-9080e6273732"
@@ -2665,6 +3042,7 @@
             "id": 242,
             "display_flags": 0,
             "classifier_id": 168,
+            "classifier_name": "arc42",
             "focused_feature_id": -1,
             "node": "e510b679-2f70-4861-92e4-df6a0cffa487",
             "uuid": "e618d0e2-baca-426c-948c-0cd7d7a46a34"
@@ -2673,6 +3051,7 @@
             "id": 247,
             "display_flags": 0,
             "classifier_id": 171,
+            "classifier_name": "Software Estimation",
             "focused_feature_id": -1,
             "node": "14be9024-93a2-45bd-9168-fbb88413f07e",
             "uuid": "6a540066-6258-4f9e-beec-483c62e57a35"
@@ -2681,6 +3060,7 @@
             "id": 248,
             "display_flags": 0,
             "classifier_id": 172,
+            "classifier_name": "Internet Security",
             "focused_feature_id": -1,
             "node": "1e259049-6149-41de-80ca-34c90624ec1d",
             "uuid": "ad8504cd-6fc4-4d54-ba8c-d6870a84bfdd"
@@ -2689,6 +3069,7 @@
             "id": 249,
             "display_flags": 0,
             "classifier_id": 173,
+            "classifier_name": "High Integrity Software",
             "focused_feature_id": -1,
             "node": "f0051ac1-aeb8-4dec-b42a-8d6496c0a822",
             "uuid": "474b9fbd-a708-4fef-84f2-ef471908be86"
@@ -2697,6 +3078,7 @@
             "id": 250,
             "display_flags": 0,
             "classifier_id": 174,
+            "classifier_name": "Engineering a Safer World",
             "focused_feature_id": -1,
             "node": "695d811d-0537-4360-a9db-64079f2ba953",
             "uuid": "b3d32494-7586-4573-8d2a-63046f4186b3"
@@ -2705,6 +3087,7 @@
             "id": 283,
             "display_flags": 0,
             "classifier_id": 189,
+            "classifier_name": "Software Quality Engineering",
             "focused_feature_id": -1,
             "node": "ca2cccdd-a224-4d51-b51b-7bb726362a6c",
             "uuid": "e6d49c47-8138-4945-afcc-3b3e79144af2"
@@ -2720,6 +3103,7 @@
       "classifier": {
         "id": 1,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Process Quality",
         "description": [
@@ -2739,6 +3123,7 @@
       "classifier": {
         "id": 2,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Product Quality",
         "description": [
@@ -2754,6 +3139,7 @@
           {
             "id": 4,
             "main_type": 0,
+            "type": "Property",
             "key": "ISO\/IEC 25010:2011",
             "value": "",
             "description": [
@@ -2769,6 +3155,7 @@
       "classifier": {
         "id": 3,
         "main_type": 124,
+        "type": "Package",
         "stereotype": "",
         "name": "Ext\/Int Product Quality ",
         "description": [
@@ -2788,6 +3175,7 @@
       "classifier": {
         "id": 4,
         "main_type": 124,
+        "type": "Package",
         "stereotype": "",
         "name": "Quality in Use",
         "description": [
@@ -2807,6 +3195,7 @@
       "classifier": {
         "id": 5,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "",
         "name": "Process",
         "description": [
@@ -2821,6 +3210,7 @@
           {
             "id": 11,
             "main_type": 0,
+            "type": "Property",
             "key": "Name",
             "value": "",
             "description": [
@@ -2832,6 +3222,7 @@
           {
             "id": 12,
             "main_type": 0,
+            "type": "Property",
             "key": "Description",
             "value": "",
             "description": [
@@ -2847,6 +3238,7 @@
       "classifier": {
         "id": 6,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "",
         "name": "With What",
         "description": [
@@ -2861,6 +3253,7 @@
           {
             "id": 50,
             "main_type": 0,
+            "type": "Property",
             "key": "Tools",
             "value": "",
             "description": [
@@ -2872,6 +3265,7 @@
           {
             "id": 51,
             "main_type": 0,
+            "type": "Property",
             "key": "Resources",
             "value": "",
             "description": [
@@ -2887,6 +3281,7 @@
       "classifier": {
         "id": 7,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "",
         "name": "Output",
         "description": [
@@ -2902,6 +3297,7 @@
           {
             "id": 55,
             "main_type": 0,
+            "type": "Property",
             "key": "Software\/Documentation",
             "value": "",
             "description": [
@@ -2913,6 +3309,7 @@
           {
             "id": 56,
             "main_type": 0,
+            "type": "Property",
             "key": "Evidence\/Reports",
             "value": "",
             "description": [
@@ -2928,6 +3325,7 @@
       "classifier": {
         "id": 8,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "",
         "name": "How",
         "description": [
@@ -2943,6 +3341,7 @@
           {
             "id": 52,
             "main_type": 0,
+            "type": "Property",
             "key": "Guidelines\/Templates",
             "value": "",
             "description": [
@@ -2954,6 +3353,7 @@
           {
             "id": 65,
             "main_type": 0,
+            "type": "Property",
             "key": "Tutorials",
             "value": "",
             "description": [
@@ -2969,6 +3369,7 @@
       "classifier": {
         "id": 9,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "",
         "name": "What Results",
         "description": [
@@ -2983,6 +3384,7 @@
           {
             "id": 53,
             "main_type": 0,
+            "type": "Property",
             "key": "Metrics",
             "value": "",
             "description": [
@@ -2994,6 +3396,7 @@
           {
             "id": 54,
             "main_type": 0,
+            "type": "Property",
             "key": "Definition of Done",
             "value": "",
             "description": [
@@ -3009,6 +3412,7 @@
       "classifier": {
         "id": 10,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "",
         "name": "Who",
         "description": [
@@ -3025,6 +3429,7 @@
           {
             "id": 48,
             "main_type": 0,
+            "type": "Property",
             "key": "Roles + Responsibilities",
             "value": "",
             "description": [
@@ -3036,6 +3441,7 @@
           {
             "id": 49,
             "main_type": 0,
+            "type": "Property",
             "key": "Knowledge\/Skills",
             "value": "",
             "description": [
@@ -3051,6 +3457,7 @@
       "classifier": {
         "id": 11,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "",
         "name": "Input",
         "description": [
@@ -3065,6 +3472,7 @@
           {
             "id": 57,
             "main_type": 0,
+            "type": "Property",
             "key": "Requirements\/Design",
             "value": "",
             "description": [
@@ -3076,6 +3484,7 @@
           {
             "id": 58,
             "main_type": 0,
+            "type": "Property",
             "key": "Software\/Data",
             "value": "",
             "description": [
@@ -3091,6 +3500,7 @@
       "classifier": {
         "id": 51,
         "main_type": 100,
+        "type": "Actor",
         "stereotype": "",
         "name": "Aerospace",
         "description": [
@@ -3109,6 +3519,7 @@
       "classifier": {
         "id": 52,
         "main_type": 100,
+        "type": "Actor",
         "stereotype": "",
         "name": "Automotive",
         "description": [
@@ -3127,6 +3538,7 @@
       "classifier": {
         "id": 53,
         "main_type": 100,
+        "type": "Actor",
         "stereotype": "",
         "name": "Defense",
         "description": [
@@ -3145,6 +3557,7 @@
       "classifier": {
         "id": 54,
         "main_type": 100,
+        "type": "Actor",
         "stereotype": "",
         "name": "Avionics",
         "description": [
@@ -3163,6 +3576,7 @@
       "classifier": {
         "id": 55,
         "main_type": 100,
+        "type": "Actor",
         "stereotype": "",
         "name": "Industrial Machinery",
         "description": [
@@ -3181,6 +3595,7 @@
       "classifier": {
         "id": 56,
         "main_type": 100,
+        "type": "Actor",
         "stereotype": "",
         "name": "Medical",
         "description": [
@@ -3199,6 +3614,7 @@
       "classifier": {
         "id": 57,
         "main_type": 100,
+        "type": "Actor",
         "stereotype": "",
         "name": "Backend Server",
         "description": [
@@ -3217,6 +3633,7 @@
       "classifier": {
         "id": 58,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "CMMI",
         "description": [
@@ -3235,6 +3652,7 @@
       "classifier": {
         "id": 60,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Medical SPICE",
         "description": [
@@ -3253,6 +3671,7 @@
       "classifier": {
         "id": 61,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Layered Architecture",
         "description": [
@@ -3271,6 +3690,7 @@
       "classifier": {
         "id": 62,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Coding Guidelines",
         "description": [
@@ -3286,6 +3706,7 @@
           {
             "id": 10,
             "main_type": 0,
+            "type": "Property",
             "key": "static thread model",
             "value": "",
             "description": [
@@ -3297,6 +3718,7 @@
           {
             "id": 8,
             "main_type": 0,
+            "type": "Property",
             "key": "no endless loops",
             "value": "",
             "description": [
@@ -3309,6 +3731,7 @@
           {
             "id": 9,
             "main_type": 0,
+            "type": "Property",
             "key": "consistent error handling",
             "value": "",
             "description": [
@@ -3321,6 +3744,7 @@
           {
             "id": 7,
             "main_type": 0,
+            "type": "Property",
             "key": "valid Memory Addresses",
             "value": "",
             "description": [
@@ -3337,6 +3761,7 @@
           {
             "id": 6,
             "main_type": 0,
+            "type": "Property",
             "key": "no dynamic Memory",
             "value": "",
             "description": [
@@ -3352,6 +3777,7 @@
           {
             "id": 5,
             "main_type": 0,
+            "type": "Property",
             "key": "no recursion",
             "value": "avoid Stack overflow",
             "description": [
@@ -3363,6 +3789,7 @@
           {
             "id": 24,
             "main_type": 0,
+            "type": "Property",
             "key": "lock critical sections",
             "value": "",
             "description": [
@@ -3374,6 +3801,7 @@
           {
             "id": 23,
             "main_type": 0,
+            "type": "Property",
             "key": "single point of return",
             "value": "simple control flow",
             "description": [
@@ -3389,6 +3817,7 @@
       "classifier": {
         "id": 63,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Fault injection Tests",
         "description": [
@@ -3407,6 +3836,7 @@
       "classifier": {
         "id": 64,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "Requirements Definition",
         "description": [
@@ -3430,6 +3860,7 @@
       "classifier": {
         "id": 65,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "System Architecture",
         "description": [
@@ -3448,6 +3879,7 @@
       "classifier": {
         "id": 66,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "Requirements Refinement",
         "description": [
@@ -3473,6 +3905,7 @@
       "classifier": {
         "id": 67,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "Software Architecture",
         "description": [
@@ -3493,6 +3926,7 @@
       "classifier": {
         "id": 68,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "Construction",
         "description": [
@@ -3516,6 +3950,7 @@
       "classifier": {
         "id": 69,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "Software Integration",
         "description": [
@@ -3537,6 +3972,7 @@
       "classifier": {
         "id": 70,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "Software Test",
         "description": [
@@ -3555,6 +3991,7 @@
       "classifier": {
         "id": 71,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "System Integration",
         "description": [
@@ -3577,6 +4014,7 @@
       "classifier": {
         "id": 72,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "System Test",
         "description": [
@@ -3595,6 +4033,7 @@
       "classifier": {
         "id": 74,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Redundancy",
         "description": [
@@ -3609,6 +4048,7 @@
           {
             "id": 25,
             "main_type": 0,
+            "type": "Property",
             "key": "2 of 3 voter",
             "value": "",
             "description": [
@@ -3620,6 +4060,7 @@
           {
             "id": 26,
             "main_type": 0,
+            "type": "Property",
             "key": "duo-duplex",
             "value": "",
             "description": [
@@ -3638,6 +4079,7 @@
           {
             "id": 27,
             "main_type": 0,
+            "type": "Property",
             "key": "limp home",
             "value": "",
             "description": [
@@ -3649,6 +4091,7 @@
           {
             "id": 28,
             "main_type": 0,
+            "type": "Property",
             "key": "function migration",
             "value": "",
             "description": [
@@ -3664,6 +4107,7 @@
       "classifier": {
         "id": 75,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Partitioning",
         "description": [
@@ -3684,6 +4128,7 @@
       "classifier": {
         "id": 76,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Network Partitioniong",
         "description": [
@@ -3698,6 +4143,7 @@
           {
             "id": 29,
             "main_type": 0,
+            "type": "Property",
             "key": "Network Zones (VLANs)",
             "value": "",
             "description": [
@@ -3709,6 +4155,7 @@
           {
             "id": 30,
             "main_type": 0,
+            "type": "Property",
             "key": "Gateways\/Firewalls\/Proxies",
             "value": "",
             "description": [
@@ -3724,6 +4171,7 @@
       "classifier": {
         "id": 77,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "SW Partitions",
         "description": [
@@ -3738,6 +4186,7 @@
           {
             "id": 31,
             "main_type": 0,
+            "type": "Property",
             "key": "Hypervisor Partitions",
             "value": "",
             "description": [
@@ -3749,6 +4198,7 @@
           {
             "id": 32,
             "main_type": 0,
+            "type": "Property",
             "key": "OS-Process Boundaries",
             "value": "",
             "description": [
@@ -3760,6 +4210,7 @@
           {
             "id": 33,
             "main_type": 0,
+            "type": "Property",
             "key": "Microkernel OS",
             "value": "",
             "description": [
@@ -3771,6 +4222,7 @@
           {
             "id": 34,
             "main_type": 0,
+            "type": "Property",
             "key": "Containers",
             "value": "",
             "description": [
@@ -3788,6 +4240,7 @@
       "classifier": {
         "id": 78,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Over-the-Air Updates",
         "description": [
@@ -3802,6 +4255,7 @@
           {
             "id": 35,
             "main_type": 1,
+            "type": "Operation",
             "key": "Security Updates in Time",
             "value": "",
             "description": [
@@ -3817,6 +4271,7 @@
       "classifier": {
         "id": 79,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Cryptographic Signatures",
         "description": [
@@ -3831,6 +4286,7 @@
           {
             "id": 38,
             "main_type": 0,
+            "type": "Property",
             "key": "asymmetric",
             "value": "",
             "description": [
@@ -3842,6 +4298,7 @@
           {
             "id": 39,
             "main_type": 0,
+            "type": "Property",
             "key": "shared key (symmetric)",
             "value": "",
             "description": [
@@ -3857,6 +4314,7 @@
       "classifier": {
         "id": 80,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Encryption",
         "description": [
@@ -3871,6 +4329,7 @@
           {
             "id": 37,
             "main_type": 0,
+            "type": "Property",
             "key": "public\/private",
             "value": "",
             "description": [
@@ -3882,6 +4341,7 @@
           {
             "id": 36,
             "main_type": 0,
+            "type": "Property",
             "key": "symmetric",
             "value": "",
             "description": [
@@ -3897,6 +4357,7 @@
       "classifier": {
         "id": 81,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Functional Safety",
         "description": [
@@ -3915,6 +4376,7 @@
       "classifier": {
         "id": 82,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Trusted Data Paths",
         "description": [
@@ -3929,6 +4391,7 @@
           {
             "id": 42,
             "main_type": 1,
+            "type": "Operation",
             "key": "Dual Data Paths",
             "value": "",
             "description": [
@@ -3940,6 +4403,7 @@
           {
             "id": 43,
             "main_type": 1,
+            "type": "Operation",
             "key": "End to End Protection",
             "value": "",
             "description": [
@@ -3955,6 +4419,7 @@
       "classifier": {
         "id": 83,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Input Signal Validation",
         "description": [
@@ -3981,6 +4446,7 @@
       "classifier": {
         "id": 84,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Monitoring",
         "description": [
@@ -3995,6 +4461,7 @@
           {
             "id": 40,
             "main_type": 1,
+            "type": "Operation",
             "key": "Function Monitoring (L2)",
             "value": "",
             "description": [
@@ -4006,6 +4473,7 @@
           {
             "id": 41,
             "main_type": 1,
+            "type": "Operation",
             "key": "System Monitoring (L3)",
             "value": "",
             "description": [
@@ -4017,6 +4485,7 @@
           {
             "id": 59,
             "main_type": 1,
+            "type": "Operation",
             "key": "- alive Monitoring",
             "value": "",
             "description": [
@@ -4028,6 +4497,7 @@
           {
             "id": 60,
             "main_type": 1,
+            "type": "Operation",
             "key": "- control flow supervision",
             "value": "",
             "description": [
@@ -4043,6 +4513,7 @@
       "classifier": {
         "id": 85,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Real Time Execution",
         "description": [
@@ -4057,6 +4528,7 @@
           {
             "id": 44,
             "main_type": 1,
+            "type": "Operation",
             "key": "Guaranteed Calculation Time",
             "value": "",
             "description": [
@@ -4068,6 +4540,7 @@
           {
             "id": 45,
             "main_type": 1,
+            "type": "Operation",
             "key": "Real Time Clock",
             "value": "",
             "description": [
@@ -4083,6 +4556,7 @@
       "classifier": {
         "id": 86,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Static Code Analysis",
         "description": [
@@ -4101,6 +4575,7 @@
       "classifier": {
         "id": 87,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Code Generation",
         "description": [
@@ -4120,6 +4595,7 @@
       "classifier": {
         "id": 96,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "principle",
         "name": "SOLID",
         "description": [
@@ -4138,6 +4614,7 @@
       "classifier": {
         "id": 98,
         "main_type": 124,
+        "type": "Package",
         "stereotype": "",
         "name": "Simplicity",
         "description": [
@@ -4156,6 +4633,7 @@
       "classifier": {
         "id": 99,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "principle",
         "name": "Least Priviledge",
         "description": [
@@ -4174,6 +4652,7 @@
       "classifier": {
         "id": 101,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "principle",
         "name": "Loose Coupling",
         "description": [
@@ -4193,6 +4672,7 @@
       "classifier": {
         "id": 102,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "principle",
         "name": "Information Hiding",
         "description": [
@@ -4213,6 +4693,7 @@
       "classifier": {
         "id": 103,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "principle",
         "name": "Least Astonishment",
         "description": [
@@ -4227,6 +4708,7 @@
           {
             "id": 66,
             "main_type": 0,
+            "type": "Property",
             "key": "Conformity of style and concepts",
             "value": "",
             "description": [
@@ -4238,6 +4720,7 @@
           {
             "id": 67,
             "main_type": 0,
+            "type": "Property",
             "key": "Clear semantics of names",
             "value": "",
             "description": [
@@ -4255,6 +4738,7 @@
       "classifier": {
         "id": 104,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "principle",
         "name": "Strong Cohesion",
         "description": [
@@ -4273,6 +4757,7 @@
       "classifier": {
         "id": 105,
         "main_type": 100,
+        "type": "Actor",
         "stereotype": "",
         "name": "Finance",
         "description": [
@@ -4291,6 +4776,7 @@
       "classifier": {
         "id": 106,
         "main_type": 100,
+        "type": "Actor",
         "stereotype": "",
         "name": "Telecommunication",
         "description": [
@@ -4309,6 +4795,7 @@
       "classifier": {
         "id": 107,
         "main_type": 100,
+        "type": "Actor",
         "stereotype": "",
         "name": "Rail",
         "description": [
@@ -4327,6 +4814,7 @@
       "classifier": {
         "id": 108,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "",
         "name": "Secure Boot",
         "description": [
@@ -4345,6 +4833,7 @@
       "classifier": {
         "id": 109,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Mature Platform",
         "description": [
@@ -4359,6 +4848,7 @@
           {
             "id": 61,
             "main_type": 0,
+            "type": "Property",
             "key": "OS provides resource limits+guarantees",
             "value": "",
             "description": [
@@ -4370,6 +4860,7 @@
           {
             "id": 62,
             "main_type": 0,
+            "type": "Property",
             "key": "OS does not swap, does not overcommit",
             "value": "",
             "description": [
@@ -4381,6 +4872,7 @@
           {
             "id": 63,
             "main_type": 0,
+            "type": "Property",
             "key": "OS has mature peripheral-drivers",
             "value": "",
             "description": [
@@ -4392,6 +4884,7 @@
           {
             "id": 70,
             "main_type": 0,
+            "type": "Property",
             "key": "HW provides supervision",
             "value": "",
             "description": [
@@ -4409,6 +4902,7 @@
       "classifier": {
         "id": 110,
         "main_type": 100,
+        "type": "Actor",
         "stereotype": "",
         "name": "Energy",
         "description": [
@@ -4427,6 +4921,7 @@
       "classifier": {
         "id": 111,
         "main_type": 100,
+        "type": "Actor",
         "stereotype": "",
         "name": "Transport and Logistics",
         "description": [
@@ -4445,6 +4940,7 @@
       "classifier": {
         "id": 112,
         "main_type": 100,
+        "type": "Actor",
         "stereotype": "",
         "name": "Government",
         "description": [
@@ -4463,6 +4959,7 @@
       "classifier": {
         "id": 113,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "concept",
         "name": "Groups",
         "description": [
@@ -4483,6 +4980,7 @@
       "classifier": {
         "id": 114,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Certificates",
         "description": [
@@ -4497,6 +4995,7 @@
           {
             "id": 64,
             "main_type": 0,
+            "type": "Property",
             "key": "chain of certificates",
             "value": "",
             "description": [
@@ -4512,6 +5011,7 @@
       "classifier": {
         "id": 115,
         "main_type": 130,
+        "type": "Comment",
         "stereotype": "",
         "name": "How to create?",
         "description": [
@@ -4532,6 +5032,7 @@
       "classifier": {
         "id": 116,
         "main_type": 130,
+        "type": "Comment",
         "stereotype": "",
         "name": "What characteristics?",
         "description": [
@@ -4552,6 +5053,7 @@
       "classifier": {
         "id": 117,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "Unit Test",
         "description": [
@@ -4570,6 +5072,7 @@
       "classifier": {
         "id": 118,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "automated Tests",
         "description": [
@@ -4584,6 +5087,7 @@
           {
             "id": 69,
             "main_type": 0,
+            "type": "Property",
             "key": "Requirements Coverage",
             "value": "",
             "description": [
@@ -4595,6 +5099,7 @@
           {
             "id": 68,
             "main_type": 0,
+            "type": "Property",
             "key": "Code Coverage",
             "value": "",
             "description": [
@@ -4606,6 +5111,7 @@
           {
             "id": 80,
             "main_type": 0,
+            "type": "Property",
             "key": "Variant Coverage",
             "value": "",
             "description": [
@@ -4621,6 +5127,7 @@
       "classifier": {
         "id": 119,
         "main_type": 100,
+        "type": "Actor",
         "stereotype": "",
         "name": "Travel \/ Tourism",
         "description": [
@@ -4639,6 +5146,7 @@
       "classifier": {
         "id": 120,
         "main_type": 100,
+        "type": "Actor",
         "stereotype": "",
         "name": "Media\/Press\/Publishing",
         "description": [
@@ -4657,6 +5165,7 @@
       "classifier": {
         "id": 121,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "SoC HW Partitions",
         "description": [
@@ -4675,6 +5184,7 @@
           {
             "id": 71,
             "main_type": 0,
+            "type": "Property",
             "key": "Monitoring CPU",
             "value": "",
             "description": [
@@ -4686,6 +5196,7 @@
           {
             "id": 72,
             "main_type": 0,
+            "type": "Property",
             "key": "Trusted Execution Environment",
             "value": "",
             "description": [
@@ -4701,6 +5212,7 @@
       "classifier": {
         "id": 129,
         "main_type": 126,
+        "type": "Class",
         "stereotype": "",
         "name": "FMEA (Technical Risk Management)",
         "description": [
@@ -4721,6 +5233,7 @@
       "classifier": {
         "id": 132,
         "main_type": 121,
+        "type": "Component",
         "stereotype": "",
         "name": "Trust Levels",
         "description": [
@@ -4745,6 +5258,7 @@
       "classifier": {
         "id": 133,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "",
         "name": "Fail Secure",
         "description": [
@@ -4763,6 +5277,7 @@
       "classifier": {
         "id": 134,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "principle",
         "name": "Secure Weakest Link",
         "description": [
@@ -4781,6 +5296,7 @@
       "classifier": {
         "id": 135,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "",
         "name": "Secure Defaults",
         "description": [
@@ -4799,6 +5315,7 @@
       "classifier": {
         "id": 136,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "",
         "name": "Reduce Attack Surface",
         "description": [
@@ -4817,6 +5334,7 @@
       "classifier": {
         "id": 145,
         "main_type": 100,
+        "type": "Actor",
         "stereotype": "",
         "name": "Entertainment, Sports",
         "description": [
@@ -4835,6 +5353,7 @@
       "classifier": {
         "id": 146,
         "main_type": 100,
+        "type": "Actor",
         "stereotype": "",
         "name": "Home Automation",
         "description": [
@@ -4853,6 +5372,7 @@
       "classifier": {
         "id": 147,
         "main_type": 100,
+        "type": "Actor",
         "stereotype": "",
         "name": "Education",
         "description": [
@@ -4871,6 +5391,7 @@
       "classifier": {
         "id": 156,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "",
         "name": "Quality Characteristic",
         "description": [
@@ -4889,6 +5410,7 @@
       "classifier": {
         "id": 157,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "",
         "name": "Quality Subcharacteristic",
         "description": [
@@ -4910,6 +5432,7 @@
       "classifier": {
         "id": 159,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "verification",
         "name": "Quality Measure Element",
         "description": [
@@ -4932,6 +5455,7 @@
       "classifier": {
         "id": 160,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "solution space",
         "name": "Tactic",
         "description": [
@@ -4952,6 +5476,7 @@
       "classifier": {
         "id": 161,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "problem space",
         "name": "Quality Scenario",
         "description": [
@@ -4970,6 +5495,7 @@
       "classifier": {
         "id": 162,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "",
         "name": "Solution Strategy",
         "description": [
@@ -4988,6 +5514,7 @@
       "classifier": {
         "id": 163,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "",
         "name": "Topic\/Group (Quality tree)",
         "description": [
@@ -5008,6 +5535,7 @@
       "classifier": {
         "id": 164,
         "main_type": 130,
+        "type": "Comment",
         "stereotype": "problem space",
         "name": "Memory",
         "description": [
@@ -5032,6 +5560,7 @@
       "classifier": {
         "id": 165,
         "main_type": 126,
+        "type": "Class",
         "stereotype": "",
         "name": "Software Architecture in Practice",
         "description": [
@@ -5053,6 +5582,7 @@
       "classifier": {
         "id": 166,
         "main_type": 126,
+        "type": "Class",
         "stereotype": "",
         "name": "ISO\/IEC 9126",
         "description": [
@@ -5071,6 +5601,7 @@
       "classifier": {
         "id": 167,
         "main_type": 126,
+        "type": "Class",
         "stereotype": "",
         "name": "ISO\/IEC 25010:2011",
         "description": [
@@ -5089,6 +5620,7 @@
       "classifier": {
         "id": 168,
         "main_type": 126,
+        "type": "Class",
         "stereotype": "",
         "name": "arc42",
         "description": [
@@ -5107,6 +5639,7 @@
       "classifier": {
         "id": 169,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "strategy",
         "name": "Control Resource Command",
         "description": [
@@ -5127,6 +5660,7 @@
       "classifier": {
         "id": 170,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "strategy",
         "name": "Manage Resources",
         "description": [
@@ -5147,6 +5681,7 @@
       "classifier": {
         "id": 171,
         "main_type": 126,
+        "type": "Class",
         "stereotype": "",
         "name": "Software Estimation",
         "description": [
@@ -5168,6 +5703,7 @@
       "classifier": {
         "id": 172,
         "main_type": 126,
+        "type": "Class",
         "stereotype": "",
         "name": "Internet Security",
         "description": [
@@ -5189,6 +5725,7 @@
       "classifier": {
         "id": 173,
         "main_type": 126,
+        "type": "Class",
         "stereotype": "",
         "name": "High Integrity Software",
         "description": [
@@ -5210,6 +5747,7 @@
       "classifier": {
         "id": 174,
         "main_type": 126,
+        "type": "Class",
         "stereotype": "",
         "name": "Engineering a Safer World",
         "description": [
@@ -5231,6 +5769,7 @@
       "classifier": {
         "id": 175,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "",
         "name": "Control and Manage Resources",
         "description": [
@@ -5249,6 +5788,7 @@
       "classifier": {
         "id": 176,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Example Guidelines",
         "description": [
@@ -5263,6 +5803,7 @@
           {
             "id": 76,
             "main_type": 0,
+            "type": "Property",
             "key": "Spark\/ADA",
             "value": "Avionics",
             "description": [
@@ -5274,6 +5815,7 @@
           {
             "id": 77,
             "main_type": 0,
+            "type": "Property",
             "key": "Power of Ten",
             "value": "NASA",
             "description": [
@@ -5285,6 +5827,7 @@
           {
             "id": 78,
             "main_type": 0,
+            "type": "Property",
             "key": "SecureC",
             "value": "",
             "description": [
@@ -5296,6 +5839,7 @@
           {
             "id": 79,
             "main_type": 0,
+            "type": "Property",
             "key": "MISRA-C\/C++",
             "value": "automotive",
             "description": [
@@ -5311,6 +5855,7 @@
       "classifier": {
         "id": 177,
         "main_type": 126,
+        "type": "Class",
         "stereotype": "",
         "name": "ATAM (Architecture Tradeoff Analysis)",
         "description": [
@@ -5331,6 +5876,7 @@
       "classifier": {
         "id": 184,
         "main_type": 101,
+        "type": "UseCase",
         "stereotype": "problem space",
         "name": "Background-Fkt Use-Case2",
         "description": [
@@ -5353,6 +5899,7 @@
       "classifier": {
         "id": 185,
         "main_type": 101,
+        "type": "UseCase",
         "stereotype": "problem space",
         "name": "Dynamic-Fkt Use-Case",
         "description": [
@@ -5377,6 +5924,7 @@
       "classifier": {
         "id": 186,
         "main_type": 101,
+        "type": "UseCase",
         "stereotype": "problem space",
         "name": "Reliable-Fkt Use-Case",
         "description": [
@@ -5395,6 +5943,7 @@
       "classifier": {
         "id": 187,
         "main_type": 101,
+        "type": "UseCase",
         "stereotype": "problem space",
         "name": "Bounded-Fkt Use-Case",
         "description": [
@@ -5420,6 +5969,7 @@
       "classifier": {
         "id": 188,
         "main_type": 130,
+        "type": "Comment",
         "stereotype": "problem space",
         "name": "Quality expectations depend on use cases",
         "description": [
@@ -5440,6 +5990,7 @@
       "classifier": {
         "id": 189,
         "main_type": 126,
+        "type": "Class",
         "stereotype": "",
         "name": "Software Quality Engineering",
         "description": [
@@ -5461,6 +6012,7 @@
       "classifier": {
         "id": 190,
         "main_type": 121,
+        "type": "Component",
         "stereotype": "",
         "name": "entity",
         "description": [
@@ -5479,6 +6031,7 @@
       "classifier": {
         "id": 191,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "verification",
         "name": "Quality Measure",
         "description": [
@@ -5497,6 +6050,7 @@
       "classifier": {
         "id": 192,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "security analysis",
         "description": [
@@ -5515,6 +6069,7 @@
       "classifier": {
         "id": 197,
         "main_type": 124,
+        "type": "Package",
         "stereotype": "",
         "name": "Concepts to plan and control memory usage",
         "description": [
@@ -5533,6 +6088,7 @@
       "classifier": {
         "id": 198,
         "main_type": 124,
+        "type": "Package",
         "stereotype": "",
         "name": "Concepts to manage memory on the fly",
         "description": [
@@ -5551,6 +6107,7 @@
       "classifier": {
         "id": 201,
         "main_type": 130,
+        "type": "Comment",
         "stereotype": "solution space",
         "name": "Resource Competition",
         "description": [
@@ -5572,6 +6129,7 @@
       "classifier": {
         "id": 202,
         "main_type": 99,
+        "type": "Requirement",
         "stereotype": "",
         "name": "Access Memory immediately",
         "description": [
@@ -5590,6 +6148,7 @@
       "classifier": {
         "id": 203,
         "main_type": 99,
+        "type": "Requirement",
         "stereotype": "",
         "name": "Sufficient Memory",
         "description": [
@@ -5608,6 +6167,7 @@
       "classifier": {
         "id": 204,
         "main_type": 99,
+        "type": "Requirement",
         "stereotype": "",
         "name": "Delay Function",
         "description": [
@@ -5626,6 +6186,7 @@
       "classifier": {
         "id": 205,
         "main_type": 99,
+        "type": "Requirement",
         "stereotype": "",
         "name": "Degrade Result",
         "description": [
@@ -5644,6 +6205,7 @@
       "classifier": {
         "id": 206,
         "main_type": 99,
+        "type": "Requirement",
         "stereotype": "",
         "name": "Stop and Restart Later",
         "description": [
@@ -5662,6 +6224,7 @@
       "classifier": {
         "id": 207,
         "main_type": 99,
+        "type": "Requirement",
         "stereotype": "",
         "name": "Abort Function",
         "description": [
@@ -5680,6 +6243,7 @@
       "classifier": {
         "id": 208,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "solution space",
         "name": "Design Pattern",
         "description": [
@@ -5700,6 +6264,7 @@
       "classifier": {
         "id": 209,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "",
         "name": "Quality Requirement",
         "description": [
@@ -5718,6 +6283,7 @@
       "classifier": {
         "id": 218,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "incident management",
         "description": [
@@ -5736,6 +6302,7 @@
       "classifier": {
         "id": 219,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Automotive SPICE",
         "description": [
@@ -5750,6 +6317,7 @@
           {
             "id": 82,
             "main_type": 0,
+            "type": "Property",
             "key": "ISO\/IEC 33001:2015",
             "value": "",
             "description": [
@@ -5765,6 +6333,7 @@
       "classifier": {
         "id": 220,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "",
         "name": "Error Handling Concept",
         "description": [
@@ -5798,6 +6367,7 @@
       "classifier": {
         "id": 12,
         "main_type": 99,
+        "type": "Requirement",
         "stereotype": "",
         "name": "Maintainability",
         "description": [
@@ -5816,6 +6386,7 @@
       "classifier": {
         "id": 13,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Appropriate-ness",
         "description": [
@@ -5834,6 +6405,7 @@
       "classifier": {
         "id": 14,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Correctness",
         "description": [
@@ -5852,6 +6424,7 @@
       "classifier": {
         "id": 15,
         "main_type": 99,
+        "type": "Requirement",
         "stereotype": "",
         "name": "Functional Suitability",
         "description": [
@@ -5870,6 +6443,7 @@
       "classifier": {
         "id": 16,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Complete-ness",
         "description": [
@@ -5888,6 +6462,7 @@
       "classifier": {
         "id": 17,
         "main_type": 99,
+        "type": "Requirement",
         "stereotype": "",
         "name": "Usability",
         "description": [
@@ -5906,6 +6481,7 @@
       "classifier": {
         "id": 18,
         "main_type": 99,
+        "type": "Requirement",
         "stereotype": "",
         "name": "Security",
         "description": [
@@ -5924,6 +6500,7 @@
       "classifier": {
         "id": 19,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Resource Utilization",
         "description": [
@@ -5942,6 +6519,7 @@
       "classifier": {
         "id": 20,
         "main_type": 99,
+        "type": "Requirement",
         "stereotype": "",
         "name": "Portability",
         "description": [
@@ -5960,6 +6538,7 @@
       "classifier": {
         "id": 21,
         "main_type": 99,
+        "type": "Requirement",
         "stereotype": "",
         "name": "Reliability",
         "description": [
@@ -5978,6 +6557,7 @@
       "classifier": {
         "id": 22,
         "main_type": 99,
+        "type": "Requirement",
         "stereotype": "",
         "name": "Compatibility",
         "description": [
@@ -5996,6 +6576,7 @@
       "classifier": {
         "id": 23,
         "main_type": 99,
+        "type": "Requirement",
         "stereotype": "",
         "name": "Performance Efficiency",
         "description": [
@@ -6014,6 +6595,7 @@
       "classifier": {
         "id": 24,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Operability",
         "description": [
@@ -6032,6 +6614,7 @@
       "classifier": {
         "id": 25,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Time Behaviour",
         "description": [
@@ -6050,6 +6633,7 @@
       "classifier": {
         "id": 26,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Capacity",
         "description": [
@@ -6068,6 +6652,7 @@
       "classifier": {
         "id": 27,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Co-existence",
         "description": [
@@ -6086,6 +6671,7 @@
       "classifier": {
         "id": 28,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Inter-operability",
         "description": [
@@ -6104,6 +6690,7 @@
       "classifier": {
         "id": 29,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Accessibility",
         "description": [
@@ -6122,6 +6709,7 @@
       "classifier": {
         "id": 30,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Recogni-zability",
         "description": [
@@ -6140,6 +6728,7 @@
       "classifier": {
         "id": 31,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Aesthetics",
         "description": [
@@ -6158,6 +6747,7 @@
       "classifier": {
         "id": 32,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Learnability",
         "description": [
@@ -6176,6 +6766,7 @@
       "classifier": {
         "id": 33,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "User Error Protection",
         "description": [
@@ -6194,6 +6785,7 @@
       "classifier": {
         "id": 34,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Availability",
         "description": [
@@ -6212,6 +6804,7 @@
       "classifier": {
         "id": 35,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Maturity",
         "description": [
@@ -6230,6 +6823,7 @@
       "classifier": {
         "id": 36,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Fault Tolerance",
         "description": [
@@ -6248,6 +6842,7 @@
       "classifier": {
         "id": 37,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Recover-ability",
         "description": [
@@ -6266,6 +6861,7 @@
       "classifier": {
         "id": 38,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Non-Repudiation",
         "description": [
@@ -6284,6 +6880,7 @@
       "classifier": {
         "id": 39,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Confidentiality",
         "description": [
@@ -6302,6 +6899,7 @@
       "classifier": {
         "id": 40,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Integrity",
         "description": [
@@ -6320,6 +6918,7 @@
       "classifier": {
         "id": 41,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Accountability",
         "description": [
@@ -6338,6 +6937,7 @@
       "classifier": {
         "id": 42,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Authenticity",
         "description": [
@@ -6356,6 +6956,7 @@
       "classifier": {
         "id": 43,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Modularity",
         "description": [
@@ -6374,6 +6975,7 @@
       "classifier": {
         "id": 44,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Reusability",
         "description": [
@@ -6392,6 +6994,7 @@
       "classifier": {
         "id": 45,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Analyzability",
         "description": [
@@ -6410,6 +7013,7 @@
       "classifier": {
         "id": 46,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Modifyability",
         "description": [
@@ -6428,6 +7032,7 @@
       "classifier": {
         "id": 47,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Testability",
         "description": [
@@ -6446,6 +7051,7 @@
       "classifier": {
         "id": 89,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "principle",
         "name": "Single Responsability",
         "description": [
@@ -6464,6 +7070,7 @@
       "classifier": {
         "id": 90,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "principle",
         "name": "Open\/Closed",
         "description": [
@@ -6482,6 +7089,7 @@
       "classifier": {
         "id": 91,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "principle",
         "name": "Liskov Substitution",
         "description": [
@@ -6502,6 +7110,7 @@
       "classifier": {
         "id": 92,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "principle",
         "name": "Interface Segregation",
         "description": [
@@ -6521,6 +7130,7 @@
       "classifier": {
         "id": 93,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "principle",
         "name": "Dependency Inversion",
         "description": [
@@ -6535,6 +7145,7 @@
           {
             "id": 46,
             "main_type": 1,
+            "type": "Operation",
             "key": "use Abstractions",
             "value": "",
             "description": [
@@ -6550,6 +7161,7 @@
       "classifier": {
         "id": 94,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "principle",
         "name": "KISS",
         "description": [
@@ -6568,6 +7180,7 @@
       "classifier": {
         "id": 95,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "principle",
         "name": "YAGNI",
         "description": [
@@ -6586,6 +7199,7 @@
       "classifier": {
         "id": 97,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "principle",
         "name": "Occam's razor",
         "description": [
@@ -6604,6 +7218,7 @@
       "classifier": {
         "id": 123,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "conecpt",
         "name": "Dynamic Allocation accepting controlled death",
         "description": [
@@ -6625,6 +7240,7 @@
       "classifier": {
         "id": 125,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "conecpt",
         "name": "Weak Pointers \/ Caches",
         "description": [
@@ -6654,6 +7270,7 @@
       "classifier": {
         "id": 126,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "conecpt",
         "name": "Moving Memory Objects",
         "description": [
@@ -6685,6 +7302,7 @@
       "classifier": {
         "id": 130,
         "main_type": 126,
+        "type": "Class",
         "stereotype": "",
         "name": "TARA (Security Analysis)",
         "description": [
@@ -6703,6 +7321,7 @@
       "classifier": {
         "id": 131,
         "main_type": 126,
+        "type": "Class",
         "stereotype": "",
         "name": "Goal Structured Notation (Safety Case)",
         "description": [
@@ -6721,6 +7340,7 @@
       "classifier": {
         "id": 137,
         "main_type": 151,
+        "type": "InitialNode",
         "stereotype": "",
         "name": "start analysis",
         "description": [
@@ -6739,6 +7359,7 @@
       "classifier": {
         "id": 138,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "Define Assets to Protect",
         "description": [
@@ -6760,6 +7381,7 @@
       "classifier": {
         "id": 139,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "Define System Context",
         "description": [
@@ -6778,6 +7400,7 @@
       "classifier": {
         "id": 140,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "Show Locations of Assets",
         "description": [
@@ -6797,6 +7420,7 @@
       "classifier": {
         "id": 141,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "Define Attack Vectors",
         "description": [
@@ -6815,6 +7439,7 @@
       "classifier": {
         "id": 142,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "Define Mitigations",
         "description": [
@@ -6829,6 +7454,7 @@
           {
             "id": 81,
             "main_type": 7,
+            "type": "OutputPin",
             "key": "security requirements",
             "value": "",
             "description": [
@@ -6844,6 +7470,7 @@
       "classifier": {
         "id": 143,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "Re-evaluate Risks",
         "description": [
@@ -6862,6 +7489,7 @@
       "classifier": {
         "id": 144,
         "main_type": 152,
+        "type": "ActivityFinalNode",
         "stereotype": "",
         "name": "finish analysis",
         "description": [
@@ -6880,6 +7508,7 @@
       "classifier": {
         "id": 148,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "conecpt",
         "name": "Schedule tasks",
         "description": [
@@ -6901,6 +7530,7 @@
       "classifier": {
         "id": 149,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "conecpt",
         "name": "Region based Memory Management",
         "description": [
@@ -6938,6 +7568,7 @@
       "classifier": {
         "id": 150,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "conecpt",
         "name": "Static Allocation",
         "description": [
@@ -6966,6 +7597,7 @@
       "classifier": {
         "id": 151,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "conecpt",
         "name": "Object Pools",
         "description": [
@@ -6994,6 +7626,7 @@
       "classifier": {
         "id": 152,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Adaptability",
         "description": [
@@ -7012,6 +7645,7 @@
       "classifier": {
         "id": 153,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Replace-ability",
         "description": [
@@ -7030,6 +7664,7 @@
       "classifier": {
         "id": 154,
         "main_type": 90,
+        "type": "Block",
         "stereotype": "",
         "name": "Installability",
         "description": [
@@ -7048,6 +7683,7 @@
       "classifier": {
         "id": 155,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "conecpt",
         "name": "Dynamic Allocation accepting degradation",
         "description": [
@@ -7069,6 +7705,7 @@
       "classifier": {
         "id": 158,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "",
         "name": "Quality Attribute",
         "description": [
@@ -7087,6 +7724,7 @@
       "classifier": {
         "id": 178,
         "main_type": 99,
+        "type": "Requirement",
         "stereotype": "",
         "name": "Effectiveness",
         "description": [
@@ -7105,6 +7743,7 @@
       "classifier": {
         "id": 179,
         "main_type": 99,
+        "type": "Requirement",
         "stereotype": "",
         "name": "Efficiency",
         "description": [
@@ -7123,6 +7762,7 @@
       "classifier": {
         "id": 180,
         "main_type": 99,
+        "type": "Requirement",
         "stereotype": "",
         "name": "Satisfaction",
         "description": [
@@ -7141,6 +7781,7 @@
       "classifier": {
         "id": 181,
         "main_type": 99,
+        "type": "Requirement",
         "stereotype": "",
         "name": "Freedom from Risk",
         "description": [
@@ -7159,6 +7800,7 @@
       "classifier": {
         "id": 182,
         "main_type": 99,
+        "type": "Requirement",
         "stereotype": "",
         "name": "Context Coverage",
         "description": [
@@ -7177,6 +7819,7 @@
       "classifier": {
         "id": 194,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "conecpt",
         "name": "Static Size Buffering",
         "description": [
@@ -7196,6 +7839,7 @@
       "classifier": {
         "id": 195,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "conecpt",
         "name": "Remote Execution",
         "description": [
@@ -7215,6 +7859,7 @@
       "classifier": {
         "id": 196,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "concept",
         "name": "Dynamic Allocation accepting sudden death",
         "description": [
@@ -7241,6 +7886,7 @@
       "classifier": {
         "id": 199,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "concept",
         "name": "Stacks",
         "description": [
@@ -7262,6 +7908,7 @@
       "classifier": {
         "id": 200,
         "main_type": 125,
+        "type": "Class",
         "stereotype": "concept",
         "name": "Memory Estimation",
         "description": [
@@ -7283,6 +7930,7 @@
       "classifier": {
         "id": 210,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "Define Trust Boundaries",
         "description": [
@@ -7301,6 +7949,7 @@
       "classifier": {
         "id": 211,
         "main_type": 151,
+        "type": "InitialNode",
         "stereotype": "",
         "name": "start planning",
         "description": [
@@ -7319,6 +7968,7 @@
       "classifier": {
         "id": 212,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "Define activities to observe the operation",
         "description": [
@@ -7337,6 +7987,7 @@
       "classifier": {
         "id": 213,
         "main_type": 154,
+        "type": "ForkNode",
         "stereotype": "",
         "name": "par",
         "description": [
@@ -7355,6 +8006,7 @@
       "classifier": {
         "id": 214,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "Define rating for observed events",
         "description": [
@@ -7373,6 +8025,7 @@
       "classifier": {
         "id": 215,
         "main_type": 110,
+        "type": "Activity",
         "stereotype": "",
         "name": "Define reactions based on rating",
         "description": [
@@ -7391,6 +8044,7 @@
       "classifier": {
         "id": 216,
         "main_type": 155,
+        "type": "JoinNode",
         "stereotype": "",
         "name": "end par",
         "description": [
@@ -7409,6 +8063,7 @@
       "classifier": {
         "id": 217,
         "main_type": 152,
+        "type": "ActivityFinalNode",
         "stereotype": "",
         "name": "start operation",
         "description": [
@@ -7431,6 +8086,7 @@
       "relationship": {
         "id": 138,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "activities implement measures",
         "description": [
                 ""
@@ -7451,6 +8107,7 @@
       "relationship": {
         "id": 137,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "measures are checked",
         "description": [
                 ""
@@ -7471,6 +8128,7 @@
       "relationship": {
         "id": 139,
         "main_type": 0,
+        "type": "Dependency",
         "name": "Product quality influences quality-in-use",
         "description": [
                 ""
@@ -7491,6 +8149,7 @@
       "relationship": {
         "id": 191,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -7511,6 +8170,7 @@
       "relationship": {
         "id": 192,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -7531,6 +8191,7 @@
       "relationship": {
         "id": 193,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -7551,6 +8212,7 @@
       "relationship": {
         "id": 194,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -7571,6 +8233,7 @@
       "relationship": {
         "id": 195,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -7591,6 +8254,7 @@
       "relationship": {
         "id": 196,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -7611,6 +8275,7 @@
       "relationship": {
         "id": 197,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -7631,6 +8296,7 @@
       "relationship": {
         "id": 198,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -7651,6 +8317,7 @@
       "relationship": {
         "id": 140,
         "main_type": 0,
+        "type": "Dependency",
         "name": "Quality-in-use requires product quality",
         "description": [
                 ""
@@ -7671,6 +8338,7 @@
       "relationship": {
         "id": 186,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -7691,6 +8359,7 @@
       "relationship": {
         "id": 187,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -7711,6 +8380,7 @@
       "relationship": {
         "id": 188,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -7731,6 +8401,7 @@
       "relationship": {
         "id": 189,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -7751,6 +8422,7 @@
       "relationship": {
         "id": 190,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -7771,6 +8443,7 @@
       "relationship": {
         "id": 2,
         "main_type": 230,
+        "type": "CommunicationPath",
         "name": "creates",
         "description": [
                 ""
@@ -7791,6 +8464,7 @@
       "relationship": {
         "id": 3,
         "main_type": 0,
+        "type": "Dependency",
         "name": "enables",
         "description": [
                 ""
@@ -7811,6 +8485,7 @@
       "relationship": {
         "id": 5,
         "main_type": 0,
+        "type": "Dependency",
         "name": "enables",
         "description": [
                 ""
@@ -7831,6 +8506,7 @@
       "relationship": {
         "id": 6,
         "main_type": 0,
+        "type": "Dependency",
         "name": "controls",
         "description": [
                 ""
@@ -7851,6 +8527,7 @@
       "relationship": {
         "id": 4,
         "main_type": 0,
+        "type": "Dependency",
         "name": "enables",
         "description": [
                 ""
@@ -7871,6 +8548,7 @@
       "relationship": {
         "id": 1,
         "main_type": 230,
+        "type": "CommunicationPath",
         "name": "is precondition for",
         "description": [
                 ""
@@ -7891,6 +8569,7 @@
       "relationship": {
         "id": 39,
         "main_type": 200,
+        "type": "Association",
         "name": "improves",
         "description": [
                 ""
@@ -7911,6 +8590,7 @@
       "relationship": {
         "id": 40,
         "main_type": 200,
+        "type": "Association",
         "name": "improves",
         "description": [
                 ""
@@ -7931,6 +8611,7 @@
       "relationship": {
         "id": 41,
         "main_type": 200,
+        "type": "Association",
         "name": "improves",
         "description": [
                 ""
@@ -7951,6 +8632,7 @@
       "relationship": {
         "id": 42,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "is basis for",
         "description": [
                 ""
@@ -7971,6 +8653,7 @@
       "relationship": {
         "id": 50,
         "main_type": 0,
+        "type": "Dependency",
         "name": "defines",
         "description": [
                 ""
@@ -7991,6 +8674,7 @@
       "relationship": {
         "id": 43,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "is basis for",
         "description": [
                 ""
@@ -8011,6 +8695,7 @@
       "relationship": {
         "id": 51,
         "main_type": 0,
+        "type": "Dependency",
         "name": "defines",
         "description": [
                 ""
@@ -8031,6 +8716,7 @@
       "relationship": {
         "id": 44,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "is basis for",
         "description": [
                 ""
@@ -8051,6 +8737,7 @@
       "relationship": {
         "id": 52,
         "main_type": 0,
+        "type": "Dependency",
         "name": "defines",
         "description": [
                 ""
@@ -8071,6 +8758,7 @@
       "relationship": {
         "id": 45,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "is basis for",
         "description": [
                 "The Software Architecture defines the modules, interfaces and relations \n",
@@ -8092,6 +8780,7 @@
       "relationship": {
         "id": 53,
         "main_type": 0,
+        "type": "Dependency",
         "name": "defines",
         "description": [
                 "The Software Architecture defines the modules, interfaces and relations\n",
@@ -8113,6 +8802,7 @@
       "relationship": {
         "id": 133,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "",
         "description": [
                 ""
@@ -8133,6 +8823,7 @@
       "relationship": {
         "id": 47,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "feeds",
         "description": [
                 ""
@@ -8153,6 +8844,7 @@
       "relationship": {
         "id": 48,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "feeds",
         "description": [
                 ""
@@ -8173,6 +8865,7 @@
       "relationship": {
         "id": 49,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "feeds",
         "description": [
                 ""
@@ -8193,6 +8886,7 @@
       "relationship": {
         "id": 55,
         "main_type": 200,
+        "type": "Association",
         "name": "enhances",
         "description": [
                 ""
@@ -8213,6 +8907,7 @@
       "relationship": {
         "id": 89,
         "main_type": 200,
+        "type": "Association",
         "name": "supports",
         "description": [
                 ""
@@ -8233,6 +8928,7 @@
       "relationship": {
         "id": 96,
         "main_type": 200,
+        "type": "Association",
         "name": "may support a claim",
         "description": [
                 ""
@@ -8253,6 +8949,7 @@
       "relationship": {
         "id": 129,
         "main_type": 230,
+        "type": "CommunicationPath",
         "name": "",
         "description": [
                 ""
@@ -8273,6 +8970,7 @@
       "relationship": {
         "id": 130,
         "main_type": 230,
+        "type": "CommunicationPath",
         "name": "",
         "description": [
                 ""
@@ -8293,6 +8991,7 @@
       "relationship": {
         "id": 87,
         "main_type": 211,
+        "type": "Realization",
         "name": "implements",
         "description": [
                 ""
@@ -8313,6 +9012,7 @@
       "relationship": {
         "id": 88,
         "main_type": 211,
+        "type": "Realization",
         "name": "implements",
         "description": [
                 ""
@@ -8333,6 +9033,7 @@
       "relationship": {
         "id": 90,
         "main_type": 200,
+        "type": "Association",
         "name": "supports",
         "description": [
                 ""
@@ -8353,6 +9054,7 @@
       "relationship": {
         "id": 91,
         "main_type": 200,
+        "type": "Association",
         "name": "supports",
         "description": [
                 ""
@@ -8373,6 +9075,7 @@
       "relationship": {
         "id": 97,
         "main_type": 200,
+        "type": "Association",
         "name": "may support",
         "description": [
                 ""
@@ -8393,6 +9096,7 @@
       "relationship": {
         "id": 120,
         "main_type": 230,
+        "type": "CommunicationPath",
         "name": "may support",
         "description": [
                 ""
@@ -8413,6 +9117,7 @@
       "relationship": {
         "id": 123,
         "main_type": 200,
+        "type": "Association",
         "name": "support",
         "description": [
                 ""
@@ -8433,6 +9138,7 @@
       "relationship": {
         "id": 92,
         "main_type": 200,
+        "type": "Association",
         "name": "supports",
         "description": [
                 ""
@@ -8453,6 +9159,7 @@
       "relationship": {
         "id": 94,
         "main_type": 200,
+        "type": "Association",
         "name": "may support a claim",
         "description": [
                 ""
@@ -8473,6 +9180,7 @@
       "relationship": {
         "id": 95,
         "main_type": 200,
+        "type": "Association",
         "name": "may support a claim",
         "description": [
                 ""
@@ -8493,6 +9201,7 @@
       "relationship": {
         "id": 128,
         "main_type": 230,
+        "type": "CommunicationPath",
         "name": "",
         "description": [
                 ""
@@ -8513,6 +9222,7 @@
       "relationship": {
         "id": 93,
         "main_type": 200,
+        "type": "Association",
         "name": "may support a claim",
         "description": [
                 ""
@@ -8533,6 +9243,7 @@
       "relationship": {
         "id": 98,
         "main_type": 200,
+        "type": "Association",
         "name": "may support a claim",
         "description": [
                 ""
@@ -8553,6 +9264,7 @@
       "relationship": {
         "id": 99,
         "main_type": 200,
+        "type": "Association",
         "name": "enhances",
         "description": [
                 ""
@@ -8573,6 +9285,7 @@
       "relationship": {
         "id": 100,
         "main_type": 200,
+        "type": "Association",
         "name": "supports",
         "description": [
                 ""
@@ -8593,6 +9306,7 @@
       "relationship": {
         "id": 101,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -8613,6 +9327,7 @@
       "relationship": {
         "id": 102,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -8633,6 +9348,7 @@
       "relationship": {
         "id": 103,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -8653,6 +9369,7 @@
       "relationship": {
         "id": 104,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -8673,6 +9390,7 @@
       "relationship": {
         "id": 105,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -8693,6 +9411,7 @@
       "relationship": {
         "id": 111,
         "main_type": 200,
+        "type": "Association",
         "name": "supports",
         "description": [
                 ""
@@ -8713,6 +9432,7 @@
       "relationship": {
         "id": 106,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -8733,6 +9453,7 @@
       "relationship": {
         "id": 107,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -8753,6 +9474,7 @@
       "relationship": {
         "id": 108,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -8773,6 +9495,7 @@
       "relationship": {
         "id": 109,
         "main_type": 400,
+        "type": "Refine",
         "name": "supports",
         "description": [
                 ""
@@ -8793,6 +9516,7 @@
       "relationship": {
         "id": 110,
         "main_type": 400,
+        "type": "Refine",
         "name": "supports",
         "description": [
                 ""
@@ -8813,6 +9537,7 @@
       "relationship": {
         "id": 112,
         "main_type": 200,
+        "type": "Association",
         "name": "supports",
         "description": [
                 ""
@@ -8833,6 +9558,7 @@
       "relationship": {
         "id": 114,
         "main_type": 200,
+        "type": "Association",
         "name": "supports",
         "description": [
                 ""
@@ -8853,6 +9579,7 @@
       "relationship": {
         "id": 115,
         "main_type": 200,
+        "type": "Association",
         "name": "enables",
         "description": [
                 ""
@@ -8873,6 +9600,7 @@
       "relationship": {
         "id": 116,
         "main_type": 200,
+        "type": "Association",
         "name": "supports",
         "description": [
                 ""
@@ -8893,6 +9621,7 @@
       "relationship": {
         "id": 117,
         "main_type": 200,
+        "type": "Association",
         "name": "simplifies",
         "description": [
                 ""
@@ -8913,6 +9642,7 @@
       "relationship": {
         "id": 118,
         "main_type": 200,
+        "type": "Association",
         "name": "simplifies",
         "description": [
                 ""
@@ -8933,6 +9663,7 @@
       "relationship": {
         "id": 119,
         "main_type": 0,
+        "type": "Dependency",
         "name": "influences",
         "description": [
                 ""
@@ -8953,6 +9684,7 @@
       "relationship": {
         "id": 121,
         "main_type": 200,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -8973,6 +9705,7 @@
       "relationship": {
         "id": 122,
         "main_type": 200,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -8993,6 +9726,7 @@
       "relationship": {
         "id": 124,
         "main_type": 200,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9013,6 +9747,7 @@
       "relationship": {
         "id": 125,
         "main_type": 200,
+        "type": "Association",
         "name": "support",
         "description": [
                 ""
@@ -9033,6 +9768,7 @@
       "relationship": {
         "id": 126,
         "main_type": 200,
+        "type": "Association",
         "name": "use",
         "description": [
                 ""
@@ -9053,6 +9789,7 @@
       "relationship": {
         "id": 127,
         "main_type": 200,
+        "type": "Association",
         "name": "divide and manage",
         "description": [
                 ""
@@ -9073,6 +9810,7 @@
       "relationship": {
         "id": 131,
         "main_type": 0,
+        "type": "Dependency",
         "name": "",
         "description": [
                 ""
@@ -9093,6 +9831,7 @@
       "relationship": {
         "id": 132,
         "main_type": 0,
+        "type": "Dependency",
         "name": "",
         "description": [
                 ""
@@ -9113,6 +9852,7 @@
       "relationship": {
         "id": 134,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "feeds",
         "description": [
                 ""
@@ -9133,6 +9873,7 @@
       "relationship": {
         "id": 135,
         "main_type": 200,
+        "type": "Association",
         "name": "limit risks at changes",
         "description": [
                 ""
@@ -9153,6 +9894,7 @@
       "relationship": {
         "id": 136,
         "main_type": 200,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9173,6 +9915,7 @@
       "relationship": {
         "id": 141,
         "main_type": 211,
+        "type": "Realization",
         "name": "implements",
         "description": [
                 ""
@@ -9193,6 +9936,7 @@
       "relationship": {
         "id": 142,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9213,6 +9957,7 @@
       "relationship": {
         "id": 143,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9233,6 +9978,7 @@
       "relationship": {
         "id": 144,
         "main_type": 0,
+        "type": "Dependency",
         "name": "require",
         "description": [
                 ""
@@ -9253,6 +9999,7 @@
       "relationship": {
         "id": 146,
         "main_type": 200,
+        "type": "Association",
         "name": "helps",
         "description": [
                 ""
@@ -9273,6 +10020,7 @@
       "relationship": {
         "id": 158,
         "main_type": 201,
+        "type": "Association",
         "name": "has a set of",
         "description": [
                 ""
@@ -9293,6 +10041,7 @@
       "relationship": {
         "id": 200,
         "main_type": 200,
+        "type": "Association",
         "name": "measurement",
         "description": [
                 ""
@@ -9313,6 +10062,7 @@
       "relationship": {
         "id": 165,
         "main_type": 0,
+        "type": "Dependency",
         "name": "defines expectations",
         "description": [
                 ""
@@ -9333,6 +10083,7 @@
       "relationship": {
         "id": 163,
         "main_type": 201,
+        "type": "Association",
         "name": "selects (1:n)",
         "description": [
                 ""
@@ -9353,6 +10104,7 @@
       "relationship": {
         "id": 164,
         "main_type": 0,
+        "type": "Dependency",
         "name": "influences (n:m)",
         "description": [
                 ""
@@ -9373,6 +10125,7 @@
       "relationship": {
         "id": 162,
         "main_type": 201,
+        "type": "Association",
         "name": "refers to (n:m)",
         "description": [
                 ""
@@ -9393,6 +10146,7 @@
       "relationship": {
         "id": 166,
         "main_type": 0,
+        "type": "Dependency",
         "name": "refines",
         "description": [
                 ""
@@ -9413,6 +10167,7 @@
       "relationship": {
         "id": 249,
         "main_type": 201,
+        "type": "Association",
         "name": "groups",
         "description": [
                 ""
@@ -9433,6 +10188,7 @@
       "relationship": {
         "id": 167,
         "main_type": 0,
+        "type": "Dependency",
         "name": "",
         "description": [
                 ""
@@ -9453,6 +10209,7 @@
       "relationship": {
         "id": 211,
         "main_type": 0,
+        "type": "Dependency",
         "name": "",
         "description": [
                 ""
@@ -9473,6 +10230,7 @@
       "relationship": {
         "id": 212,
         "main_type": 0,
+        "type": "Dependency",
         "name": "",
         "description": [
                 ""
@@ -9493,6 +10251,7 @@
       "relationship": {
         "id": 171,
         "main_type": 230,
+        "type": "CommunicationPath",
         "name": "control",
         "description": [
                 ""
@@ -9513,6 +10272,7 @@
       "relationship": {
         "id": 170,
         "main_type": 230,
+        "type": "CommunicationPath",
         "name": "control",
         "description": [
                 ""
@@ -9533,6 +10293,7 @@
       "relationship": {
         "id": 173,
         "main_type": 200,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9553,6 +10314,7 @@
       "relationship": {
         "id": 174,
         "main_type": 211,
+        "type": "Realization",
         "name": "implements",
         "description": [
                 ""
@@ -9573,6 +10335,7 @@
       "relationship": {
         "id": 199,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9593,6 +10356,7 @@
       "relationship": {
         "id": 201,
         "main_type": 0,
+        "type": "Dependency",
         "name": "indicates quality",
         "description": [
                 ""
@@ -9613,6 +10377,7 @@
       "relationship": {
         "id": 202,
         "main_type": 200,
+        "type": "Association",
         "name": "base measurement (1:n)",
         "description": [
                 ""
@@ -9633,6 +10398,7 @@
       "relationship": {
         "id": 203,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9653,6 +10419,7 @@
       "relationship": {
         "id": 204,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9673,6 +10440,7 @@
       "relationship": {
         "id": 205,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9693,6 +10461,7 @@
       "relationship": {
         "id": 206,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9713,6 +10482,7 @@
       "relationship": {
         "id": 207,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9733,6 +10503,7 @@
       "relationship": {
         "id": 208,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9753,6 +10524,7 @@
       "relationship": {
         "id": 209,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9773,6 +10545,7 @@
       "relationship": {
         "id": 210,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9793,6 +10566,7 @@
       "relationship": {
         "id": 250,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9813,6 +10587,7 @@
       "relationship": {
         "id": 215,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9833,6 +10608,7 @@
       "relationship": {
         "id": 216,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9853,6 +10629,7 @@
       "relationship": {
         "id": 217,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9873,6 +10650,7 @@
       "relationship": {
         "id": 218,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9893,6 +10671,7 @@
       "relationship": {
         "id": 219,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9913,6 +10692,7 @@
       "relationship": {
         "id": 227,
         "main_type": 211,
+        "type": "Realization",
         "name": "",
         "description": [
                 ""
@@ -9933,6 +10713,7 @@
       "relationship": {
         "id": 228,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9953,6 +10734,7 @@
       "relationship": {
         "id": 220,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9973,6 +10755,7 @@
       "relationship": {
         "id": 221,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -9993,6 +10776,7 @@
       "relationship": {
         "id": 222,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10013,6 +10797,7 @@
       "relationship": {
         "id": 223,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10033,6 +10818,7 @@
       "relationship": {
         "id": 224,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10053,6 +10839,7 @@
       "relationship": {
         "id": 225,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10073,6 +10860,7 @@
       "relationship": {
         "id": 226,
         "main_type": 211,
+        "type": "Realization",
         "name": "",
         "description": [
                 ""
@@ -10093,6 +10881,7 @@
       "relationship": {
         "id": 229,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10113,6 +10902,7 @@
       "relationship": {
         "id": 230,
         "main_type": 0,
+        "type": "Dependency",
         "name": "",
         "description": [
                 ""
@@ -10133,6 +10923,7 @@
       "relationship": {
         "id": 231,
         "main_type": 0,
+        "type": "Dependency",
         "name": "",
         "description": [
                 ""
@@ -10153,6 +10944,7 @@
       "relationship": {
         "id": 237,
         "main_type": 401,
+        "type": "Trace",
         "name": "",
         "description": [
                 ""
@@ -10173,6 +10965,7 @@
       "relationship": {
         "id": 239,
         "main_type": 401,
+        "type": "Trace",
         "name": "",
         "description": [
                 ""
@@ -10193,6 +10986,7 @@
       "relationship": {
         "id": 233,
         "main_type": 401,
+        "type": "Trace",
         "name": "",
         "description": [
                 ""
@@ -10213,6 +11007,7 @@
       "relationship": {
         "id": 240,
         "main_type": 401,
+        "type": "Trace",
         "name": "",
         "description": [
                 ""
@@ -10233,6 +11028,7 @@
       "relationship": {
         "id": 232,
         "main_type": 401,
+        "type": "Trace",
         "name": "",
         "description": [
                 ""
@@ -10253,6 +11049,7 @@
       "relationship": {
         "id": 243,
         "main_type": 401,
+        "type": "Trace",
         "name": "",
         "description": [
                 ""
@@ -10273,6 +11070,7 @@
       "relationship": {
         "id": 234,
         "main_type": 401,
+        "type": "Trace",
         "name": "",
         "description": [
                 ""
@@ -10293,6 +11091,7 @@
       "relationship": {
         "id": 242,
         "main_type": 401,
+        "type": "Trace",
         "name": "",
         "description": [
                 ""
@@ -10313,6 +11112,7 @@
       "relationship": {
         "id": 246,
         "main_type": 401,
+        "type": "Trace",
         "name": "",
         "description": [
                 ""
@@ -10333,6 +11133,7 @@
       "relationship": {
         "id": 236,
         "main_type": 401,
+        "type": "Trace",
         "name": "",
         "description": [
                 ""
@@ -10353,6 +11154,7 @@
       "relationship": {
         "id": 244,
         "main_type": 401,
+        "type": "Trace",
         "name": "",
         "description": [
                 ""
@@ -10373,6 +11175,7 @@
       "relationship": {
         "id": 238,
         "main_type": 401,
+        "type": "Trace",
         "name": "",
         "description": [
                 ""
@@ -10393,6 +11196,7 @@
       "relationship": {
         "id": 241,
         "main_type": 401,
+        "type": "Trace",
         "name": "",
         "description": [
                 ""
@@ -10413,6 +11217,7 @@
       "relationship": {
         "id": 245,
         "main_type": 401,
+        "type": "Trace",
         "name": "",
         "description": [
                 ""
@@ -10433,6 +11238,7 @@
       "relationship": {
         "id": 247,
         "main_type": 211,
+        "type": "Realization",
         "name": "0..n",
         "description": [
                 ""
@@ -10453,6 +11259,7 @@
       "relationship": {
         "id": 248,
         "main_type": 400,
+        "type": "Refine",
         "name": "",
         "description": [
                 ""
@@ -10473,6 +11280,7 @@
       "relationship": {
         "id": 260,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10493,6 +11301,7 @@
       "relationship": {
         "id": 261,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10513,6 +11322,7 @@
       "relationship": {
         "id": 262,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10533,6 +11343,7 @@
       "relationship": {
         "id": 263,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10553,6 +11364,7 @@
       "relationship": {
         "id": 264,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10573,6 +11385,7 @@
       "relationship": {
         "id": 265,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10593,6 +11406,7 @@
       "relationship": {
         "id": 266,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10613,6 +11427,7 @@
       "relationship": {
         "id": 267,
         "main_type": 200,
+        "type": "Association",
         "name": "supports",
         "description": [
                 ""
@@ -10633,6 +11448,7 @@
       "relationship": {
         "id": 77,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10653,6 +11469,7 @@
       "relationship": {
         "id": 78,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10673,6 +11490,7 @@
       "relationship": {
         "id": 79,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10693,6 +11511,7 @@
       "relationship": {
         "id": 80,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10713,6 +11532,7 @@
       "relationship": {
         "id": 81,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10733,6 +11553,7 @@
       "relationship": {
         "id": 56,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10753,6 +11574,7 @@
       "relationship": {
         "id": 57,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10773,6 +11595,7 @@
       "relationship": {
         "id": 58,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10793,6 +11616,7 @@
       "relationship": {
         "id": 71,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10813,6 +11637,7 @@
       "relationship": {
         "id": 72,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10833,6 +11658,7 @@
       "relationship": {
         "id": 73,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10853,6 +11679,7 @@
       "relationship": {
         "id": 74,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10873,6 +11700,7 @@
       "relationship": {
         "id": 75,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10893,6 +11721,7 @@
       "relationship": {
         "id": 76,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10913,6 +11742,7 @@
       "relationship": {
         "id": 82,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10933,6 +11763,7 @@
       "relationship": {
         "id": 83,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10953,6 +11784,7 @@
       "relationship": {
         "id": 84,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10973,6 +11805,7 @@
       "relationship": {
         "id": 85,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -10993,6 +11826,7 @@
       "relationship": {
         "id": 86,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -11013,6 +11847,7 @@
       "relationship": {
         "id": 155,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -11033,6 +11868,7 @@
       "relationship": {
         "id": 156,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -11053,6 +11889,7 @@
       "relationship": {
         "id": 157,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -11073,6 +11910,7 @@
       "relationship": {
         "id": 62,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -11093,6 +11931,7 @@
       "relationship": {
         "id": 63,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -11113,6 +11952,7 @@
       "relationship": {
         "id": 64,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -11133,6 +11973,7 @@
       "relationship": {
         "id": 65,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -11153,6 +11994,7 @@
       "relationship": {
         "id": 66,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -11173,6 +12015,7 @@
       "relationship": {
         "id": 67,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -11193,6 +12036,7 @@
       "relationship": {
         "id": 59,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -11213,6 +12057,7 @@
       "relationship": {
         "id": 60,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -11233,6 +12078,7 @@
       "relationship": {
         "id": 61,
         "main_type": 300,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
@@ -11253,6 +12099,7 @@
       "relationship": {
         "id": 147,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "",
         "description": [
                 ""
@@ -11273,6 +12120,7 @@
       "relationship": {
         "id": 151,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "",
         "description": [
                 ""
@@ -11293,6 +12141,7 @@
       "relationship": {
         "id": 152,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "",
         "description": [
                 ""
@@ -11313,6 +12162,7 @@
       "relationship": {
         "id": 251,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "",
         "description": [
                 ""
@@ -11333,6 +12183,7 @@
       "relationship": {
         "id": 150,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "",
         "description": [
                 ""
@@ -11353,6 +12204,7 @@
       "relationship": {
         "id": 153,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "",
         "description": [
                 ""
@@ -11373,6 +12225,7 @@
       "relationship": {
         "id": 154,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "",
         "description": [
                 ""
@@ -11393,6 +12246,7 @@
       "relationship": {
         "id": 214,
         "main_type": 210,
+        "type": "Generalization",
         "name": "",
         "description": [
                 ""
@@ -11413,6 +12267,7 @@
       "relationship": {
         "id": 252,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "",
         "description": [
                 ""
@@ -11433,6 +12288,7 @@
       "relationship": {
         "id": 253,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "",
         "description": [
                 ""
@@ -11453,6 +12309,7 @@
       "relationship": {
         "id": 258,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "",
         "description": [
                 ""
@@ -11473,6 +12330,7 @@
       "relationship": {
         "id": 254,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "",
         "description": [
                 ""
@@ -11493,6 +12351,7 @@
       "relationship": {
         "id": 255,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "",
         "description": [
                 ""
@@ -11513,6 +12372,7 @@
       "relationship": {
         "id": 256,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "",
         "description": [
                 ""
@@ -11533,6 +12393,7 @@
       "relationship": {
         "id": 257,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "",
         "description": [
                 ""
@@ -11553,6 +12414,7 @@
       "relationship": {
         "id": 259,
         "main_type": 240,
+        "type": "ControlFlow",
         "name": "",
         "description": [
                 ""
