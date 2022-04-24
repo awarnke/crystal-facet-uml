@@ -17,7 +17,7 @@ const char *const DATA_DATABASE_TEXT_SEARCH_SQL_ENCODE[][2] = {
     { NULL, NULL }
 };
 
-u8_error_t data_database_text_search_init ( data_database_text_search_t *this_, data_database_t *database )
+u8_error_t data_database_text_search_init( data_database_text_search_t *this_, data_database_t *database )
 {
     TRACE_BEGIN();
     assert( NULL != database );
@@ -26,7 +26,7 @@ u8_error_t data_database_text_search_init ( data_database_text_search_t *this_, 
     (*this_).database = database;
     (*this_).is_open = false;
 
-    data_database_listener_init ( &((*this_).me_as_listener), this_, (void (*)(void*,data_database_listener_signal_t)) &data_database_text_search_db_change_callback );
+    data_database_listener_init( &((*this_).me_as_listener), this_, (void (*)(void*,data_database_listener_signal_t)) &data_database_text_search_db_change_callback );
     data_database_add_db_listener( database, &((*this_).me_as_listener) );
 
     if ( data_database_is_open( database ) )
@@ -41,7 +41,7 @@ u8_error_t data_database_text_search_init ( data_database_text_search_t *this_, 
     return result;
 }
 
-u8_error_t data_database_text_search_destroy ( data_database_text_search_t *this_ )
+u8_error_t data_database_text_search_destroy( data_database_text_search_t *this_ )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -61,7 +61,7 @@ u8_error_t data_database_text_search_destroy ( data_database_text_search_t *this
     return result;
 }
 
-void data_database_text_search_db_change_callback ( data_database_text_search_t *this_, data_database_listener_signal_t signal_id )
+void data_database_text_search_db_change_callback( data_database_text_search_t *this_, data_database_listener_signal_t signal_id )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -98,9 +98,9 @@ void data_database_text_search_db_change_callback ( data_database_text_search_t 
     TRACE_END();
 }
 
-u8_error_t data_database_text_search_get_objects_by_textfragment ( data_database_text_search_t *this_,
-                                                                     const char *textfragment,
-                                                                     data_search_result_list_t *io_results )
+u8_error_t data_database_text_search_get_objects_by_textfragment( data_database_text_search_t *this_,
+                                                                  const char *textfragment,
+                                                                  data_search_result_list_t *io_results )
 {
     TRACE_BEGIN();
     assert( NULL != io_results );
@@ -183,9 +183,9 @@ static const int RESULT_DIAGRAM_TYPE_COLUMN = 1;
 static const int RESULT_DIAGRAM_NAME_COLUMN = 2;
 
 
-u8_error_t data_database_text_search_private_get_diagrams_by_textfragment ( data_database_text_search_t *this_,
-                                                                              const char *textfragment,
-                                                                              data_search_result_list_t *io_results )
+u8_error_t data_database_text_search_private_get_diagrams_by_textfragment( data_database_text_search_t *this_,
+                                                                           const char *textfragment,
+                                                                           data_search_result_list_t *io_results )
 {
     TRACE_BEGIN();
     assert( NULL != io_results );
@@ -285,9 +285,9 @@ static const int RESULT_CLASSIFIER_NAME_COLUMN = 2;
  */
 static const int RESULT_CLASSIFIER_DIAGRAM_ID_COLUMN = 3;
 
-u8_error_t data_database_text_search_private_get_classifiers_by_textfragment ( data_database_text_search_t *this_,
-                                                                                 const char *textfragment,
-                                                                                 data_search_result_list_t *io_results )
+u8_error_t data_database_text_search_private_get_classifiers_by_textfragment( data_database_text_search_t *this_,
+                                                                              const char *textfragment,
+                                                                              data_search_result_list_t *io_results )
 {
     TRACE_BEGIN();
     assert( NULL != io_results );
@@ -406,9 +406,9 @@ static const int RESULT_FEATURE_DIAGRAM_ID_COLUMN = 5;
  */
 static const int RESULT_FEATURE_DIAGRAM_TYPE_COLUMN = 6;
 
-u8_error_t data_database_text_search_private_get_features_by_textfragment ( data_database_text_search_t *this_,
-                                                                              const char *textfragment,
-                                                                              data_search_result_list_t *io_results )
+u8_error_t data_database_text_search_private_get_features_by_textfragment( data_database_text_search_t *this_,
+                                                                           const char *textfragment,
+                                                                           data_search_result_list_t *io_results )
 {
     TRACE_BEGIN();
     assert( NULL != io_results );
@@ -564,9 +564,9 @@ static const int RESULT_RELATIONSHIP_DIAGRAM_ID_COLUMN = 7;
  */
 static const int RESULT_RELATIONSHIP_DIAGRAM_TYPE_COLUMN = 8;
 
-u8_error_t data_database_text_search_private_get_relationships_by_textfragment ( data_database_text_search_t *this_,
-                                                                                   const char *textfragment,
-                                                                                   data_search_result_list_t *io_results )
+u8_error_t data_database_text_search_private_get_relationships_by_textfragment( data_database_text_search_t *this_,
+                                                                                const char *textfragment,
+                                                                                data_search_result_list_t *io_results )
 {
     TRACE_BEGIN();
     assert( NULL != io_results );
@@ -671,33 +671,33 @@ u8_error_t data_database_text_search_private_get_relationships_by_textfragment (
 
 /* ================================ private ================================ */
 
-u8_error_t data_database_text_search_private_open ( data_database_text_search_t *this_ )
+u8_error_t data_database_text_search_private_open( data_database_text_search_t *this_ )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
     if ( ! (*this_).is_open )
     {
-        result |= data_database_text_search_private_prepare_statement ( this_,
-                                                                        data_database_text_search_SELECT_DIAGRAM_BY_TEXTFRAGMENT,
-                                                                        sizeof( data_database_text_search_SELECT_DIAGRAM_BY_TEXTFRAGMENT ),
-                                                                        &((*this_).private_prepared_query_diagram_ids_by_textfragment)
-                                                                      );
-        result |= data_database_text_search_private_prepare_statement ( this_,
-                                                                        data_database_text_search_SELECT_CLASSIFIER_BY_TEXTFRAGMENT,
-                                                                        sizeof( data_database_text_search_SELECT_CLASSIFIER_BY_TEXTFRAGMENT ),
-                                                                        &((*this_).private_prepared_query_classifier_ids_by_textfragment)
-                                                                      );
-        result |= data_database_text_search_private_prepare_statement ( this_,
-                                                                        data_database_text_search_SELECT_FEATURE_BY_TEXTFRAGMENT,
-                                                                        sizeof( data_database_text_search_SELECT_FEATURE_BY_TEXTFRAGMENT ),
-                                                                        &((*this_).private_prepared_query_feature_ids_by_textfragment)
-                                                                      );
-        result |= data_database_text_search_private_prepare_statement ( this_,
-                                                                        data_database_text_search_SELECT_RELATIONSHIP_BY_TEXTFRAGMENT,
-                                                                        sizeof( data_database_text_search_SELECT_RELATIONSHIP_BY_TEXTFRAGMENT ),
-                                                                        &((*this_).private_prepared_query_relationship_ids_by_textfragment)
-                                                                      );
+        result |= data_database_text_search_private_prepare_statement( this_,
+                                                                       data_database_text_search_SELECT_DIAGRAM_BY_TEXTFRAGMENT,
+                                                                       sizeof( data_database_text_search_SELECT_DIAGRAM_BY_TEXTFRAGMENT ),
+                                                                       &((*this_).private_prepared_query_diagram_ids_by_textfragment)
+                                                                     );
+        result |= data_database_text_search_private_prepare_statement( this_,
+                                                                       data_database_text_search_SELECT_CLASSIFIER_BY_TEXTFRAGMENT,
+                                                                       sizeof( data_database_text_search_SELECT_CLASSIFIER_BY_TEXTFRAGMENT ),
+                                                                       &((*this_).private_prepared_query_classifier_ids_by_textfragment)
+                                                                     );
+        result |= data_database_text_search_private_prepare_statement( this_,
+                                                                       data_database_text_search_SELECT_FEATURE_BY_TEXTFRAGMENT,
+                                                                       sizeof( data_database_text_search_SELECT_FEATURE_BY_TEXTFRAGMENT ),
+                                                                       &((*this_).private_prepared_query_feature_ids_by_textfragment)
+                                                                     );
+        result |= data_database_text_search_private_prepare_statement( this_,
+                                                                       data_database_text_search_SELECT_RELATIONSHIP_BY_TEXTFRAGMENT,
+                                                                       sizeof( data_database_text_search_SELECT_RELATIONSHIP_BY_TEXTFRAGMENT ),
+                                                                       &((*this_).private_prepared_query_relationship_ids_by_textfragment)
+                                                                     );
 
         (*this_).is_open = true;
     }
@@ -711,7 +711,7 @@ u8_error_t data_database_text_search_private_open ( data_database_text_search_t 
     return result;
 }
 
-u8_error_t data_database_text_search_private_close ( data_database_text_search_t *this_ )
+u8_error_t data_database_text_search_private_close( data_database_text_search_t *this_ )
 {
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
