@@ -4024,7 +4024,7 @@
         "stereotype": "",
         "name": "Environmental Constraints",
         "description": [
-                ""
+                "This package lists technical\/physical constraints imposed by the environment in which to operate."
         ],
         "x_order": 1611711995,
         "y_order": 189151822,
@@ -4115,7 +4115,7 @@
         "stereotype": "",
         "name": "Mouse Droid (MoD5G)",
         "description": [
-                "The Mouse Droid (MoD5G) is a repair droid that can be instructed to perform a mission and which autonomously selects tactics to achieve the mission goals"
+                "The Mouse Droid (MoD5G) is a repair droid that can be instructed to perform a mission and which then autonomously selects tactics to achieve the mission goals."
         ],
         "x_order": 147603683,
         "y_order": -474887197,
