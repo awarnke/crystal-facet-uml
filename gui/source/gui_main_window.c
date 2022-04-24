@@ -638,36 +638,47 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     g_signal_connect( G_OBJECT((*this_).name_entry), "activate", G_CALLBACK(gui_attributes_editor_name_enter_callback), &((*this_).attributes_editor) );
 #if ( GTK_MAJOR_VERSION >= 4 )
-    /* TODO: check if GtkEventControllerFocus is more suitable than state-flags-changed */
-    g_signal_connect( G_OBJECT((*this_).name_entry),
-                      "state-flags-changed",
-                      G_CALLBACK(gui_attributes_editor_name_state_changed_callback),
-                      &((*this_).attributes_editor)
-                    );
-    g_signal_connect( G_OBJECT((*this_).description_text_view),
-                      "state-flags-changed",
-                      G_CALLBACK(gui_attributes_editor_description_state_changed_callback),
-                      &((*this_).attributes_editor)
-                    );
-    g_signal_connect( G_OBJECT((*this_).stereotype_entry),
-                      "state-flags-changed",
-                      G_CALLBACK(gui_attributes_editor_stereotype_state_changed_callback),
-                      &((*this_).attributes_editor)
-                    );
+    {
+        GtkEventControllerFocus *evt_focus_n = GTK_EVENT_CONTROLLER_FOCUS(gtk_event_controller_focus_new());
+        g_signal_connect( evt_focus_n,
+                          "leave",
+                          G_CALLBACK(gui_attributes_editor_name_focus_left_callback),
+                          &((*this_).attributes_editor)
+                        );
+        gtk_widget_add_controller( (*this_).name_entry, GTK_EVENT_CONTROLLER(evt_focus_n) );
+    }
+    {
+        GtkEventControllerFocus *evt_focus_s = GTK_EVENT_CONTROLLER_FOCUS(gtk_event_controller_focus_new());
+        g_signal_connect( evt_focus_s,
+                          "leave",
+                          G_CALLBACK(gui_attributes_editor_stereotype_focus_left_callback),
+                          &((*this_).attributes_editor)
+                        );
+        gtk_widget_add_controller( (*this_).stereotype_entry, GTK_EVENT_CONTROLLER(evt_focus_s) );
+    }
+    {
+        GtkEventControllerFocus *evt_focus_d = GTK_EVENT_CONTROLLER_FOCUS(gtk_event_controller_focus_new());
+        g_signal_connect( evt_focus_d,
+                          "leave",
+                          G_CALLBACK(gui_attributes_editor_description_focus_left_callback),
+                          &((*this_).attributes_editor)
+                        );
+        gtk_widget_add_controller( (*this_).description_text_view, GTK_EVENT_CONTROLLER(evt_focus_d) );
+    }
 #else
     g_signal_connect( G_OBJECT((*this_).name_entry),
                       "focus-out-event",
                       G_CALLBACK(gui_attributes_editor_name_focus_lost_callback),
                       &((*this_).attributes_editor)
                     );
-    g_signal_connect( G_OBJECT((*this_).description_text_view),
-                      "focus-out-event",
-                      G_CALLBACK(gui_attributes_editor_description_focus_lost_callback),
-                      &((*this_).attributes_editor)
-                    );
     g_signal_connect( G_OBJECT((*this_).stereotype_entry),
                       "focus-out-event",
                       G_CALLBACK(gui_attributes_editor_stereotype_focus_lost_callback),
+                      &((*this_).attributes_editor)
+                    );
+    g_signal_connect( G_OBJECT((*this_).description_text_view),
+                      "focus-out-event",
+                      G_CALLBACK(gui_attributes_editor_description_focus_lost_callback),
                       &((*this_).attributes_editor)
                     );
 #endif

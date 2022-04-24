@@ -1,3 +1,11 @@
+crystal-facet-uml (1.36.1-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * Workarounds for window switching in gtk 4.6.1 on windows removed
+  * The edit widgets auto-store only at focus left event also with gtk4
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 24 Apr 2022 08:00:00 +0100
+
 crystal-facet-uml (1.36.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
