@@ -5,13 +5,17 @@ ARCDIR=../../architecture/doc
 SRCDIR=../../example_diagrams
 INSTALLDIR=../../example_diagrams
 
-mouse_droid/mouse_droid.xhtml: $(SRCDIR)/mouse_droid.cfu1
+mouse_droid/mouse_droid.cfu1: $(SRCDIR)/mouse_droid.json
 	mkdir -p mouse_droid
-	crystal-facet-uml -e $(SRCDIR)/mouse_droid.cfu1 xhtml mouse_droid
+	crystal-facet-uml -i mouse_droid/mouse_droid.cfu1 add $(SRCDIR)/mouse_droid.json
 
-mouse_droid/mouse_droid.pdf: $(SRCDIR)/mouse_droid.cfu1
+mouse_droid/mouse_droid.xhtml: mouse_droid/mouse_droid.cfu1
 	mkdir -p mouse_droid
-	crystal-facet-uml -e $(SRCDIR)/mouse_droid.cfu1 docbook mouse_droid
+	crystal-facet-uml -e mouse_droid/mouse_droid.cfu1 xhtml mouse_droid
+
+mouse_droid/mouse_droid.pdf: mouse_droid/mouse_droid.cfu1
+	mkdir -p mouse_droid
+	crystal-facet-uml -e mouse_droid/mouse_droid.cfu1 docbook mouse_droid
 	[ ! -f /home/pi/Downloads/docbook.xsd ] || xmllint --noout --schema /home/pi/Downloads/docbook.xsd mouse_droid/mouse_droid.xml
 	(cd mouse_droid && dblatex mouse_droid.xml)
 
