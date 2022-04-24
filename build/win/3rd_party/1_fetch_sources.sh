@@ -88,14 +88,14 @@ fi
 
 if test ! -f gtk* ; then
     echo "fetching gtk"
-    echo "  version 4.6.1 date 2022-Feb-12"
-    wget https://download.gnome.org/sources/gtk/4.6/gtk-4.6.1.tar.xz
+    echo "  version 4.6.2 date 2022-Mar-19"
+    wget https://download.gnome.org/sources/gtk/4.6/gtk-4.6.2.tar.xz
 fi
 
 if test ! -f atk* ; then
     echo "fetching atk"
-    echo "  version 2.36 date 2020-Apr-02"
-    wget https://download.gnome.org/sources/atk/2.36/atk-2.36.0.tar.xz
+    echo "  version 2.38 date 2022-Mar-24"
+    wget https://download.gnome.org/sources/atk/2.38/atk-2.38.0.tar.xz
 fi
 
 if test ! -f pango* ; then

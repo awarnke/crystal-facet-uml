@@ -39,8 +39,12 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/file_use_db.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Opens an existing database file or creates a new database file.
-                        A confirmation of overwriting the existing file may be requested.</para></listitem>
+                    <listitem>
+                        <para>
+                            Opens an existing database file or creates a new database file.
+                            A confirmation of overwriting the existing file may be requested.
+                        </para>
+                    </listitem>
                 </itemizedlist>
             </para>
 
@@ -54,11 +58,13 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/file_export.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>
-                        Exports all diagrams to the selected folder.
-                        To select the export folder, navigate to the parent folder and select the target folder.
-                        Supported formats are docbook, json, pdf, png, ps, svg, txt, xhtml, xmi.
-                    </para></listitem>
+                    <listitem>
+                        <para>
+                            Exports all diagrams to the selected folder.
+                            To select the export folder, navigate to the parent folder and select the target folder.
+                            Supported formats are docbook, json, pdf, png, ps, svg, txt, xhtml, xmi.
+                        </para>
+                    </listitem>
                 </itemizedlist>
             </para>
 
@@ -72,10 +78,11 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/file_new_window.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>
-                        Opens another window on the same database.
-                        In case of issues with the focus switch between windows, try to minimize and re-activate these.
-                    </para></listitem>
+                    <listitem>
+                        <para>
+                            Opens another window on the same database.
+                        </para>
+                    </listitem>
                 </itemizedlist>
                 This new window allows you to work reliably with multiple windows on the same database.
                 <!-- opening the same database file using two instances of crystal facet uml
@@ -92,7 +99,11 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/tool_search.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Find diagrams that contain the searched elements (see <xref linkend="draw_search"/>)</para></listitem>
+                    <listitem>
+                        <para>
+                            Find diagrams that contain the searched elements (see <xref linkend="draw_search"/>)
+                        </para>
+                    </listitem>
                 </itemizedlist>
             </para>
 
@@ -106,8 +117,8 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/tool_navigate.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Navigate to parent or child diagrams</para></listitem>
-                <listitem><para>Create a new diagram (see <xref linkend="draw_navigate"/>)</para></listitem>
+                    <listitem><para>Navigate to parent or child diagrams</para></listitem>
+                    <listitem><para>Create a new diagram (see <xref linkend="draw_navigate"/>)</para></listitem>
                 </itemizedlist>
             </para>
 
@@ -121,7 +132,7 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/tool_edit.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Modify elements in the diagram (see <xref linkend="draw_edit"/>)</para></listitem>
+                    <listitem><para>Modify elements in the diagram (see <xref linkend="draw_edit"/>)</para></listitem>
                 </itemizedlist>
             </para>
 
@@ -149,8 +160,12 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/edit_cut.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Cut all selected (pink-cornered) elements to the clipboard
-                        (features of classifiers are copied if the classifier is selected)</para></listitem>
+                    <listitem>
+                        <para>
+                            Cut all selected (pink-cornered) elements to the clipboard
+                            (features of classifiers are copied if the classifier is selected)
+                        </para>
+                    </listitem>
                 </itemizedlist>
             </para>
 
@@ -164,8 +179,12 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/edit_copy.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Copy all selected (pink-cornered) elements to the clipboard
-                        (features of classifiers are copied if the classifier is selected)</para></listitem>
+                    <listitem>
+                        <para>
+                            Copy all selected (pink-cornered) elements to the clipboard
+                            (features of classifiers are copied if the classifier is selected)
+                        </para>
+                    </listitem>
                 </itemizedlist>
             </para>
 
@@ -179,13 +198,25 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/edit_paste.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>If the clipboard contains a diagram, this diagram is pasted below the current diagram.
-                    All other elements are pasted into the new diagram.</para></listitem>
-                <listitem><para>If the clipboard does not contain diagrams, classifiers and relationships from the clipboard
-                    are copied into the current diagram.</para></listitem>
-                <listitem><para>If a classifier is identical to an existing one (same uuid),
-                    an instance of the existing classifier is pasted to the diagram.
-                    Otherwise a new classifier is created.</para></listitem>
+                    <listitem>
+                        <para>
+                            If the clipboard contains a diagram, this diagram is pasted below the current diagram.
+                            All other elements are pasted into the new diagram.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            If the clipboard does not contain diagrams, classifiers and relationships from the clipboard
+                            are copied into the current diagram.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            If a classifier is identical to an existing one (same uuid),
+                            an instance of the existing classifier is pasted to the diagram.
+                            Otherwise a new classifier is created.
+                        </para>
+                    </listitem>
                 </itemizedlist>
             </para>
 
@@ -199,7 +230,12 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/edit_delete.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Deletes all selected (pink-cornered) elements. This operation may fail if a selected diagram contains non-selected elements.</para></listitem>
+                    <listitem>
+                        <para>
+                            Deletes all selected (pink-cornered) elements.
+                            This operation may fail if a selected diagram contains non-selected elements.
+                        </para>
+                    </listitem>
                 </itemizedlist>
             </para>
 
@@ -228,7 +264,12 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/edit_highlight.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Toggles the selected (pink-cornered) classifiers between yellow-marked, greyed-out and normal. (Does not work for relationships and features)</para></listitem>
+                    <listitem>
+                        <para>
+                            Toggles the selected (pink-cornered) classifiers between yellow-marked, greyed-out and normal.
+                            (Does not work for relationships and features)
+                        </para>
+                    </listitem>
                 </itemizedlist>
             </para>
 
@@ -242,7 +283,7 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/edit_reset.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Resets the (pink-cornered) selection</para></listitem>
+                    <listitem><para>Resets the (pink-cornered) selection</para></listitem>
                 </itemizedlist>
             </para>
 
@@ -256,7 +297,11 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/edit_undo.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Un-does the last operation (Opening a database and exporting files cannot be undone)</para></listitem>
+                    <listitem>
+                        <para>
+                            Un-does the last operation (Opening a database and exporting files cannot be undone)
+                        </para>
+                    </listitem>
                 </itemizedlist>
             </para>
 
@@ -270,7 +315,7 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/edit_redo.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Re-does the last un-done operation</para></listitem>
+                    <listitem><para>Re-does the last un-done operation</para></listitem>
                 </itemizedlist>
             </para>
 
@@ -284,7 +329,7 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Shows version, license and copyrights</para></listitem>
+                    <listitem><para>Shows version, license and copyrights</para></listitem>
                 </itemizedlist>
             </para>
 
@@ -320,7 +365,18 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/tool_search.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Enter the ID of an element (e.g. C0001) or a part of its name or description to find diagrams containing this element.</para></listitem>
+                    <listitem>
+                        <para>
+                            Enter the ID of an element (e.g. C0001) or a part of its name or description
+                            to find diagrams containing this element.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Enter nothing
+                            to find diagrams containing elements without description.
+                        </para>
+                    </listitem>
                 </itemizedlist>
             </para>
 
@@ -334,20 +390,24 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/tool_navigate.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>To navigate to parent, sibling or children diagrams, click on the diagram.</para></listitem>
-                <listitem><para>To create a new diagram, click on the
-                        <inlinemediaobject>
-                            <imageobject><imagedata fileref="../../gui/source/resources/navigate_create_sibling.pdf" width="0.7cm"/></imageobject>
-                            <imageobject><imagedata fileref="../../gui/source/resources/navigate_create_sibling.png"/></imageobject>
-                        </inlinemediaobject>
-                        icon, or the smaller
-                        <inlinemediaobject>
-                            <imageobject><imagedata fileref="../../gui/source/resources/navigate_create_child.pdf" width="0.7cm"/></imageobject>
-                            <imageobject><imagedata fileref="../../gui/source/resources/navigate_create_child.png"/></imageobject>
-                        </inlinemediaobject>
-                        icon for a new child-diagram.
-                        </para></listitem>
-                <listitem><para>To restructure the diagram tree, drag a diagram name to the new location.</para></listitem>
+                    <listitem>
+                        <para>To navigate to parent, sibling or children diagrams, click on the diagram.</para>
+                    </listitem>
+                    <listitem>
+                        <para>To create a new diagram, click on the
+                            <inlinemediaobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/navigate_create_sibling.pdf" width="0.7cm"/></imageobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/navigate_create_sibling.png"/></imageobject>
+                            </inlinemediaobject>
+                            icon, or the smaller
+                            <inlinemediaobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/navigate_create_child.pdf" width="0.7cm"/></imageobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/navigate_create_child.png"/></imageobject>
+                            </inlinemediaobject>
+                            icon for a new child-diagram.
+                        </para>
+                    </listitem>
+                    <listitem><para>To restructure the diagram tree, drag a diagram name to the new location.</para></listitem>
                 </itemizedlist>
             </para>
 
@@ -361,13 +421,17 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/tool_edit.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>To focus the diagram or a classifier or a feature or a relationship (yellow corners), click on this object.</para></listitem>
-                <listitem><para>To select an element (pink corners), click on these objects twice.</para></listitem>
-                <listitem>
-                    <para>To move classifiers within the diagram, 1.) press, 2.) drag and 3.) release the mouse button.</para>
-                    <para>Note: When moving a classifier, this is moved in all diagrams where it appears.
-                        Order and locations of things stay consistent between different views.</para>
-                </listitem>
+                    <listitem>
+                        <para>To focus the diagram or a classifier or a feature or a relationship (yellow corners), click on this object.</para>
+                    </listitem>
+                    <listitem>
+                        <para>To select an element (pink corners), click on these objects twice.</para>
+                    </listitem>
+                    <listitem>
+                        <para>To move classifiers within the diagram, 1.) press, 2.) drag and 3.) release the mouse button.</para>
+                        <para>Note: When moving a classifier, this is moved in all diagrams where it appears.
+                            Order and locations of things stay consistent between different views.</para>
+                    </listitem>
                 </itemizedlist>
             </para>
 
@@ -408,25 +472,31 @@
             Edit the properties of the focused (yellow-cornered) object.
 
             <itemizedlist>
-            <listitem><para>name of the focused object</para></listitem>
-            <listitem><para>stereotype/valuetype of the focused object.</para>
-                <para>Stereotype names may consist of characters that are valid XML tokens (Nmtoken).
-                    <!-- see Nmtoken in XML 1.1 spec -->
-                </para>
-                <para>This field is deactivated for diagrams and relationships.
-                </para>
-                <para>For classifiers, multiple stereotypes shall be separated by comma.
-                </para>
-            </listitem>
-            <listitem><para>type of the focused object</para></listitem>
-            <listitem><para>description of the focused object.</para>
-                <para>For xhtml and DocBook export, use
-                    a double linebreak to create a new paragraph,
-                    start lines with *, + or - to format a list,
-                    use D0001#id and D0001#name to create a link to
-                    the diagram D0001 (showing either the id or the name).
-                </para>
-            </listitem>
+                <listitem>
+                    <para>name of the focused object</para>
+                </listitem>
+                <listitem>
+                    <para>stereotype/valuetype of the focused object.</para>
+                    <para>Stereotype names may consist of characters that are valid XML tokens (Nmtoken).
+                        <!-- see Nmtoken in XML 1.1 spec -->
+                    </para>
+                    <para>This field is deactivated for diagrams and relationships.
+                    </para>
+                    <para>For classifiers, multiple stereotypes shall be separated by comma.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>type of the focused object</para>
+                </listitem>
+                <listitem>
+                    <para>description of the focused object.</para>
+                    <para>For xhtml and DocBook export, use
+                        a double linebreak to create a new paragraph,
+                        start lines with *, + or - to format a list,
+                        use D0001#id and D0001#name to create a link to
+                        the diagram D0001 (showing either the id or the name).
+                    </para>
+                </listitem>
             </itemizedlist>
         </para>
 
@@ -439,7 +509,7 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/edit_commit.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Stores the latest changes to the database immediately. This feature is optional, it is not necessary to explicitly save the file.</para></listitem>
+                    <listitem><para>Stores the latest changes to the database immediately. This feature is optional, it is not necessary to explicitly save the file.</para></listitem>
                 </itemizedlist>
             </para>
 
@@ -463,7 +533,7 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/message_info.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Informs on success of an operation, e.g. an export</para></listitem>
+                    <listitem><para>Informs on success of an operation, e.g. an export</para></listitem>
                 </itemizedlist>
             </para>
 
@@ -477,7 +547,7 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/message_warn.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Informs on a possible problem, e.g. a read-only database file</para></listitem>
+                    <listitem><para>Informs on a possible problem, e.g. a read-only database file</para></listitem>
                 </itemizedlist>
             </para>
 
@@ -491,7 +561,7 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/message_error.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Informs on an error, e.g. invalid data pasted from clipboard</para></listitem>
+                    <listitem><para>Informs on an error, e.g. invalid data pasted from clipboard</para></listitem>
                 </itemizedlist>
             </para>
 

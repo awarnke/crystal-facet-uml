@@ -10,13 +10,9 @@ Building from source is described in this section.
 
 debian/ubuntu/raspbian:
 
-> sudo apt install gcc
+> sudo apt install gcc cmake make
 >
-> sudo apt install cmake
->
-> sudo apt install libgtk-3-dev
->
-> sudo apt install libsqlite3-dev
+> sudo apt install libgtk-3-dev libsqlite3-dev
 >
 > sudo apt install devscripts  # for debian build, includes possibly build-essential
 >
@@ -26,9 +22,7 @@ debian/ubuntu/raspbian:
 >
 > sudo apt install debsigs     # for signing debian packages
 >
-> sudo apt install dblatex     # for user documentation
->
-> sudo apt install xmlto       # for user documentation
+> sudo apt install dblatex xmlto       # for user documentation
 >
 > sudo apt install doxygen     # for source code documentation
 >
@@ -48,9 +42,7 @@ debian/ubuntu/raspbian:
 
 openSuSE:
 
-> sudo zypper install gcc
->
-> sudo zypper install cmake
+> sudo zypper install gcc cmake
 >
 > sudo zypper install gtk3-devel  # or gtk4-devel; switch also the comment in CMakeLists.txt
 >

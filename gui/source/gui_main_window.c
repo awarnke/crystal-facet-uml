@@ -698,12 +698,14 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_widget_show((*this_).window);
 #ifdef __linux__
 #else
-    gtk_widget_set_receives_default( (*this_).window, TRUE );  /* this may be needed on windows ? */
+    /* This was a workaround in cfu 1.36.0 for gtk 4.6.1, not needed anymore for gtk 4.6.2 */
+
+    //gtk_widget_set_receives_default( (*this_).window, TRUE );  /* this may be needed on windows ? */
     //gtk_window_minimize( GTK_WINDOW((*this_).window) );  /* workaround needed for win/gtk4.6.1 environment */
     //gtk_window_present( GTK_WINDOW((*this_).window) );  /* shows and positions nicely */
 
-    gtk_widget_set_can_target( GTK_WIDGET((*this_).window), TRUE );  /* this may be needed on windows ? */
-    gtk_widget_set_focus_on_click( GTK_WIDGET((*this_).window), TRUE );  /* this may be needed on windows ? */
+    //gtk_widget_set_can_target( GTK_WIDGET((*this_).window), TRUE );  /* this may be needed on windows ? */
+    //gtk_widget_set_focus_on_click( GTK_WIDGET((*this_).window), TRUE );  /* this may be needed on windows ? */
 #endif
     gtk_widget_set_sensitive( GTK_WIDGET((*this_).window), TRUE );  /* idea taken from gtk demo */
 

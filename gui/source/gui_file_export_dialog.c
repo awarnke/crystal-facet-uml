@@ -138,12 +138,14 @@ void gui_file_export_dialog_show( gui_file_export_dialog_t *this_ )
     gtk_widget_show( GTK_WIDGET( (*this_).export_file_chooser ) );
 #ifdef __linux__
 #else
-    gtk_widget_set_receives_default( GTK_WIDGET( (*this_).export_file_chooser ), TRUE );  /* this may be needed on windows ? */
-    gtk_window_minimize( GTK_WINDOW((*this_).export_file_chooser) );  /* workaround needed for win/gtk4.6.1 environment */
-    gtk_window_present( GTK_WINDOW((*this_).export_file_chooser) );  /* shows and positions nicely */
+    /* This was a workaround in cfu 1.36.0 for gtk 4.6.1, not needed anymore for gtk 4.6.2 */
 
-    gtk_widget_set_can_target( GTK_WIDGET((*this_).export_file_chooser), TRUE );  /* this may be needed on windows ? */
-    gtk_widget_set_focus_on_click( GTK_WIDGET((*this_).export_file_chooser), TRUE );  /* this may be needed on windows ? */
+    //gtk_widget_set_receives_default( GTK_WIDGET( (*this_).export_file_chooser ), TRUE );  /* this may be needed on windows ? */
+    //gtk_window_minimize( GTK_WINDOW((*this_).export_file_chooser) );  /* workaround needed for win/gtk4.6.1 environment */
+    //gtk_window_present( GTK_WINDOW((*this_).export_file_chooser) );  /* shows and positions nicely */
+
+    //gtk_widget_set_can_target( GTK_WIDGET((*this_).export_file_chooser), TRUE );  /* this may be needed on windows ? */
+    //gtk_widget_set_focus_on_click( GTK_WIDGET((*this_).export_file_chooser), TRUE );  /* this may be needed on windows ? */
 #endif
     gtk_widget_set_sensitive( GTK_WIDGET((*this_).export_file_chooser), TRUE );  /* idea taken from gtk demo */
 

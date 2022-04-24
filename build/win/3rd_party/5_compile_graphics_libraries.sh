@@ -144,16 +144,6 @@ LOG_FILE=${LOG_DIR}/log_gtk.txt
 echo "      log: ${LOG_FILE}"
 echo "      t  : expected duration: 15 min"
 export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin -lharfbuzz -ljpeg"
-#cd src/gtk+-3*
-#    # no xkbdep needed for wine
-#    #sed -i -e "s/^\(xkbdep[^)]*\))$/\1, required: false)/" meson.build
-#    rm -fr builddir  # remove artifacts from previous build
-#    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} -Denable-win32-backend=true -Denable-x11-backend=false -Denable-wayland-backend=false -Denable-broadway-backend=false -Denable-mir-backend=false -Denable-quartz-backend=false -Denable-cloudproviders=false -Dintrospection=false -Dbuild-tests=false -Ddemos=false -Dwith-included-immodules=none -Denable-cloudprint-print-backend=no -Denable-cups-print-backend=no -Denable-papi-print-backend=no -Denable-xinerama=no > ${LOG_FILE} 2>&1
-#    cd builddir
-#        meson compile >> ${LOG_FILE} 2>&1
-#        meson install >> ${LOG_FILE} 2>&1
-#    cd ..
-#cd ../..
 cd src/gtk-4*
     # GetLocaleInfoEx is not available in my wine emulation (2022)
     sed -i -e 's/#ifdef G_OS_WIN32/#if 0/' gtk/language-names.c
@@ -175,16 +165,6 @@ cd src/gtk-4*
     cd ..
 cd ../..
 echo "      lib: `${PKG_CONFIG_EXE} --libs gtk4`"
-
-#echo `date +'%H:%M'`" building gail..."
-#LOG_FILE=${LOG_DIR}/log_gail.txt
-#echo "      log: ${LOG_FILE}"
-#cd src/gail-1*
-#    # ./configure --host=${HOST} --prefix=${PREFIX} --disable-rpath --enable-relocatable --enable-static-pie > ${LOG_FILE} 2>&1
-#    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
-#    make >> ${LOG_FILE} 2>&1
-#    make install >> ${LOG_FILE} 2>&1
-#cd ../..
 
 echo `date +'%H:%M'`" finished. Please check the log files for errors."
 
