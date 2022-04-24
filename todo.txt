@@ -9,25 +9,6 @@ ideas for future versions:
   [ ] scrolling through search list missing if result list is too long
   [ ] Move a child diagram out of and behind the parent is not possible in one single step
   [ ] After deselecting all elements, paste does not work. One has to select an element first.
-  @gtk4
-  [x] sketcharea does not react on click, drag, release
-  [x] separator icon too small
-  [x] keyboard shortcuts/accellerators do not work
-  [x] resizing main window not possible (?)
-  [x] resizing file open dialog not possible (?)
-  [x] resizing file export dialog not possible (?)
-  [x] file open dialog shall always overwrite without asking - issue is documented now
-  [x] file open dialog sets no default file name - seems to be a bug in gtk4 ? https://gitlab.gnome.org/GNOME/gtk/-/issues/4832
-  [x] file export dialog must choose child of parent, not be in target location - is documented now
-  [x] file export dialog does not evaluate selected formats
-  [x] focus-out-event of edit-widgets are ignored
-  [x] when clicking onto a diagam and thereby changing the tool, a redraw is missing
-  [x] edit-element-type icons are badly aligned - workaround found for https://gitlab.gnome.org/GNOME/gtk/-/issues/4856
-  [x] copy to clipboard does not yet work
-  [x] paste from clipboard does not yet work
-  [x] command line parameters do not yet work
-  [x] on windows, the file open dialog only works after de- and re- activation - fixed using minimize and present again
-  [x] on windows, switching between multiple main windows may require to minimize windows - documented
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes

@@ -130,25 +130,25 @@ u8_error_t data_database_text_search_get_objects_by_textfragment ( data_database
         TSLOG_WARNING_STR( "error at escaping the search string", textfragment );
     }
 
-    result |= data_database_text_search_private_get_diagrams_by_textfragment ( this_,
-                                                                               utf8stringbuf_get_string( like_search ),
-                                                                               io_results
-                                                                             );
+    result |= data_database_text_search_private_get_diagrams_by_textfragment( this_,
+                                                                              utf8stringbuf_get_string( like_search ),
+                                                                              io_results
+                                                                            );
 
-    result |= data_database_text_search_private_get_classifiers_by_textfragment ( this_,
-                                                                                  utf8stringbuf_get_string( like_search ),
-                                                                                  io_results
-                                                                                );
+    result |= data_database_text_search_private_get_classifiers_by_textfragment( this_,
+                                                                                 utf8stringbuf_get_string( like_search ),
+                                                                                 io_results
+                                                                               );
 
-    result |= data_database_text_search_private_get_features_by_textfragment ( this_,
-                                                                               utf8stringbuf_get_string( like_search ),
-                                                                               io_results
-                                                                             );
+    result |= data_database_text_search_private_get_features_by_textfragment( this_,
+                                                                              utf8stringbuf_get_string( like_search ),
+                                                                              io_results
+                                                                            );
 
-    result |= data_database_text_search_private_get_relationships_by_textfragment ( this_,
-                                                                                    utf8stringbuf_get_string( like_search ),
-                                                                                    io_results
-                                                                                  );
+    result |= data_database_text_search_private_get_relationships_by_textfragment( this_,
+                                                                                   utf8stringbuf_get_string( like_search ),
+                                                                                   io_results
+                                                                                 );
 
     TRACE_END_ERR( result );
     return result;

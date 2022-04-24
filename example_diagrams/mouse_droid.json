@@ -1740,7 +1740,13 @@
         "type": "SysMLRequirementDiagram",
         "name": "Quality Tree",
         "description": [
-                ""
+                "When specifying quality requirements, these are categorized by two dimensions:\n",
+                "\n",
+                "1) Which characteristic do they affect\n",
+                "\n",
+                "2) Which use case do they serve\n",
+                "\n",
+                "Thich chapter lists the quality requirements ordered by their main characteristic."
         ],
         "list_order": -1073709056,
         "display_flags": 0,
@@ -1806,7 +1812,13 @@
         "type": "SysMLRequirementDiagram",
         "name": "Quality Scenarios",
         "description": [
-                ""
+                "When specifying quality requirements, these are categorized by two dimensions:\n",
+                "\n",
+                "1) Which characteristic do they affect\n",
+                "\n",
+                "2) Which use case do they serve\n",
+                "\n",
+                "Thich chapter lists the use cases which have special importance for quality requirements."
         ],
         "list_order": 65536,
         "display_flags": 0,
@@ -2589,7 +2601,7 @@
         "type": "UMLUseCaseDiagram",
         "name": "Quality Scenarios",
         "description": [
-                "This section shows the Quality Scenarios in which the Quality Requirements shown in D0039#name are of special importance."
+                "This section shows the quality-related scenarios in which the quality requirements shown in D0039#name are of special importance."
         ],
         "list_order": 122880,
         "display_flags": 0,
