@@ -136,27 +136,10 @@ void gui_file_export_dialog_show( gui_file_export_dialog_t *this_ )
 
 #if ( GTK_MAJOR_VERSION >= 4 )
     gtk_widget_show( GTK_WIDGET( (*this_).export_file_chooser ) );
-#ifdef __linux__
-#else
-    /* This was a workaround in cfu 1.36.0 for gtk 4.6.1, not needed anymore for gtk 4.6.2 */
-
-    //gtk_widget_set_receives_default( GTK_WIDGET( (*this_).export_file_chooser ), TRUE );  /* this may be needed on windows ? */
-    //gtk_window_minimize( GTK_WINDOW((*this_).export_file_chooser) );  /* workaround needed for win/gtk4.6.1 environment */
-    //gtk_window_present( GTK_WINDOW((*this_).export_file_chooser) );  /* shows and positions nicely */
-
-    //gtk_widget_set_can_target( GTK_WIDGET((*this_).export_file_chooser), TRUE );  /* this may be needed on windows ? */
-    //gtk_widget_set_focus_on_click( GTK_WIDGET((*this_).export_file_chooser), TRUE );  /* this may be needed on windows ? */
-#endif
     gtk_widget_set_sensitive( GTK_WIDGET((*this_).export_file_chooser), TRUE );  /* idea taken from gtk demo */
 
     GdkSurface *surface = gtk_native_get_surface( GTK_NATIVE((*this_).export_file_chooser) );
     gdk_surface_set_cursor( surface, NULL );  /* idea taken from gtk3->4 guide */
-
-    //const cairo_rectangle_int_t rect
-    //    = { .x = 0, .y = 0, .width = gdk_surface_get_width( surface ), .height = gdk_surface_get_height( surface ) };
-    //cairo_region_t *region = cairo_region_create_rectangle( &rect );
-    //gdk_surface_set_input_region( surface, region );
-    //cairo_region_destroy( region );
 #else
     gtk_widget_show_all( GTK_WIDGET( (*this_).export_file_chooser ) );
 #endif
@@ -198,67 +181,73 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
             folder_path = gtk_file_chooser_get_filename( GTK_FILE_CHOOSER(dialog) );
 #endif
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
-            TRACE_INFO_STR( "chosen folder:", folder_path );
-
-            selected_format = IO_FILE_FORMAT_NONE;
-#if ( GTK_MAJOR_VERSION >= 4 )
-            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_pdf) )) { selected_format |= IO_FILE_FORMAT_PDF; }
-            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_png) )) { selected_format |= IO_FILE_FORMAT_PNG; }
-            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_ps) )) { selected_format |= IO_FILE_FORMAT_PS; }
-            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_svg) )) { selected_format |= IO_FILE_FORMAT_SVG; }
-            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_txt) )) { selected_format |= IO_FILE_FORMAT_TXT; }
-            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_docbook) )) { selected_format |= IO_FILE_FORMAT_DOCBOOK; }
-            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_xhtml) )) { selected_format |= IO_FILE_FORMAT_XHTML; }
-            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_xmi2) )) { selected_format |= IO_FILE_FORMAT_XMI2; }
-            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_json) )) { selected_format |= IO_FILE_FORMAT_JSON; }
-#else
-            if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_pdf) )) { selected_format |= IO_FILE_FORMAT_PDF; }
-            if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_png) )) { selected_format |= IO_FILE_FORMAT_PNG; }
-            if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_ps) )) { selected_format |= IO_FILE_FORMAT_PS; }
-            if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_svg) )) { selected_format |= IO_FILE_FORMAT_SVG; }
-            if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_txt) )) { selected_format |= IO_FILE_FORMAT_TXT; }
-            if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_docbook) )) { selected_format |= IO_FILE_FORMAT_DOCBOOK; }
-            if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_xhtml) )) { selected_format |= IO_FILE_FORMAT_XHTML; }
-            if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_xmi2) )) { selected_format |= IO_FILE_FORMAT_XMI2; }
-            if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_json) )) { selected_format |= IO_FILE_FORMAT_JSON; }
-#endif
-
-            /* determine the database file path */
-            const char *db_path = data_database_get_filename_ptr( (*this_).database );
-
-            if ( data_database_is_open((*this_).database) )
+            if ( folder_path != NULL )
             {
-                export_err = io_exporter_export_files( &((*this_).file_exporter), selected_format, folder_path, db_path, &export_stat );
+                TRACE_INFO_STR( "chosen folder:", folder_path );
+
+                selected_format = IO_FILE_FORMAT_NONE;
+    #if ( GTK_MAJOR_VERSION >= 4 )
+                if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_pdf) )) { selected_format |= IO_FILE_FORMAT_PDF; }
+                if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_png) )) { selected_format |= IO_FILE_FORMAT_PNG; }
+                if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_ps) )) { selected_format |= IO_FILE_FORMAT_PS; }
+                if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_svg) )) { selected_format |= IO_FILE_FORMAT_SVG; }
+                if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_txt) )) { selected_format |= IO_FILE_FORMAT_TXT; }
+                if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_docbook) )) { selected_format |= IO_FILE_FORMAT_DOCBOOK; }
+                if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_xhtml) )) { selected_format |= IO_FILE_FORMAT_XHTML; }
+                if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_xmi2) )) { selected_format |= IO_FILE_FORMAT_XMI2; }
+                if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_json) )) { selected_format |= IO_FILE_FORMAT_JSON; }
+    #else
+                if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_pdf) )) { selected_format |= IO_FILE_FORMAT_PDF; }
+                if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_png) )) { selected_format |= IO_FILE_FORMAT_PNG; }
+                if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_ps) )) { selected_format |= IO_FILE_FORMAT_PS; }
+                if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_svg) )) { selected_format |= IO_FILE_FORMAT_SVG; }
+                if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_txt) )) { selected_format |= IO_FILE_FORMAT_TXT; }
+                if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_docbook) )) { selected_format |= IO_FILE_FORMAT_DOCBOOK; }
+                if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_xhtml) )) { selected_format |= IO_FILE_FORMAT_XHTML; }
+                if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_xmi2) )) { selected_format |= IO_FILE_FORMAT_XMI2; }
+                if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_json) )) { selected_format |= IO_FILE_FORMAT_JSON; }
+    #endif
+
+                /* determine the database file path */
+                const char *db_path = data_database_get_filename_ptr( (*this_).database );
+
+                if ( data_database_is_open((*this_).database) )
+                {
+                    export_err = io_exporter_export_files( &((*this_).file_exporter), selected_format, folder_path, db_path, &export_stat );
+                }
+                else
+                {
+                    export_err = -1;
+                }
+
+                char temp_format_buf[64];
+                utf8stringbuf_t temp_fileformat = UTF8STRINGBUF( temp_format_buf );
+                io_file_format_to_string( selected_format, temp_fileformat );
+
+                if ( 0 == export_err )
+                {
+                    gui_simple_message_to_user_show_message_with_names_and_stat( (*this_).message_to_user,
+                                                                                 GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                                                 GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED,
+                                                                                 utf8stringbuf_get_string( temp_fileformat ),
+                                                                                 &export_stat
+                                                                               );
+
+                }
+                else
+                {
+                    gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
+                                                                       GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                       GUI_SIMPLE_MESSAGE_CONTENT_FILE_EXPORT_FAILED,
+                                                                       folder_path
+                                                                     );
+                }
+                g_free (folder_path);
             }
             else
             {
-                export_err = -1;
+                TSLOG_WARNING( "Export dialog returned no folder path" );
             }
-
-            char temp_format_buf[64];
-            utf8stringbuf_t temp_fileformat = UTF8STRINGBUF( temp_format_buf );
-            io_file_format_to_string( selected_format, temp_fileformat );
-
-            if ( 0 == export_err )
-            {
-                gui_simple_message_to_user_show_message_with_names_and_stat( (*this_).message_to_user,
-                                                                             GUI_SIMPLE_MESSAGE_TYPE_INFO,
-                                                                             GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED,
-                                                                             utf8stringbuf_get_string( temp_fileformat ),
-                                                                             &export_stat
-                                                                           );
-
-            }
-            else
-            {
-                gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
-                                                                   GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                   GUI_SIMPLE_MESSAGE_CONTENT_FILE_EXPORT_FAILED,
-                                                                   folder_path
-                                                                 );
-            }
-
-            g_free (folder_path);
             if ( selected_file != NULL )
             {
                 g_object_unref( selected_file );

@@ -159,7 +159,7 @@
         <listitem>
           <para>
               Imports elements from json_input_file to the database_file.
-              Valid modes are: check, add, update (update is identical to add).
+              Valid modes are: check, add.
               Please create a backup of your database_file before importing.
           </para>
         </listitem>

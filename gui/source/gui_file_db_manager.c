@@ -58,31 +58,38 @@ void gui_file_db_manager_use_db_response_callback( GtkDialog *dialog, gint respo
 #else
             filename = gtk_file_chooser_get_filename( GTK_FILE_CHOOSER(dialog) );
 #endif
-            TRACE_INFO_STR( "File chosen:", filename );
-
-            error = ctrl_controller_switch_database ( (*this_).controller, filename );
-
-            if ( U8_ERROR_NONE != error )
+            if ( filename != NULL )
             {
-                if ( data_database_is_open( (*this_).database ) )
-                {
-                    gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
-                                                                       GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                                       GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR,
-                                                                       filename
-                                                                     );
-                }
-                else
-                {
-                    gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
-                                                                       GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                       GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_OPENED,
-                                                                       filename
-                                                                     );
-                }
+                TRACE_INFO_STR( "File chosen:", filename );
 
+                error = ctrl_controller_switch_database ( (*this_).controller, filename );
+
+                if ( U8_ERROR_NONE != error )
+                {
+                    if ( data_database_is_open( (*this_).database ) )
+                    {
+                        gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
+                                                                           GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                                           GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR,
+                                                                           filename
+                                                                         );
+                    }
+                    else
+                    {
+                        gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
+                                                                           GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                           GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_OPENED,
+                                                                           filename
+                                                                         );
+                    }
+                }
+                g_free (filename);
             }
-            g_free (filename);
+            else
+            {
+                TSLOG_WARNING( "Use DB dialog returned no file name" );
+                error = U8_ERROR_INPUT_EMPTY;
+            }
             if ( selected_file != NULL )
             {
                 g_object_unref( selected_file );
