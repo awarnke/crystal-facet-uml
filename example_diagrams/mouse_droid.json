@@ -4475,7 +4475,7 @@
         "stereotype": "",
         "name": "health::limp_home",
         "description": [
-                ""
+                "In case the full operation is not possible anymore, the MoD5G shall drive back to the home charging station."
         ],
         "x_order": 452796978,
         "y_order": -1494769192,

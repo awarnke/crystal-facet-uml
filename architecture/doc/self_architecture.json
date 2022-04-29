@@ -3611,6 +3611,44 @@
     },
     {
       "diagram": {
+        "id": 97,
+        "parent_id": 2,
+        "parent_name": "Building Block View",
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "main: Black Box View",
+        "description": [
+                ""
+        ],
+        "list_order": 25600,
+        "display_flags": 0,
+        "parent": "07d64a06-b201-4ea8-8c7b-c43f69186e0b",
+        "uuid": "bb8fdc7b-9447-4d43-b0fd-cc1b2c509cf6",
+        "diagramelements":
+        [
+          {
+            "id": 635,
+            "display_flags": 0,
+            "classifier_id": 73,
+            "classifier_name": "main.c",
+            "focused_feature_id": -1,
+            "node": "13c52421-6a05-42c7-82b0-a7575a4061ac",
+            "uuid": "d4678368-6d6d-4600-b6d9-457a88c9d8b1"
+          },
+          {
+            "id": 636,
+            "display_flags": 0,
+            "classifier_id": 21,
+            "classifier_name": "main",
+            "focused_feature_id": -1,
+            "node": "b5818e0b-68af-4241-a1ea-346fd8266164",
+            "uuid": "f7905834-f0bf-4a45-b9d3-85d272516c82"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 6,
         "parent_id": 2,
         "parent_name": "Building Block View",
@@ -3645,19 +3683,10 @@
             "uuid": "f44f3239-7cf7-40be-bd9f-a0949b4a5354"
           },
           {
-            "id": 21,
-            "display_flags": 0,
-            "classifier_id": 21,
-            "classifier_name": "main",
-            "focused_feature_id": -1,
-            "node": "b5818e0b-68af-4241-a1ea-346fd8266164",
-            "uuid": "e2d5847f-324c-4525-be64-52ab435074fe"
-          },
-          {
             "id": 30,
             "display_flags": 0,
             "classifier_id": 30,
-            "classifier_name": "universal",
+            "classifier_name": "u8stream",
             "focused_feature_id": -1,
             "node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
             "uuid": "97d18164-65a9-49bf-a890-6024f9e2bc41"
@@ -3735,15 +3764,6 @@
             "uuid": "e5d0f33d-2861-48d0-85b1-41b00e0abc8e"
           },
           {
-            "id": 77,
-            "display_flags": 0,
-            "classifier_id": 73,
-            "classifier_name": "main.c",
-            "focused_feature_id": -1,
-            "node": "13c52421-6a05-42c7-82b0-a7575a4061ac",
-            "uuid": "36bee925-12fd-472a-a7e2-b9253ef85d86"
-          },
-          {
             "id": 284,
             "display_flags": 0,
             "classifier_id": 194,
@@ -3760,6 +3780,33 @@
             "focused_feature_id": -1,
             "node": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
             "uuid": "e5e7c431-382a-4b23-b70b-04745d636dcc"
+          },
+          {
+            "id": 638,
+            "display_flags": 0,
+            "classifier_id": 410,
+            "classifier_name": "arena",
+            "focused_feature_id": -1,
+            "node": "91ee002f-4ca0-4239-bf0f-f3a35fa3ad3a",
+            "uuid": "d48b289d-c86c-436d-83c8-b10c51167342"
+          },
+          {
+            "id": 639,
+            "display_flags": 0,
+            "classifier_id": 411,
+            "classifier_name": "u8_error",
+            "focused_feature_id": -1,
+            "node": "b22bef6b-9c0f-4278-8ec0-25e8f9cd5ec1",
+            "uuid": "935ad6d9-3d42-422d-b940-1b12db0ca5d8"
+          },
+          {
+            "id": 640,
+            "display_flags": 0,
+            "classifier_id": 412,
+            "classifier_name": "list",
+            "focused_feature_id": -1,
+            "node": "f3f74c6d-d230-48cc-894d-98204da4915c",
+            "uuid": "f475e2ff-9739-448a-b14b-7dd66bd77f81"
           }
         ]
       }
@@ -3785,7 +3832,7 @@
             "id": 435,
             "display_flags": 0,
             "classifier_id": 30,
-            "classifier_name": "universal",
+            "classifier_name": "u8stream",
             "focused_feature_id": -1,
             "node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
             "uuid": "3d810960-2a8b-4ae7-b26e-76742c424692"
@@ -7329,7 +7376,7 @@
         "main_type": 124,
         "type": "Package",
         "stereotype": "",
-        "name": "universal",
+        "name": "u8stream",
         "description": [
                 "provides small, generic utility classes that are independant of the project"
         ],
@@ -14977,6 +15024,63 @@
     },
     {
       "classifier": {
+        "id": 410,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "",
+        "name": "arena",
+        "description": [
+                ""
+        ],
+        "x_order": -1477389701,
+        "y_order": -105538293,
+        "list_order": -105538293,
+        "uuid": "91ee002f-4ca0-4239-bf0f-f3a35fa3ad3a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 411,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "",
+        "name": "u8_error",
+        "description": [
+                ""
+        ],
+        "x_order": -1477389701,
+        "y_order": -105165869,
+        "list_order": -105281114,
+        "uuid": "b22bef6b-9c0f-4278-8ec0-25e8f9cd5ec1",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 412,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "",
+        "name": "list",
+        "description": [
+                ""
+        ],
+        "x_order": -1041264780,
+        "y_order": -105538293,
+        "list_order": -105719133,
+        "uuid": "f3f74c6d-d230-48cc-894d-98204da4915c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 4,
         "main_type": 121,
         "type": "Component",
@@ -16274,7 +16378,7 @@
         ],
         "list_order": -106289548,
         "from_classifier_id": 30,
-        "from_classifier_name": "universal",
+        "from_classifier_name": "u8stream",
         "to_classifier_id": 56,
         "to_classifier_name": "Int Pair",
         "from_feature_id": -1,
@@ -16295,7 +16399,7 @@
         ],
         "list_order": -106354674,
         "from_classifier_id": 30,
-        "from_classifier_name": "universal",
+        "from_classifier_name": "u8stream",
         "to_classifier_id": 57,
         "to_classifier_name": "Bool List",
         "from_feature_id": -1,
@@ -16316,7 +16420,7 @@
         ],
         "list_order": -106300422,
         "from_classifier_id": 30,
-        "from_classifier_name": "universal",
+        "from_classifier_name": "u8stream",
         "to_classifier_id": 58,
         "to_classifier_name": "Array Index Sorter",
         "from_feature_id": -1,
@@ -16337,7 +16441,7 @@
         ],
         "list_order": -181397197,
         "from_classifier_id": 30,
-        "from_classifier_name": "universal",
+        "from_classifier_name": "u8stream",
         "to_classifier_id": 267,
         "to_classifier_name": "Array List",
         "from_feature_id": -1,
@@ -16358,7 +16462,7 @@
         ],
         "list_order": 41192590,
         "from_classifier_id": 30,
-        "from_classifier_name": "universal",
+        "from_classifier_name": "u8stream",
         "to_classifier_id": 302,
         "to_classifier_name": "stream",
         "from_feature_id": -1,
@@ -16379,7 +16483,7 @@
         ],
         "list_order": -105643833,
         "from_classifier_id": 30,
-        "from_classifier_name": "universal",
+        "from_classifier_name": "u8stream",
         "to_classifier_id": 378,
         "to_classifier_name": "Utf8 Writer",
         "from_feature_id": -1,
@@ -16400,7 +16504,7 @@
         ],
         "list_order": -105896546,
         "from_classifier_id": 30,
-        "from_classifier_name": "universal",
+        "from_classifier_name": "u8stream",
         "to_classifier_id": 379,
         "to_classifier_name": "Simple Random",
         "from_feature_id": -1,
@@ -16408,6 +16512,69 @@
         "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
         "to_node": "7ca62e35-60cd-4e00-8176-8c2113cebe8a",
         "uuid": "4f92c733-53f5-4d49-9af7-e10d9a6856dd"
+      }
+    },
+    {
+      "relationship": {
+        "id": 616,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -105538293,
+        "from_classifier_id": 30,
+        "from_classifier_name": "u8stream",
+        "to_classifier_id": 410,
+        "to_classifier_name": "arena",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
+        "to_node": "91ee002f-4ca0-4239-bf0f-f3a35fa3ad3a",
+        "uuid": "7c4afca2-a709-428a-a18a-3fa8ef6c5362"
+      }
+    },
+    {
+      "relationship": {
+        "id": 617,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -105281114,
+        "from_classifier_id": 30,
+        "from_classifier_name": "u8stream",
+        "to_classifier_id": 411,
+        "to_classifier_name": "u8_error",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
+        "to_node": "b22bef6b-9c0f-4278-8ec0-25e8f9cd5ec1",
+        "uuid": "445370d4-5580-4172-8481-5e25cfc38fe1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 618,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -105719133,
+        "from_classifier_id": 30,
+        "from_classifier_name": "u8stream",
+        "to_classifier_id": 412,
+        "to_classifier_name": "list",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
+        "to_node": "f3f74c6d-d230-48cc-894d-98204da4915c",
+        "uuid": "4a71b109-7e05-4fc0-b05c-6b4dd35d7a86"
       }
     },
     {

@@ -269,7 +269,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     GdkClipboard *current_clipboard = NULL;
     {
 #if ( GTK_MAJOR_VERSION >= 4 )
-        current_clipboard = gtk_widget_get_clipboard( GTK_WIDGET((*this_).window) );
+        current_clipboard = gtk_widget_get_clipboard( GTK_WIDGET((*this_).window) );  /* idea taken from gtk demo */
         /*
         GdkDisplay *const current_display = gdk_display_get_default();
         if ( current_display != NULL )
