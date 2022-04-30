@@ -85,8 +85,8 @@ FILE(GLOB utestSource  main/test/*.c
                        io/test/integration/*.c
                        pencil/test/unit/*.c
                        pencil/test/integration/*.c
-                       u8stream/test/unit/*.c
-                       utf8stringbuf/test/unit/*.c)
+                       u8buf/test/unit/*.c
+                       u8stream/test/unit/*.c)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Check if CMAKE_BUILD_TYPE is set ==== ==== ==== ==== ==== ==== ==== ====
 
@@ -118,8 +118,8 @@ TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ctrl/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC gui/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC io/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC pencil/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC u8buf/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC u8stream/test)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC utf8stringbuf/test)
 TARGET_LINK_LIBRARIES(test_crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
@@ -144,8 +144,8 @@ if(CFU_ADD_GCOV_TARGET)
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC gui/test)
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC io/test)
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC pencil/test)
+        TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC u8buf/test)
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC u8stream/test)
-        TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC utf8stringbuf/test)
         TARGET_LINK_LIBRARIES(gcov_crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
         SET_TARGET_PROPERTIES(gcov_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
         SET_TARGET_PROPERTIES(gcov_crystal-facet-uml PROPERTIES EXCLUDE_FROM_ALL TRUE)

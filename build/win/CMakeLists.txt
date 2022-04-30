@@ -83,8 +83,8 @@ FILE(GLOB utestSource  ../../main/test/*.c
                        ../../io/test/integration/*.c
                        ../../pencil/test/unit/*.c
                        ../../pencil/test/integration/*.c
-                       ../../u8stream/test/unit/*.c
-                       ../../utf8stringbuf/test/unit/*.c)
+                       ../../u8buf/test/unit/*.c
+                       ../../u8stream/test/unit/*.c)
 
 EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs atk
                 OUTPUT_VARIABLE ATK_LIB OUTPUT_STRIP_TRAILING_WHITESPACE)
@@ -208,8 +208,8 @@ TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../../ctrl/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../../gui/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../../io/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../../pencil/test)
+TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../../u8buf/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../../u8stream/test)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../../utf8stringbuf/test)
 TARGET_LINK_LIBRARIES(test_crystal-facet-uml ${ATK_LIB} ${CAIRO_LIB} ${FONTCNF_LIB} ${GAIL_LIB} ${GDKPIX_LIB} ${GDKWIN_LIB} ${GIO_LIB} ${GLIB_LIB} ${GMOD_LIB} ${GOBJ_LIB} ${GTHREAD_LIB} ${GTK_LIB} ${PANGO_LIB} ${PANGOCAIRO_LIB} ${PANGOFT_LIB} ${PANGOWIN_LIB} )
 SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
