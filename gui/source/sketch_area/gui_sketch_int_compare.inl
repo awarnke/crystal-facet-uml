@@ -1,11 +1,11 @@
-/* File: universal_int.inl; Copyright and License: see below */
+/* File: gui_sketch_int_compare.inl; Copyright and License: see below */
 
-static inline int32_t universal_int_min_i32 ( int32_t this_, int32_t that )
+static inline int32_t gui_sketch_int_compare_min_i32 ( int32_t this_, int32_t that )
 {
     return ( this_ < that ) ? this_ : that;
 }
 
-static inline int32_t universal_int_max_i32 ( int32_t this_, int32_t that )
+static inline int32_t gui_sketch_int_compare_max_i32 ( int32_t this_, int32_t that )
 {
     return ( this_ > that ) ? this_ : that;
 }

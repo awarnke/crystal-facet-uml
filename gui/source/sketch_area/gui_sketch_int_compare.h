@@ -1,7 +1,7 @@
-/* File: universal_int.h; Copyright and License: see below */
+/* File: gui_sketch_int_compare.h; Copyright and License: see below */
 
-#ifndef UNIVERSAL_INT_H
-#define UNIVERSAL_INT_H
+#ifndef GUI_SKETCH_INT_COMPARE_H
+#define GUI_SKETCH_INT_COMPARE_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -18,7 +18,7 @@
  *  \param that second signed integer
  *  \return minimum of two signed integer
  */
-static inline int32_t universal_int_min_i32 ( int32_t this_, int32_t that );
+static inline int32_t gui_sketch_int_compare_min_i32 ( int32_t this_, int32_t that );
 
 /*!
  *  \brief determines the maximum of two signed 32 bit integers
@@ -27,11 +27,11 @@ static inline int32_t universal_int_min_i32 ( int32_t this_, int32_t that );
  *  \param that second signed integer
  *  \return maximum of two signed integer
  */
-static inline int32_t universal_int_max_i32 ( int32_t this_, int32_t that );
+static inline int32_t gui_sketch_int_compare_max_i32 ( int32_t this_, int32_t that );
 
-#include "u8list/universal_int.inl"
+#include "gui_sketch_int_compare.inl"
 
-#endif  /* UNIVERSAL_INT_H */
+#endif  /* GUI_SKETCH_INT_COMPARE_H */
 
 
 /*
