@@ -757,10 +757,10 @@ INPUT                  = ../../gui \
                          ../../main \
                          ../../ctrl \
                          ../../data \
-                         ../../utf8stringbuf \
                          ../../pencil \
                          ../../io \
-                         ../../test \
+                         ../../test_fw \
+                         ../../u8buf \
                          ../../u8stream \
                          ./source_code_doc.txt \
                          ../../architecture/doc/programming_guidelines.txt
@@ -1947,7 +1947,7 @@ SEARCH_INCLUDES        = YES
 # preprocessor.
 # This tag requires that the tag SEARCH_INCLUDES is set to YES.
 
-INCLUDE_PATH           =
+INCLUDE_PATH           = ../../io/include
 
 # You can use the INCLUDE_FILE_PATTERNS tag to specify one or more wildcard
 # patterns (like *.h and *.hpp) to filter out the header-files in the

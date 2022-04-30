@@ -4,7 +4,7 @@
 #include "trace/trace.h"
 #include "u8/u8_error.h"
 #include "set/data_stat.h"
-#include "util/string/utf8string.h"
+#include "utf8stringbuf/utf8string.h"
 #include <assert.h>
 #include <gtk/gtk.h>
 #include <stdbool.h>

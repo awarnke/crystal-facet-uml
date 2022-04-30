@@ -13,8 +13,8 @@
 #include "data_diagram.h"
 #include "data_classifier.h"
 #include "data_table.h"
-#include "util/string/utf8string.h"
-#include "util/string/utf8stringview.h"
+#include "utf8stringbuf/utf8string.h"
+#include "utf8stringbuf/utf8stringview.h"
 #include "stream/universal_output_stream.h"
 #include "stream/universal_escaping_output_stream.h"
 

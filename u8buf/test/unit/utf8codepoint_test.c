@@ -1,8 +1,8 @@
 /* File: utf8codepoint_test.c; Copyright and License: see below */
 
 #include "utf8codepoint_test.h"
-#include "util/string/utf8stringbuf.h"
-#include "util/string/utf8codepoint.h"
+#include "utf8stringbuf/utf8stringbuf.h"
+#include "utf8stringbuf/utf8codepoint.h"
 #include "test_assert.h"
 #include <string.h>
 #include <assert.h>

@@ -9,7 +9,7 @@
  *  \brief Defines the export formats of diagram-image/text files
  */
 
-#include "util/string/utf8stringbuf.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 
 /*!
  *  \brief file format of exported images/text

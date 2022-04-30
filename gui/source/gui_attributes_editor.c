@@ -5,7 +5,7 @@
 #include "trace/trace.h"
 #include "data_table.h"
 #include "data_id.h"
-#include "util/string/utf8string.h"
+#include "utf8stringbuf/utf8string.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 #ifndef NDEBUG

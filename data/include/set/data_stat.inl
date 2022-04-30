@@ -1,6 +1,6 @@
 /* File: data_stat.inl; Copyright and License: see below */
 
-#include "util/string/utf8stringbuf.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 #include "trace/trace.h"
 #include <assert.h>
 

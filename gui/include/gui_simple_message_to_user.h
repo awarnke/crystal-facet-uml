@@ -12,7 +12,7 @@
 #include "gui_simple_message_content.h"
 #include "gui_resources.h"
 #include "set/data_stat.h"
-#include "util/string/utf8stringbuf.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 

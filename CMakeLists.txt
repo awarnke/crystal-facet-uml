@@ -16,7 +16,7 @@ INCLUDE_DIRECTORIES(gui/include)
 INCLUDE_DIRECTORIES(main/include)
 INCLUDE_DIRECTORIES(ctrl/include)
 INCLUDE_DIRECTORIES(data/include)
-INCLUDE_DIRECTORIES(utf8stringbuf/include)
+INCLUDE_DIRECTORIES(u8buf/include)
 INCLUDE_DIRECTORIES(pencil/include)
 INCLUDE_DIRECTORIES(io/include)
 INCLUDE_DIRECTORIES(u8stream/include)
@@ -59,7 +59,7 @@ FILE(GLOB commonSource gui/source/*.c
                        data/source/*.c
                        data/source/storage/*.c
                        data/source/set/*.c
-                       utf8stringbuf/source/util/string/*.c
+                       u8buf/source/utf8stringbuf/*.c
                        u8stream/source/*.c
                        u8stream/source/stream/*.c
                        u8stream/source/trace/*.c

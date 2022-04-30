@@ -1,7 +1,7 @@
 /* File: md_filter.c; Copyright and License: see below */
 
 #include "md/md_filter.h"
-#include "util/string/utf8stringview.h"
+#include "utf8stringbuf/utf8stringview.h"
 #include "trace/trace.h"
 #include "tslog/tslog.h"
 #include <stdio.h>

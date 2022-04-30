@@ -2,7 +2,7 @@
 
 #include "pencil_feat_label_layouter.h"
 #include "trace/trace.h"
-#include "util/string/utf8string.h"
+#include "utf8stringbuf/utf8string.h"
 
 void pencil_feat_label_layouter_init( pencil_feat_label_layouter_t *this_,
                                       pencil_layout_data_t *layout_data,

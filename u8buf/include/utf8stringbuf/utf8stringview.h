@@ -15,8 +15,8 @@
  *  \author Copyright 2021-2022 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */
 
-#include "util/string/utf8codepoint.h"
-#include "util/string/utf8error.h"
+#include "utf8stringbuf/utf8codepoint.h"
+#include "utf8stringbuf/utf8error.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -131,7 +131,7 @@ static inline int utf8stringview_find_first_str( const utf8stringview_t this_, c
 }
 #endif
 
-#include "util/string/utf8stringview.inl"
+#include "utf8stringbuf/utf8stringview.inl"
 
 #endif /*UTF8STRINGVIEW_H_*/
 

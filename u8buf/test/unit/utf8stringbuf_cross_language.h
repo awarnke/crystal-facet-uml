@@ -3,8 +3,8 @@
 #ifndef UTF8STRINGBUF_CROSS_LANGUAGE_H_
 #define UTF8STRINGBUF_CROSS_LANGUAGE_H_
 
-#include "util/string/utf8stringbuf.h"
-#include "util/string/utf8codepoint.h"
+#include "utf8stringbuf/utf8stringbuf.h"
+#include "utf8stringbuf/utf8codepoint.h"
 
 #ifdef __cplusplus
 

@@ -2,8 +2,8 @@
 
 #include "pencil_classifier_composer.h"
 #include "trace/trace.h"
-#include "util/string/utf8stringbuf.h"
-#include "util/string/utf8string.h"
+#include "utf8stringbuf/utf8stringbuf.h"
+#include "utf8stringbuf/utf8string.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>

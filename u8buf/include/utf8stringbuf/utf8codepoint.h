@@ -122,7 +122,7 @@ extern const utf8codepoint_t UTF8CODEPOINT_INVAL_CHAR;
 }
 #endif
 
-#include "util/string/utf8codepoint.inl"
+#include "utf8stringbuf/utf8codepoint.inl"
 
 #endif /*UTF8CODEPOINT_H_*/
 

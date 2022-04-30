@@ -3,7 +3,7 @@
 #include "storage/data_database_reader.h"
 #include "trace/trace.h"
 #include "tslog/tslog.h"
-#include "util/string/utf8stringbuf.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 #include <sqlite3.h>
 #include <assert.h>
 

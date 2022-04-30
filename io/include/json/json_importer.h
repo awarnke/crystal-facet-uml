@@ -14,7 +14,7 @@
 #include "set/data_stat.h"
 #include "stream/universal_input_stream.h"
 #include "universal_utf8_writer.h"
-#include "util/string/utf8stringbuf.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 
 /*!
  *  \brief attributes of the json import object

@@ -2,7 +2,7 @@
 
 #include "io_import_elements.h"
 #include "u8/u8_error.h"
-#include "util/string/utf8string.h"
+#include "utf8stringbuf/utf8string.h"
 #include "trace/trace.h"
 #include <assert.h>
 #include <gtk/gtk.h>

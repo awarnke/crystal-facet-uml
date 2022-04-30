@@ -11,8 +11,8 @@
  *  \author Copyright 2012-2022 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */
 
-#include "util/string/utf8codepoint.h"
-#include "util/string/utf8stringbuf.h"
+#include "utf8stringbuf/utf8codepoint.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -257,7 +257,7 @@ static inline utf8error_t utf8string_parse_int( const char *this_, unsigned int 
 }
 #endif
 
-#include "util/string/utf8string.inl"
+#include "utf8stringbuf/utf8string.inl"
 
 #endif /*UTF8STRING_H_*/
 

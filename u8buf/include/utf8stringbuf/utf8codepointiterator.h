@@ -9,9 +9,9 @@
  *  \brief Iterates over codepoints of e.g. a stringview
  */
 
-#include "util/string/utf8codepoint.h"
-#include "util/string/utf8string.h"
-#include "util/string/utf8stringview.h"
+#include "utf8stringbuf/utf8codepoint.h"
+#include "utf8stringbuf/utf8string.h"
+#include "utf8stringbuf/utf8stringview.h"
 #include <stdbool.h>
 
 /*!

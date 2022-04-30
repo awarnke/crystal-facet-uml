@@ -1,6 +1,6 @@
 /* File: utf8stringbuf_performance.c; Copyright and License: see below */
 
-#include "util/string/utf8stringbuf.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 #include "utf8stringbuf_performance.h"
 #include "test_assert.h"
 #include <string.h>

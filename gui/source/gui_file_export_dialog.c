@@ -3,8 +3,8 @@
 #include "gui_file_export_dialog.h"
 #include "set/data_stat.h"
 #include "trace/trace.h"
-#include "util/string/utf8string.h"
-#include "util/string/utf8stringbuf.h"
+#include "utf8stringbuf/utf8string.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <stdio.h>

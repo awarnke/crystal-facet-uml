@@ -1,7 +1,7 @@
 /* File: xhtml_element_writer.c; Copyright and License: see below */
 
 #include "xhtml/xhtml_element_writer.h"
-#include "util/string/utf8string.h"
+#include "utf8stringbuf/utf8string.h"
 #include "data_id.h"
 #include "trace/trace.h"
 #include "tslog/tslog.h"

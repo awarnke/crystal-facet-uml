@@ -9,8 +9,8 @@
  *  \brief Iterates over a character-separated list of a stringview
  */
 
-#include "util/string/utf8string.h"
-#include "util/string/utf8stringview.h"
+#include "utf8stringbuf/utf8string.h"
+#include "utf8stringbuf/utf8stringview.h"
 #include <stdbool.h>
 
 /*!

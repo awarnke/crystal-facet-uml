@@ -1,7 +1,7 @@
 /* File: utf8stringbuf_test.c; Copyright and License: see below */
 
 #include "utf8stringbuf_test.h"
-#include "util/string/utf8stringbuf.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 #include "utf8stringbuf_cross_language.h"
 #include "test_assert.h"
 #include <string.h>

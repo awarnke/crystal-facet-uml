@@ -11,7 +11,7 @@
  *  \author Copyright 2012-2022 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */
 
-#include "util/string/utf8error.h"
+#include "utf8stringbuf/utf8error.h"
 
 #ifdef __cplusplus
 extern "C" {

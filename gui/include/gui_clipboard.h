@@ -14,7 +14,7 @@
 #include "io_importer.h"
 #include "ctrl_controller.h"
 #include "data_rules.h"
-#include "util/string/utf8stringbuf.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 #if ( GTK_MAJOR_VERSION >= 4 )
 #include <gdk/gdkclipboard.h>
 #else

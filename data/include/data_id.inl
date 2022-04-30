@@ -2,7 +2,7 @@
 
 #include "trace/trace.h"
 #include "tslog/tslog.h"
-#include "util/string/utf8string.h"
+#include "utf8stringbuf/utf8string.h"
 
 static inline void data_id_init ( data_id_t *this_, data_table_t table, data_row_id_t row_id )
 {

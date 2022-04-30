@@ -15,7 +15,7 @@
 #include "data_diagram_flag.h"
 #include "data_uuid.h"
 #include "u8/u8_error.h"
-#include "util/string/utf8stringbuf.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 #include <stdbool.h>
 #include <stdint.h>
 

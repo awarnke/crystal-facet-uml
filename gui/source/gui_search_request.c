@@ -1,7 +1,7 @@
 /* File: gui_search_request.c; Copyright and License: see below */
 
 #include "gui_search_request.h"
-#include "util/string/utf8string.h"
+#include "utf8stringbuf/utf8string.h"
 #include "trace/trace.h"
 #include "tslog/tslog.h"
 #include <assert.h>

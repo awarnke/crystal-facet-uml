@@ -32,9 +32,9 @@
  *  \author Copyright 2012-2022 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */
 
-#include "util/string/utf8codepoint.h"
-#include "util/string/utf8error.h"
-#include "util/string/utf8stringntuple.h"
+#include "utf8stringbuf/utf8codepoint.h"
+#include "utf8stringbuf/utf8error.h"
+#include "utf8stringbuf/utf8stringntuple.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -60,7 +60,7 @@ extern "C" {
  *  \n
  *  If you need only a small, temporary stringbuffer, consider to create this dynamically on the stack:
  *  \code
- *      #include "util/string/utf8stringbuf.h"
+ *      #include "utf8stringbuf/utf8stringbuf.h"
  *      void MySampleFunction() {
  *          char myArr[50] = "";
  *          utf8stringbuf_t myStrBuf = UTF8STRINGBUF(myArr);
@@ -70,7 +70,7 @@ extern "C" {
  *  and which is accessed only by one single thread,
  *  consider to create this in the data section of your compilation-unit:
  *  \code
- *      #include "util/string/utf8stringbuf.h"
+ *      #include "utf8stringbuf/utf8stringbuf.h"
  *      static char mySqlArr[16384] = "";
  *      utf8stringbuf_t mySqlBuf = UTF8STRINGBUF(mySqlArr);
  *  \endcode
@@ -80,7 +80,7 @@ extern "C" {
  *  You still have to cope with locking but all functions can work on a pointer
  *  to that struct instead of accessing global variables.
  *  \code
- *      #include "util/string/utf8stringbuf.h"
+ *      #include "utf8stringbuf/utf8stringbuf.h"
  *      struct InitTestStruct {
  *          char urlArr[8192];
  *          utf8stringbuf_t url;
@@ -835,7 +835,7 @@ extern utf8error_t utf8stringbuf_append_wstr( utf8stringbuf_t this_, const wchar
 }
 #endif
 
-#include "util/string/utf8stringbuf.inl"
+#include "utf8stringbuf/utf8stringbuf.inl"
 
 #endif /*UTF8STRINGBUF_H_*/
 

@@ -52,7 +52,7 @@
 /* #include "unit/utf8stringbuf_performance.h" -- performance measurements are not reliable - depend on system config+load */
 #include "unit/utf8stringview_test.h"
 #include "unit/utf8stringviewiterator_test.h"
-#include "util/string/utf8string.h"
+#include "utf8stringbuf/utf8string.h"
 /* TEST_ENVIRONMENT */
 #include "trace/trace.h"
 #include "tslog/tslog.h"

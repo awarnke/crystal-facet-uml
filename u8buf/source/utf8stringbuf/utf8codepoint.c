@@ -7,7 +7,7 @@
  *  \author Copyright 2012-2022 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */
 
-#include "util/string/utf8codepoint.h"
+#include "utf8stringbuf/utf8codepoint.h"
 
 /* UTF8CODEPOINT_INVAL_CHAR is a constant, may be stored in a read-only memory page */
 const utf8codepoint_t UTF8CODEPOINT_INVAL_CHAR = { UTF8CODEPOINT_INVALID_LEN, 0x0, };

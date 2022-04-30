@@ -5,7 +5,7 @@
 #include "xmi/xmi_element_info.h"
 #include "xmi/xmi_element_part.h"
 #include "xmi/xmi_xml.h"
-#include "util/string/utf8string.h"
+#include "utf8stringbuf/utf8string.h"
 #include "data_id.h"
 #include "data_classifier_type.h"
 #include "trace/trace.h"

@@ -8,7 +8,7 @@
  */
 
 #include <inttypes.h>
-#include "util/string/utf8stringbuf.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 
 /* utf8stringbuf_private_empty_buf is constantly 0, but may be overwritten by a 0 - therefore stored in a read-writeable memory page */
 char utf8stringbuf_private_empty_buf[1] = "";

@@ -4,7 +4,7 @@
 #include "xmi/xmi_element_info.h"
 #include "xmi/xmi_element_info_map.h"
 #include "xmi/xmi_xml.h"
-#include "util/string/utf8string.h"
+#include "utf8stringbuf/utf8string.h"
 #include "data_id.h"
 #include "trace/trace.h"
 #include "tslog/tslog.h"

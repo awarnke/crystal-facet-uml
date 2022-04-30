@@ -15,7 +15,7 @@
 #include "data_classifier.h"
 #include "set/data_visible_set.h"
 #include "util/geometry/geometry_rectangle.h"
-#include "util/string/utf8stringbuf.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 #include "stream/universal_output_stream.h"
 #include <gtk/gtk.h>
 

@@ -10,7 +10,7 @@
 /*#ifndef UTF8STRINGBUF_INL_*/
 /*#define UTF8STRINGBUF_INL_*/
 
-#include "util/string/utf8codepoint.h"
+#include "utf8stringbuf/utf8codepoint.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>

@@ -6,7 +6,7 @@
 #include "stream/universal_memory_input_stream.h"
 #include "stream/universal_null_output_stream.h"
 #include "u8/u8_error.h"
-#include "util/string/utf8string.h"
+#include "utf8stringbuf/utf8string.h"
 #include "trace/trace.h"
 #include <assert.h>
 #include <gtk/gtk.h>

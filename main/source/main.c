@@ -6,7 +6,7 @@
 #include "tslog/tslog.h"
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
-#include "util/string/utf8string.h"
+#include "utf8stringbuf/utf8string.h"
 #include "stream/universal_stream_output_stream.h"
 #include "universal_utf8_writer.h"
 #include <sys/types.h>
