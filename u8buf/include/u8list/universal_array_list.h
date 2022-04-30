@@ -140,7 +140,7 @@ static inline void universal_array_list_clear ( universal_array_list_t *this_ );
  */
 static inline unsigned int universal_array_list_get_length ( const universal_array_list_t *this_ );
 
-#include "universal_array_list.inl"
+#include "u8list/universal_array_list.inl"
 
 #endif  /* UNIVERSAL_ARRAY_LIST_H */
 

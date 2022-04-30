@@ -29,7 +29,7 @@ static inline int32_t universal_int_min_i32 ( int32_t this_, int32_t that );
  */
 static inline int32_t universal_int_max_i32 ( int32_t this_, int32_t that );
 
-#include "universal_int.inl"
+#include "u8list/universal_int.inl"
 
 #endif  /* UNIVERSAL_INT_H */
 

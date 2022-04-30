@@ -78,7 +78,7 @@ static inline uint32_t universal_array_index_sorter_get_count( const universal_a
  */
 static inline uint32_t universal_array_index_sorter_get_array_index( const universal_array_index_sorter_t *this_, uint32_t sort_index );
 
-#include "universal_array_index_sorter.inl"
+#include "u8list/universal_array_index_sorter.inl"
 
 #endif  /* UNIVERSAL_ARRAY_INDEX_SORTER_H */
 

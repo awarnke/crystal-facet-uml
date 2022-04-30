@@ -101,7 +101,7 @@ static inline bool universal_bool_list_get_second ( const universal_bool_list_t 
  */
 static inline void universal_bool_list_trace ( const universal_bool_list_t *this_ );
 
-#include "universal_bool_list.inl"
+#include "u8list/universal_bool_list.inl"
 
 #endif  /* UNIVERSAL_BOOL_LIST_H */
 

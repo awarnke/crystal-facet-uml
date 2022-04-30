@@ -3,7 +3,7 @@
 #include "sketch_area/gui_sketch_result_list.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "utf8stringbuf/utf8stringbuf.h"
-#include "universal_int.h"
+#include "u8list/universal_int.h"
 #include "trace/trace.h"
 #include "tslog/tslog.h"
 #include <gdk/gdk.h>

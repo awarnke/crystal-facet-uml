@@ -18,7 +18,7 @@
 #include "set/data_id_pair.h"
 #include "option/pencil_type_filter.h"
 #include "layout/layout_order.h"
-#include "universal_bool_list.h"
+#include "u8list/universal_bool_list.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 #include <stdint.h>

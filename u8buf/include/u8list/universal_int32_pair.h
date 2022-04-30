@@ -99,7 +99,7 @@ static inline int32_t universal_int32_pair_get_second ( const universal_int32_pa
  */
 static inline void universal_int32_pair_trace ( const universal_int32_pair_t *this_ );
 
-#include "universal_int32_pair.inl"
+#include "u8list/universal_int32_pair.inl"
 
 #endif  /* UNIVERSAL_INT32_PAIR_H */
 
