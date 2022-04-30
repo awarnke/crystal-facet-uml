@@ -54,8 +54,8 @@
 #include "unit/utf8stringviewiterator_test.h"
 #include "util/string/utf8string.h"
 /* TEST_ENVIRONMENT */
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
 #include "test_runner.h"

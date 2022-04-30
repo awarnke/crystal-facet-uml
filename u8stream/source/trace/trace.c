@@ -1,6 +1,6 @@
 /* File: trace.c; Copyright and License: see below */
 
-#include "trace.h"
+#include "trace/trace.h"
 #include <stdio.h>
 #include <time.h>
 

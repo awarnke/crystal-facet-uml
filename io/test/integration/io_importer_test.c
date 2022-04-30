@@ -10,7 +10,7 @@
 #include "universal_utf8_writer.h"
 #include "stream/universal_memory_input_stream.h"
 #include "stream/universal_memory_output_stream.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include "test_assert.h"
 
 static void set_up(void);

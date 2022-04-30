@@ -1,6 +1,6 @@
 /* File: universal_array_index_sorter.inl; Copyright and License: see below */
 
-#include "tslog.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 static inline void universal_array_index_sorter_init( universal_array_index_sorter_t *this_ )

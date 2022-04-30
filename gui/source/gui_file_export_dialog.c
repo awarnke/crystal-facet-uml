@@ -2,7 +2,7 @@
 
 #include "gui_file_export_dialog.h"
 #include "set/data_stat.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include "util/string/utf8string.h"
 #include "util/string/utf8stringbuf.h"
 #include <gdk/gdk.h>

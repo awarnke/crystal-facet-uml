@@ -1,7 +1,7 @@
 /* File: gui_sketch_card.inl; Copyright and License: see below */
 
-#include "tslog.h"
-#include "trace.h"
+#include "tslog/tslog.h"
+#include "trace/trace.h"
 #include <assert.h>
 
 static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_, data_id_t diagram_id, data_database_reader_t *db_reader )

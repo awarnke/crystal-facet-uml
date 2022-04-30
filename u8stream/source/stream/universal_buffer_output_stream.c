@@ -2,8 +2,8 @@
 
 #include "stream/universal_buffer_output_stream.h"
 #include "stream/universal_output_stream_if.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <string.h>
 #include <assert.h>
 

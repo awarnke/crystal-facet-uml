@@ -2,7 +2,7 @@
 
 #include "pencil_feature_painter.h"
 #include "pencil_layout_data.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>

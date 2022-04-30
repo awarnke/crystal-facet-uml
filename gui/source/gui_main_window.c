@@ -2,7 +2,7 @@
 
 #include "gui_main_window.h"
 #include "gui_clipboard.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include "storage/data_change_notifier.h"
 #include "meta/meta_info.h"
 #include <gdk/gdk.h>

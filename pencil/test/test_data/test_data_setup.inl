@@ -1,6 +1,6 @@
 /* File: test_data_setup.inl; Copyright and License: see below */
 
-#include "trace.h"
+#include "trace/trace.h"
 #include "test_assert.h"
 #include <assert.h>
 #include <stdint.h>

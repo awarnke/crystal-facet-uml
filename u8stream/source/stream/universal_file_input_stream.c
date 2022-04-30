@@ -2,8 +2,8 @@
 
 #include "stream/universal_file_input_stream.h"
 #include "stream/universal_input_stream_if.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <stdbool.h>
 #include <assert.h>
 

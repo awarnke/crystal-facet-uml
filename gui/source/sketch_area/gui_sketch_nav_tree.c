@@ -3,8 +3,8 @@
 #include "sketch_area/gui_sketch_nav_tree.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "universal_int.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <gdk/gdk.h>
 
 static const int GUI_SKETCH_NAV_TREE_INDENT = 12;

@@ -1,6 +1,6 @@
 /* File: shape_int_rectangle.inl; Copyright and License: see below */
 
-#include "trace.h"
+#include "trace/trace.h"
 #include <assert.h>
 
 #define SHAPE_INT_RECTANGLE_MAX(a,b) ((a) > (b) ? (a) : (b))

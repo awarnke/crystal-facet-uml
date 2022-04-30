@@ -2,8 +2,8 @@
 
 #include "gui_search_request.h"
 #include "util/string/utf8string.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 void gui_search_request_init ( gui_search_request_t *this_,

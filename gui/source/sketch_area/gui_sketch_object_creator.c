@@ -5,8 +5,8 @@
 //#include "ctrl_multi_step_changer.h"
 #include "data_table.h"
 #include "data_id.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <stdint.h>
 #include <stdbool.h>
 

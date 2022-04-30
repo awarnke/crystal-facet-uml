@@ -1,7 +1,7 @@
 /* File: geometry_connector.inl; Copyright and License: see below */
 
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <math.h>
 
 static inline void geometry_connector_init_vertical ( geometry_connector_t *this_,

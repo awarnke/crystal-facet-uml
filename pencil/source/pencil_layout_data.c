@@ -1,8 +1,8 @@
 /* File: pencil_layout_data.c; Copyright and License: see below */
 
 #include "pencil_layout_data.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 void pencil_layout_data_init( pencil_layout_data_t *this_, const data_visible_set_t *input_data )

@@ -1,8 +1,8 @@
 /* File: data_uuid.c; Copyright and License: see below */
 
 #include "universal_simple_random.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <time.h>
 #include <assert.h>
 

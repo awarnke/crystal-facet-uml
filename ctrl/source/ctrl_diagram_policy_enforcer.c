@@ -3,8 +3,8 @@
 #include "ctrl_diagram_policy_enforcer.h"
 #include "ctrl_classifier_controller.h"
 #include "ctrl_diagram_controller.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 
 void ctrl_diagram_policy_enforcer_init( ctrl_diagram_policy_enforcer_t *this_,
                                         data_database_reader_t *db_reader,

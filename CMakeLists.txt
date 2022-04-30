@@ -14,8 +14,6 @@ INCLUDE_DIRECTORIES(${COMPILE_IN_INCLUDE_DIR})
 
 INCLUDE_DIRECTORIES(gui/include)
 INCLUDE_DIRECTORIES(main/include)
-INCLUDE_DIRECTORIES(tslog/include)
-INCLUDE_DIRECTORIES(trace/include)
 INCLUDE_DIRECTORIES(ctrl/include)
 INCLUDE_DIRECTORIES(data/include)
 INCLUDE_DIRECTORIES(utf8stringbuf/include)
@@ -57,7 +55,6 @@ INCLUDE_DIRECTORIES(${PANGOCAIRO_INCLUDE_DIRS})
 
 FILE(GLOB commonSource gui/source/*.c
                        gui/source/sketch_area/*.c
-                       trace/source/*.c
                        ctrl/source/*.c
                        data/source/*.c
                        data/source/storage/*.c
@@ -65,6 +62,7 @@ FILE(GLOB commonSource gui/source/*.c
                        utf8stringbuf/source/util/string/*.c
                        u8stream/source/*.c
                        u8stream/source/stream/*.c
+                       u8stream/source/trace/*.c
                        pencil/source/*.c
                        pencil/source/util/geometry/*.c
                        pencil/source/draw/*.c

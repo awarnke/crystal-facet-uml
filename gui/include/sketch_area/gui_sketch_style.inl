@@ -1,6 +1,6 @@
 /* File: gui_sketch_style.inl; Copyright and License: see below */
 
-#include "tslog.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 static const char *const GUI_SKETCH_STYLE_FONT_FAMILY = "Sans";

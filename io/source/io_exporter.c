@@ -5,8 +5,8 @@
 #include "stream/universal_file_output_stream.h"
 #include "stream/universal_output_stream.h"
 #include "xmi/xmi_writer_pass.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <gtk/gtk.h>
 #include <cairo-svg.h>
 #include <cairo-pdf.h>

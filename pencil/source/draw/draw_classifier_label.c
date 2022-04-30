@@ -1,7 +1,7 @@
 /* File: draw_classifier_label.c; Copyright and License: see below */
 
 #include "draw/draw_classifier_label.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include "data_classifier.h"
 #include "data_diagramelement.h"
 #include "util/string/utf8stringbuf.h"

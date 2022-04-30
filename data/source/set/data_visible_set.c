@@ -1,7 +1,7 @@
 /* File: data_visible_set.c; Copyright and License: see below */
 
 #include "set/data_visible_set.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>

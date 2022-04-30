@@ -1,8 +1,8 @@
 /* File: ctrl_controller.c; Copyright and License: see below */
 
 #include "ctrl_controller.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 
 void ctrl_controller_init ( ctrl_controller_t *this_, data_database_t *database )
 {

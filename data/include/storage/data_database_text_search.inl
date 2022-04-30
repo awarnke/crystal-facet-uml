@@ -1,7 +1,7 @@
 /* File: data_database_text_search.inl; Copyright and License: see below */
 
-#include "tslog.h"
-#include "trace.h"
+#include "tslog/tslog.h"
+#include "trace/trace.h"
 #include <assert.h>
 
 static inline bool data_database_text_search_is_open( data_database_text_search_t *this_ )

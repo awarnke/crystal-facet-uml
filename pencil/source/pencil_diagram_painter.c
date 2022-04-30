@@ -1,7 +1,7 @@
 /* File: pencil_diagram_painter.c; Copyright and License: see below */
 
 #include "pencil_diagram_painter.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>

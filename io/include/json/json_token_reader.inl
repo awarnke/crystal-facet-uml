@@ -1,7 +1,7 @@
 /* File: json_token_reader.inl; Copyright and License: see below */
 
 #include "json/json_constants.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include <assert.h>
 
 static inline void json_token_reader_private_skip_whitespace ( json_token_reader_t *this_ )

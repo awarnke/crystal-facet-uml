@@ -7,7 +7,7 @@
 #include "stream/universal_null_output_stream.h"
 #include "u8/u8_error.h"
 #include "util/string/utf8string.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include <assert.h>
 #include <gtk/gtk.h>
 #include <stdbool.h>

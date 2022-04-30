@@ -2,8 +2,8 @@
 
 #include "main.h"
 #include "main_commands.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
 #include "util/string/utf8string.h"

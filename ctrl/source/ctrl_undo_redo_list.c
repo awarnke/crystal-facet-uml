@@ -1,8 +1,8 @@
 /* File: ctrl_undo_redo_list.c; Copyright and License: see below */
 
 #include "ctrl_undo_redo_list.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 u8_error_t ctrl_undo_redo_list_remove_boundary_from_end ( ctrl_undo_redo_list_t *this_ )

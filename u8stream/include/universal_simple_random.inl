@@ -1,6 +1,6 @@
 /* File: universal_simple_random.inl; Copyright and License: see below */
 
-#include "tslog.h"
+#include "tslog/tslog.h"
 #include <time.h>
 #include <stdlib.h>
 #include <errno.h>

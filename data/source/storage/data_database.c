@@ -3,8 +3,8 @@
 #include "storage/data_database.h"
 #include "data_id.h"
 #include "data_table.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <unistd.h>
 #include <assert.h>
 

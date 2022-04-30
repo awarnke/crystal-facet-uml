@@ -8,8 +8,8 @@
 #include "util/string/utf8string.h"
 #include "data_id.h"
 #include "data_classifier_type.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <assert.h>

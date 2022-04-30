@@ -6,8 +6,8 @@
 #include "storage/data_database.h"
 #include "storage/data_database_reader.h"
 #include "meta/meta_info.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,7 +1,7 @@
 /* File: gui_window_manager.c; Copyright and License: see below */
 
 #include "gui_window_manager.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdbool.h>

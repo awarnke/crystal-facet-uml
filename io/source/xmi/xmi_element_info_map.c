@@ -1,8 +1,8 @@
 /* File: xmi_element_info_map.c; Copyright and License: see below */
 
 #include "xmi/xmi_element_info_map.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 const xmi_element_info_map_t xmi_element_info_map_standard

@@ -1,7 +1,7 @@
 /* File: geometry_anchor.inl; Copyright and License: see below */
 
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 #include <math.h>
 

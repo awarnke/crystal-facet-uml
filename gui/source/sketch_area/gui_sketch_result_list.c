@@ -4,8 +4,8 @@
 #include "util/geometry/geometry_rectangle.h"
 #include "util/string/utf8stringbuf.h"
 #include "universal_int.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <gdk/gdk.h>
 
 static const int GUI_SKETCH_RESULT_LIST_PANGO_AUTO_DETECT_LENGTH = -1;  /*!< pango automatically determines the string length */

@@ -2,7 +2,7 @@
 
 #include "gui_attributes_editor.h"
 #include "util/gtk_helper/gtk_helper_tree_model.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include "data_table.h"
 #include "data_id.h"
 #include "util/string/utf8string.h"

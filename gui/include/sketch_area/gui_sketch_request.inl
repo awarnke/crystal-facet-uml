@@ -1,6 +1,6 @@
 /* File: gui_sketch_request.inl; Copyright and License: see below */
 
-#include "trace.h"
+#include "trace/trace.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>

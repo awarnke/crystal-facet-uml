@@ -4,8 +4,8 @@
 #include "json/json_constants.h"
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 /* define a struct where the function pointers have the exact right signatures to avoid typecasts */

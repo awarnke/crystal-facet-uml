@@ -1,7 +1,7 @@
 /* File: pencil_classifier_1d_layouter.c; Copyright and License: see below */
 
 #include "pencil_classifier_1d_layouter.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>

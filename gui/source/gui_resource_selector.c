@@ -1,8 +1,8 @@
 /* File: gui_resource_selector.c; Copyright and License: see below */
 
 #include "gui_resource_selector.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <gtk/gtk.h>
 #include <assert.h>
 

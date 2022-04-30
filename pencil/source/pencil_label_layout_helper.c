@@ -1,7 +1,7 @@
 /* File: pencil_label_layout_helper.c; Copyright and License: see below */
 
 #include "pencil_label_layout_helper.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include "util/string/utf8string.h"
 
 void pencil_label_layout_helper_init( pencil_label_layout_helper_t *this_ )

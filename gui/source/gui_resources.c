@@ -1,7 +1,7 @@
 /* File: gui_resources.c; Copyright and License: see below */
 
 #include "gui_resources.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 

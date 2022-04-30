@@ -1,6 +1,6 @@
 /* File: test_result_check_xml.c; Copyright and License: see below */
 
-#include "trace.h"
+#include "trace/trace.h"
 #include "test_assert.h"
 #include <glib.h>
         

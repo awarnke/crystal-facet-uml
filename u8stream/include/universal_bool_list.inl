@@ -1,6 +1,6 @@
 /* File: universal_bool_list.inl; Copyright and License: see below */
 
-#include "trace.h"
+#include "trace/trace.h"
 
 static inline void universal_bool_list_init_pair ( universal_bool_list_t *this_, bool first, bool second )
 {

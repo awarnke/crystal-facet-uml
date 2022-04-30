@@ -1,7 +1,7 @@
 /* File: pencil_diagram_maker.inl; Copyright and License: see below */
 
 #include "pencil_diagram_maker.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include <assert.h>
 
 static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, const data_visible_set_t *input_data )

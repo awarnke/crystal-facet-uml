@@ -1,7 +1,7 @@
 /* File: gui_file_use_db_dialog.c; Copyright and License: see below */
 
 #include "gui_file_use_db_dialog.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <stdio.h>

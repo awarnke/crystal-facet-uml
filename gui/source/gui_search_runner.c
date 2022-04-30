@@ -2,8 +2,8 @@
 
 #include "gui_search_runner.h"
 #include "set/data_search_result_list.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 void gui_search_runner_init ( gui_search_runner_t *this_,

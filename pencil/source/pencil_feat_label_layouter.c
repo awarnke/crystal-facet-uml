@@ -1,7 +1,7 @@
 /* File: pencil_feat_label_layouter.c; Copyright and License: see below */
 
 #include "pencil_feat_label_layouter.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include "util/string/utf8string.h"
 
 void pencil_feat_label_layouter_init( pencil_feat_label_layouter_t *this_,

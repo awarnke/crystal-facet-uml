@@ -1,6 +1,6 @@
 /* File: universal_int32_pair.inl; Copyright and License: see below */
 
-#include "trace.h"
+#include "trace/trace.h"
 
 static inline void universal_int32_pair_init ( universal_int32_pair_t *this_, int32_t first, int32_t second )
 {

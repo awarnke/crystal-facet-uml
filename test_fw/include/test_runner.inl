@@ -1,6 +1,6 @@
 /* File: test_runner.inl; Copyright and License: see below */
 
-#include "tslog.h"
+#include "tslog/tslog.h"
 #include <stdio.h>
 
 static inline void test_runner_init( test_runner_t *this_ )

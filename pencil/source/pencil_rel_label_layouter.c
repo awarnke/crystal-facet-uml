@@ -3,7 +3,7 @@
 #include "pencil_rel_label_layouter.h"
 #include "util/geometry/geometry_point.h"
 #include "util/geometry/geometry_direction.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include "util/string/utf8string.h"
 
 void pencil_rel_label_layouter_init( pencil_rel_label_layouter_t *this_,

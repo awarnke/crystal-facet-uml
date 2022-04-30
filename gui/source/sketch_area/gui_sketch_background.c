@@ -2,7 +2,7 @@
 
 #include "sketch_area/gui_sketch_background.h"
 #include "meta/meta_info.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include <stdint.h>
 #include <gtk/gtk.h>
 #include <assert.h>
