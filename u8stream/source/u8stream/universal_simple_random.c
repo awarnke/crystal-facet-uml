@@ -1,6 +1,6 @@
 /* File: universal_simple_random.c; Copyright and License: see below */
 
-#include "universal_simple_random.h"
+#include "u8stream/universal_simple_random.h"
 
 bool universal_simple_random_initialized = false;
 

@@ -57,7 +57,6 @@ FILE(GLOB commonSource ../../gui/source/*.c
                        ../../data/source/storage/*.c
                        ../../data/source/set/*.c
                        ../../u8buf/source/utf8stringbuf/*.c
-                       ../../u8stream/source/*.c
                        ../../u8stream/source/u8stream/*.c
                        ../../u8stream/source/trace/*.c
                        ../../pencil/source/*.c
