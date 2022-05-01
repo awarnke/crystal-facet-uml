@@ -33,9 +33,13 @@ ideas for future versions:
   [ ] json export declares "type": "ActivityFinalNode" even if type is state-final
   [ ] json export declares "type": "DecisionNode" even if type is ChoiceNode (statemachine)
   [ ] json export: determining if statemachine_context - is a good guess but not 100% correct
+  [ ] git diff: When changing the model, diffs on relationship changes are not human-understandable:
+      see https://github.com/awarnke/crystal-facet-uml/commit/7bfacd0b9ab05bfbf743f0f90ded1c06f79f054f
+  [ ] json import: is a bit slow if you want to perform this regularly
+      see https://stackoverflow.com/questions/1711631/improve-insert-per-second-performance-of-sqlite
   @data
-  [?] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
-      --> add a "display_flags" field to "diagrams"
+  [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
+      --> use the "display_flags" field of "diagrams"
   [ ] performance optimization: possibly the feature and relationship filter on a visible_set is slow?
   [?] diagrams need some kind of category/classification/stereotype like idea-for-future, rejected-alternative, ...
       --> add a "stereotype" field to "diagrams"
@@ -51,4 +55,5 @@ ideas for future versions:
   [ ] combine the static string allocation with dynamic additional buffers for unexpectedly-long strings
   [ ] combine the static array allocation with dynamic additional buffers for arrays of unpredictable lengths
   @main
+  [ ] on windows(TM) (since gtk4), the working directory is share\glib-2.0\schemas - not the installation root
   @ts_log/trace/test_fw

@@ -14,8 +14,8 @@
 #include "ctrl_controller.h"
 #include "storage/data_database_reader.h"
 #include "set/data_stat.h"
-#include "universal_utf8_writer.h"
-#include "stream/universal_input_stream.h"
+#include "utf8stream/universal_utf8_writer.h"
+#include "u8stream/universal_input_stream.h"
 #include "u8/u8_error.h"
 
 /*!

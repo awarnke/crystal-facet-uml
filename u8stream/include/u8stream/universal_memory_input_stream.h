@@ -9,7 +9,7 @@
  *  \brief reads data from a fixed-sized memory buffer and implements an universal_input_stream
  */
 
-#include "stream/universal_input_stream.h"
+#include "u8stream/universal_input_stream.h"
 
 /*!
  *  \brief attributes of the universal_memory_input_stream

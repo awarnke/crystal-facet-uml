@@ -12,8 +12,8 @@
 #include "io_import_elements.h"
 #include "data_rules.h"
 #include "set/data_stat.h"
-#include "stream/universal_input_stream.h"
-#include "universal_utf8_writer.h"
+#include "u8stream/universal_input_stream.h"
+#include "utf8stream/universal_utf8_writer.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 
 /*!

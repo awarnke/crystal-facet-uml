@@ -1,8 +1,8 @@
 /* File: universal_escaping_output_stream_test.c; Copyright and License: see below */
 
 #include "universal_escaping_output_stream_test.h"
-#include "stream/universal_escaping_output_stream.h"
-#include "stream/universal_memory_output_stream.h"
+#include "u8stream/universal_escaping_output_stream.h"
+#include "u8stream/universal_memory_output_stream.h"
 #include "test_assert.h"
 #include <string.h>
 #include <assert.h>

@@ -3,7 +3,7 @@
 #include "txt/txt_writer.h"
 #include "txt_writer_test.h"
 #include "set/data_visible_set.h"
-#include "stream/universal_memory_output_stream.h"
+#include "u8stream/universal_memory_output_stream.h"
 #include "test_assert.h"
 #include <string.h>
 

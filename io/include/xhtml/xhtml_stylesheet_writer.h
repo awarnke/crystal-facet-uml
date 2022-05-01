@@ -9,7 +9,7 @@
  *  \brief Writes a css stylesheet to one file output stream.
  */
 
-#include "stream/universal_output_stream.h"
+#include "u8stream/universal_output_stream.h"
 
 /*!
  *  \brief attributes of the format writer

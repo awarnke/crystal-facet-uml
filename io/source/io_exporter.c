@@ -2,8 +2,8 @@
 
 #include "io_exporter.h"
 #include "xhtml/xhtml_stylesheet_writer.h"
-#include "stream/universal_file_output_stream.h"
-#include "stream/universal_output_stream.h"
+#include "u8stream/universal_file_output_stream.h"
+#include "u8stream/universal_output_stream.h"
 #include "xmi/xmi_writer_pass.h"
 #include "trace/trace.h"
 #include "tslog/tslog.h"

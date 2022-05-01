@@ -10,7 +10,7 @@
  *  and b) a pointer to objectdata that implements the interface.
  */
 
-#include "stream/universal_input_stream_if.h"
+#include "u8stream/universal_input_stream_if.h"
 #include "u8/u8_error.h"
 
 /*!

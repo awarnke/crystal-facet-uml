@@ -9,7 +9,7 @@
  *  \brief implements an universal_output_stream_if and forwards data to a FILE
  */
 
-#include "stream/universal_output_stream.h"
+#include "u8stream/universal_output_stream.h"
 #include <stdio.h>
 
 /*!

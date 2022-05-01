@@ -15,7 +15,7 @@
  *  This class does not search for sequences that are split between multiple write calls.
  */
 
-#include "stream/universal_output_stream.h"
+#include "u8stream/universal_output_stream.h"
 
 /*!
  *  \brief attributes of the universal_escaping_output_stream

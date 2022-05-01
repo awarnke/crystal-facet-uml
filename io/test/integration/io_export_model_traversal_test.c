@@ -5,7 +5,7 @@
 #include "test_env/test_env_setup_data.h"
 #include "test_result_check/test_result_check_xml.h"
 #include "xmi/xmi_element_writer.h"
-#include "stream/universal_memory_output_stream.h"
+#include "u8stream/universal_memory_output_stream.h"
 #include "set/data_stat.h"
 #include "ctrl_controller.h"
 #include "storage/data_database.h"

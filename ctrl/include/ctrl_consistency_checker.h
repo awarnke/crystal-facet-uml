@@ -44,7 +44,7 @@
 #include "storage/data_database_reader.h"
 #include "storage/data_database_consistency_checker.h"
 #include "data_diagram.h"
-#include "universal_utf8_writer.h"
+#include "utf8stream/universal_utf8_writer.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>

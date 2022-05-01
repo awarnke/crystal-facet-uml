@@ -9,7 +9,7 @@
  *  \brief implements an universal_output_stream and buffers data in a fixed-sized memory buffer
  */
 
-#include "stream/universal_output_stream.h"
+#include "u8stream/universal_output_stream.h"
 
 /*!
  *  \brief attributes of the universal_buffer_output_stream

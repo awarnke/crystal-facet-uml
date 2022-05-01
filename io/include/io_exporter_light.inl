@@ -2,8 +2,8 @@
 
 #include "json/json_element_writer.h"
 #include "json/json_writer_pass.h"
-#include "stream/universal_output_stream.h"
-#include "stream/universal_memory_output_stream.h"
+#include "u8stream/universal_output_stream.h"
+#include "u8stream/universal_memory_output_stream.h"
 #include <assert.h>
 
 static inline void io_exporter_light_init ( io_exporter_light_t *this_, data_database_reader_t *db_reader )

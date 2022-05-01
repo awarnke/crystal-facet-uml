@@ -19,7 +19,7 @@
 #include "data_relationship.h"
 #include "data_diagram.h"
 #include "data_diagramelement.h"
-#include "stream/universal_input_stream.h"
+#include "u8stream/universal_input_stream.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include <stdbool.h>
 #include <stdint.h>

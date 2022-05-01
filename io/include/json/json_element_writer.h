@@ -23,7 +23,7 @@
 #include "data_diagram_type.h"
 #include "data_diagramelement.h"
 #include "set/data_stat.h"
-#include "stream/universal_output_stream.h"
+#include "u8stream/universal_output_stream.h"
 
 /*!
  *  \brief object (vmt+data) of a json_element_writer_t.

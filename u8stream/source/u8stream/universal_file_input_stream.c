@@ -1,7 +1,7 @@
 /* File: universal_file_input_stream.c; Copyright and License: see below */
 
-#include "stream/universal_file_input_stream.h"
-#include "stream/universal_input_stream_if.h"
+#include "u8stream/universal_file_input_stream.h"
+#include "u8stream/universal_input_stream_if.h"
 #include "trace/trace.h"
 #include "tslog/tslog.h"
 #include <stdbool.h>

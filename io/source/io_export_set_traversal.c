@@ -4,7 +4,7 @@
 
 #include "json/json_element_reader.h"
 #include "utf8stringbuf/utf8string.h"
-#include "stream/universal_memory_output_stream.h"
+#include "u8stream/universal_memory_output_stream.h"
 #include "trace/trace.h"
 #include <assert.h>
 #include <gtk/gtk.h>

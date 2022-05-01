@@ -13,7 +13,7 @@
 #include "io_import_mode.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
-#include "universal_utf8_writer.h"
+#include "utf8stream/universal_utf8_writer.h"
 #include "u8/u8_error.h"
 #include <stdbool.h>
 

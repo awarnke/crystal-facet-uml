@@ -17,7 +17,7 @@
 #include "md/md_filter.h"
 #include "storage/data_database_reader.h"
 #include "utf8stringbuf/utf8stringbuf.h"
-#include "stream/universal_output_stream.h"
+#include "u8stream/universal_output_stream.h"
 
 /*!
  *  \brief attributes of the xmi_atom_writer_t

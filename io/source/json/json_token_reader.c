@@ -1,8 +1,8 @@
 /* File: json_token_reader.c; Copyright and License: see below */
 
 #include "json/json_token_reader.h"
-#include "stream/universal_escaping_output_stream.h"
-#include "stream/universal_memory_output_stream.h"
+#include "u8stream/universal_escaping_output_stream.h"
+#include "u8stream/universal_memory_output_stream.h"
 #include "trace/trace.h"
 #include "tslog/tslog.h"
 #include <string.h>

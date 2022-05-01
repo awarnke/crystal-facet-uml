@@ -9,7 +9,7 @@
  *  \brief implements a utf8 writer and forwards the output to a universal_output_stream
  */
 
-#include "stream/universal_output_stream.h"
+#include "u8stream/universal_output_stream.h"
 #include <stdio.h>
 
 /*!

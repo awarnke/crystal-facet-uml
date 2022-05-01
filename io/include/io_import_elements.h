@@ -23,7 +23,7 @@
 #include "set/data_visible_set.h"
 #include "ctrl_controller.h"
 #include "ctrl_multi_step_changer.h"
-#include "universal_utf8_writer.h"
+#include "utf8stream/universal_utf8_writer.h"
 #include "u8/u8_error.h"
 
 /*!

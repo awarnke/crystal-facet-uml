@@ -7,8 +7,8 @@
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
 #include "utf8stringbuf/utf8string.h"
-#include "stream/universal_stream_output_stream.h"
-#include "universal_utf8_writer.h"
+#include "u8stream/universal_stream_output_stream.h"
+#include "utf8stream/universal_utf8_writer.h"
 #include <sys/types.h>
 #include <stdbool.h>
 #include <unistd.h>

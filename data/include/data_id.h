@@ -13,7 +13,7 @@
 #include "data_row_id.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "utf8stringbuf/utf8error.h"
-#include "universal_utf8_writer.h"
+#include "utf8stream/universal_utf8_writer.h"
 #include "u8/u8_error.h"
 #include <stdint.h>
 #include <stdbool.h>

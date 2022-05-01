@@ -1,7 +1,7 @@
 /* File: universal_memory_input_stream.c; Copyright and License: see below */
 
-#include "stream/universal_memory_input_stream.h"
-#include "stream/universal_input_stream_if.h"
+#include "u8stream/universal_memory_input_stream.h"
+#include "u8stream/universal_input_stream_if.h"
 #include "trace/trace.h"
 #include "tslog/tslog.h"
 #include <string.h>
