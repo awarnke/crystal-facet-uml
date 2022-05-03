@@ -12,7 +12,7 @@
  *  If universal_array_list_t would be a template, this type-wrapper file would not be needed.
  */
 
-#include "universal_array_list.h"
+#include "u8list/universal_array_list.h"
 #include <stdint.h>
 #include <stdbool.h>
 

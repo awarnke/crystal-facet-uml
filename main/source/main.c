@@ -2,13 +2,13 @@
 
 #include "main.h"
 #include "main_commands.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
-#include "util/string/utf8string.h"
-#include "stream/universal_stream_output_stream.h"
-#include "universal_utf8_writer.h"
+#include "utf8stringbuf/utf8string.h"
+#include "u8stream/universal_stream_output_stream.h"
+#include "utf8stream/universal_utf8_writer.h"
 #include <sys/types.h>
 #include <stdbool.h>
 #include <unistd.h>
@@ -23,7 +23,8 @@ static const char *const MAIN_HELP
     "    -e <database_file> <export_format> <export_directory> : to export all diagrams,\n"
     "       export_format: docbook|json|pdf|png|ps|svg|txt|xhtml|xmi\n"
     "    -i <database_file> <import_mode>   <json_input_file>  : to import elements,\n"
-    "       import_mode: check|add|update\n"
+    "       import_mode: check|add\n"
+    /*"       import_mode: check|add|update\n"  - update is a legacy option */
     "    -u <database_file> : to use/create a database file\n"
     /*"    -g <database_file> to upgrade the database tables from version 1.32.1 and older\n"*/
     "    -t <database_file> : to test the database file\n"

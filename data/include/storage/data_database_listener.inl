@@ -1,6 +1,6 @@
 /* File: data_database_listener.inl; Copyright and License: see below */
 
-#include "trace.h"
+#include "trace/trace.h"
 #include <assert.h>
 
 static inline void data_database_listener_init ( data_database_listener_t *this_,

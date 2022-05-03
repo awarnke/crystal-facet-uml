@@ -1,8 +1,8 @@
 /* File: image_format_writer.c; Copyright and License: see below */
 
 #include "image/image_format_writer.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <gtk/gtk.h>
 #include <cairo-svg.h>
 #include <cairo-pdf.h>

@@ -1,7 +1,7 @@
 /* File: data_small_set.inl; Copyright and License: see below */
 
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 static inline void data_small_set_init ( data_small_set_t *this_ )

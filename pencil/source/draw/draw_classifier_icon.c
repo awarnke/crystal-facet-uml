@@ -2,7 +2,7 @@
 
 #include "draw/draw_classifier_icon.h"
 #include "pencil_layout_data.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>

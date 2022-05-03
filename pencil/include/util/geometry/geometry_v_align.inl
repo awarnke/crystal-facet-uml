@@ -1,7 +1,7 @@
 /* File: geometry_v_align.inl; Copyright and License: see below */
 
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 
 static inline double geometry_v_align_get_top ( const geometry_v_align_t *this_, double height, double reference_top, double reference_height )
 {

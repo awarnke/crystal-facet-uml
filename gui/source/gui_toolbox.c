@@ -2,9 +2,9 @@
 
 #include "gui_toolbox.h"
 #include "ctrl_multi_step_changer.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include "u8/u8_error.h"
-#include "util/string/utf8string.h"
+#include "utf8stringbuf/utf8string.h"
 #include <assert.h>
 #include <gtk/gtk.h>
 #include <stdbool.h>

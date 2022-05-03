@@ -2,10 +2,10 @@
 
 #include "sketch_area/gui_sketch_result_list.h"
 #include "util/geometry/geometry_rectangle.h"
-#include "util/string/utf8stringbuf.h"
-#include "universal_int.h"
-#include "trace.h"
-#include "tslog.h"
+#include "utf8stringbuf/utf8stringbuf.h"
+#include "gui_sketch_int_compare.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <gdk/gdk.h>
 
 static const int GUI_SKETCH_RESULT_LIST_PANGO_AUTO_DETECT_LENGTH = -1;  /*!< pango automatically determines the string length */
@@ -133,8 +133,9 @@ void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *t
     }
 
     const shape_int_rectangle_t *const label_box = pos_search_result_get_label_box_const( element );
-    *io_y_pos = universal_int_max_i32( shape_int_rectangle_get_bottom(icon_box), shape_int_rectangle_get_bottom(label_box) )
-              + OBJ_GAP;
+    *io_y_pos
+        = gui_sketch_int_compare_max_i32( shape_int_rectangle_get_bottom(icon_box), shape_int_rectangle_get_bottom(label_box) )
+        + OBJ_GAP;
 
     TRACE_END();
 }

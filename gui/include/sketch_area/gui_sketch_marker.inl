@@ -1,6 +1,6 @@
 /* File: gui_sketch_marker.inl; Copyright and License: see below */
 
-#include "trace.h"
+#include "trace/trace.h"
 #include <assert.h>
 
 static inline void gui_sketch_marker_init( gui_sketch_marker_t *this_, bool with_pencil_markers )

@@ -1,8 +1,8 @@
 /* File: ctrl_multi_step_changer.c; Copyright and License: see below */
 
 #include "ctrl_multi_step_changer.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 void ctrl_multi_step_changer_init ( ctrl_multi_step_changer_t *this_,

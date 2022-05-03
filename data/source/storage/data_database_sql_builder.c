@@ -2,9 +2,9 @@
 
 #include "storage/data_database_sql_builder.h"
 #include "data_id.h"
-#include "trace.h"
-#include "tslog.h"
-#include "util/string/utf8string.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
+#include "utf8stringbuf/utf8string.h"
 #include <assert.h>
 
 /*!

@@ -12,7 +12,7 @@
 #include "data_feature.h"
 #include "storage/data_database_reader.h"
 #include "set/data_stat.h"
-#include "util/string/utf8stringbuf.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 
 /*!
  *  \brief constants for maximum values of io_export_set_traversal_t

@@ -7,8 +7,8 @@
 #include "util/geometry/geometry_rectangle.h"
 #include "data_table.h"
 #include "data_id.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <stdint.h>

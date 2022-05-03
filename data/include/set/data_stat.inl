@@ -1,7 +1,7 @@
 /* File: data_stat.inl; Copyright and License: see below */
 
-#include "util/string/utf8stringbuf.h"
-#include "trace.h"
+#include "utf8stringbuf/utf8stringbuf.h"
+#include "trace/trace.h"
 #include <assert.h>
 
 static inline void data_stat_init ( data_stat_t *this_ )

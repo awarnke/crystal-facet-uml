@@ -1,7 +1,7 @@
 /* File: geometry_3dir.inl; Copyright and License: see below */
 
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 static inline bool geometry_3dir_equals ( const geometry_3dir_t *this_, const geometry_3dir_t *that )

@@ -4,8 +4,8 @@
 #include "gui_main.h"
 #include "io_exporter.h"
 #include "io_importer.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 #include <assert.h>

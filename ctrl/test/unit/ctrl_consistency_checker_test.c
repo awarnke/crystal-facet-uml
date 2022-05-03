@@ -5,10 +5,10 @@
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
-#include "stream/universal_stream_output_stream.h"
-#include "stream/universal_null_output_stream.h"
-#include "universal_utf8_writer.h"
-#include "trace.h"
+#include "u8stream/universal_stream_output_stream.h"
+#include "u8stream/universal_null_output_stream.h"
+#include "utf8stream/universal_utf8_writer.h"
+#include "trace/trace.h"
 #include "test_assert.h"
 
 static void set_up(void);

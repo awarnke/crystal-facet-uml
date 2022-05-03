@@ -18,10 +18,10 @@
  */
 
 #include "json/json_value_type.h"
-#include "util/string/utf8stringbuf.h"
-#include "stream/universal_input_stream.h"
-#include "stream/universal_buffer_input_stream.h"
-#include "stream/universal_output_stream.h"
+#include "utf8stringbuf/utf8stringbuf.h"
+#include "u8stream/universal_input_stream.h"
+#include "u8stream/universal_buffer_input_stream.h"
+#include "u8stream/universal_output_stream.h"
 #include "u8/u8_error.h"
 #include <stdbool.h>
 #include <stdint.h>

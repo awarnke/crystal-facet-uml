@@ -1,6 +1,6 @@
 /* File: pencil_layouter.inl; Copyright and License: see below */
 
-#include "tslog.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 static inline void pencil_layouter_prepare ( pencil_layouter_t *this_ )

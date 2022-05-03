@@ -3,7 +3,7 @@
 #include "io_export_interaction_traversal.h"
 #include "xmi/xmi_element_info.h"
 #include "xmi/xmi_element_info_map.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
 #include <stdint.h>

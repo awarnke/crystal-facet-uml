@@ -2,8 +2,8 @@
 
 #define __STDC_LIMIT_MACROS
 #include "util/geometry/geometry_non_linear_scale.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 #include <stdint.h>
 #include <stdbool.h>

@@ -1,8 +1,8 @@
 /* File: ctrl_diagram_controller.c; Copyright and License: see below */
 
 #include "ctrl_diagram_controller.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 
 void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_,
                                     ctrl_undo_redo_list_t *undo_redo_list,

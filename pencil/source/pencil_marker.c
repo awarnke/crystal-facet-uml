@@ -1,7 +1,7 @@
 /* File: pencil_marker.c; Copyright and License: see below */
 
 #include "pencil_marker.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>

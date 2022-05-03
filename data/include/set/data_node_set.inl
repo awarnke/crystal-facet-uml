@@ -1,6 +1,6 @@
 /* File: data_node_set.inl; Copyright and License: see below */
 
-#include "tslog.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 static inline bool data_node_set_is_valid ( const data_node_set_t *this_ )

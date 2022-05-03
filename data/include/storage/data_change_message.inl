@@ -1,6 +1,6 @@
 /* File: data_change_message.inl; Copyright and License: see below */
 
-#include "tslog.h"
+#include "tslog/tslog.h"
 
 static inline void data_change_message_init ( data_change_message_t *this_,
                                               data_change_event_type_t event,

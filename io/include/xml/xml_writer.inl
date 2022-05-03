@@ -1,9 +1,9 @@
 /* File: xml_writer.inl; Copyright and License: see below */
 
 #include <assert.h>
-#include "util/string/utf8error.h"
-#include "util/string/utf8codepoint.h"
-#include "util/string/utf8codepointiterator.h"
+#include "utf8stringbuf/utf8error.h"
+#include "utf8stringbuf/utf8codepoint.h"
+#include "utf8stringbuf/utf8codepointiterator.h"
 
 static inline int xml_writer_write_plain ( xml_writer_t *this_, utf8string_t text )
 {

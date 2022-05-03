@@ -1,7 +1,7 @@
 /* File: data_database_diagram_reader.inl; Copyright and License: see below */
 
-#include "tslog.h"
-#include "trace.h"
+#include "tslog/tslog.h"
+#include "trace/trace.h"
 #include <assert.h>
 
 /* ================================ private ================================ */

@@ -13,7 +13,7 @@
  */
 
 #include "xml/xml_writer.h"
-#include "util/string/utf8stringbuf.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 #include "storage/data_database_reader.h"
 #include "data_diagram.h"
 

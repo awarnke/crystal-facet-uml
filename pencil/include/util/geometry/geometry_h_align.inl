@@ -1,7 +1,7 @@
 /* File: geometry_h_align.inl; Copyright and License: see below */
 
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 static inline double geometry_h_align_get_left ( const geometry_h_align_t *this_, double width, double reference_left, double reference_width )

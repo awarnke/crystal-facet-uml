@@ -1,8 +1,8 @@
 /* File: data_classifier.inl; Copyright and License: see below */
 
 #include "data_id.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 static inline void data_classifier_init_empty ( data_classifier_t *this_ )

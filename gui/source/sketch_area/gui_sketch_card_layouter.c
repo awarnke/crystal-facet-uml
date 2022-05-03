@@ -2,8 +2,8 @@
 
 #include "gui_sketch_card_layouter.h"
 #include "sketch_area/gui_sketch_area.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 
 void gui_sketch_card_layouter_init( gui_sketch_card_layouter_t *this_, shape_int_rectangle_t *bounds )
 {

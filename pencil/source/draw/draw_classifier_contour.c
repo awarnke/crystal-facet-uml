@@ -2,7 +2,7 @@
 
 #include "draw/draw_classifier_contour.h"
 #include "draw/draw_classifier_icon.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>

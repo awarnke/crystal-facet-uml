@@ -1,6 +1,6 @@
 /* File: gui_sketch_background.inl; Copyright and License: see below */
 
-#include "tslog.h"
+#include "tslog/tslog.h"
 
 static inline shape_int_rectangle_t gui_sketch_background_get_bounds( gui_sketch_background_t *this_ )
 {

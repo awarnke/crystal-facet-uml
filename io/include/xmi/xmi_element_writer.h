@@ -30,8 +30,8 @@
 #include "set/data_visible_set.h"
 #include "set/data_stat.h"
 #include "storage/data_database_reader.h"
-#include "util/string/utf8stringbuf.h"
-#include "stream/universal_output_stream.h"
+#include "utf8stringbuf/utf8stringbuf.h"
+#include "u8stream/universal_output_stream.h"
 
 /*!
  *  \brief attributes of the xmi_element_writer_t

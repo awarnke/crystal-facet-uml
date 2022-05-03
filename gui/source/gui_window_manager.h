@@ -50,7 +50,7 @@ typedef struct gui_window_manager_struct gui_window_manager_t;
  *  \param this_ pointer to own object attributes
  *  \param controller pointer to a controller object which can modify the database
  *  \param database pointer to a database object
- *  \param gtk_app the gtk application object
+ *  \param gtk_app the gtk application object, may be NULL in case GTK_MAJOR_VERSION <= 3
  */
 void gui_window_manager_init( gui_window_manager_t *this_,
                               ctrl_controller_t *controller,
@@ -66,7 +66,7 @@ void gui_window_manager_init( gui_window_manager_t *this_,
 void gui_window_manager_destroy( gui_window_manager_t *this_ );
 
 /*!
- *  \brief starts a main window
+ *  \brief opens a main window
  *
  *  \param this_ pointer to own object attributes
  *  \return address of new main window
@@ -74,20 +74,20 @@ void gui_window_manager_destroy( gui_window_manager_t *this_ );
 gui_main_window_t *gui_window_manager_open_main_window( gui_window_manager_t *this_ );
 
 /*!
- *  \brief starts a main window, provides the function signature required by observer_t
+ *  \brief opens another main window, provides the function signature required by observer_t
  *
  *  \param this_ pointer to own object attributes
  *  \param message_to_user provide a way to send a message to the user
  */
-void gui_window_manager_open_main_window2( gui_window_manager_t *this_, gui_simple_message_to_user_t *message_to_user );
+void gui_window_manager_open_main_window_callback( gui_window_manager_t *this_, gui_simple_message_to_user_t *message_to_user );
 
 /*!
- *  \brief stops a main window
+ *  \brief closes a main window, provides the function signature required by observer_t
  *
  *  \param this_ pointer to own object attributes
  *  \param main_window address of main window to be closed
  */
-void gui_window_manager_close_main_window( gui_window_manager_t *this_, gui_main_window_t *main_window );
+void gui_window_manager_close_main_window_callback( gui_window_manager_t *this_, gui_main_window_t *main_window );
 
 #endif  /* GUI_WINDOW_MANAGER_H */
 

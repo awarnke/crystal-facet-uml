@@ -2,7 +2,7 @@
 
 #include "json_token_reader_test.h"
 #include "json/json_token_reader.h"
-#include "stream/universal_memory_input_stream.h"
+#include "u8stream/universal_memory_input_stream.h"
 #include "test_assert.h"
 
 static void set_up(void);

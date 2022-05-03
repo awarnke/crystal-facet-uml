@@ -3,8 +3,8 @@
 #include "sketch_area/gui_sketch_card.h"
 #include "pencil_diagram_maker.h"
 #include "util/geometry/geometry_rectangle.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <gdk/gdk.h>
 
 void gui_sketch_card_init( gui_sketch_card_t *this_ )

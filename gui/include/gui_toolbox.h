@@ -14,7 +14,7 @@
 #include "gui_clipboard.h"
 #include "set/data_stat.h"
 #include "ctrl_controller.h"
-#include "util/string/utf8stringbuf.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 #include <gtk/gtk.h>
 
 /*!

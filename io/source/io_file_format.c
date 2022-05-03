@@ -1,8 +1,8 @@
 /* File: io_file_format.c; Copyright and License: see below */
 
 #include "io_file_format.h"
-#include "trace.h"
-#include "util/string/utf8stringbuf.h"
+#include "trace/trace.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 #include <assert.h>
 
 void io_file_format_to_string( io_file_format_t format_set, utf8stringbuf_t out_fileformat )

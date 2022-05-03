@@ -2,9 +2,9 @@
 
 #include "sketch_area/gui_sketch_nav_tree.h"
 #include "util/geometry/geometry_rectangle.h"
-#include "universal_int.h"
-#include "trace.h"
-#include "tslog.h"
+#include "gui_sketch_int_compare.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <gdk/gdk.h>
 
 static const int GUI_SKETCH_NAV_TREE_INDENT = 12;
@@ -399,8 +399,9 @@ void gui_sketch_nav_tree_private_layout_node ( gui_sketch_nav_tree_t *this_,
     }
     pos_nav_tree_node_set_label_box( node, &new_label_box );
 
-    *io_y_pos = universal_int_max_i32( shape_int_rectangle_get_bottom(icon_box), shape_int_rectangle_get_bottom(&new_label_box) )
-              + OBJ_GAP;
+    *io_y_pos
+        = gui_sketch_int_compare_max_i32( shape_int_rectangle_get_bottom(icon_box), shape_int_rectangle_get_bottom(&new_label_box) )
+        + OBJ_GAP;
 
     shape_int_rectangle_destroy( &new_label_box );
 

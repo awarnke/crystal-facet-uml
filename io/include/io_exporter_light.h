@@ -13,7 +13,7 @@
 #include "io_export_set_traversal.h"
 #include "storage/data_database_reader.h"
 #include "set/data_stat.h"
-#include "util/string/utf8stringbuf.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 
 /*!
  *  \brief attributes of the io_exporter_light_t object

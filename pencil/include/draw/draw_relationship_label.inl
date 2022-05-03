@@ -1,6 +1,6 @@
 /* File: draw_relationship_label.inl; Copyright and License: see below */
 
-#include "tslog.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 static inline void draw_relationship_label_init( draw_relationship_label_t *this_ )

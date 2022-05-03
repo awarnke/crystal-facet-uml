@@ -3611,6 +3611,44 @@
     },
     {
       "diagram": {
+        "id": 97,
+        "parent_id": 2,
+        "parent_name": "Building Block View",
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "main: Black Box View",
+        "description": [
+                ""
+        ],
+        "list_order": 25600,
+        "display_flags": 0,
+        "parent": "07d64a06-b201-4ea8-8c7b-c43f69186e0b",
+        "uuid": "bb8fdc7b-9447-4d43-b0fd-cc1b2c509cf6",
+        "diagramelements":
+        [
+          {
+            "id": 635,
+            "display_flags": 0,
+            "classifier_id": 73,
+            "classifier_name": "main.c",
+            "focused_feature_id": -1,
+            "node": "13c52421-6a05-42c7-82b0-a7575a4061ac",
+            "uuid": "d4678368-6d6d-4600-b6d9-457a88c9d8b1"
+          },
+          {
+            "id": 636,
+            "display_flags": 0,
+            "classifier_id": 21,
+            "classifier_name": "main",
+            "focused_feature_id": -1,
+            "node": "b5818e0b-68af-4241-a1ea-346fd8266164",
+            "uuid": "f7905834-f0bf-4a45-b9d3-85d272516c82"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 6,
         "parent_id": 2,
         "parent_name": "Building Block View",
@@ -3645,19 +3683,10 @@
             "uuid": "f44f3239-7cf7-40be-bd9f-a0949b4a5354"
           },
           {
-            "id": 21,
-            "display_flags": 0,
-            "classifier_id": 21,
-            "classifier_name": "main",
-            "focused_feature_id": -1,
-            "node": "b5818e0b-68af-4241-a1ea-346fd8266164",
-            "uuid": "e2d5847f-324c-4525-be64-52ab435074fe"
-          },
-          {
             "id": 30,
             "display_flags": 0,
             "classifier_id": 30,
-            "classifier_name": "universal",
+            "classifier_name": "u8stream",
             "focused_feature_id": -1,
             "node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
             "uuid": "97d18164-65a9-49bf-a890-6024f9e2bc41"
@@ -3735,15 +3764,6 @@
             "uuid": "e5d0f33d-2861-48d0-85b1-41b00e0abc8e"
           },
           {
-            "id": 77,
-            "display_flags": 0,
-            "classifier_id": 73,
-            "classifier_name": "main.c",
-            "focused_feature_id": -1,
-            "node": "13c52421-6a05-42c7-82b0-a7575a4061ac",
-            "uuid": "36bee925-12fd-472a-a7e2-b9253ef85d86"
-          },
-          {
             "id": 284,
             "display_flags": 0,
             "classifier_id": 194,
@@ -3760,6 +3780,42 @@
             "focused_feature_id": -1,
             "node": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
             "uuid": "e5e7c431-382a-4b23-b70b-04745d636dcc"
+          },
+          {
+            "id": 638,
+            "display_flags": 0,
+            "classifier_id": 410,
+            "classifier_name": "arena",
+            "focused_feature_id": -1,
+            "node": "91ee002f-4ca0-4239-bf0f-f3a35fa3ad3a",
+            "uuid": "d48b289d-c86c-436d-83c8-b10c51167342"
+          },
+          {
+            "id": 639,
+            "display_flags": 0,
+            "classifier_id": 411,
+            "classifier_name": "u8_error",
+            "focused_feature_id": -1,
+            "node": "b22bef6b-9c0f-4278-8ec0-25e8f9cd5ec1",
+            "uuid": "935ad6d9-3d42-422d-b940-1b12db0ca5d8"
+          },
+          {
+            "id": 640,
+            "display_flags": 0,
+            "classifier_id": 412,
+            "classifier_name": "u8list",
+            "focused_feature_id": -1,
+            "node": "f3f74c6d-d230-48cc-894d-98204da4915c",
+            "uuid": "f475e2ff-9739-448a-b14b-7dd66bd77f81"
+          },
+          {
+            "id": 641,
+            "display_flags": 0,
+            "classifier_id": 413,
+            "classifier_name": "u8buf",
+            "focused_feature_id": -1,
+            "node": "1ec9690b-c849-4fac-a515-07812ca170c6",
+            "uuid": "98091bae-a8a8-4cc4-900a-fee88c1ae6a2"
           }
         ]
       }
@@ -3785,7 +3841,7 @@
             "id": 435,
             "display_flags": 0,
             "classifier_id": 30,
-            "classifier_name": "universal",
+            "classifier_name": "u8stream",
             "focused_feature_id": -1,
             "node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
             "uuid": "3d810960-2a8b-4ae7-b26e-76742c424692"
@@ -7077,58 +7133,6 @@
     },
     {
       "classifier": {
-        "id": 19,
-        "main_type": 124,
-        "type": "Package",
-        "stereotype": "",
-        "name": "tslog",
-        "description": [
-                "- provides macros for event-logging and error-logging\n",
-                "- macros are typesafe (ts) so that e.g. integers are not acidentially passed to char* parameters\n",
-                "\n",
-                "Logging functionality may be enabled even in RELEASE\/NDEBUG code.\n",
-                "Logs must not contain confidential data:\n",
-                "These may be forwarded to syslog or the filesystem\n",
-                "where access rights differ from the OS-process in which crystal-facet-uml runs."
-        ],
-        "x_order": -13670836,
-        "y_order": -585666635,
-        "list_order": 0,
-        "uuid": "0c398a27-2f8e-410c-96a3-cf8f0119651d",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 20,
-        "main_type": 124,
-        "type": "Package",
-        "stereotype": "",
-        "name": "trace",
-        "description": [
-                "- provides trace macros\n",
-                "- traces allow to reconstruct\/follow the program flow\n",
-                "\n",
-                "The macros shall be typesafe;\n",
-                "The compiler shall complain if using wrong-typed parameters.\n",
-                "\n",
-                "The trace functions are intended for debugging purposes only.\n",
-                "They are disabled in RELEASE\/NDEBUG code.\n",
-                "Therefore it is valid to trace confidential information."
-        ],
-        "x_order": -13670836,
-        "y_order": -1568843722,
-        "list_order": 0,
-        "uuid": "ad0dea96-6d0c-4975-8449-9bce5308c324",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
         "id": 21,
         "main_type": 124,
         "type": "Package",
@@ -7329,7 +7333,7 @@
         "main_type": 124,
         "type": "Package",
         "stereotype": "",
-        "name": "universal",
+        "name": "u8stream",
         "description": [
                 "provides small, generic utility classes that are independant of the project"
         ],
@@ -8976,25 +8980,6 @@
         "y_order": -2124013171,
         "list_order": -1986589147,
         "uuid": "67c2bc6d-ddc7-458a-80f1-be353c197381",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 194,
-        "main_type": 124,
-        "type": "Package",
-        "stereotype": "",
-        "name": "utf8stringbuf",
-        "description": [
-                "String library"
-        ],
-        "x_order": -1041264780,
-        "y_order": -1546677314,
-        "list_order": 0,
-        "uuid": "cbc36e4e-9c3a-453a-931f-541ef71bdc24",
         "features":
         [
         ]
@@ -11437,6 +11422,25 @@
     },
     {
       "classifier": {
+        "id": 413,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "",
+        "name": "u8buf",
+        "description": [
+                ""
+        ],
+        "x_order": -1605671279,
+        "y_order": -1565751229,
+        "list_order": -1565751229,
+        "uuid": "1ec9690b-c849-4fac-a515-07812ca170c6",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 1,
         "main_type": 121,
         "type": "Component",
@@ -11504,6 +11508,58 @@
         "y_order": 1211078883,
         "list_order": 0,
         "uuid": "906d936b-c68c-4592-b5c7-610e29065707",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 19,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "",
+        "name": "tslog",
+        "description": [
+                "- provides macros for event-logging and error-logging\n",
+                "- macros are typesafe (ts) so that e.g. integers are not acidentially passed to char* parameters\n",
+                "\n",
+                "Logging functionality may be enabled even in RELEASE\/NDEBUG code.\n",
+                "Logs must not contain confidential data:\n",
+                "These may be forwarded to syslog or the filesystem\n",
+                "where access rights differ from the OS-process in which crystal-facet-uml runs."
+        ],
+        "x_order": -13670836,
+        "y_order": -585666635,
+        "list_order": 0,
+        "uuid": "0c398a27-2f8e-410c-96a3-cf8f0119651d",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 20,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "",
+        "name": "trace",
+        "description": [
+                "- provides trace macros\n",
+                "- traces allow to reconstruct\/follow the program flow\n",
+                "\n",
+                "The macros shall be typesafe;\n",
+                "The compiler shall complain if using wrong-typed parameters.\n",
+                "\n",
+                "The trace functions are intended for debugging purposes only.\n",
+                "They are disabled in RELEASE\/NDEBUG code.\n",
+                "Therefore it is valid to trace confidential information."
+        ],
+        "x_order": -13670836,
+        "y_order": -1568843722,
+        "list_order": 0,
+        "uuid": "ad0dea96-6d0c-4975-8449-9bce5308c324",
         "features":
         [
         ]
@@ -13038,6 +13094,25 @@
     },
     {
       "classifier": {
+        "id": 194,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "",
+        "name": "utf8stringbuf",
+        "description": [
+                "String library"
+        ],
+        "x_order": -1477389701,
+        "y_order": -644118186,
+        "list_order": 0,
+        "uuid": "cbc36e4e-9c3a-453a-931f-541ef71bdc24",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 195,
         "main_type": 121,
         "type": "Component",
@@ -14050,8 +14125,8 @@
         "description": [
                 ""
         ],
-        "x_order": -1041264780,
-        "y_order": -105165869,
+        "x_order": -1046875876,
+        "y_order": -965789227,
         "list_order": 41192590,
         "uuid": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
         "features":
@@ -14970,6 +15045,63 @@
         "y_order": 96246856,
         "list_order": 200711245,
         "uuid": "2d41eaac-8741-4760-a125-e1bd2d8019d1",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 410,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "",
+        "name": "arena",
+        "description": [
+                ""
+        ],
+        "x_order": -1477389701,
+        "y_order": -1546677314,
+        "list_order": -105538293,
+        "uuid": "91ee002f-4ca0-4239-bf0f-f3a35fa3ad3a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 411,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "",
+        "name": "u8_error",
+        "description": [
+                ""
+        ],
+        "x_order": -1046875876,
+        "y_order": -1546677314,
+        "list_order": -105281114,
+        "uuid": "b22bef6b-9c0f-4278-8ec0-25e8f9cd5ec1",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 412,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "",
+        "name": "u8list",
+        "description": [
+                ""
+        ],
+        "x_order": -1477389701,
+        "y_order": -965789227,
+        "list_order": -105719133,
+        "uuid": "f3f74c6d-d230-48cc-894d-98204da4915c",
         "features":
         [
         ]
@@ -15929,174 +16061,6 @@
     },
     {
       "relationship": {
-        "id": 64,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -106396467,
-        "from_classifier_id": 19,
-        "from_classifier_name": "tslog",
-        "to_classifier_id": 52,
-        "to_classifier_name": "Error",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
-        "from_node": "0c398a27-2f8e-410c-96a3-cf8f0119651d",
-        "to_node": "56dc6265-21e0-441e-8f7f-643b2d4785ed",
-        "uuid": "70ca1c6b-bfa8-4172-9cff-7edb7cac5ee5"
-      }
-    },
-    {
-      "relationship": {
-        "id": 65,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -40734876,
-        "from_classifier_id": 19,
-        "from_classifier_name": "tslog",
-        "to_classifier_id": 53,
-        "to_classifier_name": "Warning",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
-        "from_node": "0c398a27-2f8e-410c-96a3-cf8f0119651d",
-        "to_node": "1ef76eb8-985e-4e2c-89e7-18411aba8c4b",
-        "uuid": "88d928fe-cc1e-47c9-8002-d1db5de9db55"
-      }
-    },
-    {
-      "relationship": {
-        "id": 66,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -106396467,
-        "from_classifier_id": 19,
-        "from_classifier_name": "tslog",
-        "to_classifier_id": 54,
-        "to_classifier_name": "Anomaly",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
-        "from_node": "0c398a27-2f8e-410c-96a3-cf8f0119651d",
-        "to_node": "aa1a2d4a-bfd0-4340-9817-890fe21133d1",
-        "uuid": "dafeb6f8-263d-4373-9f59-7cd23711673e"
-      }
-    },
-    {
-      "relationship": {
-        "id": 67,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -104635189,
-        "from_classifier_id": 19,
-        "from_classifier_name": "tslog",
-        "to_classifier_id": 55,
-        "to_classifier_name": "Event",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
-        "from_node": "0c398a27-2f8e-410c-96a3-cf8f0119651d",
-        "to_node": "e6a45191-0ec1-4076-adbe-4c1022593762",
-        "uuid": "b2eb8b06-89be-4616-a8b9-4aaf2c418239"
-      }
-    },
-    {
-      "relationship": {
-        "id": 86,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1450770938,
-        "from_classifier_id": 20,
-        "from_classifier_name": "trace",
-        "to_classifier_id": 69,
-        "to_classifier_name": "Begin (function)",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
-        "from_node": "ad0dea96-6d0c-4975-8449-9bce5308c324",
-        "to_node": "57a14a78-2131-4f24-959e-7ddf906177f1",
-        "uuid": "53371796-1660-42fe-b776-dacff138016f"
-      }
-    },
-    {
-      "relationship": {
-        "id": 87,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1566241896,
-        "from_classifier_id": 20,
-        "from_classifier_name": "trace",
-        "to_classifier_id": 70,
-        "to_classifier_name": "End (function)",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
-        "from_node": "ad0dea96-6d0c-4975-8449-9bce5308c324",
-        "to_node": "48f35ea9-1c31-4f0f-80db-185658692381",
-        "uuid": "9cfafe5f-a716-4321-9083-ba6d3c825f39"
-      }
-    },
-    {
-      "relationship": {
-        "id": 88,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1582260668,
-        "from_classifier_id": 20,
-        "from_classifier_name": "trace",
-        "to_classifier_id": 71,
-        "to_classifier_name": "Info",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
-        "from_node": "ad0dea96-6d0c-4975-8449-9bce5308c324",
-        "to_node": "91695419-65f4-4e23-bd86-65647c666111",
-        "uuid": "27b0c65e-dd4e-4e37-a72e-7472c2f51c54"
-      }
-    },
-    {
-      "relationship": {
-        "id": 89,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1571759923,
-        "from_classifier_id": 20,
-        "from_classifier_name": "trace",
-        "to_classifier_id": 72,
-        "to_classifier_name": "Timestamp",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
-        "from_node": "ad0dea96-6d0c-4975-8449-9bce5308c324",
-        "to_node": "e844e4e3-cc17-496b-b4d0-1928485c3423",
-        "uuid": "7aeee17d-f20e-4a09-8c66-004c38f3ad93"
-      }
-    },
-    {
-      "relationship": {
         "id": 90,
         "main_type": 300,
         "type": "Association",
@@ -16274,7 +16238,7 @@
         ],
         "list_order": -106289548,
         "from_classifier_id": 30,
-        "from_classifier_name": "universal",
+        "from_classifier_name": "u8stream",
         "to_classifier_id": 56,
         "to_classifier_name": "Int Pair",
         "from_feature_id": -1,
@@ -16295,7 +16259,7 @@
         ],
         "list_order": -106354674,
         "from_classifier_id": 30,
-        "from_classifier_name": "universal",
+        "from_classifier_name": "u8stream",
         "to_classifier_id": 57,
         "to_classifier_name": "Bool List",
         "from_feature_id": -1,
@@ -16316,7 +16280,7 @@
         ],
         "list_order": -106300422,
         "from_classifier_id": 30,
-        "from_classifier_name": "universal",
+        "from_classifier_name": "u8stream",
         "to_classifier_id": 58,
         "to_classifier_name": "Array Index Sorter",
         "from_feature_id": -1,
@@ -16337,7 +16301,7 @@
         ],
         "list_order": -181397197,
         "from_classifier_id": 30,
-        "from_classifier_name": "universal",
+        "from_classifier_name": "u8stream",
         "to_classifier_id": 267,
         "to_classifier_name": "Array List",
         "from_feature_id": -1,
@@ -16358,7 +16322,7 @@
         ],
         "list_order": 41192590,
         "from_classifier_id": 30,
-        "from_classifier_name": "universal",
+        "from_classifier_name": "u8stream",
         "to_classifier_id": 302,
         "to_classifier_name": "stream",
         "from_feature_id": -1,
@@ -16379,7 +16343,7 @@
         ],
         "list_order": -105643833,
         "from_classifier_id": 30,
-        "from_classifier_name": "universal",
+        "from_classifier_name": "u8stream",
         "to_classifier_id": 378,
         "to_classifier_name": "Utf8 Writer",
         "from_feature_id": -1,
@@ -16400,7 +16364,7 @@
         ],
         "list_order": -105896546,
         "from_classifier_id": 30,
-        "from_classifier_name": "universal",
+        "from_classifier_name": "u8stream",
         "to_classifier_id": 379,
         "to_classifier_name": "Simple Random",
         "from_feature_id": -1,
@@ -16408,6 +16372,69 @@
         "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
         "to_node": "7ca62e35-60cd-4e00-8176-8c2113cebe8a",
         "uuid": "4f92c733-53f5-4d49-9af7-e10d9a6856dd"
+      }
+    },
+    {
+      "relationship": {
+        "id": 617,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -105281114,
+        "from_classifier_id": 30,
+        "from_classifier_name": "u8stream",
+        "to_classifier_id": 411,
+        "to_classifier_name": "u8_error",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
+        "to_node": "b22bef6b-9c0f-4278-8ec0-25e8f9cd5ec1",
+        "uuid": "445370d4-5580-4172-8481-5e25cfc38fe1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 620,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 41290894,
+        "from_classifier_id": 30,
+        "from_classifier_name": "u8stream",
+        "to_classifier_id": 19,
+        "to_classifier_name": "tslog",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
+        "to_node": "0c398a27-2f8e-410c-96a3-cf8f0119651d",
+        "uuid": "6b47b94e-64be-4add-8b27-5419855b418a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 621,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 41323662,
+        "from_classifier_id": 30,
+        "from_classifier_name": "u8stream",
+        "to_classifier_id": 20,
+        "to_classifier_name": "trace",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
+        "to_node": "ad0dea96-6d0c-4975-8449-9bce5308c324",
+        "uuid": "baa2e9ea-c58c-4737-8dda-efc84f1c6e07"
       }
     },
     {
@@ -20967,6 +20994,69 @@
     },
     {
       "relationship": {
+        "id": 618,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 41225358,
+        "from_classifier_id": 413,
+        "from_classifier_name": "u8buf",
+        "to_classifier_id": 410,
+        "to_classifier_name": "arena",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "1ec9690b-c849-4fac-a515-07812ca170c6",
+        "to_node": "91ee002f-4ca0-4239-bf0f-f3a35fa3ad3a",
+        "uuid": "6f8209a0-430f-4665-8ad1-0627d5155d5e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 619,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 41258126,
+        "from_classifier_id": 413,
+        "from_classifier_name": "u8buf",
+        "to_classifier_id": 412,
+        "to_classifier_name": "u8list",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "1ec9690b-c849-4fac-a515-07812ca170c6",
+        "to_node": "f3f74c6d-d230-48cc-894d-98204da4915c",
+        "uuid": "74665c34-47ec-48bb-a9d3-a569bdf23c26"
+      }
+    },
+    {
+      "relationship": {
+        "id": 622,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 41356430,
+        "from_classifier_id": 413,
+        "from_classifier_name": "u8buf",
+        "to_classifier_id": 194,
+        "to_classifier_name": "utf8stringbuf",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "1ec9690b-c849-4fac-a515-07812ca170c6",
+        "to_node": "cbc36e4e-9c3a-453a-931f-541ef71bdc24",
+        "uuid": "25e063ee-a779-48e6-860b-24177fa903c3"
+      }
+    },
+    {
+      "relationship": {
         "id": 9,
         "main_type": 200,
         "type": "Association",
@@ -21532,6 +21622,174 @@
         "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
         "to_node": "2d41eaac-8741-4760-a125-e1bd2d8019d1",
         "uuid": "ed4aad59-93ee-4537-9e7f-b004076ed3dc"
+      }
+    },
+    {
+      "relationship": {
+        "id": 64,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -106396467,
+        "from_classifier_id": 19,
+        "from_classifier_name": "tslog",
+        "to_classifier_id": 52,
+        "to_classifier_name": "Error",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "0c398a27-2f8e-410c-96a3-cf8f0119651d",
+        "to_node": "56dc6265-21e0-441e-8f7f-643b2d4785ed",
+        "uuid": "70ca1c6b-bfa8-4172-9cff-7edb7cac5ee5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 65,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -40734876,
+        "from_classifier_id": 19,
+        "from_classifier_name": "tslog",
+        "to_classifier_id": 53,
+        "to_classifier_name": "Warning",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "0c398a27-2f8e-410c-96a3-cf8f0119651d",
+        "to_node": "1ef76eb8-985e-4e2c-89e7-18411aba8c4b",
+        "uuid": "88d928fe-cc1e-47c9-8002-d1db5de9db55"
+      }
+    },
+    {
+      "relationship": {
+        "id": 66,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -106396467,
+        "from_classifier_id": 19,
+        "from_classifier_name": "tslog",
+        "to_classifier_id": 54,
+        "to_classifier_name": "Anomaly",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "0c398a27-2f8e-410c-96a3-cf8f0119651d",
+        "to_node": "aa1a2d4a-bfd0-4340-9817-890fe21133d1",
+        "uuid": "dafeb6f8-263d-4373-9f59-7cd23711673e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 67,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -104635189,
+        "from_classifier_id": 19,
+        "from_classifier_name": "tslog",
+        "to_classifier_id": 55,
+        "to_classifier_name": "Event",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "0c398a27-2f8e-410c-96a3-cf8f0119651d",
+        "to_node": "e6a45191-0ec1-4076-adbe-4c1022593762",
+        "uuid": "b2eb8b06-89be-4616-a8b9-4aaf2c418239"
+      }
+    },
+    {
+      "relationship": {
+        "id": 86,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1450770938,
+        "from_classifier_id": 20,
+        "from_classifier_name": "trace",
+        "to_classifier_id": 69,
+        "to_classifier_name": "Begin (function)",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "ad0dea96-6d0c-4975-8449-9bce5308c324",
+        "to_node": "57a14a78-2131-4f24-959e-7ddf906177f1",
+        "uuid": "53371796-1660-42fe-b776-dacff138016f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 87,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1566241896,
+        "from_classifier_id": 20,
+        "from_classifier_name": "trace",
+        "to_classifier_id": 70,
+        "to_classifier_name": "End (function)",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "ad0dea96-6d0c-4975-8449-9bce5308c324",
+        "to_node": "48f35ea9-1c31-4f0f-80db-185658692381",
+        "uuid": "9cfafe5f-a716-4321-9083-ba6d3c825f39"
+      }
+    },
+    {
+      "relationship": {
+        "id": 88,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1582260668,
+        "from_classifier_id": 20,
+        "from_classifier_name": "trace",
+        "to_classifier_id": 71,
+        "to_classifier_name": "Info",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "ad0dea96-6d0c-4975-8449-9bce5308c324",
+        "to_node": "91695419-65f4-4e23-bd86-65647c666111",
+        "uuid": "27b0c65e-dd4e-4e37-a72e-7472c2f51c54"
+      }
+    },
+    {
+      "relationship": {
+        "id": 89,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1571759923,
+        "from_classifier_id": 20,
+        "from_classifier_name": "trace",
+        "to_classifier_id": 72,
+        "to_classifier_name": "Timestamp",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "ad0dea96-6d0c-4975-8449-9bce5308c324",
+        "to_node": "e844e4e3-cc17-496b-b4d0-1928485c3423",
+        "uuid": "7aeee17d-f20e-4a09-8c66-004c38f3ad93"
       }
     },
     {

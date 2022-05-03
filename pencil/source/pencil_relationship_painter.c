@@ -2,8 +2,8 @@
 
 #include "pencil_relationship_painter.h"
 #include "pencil_layout_data.h"
-#include "trace.h"
-#include "util/string/utf8string.h"
+#include "trace/trace.h"
+#include "utf8stringbuf/utf8string.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>

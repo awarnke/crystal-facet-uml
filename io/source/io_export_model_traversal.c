@@ -1,7 +1,7 @@
 /* File: io_export_model_traversal.c; Copyright and License: see below */
 
 #include "io_export_model_traversal.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
 #include <stdint.h>

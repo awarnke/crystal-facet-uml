@@ -1,7 +1,7 @@
 /* File: data_diagram.inl; Copyright and License: see below */
 
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 static inline void data_diagram_init_empty ( data_diagram_t *this_ )

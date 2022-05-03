@@ -1,6 +1,6 @@
 /* File: data_visible_set.inl; Copyright and License: see below */
 
-#include "tslog.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 /* ================================ diagram ================================ */

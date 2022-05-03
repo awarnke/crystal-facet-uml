@@ -3,8 +3,8 @@
 #include "data_id.h"
 #include "storage/data_change_notifier.h"
 #include "storage/data_change_message.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <glib-object.h>
 #include <unistd.h>
 #include <string.h>

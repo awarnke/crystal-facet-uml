@@ -2,8 +2,8 @@
 
 #include "xmi/xmi_type_converter.h"
 #include "xmi/xmi_element_info_map.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 void xmi_type_converter_init ( xmi_type_converter_t *this_ )

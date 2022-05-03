@@ -1,7 +1,7 @@
 /* File: gui_window_manager.c; Copyright and License: see below */
 
 #include "gui_window_manager.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -12,6 +12,11 @@ void gui_window_manager_init( gui_window_manager_t *this_,
                               GtkApplication *gtk_app )
 {
     TRACE_BEGIN();
+    assert( controller != NULL );
+    assert( database != NULL );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    assert( gtk_app != NULL );
+#endif
 
     gui_resources_init( &((*this_).gui_resources) );
     data_database_reader_init( &((*this_).db_reader), database );
@@ -20,13 +25,13 @@ void gui_window_manager_init( gui_window_manager_t *this_,
     (*this_).gtk_app = gtk_app;
     observer_init( &((*this_).window_close_observer),
                    this_,
-                   (void (*)(void*,void*)) &gui_window_manager_close_main_window,
-                   "gui_window_manager_close_main_window()"
+                   (void (*)(void*,void*)) &gui_window_manager_close_main_window_callback,
+                   "gui_window_manager_close_main_window_callback()"
                   );
     observer_init( &((*this_).window_open_observer),
                    this_,
-                   (void (*)(void*,void*)) &gui_window_manager_open_main_window2,
-                   "gui_window_manager_open_main_window2()"
+                   (void (*)(void*,void*)) &gui_window_manager_open_main_window_callback,
+                   "gui_window_manager_open_main_window_callback()"
                   );
     for( int index = 0; index < GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS; index ++ )
     {
@@ -99,7 +104,7 @@ gui_main_window_t *gui_window_manager_open_main_window( gui_window_manager_t *th
     return result;
 }
 
-void gui_window_manager_close_main_window( gui_window_manager_t *this_, gui_main_window_t *main_window )
+void gui_window_manager_close_main_window_callback( gui_window_manager_t *this_, gui_main_window_t *main_window )
 {
     TRACE_BEGIN();
     int count_active = 0;
@@ -139,7 +144,7 @@ void gui_window_manager_close_main_window( gui_window_manager_t *this_, gui_main
     TRACE_END();
 }
 
-void gui_window_manager_open_main_window2( gui_window_manager_t *this_, gui_simple_message_to_user_t *message_to_user )
+void gui_window_manager_open_main_window_callback( gui_window_manager_t *this_, gui_simple_message_to_user_t *message_to_user )
 {
     TRACE_BEGIN();
 

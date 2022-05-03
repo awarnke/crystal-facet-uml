@@ -23,7 +23,7 @@
 #include "data_feature.h"
 #include "data_relationship.h"
 #include "data_row_id.h"
-#include "util/string/utf8stringbuf.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>

@@ -11,7 +11,7 @@
 
 #include "storage/data_database_listener.h"
 #include "storage/data_change_notifier.h"
-#include "util/string/utf8stringbuf.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 #include <sqlite3.h>
 #include <stdbool.h>
 #include <glib.h>

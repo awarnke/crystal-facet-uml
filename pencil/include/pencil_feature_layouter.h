@@ -20,9 +20,9 @@
 #include "set/data_small_set.h"
 #include "data_id.h"
 #include "data_rules.h"
-#include "universal_int32_pair.h"
-#include "universal_bool_list.h"
-#include "universal_array_index_sorter.h"
+#include "u8list/universal_int32_pair.h"
+#include "u8list/universal_bool_list.h"
+#include "u8list/universal_array_index_sorter.h"
 #include <cairo.h>
 #include <stdint.h>
 

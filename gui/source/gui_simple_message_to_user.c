@@ -1,11 +1,11 @@
 /* File: gui_simple_message_to_user.c; Copyright and License: see below */
 
 #include "gui_simple_message_to_user.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
-#include "util/string/utf8stringbuf.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 #include <stdbool.h>
 #include <assert.h>
 

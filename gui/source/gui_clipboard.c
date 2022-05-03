@@ -1,10 +1,10 @@
 /* File: gui_clipboard.c; Copyright and License: see below */
 
 #include "gui_clipboard.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include "u8/u8_error.h"
 #include "set/data_stat.h"
-#include "util/string/utf8string.h"
+#include "utf8stringbuf/utf8string.h"
 #include <assert.h>
 #include <gtk/gtk.h>
 #include <stdbool.h>

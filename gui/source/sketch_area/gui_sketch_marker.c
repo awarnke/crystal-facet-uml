@@ -1,7 +1,7 @@
 /* File: gui_sketch_marker.c; Copyright and License: see below */
 
 #include "sketch_area/gui_sketch_marker.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>

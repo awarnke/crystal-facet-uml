@@ -1,7 +1,7 @@
 /* File: data_rules.inl; Copyright and License: see below */
 
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 static inline void data_rules_init ( data_rules_t *this_ )

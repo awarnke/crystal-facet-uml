@@ -1,7 +1,7 @@
 /* File: xml_writer.inl; Copyright and License: see below */
 
 #include <assert.h>
-#include "util/string/utf8error.h"
+#include "utf8stringbuf/utf8error.h"
 
 static inline int txt_writer_write_plain ( txt_writer_t *this_, const char *text )
 {

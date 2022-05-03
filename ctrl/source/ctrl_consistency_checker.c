@@ -3,8 +3,8 @@
 #include "ctrl_consistency_checker.h"
 #include "storage/data_database_consistency_checker.h"
 #include "data_id.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 void ctrl_consistency_checker_init ( ctrl_consistency_checker_t *this_,

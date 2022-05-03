@@ -1,8 +1,8 @@
 /* File: geometry_rectangle.c; Copyright and License: see below */
 
 #include "util/geometry/geometry_rectangle.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 #include <math.h>
 

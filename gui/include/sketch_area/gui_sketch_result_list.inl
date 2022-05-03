@@ -1,6 +1,6 @@
 /* File: gui_sketch_result_list.inl; Copyright and License: see below */
 
-#include "tslog.h"
+#include "tslog/tslog.h"
 
 static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *this_,
                                                      const data_search_result_list_t *result_list,

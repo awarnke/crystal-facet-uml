@@ -1,6 +1,6 @@
 /* File: pencil_classifier_2d_layouter.inl; Copyright and License: see below */
 
-#include "tslog.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 /* ================================ INITIAL LAYOUT ================================ */

@@ -2,15 +2,15 @@
 
 #include "gui_attributes_editor.h"
 #include "util/gtk_helper/gtk_helper_tree_model.h"
-#include "trace.h"
+#include "trace/trace.h"
 #include "data_table.h"
 #include "data_id.h"
-#include "util/string/utf8string.h"
+#include "utf8stringbuf/utf8string.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 #ifndef NDEBUG
-#include "stream/universal_stream_output_stream.h"
-#include "universal_utf8_writer.h"
+#include "u8stream/universal_stream_output_stream.h"
+#include "utf8stream/universal_utf8_writer.h"
 #endif
 
 void gui_attributes_editor_init ( gui_attributes_editor_t *this_,

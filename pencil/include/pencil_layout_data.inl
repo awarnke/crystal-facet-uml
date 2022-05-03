@@ -1,6 +1,6 @@
 /* File: pencil_layout_data.inl; Copyright and License: see below */
 
-#include "tslog.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 static inline void pencil_layout_data_reinit( pencil_layout_data_t *this_, const data_visible_set_t *input_data )

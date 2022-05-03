@@ -1,8 +1,8 @@
 /* File: json_element_reader.c; Copyright and License: see below */
 
 #include "json/json_element_reader.h"
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include <assert.h>
 
 void json_element_reader_init ( json_element_reader_t *this_, universal_input_stream_t *in_data )

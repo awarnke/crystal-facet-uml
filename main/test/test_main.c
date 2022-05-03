@@ -34,7 +34,7 @@
 #include "unit/io_import_elements_test.h"
 #include "integration/io_importer_test.h"
 #include "integration/io_export_model_traversal_test.h"
-/* universal */
+/* u8stream */
 #include "unit/universal_array_index_sorter_test.h"
 #include "unit/universal_array_list_test.h"
 #include "unit/universal_memory_output_stream_test.h"
@@ -42,9 +42,9 @@
 #include "unit/universal_memory_input_stream_test.h"
 #include "unit/universal_buffer_input_stream_test.h"
 #include "unit/universal_buffer_output_stream_test.h"
-#include "unit/universal_memory_arena_test.h"
+/* u8buf */
 #include "unit/universal_arena_list_test.h"
-/* utf8stringbuf */
+#include "unit/universal_memory_arena_test.h"
 #include "unit/utf8stringbuf_test.h"
 #include "unit/utf8codepoint_test.h"
 #include "unit/utf8codepointiterator_test.h"
@@ -52,10 +52,10 @@
 /* #include "unit/utf8stringbuf_performance.h" -- performance measurements are not reliable - depend on system config+load */
 #include "unit/utf8stringview_test.h"
 #include "unit/utf8stringviewiterator_test.h"
-#include "util/string/utf8string.h"
+#include "utf8stringbuf/utf8string.h"
 /* TEST_ENVIRONMENT */
-#include "trace.h"
-#include "tslog.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
 #include "test_runner.h"

@@ -1,7 +1,7 @@
 /* File: data_database_reader.inl; Copyright and License: see below */
 
-#include "tslog.h"
-#include "trace.h"
+#include "tslog/tslog.h"
+#include "trace/trace.h"
 #include <assert.h>
 
 static inline bool data_database_reader_is_open( data_database_reader_t *this_ )

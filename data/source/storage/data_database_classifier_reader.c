@@ -1,9 +1,9 @@
 /* File: data_database_classifier_reader.c; Copyright and License: see below */
 
 #include "storage/data_database_classifier_reader.h"
-#include "trace.h"
-#include "tslog.h"
-#include "util/string/utf8stringbuf.h"
+#include "trace/trace.h"
+#include "tslog/tslog.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 #include <sqlite3.h>
 #include <assert.h>
 

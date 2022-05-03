@@ -1,7 +1,7 @@
 /* File: data_search_result.inl; Copyright and License: see below */
 
 #include <assert.h>
-#include "tslog.h"
+#include "tslog/tslog.h"
 
 static inline void data_search_result_init_diagram ( data_search_result_t *this_,
                                                      data_row_id_t match_id,

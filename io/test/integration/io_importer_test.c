@@ -7,10 +7,10 @@
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
-#include "universal_utf8_writer.h"
-#include "stream/universal_memory_input_stream.h"
-#include "stream/universal_memory_output_stream.h"
-#include "trace.h"
+#include "utf8stream/universal_utf8_writer.h"
+#include "u8stream/universal_memory_input_stream.h"
+#include "u8stream/universal_memory_output_stream.h"
+#include "trace/trace.h"
 #include "test_assert.h"
 
 static void set_up(void);
