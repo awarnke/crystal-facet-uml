@@ -55,5 +55,4 @@ ideas for future versions:
   [ ] combine the static string allocation with dynamic additional buffers for unexpectedly-long strings
   [ ] combine the static array allocation with dynamic additional buffers for arrays of unpredictable lengths
   @main
-  [ ] on windows(TM) (since gtk4), the working directory is share\glib-2.0\schemas - not the installation root
   @ts_log/trace/test_fw
