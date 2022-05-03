@@ -3,7 +3,7 @@
 cd ..
     if ! test -e root/usr/local; then
         echo run steps 3 and 4 first
-        exit -1
+        exit 1
     fi
     HOST_ROOT=`pwd`/root
     PREFIX=`pwd`/root/usr/local

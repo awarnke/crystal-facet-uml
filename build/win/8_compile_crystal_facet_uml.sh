@@ -4,7 +4,7 @@ HOST_ROOT=`pwd`/root
 PREFIX=`pwd`/root/usr/local
 if ! test -e root/usr/local; then
     echo run 3rd_party steps first
-    exit -1
+    exit 1
 fi
 # host is the prefix of the compiler executables
 HOST=x86_64-w64-mingw32

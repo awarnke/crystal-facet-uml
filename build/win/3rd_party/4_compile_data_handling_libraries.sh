@@ -4,7 +4,7 @@ HOST_ROOT=`cd .. && pwd`/root
 PREFIX=${HOST_ROOT}/usr/local
 if ! test -e ${PREFIX}; then
     echo run step 3 first
-    exit -1
+    exit 1
 fi
 # host is the prefix of the compiler executables
 HOST=x86_64-w64-mingw32

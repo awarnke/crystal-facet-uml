@@ -3,7 +3,7 @@
 PREFIX=`pwd`/root/usr/local
 if ! test -e root/usr/local; then
     echo run 3rd_party steps first
-    exit -1
+    exit 1
 fi
 . ../../main/include/meta/meta_version.inl
 VERSIONSTR=${META_VERSION_STR}
