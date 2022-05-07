@@ -15,6 +15,7 @@ ideas for future versions:
   @pencil
   [ ] improve layouting of relationships. Maybe "longest first + shortest best" is not the best strategy?
       instead look more for distances to other lines
+  [ ] find nicer connection-routes from interfaces to ports
   [ ] Support Diagram-Types: Profile
   [ ] exception+error flows to leave an interruptable area (activity diagrams)
   [ ] activity bars on lifelines missing

@@ -3776,7 +3776,7 @@
             "id": 586,
             "display_flags": 0,
             "classifier_id": 302,
-            "classifier_name": "stream",
+            "classifier_name": "u8_stream",
             "focused_feature_id": -1,
             "node": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
             "uuid": "e5e7c431-382a-4b23-b70b-04745d636dcc"
@@ -3816,6 +3816,15 @@
             "focused_feature_id": -1,
             "node": "1ec9690b-c849-4fac-a515-07812ca170c6",
             "uuid": "98091bae-a8a8-4cc4-900a-fee88c1ae6a2"
+          },
+          {
+            "id": 642,
+            "display_flags": 0,
+            "classifier_id": 414,
+            "classifier_name": "utf8stream",
+            "focused_feature_id": -1,
+            "node": "e1f3ec79-56d3-46d9-be30-b694bc7bccf8",
+            "uuid": "147aa28a-5093-4f7e-8d46-cc2b144c7207"
           }
         ]
       }
@@ -3886,7 +3895,7 @@
             "id": 440,
             "display_flags": 0,
             "classifier_id": 302,
-            "classifier_name": "stream",
+            "classifier_name": "u8_stream",
             "focused_feature_id": -1,
             "node": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
             "uuid": "75f5b520-db4c-4a29-8706-f6b6c0bc831e"
@@ -3951,7 +3960,7 @@
             "id": 577,
             "display_flags": 0,
             "classifier_id": 302,
-            "classifier_name": "stream",
+            "classifier_name": "u8_stream",
             "focused_feature_id": -1,
             "node": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
             "uuid": "e986948d-b180-4830-8e70-9ebf97f32775"
@@ -14121,7 +14130,7 @@
         "main_type": 124,
         "type": "Package",
         "stereotype": "",
-        "name": "stream",
+        "name": "u8_stream",
         "description": [
                 ""
         ],
@@ -15102,6 +15111,25 @@
         "y_order": -965789227,
         "list_order": -105719133,
         "uuid": "f3f74c6d-d230-48cc-894d-98204da4915c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 414,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "",
+        "name": "utf8stream",
+        "description": [
+                "readers and writers that stream unicode code points instead of bytes."
+        ],
+        "x_order": -1046875876,
+        "y_order": -667100964,
+        "list_order": -685325314,
+        "uuid": "e1f3ec79-56d3-46d9-be30-b694bc7bccf8",
         "features":
         [
         ]
@@ -16324,7 +16352,7 @@
         "from_classifier_id": 30,
         "from_classifier_name": "u8stream",
         "to_classifier_id": 302,
-        "to_classifier_name": "stream",
+        "to_classifier_name": "u8_stream",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
@@ -16435,6 +16463,27 @@
         "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
         "to_node": "ad0dea96-6d0c-4975-8449-9bce5308c324",
         "uuid": "baa2e9ea-c58c-4737-8dda-efc84f1c6e07"
+      }
+    },
+    {
+      "relationship": {
+        "id": 623,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -685325314,
+        "from_classifier_id": 30,
+        "from_classifier_name": "u8stream",
+        "to_classifier_id": 414,
+        "to_classifier_name": "utf8stream",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
+        "to_node": "e1f3ec79-56d3-46d9-be30-b694bc7bccf8",
+        "uuid": "fd7787af-e2b6-4ef1-aa24-e3d692f47714"
       }
     },
     {
@@ -25245,7 +25294,7 @@
         ],
         "list_order": 8462397,
         "from_classifier_id": 302,
-        "from_classifier_name": "stream",
+        "from_classifier_name": "u8_stream",
         "to_classifier_id": 303,
         "to_classifier_name": "File Output Stream",
         "from_feature_id": -1,
@@ -25266,7 +25315,7 @@
         ],
         "list_order": -15526114,
         "from_classifier_id": 302,
-        "from_classifier_name": "stream",
+        "from_classifier_name": "u8_stream",
         "to_classifier_id": 304,
         "to_classifier_name": "Memory Output Stream",
         "from_feature_id": -1,
@@ -25287,7 +25336,7 @@
         ],
         "list_order": -85511247,
         "from_classifier_id": 302,
-        "from_classifier_name": "stream",
+        "from_classifier_name": "u8_stream",
         "to_classifier_id": 305,
         "to_classifier_name": "Output Stream",
         "from_feature_id": -1,
@@ -25308,7 +25357,7 @@
         ],
         "list_order": 1585757438,
         "from_classifier_id": 302,
-        "from_classifier_name": "stream",
+        "from_classifier_name": "u8_stream",
         "to_classifier_id": 375,
         "to_classifier_name": "Input Stream",
         "from_feature_id": -1,
@@ -25329,7 +25378,7 @@
         ],
         "list_order": 1695425124,
         "from_classifier_id": 302,
-        "from_classifier_name": "stream",
+        "from_classifier_name": "u8_stream",
         "to_classifier_id": 376,
         "to_classifier_name": "Memory Input Stream",
         "from_feature_id": -1,
@@ -25350,7 +25399,7 @@
         ],
         "list_order": 1628103567,
         "from_classifier_id": 302,
-        "from_classifier_name": "stream",
+        "from_classifier_name": "u8_stream",
         "to_classifier_id": 377,
         "to_classifier_name": "File input stream",
         "from_feature_id": -1,
@@ -25371,7 +25420,7 @@
         ],
         "list_order": 1388102372,
         "from_classifier_id": 302,
-        "from_classifier_name": "stream",
+        "from_classifier_name": "u8_stream",
         "to_classifier_id": 380,
         "to_classifier_name": "Escaping Output Stream",
         "from_feature_id": -1,
@@ -25392,7 +25441,7 @@
         ],
         "list_order": 1422323403,
         "from_classifier_id": 302,
-        "from_classifier_name": "stream",
+        "from_classifier_name": "u8_stream",
         "to_classifier_id": 381,
         "to_classifier_name": "Stream Output Stream",
         "from_feature_id": -1,

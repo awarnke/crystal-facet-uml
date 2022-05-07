@@ -22,7 +22,7 @@ if (!(COND)) \
 
 #define TEST_ASSERT_EQUAL_INT(EXPECTED,ACTUAL)\
 {const long long exp = (EXPECTED); const long long act = (ACTUAL); if (exp!=act) \
-{fprintf(stderr,"TEST FAILED ((%s)==x%llx==%lld!=%lld==x%llx==(%s)) at %s:%d\n",\
+{fprintf(stderr,"TEST FAILED ((%s)==0x%llx==%lld!=%lld==0x%llx==(%s)) at %s:%d\n",\
 #EXPECTED,exp,exp,act,act,#ACTUAL,__FILE__,__LINE__);exit(-1);} \
 }
 
