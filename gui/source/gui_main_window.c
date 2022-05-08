@@ -162,30 +162,26 @@ void gui_main_window_init( gui_main_window_t *this_,
     gtk_grid_set_row_homogeneous ( GTK_GRID((*this_).layout), false );
     /* parameter info: gtk_grid_attach (GtkGrid *grid, GtkWidget *child, gint left, gint top, gint width, gint height); */
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).tool_row, 0, 0, 4, 1 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).tool_row ), false );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).tool_row ), true );
     gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).tool_row ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).search_label, 0, 1, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_label ), false );
     gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).search_label ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).search_entry, 1, 1, 1, 1 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_entry ), false );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).search_entry ), true );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_entry ), true );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).search_entry ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).search_button, 2, 1, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_button ), false );
     gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).search_button ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).sketcharea, 0, 2, 3, 12 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).sketcharea ), true );
     gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).sketcharea ), true );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).attr_edit_column, 3, 1, 1, 13 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).attr_section_icon ), false );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).attr_section_icon ), true );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_icon_image, 0, 14, 1, 1 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).message_icon_image ), false );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).message_icon_image ), false );
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).file_use_db), 48 /*=w*/ , 48 /*=h*/ );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_text_label, 1, 14, 3, 1 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).message_text_label ), false );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).message_text_label ), false );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).attr_edit_column, 3, 2, 1, 12 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).attr_edit_column ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).attr_edit_column ), true );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_row, 0, 14, 4, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).message_row ), true );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).message_row ), false );
 #if ( GTK_MAJOR_VERSION >= 4 )
     gtk_window_set_child( GTK_WINDOW((*this_).window), (*this_).layout );
     gtk_window_set_resizable( GTK_WINDOW((*this_).window), true );
@@ -714,6 +710,8 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).description_scroll_win) );
     gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).edit_commit_button) );
 #endif
+    gtk_widget_set_vexpand( GTK_WIDGET( (*this_).description_scroll_win ), true );
+    gtk_widget_set_hexpand( GTK_WIDGET( (*this_).description_scroll_win ), true );
 
     TRACE_END();
 }
@@ -728,12 +726,27 @@ void gui_main_window_private_init_simple_message_to_user( gui_main_window_t *thi
 #else
     gtk_misc_set_alignment (GTK_MISC( (*this_).message_text_label ), 0.0, 0.0 );
 #endif
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).message_text_label ), true );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).message_text_label ), false );
+
     (*this_).message_icon_image = gtk_image_new_from_pixbuf ( gui_resources_get_crystal_facet_uml( res ) );
 #if ( GTK_MAJOR_VERSION >= 4 )
     /* TODO check if GtkPicture is better suited than GtkImage because of setting the size */
     // gtk_widget_set_size_request( GTK_WIDGET((*this_).message_icon_image), 32 /*=w*/ , 32 /*=h*/ );
     // gtk_image_set_pixel_size( GTK_IMAGE((*this_).message_icon_image), 32 );
 #else
+#endif
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).message_icon_image), 48 /*=w*/ , 48 /*=h*/ );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).message_icon_image ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).message_icon_image ), false );
+
+    (*this_).message_row = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, /*spacing:*/ 20 );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    gtk_box_append( GTK_BOX((*this_).message_row), GTK_WIDGET((*this_).message_icon_image) );
+    gtk_box_append( GTK_BOX((*this_).message_row), GTK_WIDGET((*this_).message_text_label) );
+#else
+    gtk_container_add( GTK_CONTAINER((*this_).message_row), GTK_WIDGET((*this_).message_icon_image) );
+    gtk_container_add( GTK_CONTAINER((*this_).message_row), GTK_WIDGET((*this_).message_text_label) );
 #endif
 
     TRACE_END();
@@ -752,12 +765,14 @@ void gui_main_window_private_init_search_and_sketch_area( gui_main_window_t *thi
 #else
         gtk_misc_set_alignment( GTK_MISC( (*this_).search_label ), 1.0, 0.5 );
 #endif
+
         (*this_).search_entry = gtk_entry_new();
+
         (*this_).search_button = gtk_button_new();
         (*this_).search_btn_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_search( res ));
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).search_btn_icon), 32 /*=w*/ , 32 /*=h*/ );
         gtk_button_set_image( GTK_BUTTON((*this_).search_button), (*this_).search_btn_icon );
         gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).search_button), "Search" );
+        gtk_widget_set_size_request( GTK_WIDGET((*this_).search_btn_icon), 32 /*=w*/ , 32 /*=h*/ );
     }
 
     /* init sketch area */
@@ -768,8 +783,6 @@ void gui_main_window_private_init_search_and_sketch_area( gui_main_window_t *thi
         gtk_widget_set_events( (*this_).sketcharea, GDK_LEAVE_NOTIFY_MASK
             | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK );
 #endif
-        gtk_widget_set_hexpand( (*this_).sketcharea, TRUE);
-        gtk_widget_set_vexpand( (*this_).sketcharea, TRUE);
         gtk_widget_set_can_focus( GTK_WIDGET( (*this_).sketcharea ), TRUE );  /* this allows the text entry widgets to lose the focus */
         gtk_widget_set_size_request( GTK_WIDGET( (*this_).sketcharea ), 600, 360);  /* set a minimum initial size */
         /*gtk_widget_set_focus_on_click( GTK_WIDGET( (*this_).sketcharea ), TRUE ); not yet existing: since GTK 3.2 */
