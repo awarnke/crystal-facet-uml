@@ -10,24 +10,16 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+void gui_main_window_init( gui_main_window_t *this_,
+                           ctrl_controller_t *controller,
+                           data_database_t *database,
+                           data_database_reader_t *db_reader,
+                           gui_resources_t *res,
 #if ( GTK_MAJOR_VERSION >= 4 )
-static inline void gtk_button_set_image( GtkButton *btn, GtkWidget *icon )
-{
-    gtk_button_set_child( btn, icon );
-}
-#else
+                           GtkApplication *gtk_app,
 #endif
-
-void gui_main_window_init ( gui_main_window_t *this_,
-                            ctrl_controller_t *controller,
-                            data_database_t *database,
-                            data_database_reader_t *db_reader,
-                            gui_resources_t *res,
-#if ( GTK_MAJOR_VERSION >= 4 )
-                            GtkApplication *gtk_app,
-#endif
-                            observer_t *window_close_observer,
-                            observer_t *window_open_observer )
+                           observer_t *window_close_observer,
+                           observer_t *window_open_observer )
 {
     TRACE_BEGIN();
 
@@ -51,22 +43,8 @@ void gui_main_window_init ( gui_main_window_t *this_,
     }
 
     /* init the message widgets */
-    {
-    (*this_).message_text_label = gtk_label_new( "" );
-#if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION >= 4 ))
-        gtk_label_set_xalign (GTK_LABEL( (*this_).message_text_label ), 0.0 );
-#else
-        gtk_misc_set_alignment (GTK_MISC( (*this_).message_text_label ), 0.0, 0.0 );
-#endif
-        (*this_).message_icon_image = gtk_image_new_from_pixbuf ( gui_resources_get_crystal_facet_uml( res ) );
-#if ( GTK_MAJOR_VERSION >= 4 )
-        /* TODO check if GtkPicture is better suited than GtkImage because of setting the size */
-        // gtk_widget_set_size_request( GTK_WIDGET((*this_).message_icon_image), 32 /*=w*/ , 32 /*=h*/ );
-        // gtk_image_set_pixel_size( GTK_IMAGE((*this_).message_icon_image), 32 );
-#else
-#endif
-        gui_simple_message_to_user_init( &((*this_).message_to_user), (*this_).message_text_label, (*this_).message_icon_image, res );
-    }
+    gui_main_window_private_init_simple_message_to_user( this_, res );
+    gui_simple_message_to_user_init( &((*this_).message_to_user), (*this_).message_text_label, (*this_).message_icon_image, res );
 
     /* init the keyboard shortcuts */
     {
@@ -80,190 +58,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     }
 
     /* init tools */
-    {
-        (*this_).file_use_db_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_use_db( res ));
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).file_use_db_icon), 32 /*=w*/ , 32 /*=h*/ );
-        (*this_).file_use_db = GTK_BUTTON(gtk_button_new());
-        gtk_button_set_image( GTK_BUTTON((*this_).file_use_db), (*this_).file_use_db_icon );
-        gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_use_db), "Create/Use DB" );
-
-        (*this_).file_export_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_export( res ));
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).file_export_icon), 32 /*=w*/ , 32 /*=h*/ );
-        (*this_).file_export = GTK_BUTTON(gtk_button_new());
-        gtk_button_set_image( GTK_BUTTON((*this_).file_export), (*this_).file_export_icon );
-        gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_export), "Export" );
-
-        (*this_).file_new_window_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_new_window( res ));
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).file_new_window_icon), 32 /*=w*/ , 32 /*=h*/ );
-        (*this_).file_new_window = GTK_BUTTON(gtk_button_new());
-        gtk_button_set_image( GTK_BUTTON((*this_).file_new_window), (*this_).file_new_window_icon );
-        gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_new_window), "New Window" );
-
-        (*this_).tool_navigate_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_navigate( res ));
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_navigate_icon), 32 /*=w*/ , 32 /*=h*/ );
-        (*this_).tool_edit_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_edit( res ));
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_edit_icon), 32 /*=w*/ , 32 /*=h*/ );
-        (*this_).tool_create_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_create( res ));
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_create_icon), 32 /*=w*/ , 32 /*=h*/ );
-        (*this_).tool_search_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_search( res ));
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_search_icon), 32 /*=w*/ , 32 /*=h*/ );
-#if ( GTK_MAJOR_VERSION >= 4 )
-        (*this_).tool_navigate = gtk_toggle_button_new();
-        gtk_button_set_child( GTK_BUTTON((*this_).tool_navigate), (*this_).tool_navigate_icon );
-
-        (*this_).tool_edit = gtk_toggle_button_new();
-        gtk_button_set_child( GTK_BUTTON((*this_).tool_edit), (*this_).tool_edit_icon );
-        gtk_toggle_button_set_group( GTK_TOGGLE_BUTTON((*this_).tool_edit), GTK_TOGGLE_BUTTON((*this_).tool_navigate) );
-
-        (*this_).tool_create = gtk_toggle_button_new();
-        gtk_button_set_child( GTK_BUTTON((*this_).tool_create), (*this_).tool_create_icon );
-        gtk_toggle_button_set_group( GTK_TOGGLE_BUTTON((*this_).tool_create), GTK_TOGGLE_BUTTON((*this_).tool_edit) );
-
-        (*this_).tool_search = gtk_toggle_button_new();
-        gtk_button_set_child( GTK_BUTTON((*this_).tool_search), (*this_).tool_search_icon );
-        gtk_toggle_button_set_group( GTK_TOGGLE_BUTTON((*this_).tool_search), GTK_TOGGLE_BUTTON((*this_).tool_create) );
-#else
-        GSList *group;
-
-        (*this_).tool_navigate = GTK_WIDGET(gtk_radio_tool_button_new( NULL ));
-        gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_navigate), (*this_).tool_navigate_icon);
-        group = gtk_radio_tool_button_get_group(GTK_RADIO_TOOL_BUTTON ((*this_).tool_navigate));
-
-        (*this_).tool_edit = GTK_WIDGET(gtk_radio_tool_button_new( group ));
-        gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_edit), (*this_).tool_edit_icon);
-        group = gtk_radio_tool_button_get_group(GTK_RADIO_TOOL_BUTTON ((*this_).tool_edit));
-
-        (*this_).tool_create = GTK_WIDGET(gtk_radio_tool_button_new( group ));
-        gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_create), (*this_).tool_create_icon);
-        group = gtk_radio_tool_button_get_group(GTK_RADIO_TOOL_BUTTON ((*this_).tool_create));
-
-        (*this_).tool_search = GTK_WIDGET(gtk_radio_tool_button_new( group ));
-        gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_search), (*this_).tool_search_icon);
-#endif
-        gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_navigate), "Navigate" );
-        gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_edit), "Edit" );
-        gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_create), "Create" );
-        gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_search), "Search" );
-
-        (*this_).edit_cut_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_cut( res ));
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_cut_icon), 32 /*=w*/ , 32 /*=h*/ );
-        (*this_).edit_cut = GTK_BUTTON(gtk_button_new());
-        gtk_button_set_image( GTK_BUTTON((*this_).edit_cut), (*this_).edit_cut_icon );
-        gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_cut), "Cut (Ctrl-X)" );
-        /*
-        GDK_KEY_x + GDK_CONTROL_MASK handling see gui_sketch_area_key_press_callback();
-        moved there to not interfere with text input fields
-        */
-
-        (*this_).edit_copy_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_copy( res ));
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_copy_icon), 32 /*=w*/ , 32 /*=h*/ );
-        (*this_).edit_copy = GTK_BUTTON(gtk_button_new());
-        gtk_button_set_image( GTK_BUTTON((*this_).edit_copy), (*this_).edit_copy_icon );
-        gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_copy), "Copy (Ctrl-C)" );
-        /*
-        GDK_KEY_c + GDK_CONTROL_MASK handling see gui_sketch_area_key_press_callback();
-        moved there to not interfere with text input fields
-        */
-
-        (*this_).edit_paste_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_paste( res ));
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_paste_icon), 32 /*=w*/ , 32 /*=h*/ );
-        (*this_).edit_paste = GTK_BUTTON(gtk_button_new());
-        gtk_button_set_image( GTK_BUTTON((*this_).edit_paste), (*this_).edit_paste_icon );
-        gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_paste), "Paste (Ctrl-V)" );
-        /*
-        GK_KEY_v + GDK_CONTROL_MASK handling see gui_sketch_area_key_press_callback();
-        moved there to not interfere with text input fields
-        */
-
-        (*this_).edit_delete_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_delete( res ));
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_delete_icon), 32 /*=w*/ , 32 /*=h*/ );
-        (*this_).edit_delete = GTK_BUTTON(gtk_button_new());
-        gtk_button_set_image( GTK_BUTTON((*this_).edit_delete), (*this_).edit_delete_icon );
-        gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_delete), "Delete (DEL)" );
-        /*
-        GDK_KEY_Delete handling see gui_sketch_area_key_press_callback();
-        moved there to not interfere with text input fields
-        */
-
-        (*this_).edit_instantiate_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_instantiate( res ));
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_instantiate_icon), 32 /*=w*/ , 32 /*=h*/ );
-        (*this_).edit_instantiate = GTK_BUTTON(gtk_button_new());
-        gtk_button_set_image( GTK_BUTTON((*this_).edit_instantiate), (*this_).edit_instantiate_icon );
-        gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_instantiate), "Instantiate" );
-
-        (*this_).edit_highlight_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_highlight( res ));
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_highlight_icon), 32 /*=w*/ , 32 /*=h*/ );
-        (*this_).edit_highlight = GTK_BUTTON(gtk_button_new());
-        gtk_button_set_image( GTK_BUTTON((*this_).edit_highlight), (*this_).edit_highlight_icon );
-        gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_highlight), "Highlight" );
-
-        (*this_).edit_reset_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_reset( res ));
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_reset_icon), 32 /*=w*/ , 32 /*=h*/ );
-        (*this_).edit_reset = GTK_BUTTON(gtk_button_new());
-        gtk_button_set_image( GTK_BUTTON((*this_).edit_reset), (*this_).edit_reset_icon );
-        gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_reset), "Reset Selection" );
-
-        (*this_).edit_undo_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_undo( res ));
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_undo_icon), 32 /*=w*/ , 32 /*=h*/ );
-        (*this_).edit_undo = GTK_BUTTON(gtk_button_new());
-        gtk_button_set_image( GTK_BUTTON((*this_).edit_undo), (*this_).edit_undo_icon );
-        gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_undo), "Undo (Ctrl-Z)" );
-#if ( GTK_MAJOR_VERSION >= 4 )
-        GtkShortcutTrigger *undo_trig = gtk_shortcut_trigger_parse_string( "<Control>Z" );
-        GtkShortcutAction *undo_act = gtk_callback_action_new( &gui_toolbox_undo_shortcut_callback,
-                                                               &((*this_).tools_data),
-                                                               NULL
-                                                             );
-        GtkShortcut* ctrl_z = gtk_shortcut_new_with_arguments( undo_trig,
-                                                               undo_act,
-                                                               NULL /* = format_string */
-                                                             );
-        gtk_shortcut_controller_add_shortcut( (*this_).keyboard_shortcut_ctrl, ctrl_z );
-#else
-        gtk_widget_add_accelerator( GTK_WIDGET((*this_).edit_undo),
-                                    "clicked",
-                                    (*this_).keyboard_shortcut_group,
-                                    GDK_KEY_z,
-                                    GDK_CONTROL_MASK,
-                                    GTK_ACCEL_VISIBLE
-                                  );
-
-#endif
-
-        (*this_).edit_redo_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_redo( res ));
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_redo_icon), 32 /*=w*/ , 32 /*=h*/ );
-        (*this_).edit_redo = GTK_BUTTON(gtk_button_new());
-        gtk_button_set_image( GTK_BUTTON((*this_).edit_redo), (*this_).edit_redo_icon );
-        gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_redo), "Redo (Ctrl-Y)" );
-#if ( GTK_MAJOR_VERSION >= 4 )
-        GtkShortcutTrigger *redo_trig = gtk_shortcut_trigger_parse_string( "<Control>Y" );
-        GtkShortcutAction *redo_act = gtk_callback_action_new( &gui_toolbox_redo_shortcut_callback,
-                                                               &((*this_).tools_data),
-                                                               NULL
-                                                             );
-        GtkShortcut* ctrl_y = gtk_shortcut_new_with_arguments( redo_trig,
-                                                               redo_act,
-                                                               NULL /* = format_string */
-                                                             );
-        gtk_shortcut_controller_add_shortcut( (*this_).keyboard_shortcut_ctrl, ctrl_y );
-#else
-        gtk_widget_add_accelerator( GTK_WIDGET((*this_).edit_redo),
-                                    "clicked",
-                                    (*this_).keyboard_shortcut_group,
-                                    GDK_KEY_y,
-                                    GDK_CONTROL_MASK,
-                                    GTK_ACCEL_VISIBLE
-                                  );
-#endif
-
-        (*this_).tool_about_icon = gtk_image_new_from_pixbuf( gui_resources_get_crystal_facet_uml( res ));
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_about_icon), 32 /*=w*/ , 32 /*=h*/ );
-        (*this_).tool_about = GTK_BUTTON(gtk_button_new());
-        gtk_button_set_image( GTK_BUTTON((*this_).tool_about), (*this_).tool_about_icon );
-        gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_about), "About" );
-
-        (*this_).toolbar = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, /*spacing:*/ 2 );
-    }
+    gui_main_window_private_init_toolbox( this_, res );
 
     /* determine the current/main clipboard */
     GdkClipboard *current_clipboard = NULL;
@@ -304,133 +99,32 @@ void gui_main_window_init ( gui_main_window_t *this_,
                       controller
                     );
 
-    /* init sketch area */
-    {
-        (*this_).sketcharea = gtk_drawing_area_new();
-#if ( GTK_MAJOR_VERSION >= 4 )
-#else
-        gtk_widget_set_events( (*this_).sketcharea, GDK_LEAVE_NOTIFY_MASK
-            | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK );
-#endif
-        gtk_widget_set_hexpand ( (*this_).sketcharea, TRUE);
-        gtk_widget_set_vexpand ( (*this_).sketcharea, TRUE);
-        gtk_widget_set_can_focus( GTK_WIDGET( (*this_).sketcharea ), TRUE );  /* this allows the text entry widgets to lose the focus */
-        gtk_widget_set_size_request ( GTK_WIDGET( (*this_).sketcharea ), 600, 360);  /* set a minimum initial size */
-        /*gtk_widget_set_focus_on_click( GTK_WIDGET( (*this_).sketcharea ), TRUE ); not yet existing: since GTK 3.2 */
-        gui_sketch_area_init( &((*this_).sketcharea_data),
-                              (*this_).sketcharea,
-                              &((*this_).marker_data),
-                              &((*this_).tools_data),
-                              &((*this_).message_to_user),
-                              res,
-                              controller,
-                              db_reader
-                            );
-    }
+    /* init search widgets and sketch area */
+    gui_main_window_private_init_search_and_sketch_area( this_, res );
+    gui_search_runner_init( &((*this_).search_runner),
+                            &((*this_).message_to_user),
+                            db_reader,
+                            database,
+                            &((*this_).sketcharea_data)
+                          );
+    gui_search_request_init( &((*this_).search_request),
+                             (*this_).search_label,
+                             (*this_).search_entry,
+                             (*this_).search_button,
+                             &((*this_).search_runner)
+                           );
+    gui_sketch_area_init( &((*this_).sketcharea_data),
+                          (*this_).sketcharea,
+                          &((*this_).marker_data),
+                          &((*this_).tools_data),
+                          &((*this_).message_to_user),
+                          res,
+                          controller,
+                          db_reader
+                        );
 
     /* init attribute editor widgets */
-    {
-        (*this_).attr_section_icon = gtk_image_new_from_pixbuf ( gui_resources_get_edit_attributes_sect( res ) );
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).attr_section_icon), 48 /*=w*/ , 12 /*=h*/ );
-#if ( GTK_MAJOR_VERSION >= 4 )
-        gtk_image_set_pixel_size( GTK_IMAGE((*this_).attr_section_icon), 48 );
-#else
-#endif
-        gtk_widget_set_halign( (*this_).attr_section_icon, GTK_ALIGN_START );
-        (*this_).id_label = gtk_label_new( "" );
-        (*this_).name_label = gtk_label_new( "Name:" );
-        (*this_).description_label = gtk_label_new( "Description:" );
-        (*this_).stereotype_label = gtk_label_new( "Stereotype/Valuetype:" );
-        (*this_).type_label = gtk_label_new( "Type:" );
-#if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION >= 4 ))
-        gtk_label_set_xalign( GTK_LABEL( (*this_).id_label ), 1.0 ); /* align right */
-        gtk_label_set_xalign( GTK_LABEL( (*this_).name_label ), 0.0 );
-        gtk_label_set_xalign( GTK_LABEL( (*this_).description_label ), 0.0 );
-        gtk_label_set_xalign( GTK_LABEL( (*this_).stereotype_label ), 0.0 );
-        gtk_label_set_xalign( GTK_LABEL( (*this_).type_label ), 0.0 );
-#else
-        gtk_misc_set_alignment( GTK_MISC( (*this_).id_label ), 1.0, 0.0 );
-        gtk_misc_set_alignment( GTK_MISC( (*this_).name_label ), 0.0, 0.0 );
-        gtk_misc_set_alignment( GTK_MISC( (*this_).description_label ), 0.0, 0.0 );
-        gtk_misc_set_alignment( GTK_MISC( (*this_).stereotype_label ), 0.0, 0.0 );
-        gtk_misc_set_alignment( GTK_MISC( (*this_).type_label ), 0.0, 0.0 );
-#endif
-
-        (*this_).name_entry = gtk_entry_new();
-
-        (*this_).description_text_view = gtk_text_view_new();
-        gtk_text_view_set_wrap_mode( GTK_TEXT_VIEW( (*this_).description_text_view ),
-                                     GTK_WRAP_WORD_CHAR
-                                   );
-        gtk_widget_set_vexpand( GTK_WIDGET( (*this_).description_text_view ), true );
-        gtk_widget_set_hexpand( GTK_WIDGET( (*this_).description_text_view ), false );
-        /* need own scroll window container - otherwise the gtk_grid will manage the text view */
-#if ( GTK_MAJOR_VERSION >= 4 )
-        (*this_).description_scroll_win = gtk_scrolled_window_new();
-        gtk_scrolled_window_set_child( GTK_SCROLLED_WINDOW((*this_).description_scroll_win), (*this_).description_text_view );
-#else
-        (*this_).description_scroll_win = gtk_scrolled_window_new( NULL, NULL );
-        gtk_container_set_border_width( GTK_CONTAINER( (*this_).description_text_view ), 12 );
-        gtk_container_add( GTK_CONTAINER( (*this_).description_scroll_win ), (*this_).description_text_view );
-#endif
-        gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( (*this_).description_scroll_win ),
-                                        GTK_POLICY_AUTOMATIC,
-                                        GTK_POLICY_AUTOMATIC
-                                      );
-
-        (*this_).stereotype_entry = gtk_entry_new();
-
-        (*this_).edit_commit_button = gtk_button_new();
-        (*this_).edit_commit_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_commit( res ));
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_commit_icon), 32 /*=w*/ , 32 /*=h*/ );
-        gtk_button_set_image( GTK_BUTTON((*this_).edit_commit_button), (*this_).edit_commit_icon );
-        gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_commit_button), "Commit (Ctrl-S)" );
-#if ( GTK_MAJOR_VERSION >= 4 )
-        GtkShortcutTrigger *commit_trig = gtk_shortcut_trigger_parse_string( "<Control>S" );
-        GtkShortcutAction *commit_act = gtk_callback_action_new( &gui_attributes_editor_commit_shortcut_callback,
-                                                                 &((*this_).attributes_editor),
-                                                                 NULL
-                                                               );
-        GtkShortcut* ctrl_s = gtk_shortcut_new_with_arguments( commit_trig,
-                                                               commit_act,
-                                                               NULL /* = format_string */
-                                                             );
-        gtk_shortcut_controller_add_shortcut( (*this_).keyboard_shortcut_ctrl, ctrl_s );
-#else
-        gtk_widget_add_accelerator( GTK_WIDGET((*this_).edit_commit_button),
-                                    "clicked",
-                                    (*this_).keyboard_shortcut_group,
-                                    GDK_KEY_s,
-                                    GDK_CONTROL_MASK,
-                                    GTK_ACCEL_VISIBLE
-                                  );
-#endif
-
-        (*this_).type_combo_box = gtk_combo_box_new();
-        GtkCellRenderer *column1;
-        column1 = gtk_cell_renderer_pixbuf_new();
-        gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column1, /*expand:*/ FALSE);
-        gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column1, "pixbuf", 2, NULL);
-        GtkCellRenderer *column2;
-        column2 = gtk_cell_renderer_text_new();
-        gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column2, /*expand:*/ TRUE);
-        gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column2, "text", 1, NULL);
-
-        (*this_).type_icon_grid = gtk_icon_view_new();
-        gtk_widget_set_halign( (*this_).type_icon_grid, GTK_ALIGN_END );
-#if ( GTK_MAJOR_VERSION >= 4 )
-        gtk_icon_view_set_activate_on_single_click( GTK_ICON_VIEW((*this_).type_icon_grid), true );
-#else
-#endif
-        gtk_icon_view_set_tooltip_column( GTK_ICON_VIEW((*this_).type_icon_grid), 1 );
-        gtk_icon_view_set_pixbuf_column( GTK_ICON_VIEW((*this_).type_icon_grid), 2 );
-        gtk_icon_view_set_selection_mode( GTK_ICON_VIEW((*this_).type_icon_grid), GTK_SELECTION_NONE );
-        gtk_icon_view_set_item_padding( GTK_ICON_VIEW((*this_).type_icon_grid), 2 );
-        gtk_icon_view_set_margin( GTK_ICON_VIEW((*this_).type_icon_grid), 0 );
-        gtk_icon_view_set_column_spacing( GTK_ICON_VIEW((*this_).type_icon_grid), 4 );
-        gtk_icon_view_set_row_spacing( GTK_ICON_VIEW((*this_).type_icon_grid), 0 );
-        gtk_icon_view_set_columns( GTK_ICON_VIEW((*this_).type_icon_grid), 7 );
-    }
+    gui_main_window_private_init_attributes_editor( this_, res );
 
     gui_attributes_editor_init( &((*this_).attributes_editor),
                                 GTK_LABEL( (*this_).id_label ),
@@ -446,35 +140,6 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                 database,
                                 &((*this_).message_to_user)
                               );
-
-    /* init search widgets */
-    {
-        (*this_).search_label = gtk_label_new ( "Search:" );
-#if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION > 3 ))
-        gtk_label_set_xalign( GTK_LABEL( (*this_).search_label ), 1.0 ); /* align right */
-        gtk_label_set_yalign( GTK_LABEL( (*this_).search_label ), 0.5 ); /* align middle-height */
-#else
-        gtk_misc_set_alignment( GTK_MISC( (*this_).search_label ), 1.0, 0.5 );
-#endif
-        (*this_).search_entry = gtk_entry_new();
-        (*this_).search_button = gtk_button_new();
-        (*this_).search_btn_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_search( res ));
-        gtk_widget_set_size_request( GTK_WIDGET((*this_).search_btn_icon), 32 /*=w*/ , 32 /*=h*/ );
-        gtk_button_set_image( GTK_BUTTON((*this_).search_button), (*this_).search_btn_icon );
-        gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).search_button), "Search" );
-        gui_search_runner_init( &((*this_).search_runner),
-                                &((*this_).message_to_user),
-                                db_reader,
-                                database,
-                                &((*this_).sketcharea_data)
-                              );
-        gui_search_request_init( &((*this_).search_request),
-                                 (*this_).search_label,
-                                 (*this_).search_entry,
-                                 (*this_).search_button,
-                                 &((*this_).search_runner)
-                               );
-    }
 
     /* init the file choosers */
     gui_file_use_db_dialog_init ( &((*this_).file_use_db_dialog),
@@ -748,6 +413,372 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
     gui_attributes_editor_destroy( &((*this_).attributes_editor) );
     gui_simple_message_to_user_destroy( &((*this_).message_to_user) );
     (*this_).database = NULL;
+
+    TRACE_END();
+}
+
+#if ( GTK_MAJOR_VERSION >= 4 )
+static inline void gtk_button_set_image( GtkButton *btn, GtkWidget *icon )
+{
+    gtk_button_set_child( btn, icon );
+}
+#else
+#endif
+
+void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resources_t *res )
+{
+    TRACE_BEGIN();
+
+    (*this_).file_use_db_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_use_db( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).file_use_db_icon), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).file_use_db = GTK_BUTTON(gtk_button_new());
+    gtk_button_set_image( GTK_BUTTON((*this_).file_use_db), (*this_).file_use_db_icon );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_use_db), "Create/Use DB" );
+
+    (*this_).file_export_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_export( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).file_export_icon), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).file_export = GTK_BUTTON(gtk_button_new());
+    gtk_button_set_image( GTK_BUTTON((*this_).file_export), (*this_).file_export_icon );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_export), "Export" );
+
+    (*this_).file_new_window_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_new_window( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).file_new_window_icon), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).file_new_window = GTK_BUTTON(gtk_button_new());
+    gtk_button_set_image( GTK_BUTTON((*this_).file_new_window), (*this_).file_new_window_icon );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_new_window), "New Window" );
+
+    (*this_).tool_navigate_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_navigate( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_navigate_icon), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).tool_edit_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_edit( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_edit_icon), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).tool_create_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_create( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_create_icon), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).tool_search_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_search( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_search_icon), 32 /*=w*/ , 32 /*=h*/ );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    (*this_).tool_navigate = gtk_toggle_button_new();
+    gtk_button_set_child( GTK_BUTTON((*this_).tool_navigate), (*this_).tool_navigate_icon );
+
+    (*this_).tool_edit = gtk_toggle_button_new();
+    gtk_button_set_child( GTK_BUTTON((*this_).tool_edit), (*this_).tool_edit_icon );
+    gtk_toggle_button_set_group( GTK_TOGGLE_BUTTON((*this_).tool_edit), GTK_TOGGLE_BUTTON((*this_).tool_navigate) );
+
+    (*this_).tool_create = gtk_toggle_button_new();
+    gtk_button_set_child( GTK_BUTTON((*this_).tool_create), (*this_).tool_create_icon );
+    gtk_toggle_button_set_group( GTK_TOGGLE_BUTTON((*this_).tool_create), GTK_TOGGLE_BUTTON((*this_).tool_edit) );
+
+    (*this_).tool_search = gtk_toggle_button_new();
+    gtk_button_set_child( GTK_BUTTON((*this_).tool_search), (*this_).tool_search_icon );
+    gtk_toggle_button_set_group( GTK_TOGGLE_BUTTON((*this_).tool_search), GTK_TOGGLE_BUTTON((*this_).tool_create) );
+#else
+    GSList *group;
+
+    (*this_).tool_navigate = GTK_WIDGET(gtk_radio_tool_button_new( NULL ));
+    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_navigate), (*this_).tool_navigate_icon);
+    group = gtk_radio_tool_button_get_group(GTK_RADIO_TOOL_BUTTON ((*this_).tool_navigate));
+
+    (*this_).tool_edit = GTK_WIDGET(gtk_radio_tool_button_new( group ));
+    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_edit), (*this_).tool_edit_icon);
+    group = gtk_radio_tool_button_get_group(GTK_RADIO_TOOL_BUTTON ((*this_).tool_edit));
+
+    (*this_).tool_create = GTK_WIDGET(gtk_radio_tool_button_new( group ));
+    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_create), (*this_).tool_create_icon);
+    group = gtk_radio_tool_button_get_group(GTK_RADIO_TOOL_BUTTON ((*this_).tool_create));
+
+    (*this_).tool_search = GTK_WIDGET(gtk_radio_tool_button_new( group ));
+    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_search), (*this_).tool_search_icon);
+#endif
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_navigate), "Navigate" );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_edit), "Edit" );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_create), "Create" );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_search), "Search" );
+
+    (*this_).edit_cut_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_cut( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_cut_icon), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).edit_cut = GTK_BUTTON(gtk_button_new());
+    gtk_button_set_image( GTK_BUTTON((*this_).edit_cut), (*this_).edit_cut_icon );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_cut), "Cut (Ctrl-X)" );
+    /*
+    GDK_KEY_x + GDK_CONTROL_MASK handling see gui_sketch_area_key_press_callback();
+    moved there to not interfere with text input fields
+    */
+
+    (*this_).edit_copy_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_copy( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_copy_icon), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).edit_copy = GTK_BUTTON(gtk_button_new());
+    gtk_button_set_image( GTK_BUTTON((*this_).edit_copy), (*this_).edit_copy_icon );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_copy), "Copy (Ctrl-C)" );
+    /*
+    GDK_KEY_c + GDK_CONTROL_MASK handling see gui_sketch_area_key_press_callback();
+    moved there to not interfere with text input fields
+    */
+
+    (*this_).edit_paste_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_paste( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_paste_icon), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).edit_paste = GTK_BUTTON(gtk_button_new());
+    gtk_button_set_image( GTK_BUTTON((*this_).edit_paste), (*this_).edit_paste_icon );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_paste), "Paste (Ctrl-V)" );
+    /*
+    GK_KEY_v + GDK_CONTROL_MASK handling see gui_sketch_area_key_press_callback();
+    moved there to not interfere with text input fields
+    */
+
+    (*this_).edit_delete_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_delete( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_delete_icon), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).edit_delete = GTK_BUTTON(gtk_button_new());
+    gtk_button_set_image( GTK_BUTTON((*this_).edit_delete), (*this_).edit_delete_icon );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_delete), "Delete (DEL)" );
+    /*
+    GDK_KEY_Delete handling see gui_sketch_area_key_press_callback();
+    moved there to not interfere with text input fields
+    */
+
+    (*this_).edit_instantiate_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_instantiate( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_instantiate_icon), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).edit_instantiate = GTK_BUTTON(gtk_button_new());
+    gtk_button_set_image( GTK_BUTTON((*this_).edit_instantiate), (*this_).edit_instantiate_icon );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_instantiate), "Instantiate" );
+
+    (*this_).edit_highlight_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_highlight( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_highlight_icon), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).edit_highlight = GTK_BUTTON(gtk_button_new());
+    gtk_button_set_image( GTK_BUTTON((*this_).edit_highlight), (*this_).edit_highlight_icon );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_highlight), "Highlight" );
+
+    (*this_).edit_reset_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_reset( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_reset_icon), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).edit_reset = GTK_BUTTON(gtk_button_new());
+    gtk_button_set_image( GTK_BUTTON((*this_).edit_reset), (*this_).edit_reset_icon );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_reset), "Reset Selection" );
+
+    (*this_).edit_undo_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_undo( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_undo_icon), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).edit_undo = GTK_BUTTON(gtk_button_new());
+    gtk_button_set_image( GTK_BUTTON((*this_).edit_undo), (*this_).edit_undo_icon );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_undo), "Undo (Ctrl-Z)" );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    GtkShortcutTrigger *undo_trig = gtk_shortcut_trigger_parse_string( "<Control>Z" );
+    GtkShortcutAction *undo_act = gtk_callback_action_new( &gui_toolbox_undo_shortcut_callback,
+                                                           &((*this_).tools_data),
+                                                           NULL
+                                                         );
+    GtkShortcut* ctrl_z = gtk_shortcut_new_with_arguments( undo_trig,
+                                                           undo_act,
+                                                           NULL /* = format_string */
+                                                         );
+    gtk_shortcut_controller_add_shortcut( (*this_).keyboard_shortcut_ctrl, ctrl_z );
+#else
+    gtk_widget_add_accelerator( GTK_WIDGET((*this_).edit_undo),
+                                "clicked",
+                                (*this_).keyboard_shortcut_group,
+                                GDK_KEY_z,
+                                GDK_CONTROL_MASK,
+                                GTK_ACCEL_VISIBLE
+                              );
+
+#endif
+
+    (*this_).edit_redo_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_redo( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_redo_icon), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).edit_redo = GTK_BUTTON(gtk_button_new());
+    gtk_button_set_image( GTK_BUTTON((*this_).edit_redo), (*this_).edit_redo_icon );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_redo), "Redo (Ctrl-Y)" );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    GtkShortcutTrigger *redo_trig = gtk_shortcut_trigger_parse_string( "<Control>Y" );
+    GtkShortcutAction *redo_act = gtk_callback_action_new( &gui_toolbox_redo_shortcut_callback,
+                                                           &((*this_).tools_data),
+                                                           NULL
+                                                         );
+    GtkShortcut* ctrl_y = gtk_shortcut_new_with_arguments( redo_trig,
+                                                           redo_act,
+                                                           NULL /* = format_string */
+                                                         );
+    gtk_shortcut_controller_add_shortcut( (*this_).keyboard_shortcut_ctrl, ctrl_y );
+#else
+    gtk_widget_add_accelerator( GTK_WIDGET((*this_).edit_redo),
+                                "clicked",
+                                (*this_).keyboard_shortcut_group,
+                                GDK_KEY_y,
+                                GDK_CONTROL_MASK,
+                                GTK_ACCEL_VISIBLE
+                              );
+#endif
+
+    (*this_).tool_about_icon = gtk_image_new_from_pixbuf( gui_resources_get_crystal_facet_uml( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_about_icon), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).tool_about = GTK_BUTTON(gtk_button_new());
+    gtk_button_set_image( GTK_BUTTON((*this_).tool_about), (*this_).tool_about_icon );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_about), "About" );
+
+    (*this_).toolbar = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, /*spacing:*/ 2 );
+
+    TRACE_END();
+}
+
+void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, gui_resources_t *res )
+{
+    TRACE_BEGIN();
+
+    (*this_).attr_section_icon = gtk_image_new_from_pixbuf ( gui_resources_get_edit_attributes_sect( res ) );
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).attr_section_icon), 48 /*=w*/ , 12 /*=h*/ );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    gtk_image_set_pixel_size( GTK_IMAGE((*this_).attr_section_icon), 48 );
+#else
+#endif
+    gtk_widget_set_halign( (*this_).attr_section_icon, GTK_ALIGN_START );
+    (*this_).id_label = gtk_label_new( "" );
+    (*this_).name_label = gtk_label_new( "Name:" );
+    (*this_).description_label = gtk_label_new( "Description:" );
+    (*this_).stereotype_label = gtk_label_new( "Stereotype/Valuetype:" );
+    (*this_).type_label = gtk_label_new( "Type:" );
+#if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION >= 4 ))
+    gtk_label_set_xalign( GTK_LABEL( (*this_).id_label ), 1.0 ); /* align right */
+    gtk_label_set_xalign( GTK_LABEL( (*this_).name_label ), 0.0 );
+    gtk_label_set_xalign( GTK_LABEL( (*this_).description_label ), 0.0 );
+    gtk_label_set_xalign( GTK_LABEL( (*this_).stereotype_label ), 0.0 );
+    gtk_label_set_xalign( GTK_LABEL( (*this_).type_label ), 0.0 );
+#else
+    gtk_misc_set_alignment( GTK_MISC( (*this_).id_label ), 1.0, 0.0 );
+    gtk_misc_set_alignment( GTK_MISC( (*this_).name_label ), 0.0, 0.0 );
+    gtk_misc_set_alignment( GTK_MISC( (*this_).description_label ), 0.0, 0.0 );
+    gtk_misc_set_alignment( GTK_MISC( (*this_).stereotype_label ), 0.0, 0.0 );
+    gtk_misc_set_alignment( GTK_MISC( (*this_).type_label ), 0.0, 0.0 );
+#endif
+
+    (*this_).name_entry = gtk_entry_new();
+
+    (*this_).description_text_view = gtk_text_view_new();
+    gtk_text_view_set_wrap_mode( GTK_TEXT_VIEW( (*this_).description_text_view ),
+                                 GTK_WRAP_WORD_CHAR
+                               );
+    gtk_widget_set_vexpand( GTK_WIDGET( (*this_).description_text_view ), true );
+    gtk_widget_set_hexpand( GTK_WIDGET( (*this_).description_text_view ), false );
+    /* need own scroll window container - otherwise the gtk_grid will manage the text view */
+#if ( GTK_MAJOR_VERSION >= 4 )
+    (*this_).description_scroll_win = gtk_scrolled_window_new();
+    gtk_scrolled_window_set_child( GTK_SCROLLED_WINDOW((*this_).description_scroll_win), (*this_).description_text_view );
+#else
+    (*this_).description_scroll_win = gtk_scrolled_window_new( NULL, NULL );
+    gtk_container_set_border_width( GTK_CONTAINER( (*this_).description_text_view ), 12 );
+    gtk_container_add( GTK_CONTAINER( (*this_).description_scroll_win ), (*this_).description_text_view );
+#endif
+    gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( (*this_).description_scroll_win ),
+                                    GTK_POLICY_AUTOMATIC,
+                                    GTK_POLICY_AUTOMATIC
+                                  );
+
+    (*this_).stereotype_entry = gtk_entry_new();
+
+    (*this_).edit_commit_button = gtk_button_new();
+    (*this_).edit_commit_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_commit( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_commit_icon), 32 /*=w*/ , 32 /*=h*/ );
+    gtk_button_set_image( GTK_BUTTON((*this_).edit_commit_button), (*this_).edit_commit_icon );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_commit_button), "Commit (Ctrl-S)" );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    GtkShortcutTrigger *commit_trig = gtk_shortcut_trigger_parse_string( "<Control>S" );
+    GtkShortcutAction *commit_act = gtk_callback_action_new( &gui_attributes_editor_commit_shortcut_callback,
+                                                             &((*this_).attributes_editor),
+                                                             NULL
+                                                           );
+    GtkShortcut* ctrl_s = gtk_shortcut_new_with_arguments( commit_trig,
+                                                           commit_act,
+                                                           NULL /* = format_string */
+                                                         );
+    gtk_shortcut_controller_add_shortcut( (*this_).keyboard_shortcut_ctrl, ctrl_s );
+#else
+    gtk_widget_add_accelerator( GTK_WIDGET((*this_).edit_commit_button),
+                                "clicked",
+                                (*this_).keyboard_shortcut_group,
+                                GDK_KEY_s,
+                                GDK_CONTROL_MASK,
+                                GTK_ACCEL_VISIBLE
+                              );
+#endif
+
+    (*this_).type_combo_box = gtk_combo_box_new();
+    GtkCellRenderer *column1;
+    column1 = gtk_cell_renderer_pixbuf_new();
+    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column1, /*expand:*/ FALSE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column1, "pixbuf", 2, NULL);
+    GtkCellRenderer *column2;
+    column2 = gtk_cell_renderer_text_new();
+    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column2, /*expand:*/ TRUE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column2, "text", 1, NULL);
+
+    (*this_).type_icon_grid = gtk_icon_view_new();
+    gtk_widget_set_halign( (*this_).type_icon_grid, GTK_ALIGN_END );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    gtk_icon_view_set_activate_on_single_click( GTK_ICON_VIEW((*this_).type_icon_grid), true );
+#else
+#endif
+    gtk_icon_view_set_tooltip_column( GTK_ICON_VIEW((*this_).type_icon_grid), 1 );
+    gtk_icon_view_set_pixbuf_column( GTK_ICON_VIEW((*this_).type_icon_grid), 2 );
+    gtk_icon_view_set_selection_mode( GTK_ICON_VIEW((*this_).type_icon_grid), GTK_SELECTION_NONE );
+    gtk_icon_view_set_item_padding( GTK_ICON_VIEW((*this_).type_icon_grid), 2 );
+    gtk_icon_view_set_margin( GTK_ICON_VIEW((*this_).type_icon_grid), 0 );
+    gtk_icon_view_set_column_spacing( GTK_ICON_VIEW((*this_).type_icon_grid), 4 );
+    gtk_icon_view_set_row_spacing( GTK_ICON_VIEW((*this_).type_icon_grid), 0 );
+    gtk_icon_view_set_columns( GTK_ICON_VIEW((*this_).type_icon_grid), 7 );
+
+    TRACE_END();
+}
+
+void gui_main_window_private_init_simple_message_to_user( gui_main_window_t *this_, gui_resources_t *res )
+{
+    TRACE_BEGIN();
+
+    (*this_).message_text_label = gtk_label_new( "" );
+#if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION >= 4 ))
+    gtk_label_set_xalign (GTK_LABEL( (*this_).message_text_label ), 0.0 );
+#else
+    gtk_misc_set_alignment (GTK_MISC( (*this_).message_text_label ), 0.0, 0.0 );
+#endif
+    (*this_).message_icon_image = gtk_image_new_from_pixbuf ( gui_resources_get_crystal_facet_uml( res ) );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    /* TODO check if GtkPicture is better suited than GtkImage because of setting the size */
+    // gtk_widget_set_size_request( GTK_WIDGET((*this_).message_icon_image), 32 /*=w*/ , 32 /*=h*/ );
+    // gtk_image_set_pixel_size( GTK_IMAGE((*this_).message_icon_image), 32 );
+#else
+#endif
+
+    TRACE_END();
+}
+
+void gui_main_window_private_init_search_and_sketch_area( gui_main_window_t *this_, gui_resources_t *res )
+{
+    TRACE_BEGIN();
+
+    /* init search widgets */
+    {
+        (*this_).search_label = gtk_label_new ( "Search:" );
+#if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION > 3 ))
+        gtk_label_set_xalign( GTK_LABEL( (*this_).search_label ), 1.0 ); /* align right */
+        gtk_label_set_yalign( GTK_LABEL( (*this_).search_label ), 0.5 ); /* align middle-height */
+#else
+        gtk_misc_set_alignment( GTK_MISC( (*this_).search_label ), 1.0, 0.5 );
+#endif
+        (*this_).search_entry = gtk_entry_new();
+        (*this_).search_button = gtk_button_new();
+        (*this_).search_btn_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_search( res ));
+        gtk_widget_set_size_request( GTK_WIDGET((*this_).search_btn_icon), 32 /*=w*/ , 32 /*=h*/ );
+        gtk_button_set_image( GTK_BUTTON((*this_).search_button), (*this_).search_btn_icon );
+        gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).search_button), "Search" );
+    }
+
+    /* init sketch area */
+    {
+        (*this_).sketcharea = gtk_drawing_area_new();
+#if ( GTK_MAJOR_VERSION >= 4 )
+#else
+        gtk_widget_set_events( (*this_).sketcharea, GDK_LEAVE_NOTIFY_MASK
+            | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK );
+#endif
+        gtk_widget_set_hexpand( (*this_).sketcharea, TRUE);
+        gtk_widget_set_vexpand( (*this_).sketcharea, TRUE);
+        gtk_widget_set_can_focus( GTK_WIDGET( (*this_).sketcharea ), TRUE );  /* this allows the text entry widgets to lose the focus */
+        gtk_widget_set_size_request( GTK_WIDGET( (*this_).sketcharea ), 600, 360);  /* set a minimum initial size */
+        /*gtk_widget_set_focus_on_click( GTK_WIDGET( (*this_).sketcharea ), TRUE ); not yet existing: since GTK 3.2 */
+    }
 
     TRACE_END();
 }

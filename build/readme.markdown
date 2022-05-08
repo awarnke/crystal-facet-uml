@@ -29,6 +29,8 @@ debian/ubuntu/raspbian:
 > sudo apt install inkscape    # for generation of pdf and png icons from svg
 >
 > sudo apt install lcov        # for reporting test coverage
+>
+> sudo apt install rustc       # for running qualification tests
 
 
 > mkdir my_build && cd my_build
@@ -63,6 +65,8 @@ openSuSE:
 > sudo zypper install inkscape    # for generation of pdf and png icons from svg
 >
 > sudo zypper install lcov        # for reporting test coverage
+>
+> sudo zypper install rust        # for running qualification tests
 
 
 > mkdir my_build && cd my_build

@@ -145,6 +145,39 @@ void gui_main_window_init( gui_main_window_t *this_,
 void gui_main_window_destroy( gui_main_window_t *this_ );
 
 /*!
+ *  \brief initializes the widgets that belong to the toolbox group at the top of the main window
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param res pointer to a resource provider
+ */
+void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resources_t *res );
+
+/*!
+ *  \brief initializes the widgets that belong to the attributes editor group at the right of the main window
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param res pointer to a resource provider
+ */
+void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, gui_resources_t *res );
+
+/*!
+ *  \brief initializes the widgets that belong to the simple message to user group at the bottom of the main window
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param res pointer to a resource provider
+ */
+void gui_main_window_private_init_simple_message_to_user( gui_main_window_t *this_, gui_resources_t *res );
+
+/*!
+ *  \brief initializes the widgets that belong to the sketch area group at the center of the main window,
+ *         including the search bar
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param res pointer to a resource provider
+ */
+void gui_main_window_private_init_search_and_sketch_area( gui_main_window_t *this_, gui_resources_t *res );
+
+/*!
  *  \brief callback that is executed when the main window is destroyed
  */
 void gui_main_window_destroy_event_callback( GtkWidget *widget, gpointer data );
