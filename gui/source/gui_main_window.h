@@ -28,12 +28,9 @@
  *  \brief attributes of the main window
  */
 struct gui_main_window_struct {
-    GtkWidget *window;
-    GtkWidget *sketcharea;
     gui_sketch_area_t sketcharea_data;  /*!< own instance of gui_sketch_area_t */
     gui_toolbox_t tools_data;  /*!< own instance of gui_toolbox_t */
     gui_marked_set_t marker_data;  /*!< own instance of a marker */
-    GtkWidget *layout;
     data_change_notifier_t *data_notifier;  /*!< pointer to external data change notifier */
     gui_attributes_editor_t attributes_editor;  /*!<  own instance of gui_attributes_editor_t */
     observer_t *window_close_observer;  /*!< pointer to external observer_t listener object */
@@ -42,7 +39,11 @@ struct gui_main_window_struct {
     gui_file_export_dialog_t file_export_dialog;  /*!<  own instance of gui_file_export_dialog_t */
     data_database_t *database;  /*!< pointer to external database */
 
-    GtkWidget *toolbar;
+    GtkWidget *window;
+    GtkWidget *layout;
+    GtkWidget *sketcharea;
+
+    GtkWidget *tool_row;
     GtkWidget *file_use_db_icon;
     GtkButton *file_use_db;
     GtkWidget *file_export_icon;
@@ -84,6 +85,7 @@ struct gui_main_window_struct {
     GtkAccelGroup *keyboard_shortcut_group;
 #endif
 
+    GtkWidget *attr_edit_column;
     GtkWidget *attr_section_icon;
     GtkWidget *id_label;
     GtkWidget *name_label;
@@ -106,6 +108,7 @@ struct gui_main_window_struct {
     gui_search_request_t search_request;  /*!<  own instance of gui_search_request_t */
     gui_search_runner_t search_runner;  /*!<  own instance of gui_search_runner_t */
 
+    GtkWidget *message_row;
     GtkWidget *message_text_label;
     GtkWidget *message_icon_image;
     gui_simple_message_to_user_t message_to_user;  /*!<  own instance of gui_simple_message_to_user_t */

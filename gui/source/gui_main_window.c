@@ -87,7 +87,7 @@ void gui_main_window_init( gui_main_window_t *this_,
 
     gui_marked_set_init( &((*this_).marker_data) );
     gui_toolbox_init( &((*this_).tools_data),
-                      GTK_WIDGET((*this_).toolbar),
+                      GTK_WIDGET((*this_).tool_row),
                       GTK_WIDGET((*this_).tool_navigate),
                       GTK_WIDGET((*this_).tool_edit),
                       GTK_WIDGET((*this_).tool_create),
@@ -157,51 +157,13 @@ void gui_main_window_init( gui_main_window_t *this_,
 
     TRACE_INFO("GTK+ Widgets are created.");
 
-#if ( GTK_MAJOR_VERSION >= 4 )
-    gtk_box_append( GTK_BOX((*this_).toolbar), GTK_WIDGET((*this_).file_use_db) );
-    gtk_box_append( GTK_BOX((*this_).toolbar), GTK_WIDGET((*this_).file_export) );
-    gtk_box_append( GTK_BOX((*this_).toolbar), GTK_WIDGET((*this_).file_new_window) );
-    gtk_box_append( GTK_BOX((*this_).toolbar), GTK_WIDGET((*this_).tool_search) );
-    gtk_box_append( GTK_BOX((*this_).toolbar), GTK_WIDGET((*this_).tool_navigate) );
-    gtk_box_append( GTK_BOX((*this_).toolbar), GTK_WIDGET((*this_).tool_edit) );
-    gtk_box_append( GTK_BOX((*this_).toolbar), GTK_WIDGET((*this_).tool_create) );
-    gtk_box_append( GTK_BOX((*this_).toolbar), GTK_WIDGET((*this_).edit_cut) );
-    gtk_box_append( GTK_BOX((*this_).toolbar), GTK_WIDGET((*this_).edit_copy) );
-    gtk_box_append( GTK_BOX((*this_).toolbar), GTK_WIDGET((*this_).edit_paste) );
-    gtk_box_append( GTK_BOX((*this_).toolbar), GTK_WIDGET((*this_).edit_delete) );
-    gtk_box_append( GTK_BOX((*this_).toolbar), GTK_WIDGET((*this_).edit_instantiate) );
-    gtk_box_append( GTK_BOX((*this_).toolbar), GTK_WIDGET((*this_).edit_highlight) );
-    gtk_box_append( GTK_BOX((*this_).toolbar), GTK_WIDGET((*this_).edit_reset) );
-    gtk_box_append( GTK_BOX((*this_).toolbar), GTK_WIDGET((*this_).edit_undo) );
-    gtk_box_append( GTK_BOX((*this_).toolbar), GTK_WIDGET((*this_).edit_redo) );
-    gtk_box_append( GTK_BOX((*this_).toolbar), GTK_WIDGET((*this_).tool_about) );
-#else
-    gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).file_use_db) );
-    gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).file_export) );
-    gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).file_new_window) );
-    gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).tool_search) );
-    gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).tool_navigate) );
-    gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).tool_edit) );
-    gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).tool_create) );
-    gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).edit_cut) );
-    gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).edit_copy) );
-    gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).edit_paste) );
-    gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).edit_delete) );
-    gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).edit_instantiate) );
-    gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).edit_highlight) );
-    gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).edit_reset) );
-    gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).edit_undo) );
-    gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).edit_redo) );
-    gtk_container_add( GTK_CONTAINER((*this_).toolbar), GTK_WIDGET((*this_).tool_about) );
-#endif
-
     (*this_).layout = gtk_grid_new();
     gtk_grid_set_column_homogeneous ( GTK_GRID((*this_).layout), false );  /* if true, the window would get resized */
     gtk_grid_set_row_homogeneous ( GTK_GRID((*this_).layout), false );
     /* parameter info: gtk_grid_attach (GtkGrid *grid, GtkWidget *child, gint left, gint top, gint width, gint height); */
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).toolbar, 0, 0, 4, 1 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).toolbar ), false );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).toolbar ), false );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).tool_row, 0, 0, 4, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).tool_row ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).tool_row ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).search_label, 0, 1, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_label ), false );
     gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).search_label ), false );
@@ -214,42 +176,9 @@ void gui_main_window_init( gui_main_window_t *this_,
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).sketcharea, 0, 2, 3, 12 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).sketcharea ), true );
     gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).sketcharea ), true );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).attr_section_icon, 3, 2, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).attr_edit_column, 3, 1, 1, 13 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).attr_section_icon ), false );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).attr_section_icon ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).id_label, 3, 3, 1, 1 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).id_label ), false );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).id_label ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_label, 3, 4, 1, 1 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).name_label ), false );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).name_label ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_entry, 3, 5, 1, 1 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).name_entry ), false );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).name_entry ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_label, 3, 6, 1, 1 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).stereotype_label ), false );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).stereotype_label ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_entry, 3, 7, 1, 1 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).stereotype_entry ), false );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).stereotype_entry ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_label, 3, 8, 1, 1 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).type_label ), false );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).type_label ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_combo_box, 3, 9, 1, 1 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).type_combo_box ), false );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).type_combo_box ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_icon_grid, 3, 10, 1, 1 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).type_icon_grid ), false );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).type_icon_grid ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_label, 3, 11, 1, 1 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).description_label ), false );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).description_label ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_scroll_win, 3, 12, 1, 1 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).description_scroll_win ), true );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).description_scroll_win ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).edit_commit_button, 3, 13, 1, 1 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).edit_commit_button ), false );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).edit_commit_button ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).attr_section_icon ), true );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_icon_image, 0, 14, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).message_icon_image ), false );
     gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).message_icon_image ), false );
@@ -276,7 +205,7 @@ void gui_main_window_init( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).window), "destroy", G_CALLBACK(gui_main_window_destroy_event_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).window), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_main_window_data_changed_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).sketcharea), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_data_changed_callback), &((*this_).sketcharea_data) );
-    g_signal_connect( G_OBJECT((*this_).toolbar), GUI_TOOLBOX_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_tool_changed_callback), &((*this_).sketcharea_data) );
+    g_signal_connect( G_OBJECT((*this_).tool_row), GUI_TOOLBOX_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_tool_changed_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).file_use_db), "clicked", G_CALLBACK(gui_main_window_use_db_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).file_export), "clicked", G_CALLBACK(gui_main_window_export_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).file_new_window), "clicked", G_CALLBACK(gui_main_window_new_window_btn_callback), this_ );
@@ -286,7 +215,7 @@ void gui_main_window_init( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).tool_create), "clicked", G_CALLBACK(gui_toolbox_create_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_search), "clicked", G_CALLBACK(gui_toolbox_search_btn_callback), &((*this_).tools_data) );
 
-    g_signal_connect( G_OBJECT((*this_).toolbar), GUI_TOOLBOX_GLIB_SIGNAL_NAME, G_CALLBACK(gui_search_request_tool_changed_callback), &((*this_).search_request) );
+    g_signal_connect( G_OBJECT((*this_).tool_row), GUI_TOOLBOX_GLIB_SIGNAL_NAME, G_CALLBACK(gui_search_request_tool_changed_callback), &((*this_).search_request) );
     g_signal_connect( G_OBJECT((*this_).search_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_search_request_data_changed_callback), &((*this_).search_request) );
     g_signal_connect( G_OBJECT((*this_).search_entry), "activate", G_CALLBACK(gui_search_request_search_start_callback), &((*this_).search_request) );
     g_signal_connect( G_OBJECT((*this_).search_button), "clicked", G_CALLBACK(gui_search_request_search_start_callback), &((*this_).search_request) );
@@ -610,7 +539,44 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
     gtk_button_set_image( GTK_BUTTON((*this_).tool_about), (*this_).tool_about_icon );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_about), "About" );
 
-    (*this_).toolbar = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, /*spacing:*/ 2 );
+    (*this_).tool_row = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, /*spacing:*/ 2 );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).file_use_db) );
+    gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).file_export) );
+    gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).file_new_window) );
+    gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).tool_search) );
+    gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).tool_navigate) );
+    gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).tool_edit) );
+    gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).tool_create) );
+    gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_cut) );
+    gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_copy) );
+    gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_paste) );
+    gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_delete) );
+    gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_instantiate) );
+    gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_highlight) );
+    gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_reset) );
+    gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_undo) );
+    gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_redo) );
+    gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).tool_about) );
+#else
+    gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).file_use_db) );
+    gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).file_export) );
+    gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).file_new_window) );
+    gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).tool_search) );
+    gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).tool_navigate) );
+    gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).tool_edit) );
+    gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).tool_create) );
+    gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_cut) );
+    gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_copy) );
+    gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_paste) );
+    gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_delete) );
+    gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_instantiate) );
+    gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_highlight) );
+    gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_reset) );
+    gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_undo) );
+    gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_redo) );
+    gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).tool_about) );
+#endif
 
     TRACE_END();
 }
@@ -719,6 +685,35 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     gtk_icon_view_set_column_spacing( GTK_ICON_VIEW((*this_).type_icon_grid), 4 );
     gtk_icon_view_set_row_spacing( GTK_ICON_VIEW((*this_).type_icon_grid), 0 );
     gtk_icon_view_set_columns( GTK_ICON_VIEW((*this_).type_icon_grid), 7 );
+
+    (*this_).attr_edit_column = gtk_box_new( GTK_ORIENTATION_VERTICAL, /*spacing:*/ 2 );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).attr_section_icon) );
+    gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).id_label) );
+    gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).name_label) );
+    gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).name_entry) );
+    gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_label) );
+    gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_entry) );
+    gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_label) );
+    gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_combo_box) );
+    gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_icon_grid) );
+    gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).description_label) );
+    gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).description_scroll_win) );
+    gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).edit_commit_button) );
+#else
+    gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).attr_section_icon) );
+    gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).id_label) );
+    gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).name_label) );
+    gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).name_entry) );
+    gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_label) );
+    gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_entry) );
+    gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_label) );
+    gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_combo_box) );
+    gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_icon_grid) );
+    gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).description_label) );
+    gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).description_scroll_win) );
+    gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).edit_commit_button) );
+#endif
 
     TRACE_END();
 }
