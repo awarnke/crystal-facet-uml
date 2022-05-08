@@ -40,8 +40,9 @@ struct gui_main_window_struct {
     data_database_t *database;  /*!< pointer to external database */
 
     GtkWidget *window;
+    GtkWidget *main_stack_column;
     GtkWidget *two_panes;
-    GtkWidget *central_grid;
+    GtkWidget *sketch_stack_column;
     GtkWidget *sketcharea;
 
     GtkWidget *tool_row;
@@ -102,6 +103,7 @@ struct gui_main_window_struct {
     GtkWidget *edit_commit_icon;
     GtkWidget *edit_commit_button;
 
+    GtkWidget *search_row;
     GtkWidget *search_label;
     GtkWidget *search_entry;
     GtkWidget *search_btn_icon;
