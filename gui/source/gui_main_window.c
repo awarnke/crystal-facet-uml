@@ -142,12 +142,12 @@ void gui_main_window_init( gui_main_window_t *this_,
                               );
 
     /* init the file choosers */
-    gui_file_use_db_dialog_init ( &((*this_).file_use_db_dialog),
-                                  controller,
-                                  database,
-                                  GTK_WINDOW( (*this_).window ),
-                                  &((*this_).message_to_user)
-                                );
+    gui_file_use_db_dialog_init( &((*this_).file_use_db_dialog),
+                                 controller,
+                                 database,
+                                 GTK_WINDOW( (*this_).window ),
+                                 &((*this_).message_to_user)
+                               );
     gui_file_export_dialog_init( &((*this_).file_export_dialog),
                                  database,
                                  db_reader,
@@ -722,12 +722,12 @@ void gui_main_window_private_init_simple_message_to_user( gui_main_window_t *thi
 
     (*this_).message_text_label = gtk_label_new( "" );
 #if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION >= 4 ))
-    gtk_label_set_xalign (GTK_LABEL( (*this_).message_text_label ), 0.0 );
+    gtk_label_set_xalign(GTK_LABEL( (*this_).message_text_label ), 0.0 );
 #else
-    gtk_misc_set_alignment (GTK_MISC( (*this_).message_text_label ), 0.0, 0.0 );
+    gtk_misc_set_alignment(GTK_MISC( (*this_).message_text_label ), 0.0, 0.0 );
 #endif
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).message_text_label ), true );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).message_text_label ), false );
+    gtk_widget_set_vexpand( GTK_WIDGET( (*this_).message_text_label ), true );
+    gtk_widget_set_hexpand( GTK_WIDGET( (*this_).message_text_label ), false );
 
     (*this_).message_icon_image = gtk_image_new_from_pixbuf ( gui_resources_get_crystal_facet_uml( res ) );
 #if ( GTK_MAJOR_VERSION >= 4 )
@@ -737,8 +737,8 @@ void gui_main_window_private_init_simple_message_to_user( gui_main_window_t *thi
 #else
 #endif
     gtk_widget_set_size_request( GTK_WIDGET((*this_).message_icon_image), 48 /*=w*/ , 48 /*=h*/ );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).message_icon_image ), false );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).message_icon_image ), false );
+    gtk_widget_set_vexpand( GTK_WIDGET( (*this_).message_icon_image ), false );
+    gtk_widget_set_hexpand( GTK_WIDGET( (*this_).message_icon_image ), false );
 
     (*this_).message_row = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, /*spacing:*/ 20 );
 #if ( GTK_MAJOR_VERSION >= 4 )
