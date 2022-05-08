@@ -40,7 +40,8 @@ struct gui_main_window_struct {
     data_database_t *database;  /*!< pointer to external database */
 
     GtkWidget *window;
-    GtkWidget *layout;
+    GtkWidget *two_panes;
+    GtkWidget *central_grid;
     GtkWidget *sketcharea;
 
     GtkWidget *tool_row;

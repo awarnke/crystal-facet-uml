@@ -157,36 +157,47 @@ void gui_main_window_init( gui_main_window_t *this_,
 
     TRACE_INFO("GTK+ Widgets are created.");
 
-    (*this_).layout = gtk_grid_new();
-    gtk_grid_set_column_homogeneous ( GTK_GRID((*this_).layout), false );  /* if true, the window would get resized */
-    gtk_grid_set_row_homogeneous ( GTK_GRID((*this_).layout), false );
+    (*this_).central_grid = gtk_grid_new();
+    gtk_grid_set_column_homogeneous ( GTK_GRID((*this_).central_grid), false );  /* if true, the window would get resized */
+    gtk_grid_set_row_homogeneous ( GTK_GRID((*this_).central_grid), false );
     /* parameter info: gtk_grid_attach (GtkGrid *grid, GtkWidget *child, gint left, gint top, gint width, gint height); */
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).tool_row, 0, 0, 4, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).central_grid), (*this_).tool_row, 0, 0, 3, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).tool_row ), true );
     gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).tool_row ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).search_label, 0, 1, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).central_grid), (*this_).search_label, 0, 1, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_label ), false );
     gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).search_label ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).search_entry, 1, 1, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).central_grid), (*this_).search_entry, 1, 1, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_entry ), true );
     gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).search_entry ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).search_button, 2, 1, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).central_grid), (*this_).search_button, 2, 1, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_button ), false );
     gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).search_button ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).sketcharea, 0, 2, 3, 12 );
+    gtk_grid_attach( GTK_GRID((*this_).central_grid), (*this_).sketcharea, 0, 2, 3, 12 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).sketcharea ), true );
     gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).sketcharea ), true );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).attr_edit_column, 3, 2, 1, 12 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).attr_edit_column ), false );
-    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).attr_edit_column ), true );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_row, 0, 14, 4, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).central_grid), (*this_).message_row, 0, 14, 3, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).message_row ), true );
     gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).message_row ), false );
+
+    (*this_).two_panes = gtk_paned_new( GTK_ORIENTATION_HORIZONTAL );
 #if ( GTK_MAJOR_VERSION >= 4 )
-    gtk_window_set_child( GTK_WINDOW((*this_).window), (*this_).layout );
+    gtk_paned_set_start_child( GTK_PANED((*this_).two_panes), (*this_).central_grid );
+    gtk_paned_set_end_child( GTK_PANED((*this_).two_panes), (*this_).attr_edit_column );
+#else
+    gtk_paned_add1( GTK_PANED((*this_).two_panes), (*this_).central_grid );
+    gtk_paned_add2( GTK_PANED((*this_).two_panes), (*this_).attr_edit_column );
+#endif
+    gtk_widget_set_vexpand( GTK_WIDGET( (*this_).central_grid ), true );
+    gtk_widget_set_hexpand( GTK_WIDGET( (*this_).central_grid ), true );
+    gtk_widget_set_vexpand( GTK_WIDGET( (*this_).attr_edit_column ), true );
+    gtk_widget_set_hexpand( GTK_WIDGET( (*this_).attr_edit_column ), false );
+
+#if ( GTK_MAJOR_VERSION >= 4 )
+    gtk_window_set_child( GTK_WINDOW((*this_).window), (*this_).two_panes );
     gtk_window_set_resizable( GTK_WINDOW((*this_).window), true );
 #else
-    gtk_container_add(GTK_CONTAINER((*this_).window), (*this_).layout);
+    gtk_container_add(GTK_CONTAINER((*this_).window), (*this_).two_panes);
 #endif
 
     TRACE_INFO("GTK+ Widgets are added to containers.");
