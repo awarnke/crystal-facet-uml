@@ -1,7 +1,7 @@
 crystal-facet-uml (1.37.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * on Windows(TM), the working directory the installation root (again)
+  * on Windows(TM), the working directory is the installation root (again)
   * the screen layout stays fix while creating features and relationships
 
    -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 22 May 2022 11:00:00 +0100
@@ -9,7 +9,7 @@ crystal-facet-uml (1.37.0) UNRELEASED; urgency=medium
 crystal-facet-uml (1.36.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * Workarounds for window switching in gtk 4.6.1 on windows removed
+  * Workarounds for window switching in gtk 4.6.1 on Windows(TM) removed
   * The edit widgets auto-store only at focus left event also with gtk4
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 24 Apr 2022 11:00:00 +0100

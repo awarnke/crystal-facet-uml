@@ -8,6 +8,8 @@ ideas for future versions:
   [ ] scrolling through search list missing if result list is too long
   [ ] Move a child diagram out of and behind the parent is not possible in one single step
   [ ] After deselecting all elements, paste does not work. One has to select an element first.
+  [ ] During drag and drop, background lines shall better explain the implicit grid
+  [ ] Avoid the "do you want to overwrite" dialog of gtk4. Maybe provide separate new and use DB buttons?
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes

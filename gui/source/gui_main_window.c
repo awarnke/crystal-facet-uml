@@ -169,6 +169,7 @@ void gui_main_window_init( gui_main_window_t *this_,
     gtk_widget_set_hexpand( GTK_WIDGET( (*this_).sketch_stack_column ), true );
     gtk_widget_set_vexpand( GTK_WIDGET( (*this_).attr_edit_column ), true );
     gtk_widget_set_hexpand( GTK_WIDGET( (*this_).attr_edit_column ), false );
+    gtk_paned_set_position( GTK_PANED((*this_).two_panes), 11*70 );
 
     (*this_).main_stack_column = gtk_box_new( GTK_ORIENTATION_VERTICAL, /*spacing:*/ 0 );
 #if ( GTK_MAJOR_VERSION >= 4 )
@@ -617,13 +618,16 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
 
     (*this_).name_entry = gtk_entry_new();
 
+    (*this_).stereotype_entry = gtk_entry_new();
+
     (*this_).description_text_view = gtk_text_view_new();
     gtk_text_view_set_wrap_mode( GTK_TEXT_VIEW( (*this_).description_text_view ),
                                  GTK_WRAP_WORD_CHAR
                                );
     gtk_widget_set_vexpand( GTK_WIDGET( (*this_).description_text_view ), true );
     gtk_widget_set_hexpand( GTK_WIDGET( (*this_).description_text_view ), false );
-    /* need own scroll window container - otherwise the gtk_grid will manage the text view */
+    //gtk_widget_set_size_request( GTK_WIDGET((*this_).description_text_view), 128 /*=w*/ , 48 /*=h*/ );
+    /* need own scroll window container */
 #if ( GTK_MAJOR_VERSION >= 4 )
     (*this_).description_scroll_win = gtk_scrolled_window_new();
     gtk_scrolled_window_set_child( GTK_SCROLLED_WINDOW((*this_).description_scroll_win), (*this_).description_text_view );
@@ -636,8 +640,6 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
                                     GTK_POLICY_AUTOMATIC,
                                     GTK_POLICY_AUTOMATIC
                                   );
-
-    (*this_).stereotype_entry = gtk_entry_new();
 
     (*this_).edit_commit_button = gtk_button_new();
     (*this_).edit_commit_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_commit( res ));
@@ -689,6 +691,13 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     gtk_icon_view_set_column_spacing( GTK_ICON_VIEW((*this_).type_icon_grid), 4 );
     gtk_icon_view_set_row_spacing( GTK_ICON_VIEW((*this_).type_icon_grid), 0 );
     gtk_icon_view_set_columns( GTK_ICON_VIEW((*this_).type_icon_grid), 7 );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    /* workaround for endless loop in gtk layouting */
+    GtkWidget *grid_frame = gtk_grid_new();
+    gtk_grid_attach( GTK_GRID(grid_frame), (*this_).type_icon_grid, 0, 0, 1, 1 );
+    gtk_widget_set_halign( grid_frame, GTK_ALIGN_END );
+#else
+#endif
 
     /* insert widgets to box container */
     {
@@ -702,7 +711,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_entry) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_label) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_combo_box) );
-        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_icon_grid) );
+        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET(grid_frame) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).description_label) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).description_scroll_win) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).edit_commit_button) );
