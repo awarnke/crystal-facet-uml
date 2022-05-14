@@ -60,7 +60,6 @@
                     <listitem>
                         <para>
                             Opens an existing database file.
-                            A confirmation of overwriting the existing file may be requested.
                             Changes will be written to this file immediately, without explicit save action.
                         </para>
                     </listitem>

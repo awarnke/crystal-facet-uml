@@ -387,16 +387,10 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
     gtk_button_set_image( GTK_BUTTON((*this_).file_export), (*this_).file_export_icon );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_export), "Export" );
 
-    (*this_).file_new_window_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_new_window( res ));
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).file_new_window_icon), 32 /*=w*/ , 32 /*=h*/ );
-    (*this_).file_new_window = GTK_BUTTON(gtk_button_new());
-    gtk_button_set_image( GTK_BUTTON((*this_).file_new_window), (*this_).file_new_window_icon );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_new_window), "New Window" );
-
     (*this_).tool_sect_1_icon = gtk_image_new_from_pixbuf ( gui_resources_get_tool_sect( res ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_sect_1_icon), 12 /*=w*/ , 32 /*=h*/ );
 #if ( GTK_MAJOR_VERSION >= 4 )
-    gtk_image_set_pixel_size( GTK_IMAGE((*this_).tool_sect_1_icon), 12 );
+    gtk_image_set_pixel_size( GTK_IMAGE((*this_).tool_sect_1_icon), 32 );
 #else
 #endif
     gtk_widget_set_halign( (*this_).tool_sect_1_icon, GTK_ALIGN_START );
@@ -404,10 +398,16 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
      (*this_).tool_sect_2_icon = gtk_image_new_from_pixbuf ( gui_resources_get_tool_sect( res ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_sect_2_icon), 12 /*=w*/ , 32 /*=h*/ );
 #if ( GTK_MAJOR_VERSION >= 4 )
-    gtk_image_set_pixel_size( GTK_IMAGE((*this_).tool_sect_2_icon), 12 );
+    gtk_image_set_pixel_size( GTK_IMAGE((*this_).tool_sect_2_icon), 32 );
 #else
 #endif
     gtk_widget_set_halign( (*this_).tool_sect_2_icon, GTK_ALIGN_START );
+
+    (*this_).file_new_window_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_new_window( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).file_new_window_icon), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).file_new_window = GTK_BUTTON(gtk_button_new());
+    gtk_button_set_image( GTK_BUTTON((*this_).file_new_window), (*this_).file_new_window_icon );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_new_window), "New Window" );
 
     (*this_).tool_navigate_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_navigate( res ));
     gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_navigate_icon), 32 /*=w*/ , 32 /*=h*/ );
