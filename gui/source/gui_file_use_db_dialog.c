@@ -20,18 +20,19 @@ void gui_file_use_db_dialog_init ( gui_file_use_db_dialog_t *this_,
                                                                  GTK_FILE_CHOOSER_ACTION_SAVE,
                                                                  "Cancel",
                                                                  GTK_RESPONSE_CANCEL,
-                                                                 "New/Open DB-File",
+                                                                 "Use DB-File",
                                                                  GTK_RESPONSE_ACCEPT,
                                                                  NULL
                                                                );
-#if ( GTK_MAJOR_VERSION >= 4 )
-#else
-    gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).use_db_file_chooser ), "untitled.cfu1" );
-#endif
+    /* set name postponed, see https://gitlab.gnome.org/GNOME/gtk/-/issues/4832 */
 
     gui_file_db_manager_init( &((*this_).file_manager), controller, database, message_to_user );
 
-    g_signal_connect( G_OBJECT((*this_).use_db_file_chooser), "response", G_CALLBACK(gui_file_db_manager_use_db_response_callback), &((*this_).file_manager) );
+    g_signal_connect( G_OBJECT((*this_).use_db_file_chooser),
+                      "response",
+                      G_CALLBACK(gui_file_db_manager_use_db_response_callback),
+                      &((*this_).file_manager)
+                    );
 #if ( GTK_MAJOR_VERSION >= 4 )
     gtk_window_set_hide_on_close( GTK_WINDOW((*this_).use_db_file_chooser), true);
 #else
@@ -56,15 +57,22 @@ void gui_file_use_db_dialog_destroy( gui_file_use_db_dialog_t *this_ )
     TRACE_END();
 }
 
-void gui_file_use_db_dialog_show( gui_file_use_db_dialog_t *this_ )
+void gui_file_use_db_dialog_show( gui_file_use_db_dialog_t *this_, bool open_existing )
 {
     TRACE_BEGIN();
 
-#if ( GTK_MAJOR_VERSION >= 4 )
-    /* workaround for disabled file dialog widgets and accepting bug https://gitlab.gnome.org/GNOME/gtk/-/issues/4832 */
-    gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).use_db_file_chooser ), "untitled.cfu1" );
+    gtk_file_chooser_set_action( GTK_FILE_CHOOSER( (*this_).use_db_file_chooser ),
+                                 open_existing ? GTK_FILE_CHOOSER_ACTION_OPEN : GTK_FILE_CHOOSER_ACTION_SAVE
+                               );
+    if( ! open_existing )
+    {
+        /* moved here as workaround for disabled file dialog widgets, see https://gitlab.gnome.org/GNOME/gtk/-/issues/4832 */
+        gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).use_db_file_chooser ), "untitled.cfu1" );
+    }
 
+#if ( GTK_MAJOR_VERSION >= 4 )
     gtk_widget_show( GTK_WIDGET( (*this_).use_db_file_chooser ) );
+
     gtk_widget_set_sensitive( GTK_WIDGET((*this_).use_db_file_chooser), TRUE );  /* idea taken from gtk demo */
 
     GdkSurface *surface = gtk_native_get_surface( GTK_NATIVE((*this_).use_db_file_chooser) );

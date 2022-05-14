@@ -3,6 +3,7 @@ crystal-facet-uml (1.37.0) UNRELEASED; urgency=medium
   [ Andreas Warnke ]
   * on Windows(TM), the working directory is the installation root (again)
   * the screen layout stays fix while creating features and relationships
+  * New DB and Open DB are two separate buttons
 
    -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 22 May 2022 11:00:00 +0100
 

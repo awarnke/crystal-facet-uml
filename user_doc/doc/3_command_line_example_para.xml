@@ -10,9 +10,6 @@ you have several options:
         lock the file while modifying it.
     </para>
     <para>
-        <command>crystal-facet-uml -u my_database_file.cfu1</command>
-    </para>
-    <para>
         Advantage is the simple usage;
         disadvantage is the lack of
         a) diff and merge of files,

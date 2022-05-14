@@ -208,9 +208,14 @@ gboolean gui_main_window_delete_event_callback( GtkWidget *widget, GdkEvent *eve
 #endif
 
 /*!
- *  \brief callback that informs that the use_db button was pressed
+ *  \brief callback that informs that the new_db button was pressed
  */
-void gui_main_window_use_db_btn_callback( GtkWidget* button, gpointer data );
+void gui_main_window_new_db_btn_callback( GtkWidget* button, gpointer data );
+
+/*!
+ *  \brief callback that informs that the open_db button was pressed
+ */
+void gui_main_window_open_db_btn_callback( GtkWidget* button, gpointer data );
 
 /*!
  *  \brief callback that informs that the export button was pressed

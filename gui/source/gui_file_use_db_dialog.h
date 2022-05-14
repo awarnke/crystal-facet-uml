@@ -52,8 +52,9 @@ void gui_file_use_db_dialog_destroy( gui_file_use_db_dialog_t *this_ );
  *  \brief shows the gui_file_use_db_dialog
  *
  *  \param this_ pointer to own object attributes
+ *  \param open_existing true if only existing files shall be selectable
  */
-void gui_file_use_db_dialog_show( gui_file_use_db_dialog_t *this_ );
+void gui_file_use_db_dialog_show( gui_file_use_db_dialog_t *this_, bool open_existing );
 
 #endif  /* GUI_FILE_USE_DB_DIALOG_H */
 

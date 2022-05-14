@@ -208,8 +208,8 @@ void gui_main_window_init( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).window), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_main_window_data_changed_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).sketcharea), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_data_changed_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).tool_row), GUI_TOOLBOX_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_tool_changed_callback), &((*this_).sketcharea_data) );
-    g_signal_connect( G_OBJECT((*this_).file_new_db), "clicked", G_CALLBACK(gui_main_window_use_db_btn_callback), this_ );
-    g_signal_connect( G_OBJECT((*this_).file_use_db), "clicked", G_CALLBACK(gui_main_window_use_db_btn_callback), this_ );
+    g_signal_connect( G_OBJECT((*this_).file_new_db), "clicked", G_CALLBACK(gui_main_window_new_db_btn_callback), this_ );
+    g_signal_connect( G_OBJECT((*this_).file_use_db), "clicked", G_CALLBACK(gui_main_window_open_db_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).file_export), "clicked", G_CALLBACK(gui_main_window_export_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).file_new_window), "clicked", G_CALLBACK(gui_main_window_new_window_btn_callback), this_ );
 
@@ -919,14 +919,27 @@ gboolean gui_main_window_delete_event_callback( GtkWidget *widget, GdkEvent *eve
     return false;  /* return false to trigger destroy event */
 }
 
-void gui_main_window_use_db_btn_callback( GtkWidget* button, gpointer data )
+void gui_main_window_new_db_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_main_window_t *this_ = data;
 
     gui_simple_message_to_user_hide( &((*this_).message_to_user) );
 
-    gui_file_use_db_dialog_show ( &((*this_).file_use_db_dialog) );
+    gui_file_use_db_dialog_show( &((*this_).file_use_db_dialog), false /* open_existing*/ );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_main_window_open_db_btn_callback( GtkWidget* button, gpointer data )
+{
+    TRACE_BEGIN();
+    gui_main_window_t *this_ = data;
+
+    gui_simple_message_to_user_hide( &((*this_).message_to_user) );
+
+    gui_file_use_db_dialog_show( &((*this_).file_use_db_dialog), true /* open_existing*/ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
