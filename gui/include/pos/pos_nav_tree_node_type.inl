@@ -35,13 +35,13 @@ static inline const GdkPixbuf * pos_nav_tree_node_type_get_icon( pos_nav_tree_no
 
         case POS_NAV_TREE_NODE_TYPE_NEW_SIBLING:
         {
-            result = gui_resources_get_navigate_create_sibling( resources );
+            result = gui_resources_get_navigate_create_sibling_0( resources );
         }
         break;
 
         case POS_NAV_TREE_NODE_TYPE_NEW_CHILD:
         {
-            result = gui_resources_get_navigate_create_child( resources );
+            result = gui_resources_get_navigate_create_child_0( resources );
         }
         break;
 

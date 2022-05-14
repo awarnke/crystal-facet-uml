@@ -20,7 +20,7 @@ void gui_file_use_db_dialog_init ( gui_file_use_db_dialog_t *this_,
                                                                  GTK_FILE_CHOOSER_ACTION_SAVE,
                                                                  "Cancel",
                                                                  GTK_RESPONSE_CANCEL,
-                                                                 "Create/Use DB-File",
+                                                                 "New/Open DB-File",
                                                                  GTK_RESPONSE_ACCEPT,
                                                                  NULL
                                                                );

@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -13,13 +11,36 @@
    height="32"
    id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    sodipodi:docname="file_new_window.svg"
    inkscape:export-filename="/home/andi/Code/crystal-facet-uml-code/gui/source/resources/file_new_window.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
-     id="defs4" />
+     id="defs4">
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect929"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect952"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -27,17 +48,18 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="10.66"
-     inkscape:cx="-9.6434917"
+     inkscape:zoom="21.32"
+     inkscape:cx="16.26909"
      inkscape:cy="15.768602"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1600"
-     inkscape:window-height="1135"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1" />
+     inkscape:window-width="1551"
+     inkscape:window-height="977"
+     inkscape:window-x="1958"
+     inkscape:window-y="1130"
+     inkscape:window-maximized="0"
+     inkscape:document-rotation="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -69,17 +91,26 @@
        height="2.4842844"
        x="0.56197697"
        y="1025.8564" />
+    <ellipse
+       style="fill:#ffffff;fill-opacity:1;stroke:#bbbbbb;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path4973-3"
+       cx="25.187563"
+       cy="1027.4504"
+       rx="5.4471674"
+       ry="5.4801669" />
     <path
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.30000000999999998;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 20.499439,1033.6416 3.569234,-6.5826 -5.676447,-5.386 6.902923,3.5189 5.022245,-5.1411 -3.182531,6.5003 5.692423,5.2922 -6.985262,-3.6242 z"
-       id="path3848-7"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccccccc" />
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 25.285105,1023.8952 c 0,0 0.02457,7.1396 0.02457,7.1396"
+       id="path927"
+       inkscape:path-effect="#path-effect929"
+       inkscape:original-d="m 25.285105,1023.8952 0.02457,7.1396"
+       sodipodi:nodetypes="cc" />
     <path
-       style="fill:#e5ff34;fill-opacity:1;stroke:#ffffff;stroke-width:0.30000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 18.810884,1033.7354 3.569234,-6.5826 -5.676447,-5.386 6.902923,3.5189 5.022245,-5.1411 -3.182531,6.5003 5.692423,5.2922 -6.985262,-3.6242 z"
-       id="path3848-7-9"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccccccc" />
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 21.637799,1027.5109 c 0,0 7.139638,-0.01 7.139638,-0.01"
+       id="path927-6"
+       inkscape:path-effect="#path-effect952"
+       inkscape:original-d="m 21.637799,1027.5109 7.139638,-0.01"
+       sodipodi:nodetypes="cc" />
   </g>
 </svg>

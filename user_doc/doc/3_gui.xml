@@ -31,7 +31,25 @@
         </para>
 
         <section>
-            <title>Create/Use DB</title>
+            <title>New DB</title>
+            <para>
+
+                <inlinemediaobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/file_new_db.pdf" width="1cm"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/file_new_db.png"/></imageobject>
+                </inlinemediaobject>
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            Creates a new database file.
+                        </para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+
+        </section>
+        <section>
+            <title>Open DB</title>
             <para>
 
                 <inlinemediaobject>
@@ -41,8 +59,9 @@
                 <itemizedlist>
                     <listitem>
                         <para>
-                            Opens an existing database file or creates a new database file.
+                            Opens an existing database file.
                             A confirmation of overwriting the existing file may be requested.
+                            Changes will be written to this file immediately, without explicit save action.
                         </para>
                     </listitem>
                 </itemizedlist>

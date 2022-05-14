@@ -25,7 +25,9 @@
 #include "resources/edit_undo.c"
 #include "resources/edit_reset.c"
 #include "resources/file_export.c"
+#include "resources/file_new_db.c"
 #include "resources/file_new_window.c"
+#include "resources/file_save_as.c"
 #include "resources/file_use_db.c"
 #include "resources/message_error.c"
 #include "resources/message_info.c"
@@ -35,10 +37,13 @@
 #include "resources/tool_navigate.c"
 #include "resources/tool_create.c"
 #include "resources/tool_edit.c"
+#include "resources/tool_sect.c"
 #include "resources/navigate_breadcrumb_folder.c"
 #include "resources/navigate_closed_folder.c"
 #include "resources/navigate_create_child.c"
+#include "resources/navigate_create_child_0.c"
 #include "resources/navigate_create_sibling.c"
+#include "resources/navigate_create_sibling_0.c"
 #include "resources/navigate_open_folder.c"
 #include "resources/background_column.c"
 
@@ -146,7 +151,9 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).edit_reset = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( edit_reset ) );
 
     (*this_).file_export = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( file_export ) );
+    (*this_).file_new_db = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( file_new_db ) );
     (*this_).file_new_window = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( file_new_window ) );
+    (*this_).file_save_as = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( file_save_as ) );
     (*this_).file_use_db = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( file_use_db ) );
 
     (*this_).message_error = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( message_error ) );
@@ -159,11 +166,14 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).tool_navigate = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( tool_navigate ) );
     (*this_).tool_create = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( tool_create ) );
     (*this_).tool_edit = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( tool_edit ) );
+    (*this_).tool_sect = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( tool_sect ) );
 
     (*this_).navigate_breadcrumb_folder = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( navigate_breadcrumb_folder ) );
     (*this_).navigate_closed_folder = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( navigate_closed_folder ) );
     (*this_).navigate_create_child = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( navigate_create_child ) );
+    (*this_).navigate_create_child_0 = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( navigate_create_child_0 ) );
     (*this_).navigate_create_sibling = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( navigate_create_sibling ) );
+    (*this_).navigate_create_sibling_0 = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( navigate_create_sibling_0 ) );
     (*this_).navigate_open_folder = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( navigate_open_folder ) );
 
     (*this_).background_column = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( background_column ) );
@@ -271,7 +281,9 @@ void gui_resources_destroy ( gui_resources_t *this_ )
     g_object_unref ((*this_).edit_reset);
 
     g_object_unref ((*this_).file_export);
+    g_object_unref ((*this_).file_new_db);
     g_object_unref ((*this_).file_new_window);
+    g_object_unref ((*this_).file_save_as);
     g_object_unref ((*this_).file_use_db);
 
     g_object_unref ((*this_).message_error);
@@ -284,11 +296,14 @@ void gui_resources_destroy ( gui_resources_t *this_ )
     g_object_unref ((*this_).tool_navigate);
     g_object_unref ((*this_).tool_create);
     g_object_unref ((*this_).tool_edit);
+    g_object_unref ((*this_).tool_sect);
 
     g_object_unref ((*this_).navigate_breadcrumb_folder);
     g_object_unref ((*this_).navigate_closed_folder);
     g_object_unref ((*this_).navigate_create_child);
+    g_object_unref ((*this_).navigate_create_child_0);
     g_object_unref ((*this_).navigate_create_sibling);
+    g_object_unref ((*this_).navigate_create_sibling_0);
     g_object_unref ((*this_).navigate_open_folder);
 
     g_object_unref ((*this_).background_column);

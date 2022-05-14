@@ -46,12 +46,19 @@ struct gui_main_window_struct {
     GtkWidget *sketcharea;
 
     GtkWidget *tool_row;
+    GtkWidget *file_new_db_icon;
+    GtkButton *file_new_db;
     GtkWidget *file_use_db_icon;
     GtkButton *file_use_db;
+    /*
+    GtkWidget *file_save_as_icon;
+    GtkButton *file_save_as;
+    */
     GtkWidget *file_export_icon;
     GtkButton *file_export;
     GtkWidget *file_new_window_icon;
     GtkButton *file_new_window;
+    GtkWidget *tool_sect_1_icon;
     GtkWidget *tool_navigate_icon;
     GtkWidget *tool_navigate;
     GtkWidget *tool_edit_icon;
@@ -60,6 +67,7 @@ struct gui_main_window_struct {
     GtkWidget *tool_create;
     GtkWidget *tool_search_icon;
     GtkWidget *tool_search;
+    GtkWidget *tool_sect_2_icon;
     GtkWidget *edit_cut_icon;
     GtkButton *edit_cut;
     GtkWidget *edit_copy_icon;

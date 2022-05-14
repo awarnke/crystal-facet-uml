@@ -65,9 +65,19 @@ static inline GdkPixbuf *gui_resources_get_file_export ( gui_resources_t *this_ 
     return (*this_).file_export;
 }
 
+static inline GdkPixbuf *gui_resources_get_file_new_db ( gui_resources_t *this_ )
+{
+    return (*this_).file_new_db;
+}
+
 static inline GdkPixbuf *gui_resources_get_file_new_window ( gui_resources_t *this_ )
 {
     return (*this_).file_new_window;
+}
+
+static inline GdkPixbuf *gui_resources_get_file_save_as ( gui_resources_t *this_ )
+{
+    return (*this_).file_save_as;
 }
 
 static inline GdkPixbuf *gui_resources_get_file_use_db ( gui_resources_t *this_ )
@@ -115,6 +125,11 @@ static inline GdkPixbuf *gui_resources_get_tool_edit ( gui_resources_t *this_ )
     return (*this_).tool_edit;
 }
 
+static inline GdkPixbuf *gui_resources_get_tool_sect ( gui_resources_t *this_ )
+{
+    return (*this_).tool_sect;
+}
+
 static inline GdkPixbuf *gui_resources_get_navigate_breadcrumb_folder ( gui_resources_t *this_ )
 {
     return (*this_).navigate_breadcrumb_folder;
@@ -135,9 +150,19 @@ static inline GdkPixbuf *gui_resources_get_navigate_create_child ( gui_resources
     return (*this_).navigate_create_child;
 }
 
+static inline GdkPixbuf *gui_resources_get_navigate_create_child_0 ( gui_resources_t *this_ )
+{
+    return (*this_).navigate_create_child_0;
+}
+
 static inline GdkPixbuf *gui_resources_get_navigate_create_sibling ( gui_resources_t *this_ )
 {
     return (*this_).navigate_create_sibling;
+}
+
+static inline GdkPixbuf *gui_resources_get_navigate_create_sibling_0 ( gui_resources_t *this_ )
+{
+    return (*this_).navigate_create_sibling_0;
 }
 
 static inline GdkPixbuf *gui_resources_get_background_column ( gui_resources_t *this_ )

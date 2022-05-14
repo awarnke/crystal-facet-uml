@@ -29,7 +29,9 @@ struct gui_resources_struct {
     GdkPixbuf *edit_highlight;
     GdkPixbuf *edit_reset;
     GdkPixbuf *file_export;
+    GdkPixbuf *file_new_db;
     GdkPixbuf *file_new_window;
+    GdkPixbuf *file_save_as;
     GdkPixbuf *file_use_db;
     GdkPixbuf *message_error;
     GdkPixbuf *message_info;
@@ -39,10 +41,13 @@ struct gui_resources_struct {
     GdkPixbuf *tool_navigate;
     GdkPixbuf *tool_create;
     GdkPixbuf *tool_edit;
+    GdkPixbuf *tool_sect;
     GdkPixbuf *navigate_breadcrumb_folder;
     GdkPixbuf *navigate_closed_folder;
     GdkPixbuf *navigate_create_child;
+    GdkPixbuf *navigate_create_child_0;
     GdkPixbuf *navigate_create_sibling;
+    GdkPixbuf *navigate_create_sibling_0;
     GdkPixbuf *navigate_open_folder;
     GdkPixbuf *background_column;
 
@@ -232,11 +237,25 @@ static inline GdkPixbuf *gui_resources_get_edit_reset ( gui_resources_t *this_ )
 static inline GdkPixbuf *gui_resources_get_file_export ( gui_resources_t *this_ );
 
 /*!
+ *  \brief gets the file_new_db
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_file_new_db ( gui_resources_t *this_ );
+
+/*!
  *  \brief gets the file_new_window
  *
  *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_file_new_window ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the file_save_as
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_file_save_as ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the file_use_db
@@ -302,6 +321,13 @@ static inline GdkPixbuf *gui_resources_get_tool_create ( gui_resources_t *this_ 
 static inline GdkPixbuf *gui_resources_get_tool_edit ( gui_resources_t *this_ );
 
 /*!
+ *  \brief gets the tool_sect
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_tool_sect ( gui_resources_t *this_ );
+
+/*!
  *  \brief gets the navigate_breadcrumb_folder
  *
  *  \param this_ pointer to own object attributes
@@ -330,11 +356,25 @@ static inline GdkPixbuf *gui_resources_get_navigate_open_folder ( gui_resources_
 static inline GdkPixbuf *gui_resources_get_navigate_create_child ( gui_resources_t *this_ );
 
 /*!
+ *  \brief gets the navigate_create_child_0
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_navigate_create_child_0 ( gui_resources_t *this_ );
+
+/*!
  *  \brief gets the navigate_create_sibling
  *
  *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_navigate_create_sibling ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the navigate_create_sibling_0
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_navigate_create_sibling_0 ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the background_column
