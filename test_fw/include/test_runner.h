@@ -7,7 +7,7 @@
 /*!
  *  \file
  *  \brief Executes a set of unit test suites - in line with the xunit architecture.
- *  see https://en.wikipedia.org/wiki/XUnit 
+ *  see https://en.wikipedia.org/wiki/XUnit
  */
 
 #include <stdint.h>
@@ -40,7 +40,7 @@ static inline void test_runner_destroy( test_runner_t *this_ );
 
 /*!
  *  \brief test runner - runs a test suite
- * 
+ *
  *  \param this_ pointer to own object attributes
  *  \param test_suite test suite to run
  */
@@ -48,9 +48,8 @@ static inline void test_runner_run_suite( test_runner_t *this_, test_suite_t tes
 
 /*!
  *  \brief get test runner result
- * 
+ *
  *  \param this_ pointer to own object attributes
- *  \param test_suite test suite to run
  */
 static inline test_result_t test_get_result( test_runner_t *this_ );
 
