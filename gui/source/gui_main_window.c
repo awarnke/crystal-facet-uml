@@ -223,6 +223,8 @@ void gui_main_window_init( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).search_entry), "activate", G_CALLBACK(gui_search_request_search_start_callback), &((*this_).search_request) );
     g_signal_connect( G_OBJECT((*this_).search_button), "clicked", G_CALLBACK(gui_search_request_search_start_callback), &((*this_).search_request) );
 
+    g_signal_connect( G_OBJECT((*this_).edit_undo), "clicked", G_CALLBACK(gui_toolbox_undo_btn_callback), &((*this_).tools_data) );
+    g_signal_connect( G_OBJECT((*this_).edit_redo), "clicked", G_CALLBACK(gui_toolbox_redo_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_cut), "clicked", G_CALLBACK(gui_toolbox_cut_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_copy), "clicked", G_CALLBACK(gui_toolbox_copy_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_paste), "clicked", G_CALLBACK(gui_toolbox_paste_btn_callback), &((*this_).tools_data) );
@@ -230,8 +232,6 @@ void gui_main_window_init( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).edit_instantiate), "clicked", G_CALLBACK(gui_toolbox_instantiate_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_highlight), "clicked", G_CALLBACK(gui_toolbox_highlight_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_reset), "clicked", G_CALLBACK(gui_toolbox_reset_btn_callback), &((*this_).tools_data) );
-    g_signal_connect( G_OBJECT((*this_).edit_undo), "clicked", G_CALLBACK(gui_toolbox_undo_btn_callback), &((*this_).tools_data) );
-    g_signal_connect( G_OBJECT((*this_).edit_redo), "clicked", G_CALLBACK(gui_toolbox_redo_btn_callback), &((*this_).tools_data) );
 
     g_signal_connect( G_OBJECT((*this_).name_entry), "activate", G_CALLBACK(gui_attributes_editor_name_enter_callback), &((*this_).attributes_editor) );
 #if ( GTK_MAJOR_VERSION >= 4 )
@@ -455,6 +455,59 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_create), "Create" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_search), "Search" );
 
+    (*this_).edit_undo_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_undo( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_undo_icon), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).edit_undo = GTK_BUTTON(gtk_button_new());
+    gtk_button_set_image( GTK_BUTTON((*this_).edit_undo), (*this_).edit_undo_icon );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_undo), "Undo (Ctrl-Z)" );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    GtkShortcutTrigger *undo_trig = gtk_shortcut_trigger_parse_string( "<Control>Z" );
+    GtkShortcutAction *undo_act = gtk_callback_action_new( &gui_toolbox_undo_shortcut_callback,
+                                                           &((*this_).tools_data),
+                                                           NULL
+                                                         );
+    GtkShortcut* ctrl_z = gtk_shortcut_new_with_arguments( undo_trig,
+                                                           undo_act,
+                                                           NULL /* = format_string */
+                                                         );
+    gtk_shortcut_controller_add_shortcut( (*this_).keyboard_shortcut_ctrl, ctrl_z );
+#else
+    gtk_widget_add_accelerator( GTK_WIDGET((*this_).edit_undo),
+                                "clicked",
+                                (*this_).keyboard_shortcut_group,
+                                GDK_KEY_z,
+                                GDK_CONTROL_MASK,
+                                GTK_ACCEL_VISIBLE
+                              );
+
+#endif
+
+    (*this_).edit_redo_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_redo( res ));
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_redo_icon), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).edit_redo = GTK_BUTTON(gtk_button_new());
+    gtk_button_set_image( GTK_BUTTON((*this_).edit_redo), (*this_).edit_redo_icon );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_redo), "Redo (Ctrl-Y)" );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    GtkShortcutTrigger *redo_trig = gtk_shortcut_trigger_parse_string( "<Control>Y" );
+    GtkShortcutAction *redo_act = gtk_callback_action_new( &gui_toolbox_redo_shortcut_callback,
+                                                           &((*this_).tools_data),
+                                                           NULL
+                                                         );
+    GtkShortcut* ctrl_y = gtk_shortcut_new_with_arguments( redo_trig,
+                                                           redo_act,
+                                                           NULL /* = format_string */
+                                                         );
+    gtk_shortcut_controller_add_shortcut( (*this_).keyboard_shortcut_ctrl, ctrl_y );
+#else
+    gtk_widget_add_accelerator( GTK_WIDGET((*this_).edit_redo),
+                                "clicked",
+                                (*this_).keyboard_shortcut_group,
+                                GDK_KEY_y,
+                                GDK_CONTROL_MASK,
+                                GTK_ACCEL_VISIBLE
+                              );
+#endif
+
     (*this_).edit_cut_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_cut( res ));
     gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_cut_icon), 32 /*=w*/ , 32 /*=h*/ );
     (*this_).edit_cut = GTK_BUTTON(gtk_button_new());
@@ -513,59 +566,6 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
     gtk_button_set_image( GTK_BUTTON((*this_).edit_reset), (*this_).edit_reset_icon );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_reset), "Reset Selection" );
 
-    (*this_).edit_undo_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_undo( res ));
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_undo_icon), 32 /*=w*/ , 32 /*=h*/ );
-    (*this_).edit_undo = GTK_BUTTON(gtk_button_new());
-    gtk_button_set_image( GTK_BUTTON((*this_).edit_undo), (*this_).edit_undo_icon );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_undo), "Undo (Ctrl-Z)" );
-#if ( GTK_MAJOR_VERSION >= 4 )
-    GtkShortcutTrigger *undo_trig = gtk_shortcut_trigger_parse_string( "<Control>Z" );
-    GtkShortcutAction *undo_act = gtk_callback_action_new( &gui_toolbox_undo_shortcut_callback,
-                                                           &((*this_).tools_data),
-                                                           NULL
-                                                         );
-    GtkShortcut* ctrl_z = gtk_shortcut_new_with_arguments( undo_trig,
-                                                           undo_act,
-                                                           NULL /* = format_string */
-                                                         );
-    gtk_shortcut_controller_add_shortcut( (*this_).keyboard_shortcut_ctrl, ctrl_z );
-#else
-    gtk_widget_add_accelerator( GTK_WIDGET((*this_).edit_undo),
-                                "clicked",
-                                (*this_).keyboard_shortcut_group,
-                                GDK_KEY_z,
-                                GDK_CONTROL_MASK,
-                                GTK_ACCEL_VISIBLE
-                              );
-
-#endif
-
-    (*this_).edit_redo_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_redo( res ));
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_redo_icon), 32 /*=w*/ , 32 /*=h*/ );
-    (*this_).edit_redo = GTK_BUTTON(gtk_button_new());
-    gtk_button_set_image( GTK_BUTTON((*this_).edit_redo), (*this_).edit_redo_icon );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_redo), "Redo (Ctrl-Y)" );
-#if ( GTK_MAJOR_VERSION >= 4 )
-    GtkShortcutTrigger *redo_trig = gtk_shortcut_trigger_parse_string( "<Control>Y" );
-    GtkShortcutAction *redo_act = gtk_callback_action_new( &gui_toolbox_redo_shortcut_callback,
-                                                           &((*this_).tools_data),
-                                                           NULL
-                                                         );
-    GtkShortcut* ctrl_y = gtk_shortcut_new_with_arguments( redo_trig,
-                                                           redo_act,
-                                                           NULL /* = format_string */
-                                                         );
-    gtk_shortcut_controller_add_shortcut( (*this_).keyboard_shortcut_ctrl, ctrl_y );
-#else
-    gtk_widget_add_accelerator( GTK_WIDGET((*this_).edit_redo),
-                                "clicked",
-                                (*this_).keyboard_shortcut_group,
-                                GDK_KEY_y,
-                                GDK_CONTROL_MASK,
-                                GTK_ACCEL_VISIBLE
-                              );
-#endif
-
     (*this_).tool_about_icon = gtk_image_new_from_pixbuf( gui_resources_get_crystal_facet_uml( res ));
     gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_about_icon), 32 /*=w*/ , 32 /*=h*/ );
     (*this_).tool_about = GTK_BUTTON(gtk_button_new());
@@ -587,6 +587,8 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).tool_edit) );
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).tool_create) );
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).tool_sect_2_icon) );
+        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_undo) );
+        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_redo) );
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_cut) );
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_copy) );
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_paste) );
@@ -594,8 +596,6 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_instantiate) );
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_highlight) );
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_reset) );
-        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_undo) );
-        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_redo) );
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).tool_about) );
 #else
         gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).file_new_db) );
@@ -609,6 +609,8 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
         gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).tool_edit) );
         gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).tool_create) );
         gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).tool_sect_2_icon) );
+        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_undo) );
+        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_redo) );
         gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_cut) );
         gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_copy) );
         gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_paste) );
@@ -616,8 +618,6 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
         gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_instantiate) );
         gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_highlight) );
         gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_reset) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_undo) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_redo) );
         gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).tool_about) );
 #endif
     }

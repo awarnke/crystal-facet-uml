@@ -68,6 +68,10 @@ struct gui_main_window_struct {
     GtkWidget *tool_search_icon;
     GtkWidget *tool_search;
     GtkWidget *tool_sect_2_icon;
+    GtkWidget *edit_undo_icon;
+    GtkButton *edit_undo;
+    GtkWidget *edit_redo_icon;
+    GtkButton *edit_redo;
     GtkWidget *edit_cut_icon;
     GtkButton *edit_cut;
     GtkWidget *edit_copy_icon;
@@ -82,10 +86,6 @@ struct gui_main_window_struct {
     GtkButton *edit_highlight;
     GtkWidget *edit_reset_icon;
     GtkButton *edit_reset;
-    GtkWidget *edit_undo_icon;
-    GtkButton *edit_undo;
-    GtkWidget *edit_redo_icon;
-    GtkButton *edit_redo;
     GtkWidget *tool_about_icon;
     GtkButton *tool_about;
 
