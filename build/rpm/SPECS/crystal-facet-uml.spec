@@ -1,8 +1,8 @@
 #
 # spec file for package crystal-facet-uml
 #
-# Copyright (c) 2019-2020 SUSE LLC
-# Copyright (c) 2017-2020 Andreas Warnke cfu@andreaswarnke.de
+# Copyright (c) 2019-2022 SUSE LLC
+# Copyright (c) 2017-2022 Andreas Warnke cfu@andreaswarnke.de
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
@@ -18,7 +18,7 @@
 
 
 Name:           crystal-facet-uml
-Version:        1.36.1
+Version:        1.37.0
 Release:        0
 Summary:        Draws UML/SysML Diagrams
 License:        Apache-2.0
@@ -30,7 +30,7 @@ BuildRequires:  gcc
 BuildRequires:  gtk3-devel
 BuildRequires:  sqlite3-devel
 BuildRequires:  tar
-BuildRequires:  xorg-x11-fonts-core
+BuildRequires:  lato-fonts
 
 %description
 crystal-facet-uml creates sysml/uml diagrams to document system and software architecture.
@@ -43,18 +43,11 @@ crystal-facet-uml exports the model to xmi format.
 It runs on your local linux PC and is based on glib, gdk, gtk, cairo, pango, sqlite.
 
 %prep
-%setup -q -n crystal-facet-uml-%{version}
+%autosetup
 
 %build
-%cmake \
-  -DCMAKE_BUILD_TYPE=Release
-%if 0%{?cmake_build:1}
-# cmake_build works with openSuSE_TumbleWeed and openSuSE_Leap_15.1
+%cmake
 %cmake_build
-%else
-# fallback for old openSUSE_Leap_42.3:
-%make_jobs
-%endif
 
 %install
 %cmake_install

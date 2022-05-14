@@ -10,8 +10,8 @@ you have several options:
         lock the file while modifying it.
     </para>
     <para>
-        Advantage is the simple usage;
-        disadvantage is the lack of
+        Advantage is the simple usage.
+        Disadvantage is the lack of
         a) diff and merge of files,
         b) identify who changed which line when and with which commit message,
         c) concurrent modifications.
@@ -19,26 +19,34 @@ you have several options:
   </listitem>
   <listitem>
     <para>
-        Store the json export to your vcs,
-        import it to an empty crystal-facet-uml database before modifying it;
-        export it back to json after modification (and before any pull/merge/rebase action).
-    </para>
-    <para>
-        <command>crystal-facet-uml -e my_database_file.cfu1 json .</command>
-    </para>
-    <para>
-        When all your changes are stored in json format, sync with your version control system.
+        Store the json export to your vcs.
+        To modify it, import it to an empty crystal-facet-uml database.
+        When finished, export it back to json.
     </para>
     <para>
         Afterwards, one can
         a) merge and diff files,
         b) find out who to ask on which change.
-        Disadvantage is that this feature requires the new version 1.35.0 or later,
-        possibly some additional scripts for the import and export operations and
-        consistency checks on the database after import are recommended.
+        Disadvantage is that this feature requires the new version 1.35.0 or later and
+        possibly some additional scripts to simplify the import and export operations.
     </para>
     <para>
-        <command>crystal-facet-uml -i my_database_file.cfu1 update my_database_file.json</command>
+        Step 1: Export and sync
+    </para>
+    <para>
+        <command>crystal-facet-uml -e my_database_file.cfu1 json .</command>
+    </para>
+    <para>
+        When all your changes are stored in json format (and only then), sync with your version control system.
+    </para>
+    <para>
+        Step 2: Import and edit
+    </para>
+    <para>
+        <command>crystal-facet-uml -i my_database_file.cfu1 add my_database_file.json</command>
+    </para>
+    <para>
+         After import, run the consistency checks on the database (recommended).
     </para>
     <para>
         <command>crystal-facet-uml -t my_database_file.cfu1 || echo "ERROR $?"</command>

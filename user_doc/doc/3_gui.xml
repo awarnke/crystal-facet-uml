@@ -87,6 +87,7 @@
             </para>
 
         </section>
+
         <section>
             <title>New Window</title>
             <para>
@@ -165,6 +166,39 @@
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem><para>Create elements in the diagram (see <xref linkend="draw_create"/>)</para></listitem>
+                </itemizedlist>
+            </para>
+
+        </section>
+
+        <section>
+            <title>Undo</title>
+            <para>
+
+                <inlinemediaobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/edit_undo.pdf" width="1cm"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/edit_undo.png"/></imageobject>
+                </inlinemediaobject>
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            Un-does the last operation (Opening a database and exporting files cannot be undone)
+                        </para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+
+        </section>
+        <section>
+            <title>Redo</title>
+            <para>
+
+                <inlinemediaobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/edit_redo.pdf" width="1cm"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/edit_redo.png"/></imageobject>
+                </inlinemediaobject>
+                <itemizedlist>
+                    <listitem><para>Re-does the last un-done operation</para></listitem>
                 </itemizedlist>
             </para>
 
@@ -302,38 +336,6 @@
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem><para>Resets the (pink-cornered) selection</para></listitem>
-                </itemizedlist>
-            </para>
-
-        </section>
-        <section>
-            <title>Undo</title>
-            <para>
-
-                <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_undo.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_undo.png"/></imageobject>
-                </inlinemediaobject>
-                <itemizedlist>
-                    <listitem>
-                        <para>
-                            Un-does the last operation (Opening a database and exporting files cannot be undone)
-                        </para>
-                    </listitem>
-                </itemizedlist>
-            </para>
-
-        </section>
-        <section>
-            <title>Redo</title>
-            <para>
-
-                <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_redo.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_redo.png"/></imageobject>
-                </inlinemediaobject>
-                <itemizedlist>
-                    <listitem><para>Re-does the last un-done operation</para></listitem>
                 </itemizedlist>
             </para>
 
