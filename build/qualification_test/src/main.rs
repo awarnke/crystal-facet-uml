@@ -1,3 +1,8 @@
+pub mod suite_cli;
+pub mod suite_gui;
+use suite_cli::test_help::suite_cli_run;
+use suite_gui::test_file::suite_gui_run;
+
 extern crate exitcode;
 
 use std::env;
@@ -20,26 +25,16 @@ fn main() {
     {
         println!("{:?}", args);
 
-        let command = &args[1];
-        let process = match std::process::Command::new(command)
-                            .args(&["-v"])
-                            .spawn() {
-                Ok(process) => process,
-                Err(err)    => panic!("Err at running process: {}", err),
+        err_code = match suite_cli_run(&args[1]) {
+                true => exitcode::OK,
+                false => exitcode::USAGE,
         };
-
-        let output = match process.wait_with_output() {
-                Ok(output)  => output,
-                Err(err)    => panic!("Err at retrieving output: {}", err),
+        err_code = match suite_gui_run(&args[1]) {
+                true => exitcode::OK,
+                false => exitcode::USAGE,
         };
-
-        let stdout = match std::string::String::from_utf8(output.stdout) {
-                Ok(stdout)  => stdout,
-                Err(err)    => panic!("Err at translating output: {}", err),
-        };
-
-        print!("{}", stdout);
     }
 
+    /* When on stable branch, one can replace the exitcode by std::process::ExitCode */
     std::process::exit(err_code);
 }
