@@ -30,7 +30,7 @@ Tag and Push
 -----------
 
 >       # add a version tag to the git revision:
->       git tag -a v1.12.0 8f17811
+>       git tag -a v1.12.0 -m "version 1.12.0" 8f17811
 >       git push origin master --follow-tags
 
 

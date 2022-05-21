@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.36.0"
+    "generator_version": "1.37.0"
   }
   ,
   "views":
@@ -3654,9 +3654,9 @@
         "parent_name": "Building Block View",
         "diagram_type": 33,
         "type": "UMLPackageDiagram",
-        "name": "Utilities Overview",
+        "name": "U8-Utilities Overview",
         "description": [
-                "This diagram shows small utility modules."
+                "This diagram shows small universal(u8) utility modules."
         ],
         "list_order": 30720,
         "display_flags": 0,
@@ -3776,7 +3776,7 @@
             "id": 586,
             "display_flags": 0,
             "classifier_id": 302,
-            "classifier_name": "u8_stream",
+            "classifier_name": ".u8stream",
             "focused_feature_id": -1,
             "node": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
             "uuid": "e5e7c431-382a-4b23-b70b-04745d636dcc"
@@ -3833,10 +3833,10 @@
       "diagram": {
         "id": 72,
         "parent_id": 6,
-        "parent_name": "Utilities Overview",
+        "parent_name": "U8-Utilities Overview",
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
-        "name": "universal: WhiteBox View",
+        "name": "u8stream: WhiteBox View",
         "description": [
                 ""
         ],
@@ -3856,46 +3856,10 @@
             "uuid": "3d810960-2a8b-4ae7-b26e-76742c424692"
           },
           {
-            "id": 436,
-            "display_flags": 0,
-            "classifier_id": 267,
-            "classifier_name": "Array List",
-            "focused_feature_id": -1,
-            "node": "1856b489-e7c7-4fe2-8ec9-e1623aa5ba51",
-            "uuid": "2b5dfeb6-7836-4904-9f8d-4d6e192cadb1"
-          },
-          {
-            "id": 437,
-            "display_flags": 0,
-            "classifier_id": 56,
-            "classifier_name": "Int Pair",
-            "focused_feature_id": -1,
-            "node": "1de7fe75-aaec-4f28-94e8-e1f72326f26d",
-            "uuid": "167c7068-e34c-4d1c-b3cc-179ab9b1fee9"
-          },
-          {
-            "id": 438,
-            "display_flags": 0,
-            "classifier_id": 57,
-            "classifier_name": "Bool List",
-            "focused_feature_id": -1,
-            "node": "fb44f164-0d3d-4382-82e0-d2b806d596f4",
-            "uuid": "4951570a-51ab-4aaf-9d7e-ecd73429338f"
-          },
-          {
-            "id": 439,
-            "display_flags": 0,
-            "classifier_id": 58,
-            "classifier_name": "Array Index Sorter",
-            "focused_feature_id": -1,
-            "node": "9344e517-dfca-446c-9129-93c1d9d93b73",
-            "uuid": "032d0e2b-10bf-4bc6-a04e-9cd449a91e24"
-          },
-          {
             "id": 440,
             "display_flags": 0,
             "classifier_id": 302,
-            "classifier_name": "u8_stream",
+            "classifier_name": ".u8stream",
             "focused_feature_id": -1,
             "node": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
             "uuid": "75f5b520-db4c-4a29-8706-f6b6c0bc831e"
@@ -3943,7 +3907,7 @@
       "diagram": {
         "id": 91,
         "parent_id": 72,
-        "parent_name": "universal: WhiteBox View",
+        "parent_name": "u8stream: WhiteBox View",
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
         "name": "Stream",
@@ -3960,7 +3924,7 @@
             "id": 577,
             "display_flags": 0,
             "classifier_id": 302,
-            "classifier_name": "u8_stream",
+            "classifier_name": ".u8stream",
             "focused_feature_id": -1,
             "node": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
             "uuid": "e986948d-b180-4830-8e70-9ebf97f32775"
@@ -4036,6 +4000,80 @@
             "focused_feature_id": -1,
             "node": "64c320ad-1d4e-40ff-bc29-27c74f9d7c25",
             "uuid": "256cb543-6056-47e5-a2e2-2c385f0d1b1f"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 98,
+        "parent_id": 6,
+        "parent_name": "U8-Utilities Overview",
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "u8buf: Whitebox View",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "display_flags": 0,
+        "parent": "f596d365-dc16-48ca-9be1-d6ede80ae10a",
+        "uuid": "c750f1a4-7120-464f-bba4-08c84cd9c2d2",
+        "diagramelements":
+        [
+          {
+            "id": 643,
+            "display_flags": 0,
+            "classifier_id": 267,
+            "classifier_name": "Array List",
+            "focused_feature_id": -1,
+            "node": "1856b489-e7c7-4fe2-8ec9-e1623aa5ba51",
+            "uuid": "7ae86eaf-384a-4009-8971-480f8edb6aa2"
+          },
+          {
+            "id": 644,
+            "display_flags": 0,
+            "classifier_id": 56,
+            "classifier_name": "Int Pair",
+            "focused_feature_id": -1,
+            "node": "1de7fe75-aaec-4f28-94e8-e1f72326f26d",
+            "uuid": "07e393b4-ec55-4780-bd4a-a7e2a731febe"
+          },
+          {
+            "id": 645,
+            "display_flags": 0,
+            "classifier_id": 57,
+            "classifier_name": "Bool List",
+            "focused_feature_id": -1,
+            "node": "fb44f164-0d3d-4382-82e0-d2b806d596f4",
+            "uuid": "4bce25fb-f873-498a-a266-2b0530793cf8"
+          },
+          {
+            "id": 646,
+            "display_flags": 0,
+            "classifier_id": 58,
+            "classifier_name": "Array Index Sorter",
+            "focused_feature_id": -1,
+            "node": "9344e517-dfca-446c-9129-93c1d9d93b73",
+            "uuid": "6a330859-54aa-413c-8f5c-4143c2785be9"
+          },
+          {
+            "id": 647,
+            "display_flags": 0,
+            "classifier_id": 412,
+            "classifier_name": "u8list",
+            "focused_feature_id": -1,
+            "node": "f3f74c6d-d230-48cc-894d-98204da4915c",
+            "uuid": "246d8284-b3fe-4347-a011-a94193a63e6e"
+          },
+          {
+            "id": 648,
+            "display_flags": 0,
+            "classifier_id": 413,
+            "classifier_name": "u8buf",
+            "focused_feature_id": -1,
+            "node": "1ec9690b-c849-4fac-a515-07812ca170c6",
+            "uuid": "65be10b7-41ad-46c9-8d87-d47fb8a8e0c7"
           }
         ]
       }
@@ -8937,7 +8975,7 @@
         "name": "Static Memory Allocation",
         "description": [
                 "Except for the libraries gtk and sqlite (sqlite is configured for dynamic allocations),\n",
-                "crystal-facet-uml holds fixed-size arrays and strings for all displayed data.\n",
+                "crystal-facet-uml uses fixed-size arrays and strings for all displayed data.\n",
                 "\n",
                 "One could change this - but for most use cases, valid upper memory limits can be stated."
         ],
@@ -14130,7 +14168,7 @@
         "main_type": 124,
         "type": "Package",
         "stereotype": "",
-        "name": "u8_stream",
+        "name": ".u8stream",
         "description": [
                 ""
         ],
@@ -16257,90 +16295,6 @@
     },
     {
       "relationship": {
-        "id": 68,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -106289548,
-        "from_classifier_id": 30,
-        "from_classifier_name": "u8stream",
-        "to_classifier_id": 56,
-        "to_classifier_name": "Int Pair",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
-        "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
-        "to_node": "1de7fe75-aaec-4f28-94e8-e1f72326f26d",
-        "uuid": "f71a71e8-13e0-4a69-ad7b-244d99ed206a"
-      }
-    },
-    {
-      "relationship": {
-        "id": 69,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -106354674,
-        "from_classifier_id": 30,
-        "from_classifier_name": "u8stream",
-        "to_classifier_id": 57,
-        "to_classifier_name": "Bool List",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
-        "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
-        "to_node": "fb44f164-0d3d-4382-82e0-d2b806d596f4",
-        "uuid": "1c916c94-8f16-482f-8062-aa339257ccc1"
-      }
-    },
-    {
-      "relationship": {
-        "id": 70,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -106300422,
-        "from_classifier_id": 30,
-        "from_classifier_name": "u8stream",
-        "to_classifier_id": 58,
-        "to_classifier_name": "Array Index Sorter",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
-        "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
-        "to_node": "9344e517-dfca-446c-9129-93c1d9d93b73",
-        "uuid": "8d5992ac-c06b-42d9-aa50-321022395aa6"
-      }
-    },
-    {
-      "relationship": {
-        "id": 366,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -181397197,
-        "from_classifier_id": 30,
-        "from_classifier_name": "u8stream",
-        "to_classifier_id": 267,
-        "to_classifier_name": "Array List",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
-        "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
-        "to_node": "1856b489-e7c7-4fe2-8ec9-e1623aa5ba51",
-        "uuid": "35170b97-c10d-45aa-879c-236eb072f467"
-      }
-    },
-    {
-      "relationship": {
         "id": 405,
         "main_type": 300,
         "type": "Association",
@@ -16352,7 +16306,7 @@
         "from_classifier_id": 30,
         "from_classifier_name": "u8stream",
         "to_classifier_id": 302,
-        "to_classifier_name": "u8_stream",
+        "to_classifier_name": ".u8stream",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
@@ -25294,7 +25248,7 @@
         ],
         "list_order": 8462397,
         "from_classifier_id": 302,
-        "from_classifier_name": "u8_stream",
+        "from_classifier_name": ".u8stream",
         "to_classifier_id": 303,
         "to_classifier_name": "File Output Stream",
         "from_feature_id": -1,
@@ -25315,7 +25269,7 @@
         ],
         "list_order": -15526114,
         "from_classifier_id": 302,
-        "from_classifier_name": "u8_stream",
+        "from_classifier_name": ".u8stream",
         "to_classifier_id": 304,
         "to_classifier_name": "Memory Output Stream",
         "from_feature_id": -1,
@@ -25336,7 +25290,7 @@
         ],
         "list_order": -85511247,
         "from_classifier_id": 302,
-        "from_classifier_name": "u8_stream",
+        "from_classifier_name": ".u8stream",
         "to_classifier_id": 305,
         "to_classifier_name": "Output Stream",
         "from_feature_id": -1,
@@ -25357,7 +25311,7 @@
         ],
         "list_order": 1585757438,
         "from_classifier_id": 302,
-        "from_classifier_name": "u8_stream",
+        "from_classifier_name": ".u8stream",
         "to_classifier_id": 375,
         "to_classifier_name": "Input Stream",
         "from_feature_id": -1,
@@ -25378,7 +25332,7 @@
         ],
         "list_order": 1695425124,
         "from_classifier_id": 302,
-        "from_classifier_name": "u8_stream",
+        "from_classifier_name": ".u8stream",
         "to_classifier_id": 376,
         "to_classifier_name": "Memory Input Stream",
         "from_feature_id": -1,
@@ -25399,7 +25353,7 @@
         ],
         "list_order": 1628103567,
         "from_classifier_id": 302,
-        "from_classifier_name": "u8_stream",
+        "from_classifier_name": ".u8stream",
         "to_classifier_id": 377,
         "to_classifier_name": "File input stream",
         "from_feature_id": -1,
@@ -25420,7 +25374,7 @@
         ],
         "list_order": 1388102372,
         "from_classifier_id": 302,
-        "from_classifier_name": "u8_stream",
+        "from_classifier_name": ".u8stream",
         "to_classifier_id": 380,
         "to_classifier_name": "Escaping Output Stream",
         "from_feature_id": -1,
@@ -25441,7 +25395,7 @@
         ],
         "list_order": 1422323403,
         "from_classifier_id": 302,
-        "from_classifier_name": "u8_stream",
+        "from_classifier_name": ".u8stream",
         "to_classifier_id": 381,
         "to_classifier_name": "Stream Output Stream",
         "from_feature_id": -1,
@@ -26352,6 +26306,90 @@
         "from_node": "2d41eaac-8741-4760-a125-e1bd2d8019d1",
         "to_node": "dfcb73da-8cda-499e-b269-c63c02706a8d",
         "uuid": "ee3c5397-9fd0-4701-b156-c827d1aad3ca"
+      }
+    },
+    {
+      "relationship": {
+        "id": 624,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 41290894,
+        "from_classifier_id": 412,
+        "from_classifier_name": "u8list",
+        "to_classifier_id": 267,
+        "to_classifier_name": "Array List",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "f3f74c6d-d230-48cc-894d-98204da4915c",
+        "to_node": "1856b489-e7c7-4fe2-8ec9-e1623aa5ba51",
+        "uuid": "920703a6-ff6f-42d3-8a9c-9a38e3f00184"
+      }
+    },
+    {
+      "relationship": {
+        "id": 625,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 41323662,
+        "from_classifier_id": 412,
+        "from_classifier_name": "u8list",
+        "to_classifier_id": 58,
+        "to_classifier_name": "Array Index Sorter",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "f3f74c6d-d230-48cc-894d-98204da4915c",
+        "to_node": "9344e517-dfca-446c-9129-93c1d9d93b73",
+        "uuid": "d4771408-6e46-4885-8ab2-ba5290bc4fe4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 626,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 41356430,
+        "from_classifier_id": 412,
+        "from_classifier_name": "u8list",
+        "to_classifier_id": 56,
+        "to_classifier_name": "Int Pair",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "f3f74c6d-d230-48cc-894d-98204da4915c",
+        "to_node": "1de7fe75-aaec-4f28-94e8-e1f72326f26d",
+        "uuid": "87581abc-d720-45fe-ab41-0d679a170b34"
+      }
+    },
+    {
+      "relationship": {
+        "id": 627,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 41389198,
+        "from_classifier_id": 412,
+        "from_classifier_name": "u8list",
+        "to_classifier_id": 57,
+        "to_classifier_name": "Bool List",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "f3f74c6d-d230-48cc-894d-98204da4915c",
+        "to_node": "fb44f164-0d3d-4382-82e0-d2b806d596f4",
+        "uuid": "82159e4f-643e-4776-968f-ad710666653b"
       }
     },
     {

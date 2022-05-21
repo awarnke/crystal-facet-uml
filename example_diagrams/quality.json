@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.36.0"
+    "generator_version": "1.37.0"
   }
   ,
   "views":
@@ -20,7 +20,7 @@
         "name": "Quality",
         "description": [
                 "Quality is a set of characteristics of a product.\n",
-                "These characteritics can be concretised to quality attributes\n",
+                "These characteritics can be concretized to quality attributes\n",
                 "(measureable properties of the product).\n",
                 "\n",
                 "To achieve quality at development and during operation, \n",
@@ -219,7 +219,7 @@
             "id": 122,
             "display_flags": 0,
             "classifier_id": 106,
-            "classifier_name": "Telecommunication",
+            "classifier_name": "Tele- communication",
             "focused_feature_id": -1,
             "node": "fa5d1a38-e6bb-4c14-a93b-ba2e5a069e47",
             "uuid": "622bf7c0-090e-4d94-9c28-9784e18f02d6"
@@ -304,6 +304,24 @@
             "focused_feature_id": -1,
             "node": "1d6b1949-cbb8-4a6a-b136-5673b7ea4fab",
             "uuid": "b819f211-0a34-4b66-a59f-71756c38a8fb"
+          },
+          {
+            "id": 332,
+            "display_flags": 0,
+            "classifier_id": 221,
+            "classifier_name": "Agriculture",
+            "focused_feature_id": -1,
+            "node": "683d6d5f-ac6d-4257-a6b7-81ef1de65d28",
+            "uuid": "c14931a8-6dd9-4cdb-b552-07b55c76a683"
+          },
+          {
+            "id": 333,
+            "display_flags": 0,
+            "classifier_id": 222,
+            "classifier_name": " Mobile Devices \/ Wearables",
+            "focused_feature_id": -1,
+            "node": "d57652f3-e75d-4104-815b-1895ce7b2f99",
+            "uuid": "fffe6ff2-89c2-47bd-b839-879fc169289c"
           }
         ]
       }
@@ -2685,7 +2703,7 @@
             "id": 78,
             "display_flags": 0,
             "classifier_id": 69,
-            "classifier_name": "Software Integration",
+            "classifier_name": "Software Integration and Test",
             "focused_feature_id": -1,
             "node": "c2e54cb9-f45b-4bdf-ab9a-a2a37c0cddbc",
             "uuid": "add0d476-a380-49ed-86c1-d61adee004f9"
@@ -2694,7 +2712,7 @@
             "id": 79,
             "display_flags": 0,
             "classifier_id": 70,
-            "classifier_name": "Software Test",
+            "classifier_name": "Software Qualification Test",
             "focused_feature_id": -1,
             "node": "2ab9c1fc-179b-4cd1-bd3c-09f92bb16eef",
             "uuid": "ed63c190-6913-4c60-a604-b36f07b118bf"
@@ -2704,7 +2722,7 @@
             "display_flags": 33554432,
             "display_tags": "GrayOut",
             "classifier_id": 71,
-            "classifier_name": "System Integration",
+            "classifier_name": "System Integration and Test",
             "focused_feature_id": -1,
             "node": "c96647b2-be2a-4413-8ae6-90976ed2c719",
             "uuid": "d8ee50c6-78b6-4860-b46c-7566175c0728"
@@ -2714,7 +2732,7 @@
             "display_flags": 33554432,
             "display_tags": "GrayOut",
             "classifier_id": 72,
-            "classifier_name": "System Test",
+            "classifier_name": "System Qualification Test",
             "focused_feature_id": -1,
             "node": "d79de9a5-bc92-4359-889f-d22771927c0c",
             "uuid": "19065303-65d3-4907-a315-04e5be90ca43"
@@ -3853,6 +3871,30 @@
         "uuid": "23fe63a6-03df-423a-bc3d-2389308c6423",
         "features":
         [
+          {
+            "id": 83,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "elicitation",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": -590912099,
+            "uuid": "c93eaa22-4087-4a78-a1d6-4f7b7da0e137"
+          },
+          {
+            "id": 84,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "analysis",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": -590879331,
+            "uuid": "013c094a-fc10-4f51-abc1-2a35af73ee75"
+          }
         ]
       }
     },
@@ -3952,7 +3994,7 @@
         "main_type": 110,
         "type": "Activity",
         "stereotype": "",
-        "name": "Software Integration",
+        "name": "Software Integration and Test",
         "description": [
                 "Software integration consists of\n",
                 "\n",
@@ -3974,7 +4016,7 @@
         "main_type": 110,
         "type": "Activity",
         "stereotype": "",
-        "name": "Software Test",
+        "name": "Software Qualification Test",
         "description": [
                 ""
         ],
@@ -3993,7 +4035,7 @@
         "main_type": 110,
         "type": "Activity",
         "stereotype": "",
-        "name": "System Integration",
+        "name": "System Integration and Test",
         "description": [
                 "System integration consists of\n",
                 "\n",
@@ -4016,7 +4058,7 @@
         "main_type": 110,
         "type": "Activity",
         "stereotype": "",
-        "name": "System Test",
+        "name": "System Qualification Test",
         "description": [
                 ""
         ],
@@ -4778,7 +4820,7 @@
         "main_type": 100,
         "type": "Actor",
         "stereotype": "",
-        "name": "Telecommunication",
+        "name": "Tele- communication",
         "description": [
                 ""
         ],
@@ -5357,7 +5399,7 @@
         "stereotype": "",
         "name": "Home Automation",
         "description": [
-                ""
+                "Construction \/ Home Automation"
         ],
         "x_order": 1284109525,
         "y_order": -1388766136,
@@ -6358,6 +6400,44 @@
         "y_order": -2139190401,
         "list_order": -2135714765,
         "uuid": "2eea4132-85c8-4c7f-b92b-96d3edab25aa",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 221,
+        "main_type": 100,
+        "type": "Actor",
+        "stereotype": "",
+        "name": "Agriculture",
+        "description": [
+                ""
+        ],
+        "x_order": 1284109525,
+        "y_order": -343159209,
+        "list_order": -196445599,
+        "uuid": "683d6d5f-ac6d-4257-a6b7-81ef1de65d28",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 222,
+        "main_type": 100,
+        "type": "Actor",
+        "stereotype": "",
+        "name": " Mobile Devices \/ Wearables",
+        "description": [
+                "Clothes \/ Wearables"
+        ],
+        "x_order": 1284109525,
+        "y_order": 498733649,
+        "list_order": 796092761,
+        "uuid": "d57652f3-e75d-4104-815b-1895ce7b2f99",
         "features":
         [
         ]
@@ -8662,7 +8742,7 @@
         "from_classifier_id": 64,
         "from_classifier_name": "Requirements Definition",
         "to_classifier_id": 72,
-        "to_classifier_name": "System Test",
+        "to_classifier_name": "System Qualification Test",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "23fe63a6-03df-423a-bc3d-2389308c6423",
@@ -8704,7 +8784,7 @@
         "from_classifier_id": 65,
         "from_classifier_name": "System Architecture",
         "to_classifier_id": 71,
-        "to_classifier_name": "System Integration",
+        "to_classifier_name": "System Integration and Test",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "c9c266ac-3d61-41b5-b633-b2a556ec98e5",
@@ -8746,7 +8826,7 @@
         "from_classifier_id": 66,
         "from_classifier_name": "Requirements Refinement",
         "to_classifier_id": 70,
-        "to_classifier_name": "Software Test",
+        "to_classifier_name": "Software Qualification Test",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "c555c670-19dd-4a2b-8039-eb1e047893d4",
@@ -8790,7 +8870,7 @@
         "from_classifier_id": 67,
         "from_classifier_name": "Software Architecture",
         "to_classifier_id": 69,
-        "to_classifier_name": "Software Integration",
+        "to_classifier_name": "Software Integration and Test",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "dfd26366-dff5-41e3-b398-d4bc15cbfecb",
@@ -8830,9 +8910,9 @@
         ],
         "list_order": 512775,
         "from_classifier_id": 69,
-        "from_classifier_name": "Software Integration",
+        "from_classifier_name": "Software Integration and Test",
         "to_classifier_id": 70,
-        "to_classifier_name": "Software Test",
+        "to_classifier_name": "Software Qualification Test",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "c2e54cb9-f45b-4bdf-ab9a-a2a37c0cddbc",
@@ -8851,9 +8931,9 @@
         ],
         "list_order": 397398,
         "from_classifier_id": 70,
-        "from_classifier_name": "Software Test",
+        "from_classifier_name": "Software Qualification Test",
         "to_classifier_id": 71,
-        "to_classifier_name": "System Integration",
+        "to_classifier_name": "System Integration and Test",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "2ab9c1fc-179b-4cd1-bd3c-09f92bb16eef",
@@ -8872,9 +8952,9 @@
         ],
         "list_order": 252340,
         "from_classifier_id": 71,
-        "from_classifier_name": "System Integration",
+        "from_classifier_name": "System Integration and Test",
         "to_classifier_id": 72,
-        "to_classifier_name": "System Test",
+        "to_classifier_name": "System Qualification Test",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "c96647b2-be2a-4413-8ae6-90976ed2c719",
@@ -9861,7 +9941,7 @@
         "from_classifier_id": 117,
         "from_classifier_name": "Unit Test",
         "to_classifier_id": 69,
-        "to_classifier_name": "Software Integration",
+        "to_classifier_name": "Software Integration and Test",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "797687f9-c060-49e7-bc51-8790a725f4d0",
