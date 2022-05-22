@@ -54,7 +54,7 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, 
         const data_id_t mark_focused = gui_marked_set_get_focused( marker );
         const data_id_t mark_highlighted = gui_marked_set_get_highlighted( marker );
         const data_small_set_t *mark_selected_set = gui_marked_set_get_selected_set_const( marker );
-        
+
         /* layout elements if necessary */
         if ( (*this_).dirty_elements_layout )
         {
@@ -66,7 +66,7 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, 
         cairo_set_source_rgba( cr, WHITE_R, WHITE_G, WHITE_B, WHITE_A );
         cairo_rectangle ( cr, left, top, width, height );
         cairo_fill (cr);
-        
+
         /* draw highlighting */
         const data_diagram_t *const diag = data_visible_set_get_diagram_const ( &((*this_).painter_input_data) );
         const data_id_t diag_id = data_diagram_get_data_id( diag );
@@ -74,7 +74,7 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, 
                                         diag_id,
                                         marker,
                                         (*this_).bounds,
-                                        cr 
+                                        cr
                                       );
 
         /* draw the current diagram */
@@ -111,7 +111,8 @@ void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_,
                     const int32_t x_order = layout_order_get_first( order );
                     const int32_t y_order = layout_order_get_second( order );
 
-                    data_classifier_t *const move_me = data_visible_set_get_classifier_by_id_ptr( &((*this_).painter_input_data), row_id );
+                    data_classifier_t *const move_me
+                        = data_visible_set_get_classifier_by_id_ptr( &((*this_).painter_input_data), row_id );
                     if ( move_me == NULL )
                     {
                         TSLOG_WARNING( "pencil input data does not contain the object to be moved" );

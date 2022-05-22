@@ -164,37 +164,7 @@ void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
             }
 
             /* draw lines */
-            const data_diagram_t *diag = gui_sketch_card_get_diagram_const ( card_under_mouse );
-            const data_diagram_type_t diag_type = data_diagram_get_diagram_type( diag );
-            if (( diag_type != DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
-                && ( diag_type != DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
-                && ( diag_type != DATA_DIAGRAM_TYPE_LIST ))
-            {
-                shape_int_rectangle_t bounds;
-                uint32_t x_count;
-                uint32_t y_count;
-                gui_sketch_card_get_grid_area( card_under_mouse, &bounds, &x_count, &y_count );
-                for ( uint32_t x_idx = 0; x_idx < x_count; x_idx ++ )
-                {
-                    for ( uint32_t y_idx = 0; y_idx < y_count; y_idx ++ )
-                    {
-                        const int32_t x = shape_int_rectangle_get_left(&bounds)
-                                          + (( shape_int_rectangle_get_width(&bounds) * x_idx )/( x_count-1 ));
-                        const int32_t y = shape_int_rectangle_get_top(&bounds)
-                                          + (( shape_int_rectangle_get_height(&bounds) * y_idx )/( y_count-1 ));
-                        static const int32_t HALF_LINE = 4;
-                        cairo_move_to ( cr, x-HALF_LINE, y );
-                        cairo_line_to ( cr, x+HALF_LINE, y );
-                        cairo_move_to ( cr, x, y-HALF_LINE );
-                        cairo_line_to ( cr, x, y+HALF_LINE );
-                        cairo_stroke (cr);
-                    }
-                }
-            }
-            else
-            {
-                /* no x/y grid for seq, timing and list diagrams*/
-            }
+            gui_sketch_overlay_private_draw_grid( this_, drag_state, card_under_mouse, cr );
         }
     }
 
@@ -298,11 +268,11 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
     {
         if ( NULL != card_under_mouse )
         {
-            const bool draw_arrow 
+            const bool draw_arrow
                 = (( highlighted_object_table == DATA_TABLE_CLASSIFIER )
                 ||( highlighted_object_table == DATA_TABLE_FEATURE )
                 ||( highlighted_object_table == DATA_TABLE_DIAGRAMELEMENT ));
-            
+
             /* get coordinates */
             const int32_t cur_x = gui_sketch_drag_state_get_to_x ( drag_state );
             const int32_t cur_y = gui_sketch_drag_state_get_to_y ( drag_state );
@@ -352,6 +322,78 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
             }
 
             cairo_stroke (cr);
+        }
+    }
+
+    TRACE_END();
+}
+
+void gui_sketch_overlay_private_draw_grid( gui_sketch_overlay_t *this_,
+                                           const gui_sketch_drag_state_t *drag_state,
+                                           const gui_sketch_card_t *card_under_mouse,
+                                           cairo_t *cr )
+{
+    TRACE_BEGIN();
+    assert( NULL != drag_state );
+    assert( NULL != cr );
+
+    cairo_set_source_rgba( cr,
+                           (*this_).overlay_std_red,
+                           (*this_).overlay_std_green,
+                           (*this_).overlay_std_blue,
+                           (*this_).overlay_std_alpha
+                         );
+
+    if ( gui_sketch_drag_state_is_dragging ( drag_state ) )
+    {
+        if ( NULL != card_under_mouse )
+        {
+            const data_diagram_t *diag = gui_sketch_card_get_diagram_const ( card_under_mouse );
+            const data_diagram_type_t diag_type = data_diagram_get_diagram_type( diag );
+            if (( diag_type != DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
+                && ( diag_type != DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
+                && ( diag_type != DATA_DIAGRAM_TYPE_LIST ))
+            {
+                shape_int_rectangle_t bounds;
+                uint32_t x_count;
+                uint32_t y_count;
+                gui_sketch_card_get_grid_area( card_under_mouse, &bounds, &x_count, &y_count );
+                const int32_t left = shape_int_rectangle_get_left(&bounds);
+                const int32_t top = shape_int_rectangle_get_top(&bounds);
+                const int32_t width = shape_int_rectangle_get_width(&bounds);
+                const int32_t height = shape_int_rectangle_get_height(&bounds);
+                for ( uint32_t x_idx = 0; x_idx < x_count; x_idx ++ )
+                {
+                    for ( uint32_t y_idx = 0; y_idx < y_count; y_idx ++ )
+                    {
+                        const int32_t x = left + (( width * x_idx )/( x_count-1 ));
+                        const int32_t y = top + (( height * y_idx )/( y_count-1 ));
+                        static const int32_t HALF_LINE = 4;
+                        cairo_move_to ( cr, x-HALF_LINE, y );
+                        cairo_line_to ( cr, x+HALF_LINE, y );
+                        cairo_move_to ( cr, x, y-HALF_LINE );
+                        cairo_line_to ( cr, x, y+HALF_LINE );
+                        cairo_stroke (cr);
+                    }
+                }
+
+                for ( uint32_t x_idx = 0; x_idx < x_count; x_idx ++ )
+                {
+                    const int32_t x = left + (( width * x_idx )/( x_count-1 ));
+                    cairo_rectangle ( cr, x, top, 1, height );
+                    cairo_fill (cr);
+                }
+                for ( uint32_t y_idx = 0; y_idx < y_count; y_idx ++ )
+                {
+                    const int32_t y = top + (( height * y_idx )/( y_count-1 ));
+                    cairo_rectangle ( cr, left, y, width, 1 );
+                    cairo_fill (cr);
+                }
+            }
+            else
+            {
+                /* no x/y grid for seq, timing and list diagrams*/
+            }
         }
     }
 
