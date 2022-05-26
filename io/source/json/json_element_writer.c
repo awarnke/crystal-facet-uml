@@ -1430,7 +1430,7 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
 
         /* ref_uuid */
         const bool feat_valid = ( feat_occur == NULL ) ? false : data_feature_is_valid( feat_occur );
-        const bool clas_valid = ( occurrence == NULL ) ? false : data_classifier_is_valid( occurrence );
+        const bool clas_valid = data_classifier_is_valid( occurrence );
         const char *const node_ref
             = ( feat_valid )
             ? data_feature_get_uuid_const( feat_occur )
