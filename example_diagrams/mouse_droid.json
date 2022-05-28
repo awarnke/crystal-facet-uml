@@ -26,7 +26,7 @@
                 "The document follows the arc42.org template\n",
                 "proposed by Gernot Starke and Peter Hruschka,\n",
                 "\n",
-                "(c) 2020-2021 Andreas Warnke\n",
+                "(c) 2020-2022 Andreas Warnke\n",
                 "License:\n",
                 "Choose either Apache-2.0\n",
                 "or Creative Commons Attribution (BY) Licence"
@@ -133,7 +133,7 @@
         "type": "SysMLRequirementDiagram",
         "name": "Constraints",
         "description": [
-                "This section explains the major obstacles, that need to be considered when designing a solution to reach the project goals. (Problem Space, System Level L1)"
+                "This section explains the major obstacles that need to be considered when designing a solution that addresses the project goals. (Problem Space, System Level L1)"
         ],
         "list_order": 65536,
         "display_flags": 0,
@@ -3166,6 +3166,30 @@
     },
     {
       "classifier": {
+        "id": 94,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "",
+        "name": "Outer World",
+        "description": [
+                "The main logic\n",
+                "addresses the following tasks:\n",
+                "- calculating movement actions\n",
+                "  to be performed by base logic (tactics)\n",
+                "- evaluating sensor signals\n",
+                "  from microphone and camera"
+        ],
+        "x_order": -1310350961,
+        "y_order": -703990301,
+        "list_order": -1529738312,
+        "uuid": "267dd099-bd18-4f00-8ac1-ea27009f5250",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 95,
         "main_type": 120,
         "type": "Node",
@@ -3526,10 +3550,34 @@
                 "to efficiently fulfill the mission\n",
                 "(that was programmed before)."
         ],
-        "x_order": -306573379,
-        "y_order": -1157864771,
+        "x_order": -1310350961,
+        "y_order": -1393110394,
         "list_order": 442776994,
         "uuid": "1eba76f4-44e6-4eb0-ae3c-7d409912ab90",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 117,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "",
+        "name": "Inner World",
+        "description": [
+                "The base logic\n",
+                "addresses the following tasks:\n",
+                "- charging\n",
+                "- programming\n",
+                "- steering the motors\n",
+                "- self-check"
+        ],
+        "x_order": -858822106,
+        "y_order": -1669019477,
+        "list_order": 807995528,
+        "uuid": "23a8bba8-37f9-40ed-94fb-565c77ca5fb8",
         "features":
         [
         ]
@@ -4146,7 +4194,7 @@
         "stereotype": "",
         "name": "Perform a 1-day Mission",
         "description": [
-                "The mouse droid is able to perform a mission that takes several hours. The energy resources of the MoD5G last for up to one day.\n",
+                "The mouse droid is able to perform a mission that takes several hours. The energy resources of the MoD5G last for up to one terrestrial day.\n",
                 "\n",
                 "- The commander programs a mission\n",
                 "- The mouse droid drives to the first location\n",
@@ -4172,10 +4220,10 @@
         "stereotype": "",
         "name": "Drive to Location",
         "description": [
-                "The mouse droid can explore its environment and calculate a route from the current ot the target location.\n",
+                "The mouse droid can explore its environment and calculate a route from its actual position to the target location.\n",
                 "\n",
                 "- The mouse droid explores its environment\n",
-                "- The mouse droid enriches internally memorized map\n",
+                "- The mouse droid enriches an internally memorized map\n",
                 "- The mouse droid calculates a route\n",
                 "- The mouse droid drives along the calculated route\n",
                 "- The mouse droid re-caclulates the route in case of new environment data\n",
@@ -4813,7 +4861,7 @@
             "description": [
                 ""
             ],
-            "list_order": 320287949,
+            "list_order": -101147343,
             "uuid": "c4e66459-04e8-45c7-9ab9-e0fde6b2ead9"
           },
           {
@@ -4825,7 +4873,7 @@
             "description": [
                 ""
             ],
-            "list_order": 747850440,
+            "list_order": 969301479,
             "uuid": "168231f5-4ca5-4ae2-92a1-96da722d4bdd"
           }
         ]
@@ -4842,7 +4890,7 @@
                 "The base logic board consists of several electronic parts shown in D0035#name."
         ],
         "x_order": -858822106,
-        "y_order": -1137259057,
+        "y_order": -703990301,
         "list_order": -1137259057,
         "uuid": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "features":
@@ -5026,7 +5074,8 @@
         "stereotype": "",
         "name": "Tool-Window (2)",
         "description": [
-                "A tool window is a flap in the chassis that protects screw driver, gripper and cargo bin when unused."
+                "A tool window is a flap in the chassis that protects screw driver, gripper and cargo bin when unused.\n",
+                "It can be opened and closed by a motor."
         ],
         "x_order": -1127544510,
         "y_order": -1054017037,
@@ -5667,30 +5716,6 @@
     },
     {
       "classifier": {
-        "id": 94,
-        "main_type": 130,
-        "type": "Comment",
-        "stereotype": "",
-        "name": "Outer World",
-        "description": [
-                "The main logic\n",
-                "addresses the following tasks:\n",
-                "- calculating movement actions\n",
-                "  to be performed by base logic (tactics)\n",
-                "- evaluating sensor signals\n",
-                "  from microphone and camera"
-        ],
-        "x_order": -1044323579,
-        "y_order": 675751162,
-        "list_order": -1529738312,
-        "uuid": "267dd099-bd18-4f00-8ac1-ea27009f5250",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
         "id": 96,
         "main_type": 120,
         "type": "Node",
@@ -5841,30 +5866,6 @@
     },
     {
       "classifier": {
-        "id": 117,
-        "main_type": 130,
-        "type": "Comment",
-        "stereotype": "",
-        "name": "Inner World",
-        "description": [
-                "The base logic\n",
-                "addresses the following tasks:\n",
-                "- charging\n",
-                "- programming\n",
-                "- steering the motors\n",
-                "- self-check"
-        ],
-        "x_order": -858822106,
-        "y_order": -1157864771,
-        "list_order": 807995528,
-        "uuid": "23a8bba8-37f9-40ed-94fb-565c77ca5fb8",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
         "id": 120,
         "main_type": 121,
         "type": "Component",
@@ -5967,11 +5968,11 @@
         "stereotype": "HW",
         "name": "Electrical Parts and Electronics",
         "description": [
-                "The main components of the electric parts are\n",
+                "The main components of the electric parts are:\n",
                 "- a set of cables and connectors\n",
-                "- a set of sensors and actuators,\n",
-                "- the energy cell and\n",
-                "- two printed circuit boards (PCB) containing the electronic parts."
+                "- a set of sensors and actuators\n",
+                "- the energy cell\n",
+                "- two printed circuit boards (PCB) containing the electronic parts"
         ],
         "x_order": -855507639,
         "y_order": -1168769568,
@@ -5993,7 +5994,7 @@
         "type": "Association",
         "name": "plan mission",
         "description": [
-                "provide mission goals and strategy"
+                "provide mission goals and high-level strategy"
         ],
         "list_order": 24748599,
         "from_classifier_id": 5,
@@ -6341,6 +6342,27 @@
         "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
         "to_node": "f737a6a7-13f7-42a4-9b2a-1c805cd2a628",
         "uuid": "2c59bc66-7333-4725-a91e-d8c7e4c3ec32"
+      }
+    },
+    {
+      "relationship": {
+        "id": 184,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_id": 94,
+        "from_classifier_name": "Outer World",
+        "to_classifier_id": 47,
+        "to_classifier_name": "Main Logic Board",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "267dd099-bd18-4f00-8ac1-ea27009f5250",
+        "to_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
+        "uuid": "ffece27b-82a0-4e44-9086-7c2ed62bf06e"
       }
     },
     {
@@ -6767,6 +6789,27 @@
         "from_node": "0d8a7e7a-b589-4387-88e9-34f62a438589",
         "to_node": "59fc1a69-283e-480c-a90c-6567fee4296e",
         "uuid": "c975f85c-f312-4c32-b913-553b52e18967"
+      }
+    },
+    {
+      "relationship": {
+        "id": 183,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_id": 117,
+        "from_classifier_name": "Inner World",
+        "to_classifier_id": 48,
+        "to_classifier_name": "Base Logic Board",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "23a8bba8-37f9-40ed-94fb-565c77ca5fb8",
+        "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+        "uuid": "2ecf274d-34ed-482e-88ef-f910857534ed"
       }
     },
     {
@@ -9962,27 +10005,6 @@
     },
     {
       "relationship": {
-        "id": 184,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 65536,
-        "from_classifier_id": 94,
-        "from_classifier_name": "Outer World",
-        "to_classifier_id": 47,
-        "to_classifier_name": "Main Logic Board",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
-        "from_node": "267dd099-bd18-4f00-8ac1-ea27009f5250",
-        "to_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
-        "uuid": "ffece27b-82a0-4e44-9086-7c2ed62bf06e"
-      }
-    },
-    {
-      "relationship": {
         "id": 155,
         "main_type": 230,
         "type": "CommunicationPath",
@@ -10224,27 +10246,6 @@
     },
     {
       "relationship": {
-        "id": 183,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 32768,
-        "from_classifier_id": 117,
-        "from_classifier_name": "Inner World",
-        "to_classifier_id": 48,
-        "to_classifier_name": "Base Logic Board",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
-        "from_node": "23a8bba8-37f9-40ed-94fb-565c77ca5fb8",
-        "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
-        "uuid": "2ecf274d-34ed-482e-88ef-f910857534ed"
-      }
-    },
-    {
-      "relationship": {
         "id": 156,
         "main_type": 230,
         "type": "CommunicationPath",
@@ -10392,48 +10393,6 @@
         "from_node": "c1419268-c407-4e91-a9de-386c65b7459b",
         "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "uuid": "88d78e6c-2255-4f8e-a827-3bc5bbb245e7"
-      }
-    },
-    {
-      "relationship": {
-        "id": 185,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 98304,
-        "from_classifier_id": 19,
-        "from_classifier_name": "Electrical Parts and Electronics",
-        "to_classifier_id": 117,
-        "to_classifier_name": "Inner World",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
-        "from_node": "c1419268-c407-4e91-a9de-386c65b7459b",
-        "to_node": "23a8bba8-37f9-40ed-94fb-565c77ca5fb8",
-        "uuid": "e3dfa53a-a116-4ead-b799-85e235d8c82b"
-      }
-    },
-    {
-      "relationship": {
-        "id": 186,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 131072,
-        "from_classifier_id": 19,
-        "from_classifier_name": "Electrical Parts and Electronics",
-        "to_classifier_id": 94,
-        "to_classifier_name": "Outer World",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
-        "from_node": "c1419268-c407-4e91-a9de-386c65b7459b",
-        "to_node": "267dd099-bd18-4f00-8ac1-ea27009f5250",
-        "uuid": "f3f94f57-79a6-400b-8975-ac59dc78c68f"
       }
     }
   ]
