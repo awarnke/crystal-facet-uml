@@ -1,6 +1,7 @@
 /* File: gui_sketch_overlay.c; Copyright and License: see below */
 
 #include "sketch_area/gui_sketch_overlay.h"
+#include "sketch_area/gui_sketch_snap_state.h"
 #include "trace/trace.h"
 #include <gtk/gtk.h>
 #include <assert.h>
@@ -139,10 +140,9 @@ void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
             gui_sketch_overlay_private_draw_grid( this_, card_under_mouse, cr );
 
             /* draw marker that position snapped to grid */
-            universal_bool_list_t is_snapped;
             const int32_t to_x = gui_sketch_drag_state_get_to_x ( drag_state );
             const int32_t to_y = gui_sketch_drag_state_get_to_y ( drag_state );
-            is_snapped = gui_sketch_card_is_pos_on_grid ( card_under_mouse, to_x, to_y );
+            const gui_sketch_snap_state_t snapped = gui_sketch_card_is_pos_on_grid ( card_under_mouse, to_x, to_y );
 
             cairo_set_source_rgba( cr,
                                    (*this_).overlay_std_red,
@@ -150,7 +150,7 @@ void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
                                    (*this_).overlay_std_blue,
                                    (*this_).overlay_std_alpha
                                  );
-            if ( universal_bool_list_get_first ( &is_snapped ) )
+            if ( ( snapped & GUI_SKETCH_SNAP_STATE_X ) == GUI_SKETCH_SNAP_STATE_X )
             {
                 cairo_move_to ( cr, to_x, to_y-60 );
                 cairo_line_to ( cr, to_x, to_y-20 );
@@ -158,7 +158,7 @@ void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
                 cairo_line_to ( cr, to_x, to_y+60 );
                 cairo_stroke (cr);
             }
-            if ( universal_bool_list_get_second ( &is_snapped ) )
+            if ( ( snapped & GUI_SKETCH_SNAP_STATE_Y ) == GUI_SKETCH_SNAP_STATE_Y )
             {
                 cairo_move_to ( cr, to_x-60, to_y );
                 cairo_line_to ( cr, to_x-20, to_y );

@@ -18,8 +18,6 @@
 #include "set/data_small_set.h"
 #include "set/data_visible_set.h"
 #include "data_id.h"
-#include "u8list/universal_int32_pair.h"
-#include "u8list/universal_bool_list.h"
 #include "u8list/universal_array_index_sorter.h"
 #include <cairo.h>
 #include <stdint.h>

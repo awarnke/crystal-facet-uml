@@ -15105,7 +15105,7 @@
         "stereotype": "",
         "name": "arena",
         "description": [
-                ""
+                "This package provides functions to provide dynamic-sized data structures which are allocated within a fixed-size memory region."
         ],
         "x_order": -1477389701,
         "y_order": -1546677314,
@@ -15143,7 +15143,7 @@
         "stereotype": "",
         "name": "u8list",
         "description": [
-                ""
+                "This package is a collection of functinos to handle variable-length lists in statically allocated fixed-sized buffers."
         ],
         "x_order": -1477389701,
         "y_order": -965789227,

@@ -9,6 +9,7 @@
  */
 
 #include "sketch_area/gui_sketch_marker.h"
+#include "sketch_area/gui_sketch_snap_state.h"
 #include "gui_marked_set.h"
 #include "util/shape/shape_int_rectangle.h"
 #include "storage/data_database.h"
@@ -18,7 +19,6 @@
 #include "set/data_id_pair.h"
 #include "option/pencil_type_filter.h"
 #include "layout/layout_order.h"
-#include "u8list/universal_bool_list.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -210,7 +210,7 @@ static inline int32_t gui_sketch_card_get_feature_order_at_pos ( const gui_sketc
  *  \param y y-position
  *  \return a pair of bool values indicating if x- and y- position values are on grid lines
  */
-static inline universal_bool_list_t gui_sketch_card_is_pos_on_grid ( const gui_sketch_card_t *this_, int32_t x, int32_t y );
+static inline gui_sketch_snap_state_t gui_sketch_card_is_pos_on_grid ( const gui_sketch_card_t *this_, int32_t x, int32_t y );
 
 /*!
  *  \brief determines the grid lines

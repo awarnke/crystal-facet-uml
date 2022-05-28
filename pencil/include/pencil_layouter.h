@@ -34,8 +34,6 @@
 #include "data_id.h"
 #include "data_rules.h"
 #include "set/data_visible_set.h"
-#include "u8list/universal_int32_pair.h"
-#include "u8list/universal_bool_list.h"
 #include "u8list/universal_array_index_sorter.h"
 #include <cairo.h>
 #include <stdint.h>
@@ -211,7 +209,7 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( const pencil
  *  \brief gets the layout order for a classifier at a given position
  *
  *  \param this_ pointer to own object attributes
- * 
+ *
  *  \param c_type classifier type for which to determine the order
  *  \param x x-position
  *  \param y y-position

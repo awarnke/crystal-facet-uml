@@ -175,15 +175,17 @@ static inline int32_t gui_sketch_card_get_feature_order_at_pos ( const gui_sketc
     return layout_order_get_first( &result );
 }
 
-static inline universal_bool_list_t gui_sketch_card_is_pos_on_grid ( const gui_sketch_card_t *this_, int32_t x, int32_t y )
+static inline gui_sketch_snap_state_t gui_sketch_card_is_pos_on_grid ( const gui_sketch_card_t *this_, int32_t x, int32_t y )
 {
-    universal_bool_list_t result;
     bool x_on_grid;
     bool y_on_grid;
 
     pencil_diagram_maker_is_pos_on_grid( &((*this_).painter), (double) x, (double) y, &x_on_grid, &y_on_grid );
 
-    universal_bool_list_init_pair( &result, x_on_grid, y_on_grid );
+    const gui_sketch_snap_state_t result
+        = x_on_grid
+        ? ( y_on_grid ? GUI_SKETCH_SNAP_STATE_XY : GUI_SKETCH_SNAP_STATE_X )
+        : ( y_on_grid ? GUI_SKETCH_SNAP_STATE_Y : GUI_SKETCH_SNAP_STATE_0 );
     return result;
 }
 
