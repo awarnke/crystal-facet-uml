@@ -32,7 +32,7 @@ struct gui_sketch_card_struct {
     data_visible_set_t painter_input_data;  /*!< caches the diagram data */
     pencil_diagram_maker_t painter;  /*!< own instance of a diagram painter */
     bool dirty_elements_layout;  /*!< marker that elements need to be layouted */
-    
+
     /* helper classes to perform drawing */
     gui_sketch_marker_t sketch_marker;
 };
@@ -60,7 +60,9 @@ void gui_sketch_card_destroy ( gui_sketch_card_t *this_ );
  *  \param diagram_id id of the diagram to load
  *  \param db_reader pointer to a database reader object
  */
-static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_, data_id_t diagram_id, data_database_reader_t *db_reader );
+static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_,
+                                              data_id_t diagram_id,
+                                              data_database_reader_t *db_reader );
 
 /*!
  *  \brief marks the diagram data as invalid
@@ -152,9 +154,12 @@ static inline data_id_t gui_sketch_card_get_diagram_id ( const gui_sketch_card_t
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
- *  \param filter a filter for object types. E.g. PENCIL_TYPE_FILTER_LIFELINE will return the classifier instead of the lifeline-feature.
- *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
- *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object embracing the given location.
+ *  \param filter a filter for object types.
+ *                E.g. PENCIL_TYPE_FILTER_LIFELINE will return the classifier instead of the lifeline-feature.
+ *  \param out_selected_id the object id at the given location.
+ *                         The id is invalid if there is no object at the given location.
+ *  \param out_surrounding_id the id of the embracing object at the given location.
+ *                            The id is invalid if there is no object embracing the given location.
  */
 static inline void gui_sketch_card_get_object_id_at_pos ( const gui_sketch_card_t *this_,
                                                           int32_t x,
@@ -174,7 +179,10 @@ static inline void gui_sketch_card_get_object_id_at_pos ( const gui_sketch_card_
  *  \param y y-position
  *  \return the list order value at the given location
  */
-static inline layout_order_t gui_sketch_card_get_order_at_pos ( const gui_sketch_card_t *this_, data_id_t obj_id, int32_t x, int32_t y );
+static inline layout_order_t gui_sketch_card_get_order_at_pos ( const gui_sketch_card_t *this_,
+                                                                data_id_t obj_id,
+                                                                int32_t x,
+                                                                int32_t y );
 
 /*!
  *  \brief gets the order value at a given position for a feature
@@ -254,7 +262,7 @@ static inline int32_t gui_sketch_card_get_highest_rel_list_order( const gui_sket
  *
  *  only Features of type DATA_FEATURE_TYPE_PROPERTY, DATA_FEATURE_TYPE_OPERATION
  *  are taken into account because their order ids reflect list position,
- *  neither a coordiante (e.g. a PORT) nor irrelevant (e.g. LIFELINES) 
+ *  neither a coordiante (e.g. a PORT) nor irrelevant (e.g. LIFELINES)
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id only features of this classifier are taken into account

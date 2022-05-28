@@ -616,8 +616,8 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
     }
 
     /* overlay tool-helper lines */
-    const int32_t mouse_x = gui_sketch_drag_state_get_to_x ( &((*this_).drag_state) );
-    const int32_t mouse_y = gui_sketch_drag_state_get_to_y ( &((*this_).drag_state) );
+    const int32_t mouse_x = gui_sketch_drag_state_get_to_x( &((*this_).drag_state) );
+    const int32_t mouse_y = gui_sketch_drag_state_get_to_y( &((*this_).drag_state) );
     gui_sketch_overlay_draw( &((*this_).overlay),
                              selected_tool,
                              &((*this_).drag_state),

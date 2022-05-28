@@ -4,10 +4,13 @@
 #include "trace/trace.h"
 #include <assert.h>
 
-static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_, data_id_t diagram_id, data_database_reader_t *db_reader )
+static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_,
+                                              data_id_t diagram_id,
+                                              data_database_reader_t *db_reader )
 {
     /* load data to be drawn */
-    const u8_error_t d_err = data_visible_set_load( &((*this_).painter_input_data), data_id_get_row_id( &diagram_id ), db_reader );
+    const u8_error_t d_err
+        = data_visible_set_load( &((*this_).painter_input_data), data_id_get_row_id( &diagram_id ), db_reader );
     if ( d_err != U8_ERROR_NONE )
     {
         TRACE_INFO( "gui_sketch_card_load_data called on invalid database." );
@@ -96,7 +99,10 @@ static inline void gui_sketch_card_get_object_id_at_pos ( const gui_sketch_card_
     }
 }
 
-static inline layout_order_t gui_sketch_card_get_order_at_pos ( const gui_sketch_card_t *this_, data_id_t obj_id, int32_t x, int32_t y )
+static inline layout_order_t gui_sketch_card_get_order_at_pos( const gui_sketch_card_t *this_,
+                                                               data_id_t obj_id,
+                                                               int32_t x,
+                                                               int32_t y )
 {
     layout_order_t result;
     pencil_error_t pen_err;
@@ -215,7 +221,7 @@ static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t 
 
         geometry_rectangle_t destination;
         geometry_rectangle_init( &destination, left, top, width, height );
-        
+
         pencil_diagram_maker_define_grid ( &((*this_).painter), destination );
         pencil_diagram_maker_layout_elements ( &((*this_).painter), cr, NULL );
         (*this_).dirty_elements_layout = false;
