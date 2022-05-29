@@ -41,6 +41,9 @@ struct pencil_diagram_maker_struct {
     pencil_classifier_composer_t classifier_painter;  /*!< own instance of a classifier painter */
     pencil_relationship_painter_t relationship_painter;  /*!< own instance of a relationship_painter */
     pencil_feature_painter_t feature_painter;  /*!< own instance of a feature_painter */
+
+    double snap_to_grid_distance;  /*!< plus/minus some pixels shall snap to grid. */
+                                   /*!< This is the expected accuracy for mouse input devices */
 };
 
 typedef struct pencil_diagram_maker_struct pencil_diagram_maker_t;

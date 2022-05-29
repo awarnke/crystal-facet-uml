@@ -17,6 +17,8 @@ static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, con
     (*this_).input_data = input_data;
     pencil_layouter_init( &((*this_).layouter), input_data );
 
+    (*this_).snap_to_grid_distance = 5.000001;
+
     TRACE_END();
 }
 
@@ -53,12 +55,12 @@ static inline void pencil_diagram_maker_define_grid ( pencil_diagram_maker_t *th
     pencil_layouter_define_grid ( &((*this_).layouter), diagram_bounds );
 }
 
-static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t *this_, 
-                                                          cairo_t *cr, 
+static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t *this_,
+                                                          cairo_t *cr,
                                                           data_stat_t *io_layout_stat )
 {
     assert( cr != NULL );
-    
+
     PangoLayout *font_layout;
     font_layout = pango_cairo_create_layout (cr);
 
@@ -84,9 +86,6 @@ static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( const p
                                                 );
 }
 
-static const double snap_to_grid_distance_for_drag_marker = 3.13;  /* smaller than snap_to_grid_distance_for_dropping */
-                                                                   /* to ensure object really snaps when marked so */
-
 static inline void pencil_diagram_maker_is_pos_on_grid ( const pencil_diagram_maker_t *this_,
                                                          double x,
                                                          double y,
@@ -96,7 +95,7 @@ static inline void pencil_diagram_maker_is_pos_on_grid ( const pencil_diagram_ma
     pencil_layouter_is_pos_on_grid ( &((*this_).layouter),
                                      x,
                                      y,
-                                     snap_to_grid_distance_for_drag_marker,
+                                     (*this_).snap_to_grid_distance,
                                      out_x_on_grid,
                                      out_y_on_grid
                                    );

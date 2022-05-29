@@ -225,11 +225,6 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
     TRACE_END();
 }
 
-static const double snap_to_grid_distance_for_dropping = 3.15;  /* plus/minus three pixels shall snap to grid */
-                                                                /* this is the expected accuracy for mouse input devices */
-                                                                /* this value is bigger than snap_to_grid_distance_for_drag_marker */
-                                                                /* to ensure object really snaps when marked so */
-
 pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_maker_t *this_,
                                                        data_id_t obj_id,
                                                        double x,
@@ -257,7 +252,7 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
                                                                    c_type,
                                                                    x,
                                                                    y,
-                                                                   snap_to_grid_distance_for_dropping,
+                                                                   (*this_).snap_to_grid_distance,
                                                                    out_layout_order
                                                                  );
         }

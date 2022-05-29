@@ -109,13 +109,32 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
  *  \brief draws overlay graphics to visualize the grid to the cairo context
  *
  *  \param this_ pointer to own object attributes
- *  \param card_under_mouse the sketch card under the current mouse position or NULL if no card there
+ *  \param card_under_mouse the sketch card under the current mouse position, not NULL
  *  \param cr cairo drawing context
  */
 void gui_sketch_overlay_private_draw_grid( gui_sketch_overlay_t *this_,
                                            const gui_sketch_card_t *card_under_mouse,
                                            cairo_t *cr
                                          );
+
+/*!
+ *  \brief draws overlay graphics to visualize the snapped-to-grid to the cairo context
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param card_under_mouse the sketch card under the current mouse position, not NULL
+ *  \param snapped flags indicating if the current cursor position is snapped
+ *  \param x actual pointer position
+ *  \param y actual pointer position
+ *  \param cr cairo drawing context
+ */
+void gui_sketch_overlay_private_draw_snap_indicator( gui_sketch_overlay_t *this_,
+                                                     const gui_sketch_card_t *card_under_mouse,
+                                                     gui_sketch_snap_state_t snapped,
+                                                     int32_t x,
+                                                     int32_t y,
+                                                     cairo_t *cr
+                                                   );
+
 
 #endif  /* GUI_SKETCH_OVERLAY_H */
 

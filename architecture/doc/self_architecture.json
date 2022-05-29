@@ -4031,24 +4031,6 @@
             "uuid": "7ae86eaf-384a-4009-8971-480f8edb6aa2"
           },
           {
-            "id": 644,
-            "display_flags": 0,
-            "classifier_id": 56,
-            "classifier_name": "Int Pair",
-            "focused_feature_id": -1,
-            "node": "1de7fe75-aaec-4f28-94e8-e1f72326f26d",
-            "uuid": "07e393b4-ec55-4780-bd4a-a7e2a731febe"
-          },
-          {
-            "id": 645,
-            "display_flags": 0,
-            "classifier_id": 57,
-            "classifier_name": "Bool List",
-            "focused_feature_id": -1,
-            "node": "fb44f164-0d3d-4382-82e0-d2b806d596f4",
-            "uuid": "4bce25fb-f873-498a-a266-2b0530793cf8"
-          },
-          {
             "id": 646,
             "display_flags": 0,
             "classifier_id": 58,
@@ -12044,44 +12026,6 @@
     },
     {
       "classifier": {
-        "id": 56,
-        "main_type": 125,
-        "type": "Class",
-        "stereotype": "",
-        "name": "Int Pair",
-        "description": [
-                ""
-        ],
-        "x_order": -1041264780,
-        "y_order": -105165869,
-        "list_order": 0,
-        "uuid": "1de7fe75-aaec-4f28-94e8-e1f72326f26d",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 57,
-        "main_type": 125,
-        "type": "Class",
-        "stereotype": "",
-        "name": "Bool List",
-        "description": [
-                ""
-        ],
-        "x_order": -961187234,
-        "y_order": -105165869,
-        "list_order": 0,
-        "uuid": "fb44f164-0d3d-4382-82e0-d2b806d596f4",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
         "id": 58,
         "main_type": 125,
         "type": "Class",
@@ -13150,7 +13094,7 @@
                 "String library"
         ],
         "x_order": -1477389701,
-        "y_order": -644118186,
+        "y_order": -1568843722,
         "list_order": 0,
         "uuid": "cbc36e4e-9c3a-453a-931f-541ef71bdc24",
         "features":
@@ -15146,7 +15090,7 @@
                 "This package is a collection of functinos to handle variable-length lists in statically allocated fixed-sized buffers."
         ],
         "x_order": -1477389701,
-        "y_order": -965789227,
+        "y_order": -1546677314,
         "list_order": -105719133,
         "uuid": "f3f74c6d-d230-48cc-894d-98204da4915c",
         "features":
@@ -21060,6 +21004,27 @@
     },
     {
       "relationship": {
+        "id": 628,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "uses",
+        "description": [
+                ""
+        ],
+        "list_order": 41389198,
+        "from_classifier_id": 413,
+        "from_classifier_name": "u8buf",
+        "to_classifier_id": 30,
+        "to_classifier_name": "u8stream",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "1ec9690b-c849-4fac-a515-07812ca170c6",
+        "to_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
+        "uuid": "e1795660-44eb-47bd-b6cc-e3ff6a3406cd"
+      }
+    },
+    {
+      "relationship": {
         "id": 9,
         "main_type": 200,
         "type": "Association",
@@ -26348,48 +26313,6 @@
         "from_node": "f3f74c6d-d230-48cc-894d-98204da4915c",
         "to_node": "9344e517-dfca-446c-9129-93c1d9d93b73",
         "uuid": "d4771408-6e46-4885-8ab2-ba5290bc4fe4"
-      }
-    },
-    {
-      "relationship": {
-        "id": 626,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 41356430,
-        "from_classifier_id": 412,
-        "from_classifier_name": "u8list",
-        "to_classifier_id": 56,
-        "to_classifier_name": "Int Pair",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
-        "from_node": "f3f74c6d-d230-48cc-894d-98204da4915c",
-        "to_node": "1de7fe75-aaec-4f28-94e8-e1f72326f26d",
-        "uuid": "87581abc-d720-45fe-ab41-0d679a170b34"
-      }
-    },
-    {
-      "relationship": {
-        "id": 627,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 41389198,
-        "from_classifier_id": 412,
-        "from_classifier_name": "u8list",
-        "to_classifier_id": 57,
-        "to_classifier_name": "Bool List",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
-        "from_node": "f3f74c6d-d230-48cc-894d-98204da4915c",
-        "to_node": "fb44f164-0d3d-4382-82e0-d2b806d596f4",
-        "uuid": "82159e4f-643e-4776-968f-ad710666653b"
       }
     },
     {
