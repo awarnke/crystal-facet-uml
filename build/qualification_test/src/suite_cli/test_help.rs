@@ -1,9 +1,14 @@
 
 pub fn suite_cli_run(exe_to_test: &String) -> bool {
-    return case_version(exe_to_test)
+    return testcase_version(exe_to_test)
 }
 
-fn case_version(exe_to_test: &String) -> bool {
+/// Tests that requesting the version is possible.
+///
+/// Returns true if the result string looks like a version,
+/// false if not,
+/// panicks if the test environment reports errors.
+fn testcase_version(exe_to_test: &String) -> bool {
     let process = match std::process::Command::new(exe_to_test)
                         .args(&["-v"])
                         .spawn() {

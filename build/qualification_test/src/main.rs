@@ -7,10 +7,18 @@ extern crate exitcode;
 
 use std::env;
 
-/* Run this test by calling cargo run from the directory .. */
+/* Run this test by calling "cargo run" from the current directory .. */
 
+/// Runs all test suites and returns true if all cases succeeded.
+fn run_all_suites(exe_to_test: &String) -> bool
+{
+    suite_cli_run(exe_to_test) && suite_gui_run(exe_to_test)
+}
+
+/// Parses the command line parameters, uses these as test environment input,
+/// runs the test cases and returns 0 in case of success.
 fn main() {
-    let mut err_code = exitcode::OK;
+    let err_code;
     println!("This is the qualification test for crystal-facet-uml.");
 
     let args: Vec<String> = env::args().collect();
@@ -24,17 +32,12 @@ fn main() {
     else
     {
         println!("{:?}", args);
-
-        err_code = match suite_cli_run(&args[1]) {
-                true => exitcode::OK,
-                false => exitcode::USAGE,
-        };
-        err_code = match suite_gui_run(&args[1]) {
-                true => exitcode::OK,
-                false => exitcode::USAGE,
+        err_code = match run_all_suites(&args[1]) {
+            true => exitcode::OK,
+            false => exitcode::SOFTWARE,
         };
     }
 
     /* When on stable branch, one can replace the exitcode by std::process::ExitCode */
-    std::process::exit(err_code);
+    std::process::exit(err_code)
 }
