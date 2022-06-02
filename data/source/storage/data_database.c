@@ -330,6 +330,22 @@ static const char *DATA_DATABASE_ALTER_DIAGRAMELEMENT_TABLE_UUID =
 static const char *DATA_DATABASE_UPDATE_DIAGRAMELEMENT_UUID =
     "UPDATE diagramelements SET uuid=(SELECT " DATA_DATABASE_CREATE_UUID " WHERE diagramelements.id!=-1) WHERE uuid=\'\';";
 
+/*!
+ *  \brief string constant to start a transaction
+ *
+ *  \see http://sqlite.org/lang.html
+ */
+static const char *DATA_DATABASE_BEGIN_TRANSACTION =
+    "BEGIN TRANSACTION;";
+
+/*!
+ *  \brief string constant to commit a transaction
+ *
+ *  \see http://sqlite.org/lang.html
+ */
+static const char *DATA_DATABASE_COMMIT_TRANSACTION =
+    "COMMIT TRANSACTION;";
+
 u8_error_t data_database_private_initialize_tables( data_database_t *this_ )
 {
     TRACE_BEGIN();
@@ -612,12 +628,16 @@ u8_error_t data_database_flush_caches ( data_database_t *this_ )
                 result = U8_ERROR_AT_DB;
             }
 #else
-            TSLOG_WARNING_INT( "The compile-time version of sqlite3 did not provide the sqlite3_db_cacheflush() function.", SQLITE_VERSION_NUMBER );
+            TSLOG_WARNING_INT( "The compile-time version of sqlite3 did not provide the sqlite3_db_cacheflush() function.",
+                               SQLITE_VERSION_NUMBER
+                             );
 #endif
         }
         else
         {
-            TSLOG_WARNING_INT( "The runtime-time version of sqlite3 does not provide the sqlite3_db_cacheflush() function.", sqlite3_libversion_number() );
+            TSLOG_WARNING_INT( "The runtime-time version of sqlite3 does not provide the sqlite3_db_cacheflush() function.",
+                               sqlite3_libversion_number()
+                             );
         }
     }
 
@@ -741,6 +761,76 @@ u8_error_t data_database_private_notify_db_listeners( data_database_t *this_, da
         {
             data_database_listener_notify( listener_list_copy[index], signal_id );
         }
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t data_database_transaction_begin ( data_database_t *this_ )
+{
+    TRACE_BEGIN();
+    u8_error_t result = U8_ERROR_NONE;
+    int sqlite_err;
+    char *error_msg = NULL;
+    sqlite3 *db = data_database_get_database_ptr( this_ );
+
+    if ( data_database_is_open( this_ ) )
+    {
+        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_BEGIN_TRANSACTION );
+        sqlite_err = sqlite3_exec( db, DATA_DATABASE_BEGIN_TRANSACTION, NULL, NULL, &error_msg );
+        if ( SQLITE_OK != sqlite_err )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_BEGIN_TRANSACTION );
+            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            result |= U8_ERROR_AT_DB;
+        }
+        if ( error_msg != NULL )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
+    }
+    else
+    {
+        TSLOG_WARNING_STR( "database not open. cannot execute", DATA_DATABASE_BEGIN_TRANSACTION );
+        result = U8_ERROR_NO_DB;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t data_database_transaction_commit ( data_database_t *this_ )
+{
+    TRACE_BEGIN();
+    u8_error_t result = U8_ERROR_NONE;
+    int sqlite_err;
+    char *error_msg = NULL;
+    sqlite3 *db = data_database_get_database_ptr( this_ );
+
+    if ( data_database_is_open( this_ ) )
+    {
+        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_COMMIT_TRANSACTION );
+        sqlite_err = sqlite3_exec( db, DATA_DATABASE_COMMIT_TRANSACTION, NULL, NULL, &error_msg );
+        if ( SQLITE_OK != sqlite_err )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_COMMIT_TRANSACTION );
+            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            result |= U8_ERROR_AT_DB;
+        }
+        if ( error_msg != NULL )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
+    }
+    else
+    {
+        TSLOG_WARNING_STR( "database not open. cannot execute", DATA_DATABASE_COMMIT_TRANSACTION );
+        result = U8_ERROR_NO_DB;
     }
 
     TRACE_END_ERR( result );

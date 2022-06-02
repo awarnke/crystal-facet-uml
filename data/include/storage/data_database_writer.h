@@ -453,26 +453,6 @@ u8_error_t data_database_writer_update_relationship_list_order ( data_database_w
 u8_error_t data_database_writer_private_execute_create_command ( data_database_writer_t *this_, const char* sql_statement, data_row_id_t* out_new_id );
 
 /*!
- *  \brief executes a "BEGIN TRANSACTION" command
- *
- *  This function does not care about locks. It does not sent notifications.
- *
- *  \param this_ pointer to own object attributes
- *  \return U8_ERROR_NONE in case of success, an error id otherwise, e.g. U8_ERROR_NO_DB in case the database is not open
- */
-u8_error_t data_database_writer_private_transaction_begin ( data_database_writer_t *this_ );
-
-/*!
- *  \brief executes a "COMMIT TRANSACTION" command
- *
- *  This function does not care about locks. It does not sent notifications.
- *
- *  \param this_ pointer to own object attributes
- *  \return U8_ERROR_NONE in case of success, an error id otherwise
- */
-u8_error_t data_database_writer_private_transaction_commit ( data_database_writer_t *this_ );
-
-/*!
  *  \brief sends one SQL command to the database within a transaction
  *
  *  This function does not care about locks. It does not sent notifications.

@@ -1109,18 +1109,6 @@ u8_error_t data_database_consistency_checker_find_invalid_relationship_features 
 }
 
 /*!
- *  \brief string constant to start a transaction
- */
-static const char *DATA_DATABASE_CONSISTENCY_CHECKER_BEGIN_TRANSACTION =
-    "BEGIN TRANSACTION;";
-
-/*!
- *  \brief string constant to commit a transaction
- */
-static const char *DATA_DATABASE_CONSISTENCY_CHECKER_COMMIT_TRANSACTION =
-    "COMMIT TRANSACTION;";
-
-/*!
  *  \brief prefix string constant to delete a classifier
  */
 static const char *DATA_DATABASE_CONSISTENCY_CHECKER_DELETE_CLASSIFIER_PREFIX =
@@ -1141,20 +1129,7 @@ u8_error_t data_database_consistency_checker_kill_classifier( data_database_cons
 
     if ( data_database_is_open( (*this_).database ) )
     {
-        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CONSISTENCY_CHECKER_BEGIN_TRANSACTION );
-        sqlite_err = sqlite3_exec( db, DATA_DATABASE_CONSISTENCY_CHECKER_BEGIN_TRANSACTION, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
-        {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CONSISTENCY_CHECKER_BEGIN_TRANSACTION );
-            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-            result |= U8_ERROR_AT_DB;
-        }
-        if ( error_msg != NULL )
-        {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
-        }
+        result |= data_database_transaction_begin ( (*this_).database );
 
         char delete_statement_buf[56];
         utf8stringbuf_t delete_statement = UTF8STRINGBUF( delete_statement_buf );
@@ -1176,20 +1151,7 @@ u8_error_t data_database_consistency_checker_kill_classifier( data_database_cons
             error_msg = NULL;
         }
 
-        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CONSISTENCY_CHECKER_COMMIT_TRANSACTION );
-        sqlite_err = sqlite3_exec( db, DATA_DATABASE_CONSISTENCY_CHECKER_COMMIT_TRANSACTION, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
-        {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CONSISTENCY_CHECKER_COMMIT_TRANSACTION );
-            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-            result |= U8_ERROR_AT_DB;
-        }
-        if ( error_msg != NULL )
-        {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
-        }
+        result |= data_database_transaction_commit ( (*this_).database );
     }
     else
     {

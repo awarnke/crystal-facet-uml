@@ -35,7 +35,8 @@ struct data_database_struct {
     utf8stringbuf_t db_file_name;
     char private_db_file_name_buffer[GUI_DATABASE_MAX_FILEPATH];
     bool is_open;
-    data_database_listener_t *(listener_list[GUI_DATABASE_MAX_LISTENERS]);  /*!< array of db-file change listeners. Only in case of a changed db-file, listeners are informed. */
+    data_database_listener_t *(listener_list[GUI_DATABASE_MAX_LISTENERS]);  /*!< array of db-file change listeners. */
+                                                              /*!< Only in case of a changed db-file, listeners are informed. */
 };
 
 typedef struct data_database_struct data_database_t;
@@ -175,7 +176,8 @@ u8_error_t data_database_private_upgrade_tables( data_database_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param listener pointer to a listener to be added; the referenced object needs to stay valid till removal
- *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED if max listeners reached, U8_ERROR_INVALID_REQUEST if listener already registered, U8_ERROR_NONE otherwise.
+ *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED if max listeners reached, U8_ERROR_INVALID_REQUEST if listener already registered,
+ *          U8_ERROR_NONE otherwise.
  */
 u8_error_t data_database_add_db_listener( data_database_t *this_, data_database_listener_t *listener );
 
@@ -199,7 +201,8 @@ static inline void data_database_private_clear_db_listener_list( data_database_t
  *  \brief notifies all db-file changed listerners
  *
  *  \param this_ pointer to own object attributes
- *  \param signal_id one of DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE and DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED, depending on the reason for this notification
+ *  \param signal_id one of DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE and DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED,
+ *                   depending on the reason for this notification
  *  \return U8_ERROR_NONE in case of success.
  */
 u8_error_t data_database_private_notify_db_listeners( data_database_t *this_, data_database_listener_signal_t signal_id );
@@ -229,7 +232,32 @@ static inline u8_error_t data_database_private_unlock ( data_database_t *this_ )
 static inline bool data_database_is_open( data_database_t *this_ );
 
 /*!
- *  \brief checks if the database file is open
+ *  \brief executes a "BEGIN TRANSACTION" command.
+ *
+ *  This function may be called recursively.
+ *
+ *  This function does not care about locks. It does not sent notifications.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_NONE in case of success, an error id otherwise, e.g. U8_ERROR_NO_DB in case the database is not open
+ */
+u8_error_t data_database_transaction_begin ( data_database_t *this_ );
+
+/*!
+ *  \brief executes a "COMMIT TRANSACTION" command
+ *
+ *  This function may be called recursively.
+ *  The commit is only executed when this function is called once for each preceding data_database_transaction_begin call.
+ *
+ *  This function does not care about locks. It does not sent notifications.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_NONE in case of success, an error id otherwise
+ */
+u8_error_t data_database_transaction_commit ( data_database_t *this_ );
+
+/*!
+ *  \brief checks if the database file is open and executes an sql statement
  *
  *  \param this_ pointer to own object attributes
  *  \param sql_command the sqk statement to execute
@@ -237,6 +265,7 @@ static inline bool data_database_is_open( data_database_t *this_ );
  *  \return U8_ERROR_READ_ONLY_DB if read oly, U8_ERROR_AT_DB if other error, U8_ERROR_NONE if no error
  */
 static inline u8_error_t data_database_private_exec_sql( data_database_t *this_, const char* sql_command, bool ignore_errors );
+
 
 #include "storage/data_database.inl"
 
