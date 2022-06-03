@@ -35,6 +35,8 @@ struct data_database_struct {
     utf8stringbuf_t db_file_name;
     char private_db_file_name_buffer[GUI_DATABASE_MAX_FILEPATH];
     bool is_open;
+    uint_fast8_t transaction_recursion;  /*!< current transaction depth, 0 if no transaction active */
+
     data_database_listener_t *(listener_list[GUI_DATABASE_MAX_LISTENERS]);  /*!< array of db-file change listeners. */
                                                               /*!< Only in case of a changed db-file, listeners are informed. */
 };

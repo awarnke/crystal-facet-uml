@@ -67,6 +67,27 @@ static inline ctrl_classifier_controller_t *ctrl_controller_get_classifier_contr
  */
 static inline ctrl_diagram_controller_t *ctrl_controller_get_diagram_control_ptr ( ctrl_controller_t *this_ );
 
+/*!
+ *  \brief Begins a transaction
+ *
+ *  This function may be called recursively.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_NONE in case of success, an error id otherwise, e.g. U8_ERROR_NO_DB in case the database is not open
+ */
+static inline u8_error_t ctrl_controller_transaction_begin ( ctrl_controller_t *this_ );
+
+/*!
+ *  \brief Commits a transaction
+ *
+ *  This function may be called recursively.
+ *  The commit is only executed when this function is called once for each preceding data_database_transaction_begin call.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_NONE in case of success, an error id otherwise
+ */
+static inline u8_error_t ctrl_controller_transaction_commit ( ctrl_controller_t *this_ );
+
 /* ================================ interface for undo redo ================================ */
 
 /*!

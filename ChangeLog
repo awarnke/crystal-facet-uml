@@ -1,7 +1,9 @@
-crystal-facet-uml (1.37.x) UNRELEASED; urgency=medium
+crystal-facet-uml (1.38.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Nicer layout of grid while dragging and creating objects
+  * json import speed up by factor 20 (1m37,071s -> 0m4,644s) by using
+    recursive transactions
 
    -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 18 Jun 2022 15:00:00 +0100
 

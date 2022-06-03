@@ -432,6 +432,7 @@ void data_database_init ( data_database_t *this_ )
     utf8stringbuf_clear( (*this_).db_file_name );
 
     (*this_).is_open = false;
+    (*this_).transaction_recursion = 0;
 
     g_mutex_init ( &((*this_).private_lock) );
 
@@ -445,6 +446,8 @@ u8_error_t data_database_private_open ( data_database_t *this_, const char* db_f
 {
     TRACE_BEGIN();
     assert( NULL != db_file_path );
+    /* there should not be pending transactions when calling open */
+    assert( (*this_).transaction_recursion == 0 );
     int sqlite_err;
     u8_error_t result = U8_ERROR_NONE;
     bool notify_listeners = false;
@@ -530,6 +533,8 @@ u8_error_t data_database_private_open ( data_database_t *this_, const char* db_f
 u8_error_t data_database_close ( data_database_t *this_ )
 {
     TRACE_BEGIN();
+    /* there should not be pending transactions when calling cloas */
+    assert( (*this_).transaction_recursion == 0 );
     int sqlite_err;
     u8_error_t result = U8_ERROR_NONE;
     bool notify_change_listeners = false;
@@ -564,6 +569,7 @@ u8_error_t data_database_close ( data_database_t *this_ )
 
         utf8stringbuf_clear( (*this_).db_file_name );
         (*this_).is_open = false;
+        (*this_).transaction_recursion = 0;
 
         notify_change_listeners = true;
     }
@@ -594,6 +600,8 @@ u8_error_t data_database_close ( data_database_t *this_ )
 void data_database_destroy ( data_database_t *this_ )
 {
     TRACE_BEGIN();
+    /* there should not be pending transactions when calling destroy */
+    assert( (*this_).transaction_recursion == 0 );
 
     data_database_private_clear_db_listener_list( this_ );
     if ( (*this_).is_open )
@@ -602,6 +610,7 @@ void data_database_destroy ( data_database_t *this_ )
     }
     data_change_notifier_destroy( &((*this_).notifier) );
 
+    (*this_).transaction_recursion = 0;
     /* g_mutex_clear ( &((*this_).private_lock) ); -- must not be called because this GMutex is not on the stack */
 
     TRACE_END();
@@ -770,6 +779,8 @@ u8_error_t data_database_private_notify_db_listeners( data_database_t *this_, da
 u8_error_t data_database_transaction_begin ( data_database_t *this_ )
 {
     TRACE_BEGIN();
+    /* nestnig of transactions should not be greater than 2. You may increase this limit if needed. */
+    assert( (*this_).transaction_recursion < 2 );
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     char *error_msg = NULL;
@@ -777,20 +788,24 @@ u8_error_t data_database_transaction_begin ( data_database_t *this_ )
 
     if ( data_database_is_open( this_ ) )
     {
-        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_BEGIN_TRANSACTION );
-        sqlite_err = sqlite3_exec( db, DATA_DATABASE_BEGIN_TRANSACTION, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
+        if ( (*this_).transaction_recursion == 0 )
         {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_BEGIN_TRANSACTION );
-            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-            result |= U8_ERROR_AT_DB;
+            TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_BEGIN_TRANSACTION );
+            sqlite_err = sqlite3_exec( db, DATA_DATABASE_BEGIN_TRANSACTION, NULL, NULL, &error_msg );
+            if ( SQLITE_OK != sqlite_err )
+            {
+                TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_BEGIN_TRANSACTION );
+                TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+                result |= U8_ERROR_AT_DB;
+            }
+            if ( error_msg != NULL )
+            {
+                TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+                sqlite3_free( error_msg );
+                error_msg = NULL;
+            }
         }
-        if ( error_msg != NULL )
-        {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
-        }
+        (*this_).transaction_recursion ++;
     }
     else
     {
@@ -805,6 +820,8 @@ u8_error_t data_database_transaction_begin ( data_database_t *this_ )
 u8_error_t data_database_transaction_commit ( data_database_t *this_ )
 {
     TRACE_BEGIN();
+    /* there should be at least 1 pending transaction */
+    assert( (*this_).transaction_recursion > 0 );
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     char *error_msg = NULL;
@@ -812,20 +829,24 @@ u8_error_t data_database_transaction_commit ( data_database_t *this_ )
 
     if ( data_database_is_open( this_ ) )
     {
-        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_COMMIT_TRANSACTION );
-        sqlite_err = sqlite3_exec( db, DATA_DATABASE_COMMIT_TRANSACTION, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
+        if ( (*this_).transaction_recursion == 1 )
         {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_COMMIT_TRANSACTION );
-            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-            result |= U8_ERROR_AT_DB;
+            TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_COMMIT_TRANSACTION );
+            sqlite_err = sqlite3_exec( db, DATA_DATABASE_COMMIT_TRANSACTION, NULL, NULL, &error_msg );
+            if ( SQLITE_OK != sqlite_err )
+            {
+                TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_COMMIT_TRANSACTION );
+                TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+                result |= U8_ERROR_AT_DB;
+            }
+            if ( error_msg != NULL )
+            {
+                TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+                sqlite3_free( error_msg );
+                error_msg = NULL;
+            }
         }
-        if ( error_msg != NULL )
-        {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
-        }
+        (*this_).transaction_recursion --;
     }
     else
     {

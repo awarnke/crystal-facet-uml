@@ -5,6 +5,10 @@
 
 static inline u8_error_t data_database_open ( data_database_t *this_, const char* db_file_path )
 {
+    assert( db_file_path =! NULL );
+    /* there should not be pending transactions when calling open */
+    assert( (*this_).transaction_recursion == 0 );
+
     const u8_error_t err
         = data_database_private_open( this_, db_file_path, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE );
     return err;
@@ -12,6 +16,10 @@ static inline u8_error_t data_database_open ( data_database_t *this_, const char
 
 static inline u8_error_t data_database_open_read_only ( data_database_t *this_, const char* db_file_path )
 {
+    assert( db_file_path =! NULL );
+    /* there should not be pending transactions when calling open */
+    assert( (*this_).transaction_recursion == 0 );
+
     const u8_error_t err
         = data_database_private_open( this_, db_file_path, SQLITE_OPEN_READONLY );
     return err;
@@ -19,6 +27,9 @@ static inline u8_error_t data_database_open_read_only ( data_database_t *this_, 
 
 static inline u8_error_t data_database_open_in_memory ( data_database_t *this_ )
 {
+    /* there should not be pending transactions when calling open */
+    assert( (*this_).transaction_recursion == 0 );
+
     const char* const IN_MEMORY_FILENAME = ":memory:"; /* magic filename, see https://www.sqlite.org/c3ref/open.html */
     const u8_error_t err
         = data_database_private_open( this_,

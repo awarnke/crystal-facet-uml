@@ -2,12 +2,22 @@
 
 static inline ctrl_classifier_controller_t *ctrl_controller_get_classifier_control_ptr ( ctrl_controller_t *this_ )
 {
-    return &((*this_).classifiers);
+    return &( (*this_).classifiers );
 }
 
 static inline ctrl_diagram_controller_t *ctrl_controller_get_diagram_control_ptr ( ctrl_controller_t *this_ )
 {
-    return &((*this_).diagrams);
+    return &( (*this_).diagrams );
+}
+
+static inline u8_error_t ctrl_controller_transaction_begin ( ctrl_controller_t *this_ )
+{
+    return data_database_transaction_begin( (*this_).database );
+}
+
+static inline u8_error_t ctrl_controller_transaction_commit ( ctrl_controller_t *this_ )
+{
+    return data_database_transaction_commit( (*this_).database );
 }
 
 /* ================================ interface for undo redo ================================ */
