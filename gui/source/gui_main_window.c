@@ -160,11 +160,11 @@ void gui_main_window_init( gui_main_window_t *this_,
     (*this_).two_panes = gtk_paned_new( GTK_ORIENTATION_HORIZONTAL );
 #if ( GTK_MAJOR_VERSION >= 4 )
     gtk_paned_set_start_child( GTK_PANED((*this_).two_panes), (*this_).sketch_stack_column );
-    gtk_paned_set_resize_start_child( (*this_).two_panes), true );
-    gtk_paned_set_shrink_start_child( (*this_).two_panes), false );
+    gtk_paned_set_resize_start_child( GTK_PANED((*this_).two_panes), true );
+    gtk_paned_set_shrink_start_child( GTK_PANED((*this_).two_panes), false );
     gtk_paned_set_end_child( GTK_PANED((*this_).two_panes), (*this_).attr_edit_column );
-    gtk_paned_set_resize_end_child( (*this_).two_panes), false );
-    gtk_paned_set_shrink_end_child( (*this_).two_panes), true );
+    gtk_paned_set_resize_end_child( GTK_PANED((*this_).two_panes), false );
+    gtk_paned_set_shrink_end_child( GTK_PANED((*this_).two_panes), true );
 #else
     gtk_paned_pack1( GTK_PANED((*this_).two_panes), (*this_).sketch_stack_column, true, false );
     gtk_paned_pack2( GTK_PANED((*this_).two_panes), (*this_).attr_edit_column, false, true );
