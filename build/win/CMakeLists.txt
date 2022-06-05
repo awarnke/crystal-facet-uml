@@ -183,12 +183,17 @@ MESSAGE( "Note: to build with asserts and traces, run    cmake -DCMAKE_BUILD_TYP
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Wno-overlength-strings ${GTK3_CFLAGS_OTHER}" )
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Wno-overlength-strings -mwindows ${GTK3_CFLAGS_OTHER}" )
 # Note: The GIMP-generated images are longer that 4095 characters, therefore -Wno-overlength-strings is required here.
+ADD_CUSTOM_COMMAND(
+    OUTPUT crystal-facet-uml.res
+    COMMAND x86_64-w64-mingw32-windres ${CMAKE_CURRENT_SOURCE_DIR}/crystal-facet-uml.rc -O coff -o crystal-facet-uml.res
+)
+
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal-facet-uml Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-ADD_EXECUTABLE(crystal-facet-uml ${commonSource} ${appSource})
+ADD_EXECUTABLE(crystal-facet-uml ${commonSource} ${appSource} crystal-facet-uml.res)
 TARGET_LINK_LIBRARIES(crystal-facet-uml ${ATK_LIB} ${CAIRO_LIB} ${FONTCNF_LIB} ${GAIL_LIB} ${GDKPIX_LIB} ${GDKWIN_LIB} ${GIO_LIB} ${GLIB_LIB} ${GMOD_LIB} ${GOBJ_LIB} ${GTHREAD_LIB} ${GTK_LIB} ${PANGO_LIB} ${PANGOCAIRO_LIB} ${PANGOFT_LIB} ${PANGOWIN_LIB} )
 SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
