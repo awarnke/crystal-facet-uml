@@ -167,6 +167,7 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
         parse_error |= universal_input_stream_reset( in_stream );
     }
 
+    /* start an outer transaction to speed up the creation of objects */
     parse_error |= ctrl_controller_transaction_begin( (*this_).controller );
 
     /* import: create elements */
@@ -227,6 +228,7 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
         universal_utf8_writer_write_str( out_english_report, "\n" );
     }
 
+    /* commit the outer transaction */
     parse_error |= ctrl_controller_transaction_commit( (*this_).controller );
 
     json_importer_destroy( &((*this_).temp_json_importer) );

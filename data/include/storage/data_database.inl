@@ -5,7 +5,7 @@
 
 static inline u8_error_t data_database_open ( data_database_t *this_, const char* db_file_path )
 {
-    assert( db_file_path =! NULL );
+    assert( db_file_path != NULL );
     /* there should not be pending transactions when calling open */
     assert( (*this_).transaction_recursion == 0 );
 
@@ -16,7 +16,7 @@ static inline u8_error_t data_database_open ( data_database_t *this_, const char
 
 static inline u8_error_t data_database_open_read_only ( data_database_t *this_, const char* db_file_path )
 {
-    assert( db_file_path =! NULL );
+    assert( db_file_path != NULL );
     /* there should not be pending transactions when calling open */
     assert( (*this_).transaction_recursion == 0 );
 

@@ -1,5 +1,4 @@
-@rem set XDG_DATA_DIR="%CD%\share"
-@rem set XDG_DATA_DIRS="%CD%\share\glib-2.0\schemas"
-@echo when calling crystal-facet-uml.bat, use absolute paths in parameters
-@echo e.g. crystal-facet-uml.bat -u "%%CD%%\crystal-facet-uml_mod5g-example.cfu1"
-@bin\crystal-facet-uml.exe %1 %2 %3 %4
+@echo off
+rem when calling crystal-facet-uml.bat, use absolute paths in parameters
+rem e.g. crystal-facet-uml.bat -u "%%CD%%\crystal-facet-uml_mod5g-example.cfu1"
+start /B bin\crystal-facet-uml.exe %1 %2 %3 %4
