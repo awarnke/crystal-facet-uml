@@ -5,6 +5,7 @@ crystal-facet-uml (1.38.0) UNRELEASED; urgency=medium
   * json import speed up by factor 20 (1m37,071s -> 0m4,644s) by using
     one top-level transaction only
   * On Windows(TM), the black terminal window is hidden (via -mwindows)
+  * The left-right shiftable panes keep the right side constant on resize
 
    -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 18 Jun 2022 15:00:00 +0100
 
