@@ -11,17 +11,7 @@ wine on debian/raspbian/ubuntu:
 >
 > sudo apt install wine
 >
-> sudo dpkg --add-architecture i386 && apt-get update && apt-get install wine32
->
-> sudo apt install gcc-mingw-w64-i686
->
-> echo Download the gtk+-bundle archive to build/win/3rd_party/
->
-> echo e.g. gtk+-bundle_3.6.4-20130513_win32.zip (28.8 Mb) from http://www.tarnyko.net/dl/gtk.htm
->
-> echo Download the sqlite sources (amalgamation) from https://sqlite.org/download.html to build/win/3rd_party/
->
-> echo e.g. sqlite-amalgamation-3360000.zip
+> sudo apt install gcc-mingw-w64-x86_64
 
 wine on opensuse:
 
@@ -35,23 +25,32 @@ wine on opensuse:
 How to build and pack
 -----------
 
-> cd pack_scripts
+> cd 3rd_party
 >
-> ./0_cleanup.sh
+> 0_clean.sh
 >
-> ./1_configure.sh
+> 1_fetch_sources.sh
 >
-> ./2_make.sh
+> 2_unpack_sources.sh
 >
-> ./3_install.sh
+> 3_compile_platform_abstration.sh
 >
-> ./4_test.sh
+> 4_compile_data_handling_libraries.sh
 >
-> ./5_pack.sh
-
+> 5_compile_graphics_libraries.sh
+>
+> 6_collect_licenses.sh
+>
+> 7_check_result.sh
+>
+> cd ..
+>
+> 8_compile_crystal_facet_uml.sh
+>
+> 9_pack.sh
 
 How to run
 -----------
 
-> wine crystal-facet-uml.exe
+Run on Windows(TM)
 
