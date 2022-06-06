@@ -1,4 +1,16 @@
-crystal-facet-uml (1.37.0-1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.38.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * Nicer layout of grid while dragging and creating objects
+  * A single click focuses and selects an element. A second click deselects it
+  * json import speed up by factor 20 (1m37,071s -> 0m4,644s) by using
+    one top-level transaction only
+  * On Windows(TM), the black terminal window is hidden (via -mwindows)
+  * The left-right shiftable panes keep the right side constant on resize
+
+   -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 06 Jun 2022 19:00:00 +0100
+
+   crystal-facet-uml (1.37.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * the screen layout stays fix while creating features and relationships
