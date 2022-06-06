@@ -1073,25 +1073,23 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
             /* update drag state */
             gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), focused_object );
 
-            /* which object is currently focused? */
-            const data_id_t focused_visible_before = gui_marked_set_get_focused( (*this_).marker );
+            /* toggle objects according to rules of gui_marked_set_t */
+            gui_marked_set_toggle_obj( (*this_).marker, focused_object_visible, diag_id );
 
-            if ( data_id_equals ( &focused_object_visible, &focused_visible_before ) )
+            if ( gui_marked_set_has_focus( (*this_).marker ) )
             {
-                /* the clicked object is already focused */
-                gui_marked_set_toggle_selected_obj( (*this_).marker, focused_object_visible );
-            }
-            else
-            {
-                /* set focused object and notify listener */
-                gui_marked_set_set_focused( (*this_).marker, focused_object_visible, diag_id );
-
+                /* notify listener */
                 data_id_t real_object = focused_object_visible;
                 if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &real_object ) )
                 {
                     real_object = data_id_pair_get_secondary_id( &focused_object );
                 }
                 gui_sketch_area_private_notify_listeners( this_, real_object );
+            }
+            else
+            {
+                /* notify listener */
+                gui_sketch_area_private_notify_listeners( this_, DATA_ID_VOID );
             }
 
             /* mark dirty rect */

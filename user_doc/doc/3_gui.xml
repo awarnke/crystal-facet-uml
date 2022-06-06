@@ -285,7 +285,12 @@
                     <listitem>
                         <para>
                             Deletes all selected (pink-cornered) elements.
-                            This operation may fail if a selected diagram contains non-selected elements.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            This operation may fail on a diagram if the selected diagram contains non-selected elements
+                            or child diagrams.
                         </para>
                     </listitem>
                 </itemizedlist>
@@ -427,7 +432,11 @@
                             icon for a new child-diagram.
                         </para>
                     </listitem>
-                    <listitem><para>To restructure the diagram tree, drag a diagram name to the new location.</para></listitem>
+                    <listitem>
+                        <para>
+                            To restructure the diagram tree, drag a diagram name to the new location.
+                        </para>
+                    </listitem>
                 </itemizedlist>
             </para>
 
@@ -442,15 +451,30 @@
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
-                        <para>To focus the diagram or a classifier or a feature or a relationship (yellow corners), click on this object.</para>
+                        <para>
+                            Click on the diagram or a classifier or a feature or a relationship
+                            to edit the name, type and description of that object.
+                        </para>
+                        <para>
+                            The yellow corners indicate which object is currently focused.
+                        </para>
                     </listitem>
                     <listitem>
-                        <para>To select an element (pink corners), click on these objects twice.</para>
+                        <para>
+                            Click on an element to select or unselect an object (pink corners).
+                        </para>
+                        <para>
+                            The toolbar buttons apply to this pink-cornered set.
+                        </para>
                     </listitem>
                     <listitem>
-                        <para>To move classifiers within the diagram, 1.) press, 2.) drag and 3.) release the mouse button.</para>
-                        <para>Note: When moving a classifier, this is moved in all diagrams where it appears.
-                            Order and locations of things stay consistent between different views.</para>
+                        <para>
+                            To move classifiers within the diagram, 1.) press, 2.) drag and 3.) release the mouse button.
+                        </para>
+                        <para>
+                            Note: When moving a classifier, this is moved in all diagrams where it appears.
+                            Order and locations of things stay consistent between different views.
+                        </para>
                     </listitem>
                 </itemizedlist>
             </para>
@@ -466,11 +490,27 @@
                 </inlinemediaobject>
 
                 <orderedlist>
-                    <listitem><para>To create a classifier, click at an empty space in the diagram.</para></listitem>
-                    <listitem><para>To create a child classifier, click into the white space of a classifier.
-                            (Alternatively, create a classifier (see 1) and a containment relationship (see 4).)</para></listitem>
-                    <listitem><para>To create a feature, click onto a classifier (name or border).</para></listitem>
-                    <listitem><para>To create a relationship, press on the source classifier and drag it to the destination classifier.</para></listitem>
+                    <listitem>
+                        <para>
+                            To create a classifier, click at an empty space in the diagram.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            To create a child classifier, click into the white space of a classifier.
+                            (Alternatively, create a classifier (see 1) and a containment relationship (see 4).)
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            To create a feature, click onto a classifier (name or border).
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            To create a relationship, press on the source classifier and drag it to the destination classifier.
+                        </para>
+                    </listitem>
                 </orderedlist>
 
                 <mediaobject>

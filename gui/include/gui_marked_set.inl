@@ -39,6 +39,11 @@ static inline data_id_t gui_marked_set_get_focused_diagram ( const gui_marked_se
     return( (*this_).focused_diagram );
 }
 
+static inline bool gui_marked_set_has_focus ( const gui_marked_set_t *this_ )
+{
+    return data_id_is_valid( &((*this_).focused) );
+}
+
 static inline data_id_t gui_marked_set_get_highlighted ( const gui_marked_set_t *this_ )
 {
     return( (*this_).highlighted );
@@ -57,6 +62,25 @@ static inline const data_small_set_t *gui_marked_set_get_selected_set_const ( co
 static inline void gui_marked_set_toggle_selected_obj ( gui_marked_set_t *this_, data_id_t obj_id )
 {
     data_small_set_toggle_obj( &((*this_).selected_set), obj_id );
+}
+
+static inline void gui_marked_set_toggle_obj ( gui_marked_set_t *this_, data_id_t obj_id, data_id_t diagram_id )
+{
+    assert(( data_id_get_table(&diagram_id) == DATA_TABLE_DIAGRAM )||( data_id_get_table(&diagram_id) == DATA_TABLE_VOID ));
+
+    if ( data_id_equals( &obj_id, &((*this_).focused) ) )
+    {
+        data_id_reinit_void( &((*this_).focused) );
+        data_id_reinit_void( &((*this_).focused_diagram) );
+        data_small_set_delete_obj( &((*this_).selected_set), obj_id );
+    }
+    else
+    {
+        data_id_replace( &((*this_).focused), &obj_id );
+        data_id_replace( &((*this_).focused_diagram), &diagram_id );
+        data_small_set_add_obj( &((*this_).selected_set), obj_id );
+    }
+    data_id_replace( &((*this_).focused_diagram), &diagram_id );
 }
 
 static inline void gui_marked_set_clear_selected_set ( gui_marked_set_t *this_ )

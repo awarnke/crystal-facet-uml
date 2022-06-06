@@ -231,12 +231,12 @@ void gui_sketch_background_private_draw_quick_introduction( gui_sketch_backgroun
     const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
 
     const int32_t TAB_HEIGHT = 144 + BORDER;
-    const int32_t TAB_WIDTH = 600 + BORDER;
+    const int32_t TAB_WIDTH = 640 + BORDER;
     const int32_t TAB_X = left + 16;
     const int32_t TAB_Y = height - TAB_HEIGHT - 16;
     const int32_t TAB_COL0_X = TAB_X + BORDER + 14;
     const int32_t TAB_COL1_X = TAB_X + BORDER + 112;
-    const int32_t TAB_COL2_X = TAB_X + BORDER + 320;
+    const int32_t TAB_COL2_X = TAB_X + BORDER + 340;
     const int32_t TAB_ROW0_Y = TAB_Y + BORDER + 0;
     const int32_t TAB_ROW1_Y = TAB_Y + BORDER + 48;
     const int32_t TAB_ROW2_Y = TAB_Y + BORDER + 96;
@@ -263,8 +263,8 @@ void gui_sketch_background_private_draw_quick_introduction( gui_sketch_backgroun
                                                        );
     gui_sketch_background_private_draw_icon_and_message( this_,
                                                          gui_resources_get_tool_edit( (*this_).resources ),
-                                                         "Single click to focus,",
-                                                         "second click to mark items.",
+                                                         "Click on an element to edit",
+                                                         "name, type and description.",
                                                          TAB_COL1_X,
                                                          TAB_ROW1_Y,
                                                          cr

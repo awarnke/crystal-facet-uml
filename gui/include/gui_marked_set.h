@@ -63,6 +63,14 @@ static inline data_id_t gui_marked_set_get_focused ( const gui_marked_set_t *thi
 static inline data_id_t gui_marked_set_get_focused_diagram ( const gui_marked_set_t *this_ );
 
 /*!
+ *  \brief checks if focused object id is valid
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if focused object id is valid
+ */
+static inline bool gui_marked_set_has_focus ( const gui_marked_set_t *this_ );
+
+/*!
  *  \brief gets the highlighted object id
  *
  *  \param this_ pointer to own object attributes
@@ -93,6 +101,19 @@ static inline const data_small_set_t *gui_marked_set_get_selected_set_const ( co
  *  \param obj_id the id to toggle in the selected set
  */
 static inline void gui_marked_set_toggle_selected_obj ( gui_marked_set_t *this_, data_id_t obj_id );
+
+/*!
+ *  \brief toggles the current focus and adds or removes the object id from the selected set.
+ *
+ *  If unfocused, the object becomes focused and selected.
+ *  Another object may loose focus.
+ *  If focused, the object becomes unfocused and unselected.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param obj_id the id to toggle in the selected set
+ *  \param diagram_id the id of the focused diagram; identical or parent to obj_id
+ */
+static inline void gui_marked_set_toggle_obj ( gui_marked_set_t *this_, data_id_t obj_id, data_id_t diagram_id );
 
 /*!
  *  \brief clears the selected set.

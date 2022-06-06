@@ -2,6 +2,7 @@ crystal-facet-uml (1.38.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Nicer layout of grid while dragging and creating objects
+  * A single click focuses and selects an element. A second click deselects it
   * json import speed up by factor 20 (1m37,071s -> 0m4,644s) by using
     one top-level transaction only
   * On Windows(TM), the black terminal window is hidden (via -mwindows)
