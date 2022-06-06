@@ -16,8 +16,10 @@
  *  \brief attributes of the sketch marker
  */
 struct gui_marked_set_struct {
-    data_id_t focused;  /*!<  references the one focused visible object, e.g. a data_diagram_t or a data_diagramelement_t (yellow corners) */
-    data_id_t focused_diagram;  /*!< the focused diagram, the place where to e.g. insert pasted objects */
+    data_id_t focused;  /*!<  references the one focused visible object, */
+                        /*!<  e.g. a data_diagram_t or a data_diagramelement_t (yellow corners) */
+    data_id_t focused_diagram;  /*!< the focused diagram is the place where to e.g. insert pasted objects. */
+                                /*!< Even if the focused object is VOID, the focused_diagram should be set */
     data_id_t highlighted;  /*!<  references the one highlighted/mouse over object */
     data_id_t highlighted_diagram;  /*!< the highlighted diagram, the diagram to zoom in when clicking on the highlighted id */
     data_small_set_t selected_set;  /*!<  references all selected objects (pink corners) */
@@ -106,7 +108,7 @@ static inline void gui_marked_set_toggle_selected_obj ( gui_marked_set_t *this_,
  *  \brief toggles the current focus and adds or removes the object id from the selected set.
  *
  *  If unfocused, the object becomes focused and selected.
- *  Another object may loose focus.
+ *  Another object may loose its focus.
  *  If focused, the object becomes unfocused and unselected.
  *
  *  \param this_ pointer to own object attributes
@@ -147,7 +149,7 @@ static inline void gui_marked_set_set_highlighted ( gui_marked_set_t *this_,
                                                   );
 
 /*!
- *  \brief un-sets the focused object id
+ *  \brief un-sets the focused object id, but keeps the focused_diagram
  *
  *  \param this_ pointer to own object attributes
  */

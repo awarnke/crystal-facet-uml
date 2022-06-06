@@ -71,7 +71,7 @@ static inline void gui_marked_set_toggle_obj ( gui_marked_set_t *this_, data_id_
     if ( data_id_equals( &obj_id, &((*this_).focused) ) )
     {
         data_id_reinit_void( &((*this_).focused) );
-        data_id_reinit_void( &((*this_).focused_diagram) );
+        data_id_replace( &((*this_).focused_diagram), &diagram_id );
         data_small_set_delete_obj( &((*this_).selected_set), obj_id );
     }
     else
@@ -109,7 +109,6 @@ static inline void gui_marked_set_set_highlighted ( gui_marked_set_t *this_,
 static inline void gui_marked_set_clear_focused ( gui_marked_set_t *this_ )
 {
     data_id_reinit_void( &((*this_).focused) );
-    data_id_reinit_void( &((*this_).focused_diagram) );
 }
 
 static inline void gui_marked_set_clear_highlighted ( gui_marked_set_t *this_ )

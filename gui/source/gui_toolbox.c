@@ -507,6 +507,7 @@ void gui_toolbox_reset_btn_callback( GtkWidget* button, gpointer data )
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
     gui_marked_set_clear_selected_set( (*this_).marker );
+    //gui_marked_set_clear_focused( (*this_).marker );
 
     /* trigger redraw */
     gui_toolbox_private_notify_listeners( this_ );
@@ -515,7 +516,9 @@ void gui_toolbox_reset_btn_callback( GtkWidget* button, gpointer data )
     TRACE_END();
 }
 
-void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_, const data_small_set_t *set_to_be_toggled, data_diagramelement_flag_t flag_bits_to_toggle )
+void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_,
+                                                     const data_small_set_t *set_to_be_toggled,
+                                                     data_diagramelement_flag_t flag_bits_to_toggle )
 {
     TRACE_BEGIN();
     u8_error_t error = U8_ERROR_NONE;
