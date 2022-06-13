@@ -14,10 +14,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-static bool gui_sketch_area_glib_signal_initialized = false;
-static guint gui_sketch_area_glib_signal_id = 0;
-const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME = "cfu_object_selected";
-
 void gui_sketch_area_init( gui_sketch_area_t *this_,
                            GtkWidget *drawing_area,
                            gui_marked_set_t *marker,
@@ -56,25 +52,6 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
     gui_sketch_overlay_init( &((*this_).overlay) );
     gui_sketch_background_init( &((*this_).background), resources );
     gui_sketch_object_creator_init ( &((*this_).object_creator), controller, db_reader, message_to_user );
-
-    /* define a new signal */
-    if ( ! gui_sketch_area_glib_signal_initialized )
-    {
-        gui_sketch_area_glib_signal_id = g_signal_new (
-            GUI_SKETCH_AREA_GLIB_SIGNAL_NAME,
-            G_TYPE_OBJECT,
-            G_SIGNAL_RUN_FIRST,
-            0,
-            NULL,
-            NULL,
-            g_cclosure_marshal_VOID__POINTER,
-            G_TYPE_NONE,
-            1,
-            G_TYPE_POINTER /* data_id_t* */
-        );
-        gui_sketch_area_glib_signal_initialized = true;
-        TRACE_INFO_INT( "g_signal_new(\"cfu_object_selected\") returned new signal id", gui_sketch_area_glib_signal_id );
-    }
 
     /* connect draw/update and mouse move and key signals to the controllers of this widget */
 #if ( GTK_MAJOR_VERSION >= 4 )
@@ -1976,16 +1953,6 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_tool_t tool, 
         /* mark dirty rect */
         gtk_widget_queue_draw( (*this_).drawing_area );
     }
-
-    TRACE_END();
-}
-
-void gui_sketch_area_private_notify_listeners( gui_sketch_area_t *this_, data_id_t modified_real_object_id )
-{
-    TRACE_BEGIN();
-
-    TRACE_INFO( "g_signal_emit to listeners" );
-    g_signal_emit( (*this_).drawing_area, gui_sketch_area_glib_signal_id, 0, &modified_real_object_id );
 
     TRACE_END();
 }

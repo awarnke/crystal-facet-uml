@@ -9,11 +9,18 @@
  */
 
 #include "set/data_small_set.h"
+#include "set/data_id_pair.h"
+#include <glib-object.h>
 #include <stdbool.h>
 #include <stdint.h>
 
 /*!
  *  \brief attributes of the sketch marker
+ *
+ *  A sketch marker keeps track of the currently focused and selected elements
+ *  and knows the currently highlighted elements.
+ *
+ *  Additionally it emits a signal to listeners when the focus changes.
  */
 struct gui_marked_set_struct {
     data_id_t focused;  /*!<  references the one focused visible object, */
@@ -23,30 +30,37 @@ struct gui_marked_set_struct {
     data_id_t highlighted;  /*!<  references the one highlighted/mouse over object */
     data_id_t highlighted_diagram;  /*!< the highlighted diagram, the diagram to zoom in when clicking on the highlighted id */
     data_small_set_t selected_set;  /*!<  references all selected objects (pink corners) */
+
+    GObject *signal_source;  /*!<  The source gobject from which the signal shall be emitted */
 };
 
 typedef struct gui_marked_set_struct gui_marked_set_t;
+
+extern const char *GUI_MARKED_SET_GLIB_SIGNAL_NAME;
 
 /*!
  *  \brief initializes the gui_marked_set_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param signal_source the gobject at which listeners need to register to get changed-notifications
  */
-static inline void gui_marked_set_init ( gui_marked_set_t *this_ );
+void gui_marked_set_init ( gui_marked_set_t *this_, GObject *signal_source );
 
 /*!
  *  \brief re-initializes the gui_marked_set_t struct
  *
+ *  The signal_source stays unchanged.
+ *
  *  \param this_ pointer to own object attributes
  */
-static inline void gui_marked_set_reinit ( gui_marked_set_t *this_ );
+void gui_marked_set_reinit ( gui_marked_set_t *this_ );
 
 /*!
  *  \brief destroys the gui_marked_set_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void gui_marked_set_destroy ( gui_marked_set_t *this_ );
+void gui_marked_set_destroy ( gui_marked_set_t *this_ );
 
 /*!
  *  \brief gets the focused object id
@@ -112,10 +126,10 @@ static inline void gui_marked_set_toggle_selected_obj ( gui_marked_set_t *this_,
  *  If focused, the object becomes unfocused and unselected.
  *
  *  \param this_ pointer to own object attributes
- *  \param obj_id the id to toggle in the selected set
+ *  \param obj_id the id(s) to toggle in the selected set (primary) and to notify listeners (secondary)
  *  \param diagram_id the id of the focused diagram; identical or parent to obj_id
  */
-static inline void gui_marked_set_toggle_obj ( gui_marked_set_t *this_, data_id_t obj_id, data_id_t diagram_id );
+static inline void gui_marked_set_toggle_obj ( gui_marked_set_t *this_, data_id_pair_t obj_id, data_id_t diagram_id );
 
 /*!
  *  \brief clears the selected set.
@@ -128,13 +142,11 @@ static inline void gui_marked_set_clear_selected_set ( gui_marked_set_t *this_ )
  *  \brief sets the focused object id and focused_diagram id
  *
  *  \param this_ pointer to own object attributes
- *  \param obj_id the id of the visible object to set as focused; can be identical to diagram_id
+ *  \param obj_id the id of the visible object to set as focused; can be identical to diagram_id.
+ *                The secondary id is the one to be notifies as currently focused
  *  \param diagram_id the id of the focused diagram; identical or parent to obj_id
  */
-static inline void gui_marked_set_set_focused ( gui_marked_set_t *this_,
-                                                data_id_t obj_id,
-                                                data_id_t diagram_id
-                                              );
+static inline void gui_marked_set_set_focused ( gui_marked_set_t *this_, data_id_pair_t obj_id, data_id_t diagram_id );
 
 /*!
  *  \brief sets the highlighted object id and the highlighted_diagram id
@@ -143,10 +155,7 @@ static inline void gui_marked_set_set_focused ( gui_marked_set_t *this_,
  *  \param obj_id the id to set as highlighted, can be identical to diagram_id
  *  \param diagram_id the id of the highlighted diagram; identical or parent to obj_id
  */
-static inline void gui_marked_set_set_highlighted ( gui_marked_set_t *this_,
-                                                    data_id_t obj_id,
-                                                    data_id_t diagram_id
-                                                  );
+static inline void gui_marked_set_set_highlighted ( gui_marked_set_t *this_, data_id_t obj_id, data_id_t diagram_id );
 
 /*!
  *  \brief un-sets the focused object id, but keeps the focused_diagram
@@ -161,6 +170,16 @@ static inline void gui_marked_set_clear_focused ( gui_marked_set_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 static inline void gui_marked_set_clear_highlighted ( gui_marked_set_t *this_ );
+
+/*!
+ *  \brief notifies all listeners.
+ *
+ *  Sends the currently focused object id.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param modified_real_object_id id of the real object that was modified (the classifier, not the diagramelement)
+ */
+void gui_marked_set_private_notify_listeners( gui_marked_set_t *this_, data_id_t modified_real_object_id );
 
 #include "gui_marked_set.inl"
 

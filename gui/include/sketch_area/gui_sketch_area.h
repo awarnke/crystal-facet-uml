@@ -80,8 +80,6 @@ struct gui_sketch_area_struct {
 
 typedef struct gui_sketch_area_struct gui_sketch_area_t;
 
-extern const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME;
-
 /*!
  *  \brief initializes the gui_sketch_area_t struct
  *
@@ -309,16 +307,6 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_messa
  *  \brief callback that informs that the chosen tool changed
  */
 void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_tool_t tool, gpointer data );
-
-/*!
- *  \brief notifies all listeners.
- *
- *  Sends the currently focused object id.
- *
- *  \param this_ pointer to own object attributes
- *  \param modified_real_object_id id of the real object that was modified (the classifier, not the diagramelement)
- */
-void gui_sketch_area_private_notify_listeners( gui_sketch_area_t *this_, data_id_t modified_real_object_id );
 
 /*!
  *  \brief gets the diagram-id of the diagram and the object-id of the object at a given position

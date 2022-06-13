@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.38.0-pre"
+    "generator_version": "1.38.0"
   }
   ,
   "views":
@@ -272,7 +272,7 @@
         "type": "UMLComponentDiagram",
         "name": "Solution Strategy",
         "description": [
-                "This section shows the most fundamental principles of the system design. (Solution Space, System Level L1)"
+                "This section shows the fundamental base principle of the system design. (Solution Space, System Level L1)"
         ],
         "list_order": 102400,
         "display_flags": 0,
@@ -3422,7 +3422,7 @@
         "stereotype": "",
         "name": "Situation Model",
         "description": [
-                "The situation model refers to the (limited) knowledge of the software on environment and status."
+                "The situation model refers to the (limited\/erroneous) knowledge of the software on environment and status."
         ],
         "x_order": -730047271,
         "y_order": -1529639812,
@@ -6628,7 +6628,7 @@
         "type": "Message",
         "name": "calculate action list",
         "description": [
-                "calculate action list to follow strategy"
+                "calculate action list to follow the given strategy"
         ],
         "list_order": 792757196,
         "from_classifier_id": 108,
@@ -6714,7 +6714,7 @@
         "type": "Dependency",
         "name": "observe by sensors",
         "description": [
-                ""
+                "Sensor data is the basis for assuming an environment model."
         ],
         "list_order": 163840,
         "from_classifier_id": 111,
@@ -6735,7 +6735,7 @@
         "type": "Dependency",
         "name": "observe",
         "description": [
-                ""
+                "Sensor data is the basis for assuming a status model. The algorithm for deriving a status model shall take into account that a sensor may be defect and\/or a measured value may indicate a defect (which again may have several causes)."
         ],
         "list_order": 196608,
         "from_classifier_id": 112,

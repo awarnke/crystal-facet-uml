@@ -516,7 +516,7 @@ gboolean gui_attributes_editor_commit_shortcut_callback( GtkWidget* widget, GVar
 
 /* ================================ SELECTION or MODEL CHANGED CALLBACKS ================================ */
 
-void gui_attributes_editor_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+void gui_attributes_editor_focused_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
 {
     TRACE_BEGIN();
     gui_attributes_editor_t *this_;

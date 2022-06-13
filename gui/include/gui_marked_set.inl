@@ -2,33 +2,6 @@
 
 #include <assert.h>
 
-static inline void gui_marked_set_init ( gui_marked_set_t *this_ )
-{
-    data_id_init_void( &((*this_).focused) );
-    data_id_init_void( &((*this_).focused_diagram) );
-    data_id_init_void( &((*this_).highlighted) );
-    data_id_init_void( &((*this_).highlighted_diagram) );
-    data_small_set_init( &((*this_).selected_set) );
-}
-
-static inline void gui_marked_set_reinit ( gui_marked_set_t *this_ )
-{
-    data_id_init_void( &((*this_).focused) );
-    data_id_init_void( &((*this_).focused_diagram) );
-    data_id_init_void( &((*this_).highlighted) );
-    data_id_init_void( &((*this_).highlighted_diagram) );
-    data_small_set_reinit( &((*this_).selected_set) );
-}
-
-static inline void gui_marked_set_destroy ( gui_marked_set_t *this_ )
-{
-    data_id_destroy( &((*this_).focused) );
-    data_id_destroy( &((*this_).focused_diagram) );
-    data_id_destroy( &((*this_).highlighted) );
-    data_id_destroy( &((*this_).highlighted_diagram) );
-    data_small_set_destroy( &((*this_).selected_set) );
-}
-
 static inline data_id_t gui_marked_set_get_focused ( const gui_marked_set_t *this_ )
 {
     return ( (*this_).focused );
@@ -64,9 +37,10 @@ static inline void gui_marked_set_toggle_selected_obj ( gui_marked_set_t *this_,
     data_small_set_toggle_obj( &((*this_).selected_set), obj_id );
 }
 
-static inline void gui_marked_set_toggle_obj ( gui_marked_set_t *this_, data_id_t obj_id, data_id_t diagram_id )
+static inline void gui_marked_set_toggle_obj ( gui_marked_set_t *this_, data_id_pair_t obj_id, data_id_t diagram_id )
 {
     assert(( data_id_get_table(&diagram_id) == DATA_TABLE_DIAGRAM )||( data_id_get_table(&diagram_id) == DATA_TABLE_VOID ));
+    //const data_id_t *const vis_id =
 
     if ( data_id_equals( &obj_id, &((*this_).focused) ) )
     {
@@ -81,6 +55,16 @@ static inline void gui_marked_set_toggle_obj ( gui_marked_set_t *this_, data_id_
         data_small_set_add_obj( &((*this_).selected_set), obj_id );
     }
     data_id_replace( &((*this_).focused_diagram), &diagram_id );
+
+    /* notify new focused element */
+    if ( DATA_TABLE_CLASSIFIER == data_id_get_table( data_id_pair_get_primary_id_ptr( &obj_id ) ) )
+    {
+        gui_marked_set_private_notify_listeners( this_, data_id_pair_get_secondary_id( &obj_id ) );
+    }
+    else
+    {
+        gui_marked_set_private_notify_listeners( this_, data_id_pair_get_secondary_id( &obj_id ) );
+    }
 }
 
 static inline void gui_marked_set_clear_selected_set ( gui_marked_set_t *this_ )
@@ -89,7 +73,7 @@ static inline void gui_marked_set_clear_selected_set ( gui_marked_set_t *this_ )
 }
 
 static inline void gui_marked_set_set_focused ( gui_marked_set_t *this_,
-                                                data_id_t obj_id,
+                                                data_id_pair_t obj_id,
                                                 data_id_t diagram_id  )
 {
     assert(( data_id_get_table(&diagram_id) == DATA_TABLE_DIAGRAM )||( data_id_get_table(&diagram_id) == DATA_TABLE_VOID ));
