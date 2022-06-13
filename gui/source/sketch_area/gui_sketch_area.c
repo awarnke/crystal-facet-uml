@@ -177,7 +177,6 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_sea
 
     /* notify listener */
     gui_marked_set_clear_focused( (*this_).marker );
-    gui_sketch_area_private_notify_listeners( this_, DATA_ID_VOID );
     gui_marked_set_clear_selected_set( (*this_).marker );
 
     /* mark dirty rect */
@@ -402,8 +401,7 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
             if ( ! data_id_equals_or_both_void( &former_focused_diag, &selected_diagram_id ) )
             {
                 /* clear focused but keep selected_diagram_id, needed for gui_toolbox_paste */
-                gui_marked_set_set_focused( (*this_).marker, DATA_ID_VOID, selected_diagram_id );
-                gui_sketch_area_private_notify_listeners( this_, DATA_ID_VOID );
+                gui_marked_set_set_focused( (*this_).marker, DATA_FULL_ID_VOID, selected_diagram_id );
             }
             else
             {
@@ -1020,9 +1018,11 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                         /* load/reload data to be drawn */
                         gui_sketch_area_show_diagram( this_, focused_id );
 
-                        /* notify listener */
-                        gui_marked_set_set_focused( (*this_).marker, focused_id, focused_id );
-                        gui_sketch_area_private_notify_listeners( this_, focused_id );
+                        /* update marked set */
+                        data_full_id_t focused_full_id;
+                        data_full_id_init_solo( &focused_full_id, focused_id );
+
+                        gui_marked_set_set_focused( (*this_).marker, focused_full_id, focused_id );
                         gui_marked_set_clear_selected_set( (*this_).marker );
                     }
                 }
@@ -1045,29 +1045,12 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                                                           &diag_id
                                                         );
             data_full_id_trace( &focused_object );
-            const data_id_t focused_object_visible = data_full_id_get_primary_id( &focused_object );
 
             /* update drag state */
             gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), focused_object );
 
             /* toggle objects according to rules of gui_marked_set_t */
-            gui_marked_set_toggle_obj( (*this_).marker, focused_object_visible, diag_id );
-
-            if ( gui_marked_set_has_focus( (*this_).marker ) )
-            {
-                /* notify listener */
-                data_id_t real_object = focused_object_visible;
-                if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &real_object ) )
-                {
-                    real_object = data_full_id_get_secondary_id( &focused_object );
-                }
-                gui_sketch_area_private_notify_listeners( this_, real_object );
-            }
-            else
-            {
-                /* notify listener */
-                gui_sketch_area_private_notify_listeners( this_, DATA_ID_VOID );
-            }
+            gui_marked_set_toggle_obj( (*this_).marker, focused_object, diag_id );
 
             /* mark dirty rect */
             gtk_widget_queue_draw( (*this_).drawing_area );
@@ -1103,10 +1086,12 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
             }
             else
             {
-                /* set focused object and notify listener */
-                gui_marked_set_set_focused( (*this_).marker, clicked_object_id, clicked_diagram_id );
+                /* set focused object */
                 assert( DATA_TABLE_DIAGRAMELEMENT != data_id_get_table( &clicked_object_id ) );
-                gui_sketch_area_private_notify_listeners( this_, clicked_object_id );
+                data_full_id_t focused_object;
+                data_full_id_init_solo ( &focused_object, clicked_object_id );
+
+                gui_marked_set_set_focused( (*this_).marker, focused_object, clicked_diagram_id );
             }
         }
         break;
@@ -1151,12 +1136,8 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                     /* update drag state */
                     gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), clicked_object );
 
-                    /* set focused object (either a diagramelement or a feature) and notify listener */
-                    gui_marked_set_set_focused( (*this_).marker,
-                                                data_full_id_get_primary_id( &clicked_object ),
-                                                diag_id
-                                              );
-                    gui_sketch_area_private_notify_listeners( this_, data_full_id_get_secondary_id( &clicked_object ) );
+                    /* set focused object (either a diagramelement or a feature) */
+                    gui_marked_set_set_focused( (*this_).marker, clicked_object, diag_id );
                 }
                 else /* clicked either into inner space of a classifier or at a relation or outside any classifier */
                 {
@@ -1223,8 +1204,10 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                         data_id_t focused_real_id;
                         data_id_init( &focused_id, DATA_TABLE_DIAGRAMELEMENT, new_diagele_id );
                         data_id_init( &focused_real_id, DATA_TABLE_CLASSIFIER, new_classifier_id );
-                        gui_marked_set_set_focused( (*this_).marker, focused_id, diag_id );
-                        gui_sketch_area_private_notify_listeners( this_, focused_real_id );
+                        data_full_id_t focused_object;
+                        data_full_id_init( &focused_object, focused_id, focused_real_id );
+
+                        gui_marked_set_set_focused( (*this_).marker, focused_object, diag_id );
                         gui_marked_set_clear_selected_set( (*this_).marker );
 
                         TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
@@ -1435,9 +1418,8 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                         /* load/reload data to be drawn */
                         gui_sketch_area_show_diagram( this_, dragged_diagram );
 
-                        /* notify listener */
-                        gui_marked_set_set_focused( (*this_).marker, dragged_diagram, dragged_diagram );
-                        gui_sketch_area_private_notify_listeners( this_, dragged_diagram );
+                        /* set focus */
+                        gui_marked_set_set_focused( (*this_).marker, *dragged_object, dragged_diagram );
                         gui_marked_set_clear_selected_set( (*this_).marker );
 
                         /* mark dirty rect */
@@ -1700,11 +1682,12 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                         }
                         else
                         {
-                            /* set focused object and notify listener */
+                            /* set focused object */
                             data_id_t focused_id;
                             data_id_init( &focused_id, DATA_TABLE_RELATIONSHIP, new_relationship_id );
-                            gui_marked_set_set_focused( (*this_).marker, focused_id, diag_id );
-                            gui_sketch_area_private_notify_listeners( this_, focused_id );
+                            data_full_id_t focused;
+                            data_full_id_init_solo( &focused, focused_id );
+                            gui_marked_set_set_focused( (*this_).marker, focused, diag_id );
                             gui_marked_set_clear_selected_set( (*this_).marker );
                         }
                     }
@@ -1772,11 +1755,12 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                         }
                         else
                         {
-                            /* set focused object and notify listener */
+                            /* set focused object */
                             data_id_t new_focused_id;
                             data_id_init( &new_focused_id, DATA_TABLE_FEATURE, new_feature_id );
-                            gui_marked_set_set_focused( (*this_).marker, new_focused_id, diag_id );
-                            gui_sketch_area_private_notify_listeners( this_, new_focused_id );
+                            data_full_id_t new_focused;
+                            data_full_id_init_solo( &new_focused, new_focused_id );
+                            gui_marked_set_set_focused( (*this_).marker, new_focused, diag_id );
                             gui_marked_set_clear_selected_set( (*this_).marker );
                         }
                     }

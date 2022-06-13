@@ -101,6 +101,9 @@ static inline void gui_marked_set_set_highlighted ( gui_marked_set_t *this_,
 static inline void gui_marked_set_clear_focused ( gui_marked_set_t *this_ )
 {
     data_id_reinit_void( &((*this_).focused) );
+
+    /* notify new focused element */
+    gui_marked_set_private_notify_listeners( this_, DATA_ID_VOID );
 }
 
 static inline void gui_marked_set_clear_highlighted ( gui_marked_set_t *this_ )

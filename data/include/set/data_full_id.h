@@ -31,6 +31,8 @@ struct data_full_id_struct {
 
 typedef struct data_full_id_struct data_full_id_t;
 
+#define DATA_FULL_ID_VOID ((data_full_id_t){.primary_id=DATA_ID_VOID,.secondary_id=DATA_ID_VOID})
+
 /*!
  *  \brief initializes the data_full_id_t struct.
  *
