@@ -63,13 +63,13 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
                                                                   int32_t x,
                                                                   int32_t y,
                                                                   pencil_type_filter_t filter,
-                                                                  data_id_pair_t* out_object_id,
+                                                                  data_full_id_t* out_object_id,
                                                                   data_id_t* out_diagram_id )
 {
     assert( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
     assert( NULL != out_object_id );
     assert( NULL != out_diagram_id );
-    data_id_pair_reinit_void( out_object_id );
+    data_full_id_reinit_void( out_object_id );
     data_id_reinit_void( out_diagram_id );
 
     for ( int idx = 0; idx < (*this_).card_num; idx ++ )
@@ -79,7 +79,7 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
         if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
         {
             *out_diagram_id = gui_sketch_card_get_diagram_id( card );
-            data_id_pair_t surrounding_id;  /* dummy */
+            data_full_id_t surrounding_id;  /* dummy */
             gui_sketch_card_get_object_id_at_pos ( card, x, y, filter, out_object_id, &surrounding_id );
             break;
         }
@@ -90,16 +90,16 @@ static inline void gui_sketch_area_private_get_object_ids_at_pos ( gui_sketch_ar
                                                                    int32_t x,
                                                                    int32_t y,
                                                                    pencil_type_filter_t filter,
-                                                                   data_id_pair_t* out_object_id,
-                                                                   data_id_pair_t* out_surrounding_id,
+                                                                   data_full_id_t* out_object_id,
+                                                                   data_full_id_t* out_surrounding_id,
                                                                    data_id_t* out_diagram_id )
 {
     assert( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
     assert( NULL != out_object_id );
     assert( NULL != out_surrounding_id );
     assert( NULL != out_diagram_id );
-    data_id_pair_init_void( out_object_id );
-    data_id_pair_init_void( out_surrounding_id );
+    data_full_id_init_void( out_object_id );
+    data_full_id_init_void( out_surrounding_id );
     data_id_reinit_void( out_diagram_id );
 
     for ( int idx = 0; idx < (*this_).card_num; idx ++ )

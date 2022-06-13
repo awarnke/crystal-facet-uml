@@ -9,7 +9,7 @@
  */
 
 #include "set/data_small_set.h"
-#include "set/data_id_pair.h"
+#include "set/data_full_id.h"
 #include <glib-object.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -129,7 +129,7 @@ static inline void gui_marked_set_toggle_selected_obj ( gui_marked_set_t *this_,
  *  \param obj_id the id(s) to toggle in the selected set (primary) and to notify listeners (secondary)
  *  \param diagram_id the id of the focused diagram; identical or parent to obj_id
  */
-static inline void gui_marked_set_toggle_obj ( gui_marked_set_t *this_, data_id_pair_t obj_id, data_id_t diagram_id );
+static inline void gui_marked_set_toggle_obj ( gui_marked_set_t *this_, data_full_id_t obj_id, data_id_t diagram_id );
 
 /*!
  *  \brief clears the selected set.
@@ -146,7 +146,7 @@ static inline void gui_marked_set_clear_selected_set ( gui_marked_set_t *this_ )
  *                The secondary id is the one to be notifies as currently focused
  *  \param diagram_id the id of the focused diagram; identical or parent to obj_id
  */
-static inline void gui_marked_set_set_focused ( gui_marked_set_t *this_, data_id_pair_t obj_id, data_id_t diagram_id );
+static inline void gui_marked_set_set_focused ( gui_marked_set_t *this_, data_full_id_t obj_id, data_id_t diagram_id );
 
 /*!
  *  \brief sets the highlighted object id and the highlighted_diagram id

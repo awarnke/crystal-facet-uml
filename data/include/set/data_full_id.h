@@ -1,7 +1,7 @@
-/* File: data_id_pair.h; Copyright and License: see below */
+/* File: data_full_id.h; Copyright and License: see below */
 
-#ifndef DATA_ID_PAIR_H
-#define DATA_ID_PAIR_H
+#ifndef DATA_FULL_ID_H
+#define DATA_FULL_ID_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -24,63 +24,63 @@
 /*!
  *  \brief the pair of visible object id and secondary object id, e.g. diagramelement and classifier of feature and classifier
  */
-struct data_id_pair_struct {
+struct data_full_id_struct {
     data_id_t primary_id;  /*!< the primary object id */
     data_id_t secondary_id;  /*!< the classifier object id */
 };
 
-typedef struct data_id_pair_struct data_id_pair_t;
+typedef struct data_full_id_struct data_full_id_t;
 
 /*!
- *  \brief initializes the data_id_pair_t struct.
+ *  \brief initializes the data_full_id_t struct.
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void data_id_pair_init_void ( data_id_pair_t *this_ );
+static inline void data_full_id_init_void ( data_full_id_t *this_ );
 
 /*!
- *  \brief re-initializes the data_id_pair_t struct.
+ *  \brief re-initializes the data_full_id_t struct.
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void data_id_pair_reinit_void ( data_id_pair_t *this_ );
+static inline void data_full_id_reinit_void ( data_full_id_t *this_ );
 
 /*!
- *  \brief initializes the data_id_pair_t struct.
- *
- *  \param this_ pointer to own object attributes
- *  \param primary_id primary object id
- *  \param secondary_id secondary object id
- */
-static inline void data_id_pair_init ( data_id_pair_t *this_, data_id_t primary_id, data_id_t secondary_id );
-
-/*!
- *  \brief re-initializes the data_id_pair_t struct.
+ *  \brief initializes the data_full_id_t struct.
  *
  *  \param this_ pointer to own object attributes
  *  \param primary_id primary object id
  *  \param secondary_id secondary object id
  */
-static inline void data_id_pair_reinit ( data_id_pair_t *this_, data_id_t primary_id, data_id_t secondary_id );
+static inline void data_full_id_init ( data_full_id_t *this_, data_id_t primary_id, data_id_t secondary_id );
 
 /*!
- *  \brief initializes the data_id_pair_t struct, the secondary_id is initialized to VOID.
+ *  \brief re-initializes the data_full_id_t struct.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param primary_id primary object id
+ *  \param secondary_id secondary object id
+ */
+static inline void data_full_id_reinit ( data_full_id_t *this_, data_id_t primary_id, data_id_t secondary_id );
+
+/*!
+ *  \brief initializes the data_full_id_t struct, the secondary_id is initialized to VOID.
  *
  *  \param this_ pointer to own object attributes
  *  \param primary_id primary object id
  */
-static inline void data_id_pair_init_solo ( data_id_pair_t *this_, data_id_t primary_id );
+static inline void data_full_id_init_solo ( data_full_id_t *this_, data_id_t primary_id );
 
 /*!
- *  \brief re-initializes the data_id_pair_t struct, the secondary_id is re-initialized to VOID.
+ *  \brief re-initializes the data_full_id_t struct, the secondary_id is re-initialized to VOID.
  *
  *  \param this_ pointer to own object attributes
  *  \param primary_id primary object id
  */
-static inline void data_id_pair_reinit_solo ( data_id_pair_t *this_, data_id_t primary_id );
+static inline void data_full_id_reinit_solo ( data_full_id_t *this_, data_id_t primary_id );
 
 /*!
- *  \brief initializes the data_id_pair_t struct by table and row ids.
+ *  \brief initializes the data_full_id_t struct by table and row ids.
  *
  *  \param this_ pointer to own object attributes
  *  \param primary_table primary object id (talbe)
@@ -88,7 +88,7 @@ static inline void data_id_pair_reinit_solo ( data_id_pair_t *this_, data_id_t p
  *  \param secondary_table secondary object id (table)
  *  \param secondary_row_id secondary object id (row_id)
  */
-static inline void data_id_pair_init_by_table_and_id ( data_id_pair_t *this_,
+static inline void data_full_id_init_by_table_and_id ( data_full_id_t *this_,
                                                        data_table_t primary_table,
                                                        data_row_id_t primary_row_id,
                                                        data_table_t secondary_table,
@@ -96,7 +96,7 @@ static inline void data_id_pair_init_by_table_and_id ( data_id_pair_t *this_,
                                                      );
 
 /*!
- *  \brief re-initializes the data_id_pair_t struct by table and row ids.
+ *  \brief re-initializes the data_full_id_t struct by table and row ids.
  *
  *  \param this_ pointer to own object attributes
  *  \param primary_table primary object id (talbe)
@@ -104,7 +104,7 @@ static inline void data_id_pair_init_by_table_and_id ( data_id_pair_t *this_,
  *  \param secondary_table secondary object id (table)
  *  \param secondary_row_id secondary object id (row_id)
  */
-static inline void data_id_pair_reinit_by_table_and_id ( data_id_pair_t *this_,
+static inline void data_full_id_reinit_by_table_and_id ( data_full_id_t *this_,
                                                          data_table_t primary_table,
                                                          data_row_id_t primary_row_id,
                                                          data_table_t secondary_table,
@@ -112,11 +112,11 @@ static inline void data_id_pair_reinit_by_table_and_id ( data_id_pair_t *this_,
                                                        );
 
 /*!
- *  \brief destroys the data_id_pair_t struct
+ *  \brief destroys the data_full_id_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void data_id_pair_destroy ( data_id_pair_t *this_ );
+static inline void data_full_id_destroy ( data_full_id_t *this_ );
 
 /*!
  *  \brief gets the primary object id
@@ -124,7 +124,7 @@ static inline void data_id_pair_destroy ( data_id_pair_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return the id of the primary object
  */
-static inline data_id_t data_id_pair_get_primary_id ( const data_id_pair_t *this_ );
+static inline data_id_t data_full_id_get_primary_id ( const data_full_id_t *this_ );
 
 /*!
  *  \brief gets a pointer on the primary object id
@@ -132,7 +132,7 @@ static inline data_id_t data_id_pair_get_primary_id ( const data_id_pair_t *this
  *  \param this_ pointer to own object attributes
  *  \return the id of the primary object
  */
-static inline data_id_t *data_id_pair_get_primary_id_ptr ( data_id_pair_t *this_ );
+static inline data_id_t *data_full_id_get_primary_id_ptr ( data_full_id_t *this_ );
 
 /*!
  *  \brief gets the secondary object id
@@ -140,7 +140,7 @@ static inline data_id_t *data_id_pair_get_primary_id_ptr ( data_id_pair_t *this_
  *  \param this_ pointer to own object attributes
  *  \return the id of the secondary object
  */
-static inline data_id_t data_id_pair_get_secondary_id ( const data_id_pair_t *this_ );
+static inline data_id_t data_full_id_get_secondary_id ( const data_full_id_t *this_ );
 
 /*!
  *  \brief gets a pointer on the secondary object id
@@ -148,7 +148,7 @@ static inline data_id_t data_id_pair_get_secondary_id ( const data_id_pair_t *th
  *  \param this_ pointer to own object attributes
  *  \return the id of the secondary object
  */
-static inline data_id_t *data_id_pair_get_secondary_id_ptr ( data_id_pair_t *this_ );
+static inline data_id_t *data_full_id_get_secondary_id_ptr ( data_full_id_t *this_ );
 
 /*!
  *  \brief checks if the primary_id is valid
@@ -156,18 +156,18 @@ static inline data_id_t *data_id_pair_get_secondary_id_ptr ( data_id_pair_t *thi
  *  \param this_ pointer to own object attributes
  *  \return true if primary_id is valid
  */
-static inline bool data_id_pair_is_valid ( const data_id_pair_t *this_ );
+static inline bool data_full_id_is_valid ( const data_full_id_t *this_ );
 
 /*!
  *  \brief traces primary_id and secondary_id
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void data_id_pair_trace ( const data_id_pair_t *this_ );
+static inline void data_full_id_trace ( const data_full_id_t *this_ );
 
-#include "set/data_id_pair.inl"
+#include "set/data_full_id.inl"
 
-#endif  /* DATA_ID_PAIR_H */
+#endif  /* DATA_FULL_ID_H */
 
 
 /*

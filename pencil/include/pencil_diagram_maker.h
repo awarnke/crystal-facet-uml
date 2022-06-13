@@ -18,7 +18,7 @@
 #include "pencil_error.h"
 #include "option/pencil_type_filter.h"
 #include "layout/layout_order.h"
-#include "set/data_id_pair.h"
+#include "set/data_full_id.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_non_linear_scale.h"
 #include "data_diagram.h"
@@ -186,8 +186,8 @@ static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( const p
                                                                          double x,
                                                                          double y,
                                                                          pencil_type_filter_t filter,
-                                                                         data_id_pair_t* out_selected_id,
-                                                                         data_id_pair_t* out_surrounding_id
+                                                                         data_full_id_t* out_selected_id,
+                                                                         data_full_id_t* out_surrounding_id
                                                                        );
 
 /*!

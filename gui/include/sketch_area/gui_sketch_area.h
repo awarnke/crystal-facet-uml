@@ -26,7 +26,7 @@
 #include "data_diagram.h"
 #include "data_table.h"
 #include "set/data_visible_set.h"
-#include "set/data_id_pair.h"
+#include "set/data_full_id.h"
 #include "set/data_small_set.h"
 #include "set/data_search_result.h"
 #include "set/data_search_result_list.h"
@@ -350,7 +350,7 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
                                                                   int32_t x,
                                                                   int32_t y,
                                                                   pencil_type_filter_t filter,
-                                                                  data_id_pair_t* out_object_id,
+                                                                  data_full_id_t* out_object_id,
                                                                   data_id_t* out_diagram_id
                                                                 );
 
@@ -371,8 +371,8 @@ static inline void gui_sketch_area_private_get_object_ids_at_pos ( gui_sketch_ar
                                                                    int32_t x,
                                                                    int32_t y,
                                                                    pencil_type_filter_t filter,
-                                                                   data_id_pair_t* out_object_id,
-                                                                   data_id_pair_t* out_surrounding_id,
+                                                                   data_full_id_t* out_object_id,
+                                                                   data_full_id_t* out_surrounding_id,
                                                                    data_id_t* out_diagram_id
                                                                  );
 

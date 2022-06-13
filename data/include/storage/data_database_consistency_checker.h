@@ -13,7 +13,7 @@
 #include "data_diagram.h"
 #include "u8/u8_error.h"
 #include "data_classifier.h"
-#include "set/data_id_pair.h"
+#include "set/data_full_id.h"
 #include "set/data_visible_classifier.h"
 #include "set/data_small_set.h"
 #include "data_row_id.h"

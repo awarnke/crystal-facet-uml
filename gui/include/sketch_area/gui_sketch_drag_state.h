@@ -8,7 +8,7 @@
  *  \brief keeps track of the dragging state: dragging is started by button-press and mouse-movement.
  */
 
-#include "set/data_id_pair.h"
+#include "set/data_full_id.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -22,7 +22,7 @@ struct gui_sketch_drag_state_struct {
     int32_t to_x;  /*!< x coordingate of the destination */
     int32_t to_y;  /*!< y coordingate of the destination */
     bool start_dragging_when_move;  /*!< true if dragging shall start when moving */
-    data_id_pair_t dragged_object;  /* primary_id is the dragged object or diagramelement, secondary_id is the classifier */
+    data_full_id_t dragged_object;  /* primary_id is the dragged object or diagramelement, secondary_id is the classifier */
 };
 
 typedef struct gui_sketch_drag_state_struct gui_sketch_drag_state_t;
@@ -71,7 +71,7 @@ static inline bool gui_sketch_drag_state_is_waiting_for_move ( const gui_sketch_
  *  \param dragged_object primary_id is the dragged object or diagramemelent, secondary_id is the classifier
  */
 static inline void gui_sketch_drag_state_start_dragging_when_move ( gui_sketch_drag_state_t *this_,
-                                                                    data_id_pair_t dragged_object
+                                                                    data_full_id_t dragged_object
                                                                   );
 
 /*!
@@ -130,7 +130,7 @@ static inline void gui_sketch_drag_state_set_to ( gui_sketch_drag_state_t *this_
  *  \param this_ pointer to own object attributes
  *  \return primary_id is the dragged object or diagramemelent, secondary_id is the classifier
  */
-static inline data_id_pair_t *gui_sketch_drag_state_get_dragged_object_ptr ( gui_sketch_drag_state_t *this_ );
+static inline data_full_id_t *gui_sketch_drag_state_get_dragged_object_ptr ( gui_sketch_drag_state_t *this_ );
 
 #include "gui_sketch_drag_state.inl"
 

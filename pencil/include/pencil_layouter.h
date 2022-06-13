@@ -24,7 +24,7 @@
 #include "pencil_error.h"
 #include "option/pencil_type_filter.h"
 #include "layout/layout_order.h"
-#include "set/data_id_pair.h"
+#include "set/data_full_id.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_dimensions.h"
 #include "util/geometry/geometry_non_linear_scale.h"
@@ -148,8 +148,8 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( const pencil_layouter_t *t
                                                       double y,
                                                       double snap_distance,
                                                       pencil_type_filter_t filter,
-                                                      data_id_pair_t* out_selected_id,
-                                                      data_id_pair_t* out_surrounding_id
+                                                      data_full_id_t* out_selected_id,
+                                                      data_full_id_t* out_surrounding_id
                                                     );
 
 /*!
@@ -165,8 +165,8 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( const pencil_layouter_t *t
 pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( const pencil_layouter_t *this_,
                                                                   double x,
                                                                   double y,
-                                                                  data_id_pair_t* out_selected_id,
-                                                                  data_id_pair_t* out_surrounding_id
+                                                                  data_full_id_t* out_selected_id,
+                                                                  data_full_id_t* out_surrounding_id
                                                                 );
 
 /*!
@@ -184,8 +184,8 @@ pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( const pencil_layo
                                                                double x,
                                                                double y,
                                                                pencil_type_filter_t filter,
-                                                               data_id_pair_t* out_selected_id,
-                                                               data_id_pair_t* out_surrounding_id
+                                                               data_full_id_t* out_selected_id,
+                                                               data_full_id_t* out_surrounding_id
                                                              );
 
 /*!
@@ -202,7 +202,7 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( const pencil
                                                                     double x,
                                                                     double y,
                                                                     double snap_distance,
-                                                                    data_id_pair_t* out_selected_id
+                                                                    data_full_id_t* out_selected_id
                                                                   );
 
 /*!

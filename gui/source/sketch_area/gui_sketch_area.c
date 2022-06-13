@@ -736,12 +736,12 @@ void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y )
             if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
             {
                 /* what is dragged? */
-                const data_id_pair_t *const dragged_object
+                const data_full_id_t *const dragged_object
                     = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
                 const data_id_t dragged_element
-                    = data_id_pair_get_primary_id( dragged_object );
+                    = data_full_id_get_primary_id( dragged_object );
                 const data_id_t dragged_classifier
-                    = data_id_pair_get_secondary_id( dragged_object );
+                    = data_full_id_get_secondary_id( dragged_object );
 
 
                 /* what is the target location? */
@@ -777,7 +777,7 @@ void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y )
             }
             else /* not dragging */
             {
-                data_id_pair_t object_under_mouse;
+                data_full_id_t object_under_mouse;
                 data_id_t diag_id;
                 gui_sketch_area_private_get_object_id_at_pos( this_,
                                                               x,
@@ -789,10 +789,10 @@ void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y )
                 const data_id_t object_highlighted
                     = gui_marked_set_get_highlighted( (*this_).marker );
                 const data_id_t mouseover_element
-                    = data_id_pair_get_primary_id( &object_under_mouse );
+                    = data_full_id_get_primary_id( &object_under_mouse );
                 if ( ! data_id_equals( &mouseover_element, &object_highlighted ) )
                 {
-                    if ( data_id_pair_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
+                    if ( data_full_id_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
                     {
                         /* highlight changed */
                         gui_marked_set_set_highlighted( (*this_).marker, mouseover_element, diag_id );
@@ -807,7 +807,7 @@ void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y )
 
         case GUI_TOOL_CREATE:
         {
-            data_id_pair_t object_under_mouse;
+            data_full_id_t object_under_mouse;
             data_id_t diag_id;
             gui_sketch_area_private_get_object_id_at_pos( this_,
                                                           x,
@@ -817,7 +817,7 @@ void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y )
                                                           &diag_id
                                                         );
             const data_id_t classifier_under_mouse
-                = data_id_pair_get_primary_id( &object_under_mouse );
+                = data_full_id_get_primary_id( &object_under_mouse );
 
             const data_id_t object_highlighted
                 = gui_marked_set_get_highlighted( (*this_).marker );
@@ -935,8 +935,8 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
             if ( data_id_is_valid( &clicked_diagram_id ) )
             {
                 /* update drag state */
-                data_id_pair_t dragged_object;
-                data_id_pair_init_solo ( &dragged_object, clicked_diagram_id );
+                data_full_id_t dragged_object;
+                data_full_id_init_solo ( &dragged_object, clicked_diagram_id );
                 gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), dragged_object );
             }
             else
@@ -1035,7 +1035,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
             TRACE_INFO( "GUI_TOOL_EDIT" );
 
             /* determine the focused object */
-            data_id_pair_t focused_object;
+            data_full_id_t focused_object;
             data_id_t diag_id;
             gui_sketch_area_private_get_object_id_at_pos( this_,
                                                           x,
@@ -1044,8 +1044,8 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                                                           &focused_object,
                                                           &diag_id
                                                         );
-            data_id_pair_trace( &focused_object );
-            const data_id_t focused_object_visible = data_id_pair_get_primary_id( &focused_object );
+            data_full_id_trace( &focused_object );
+            const data_id_t focused_object_visible = data_full_id_get_primary_id( &focused_object );
 
             /* update drag state */
             gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), focused_object );
@@ -1059,7 +1059,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                 data_id_t real_object = focused_object_visible;
                 if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &real_object ) )
                 {
-                    real_object = data_id_pair_get_secondary_id( &focused_object );
+                    real_object = data_full_id_get_secondary_id( &focused_object );
                 }
                 gui_sketch_area_private_notify_listeners( this_, real_object );
             }
@@ -1089,8 +1089,8 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
             if ( data_id_is_valid( &clicked_diagram_id ) )
             {
                 /* update drag state */
-                data_id_pair_t dragged_object;
-                data_id_pair_init_solo ( &dragged_object, clicked_diagram_id );
+                data_full_id_t dragged_object;
+                data_full_id_init_solo ( &dragged_object, clicked_diagram_id );
                 gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), dragged_object );
             }
 
@@ -1128,8 +1128,8 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
             else
             {
                 /* determine the object at click location */
-                data_id_pair_t clicked_object;
-                data_id_pair_t surrounding_object;
+                data_full_id_t clicked_object;
+                data_full_id_t surrounding_object;
                 data_id_t diag_id;
                 gui_sketch_area_private_get_object_ids_at_pos( this_,
                                                                x,
@@ -1139,12 +1139,12 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                                                                &surrounding_object,
                                                                &diag_id
                                                              );
-                data_id_pair_trace( &clicked_object );
-                data_id_pair_trace( &surrounding_object );
+                data_full_id_trace( &clicked_object );
+                data_full_id_trace( &surrounding_object );
                 const data_id_t *const clicked_classifier
-                    = data_id_pair_get_secondary_id_ptr( &clicked_object );
+                    = data_full_id_get_secondary_id_ptr( &clicked_object );
                 const data_id_t *const surrounding_classifier
-                    = data_id_pair_get_secondary_id_ptr( &surrounding_object );
+                    = data_full_id_get_secondary_id_ptr( &surrounding_object );
 
                 if ( DATA_TABLE_CLASSIFIER == data_id_get_table( clicked_classifier ) )
                 {
@@ -1153,10 +1153,10 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
 
                     /* set focused object (either a diagramelement or a feature) and notify listener */
                     gui_marked_set_set_focused( (*this_).marker,
-                                                data_id_pair_get_primary_id( &clicked_object ),
+                                                data_full_id_get_primary_id( &clicked_object ),
                                                 diag_id
                                               );
-                    gui_sketch_area_private_notify_listeners( this_, data_id_pair_get_secondary_id( &clicked_object ) );
+                    gui_sketch_area_private_notify_listeners( this_, data_full_id_get_secondary_id( &clicked_object ) );
                 }
                 else /* clicked either into inner space of a classifier or at a relation or outside any classifier */
                 {
@@ -1310,10 +1310,10 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
             if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
             {
                 /* which diagram was dragged? */
-                data_id_pair_t *dragged_object;
+                data_full_id_t *dragged_object;
                 dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
                 data_id_t dragged_diagram;
-                dragged_diagram = data_id_pair_get_primary_id( dragged_object );
+                dragged_diagram = data_full_id_get_primary_id( dragged_object );
 
                 /* to which diagram-gap was it dragged to? */
                 gui_error_t gui_err;
@@ -1417,10 +1417,10 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
             else if ( gui_sketch_drag_state_is_waiting_for_move( &((*this_).drag_state) ) )
             {
                 /* click on diagram without drag */
-                const data_id_pair_t *const dragged_object
+                const data_full_id_t *const dragged_object
                     = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
                 const data_id_t dragged_diagram
-                    = data_id_pair_get_primary_id( dragged_object );
+                    = data_full_id_get_primary_id( dragged_object );
                 if ( DATA_TABLE_DIAGRAM == data_id_get_table( &dragged_diagram ) )
                 {
                     const data_row_id_t drag_id = data_id_get_row_id( &dragged_diagram );
@@ -1459,12 +1459,12 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
             if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
             {
                 /* which object is selected? */
-                const data_id_pair_t *const dragged_object
+                const data_full_id_t *const dragged_object
                     = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
                 const data_id_t dragged_element
-                    = data_id_pair_get_primary_id( dragged_object );
+                    = data_full_id_get_primary_id( dragged_object );
                 const data_id_t dragged_classifier
-                    = data_id_pair_get_secondary_id( dragged_object );
+                    = data_full_id_get_secondary_id( dragged_object );
 
                 /* what is the target location? */
                 const gui_sketch_card_t *const target_card = gui_sketch_area_private_get_card_at_pos ( this_, x, y );
@@ -1573,10 +1573,10 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
             if ( gui_sketch_drag_state_is_waiting_for_move( &((*this_).drag_state) ) )
             {
                 /* click on diagram without drag */
-                const data_id_pair_t *const dragged_object
+                const data_full_id_t *const dragged_object
                     = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
                 const data_id_t dragged_diagram
-                    = data_id_pair_get_primary_id( dragged_object );
+                    = data_full_id_get_primary_id( dragged_object );
                 if ( DATA_TABLE_DIAGRAM == data_id_get_table( &dragged_diagram ) )
                 {
                     /* load/reload data to be drawn */
@@ -1603,16 +1603,16 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
             if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
             {
                 /* which object is selected? */
-                const data_id_pair_t *const dragged_object
+                const data_full_id_t *const dragged_object
                     = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
-                data_id_pair_trace( dragged_object );
+                data_full_id_trace( dragged_object );
                 const data_id_t dragged_element
-                    = data_id_pair_get_primary_id( dragged_object );
+                    = data_full_id_get_primary_id( dragged_object );
                 const data_id_t dragged_classifier
-                    = data_id_pair_get_secondary_id( dragged_object );
+                    = data_full_id_get_secondary_id( dragged_object );
 
                 /* which object is at the target location? */
-                data_id_pair_t destination_object;
+                data_full_id_t destination_object;
                 data_id_t diag_id;
                 gui_sketch_area_private_get_object_id_at_pos( this_,
                                                               x,
@@ -1621,11 +1621,11 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                                                               &destination_object,
                                                               &diag_id
                                                             );
-                data_id_pair_trace( &destination_object );
+                data_full_id_trace( &destination_object );
                 const data_id_t destination_element
-                    = data_id_pair_get_primary_id( &destination_object );
+                    = data_full_id_get_primary_id( &destination_object );
                 const data_id_t destination_classifier
-                    = data_id_pair_get_secondary_id( &destination_object );
+                    = data_full_id_get_secondary_id( &destination_object );
 
                 gui_sketch_card_t *target_card = gui_sketch_area_private_get_card_at_pos ( this_, x, y );
                 if ( data_id_is_valid( &dragged_classifier ) && data_id_is_valid( &destination_classifier ) && ( NULL != target_card ))
@@ -1713,10 +1713,10 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
             else if ( gui_sketch_drag_state_is_waiting_for_move( &((*this_).drag_state) ) )
             {
                 /* click on classifier without drag */
-                const data_id_pair_t *const dragged_object
+                const data_full_id_t *const dragged_object
                     = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
                 const data_id_t dragged_classifier
-                    = data_id_pair_get_secondary_id( dragged_object );
+                    = data_full_id_get_secondary_id( dragged_object );
 
                 const gui_sketch_card_t *const target_card
                     = gui_sketch_area_private_get_card_at_pos ( this_, x, y );

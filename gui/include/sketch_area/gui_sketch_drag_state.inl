@@ -8,12 +8,12 @@ static inline void gui_sketch_drag_state_init ( gui_sketch_drag_state_t *this_ )
     (*this_).to_x = 0;
     (*this_).to_y = 0;
     (*this_).start_dragging_when_move = false;
-    data_id_pair_init_void ( &((*this_).dragged_object) );
+    data_full_id_init_void ( &((*this_).dragged_object) );
 }
 
 static inline void gui_sketch_drag_state_destroy ( gui_sketch_drag_state_t *this_ )
 {
-    data_id_pair_destroy ( &((*this_).dragged_object) );
+    data_full_id_destroy ( &((*this_).dragged_object) );
 }
 
 static inline bool gui_sketch_drag_state_is_dragging ( const gui_sketch_drag_state_t *this_ )
@@ -33,7 +33,7 @@ static inline bool gui_sketch_drag_state_is_waiting_for_move ( const gui_sketch_
 }
 
 static inline void gui_sketch_drag_state_start_dragging_when_move ( gui_sketch_drag_state_t *this_,
-                                                                    data_id_pair_t dragged_object )
+                                                                    data_full_id_t dragged_object )
 {
     (*this_).dragged_object = dragged_object;
     (*this_).start_dragging_when_move = true;
@@ -85,7 +85,7 @@ static inline void gui_sketch_drag_state_set_to ( gui_sketch_drag_state_t *this_
     }
 }
 
-static inline data_id_pair_t *gui_sketch_drag_state_get_dragged_object_ptr ( gui_sketch_drag_state_t *this_ )
+static inline data_full_id_t *gui_sketch_drag_state_get_dragged_object_ptr ( gui_sketch_drag_state_t *this_ )
 {
     return ( &((*this_).dragged_object) );
 }

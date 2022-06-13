@@ -16,7 +16,7 @@
 #include "ctrl_controller.h"
 #include "pencil_diagram_maker.h"
 #include "set/data_visible_set.h"
-#include "set/data_id_pair.h"
+#include "set/data_full_id.h"
 #include "option/pencil_type_filter.h"
 #include "layout/layout_order.h"
 #include <gtk/gtk.h>
@@ -165,8 +165,8 @@ static inline void gui_sketch_card_get_object_id_at_pos ( const gui_sketch_card_
                                                           int32_t x,
                                                           int32_t y,
                                                           pencil_type_filter_t filter,
-                                                          data_id_pair_t* out_selected_id,
-                                                          data_id_pair_t* out_surrounding_id
+                                                          data_full_id_t* out_selected_id,
+                                                          data_full_id_t* out_surrounding_id
                                                         );
 
 /*!

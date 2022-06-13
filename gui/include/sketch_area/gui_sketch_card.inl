@@ -67,8 +67,8 @@ static inline void gui_sketch_card_get_object_id_at_pos ( const gui_sketch_card_
                                                           int32_t x,
                                                           int32_t y,
                                                           pencil_type_filter_t filter,
-                                                          data_id_pair_t* out_selected_id,
-                                                          data_id_pair_t* out_surrounding_id )
+                                                          data_full_id_t* out_selected_id,
+                                                          data_full_id_t* out_surrounding_id )
 {
     pencil_error_t pen_err;
     pen_err = pencil_diagram_maker_get_object_id_at_pos( &((*this_).painter),

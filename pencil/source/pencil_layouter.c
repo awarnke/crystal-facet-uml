@@ -337,16 +337,16 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( const pencil_layouter_t *t
                                                       double y,
                                                       double snap_distance,
                                                       pencil_type_filter_t filter,
-                                                      data_id_pair_t* out_selected_id,
-                                                      data_id_pair_t* out_surrounding_id )
+                                                      data_full_id_t* out_selected_id,
+                                                      data_full_id_t* out_surrounding_id )
 {
     TRACE_BEGIN();
     assert( NULL != out_selected_id );
     assert( NULL != out_surrounding_id );
 
     pencil_error_t result = PENCIL_ERROR_NONE;
-    data_id_pair_reinit_void( out_selected_id );
-    data_id_pair_reinit_void( out_surrounding_id );
+    data_full_id_reinit_void( out_selected_id );
+    data_full_id_reinit_void( out_surrounding_id );
     const layout_diagram_t *the_diagram;
     the_diagram = pencil_layout_data_get_diagram_const( &((*this_).layout_data) );
     const data_diagram_t *diagram_data;
@@ -369,7 +369,7 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( const pencil_layouter_t *t
         }
 
         /* determine a feature at the given position */
-        if ( ! data_id_pair_is_valid( out_selected_id ) )
+        if ( ! data_full_id_is_valid( out_selected_id ) )
         {
             result = pencil_layouter_private_get_feature_id_at_pos( this_,
                                                                     x,
@@ -381,7 +381,7 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( const pencil_layouter_t *t
         }
 
         /* determine a classifier at the given position */
-        if ( ! data_id_pair_is_valid( out_selected_id ) )
+        if ( ! data_full_id_is_valid( out_selected_id ) )
         {
             result = pencil_layouter_private_get_classifier_id_at_pos( this_,
                                                                        x,
@@ -392,18 +392,18 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( const pencil_layouter_t *t
         }
 
         /* fallback: return the diagram */
-        if ( ! data_id_pair_is_valid( out_selected_id ) )
+        if ( ! data_full_id_is_valid( out_selected_id ) )
         {
-            data_id_pair_reinit_by_table_and_id ( out_selected_id,
+            data_full_id_reinit_by_table_and_id ( out_selected_id,
                                                   DATA_TABLE_DIAGRAM,
                                                   data_diagram_get_row_id(diagram_data),
                                                   DATA_TABLE_VOID,
                                                   DATA_ROW_ID_VOID
                                                 );
         }
-        if ( ! data_id_pair_is_valid( out_surrounding_id ) )
+        if ( ! data_full_id_is_valid( out_surrounding_id ) )
         {
-            data_id_pair_reinit_by_table_and_id ( out_surrounding_id,
+            data_full_id_reinit_by_table_and_id ( out_surrounding_id,
                                                   DATA_TABLE_DIAGRAM,
                                                   data_diagram_get_row_id(diagram_data),
                                                   DATA_TABLE_VOID,
@@ -424,8 +424,8 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( const pencil_layouter_t *t
 pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( const pencil_layouter_t *this_,
                                                                   double x,
                                                                   double y,
-                                                                  data_id_pair_t* out_selected_id,
-                                                                  data_id_pair_t* out_surrounding_id )
+                                                                  data_full_id_t* out_selected_id,
+                                                                  data_full_id_t* out_surrounding_id )
 {
     TRACE_BEGIN();
     assert( NULL != out_selected_id );
@@ -464,7 +464,7 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( const pencil_l
                     if ( current_classifier_area < surrounding_classifier_area )
                     {
                         surrounding_classifier_area = current_classifier_area;
-                        data_id_pair_reinit_by_table_and_id ( out_surrounding_id,
+                        data_full_id_reinit_by_table_and_id ( out_surrounding_id,
                                                               DATA_TABLE_DIAGRAMELEMENT,
                                                               layout_visible_classifier_get_diagramelement_id( visible_classifier ),
                                                               DATA_TABLE_CLASSIFIER,
@@ -475,7 +475,7 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( const pencil_l
                 else
                 {
                     /* classifier is found */
-                    data_id_pair_reinit_by_table_and_id ( out_selected_id,
+                    data_full_id_reinit_by_table_and_id ( out_selected_id,
                                                           DATA_TABLE_DIAGRAMELEMENT,
                                                           layout_visible_classifier_get_diagramelement_id( visible_classifier ),
                                                           DATA_TABLE_CLASSIFIER,
@@ -496,8 +496,8 @@ pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( const pencil_layo
                                                                double x,
                                                                double y,
                                                                pencil_type_filter_t filter,
-                                                               data_id_pair_t* out_selected_id,
-                                                               data_id_pair_t* out_surrounding_id )
+                                                               data_full_id_t* out_selected_id,
+                                                               data_full_id_t* out_surrounding_id )
 {
     TRACE_BEGIN();
     assert( NULL != out_selected_id );
@@ -524,7 +524,7 @@ pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( const pencil_layo
             if (( PENCIL_TYPE_FILTER_LIFELINE == filter )
                 &&( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( data_feature ) ))
             {
-                data_id_pair_reinit_by_table_and_id ( out_selected_id,
+                data_full_id_reinit_by_table_and_id ( out_selected_id,
                                                       DATA_TABLE_DIAGRAMELEMENT,
                                                       layout_visible_classifier_get_diagramelement_id( layout_classifier ),
                                                       DATA_TABLE_CLASSIFIER,
@@ -533,7 +533,7 @@ pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( const pencil_layo
             }
             else
             {
-                data_id_pair_reinit_by_table_and_id ( out_selected_id,
+                data_full_id_reinit_by_table_and_id ( out_selected_id,
                                                       DATA_TABLE_FEATURE,
                                                       layout_feature_get_feature_id( the_feature ),
                                                       DATA_TABLE_CLASSIFIER,
@@ -541,7 +541,7 @@ pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( const pencil_layo
                                                     );
             }
 
-            data_id_pair_reinit_by_table_and_id ( out_surrounding_id,
+            data_full_id_reinit_by_table_and_id ( out_surrounding_id,
                                                   DATA_TABLE_DIAGRAMELEMENT,
                                                   layout_visible_classifier_get_diagramelement_id( layout_classifier ),
                                                   DATA_TABLE_CLASSIFIER,
@@ -560,7 +560,7 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( const pencil
                                                                     double x,
                                                                     double y,
                                                                     double snap_distance,
-                                                                    data_id_pair_t* out_selected_id )
+                                                                    data_full_id_t* out_selected_id )
 {
     TRACE_BEGIN();
     assert( NULL != out_selected_id );
@@ -587,7 +587,7 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( const pencil
                 const data_relationship_t *relation_data;
                 relation_data = layout_relationship_get_data_const( current_relation );
 
-                data_id_pair_reinit_by_table_and_id ( out_selected_id,
+                data_full_id_reinit_by_table_and_id ( out_selected_id,
                                                       DATA_TABLE_RELATIONSHIP,
                                                       data_relationship_get_row_id( relation_data ),
                                                       DATA_TABLE_VOID,

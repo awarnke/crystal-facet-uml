@@ -37,34 +37,33 @@ static inline void gui_marked_set_toggle_selected_obj ( gui_marked_set_t *this_,
     data_small_set_toggle_obj( &((*this_).selected_set), obj_id );
 }
 
-static inline void gui_marked_set_toggle_obj ( gui_marked_set_t *this_, data_id_pair_t obj_id, data_id_t diagram_id )
+static inline void gui_marked_set_toggle_obj ( gui_marked_set_t *this_, data_full_id_t obj_id, data_id_t diagram_id )
 {
     assert(( data_id_get_table(&diagram_id) == DATA_TABLE_DIAGRAM )||( data_id_get_table(&diagram_id) == DATA_TABLE_VOID ));
-    //const data_id_t *const vis_id =
+    const data_id_t *const vis_id = data_full_id_get_primary_id_ptr( &obj_id );
+    data_id_t model_id;
 
-    if ( data_id_equals( &obj_id, &((*this_).focused) ) )
+    if ( data_id_equals( vis_id, &((*this_).focused) ) )
     {
         data_id_reinit_void( &((*this_).focused) );
         data_id_replace( &((*this_).focused_diagram), &diagram_id );
-        data_small_set_delete_obj( &((*this_).selected_set), obj_id );
+        data_small_set_delete_obj( &((*this_).selected_set), *vis_id );
+        model_id = DATA_ID_VOID;
     }
     else
     {
-        data_id_replace( &((*this_).focused), &obj_id );
+        data_id_replace( &((*this_).focused), vis_id );
         data_id_replace( &((*this_).focused_diagram), &diagram_id );
-        data_small_set_add_obj( &((*this_).selected_set), obj_id );
+        data_small_set_add_obj( &((*this_).selected_set), *vis_id );
+        model_id
+            = (DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( vis_id ))
+            ? data_full_id_get_secondary_id( &obj_id )
+            : *vis_id;
     }
     data_id_replace( &((*this_).focused_diagram), &diagram_id );
 
     /* notify new focused element */
-    if ( DATA_TABLE_CLASSIFIER == data_id_get_table( data_id_pair_get_primary_id_ptr( &obj_id ) ) )
-    {
-        gui_marked_set_private_notify_listeners( this_, data_id_pair_get_secondary_id( &obj_id ) );
-    }
-    else
-    {
-        gui_marked_set_private_notify_listeners( this_, data_id_pair_get_secondary_id( &obj_id ) );
-    }
+    gui_marked_set_private_notify_listeners( this_, model_id );
 }
 
 static inline void gui_marked_set_clear_selected_set ( gui_marked_set_t *this_ )
@@ -73,12 +72,21 @@ static inline void gui_marked_set_clear_selected_set ( gui_marked_set_t *this_ )
 }
 
 static inline void gui_marked_set_set_focused ( gui_marked_set_t *this_,
-                                                data_id_pair_t obj_id,
+                                                data_full_id_t obj_id,
                                                 data_id_t diagram_id  )
 {
     assert(( data_id_get_table(&diagram_id) == DATA_TABLE_DIAGRAM )||( data_id_get_table(&diagram_id) == DATA_TABLE_VOID ));
-    data_id_replace( &((*this_).focused), &obj_id );
+    const data_id_t *const vis_id = data_full_id_get_primary_id_ptr( &obj_id );
+
+    data_id_replace( &((*this_).focused), vis_id );
     data_id_replace( &((*this_).focused_diagram), &diagram_id );
+
+    /* notify new focused element */
+    const data_id_t model_id
+        = (DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( vis_id ))
+        ? data_full_id_get_secondary_id( &obj_id )
+        : *vis_id;
+    gui_marked_set_private_notify_listeners( this_, model_id );
 }
 
 static inline void gui_marked_set_set_highlighted ( gui_marked_set_t *this_,
