@@ -5,4 +5,5 @@ build/win export-ignore
 build/rpm export-ignore
 build/deb export-ignore
 build/example_diagrams export-ignore
+*.h linguist-language=C
 *.inl linguist-language=C
