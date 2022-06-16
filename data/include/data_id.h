@@ -37,6 +37,7 @@ struct data_id_struct {
 typedef struct data_id_struct data_id_t;
 
 #define DATA_ID_VOID ((data_id_t){.table=DATA_TABLE_VOID,.row_id=DATA_ROW_ID_VOID})
+#define DATA_ID(tab,row) ((data_id_t){.table=tab,.row_id=row})
 
 /*!
  *  \brief initializes the data_id_t struct

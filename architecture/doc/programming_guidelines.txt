@@ -80,7 +80,7 @@
  *  Similar to classes, at least one constructor and a destructor shall be provided.
  *  - Any constructor starts with the type-name and "_init" as prefix.
  *    \n A constructor shall initialize the struct in a way that all functions can be called without causing harm.
- *  - Any copy/move constructor (if provided) starts with the type-name and "_copy"/"_move" as prefix.
+ *  - Any copy/move constructor (if provided) starts with the type-name and "_copy"/"_move" as postfix.
  *    \n If no copy constructor is provided, the assignment "=" and memcpy may be used.
  *  - The destructor starts with the type-name and ends with "_destroy".
  *    \n The destructor shall free any occupied resources (e.g. mutexes) and may set all references to
@@ -89,6 +89,7 @@
  *    \n This constructor shall re-initialize the struct that was already initialized before.
  *  - Optionally, "_replace"/"_replacemove" de+constructors may be provided for copying/moving objects into already initialized ones.
  *    \n This constructor shall re-initialize the struct that was already initialized before the copy/move of the provided object.
+ *  - To facilitate static and/or constant initialization, uppercase TYPENAME() macros may map parameters to struct fields.
  *  .
  *
  *  \subsection cfu-lifecycle Responsabilities for Creation and Destruction

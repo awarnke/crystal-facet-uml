@@ -1,7 +1,8 @@
 .gitattributes export-ignore
 example_diagrams export-ignore
-build_package export-ignore
-build_win export-ignore
-build_rpm export-ignore
-build_deb export-ignore
-
+build/package export-ignore
+build/win export-ignore
+build/rpm export-ignore
+build/deb export-ignore
+build/example_diagrams export-ignore
+*.inl linguist-language=C

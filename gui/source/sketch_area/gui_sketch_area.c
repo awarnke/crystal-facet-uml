@@ -741,7 +741,6 @@ void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y )
                 const data_id_t dragged_classifier
                     = data_full_id_get_secondary_id( dragged_object );
 
-
                 /* what is the target location? */
                 gui_sketch_card_t *target_card = gui_sketch_area_private_get_card_at_pos ( this_, x, y );
                 if ( NULL != target_card )
@@ -1200,13 +1199,8 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                     else
                     {
                         /* set focused object and notify listener */
-                        data_id_t focused_id;
-                        data_id_t focused_real_id;
-                        data_id_init( &focused_id, DATA_TABLE_DIAGRAMELEMENT, new_diagele_id );
-                        data_id_init( &focused_real_id, DATA_TABLE_CLASSIFIER, new_classifier_id );
-                        data_full_id_t focused_object;
-                        data_full_id_init( &focused_object, focused_id, focused_real_id );
-
+                        const data_full_id_t focused_object
+                            = DATA_FULL_ID( DATA_TABLE_DIAGRAMELEMENT, new_diagele_id, new_classifier_id );
                         gui_marked_set_set_focused( (*this_).marker, focused_object, diag_id );
                         gui_marked_set_clear_selected_set( (*this_).marker );
 
@@ -1683,11 +1677,9 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                         else
                         {
                             /* set focused object */
-                            data_id_t focused_id;
-                            data_id_init( &focused_id, DATA_TABLE_RELATIONSHIP, new_relationship_id );
-                            data_full_id_t focused;
-                            data_full_id_init_solo( &focused, focused_id );
-                            gui_marked_set_set_focused( (*this_).marker, focused, diag_id );
+                            const data_full_id_t focused_id
+                                 = DATA_FULL_ID_SOLO( DATA_TABLE_RELATIONSHIP, new_relationship_id );
+                            gui_marked_set_set_focused( (*this_).marker, focused_id, diag_id );
                             gui_marked_set_clear_selected_set( (*this_).marker );
                         }
                     }
@@ -1718,8 +1710,8 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                         const data_row_id_t classifier_id = data_id_get_row_id( &dragged_classifier );
 
                         /* propose a list_order for the feature */
-                        int32_t std_list_order_proposal = 0;
-                        std_list_order_proposal = gui_sketch_card_get_highest_feat_list_order( target_card, dragged_classifier ) + 32768;
+                        const int32_t std_list_order_proposal
+                            = gui_sketch_card_get_highest_feat_list_order( target_card, dragged_classifier ) + 32768;
                         int32_t port_list_order_proposal = 0;
                         {
                             data_feature_init_new( &((*this_).private_temp_fake_feature),
@@ -1756,11 +1748,9 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                         else
                         {
                             /* set focused object */
-                            data_id_t new_focused_id;
-                            data_id_init( &new_focused_id, DATA_TABLE_FEATURE, new_feature_id );
-                            data_full_id_t new_focused;
-                            data_full_id_init_solo( &new_focused, new_focused_id );
-                            gui_marked_set_set_focused( (*this_).marker, new_focused, diag_id );
+                            const data_full_id_t new_focused_id
+                                 = DATA_FULL_ID( DATA_TABLE_FEATURE, new_feature_id, classifier_id );
+                            gui_marked_set_set_focused( (*this_).marker, new_focused_id, diag_id );
                             gui_marked_set_clear_selected_set( (*this_).marker );
                         }
                     }

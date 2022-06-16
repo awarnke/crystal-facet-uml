@@ -32,6 +32,10 @@ struct data_full_id_struct {
 typedef struct data_full_id_struct data_full_id_t;
 
 #define DATA_FULL_ID_VOID ((data_full_id_t){.primary_id=DATA_ID_VOID,.secondary_id=DATA_ID_VOID})
+#define DATA_FULL_ID_SOLO(prim_tab,prim_row) ((data_full_id_t)\
+{.primary_id=DATA_ID(prim_tab,prim_row),.secondary_id=DATA_ID_VOID})
+#define DATA_FULL_ID(prim_tab,prim_row,classifier_row) ((data_full_id_t)\
+{.primary_id=DATA_ID(prim_tab,prim_row),.secondary_id=DATA_ID(DATA_TABLE_CLASSIFIER,classifier_row)})
 
 /*!
  *  \brief initializes the data_full_id_t struct.
