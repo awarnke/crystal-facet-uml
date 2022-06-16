@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 exitcode = "1.1.2"
+regex = "1.5.0"
