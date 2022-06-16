@@ -29,8 +29,11 @@ fn testcase_version(exe_to_test: &String) -> bool {
     let expected_pattern = Regex::new(r"^\s*\d+\.\d+\.\d+\s*$").unwrap();
     let success = expected_pattern.is_match(&stdout);
 
+    /* check that the exit code is 0 */
+    let exit_ok: bool = output.status.exit_ok().unwrap_or(false);
+
     print!("testcase_version: <<{}>>:{}\n", stdout, stdout.len());
-    success
+    success && exit_ok
 }
 
 /// Tests that requesting a help string is possible.
@@ -40,7 +43,7 @@ fn testcase_version(exe_to_test: &String) -> bool {
 /// panics if the test environment reports errors.
 fn testcase_help(exe_to_test: &String) -> bool {
     let process = match std::process::Command::new(exe_to_test)
-                        .args(&["-v"])
+                        .args(&["-h"])
                         .spawn() {
         Ok(process) => process,
         Err(err)    => panic!("Err at running process: {}", err),
