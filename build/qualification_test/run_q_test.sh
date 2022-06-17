@@ -1,4 +1,4 @@
 #!/bin/sh
-cmake ../..
+cmake ../.. -DCMAKE_BUILD_TYPE=Release
 cmake --build . --target crystal-facet-uml --config Release
 cargo run ./crystal-facet-uml ; echo "\nERROR: $?"

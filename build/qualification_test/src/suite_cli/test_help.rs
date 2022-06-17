@@ -1,4 +1,5 @@
 use regex::Regex;
+use std::process::Stdio;
 
 pub fn suite_cli_run(exe_to_test: &String) -> bool {
     let mut all_ok: u32 = 0;
@@ -30,7 +31,7 @@ fn testcase_version(exe_to_test: &String) -> bool {
     let success = expected_pattern.is_match(&stdout);
 
     /* check that the exit code is 0 */
-    let exit_ok: bool = output.status.exit_ok().unwrap_or(false);
+    let exit_ok: bool = output.status.success();
 
     print!("testcase_version: <<{}>>:{}\n", stdout, stdout.len());
     success && exit_ok
@@ -44,6 +45,7 @@ fn testcase_version(exe_to_test: &String) -> bool {
 fn testcase_help(exe_to_test: &String) -> bool {
     let process = match std::process::Command::new(exe_to_test)
                         .args(&["-h"])
+                        .stdout(Stdio::piped())
                         .spawn() {
         Ok(process) => process,
         Err(err)    => panic!("Err at running process: {}", err),
@@ -60,8 +62,11 @@ fn testcase_help(exe_to_test: &String) -> bool {
     };
 
     /* check if the returned string looks valid */
-    let success = ( stdout.len() >=5 )&&( stdout.len() <=64 );
+    let success = ( stdout.len() >=200 )&&( stdout.len() <=1000 );
+
+    /* check that the exit code is 0 */
+    let exit_ok: bool = output.status.success();
 
     println!("testcase_help: <<{}>>:{}", stdout, stdout.len());
-    success || true
+    success && exit_ok
 }
