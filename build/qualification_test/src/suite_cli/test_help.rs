@@ -62,7 +62,7 @@ fn testcase_help(exe_to_test: &String) -> bool {
     };
 
     /* check if the returned string looks valid */
-    let success = ( stdout.len() >=200 )&&( stdout.len() <=1000 );
+    let success = ( stdout.len() >= 200 )&&( stdout.len() <= 1000 );
 
     /* check that the exit code is 0 */
     let exit_ok: bool = output.status.success();
