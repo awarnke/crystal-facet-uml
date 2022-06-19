@@ -7,6 +7,8 @@
 /*!
  *  \file
  *  \brief Displays a use database file dialog and reacts on user events
+ *
+ *  This file dialog can either create a new database file or open an existing database file.
  */
 
 #include "gui_simple_message_to_user.h"
@@ -55,6 +57,11 @@ void gui_file_use_db_dialog_destroy( gui_file_use_db_dialog_t *this_ );
  *  \param open_existing true if only existing files shall be selectable
  */
 void gui_file_use_db_dialog_show( gui_file_use_db_dialog_t *this_, bool open_existing );
+
+/*!
+ *  \brief callback function of a GtkDialog
+ */
+void gui_file_use_db_dialog_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data );
 
 #endif  /* GUI_FILE_USE_DB_DIALOG_H */
 

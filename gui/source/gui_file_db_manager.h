@@ -47,9 +47,12 @@ void gui_file_db_manager_init( gui_file_db_manager_t *this_,
 void gui_file_db_manager_destroy( gui_file_db_manager_t *this_ );
 
 /*!
- *  \brief callback function of a GtkDialog
- */
-void gui_file_db_manager_use_db_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data );
+ *  \brief switches the database to the new file
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param filename filename of the file to open, must not be NULL
+*/
+u8_error_t gui_file_db_manager_use_db( gui_file_db_manager_t *this_, const char *filename );
 
 #endif  /* GUI_FILE_DB_MANAGER_H */
 

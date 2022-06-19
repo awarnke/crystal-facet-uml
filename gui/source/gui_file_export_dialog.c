@@ -100,7 +100,11 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
 
     io_exporter_init( &((*this_).file_exporter), db_reader );
 
-    g_signal_connect( G_OBJECT((*this_).export_file_chooser), "response", G_CALLBACK(gui_file_export_dialog_response_callback), this_ );
+    g_signal_connect( G_OBJECT((*this_).export_file_chooser),
+                      "response",
+                      G_CALLBACK(gui_file_export_dialog_response_callback),
+                      this_
+                    );
 #if ( GTK_MAJOR_VERSION >= 4 )
     gtk_window_set_hide_on_close( GTK_WINDOW((*this_).export_file_chooser), true);
 #else

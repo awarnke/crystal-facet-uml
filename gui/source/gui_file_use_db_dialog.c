@@ -30,8 +30,8 @@ void gui_file_use_db_dialog_init ( gui_file_use_db_dialog_t *this_,
 
     g_signal_connect( G_OBJECT((*this_).use_db_file_chooser),
                       "response",
-                      G_CALLBACK(gui_file_db_manager_use_db_response_callback),
-                      &((*this_).file_manager)
+                      G_CALLBACK(gui_file_use_db_dialog_response_callback),
+                      this_
                     );
 #if ( GTK_MAJOR_VERSION >= 4 )
     gtk_window_set_hide_on_close( GTK_WINDOW((*this_).use_db_file_chooser), true);
@@ -80,6 +80,71 @@ void gui_file_use_db_dialog_show( gui_file_use_db_dialog_t *this_, bool open_exi
 #else
     gtk_widget_show_all( GTK_WIDGET( (*this_).use_db_file_chooser ) );
 #endif
+
+    TRACE_END();
+}
+
+void gui_file_use_db_dialog_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_file_use_db_dialog_t *this_ = user_data;
+
+    switch ( response_id )
+    {
+        case GTK_RESPONSE_ACCEPT:
+        {
+            TSLOG_EVENT( "GTK_RESPONSE_ACCEPT" );
+
+            gchar *filename = NULL;
+            GFile *selected_file = NULL;
+#if ( GTK_MAJOR_VERSION >= 4 )
+            selected_file = gtk_file_chooser_get_file( GTK_FILE_CHOOSER(dialog) );
+            if ( selected_file != NULL )
+            {
+                filename = g_file_get_path( selected_file );
+            }
+#else
+            filename = gtk_file_chooser_get_filename( GTK_FILE_CHOOSER(dialog) );
+#endif
+            if ( filename != NULL )
+            {
+                TRACE_INFO_STR( "File chosen:", filename );
+
+                gui_file_db_manager_use_db( &((*this_).file_manager), filename );
+
+                g_free (filename);
+            }
+            else
+            {
+                TSLOG_WARNING( "Use DB dialog returned no file name" );
+            }
+            if ( selected_file != NULL )
+            {
+                g_object_unref( selected_file );
+            }
+
+            gtk_widget_hide( GTK_WIDGET ( dialog ) );
+        }
+        break;
+
+        case GTK_RESPONSE_CANCEL:
+        {
+            TSLOG_EVENT( "GTK_RESPONSE_CANCEL" );
+            gtk_widget_hide( GTK_WIDGET ( dialog ) );
+        }
+        break;
+
+        case GTK_RESPONSE_DELETE_EVENT:
+        {
+            TSLOG_EVENT( "GTK_RESPONSE_DELETE_EVENT" );
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR( "unexpected response_id" );
+        }
+    }
 
     TRACE_END();
 }

@@ -35,99 +35,45 @@ void gui_file_db_manager_destroy( gui_file_db_manager_t *this_ )
     TRACE_END();
 }
 
-void gui_file_db_manager_use_db_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data )
+u8_error_t gui_file_db_manager_use_db( gui_file_db_manager_t *this_, const char *filename )
 {
     TRACE_BEGIN();
-    gui_file_db_manager_t *this_ = user_data;
 
-    switch ( response_id )
+    const u8_error_t error = ctrl_controller_switch_database ( (*this_).controller, filename );
+
+    if ( U8_ERROR_NONE == error )
     {
-        case GTK_RESPONSE_ACCEPT:
+        /* ensure that at least one diagram exists - otherwise the first window looks a bit empty */
+        ctrl_diagram_controller_t *diag_control;
+        diag_control = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
+        ctrl_diagram_controller_create_root_diagram_if_not_exists( diag_control,
+                                                                   DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM,
+                                                                   "New Overview",
+                                                                   NULL
+                                                                 );
+    }
+    else
+    {
+        if ( data_database_is_open( (*this_).database ) )
         {
-            TSLOG_EVENT( "GTK_RESPONSE_ACCEPT" );
-            u8_error_t error;
-
-            gchar *filename = NULL;
-            GFile *selected_file = NULL;
-#if ( GTK_MAJOR_VERSION >= 4 )
-            selected_file = gtk_file_chooser_get_file( GTK_FILE_CHOOSER(dialog) );
-            if ( selected_file != NULL )
-            {
-                filename = g_file_get_path( selected_file );
-            }
-#else
-            filename = gtk_file_chooser_get_filename( GTK_FILE_CHOOSER(dialog) );
-#endif
-            if ( filename != NULL )
-            {
-                TRACE_INFO_STR( "File chosen:", filename );
-
-                error = ctrl_controller_switch_database ( (*this_).controller, filename );
-
-                if ( U8_ERROR_NONE != error )
-                {
-                    if ( data_database_is_open( (*this_).database ) )
-                    {
-                        gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
-                                                                           GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                                           GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR,
-                                                                           filename
-                                                                         );
-                    }
-                    else
-                    {
-                        gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
-                                                                           GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                           GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_OPENED,
-                                                                           filename
-                                                                         );
-                    }
-                }
-                g_free (filename);
-            }
-            else
-            {
-                TSLOG_WARNING( "Use DB dialog returned no file name" );
-                error = U8_ERROR_INPUT_EMPTY;
-            }
-            if ( selected_file != NULL )
-            {
-                g_object_unref( selected_file );
-            }
-
-            gtk_widget_hide( GTK_WIDGET ( dialog ) );
-
-            if ( U8_ERROR_NONE == error )
-            {
-                /* ensure that at least one diagram exists - otherwise the first window looks a bit empty */
-                ctrl_diagram_controller_t *diag_control;
-                diag_control = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
-                ctrl_diagram_controller_create_root_diagram_if_not_exists ( diag_control, DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM, "New Overview", NULL );
-            }
-
+            gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
+                                                               GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                               GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR,
+                                                               filename
+                                                             );
         }
-        break;
-
-        case GTK_RESPONSE_CANCEL:
+        else
         {
-            TSLOG_EVENT( "GTK_RESPONSE_CANCEL" );
-            gtk_widget_hide( GTK_WIDGET ( dialog ) );
-        }
-        break;
-
-        case GTK_RESPONSE_DELETE_EVENT:
-        {
-            TSLOG_EVENT( "GTK_RESPONSE_DELETE_EVENT" );
-        }
-        break;
-
-        default:
-        {
-            TSLOG_ERROR( "unexpected response_id" );
+            gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
+                                                               GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                               GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_OPENED,
+                                                               filename
+                                                             );
         }
     }
 
-    TRACE_END();
+    TRACE_END_ERR( error );
+    return error;
 }
 
 
