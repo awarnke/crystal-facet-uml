@@ -52,9 +52,9 @@ How to build and pack
 How to run
 -----------
 
-Run on Windows(TM)
+Run on Windows(TM) by doubleclicking the .exe file.
 
-If running on linux using wine64, you may want to perform the following steps:
+Or, if running on linux using wine64, you may want to perform the following steps:
 
 > 1) download libgcc_s_seh-1.zip from https://www.dll-files.com
 > 2) unzip libgcc_s_seh-1.zip
@@ -62,5 +62,5 @@ If running on linux using wine64, you may want to perform the following steps:
 > 4) check the wine configuration for mounted devices: winecfg
 > 5) mkdir -p ~/.wine/drive_c/share/glib-2.0/schemas
 > 6) cp share/glib-2.0/schemas/* ~/.wine/drive_c/share/glib-2.0/schemas
-> 7) export XDG_DATA_HOME="C:\\share\\" ; wine64 bin/crystal-facet-uml.exe
+> 7) export XDG_DATA_HOME="C:\\\\share\\\\" ; wine64 bin/crystal-facet-uml.exe
 
