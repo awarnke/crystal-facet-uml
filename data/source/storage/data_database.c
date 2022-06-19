@@ -431,7 +431,7 @@ void data_database_init ( data_database_t *this_ )
     (*this_).db_file_name = utf8stringbuf_init( sizeof((*this_).private_db_file_name_buffer), (*this_).private_db_file_name_buffer );
     utf8stringbuf_clear( (*this_).db_file_name );
 
-    (*this_).is_open = false;
+    (*this_).db_state = DATA_DATABASE_STATE_CLOSED;
     (*this_).transaction_recursion = 0;
 
     g_mutex_init ( &((*this_).private_lock) );
@@ -454,7 +454,7 @@ u8_error_t data_database_private_open ( data_database_t *this_, const char* db_f
 
     result |= data_database_private_lock( this_ );
 
-    if ( (*this_).is_open )
+    if ( (*this_).db_state != DATA_DATABASE_STATE_CLOSED )
     {
         TRACE_INFO("data_database_open called on database that was not closed.");
         result |= U8_ERROR_INVALID_REQUEST;
@@ -473,7 +473,7 @@ u8_error_t data_database_private_open ( data_database_t *this_, const char* db_f
         {
             TSLOG_ERROR_INT( "sqlite3_open_v2() failed:", sqlite_err );
             TSLOG_ERROR_STR( "sqlite3_open_v2() failed:", utf8stringbuf_get_string( (*this_).db_file_name ) );
-            (*this_).is_open = false;
+            (*this_).db_state = DATA_DATABASE_STATE_CLOSED;
             result |= U8_ERROR_NO_DB;  /* no db to use */
         }
         else
@@ -491,7 +491,10 @@ u8_error_t data_database_private_open ( data_database_t *this_, const char* db_f
 
             if ( init_err == U8_ERROR_NONE )
             {
-                (*this_).is_open = true;
+                (*this_).db_state
+                    = ( (sqlite3_flags & SQLITE_OPEN_MEMORY) == 0 )
+                    ? DATA_DATABASE_STATE_OPEN
+                    : DATA_DATABASE_STATE_IN_MEM;
                 notify_listeners = true;
             }
             else
@@ -503,7 +506,7 @@ u8_error_t data_database_private_open ( data_database_t *this_, const char* db_f
                     TSLOG_ERROR_INT( "sqlite3_close() failed:", sqlite_err );
                 }
                 utf8stringbuf_clear( (*this_).db_file_name );
-                (*this_).is_open = false;
+                (*this_).db_state = DATA_DATABASE_STATE_CLOSED;
             }
             result |= init_err;
         }
@@ -539,7 +542,7 @@ u8_error_t data_database_close ( data_database_t *this_ )
     u8_error_t result = U8_ERROR_NONE;
     bool notify_change_listeners = false;
 
-    if ( (*this_).is_open )
+    if ( (*this_).db_state != DATA_DATABASE_STATE_CLOSED )
     {
         /* prepare close */
         data_change_notifier_emit_signal( &((*this_).notifier),
@@ -556,7 +559,7 @@ u8_error_t data_database_close ( data_database_t *this_ )
 
     result |= data_database_private_lock( this_ );
 
-    if ( (*this_).is_open )
+    if ( (*this_).db_state != DATA_DATABASE_STATE_CLOSED )
     {
         /* perform close */
         TSLOG_EVENT_STR( "sqlite3_close:", utf8stringbuf_get_string( (*this_).db_file_name ) );
@@ -568,7 +571,7 @@ u8_error_t data_database_close ( data_database_t *this_ )
         }
 
         utf8stringbuf_clear( (*this_).db_file_name );
-        (*this_).is_open = false;
+        (*this_).db_state = DATA_DATABASE_STATE_CLOSED;
         (*this_).transaction_recursion = 0;
 
         notify_change_listeners = true;
@@ -604,7 +607,7 @@ void data_database_destroy ( data_database_t *this_ )
     assert( (*this_).transaction_recursion == 0 );
 
     data_database_private_clear_db_listener_list( this_ );
-    if ( (*this_).is_open )
+    if ( (*this_).db_state != DATA_DATABASE_STATE_CLOSED )
     {
         data_database_close( this_ );
     }
@@ -621,7 +624,7 @@ u8_error_t data_database_flush_caches ( data_database_t *this_ )
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
-    if ( (*this_).is_open )
+    if ( (*this_).db_state != DATA_DATABASE_STATE_CLOSED )
     {
         TSLOG_EVENT_INT( "sqlite3_libversion_number()", sqlite3_libversion_number() );
         if ( sqlite3_libversion_number() >= 3010000 )
@@ -659,7 +662,7 @@ u8_error_t data_database_trace_stats ( data_database_t *this_ )
     TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
-    if ( (*this_).is_open )
+    if ( (*this_).db_state != DATA_DATABASE_STATE_CLOSED )
     {
         sqlite3_int64 use;
         sqlite3_int64 max;

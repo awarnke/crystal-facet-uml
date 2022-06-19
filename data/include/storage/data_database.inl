@@ -51,7 +51,7 @@ static inline data_change_notifier_t *data_database_get_notifier_ptr ( data_data
 
 static inline const char *data_database_get_filename_ptr ( data_database_t *this_ )
 {
-    return ( (*this_).is_open ? utf8stringbuf_get_string( (*this_).db_file_name ) : NULL );
+    return ( data_database_is_open( this_ ) ? utf8stringbuf_get_string( (*this_).db_file_name ) : NULL );
 }
 
 static inline void data_database_private_clear_db_listener_list( data_database_t *this_ )
@@ -85,7 +85,7 @@ static inline bool data_database_is_open( data_database_t *this_ )
     bool result;
     u8_error_t locking_error;
     locking_error = data_database_private_lock( this_ );
-    result = (*this_).is_open;
+    result = (*this_).db_state != DATA_DATABASE_STATE_CLOSED;
     locking_error |= data_database_private_unlock( this_ );
     return result;
 }

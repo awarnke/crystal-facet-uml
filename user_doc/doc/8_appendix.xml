@@ -73,8 +73,22 @@ sudo zypper install crystal-facet-uml
         <para>
             Unpack the zip archive.
             <itemizedlist>
-                <listitem><para>On windows, doubleclick on <userinput>crystal-facet-uml.bat</userinput>,</para></listitem>
-                <listitem><para>or using the wine emulation, call <userinput>cd bin &amp;&amp; wine crystal-facet-uml.exe</userinput> to start.</para></listitem>
+                <listitem>
+                    <para>
+                        On windows, doubleclick on <userinput>crystal-facet-uml.bat</userinput>,
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        or using the wine emulation, download <userinput>libgcc_s_seh-1.dll</userinput> and unpack this to bin,
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                         then call
+                         <userinput>export XDG_DATA_HOME=".\\share" ; wine64 bin/crystal-facet-uml.exe</userinput>.
+                    </para>
+                </listitem>
             </itemizedlist>
         </para>
     </section>

@@ -11,6 +11,7 @@
 
 #include "storage/data_database_listener.h"
 #include "storage/data_change_notifier.h"
+#include "storage/data_database_state.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include <sqlite3.h>
 #include <stdbool.h>
@@ -34,7 +35,7 @@ struct data_database_struct {
     GMutex private_lock; /*!< lock to ensure that db_file_name, is_open and listener_list are used by only one thread at a time */
     utf8stringbuf_t db_file_name;
     char private_db_file_name_buffer[GUI_DATABASE_MAX_FILEPATH];
-    bool is_open;
+    data_database_state_t db_state;
     uint_fast8_t transaction_recursion;  /*!< current transaction depth, 0 if no transaction active */
 
     data_database_listener_t *(listener_list[GUI_DATABASE_MAX_LISTENERS]);  /*!< array of db-file change listeners. */
@@ -55,6 +56,8 @@ void data_database_init ( data_database_t *this_ );
  *
  *  It is not allowed to open an already opened database.
  *
+ *  Note that this function opens a database writeable or in read-only mode if the file in read-only.
+ *
  *  \param this_ pointer to own object attributes
  *  \param db_file_path a relative or absolute file path
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
@@ -66,6 +69,8 @@ static inline u8_error_t data_database_open ( data_database_t *this_, const char
  *  \brief opens a database file in read only mode
  *
  *  Useful for exporting data.
+ *
+ *  Note that this function opens even a possibly writeable file in read-only mode.
  *
  *  \param this_ pointer to own object attributes
  *  \param db_file_path a relative or absolute file path
