@@ -18,6 +18,11 @@
 #include <glib.h>
 
 /*!
+ *  \brief a magic byte sequence by which an Sqlite 3 database file can be recognized
+ */
+extern const char DATA_DATABASE_SQLITE3_MAGIC[16];
+
+/*!
  *  \brief constants of data_database_t
  */
 enum data_database_max_enum {
