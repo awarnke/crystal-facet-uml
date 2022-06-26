@@ -17,7 +17,7 @@
  */
 struct universal_file_output_stream_struct {
     universal_output_stream_t output_stream;  /*!< instance of implemented interface \c universal_output_stream_t */
-    FILE *output;  /*!< output file */
+    FILE *output;  /*!< output file, is NULL if file not open for writing */
 };
 
 typedef struct universal_file_output_stream_struct universal_file_output_stream_t;

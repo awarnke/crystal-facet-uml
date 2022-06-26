@@ -43,15 +43,20 @@ u8_error_t universal_file_output_stream_destroy( universal_file_output_stream_t 
 u8_error_t universal_file_output_stream_open ( universal_file_output_stream_t *this_, const char *path )
 {
     TRACE_BEGIN();
-    assert( (*this_).output == NULL );
     assert( path != NULL );
     u8_error_t err = U8_ERROR_NONE;
 
+    if ( (*this_).output != NULL )
+    {
+        TSLOG_ERROR("cannot open a file that is already open.");
+        err = U8_ERROR_LOGIC_STATE;
+        err |= universal_file_output_stream_close( this_ );
+    }
     (*this_).output = fopen( path, "w" );
     if ( NULL == (*this_).output )
     {
         TSLOG_ERROR("error at opening file for writing.");
-        err = U8_ERROR_AT_FILE_WRITE;
+        err |= U8_ERROR_AT_FILE_WRITE;
     }
 
     TRACE_END_ERR(err);
@@ -61,23 +66,30 @@ u8_error_t universal_file_output_stream_open ( universal_file_output_stream_t *t
 u8_error_t universal_file_output_stream_write ( universal_file_output_stream_t *this_, const void *start, size_t length )
 {
     /*TRACE_BEGIN();*/
-    assert( (*this_).output != NULL );
     u8_error_t err = U8_ERROR_NONE;
 
-    size_t written = 0;
-    while (( written < length )&&( err == U8_ERROR_NONE ))
+    if ( (*this_).output != NULL )
     {
-        ssize_t out_count;
-        out_count = fwrite( ((const char*)start)+written, 1, length-written, (*this_).output );
-        if ( out_count < 0 )
+        size_t written = 0;
+        while (( written < length )&&( err == U8_ERROR_NONE ))
         {
-            TSLOG_ERROR_INT( "not all bytes could be written. missing:", length-written );
-            err = U8_ERROR_AT_FILE_WRITE;
+            ssize_t out_count;
+            out_count = fwrite( ((const char*)start)+written, 1, length-written, (*this_).output );
+            if ( out_count < 0 )
+            {
+                TSLOG_ERROR_INT( "not all bytes could be written. missing:", length-written );
+                err = U8_ERROR_AT_FILE_WRITE;
+            }
+            else
+            {
+                written += out_count;
+            }
         }
-        else
-        {
-            written += out_count;
-        }
+    }
+    else
+    {
+        TSLOG_ERROR("cannot write to a file that is not open.");
+        err = U8_ERROR_LOGIC_STATE;
     }
 
     /*TRACE_END_ERR(err);*/
@@ -87,15 +99,22 @@ u8_error_t universal_file_output_stream_write ( universal_file_output_stream_t *
 u8_error_t universal_file_output_stream_flush( universal_file_output_stream_t *this_ )
 {
     TRACE_BEGIN();
-    assert( (*this_).output != NULL );
     u8_error_t err = U8_ERROR_NONE;
 
-    int flush_err;
-    flush_err = fflush( (*this_).output );
-    if ( 0 != flush_err )
+    if ( (*this_).output != NULL )
     {
-        TSLOG_ERROR_INT("error at flushing file:",flush_err);
-        err = U8_ERROR_AT_FILE_WRITE;
+        int flush_err;
+        flush_err = fflush( (*this_).output );
+        if ( 0 != flush_err )
+        {
+            TSLOG_ERROR_INT("error at flushing file:",flush_err);
+            err = U8_ERROR_AT_FILE_WRITE;
+        }
+    }
+    else
+    {
+        TSLOG_ERROR("cannot flush a file that is not open.");
+        err = U8_ERROR_LOGIC_STATE;
     }
 
     TRACE_END_ERR(err);
@@ -105,17 +124,24 @@ u8_error_t universal_file_output_stream_flush( universal_file_output_stream_t *t
 u8_error_t universal_file_output_stream_close( universal_file_output_stream_t *this_ )
 {
     TRACE_BEGIN();
-    assert( (*this_).output != NULL );
     u8_error_t err = U8_ERROR_NONE;
 
-    int close_err;
-    close_err = fclose( (*this_).output );
-    if ( 0 != close_err )
+    if ( (*this_).output != NULL )
     {
-        TSLOG_ERROR_INT("error at closing file:",close_err);
-        err = U8_ERROR_AT_FILE_WRITE;
+        int close_err;
+        close_err = fclose( (*this_).output );
+        if ( 0 != close_err )
+        {
+            TSLOG_ERROR_INT("error at closing file:",close_err);
+            err = U8_ERROR_AT_FILE_WRITE;
+        }
+        (*this_).output = NULL;
     }
-    (*this_).output = NULL;
+    else
+    {
+        TSLOG_ERROR("cannot close a file that is not open.");
+        err = U8_ERROR_LOGIC_STATE;
+    }
 
     TRACE_END_ERR(err);
     return err;

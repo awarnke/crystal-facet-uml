@@ -17,7 +17,7 @@
  */
 struct universal_file_input_stream_struct {
     universal_input_stream_t input_stream;  /*!< instance of implemented interface \c universal_input_stream_t */
-    FILE *input;  /*!< input file */
+    FILE *input;  /*!< input file, is NULL if file not open for reading */
 };
 
 typedef struct universal_file_input_stream_struct universal_file_input_stream_t;
