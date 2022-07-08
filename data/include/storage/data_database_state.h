@@ -6,11 +6,11 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Provides an enumeration for db states closed, open-in-memory, open, json-auto-sync
+ *  \brief Provides an enumeration for db states closed, open-in-memory, open
  */
 
 /*!
- *  \brief enumeration for  closed, open-in-memory, open, json-auto-sync
+ *  \brief enumeration for  closed, open-in-memory, open
  *
  *  This enumeration shall not reflect if the database is read only because this can not be evaluated reliably.
  *  (Read-only may be a temporary situation and may be similar to disk-full or access-rights-missing)
@@ -19,7 +19,6 @@ enum data_database_state_enum {
     DATA_DATABASE_STATE_CLOSED,  /*!< no database is available */
     DATA_DATABASE_STATE_IN_MEM,  /*!< the database is open in memory only (e.g. for testing) */
     DATA_DATABASE_STATE_OPEN,  /*!< the database is a native sqlite3 file and is open */
-    DATA_DATABASE_STATE_JSON_SYNC,  /*!< the database file is temporary, was imported and shall be exported to json format */
 };
 
 typedef enum data_database_state_enum data_database_state_t;

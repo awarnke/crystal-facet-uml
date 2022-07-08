@@ -8,19 +8,19 @@
  *  \brief Starts one gui instance
  */
 
-#include "storage/data_database.h"
+#include "io_data_file.h"
 #include "ctrl_controller.h"
 #include <gtk/gtk.h>
 
 /*!
  *  \brief initializes the gui widgets
  *
- *  \param controller pointer to a controller object which can modify the database
- *  \param database pointer to a database object
+ *  \param controller pointer to a controller object which can modify the data_file
+ *  \param data_file pointer to a data_file object
  *  \param argc the number of command line parameters, at least 1
  *  \param argv the list of parameters, the first is the program name
  */
-void gui_main ( ctrl_controller_t *controller, data_database_t *database, int argc, char **argv );
+void gui_main ( ctrl_controller_t *controller, io_data_file_t *data_file, int argc, char **argv );
 
 #endif  /* GUI_MAIN_H */
 

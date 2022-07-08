@@ -23,7 +23,7 @@
 struct main_commands_struct {
     int argc;  /*!< the number of command line parameters */
     char **argv;  /*!< the list of parameters */
-    io_data_file_t temp_database;  /*!< a database struct, is only temporarily initialized (and then destroyed again) */
+    io_data_file_t temp_data_file;  /*!< a data_file struct, is only temporarily initialized (and then destroyed again) */
     ctrl_controller_t temp_controller;  /*!< a controller struct, is only temporarily initialized (and then destroyed again) */
 };
 
@@ -48,29 +48,29 @@ u8_error_t main_commands_init ( main_commands_t *this_, bool start_gui, int argc
 void main_commands_destroy ( main_commands_t *this_ );
 
 /*!
- *  \brief upgrades the database to the latest format
+ *  \brief upgrades the data_file to the latest format
  *
  *  \param this_ pointer to own object attributes
- *  \param database_path pathname of the database
+ *  \param data_file_path pathname of the data_file
  *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t main_commands_upgrade ( main_commands_t *this_,
-                                   const char *database_path,
+                                   const char *data_file_path,
                                    universal_utf8_writer_t *out_english_report
                                  );
 
 /*!
- *  \brief repairs or checks the database
+ *  \brief repairs or checks the data_file
  *
  *  \param this_ pointer to own object attributes
- *  \param database_path pathname of the database
- *  \param check_only true if the database shall not be modified
+ *  \param data_file_path pathname of the data_file
+ *  \param check_only true if the data_file shall not be modified
  *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t main_commands_repair ( main_commands_t *this_,
-                                  const char *database_path,
+                                  const char *data_file_path,
                                   bool check_only,
                                   universal_utf8_writer_t *out_english_report
                                 );
@@ -79,44 +79,44 @@ u8_error_t main_commands_repair ( main_commands_t *this_,
  *  \brief starts the graphical user interface
  *
  *  \param this_ pointer to own object attributes
- *  \param database_path pathname of the database, may be NULL if no preselected database file
+ *  \param data_file_path pathname of the data_file, may be NULL if no preselected data_file file
  *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t main_commands_start_gui ( main_commands_t *this_,
-                                     const char *database_path,
+                                     const char *data_file_path,
                                      universal_utf8_writer_t *out_english_report
                                    );
 
 /*!
- *  \brief exports the database in the selected data format to the export_directory
+ *  \brief exports the data_file in the selected data format to the export_directory
  *
  *  \param this_ pointer to own object attributes
- *  \param database_path pathname of the database
+ *  \param data_file_path pathname of the data_file
  *  \param export_format format to export
  *  \param export_directory pathname of the directory where to write exported files to
  *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t main_commands_export ( main_commands_t *this_,
-                                  const char *database_path,
+                                  const char *data_file_path,
                                   io_file_format_t export_format,
                                   const char *export_directory,
                                   universal_utf8_writer_t *out_english_report
                                );
 
 /*!
- *  \brief imports the database in the selected data format to the export_directory
+ *  \brief imports the data_file in the selected data format to the export_directory
  *
  *  \param this_ pointer to own object attributes
- *  \param database_path pathname of the database
+ *  \param data_file_path pathname of the data_file
  *  \param import_mode import mode, e.g. check-only or update-overwrite
  *  \param import_file_path pathname of the file which to import
  *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t main_commands_import ( main_commands_t *this_,
-                                  const char *database_path,
+                                  const char *data_file_path,
                                   io_import_mode_t import_mode,
                                   const char *import_file_path,
                                   universal_utf8_writer_t *out_english_report

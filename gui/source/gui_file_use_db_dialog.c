@@ -9,7 +9,7 @@
 
 void gui_file_use_db_dialog_init ( gui_file_use_db_dialog_t *this_,
                                    ctrl_controller_t *controller,
-                                   data_database_t *database,
+                                   io_data_file_t *database,
                                    GtkWindow *parent_window,
                                    gui_simple_message_to_user_t *message_to_user )
 {

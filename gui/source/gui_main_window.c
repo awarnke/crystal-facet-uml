@@ -3,6 +3,7 @@
 #include "gui_main_window.h"
 #include "gui_clipboard.h"
 #include "trace/trace.h"
+#include "storage/data_database.h"
 #include "storage/data_change_notifier.h"
 #include "meta/meta_info.h"
 #include <gdk/gdk.h>
@@ -12,7 +13,7 @@
 
 void gui_main_window_init( gui_main_window_t *this_,
                            ctrl_controller_t *controller,
-                           data_database_t *database,
+                           io_data_file_t *data_file,
                            data_database_reader_t *db_reader,
                            gui_resources_t *res,
 #if ( GTK_MAJOR_VERSION >= 4 )
@@ -26,7 +27,7 @@ void gui_main_window_init( gui_main_window_t *this_,
     /* init own attributes */
     (*this_).window_close_observer = window_close_observer;
     (*this_).window_open_observer = window_open_observer;
-    (*this_).database = database;
+    (*this_).data_file = data_file;
 
     /* init window */
     {
@@ -36,7 +37,7 @@ void gui_main_window_init( gui_main_window_t *this_,
         (*this_).window = gtk_window_new( GTK_WINDOW_TOPLEVEL );
 #endif
         const char *window_title;
-        window_title = data_database_get_filename_ptr( database );
+        window_title = io_data_file_get_filename_ptr( data_file );
         gtk_window_set_title(GTK_WINDOW( (*this_).window ), ( window_title == NULL ) ? META_INFO_PROGRAM_NAME_STR : window_title );
         gtk_widget_set_size_request( (*this_).window, 800, 400 );
         gtk_window_set_default_size( GTK_WINDOW( (*this_).window ), 16*70, 9*70 );
@@ -104,7 +105,7 @@ void gui_main_window_init( gui_main_window_t *this_,
     gui_search_runner_init( &((*this_).search_runner),
                             &((*this_).message_to_user),
                             db_reader,
-                            database,
+                            io_data_file_get_database_ptr( data_file ),
                             &((*this_).sketcharea_data)
                           );
     gui_search_request_init( &((*this_).search_request),
@@ -137,19 +138,19 @@ void gui_main_window_init( gui_main_window_t *this_,
                                 res,
                                 controller,
                                 db_reader,
-                                database,
+                                io_data_file_get_database_ptr( data_file ),
                                 &((*this_).message_to_user)
                               );
 
     /* init the file choosers */
     gui_file_use_db_dialog_init( &((*this_).file_use_db_dialog),
                                  controller,
-                                 database,
+                                 data_file,
                                  GTK_WINDOW( (*this_).window ),
                                  &((*this_).message_to_user)
                                );
     gui_file_export_dialog_init( &((*this_).file_export_dialog),
-                                 database,
+                                 io_data_file_get_database_ptr( data_file ),
                                  db_reader,
                                  GTK_WINDOW( (*this_).window ),
                                  &((*this_).message_to_user)
@@ -297,7 +298,7 @@ void gui_main_window_init( gui_main_window_t *this_,
 
     /* register observers */
 
-    (*this_).data_notifier = data_database_get_notifier_ptr( database );
+    (*this_).data_notifier = data_database_get_notifier_ptr( io_data_file_get_database_ptr( data_file ) );
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).window) );
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).sketcharea) );
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).name_entry) );
@@ -348,7 +349,7 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
     gui_marked_set_destroy( &((*this_).marker_data) );
     gui_attributes_editor_destroy( &((*this_).attributes_editor) );
     gui_simple_message_to_user_destroy( &((*this_).message_to_user) );
-    (*this_).database = NULL;
+    (*this_).data_file = NULL;
 
     TRACE_END();
 }
@@ -1008,7 +1009,7 @@ void gui_main_window_data_changed_callback( GtkWidget *window, data_change_messa
         || ( DATA_CHANGE_EVENT_TYPE_DB_CLOSED == data_change_message_get_event( msg ) ))
     {
         /* the database has changed */
-        const char *filename = data_database_get_filename_ptr( (*this_).database );
+        const char *filename = io_data_file_get_filename_ptr( (*this_).data_file );
         if ( NULL == filename )
         {
             gtk_window_set_title(GTK_WINDOW((*this_).window), META_INFO_PROGRAM_NAME_STR );

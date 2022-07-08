@@ -1,7 +1,6 @@
 /* File: gui_file_db_manager.c; Copyright and License: see below */
 
 #include "gui_file_db_manager.h"
-#include "storage/data_database.h"
 #include "u8stream/universal_file_input_stream.h"
 #include "trace/trace.h"
 #include <gtk/gtk.h>
@@ -11,16 +10,16 @@
 
 void gui_file_db_manager_init( gui_file_db_manager_t *this_,
                                ctrl_controller_t *controller,
-                               data_database_t *database,
+                               io_data_file_t *data_file,
                                gui_simple_message_to_user_t *message_to_user )
 {
     TRACE_BEGIN();
     assert( NULL != controller );
-    assert( NULL != database );
+    assert( NULL != data_file );
     assert( NULL != message_to_user );
 
     (*this_).controller = controller;
-    (*this_).database = database;
+    (*this_).data_file = data_file;
     (*this_).message_to_user = message_to_user;
 
     TRACE_END();
@@ -31,7 +30,7 @@ void gui_file_db_manager_destroy( gui_file_db_manager_t *this_ )
     TRACE_BEGIN();
 
     (*this_).controller = NULL;
-    (*this_).database = NULL;
+    (*this_).data_file = NULL;
     (*this_).message_to_user = NULL;
 
     TRACE_END();
@@ -59,7 +58,7 @@ u8_error_t gui_file_db_manager_use_db( gui_file_db_manager_t *this_, const char 
     }
     else
     {
-        if ( data_database_is_open( (*this_).database ) )
+        if ( io_data_file_is_open( (*this_).data_file ) )
         {
             gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
                                                                GUI_SIMPLE_MESSAGE_TYPE_WARNING,

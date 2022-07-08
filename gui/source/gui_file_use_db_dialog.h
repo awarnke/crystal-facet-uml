@@ -8,12 +8,12 @@
  *  \file
  *  \brief Displays a use database file dialog and reacts on user events
  *
- *  This file dialog can either create a new database file or open an existing database file.
+ *  This file dialog can either create a new data file or open an existing data file.
  */
 
 #include "gui_simple_message_to_user.h"
 #include "gui_file_db_manager.h"
-#include "storage/data_database.h"
+#include "io_data_file.h"
 #include <gtk/gtk.h>
 
 /*!
@@ -32,13 +32,13 @@ typedef struct gui_file_use_db_dialog_struct gui_file_use_db_dialog_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param controller pointer to a controller object which can modify the database
- *  \param database pointer to a database object
+ *  \param data_file pointer to a data_file object
  *  \param parent_window pointer to the gtk parent window, to which this modal dialog belongs
  *  \param message_to_user pointer to the message_to_user object to use
  */
 void gui_file_use_db_dialog_init( gui_file_use_db_dialog_t *this_,
                                   ctrl_controller_t *controller,
-                                  data_database_t *database,
+                                  io_data_file_t *data_file,
                                   GtkWindow *parent_window,
                                   gui_simple_message_to_user_t *message_to_user
                                 );

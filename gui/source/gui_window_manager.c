@@ -8,20 +8,20 @@
 
 void gui_window_manager_init( gui_window_manager_t *this_,
                               ctrl_controller_t *controller,
-                              data_database_t *database,
+                              io_data_file_t *data_file,
                               GtkApplication *gtk_app )
 {
     TRACE_BEGIN();
     assert( controller != NULL );
-    assert( database != NULL );
+    assert( data_file != NULL );
 #if ( GTK_MAJOR_VERSION >= 4 )
     assert( gtk_app != NULL );
 #endif
 
     gui_resources_init( &((*this_).gui_resources) );
-    data_database_reader_init( &((*this_).db_reader), database );
+    data_database_reader_init( &((*this_).db_reader), io_data_file_get_database_ptr( data_file ) );
     (*this_).controller = controller;
-    (*this_).database = database;
+    (*this_).data_file = data_file;
     (*this_).gtk_app = gtk_app;
     observer_init( &((*this_).window_close_observer),
                    this_,
@@ -57,7 +57,7 @@ void gui_window_manager_destroy( gui_window_manager_t *this_ )
     data_database_reader_destroy( &((*this_).db_reader) );
     gui_resources_destroy( &((*this_).gui_resources) );
     (*this_).controller = NULL;
-    (*this_).database = NULL;
+    (*this_).data_file = NULL;
     (*this_).gtk_app = NULL;
 
     TRACE_END();
@@ -81,7 +81,7 @@ gui_main_window_t *gui_window_manager_open_main_window( gui_window_manager_t *th
     {
         gui_main_window_init( &((*this_).main_window[pos]),
                               (*this_).controller,
-                              (*this_).database,
+                              (*this_).data_file,
                               &((*this_).db_reader),
                               &((*this_).gui_resources),
 #if ( GTK_MAJOR_VERSION >= 4 )

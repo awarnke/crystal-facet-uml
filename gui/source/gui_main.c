@@ -3,7 +3,6 @@
 #include "gui_main.h"
 #include "gui_main_window.h"
 #include "gui_window_manager.h"
-#include "storage/data_database.h"
 #include "storage/data_database_reader.h"
 #include "meta/meta_info.h"
 #include "trace/trace.h"
@@ -28,7 +27,7 @@ static void gui_main_activate_callback( GtkApplication* app, gpointer user_data 
 }
 #endif
 
-void gui_main ( ctrl_controller_t *controller, data_database_t *database, int argc, char **argv ) {
+void gui_main ( ctrl_controller_t *controller, io_data_file_t *data_file, int argc, char **argv ) {
     TRACE_BEGIN();
     TRACE_TIMESTAMP();
     TRACE_INFO_INT( "sizeof(gui_window_manager_t):", sizeof(gui_window_manager_t) );
@@ -38,7 +37,7 @@ void gui_main ( ctrl_controller_t *controller, data_database_t *database, int ar
     /* init */
     GtkApplication *const gtk_app
         = gtk_application_new( META_INFO_APPLICATION_ID_STR, G_APPLICATION_FLAGS_NONE );
-    gui_window_manager_init( &window_manager, controller, database, gtk_app );
+    gui_window_manager_init( &window_manager, controller, data_file, gtk_app );
 
     g_signal_connect( gtk_app, "activate", G_CALLBACK( gui_main_activate_callback ), &window_manager);
 
@@ -55,7 +54,7 @@ void gui_main ( ctrl_controller_t *controller, data_database_t *database, int ar
     g_object_unref( gtk_app );
 #else
     /* init */
-    gui_window_manager_init( &window_manager, controller, database, NULL );
+    gui_window_manager_init( &window_manager, controller, data_file, NULL );
     gui_window_manager_open_main_window( &window_manager );
 
     /* run */

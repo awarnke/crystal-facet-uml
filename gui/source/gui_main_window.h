@@ -18,7 +18,7 @@
 #include "gui_file_export_dialog.h"
 #include "gui_search_request.h"
 #include "gui_search_runner.h"
-#include "storage/data_database.h"
+#include "io_data_file.h"
 #include "storage/data_change_message.h"
 #include "ctrl_controller.h"
 #include "util/observer/observer.h"
@@ -37,7 +37,7 @@ struct gui_main_window_struct {
     observer_t *window_open_observer;  /*!< pointer to external observer_t listener object */
     gui_file_use_db_dialog_t file_use_db_dialog;  /*!<  own instance of gui_file_use_db_dialog_t */
     gui_file_export_dialog_t file_export_dialog;  /*!<  own instance of gui_file_export_dialog_t */
-    data_database_t *database;  /*!< pointer to external database */
+    io_data_file_t *data_file;  /*!< pointer to external data_file */
 
     GtkWidget *window;
     GtkWidget *main_stack_column;
@@ -132,7 +132,7 @@ typedef struct gui_main_window_struct gui_main_window_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param controller pointer to a controller object which can modify the database
- *  \param database pointer to a database object
+ *  \param data_file pointer to a data_file object
  *  \param db_reader pointer to a database reader object
  *  \param res pointer to a resource provider
  *  \param gtk_app the gtk application object
@@ -141,7 +141,7 @@ typedef struct gui_main_window_struct gui_main_window_t;
  */
 void gui_main_window_init( gui_main_window_t *this_,
                            ctrl_controller_t *controller,
-                           data_database_t *database,
+                           io_data_file_t *data_file,
                            data_database_reader_t *db_reader,
                            gui_resources_t *res,
 #if ( GTK_MAJOR_VERSION >= 4 )

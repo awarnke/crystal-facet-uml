@@ -6,11 +6,11 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Switches the currently used database
+ *  \brief Switches the currently used data_file
  */
 
 #include "gui_simple_message_to_user.h"
-#include "storage/data_database.h"
+#include "io_data_file.h"
 #include "ctrl_controller.h"
 #include <gtk/gtk.h>
 
@@ -19,7 +19,7 @@
  */
 struct gui_file_db_manager_struct {
     ctrl_controller_t *controller;  /*!< pointer to external ctrl_controller_t */
-    data_database_t *database;  /*!< pointer to external data_database_t */
+    io_data_file_t *data_file;  /*!< pointer to external io_data_file_t */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external gui_simple_message_to_user_t */
 };
 
@@ -30,12 +30,12 @@ typedef struct gui_file_db_manager_struct gui_file_db_manager_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param controller pointer to the controller object to use
- *  \param database pointer to the database object to use
+ *  \param data_file pointer to the data_file object to use
  *  \param message_to_user pointer to the message_to_user object to use
  */
 void gui_file_db_manager_init( gui_file_db_manager_t *this_,
                                ctrl_controller_t *controller,
-                               data_database_t *database,
+                               io_data_file_t *data_file,
                                gui_simple_message_to_user_t *message_to_user
                              );
 
@@ -47,7 +47,7 @@ void gui_file_db_manager_init( gui_file_db_manager_t *this_,
 void gui_file_db_manager_destroy( gui_file_db_manager_t *this_ );
 
 /*!
- *  \brief switches the database to the new file
+ *  \brief switches the data_file to the new file
  *
  *  \param this_ pointer to own object attributes
  *  \param filename filename of the file to open, must not be NULL

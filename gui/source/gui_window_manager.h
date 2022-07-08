@@ -13,8 +13,8 @@
 #include "gui_simple_message_to_user.h"
 #include "gui_resources.h"
 #include "util/observer/observer.h"
-#include "storage/data_database.h"
 #include "ctrl_controller.h"
+#include "io_data_file.h"
 #include "storage/data_database_reader.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
@@ -31,7 +31,7 @@ enum gui_window_manager_max_enum {
  */
 struct gui_window_manager_struct {
     ctrl_controller_t *controller;  /*!< pointer to external ctrl_controller_t */
-    data_database_t *database;  /*!< pointer to external data_database_t */
+    io_data_file_t *data_file;  /*!< pointer to external io_data_file_t */
     data_database_reader_t db_reader;  /*!< own instance of data_database_reader_t */
     gui_resources_t gui_resources;  /*!< own instance of gui_resources_t */
     GtkApplication *gtk_app;  /*!< the gtk application object */
@@ -48,13 +48,13 @@ typedef struct gui_window_manager_struct gui_window_manager_t;
  *  \brief starts window manager
  *
  *  \param this_ pointer to own object attributes
- *  \param controller pointer to a controller object which can modify the database
- *  \param database pointer to a database object
+ *  \param controller pointer to a controller object which can modify the data_file
+ *  \param data_file pointer to a data_file object
  *  \param gtk_app the gtk application object, may be NULL in case GTK_MAJOR_VERSION <= 3
  */
 void gui_window_manager_init( gui_window_manager_t *this_,
                               ctrl_controller_t *controller,
-                              data_database_t *database,
+                              io_data_file_t *data_file,
                               GtkApplication *gtk_app
                             );
 
