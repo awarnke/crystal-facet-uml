@@ -80,33 +80,33 @@ static void test_database_listener_register_and_notify(void)
 
 static void test_database_listener_registration_full(void)
 {
-    data_database_listener_t my_listener[GUI_DATABASE_MAX_LISTENERS+1];
+    data_database_listener_t my_listener[DATA_DATABASE_MAX_LISTENERS+1];
     data_database_t db;
     u8_error_t d_err;
 
     data_database_init ( &db );
 
-    for ( int index = 0; index < GUI_DATABASE_MAX_LISTENERS; index ++ )
+    for ( int index = 0; index < DATA_DATABASE_MAX_LISTENERS; index ++ )
     {
         data_database_listener_init( &my_listener[index], &callback_counter, (void (*)(void*,data_database_listener_signal_t)) &callback_notification );
         d_err = data_database_add_db_listener( &db, &my_listener[index] );
         TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
     }
-    data_database_listener_init( &my_listener[GUI_DATABASE_MAX_LISTENERS], &callback_counter, (void (*)(void*,data_database_listener_signal_t)) &callback_notification );
-    d_err = data_database_add_db_listener( &db, &my_listener[GUI_DATABASE_MAX_LISTENERS] );
+    data_database_listener_init( &my_listener[DATA_DATABASE_MAX_LISTENERS], &callback_counter, (void (*)(void*,data_database_listener_signal_t)) &callback_notification );
+    d_err = data_database_add_db_listener( &db, &my_listener[DATA_DATABASE_MAX_LISTENERS] );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, d_err );
 
     d_err = data_database_private_notify_db_listeners( &db, DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
-    TEST_ASSERT_EQUAL_INT( GUI_DATABASE_MAX_LISTENERS, callback_counter );
+    TEST_ASSERT_EQUAL_INT( DATA_DATABASE_MAX_LISTENERS, callback_counter );
 
     data_database_private_clear_db_listener_list( &db );
 
     d_err = data_database_private_notify_db_listeners( &db, DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
-    TEST_ASSERT_EQUAL_INT( GUI_DATABASE_MAX_LISTENERS, callback_counter );
+    TEST_ASSERT_EQUAL_INT( DATA_DATABASE_MAX_LISTENERS, callback_counter );
 
-    for ( int index = 0; index < (GUI_DATABASE_MAX_LISTENERS+1); index ++ )
+    for ( int index = 0; index < (DATA_DATABASE_MAX_LISTENERS+1); index ++ )
     {
         data_database_listener_destroy( &my_listener[index] );
     }

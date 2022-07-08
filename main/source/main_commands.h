@@ -11,7 +11,7 @@
 
 #include "io_file_format.h"
 #include "io_import_mode.h"
-#include "storage/data_database.h"
+#include "io_data_file.h"
 #include "ctrl_controller.h"
 #include "utf8stream/universal_utf8_writer.h"
 #include "u8/u8_error.h"
@@ -23,7 +23,7 @@
 struct main_commands_struct {
     int argc;  /*!< the number of command line parameters */
     char **argv;  /*!< the list of parameters */
-    data_database_t temp_database;  /*!< a database struct, is only temporarily initialized (and then destroyed again) */
+    io_data_file_t temp_database;  /*!< a database struct, is only temporarily initialized (and then destroyed again) */
     ctrl_controller_t temp_controller;  /*!< a controller struct, is only temporarily initialized (and then destroyed again) */
 };
 
@@ -55,7 +55,10 @@ void main_commands_destroy ( main_commands_t *this_ );
  *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
  *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t main_commands_upgrade ( main_commands_t *this_, const char *database_path, universal_utf8_writer_t *out_english_report );
+u8_error_t main_commands_upgrade ( main_commands_t *this_,
+                                   const char *database_path,
+                                   universal_utf8_writer_t *out_english_report
+                                 );
 
 /*!
  *  \brief repairs or checks the database

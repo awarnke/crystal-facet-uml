@@ -56,7 +56,7 @@ static inline const char *data_database_get_filename_ptr ( data_database_t *this
 
 static inline void data_database_private_clear_db_listener_list( data_database_t *this_ )
 {
-    for( int index = 0; index < GUI_DATABASE_MAX_LISTENERS; index ++ )
+    for( int index = 0; index < DATA_DATABASE_MAX_LISTENERS; index ++ )
     {
         (*this_).listener_list[index] = NULL;
     }

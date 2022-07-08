@@ -693,7 +693,7 @@ u8_error_t data_database_add_db_listener( data_database_t *this_, data_database_
     result |= data_database_private_lock( this_ );
 
     int pos = -1;
-    for( int index = 0; index < GUI_DATABASE_MAX_LISTENERS; index ++ )
+    for( int index = 0; index < DATA_DATABASE_MAX_LISTENERS; index ++ )
     {
         if ( NULL == (*this_).listener_list[index] )
         {
@@ -716,7 +716,7 @@ u8_error_t data_database_add_db_listener( data_database_t *this_, data_database_
     }
     else
     {
-        TSLOG_ERROR_INT( "Maximum number of listeners reached.", GUI_DATABASE_MAX_LISTENERS );
+        TSLOG_ERROR_INT( "Maximum number of listeners reached.", DATA_DATABASE_MAX_LISTENERS );
         result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
     }
 
@@ -737,7 +737,7 @@ u8_error_t data_database_remove_db_listener( data_database_t *this_, data_databa
 
     result |= data_database_private_lock( this_ );
 
-    for( int index = 0; index < GUI_DATABASE_MAX_LISTENERS; index ++ )
+    for( int index = 0; index < DATA_DATABASE_MAX_LISTENERS; index ++ )
     {
         if ( (*this_).listener_list[index] == listener )
         {
@@ -761,7 +761,7 @@ u8_error_t data_database_remove_db_listener( data_database_t *this_, data_databa
 u8_error_t data_database_private_notify_db_listeners( data_database_t *this_, data_database_listener_signal_t signal_id )
 {
     TRACE_BEGIN();
-    data_database_listener_t *(listener_list_copy[GUI_DATABASE_MAX_LISTENERS]);
+    data_database_listener_t *(listener_list_copy[DATA_DATABASE_MAX_LISTENERS]);
     u8_error_t result = U8_ERROR_NONE;
 
     result |= data_database_private_lock( this_ );
@@ -770,7 +770,7 @@ u8_error_t data_database_private_notify_db_listeners( data_database_t *this_, da
 
     result |= data_database_private_unlock( this_ );
 
-    for( int index = 0; index < GUI_DATABASE_MAX_LISTENERS; index ++ )
+    for( int index = 0; index < DATA_DATABASE_MAX_LISTENERS; index ++ )
     {
         if ( NULL != listener_list_copy[index] )
         {

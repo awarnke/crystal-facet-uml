@@ -26,8 +26,8 @@ extern const char DATA_DATABASE_SQLITE3_MAGIC[16];
  *  \brief constants of data_database_t
  */
 enum data_database_max_enum {
-    GUI_DATABASE_MAX_FILEPATH = 1024,  /*!< maximum length of filepath */
-    GUI_DATABASE_MAX_LISTENERS = 20,  /*!< maximum listeners. Max 4 Windows and max 3 readers and 2 writers -> 20 is sufficient */
+    DATA_DATABASE_MAX_FILEPATH = 1024,  /*!< maximum length of filepath */
+    DATA_DATABASE_MAX_LISTENERS = 20,  /*!< maximum listeners. Max 4 Windows and max 3 readers and 2 writers -> 20 is sufficient */
 };
 
 /*!
@@ -39,11 +39,11 @@ struct data_database_struct {
 
     GMutex private_lock; /*!< lock to ensure that db_file_name, is_open and listener_list are used by only one thread at a time */
     utf8stringbuf_t db_file_name;
-    char private_db_file_name_buffer[GUI_DATABASE_MAX_FILEPATH];
+    char private_db_file_name_buffer[DATA_DATABASE_MAX_FILEPATH];
     data_database_state_t db_state;
     uint_fast8_t transaction_recursion;  /*!< current transaction depth, 0 if no transaction active */
 
-    data_database_listener_t *(listener_list[GUI_DATABASE_MAX_LISTENERS]);  /*!< array of db-file change listeners. */
+    data_database_listener_t *(listener_list[DATA_DATABASE_MAX_LISTENERS]);  /*!< array of db-file change listeners. */
                                                               /*!< Only in case of a changed db-file, listeners are informed. */
 };
 

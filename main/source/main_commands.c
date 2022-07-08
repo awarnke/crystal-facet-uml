@@ -60,11 +60,11 @@ u8_error_t main_commands_upgrade ( main_commands_t *this_, const char *database_
     assert( database_path != NULL );
 
     TRACE_INFO("starting DB...");
-    data_database_init( &((*this_).temp_database) );
+    io_data_file_init( &((*this_).temp_database) );
 
     TRACE_INFO("upgrading DB...");
     const u8_error_t up_err
-        = data_database_open( &((*this_).temp_database), database_path );  /* upgrade is implicitely done */
+        = io_data_file_open( &((*this_).temp_database), database_path );  /* upgrade is implicitely done */
     if ( up_err != U8_ERROR_NONE )
     {
         universal_utf8_writer_write_str( out_english_report, "error opening database " );
@@ -74,8 +74,8 @@ u8_error_t main_commands_upgrade ( main_commands_t *this_, const char *database_
     }
 
     TRACE_INFO("stopping DB...");
-    data_database_close( &((*this_).temp_database) );
-    data_database_destroy( &((*this_).temp_database) );
+    io_data_file_close( &((*this_).temp_database) );
+    io_data_file_destroy( &((*this_).temp_database) );
 
     TRACE_END_ERR( result );
     return result;
@@ -92,11 +92,11 @@ u8_error_t main_commands_repair ( main_commands_t *this_,
     u8_error_t result = U8_ERROR_NONE;
 
     TRACE_INFO("starting DB...");
-    data_database_init( &((*this_).temp_database) );
+    io_data_file_init( &((*this_).temp_database) );
     const u8_error_t db_err
         = ( check_only )
-        ? data_database_open_read_only( &((*this_).temp_database), database_path )
-        : data_database_open( &((*this_).temp_database), database_path );
+        ? io_data_file_open_read_only( &((*this_).temp_database), database_path )
+        : io_data_file_open( &((*this_).temp_database), database_path );
     if ( db_err != U8_ERROR_NONE )
     {
         universal_utf8_writer_write_str( out_english_report, "error opening database " );
@@ -105,7 +105,7 @@ u8_error_t main_commands_repair ( main_commands_t *this_,
     }
 
     TRACE_INFO("initializing controller...");
-    ctrl_controller_init( &((*this_).temp_controller), &((*this_).temp_database) );
+    ctrl_controller_init( &((*this_).temp_controller), io_data_file_get_database_ptr( &((*this_).temp_database) ));
 
     TRACE_INFO("reparing/testing...");
     universal_utf8_writer_write_str( out_english_report, "\n\n" );
@@ -117,8 +117,8 @@ u8_error_t main_commands_repair ( main_commands_t *this_,
     ctrl_controller_destroy( &((*this_).temp_controller) );
 
     TRACE_INFO("stopping DB...");
-    data_database_close( &((*this_).temp_database) );
-    data_database_destroy( &((*this_).temp_database) );
+    io_data_file_close( &((*this_).temp_database) );
+    io_data_file_destroy( &((*this_).temp_database) );
 
     TRACE_END_ERR( result );
     return result;
@@ -131,11 +131,11 @@ u8_error_t main_commands_start_gui ( main_commands_t *this_, const char *databas
 
     TRACE_INFO("starting DB...");
     TRACE_INFO_INT("sizeof(data_database_t)/B:",sizeof(data_database_t));
-    data_database_init( &((*this_).temp_database) );
+    io_data_file_init( &((*this_).temp_database) );
     if ( NULL != database_path )
     {
         const u8_error_t db_err
-            = data_database_open( &((*this_).temp_database), database_path );
+            = io_data_file_open( &((*this_).temp_database), database_path );
         if ( db_err != U8_ERROR_NONE )
         {
             universal_utf8_writer_write_str( out_english_report, "error opening database " );
@@ -147,11 +147,11 @@ u8_error_t main_commands_start_gui ( main_commands_t *this_, const char *databas
     TRACE_TIMESTAMP();
     TRACE_INFO("initializing controller...");
     TRACE_INFO_INT("sizeof(ctrl_controller_t)/B:",sizeof(ctrl_controller_t));
-    ctrl_controller_init( &((*this_).temp_controller), &((*this_).temp_database) );
+    ctrl_controller_init( &((*this_).temp_controller), io_data_file_get_database_ptr( &((*this_).temp_database) ) );
 
     TRACE_TIMESTAMP();
     TRACE_INFO("running GUI...");
-    gui_main( &((*this_).temp_controller), &((*this_).temp_database), (*this_).argc, (*this_).argv );
+    gui_main( &((*this_).temp_controller), io_data_file_get_database_ptr( &((*this_).temp_database) ), (*this_).argc, (*this_).argv );
     TRACE_INFO("GUI stopped.");
 
     TRACE_TIMESTAMP();
@@ -160,8 +160,8 @@ u8_error_t main_commands_start_gui ( main_commands_t *this_, const char *databas
 
     TRACE_TIMESTAMP();
     TRACE_INFO("stopping DB...");
-    data_database_close( &((*this_).temp_database) );
-    data_database_destroy( &((*this_).temp_database) );
+    io_data_file_close( &((*this_).temp_database) );
+    io_data_file_destroy( &((*this_).temp_database) );
 
     TRACE_END_ERR( result );
     return result;
@@ -179,9 +179,9 @@ u8_error_t main_commands_export( main_commands_t *this_,
     u8_error_t export_err = U8_ERROR_NONE;
 
     TRACE_INFO("starting DB...");
-    data_database_init( &((*this_).temp_database) );
+    io_data_file_init( &((*this_).temp_database) );
     const u8_error_t db_err
-        = data_database_open_read_only( &((*this_).temp_database), database_path );
+        = io_data_file_open_read_only( &((*this_).temp_database), database_path );
     if ( db_err != U8_ERROR_NONE )
     {
             universal_utf8_writer_write_str( out_english_report, "error opening database " );
@@ -191,11 +191,11 @@ u8_error_t main_commands_export( main_commands_t *this_,
 
     TRACE_INFO("exporting DB...");
     TRACE_INFO_STR( "chosen folder:", export_directory );
-    const char *document_filename = data_database_get_filename_ptr ( &((*this_).temp_database) );
-    if ( data_database_is_open( &((*this_).temp_database) ) )
+    const char *document_filename = io_data_file_get_filename_ptr ( &((*this_).temp_database) );
+    if ( io_data_file_is_open( &((*this_).temp_database) ) )
     {
         static data_database_reader_t db_reader;
-        data_database_reader_init( &db_reader, &((*this_).temp_database) );
+        data_database_reader_init( &db_reader, io_data_file_get_database_ptr( &((*this_).temp_database) ) );
         static io_exporter_t exporter;
         io_exporter_init( &exporter, &db_reader );
         {
@@ -215,8 +215,8 @@ u8_error_t main_commands_export( main_commands_t *this_,
     }
 
     TRACE_INFO("stopping DB...");
-    data_database_close( &((*this_).temp_database) );
-    data_database_destroy( &((*this_).temp_database) );
+    io_data_file_close( &((*this_).temp_database) );
+    io_data_file_destroy( &((*this_).temp_database) );
 
     TRACE_END_ERR( export_err );
     return export_err;
@@ -234,9 +234,9 @@ u8_error_t main_commands_import( main_commands_t *this_,
     u8_error_t import_err = U8_ERROR_NONE;
 
     TRACE_INFO("starting DB...");
-    data_database_init( &((*this_).temp_database) );
+    io_data_file_init( &((*this_).temp_database) );
     const u8_error_t db_err
-        = data_database_open( &((*this_).temp_database), database_path );
+        = io_data_file_open( &((*this_).temp_database), database_path );
     if ( db_err != U8_ERROR_NONE )
     {
         universal_utf8_writer_write_str( out_english_report, "error opening database " );
@@ -245,14 +245,14 @@ u8_error_t main_commands_import( main_commands_t *this_,
     }
 
     TRACE_INFO("initializing controller...");
-    ctrl_controller_init( &((*this_).temp_controller), &((*this_).temp_database) );
+    ctrl_controller_init( &((*this_).temp_controller), io_data_file_get_database_ptr( &((*this_).temp_database) ) );
 
     TRACE_INFO("importing data...");
     TRACE_INFO_STR( "chosen data:", import_file_path );
-    if ( data_database_is_open( &((*this_).temp_database) ) )
+    if ( io_data_file_is_open( &((*this_).temp_database) ) )
     {
         static data_database_reader_t db_reader;
-        data_database_reader_init( &db_reader, &((*this_).temp_database) );
+        data_database_reader_init( &db_reader, io_data_file_get_database_ptr( &((*this_).temp_database) ) );
         static io_importer_t importer;
         io_importer_init( &importer, &db_reader, &((*this_).temp_controller) );
         {
@@ -275,8 +275,8 @@ u8_error_t main_commands_import( main_commands_t *this_,
     ctrl_controller_destroy( &((*this_).temp_controller) );
 
     TRACE_INFO("stopping DB...");
-    data_database_close( &((*this_).temp_database) );
-    data_database_destroy( &((*this_).temp_database) );
+    io_data_file_close( &((*this_).temp_database) );
+    io_data_file_destroy( &((*this_).temp_database) );
 
     {
         universal_utf8_writer_write_str( out_english_report, "\nplease test the integrity of the database:\n" );
