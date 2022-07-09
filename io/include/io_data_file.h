@@ -91,7 +91,7 @@ static inline data_database_t *io_data_file_get_database_ptr ( io_data_file_t *t
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_DB in case of an error
  */
-u8_error_t io_data_file_flush_caches ( io_data_file_t *this_ );
+u8_error_t io_data_file_sync_to_disk ( io_data_file_t *this_ );
 
 /*!
  *  \brief returns the database filename
@@ -107,7 +107,20 @@ static inline const char *io_data_file_get_filename_ptr ( io_data_file_t *this_ 
  *  \param this_ pointer to own object attributes
  *  \return true if the database file is open
  */
-static inline bool io_data_file_is_open( io_data_file_t *this_ );
+static inline bool io_data_file_is_open ( io_data_file_t *this_ );
+
+/*!
+ *  \brief guess the filetype.
+ *
+ *  In case the file exists, the type is guessed from scanning the header,
+ *  otherwise the file name extension is checked.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param filename filename of the file to determine the type of, must not be NULL
+ *  \param[out] out_json true if filename refers to a json file, false otherwise.
+ *  \return U8_ERROR_NONE in case of success
+ */
+u8_error_t io_data_file_private_guess_db_type ( io_data_file_t *this_, const char *filename, bool *out_json );
 
 #include "io_data_file.inl"
 

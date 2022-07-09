@@ -54,18 +54,6 @@ void gui_file_db_manager_destroy( gui_file_db_manager_t *this_ );
 */
 u8_error_t gui_file_db_manager_use_db( gui_file_db_manager_t *this_, const char *filename );
 
-/*!
- *  \brief guess the filetype.
- *
- *  In case the file exists, the type is guessed from scanning the header,
- *  otherwise the file name extension is checked.
- *
- *  \param this_ pointer to own object attributes
- *  \param filename filename of the file to determine the type of, must not be NULL
- *  \param[out] out_json true if filename refers to a json file, false otherwise.
-*/
-u8_error_t gui_file_db_manager_private_guess_db_type( gui_file_db_manager_t *this_, const char *filename, bool *out_json );
-
 #endif  /* GUI_FILE_DB_MANAGER_H */
 
 
