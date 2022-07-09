@@ -9,7 +9,6 @@
 #include "integration/data_database_reader_test.h"
 /* ctrl */
 #include "unit/ctrl_diagram_controller_test.h"
-#include "unit/ctrl_controller_test.h"
 #include "unit/ctrl_multi_step_changer_test.h"
 #include "unit/ctrl_classifier_controller_test.h"
 #include "unit/ctrl_consistency_checker_test.h"
@@ -32,6 +31,7 @@
 #include "unit/json_token_reader_test.h"
 #include "unit/md_filter_test.h"
 #include "unit/io_import_elements_test.h"
+#include "integration/io_data_file_test.h"
 #include "integration/io_importer_test.h"
 #include "integration/io_export_model_traversal_test.h"
 /* u8stream */
@@ -181,7 +181,6 @@ int main (int argc, char *argv[]) {
         /* data */
         test_runner_run_suite( &runner, data_database_reader_test_get_suite() );
         /* ctrl */
-        test_runner_run_suite( &runner, ctrl_controller_test_get_suite() );
         test_runner_run_suite( &runner, ctrl_multi_step_changer_test_get_suite() );
         test_runner_run_suite( &runner, ctrl_diagram_controller_test_get_suite() );
         test_runner_run_suite( &runner, ctrl_classifier_controller_test_get_suite() );
@@ -194,6 +193,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, pencil_diagram_maker_test_get_suite() );
         /* gui */
         /* io */
+        test_runner_run_suite( &runner, io_data_file_test_get_suite() );
         test_runner_run_suite( &runner, io_importer_test_get_suite() );
         test_runner_run_suite( &runner, md_filter_test_get_suite() );
         test_runner_run_suite( &runner, io_export_model_traversal_test_get_suite() );

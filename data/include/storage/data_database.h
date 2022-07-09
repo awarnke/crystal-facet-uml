@@ -27,7 +27,8 @@ extern const char DATA_DATABASE_SQLITE3_MAGIC[16];
  */
 enum data_database_max_enum {
     DATA_DATABASE_MAX_FILEPATH = 1024,  /*!< maximum length of filepath */
-    DATA_DATABASE_MAX_LISTENERS = 20,  /*!< maximum listeners. Max 4 Windows and max 3 readers and 2 writers -> 20 is sufficient */
+    DATA_DATABASE_MAX_LISTENERS = 20,  /*!< maximum listeners. Max 3 Windows and max 3 readers and 2 writers */
+                                       /*!< and 1 controller = 16 -> 20 is sufficient */
 };
 
 /*!
@@ -176,7 +177,7 @@ u8_error_t data_database_private_initialize_tables( data_database_t *this_ );
 u8_error_t data_database_private_initialize_indexes( data_database_t *this_ );
 
 /*!
- *  \brief upgrades old tables from oder versions to current database scheme
+ *  \brief upgrades old tables from older versions to current database scheme
  *
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_AT_DB if the current database is not a database or is encrypted; U8_ERROR_READ_ONLY_DB if read only
@@ -194,7 +195,7 @@ u8_error_t data_database_private_upgrade_tables( data_database_t *this_ );
 u8_error_t data_database_add_db_listener( data_database_t *this_, data_database_listener_t *listener );
 
 /*!
- *  \brief removes a db-file changed listener to the database
+ *  \brief removes a db-file changed listener from the database
  *
  *  \param this_ pointer to own object attributes
  *  \param listener pointer to a listener to be removed

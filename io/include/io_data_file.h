@@ -35,6 +35,13 @@ typedef struct io_data_file_struct io_data_file_t;
 void io_data_file_init ( io_data_file_t *this_ );
 
 /*!
+ *  \brief destroys the io_data_file_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void io_data_file_destroy ( io_data_file_t *this_ );
+
+/*!
  *  \brief opens a database file
  *
  *  It is not allowed to open an already opened database.
@@ -46,7 +53,7 @@ void io_data_file_init ( io_data_file_t *this_ );
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
  *          U8_ERROR_NONE in case of success
  */
-static inline u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path );
+u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path );
 
 /*!
  *  \brief opens a database file in read only mode
@@ -60,7 +67,7 @@ static inline u8_error_t io_data_file_open ( io_data_file_t *this_, const char* 
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
  *          U8_ERROR_NONE in case of success
  */
-static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_, const char* db_file_path );
+u8_error_t io_data_file_open_read_only ( io_data_file_t *this_, const char* db_file_path );
 
 /*!
  *  \brief closes the current database file
@@ -69,13 +76,6 @@ static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_, co
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t io_data_file_close ( io_data_file_t *this_ );
-
-/*!
- *  \brief destroys the io_data_file_t struct
- *
- *  \param this_ pointer to own object attributes
- */
-void io_data_file_destroy ( io_data_file_t *this_ );
 
 /*!
  *  \brief returns a pointer to the database

@@ -34,6 +34,9 @@ struct ctrl_controller_struct {
     ctrl_consistency_checker_t consistency_checker;  /* own instance of a consistency checker */
     ctrl_diagram_policy_enforcer_t diagram_policy_enforcer;  /*!< own instance of ctrl_diagram_policy_enforcer_t */
     ctrl_classifier_policy_enforcer_t classifier_policy_enforcer;  /*!< own instance of ctrl_classifier_policy_enforcer_t */
+
+    data_database_listener_t me_as_listener;  /*!< own instance of data_database_listener_t */
+                                              /*!< which wraps ctrl_controller_db_change_callback */
 };
 
 typedef struct ctrl_controller_struct ctrl_controller_t;
@@ -135,11 +138,9 @@ static inline u8_error_t ctrl_controller_get_statistics ( ctrl_controller_t *thi
  *  \brief switches the currently used database file
  *
  *  \param this_ pointer to own object attributes
- *  \param db_file_path file name of the new database to be used
- *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
- *          U8_ERROR_NONE in case of success
+ *  \param signal_id state of database change
  */
-u8_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const char* db_file_path );
+void ctrl_controller_db_change_callback ( ctrl_controller_t *this_, data_database_listener_signal_t signal_id );
 
 /*!
  *  \brief checks and repairs the database

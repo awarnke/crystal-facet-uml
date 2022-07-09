@@ -16,7 +16,10 @@ u8_error_t data_database_reader_init ( data_database_reader_t *this_, data_datab
     (*this_).database = database;
     (*this_).is_open = false;
 
-    data_database_listener_init ( &((*this_).me_as_listener), this_, (void (*)(void*,data_database_listener_signal_t)) &data_database_reader_db_change_callback );
+    data_database_listener_init ( &((*this_).me_as_listener),
+                                  this_,
+                                  (void (*)(void*,data_database_listener_signal_t)) &data_database_reader_db_change_callback
+                                );
     data_database_add_db_listener( database, &((*this_).me_as_listener) );
 
     if ( data_database_is_open( database ) )

@@ -31,12 +31,22 @@ void ctrl_controller_init ( ctrl_controller_t *this_, data_database_t *database 
                                  );
     ctrl_consistency_checker_init ( &((*this_).consistency_checker), database, &((*this_).db_reader), &((*this_).db_writer) );
 
+    /* listen on db open and prepare_close events: */
+    data_database_listener_init ( &((*this_).me_as_listener),
+                                  this_,
+                                  (void (*)(void*,data_database_listener_signal_t)) &ctrl_controller_db_change_callback
+                                );
+    data_database_add_db_listener( (*this_).database, &((*this_).me_as_listener) );
+
     TRACE_END();
 }
 
 void ctrl_controller_destroy ( ctrl_controller_t *this_ )
 {
     TRACE_BEGIN();
+
+    /* stop listening on db open and prepare_close events: */
+    data_database_remove_db_listener( (*this_).database, &((*this_).me_as_listener) );
 
     /* destroy member attributes */
     ctrl_consistency_checker_destroy ( &((*this_).consistency_checker) );
@@ -53,24 +63,14 @@ void ctrl_controller_destroy ( ctrl_controller_t *this_ )
 
 /* ================================ interface for database file ================================ */
 
-u8_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const char* db_file_path )
+void ctrl_controller_db_change_callback ( ctrl_controller_t *this_, data_database_listener_signal_t signal_id )
 {
     TRACE_BEGIN();
-    u8_error_t result = U8_ERROR_NONE;
 
-    const u8_error_t close_result = data_database_close( (*this_).database );
+    /* for any db event, clear the undo history */
     ctrl_undo_redo_list_clear( &((*this_).undo_redo_list) );
-    if ( U8_ERROR_NONE != close_result )
-    {
-        /* we do not care about errors at closing, trace and ignore close_result */
-        TRACE_INFO_HEX( "Error at data_database_close", close_result );
-    }
 
-    const u8_error_t open_result = data_database_open( (*this_).database, db_file_path );
-    result = (u8_error_t) open_result;
-
-    TRACE_END_ERR( result );
-    return result;
+    TRACE_END();
 }
 
 

@@ -21,6 +21,36 @@ void io_data_file_init ( io_data_file_t *this_ )
     TRACE_END();
 }
 
+void io_data_file_destroy ( io_data_file_t *this_ )
+{
+    TRACE_BEGIN();
+
+    data_database_destroy( &((*this_).database) );
+
+    TRACE_END();
+}
+
+u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path )
+{
+    TRACE_BEGIN();
+    assert( db_file_path != NULL );
+
+    const u8_error_t err = data_database_open( &((*this_).database), db_file_path );
+
+    TRACE_END_ERR( err );
+    return err;
+}
+
+u8_error_t io_data_file_open_read_only ( io_data_file_t *this_, const char* db_file_path )
+{
+    TRACE_BEGIN();
+    assert( db_file_path != NULL );
+
+    const u8_error_t err = data_database_open_read_only( &((*this_).database), db_file_path );
+
+    TRACE_END_ERR( err );
+    return err;
+}
 
 u8_error_t io_data_file_close ( io_data_file_t *this_ )
 {
@@ -30,15 +60,6 @@ u8_error_t io_data_file_close ( io_data_file_t *this_ )
 
     TRACE_END_ERR( result );
     return result;
-}
-
-void io_data_file_destroy ( io_data_file_t *this_ )
-{
-    TRACE_BEGIN();
-
-    data_database_destroy( &((*this_).database) );
-
-    TRACE_END();
 }
 
 u8_error_t io_data_file_flush_caches ( io_data_file_t *this_ )

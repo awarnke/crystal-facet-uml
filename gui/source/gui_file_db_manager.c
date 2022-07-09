@@ -43,7 +43,16 @@ u8_error_t gui_file_db_manager_use_db( gui_file_db_manager_t *this_, const char 
     bool is_json;
     gui_file_db_manager_private_guess_db_type( this_, filename, &is_json );
 
-    const u8_error_t error = ctrl_controller_switch_database ( (*this_).controller, filename );
+    if ( io_data_file_is_open( (*this_).data_file ) )
+    {
+        const u8_error_t close_err = io_data_file_close( (*this_).data_file );
+        if ( close_err != U8_ERROR_NONE )
+        {
+            TSLOG_ERROR( "Closing the database was not possible" );
+            TRACE_INFO_STR( "Closing the database was not possible:", io_data_file_get_filename_ptr( (*this_).data_file ) );
+        }
+    }
+    const u8_error_t error = io_data_file_open ( (*this_).data_file, filename );
 
     if ( U8_ERROR_NONE == error )
     {

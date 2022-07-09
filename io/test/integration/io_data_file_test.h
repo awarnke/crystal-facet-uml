@@ -1,19 +1,19 @@
-/* File: ctrl_controller_test.h; Copyright and License: see below */
+/* File: io_data_file_test.h; Copyright and License: see below */
 
-#ifndef CTRL_CONTROLLER_TEST_H
-#define CTRL_CONTROLLER_TEST_H
+#ifndef IO_DATA_FILE_TEST_H
+#define IO_DATA_FILE_TEST_H
 
 /*!
  *  \file
- *  \brief MODULE TEST for data_database, ctrl_controller,
+ *  \brief MODULE TEST for data_database, io_data_file,
  *  focussing on opening, switching and closing files
  */
 
 #include "test_suite.h"
 
-test_suite_t ctrl_controller_test_get_suite(void);
+test_suite_t io_data_file_test_get_suite(void);
 
-#endif  /* CTRL_CONTROLLER_TEST_H */
+#endif  /* IO_DATA_FILE_TEST_H */
 
 
 /*

@@ -1,15 +1,7 @@
-/* File: ctrl_controller_test.c; Copyright and License: see below */
+/* File: io_data_file_test.c; Copyright and License: see below */
 
-#include "ctrl_controller_test.h"
-#include "ctrl_controller.h"
-#include "ctrl_classifier_controller.h"
-#include "storage/data_database.h"
-#include "storage/data_database_reader.h"
-#include "data_diagram.h"
-#include "data_diagram_type.h"
-#include "set/data_visible_classifier.h"
-#include "data_feature.h"
-#include "data_relationship.h"
+#include "io_data_file_test.h"
+#include "io_data_file.h"
 #include "test_assert.h"
 #include <stdio.h>
 
@@ -20,24 +12,19 @@ static void open_existing_db(void);
 static void open_invalid_file(void);
 
 /*!
- *  \brief database instance on which the tests are performed
- */
-static data_database_t database;
-
-/*!
  *  \brief database filename on which the tests are performed and which is automatically deleted when finished
  */
 static const char DATABASE_FILENAME[] = "unittest_crystal_facet_uml_default.cfu1";
 
 /*!
- *  \brief controller instance on which the tests are performed
+ *  \brief data_file instance on which the tests are performed
  */
-static ctrl_controller_t controller;
+static io_data_file_t data_file;
 
-test_suite_t ctrl_controller_test_get_suite(void)
+test_suite_t io_data_file_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "ctrl_controller_test", &set_up, &tear_down );
+    test_suite_init( &result, "io_data_file_test", &set_up, &tear_down );
     test_suite_add_test_case( &result, "create_new_db", &create_new_db );
     test_suite_add_test_case( &result, "open_existing_db", &open_existing_db );
     test_suite_add_test_case( &result, "open_invalid_file", &open_invalid_file );
@@ -46,15 +33,13 @@ test_suite_t ctrl_controller_test_get_suite(void)
 
 static void set_up(void)
 {
-    data_database_init( &database );
-    ctrl_controller_init( &controller, &database );
+    io_data_file_init( &data_file );
 }
 
 static void tear_down(void)
 {
     int stdio_err;
-    ctrl_controller_destroy( &controller );
-    data_database_destroy( &database );
+    io_data_file_destroy( &data_file );
     stdio_err = remove( DATABASE_FILENAME );
     TEST_ENVIRONMENT_ASSERT ( 0 == stdio_err );
 }
@@ -64,14 +49,14 @@ static void create_new_db(void)
     u8_error_t ctrl_err;
     bool isopen;
 
-    isopen = data_database_is_open( &database );
+    isopen = io_data_file_is_open( &data_file );
     TEST_ASSERT_EQUAL_INT( false, isopen );
 
     /* create a new db */
-    ctrl_err = ctrl_controller_switch_database ( &controller, DATABASE_FILENAME );
+    ctrl_err = io_data_file_open ( &data_file, DATABASE_FILENAME );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
-    isopen = data_database_is_open( &database );
+    isopen = io_data_file_is_open( &data_file );
     TEST_ASSERT_EQUAL_INT( true, isopen );
 }
 
@@ -81,24 +66,24 @@ static void open_existing_db(void)
     u8_error_t data_err;
     bool isopen;
 
-    isopen = data_database_is_open( &database );
+    isopen = io_data_file_is_open( &data_file );
     TEST_ASSERT_EQUAL_INT( false, isopen );
 
     /* create a db first */
-    data_err = data_database_open ( &database, DATABASE_FILENAME );
+    data_err = io_data_file_open ( &data_file, DATABASE_FILENAME );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
-    data_err = data_database_close ( &database );
+    data_err = io_data_file_close ( &data_file );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
-    isopen = data_database_is_open( &database );
+    isopen = io_data_file_is_open( &data_file );
     TEST_ASSERT_EQUAL_INT( false, isopen );
 
     /* open an existing db */
-    ctrl_err = ctrl_controller_switch_database ( &controller, DATABASE_FILENAME );
+    ctrl_err = io_data_file_open ( &data_file, DATABASE_FILENAME );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
-    isopen = data_database_is_open( &database );
+    isopen = io_data_file_is_open( &data_file );
     TEST_ASSERT_EQUAL_INT( true, isopen );
 }
 
@@ -121,14 +106,14 @@ static void open_invalid_file(void)
     stdio_err = fclose( nondb );
     TEST_ASSERT_EQUAL_INT( 0, stdio_err );
 
-    isopen = data_database_is_open( &database );
+    isopen = io_data_file_is_open( &data_file );
     TEST_ASSERT_EQUAL_INT( false, isopen );
 
     /* open an existing non-db file */
-    ctrl_err = ctrl_controller_switch_database ( &controller, DATABASE_FILENAME );
+    ctrl_err = io_data_file_open ( &data_file, DATABASE_FILENAME );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_AT_DB, ctrl_err );
 
-    isopen = data_database_is_open( &database );
+    isopen = io_data_file_is_open( &data_file );
     TEST_ASSERT_EQUAL_INT( false, isopen );
 }
 
