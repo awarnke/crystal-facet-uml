@@ -86,12 +86,20 @@ u8_error_t io_data_file_close ( io_data_file_t *this_ );
 static inline data_database_t *io_data_file_get_database_ptr ( io_data_file_t *this_ );
 
 /*!
- *  \brief flushes caches of the current database
+ *  \brief flushes caches of the current database and optionally exports this to the json file
  *
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_DB in case of an error
  */
 u8_error_t io_data_file_sync_to_disk ( io_data_file_t *this_ );
+
+/*!
+ *  \brief prints statistics of the current data file to the trace output
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_NONE in case of success
+ */
+u8_error_t io_data_file_trace_stats ( io_data_file_t *this_ );
 
 /*!
  *  \brief returns the database filename

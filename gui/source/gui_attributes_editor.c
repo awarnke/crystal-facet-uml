@@ -8,10 +8,6 @@
 #include "utf8stringbuf/utf8string.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
-#ifndef NDEBUG
-#include "u8stream/universal_stream_output_stream.h"
-#include "utf8stream/universal_utf8_writer.h"
-#endif
 
 void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
                                   GtkLabel *id_label,
@@ -448,70 +444,6 @@ gboolean gui_attributes_editor_description_focus_lost_callback ( GtkWidget *widg
     TRACE_END();
     return false;  /* all callbacks shall receive this signal */
 }
-#endif
-
-void gui_attributes_editor_commit_clicked_callback( GtkButton *button, gpointer user_data )
-{
-    TRACE_BEGIN();
-    gui_attributes_editor_t *this_;
-    this_ = (gui_attributes_editor_t*) user_data;
-    assert( this_ != NULL );
-
-    gui_simple_message_to_user_hide( (*this_).message_to_user );
-
-    gui_attributes_editor_commit_changes ( this_ );
-
-    u8_error_t d_err;
-    d_err = U8_ERROR_NONE;
-    d_err |= data_database_trace_stats( (*this_).database );
-    d_err |= data_database_flush_caches( (*this_).database );
-    d_err |= data_database_trace_stats( (*this_).database );
-    if ( U8_ERROR_NONE != d_err )
-    {
-        gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                 GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITE_ERROR
-        );
-    }
-    else
-    {
-#ifndef NDEBUG
-        /* in debug mode, also check consistency of database */
-        universal_stream_output_stream_t out_stream;
-        universal_stream_output_stream_init( &out_stream, stdout );
-        universal_output_stream_t *const out_base = universal_stream_output_stream_get_output_stream( &out_stream );
-        universal_utf8_writer_t out_report;
-        universal_utf8_writer_init( &out_report, out_base );
-        uint32_t found_errors;
-        uint32_t fixed_errors;
-        ctrl_controller_repair_database( (*this_).controller, false /* no repair, just test */, &found_errors, &fixed_errors, &out_report );
-        if (( found_errors != 0 ) || ( fixed_errors != 0 ))
-        {
-            gui_simple_message_to_user_show_message_with_quantity( (*this_).message_to_user,
-                                                                   GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                   GUI_SIMPLE_MESSAGE_CONTENT_DB_INCONSISTENT,
-                                                                   found_errors
-                                                                 );
-        }
-        universal_utf8_writer_destroy( &out_report );
-        universal_stream_output_stream_destroy( &out_stream );
-#endif
-    }
-
-    TRACE_TIMESTAMP();
-    TRACE_END();
-}
-
-#if ( GTK_MAJOR_VERSION >= 4 )
-/*!
- *  \brief callback that informs that the commit shortcut was activated
- */
-gboolean gui_attributes_editor_commit_shortcut_callback( GtkWidget* widget, GVariant* args, gpointer user_data )
-{
-    gui_attributes_editor_commit_clicked_callback( (GtkButton*)widget, user_data );
-    return TRUE;
-}
-#else
 #endif
 
 /* ================================ SELECTION or MODEL CHANGED CALLBACKS ================================ */

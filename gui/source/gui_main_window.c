@@ -6,6 +6,10 @@
 #include "storage/data_database.h"
 #include "storage/data_change_notifier.h"
 #include "meta/meta_info.h"
+#ifndef NDEBUG
+#include "u8stream/universal_stream_output_stream.h"
+#include "utf8stream/universal_utf8_writer.h"
+#endif  /* not NDEBUG */
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
@@ -28,6 +32,9 @@ void gui_main_window_init( gui_main_window_t *this_,
     (*this_).window_close_observer = window_close_observer;
     (*this_).window_open_observer = window_open_observer;
     (*this_).data_file = data_file;
+#ifndef NDEBUG
+    (*this_).controller = controller;
+#endif  /* not NDEBUG */
 
     /* init window */
     {
@@ -215,6 +222,7 @@ void gui_main_window_init( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).tool_row), GUI_TOOLBOX_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_tool_changed_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).file_new_db), "clicked", G_CALLBACK(gui_main_window_new_db_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).file_use_db), "clicked", G_CALLBACK(gui_main_window_open_db_btn_callback), this_ );
+    g_signal_connect( G_OBJECT((*this_).file_save_button), "clicked", G_CALLBACK(gui_main_window_save_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).file_export), "clicked", G_CALLBACK(gui_main_window_export_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).view_new_window), "clicked", G_CALLBACK(gui_main_window_new_window_btn_callback), this_ );
 
@@ -287,7 +295,6 @@ void gui_main_window_init( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).stereotype_entry), "activate", G_CALLBACK(gui_attributes_editor_stereotype_enter_callback), &((*this_).attributes_editor) );
     g_signal_connect( G_OBJECT((*this_).type_combo_box), "changed", G_CALLBACK(gui_attributes_editor_type_changed_callback), &((*this_).attributes_editor) );
     g_signal_connect( G_OBJECT((*this_).type_icon_grid), "item-activated", G_CALLBACK(gui_attributes_editor_type_shortlist_callback), &((*this_).attributes_editor) );
-    g_signal_connect( G_OBJECT((*this_).file_save_button), "clicked", G_CALLBACK(gui_attributes_editor_commit_clicked_callback), &((*this_).attributes_editor) );
     g_signal_connect( G_OBJECT((*this_).window), GUI_MARKED_SET_GLIB_SIGNAL_NAME, G_CALLBACK(gui_attributes_editor_focused_object_changed_callback), &((*this_).attributes_editor) );
     g_signal_connect( G_OBJECT((*this_).name_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_attributes_editor_data_changed_callback), &((*this_).attributes_editor) );
         /* ^-- name_entry is the  proxy for all widgets of attributes_editor */
@@ -350,6 +357,9 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
     gui_attributes_editor_destroy( &((*this_).attributes_editor) );
     gui_simple_message_to_user_destroy( &((*this_).message_to_user) );
     (*this_).data_file = NULL;
+#ifndef NDEBUG
+    (*this_).controller = NULL;
+#endif  /* not NDEBUG */
 
     TRACE_END();
 }
@@ -385,8 +395,8 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_save_button), "Save (Ctrl-S)" );
 #if ( GTK_MAJOR_VERSION >= 4 )
     GtkShortcutTrigger *commit_trig = gtk_shortcut_trigger_parse_string( "<Control>S" );
-    GtkShortcutAction *commit_act = gtk_callback_action_new( &gui_attributes_editor_commit_shortcut_callback,
-                                                             &((*this_).attributes_editor),
+    GtkShortcutAction *commit_act = gtk_callback_action_new( &gui_main_window_save_shortcut_callback,
+                                                             this_,
                                                              NULL
                                                            );
     GtkShortcut* ctrl_s = gtk_shortcut_new_with_arguments( commit_trig,
@@ -949,6 +959,67 @@ void gui_main_window_open_db_btn_callback( GtkWidget* button, gpointer data )
     TRACE_TIMESTAMP();
     TRACE_END();
 }
+
+void gui_main_window_save_btn_callback( GtkButton *button, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_main_window_t *this_;
+    this_ = (gui_main_window_t*) user_data;
+    assert( this_ != NULL );
+
+    gui_simple_message_to_user_hide( &((*this_).message_to_user) );
+
+    gui_attributes_editor_commit_changes ( &((*this_).attributes_editor) );
+
+    u8_error_t d_err;
+    d_err = U8_ERROR_NONE;
+    d_err |= io_data_file_trace_stats( (*this_).data_file );
+    d_err |= io_data_file_sync_to_disk( (*this_).data_file );
+    d_err |= io_data_file_trace_stats( (*this_).data_file );
+    if ( U8_ERROR_NONE != d_err )
+    {
+        gui_simple_message_to_user_show_message( &((*this_).message_to_user),
+                                                 GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITE_ERROR
+        );
+    }
+    else
+    {
+#ifndef NDEBUG
+        /* in debug mode, also check consistency of database */
+        universal_stream_output_stream_t out_stream;
+        universal_stream_output_stream_init( &out_stream, stdout );
+        universal_output_stream_t *const out_base = universal_stream_output_stream_get_output_stream( &out_stream );
+        universal_utf8_writer_t out_report;
+        universal_utf8_writer_init( &out_report, out_base );
+        uint32_t found_errors;
+        uint32_t fixed_errors;
+        ctrl_controller_repair_database( (*this_).controller, false /* no repair, just test */, &found_errors, &fixed_errors, &out_report );
+        if (( found_errors != 0 ) || ( fixed_errors != 0 ))
+        {
+            gui_simple_message_to_user_show_message_with_quantity( &((*this_).message_to_user),
+                                                                   GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                   GUI_SIMPLE_MESSAGE_CONTENT_DB_INCONSISTENT,
+                                                                   found_errors
+                                                                 );
+        }
+        universal_utf8_writer_destroy( &out_report );
+        universal_stream_output_stream_destroy( &out_stream );
+#endif
+    }
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+#if ( GTK_MAJOR_VERSION >= 4 )
+gboolean gui_main_window_save_shortcut_callback( GtkWidget* widget, GVariant* args, gpointer user_data )
+{
+    gui_attributes_editor_commit_clicked_callback( (GtkButton*)widget, user_data );
+    return TRUE;
+}
+#else
+#endif
 
 void gui_main_window_export_btn_callback( GtkWidget* button, gpointer data )
 {

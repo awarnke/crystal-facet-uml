@@ -172,19 +172,6 @@ void gui_attributes_editor_description_focus_left_callback( GtkEventControllerFo
 gboolean gui_attributes_editor_description_focus_lost_callback( GtkWidget *widget, GdkEvent *event, gpointer user_data );
 #endif
 
-/*!
- *  \brief callback that informs that the commit button was pressed
- */
-void gui_attributes_editor_commit_clicked_callback( GtkButton *button, gpointer user_data );
-
-#if ( GTK_MAJOR_VERSION >= 4 )
-/*!
- *  \brief callback that informs that the commit shortcut was activated
- */
-gboolean gui_attributes_editor_commit_shortcut_callback( GtkWidget* widget, GVariant* args, gpointer user_data );
-#else
-#endif
-
 /* ================================ SELECTION or MODEL CHANGED CALLBACKS ================================ */
 
 /*!

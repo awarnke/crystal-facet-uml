@@ -35,6 +35,8 @@ u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path )
     TRACE_BEGIN();
     assert( db_file_path != NULL );
 
+    utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
+
     const u8_error_t err = data_database_open( &((*this_).database), db_file_path );
 
     TRACE_END_ERR( err );
@@ -45,6 +47,8 @@ u8_error_t io_data_file_open_read_only ( io_data_file_t *this_, const char* db_f
 {
     TRACE_BEGIN();
     assert( db_file_path != NULL );
+
+    utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
 
     const u8_error_t err = data_database_open_read_only( &((*this_).database), db_file_path );
 
@@ -67,6 +71,18 @@ u8_error_t io_data_file_sync_to_disk ( io_data_file_t *this_ )
     TRACE_BEGIN();
 
     const u8_error_t result = data_database_flush_caches( &((*this_).database) );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t io_data_file_trace_stats ( io_data_file_t *this_ )
+{
+    TRACE_BEGIN();
+
+    TRACE_INFO_STR( "io_data_file_t:", utf8stringbuf_get_string( (*this_).data_file_name ) );
+
+    const u8_error_t result = data_database_trace_stats( &((*this_).database) );
 
     TRACE_END_ERR( result );
     return result;

@@ -1,4 +1,4 @@
-/* File: gui_main_window.h; Copyright and License: see below */
+ /* File: gui_main_window.h; Copyright and License: see below */
 
 #ifndef GUI_MAIN_WINDOW_H
 #define GUI_MAIN_WINDOW_H
@@ -38,6 +38,9 @@ struct gui_main_window_struct {
     gui_file_use_db_dialog_t file_use_db_dialog;  /*!<  own instance of gui_file_use_db_dialog_t */
     gui_file_export_dialog_t file_export_dialog;  /*!<  own instance of gui_file_export_dialog_t */
     io_data_file_t *data_file;  /*!< pointer to external data_file */
+#ifndef NDEBUG
+    ctrl_controller_t *controller;  /*!< pointer to external controller, which can test the database in debug mode */
+#endif  /* not NDEBUG */
 
     GtkWidget *window;
     GtkWidget *main_stack_column;
@@ -221,6 +224,19 @@ void gui_main_window_new_db_btn_callback( GtkWidget* button, gpointer data );
  *  \brief callback that informs that the open_db button was pressed
  */
 void gui_main_window_open_db_btn_callback( GtkWidget* button, gpointer data );
+
+/*!
+ *  \brief callback that informs that the save button was pressed
+ */
+void gui_main_window_save_btn_callback( GtkButton *button, gpointer user_data );
+
+#if ( GTK_MAJOR_VERSION >= 4 )
+/*!
+ *  \brief callback that informs that the save shortcut was activated
+ */
+gboolean gui_main_window_save_shortcut_callback( GtkWidget* widget, GVariant* args, gpointer user_data );
+#else
+#endif
 
 /*!
  *  \brief callback that informs that the export button was pressed
