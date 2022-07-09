@@ -68,6 +68,24 @@
 
         </section>
         <section>
+            <title>Save</title>
+            <para>
+
+                <inlinemediaobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/file_save.pdf" width="1cm"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/file_save.png"/></imageobject>
+                </inlinemediaobject>
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            Stores the latest changes to the database immediately.
+                        </para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+
+        </section>
+        <section>
             <title>Export</title>
             <para>
 
@@ -93,8 +111,8 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/file_new_window.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/file_new_window.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_new_window.pdf" width="1cm"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_new_window.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -114,8 +132,8 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/tool_search.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/tool_search.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_search.pdf" width="1cm"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_search.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -132,8 +150,8 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/tool_navigate.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/tool_navigate.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_navigate.pdf" width="1cm"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_navigate.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem><para>Navigate to parent or child diagrams</para></listitem>
@@ -147,8 +165,8 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/tool_edit.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/tool_edit.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_edit.pdf" width="1cm"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_edit.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem><para>Modify elements in the diagram (see <xref linkend="draw_edit"/>)</para></listitem>
@@ -161,8 +179,8 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/tool_create.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/tool_create.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_create.pdf" width="1cm"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_create.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem><para>Create elements in the diagram (see <xref linkend="draw_create"/>)</para></listitem>
@@ -386,8 +404,8 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/tool_search.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/tool_search.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_search.pdf" width="1cm"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_search.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -411,8 +429,8 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/tool_navigate.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/tool_navigate.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_navigate.pdf" width="1cm"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_navigate.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -446,8 +464,8 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/tool_edit.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/tool_edit.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_edit.pdf" width="1cm"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_edit.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -485,8 +503,8 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/tool_create.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/tool_create.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_create.pdf" width="1cm"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_create.png"/></imageobject>
                 </inlinemediaobject>
 
                 <orderedlist>
@@ -559,21 +577,6 @@
                 </listitem>
             </itemizedlist>
         </para>
-
-        <section>
-            <title>Commit</title>
-            <para>
-
-                <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_commit.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_commit.png"/></imageobject>
-                </inlinemediaobject>
-                <itemizedlist>
-                    <listitem><para>Stores the latest changes to the database immediately. This feature is optional, it is not necessary to explicitly save the file.</para></listitem>
-                </itemizedlist>
-            </para>
-
-        </section>
     </section>
     <section>
         <title>Notification Bar</title>

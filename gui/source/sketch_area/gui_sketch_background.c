@@ -254,7 +254,7 @@ void gui_sketch_background_private_draw_quick_introduction( gui_sketch_backgroun
                                                          cr
                                                        );
     gui_sketch_background_private_draw_icon_and_message( this_,
-                                                         gui_resources_get_tool_navigate( (*this_).resources ),
+                                                         gui_resources_get_view_navigate( (*this_).resources ),
                                                          "Click on a diagram to navigate,",
                                                          "on '+' to create a new diagram.",
                                                          TAB_COL1_X,
@@ -262,7 +262,7 @@ void gui_sketch_background_private_draw_quick_introduction( gui_sketch_backgroun
                                                          cr
                                                        );
     gui_sketch_background_private_draw_icon_and_message( this_,
-                                                         gui_resources_get_tool_edit( (*this_).resources ),
+                                                         gui_resources_get_view_edit( (*this_).resources ),
                                                          "Click on an element to edit",
                                                          "name, type and description.",
                                                          TAB_COL1_X,
@@ -270,7 +270,15 @@ void gui_sketch_background_private_draw_quick_introduction( gui_sketch_backgroun
                                                          cr
                                                        );
     gui_sketch_background_private_draw_icon_and_message( this_,
-                                                         gui_resources_get_tool_create( (*this_).resources ),
+                                                         gui_resources_get_view_edit( (*this_).resources ),
+                                                         "Drag an element to change",
+                                                         "its position.",
+                                                         TAB_COL2_X,
+                                                         TAB_ROW1_Y,
+                                                         cr
+                                                       );
+    gui_sketch_background_private_draw_icon_and_message( this_,
+                                                         gui_resources_get_view_create( (*this_).resources ),
                                                          "Click to create items.",
                                                          "Drag to create arrows.",
                                                          TAB_COL1_X,
@@ -281,14 +289,6 @@ void gui_sketch_background_private_draw_quick_introduction( gui_sketch_backgroun
                                                          gui_resources_get_file_export( (*this_).resources ),
                                                          "Select the output folder",
                                                          "to export all diagrams.",
-                                                         TAB_COL2_X,
-                                                         TAB_ROW1_Y,
-                                                         cr
-                                                       );
-    gui_sketch_background_private_draw_icon_and_message( this_,
-                                                         gui_resources_get_edit_commit( (*this_).resources ),
-                                                         "Changes are stored automatically.",
-                                                         "Explicit safe action is optional.",
                                                          TAB_COL2_X,
                                                          TAB_ROW2_Y,
                                                          cr

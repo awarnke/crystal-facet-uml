@@ -1,11 +1,11 @@
-/* GIMP RGBA C-Source image dump (file_new_window.c) */
+/* GIMP RGBA C-Source image dump (view_new_window.c) */
 
 static const struct {
   guint  	 width;
   guint  	 height;
-  guint  	 bytes_per_pixel; /* 2:RGB16, 3:RGB, 4:RGBA */ 
+  guint  	 bytes_per_pixel; /* 2:RGB16, 3:RGB, 4:RGBA */
   guint8 	 pixel_data[32 * 32 * 4 + 1];
-} file_new_window = {
+} view_new_window = {
   32, 32, 4,
   "\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
   "\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"

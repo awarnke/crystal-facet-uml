@@ -18,7 +18,6 @@
 struct gui_resources_struct {
     GdkPixbuf *crystal_facet_uml;
     GdkPixbuf *edit_attributes_sect;
-    GdkPixbuf *edit_commit;
     GdkPixbuf *edit_copy;
     GdkPixbuf *edit_cut;
     GdkPixbuf *edit_delete;
@@ -30,17 +29,18 @@ struct gui_resources_struct {
     GdkPixbuf *edit_reset;
     GdkPixbuf *file_export;
     GdkPixbuf *file_new_db;
-    GdkPixbuf *file_new_window;
+    GdkPixbuf *file_save;
     GdkPixbuf *file_save_as;
     GdkPixbuf *file_use_db;
     GdkPixbuf *message_error;
     GdkPixbuf *message_info;
     GdkPixbuf *message_warn;
     GdkPixbuf *message_user_doc;
-    GdkPixbuf *tool_search;
-    GdkPixbuf *tool_navigate;
-    GdkPixbuf *tool_create;
-    GdkPixbuf *tool_edit;
+    GdkPixbuf *view_new_window;
+    GdkPixbuf *view_search;
+    GdkPixbuf *view_navigate;
+    GdkPixbuf *view_create;
+    GdkPixbuf *view_edit;
     GdkPixbuf *tool_sect;
     GdkPixbuf *navigate_breadcrumb_folder;
     GdkPixbuf *navigate_closed_folder;
@@ -160,13 +160,6 @@ static inline GdkPixbuf *gui_resources_get_crystal_facet_uml ( gui_resources_t *
 static inline GdkPixbuf *gui_resources_get_edit_attributes_sect ( gui_resources_t *this_ );
 
 /*!
- *  \brief gets the edit_commit
- *
- *  \param this_ pointer to own object attributes
- */
-static inline GdkPixbuf *gui_resources_get_edit_commit ( gui_resources_t *this_ );
-
-/*!
  *  \brief gets the edit_copy
  *
  *  \param this_ pointer to own object attributes
@@ -244,11 +237,11 @@ static inline GdkPixbuf *gui_resources_get_file_export ( gui_resources_t *this_ 
 static inline GdkPixbuf *gui_resources_get_file_new_db ( gui_resources_t *this_ );
 
 /*!
- *  \brief gets the file_new_window
+ *  \brief gets the file_save
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkPixbuf *gui_resources_get_file_new_window ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_file_save ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the file_save_as
@@ -293,32 +286,39 @@ static inline GdkPixbuf *gui_resources_get_message_warn ( gui_resources_t *this_
 static inline GdkPixbuf *gui_resources_get_message_user_doc ( gui_resources_t *this_ );
 
 /*!
- *  \brief gets the tool_search
+ *  \brief gets the view_new_window
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkPixbuf *gui_resources_get_tool_search ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_view_new_window ( gui_resources_t *this_ );
 
 /*!
- *  \brief gets the tool_navigate
+ *  \brief gets the view_search
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkPixbuf *gui_resources_get_tool_navigate ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_view_search ( gui_resources_t *this_ );
 
 /*!
- *  \brief gets the tool_create
+ *  \brief gets the view_navigate
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkPixbuf *gui_resources_get_tool_create ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_view_navigate ( gui_resources_t *this_ );
 
 /*!
- *  \brief gets the tool_edit
+ *  \brief gets the view_create
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkPixbuf *gui_resources_get_tool_edit ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_view_create ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the view_edit
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_view_edit ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the tool_sect

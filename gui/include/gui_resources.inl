@@ -10,11 +10,6 @@ static inline GdkPixbuf *gui_resources_get_edit_attributes_sect ( gui_resources_
     return (*this_).edit_attributes_sect;
 }
 
-static inline GdkPixbuf *gui_resources_get_edit_commit ( gui_resources_t *this_ )
-{
-    return (*this_).edit_commit;
-}
-
 static inline GdkPixbuf *gui_resources_get_edit_copy ( gui_resources_t *this_ )
 {
     return (*this_).edit_copy;
@@ -70,9 +65,9 @@ static inline GdkPixbuf *gui_resources_get_file_new_db ( gui_resources_t *this_ 
     return (*this_).file_new_db;
 }
 
-static inline GdkPixbuf *gui_resources_get_file_new_window ( gui_resources_t *this_ )
+static inline GdkPixbuf *gui_resources_get_file_save ( gui_resources_t *this_ )
 {
-    return (*this_).file_new_window;
+    return (*this_).file_save;
 }
 
 static inline GdkPixbuf *gui_resources_get_file_save_as ( gui_resources_t *this_ )
@@ -105,24 +100,29 @@ static inline GdkPixbuf *gui_resources_get_message_user_doc ( gui_resources_t *t
     return (*this_).message_user_doc;
 }
 
-static inline GdkPixbuf *gui_resources_get_tool_search ( gui_resources_t *this_ )
+static inline GdkPixbuf *gui_resources_get_view_new_window ( gui_resources_t *this_ )
 {
-    return (*this_).tool_search;
+    return (*this_).view_new_window;
 }
 
-static inline GdkPixbuf *gui_resources_get_tool_navigate ( gui_resources_t *this_ )
+static inline GdkPixbuf *gui_resources_get_view_search ( gui_resources_t *this_ )
 {
-    return (*this_).tool_navigate;
+    return (*this_).view_search;
 }
 
-static inline GdkPixbuf *gui_resources_get_tool_create ( gui_resources_t *this_ )
+static inline GdkPixbuf *gui_resources_get_view_navigate ( gui_resources_t *this_ )
 {
-    return (*this_).tool_create;
+    return (*this_).view_navigate;
 }
 
-static inline GdkPixbuf *gui_resources_get_tool_edit ( gui_resources_t *this_ )
+static inline GdkPixbuf *gui_resources_get_view_create ( gui_resources_t *this_ )
 {
-    return (*this_).tool_edit;
+    return (*this_).view_create;
+}
+
+static inline GdkPixbuf *gui_resources_get_view_edit ( gui_resources_t *this_ )
+{
+    return (*this_).view_edit;
 }
 
 static inline GdkPixbuf *gui_resources_get_tool_sect ( gui_resources_t *this_ )

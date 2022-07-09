@@ -2,6 +2,9 @@
 SRCDIR=../../gui/source/resources
 BLDDIR=build_dir
 
+echo "cleaning ${BLDDIR}..."
+rm -fr ${BLDDIR}
+
 echo "creating Makefile..."
 rm -f Makefile
 

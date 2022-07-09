@@ -1,11 +1,11 @@
-/* GIMP RGBA C-Source image dump (tool_create.c) */
+/* GIMP RGBA C-Source image dump view_create.c) */
 
 static const struct {
   guint  	 width;
   guint  	 height;
-  guint  	 bytes_per_pixel; /* 2:RGB16, 3:RGB, 4:RGBA */ 
+  guint  	 bytes_per_pixel; /* 2:RGB16, 3:RGB, 4:RGBA */
   guint8 	 pixel_data[32 * 32 * 4 + 1];
-} tool_create = {
+} view_create = {
   32, 32, 4,
   "xxx\1\200\200\200\0\377\377\377\0\377\377\377\0\377\377\377\0\377\377\377"
   "\0\377\377\377\0\377\377\377\0\377\377\377\0\377\377\377\0\0\0\0\11\0\0\0"

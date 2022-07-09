@@ -46,6 +46,7 @@ struct gui_main_window_struct {
     GtkWidget *sketcharea;
 
     GtkWidget *tool_row;
+
     GtkWidget *file_new_db_icon;
     GtkButton *file_new_db;
     GtkWidget *file_use_db_icon;
@@ -56,18 +57,22 @@ struct gui_main_window_struct {
     */
     GtkWidget *file_export_icon;
     GtkButton *file_export;
-    GtkWidget *file_new_window_icon;
-    GtkButton *file_new_window;
+
     GtkWidget *tool_sect_1_icon;
-    GtkWidget *tool_navigate_icon;
-    GtkWidget *tool_navigate;
-    GtkWidget *tool_edit_icon;
-    GtkWidget *tool_edit;
-    GtkWidget *tool_create_icon;
-    GtkWidget *tool_create;
-    GtkWidget *tool_search_icon;
-    GtkWidget *tool_search;
+
+    GtkWidget *view_new_window_icon;
+    GtkButton *view_new_window;
+    GtkWidget *view_navigate_icon;
+    GtkWidget *view_navigate;
+    GtkWidget *view_edit_icon;
+    GtkWidget *view_edit;
+    GtkWidget *view_create_icon;
+    GtkWidget *view_create;
+    GtkWidget *view_search_icon;
+    GtkWidget *view_search;
+
     GtkWidget *tool_sect_2_icon;
+
     GtkWidget *edit_undo_icon;
     GtkButton *edit_undo;
     GtkWidget *edit_redo_icon;
@@ -108,8 +113,8 @@ struct gui_main_window_struct {
     GtkWidget *type_icon_grid;
     GtkWidget *stereotype_label;
     GtkWidget *stereotype_entry;
-    GtkWidget *edit_commit_icon;
-    GtkWidget *edit_commit_button;
+    GtkWidget *file_save_icon;
+    GtkWidget *file_save_button;
 
     GtkWidget *search_row;
     GtkWidget *search_label;

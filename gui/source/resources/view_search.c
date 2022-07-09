@@ -1,11 +1,11 @@
-/* GIMP RGBA C-Source image dump (tool_search.c) */
+/* GIMP RGBA C-Source image dump (view_search.c) */
 
 static const struct {
   guint  	 width;
   guint  	 height;
-  guint  	 bytes_per_pixel; /* 2:RGB16, 3:RGB, 4:RGBA */ 
+  guint  	 bytes_per_pixel; /* 2:RGB16, 3:RGB, 4:RGBA */
   guint8 	 pixel_data[32 * 32 * 4 + 1];
-} tool_search = {
+} view_search = {
   32, 32, 4,
   "\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
   "\000\000\000\000\000\000\000\020\000\000\000]\017\017\017\251\021\021\021\334\010\010\010\365\000\000\000\377"
