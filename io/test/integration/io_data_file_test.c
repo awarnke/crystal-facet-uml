@@ -53,7 +53,7 @@ static void create_new_db(void)
     TEST_ASSERT_EQUAL_INT( false, isopen );
 
     /* create a new db */
-    ctrl_err = io_data_file_open ( &data_file, DATABASE_FILENAME );
+    ctrl_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
     isopen = io_data_file_is_open( &data_file );
@@ -70,7 +70,7 @@ static void open_existing_db(void)
     TEST_ASSERT_EQUAL_INT( false, isopen );
 
     /* create a db first */
-    data_err = io_data_file_open ( &data_file, DATABASE_FILENAME );
+    data_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     data_err = io_data_file_close ( &data_file );
@@ -80,7 +80,7 @@ static void open_existing_db(void)
     TEST_ASSERT_EQUAL_INT( false, isopen );
 
     /* open an existing db */
-    ctrl_err = io_data_file_open ( &data_file, DATABASE_FILENAME );
+    ctrl_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
     isopen = io_data_file_is_open( &data_file );
@@ -99,7 +99,7 @@ static void open_invalid_file(void)
     TEST_ASSERT( NULL != nondb );
 
     size_t written;
-    written = fwrite ( DATABASE_FILENAME, 1, sizeof(DATABASE_FILENAME), nondb );
+    written = fwrite( DATABASE_FILENAME, 1, sizeof(DATABASE_FILENAME), nondb );
     TEST_ASSERT_EQUAL_INT( sizeof(DATABASE_FILENAME), written );
     TEST_ASSERT_EQUAL_INT( 40, sizeof(DATABASE_FILENAME) );  /* check if sizeof works as expected */
 
@@ -110,7 +110,7 @@ static void open_invalid_file(void)
     TEST_ASSERT_EQUAL_INT( false, isopen );
 
     /* open an existing non-db file */
-    ctrl_err = io_data_file_open ( &data_file, DATABASE_FILENAME );
+    ctrl_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_AT_DB, ctrl_err );
 
     isopen = io_data_file_is_open( &data_file );

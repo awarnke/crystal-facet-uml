@@ -6,6 +6,9 @@
 #include "tslog/tslog.h"
 #include <assert.h>
 
+static const char *IO_DATA_FILE_TEMP_EXT = ".tmp-cfu";
+static const char *IO_DATA_FILE_JSON_EXT = ".json";
+
 void io_data_file_init ( io_data_file_t *this_ )
 {
     TRACE_BEGIN();
@@ -15,6 +18,10 @@ void io_data_file_init ( io_data_file_t *this_ )
     (*this_).data_file_name
         = utf8stringbuf_init( sizeof((*this_).private_data_file_name_buffer), (*this_).private_data_file_name_buffer );
     utf8stringbuf_clear( (*this_).data_file_name );
+
+    (*this_).db_file_name
+        = utf8stringbuf_init( sizeof((*this_).private_db_file_name_buffer), (*this_).private_db_file_name_buffer );
+    utf8stringbuf_clear( (*this_).db_file_name );
 
     (*this_).auto_writeback_to_json = false;
 
@@ -30,27 +37,82 @@ void io_data_file_destroy ( io_data_file_t *this_ )
     TRACE_END();
 }
 
-u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path )
+u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path, bool read_only )
 {
     TRACE_BEGIN();
     assert( db_file_path != NULL );
 
-    utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
+    const bool temp_requested = utf8string_ends_with_str( db_file_path, IO_DATA_FILE_TEMP_EXT );
+    bool is_json;
+    const u8_error_t file_not_readable = io_data_file_private_guess_db_type( this_, db_file_path, &is_json );
+    u8_error_t err = U8_ERROR_NONE;
 
-    const u8_error_t err = data_database_open( &((*this_).database), db_file_path );
+    if ( file_not_readable != U8_ERROR_NONE )
+    {
+        if ( is_json )
+        {
+            /* A new json file shall be created */
+            (*this_).auto_writeback_to_json = true;
+            err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
+            err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
+            err |= io_data_file_private_replace_file_extension( this_, (*this_).db_file_name, IO_DATA_FILE_TEMP_EXT );
+        }
+        else if ( temp_requested )
+        {
+            /* This is a strange request, but we can create such an sqlite file. */
+            /* To be consistent with the case of opening an existing temporary file, also this is exported to json later */
+            (*this_).auto_writeback_to_json = true;
+            err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
+            err |= io_data_file_private_replace_file_extension( this_, (*this_).data_file_name, IO_DATA_FILE_JSON_EXT );
+            err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
+        }
+        else
+        {
+            /* A new sqlite file shall be created */
+            (*this_).auto_writeback_to_json = false;
+            err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
+            err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
+        }
+    }
+    else
+    {
+        if ( is_json )
+        {
+            /* An existing json file shall be used */
+            (*this_).auto_writeback_to_json = true;
+            err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
+            err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
+            err |= io_data_file_private_replace_file_extension( this_, (*this_).db_file_name, IO_DATA_FILE_TEMP_EXT );
 
-    TRACE_END_ERR( err );
-    return err;
-}
+            err |= data_database_open( &((*this_).database), db_file_path );
+            /* TODO import data from data_file_name */
+            err |= data_database_close( &((*this_).database) );
+        }
+        else if ( temp_requested )
+        {
+            /* A temporary sqlite file shall be used and later be exported to json */
+            (*this_).auto_writeback_to_json = true;
+            err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
+            err |= io_data_file_private_replace_file_extension( this_, (*this_).data_file_name, IO_DATA_FILE_JSON_EXT );
+            err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
+        }
+        else
+        {
+            /* An sqlite file shall be used */
+            (*this_).auto_writeback_to_json = false;
+            err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
+            err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
+        }
+    }
 
-u8_error_t io_data_file_open_read_only ( io_data_file_t *this_, const char* db_file_path )
-{
-    TRACE_BEGIN();
-    assert( db_file_path != NULL );
-
-    utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
-
-    const u8_error_t err = data_database_open_read_only( &((*this_).database), db_file_path );
+    if ( read_only )
+    {
+        err = data_database_open_read_only( &((*this_).database), db_file_path );
+    }
+    else
+    {
+        err = data_database_open( &((*this_).database), db_file_path );
+    }
 
     TRACE_END_ERR( err );
     return err;
@@ -61,6 +123,8 @@ u8_error_t io_data_file_close ( io_data_file_t *this_ )
     TRACE_BEGIN();
 
     const u8_error_t result = data_database_close( &((*this_).database) );
+
+    /* TODO if auto_writeback_to_json, export data as json to data_file_name */
 
     TRACE_END_ERR( result );
     return result;
@@ -121,7 +185,7 @@ u8_error_t io_data_file_private_guess_db_type ( io_data_file_t *this_, const cha
     }
     else
     {
-        if( 1 == utf8string_ends_with_str( filename, ".json" ) )
+        if( 1 == utf8string_ends_with_str( filename, IO_DATA_FILE_JSON_EXT ) )
         {
             TRACE_INFO_STR("File does not exist and is of type json:", filename);
             *out_json = true;

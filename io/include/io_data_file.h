@@ -19,8 +19,11 @@
 struct io_data_file_struct {
     data_database_t database;
 
-    utf8stringbuf_t data_file_name;
+    utf8stringbuf_t data_file_name;  /*!< the file name of the data file that is either json or sqlite */
     char private_data_file_name_buffer[DATA_DATABASE_MAX_FILEPATH];
+
+    utf8stringbuf_t db_file_name;  /*!< the file name of the sqlite database */
+    char private_db_file_name_buffer[DATA_DATABASE_MAX_FILEPATH];
 
     bool auto_writeback_to_json;
 };
@@ -46,14 +49,14 @@ void io_data_file_destroy ( io_data_file_t *this_ );
  *
  *  It is not allowed to open an already opened database.
  *
- *  Note that this function opens a database writeable or in read-only mode if the file in read-only.
+ *  Note that this function opens a database either writeable or in read-only mode if the file is read-only.
  *
  *  \param this_ pointer to own object attributes
  *  \param db_file_path a relative or absolute file path
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
  *          U8_ERROR_NONE in case of success
  */
-u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path );
+static inline u8_error_t io_data_file_open_writeable ( io_data_file_t *this_, const char* db_file_path );
 
 /*!
  *  \brief opens a database file in read only mode
@@ -67,7 +70,22 @@ u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path )
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
  *          U8_ERROR_NONE in case of success
  */
-u8_error_t io_data_file_open_read_only ( io_data_file_t *this_, const char* db_file_path );
+static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_, const char* db_file_path );
+
+/*!
+ *  \brief opens a database file
+ *
+ *  It is not allowed to open an already opened database.
+ *
+ *  Note that this function opens a database either writeable or in read-only mode (if requested or the file is read-only)
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param db_file_path a relative or absolute file path
+ *  \param read_only if true, the data file is not modified. Otherwise it depends on the write permissions of the file.
+ *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
+ *          U8_ERROR_NONE in case of success
+ */
+u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path, bool read_only );
 
 /*!
  *  \brief closes the current database file
@@ -126,9 +144,21 @@ static inline bool io_data_file_is_open ( io_data_file_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param filename filename of the file to determine the type of, must not be NULL
  *  \param[out] out_json true if filename refers to a json file, false otherwise.
- *  \return U8_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success; other values if file does not exist or cannot be read
  */
 u8_error_t io_data_file_private_guess_db_type ( io_data_file_t *this_, const char *filename, bool *out_json );
+
+/*!
+ *  \brief replaces the file extension
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param file_path a file path or name where to replace the extension. If it has not extension, a new extension is appended.
+ *  \param extension a file extension including the dot.
+ *  \return UTF8ERROR_SUCCESS in case of success, other values indicate an error at string handling
+ */
+static inline utf8error_t io_data_file_private_replace_file_extension ( const io_data_file_t *this_,
+                                                                        utf8stringbuf_t file_path,
+                                                                        const char* extension );
 
 #include "io_data_file.inl"
 

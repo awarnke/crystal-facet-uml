@@ -66,7 +66,7 @@ u8_error_t main_commands_upgrade ( main_commands_t *this_,
 
     TRACE_INFO("upgrading DB...");
     const u8_error_t up_err
-        = io_data_file_open( &((*this_).temp_data_file), data_file_path );  /* upgrade is implicitely done */
+        = io_data_file_open_writeable( &((*this_).temp_data_file), data_file_path );  /* upgrade is implicitely done */
     if ( up_err != U8_ERROR_NONE )
     {
         universal_utf8_writer_write_str( out_english_report, "error opening database_file " );
@@ -95,10 +95,7 @@ u8_error_t main_commands_repair ( main_commands_t *this_,
 
     TRACE_INFO("starting DB...");
     io_data_file_init( &((*this_).temp_data_file) );
-    const u8_error_t db_err
-        = ( check_only )
-        ? io_data_file_open_read_only( &((*this_).temp_data_file), data_file_path )
-        : io_data_file_open( &((*this_).temp_data_file), data_file_path );
+    const u8_error_t db_err = io_data_file_open( &((*this_).temp_data_file), data_file_path, check_only );
     if ( db_err != U8_ERROR_NONE )
     {
         universal_utf8_writer_write_str( out_english_report, "error opening database_file " );
@@ -139,7 +136,7 @@ u8_error_t main_commands_start_gui ( main_commands_t *this_,
     if ( NULL != data_file_path )
     {
         const u8_error_t db_err
-            = io_data_file_open( &((*this_).temp_data_file), data_file_path );
+            = io_data_file_open_writeable( &((*this_).temp_data_file), data_file_path );
         if ( db_err != U8_ERROR_NONE )
         {
             universal_utf8_writer_write_str( out_english_report, "error opening database_file " );
@@ -240,7 +237,7 @@ u8_error_t main_commands_import ( main_commands_t *this_,
     TRACE_INFO("starting DB...");
     io_data_file_init( &((*this_).temp_data_file) );
     const u8_error_t db_err
-        = io_data_file_open( &((*this_).temp_data_file), data_file_path );
+        = io_data_file_open_writeable( &((*this_).temp_data_file), data_file_path );
     if ( db_err != U8_ERROR_NONE )
     {
         universal_utf8_writer_write_str( out_english_report, "error opening database_file " );

@@ -48,7 +48,7 @@ u8_error_t gui_file_db_manager_use_db( gui_file_db_manager_t *this_, const char 
             TRACE_INFO_STR( "Closing the database was not possible:", io_data_file_get_filename_ptr( (*this_).data_file ) );
         }
     }
-    const u8_error_t error = io_data_file_open ( (*this_).data_file, filename );
+    const u8_error_t error = io_data_file_open_writeable ( (*this_).data_file, filename );
 
     if ( U8_ERROR_NONE == error )
     {
