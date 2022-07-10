@@ -9,6 +9,7 @@
  *  \brief Opens and closes a file that is either a database or a json file that needs to be imported and exported.
  */
 
+#include "ctrl_controller.h"
 #include "storage/data_database.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include <stdbool.h>
@@ -17,7 +18,9 @@
  *  \brief all data attributes needed for the database functions
  */
 struct io_data_file_struct {
-    data_database_t database;
+    data_database_t database;  /*!< a database struct to read/write the database, handle tlocks and transactions */
+                               /*!< and notifications to registered listeners */
+    ctrl_controller_t controller;  /*!< a controller struct to modify the database */
 
     utf8stringbuf_t data_file_name;  /*!< the file name of the data file that is either json or sqlite */
     char private_data_file_name_buffer[DATA_DATABASE_MAX_FILEPATH];
@@ -104,6 +107,14 @@ u8_error_t io_data_file_close ( io_data_file_t *this_ );
 static inline data_database_t *io_data_file_get_database_ptr ( io_data_file_t *this_ );
 
 /*!
+ *  \brief returns a pointer to the controller
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to the controller
+ */
+static inline ctrl_controller_t *io_data_file_get_controller_ptr ( io_data_file_t *this_ );
+
+/*!
  *  \brief flushes caches of the current database and optionally exports this to the json file
  *
  *  \param this_ pointer to own object attributes
@@ -159,6 +170,24 @@ u8_error_t io_data_file_private_guess_db_type ( io_data_file_t *this_, const cha
 static inline utf8error_t io_data_file_private_replace_file_extension ( const io_data_file_t *this_,
                                                                         utf8stringbuf_t file_path,
                                                                         const char* extension );
+
+/*!
+ *  \brief imports the data from src_file to the currently open database.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param src_file filename of the source json file to import, must not be NULL
+ *  \return U8_ERROR_NONE in case of success; other values in case of an error
+ */
+u8_error_t io_data_file_private_import ( io_data_file_t *this_, const char *src_file );
+
+/*!
+ *  \brief exports the data from the currently open database to dst_file.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param dst_file filename of the destination json file to export, must not be NULL
+ *  \return U8_ERROR_NONE in case of success; other values in case of an error
+ */
+u8_error_t io_data_file_private_export ( io_data_file_t *this_, const char *dst_file );
 
 #include "io_data_file.inl"
 

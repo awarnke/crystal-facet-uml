@@ -12,7 +12,6 @@
 #include "io_file_format.h"
 #include "io_import_mode.h"
 #include "io_data_file.h"
-#include "ctrl_controller.h"
 #include "utf8stream/universal_utf8_writer.h"
 #include "u8/u8_error.h"
 #include <stdbool.h>
@@ -23,8 +22,7 @@
 struct main_commands_struct {
     int argc;  /*!< the number of command line parameters */
     char **argv;  /*!< the list of parameters */
-    io_data_file_t temp_data_file;  /*!< a data_file struct, is only temporarily initialized (and then destroyed again) */
-    ctrl_controller_t temp_controller;  /*!< a controller struct, is only temporarily initialized (and then destroyed again) */
+    io_data_file_t *data_file;  /*!< a pointer to a data_file struct */
 };
 
 typedef struct main_commands_struct main_commands_t;

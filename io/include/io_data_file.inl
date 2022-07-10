@@ -18,6 +18,11 @@ static inline data_database_t *io_data_file_get_database_ptr ( io_data_file_t *t
     return &((*this_).database);
 }
 
+static inline ctrl_controller_t *io_data_file_get_controller_ptr ( io_data_file_t *this_ )
+{
+    return &((*this_).controller);
+}
+
 static inline const char *io_data_file_get_filename_ptr ( io_data_file_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).data_file_name );

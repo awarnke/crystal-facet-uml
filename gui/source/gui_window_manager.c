@@ -1,18 +1,17 @@
 /* File: gui_window_manager.c; Copyright and License: see below */
 
 #include "gui_window_manager.h"
+#include "ctrl_controller.h"
 #include "trace/trace.h"
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdbool.h>
 
 void gui_window_manager_init( gui_window_manager_t *this_,
-                              ctrl_controller_t *controller,
                               io_data_file_t *data_file,
                               GtkApplication *gtk_app )
 {
     TRACE_BEGIN();
-    assert( controller != NULL );
     assert( data_file != NULL );
 #if ( GTK_MAJOR_VERSION >= 4 )
     assert( gtk_app != NULL );
@@ -20,7 +19,7 @@ void gui_window_manager_init( gui_window_manager_t *this_,
 
     gui_resources_init( &((*this_).gui_resources) );
     data_database_reader_init( &((*this_).db_reader), io_data_file_get_database_ptr( data_file ) );
-    (*this_).controller = controller;
+    (*this_).controller = io_data_file_get_controller_ptr( data_file );
     (*this_).data_file = data_file;
     (*this_).gtk_app = gtk_app;
     observer_init( &((*this_).window_close_observer),

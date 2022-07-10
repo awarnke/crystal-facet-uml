@@ -13,7 +13,6 @@
 #include "gui_simple_message_to_user.h"
 #include "gui_resources.h"
 #include "util/observer/observer.h"
-#include "ctrl_controller.h"
 #include "io_data_file.h"
 #include "storage/data_database_reader.h"
 #include <gtk/gtk.h>
@@ -48,12 +47,10 @@ typedef struct gui_window_manager_struct gui_window_manager_t;
  *  \brief starts window manager
  *
  *  \param this_ pointer to own object attributes
- *  \param controller pointer to a controller object which can modify the data_file
  *  \param data_file pointer to a data_file object
  *  \param gtk_app the gtk application object, may be NULL in case GTK_MAJOR_VERSION <= 3
  */
 void gui_window_manager_init( gui_window_manager_t *this_,
-                              ctrl_controller_t *controller,
                               io_data_file_t *data_file,
                               GtkApplication *gtk_app
                             );

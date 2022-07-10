@@ -14,6 +14,7 @@ void io_data_file_init ( io_data_file_t *this_ )
     TRACE_BEGIN();
 
     data_database_init( &((*this_).database) );
+    ctrl_controller_init( &((*this_).controller), &((*this_).database) );
 
     (*this_).data_file_name
         = utf8stringbuf_init( sizeof((*this_).private_data_file_name_buffer), (*this_).private_data_file_name_buffer );
@@ -32,6 +33,7 @@ void io_data_file_destroy ( io_data_file_t *this_ )
 {
     TRACE_BEGIN();
 
+    ctrl_controller_destroy( &((*this_).controller) );
     data_database_destroy( &((*this_).database) );
 
     TRACE_END();
@@ -52,7 +54,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path, 
         if ( is_json )
         {
             /* A new json file shall be created */
-            (*this_).auto_writeback_to_json = true;
+            (*this_).auto_writeback_to_json = ( ! read_only );
             err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
             err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
             err |= io_data_file_private_replace_file_extension( this_, (*this_).db_file_name, IO_DATA_FILE_TEMP_EXT );
@@ -61,7 +63,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path, 
         {
             /* This is a strange request, but we can create such an sqlite file. */
             /* To be consistent with the case of opening an existing temporary file, also this is exported to json later */
-            (*this_).auto_writeback_to_json = true;
+            (*this_).auto_writeback_to_json = ( ! read_only );
             err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
             err |= io_data_file_private_replace_file_extension( this_, (*this_).data_file_name, IO_DATA_FILE_JSON_EXT );
             err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
@@ -79,19 +81,19 @@ u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path, 
         if ( is_json )
         {
             /* An existing json file shall be used */
-            (*this_).auto_writeback_to_json = true;
+            (*this_).auto_writeback_to_json = ( ! read_only );
             err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
             err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
             err |= io_data_file_private_replace_file_extension( this_, (*this_).db_file_name, IO_DATA_FILE_TEMP_EXT );
 
             err |= data_database_open( &((*this_).database), db_file_path );
-            /* TODO import data from data_file_name */
+            err |= io_data_file_private_import( this_, utf8stringbuf_get_string( (*this_).data_file_name ) );
             err |= data_database_close( &((*this_).database) );
         }
         else if ( temp_requested )
         {
             /* A temporary sqlite file shall be used and later be exported to json */
-            (*this_).auto_writeback_to_json = true;
+            (*this_).auto_writeback_to_json = ( ! read_only );
             err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
             err |= io_data_file_private_replace_file_extension( this_, (*this_).data_file_name, IO_DATA_FILE_JSON_EXT );
             err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
@@ -122,9 +124,19 @@ u8_error_t io_data_file_close ( io_data_file_t *this_ )
 {
     TRACE_BEGIN();
 
-    const u8_error_t result = data_database_close( &((*this_).database) );
+    u8_error_t result = U8_ERROR_NONE;
 
-    /* TODO if auto_writeback_to_json, export data as json to data_file_name */
+    if ( (*this_).auto_writeback_to_json )
+    {
+        result |= io_data_file_private_export( this_, utf8stringbuf_get_string( (*this_).data_file_name ) );
+    }
+
+    result |= data_database_close( &((*this_).database) );
+
+    if ( (*this_).auto_writeback_to_json )
+    {
+        /* TODO delete temp file */
+    }
 
     TRACE_END_ERR( result );
     return result;
@@ -134,7 +146,12 @@ u8_error_t io_data_file_sync_to_disk ( io_data_file_t *this_ )
 {
     TRACE_BEGIN();
 
-    const u8_error_t result = data_database_flush_caches( &((*this_).database) );
+    u8_error_t result = data_database_flush_caches( &((*this_).database) );
+
+    if ( (*this_).auto_writeback_to_json )
+    {
+        result |= io_data_file_private_export( this_, utf8stringbuf_get_string( (*this_).data_file_name ) );
+    }
 
     TRACE_END_ERR( result );
     return result;
@@ -203,6 +220,30 @@ u8_error_t io_data_file_private_guess_db_type ( io_data_file_t *this_, const cha
 
     TRACE_END_ERR( scan_head_error );
     return scan_head_error;
+}
+
+u8_error_t io_data_file_private_import ( io_data_file_t *this_, const char *src_file )
+{
+    TRACE_BEGIN();
+    assert( src_file != NULL );
+    u8_error_t err = U8_ERROR_NONE;
+
+    /* TODO import data from data_file_name */
+
+    TRACE_END_ERR( err );
+    return err;
+}
+
+u8_error_t io_data_file_private_export ( io_data_file_t *this_, const char *dst_file )
+{
+    TRACE_BEGIN();
+    assert( dst_file != NULL );
+    u8_error_t err = U8_ERROR_NONE;
+
+    /* TODO if auto_writeback_to_json, export data as json to data_file_name */
+
+    TRACE_END_ERR( err );
+    return err;
 }
 
 
