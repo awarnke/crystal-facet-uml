@@ -64,6 +64,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path, 
             err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
             err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
             err |= io_data_file_private_replace_file_extension( this_, (*this_).db_file_name, IO_DATA_FILE_TEMP_EXT );
+            /* TODO delete temp db_file_path first */
         }
         else if ( temp_requested )
         {
@@ -92,6 +93,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path, 
             err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
             err |= io_data_file_private_replace_file_extension( this_, (*this_).db_file_name, IO_DATA_FILE_TEMP_EXT );
 
+            /* TODO delete temp db_file_path first */
             err |= data_database_open( &((*this_).database), db_file_path );
             err |= io_data_file_private_import( this_, utf8stringbuf_get_string( (*this_).data_file_name ) );
             err |= data_database_close( &((*this_).database) );
@@ -115,11 +117,11 @@ u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path, 
 
     if ( read_only )
     {
-        err = data_database_open_read_only( &((*this_).database), db_file_path );
+        err = data_database_open_read_only( &((*this_).database), utf8stringbuf_get_string( (*this_).db_file_name ) );
     }
     else
     {
-        err = data_database_open( &((*this_).database), db_file_path );
+        err = data_database_open( &((*this_).database), utf8stringbuf_get_string( (*this_).db_file_name ) );
     }
 
     TRACE_END_ERR( err );
