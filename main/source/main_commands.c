@@ -11,7 +11,7 @@
 #include <stdbool.h>
 #include <assert.h>
 
-static io_data_file_t single_big_data_file;  /*!< a data_file struct, placed in the data segment due to its big size */
+static io_data_file_t single_big_data_file;  /*!< a data_file struct, placed in the data segment due to its >5MB size */
 
 u8_error_t main_commands_init ( main_commands_t *this_, bool start_gui, int argc, char **argv )
 {

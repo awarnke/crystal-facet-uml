@@ -1,7 +1,13 @@
 /* File: io_data_file.c; Copyright and License: see below */
 
 #include "io_data_file.h"
+#include "io_exporter.h"
+#include "io_file_format.h"
+#include "io_importer.h"
+#include "io_import_mode.h"
 #include "u8stream/universal_file_input_stream.h"
+#include "u8stream/universal_null_output_stream.h"
+#include "u8stream/universal_output_stream.h"
 #include "trace/trace.h"
 #include "tslog/tslog.h"
 #include <assert.h>
@@ -226,24 +232,72 @@ u8_error_t io_data_file_private_import ( io_data_file_t *this_, const char *src_
 {
     TRACE_BEGIN();
     assert( src_file != NULL );
-    u8_error_t err = U8_ERROR_NONE;
+    u8_error_t import_err = U8_ERROR_NONE;
+    static const io_import_mode_t import_mode = IO_IMPORT_MODE_CREATE|IO_IMPORT_MODE_LINK;
+    universal_null_output_stream_t dev_null;
+    universal_null_output_stream_init( &dev_null );
+    universal_utf8_writer_t out_null;
+    universal_utf8_writer_init( &out_null, universal_null_output_stream_get_output_stream( &dev_null ) );
 
-    /* TODO import data from data_file_name */
+    TRACE_INFO_STR( "importing file:", src_file );
+    if ( io_data_file_is_open( this_ ) )
+    {
+        static data_database_reader_t db_reader;
+        data_database_reader_init( &db_reader, &((*this_).database) );
+        static io_importer_t importer;
+        io_importer_init( &importer, &db_reader, &((*this_).controller) );
+        {
+            data_stat_t import_stat;
+            data_stat_init ( &import_stat );
+            import_err = io_importer_import_file( &importer, import_mode, src_file, &import_stat, &out_null );
+            data_stat_trace( &import_stat );
+            data_stat_destroy ( &import_stat );
+        }
+        io_importer_destroy( &importer );
+        data_database_reader_destroy( &db_reader );
+    }
+    else
+    {
+        import_err = U8_ERROR_NO_DB;
+    }
 
-    TRACE_END_ERR( err );
-    return err;
+    universal_utf8_writer_destroy( &out_null );
+    universal_null_output_stream_destroy( &dev_null );
+    TRACE_END_ERR( import_err );
+    return import_err;
 }
 
 u8_error_t io_data_file_private_export ( io_data_file_t *this_, const char *dst_file )
 {
     TRACE_BEGIN();
     assert( dst_file != NULL );
-    u8_error_t err = U8_ERROR_NONE;
+    u8_error_t export_err = U8_ERROR_NONE;
 
-    /* TODO if auto_writeback_to_json, export data as json to data_file_name */
+    TRACE_INFO_STR( "exporting file:", dst_file );
+    const char *document_filename = io_data_file_get_filename_ptr( this_ );
+    if ( io_data_file_is_open( this_ ) )
+    {
+        static data_database_reader_t db_reader;
+        data_database_reader_init( &db_reader, &((*this_).database) );
+        static io_exporter_t exporter;
+        io_exporter_init( &exporter, &db_reader );
+        {
+            data_stat_t export_stat;
+            data_stat_init ( &export_stat );
+            export_err = io_exporter_export_files( &exporter, IO_FILE_FORMAT_JSON, dst_file /* parent folder */, document_filename, &export_stat );
+            data_stat_trace( &export_stat );
+            data_stat_destroy ( &export_stat );
+        }
+        io_exporter_destroy( &exporter );
+        data_database_reader_destroy( &db_reader );
+    }
+    else
+    {
+        export_err = U8_ERROR_NO_DB;
+    }
 
-    TRACE_END_ERR( err );
-    return err;
+    TRACE_END_ERR( export_err );
+    return export_err;
 }
 
 
