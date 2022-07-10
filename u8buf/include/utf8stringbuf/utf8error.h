@@ -11,6 +11,9 @@
  *  \author Copyright 2012-2022 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */
 
+#include "u8/u8_error_cat.h"
+#include "u8/u8_error_orig.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -27,12 +30,18 @@ extern "C" {
  *  The bitmasks are compatible with u8_error_t
  */
 enum utf8error_enum {
-    UTF8ERROR_SUCCESS         = 0x00000000, /*!< success, there was no error */
-    UTF8ERROR_NOT_FOUND       = -2147483648 + 0x0040, /*!< pattern not found */
-    UTF8ERROR_NULL_PARAM      = 0x00401000, /*!< NULL was provided as parameter instead of a valid pointer */
-    UTF8ERROR_OUT_OF_RANGE    = 0x00402000, /*!< some integer parameter was out of range */
-    UTF8ERROR_TRUNCATED       = 0x00404000, /*!< the resulting string did not fit into the buffer, the string was truncated */
-    UTF8ERROR_NOT_A_CODEPOINT = 0x00408000, /*!< a codepoint was out of range: only 0x00000000 to 0x0010ffff are valid in utf8 (since 2003) */
+    UTF8ERROR_SUCCESS         = U8_ERROR_CAT_NONE,
+                                /*!< success, there was no error */
+    UTF8ERROR_NOT_FOUND       = U8_ERROR_CAT_LOGIC_ANOMALY + U8_ERROR_ORIG_MISS + 0x40,
+                                /*!< pattern not found */
+    UTF8ERROR_NULL_PARAM      = U8_ERROR_CAT_USE_INPUT     + U8_ERROR_ORIG_MISS + 0x40,
+                                /*!< NULL was provided as parameter instead of a valid pointer */
+    UTF8ERROR_OUT_OF_RANGE    = U8_ERROR_CAT_USE_INPUT     + U8_ERROR_ORIG_DATA + 0x40,
+                                /*!< some integer parameter was out of range */
+    UTF8ERROR_TRUNCATED       = U8_ERROR_CAT_USE_INPUT     + U8_ERROR_ORIG_MEMO + 0x40,
+                                /*!< the resulting string did not fit into the buffer, the string was truncated */
+    UTF8ERROR_NOT_A_CODEPOINT = U8_ERROR_CAT_USE_INPUT     + U8_ERROR_ORIG_DATA + 0x80,
+                                /*!< a codepoint was out of range: only 0x00000000 to 0x0010ffff are valid in utf8 */
 };
 
 /*!

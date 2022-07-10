@@ -73,6 +73,15 @@ u8_error_t universal_file_output_stream_flush( universal_file_output_stream_t *t
 u8_error_t universal_file_output_stream_close( universal_file_output_stream_t *this_ );
 
 /*!
+ *  \brief removes the file from the file system
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param path file path identifying the file to remove
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
+ */
+u8_error_t universal_file_output_stream_remove( const universal_file_output_stream_t *this_, const char *path );
+
+/*!
  *  \brief gets the output stream interface of this universal_file_output_stream_t
  *
  *  \param this_ pointer to own object attributes

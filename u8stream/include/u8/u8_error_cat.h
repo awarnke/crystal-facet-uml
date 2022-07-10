@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Declares a common error type base and common error flags
+ *  \brief Declares a common error base type and common error category flags
  */
 
 /*!

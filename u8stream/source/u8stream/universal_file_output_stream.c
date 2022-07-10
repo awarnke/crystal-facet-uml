@@ -128,8 +128,7 @@ u8_error_t universal_file_output_stream_close( universal_file_output_stream_t *t
 
     if ( (*this_).output != NULL )
     {
-        int close_err;
-        close_err = fclose( (*this_).output );
+        const int close_err = fclose( (*this_).output );
         if ( 0 != close_err )
         {
             TSLOG_ERROR_INT("error at closing file:",close_err);
@@ -141,6 +140,24 @@ u8_error_t universal_file_output_stream_close( universal_file_output_stream_t *t
     {
         TSLOG_ERROR("cannot close a file that is not open.");
         err = U8_ERROR_LOGIC_STATE;
+    }
+
+    TRACE_END_ERR(err);
+    return err;
+}
+
+u8_error_t universal_file_output_stream_remove( const universal_file_output_stream_t *this_, const char *path )
+{
+    TRACE_BEGIN();
+    assert( path != NULL );
+    u8_error_t err = U8_ERROR_NONE;
+
+    const int remove_err = remove( path );
+    if ( 0 != remove_err )
+    {
+        /* This error may have happened on purpose or by an unexpected condition */
+        TRACE_INFO_STR( "error at removing file:", path );
+        err |= U8_ERROR_AT_FILE_WRITE;
     }
 
     TRACE_END_ERR(err);
