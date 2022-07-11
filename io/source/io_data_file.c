@@ -5,6 +5,7 @@
 #include "io_file_format.h"
 #include "io_importer.h"
 #include "io_import_mode.h"
+#include "dir/dir_file.h"
 #include "u8stream/universal_file_input_stream.h"
 #include "u8stream/universal_null_output_stream.h"
 #include "u8stream/universal_output_stream.h"
@@ -64,7 +65,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path, 
             err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
             err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
             err |= io_data_file_private_replace_file_extension( this_, (*this_).db_file_name, IO_DATA_FILE_TEMP_EXT );
-            /* TODO delete temp db_file_path first */
+            dir_file_remove( utf8stringbuf_get_string( (*this_).db_file_name ) );  /* ignore possible errors */
         }
         else if ( temp_requested )
         {
@@ -92,9 +93,9 @@ u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path, 
             err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
             err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
             err |= io_data_file_private_replace_file_extension( this_, (*this_).db_file_name, IO_DATA_FILE_TEMP_EXT );
+            dir_file_remove( utf8stringbuf_get_string( (*this_).db_file_name ) );  /* ignore possible errors */
 
-            /* TODO delete temp db_file_path first */
-            err |= data_database_open( &((*this_).database), db_file_path );
+            err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( (*this_).db_file_name ) );
             err |= io_data_file_private_import( this_, utf8stringbuf_get_string( (*this_).data_file_name ) );
             err |= data_database_close( &((*this_).database) );
         }
@@ -143,7 +144,8 @@ u8_error_t io_data_file_close ( io_data_file_t *this_ )
 
     if ( (*this_).auto_writeback_to_json )
     {
-        /* TODO delete temp file */
+        dir_file_remove( utf8stringbuf_get_string( (*this_).db_file_name ) );  /* ignore possible errors */
+        (*this_).auto_writeback_to_json = false;
     }
 
     TRACE_END_ERR( result );

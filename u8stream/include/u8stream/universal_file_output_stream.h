@@ -10,6 +10,7 @@
  */
 
 #include "u8stream/universal_output_stream.h"
+#include "u8/u8_error.h"
 #include <stdio.h>
 
 /*!
@@ -27,7 +28,7 @@ typedef struct universal_file_output_stream_struct universal_file_output_stream_
  *
  *  \param this_ pointer to own object attributes
  */
-void universal_file_output_stream_init( universal_file_output_stream_t *this_ );
+void universal_file_output_stream_init ( universal_file_output_stream_t *this_ );
 
 /*!
  *  \brief destroys the universal_file_output_stream_t
@@ -35,7 +36,7 @@ void universal_file_output_stream_init( universal_file_output_stream_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-u8_error_t universal_file_output_stream_destroy( universal_file_output_stream_t *this_ );
+u8_error_t universal_file_output_stream_destroy ( universal_file_output_stream_t *this_ );
 
 /*!
  *  \brief opens a file
@@ -62,7 +63,7 @@ u8_error_t universal_file_output_stream_write ( universal_file_output_stream_t *
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-u8_error_t universal_file_output_stream_flush( universal_file_output_stream_t *this_ );
+u8_error_t universal_file_output_stream_flush ( universal_file_output_stream_t *this_ );
 
 /*!
  *  \brief closes the universal_file_output_stream_t
@@ -70,16 +71,7 @@ u8_error_t universal_file_output_stream_flush( universal_file_output_stream_t *t
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-u8_error_t universal_file_output_stream_close( universal_file_output_stream_t *this_ );
-
-/*!
- *  \brief removes the file from the file system
- *
- *  \param this_ pointer to own object attributes
- *  \param path file path identifying the file to remove
- *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
- */
-u8_error_t universal_file_output_stream_remove( const universal_file_output_stream_t *this_, const char *path );
+u8_error_t universal_file_output_stream_close ( universal_file_output_stream_t *this_ );
 
 /*!
  *  \brief gets the output stream interface of this universal_file_output_stream_t
@@ -87,7 +79,7 @@ u8_error_t universal_file_output_stream_remove( const universal_file_output_stre
  *  \param this_ pointer to own object attributes
  *  \return the abstract base class of this_
  */
-universal_output_stream_t* universal_file_output_stream_get_output_stream( universal_file_output_stream_t *this_ );
+universal_output_stream_t* universal_file_output_stream_get_output_stream ( universal_file_output_stream_t *this_ );
 
 #endif  /* UNIVERSAL_FILE_OUTPUT_STREAM_H */
 

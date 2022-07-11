@@ -146,24 +146,6 @@ u8_error_t universal_file_output_stream_close( universal_file_output_stream_t *t
     return err;
 }
 
-u8_error_t universal_file_output_stream_remove( const universal_file_output_stream_t *this_, const char *path )
-{
-    TRACE_BEGIN();
-    assert( path != NULL );
-    u8_error_t err = U8_ERROR_NONE;
-
-    const int remove_err = remove( path );
-    if ( 0 != remove_err )
-    {
-        /* This error may have happened on purpose or by an unexpected condition */
-        TRACE_INFO_STR( "error at removing file:", path );
-        err |= U8_ERROR_AT_FILE_WRITE;
-    }
-
-    TRACE_END_ERR(err);
-    return err;
-}
-
 universal_output_stream_t* universal_file_output_stream_get_output_stream( universal_file_output_stream_t *this_ )
 {
     TRACE_BEGIN();

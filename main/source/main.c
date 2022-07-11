@@ -113,7 +113,7 @@ int main (int argc, char **argv) {
     }
 
     {
-        static main_commands_t commands;
+        main_commands_t commands;
         const int argc_remaining = 1;
         exit_code |= main_commands_init( &commands, ( ! do_not_start ), argc_remaining, argv );
 
