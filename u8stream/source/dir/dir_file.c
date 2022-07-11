@@ -7,17 +7,17 @@
 #include <stdbool.h>
 #include <assert.h>
 
-u8_error_t dir_file_remove( dir_file_t filepath )
+u8_error_t dir_file_remove( dir_file_t this_ )
 {
     TRACE_BEGIN();
-    assert( filepath != NULL );
+    assert( this_ != NULL );
     u8_error_t err = U8_ERROR_NONE;
 
-    const int remove_err = remove( filepath );
+    const int remove_err = remove( this_ );
     if ( 0 != remove_err )
     {
         /* This error may have happened on purpose or by an unexpected condition */
-        TRACE_INFO_STR( "error at removing file:", filepath );
+        TRACE_INFO_STR( "error at removing file:", this_ );
         err |= U8_ERROR_AT_FILE_WRITE;
     }
 

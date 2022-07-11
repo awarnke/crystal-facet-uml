@@ -6,13 +6,13 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief implements basic functions to handle directories nad contained files
+ *  \brief implements basic functions to handle directories and contained files
  */
 
 #include "u8/u8_error.h"
 
 /*!
- *  \brief a dir_file_t is simply a string
+ *  \brief a dir_file_t is simply a string identifying a file
  */
 typedef const char * dir_file_t;
 
@@ -20,10 +20,9 @@ typedef const char * dir_file_t;
  *  \brief removes the file from the file system
  *
  *  \param this_ pointer to own object attributes
- *  \param filepath path identifying the file to remove
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-u8_error_t dir_file_remove( dir_file_t filepath );
+u8_error_t dir_file_remove( dir_file_t this_ );
 
 #endif  /* DIR_FILE_H */
 

@@ -288,7 +288,7 @@ u8_error_t io_data_file_private_export ( io_data_file_t *this_, const char *dst_
         {
             data_stat_t export_stat;
             data_stat_init ( &export_stat );
-            export_err = io_exporter_export_files( &exporter, IO_FILE_FORMAT_JSON, dst_file /* parent folder */, document_filename, &export_stat );
+            export_err = io_exporter_export_document_file( &exporter, IO_FILE_FORMAT_JSON, "title", document_filename, &export_stat );
             data_stat_trace( &export_stat );
             data_stat_destroy ( &export_stat );
         }

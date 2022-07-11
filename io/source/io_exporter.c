@@ -189,68 +189,12 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
         }
         TSLOG_EVENT_STR( "exporting diagram to file:", utf8stringbuf_get_string( (*this_).temp_filename ) );
 
-        /* create surface */
-        if (( IO_FILE_FORMAT_SVG == export_type )
-            || ( IO_FILE_FORMAT_PDF == export_type )
-            || ( IO_FILE_FORMAT_PS == export_type )
-            || ( IO_FILE_FORMAT_PNG == export_type ) )
-        {
-            image_format_writer_init( &((*this_).temp_image_format_exporter ), (*this_).db_reader, &((*this_).temp_input_data) );
-            result = image_format_writer_render_diagram_to_file( &((*this_).temp_image_format_exporter ),
-                                                                 diagram_id,
-                                                                 export_type,
-                                                                 utf8stringbuf_get_string( (*this_).temp_filename ),
-                                                                 io_export_stat
-                                                               );
-            image_format_writer_destroy( &((*this_).temp_image_format_exporter ) );
-        }
-        else /* IO_FILE_FORMAT_TXT */
-        {
-            universal_file_output_stream_t text_output;
-            universal_file_output_stream_init( &text_output );
-            universal_output_stream_t *output = universal_file_output_stream_get_output_stream( &text_output );
-
-            /* open file */
-            result |= universal_file_output_stream_open( &text_output, utf8stringbuf_get_string( (*this_).temp_filename ) );
-            if ( result == 0 )
-            {
-                int write_err = 0;
-
-                /* temporarily use the temp_model_traversal */
-                /* write file */
-                xhtml_element_writer_init( &((*this_).temp_format_writer ),
-                                           (*this_).db_reader,
-                                           IO_FILE_FORMAT_TXT,
-                                           io_export_stat,
-                                           output
-                                         );
-                io_export_diagram_traversal_init( &((*this_).temp_diagram_traversal),
-                                                  (*this_).db_reader,
-                                                  &((*this_).temp_input_data),
-                                                  io_export_stat,
-                                                  xhtml_element_writer_get_element_writer( &((*this_).temp_format_writer) )
-                                                );
-                write_err |= xhtml_element_writer_write_header( &((*this_).temp_format_writer), "DUMMY_TITLE" );
-                write_err |= io_export_diagram_traversal_begin_and_walk_diagram ( &((*this_).temp_diagram_traversal), diagram_id, "NO_IMAGE_FILE" );
-                write_err |= io_export_diagram_traversal_end_diagram ( &((*this_).temp_diagram_traversal), diagram_id );
-                write_err |= xhtml_element_writer_write_footer( &((*this_).temp_format_writer) );
-                io_export_diagram_traversal_destroy( &((*this_).temp_diagram_traversal) );
-                xhtml_element_writer_destroy( &((*this_).temp_format_writer ) );
-
-                if ( 0 != write_err )
-                {
-                    TSLOG_ERROR("error writing txt.");
-                    result = -1;
-                }
-
-                /* close file */
-                result |= universal_file_output_stream_close( &text_output );
-            }
-
-            result |= universal_file_output_stream_destroy( &text_output );
-
-            data_stat_inc_count ( io_export_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED );
-        }
+        result |= io_exporter_export_image_file( this_,
+                                                 diagram_id,
+                                                 export_type,
+                                                 utf8stringbuf_get_string( (*this_).temp_filename ),
+                                                 io_export_stat
+                                               );
     }
 
     /* recursion to children */
@@ -284,6 +228,86 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
     return result;
 }
 
+int io_exporter_export_image_file( io_exporter_t *this_,
+                                   data_id_t diagram_id,
+                                   io_file_format_t export_type,
+                                   const char *file_path,
+                                   data_stat_t *io_export_stat )
+{
+    TRACE_BEGIN();
+    assert ( data_id_is_valid( &diagram_id ) );
+    assert ( NULL != file_path );
+    assert ( NULL != io_export_stat );
+    TRACE_INFO_STR("file_path:", file_path );
+    int result = 0;
+
+    /* create surface */
+    if (( IO_FILE_FORMAT_SVG == export_type )
+        || ( IO_FILE_FORMAT_PDF == export_type )
+        || ( IO_FILE_FORMAT_PS == export_type )
+        || ( IO_FILE_FORMAT_PNG == export_type ) )
+    {
+        image_format_writer_init( &((*this_).temp_image_format_exporter ), (*this_).db_reader, &((*this_).temp_input_data) );
+        result |= image_format_writer_render_diagram_to_file( &((*this_).temp_image_format_exporter ),
+                                                              diagram_id,
+                                                              export_type,
+                                                              file_path,
+                                                              io_export_stat
+                                                            );
+        image_format_writer_destroy( &((*this_).temp_image_format_exporter ) );
+    }
+    else /* IO_FILE_FORMAT_TXT */
+    {
+        universal_file_output_stream_t text_output;
+        universal_file_output_stream_init( &text_output );
+        universal_output_stream_t *output = universal_file_output_stream_get_output_stream( &text_output );
+
+        /* open file */
+        result |= universal_file_output_stream_open( &text_output, file_path );
+        if ( result == 0 )
+        {
+            int write_err = 0;
+
+            /* temporarily use the temp_model_traversal */
+            /* write file */
+            xhtml_element_writer_init( &((*this_).temp_format_writer ),
+                                       (*this_).db_reader,
+                                       IO_FILE_FORMAT_TXT,
+                                       io_export_stat,
+                                       output
+                                     );
+            io_export_diagram_traversal_init( &((*this_).temp_diagram_traversal),
+                                              (*this_).db_reader,
+                                              &((*this_).temp_input_data),
+                                              io_export_stat,
+                                              xhtml_element_writer_get_element_writer( &((*this_).temp_format_writer) )
+                                            );
+            write_err |= xhtml_element_writer_write_header( &((*this_).temp_format_writer), "DUMMY_TITLE" );
+            write_err |= io_export_diagram_traversal_begin_and_walk_diagram ( &((*this_).temp_diagram_traversal), diagram_id, "NO_IMAGE_FILE" );
+            write_err |= io_export_diagram_traversal_end_diagram ( &((*this_).temp_diagram_traversal), diagram_id );
+            write_err |= xhtml_element_writer_write_footer( &((*this_).temp_format_writer) );
+            io_export_diagram_traversal_destroy( &((*this_).temp_diagram_traversal) );
+            xhtml_element_writer_destroy( &((*this_).temp_format_writer ) );
+
+            if ( 0 != write_err )
+            {
+                TSLOG_ERROR("error writing txt.");
+                result = -1;
+            }
+
+            /* close file */
+            result |= universal_file_output_stream_close( &text_output );
+        }
+
+        result |= universal_file_output_stream_destroy( &text_output );
+
+        data_stat_inc_count ( io_export_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED );
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 int io_exporter_private_export_document_file( io_exporter_t *this_,
                                               io_file_format_t export_type,
                                               const char *target_folder,
@@ -297,9 +321,6 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
     TRACE_INFO_STR("target_folder:", target_folder );
     TRACE_INFO_STR("document_file_name:", document_file_name );
     int export_err = 0;
-    universal_file_output_stream_t file_output;
-    universal_file_output_stream_init( &file_output );
-    universal_output_stream_t *output = universal_file_output_stream_get_output_stream( &file_output );
 
     /* open file */
     utf8stringbuf_copy_str( (*this_).temp_filename, target_folder );
@@ -346,6 +367,33 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
     }
     TSLOG_EVENT_STR( "exporting diagrams to document file:", utf8stringbuf_get_string( (*this_).temp_filename ) );
 
+    export_err |= io_exporter_export_document_file( this_,
+                                                    export_type,
+                                                    document_file_name,
+                                                    utf8stringbuf_get_string( (*this_).temp_filename ),
+                                                    io_export_stat
+                                                  );
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int io_exporter_export_document_file( io_exporter_t *this_,
+                                      io_file_format_t export_type,
+                                      const char *document_title,
+                                      const char *file_path,
+                                      data_stat_t *io_export_stat )
+{
+    TRACE_BEGIN();
+    assert ( NULL != document_title );
+    assert ( NULL != file_path );
+    assert ( NULL != io_export_stat );
+    TRACE_INFO_STR("file_path:", file_path );
+    int export_err = 0;
+    universal_file_output_stream_t file_output;
+    universal_file_output_stream_init( &file_output );
+    universal_output_stream_t *output = universal_file_output_stream_get_output_stream( &file_output );
+
     export_err |= universal_file_output_stream_open( &file_output, utf8stringbuf_get_string( (*this_).temp_filename ) );
     if ( export_err == 0 )
     {
@@ -368,8 +416,8 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
                                             xmi_element_writer_get_element_writer( &((*this_).temp_xmi_writer) )
                                           );
             /* write the document */
-            export_err |= xmi_element_writer_write_header( &((*this_).temp_xmi_writer), document_file_name );
-            export_err |= xmi_element_writer_start_main( &((*this_).temp_xmi_writer), document_file_name );
+            export_err |= xmi_element_writer_write_header( &((*this_).temp_xmi_writer), document_title );
+            export_err |= xmi_element_writer_start_main( &((*this_).temp_xmi_writer), document_title );
             xmi_element_writer_set_mode( &((*this_).temp_xmi_writer ), XMI_WRITER_PASS_BASE );
             export_err |= io_export_model_traversal_walk_model_nodes( &((*this_).temp_model_traversal) );
             export_err |= xmi_element_writer_end_main( &((*this_).temp_xmi_writer) );
@@ -383,7 +431,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         else if ( IO_FILE_FORMAT_JSON == export_type )
         {
             json_element_writer_init( &((*this_).temp_json_writer ), io_export_stat, output );
-            export_err |= json_element_writer_write_header( &((*this_).temp_json_writer), document_file_name );
+            export_err |= json_element_writer_write_header( &((*this_).temp_json_writer), document_title );
 
             /* init the diagram_traversal */
             {
@@ -395,7 +443,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
                                                 );
                 /* write the document */
                 json_element_writer_set_mode( &((*this_).temp_json_writer ), JSON_WRITER_PASS_VIEWS );
-                export_err |= json_element_writer_start_main( &((*this_).temp_json_writer), document_file_name );
+                export_err |= json_element_writer_start_main( &((*this_).temp_json_writer), document_title );
                 export_err |= io_exporter_private_export_document_part( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, io_export_stat );
                 export_err |= json_element_writer_end_main( &((*this_).temp_json_writer) );
 
@@ -411,12 +459,12 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
                                              );
                 /* write the document */
                 json_element_writer_set_mode( &((*this_).temp_json_writer ), JSON_WRITER_PASS_NODES );
-                export_err |= json_element_writer_start_main( &((*this_).temp_json_writer), document_file_name );
+                export_err |= json_element_writer_start_main( &((*this_).temp_json_writer), document_title );
                 export_err |= io_export_flat_traversal_iterate_classifiers( &((*this_).temp_flat_traversal) );
                 export_err |= json_element_writer_end_main( &((*this_).temp_json_writer) );
 
                 json_element_writer_set_mode( &((*this_).temp_json_writer ), JSON_WRITER_PASS_EDGES );
-                export_err |= json_element_writer_start_main( &((*this_).temp_json_writer), document_file_name );
+                export_err |= json_element_writer_start_main( &((*this_).temp_json_writer), document_title );
                 export_err |= io_export_flat_traversal_iterate_classifiers( &((*this_).temp_flat_traversal) );
                 export_err |= json_element_writer_end_main( &((*this_).temp_json_writer) );
 
@@ -442,7 +490,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
                                               xhtml_element_writer_get_element_writer( &((*this_).temp_format_writer) )
                                             );
             /* write the document */
-            export_err |= xhtml_element_writer_write_header( &((*this_).temp_format_writer), document_file_name );
+            export_err |= xhtml_element_writer_write_header( &((*this_).temp_format_writer), document_title );
             export_err |= io_exporter_private_export_table_of_contents( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, &((*this_).temp_format_writer) );
             export_err |= io_exporter_private_export_document_part( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, io_export_stat );
             export_err |= xhtml_element_writer_write_footer( &((*this_).temp_format_writer) );

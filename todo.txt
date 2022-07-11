@@ -27,6 +27,7 @@ ideas for future versions:
   [?] sequence diagrams need if/loop-boxes
   [?] activity diagrams need swimlanes/partitions
   @io
+! [ ] error handling when auto-importing and auto-exporting json files via io_data_file_t
   [ ] export formats: enhance xmi standard compliance
   [ ] import XMI format
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces

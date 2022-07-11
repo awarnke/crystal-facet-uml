@@ -98,7 +98,7 @@ int io_exporter_private_get_filename( io_exporter_t *this_,
                                     );
 
 /*!
- *  \brief renders diagrams and exports these to picture (or text) files
+ *  \brief renders diagrams and exports these to picture (or text) files, does recursion for child diagrams
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to export; DATA_ROW_ID_VOID to export all root diagrams
  *  \param max_recursion if greater than 0 and children exist, this function calls itself recursively
@@ -116,6 +116,23 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
                                           );
 
 /*!
+ *  \brief renders one diagram and exports it to a picture (or text) file
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram to export; DATA_ROW_ID_VOID to export all root diagrams
+ *  \param max_recursion if greater than 0 and children exist, this function calls itself recursively
+ *  \param export_type image file format
+ *  \param file_path path name to the export file
+ *  \param io_export_stat pointer to statistics object where export statistics are collected
+ *  \return 0 in case of success, -1 otherwise
+ */
+int io_exporter_export_image_file( io_exporter_t *this_,
+                                   data_id_t diagram_id,
+                                   io_file_format_t export_type,
+                                   const char *file_path,
+                                   data_stat_t *io_export_stat
+                                 );
+
+/*!
  *  \brief creates a document file
  *  \param this_ pointer to own object attributes
  *  \param export_type image file format
@@ -130,6 +147,22 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
                                               const char *document_file_name,
                                               data_stat_t *io_export_stat
                                             );
+
+/*!
+ *  \brief creates a document file
+ *  \param this_ pointer to own object attributes
+ *  \param export_type image file format
+ *  \param document_title title of the document to export
+ *  \param file_path path name to the export file
+ *  \param io_export_stat pointer to statistics object where export statistics are collected
+ *  \return 0 in case of success, -1 otherwise
+ */
+int io_exporter_export_document_file( io_exporter_t *this_,
+                                      io_file_format_t export_type,
+                                      const char *document_title,
+                                      const char *file_path,
+                                      data_stat_t *io_export_stat
+                                    );
 
 /*!
  *  \brief creates a document part
