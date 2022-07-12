@@ -18,7 +18,14 @@ u8_error_t dir_file_remove( dir_file_t this_ )
     {
         /* This error may have happened on purpose or by an unexpected condition */
         TRACE_INFO_STR( "error at removing file:", this_ );
-        err |= U8_ERROR_AT_FILE_WRITE;
+        if (errno == ENOENT)
+        {
+            err |= U8_ERROR_FILE_ALREADY_REMOVED;
+        }
+        else
+        {
+            err |= U8_ERROR_AT_FILE_WRITE;
+        }
     }
 
     TRACE_END_ERR(err);

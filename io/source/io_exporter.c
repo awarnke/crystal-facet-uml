@@ -394,7 +394,7 @@ int io_exporter_export_document_file( io_exporter_t *this_,
     universal_file_output_stream_init( &file_output );
     universal_output_stream_t *output = universal_file_output_stream_get_output_stream( &file_output );
 
-    export_err |= universal_file_output_stream_open( &file_output, utf8stringbuf_get_string( (*this_).temp_filename ) );
+    export_err |= universal_file_output_stream_open( &file_output, file_path );
     if ( export_err == 0 )
     {
         /* write file */

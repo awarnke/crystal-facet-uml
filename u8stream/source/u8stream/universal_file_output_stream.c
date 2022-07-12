@@ -4,6 +4,8 @@
 #include "u8stream/universal_output_stream_if.h"
 #include "trace/trace.h"
 #include "tslog/tslog.h"
+#include <errno.h>
+#include <string.h>
 #include <stdbool.h>
 #include <assert.h>
 
@@ -55,7 +57,7 @@ u8_error_t universal_file_output_stream_open ( universal_file_output_stream_t *t
     (*this_).output = fopen( path, "w" );
     if ( NULL == (*this_).output )
     {
-        TSLOG_ERROR("error at opening file for writing.");
+        TSLOG_ERROR_STR( "error at opening file for writing:", strerror(errno) );
         err |= U8_ERROR_AT_FILE_WRITE;
     }
 

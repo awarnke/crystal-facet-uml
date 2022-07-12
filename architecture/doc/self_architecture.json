@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.37.0"
+    "generator_version": "1.39.0"
   }
   ,
   "views":
@@ -2944,6 +2944,15 @@
             "focused_feature_id": -1,
             "node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
             "uuid": "9cf0b6ed-c782-4759-93c4-3c7a0ff0979a"
+          },
+          {
+            "id": 650,
+            "display_flags": 0,
+            "classifier_id": 416,
+            "classifier_name": "io_data_file",
+            "focused_feature_id": -1,
+            "node": "b55e8e09-2444-4b2d-8b35-362427467d4e",
+            "uuid": "bcf8a8ea-659e-4dd5-85c4-f27d42ea3aef"
           }
         ]
       }
@@ -3643,6 +3652,15 @@
             "focused_feature_id": -1,
             "node": "b5818e0b-68af-4241-a1ea-346fd8266164",
             "uuid": "f7905834-f0bf-4a45-b9d3-85d272516c82"
+          },
+          {
+            "id": 649,
+            "display_flags": 0,
+            "classifier_id": 415,
+            "classifier_name": "main_commands",
+            "focused_feature_id": -1,
+            "node": "bd63c68a-2524-41ba-bfeb-742b345667ec",
+            "uuid": "b1587f2a-66d5-4b6b-a02b-fb81712c3f18"
           }
         ]
       }
@@ -15119,6 +15137,68 @@
     },
     {
       "classifier": {
+        "id": 415,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "",
+        "name": "main_commands",
+        "description": [
+                ""
+        ],
+        "x_order": 24287399,
+        "y_order": -1546677314,
+        "list_order": -1552689133,
+        "uuid": "bd63c68a-2524-41ba-bfeb-742b345667ec",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 416,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "",
+        "name": "io_data_file",
+        "description": [
+                ""
+        ],
+        "x_order": -1202184480,
+        "y_order": -1945105516,
+        "list_order": -1945105516,
+        "uuid": "b55e8e09-2444-4b2d-8b35-362427467d4e",
+        "features":
+        [
+          {
+            "id": 101,
+            "main_type": 0,
+            "type": "Property",
+            "key": "database",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "0c53bb45-0a0d-406a-ac09-b06675a70fc9"
+          },
+          {
+            "id": 102,
+            "main_type": 0,
+            "type": "Property",
+            "key": "controller",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 65536,
+            "uuid": "e5ad6e0b-0d5b-4bff-b9a1-956115f02684"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 4,
         "main_type": 121,
         "type": "Component",
@@ -16088,6 +16168,27 @@
         "from_node": "b5818e0b-68af-4241-a1ea-346fd8266164",
         "to_node": "13c52421-6a05-42c7-82b0-a7575a4061ac",
         "uuid": "3239ef59-8bfe-47e1-940d-367686496d87"
+      }
+    },
+    {
+      "relationship": {
+        "id": 629,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1552689133,
+        "from_classifier_id": 21,
+        "from_classifier_name": "main",
+        "to_classifier_id": 415,
+        "to_classifier_name": "main_commands",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "b5818e0b-68af-4241-a1ea-346fd8266164",
+        "to_node": "bd63c68a-2524-41ba-bfeb-742b345667ec",
+        "uuid": "c3561d5e-9ce7-4b35-b8bc-504eb0c57e06"
       }
     },
     {
@@ -22638,6 +22739,27 @@
     },
     {
       "relationship": {
+        "id": 630,
+        "main_type": 200,
+        "type": "Association",
+        "name": "calls",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_id": 73,
+        "from_classifier_name": "main.c",
+        "to_classifier_id": 415,
+        "to_classifier_name": "main_commands",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "13c52421-6a05-42c7-82b0-a7575a4061ac",
+        "to_node": "bd63c68a-2524-41ba-bfeb-742b345667ec",
+        "uuid": "6fc34211-d4b6-4bb1-83a2-29c59d09fd11"
+      }
+    },
+    {
+      "relationship": {
         "id": 99,
         "main_type": 200,
         "type": "Association",
@@ -23820,6 +23942,27 @@
         "from_node": "25a150fc-b819-4e31-85a9-4937bb85a3fb",
         "to_node": "fcfb422f-51e0-442f-ad0b-92ba43fe0776",
         "uuid": "9f215b05-3c65-4dd2-88d2-f7e5d0e711f3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 631,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1945105516,
+        "from_classifier_id": 195,
+        "from_classifier_name": "io",
+        "to_classifier_id": 416,
+        "to_classifier_name": "io_data_file",
+        "from_feature_id": -1,
+        "to_feature_id": -1,
+        "from_node": "9a93182d-56f8-4865-a642-24d997264063",
+        "to_node": "b55e8e09-2444-4b2d-8b35-362427467d4e",
+        "uuid": "c7ce7008-a06a-4a1b-933b-a7f497e51f7f"
       }
     },
     {

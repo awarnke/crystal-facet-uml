@@ -10,6 +10,7 @@
  */
 
 #include "u8/u8_error.h"
+#include <errno.h>
 
 /*!
  *  \brief a dir_file_t is simply a string identifying a file
@@ -20,7 +21,9 @@ typedef const char * dir_file_t;
  *  \brief removes the file from the file system
  *
  *  \param this_ pointer to own object attributes
- *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
+ *  \return U8_ERROR_NONE in case of success,
+ *          U8_ERROR_FILE_ALREADY_REMOVED if file was not there,
+ *          U8_ERROR_AT_FILE_WRITE otherwise
  */
 u8_error_t dir_file_remove( dir_file_t this_ );
 

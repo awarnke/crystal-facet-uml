@@ -4,6 +4,8 @@
 #include "u8stream/universal_input_stream_if.h"
 #include "trace/trace.h"
 #include "tslog/tslog.h"
+#include <errno.h>
+#include <string.h>
 #include <stdbool.h>
 #include <assert.h>
 
@@ -79,7 +81,7 @@ u8_error_t universal_file_input_stream_open ( universal_file_input_stream_t *thi
     (*this_).input = fopen( path, "r" );
     if ( NULL == (*this_).input )
     {
-        TSLOG_ERROR("error at opening file for reading.");
+        TSLOG_ERROR_STR("error at opening file for reading:", strerror(errno) );
         err |= U8_ERROR_AT_FILE_READ;
     }
 

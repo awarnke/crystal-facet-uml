@@ -29,7 +29,7 @@ enum u8_error_cat_enum {
 
     U8_ERROR_CAT_LOGIC_ANOMALY =-2147483648,  /*!< CAUSE:    Unexpected result of function */
                                               /*!< REACTION: TRACE, handle by caller */
-                                              /*!< EXAMPLE:  key in set not found */
+                                              /*!< EXAMPLE:  key in set not found, file was already deleted */
     U8_ERROR_CAT_LOGIC_STATE   = 0x40000000,  /*!< CAUSE:    Wrong internal state: */
                                               /*!<           The own software module is not in the right state */
                                               /*!<           for the triggering event. */

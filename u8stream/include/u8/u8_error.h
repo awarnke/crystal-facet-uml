@@ -38,6 +38,8 @@ enum u8_error_enum {
                                       /*!< internal error: requested data not found */
     U8_ERROR_END_OF_STREAM          = U8_ERROR_CAT_LOGIC_ANOMALY + U8_ERROR_ORIG_NETW + 0x01,
                                       /*!< internal error: a file or stream is unexpectedly at the end */
+    U8_ERROR_FILE_ALREADY_REMOVED   = U8_ERROR_CAT_LOGIC_ANOMALY + U8_ERROR_ORIG_FILE + 0x01,
+                                      /*!< internal error: a file was already removed */
 
     U8_ERROR_LOGIC_STATE   = U8_ERROR_CAT_LOGIC_STATE,
     U8_ERROR_NOT_YET_IMPLEMENTED    = U8_ERROR_CAT_LOGIC_STATE   + U8_ERROR_ORIG_MISS + 0x10,
