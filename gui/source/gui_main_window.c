@@ -1015,7 +1015,7 @@ void gui_main_window_save_btn_callback( GtkButton *button, gpointer user_data )
 #if ( GTK_MAJOR_VERSION >= 4 )
 gboolean gui_main_window_save_shortcut_callback( GtkWidget* widget, GVariant* args, gpointer user_data )
 {
-    gui_attributes_editor_commit_clicked_callback( (GtkButton*)widget, user_data );
+    gui_main_window_save_btn_callback( (GtkButton*)widget, user_data );
     return TRUE;
 }
 #else
