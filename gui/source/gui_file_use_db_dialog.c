@@ -94,6 +94,7 @@ void gui_file_use_db_dialog_response_callback( GtkDialog *dialog, gint response_
         case GTK_RESPONSE_ACCEPT:
         {
             TSLOG_EVENT( "GTK_RESPONSE_ACCEPT" );
+            gtk_widget_hide( GTK_WIDGET ( dialog ) );
 
             gchar *filename = NULL;
             GFile *selected_file = NULL;
@@ -122,8 +123,6 @@ void gui_file_use_db_dialog_response_callback( GtkDialog *dialog, gint response_
             {
                 g_object_unref( selected_file );
             }
-
-            gtk_widget_hide( GTK_WIDGET ( dialog ) );
         }
         break;
 

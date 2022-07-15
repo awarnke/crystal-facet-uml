@@ -18,6 +18,8 @@ static const gui_simple_message_content_name_t GUI_SIMPLE_MESSAGE_CONTENT_FILE_E
 const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_FILE_EXPORT_FAILED = &GUI_SIMPLE_MESSAGE_CONTENT_FILE_EXPORT_FAILED_DATA;
 static const gui_simple_message_content_name_t GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE_DATA = { .name=NULL };
 const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE = &GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE_DATA;
+static const gui_simple_message_content_name_t GUI_SIMPLE_MESSAGE_CONTENT_LOADING_WAIT_DATA = { .name=NULL };
+const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_LOADING_WAIT = &GUI_SIMPLE_MESSAGE_CONTENT_LOADING_WAIT_DATA;
 
 static const gui_simple_message_content_error_t GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED_DATA = { .error_message=NULL };
 const gui_simple_message_content_error_t *GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED = &GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED_DATA;

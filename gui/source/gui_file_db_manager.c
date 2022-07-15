@@ -48,6 +48,23 @@ u8_error_t gui_file_db_manager_use_db( gui_file_db_manager_t *this_, const char 
             TRACE_INFO_STR( "Closing the database was not possible:", io_data_file_get_filename_ptr( (*this_).data_file ) );
         }
     }
+
+    /* react immediately */
+    gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
+                                                       GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                       GUI_SIMPLE_MESSAGE_CONTENT_LOADING_WAIT,
+                                                       filename
+                                                     );
+    bool events_handled = true;
+    for ( uint_fast8_t max_loop = 40; events_handled && ( max_loop > 0 ); max_loop-- )
+    {
+#if ( GTK_MAJOR_VERSION >= 4 )
+        events_handled = g_main_context_iteration( NULL, /*may_block*/ FALSE );
+#else
+        events_handled = gtk_main_iteration_do( /*blocking*/ false );
+#endif
+    }
+
     const u8_error_t error = io_data_file_open_writeable ( (*this_).data_file, filename );
 
     if ( U8_ERROR_NONE == error )
