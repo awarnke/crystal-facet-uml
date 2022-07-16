@@ -58,11 +58,7 @@ u8_error_t gui_file_db_manager_use_db( gui_file_db_manager_t *this_, const char 
     bool events_handled = true;
     for ( uint_fast8_t max_loop = 40; events_handled && ( max_loop > 0 ); max_loop-- )
     {
-#if ( GTK_MAJOR_VERSION >= 4 )
         events_handled = g_main_context_iteration( NULL, /*may_block*/ FALSE );
-#else
-        events_handled = gtk_main_iteration_do( /*blocking*/ false );
-#endif
     }
 
     const u8_error_t error = io_data_file_open_writeable ( (*this_).data_file, filename );
@@ -77,6 +73,12 @@ u8_error_t gui_file_db_manager_use_db( gui_file_db_manager_t *this_, const char 
                                                                    "New Overview",
                                                                    NULL
                                                                  );
+
+        /* remove the loading message if not overwritten: */
+        if ( GUI_SIMPLE_MESSAGE_TYPE_INFO == gui_simple_message_to_user_get_type_id( (*this_).message_to_user ) )
+        {
+            gui_simple_message_to_user_hide( (*this_).message_to_user );
+        }
     }
     else
     {

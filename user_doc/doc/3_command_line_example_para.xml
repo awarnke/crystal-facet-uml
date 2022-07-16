@@ -6,7 +6,7 @@ you have several options:
 <itemizedlist>
   <listitem>
     <para>
-        Store the binary database format to your vcs,
+        Store the binary database format <command>*.cfu1</command> to your vcs,
         lock the file while modifying it.
     </para>
     <para>
@@ -19,45 +19,18 @@ you have several options:
   </listitem>
   <listitem>
     <para>
-        Store the json export to your vcs.
-        To modify it, import it to an empty crystal-facet-uml database.
-        When finished, export it back to json.
+        Store the json file format <command>*.cfuJ</command> to your vcs.
+        Do not synchronize the file with your vcs while you modify it.
     </para>
     <para>
-        Afterwards, one can
-        a) merge and diff files,
-        b) find out who to ask on which change.
-        Disadvantage is that this feature requires the new version 1.35.0 or later and
-        possibly some additional scripts to simplify the import and export operations.
+        Note that this feature requires at least version 1.35.0, better version 1.39.0 to work smoothly.
     </para>
     <para>
-        Step 1: Export and sync
-    </para>
-    <para>
-        <command>crystal-facet-uml -e my_database_file.cfu1 json .</command>
-    </para>
-    <para>
-        When all your changes are stored in json format (and only then), sync with your version control system.
-    </para>
-    <para>
-        Step 2: Import and edit
-    </para>
-    <para>
-        <command>crystal-facet-uml -i my_database_file.cfu1 add my_database_file.json</command>
-    </para>
-    <para>
-         After import, run the consistency checks on the database (recommended).
+        On command line, there is an option to run consistency checks <command>-t</command> or repair <command>-r</command> the
+        database:
     </para>
     <para>
         <command>crystal-facet-uml -t my_database_file.cfu1 || echo "ERROR $?"</command>
-    </para>
-    <para>
-        When the json format has been imported successfully,
-        continue working on the file my_database_file.cfu1
-        (which is a binary sqlite database format).
-    </para>
-    <para>
-        <command>crystal-facet-uml -u my_database_file.cfu1</command>
     </para>
   </listitem>
 </itemizedlist>

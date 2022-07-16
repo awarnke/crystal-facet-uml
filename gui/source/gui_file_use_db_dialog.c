@@ -67,7 +67,7 @@ void gui_file_use_db_dialog_show( gui_file_use_db_dialog_t *this_, bool open_exi
     if( ! open_existing )
     {
         /* moved here as workaround for disabled file dialog widgets, see https://gitlab.gnome.org/GNOME/gtk/-/issues/4832 */
-        gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).use_db_file_chooser ), "untitled.cfu1" );
+        gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).use_db_file_chooser ), "untitled.cfuJ" );
     }
 
 #if ( GTK_MAJOR_VERSION >= 4 )

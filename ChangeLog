@@ -1,7 +1,8 @@
 crystal-facet-uml (1.39.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * Json format can be opened from gui
+  * Json format can be opened and written back from gui
+  * save button was renamed from commit, moved to top tool bar
 
    -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 17 Jul 2022 19:00:00 +0100
 
