@@ -119,7 +119,6 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
  *  \brief renders one diagram and exports it to a picture (or text) file
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to export; DATA_ROW_ID_VOID to export all root diagrams
- *  \param max_recursion if greater than 0 and children exist, this function calls itself recursively
  *  \param export_type image file format
  *  \param file_path path name to the export file
  *  \param io_export_stat pointer to statistics object where export statistics are collected

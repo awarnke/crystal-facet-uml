@@ -57,6 +57,7 @@ void io_data_file_destroy ( io_data_file_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param db_file_path a relative or absolute file path
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
+ *          U8_ERROR_LEXiCAL_STRUCTURE or U8_ERROR_PARSER_STRUCTURE if file is no valid json format,
  *          U8_ERROR_NONE in case of success
  */
 static inline u8_error_t io_data_file_open_writeable ( io_data_file_t *this_, const char* db_file_path );
@@ -71,6 +72,7 @@ static inline u8_error_t io_data_file_open_writeable ( io_data_file_t *this_, co
  *  \param this_ pointer to own object attributes
  *  \param db_file_path a relative or absolute file path
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
+ *          U8_ERROR_LEXiCAL_STRUCTURE or U8_ERROR_PARSER_STRUCTURE if file is no valid json format,
  *          U8_ERROR_NONE in case of success
  */
 static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_, const char* db_file_path );
@@ -86,6 +88,7 @@ static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_, co
  *  \param db_file_path a relative or absolute file path
  *  \param read_only if true, the data file is not modified. Otherwise it depends on the write permissions of the file.
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
+ *          U8_ERROR_LEXiCAL_STRUCTURE or U8_ERROR_PARSER_STRUCTURE if file is no valid json format,
  *          U8_ERROR_NONE in case of success
  */
 u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path, bool read_only );
