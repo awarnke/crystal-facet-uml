@@ -124,13 +124,16 @@ u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path, 
         }
     }
 
-    if ( read_only )
+    if ( err == U8_ERROR_NONE )
     {
-        err |= data_database_open_read_only( &((*this_).database), utf8stringbuf_get_string( (*this_).db_file_name ) );
-    }
-    else
-    {
-        err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( (*this_).db_file_name ) );
+        if ( read_only )
+        {
+            err |= data_database_open_read_only( &((*this_).database), utf8stringbuf_get_string( (*this_).db_file_name ) );
+        }
+        else
+        {
+            err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( (*this_).db_file_name ) );
+        }
     }
 
     TRACE_END_ERR( err );

@@ -111,7 +111,7 @@ static void open_invalid_file(void)
 
     /* open an existing non-db file */
     ctrl_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_AT_DB, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, ctrl_err );
 
     isopen = io_data_file_is_open( &data_file );
     TEST_ASSERT_EQUAL_INT( false, isopen );

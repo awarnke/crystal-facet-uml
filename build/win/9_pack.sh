@@ -11,7 +11,6 @@ PACK_FILE="crystal-facet-uml_${VERSIONSTR}-1_win64.zip"
 
 echo `date +'%H:%M'`" adding doc files from git repo..."
     cp ../../installation_win/gschemas.compiled ${PREFIX}/share/glib-2.0/schemas/
-    crystal-facet-uml -i ${PREFIX}/crystal-facet-uml_mod5g-example.cfu1 add ../../example_diagrams/mouse_droid.cfuJ
     cp ../../example_diagrams/mouse_droid.cfuJ ${PREFIX}/crystal-facet-uml_mod5g-example.cfuJ
     cp ../../user_doc/crystal-facet-uml_documentation.pdf ${PREFIX}/
 echo "      doc: "`ls ${PREFIX}/crystal-facet-uml_documentation.pdf`
