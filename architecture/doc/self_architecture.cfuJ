@@ -2832,7 +2832,9 @@
         "name": "io: Black Box View",
         "description": [
                 "The io module imports and exports data and diagrams.\n",
-                "Either the filesystem or the clipboard are source and destination."
+                "Either the filesystem or the clipboard are source and destination.\n",
+                "\n",
+                "With the io_data_file_t class, this module provides a wrapper around a database of the data module that can import\/export json files when opening\/closing the database."
         ],
         "list_order": 18432,
         "display_flags": 0,
