@@ -25,7 +25,8 @@ static const char *const MAIN_HELP
     "    -i <database_file> <import_mode>   <json_input_file>  : to import elements,\n"
     "       import_mode: check|add\n"
     /*"       import_mode: check|add|update\n"  - update is a legacy option */
-    "    -u <database_file> : to use/create a database file\n"
+    "   [-u]<database_file> : to use/create a database file\n"
+    "       extension for compact sqlite format: *.cfu1\n"
     /*"    -g <database_file> to upgrade the database tables from version 1.32.1 and older\n"*/
     "    -t <database_file> : to test the database file\n"
     "    -r <database_file> : to test and repair the database file\n";
@@ -65,6 +66,11 @@ int main (int argc, char **argv) {
             universal_utf8_writer_write_str( &writer, META_VERSION_STR );
             universal_utf8_writer_write_str( &writer, "\n" );
             do_not_start = true;
+        }
+        if ( ! utf8string_starts_with_str( argv[1], "-" ) )
+        {
+            /* like -u, allows nice drag+drop integration on Windows(TM) */
+            database_file = argv[1];
         }
     }
     if ( argc == 3 )
