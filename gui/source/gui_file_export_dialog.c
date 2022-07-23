@@ -212,6 +212,18 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
                 if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_json) )) { selected_format |= IO_FILE_FORMAT_JSON; }
     #endif
 
+                /* react immediately */
+                gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
+                                                                   GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                                   GUI_SIMPLE_MESSAGE_CONTENT_EXPORTING_WAIT,
+                                                                   folder_path
+                                                                 );
+                bool events_handled = true;
+                for ( uint_fast8_t max_loop = 40; events_handled && ( max_loop > 0 ); max_loop-- )
+                {
+                    events_handled = g_main_context_iteration( NULL, /*may_block*/ FALSE );
+                }
+
                 /* determine the database file path */
                 const char *db_path = data_database_get_filename_ptr( (*this_).database );
 

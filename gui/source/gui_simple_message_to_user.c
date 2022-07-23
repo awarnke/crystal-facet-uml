@@ -310,6 +310,12 @@ void gui_simple_message_to_user_show_message_with_name ( gui_simple_message_to_u
         utf8stringbuf_append_str( (*this_).private_temp_str, "Loading DB file ...\n" );
         utf8stringbuf_append_str( (*this_).private_temp_str, name );
     }
+    else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_EXPORTING_WAIT )
+    {
+        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_EXPORTING_WAIT" );
+        utf8stringbuf_append_str( (*this_).private_temp_str, "Exporting files ...\n" );
+        utf8stringbuf_append_str( (*this_).private_temp_str, name );
+    }
     else
     {
         TSLOG_ERROR("unexptected content_id");

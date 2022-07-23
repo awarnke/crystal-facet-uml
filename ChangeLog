@@ -1,8 +1,17 @@
+crystal-facet-uml (1.39.1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * A single filename-parameter allows to open files by drag-n-drop
+  * while exporting, the status line states "Exporting..."
+
+   -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 23 Jul 2022 16:00:00 +0100
+
 crystal-facet-uml (1.39.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Json format can be opened and written back from gui
   * save button was renamed from commit, moved to top tool bar
+  * while loading, the status line states "Loading..."
 
    -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 16 Jul 2022 16:00:00 +0100
 
