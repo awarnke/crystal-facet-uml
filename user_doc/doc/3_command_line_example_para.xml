@@ -10,7 +10,9 @@ you have several options:
         lock the file while modifying it.
     </para>
     <para>
-        Advantage is the simple usage.
+        Advantage is
+        a) the simple usage and
+        b) the option to view read-only files.
         Disadvantage is the lack of
         a) diff and merge of files,
         b) identify who changed which line when and with which commit message,

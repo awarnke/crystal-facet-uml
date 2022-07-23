@@ -76,20 +76,18 @@
     </cmdsynopsis>
     <cmdsynopsis>
       <command>&dhpackage;</command>
-      <arg choice="opt">
-        <option>-e <replaceable class="option">database_file</replaceable>
-            <replaceable class="option">export_format</replaceable>
-            <replaceable class="option">export_directory</replaceable>
-        </option>
+      <arg choice="plain">
+        -e <replaceable class="option">database_file</replaceable>
+        <replaceable class="option">export_format</replaceable>
+        <replaceable class="option">export_directory</replaceable>
       </arg>
     </cmdsynopsis>
     <cmdsynopsis>
       <command>&dhpackage;</command>
-      <arg choice="opt">
-        <option>-i <replaceable class="option">database_file</replaceable>
-            <replaceable class="option">import_mode</replaceable>
-            <replaceable class="option">json_input_file</replaceable>
-        </option>
+      <arg choice="plain">
+        -i <replaceable class="option">database_file</replaceable>
+        <replaceable class="option">import_mode</replaceable>
+        <replaceable class="option">json_input_file</replaceable>
       </arg>
     </cmdsynopsis>
   </refsynopsisdiv>
