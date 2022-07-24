@@ -71,6 +71,7 @@ extern const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_DB_FI
 extern const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_FILE_EXPORT_FAILED;  /*!< some or all diagrams could not be exported */
 extern const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE;  /*!< object not created or name not changed */
 extern const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_LOADING_WAIT;  /*!< pls wait while loading */
+extern const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_EXPORTING_WAIT;  /*!< pls wait while exporting */
 
 /*! \brief tag-type to identify constants that may be used only at gui_simple_message_to_user_show_message_with_names method.
  *

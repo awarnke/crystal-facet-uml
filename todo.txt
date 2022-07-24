@@ -1,7 +1,7 @@
 ideas for future versions:
   @gui
   [ ] After deselecting all elements, paste does not work. One has to select an element first.
-      (possibly improved in 1.38.0)
+      (possibly improved in 1.38.0 by nicer error message)
   [ ] performance optimization: redraw only when shown(=visible) items have changed;
       do not redraw 3 times when changing 3 attributes simultaneously. (especially at undo/redo)
       do not redraw twice, once for deactivating a tool and again for activating another
@@ -9,8 +9,7 @@ ideas for future versions:
   [ ] show a progress bar while exporting diagrams (especially for png mode)
   [ ] scrolling through search list missing if result list is too long
   [ ] Move a child diagram out of and behind the parent is not possible in one single step (cannot reproduce?)
-! [ ] The diagram gets too often accidentially selected, causing issues with copy/paste
-! [ ] The yellow selected element shall always be part of the pink set
+  [?] The diagram gets too often accidentially selected, causing issues with copy/paste
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes
@@ -28,8 +27,9 @@ ideas for future versions:
   [?] activity diagrams need swimlanes/partitions
   @io
 ! [ ] error handling when auto-importing and auto-exporting json files via io_data_file_t
+! [ ] dedicated error notifications on read-only json files and parent directories needed
   [ ] export formats: enhance xmi standard compliance
-  [ ] import XMI format
+  [?] import XMI format
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
   [ ] xmi export: improve error message if exported file exists and is read-only
   [ ] uuid are preserved at json import. It is not checked if these uuids are unique in _all_ tables.
@@ -39,23 +39,24 @@ ideas for future versions:
   [ ] json export: determining if statemachine_context - is a good guess but not 100% correct
   [ ] git diff: When changing the model, diffs on relationship changes are not human-understandable:
       see https://github.com/awarnke/crystal-facet-uml/commit/7bfacd0b9ab05bfbf743f0f90ded1c06f79f054f
-  [ ] json import: is a bit slow if you want to perform this regularly
-      see https://stackoverflow.com/questions/1711631/improve-insert-per-second-performance-of-sqlite
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> use the "display_flags" field of "diagrams"
+  [ ] allow to toggle element-filter in diagrams: Show/hide scenario-based relationships, show/hide features,
+      show/hide relationships-of-other-diag-types
   [ ] performance optimization: possibly the feature and relationship filter on a visible_set is slow?
   [?] diagrams need some kind of category/classification/stereotype like idea-for-future, rejected-alternative, ...
       --> add a "stereotype" field to "diagrams"
+  [?] features can have stereotypes, see UML spec 2.5.1 chapter 11.4.5 (maybe use existing value-type?)
   [ ] links unclear:
       interactionuse(diag-reference)-to-fragment(diag);
       part-to-component, object-to-class
   [ ] links unclear: provided/required-interface(feature)-to-interface(classifier)
-  [?] features can have stereotypes, see UML spec 2.5.1 chapter 11.4.5 (maybe use existing value-type?)
   @ctrl
   [ ] delete features immediately when they become invisible in all diagrams (note: the search+xmi+json export find them)
   [ ] delete relationships immediately when they become invisible in all diagrams (note: the search+xmi+json export find them)
-  @universal+utf8stringbuf
+  @u8stream
+  @u8buf
   [ ] combine the static string allocation with dynamic additional buffers for unexpectedly-long strings
   [ ] combine the static array allocation with dynamic additional buffers for arrays of unpredictable lengths
   @main

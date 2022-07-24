@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.38.0"
+    "generator_version": "1.39.0"
   }
   ,
   "views":
@@ -1509,7 +1509,7 @@
         "description": [
                 "This section shows the deployment of the solution into the environment. (Solution Space, Software Level L3)"
         ],
-        "list_order": 229376,
+        "list_order": 245760,
         "display_flags": 0,
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "46914369-d7f3-41d9-90f9-7fe468f556f0",
@@ -1906,7 +1906,7 @@
         "description": [
                 "This section explains the used terms. (Domain and Solution Space, Software Level L3)"
         ],
-        "list_order": 393216,
+        "list_order": 1610649598,
         "display_flags": 0,
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "92c7183a-bc28-40f6-a2bd-e282015dea2b",
@@ -2707,7 +2707,9 @@
         "type": "CFUListDiagram",
         "name": "Glossary",
         "description": [
-                "This section explains the used terms. (Domain and Solution Space, System Level L1)"
+                "This section explains the used terms. (Domain and Solution Space, System Level L1)\n",
+                "\n",
+                "See also D0034#name for software terms."
         ],
         "list_order": 393216,
         "display_flags": 0,
@@ -4065,6 +4067,7 @@
         "name": "Base location",
         "description": [
                 "The location where the MoD5G droid returns to when its mission is finished.\n",
+                "This location typically provides a charging and programming terminal.\n",
                 "This location can be re-programmed."
         ],
         "x_order": 1741984988,
