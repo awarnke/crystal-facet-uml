@@ -20,6 +20,7 @@ void gui_marked_set_init( gui_marked_set_t *this_, GObject *signal_source )
     data_id_init_void( &((*this_).focused_diagram) );
     data_id_init_void( &((*this_).highlighted) );
     data_id_init_void( &((*this_).highlighted_diagram) );
+    (*this_).highlighted_button = GUI_SKETCH_ACTION_NONE;
     data_small_set_init( &((*this_).selected_set) );
 
     /* define a new signal */
@@ -55,6 +56,7 @@ void gui_marked_set_reinit( gui_marked_set_t *this_ )
     data_id_init_void( &((*this_).focused_diagram) );
     data_id_init_void( &((*this_).highlighted) );
     data_id_init_void( &((*this_).highlighted_diagram) );
+    (*this_).highlighted_button = GUI_SKETCH_ACTION_NONE;
     data_small_set_reinit( &((*this_).selected_set) );
 
     TRACE_END();

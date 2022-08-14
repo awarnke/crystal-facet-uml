@@ -704,11 +704,18 @@ void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y )
                 data_id_t object_under_mouse = DATA_ID_VOID;
                 data_id_t diag_under_mouse = DATA_ID_VOID;
                 gui_sketch_area_private_get_diagram_and_object_id_at_pos ( this_, x, y, &diag_under_mouse, &object_under_mouse );
+                gui_sketch_action_t btn_under_mouse = GUI_SKETCH_ACTION_NONE;
+                if ( selected_tool == GUI_TOOL_NAVIGATE )
+                {
+                    gui_sketch_nav_tree_get_button_at_pos( &((*this_).nav_tree), x, y, &btn_under_mouse );
+                }
 
                 const data_id_t object_highlighted
                     = gui_marked_set_get_highlighted( (*this_).marker );
                 const data_id_t diag_highlighted
                     = gui_marked_set_get_highlighted_diagram( (*this_).marker );
+                const gui_sketch_action_t btn_highlighted
+                    = gui_marked_set_get_highlighted_button( (*this_).marker );
                 const bool obj_both_void
                     = ( ! data_id_is_valid( &object_under_mouse ) )&&( ! data_id_is_valid( &object_highlighted ) );
                 const bool obj_equal_or_both_void
@@ -717,7 +724,16 @@ void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y )
                     = ( ! data_id_is_valid( &diag_under_mouse ) )&&( ! data_id_is_valid( &diag_highlighted ) );
                 const bool diag_equal_or_both_void
                     = data_id_equals( &diag_under_mouse, &diag_highlighted ) || diag_both_void;
-                if (( ! obj_equal_or_both_void )||( ! diag_equal_or_both_void ))
+                const bool btn_changed = ( btn_under_mouse != btn_highlighted );
+                if (( btn_under_mouse != GUI_SKETCH_ACTION_NONE )&&( btn_changed ))
+                {
+                    /* highlighted button is activated and has changed */
+                    gui_marked_set_set_highlighted_button( (*this_).marker, btn_under_mouse );
+
+                    /* mark dirty rect */
+                    gtk_widget_queue_draw( (*this_).drawing_area );
+                }
+                else if (( ! obj_equal_or_both_void )||( ! diag_equal_or_both_void )||( btn_changed ))
                 {
                     /* highlight changed */
                     gui_marked_set_set_highlighted( (*this_).marker, object_under_mouse, diag_under_mouse );

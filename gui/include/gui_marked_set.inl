@@ -27,6 +27,11 @@ static inline data_id_t gui_marked_set_get_highlighted_diagram ( const gui_marke
     return( (*this_).highlighted_diagram );
 }
 
+static inline uint32_t gui_marked_set_get_highlighted_button ( const gui_marked_set_t *this_ )
+{
+    return( (*this_).highlighted_button );
+}
+
 static inline const data_small_set_t *gui_marked_set_get_selected_set_const ( const gui_marked_set_t *this_ )
 {
     return ( &((*this_).selected_set) );
@@ -96,6 +101,14 @@ static inline void gui_marked_set_set_highlighted ( gui_marked_set_t *this_,
     assert(( data_id_get_table(&diagram_id) == DATA_TABLE_DIAGRAM )||( data_id_get_table(&diagram_id) == DATA_TABLE_VOID ));
     data_id_replace( &((*this_).highlighted), &obj_id );
     data_id_replace( &((*this_).highlighted_diagram), &diagram_id );
+    (*this_).highlighted_button = GUI_SKETCH_ACTION_NONE;
+}
+
+static inline void gui_marked_set_set_highlighted_button ( gui_marked_set_t *this_, gui_sketch_action_t button_id )
+{
+    data_id_init_void( &((*this_).highlighted) );
+    data_id_init_void( &((*this_).highlighted_diagram) );
+    (*this_).highlighted_button = button_id;
 }
 
 static inline void gui_marked_set_clear_focused ( gui_marked_set_t *this_ )

@@ -8,6 +8,7 @@
  *  \brief References objects that are marked (displayed as selected/focused/highlighted)
  */
 
+#include "sketch_area/gui_sketch_action.h"
 #include "set/data_small_set.h"
 #include "set/data_full_id.h"
 #include <glib-object.h>
@@ -20,6 +21,8 @@
  *  A sketch marker keeps track of the currently focused and selected elements
  *  and knows the currently highlighted elements.
  *
+ *  Even buttons (active icons) are represented to fit into the current redrawing concept.
+ *
  *  Additionally it emits a signal to listeners when the focus changes.
  */
 struct gui_marked_set_struct {
@@ -29,9 +32,10 @@ struct gui_marked_set_struct {
                                 /*!< Even if the focused object is VOID, the focused_diagram should be set */
     data_id_t highlighted;  /*!<  references the one highlighted/mouse over object */
     data_id_t highlighted_diagram;  /*!< the highlighted diagram, the diagram to zoom in when clicking on the highlighted id */
+    gui_sketch_action_t highlighted_button;  /*!<  the buttons action-id if the highlighted/mouse over object is a button */
     data_small_set_t selected_set;  /*!<  references all selected objects (pink corners) */
 
-    GObject *signal_source;  /*!<  The source gobject from which the signal shall be emitted */
+    GObject *signal_source;  /*!<  The source gobject from which the changed-signal shall be emitted */
 };
 
 typedef struct gui_marked_set_struct gui_marked_set_t;
@@ -103,6 +107,14 @@ static inline data_id_t gui_marked_set_get_highlighted ( const gui_marked_set_t 
 static inline data_id_t gui_marked_set_get_highlighted_diagram ( const gui_marked_set_t *this_ );
 
 /*!
+ *  \brief gets the highlighted_button id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return action-id of the highlighted button, GUI_SKETCH_ACTION_NONE if no button was set.
+ */
+static inline gui_sketch_action_t gui_marked_set_get_highlighted_button ( const gui_marked_set_t *this_ );
+
+/*!
  *  \brief gets the selected object ids.
  *
  *  \param this_ pointer to own object attributes
@@ -151,11 +163,23 @@ static inline void gui_marked_set_set_focused ( gui_marked_set_t *this_, data_fu
 /*!
  *  \brief sets the highlighted object id and the highlighted_diagram id
  *
+ *  Unsets the highlighted button.
+ *
  *  \param this_ pointer to own object attributes
  *  \param obj_id the id to set as highlighted, can be identical to diagram_id
  *  \param diagram_id the id of the highlighted diagram; identical or parent to obj_id
  */
 static inline void gui_marked_set_set_highlighted ( gui_marked_set_t *this_, data_id_t obj_id, data_id_t diagram_id );
+
+/*!
+ *  \brief sets the highlighted button id
+ *
+ *  Unsets the highlighted object and highlighted_diagram id.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param button_id the action-id of the button to set as highlighted, may be context specific
+ */
+static inline void gui_marked_set_set_highlighted_button ( gui_marked_set_t *this_, gui_sketch_action_t button_id );
 
 /*!
  *  \brief un-sets the focused object id, but keeps the focused_diagram

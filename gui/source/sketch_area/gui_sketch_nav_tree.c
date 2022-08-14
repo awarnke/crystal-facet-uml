@@ -363,7 +363,7 @@ void gui_sketch_nav_tree_private_layout_node ( gui_sketch_nav_tree_t *this_,
     /* determine icon dimensions */
     {
         const pos_nav_tree_node_type_t node_type = pos_nav_tree_node_get_type( node );
-        const GdkPixbuf *icon = pos_nav_tree_node_type_get_icon( node_type, (*this_).resources );
+        const GdkPixbuf *icon = pos_nav_tree_node_type_get_icon( node_type, false, (*this_).resources );
         const double icon_width = gdk_pixbuf_get_width( icon );
         const double icon_height = gdk_pixbuf_get_height( icon );
 
@@ -660,7 +660,12 @@ void gui_sketch_nav_tree_private_draw_node( gui_sketch_nav_tree_t *this_,
     {
         /* what to draw */
         const pos_nav_tree_node_type_t node_type = pos_nav_tree_node_get_type( node );
-        const GdkPixbuf *icon = pos_nav_tree_node_type_get_icon( node_type, (*this_).resources );
+        const gui_sketch_action_t btn_act = gui_marked_set_get_highlighted_button( marker );
+        const bool highlight
+            = (( node_type == POS_NAV_TREE_NODE_TYPE_NEW_ROOT )&&( btn_act == GUI_SKETCH_ACTION_NEW_ROOT_DIAGRAM ))
+            || (( node_type == POS_NAV_TREE_NODE_TYPE_NEW_SIBLING )&&( btn_act == GUI_SKETCH_ACTION_NEW_SIBLING_DIAGRAM ))
+            || (( node_type == POS_NAV_TREE_NODE_TYPE_NEW_CHILD )&&( btn_act == GUI_SKETCH_ACTION_NEW_CHILD_DIAGRAM ));
+        const GdkPixbuf *icon = pos_nav_tree_node_type_get_icon( node_type, highlight, (*this_).resources );
 
         /* where to draw to */
         const shape_int_rectangle_t *const icon_box
