@@ -9,9 +9,9 @@
  *  \brief Defines shape and location of a visible_classifier
  */
 
-#include "util/geometry/geometry_rectangle.h"
-#include "util/geometry/geometry_h_align.h"
-#include "util/geometry/geometry_v_align.h"
+#include "geometry/geometry_rectangle.h"
+#include "geometry/geometry_h_align.h"
+#include "geometry/geometry_v_align.h"
 #include "set/data_visible_classifier.h"
 
 /*!

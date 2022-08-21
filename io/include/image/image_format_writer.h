@@ -13,7 +13,7 @@
 #include "pencil_diagram_maker.h"
 #include "set/data_visible_set.h"
 #include "set/data_stat.h"
-#include "util/geometry/geometry_rectangle.h"
+#include "geometry/geometry_rectangle.h"
 #include <gtk/gtk.h>
 
 /*!

@@ -12,7 +12,7 @@
 #include "layout/layout_visible_classifier.h"
 #include "layout/layout_feature.h"
 #include "option/pencil_visibility.h"
-#include "util/geometry/geometry_connector.h"
+#include "geometry/geometry_connector.h"
 #include "data_relationship.h"
 
 /*!

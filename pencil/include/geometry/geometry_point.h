@@ -9,7 +9,7 @@
  *  \brief Stores the coordinates of a point
  */
 
-#include "util/geometry/geometry_direction.h"
+#include "geometry/geometry_direction.h"
 #include <stdbool.h>
 
 /*!
@@ -122,7 +122,7 @@ static inline void geometry_point_shift ( geometry_point_t *this_, double delta_
  */
 static inline void geometry_point_trace ( const geometry_point_t *this_ );
 
-#include "util/geometry/geometry_point.inl"
+#include "geometry/geometry_point.inl"
 
 #endif  /* GEOMETRY_POINT_H */
 

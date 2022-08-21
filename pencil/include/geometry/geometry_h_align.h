@@ -36,7 +36,7 @@ static inline double geometry_h_align_get_left ( const geometry_h_align_t *this_
                                                  double reference_width
                                                );
 
-#include "util/geometry/geometry_h_align.inl"
+#include "geometry/geometry_h_align.inl"
 
 #endif  /* GEOMETRY_H_ALIGN_H */
 

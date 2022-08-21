@@ -110,7 +110,7 @@ static inline uint32_t geometry_non_linear_scale_get_grid_intervals ( const geom
  */
 static inline double geometry_non_linear_scale_get_grid_distances ( const geometry_non_linear_scale_t *this_ );
 
-#include "util/geometry/geometry_non_linear_scale.inl"
+#include "geometry/geometry_non_linear_scale.inl"
 
 #endif  /* GEOMETRY_NON_LINEAR_SCALE_H */
 

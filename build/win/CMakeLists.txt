@@ -61,7 +61,7 @@ FILE(GLOB commonSource ../../gui/source/*.c
                        ../../u8stream/source/u8stream/*.c
                        ../../u8stream/source/trace/*.c
                        ../../pencil/source/*.c
-                       ../../pencil/source/util/geometry/*.c
+                       ../../pencil/source/geometry/*.c
                        ../../pencil/source/draw/*.c
                        ../../io/source/*.c
                        ../../io/source/image/*.c

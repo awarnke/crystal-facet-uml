@@ -10,9 +10,9 @@
  */
 
 #include "pencil_size.h"
-#include "util/geometry/geometry_h_align.h"
-#include "util/geometry/geometry_v_align.h"
-#include "util/geometry/geometry_rectangle.h"
+#include "geometry/geometry_h_align.h"
+#include "geometry/geometry_v_align.h"
+#include "geometry/geometry_rectangle.h"
 #include "data_classifier_type.h"
 #include <cairo.h>
 #include <stdint.h>

@@ -9,7 +9,7 @@
  *  \brief Defines dimensions of a diagram
  */
 
-#include "util/geometry/geometry_rectangle.h"
+#include "geometry/geometry_rectangle.h"
 #include "data_diagram.h"
 
 /*!

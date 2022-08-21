@@ -9,8 +9,8 @@
  *  \brief Stores coordinates of a rectangle
  */
 
-#include "util/geometry/geometry_point.h"
-#include "util/geometry/geometry_dimensions.h"
+#include "geometry/geometry_point.h"
+#include "geometry/geometry_dimensions.h"
 #include <stdbool.h>
 
 /*!
@@ -375,7 +375,7 @@ static inline void geometry_rectangle_set_height ( geometry_rectangle_t *this_, 
  */
 static inline void geometry_rectangle_trace ( const geometry_rectangle_t *this_ );
 
-#include "util/geometry/geometry_rectangle.inl"
+#include "geometry/geometry_rectangle.inl"
 
 #endif  /* GEOMETRY_RECTANGLE_H */
 

@@ -1,8 +1,8 @@
 /* File: pencil_rel_label_layouter.c; Copyright and License: see below */
 
 #include "pencil_rel_label_layouter.h"
-#include "util/geometry/geometry_point.h"
-#include "util/geometry/geometry_direction.h"
+#include "geometry/geometry_point.h"
+#include "geometry/geometry_direction.h"
 #include "trace/trace.h"
 #include "utf8stringbuf/utf8string.h"
 

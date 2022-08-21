@@ -12,8 +12,8 @@
 #include "pencil_size.h"
 #include "pencil_layout_data.h"
 #include "pencil_relationship_painter.h"
-#include "util/geometry/geometry_rectangle.h"
-#include "util/geometry/geometry_non_linear_scale.h"
+#include "geometry/geometry_rectangle.h"
+#include "geometry/geometry_non_linear_scale.h"
 #include "data_diagram.h"
 #include "set/data_small_set.h"
 #include "set/data_visible_set.h"
@@ -162,6 +162,8 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
 
 /*!
  *  \brief finds an empty, unused line in a rectangle
+ *
+ *  In case there are several options, the one closer to the center is chosen.
  *
  *  \param this_ pointer to own object attributes
  *  \param search_rect pointer to the rectangle within which to search

@@ -9,7 +9,7 @@
  *  \brief Marks objects by colors and/or lines/ornaments
  */
 
-#include "util/geometry/geometry_rectangle.h"
+#include "geometry/geometry_rectangle.h"
 #include "data_diagram.h"
 #include "set/data_small_set.h"
 #include "data_id.h"

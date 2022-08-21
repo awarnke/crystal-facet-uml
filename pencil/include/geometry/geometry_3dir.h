@@ -9,7 +9,7 @@
  *  \brief Defines a struct of 3 directions
  */
 
-#include "util/geometry/geometry_direction.h"
+#include "geometry/geometry_direction.h"
 
 /*!
  *  \brief struct of 3 directions
@@ -31,7 +31,7 @@ typedef struct geometry_3dir_struct geometry_3dir_t;
  */
 static inline bool geometry_3dir_equals ( const geometry_3dir_t *this_, const geometry_3dir_t *that );
 
-#include "util/geometry/geometry_3dir.inl"
+#include "geometry/geometry_3dir.inl"
 
 #endif  /* GEOMETRY_3DIR_H */
 

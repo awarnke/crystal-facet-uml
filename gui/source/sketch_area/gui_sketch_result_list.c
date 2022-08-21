@@ -1,7 +1,7 @@
 /* File: gui_sketch_result_list.c; Copyright and License: see below */
 
 #include "sketch_area/gui_sketch_result_list.h"
-#include "util/geometry/geometry_rectangle.h"
+#include "geometry/geometry_rectangle.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "gui_sketch_int_compare.h"
 #include "trace/trace.h"

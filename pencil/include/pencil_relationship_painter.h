@@ -13,7 +13,7 @@
 #include "pencil_size.h"
 #include "layout/layout_relationship.h"
 #include "draw/draw_relationship_label.h"
-#include "util/geometry/geometry_connector.h"
+#include "geometry/geometry_connector.h"
 #include "data_diagram.h"
 #include "set/data_visible_set.h"
 #include "set/data_small_set.h"

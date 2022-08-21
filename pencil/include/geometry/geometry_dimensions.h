@@ -130,7 +130,7 @@ static inline void geometry_dimensions_expand ( geometry_dimensions_t *this_, do
  */
 static inline void geometry_dimensions_trace ( const geometry_dimensions_t *this_ );
 
-#include "util/geometry/geometry_dimensions.inl"
+#include "geometry/geometry_dimensions.inl"
 
 #endif  /* GEOMETRY_DIMENSIONS_H */
 

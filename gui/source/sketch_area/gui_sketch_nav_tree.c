@@ -1,7 +1,7 @@
 /* File: gui_sketch_nav_tree.c; Copyright and License: see below */
 
 #include "sketch_area/gui_sketch_nav_tree.h"
-#include "util/geometry/geometry_rectangle.h"
+#include "geometry/geometry_rectangle.h"
 #include "gui_sketch_int_compare.h"
 #include "trace/trace.h"
 #include "tslog/tslog.h"

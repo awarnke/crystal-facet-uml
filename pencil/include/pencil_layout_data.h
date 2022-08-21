@@ -9,8 +9,8 @@
  *  \brief Stores the layout data for input data.
  */
 
-#include "util/geometry/geometry_connector.h"
-#include "util/geometry/geometry_rectangle.h"
+#include "geometry/geometry_connector.h"
+#include "geometry/geometry_rectangle.h"
 #include "layout/layout_diagram.h"
 #include "layout/layout_feature.h"
 #include "layout/layout_relationship.h"

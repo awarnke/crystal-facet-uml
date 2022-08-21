@@ -56,7 +56,8 @@
  *
  *  - All struct elements are private and shall be accessed via "_get_", "_is_" and "_set_" functions.
  *    \n To achieve good runtime-performance, these may be declared as "static inline".
- *  - Attributes that have a shorter lifetime than the parent object shall be perfixed by "temp_".
+ *  - Attributes that have a shorter lifetime than the parent object shall be prefixed by "temp_".
+ *  - Only for constant initialization, attributes may be used directly, e.g. "const point_t pnt = {.x=2, .y=5};"
  *  .
  *
  *  \subsection cfu-methods Methods

@@ -4,7 +4,7 @@
 #include "gui_sketch_card_layouter.h"
 #include "gui_tool.h"
 #include "pencil_diagram_maker.h"
-#include "util/geometry/geometry_rectangle.h"
+#include "geometry/geometry_rectangle.h"
 #include "data_table.h"
 #include "data_id.h"
 #include "trace/trace.h"

@@ -13,9 +13,9 @@
  *  shall be aligned relative to this anchor point
  */
 
-#include "util/geometry/geometry_point.h"
-#include "util/geometry/geometry_h_align.h"
-#include "util/geometry/geometry_v_align.h"
+#include "geometry/geometry_point.h"
+#include "geometry/geometry_h_align.h"
+#include "geometry/geometry_v_align.h"
 #include <stdbool.h>
 
 /*!
@@ -103,7 +103,7 @@ static inline geometry_v_align_t geometry_anchor_get_y_align ( const geometry_an
  */
 static inline void geometry_anchor_trace ( const geometry_anchor_t *this_ );
 
-#include "util/geometry/geometry_anchor.inl"
+#include "geometry/geometry_anchor.inl"
 
 #endif  /* GEOMETRY_ANCHOR_H */
 

@@ -9,7 +9,6 @@ ideas for future versions:
   [ ] show a progress bar while exporting diagrams (especially for png mode)
   [ ] scrolling through search list missing if result list is too long
   [ ] Move a child diagram out of and behind the parent is not possible in one single step (cannot reproduce?)
-  [?] The diagram gets too often accidentially selected, causing issues with copy/paste
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes
@@ -37,7 +36,7 @@ ideas for future versions:
   [ ] json export declares "type": "ActivityFinalNode" even if type is state-final
   [ ] json export declares "type": "DecisionNode" even if type is ChoiceNode (statemachine)
   [ ] json export: determining if statemachine_context - is a good guess but not 100% correct
-  [ ] git diff: When changing the model, diffs on relationship changes are not human-understandable:
+  [ ] git diff: When changing the model, diffs on relationship changes are difficult to understand:
       see https://github.com/awarnke/crystal-facet-uml/commit/7bfacd0b9ab05bfbf743f0f90ded1c06f79f054f
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.

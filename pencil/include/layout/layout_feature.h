@@ -10,9 +10,9 @@
  */
 
 #include "layout/layout_visible_classifier.h"
-#include "util/geometry/geometry_direction.h"
-#include "util/geometry/geometry_rectangle.h"
-#include "util/geometry/geometry_point.h"
+#include "geometry/geometry_direction.h"
+#include "geometry/geometry_rectangle.h"
+#include "geometry/geometry_point.h"
 #include "data_feature.h"
 
 /*!

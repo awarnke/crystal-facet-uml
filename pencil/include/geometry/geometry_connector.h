@@ -12,9 +12,9 @@
  *  connected to a main-line, connected to a destination-end.
  */
 
-#include "util/geometry/geometry_rectangle.h"
-#include "util/geometry/geometry_point.h"
-#include "util/geometry/geometry_3dir.h"
+#include "geometry/geometry_rectangle.h"
+#include "geometry/geometry_point.h"
+#include "geometry/geometry_3dir.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -270,7 +270,7 @@ static inline geometry_3dir_t geometry_connector_get_directions ( const geometry
  */
 static inline void geometry_connector_trace ( const geometry_connector_t *this_ );
 
-#include "util/geometry/geometry_connector.inl"
+#include "geometry/geometry_connector.inl"
 
 #endif  /* GEOMETRY_CONNECTOR_H */
 

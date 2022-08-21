@@ -12,7 +12,7 @@
 #include "pencil_marker.h"
 #include "pencil_size.h"
 #include "layout/layout_diagram.h"
-#include "util/geometry/geometry_rectangle.h"
+#include "geometry/geometry_rectangle.h"
 #include "data_diagram.h"
 #include "set/data_small_set.h"
 #include "data_id.h"

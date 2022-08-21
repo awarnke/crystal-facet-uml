@@ -13,7 +13,7 @@
 #include "pencil_layout_data.h"
 #include "pencil_label_layout_helper.h"
 #include "draw/draw_feature_label.h"
-#include "util/geometry/geometry_rectangle.h"
+#include "geometry/geometry_rectangle.h"
 #include "data_diagram.h"
 #include "set/data_small_set.h"
 #include "set/data_visible_set.h"

@@ -1,7 +1,7 @@
 /* File: geometry_rectangle_test.c; Copyright and License: see below */
 
 #include "geometry_rectangle_test.h"
-#include "util/geometry/geometry_rectangle.h"
+#include "geometry/geometry_rectangle.h"
 #include "test_assert.h"
 
 static void set_up(void);

@@ -1,7 +1,7 @@
 /* File: geometry_non_linear_scale_test.c; Copyright and License: see below */
 
 #include "geometry_non_linear_scale_test.h"
-#include "util/geometry/geometry_non_linear_scale.h"
+#include "geometry/geometry_non_linear_scale.h"
 #include "test_assert.h"
 
 static void set_up(void);

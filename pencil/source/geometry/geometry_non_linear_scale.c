@@ -1,7 +1,7 @@
 /* File: geometry_non_linear_scale.c; Copyright and License: see below */
 
 #define __STDC_LIMIT_MACROS
-#include "util/geometry/geometry_non_linear_scale.h"
+#include "geometry/geometry_non_linear_scale.h"
 #include "trace/trace.h"
 #include "tslog/tslog.h"
 #include <assert.h>

@@ -36,7 +36,7 @@ static inline double geometry_v_align_get_top ( const geometry_v_align_t *this_,
                                                 double reference_height 
                                               );
 
-#include "util/geometry/geometry_v_align.inl"
+#include "geometry/geometry_v_align.inl"
 
 #endif  /* GEOMETRY_V_ALIGN_H */
 
