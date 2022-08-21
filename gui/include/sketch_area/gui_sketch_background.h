@@ -10,7 +10,7 @@
  */
 
 #include "gui_resources.h"
-#include "util/shape/shape_int_rectangle.h"
+#include "shape/shape_int_rectangle.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 

@@ -13,7 +13,7 @@
 #include "gui_marked_set.h"
 #include "gui_resources.h"
 #include "gui_resource_selector.h"
-#include "util/shape/shape_int_rectangle.h"
+#include "shape/shape_int_rectangle.h"
 #include "pos/pos_search_result.h"
 #include "storage/data_database.h"
 #include "set/data_search_result.h"

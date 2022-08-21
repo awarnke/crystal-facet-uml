@@ -20,7 +20,7 @@
 #include "gui_marked_set.h"
 #include "gui_resources.h"
 #include "gui_simple_message_to_user.h"
-#include "util/shape/shape_int_rectangle.h"
+#include "shape/shape_int_rectangle.h"
 #include "storage/data_database_reader.h"
 #include "storage/data_change_message.h"
 #include "data_diagram.h"

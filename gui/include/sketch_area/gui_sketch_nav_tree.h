@@ -14,7 +14,7 @@
 #include "gui_marked_set.h"
 #include "gui_resources.h"
 #include "gui_error.h"
-#include "util/shape/shape_int_rectangle.h"
+#include "shape/shape_int_rectangle.h"
 #include "pos/pos_nav_tree_node.h"
 #include "pos/pos_nav_tree_gap.h"
 #include "storage/data_database.h"

@@ -12,7 +12,7 @@
 #include "gui_main_window.h"
 #include "gui_simple_message_to_user.h"
 #include "gui_resources.h"
-#include "util/observer/observer.h"
+#include "observer/observer.h"
 #include "io_data_file.h"
 #include "storage/data_database_reader.h"
 #include <gtk/gtk.h>

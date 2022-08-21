@@ -1,7 +1,7 @@
 /* File: gui_attributes_editor.c; Copyright and License: see below */
 
 #include "gui_attributes_editor.h"
-#include "util/gtk_helper/gtk_helper_tree_model.h"
+#include "gtk_helper/gtk_helper_tree_model.h"
 #include "trace/trace.h"
 #include "data_table.h"
 #include "data_id.h"

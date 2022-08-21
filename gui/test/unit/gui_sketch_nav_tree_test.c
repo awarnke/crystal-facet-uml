@@ -1,7 +1,7 @@
 /* File: gui_sketch_nav_tree_test.c; Copyright and License: see below */
 
 #include "sketch_area/gui_sketch_nav_tree.h"
-#include "util/shape/shape_int_rectangle.h"
+#include "shape/shape_int_rectangle.h"
 #include "gui_resources.h"
 #include "data_diagram.h"
 #include "test_assert.h"

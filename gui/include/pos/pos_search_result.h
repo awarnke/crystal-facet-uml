@@ -9,7 +9,7 @@
  *  \brief Defines location of a search result
  */
 
-#include "util/shape/shape_int_rectangle.h"
+#include "shape/shape_int_rectangle.h"
 #include "set/data_search_result.h"
 
 /*!

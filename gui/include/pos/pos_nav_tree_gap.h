@@ -9,7 +9,7 @@
  *  \brief Defines parent and list order of gap between diagrams in a nav_tree
  */
 
-#include "util/shape/shape_int_rectangle.h"
+#include "shape/shape_int_rectangle.h"
 #include "data_id.h"
 
 /*!

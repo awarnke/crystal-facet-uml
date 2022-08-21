@@ -9,7 +9,7 @@
  *  \brief Defines location of a diagram in a nav_tree
  */
 
-#include "util/shape/shape_int_rectangle.h"
+#include "shape/shape_int_rectangle.h"
 #include "pos/pos_nav_tree_node_type.h"
 #include "data_diagram.h"
 

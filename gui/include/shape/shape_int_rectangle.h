@@ -9,8 +9,8 @@
  *  \brief Stores integer coordinates of a rectangle
  */
 
-#include "util/shape/shape_h_align.h"
-#include "util/shape/shape_v_align.h"
+#include "shape/shape_h_align.h"
+#include "shape/shape_v_align.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -177,7 +177,7 @@ static inline void shape_int_rectangle_shrink_to_ratio ( shape_int_rectangle_t *
  */
 static inline void shape_int_rectangle_trace ( const shape_int_rectangle_t *this_ );
 
-#include "util/shape/shape_int_rectangle.inl"
+#include "shape/shape_int_rectangle.inl"
 
 #endif  /* SHAPE_INT_RECTANGLE_H */
 

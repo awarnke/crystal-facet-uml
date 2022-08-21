@@ -239,6 +239,7 @@ void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layoute
  */
 void pencil_relationship_layouter_layout_for_communication( pencil_relationship_layouter_t *this_ );
 
+#include "pencil_relationship_layouter.inl"
 
 #endif  /* PENCIL_RELATIONSHIP_LAYOUTER_H */
 

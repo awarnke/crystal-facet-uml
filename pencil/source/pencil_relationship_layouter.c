@@ -445,11 +445,9 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
             geometry_rectangle_destroy( &search_rect );
 
             double src_y = src_center_y;
-            /*
             const geometry_rectangle_t depart_area
-                = { .left=x_value, .top=src_top, .width=(src_left-x_value), .height=geometry_rectangle_get_height(source_rect)}
-            pencil_relationship_layouter_private_find_space_for_line ( this_, &depart_area, GEOMETRY_DIR_HORIZONTAL, gap_dist, &src_y );
-            */
+                = { .left=x_value, .top=src_top, .width=(src_left-x_value), .height=geometry_rectangle_get_height(source_rect)};
+            //pencil_relationship_layouter_private_find_space_for_h_line ( this_, &depart_area, gap_dist, &src_y );
 
             geometry_connector_reinit_vertical ( &(out_solutions[solutions_count]),
                                                  src_left,

@@ -10,7 +10,7 @@
 
 #include "sketch_area/gui_sketch_card.h"
 #include "gui_tool.h"
-#include "util/shape/shape_int_rectangle.h"
+#include "shape/shape_int_rectangle.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 #include <stdint.h>

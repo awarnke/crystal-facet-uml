@@ -11,7 +11,7 @@
 #include "sketch_area/gui_sketch_marker.h"
 #include "sketch_area/gui_sketch_snap_state.h"
 #include "gui_marked_set.h"
-#include "util/shape/shape_int_rectangle.h"
+#include "shape/shape_int_rectangle.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
 #include "pencil_diagram_maker.h"

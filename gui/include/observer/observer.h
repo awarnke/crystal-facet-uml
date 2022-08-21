@@ -49,7 +49,7 @@ static inline void observer_destroy ( observer_t *this_ );
  */
 static inline void observer_notify ( observer_t *this_, void *call_param );
 
-#include "util/observer/observer.inl"
+#include "observer/observer.inl"
 
 #endif  /* OBSERVER_H */
 

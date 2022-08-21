@@ -21,7 +21,7 @@
 #include "io_data_file.h"
 #include "storage/data_change_message.h"
 #include "ctrl_controller.h"
-#include "util/observer/observer.h"
+#include "observer/observer.h"
 #include <gtk/gtk.h>
 
 /*!

@@ -31,7 +31,7 @@ static inline int gtk_helper_tree_model_get_index ( GtkTreeModel *tree_model, in
  */
 static inline int gtk_helper_tree_model_get_id ( GtkTreeModel *tree_model, int id_col, int index );
 
-#include "util/gtk_helper/gtk_helper_tree_model.inl"
+#include "gtk_helper/gtk_helper_tree_model.inl"
 
 #endif  /* GTK_HELPER_TREE_MODEL_H */
 
