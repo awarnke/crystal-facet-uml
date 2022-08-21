@@ -19,6 +19,7 @@
 #include "set/data_visible_set.h"
 #include "data_id.h"
 #include "u8list/universal_array_index_sorter.h"
+#include "u8/u8_error.h"
 #include <cairo.h>
 #include <stdint.h>
 
@@ -169,16 +170,55 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
  *  \param search_rect pointer to the rectangle within which to search
  *  \param horizontal_line true if space for a horizontal line is searched for, false for vertical line
  *  \param min_gap minimum distance to other objects on the diagram
- *  \param out_success pointer to locatoin where to store if the function was successful or not
- *  \param out_coordinate ordinate (y-coordinate) or abscissa (x-coordinate) value where space is available.
+ *  \param io_coordinate ordinate (y-coordinate) or abscissa (x-coordinate) value of the line
+ *                       for which to search space. Input value is the default; in case U8_ERROR_NONE is returned
+ *                       this value is updated to the position where space is available.
+ *  \return U8_ERROR_NONE if a space was found, U8_ERROR_NOT_FOUND otherwise
  */
-void pencil_relationship_layouter_private_find_space_for_line ( pencil_relationship_layouter_t *this_,
-                                                                const geometry_rectangle_t *search_rect,
-                                                                bool horizontal_line,
-                                                                double min_gap,
-                                                                bool *out_success,
-                                                                double *out_coordinate
-                                                              );
+u8_error_t pencil_relationship_layouter_private_find_space_for_line ( pencil_relationship_layouter_t *this_,
+                                                                      const geometry_rectangle_t *search_rect,
+                                                                      bool horizontal_line,
+                                                                      double min_gap,
+                                                                      double *io_coordinate
+                                                                    );
+
+/*!
+ *  \brief finds an empty, unused line in a rectangle
+ *
+ *  In case there are several options, the one closer to the initial value of io_ordinate is chosen.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param search_rect pointer to the rectangle within which to search
+ *  \param min_gap minimum distance to other objects on the diagram
+ *  \param io_ordinate ordinate (y-coordinate) of the line for which to search space.
+ *                     Input value is the default; in case U8_ERROR_NONE is returned
+ *                     this value is updated to the position where where space is available.
+ *  \return U8_ERROR_NONE if a space was found, U8_ERROR_NOT_FOUND otherwise
+ */
+static inline u8_error_t pencil_relationship_layouter_private_find_space_for_h_line ( pencil_relationship_layouter_t *this_,
+                                                                                      const geometry_rectangle_t *search_rect,
+                                                                                      double min_gap,
+                                                                                      double *io_ordinate
+                                                                                    );
+
+/*!
+ *  \brief finds an empty, unused line in a rectangle
+ *
+ *  In case there are several options, the one closer to the initial value of io_ordinate is chosen.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param search_rect pointer to the rectangle within which to search
+ *  \param min_gap minimum distance to other objects on the diagram
+ *  \param io_abscissa abscissa (x-coordinate) of the line for which to search space.
+ *                     Input value is the default; in case U8_ERROR_NONE is returned
+ *                     this value is updated to the position where where space is available.
+ *  \return U8_ERROR_NONE if a space was found, U8_ERROR_NOT_FOUND otherwise
+ */
+static inline u8_error_t pencil_relationship_layouter_private_find_space_for_v_line ( pencil_relationship_layouter_t *this_,
+                                                                                      const geometry_rectangle_t *search_rect,
+                                                                                      double min_gap,
+                                                                                      double *io_abscissa
+                                                                                    );
 
 /*!
  *  \brief make all relationships visible.

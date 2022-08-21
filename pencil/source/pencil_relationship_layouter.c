@@ -430,24 +430,23 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
     {
         if ( dst_right + good_dist < src_left )
         {
-            double x_value;
 
-            bool space_found;
             geometry_rectangle_t search_rect;
             geometry_rectangle_init_by_corners( &search_rect, src_left, src_center_y, dst_right, dst_center_y );
-            pencil_relationship_layouter_private_find_space_for_line ( this_,
-                                                                       &search_rect,
-                                                                       false /* horizontal_line */,
-                                                                       gap_dist,
-                                                                       &space_found,
-                                                                       &x_value
-                                                                     );
+            double x_value = geometry_rectangle_get_center_x( &search_rect );
+            pencil_relationship_layouter_private_find_space_for_v_line ( this_,
+                                                                         &search_rect,
+                                                                         gap_dist,
+                                                                         &x_value
+                                                                       );
             geometry_rectangle_destroy( &search_rect );
 
             double src_y = src_center_y;
+            /*
             const geometry_rectangle_t depart_area
                 = { .left=x_value, .top=src_top, .width=(src_left-x_value), .height=geometry_rectangle_get_height(source_rect)};
-            //pencil_relationship_layouter_private_find_space_for_h_line ( this_, &depart_area, gap_dist, &src_y );
+            pencil_relationship_layouter_private_find_space_for_h_line ( this_, &depart_area, gap_dist, &src_y );
+            */
 
             geometry_connector_reinit_vertical ( &(out_solutions[solutions_count]),
                                                  src_left,
@@ -460,18 +459,14 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
         }
         else if ( dst_left - good_dist > src_right )
         {
-            double x_value;
-
-            bool space_found;
             geometry_rectangle_t search_rect;
             geometry_rectangle_init_by_corners( &search_rect, src_right, src_center_y, dst_left, dst_center_y );
-            pencil_relationship_layouter_private_find_space_for_line ( this_,
-                                                                       &search_rect,
-                                                                       false /* horizontal_line */,
-                                                                       gap_dist,
-                                                                       &space_found,
-                                                                       &x_value
-                                                                     );
+            double x_value = geometry_rectangle_get_center_x( &search_rect );
+            pencil_relationship_layouter_private_find_space_for_v_line ( this_,
+                                                                         &search_rect,
+                                                                         gap_dist,
+                                                                         &x_value
+                                                                       );
             geometry_rectangle_destroy( &search_rect );
 
             geometry_connector_reinit_vertical ( &(out_solutions[solutions_count]),
@@ -489,18 +484,14 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
     {
         if ( dst_bottom + good_dist < src_top )
         {
-            double y_value;
-
-            bool space_found;
             geometry_rectangle_t search_rect;
             geometry_rectangle_init_by_corners( &search_rect, src_center_x, src_top, dst_center_x, dst_bottom );
-            pencil_relationship_layouter_private_find_space_for_line ( this_,
-                                                                       &search_rect,
-                                                                       true /* horizontal_line */,
-                                                                       gap_dist,
-                                                                       &space_found,
-                                                                       &y_value
-                                                                     );
+            double y_value = geometry_rectangle_get_center_y( &search_rect );
+            pencil_relationship_layouter_private_find_space_for_h_line ( this_,
+                                                                         &search_rect,
+                                                                         gap_dist,
+                                                                         &y_value
+                                                                       );
             geometry_rectangle_destroy( &search_rect );
 
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
@@ -514,18 +505,14 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
         }
         else if ( dst_top - good_dist > src_bottom )
         {
-            double y_value;
-
-            bool space_found;
             geometry_rectangle_t search_rect;
             geometry_rectangle_init_by_corners( &search_rect, src_center_x, src_bottom, dst_center_x, dst_top );
-            pencil_relationship_layouter_private_find_space_for_line ( this_,
-                                                                       &search_rect,
-                                                                       true /* horizontal_line */,
-                                                                       gap_dist,
-                                                                       &space_found,
-                                                                       &y_value
-                                                                     );
+            double y_value = geometry_rectangle_get_center_y( &search_rect );
+            pencil_relationship_layouter_private_find_space_for_h_line ( this_,
+                                                                         &search_rect,
+                                                                         gap_dist,
+                                                                         &y_value
+                                                                       );
             geometry_rectangle_destroy( &search_rect );
 
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
@@ -788,31 +775,32 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
     TRACE_END();
 }
 
-void pencil_relationship_layouter_private_find_space_for_line ( pencil_relationship_layouter_t *this_,
-                                                                const geometry_rectangle_t *search_rect,
-                                                                bool horizontal_line,
-                                                                double min_gap,
-                                                                bool *out_success,
-                                                                double *out_coordinate )
+u8_error_t pencil_relationship_layouter_private_find_space_for_line ( pencil_relationship_layouter_t *this_,
+                                                                      const geometry_rectangle_t *search_rect,
+                                                                      bool horizontal_line,
+                                                                      double min_gap,
+                                                                      double *io_coordinate )
 {
     TRACE_BEGIN();
     assert ( NULL != search_rect );
-    assert ( NULL != out_success );
-    assert ( NULL != out_coordinate );
+    assert ( NULL != io_coordinate );
+    u8_error_t err = U8_ERROR_NONE;
 
     /* start two probes at the center and move these to the boundaries when discovering overlaps */
+    const double center = *io_coordinate;
     double smaller_probe;
     double greater_probe;
-    double center;
     if ( horizontal_line )
     {
-        center = geometry_rectangle_get_center_y( search_rect );
+        assert( center > geometry_rectangle_get_top( search_rect ) - 0.000000001 );
+        assert( center < geometry_rectangle_get_bottom( search_rect ) + 0.000000001 );
         smaller_probe = center;
         greater_probe = center;
     }
     else
     {
-        center = geometry_rectangle_get_center_x( search_rect );
+        assert( center > geometry_rectangle_get_left( search_rect ) - 0.000000001 );
+        assert( center < geometry_rectangle_get_right( search_rect ) + 0.000000001 );
         smaller_probe = center;
         greater_probe = center;
     }
@@ -875,32 +863,28 @@ void pencil_relationship_layouter_private_find_space_for_line ( pencil_relations
         {
             if ( smaller_probe < geometry_rectangle_get_top( search_rect ) )
             {
-                *out_success = false;
-                *out_coordinate = center;
+                err = U8_ERROR_NOT_FOUND;
             }
             else
             {
-                *out_success = true;
-                *out_coordinate = smaller_probe;
+                *io_coordinate = smaller_probe;
             }
         }
         else
         {
             if ( smaller_probe < geometry_rectangle_get_top( search_rect ) )
             {
-                *out_success = true;
-                *out_coordinate = greater_probe;
+                *io_coordinate = greater_probe;
             }
             else
             {
-                *out_success = true;
                 if ( greater_probe - center > center - smaller_probe )
                 {
-                    *out_coordinate = smaller_probe;
+                    *io_coordinate = smaller_probe;
                 }
                 else
                 {
-                    *out_coordinate = greater_probe;
+                    *io_coordinate = greater_probe;
                 }
             }
         }
@@ -911,38 +895,35 @@ void pencil_relationship_layouter_private_find_space_for_line ( pencil_relations
         {
             if ( smaller_probe < geometry_rectangle_get_left( search_rect ) )
             {
-                *out_success = false;
-                *out_coordinate = center;
+                err = U8_ERROR_NOT_FOUND;
             }
             else
             {
-                *out_success = true;
-                *out_coordinate = smaller_probe;
+                *io_coordinate = smaller_probe;
             }
         }
         else
         {
             if ( smaller_probe < geometry_rectangle_get_left( search_rect ) )
             {
-                *out_success = true;
-                *out_coordinate = greater_probe;
+                *io_coordinate = greater_probe;
             }
             else
             {
-                *out_success = true;
                 if ( greater_probe - center > center - smaller_probe )
                 {
-                    *out_coordinate = smaller_probe;
+                    *io_coordinate = smaller_probe;
                 }
                 else
                 {
-                    *out_coordinate = greater_probe;
+                    *io_coordinate = greater_probe;
                 }
             }
         }
     }
 
-    TRACE_END();
+    TRACE_END_ERR(err);
+    return err;
 }
 
 void pencil_relationship_layouter_private_make_all_visible ( pencil_relationship_layouter_t *this_ )

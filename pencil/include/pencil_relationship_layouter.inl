@@ -3,35 +3,30 @@
 #include "tslog/tslog.h"
 #include <assert.h>
 
-static inline void pencil_relationship_layouter_private_find_space_for_h_line ( pencil_relationship_layouter_t *this_,
-                                                                                const geometry_rectangle_t *search_rect,
-                                                                                double min_gap,
-                                                                                double *io_ordinate )
+static inline u8_error_t pencil_relationship_layouter_private_find_space_for_h_line ( pencil_relationship_layouter_t *this_,
+                                                                                      const geometry_rectangle_t *search_rect,
+                                                                                      double min_gap,
+                                                                                      double *io_ordinate )
 {
-    bool success;
-    pencil_relationship_layouter_private_find_space_for_line ( this_,
-                                                               search_rect,
-                                                               true, /*horizontal_line */
-                                                               min_gap,
-                                                               &success,
-                                                               io_ordinate
-                                                             );
+    return pencil_relationship_layouter_private_find_space_for_line ( this_,
+                                                                      search_rect,
+                                                                      true, /*horizontal_line */
+                                                                      min_gap,
+                                                                      io_ordinate
+                                                                    );
 }
 
-
-static inline void pencil_relationship_layouter_private_find_space_for_v_line ( pencil_relationship_layouter_t *this_,
-                                                                                const geometry_rectangle_t *search_rect,
-                                                                                double min_gap,
-                                                                                double *io_abscissa )
+static inline u8_error_t pencil_relationship_layouter_private_find_space_for_v_line ( pencil_relationship_layouter_t *this_,
+                                                                                      const geometry_rectangle_t *search_rect,
+                                                                                      double min_gap,
+                                                                                      double *io_abscissa )
 {
-    bool success;
-    pencil_relationship_layouter_private_find_space_for_line ( this_,
-                                                               search_rect,
-                                                               false, /*horizontal_line */
-                                                               min_gap,
-                                                               &success,
-                                                               io_abscissa
-                                                             );
+    return pencil_relationship_layouter_private_find_space_for_line ( this_,
+                                                                      search_rect,
+                                                                      false, /*horizontal_line */
+                                                                      min_gap,
+                                                                      io_abscissa
+                                                                    );
 }
 
 
