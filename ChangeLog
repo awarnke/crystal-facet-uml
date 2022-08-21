@@ -4,6 +4,16 @@ crystal-facet-uml (1.39.1) UNRELEASED; urgency=medium
   * A single filename-parameter allows to open files by drag-n-drop
   * while exporting, the status line states "Exporting..."
   * Create-diagram icons highlight at mouse-over
+  * Improving the relationship layouter, statistics changed on
+    "Raspbian GNU/Linux 11 (bullseye)"
+    test case: layout_good_cases
+      #Diag=432, total=1624 |  ERR=0, W/C=7, W/F=171, W/R=45
+    test case: layout_challenging_cases
+      #Diag=432, total=12346 |  ERR=64, W/C=8033, W/F=8379, W/R=5909
+    test case: layout_good_cases
+      #Diag=432, total=1624 |  ERR=0, W/C=7, W/F=171, W/R=45
+    test case: layout_challenging_cases
+      #Diag=432, total=12346 |  ERR=64, W/C=8033, W/F=8379, W/R=5831
 
    -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 21 Aug 2022 16:00:00 +0100
 

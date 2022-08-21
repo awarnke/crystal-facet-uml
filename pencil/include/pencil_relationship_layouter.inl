@@ -10,7 +10,7 @@ static inline u8_error_t pencil_relationship_layouter_private_find_space_for_h_l
 {
     return pencil_relationship_layouter_private_find_space_for_line ( this_,
                                                                       search_rect,
-                                                                      true, /*horizontal_line */
+                                                                      true, /* horizontal_line */
                                                                       min_gap,
                                                                       io_ordinate
                                                                     );
@@ -23,7 +23,7 @@ static inline u8_error_t pencil_relationship_layouter_private_find_space_for_v_l
 {
     return pencil_relationship_layouter_private_find_space_for_line ( this_,
                                                                       search_rect,
-                                                                      false, /*horizontal_line */
+                                                                      false, /* horizontal_line */
                                                                       min_gap,
                                                                       io_abscissa
                                                                     );
