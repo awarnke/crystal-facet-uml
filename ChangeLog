@@ -11,9 +11,9 @@ crystal-facet-uml (1.39.1) UNRELEASED; urgency=medium
     test case: layout_challenging_cases
       #Diag=432, total=12346 |  ERR=64, W/C=8033, W/F=8379, W/R=5909
     test case: layout_good_cases
-      #Diag=432, total=1624 |  ERR=0, W/C=7, W/F=171, W/R=45
+      #Diag=432, total=1624 |  ERR=0, W/C=7, W/F=171, W/R=46
     test case: layout_challenging_cases
-      #Diag=432, total=12346 |  ERR=64, W/C=8033, W/F=8379, W/R=5831
+      #Diag=432, total=12346 |  ERR=64, W/C=8033, W/F=8381, W/R=5257
 
    -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 21 Aug 2022 16:00:00 +0100
 
