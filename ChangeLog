@@ -5,13 +5,14 @@ crystal-facet-uml (1.40.0) UNRELEASED; urgency=medium
   * while exporting, the status line states "Exporting..."
   * Create-diagram icons highlight at mouse-over
   * Improving the relationship layouter, statistics changed on
-    "Raspbian GNU/Linux 11 (bullseye)"
+    "Raspbian GNU/Linux 11 (bullseye)" from:
     layout_good_cases: ERR=0, W/C=7, W/F=171, W/R=45
     layout_challenging_cases: ERR=64, W/C=8033, W/F=8379, W/R=5909
+    to:
     layout_good_cases: ERR=0, W/C=7, W/F=171, W/R=38
     layout_challenging_cases: ERR=64, W/C=8033, W/F=8381, W/R=5271
 
-   -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 21 Aug 2022 16:00:00 +0100
+   -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 28 Aug 2022 16:00:00 +0100
 
 crystal-facet-uml (1.39.0) UNRELEASED; urgency=medium
 

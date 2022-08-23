@@ -57,8 +57,8 @@ void pencil_relationship_layouter_private_do_layout ( pencil_relationship_layout
 
         /* declaration of list of options */
         uint32_t solutions_count = 0;
-        static const uint32_t SOLUTIONS_MAX = 8;
-        geometry_connector_t solution[8];
+        static const uint32_t SOLUTIONS_MAX = 14;
+        geometry_connector_t solution[14];
 
         /* propose options */
         pencil_relationship_layouter_private_propose_solutions ( this_,
@@ -616,28 +616,18 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
     const double gap_dist = 0.499 * object_dist;  /* half the object distance allows a line to pass between two objects */
     static const double NO_TOUCH = 0.0001;
 
-    /* prevent that forward and retour are on same line */
-    double src_y = src_center_y;
-    double dst_y = dst_center_y;
-    if ( fabs( src_center_y - dst_center_y ) < NO_TOUCH )
-    {
-        /* forward way is identical to retour - may be a relation to self */
-        src_y += gap_dist;
-        dst_y -= gap_dist;
-    }
-    double src_x = src_center_x;
-    double dst_x = dst_center_x;
-    if ( fabs( src_center_x - dst_center_x ) < NO_TOUCH )
-    {
-        /* forward way is identical to retour - may be a relation to self */
-        src_x -= gap_dist;
-        dst_x += gap_dist;
-    }
-
     /* connect via left side */
     {
         /* define defaults */
         double x_value = fmin( src_left, dst_left ) - object_dist;
+        double src_y = src_center_y;
+        double dst_y = dst_center_y;
+        if ( fabs( src_center_y - dst_center_y ) < NO_TOUCH )
+        {
+            /* forward way is identical to retour - may be a relation to self */
+            src_y += gap_dist;
+            dst_y -= gap_dist;
+        }
 
         /* optimize coordinates */
         geometry_rectangle_t search_rect;
@@ -668,6 +658,14 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
     {
         /* define defaults */
         double x_value = fmax( src_right, dst_right ) + object_dist;
+        double src_y = src_center_y;
+        double dst_y = dst_center_y;
+        if ( fabs( src_center_y - dst_center_y ) < NO_TOUCH )
+        {
+            /* forward way is identical to retour - may be a relation to self */
+            src_y += gap_dist;
+            dst_y -= gap_dist;
+        }
 
         /* optimize coordinates */
         geometry_rectangle_t search_rect;
@@ -698,6 +696,14 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
     {
         /* define defaults */
         double y_value = fmin( src_top, dst_top ) - object_dist;
+        double src_x = src_center_x;
+        double dst_x = dst_center_x;
+        if ( fabs( src_center_x - dst_center_x ) < NO_TOUCH )
+        {
+            /* forward way is identical to retour - may be a relation to self */
+            src_x -= gap_dist;
+            dst_x += gap_dist;
+        }
 
         /* optimize coordinates */
         geometry_rectangle_t search_rect;
@@ -727,7 +733,15 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
     /* connect via bottom side */
     {
         /* define defaults */
-        double y_value = fmax( src_bottom, dst_bottom ) - object_dist;
+        double y_value = fmax( src_bottom, dst_bottom ) + object_dist;
+        double src_x = src_center_x;
+        double dst_x = dst_center_x;
+        if ( fabs( src_center_x - dst_center_x ) < NO_TOUCH )
+        {
+            /* forward way is identical to retour - may be a relation to self */
+            src_x -= gap_dist;
+            dst_x += gap_dist;
+        }
 
         /* optimize coordinates */
         geometry_rectangle_t search_rect;
@@ -771,7 +785,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
     assert( NULL != dest_rect );
     assert ( NULL != out_solutions );
     assert ( NULL != out_solutions_count );
-    assert ( 2 <= solutions_max );  /* current implementation requires at least 2 options */
+    assert ( 8 <= solutions_max );  /* current implementation requires at least 2 options */
 
     uint32_t solutions_count = 0;
 
@@ -792,9 +806,9 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
     const double good_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
     /* if applicable, add a solution from source to left */
-    if ( dst_center_x + good_dist < src_left )
+    // if ( dst_center_x + good_dist < src_left )
     {
-        if ( dst_bottom + good_dist < src_center_y )
+        // if ( dst_bottom + good_dist < src_center_y )
         {
             /* add solution */
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
@@ -806,7 +820,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
                                                  );
             solutions_count ++;
         }
-        else if ( dst_top - good_dist > src_center_y )
+        // else if ( dst_top - good_dist > src_center_y )
         {
             /* add solution */
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
@@ -821,9 +835,9 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
     }
 
     /* else-if applicable, add a solution from source to right */
-    else if ( dst_center_x - good_dist > src_right )
+    // else if ( dst_center_x - good_dist > src_right )
     {
-        if ( dst_bottom + good_dist < src_center_y )
+        // if ( dst_bottom + good_dist < src_center_y )
         {
             /* add solution */
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
@@ -835,7 +849,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
                                                  );
             solutions_count ++;
         }
-        else if ( dst_top - good_dist > src_center_y )
+        // else if ( dst_top - good_dist > src_center_y )
         {
             /* add solution */
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
@@ -850,9 +864,9 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
     }
 
     /* if applicable, add a solution from source to upwards */
-    if ( dst_center_y + good_dist < src_top )
+    // if ( dst_center_y + good_dist < src_top )
     {
-        if ( dst_right + good_dist < src_center_x )
+        // if ( dst_right + good_dist < src_center_x )
         {
             /* add solution */
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
@@ -864,7 +878,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
                                                  );
             solutions_count ++;
         }
-        else if ( dst_left - good_dist > src_center_x )
+        // else if ( dst_left - good_dist > src_center_x )
         {
             /* add solution */
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
@@ -879,9 +893,9 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
     }
 
     /* else-if applicable, add a solution from source to downwards */
-    else if ( dst_center_y - good_dist > src_bottom )
+    // else if ( dst_center_y - good_dist > src_bottom )
     {
-        if ( dst_right + good_dist < src_center_x )
+        // if ( dst_right + good_dist < src_center_x )
         {
             /* add solution */
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
@@ -893,7 +907,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
                                                  );
             solutions_count ++;
         }
-        else if ( dst_left - good_dist > src_center_x )
+        // else if ( dst_left - good_dist > src_center_x )
         {
             /* add solution */
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
