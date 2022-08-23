@@ -619,7 +619,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
     /* prevent that forward and retour are on same line */
     double src_y = src_center_y;
     double dst_y = dst_center_y;
-    if ( fabs( src_center_y - dst_center_y ) < 0.0001 )
+    if ( fabs( src_center_y - dst_center_y ) < NO_TOUCH )
     {
         /* forward way is identical to retour - may be a relation to self */
         src_y += gap_dist;
@@ -627,7 +627,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
     }
     double src_x = src_center_x;
     double dst_x = dst_center_x;
-    if ( fabs( src_center_x - dst_center_x ) < 0.0001 )
+    if ( fabs( src_center_x - dst_center_x ) < NO_TOUCH )
     {
         /* forward way is identical to retour - may be a relation to self */
         src_x -= gap_dist;
@@ -956,18 +956,30 @@ u8_error_t pencil_relationship_layouter_private_find_space_for_line ( pencil_rel
                 = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, classifier_index );
             const geometry_rectangle_t *const classifier_symbol_box
                 = layout_visible_classifier_get_symbol_box_const( the_classifier );
+            const geometry_rectangle_t *const classifier_space
+                = layout_visible_classifier_get_space_const( the_classifier );
 
             if ( geometry_rectangle_is_contiguous( search_rect, classifier_symbol_box ) )
             {
                 if ( horizontal_line )
                 {
-                    if ( ( geometry_rectangle_get_top(classifier_symbol_box) - min_gap < smaller_probe )
+                    const double line_left = geometry_rectangle_get_left( search_rect );
+                    const double line_right = geometry_rectangle_get_right( search_rect );
+                    const bool is_smaller_contained
+                        = geometry_rectangle_contains( classifier_space, line_left, smaller_probe )
+                        && geometry_rectangle_contains( classifier_space, line_right, smaller_probe );
+                    if ( ( ! is_smaller_contained )
+                        && ( geometry_rectangle_get_top(classifier_symbol_box) - min_gap < smaller_probe )
                         && ( geometry_rectangle_get_bottom(classifier_symbol_box) + min_gap > smaller_probe ) )
                     {
                         smaller_probe = geometry_rectangle_get_top(classifier_symbol_box) - min_gap;
                         hit = true;
                     }
-                    if ( ( geometry_rectangle_get_top(classifier_symbol_box) - min_gap < greater_probe )
+                    const bool is_greater_contained
+                        = geometry_rectangle_contains( classifier_space, line_left, greater_probe )
+                        && geometry_rectangle_contains( classifier_space, line_right, greater_probe );
+                    if ( ( ! is_greater_contained )
+                        && ( geometry_rectangle_get_top(classifier_symbol_box) - min_gap < greater_probe )
                         && ( geometry_rectangle_get_bottom(classifier_symbol_box) + min_gap > greater_probe ) )
                     {
                         greater_probe = geometry_rectangle_get_bottom(classifier_symbol_box) + min_gap;
@@ -976,13 +988,23 @@ u8_error_t pencil_relationship_layouter_private_find_space_for_line ( pencil_rel
                 }
                 else
                 {
-                    if ( ( geometry_rectangle_get_left(classifier_symbol_box) - min_gap < smaller_probe )
+                    const double line_top = geometry_rectangle_get_top( search_rect );
+                    const double line_bottom = geometry_rectangle_get_bottom( search_rect );
+                    const bool is_smaller_contained
+                        = geometry_rectangle_contains( classifier_space, smaller_probe, line_top )
+                        && geometry_rectangle_contains( classifier_space, smaller_probe, line_bottom );
+                    if ( ( ! is_smaller_contained )
+                        && ( geometry_rectangle_get_left(classifier_symbol_box) - min_gap < smaller_probe )
                         && ( geometry_rectangle_get_right(classifier_symbol_box) + min_gap > smaller_probe ) )
                     {
                         smaller_probe = geometry_rectangle_get_left(classifier_symbol_box) - min_gap;
                         hit = true;
                     }
-                    if ( ( geometry_rectangle_get_left(classifier_symbol_box) - min_gap < greater_probe )
+                    const bool is_greater_contained
+                        = geometry_rectangle_contains( classifier_space, greater_probe, line_top )
+                        && geometry_rectangle_contains( classifier_space, greater_probe, line_bottom );
+                    if ( ( ! is_greater_contained )
+                        && ( geometry_rectangle_get_left(classifier_symbol_box) - min_gap < greater_probe )
                         && ( geometry_rectangle_get_right(classifier_symbol_box) + min_gap > greater_probe ) )
                     {
                         greater_probe = geometry_rectangle_get_right(classifier_symbol_box) + min_gap;
