@@ -9,8 +9,8 @@ crystal-facet-uml (1.40.0) UNRELEASED; urgency=medium
     layout_good_cases: ERR=0, W/C=7, W/F=171, W/R=45
     layout_challenging_cases: ERR=64, W/C=8033, W/F=8379, W/R=5909
     to:
-    layout_good_cases: ERR=0, W/C=7, W/F=171, W/R=38
-    layout_challenging_cases: ERR=64, W/C=8033, W/F=8381, W/R=5271
+    layout_good_cases: ERR=0, W/C=7, W/F=171, W/R=49
+    layout_challenging_cases: ERR=64, W/C=8033, W/F=8381, W/R=5163
 
    -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 28 Aug 2022 16:00:00 +0100
 
