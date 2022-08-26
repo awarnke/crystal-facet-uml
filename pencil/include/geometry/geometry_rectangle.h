@@ -260,7 +260,7 @@ static inline bool geometry_rectangle_is_empty ( const geometry_rectangle_t *thi
  *
  *  \param this_ pointer to own object attributes
  *  \param that pointer to others object attributes
- *  \return false if the rectangle does not intersect the other. (touching is intersecting)
+ *  \return false if the rectangle does not intersect the other. (touching is not intersecting)
  */
 static inline bool geometry_rectangle_is_intersecting ( const geometry_rectangle_t *this_, const geometry_rectangle_t *that );
 
@@ -269,7 +269,7 @@ static inline bool geometry_rectangle_is_intersecting ( const geometry_rectangle
  *
  *  \param this_ pointer to own object attributes
  *  \param that pointer to others object attributes
- *  \return false if the rectangle does not intersect the other. (touching is intersecting)
+ *  \return false if the rectangles are not contiguous. (touching is contiguous)
  */
 static inline bool geometry_rectangle_is_contiguous ( const geometry_rectangle_t *this_, const geometry_rectangle_t *that );
 

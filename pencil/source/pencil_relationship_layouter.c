@@ -429,7 +429,6 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
     const double object_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
     const double good_dist = 2.0 * object_dist;  /* duplicate distance: once for each side of the line */
     const double gap_dist = 0.499 * object_dist;  /* half the object distance allows a line to pass between two objects */
-    static const double NO_TOUCH = 0.0001;
 
     /* if applicable, add a solution where main line is vertical */
     {
@@ -447,11 +446,11 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
             geometry_rectangle_destroy( &search_rect );
 
             const geometry_rectangle_t depart_area
-                = { .left=x_value, .top=src_top, .width=(src_left-NO_TOUCH-x_value), .height=src_height};
+                = { .left=x_value, .top=src_top, .width=(src_left-x_value), .height=src_height};
             pencil_relationship_layouter_private_find_space_for_h_line ( this_, &depart_area, gap_dist, &src_y );
 
             const geometry_rectangle_t arrive_area
-                = { .left=dst_right+NO_TOUCH, .top=dst_top, .width=(x_value-dst_right-NO_TOUCH), .height=dst_height};
+                = { .left=dst_right, .top=dst_top, .width=(x_value-dst_right), .height=dst_height};
             pencil_relationship_layouter_private_find_space_for_h_line ( this_, &arrive_area, gap_dist, &dst_y );
 
             /* add solution */
@@ -478,11 +477,11 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
             geometry_rectangle_destroy( &search_rect );
 
             const geometry_rectangle_t depart_area
-                = { .left=src_right+NO_TOUCH, .top=src_top, .width=(x_value-src_right-NO_TOUCH), .height=src_height};
+                = { .left=src_right, .top=src_top, .width=(x_value-src_right), .height=src_height};
             pencil_relationship_layouter_private_find_space_for_h_line ( this_, &depart_area, gap_dist, &src_y );
 
             const geometry_rectangle_t arrive_area
-                = { .left=x_value, .top=dst_top, .width=(dst_left-NO_TOUCH-x_value), .height=dst_height};
+                = { .left=x_value, .top=dst_top, .width=(dst_left-x_value), .height=dst_height};
             pencil_relationship_layouter_private_find_space_for_h_line ( this_, &arrive_area, gap_dist, &dst_y );
 
             /* add solution */
@@ -513,11 +512,11 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
             geometry_rectangle_destroy( &search_rect );
 
             const geometry_rectangle_t depart_area
-                = { .left=src_left, .top=y_value, .width=src_width, .height=(src_top-NO_TOUCH-y_value)};
+                = { .left=src_left, .top=y_value, .width=src_width, .height=(src_top-y_value)};
             pencil_relationship_layouter_private_find_space_for_v_line ( this_, &depart_area, gap_dist, &src_x );
 
             const geometry_rectangle_t arrive_area
-                = { .left=dst_left, .top=dst_bottom+NO_TOUCH, .width=dst_width, .height=(y_value-dst_bottom-NO_TOUCH)};
+                = { .left=dst_left, .top=dst_bottom, .width=dst_width, .height=(y_value-dst_bottom)};
             pencil_relationship_layouter_private_find_space_for_v_line ( this_, &arrive_area, gap_dist, &dst_x );
 
             /* add solution */
@@ -544,11 +543,11 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
             geometry_rectangle_destroy( &search_rect );
 
             const geometry_rectangle_t depart_area
-                = { .left=src_left, .top=src_bottom+NO_TOUCH, .width=src_width, .height=(y_value-src_bottom-NO_TOUCH)};
+                = { .left=src_left, .top=src_bottom, .width=src_width, .height=(y_value-src_bottom)};
             pencil_relationship_layouter_private_find_space_for_v_line ( this_, &depart_area, gap_dist, &src_x );
 
             const geometry_rectangle_t arrive_area
-                = { .left=dst_left, .top=y_value, .width=dst_width, .height=(dst_top-NO_TOUCH-y_value)};
+                = { .left=dst_left, .top=y_value, .width=dst_width, .height=(dst_top-y_value)};
             pencil_relationship_layouter_private_find_space_for_v_line ( this_, &arrive_area, gap_dist, &dst_x );
 
             /* add solution */
@@ -636,11 +635,11 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
         geometry_rectangle_destroy( &search_rect );
 
         const geometry_rectangle_t depart_area
-            = { .left=x_value, .top=src_top, .width=(src_left-NO_TOUCH-x_value), .height=src_height};
+            = { .left=x_value, .top=src_top, .width=(src_left-x_value), .height=src_height};
         pencil_relationship_layouter_private_find_space_for_h_line ( this_, &depart_area, gap_dist, &src_y );
 
         const geometry_rectangle_t arrive_area
-            = { .left=x_value, .top=dst_top, .width=(dst_left-NO_TOUCH-x_value), .height=dst_height};
+            = { .left=x_value, .top=dst_top, .width=(dst_left-x_value), .height=dst_height};
         pencil_relationship_layouter_private_find_space_for_h_line ( this_, &arrive_area, gap_dist, &dst_y );
 
         /* add solution */
@@ -674,11 +673,11 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
         geometry_rectangle_destroy( &search_rect );
 
         const geometry_rectangle_t depart_area
-            = { .left=src_right+NO_TOUCH, .top=src_top, .width=(x_value-src_right-NO_TOUCH), .height=src_height};
+            = { .left=src_right, .top=src_top, .width=(x_value-src_right), .height=src_height};
         pencil_relationship_layouter_private_find_space_for_h_line ( this_, &depart_area, gap_dist, &src_y );
 
         const geometry_rectangle_t arrive_area
-            = { .left=dst_right+NO_TOUCH, .top=dst_top, .width=(x_value-dst_right-NO_TOUCH), .height=dst_height};
+            = { .left=dst_right, .top=dst_top, .width=(x_value-dst_right), .height=dst_height};
         pencil_relationship_layouter_private_find_space_for_h_line ( this_, &arrive_area, gap_dist, &dst_y );
 
         /* add solution */
@@ -712,11 +711,11 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
         geometry_rectangle_destroy( &search_rect );
 
         const geometry_rectangle_t depart_area
-            = { .left=src_left, .top=y_value, .width=src_width, .height=(src_top-NO_TOUCH-y_value)};
+            = { .left=src_left, .top=y_value, .width=src_width, .height=(src_top-y_value)};
         pencil_relationship_layouter_private_find_space_for_v_line ( this_, &depart_area, gap_dist, &src_x );
 
         const geometry_rectangle_t arrive_area
-            = { .left=dst_left, .top=y_value, .width=dst_width, .height=(dst_top-NO_TOUCH-y_value)};
+            = { .left=dst_left, .top=y_value, .width=dst_width, .height=(dst_top-y_value)};
         pencil_relationship_layouter_private_find_space_for_v_line ( this_, &arrive_area, gap_dist, &dst_x );
 
         /* add solution */
@@ -750,11 +749,11 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
         geometry_rectangle_destroy( &search_rect );
 
         const geometry_rectangle_t depart_area
-            = { .left=src_left, .top=(src_bottom+NO_TOUCH), .width=src_width, .height=(y_value-src_bottom-NO_TOUCH)};
+            = { .left=src_left, .top=src_bottom, .width=src_width, .height=(y_value-src_bottom)};
         pencil_relationship_layouter_private_find_space_for_v_line ( this_, &depart_area, gap_dist, &src_x );
 
         const geometry_rectangle_t arrive_area
-            = { .left=dst_left, .top=(dst_bottom+NO_TOUCH), .width=dst_width, .height=(y_value-dst_bottom-NO_TOUCH)};
+            = { .left=dst_left, .top=dst_bottom, .width=dst_width, .height=(y_value-dst_bottom)};
         pencil_relationship_layouter_private_find_space_for_v_line ( this_, &arrive_area, gap_dist, &dst_x );
 
         /* add solution */
@@ -795,6 +794,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
     const double src_top = geometry_rectangle_get_top(source_rect);
     const double src_center_y = geometry_rectangle_get_center_y(source_rect);
     const double src_bottom = geometry_rectangle_get_bottom(source_rect);
+    const double src_height = geometry_rectangle_get_height(source_rect);
 
     const double dst_left = geometry_rectangle_get_left(dest_rect);
     const double dst_center_x = geometry_rectangle_get_center_x(dest_rect);
@@ -803,41 +803,91 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
     const double dst_center_y = geometry_rectangle_get_center_y(dest_rect);
     const double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
 
-    const double good_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+    const double object_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+    const double gap_dist = 0.499 * object_dist;  /* half the object distance allows a line to pass between two objects */
 
-    /* if applicable, add a solution from source to left */
-    // if ( dst_center_x + good_dist < src_left )
+    /* pre-calculate some intermediate values on source rect */
+    const bool src_left_to_outside = dst_left < src_left;  /* connector starts towards outside of source rect */
+    const bool src_right_to_outside = dst_right > src_right;  /* connector starts towards outside of source rect */
+    const bool src_top_to_outside = src_top > dst_top;  /* connector arrives from outside at dest rect */
+    const bool src_bottom_to_outside = src_bottom < dst_bottom;  /* connector arrives from outside at dest rect */
+    /* pre-calculate some intermediate values on destination rect */
+    const bool dst_left_from_outside = src_left < dst_left;  /* connector starts towards outside of source rect */
+    const bool dst_right_from_outside = src_right > dst_right;  /* connector starts towards outside of source rect */
+    const bool dst_top_from_outside = dst_top > src_top;  /* connector arrives from outside at dest rect */
+    const bool dst_bottom_from_outside = dst_bottom < src_bottom;  /* connector arrives from outside at dest rect */
+
+    /* add two solutions from source-left */
     {
-        // if ( dst_bottom + good_dist < src_center_y )
+        const double search_left = dst_left;
+        const double search_right = src_left_to_outside ? fmin( src_left, dst_right ) : dst_right;
+        /* add a solution from source-left to destination-bottom */
         {
+            const double search_top = dst_bottom_from_outside ? fmax( src_top, dst_bottom ) : src_top;
+            const double search_bottom = src_bottom;
+
+            /* define defaults */
+            double dst_x = ( search_left + search_right ) / 2.0;
+            double src_y = ( search_top + search_bottom ) / 2.0;
+
+            /* optimize coordinates */
+            geometry_rectangle_t depart_area;
+            geometry_rectangle_init_by_corners( &depart_area, dst_x, src_top, src_left, src_bottom );
+            pencil_relationship_layouter_private_find_space_for_h_line ( this_, &depart_area, gap_dist, &src_y );
+            geometry_rectangle_destroy( &depart_area );
+
+            geometry_rectangle_t arrive_area;
+            geometry_rectangle_init_by_corners( &arrive_area, dst_left, src_y, dst_right, dst_bottom );
+            pencil_relationship_layouter_private_find_space_for_v_line ( this_, &arrive_area, gap_dist, &dst_x );
+            geometry_rectangle_destroy( &arrive_area );
+
             /* add solution */
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
                                                    src_left,
-                                                   src_center_y,
-                                                   dst_center_x,
+                                                   src_y,
+                                                   dst_x,
                                                    dst_bottom,
-                                                   src_center_y
+                                                   src_y
                                                  );
             solutions_count ++;
         }
-        // else if ( dst_top - good_dist > src_center_y )
+        /* add a solution from source-left to destination-top */
         {
+            const double search_top = src_top;
+            const double search_bottom = dst_top_from_outside ? fmin( src_bottom, dst_top ) : src_bottom;;
+
+            /* define defaults */
+            double dst_x = ( search_left + search_right ) / 2.0;
+            double src_y = ( search_top + search_bottom ) / 2.0;
+
+            /* optimize coordinates */
+            geometry_rectangle_t depart_area;
+            geometry_rectangle_init_by_corners( &depart_area, dst_x, src_top, src_left, src_bottom );
+            pencil_relationship_layouter_private_find_space_for_h_line ( this_, &depart_area, gap_dist, &src_y );
+            geometry_rectangle_destroy( &depart_area );
+
+            geometry_rectangle_t arrive_area;
+            geometry_rectangle_init_by_corners( &arrive_area, dst_left, src_y, dst_right, dst_top );
+            pencil_relationship_layouter_private_find_space_for_v_line ( this_, &arrive_area, gap_dist, &dst_x );
+            geometry_rectangle_destroy( &arrive_area );
+
             /* add solution */
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
                                                    src_left,
-                                                   src_center_y,
-                                                   dst_center_x,
+                                                   src_y,
+                                                   dst_x,
                                                    dst_top,
-                                                   src_center_y
+                                                   src_y
                                                  );
             solutions_count ++;
         }
     }
 
-    /* else-if applicable, add a solution from source to right */
-    // else if ( dst_center_x - good_dist > src_right )
+    /* add two solutions from source-right */
     {
-        // if ( dst_bottom + good_dist < src_center_y )
+        const double search_left = src_right_to_outside ? fmax( src_right, dst_left ) : dst_left;
+        const double search_right = dst_right;
+        /* add a solution from source-right to destination-bottom */
         {
             /* add solution */
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
@@ -849,7 +899,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
                                                  );
             solutions_count ++;
         }
-        // else if ( dst_top - good_dist > src_center_y )
+        /* add a solution from source-right to destination-top */
         {
             /* add solution */
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
@@ -863,10 +913,9 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
         }
     }
 
-    /* if applicable, add a solution from source to upwards */
-    // if ( dst_center_y + good_dist < src_top )
+    /* add two solutions from source-top */
     {
-        // if ( dst_right + good_dist < src_center_x )
+        /* add a solution from source-top to destination-right */
         {
             /* add solution */
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
@@ -878,7 +927,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
                                                  );
             solutions_count ++;
         }
-        // else if ( dst_left - good_dist > src_center_x )
+        /* add a solution from source-top to destination-left */
         {
             /* add solution */
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
@@ -892,10 +941,9 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
         }
     }
 
-    /* else-if applicable, add a solution from source to downwards */
-    // else if ( dst_center_y - good_dist > src_bottom )
+    /* add two solutions from source-bottom */
     {
-        // if ( dst_right + good_dist < src_center_x )
+        /* add a solution from source-bottom to destination-right */
         {
             /* add solution */
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
@@ -907,7 +955,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
                                                  );
             solutions_count ++;
         }
-        // else if ( dst_left - good_dist > src_center_x )
+        /* add a solution from source-bottom to destination-left */
         {
             /* add solution */
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
@@ -973,7 +1021,7 @@ u8_error_t pencil_relationship_layouter_private_find_space_for_line ( pencil_rel
             const geometry_rectangle_t *const classifier_space
                 = layout_visible_classifier_get_space_const( the_classifier );
 
-            if ( geometry_rectangle_is_contiguous( search_rect, classifier_symbol_box ) )
+            if ( geometry_rectangle_is_intersecting( search_rect, classifier_symbol_box ) )
             {
                 if ( horizontal_line )
                 {

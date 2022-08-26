@@ -166,6 +166,8 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
  *
  *  In case there are several options, the one closer to the center is chosen.
  *
+ *  Touching a rectangle at the border of search_rect is allowed since this may be the source or destination
+ *
  *  \param this_ pointer to own object attributes
  *  \param search_rect pointer to the rectangle within which to search
  *  \param horizontal_line true if space for a horizontal line is searched for, false for vertical line
@@ -187,6 +189,8 @@ u8_error_t pencil_relationship_layouter_private_find_space_for_line ( pencil_rel
  *
  *  In case there are several options, the one closer to the initial value of io_ordinate is chosen.
  *
+ *  Touching a rectangle at the border of search_rect is allowed since this may be the source or destination
+ *
  *  \param this_ pointer to own object attributes
  *  \param search_rect pointer to the rectangle within which to search
  *  \param min_gap minimum distance to other objects on the diagram
@@ -205,6 +209,8 @@ static inline u8_error_t pencil_relationship_layouter_private_find_space_for_h_l
  *  \brief finds an empty, unused line in a rectangle
  *
  *  In case there are several options, the one closer to the initial value of io_ordinate is chosen.
+ *
+ *  Touching a rectangle at the border of search_rect is allowed since this may be the source or destination
  *
  *  \param this_ pointer to own object attributes
  *  \param search_rect pointer to the rectangle within which to search
