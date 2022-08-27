@@ -212,35 +212,59 @@ static inline geometry_point_t geometry_connector_calculate_waypoint ( const geo
 
 static inline double geometry_connector_get_length ( const geometry_connector_t *this_ )
 {
-    double source_end_length;
-    double main_line_length;
-    double dest_end_length;
-    source_end_length = fabs( (*this_).source_end_x - (*this_).main_line_source_x )
-                        + fabs( (*this_).source_end_y - (*this_).main_line_source_y );
-    main_line_length = fabs( (*this_).main_line_source_x - (*this_).main_line_destination_x )
-                       + fabs( (*this_).main_line_source_y - (*this_).main_line_destination_y );
-    dest_end_length = fabs( (*this_).main_line_destination_x - (*this_).destination_end_x )
-                      + fabs( (*this_).main_line_destination_y - (*this_).destination_end_y );
+    const double source_end_length
+        = fabs( (*this_).source_end_x - (*this_).main_line_source_x )
+        + fabs( (*this_).source_end_y - (*this_).main_line_source_y );
+    const double main_line_length
+        = fabs( (*this_).main_line_source_x - (*this_).main_line_destination_x )
+        + fabs( (*this_).main_line_source_y - (*this_).main_line_destination_y );
+    const double dest_end_length
+        = fabs( (*this_).main_line_destination_x - (*this_).destination_end_x )
+        + fabs( (*this_).main_line_destination_y - (*this_).destination_end_y );
     return source_end_length + main_line_length + dest_end_length;
+}
+
+static inline double geometry_connector_get_source_length ( const geometry_connector_t *this_ )
+{
+    const double source_end_length
+        = fabs( (*this_).source_end_x - (*this_).main_line_source_x )
+        + fabs( (*this_).source_end_y - (*this_).main_line_source_y );
+    return source_end_length;
+}
+
+static inline double geometry_connector_get_main_length ( const geometry_connector_t *this_ )
+{
+    const double main_line_length
+        = fabs( (*this_).main_line_source_x - (*this_).main_line_destination_x )
+        + fabs( (*this_).main_line_source_y - (*this_).main_line_destination_y );
+    return main_line_length;
+}
+
+static inline double geometry_connector_get_destination_length ( const geometry_connector_t *this_ )
+{
+    const double dest_end_length
+        = fabs( (*this_).main_line_destination_x - (*this_).destination_end_x )
+        + fabs( (*this_).main_line_destination_y - (*this_).destination_end_y );
+    return dest_end_length;
 }
 
 static inline bool geometry_connector_is_close ( const geometry_connector_t *this_, double x, double y, double max_distance )
 {
-    bool close_to_source_end_line;
-    bool close_to_main_line;
-    bool close_to_destination_end_line;
-    close_to_source_end_line = ((( (*this_).source_end_x - max_distance < x ) && ( x < (*this_).main_line_source_x + max_distance ))
-                               || (( (*this_).main_line_source_x - max_distance < x ) && ( x < (*this_).source_end_x + max_distance )))
-                               && ((( (*this_).source_end_y - max_distance < y ) && ( y < (*this_).main_line_source_y + max_distance ))
-                               || (( (*this_).main_line_source_y - max_distance < y ) && ( y < (*this_).source_end_y + max_distance )));
-    close_to_main_line = ((( (*this_).main_line_destination_x - max_distance < x ) && ( x < (*this_).main_line_source_x + max_distance ))
-                         || (( (*this_).main_line_source_x - max_distance < x ) && ( x < (*this_).main_line_destination_x + max_distance )))
-                         && ((( (*this_).main_line_destination_y - max_distance < y ) && ( y < (*this_).main_line_source_y + max_distance ))
-                         || (( (*this_).main_line_source_y - max_distance < y ) && ( y < (*this_).main_line_destination_y + max_distance )));
-    close_to_destination_end_line = ((( (*this_).main_line_destination_x - max_distance < x ) && ( x < (*this_).destination_end_x + max_distance ))
-                                    || (( (*this_).destination_end_x - max_distance < x ) && ( x < (*this_).main_line_destination_x + max_distance )))
-                                    && ((( (*this_).main_line_destination_y - max_distance < y ) && ( y < (*this_).destination_end_y + max_distance ))
-                                    || (( (*this_).destination_end_y - max_distance < y ) && ( y < (*this_).main_line_destination_y + max_distance )));
+    const bool close_to_source_end_line
+        = ((( (*this_).source_end_x - max_distance < x ) && ( x < (*this_).main_line_source_x + max_distance ))
+        || (( (*this_).main_line_source_x - max_distance < x ) && ( x < (*this_).source_end_x + max_distance )))
+        && ((( (*this_).source_end_y - max_distance < y ) && ( y < (*this_).main_line_source_y + max_distance ))
+        || (( (*this_).main_line_source_y - max_distance < y ) && ( y < (*this_).source_end_y + max_distance )));
+    const bool close_to_main_line
+        = ((( (*this_).main_line_destination_x - max_distance < x ) && ( x < (*this_).main_line_source_x + max_distance ))
+        || (( (*this_).main_line_source_x - max_distance < x ) && ( x < (*this_).main_line_destination_x + max_distance )))
+        && ((( (*this_).main_line_destination_y - max_distance < y ) && ( y < (*this_).main_line_source_y + max_distance ))
+        || (( (*this_).main_line_source_y - max_distance < y ) && ( y < (*this_).main_line_destination_y + max_distance )));
+    const bool close_to_destination_end_line
+        = ((( (*this_).main_line_destination_x - max_distance < x ) && ( x < (*this_).destination_end_x + max_distance ))
+        || (( (*this_).destination_end_x - max_distance < x ) && ( x < (*this_).main_line_destination_x + max_distance )))
+        && ((( (*this_).main_line_destination_y - max_distance < y ) && ( y < (*this_).destination_end_y + max_distance ))
+        || (( (*this_).destination_end_y - max_distance < y ) && ( y < (*this_).main_line_destination_y + max_distance )));
     return ( close_to_source_end_line || close_to_main_line || close_to_destination_end_line );
 }
 
@@ -370,15 +394,10 @@ static inline geometry_rectangle_t geometry_connector_get_bounding_rectangle ( c
 {
     geometry_rectangle_t result;
 
-    double left;
-    double right;
-    double top;
-    double bottom;
-
-    left = fmin ( (*this_).main_line_source_x, fmin( (*this_).source_end_x, (*this_).destination_end_x ) );
-    right = fmax ( (*this_).main_line_source_x, fmax( (*this_).source_end_x, (*this_).destination_end_x ) );
-    top = fmin ( (*this_).main_line_source_y, fmin( (*this_).source_end_y, (*this_).destination_end_y ) );
-    bottom = fmax ( (*this_).main_line_source_y, fmax( (*this_).source_end_y, (*this_).destination_end_y ) );
+    const double left = fmin ( (*this_).main_line_source_x, fmin( (*this_).source_end_x, (*this_).destination_end_x ) );
+    const double right = fmax ( (*this_).main_line_source_x, fmax( (*this_).source_end_x, (*this_).destination_end_x ) );
+    const double top = fmin ( (*this_).main_line_source_y, fmin( (*this_).source_end_y, (*this_).destination_end_y ) );
+    const double bottom = fmax ( (*this_).main_line_source_y, fmax( (*this_).source_end_y, (*this_).destination_end_y ) );
 
     geometry_rectangle_init( &result,
                              left,

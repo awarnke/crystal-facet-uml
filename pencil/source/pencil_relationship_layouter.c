@@ -176,7 +176,7 @@ void pencil_relationship_layouter_private_propose_solutions ( pencil_relationshi
     assert ( NULL != out_solutions );
     assert ( NULL != out_solutions_count );
     assert ( 1 <= solutions_max );  /* general requirement to report at least one option */
-    assert ( 8 <= solutions_max );  /* current implementation requires at least 8 options */
+    assert ( 14 <= solutions_max );  /* current implementation requires at least 14 options */
 
     /* get current relation */
     const uint32_t index
@@ -264,6 +264,9 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
     const geometry_rectangle_t *const diagram_draw_area
         = layout_diagram_get_draw_area_const( diagram_layout );
 
+    /* get preferred object distance */
+    const double object_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+
     /* define potential solution and rating */
     uint32_t index_of_best = 0;
     double debts_of_best = DBL_MAX;
@@ -281,6 +284,26 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
         /* the more length, the more unwanted... */
         debts_of_current += geometry_connector_get_length( current_solution );
 
+        /* prefer either no or minimum-dist lengths of parts... */
+        const double HEAVIER_THAN_DETOUR = 4.0;
+        const double source_length = geometry_connector_get_source_length( current_solution );
+        if (( source_length > 0.000001 )&&( source_length < object_dist ))
+        {
+            debts_of_current += HEAVIER_THAN_DETOUR * ( object_dist - source_length );
+
+        }
+        const double main_length = geometry_connector_get_main_length( current_solution );
+        if (( main_length > 0.000001 )&&( main_length < object_dist ))
+        {
+            debts_of_current += HEAVIER_THAN_DETOUR * ( object_dist - main_length );
+
+        }
+        const double destination_length = geometry_connector_get_destination_length( current_solution );
+        if (( destination_length > 0.000001 )&&( destination_length < object_dist ))
+        {
+            debts_of_current += HEAVIER_THAN_DETOUR * ( object_dist - destination_length );
+        }
+
         /* prefer left-hand angles over right-handed */
         bool bad_pattern_h = false;
         bool bad_pattern_v = false;
@@ -294,7 +317,6 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
             if ( bad_pattern_h || bad_pattern_v )
             {
                 const double current_len = geometry_connector_get_length( current_solution );
-                const double object_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
                 if ( current_len > ( 4.0 * object_dist ) )
                 {
                     /* current_solution is a long path and right-handed */

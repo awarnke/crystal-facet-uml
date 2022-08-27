@@ -220,6 +220,27 @@ static inline geometry_point_t geometry_connector_calculate_waypoint ( const geo
 static inline double geometry_connector_get_length ( const geometry_connector_t *this_ );
 
 /*!
+ *  \brief gets the length of the source segment of the connector line
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double geometry_connector_get_source_length ( const geometry_connector_t *this_ );
+
+/*!
+ *  \brief gets the length of the main segment of the connector line
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double geometry_connector_get_main_length ( const geometry_connector_t *this_ );
+
+/*!
+ *  \brief gets the length of the destination segment of the connector line
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double geometry_connector_get_destination_length ( const geometry_connector_t *this_ );
+
+/*!
  *  \brief determines if a given coordinate is close to geometry_connector_t
  *
  *  \param this_ pointer to own object attributes
