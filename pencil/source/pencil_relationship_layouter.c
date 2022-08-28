@@ -646,8 +646,8 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
         if ( fabs( src_center_y - dst_center_y ) < NO_TOUCH )
         {
             /* forward way is identical to retour - may be a relation to self */
-            src_y += gap_dist;
-            dst_y -= gap_dist;
+            src_y = fmin( src_center_y + gap_dist, src_bottom );
+            dst_y = fmax( dst_center_y - gap_dist, dst_top );
         }
 
         /* optimize coordinates */
@@ -684,8 +684,8 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
         if ( fabs( src_center_y - dst_center_y ) < NO_TOUCH )
         {
             /* forward way is identical to retour - may be a relation to self */
-            src_y += gap_dist;
-            dst_y -= gap_dist;
+            src_y = fmin( src_center_y + gap_dist, src_bottom );
+            dst_y = fmax( dst_center_y - gap_dist, dst_top );
         }
 
         /* optimize coordinates */
@@ -722,8 +722,8 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
         if ( fabs( src_center_x - dst_center_x ) < NO_TOUCH )
         {
             /* forward way is identical to retour - may be a relation to self */
-            src_x -= gap_dist;
-            dst_x += gap_dist;
+            src_x = fmax( src_center_x - gap_dist, src_left );
+            dst_x = fmin( dst_center_x + gap_dist, dst_right );
         }
 
         /* optimize coordinates */
@@ -760,8 +760,8 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
         if ( fabs( src_center_x - dst_center_x ) < NO_TOUCH )
         {
             /* forward way is identical to retour - may be a relation to self */
-            src_x -= gap_dist;
-            dst_x += gap_dist;
+            src_x = fmax( src_center_x - gap_dist, src_left );
+            dst_x = fmin( dst_center_x + gap_dist, dst_right );
         }
 
         /* optimize coordinates */

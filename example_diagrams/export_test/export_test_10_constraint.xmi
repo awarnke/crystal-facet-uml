@@ -5,7 +5,7 @@
          xmlns:SysML="http://www.omg.org/spec/SysML/20131001/SysML.xmi"
          xmlns:LocalProfile="http://localhost/crystal-facet-uml/298b72db-cc85-4ed0-bd7b-01dc4efd52b4">
          <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->
-    <xmi:Documentation exporter="crystal-facet-uml" exporterVersion="1.33.0"/>
+    <xmi:Documentation exporter="crystal-facet-uml" exporterVersion="1.35.1"/>
     <uml:Model xmi:type="uml:Model" xmi:id="00000" name="export_test_10_constraint" >
         <packagedElement xmi:type="uml:Class" xmi:id="60001" name="Emergency Cutoff" ><!--C0001-->
             <ownedComment xmi:type="uml:Comment" xmi:id="60001#specification" >
