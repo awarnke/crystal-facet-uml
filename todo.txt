@@ -13,8 +13,7 @@ ideas for future versions:
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes
   @pencil
-  [ ] improve layouting of relationships. Maybe "longest first + shortest best" is not the best strategy?
-      instead look more for distances to other lines
+  [ ] further improve layouting of relationships: Consider also other relationships and features.
   [ ] find nicer connection-routes from interfaces to ports
   [ ] Support Diagram-Types: Profile
   [ ] exception+error flows to leave an interruptable area (activity diagrams)

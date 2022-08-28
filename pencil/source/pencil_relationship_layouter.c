@@ -292,16 +292,17 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
             debts_of_current += HEAVIER_THAN_DETOUR * ( object_dist - source_length );
 
         }
-        const double main_length = geometry_connector_get_main_length( current_solution );
-        if (( main_length > 0.000001 )&&( main_length < object_dist ))
-        {
-            debts_of_current += HEAVIER_THAN_DETOUR * ( object_dist - main_length );
-
-        }
         const double destination_length = geometry_connector_get_destination_length( current_solution );
         if (( destination_length > 0.000001 )&&( destination_length < object_dist ))
         {
             debts_of_current += HEAVIER_THAN_DETOUR * ( object_dist - destination_length );
+        }
+        const bool no_source_or_dest = ( source_length < 0.000001 )||( destination_length < 0.000001 );
+        const double main_length = geometry_connector_get_main_length( current_solution );
+        if (( main_length > 0.000001 )&&( main_length < object_dist )&&( no_source_or_dest ))
+        {
+            debts_of_current += HEAVIER_THAN_DETOUR * ( object_dist - main_length );
+
         }
 
         /* prefer left-hand angles over right-handed */
