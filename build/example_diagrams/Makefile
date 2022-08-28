@@ -16,17 +16,21 @@ mouse_droid/mouse_droid.pdf: $(SRCDIR)/mouse_droid.cfuJ
 	(cd mouse_droid && dblatex mouse_droid.xml)
 
 quality/quality.xhtml: $(SRCDIR)/quality.cfuJ
+	mkdir -p quality
 	crystal-facet-uml -e $(SRCDIR)/quality.cfuJ xhtml quality
 
 quality/quality.pdf: $(SRCDIR)/quality.cfuJ
+	mkdir -p quality
 	crystal-facet-uml -e $(SRCDIR)/quality.cfuJ docbook quality
 	[ ! -f /home/pi/Downloads/docbook.xsd ] || xmllint --noout --schema /home/pi/Downloads/docbook.xsd quality/quality.xml
 	(cd quality && dblatex quality.xml)
 
 self_architecture/self_architecture.xhtml: $(ARCDIR)/self_architecture.cfuJ
+	mkdir -p self_architecture
 	crystal-facet-uml -e $(ARCDIR)/self_architecture.cfuJ xhtml self_architecture
 
 self_architecture/self_architecture.pdf: $(ARCDIR)/self_architecture.cfuJ
+	mkdir -p self_architecture
 	crystal-facet-uml -e $(ARCDIR)/self_architecture.cfuJ docbook self_architecture
 	[ ! -f /home/pi/Downloads/docbook.xsd ] || xmllint --noout --schema /home/pi/Downloads/docbook.xsd self_architecture/self_architecture
 	(cd self_architecture && dblatex self_architecture.xml)

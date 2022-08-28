@@ -57,7 +57,7 @@ Windows/wine:
 Fetch a prebuild binary version from e.g. https://www.heise.de/download/product/crystal-facet-uml/
 or https://sourceforge.net/projects/crystal-facet-uml/ and unpack it:
 
->       unzip crystal-facet-uml_1.x.0-1_win32.zip
+>       unzip crystal-facet-uml_1.x.0-1_win64.zip
 
 How to build from source
 -----------
