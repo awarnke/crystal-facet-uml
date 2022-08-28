@@ -1,4 +1,20 @@
-crystal-facet-uml (1.39.0-1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.40.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * A single filename-parameter allows to open files by drag-n-drop on win
+  * while exporting, the status line states "Exporting..."
+  * Create-diagram icons highlight at mouse-over
+  * Improving the relationship layouter, statistics changed on
+    "Raspbian GNU/Linux 11 (bullseye)" from:
+    layout_good_cases: ERR=0, W/C=7, W/F=171, W/R=45
+    layout_challenging_cases: ERR=64, W/C=8033, W/F=8379, W/R=5909
+    to:
+    layout_good_cases: ERR=0, W/C=7, W/F=171, W/R=58
+    layout_challenging_cases: ERR=64, W/C=8033, W/F=8381, W/R=5175
+
+   -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 28 Aug 2022 08:00:00 +0100
+
+   crystal-facet-uml (1.39.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Json format can be opened and written back from gui
