@@ -42,10 +42,14 @@ void pencil_layouter_init( pencil_layouter_t *this_, const data_visible_set_t *i
                                         &((*this_).layout_data),
                                         &((*this_).pencil_size)
                                       );
-    pencil_relationship_layouter_init( &((*this_).pencil_relationship_layouter),
+    pencil_relationship_2d_layouter_init( &((*this_).pencil_relationship_2d_layouter),
                                        &((*this_).layout_data),
                                        &((*this_).pencil_size)
                                      );
+    pencil_relationship_1d_layouter_init( &((*this_).pencil_relationship_1d_layouter),
+                                          &((*this_).layout_data),
+                                          &((*this_).pencil_size)
+                                        );
     pencil_rel_label_layouter_init( &((*this_).relationship_label_layouter),
                                     &((*this_).layout_data),
                                     &((*this_).pencil_size)
@@ -69,7 +73,8 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ )
     TRACE_BEGIN();
 
     pencil_rel_label_layouter_destroy( &((*this_).relationship_label_layouter) );
-    pencil_relationship_layouter_destroy( &((*this_).pencil_relationship_layouter) );
+    pencil_relationship_1d_layouter_destroy( &((*this_).pencil_relationship_1d_layouter) );
+    pencil_relationship_2d_layouter_destroy( &((*this_).pencil_relationship_2d_layouter) );
     pencil_classifier_1d_layouter_destroy( &((*this_).pencil_classifier_1d_layouter) );
     pencil_classifier_2d_layouter_destroy( &((*this_).pencil_classifier_2d_layouter) );
     pencil_feat_label_layouter_destroy( &((*this_).feature_label_layouter) );
@@ -176,7 +181,7 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
         pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
 
         /* hide relationships in simple list and box diagrams */
-        pencil_relationship_layouter_layout_void( &((*this_).pencil_relationship_layouter) );
+        pencil_relationship_2d_layouter_layout_void( &((*this_).pencil_relationship_2d_layouter) );
 
         /* layout labels of features */
         pencil_feat_label_layouter_do_layout( &((*this_).feature_label_layouter), font_layout );
@@ -190,7 +195,7 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
         pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
 
         /* calculate the relationship shapes for a sequence diagram */
-        pencil_relationship_layouter_layout_for_sequence( &((*this_).pencil_relationship_layouter) );
+        pencil_relationship_1d_layouter_layout_for_sequence( &((*this_).pencil_relationship_1d_layouter) );
 
         /* layout labels of relationships */
         pencil_rel_label_layouter_do_layout( &((*this_).relationship_label_layouter), font_layout );
@@ -204,7 +209,7 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
         pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
 
         /* calculate the relationship shapes for a timing diagram */
-        pencil_relationship_layouter_layout_for_timing( &((*this_).pencil_relationship_layouter) );
+        pencil_relationship_1d_layouter_layout_for_timing( &((*this_).pencil_relationship_1d_layouter) );
 
         /* layout labels of relationships */
         pencil_rel_label_layouter_do_layout( &((*this_).relationship_label_layouter), font_layout );
@@ -229,17 +234,17 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
         if ( DATA_DIAGRAM_TYPE_BOX_DIAGRAM == diag_type )
         {
             /* hide relationships in simple list and box diagrams */
-            pencil_relationship_layouter_layout_void( &((*this_).pencil_relationship_layouter) );
+            pencil_relationship_2d_layouter_layout_void( &((*this_).pencil_relationship_2d_layouter) );
         }
         else if (( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == diag_type )||( DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM == diag_type ))
         {
             /* calculate the relationship shapes for a communication diagram or an interaction overview diagram (scenario-relations only) */
-            pencil_relationship_layouter_layout_for_communication( &((*this_).pencil_relationship_layouter) );
+            pencil_relationship_2d_layouter_layout_for_communication( &((*this_).pencil_relationship_2d_layouter) );
         }
         else
         {
             /* calculate the relationship shapes */
-            pencil_relationship_layouter_layout_standard( &((*this_).pencil_relationship_layouter) );
+            pencil_relationship_2d_layouter_layout_standard( &((*this_).pencil_relationship_2d_layouter) );
         }
 
         /* hide containment relationships if children are embraced */

@@ -2825,7 +2825,7 @@
         "stereotype": "quality characteristic",
         "name": "Maintainability",
         "description": [
-                ""
+                "Maintainability defines a set of attributes that influence how to analyze and mitigate defects that occur during operation."
         ],
         "x_order": 1210000491,
         "y_order": -1440268883,
@@ -3236,7 +3236,7 @@
                 "to move a defined number of steps\n",
                 "forward or backwards.\n",
                 "\n",
-                "Note that that there are conditions\n",
+                "Note that there are conditions\n",
                 "when the actual number of steps\n",
                 "is not equal to the previously requested \n",
                 "number of steps, e.g. when accellerating\n",
@@ -4148,9 +4148,9 @@
         "stereotype": "",
         "name": "Cosmic Rays",
         "description": [
-                "The droid shall ensure data and program integrity\n",
-                "and continue operation \n",
-                "after cosmic rays may have interfered with normal operation.\n",
+                "The droid shall ensure data and program integrity.\n",
+                "\n",
+                "It shall continue operation after cosmic rays have interfered with data storage or program execution.\n",
                 "\n",
                 "Corrupted data must not be stored permanently."
         ],

@@ -77,6 +77,14 @@
                     </listitem>
                     <listitem>
                         <para>
+                            If you find a <command>.tmp-cfu</command> file,
+                            this indicates that the last session was possibly terminated abnormally.
+                            You may open this file to continue from the latest state
+                            or the <command>.cfuJ</command> to continue at the last save action.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
                             If you get a warning at opening a json file, close the program and try to import the json file from
                             command line:
                             <command>crystal-facet-uml -i &lt;NEW_DB_FILE&gt;.cfu1 add &lt;EXISTING_JSON_FILE&gt;.cfuJ</command>

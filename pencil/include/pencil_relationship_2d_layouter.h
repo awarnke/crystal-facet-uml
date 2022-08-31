@@ -1,7 +1,7 @@
-/* File: pencil_relationship_layouter.h; Copyright and License: see below */
+/* File: pencil_relationship_2d_layouter.h; Copyright and License: see below */
 
-#ifndef PENCIL_RELATIONSHIP_LAYOUTER_H
-#define PENCIL_RELATIONSHIP_LAYOUTER_H
+#ifndef PENCIL_RELATIONSHIP_2D_LAYOUTER_H
+#define PENCIL_RELATIONSHIP_2D_LAYOUTER_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -26,14 +26,14 @@
 /*!
  *  \brief attributes of the relationship layouter
  */
-struct pencil_relationship_layouter_struct {
+struct pencil_relationship_2d_layouter_struct {
     pencil_layout_data_t *layout_data;  /* pointer to an instance of layout data */
     pencil_size_t *pencil_size;  /*!< pointer to an instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
 
     pencil_relationship_painter_t relationship_painter;  /*!< own instance of a painter object to ask for display dimensions */
 };
 
-typedef struct pencil_relationship_layouter_struct pencil_relationship_layouter_t;
+typedef struct pencil_relationship_2d_layouter_struct pencil_relationship_2d_layouter_t;
 
 /*!
  *  \brief initializes the layouter
@@ -42,24 +42,24 @@ typedef struct pencil_relationship_layouter_struct pencil_relationship_layouter_
  *  \param layout_data pointer to the layout information to be used and modified
  *  \param pencil_size pointer to the pencil_size_t object
  */
-void pencil_relationship_layouter_init( pencil_relationship_layouter_t *this_,
-                                        pencil_layout_data_t *layout_data,
-                                        pencil_size_t *pencil_size
-                                      );
+void pencil_relationship_2d_layouter_init( pencil_relationship_2d_layouter_t *this_,
+                                           pencil_layout_data_t *layout_data,
+                                           pencil_size_t *pencil_size
+                                         );
 
 /*!
  *  \brief destroys the layouter
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_relationship_layouter_destroy( pencil_relationship_layouter_t *this_ );
+void pencil_relationship_2d_layouter_destroy( pencil_relationship_2d_layouter_t *this_ );
 
 /*!
  *  \brief determines the shapes of the relationships
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_relationship_layouter_private_do_layout ( pencil_relationship_layouter_t *this_ );
+void pencil_relationship_2d_layouter_private_do_layout ( pencil_relationship_2d_layouter_t *this_ );
 
 /*!
  *  \brief determine order by which to shape relationships
@@ -69,7 +69,9 @@ void pencil_relationship_layouter_private_do_layout ( pencil_relationship_layout
  *  \param this_ pointer to own object attributes
  *  \param out_sorted sorting order by which to shape relationships; must not be NULL, shall be initialized to empty.
  */
-void pencil_relationship_layouter_private_propose_processing_order ( pencil_relationship_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
+void pencil_relationship_2d_layouter_private_propose_processing_order ( pencil_relationship_2d_layouter_t *this_,
+                                                                        universal_array_index_sorter_t *out_sorted
+                                                                      );
 
 /*!
  *  \brief propose multiple solutions to shape one relationship
@@ -81,13 +83,13 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
  *  \param out_solutions array of solutions
  *  \param out_solutions_count number of proposed solutions; 1 &lt;= out_solutions_count &lt; solutions_max
  */
-void pencil_relationship_layouter_private_propose_solutions ( pencil_relationship_layouter_t *this_,
-                                                              const universal_array_index_sorter_t *sorted,
-                                                              uint32_t sort_index,
-                                                              uint32_t solutions_max,
-                                                              geometry_connector_t out_solutions[],
-                                                              uint32_t *out_solutions_count
-                                                            );
+void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relationship_2d_layouter_t *this_,
+                                                                 const universal_array_index_sorter_t *sorted,
+                                                                 uint32_t sort_index,
+                                                                 uint32_t solutions_max,
+                                                                 geometry_connector_t out_solutions[],
+                                                                 uint32_t *out_solutions_count
+                                                               );
 
 /*!
  *  \brief selects one solution to shape a relationship
@@ -99,13 +101,13 @@ void pencil_relationship_layouter_private_propose_solutions ( pencil_relationshi
  *  \param solutions array of solutions
  *  \param out_index_of_best index (of solution) of the best solution; must not be NULL.
  */
-void pencil_relationship_layouter_private_select_solution ( pencil_relationship_layouter_t *this_,
-                                                            const universal_array_index_sorter_t *sorted,
-                                                            uint32_t sort_index,
-                                                            uint32_t solutions_count,
-                                                            const geometry_connector_t solutions[],
-                                                            uint32_t *out_index_of_best
-                                                          );
+void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationship_2d_layouter_t *this_,
+                                                               const universal_array_index_sorter_t *sorted,
+                                                               uint32_t sort_index,
+                                                               uint32_t solutions_count,
+                                                               const geometry_connector_t solutions[],
+                                                               uint32_t *out_index_of_best
+                                                             );
 
 /*!
  *  \brief layouts a connection from one rectangle to another in shape of Z or N
@@ -117,13 +119,13 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
  *  \param out_solutions array of solutions
  *  \param out_solutions_count number of proposed solutions; 1 &lt;= out_solutions_count &lt; solutions_max
  */
-void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_relationship_layouter_t *this_,
-                                                                     const geometry_rectangle_t *source_rect,
-                                                                     const geometry_rectangle_t *dest_rect,
-                                                                     uint32_t solutions_max,
-                                                                     geometry_connector_t out_solutions[],
-                                                                     uint32_t *out_solutions_count
-                                                                   );
+void pencil_relationship_2d_layouter_private_connect_rectangles_by_ZN ( pencil_relationship_2d_layouter_t *this_,
+                                                                        const geometry_rectangle_t *source_rect,
+                                                                        const geometry_rectangle_t *dest_rect,
+                                                                        uint32_t solutions_max,
+                                                                        geometry_connector_t out_solutions[],
+                                                                        uint32_t *out_solutions_count
+                                                                      );
 
 /*!
  *  \brief layouts a connection from one rectangle to another in shape of U or C
@@ -135,13 +137,13 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
  *  \param out_solutions array of solutions
  *  \param out_solutions_count number of proposed solutions; 1 &lt;= out_solutions_count &lt; solutions_max
  */
-void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_relationship_layouter_t *this_,
-                                                                     const geometry_rectangle_t *source_rect,
-                                                                     const geometry_rectangle_t *dest_rect,
-                                                                     uint32_t solutions_max,
-                                                                     geometry_connector_t out_solutions[],
-                                                                     uint32_t *out_solutions_count
-                                                                   );
+void pencil_relationship_2d_layouter_private_connect_rectangles_by_UC ( pencil_relationship_2d_layouter_t *this_,
+                                                                        const geometry_rectangle_t *source_rect,
+                                                                        const geometry_rectangle_t *dest_rect,
+                                                                        uint32_t solutions_max,
+                                                                        geometry_connector_t out_solutions[],
+                                                                        uint32_t *out_solutions_count
+                                                                      );
 
 /*!
  *  \brief layouts a connection from one rectangle to another in shape of L or 7
@@ -153,13 +155,13 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
  *  \param out_solutions array of solutions
  *  \param out_solutions_count number of proposed solutions; 1 &lt;= out_solutions_count &lt; solutions_max
  */
-void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_relationship_layouter_t *this_,
-                                                                     const geometry_rectangle_t *source_rect,
-                                                                     const geometry_rectangle_t *dest_rect,
-                                                                     uint32_t solutions_max,
-                                                                     geometry_connector_t out_solutions[],
-                                                                     uint32_t *out_solutions_count
-                                                                   );
+void pencil_relationship_2d_layouter_private_connect_rectangles_by_L7 ( pencil_relationship_2d_layouter_t *this_,
+                                                                        const geometry_rectangle_t *source_rect,
+                                                                        const geometry_rectangle_t *dest_rect,
+                                                                        uint32_t solutions_max,
+                                                                        geometry_connector_t out_solutions[],
+                                                                        uint32_t *out_solutions_count
+                                                                      );
 
 /*!
  *  \brief finds an empty, unused line in a rectangle
@@ -177,12 +179,12 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
  *                       this value is updated to the position where space is available.
  *  \return U8_ERROR_NONE if a space was found, U8_ERROR_NOT_FOUND otherwise
  */
-u8_error_t pencil_relationship_layouter_private_find_space_for_line ( pencil_relationship_layouter_t *this_,
-                                                                      const geometry_rectangle_t *search_rect,
-                                                                      bool horizontal_line,
-                                                                      double min_gap,
-                                                                      double *io_coordinate
-                                                                    );
+u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_relationship_2d_layouter_t *this_,
+                                                                         const geometry_rectangle_t *search_rect,
+                                                                         bool horizontal_line,
+                                                                         double min_gap,
+                                                                         double *io_coordinate
+                                                                       );
 
 /*!
  *  \brief finds an empty, unused line in a rectangle
@@ -199,11 +201,11 @@ u8_error_t pencil_relationship_layouter_private_find_space_for_line ( pencil_rel
  *                     this value is updated to the position where where space is available.
  *  \return U8_ERROR_NONE if a space was found, U8_ERROR_NOT_FOUND otherwise
  */
-static inline u8_error_t pencil_relationship_layouter_private_find_space_for_h_line ( pencil_relationship_layouter_t *this_,
-                                                                                      const geometry_rectangle_t *search_rect,
-                                                                                      double min_gap,
-                                                                                      double *io_ordinate
-                                                                                    );
+static inline u8_error_t pencil_relationship_2d_layouter_private_find_space_for_h_line ( pencil_relationship_2d_layouter_t *this_,
+                                                                                         const geometry_rectangle_t *search_rect,
+                                                                                         double min_gap,
+                                                                                         double *io_ordinate
+                                                                                       );
 
 /*!
  *  \brief finds an empty, unused line in a rectangle
@@ -220,11 +222,11 @@ static inline u8_error_t pencil_relationship_layouter_private_find_space_for_h_l
  *                     this value is updated to the position where where space is available.
  *  \return U8_ERROR_NONE if a space was found, U8_ERROR_NOT_FOUND otherwise
  */
-static inline u8_error_t pencil_relationship_layouter_private_find_space_for_v_line ( pencil_relationship_layouter_t *this_,
-                                                                                      const geometry_rectangle_t *search_rect,
-                                                                                      double min_gap,
-                                                                                      double *io_abscissa
-                                                                                    );
+static inline u8_error_t pencil_relationship_2d_layouter_private_find_space_for_v_line ( pencil_relationship_2d_layouter_t *this_,
+                                                                                         const geometry_rectangle_t *search_rect,
+                                                                                         double min_gap,
+                                                                                         double *io_abscissa
+                                                                                       );
 
 /*!
  *  \brief make all relationships visible.
@@ -233,7 +235,7 @@ static inline u8_error_t pencil_relationship_layouter_private_find_space_for_v_l
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_relationship_layouter_private_make_all_visible ( pencil_relationship_layouter_t *this_ );
+void pencil_relationship_2d_layouter_private_make_all_visible ( pencil_relationship_2d_layouter_t *this_ );
 
 /*!
  *  \brief layouts all relationships.
@@ -244,7 +246,7 @@ void pencil_relationship_layouter_private_make_all_visible ( pencil_relationship
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_relationship_layouter_layout_standard( pencil_relationship_layouter_t *this_ );
+void pencil_relationship_2d_layouter_layout_standard( pencil_relationship_2d_layouter_t *this_ );
 
 /*!
  *  \brief hides all relationships.
@@ -253,27 +255,7 @@ void pencil_relationship_layouter_layout_standard( pencil_relationship_layouter_
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_relationship_layouter_layout_void( pencil_relationship_layouter_t *this_ );
-
-/*!
- *  \brief defines the shapes of relationships in sequence diagrams
- *
- *  Shows only relationships that are associated to a lifeline because a sequence diagram
- *  shows only an example sequence of messages, not all dependencies.
- *
- *  \param this_ pointer to own object attributes
- */
-void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layouter_t *this_ );
-
-/*!
- *  \brief defines the shapes of relationships in timing diagrams
- *
- *  Shows only relationships that are associated to a lifeline because a timing diagram
- *  shows only an example timing-sequence of messages, not all dependencies.
- *
- *  \param this_ pointer to own object attributes
- */
-void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layouter_t *this_ );
+void pencil_relationship_2d_layouter_layout_void( pencil_relationship_2d_layouter_t *this_ );
 
 /*!
  *  \brief defines the shapes of relationships in communication diagrams.
@@ -283,11 +265,11 @@ void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layoute
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_relationship_layouter_layout_for_communication( pencil_relationship_layouter_t *this_ );
+void pencil_relationship_2d_layouter_layout_for_communication( pencil_relationship_2d_layouter_t *this_ );
 
-#include "pencil_relationship_layouter.inl"
+#include "pencil_relationship_2d_layouter.inl"
 
-#endif  /* PENCIL_RELATIONSHIP_LAYOUTER_H */
+#endif  /* PENCIL_RELATIONSHIP_2D_LAYOUTER_H */
 
 
 /*
