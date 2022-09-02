@@ -84,7 +84,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
         double p2y = geometry_connector_get_main_line_source_y ( connector_shape );
         double p3x = geometry_connector_get_main_line_destination_x ( connector_shape );
         double p3y = geometry_connector_get_main_line_destination_y ( connector_shape );
-        double p4x = geometry_connector_destination_end_x ( connector_shape );
+        double p4x = geometry_connector_get_destination_end_x ( connector_shape );
         double p4y = geometry_connector_get_destination_end_y ( connector_shape );
         double center_x = (p2x+p3x)/2.0;
         double center_y = (p2y+p3y)/2.0;

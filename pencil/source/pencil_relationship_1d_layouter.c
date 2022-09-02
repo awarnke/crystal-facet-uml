@@ -9,8 +9,8 @@
 #include <stdint.h>
 
 void pencil_relationship_1d_layouter_init( pencil_relationship_1d_layouter_t *this_,
-                                        pencil_layout_data_t *layout_data,
-                                        pencil_size_t *pencil_size )
+                                           pencil_layout_data_t *layout_data,
+                                           pencil_size_t *pencil_size )
 {
     TRACE_BEGIN();
     assert( NULL != layout_data );

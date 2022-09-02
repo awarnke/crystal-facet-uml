@@ -190,7 +190,7 @@ static inline double geometry_connector_get_main_line_destination_y ( const geom
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double geometry_connector_destination_end_x ( const geometry_connector_t *this_ );
+static inline double geometry_connector_get_destination_end_x ( const geometry_connector_t *this_ );
 
 /*!
  *  \brief gets the attribute destination_end_y from geometry_connector_t

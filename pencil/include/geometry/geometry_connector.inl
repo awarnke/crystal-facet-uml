@@ -140,7 +140,7 @@ static inline double geometry_connector_get_main_line_destination_y ( const geom
     return (*this_).main_line_destination_y;
 }
 
-static inline double geometry_connector_destination_end_x ( const geometry_connector_t *this_ )
+static inline double geometry_connector_get_destination_end_x ( const geometry_connector_t *this_ )
 {
     return (*this_).destination_end_x;
 }

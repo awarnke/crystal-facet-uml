@@ -252,11 +252,19 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
 
     /* get current relation data */
     const uint32_t index
-        = universal_array_index_sorter_get_array_index( sorted, sort_index );
+        = universal_array_index_sorter_get_array_index ( sorted, sort_index );
     const layout_relationship_t *const current_relation
         = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
     const data_relationship_t *const current_relation_data
         = layout_relationship_get_data_const ( current_relation );
+    const geometry_rectangle_t *const source_rect
+        = layout_relationship_get_from_symbol_box_const ( current_relation );
+    const geometry_rectangle_t *const dest_rect
+        = layout_relationship_get_to_symbol_box_const ( current_relation );
+    const double src_center_x = geometry_rectangle_get_center_x ( source_rect );
+    const double src_center_y = geometry_rectangle_get_center_y ( source_rect );
+    const double dst_center_x = geometry_rectangle_get_center_x ( dest_rect );
+    const double dst_center_y = geometry_rectangle_get_center_y ( dest_rect );
 
     /* get draw area */
     const layout_diagram_t *const diagram_layout
@@ -284,7 +292,7 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
         /* the more length, the more unwanted... */
         debts_of_current += geometry_connector_get_length( current_solution );
 
-        /* prefer either no or minimum-dist lengths of parts... */
+        /* prefer _either_ no _or_ minimum-dist lengths of parts... */
         const double HEAVIER_THAN_DETOUR = 4.0;
         const double source_length = geometry_connector_get_source_length( current_solution );
         if (( source_length > 0.000001 )&&( source_length < object_dist ))
@@ -302,8 +310,13 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
         if (( main_length > 0.000001 )&&( main_length < object_dist )&&( no_source_or_dest ))
         {
             debts_of_current += HEAVIER_THAN_DETOUR * ( object_dist - main_length );
-
         }
+
+        /* prefer centered over uncentered departure and arrival */
+        debts_of_current += fabs( geometry_connector_get_source_end_x( current_solution ) - src_center_x );
+        debts_of_current += fabs( geometry_connector_get_source_end_y( current_solution ) - src_center_y );
+        debts_of_current += fabs( geometry_connector_get_destination_end_x( current_solution ) - dst_center_x );
+        debts_of_current += fabs( geometry_connector_get_destination_end_y( current_solution ) - dst_center_y );
 
         /* prefer left-hand angles over right-handed */
         bool bad_pattern_h = false;

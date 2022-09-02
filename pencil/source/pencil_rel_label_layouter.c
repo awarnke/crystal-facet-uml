@@ -97,7 +97,8 @@ void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_, P
     TRACE_END();
 }
 
-void pencil_rel_label_layouter_private_propose_processing_order ( pencil_rel_label_layouter_t *this_, universal_array_index_sorter_t *out_sorted )
+void pencil_rel_label_layouter_private_propose_processing_order ( pencil_rel_label_layouter_t *this_,
+                                                                  universal_array_index_sorter_t *out_sorted )
 {
     TRACE_BEGIN();
     assert( NULL != out_sorted );
@@ -173,7 +174,7 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
         const double main_line_source_y = geometry_connector_get_main_line_source_y ( shape );
         const double main_line_destination_x = geometry_connector_get_main_line_destination_x ( shape );
         const double main_line_destination_y = geometry_connector_get_main_line_destination_y ( shape );
-        const double destination_end_x = geometry_connector_destination_end_x ( shape );
+        const double destination_end_x = geometry_connector_get_destination_end_x ( shape );
         const double destination_end_y = geometry_connector_get_destination_end_y ( shape );
         geometry_point_t src_end;
         geometry_point_t main_src;
