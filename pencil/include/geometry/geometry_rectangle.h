@@ -332,7 +332,7 @@ static inline void geometry_rectangle_enlarge ( geometry_rectangle_t *this_, dou
  *                     The left side moves to left by delta_width.
  *  \param delta_height value by which to increase the height twice.
  *                      In case of a negative value, the rectangle shrinks (but not below 0).
- *                     The top side moves to top by delta_height.
+ *                      The top side moves to top by delta_height.
  */
 static inline void geometry_rectangle_expand_4dir ( geometry_rectangle_t *this_, double delta_width, double delta_height );
 

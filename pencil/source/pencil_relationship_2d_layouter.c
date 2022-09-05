@@ -313,10 +313,11 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
         }
 
         /* prefer centered over uncentered departure and arrival */
-        debts_of_current += fabs( geometry_connector_get_source_end_x( current_solution ) - src_center_x );
-        debts_of_current += fabs( geometry_connector_get_source_end_y( current_solution ) - src_center_y );
-        debts_of_current += fabs( geometry_connector_get_destination_end_x( current_solution ) - dst_center_x );
-        debts_of_current += fabs( geometry_connector_get_destination_end_y( current_solution ) - dst_center_y );
+        const double HEAVIER_THAN_EXPLICIT = 2.0;
+        debts_of_current += fabs( geometry_connector_get_source_end_x( current_solution ) - src_center_x ) * HEAVIER_THAN_EXPLICIT;
+        debts_of_current += fabs( geometry_connector_get_source_end_y( current_solution ) - src_center_y ) * HEAVIER_THAN_EXPLICIT;
+        debts_of_current += fabs( geometry_connector_get_destination_end_x( current_solution ) - dst_center_x ) * HEAVIER_THAN_EXPLICIT;
+        debts_of_current += fabs( geometry_connector_get_destination_end_y( current_solution ) - dst_center_y ) * HEAVIER_THAN_EXPLICIT;
 
         /* prefer left-hand angles over right-handed */
         bool bad_pattern_h = false;
@@ -1147,6 +1148,21 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
         greater_probe = center;
     }
 
+    /* the rectangle where each classifier within is checked for intersections: */
+    geometry_rectangle_t consider_rect;
+    geometry_rectangle_copy( &consider_rect, search_rect );
+    if ( horizontal_line )
+    {
+        geometry_rectangle_set_top( &consider_rect, geometry_rectangle_get_top( search_rect ) - min_gap );
+        geometry_rectangle_set_height( &consider_rect, geometry_rectangle_get_height( search_rect ) + 2.0 * min_gap );
+
+    }
+    else
+    {
+        geometry_rectangle_set_left( &consider_rect, geometry_rectangle_get_left( search_rect ) - min_gap );
+        geometry_rectangle_set_width( &consider_rect, geometry_rectangle_get_width( search_rect ) + 2.0 * min_gap );
+    }
+
     /* iterate over all classifiers */
     const uint32_t count_classifiers
         = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
@@ -1164,7 +1180,7 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
             const geometry_rectangle_t *const classifier_space
                 = layout_visible_classifier_get_space_const( the_classifier );
 
-            if ( geometry_rectangle_is_intersecting( search_rect, classifier_symbol_box ) )
+            if ( geometry_rectangle_is_intersecting( &consider_rect, classifier_symbol_box ) )
             {
                 if ( horizontal_line )
                 {
@@ -1285,6 +1301,8 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
             }
         }
     }
+
+    geometry_rectangle_destroy( &consider_rect );
 
     TRACE_END_ERR(err);
     return err;
