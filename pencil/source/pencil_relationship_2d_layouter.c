@@ -373,6 +373,22 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
             }
         }
 
+        /* iterate over all features, check symbol boxes only, label boxes are not yet initialized */
+        const uint32_t count_features
+            = pencil_layout_data_get_feature_count ( (*this_).layout_data );
+        for ( uint32_t f_idx = 0; f_idx < count_features; f_idx ++ )
+        {
+            const layout_feature_t *const feature_layout
+                = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, f_idx );
+
+            const geometry_rectangle_t *const feature_symbol_box
+                = layout_feature_get_symbol_box_const( feature_layout );
+            if ( geometry_connector_is_intersecting_rectangle( current_solution, feature_symbol_box ) )
+            {
+                debts_of_current += 30000.0;
+            }
+        }
+
         /* iterate over the already created connectors (probe_sort_index < sort_index) */
         for ( uint32_t probe_sort_index = 0; probe_sort_index < sort_index; probe_sort_index ++ )
         {
@@ -1163,14 +1179,15 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
         geometry_rectangle_set_width( &consider_rect, geometry_rectangle_get_width( search_rect ) + 2.0 * min_gap );
     }
 
-    /* iterate over all classifiers */
-    const uint32_t count_classifiers
-        = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
-    const uint32_t max_list_iteration = count_classifiers;  /* in the worst case, each iteration moves the probes by one classifier */
+    /* iterate till no hit anymore */
+    const uint32_t max_list_iteration = 8;  /* in any case, do not iterate ofer the list more than 8 times */
     bool hit = true;  /* whenever the probes hit a rectangle, hit is set to true */
     for ( uint32_t list_iteration = 0; (list_iteration < max_list_iteration) && hit; list_iteration ++ )
     {
         hit = false;
+
+        /* move away from classifiers */
+        const uint32_t count_classifiers = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
         for ( uint32_t classifier_index = 0; classifier_index < count_classifiers; classifier_index ++ )
         {
             const layout_visible_classifier_t *const the_classifier
@@ -1233,7 +1250,73 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
                     }
                 }
             }
+#if 0
+            const geometry_rectangle_t *const classifier_label_box
+                = layout_visible_classifier_get_label_box_const( the_classifier );
+            hit = pencil_relationship_2d_layouter_private_avoid_rect_for_line( this_,
+                                                                               search_rect,
+                                                                               classifier_label_box,
+                                                                               horizontal_line,
+                                                                               min_gap,
+                                                                               &smaller_probe,
+                                                                               &greater_probe
+                                                                             )
+                || hit;
+            hit = pencil_relationship_2d_layouter_private_smaller_if_between( this_,
+                                                                              geometry_rectangle_get_left(classifier_label_box) - min_gap,
+                                                                              geometry_rectangle_get_right(classifier_label_box) + min_gap,
+                                                                              &smaller_probe,
+                                                                            )
+                || hit;
+#endif
         }
+
+        /* move away from features, check symbol boxes only, label boxes are not yet initialized */
+        const uint32_t count_features = pencil_layout_data_get_feature_count ( (*this_).layout_data );
+        for ( uint32_t f_idx = 0; f_idx < count_features; f_idx ++ )
+        {
+            const layout_feature_t *const feature_layout
+                = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, f_idx );
+
+            const geometry_rectangle_t *const feature_symbol_box
+                = layout_feature_get_symbol_box_const( feature_layout );
+            if ( geometry_rectangle_is_intersecting( &consider_rect, feature_symbol_box ) )
+            {
+                if ( horizontal_line )
+                {
+                    if ( ( geometry_rectangle_get_top(feature_symbol_box) - min_gap < smaller_probe )
+                        && ( geometry_rectangle_get_bottom(feature_symbol_box) + min_gap > smaller_probe ) )
+                    {
+                        smaller_probe = geometry_rectangle_get_top(feature_symbol_box) - min_gap;
+                        hit = true;
+                    }
+                    if ( ( geometry_rectangle_get_top(feature_symbol_box) - min_gap < greater_probe )
+                        && ( geometry_rectangle_get_bottom(feature_symbol_box) + min_gap > greater_probe ) )
+                    {
+                        greater_probe = geometry_rectangle_get_bottom(feature_symbol_box) + min_gap;
+                        hit = true;
+                    }
+                }
+                else
+                {
+                    if ( ( geometry_rectangle_get_left(feature_symbol_box) - min_gap < smaller_probe )
+                        && ( geometry_rectangle_get_right(feature_symbol_box) + min_gap > smaller_probe ) )
+                    {
+                        smaller_probe = geometry_rectangle_get_left(feature_symbol_box) - min_gap;
+                        hit = true;
+                    }
+                    if ( ( geometry_rectangle_get_left(feature_symbol_box) - min_gap < greater_probe )
+                        && ( geometry_rectangle_get_right(feature_symbol_box) + min_gap > greater_probe ) )
+                    {
+                        greater_probe = geometry_rectangle_get_right(feature_symbol_box) + min_gap;
+                        hit = true;
+                    }
+                }
+            }
+        }
+
+        /* move away from already layed-out parallel relationship-segments */
+        /* TODO */
     }
 
     /* check success */

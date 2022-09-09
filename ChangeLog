@@ -4,8 +4,9 @@ crystal-facet-uml (1.40.1) UNRELEASED; urgency=medium
   * pencil_relationship_layouter prefers centered over uncentered departure
     and arrival
   * relationships have a minumum gap distance towards all classifiers
+  * relationships avoid symbol boxes of features
 
-   -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 11 Sep 2022 10:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 11 Sep 2022 10:00:00 +0100
 
 crystal-facet-uml (1.40.0) UNRELEASED; urgency=medium
 
@@ -21,7 +22,7 @@ crystal-facet-uml (1.40.0) UNRELEASED; urgency=medium
     layout_good_cases: ERR=0, W/C=7, W/F=171, W/R=58
     layout_challenging_cases: ERR=64, W/C=8033, W/F=8381, W/R=5175
 
-   -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 28 Aug 2022 08:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 28 Aug 2022 08:00:00 +0100
 
 crystal-facet-uml (1.39.0) UNRELEASED; urgency=medium
 
@@ -30,7 +31,7 @@ crystal-facet-uml (1.39.0) UNRELEASED; urgency=medium
   * save button was renamed from commit, moved to top tool bar
   * while loading, the status line states "Loading..."
 
-   -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 16 Jul 2022 16:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 16 Jul 2022 16:00:00 +0100
 
 crystal-facet-uml (1.38.0) UNRELEASED; urgency=medium
 
@@ -42,7 +43,7 @@ crystal-facet-uml (1.38.0) UNRELEASED; urgency=medium
   * On Windows(TM), the black terminal window is hidden (via -mwindows)
   * The left-right shiftable panes keep the right side constant on resize
 
-   -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 06 Jun 2022 19:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 06 Jun 2022 19:00:00 +0100
 
 crystal-facet-uml (1.37.0) UNRELEASED; urgency=medium
 
@@ -51,7 +52,7 @@ crystal-facet-uml (1.37.0) UNRELEASED; urgency=medium
   * New DB and Open DB are two separate buttons
   * on Windows(TM), the working directory is the installation root (again)
 
-   -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 14 May 2022 15:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 14 May 2022 15:00:00 +0100
 
 crystal-facet-uml (1.36.1) UNRELEASED; urgency=medium
 

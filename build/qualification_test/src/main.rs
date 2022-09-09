@@ -10,8 +10,7 @@ use std::env;
 /* Run this test by calling "cargo run" from the current directory .. */
 
 /// Runs all test suites and returns true if all cases succeeded.
-fn run_all_suites(exe_to_test: &String) -> bool
-{
+fn run_all_suites(exe_to_test: &String) -> bool {
     suite_cli_run(exe_to_test) && suite_gui_run(exe_to_test)
 }
 
@@ -23,14 +22,11 @@ fn main() {
 
     let args: Vec<String> = env::args().collect();
 
-    if args.len() != 2
-    {
+    if args.len() != 2 {
         println!("    please call this program with 1 parameter:");
         println!("    {} EXE_TO_TEST", args[0]);
         err_code = exitcode::USAGE;
-    }
-    else
-    {
+    } else {
         println!("{:?}", args);
         err_code = match run_all_suites(&args[1]) {
             true => exitcode::OK,
