@@ -16,7 +16,6 @@ static const char * const JSON_WRITER_PRIVATE_ENCODE_JSON_STRINGS[][2] = {
     { "\x0c", "\\f" },  /* form feed */
     { "\"", "\\\"" },  /* double quote */
     { "\\", "\\\\" },  /* backslash*/
-//    { "/", "\\/" },  /* slash */
     { NULL, NULL }  /* for JSON, see rfc7159 */
 };
 
@@ -28,7 +27,6 @@ static const char * const JSON_WRITER_PRIVATE_ENCODE_JSON_STRING_ARRAYS[][2] = {
     { "\x0c", "\\f" },  /* form feed */
     { "\"", "\\\"" },  /* double quote */
     { "\\", "\\\\" },  /* backslash*/
-//    { "/", "\\/" },  /* slash */
     { NULL, NULL }  /* for JSON, see rfc7159 */
 };
 

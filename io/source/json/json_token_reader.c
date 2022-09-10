@@ -16,7 +16,7 @@ static const char *const JSON_TOKENIZER_PRIVATE_DECODE_JSON_STRINGS[][2] = {
     { "\\f", "\x0c" },  /* form feed */
     { "\\\"", "\"" },  /* double quote */
     { "\\\\", "\\" },  /* backslash*/
-    { "\\/", "/" },  /* slash */
+    { "\\/", "/" },  /* forward slash could optionally be escaped */
     { NULL, NULL }  /* for JSON, see rfc7159 */
 };
 

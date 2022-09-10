@@ -5,6 +5,8 @@ crystal-facet-uml (1.41.0) UNRELEASED; urgency=medium
   * relationships have a minumum gap distance towards all classifiers
   * relationships keep distance to symbol boxes of features
   * relationships keep distance to neighbor relationships
+  * relationships can be simple straight lines
+  * json: forward slashes are only decoded, not encoded in json anymore
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 11 Sep 2022 10:00:00 +0100
 

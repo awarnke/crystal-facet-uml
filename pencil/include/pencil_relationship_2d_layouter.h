@@ -103,6 +103,24 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
                                                              );
 
 /*!
+ *  \brief layouts a connection from one rectangle to another in shape of - or I
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param source_rect pointer to the source rectangle
+ *  \param dest_rect pointer to the destination rectangle
+ *  \param solutions_max maximum number (array size) of solutions to propose
+ *  \param out_solutions array of solutions
+ *  \param out_solutions_count number of proposed solutions; 1 &lt;= out_solutions_count &lt; solutions_max
+ */
+void pencil_relationship_2d_layouter_private_connect_rectangles_by_I ( pencil_relationship_2d_layouter_t *this_,
+                                                                       const geometry_rectangle_t *source_rect,
+                                                                       const geometry_rectangle_t *dest_rect,
+                                                                       uint32_t solutions_max,
+                                                                       geometry_connector_t out_solutions[],
+                                                                       uint32_t *out_solutions_count
+                                                                     );
+
+/*!
  *  \brief layouts a connection from one rectangle to another in shape of Z or N
  *
  *  \param this_ pointer to own object attributes
