@@ -1,6 +1,6 @@
 /* File: gui_sketch_background.c; Copyright and License: see below */
 
-#include "sketch_area/gui_sketch_background.h"
+#include "sketch/gui_sketch_background.h"
 #include "meta/meta_info.h"
 #include "trace/trace.h"
 #include <stdint.h>

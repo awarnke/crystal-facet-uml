@@ -253,7 +253,6 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
         /* layout labels of features and relationships */
         pencil_feat_label_layouter_do_layout( &((*this_).feature_label_layouter), font_layout );
         pencil_rel_label_layouter_do_layout( &((*this_).relationship_label_layouter), font_layout );
-
     }
 
     if ( io_layout_stat != NULL )

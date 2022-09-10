@@ -1,7 +1,7 @@
 /* File: gui_sketch_card_layouter.c; Copyright and License: see below */
 
 #include "gui_sketch_card_layouter.h"
-#include "sketch_area/gui_sketch_area.h"
+#include "sketch/gui_sketch_area.h"
 #include "trace/trace.h"
 #include "tslog/tslog.h"
 

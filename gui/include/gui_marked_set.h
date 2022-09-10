@@ -8,7 +8,7 @@
  *  \brief References objects that are marked (displayed as selected/focused/highlighted)
  */
 
-#include "sketch_area/gui_sketch_action.h"
+#include "sketch/gui_sketch_action.h"
 #include "set/data_small_set.h"
 #include "set/data_full_id.h"
 #include <glib-object.h>

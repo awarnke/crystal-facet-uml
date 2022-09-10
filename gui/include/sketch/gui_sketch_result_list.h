@@ -8,8 +8,8 @@
  *  \brief Draws a list showing search results
  */
 
-#include "sketch_area/gui_sketch_marker.h"
-#include "sketch_area/gui_sketch_style.h"
+#include "sketch/gui_sketch_marker.h"
+#include "sketch/gui_sketch_style.h"
 #include "gui_marked_set.h"
 #include "gui_resources.h"
 #include "gui_resource_selector.h"

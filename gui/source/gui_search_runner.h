@@ -8,7 +8,7 @@
  *  \brief Gets a search query string, performs the search and provides the search result.
  */
 
-#include "sketch_area/gui_sketch_area.h"
+#include "sketch/gui_sketch_area.h"
 #include "storage/data_database_reader.h"
 #include "storage/data_database_text_search.h"
 #include "set/data_small_set.h"

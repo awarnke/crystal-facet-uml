@@ -27,9 +27,13 @@
  *  \brief attributes of the relationship layouter
  */
 struct pencil_relationship_2d_layouter_struct {
-    pencil_layout_data_t *layout_data;  /* pointer to an instance of layout data */
-    pencil_size_t *pencil_size;  /*!< pointer to an instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
+    pencil_layout_data_t *layout_data;  /*!< pointer to an instance of layout data */
+    universal_array_index_sorter_t sorted_relationships;  /*!< a sorted list of relationships, ordered by processing order, */
+                                                          /*!< empty if layouting algorithm finished */
+    uint32_t sorted_rel_index;  /*!< currently processd relationship io the sorted list of relationships */
 
+    pencil_size_t *pencil_size;  /*!< pointer to an instance of a pencil_size_t object, defining pen sizes, gap sizes, */
+                                 /*!< font sizes and colors */
     pencil_relationship_painter_t relationship_painter;  /*!< own instance of a painter object to ask for display dimensions */
 };
 
@@ -64,28 +68,21 @@ void pencil_relationship_2d_layouter_private_do_layout ( pencil_relationship_2d_
 /*!
  *  \brief determine order by which to shape relationships
  *
- *  Relationships that are not visible are ignored. Therefore out_sorted may contain fewer relationships than (*this_).layout_data.
+ *  Relationships that are not visible are ignored. Therefore this_.sorted_relationships may contain fewer relationships than (*this_).layout_data.
  *
- *  \param this_ pointer to own object attributes
- *  \param out_sorted sorting order by which to shape relationships; must not be NULL, shall be initialized to empty.
+ *  \param this_ pointer to own object attributes, &((this_).sorted_relationships) is initialized
  */
-void pencil_relationship_2d_layouter_private_propose_processing_order ( pencil_relationship_2d_layouter_t *this_,
-                                                                        universal_array_index_sorter_t *out_sorted
-                                                                      );
+void pencil_relationship_2d_layouter_private_propose_processing_order ( pencil_relationship_2d_layouter_t *this_ );
 
 /*!
  *  \brief propose multiple solutions to shape one relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param sorted sorting order by which to shape relationships; must not be NULL.
- *  \param sort_index index of the current relationship for which to propose solutions
  *  \param solutions_max maximum number (array size) of solutions to propose
  *  \param out_solutions array of solutions
  *  \param out_solutions_count number of proposed solutions; 1 &lt;= out_solutions_count &lt; solutions_max
  */
 void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relationship_2d_layouter_t *this_,
-                                                                 const universal_array_index_sorter_t *sorted,
-                                                                 uint32_t sort_index,
                                                                  uint32_t solutions_max,
                                                                  geometry_connector_t out_solutions[],
                                                                  uint32_t *out_solutions_count
@@ -95,15 +92,11 @@ void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relation
  *  \brief selects one solution to shape a relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param sorted sorting order by which to shape relationships; must not be NULL.
- *  \param sort_index index (in sorted relationships) of the current relationship for which to select a solution
  *  \param solutions_count number of proposed solutions; 1 &lt;= out_solutions_count &lt; solutions_max
  *  \param solutions array of solutions
  *  \param out_index_of_best index (of solution) of the best solution; must not be NULL.
  */
 void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationship_2d_layouter_t *this_,
-                                                               const universal_array_index_sorter_t *sorted,
-                                                               uint32_t sort_index,
                                                                uint32_t solutions_count,
                                                                const geometry_connector_t solutions[],
                                                                uint32_t *out_index_of_best

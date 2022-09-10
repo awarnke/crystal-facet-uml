@@ -8,14 +8,14 @@
  *  \brief Loads data to be drawn, layouts sketch cards, reacts on user input
  */
 
-#include "sketch_area/gui_sketch_card.h"
-#include "sketch_area/gui_sketch_nav_tree.h"
-#include "sketch_area/gui_sketch_result_list.h"
-#include "sketch_area/gui_sketch_drag_state.h"
-#include "sketch_area/gui_sketch_object_creator.h"
-#include "sketch_area/gui_sketch_overlay.h"
-#include "sketch_area/gui_sketch_background.h"
-#include "sketch_area/gui_sketch_request.h"
+#include "sketch/gui_sketch_card.h"
+#include "sketch/gui_sketch_nav_tree.h"
+#include "sketch/gui_sketch_result_list.h"
+#include "sketch/gui_sketch_drag_state.h"
+#include "sketch/gui_sketch_object_creator.h"
+#include "sketch/gui_sketch_overlay.h"
+#include "sketch/gui_sketch_background.h"
+#include "sketch/gui_sketch_request.h"
 #include "gui_toolbox.h"
 #include "gui_marked_set.h"
 #include "gui_resources.h"

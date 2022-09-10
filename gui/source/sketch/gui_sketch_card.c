@@ -1,6 +1,6 @@
 /* File: gui_sketch_card.c; Copyright and License: see below */
 
-#include "sketch_area/gui_sketch_card.h"
+#include "sketch/gui_sketch_card.h"
 #include "pencil_diagram_maker.h"
 #include "geometry/geometry_rectangle.h"
 #include "trace/trace.h"

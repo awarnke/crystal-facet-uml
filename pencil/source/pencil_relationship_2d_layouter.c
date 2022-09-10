@@ -17,8 +17,10 @@ void pencil_relationship_2d_layouter_init( pencil_relationship_2d_layouter_t *th
     assert( NULL != pencil_size );
 
     (*this_).layout_data = layout_data;
-    (*this_).pencil_size = pencil_size;
+    universal_array_index_sorter_init( &((*this_).sorted_relationships) );
+    (*this_).sorted_rel_index = 0;
 
+    (*this_).pencil_size = pencil_size;
     pencil_relationship_painter_init( &((*this_).relationship_painter) );
 
     TRACE_END();
@@ -27,6 +29,8 @@ void pencil_relationship_2d_layouter_init( pencil_relationship_2d_layouter_t *th
 void pencil_relationship_2d_layouter_destroy( pencil_relationship_2d_layouter_t *this_ )
 {
     TRACE_BEGIN();
+
+    universal_array_index_sorter_destroy( &((*this_).sorted_relationships) );
 
     pencil_relationship_painter_destroy( &((*this_).relationship_painter) );
 
@@ -38,20 +42,21 @@ void pencil_relationship_2d_layouter_private_do_layout ( pencil_relationship_2d_
     TRACE_BEGIN();
     assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
 
-    universal_array_index_sorter_t sorted;
-    universal_array_index_sorter_init( &sorted );
+    universal_array_index_sorter_reinit( &((*this_).sorted_relationships) );
 
     /* sort the relationships by their movement-needs, drop invisible relations */
-    pencil_relationship_2d_layouter_private_propose_processing_order ( this_, &sorted );
+    pencil_relationship_2d_layouter_private_propose_processing_order ( this_ );
 
     /* shape the relationships */
     const uint32_t count_sorted
-        = universal_array_index_sorter_get_count( &sorted );
-    for ( uint32_t sort_index = 0; sort_index < count_sorted; sort_index ++ )
+        = universal_array_index_sorter_get_count( &((*this_).sorted_relationships) );
+    for ( (*this_).sorted_rel_index = 0; (*this_).sorted_rel_index < count_sorted; (*this_).sorted_rel_index ++ )
     {
         /* determine pointer to the_relationship */
         const uint32_t index
-            = universal_array_index_sorter_get_array_index( &sorted, sort_index );
+            = universal_array_index_sorter_get_array_index ( &((*this_).sorted_relationships),
+                                                             (*this_).sorted_rel_index
+                                                           );
         layout_relationship_t *const current_relationship
             = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, index );
 
@@ -62,8 +67,6 @@ void pencil_relationship_2d_layouter_private_do_layout ( pencil_relationship_2d_
 
         /* propose options */
         pencil_relationship_2d_layouter_private_propose_solutions ( this_,
-                                                                    &sorted,
-                                                                    sort_index,
                                                                     SOLUTIONS_MAX,
                                                                     solution,
                                                                     &solutions_count
@@ -78,8 +81,6 @@ void pencil_relationship_2d_layouter_private_do_layout ( pencil_relationship_2d_
         else
         {
             pencil_relationship_2d_layouter_private_select_solution ( this_,
-                                                                      &sorted,
-                                                                      sort_index,
                                                                       solutions_count,
                                                                       solution,
                                                                       &index_of_best
@@ -90,15 +91,14 @@ void pencil_relationship_2d_layouter_private_do_layout ( pencil_relationship_2d_
         layout_relationship_set_shape( current_relationship, &(solution[index_of_best]) );
     }
 
-    universal_array_index_sorter_destroy( &sorted );
+    universal_array_index_sorter_reinit( &((*this_).sorted_relationships) );
 
     TRACE_END();
 }
 
-void pencil_relationship_2d_layouter_private_propose_processing_order ( pencil_relationship_2d_layouter_t *this_, universal_array_index_sorter_t *out_sorted )
+void pencil_relationship_2d_layouter_private_propose_processing_order ( pencil_relationship_2d_layouter_t *this_ )
 {
     TRACE_BEGIN();
-    assert ( NULL != out_sorted );
     assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) DATA_VISIBLE_SET_MAX_RELATIONSHIPS );
 
     /* get draw area */
@@ -152,7 +152,7 @@ void pencil_relationship_2d_layouter_private_propose_processing_order ( pencil_r
         /* insert relation to sorted array, the simpler the more to the back */
         {
             int insert_error;
-            insert_error = universal_array_index_sorter_insert( out_sorted, index, simpleness );
+            insert_error = universal_array_index_sorter_insert( &((*this_).sorted_relationships), index, simpleness );
             if ( 0 != insert_error )
             {
                 TSLOG_WARNING( "not all relationships are shaped" );
@@ -164,15 +164,12 @@ void pencil_relationship_2d_layouter_private_propose_processing_order ( pencil_r
 }
 
 void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relationship_2d_layouter_t *this_,
-                                                                 const universal_array_index_sorter_t *sorted,
-                                                                 uint32_t sort_index,
                                                                  uint32_t solutions_max,
                                                                  geometry_connector_t out_solutions[],
                                                                  uint32_t *out_solutions_count )
 {
     TRACE_BEGIN();
-    assert ( NULL != sorted );
-    assert ( universal_array_index_sorter_get_count( sorted ) > sort_index );
+    assert ( (*this_).sorted_rel_index < universal_array_index_sorter_get_count( &((*this_).sorted_relationships) ) );
     assert ( NULL != out_solutions );
     assert ( NULL != out_solutions_count );
     assert ( 1 <= solutions_max );  /* general requirement to report at least one option */
@@ -180,7 +177,7 @@ void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relation
 
     /* get current relation */
     const uint32_t index
-        = universal_array_index_sorter_get_array_index( sorted, sort_index );
+        = universal_array_index_sorter_get_array_index( &((*this_).sorted_relationships), (*this_).sorted_rel_index );
     layout_relationship_t *const current_relation
         = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
 
@@ -237,22 +234,19 @@ static const geometry_3dir_t PENCIL_BAD_H_PATTERN2
    = { .first = GEOMETRY_DIRECTION_UP,    .second = GEOMETRY_DIRECTION_LEFT,  .third = GEOMETRY_DIRECTION_UP };
 
 void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationship_2d_layouter_t *this_,
-                                                               const universal_array_index_sorter_t *sorted,
-                                                               uint32_t sort_index,
                                                                uint32_t solutions_count,
                                                                const geometry_connector_t solutions[],
                                                                uint32_t *out_index_of_best )
 {
     TRACE_BEGIN();
-    assert ( NULL != sorted );
-    assert ( universal_array_index_sorter_get_count( sorted ) > sort_index );
+    assert ( (*this_).sorted_rel_index < universal_array_index_sorter_get_count( &((*this_).sorted_relationships) ) );
     assert ( NULL != solutions );
     assert ( NULL != out_index_of_best );
     assert ( 1 <= solutions_count );
 
     /* get current relation data */
     const uint32_t index
-        = universal_array_index_sorter_get_array_index ( sorted, sort_index );
+        = universal_array_index_sorter_get_array_index ( &((*this_).sorted_relationships), (*this_).sorted_rel_index );
     const layout_relationship_t *const current_relation
         = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
     const data_relationship_t *const current_relation_data
@@ -389,12 +383,12 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
             }
         }
 
-        /* iterate over the already created connectors (probe_sort_index < sort_index) */
-        for ( uint32_t probe_sort_index = 0; probe_sort_index < sort_index; probe_sort_index ++ )
+        /* iterate over the already created connectors (probe_sort_index < (*this_).sorted_rel_index) */
+        for ( uint32_t probe_sort_index = 0; probe_sort_index < (*this_).sorted_rel_index; probe_sort_index ++ )
         {
             /* add debts if intersects */
             const uint32_t probe_index
-                = universal_array_index_sorter_get_array_index( sorted, probe_sort_index );
+                = universal_array_index_sorter_get_array_index( &((*this_).sorted_relationships), probe_sort_index );
             const layout_relationship_t *const probe_relationship
                 = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, probe_index );
             const data_relationship_t *const probe_relation_data
@@ -1141,6 +1135,7 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
                                                                          double *io_coordinate )
 {
     TRACE_BEGIN();
+    assert( (*this_).sorted_rel_index < universal_array_index_sorter_get_count( &((*this_).sorted_relationships) ) );
     assert ( NULL != search_rect );
     assert ( NULL != io_coordinate );
     u8_error_t err = U8_ERROR_NONE;
@@ -1192,11 +1187,11 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
         {
             const layout_visible_classifier_t *const the_classifier
                 = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, classifier_index );
+
             const geometry_rectangle_t *const classifier_symbol_box
                 = layout_visible_classifier_get_symbol_box_const( the_classifier );
             const geometry_rectangle_t *const classifier_space
                 = layout_visible_classifier_get_space_const( the_classifier );
-
             if ( geometry_rectangle_is_intersecting( &consider_rect, classifier_symbol_box ) )
             {
                 if ( horizontal_line )
@@ -1250,25 +1245,30 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
                     }
                 }
             }
-#if 0
+
             const geometry_rectangle_t *const classifier_label_box
                 = layout_visible_classifier_get_label_box_const( the_classifier );
-            hit = pencil_relationship_2d_layouter_private_avoid_rect_for_line( this_,
-                                                                               search_rect,
-                                                                               classifier_label_box,
-                                                                               horizontal_line,
-                                                                               min_gap,
-                                                                               &smaller_probe,
-                                                                               &greater_probe
-                                                                             )
-                || hit;
-            hit = pencil_relationship_2d_layouter_private_smaller_if_between( this_,
-                                                                              geometry_rectangle_get_left(classifier_label_box) - min_gap,
-                                                                              geometry_rectangle_get_right(classifier_label_box) + min_gap,
-                                                                              &smaller_probe,
-                                                                            )
-                || hit;
-#endif
+            if ( geometry_rectangle_is_intersecting( &consider_rect, classifier_label_box ) )
+            {
+                const double clas_label_smaller
+                    = horizontal_line /* do vertical search if line is horizontal */
+                    ? ( geometry_rectangle_get_top(classifier_label_box) - min_gap )
+                    : ( geometry_rectangle_get_left(classifier_label_box) - min_gap );
+                const double clas_label_greater
+                    = horizontal_line /* do vertical search if line is horizontal */
+                    ? ( geometry_rectangle_get_bottom(classifier_label_box) + min_gap )
+                    : ( geometry_rectangle_get_right(classifier_label_box) + min_gap );
+                if ( ( clas_label_smaller < smaller_probe ) && ( clas_label_greater > smaller_probe ) )
+                {
+                    smaller_probe = clas_label_smaller;
+                    hit = true;
+                }
+                if ( ( clas_label_smaller < greater_probe ) && ( clas_label_greater > greater_probe ) )
+                {
+                    greater_probe = clas_label_greater;
+                    hit = true;
+                }
+            }
         }
 
         /* move away from features, check symbol boxes only, label boxes are not yet initialized */
@@ -1282,41 +1282,105 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
                 = layout_feature_get_symbol_box_const( feature_layout );
             if ( geometry_rectangle_is_intersecting( &consider_rect, feature_symbol_box ) )
             {
-                if ( horizontal_line )
+                const double feature_smaller
+                    = horizontal_line /* do vertical search if line is horizontal */
+                    ? ( geometry_rectangle_get_top(feature_symbol_box) - min_gap )
+                    : ( geometry_rectangle_get_left(feature_symbol_box) - min_gap );
+                const double feature_greater
+                    = horizontal_line /* do vertical search if line is horizontal */
+                    ? ( geometry_rectangle_get_bottom(feature_symbol_box) + min_gap )
+                    : ( geometry_rectangle_get_right(feature_symbol_box) + min_gap );
+                if ( ( feature_smaller < smaller_probe ) && ( feature_greater > smaller_probe ) )
                 {
-                    if ( ( geometry_rectangle_get_top(feature_symbol_box) - min_gap < smaller_probe )
-                        && ( geometry_rectangle_get_bottom(feature_symbol_box) + min_gap > smaller_probe ) )
-                    {
-                        smaller_probe = geometry_rectangle_get_top(feature_symbol_box) - min_gap;
-                        hit = true;
-                    }
-                    if ( ( geometry_rectangle_get_top(feature_symbol_box) - min_gap < greater_probe )
-                        && ( geometry_rectangle_get_bottom(feature_symbol_box) + min_gap > greater_probe ) )
-                    {
-                        greater_probe = geometry_rectangle_get_bottom(feature_symbol_box) + min_gap;
-                        hit = true;
-                    }
+                    smaller_probe = feature_smaller;
+                    hit = true;
                 }
-                else
+                if ( ( feature_smaller < greater_probe ) && ( feature_greater > greater_probe ) )
                 {
-                    if ( ( geometry_rectangle_get_left(feature_symbol_box) - min_gap < smaller_probe )
-                        && ( geometry_rectangle_get_right(feature_symbol_box) + min_gap > smaller_probe ) )
-                    {
-                        smaller_probe = geometry_rectangle_get_left(feature_symbol_box) - min_gap;
-                        hit = true;
-                    }
-                    if ( ( geometry_rectangle_get_left(feature_symbol_box) - min_gap < greater_probe )
-                        && ( geometry_rectangle_get_right(feature_symbol_box) + min_gap > greater_probe ) )
-                    {
-                        greater_probe = geometry_rectangle_get_right(feature_symbol_box) + min_gap;
-                        hit = true;
-                    }
+                    greater_probe = feature_greater;
+                    hit = true;
                 }
             }
         }
 
-        /* move away from already layed-out parallel relationship-segments */
-        /* TODO */
+        /* move away from already layed-out parallel relationship-segments; */
+        /* already done: exist_sort_index < (*this_).sorted_rel_index */
+        for ( uint32_t exist_sort_index = 0; ( exist_sort_index < (*this_).sorted_rel_index ); exist_sort_index ++ )
+        {
+            const uint32_t exist_index
+                = universal_array_index_sorter_get_array_index( &((*this_).sorted_relationships), exist_sort_index );
+            const layout_relationship_t *const exist_relationship
+                = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, exist_index );
+            /* Note: This algorithm ignores the relationship types (same_type), sources and destinations (one_same_end) */
+
+            const geometry_connector_t *const exist_shape = layout_relationship_get_shape_const( exist_relationship );
+            if ( geometry_connector_is_intersecting_rectangle( exist_shape, &consider_rect ) )
+            {
+                const geometry_3dir_t exist_dirs = geometry_connector_get_directions ( exist_shape );
+                if ( horizontal_line )
+                {
+                    const double exist_source_y = geometry_connector_get_main_line_source_y ( exist_shape );
+                    const double exist_destination_y = geometry_connector_get_main_line_destination_y ( exist_shape );
+                    if ( geometry_3dir_is_first_h( &exist_dirs ) || geometry_3dir_is_second_h( &exist_dirs ) )
+                    {
+                        if (( exist_source_y - min_gap < smaller_probe )&&( smaller_probe < exist_source_y + min_gap ))
+                        {
+                            smaller_probe = exist_source_y - min_gap;
+                            hit = true;
+                        }
+                        if (( exist_source_y - min_gap < greater_probe )&&( greater_probe < exist_source_y + min_gap ))
+                        {
+                            greater_probe = exist_source_y + min_gap;
+                            hit = true;
+                        }
+                    }
+                    if ( geometry_3dir_is_third_h( &exist_dirs ) ) /* third segment only, secound is already evaluated above */
+                    {
+                        if (( exist_destination_y - min_gap < smaller_probe )&&( smaller_probe < exist_source_y + min_gap ))
+                        {
+                            smaller_probe = exist_destination_y - min_gap;
+                            hit = true;
+                        }
+                        if (( exist_destination_y - min_gap < greater_probe )&&( greater_probe < exist_source_y + min_gap ))
+                        {
+                            greater_probe = exist_destination_y + min_gap;
+                            hit = true;
+                        }
+                    }
+                }
+                else
+                {
+                    const double exist_source_x = geometry_connector_get_main_line_source_x ( exist_shape );
+                    const double exist_destination_x = geometry_connector_get_main_line_destination_x ( exist_shape );
+                    if ( geometry_3dir_is_first_v( &exist_dirs ) || geometry_3dir_is_second_v( &exist_dirs ) )
+                    {
+                        if (( exist_source_x - min_gap < smaller_probe )&&( smaller_probe < exist_source_x + min_gap ))
+                        {
+                            smaller_probe = exist_source_x - min_gap;
+                            hit = true;
+                        }
+                        if (( exist_source_x - min_gap < greater_probe )&&( greater_probe < exist_source_x + min_gap ))
+                        {
+                            greater_probe = exist_source_x + min_gap;
+                            hit = true;
+                        }
+                    }
+                    if ( geometry_3dir_is_third_v( &exist_dirs ) ) /* third segment only, secound is already evaluated above */
+                    {
+                        if (( exist_destination_x - min_gap < smaller_probe )&&( smaller_probe < exist_destination_x + min_gap ))
+                        {
+                            smaller_probe = exist_destination_x - min_gap;
+                            hit = true;
+                        }
+                        if (( exist_destination_x - min_gap < greater_probe )&&( greater_probe < exist_destination_x + min_gap ))
+                        {
+                            greater_probe = exist_destination_x + min_gap;
+                            hit = true;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /* check success */

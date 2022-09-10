@@ -10,7 +10,7 @@
  */
 
 #include "gui_simple_message_to_user.h"
-#include "sketch_area/gui_sketch_area.h"
+#include "sketch/gui_sketch_area.h"
 #include "gui_toolbox.h"
 #include "gui_resources.h"
 #include "gui_attributes_editor.h"

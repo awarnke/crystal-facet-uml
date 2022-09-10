@@ -1,6 +1,6 @@
 /* File: gui_sketch_object_creator.c; Copyright and License: see below */
 
-#include "sketch_area/gui_sketch_object_creator.h"
+#include "sketch/gui_sketch_object_creator.h"
 #include "geometry/geometry_rectangle.h"
 //#include "ctrl_multi_step_changer.h"
 #include "data_table.h"

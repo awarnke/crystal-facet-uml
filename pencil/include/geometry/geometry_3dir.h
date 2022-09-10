@@ -31,6 +31,54 @@ typedef struct geometry_3dir_struct geometry_3dir_t;
  */
 static inline bool geometry_3dir_equals ( const geometry_3dir_t *this_, const geometry_3dir_t *that );
 
+/*!
+ *  \brief checks if first direction is horizontal
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if the first direction is GEOMETRY_DIRECTION_LEFT or GEOMETRY_DIRECTION_RIGHT
+ */
+static inline bool geometry_3dir_is_first_h ( const geometry_3dir_t *this_ );
+
+/*!
+ *  \brief checks if first direction is vertical
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if the first direction is GEOMETRY_DIRECTION_UP or GEOMETRY_DIRECTION_DOWN
+ */
+static inline bool geometry_3dir_is_first_v ( const geometry_3dir_t *this_ );
+
+/*!
+ *  \brief checks if second direction is horizontal
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if the second direction is GEOMETRY_DIRECTION_LEFT or GEOMETRY_DIRECTION_RIGHT
+ */
+static inline bool geometry_3dir_is_second_h ( const geometry_3dir_t *this_ );
+
+/*!
+ *  \brief checks if second direction is vertical
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if the second direction is GEOMETRY_DIRECTION_UP or GEOMETRY_DIRECTION_DOWN
+ */
+static inline bool geometry_3dir_is_second_v ( const geometry_3dir_t *this_ );
+
+/*!
+ *  \brief checks if third direction is horizontal
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if the third direction is GEOMETRY_DIRECTION_LEFT or GEOMETRY_DIRECTION_RIGHT
+ */
+static inline bool geometry_3dir_is_third_h ( const geometry_3dir_t *this_ );
+
+/*!
+ *  \brief checks if third direction is vertical
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if the third direction is GEOMETRY_DIRECTION_UP or GEOMETRY_DIRECTION_DOWN
+ */
+static inline bool geometry_3dir_is_third_v ( const geometry_3dir_t *this_ );
+
 #include "geometry/geometry_3dir.inl"
 
 #endif  /* GEOMETRY_3DIR_H */

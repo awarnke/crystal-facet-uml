@@ -11,6 +11,36 @@ static inline bool geometry_3dir_equals ( const geometry_3dir_t *this_, const ge
     return result;
 }
 
+static inline bool geometry_3dir_is_first_h ( const geometry_3dir_t *this_ )
+{
+    return ( (*this_).first == GEOMETRY_DIRECTION_LEFT )||( (*this_).first == GEOMETRY_DIRECTION_RIGHT );
+}
+
+static inline bool geometry_3dir_is_first_v ( const geometry_3dir_t *this_ )
+{
+    return ( (*this_).first == GEOMETRY_DIRECTION_UP )||( (*this_).first == GEOMETRY_DIRECTION_DOWN );
+}
+
+static inline bool geometry_3dir_is_second_h ( const geometry_3dir_t *this_ )
+{
+    return ( (*this_).second == GEOMETRY_DIRECTION_LEFT )||( (*this_).second == GEOMETRY_DIRECTION_RIGHT );
+}
+
+static inline bool geometry_3dir_is_second_v ( const geometry_3dir_t *this_ )
+{
+    return ( (*this_).second == GEOMETRY_DIRECTION_UP )||( (*this_).second == GEOMETRY_DIRECTION_DOWN );
+}
+
+static inline bool geometry_3dir_is_third_h ( const geometry_3dir_t *this_ )
+{
+    return ( (*this_).third == GEOMETRY_DIRECTION_LEFT )||( (*this_).third == GEOMETRY_DIRECTION_RIGHT );
+}
+
+static inline bool geometry_3dir_is_third_v ( const geometry_3dir_t *this_ )
+{
+    return ( (*this_).third == GEOMETRY_DIRECTION_UP )||( (*this_).third == GEOMETRY_DIRECTION_DOWN );
+}
+
 
 /*
 Copyright 2021-2022 Andreas Warnke

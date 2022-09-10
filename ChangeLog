@@ -1,10 +1,10 @@
-crystal-facet-uml (1.40.1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.41.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * pencil_relationship_layouter prefers centered over uncentered departure
-    and arrival
+  * relationships prefer centered over uncentered departure and arrival
   * relationships have a minumum gap distance towards all classifiers
-  * relationships avoid symbol boxes of features
+  * relationships keep distance to symbol boxes of features
+  * relationships keep distance to neighbor relationships
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 11 Sep 2022 10:00:00 +0100
 

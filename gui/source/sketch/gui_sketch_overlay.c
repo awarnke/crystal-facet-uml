@@ -1,7 +1,7 @@
 /* File: gui_sketch_overlay.c; Copyright and License: see below */
 
-#include "sketch_area/gui_sketch_overlay.h"
-#include "sketch_area/gui_sketch_snap_state.h"
+#include "sketch/gui_sketch_overlay.h"
+#include "sketch/gui_sketch_snap_state.h"
 #include "trace/trace.h"
 #include <gtk/gtk.h>
 #include <assert.h>

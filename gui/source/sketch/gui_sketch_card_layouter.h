@@ -8,7 +8,7 @@
  *  \brief Layouts a set of cards into a bounding box
  */
 
-#include "sketch_area/gui_sketch_card.h"
+#include "sketch/gui_sketch_card.h"
 #include "gui_tool.h"
 #include "shape/shape_int_rectangle.h"
 #include <gtk/gtk.h>

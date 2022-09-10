@@ -9,9 +9,9 @@
  *  \brief Draws graphical elements on top of diagrams
  */
 
-#include "sketch_area/gui_sketch_card.h"
-#include "sketch_area/gui_sketch_nav_tree.h"
-#include "sketch_area/gui_sketch_drag_state.h"
+#include "sketch/gui_sketch_card.h"
+#include "sketch/gui_sketch_nav_tree.h"
+#include "sketch/gui_sketch_drag_state.h"
 #include "gui_tool.h"
 #include <gtk/gtk.h>
 

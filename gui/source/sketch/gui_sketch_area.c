@@ -1,6 +1,6 @@
 /* File: gui_sketch_area.c; Copyright and License: see below */
 
-#include "sketch_area/gui_sketch_area.h"
+#include "sketch/gui_sketch_area.h"
 #include "gui_sketch_card_layouter.h"
 #include "gui_tool.h"
 #include "pencil_diagram_maker.h"

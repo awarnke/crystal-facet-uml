@@ -51,7 +51,7 @@ INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/freetype2")
 INCLUDE_DIRECTORIES("${SQLITE_BASE}")
 
 FILE(GLOB commonSource ../../gui/source/*.c
-                       ../../gui/source/sketch_area/*.c
+                       ../../gui/source/sketch/*.c
                        ../../ctrl/source/*.c
                        ../../data/source/*.c
                        ../../data/source/storage/*.c
