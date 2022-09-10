@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.40.1"
+    "generator_version": "1.41.0"
   }
   ,
   "views":
@@ -23,7 +23,7 @@
                 "\n",
                 "(C)\n",
                 "We acknowledge that this document uses material from the\n",
-                "arc 42 architecture template, http:\/\/www.arc42.de.\n",
+                "arc 42 architecture template, http://www.arc42.de.\n",
                 "Created by Dr. Peter Hruschka & Dr. Gernot Starke."
         ],
         "list_order": 360448,
@@ -52,7 +52,7 @@
         "type": "UMLUseCaseDiagram",
         "name": "Introduction and Goals",
         "description": [
-                "crystal-facet-uml creates sysml\/uml diagrams to document system and software architecture.\n",
+                "crystal-facet-uml creates sysml/uml diagrams to document system and software architecture.\n",
                 "\n",
                 "As software architect, you create a set of diagrams describing \n",
                 "use-cases, requirements, structural views, behavioral and deployment views.\n",
@@ -304,7 +304,7 @@
             "display_flags": 33554432,
             "display_tags": "GrayOut",
             "classifier_id": 347,
-            "classifier_name": "Export (Model and\/or Diagrams)",
+            "classifier_name": "Export (Model and/or Diagrams)",
             "focused_feature_id": -1,
             "node": "7db4676c-d805-4532-925b-9df162f9cadf",
             "uuid": "c0a81a34-aa3f-4dad-9f05-160cccdcb6f2"
@@ -319,7 +319,7 @@
         "parent_name": "Introduction and Goals",
         "diagram_type": 10,
         "type": "UMLUseCaseDiagram",
-        "name": "Import\/Sync Use Cases",
+        "name": "Import/Sync Use Cases",
         "description": [
                 ""
         ],
@@ -398,7 +398,7 @@
             "id": 236,
             "display_flags": 0,
             "classifier_id": 163,
-            "classifier_name": "Output: png, svg, pdf, ps, txt \/ db, xhtml, xmi",
+            "classifier_name": "Output: png, svg, pdf, ps, txt / db, xhtml, xmi",
             "focused_feature_id": -1,
             "node": "abee0934-65af-4f26-b102-4d706c5b2f58",
             "uuid": "17076127-dc01-453e-8b21-56d00bf05c06"
@@ -422,7 +422,7 @@
         "parent_name": "Constraints",
         "diagram_type": 33,
         "type": "UMLPackageDiagram",
-        "name": "UML\/SysML Overview",
+        "name": "UML/SysML Overview",
         "description": [
                 "This diagram shows an overview on UML\n",
                 "and aims to explain what parts are available in crystal-facet-uml\n",
@@ -488,7 +488,7 @@
       "diagram": {
         "id": 26,
         "parent_id": 25,
-        "parent_name": "UML\/SysML Overview",
+        "parent_name": "UML/SysML Overview",
         "diagram_type": 34,
         "type": "UMLClassDiagram",
         "name": "MOF Overview",
@@ -544,7 +544,7 @@
       "diagram": {
         "id": 27,
         "parent_id": 25,
-        "parent_name": "UML\/SysML Overview",
+        "parent_name": "UML/SysML Overview",
         "diagram_type": 34,
         "type": "UMLClassDiagram",
         "name": "Base classes of UML ",
@@ -634,7 +634,7 @@
         "type": "UMLClassDiagram",
         "name": "UML Classifier Ancestors",
         "description": [
-                "description: see http:\/\/www.omg.org\/spec\/UML\/2.5"
+                "description: see http://www.omg.org/spec/UML/2.5"
         ],
         "list_order": 0,
         "display_flags": 0,
@@ -1206,7 +1206,7 @@
       "diagram": {
         "id": 45,
         "parent_id": 25,
-        "parent_name": "UML\/SysML Overview",
+        "parent_name": "UML/SysML Overview",
         "diagram_type": 34,
         "type": "UMLClassDiagram",
         "name": "Selected classes of SysML",
@@ -1592,7 +1592,7 @@
             "display_flags": 16777216,
             "display_tags": "Emphasis",
             "classifier_id": 4,
-            "classifier_name": "data\/storage",
+            "classifier_name": "data/storage",
             "focused_feature_id": -1,
             "node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
             "uuid": "bfaea5e2-cc3d-4d21-b45d-740c9911bb77"
@@ -1650,7 +1650,7 @@
             "id": 330,
             "display_flags": 0,
             "classifier_id": 4,
-            "classifier_name": "data\/storage",
+            "classifier_name": "data/storage",
             "focused_feature_id": -1,
             "node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
             "uuid": "dbc4b4fd-2423-4cac-b818-3630400993b7"
@@ -1715,7 +1715,7 @@
             "id": 51,
             "display_flags": 0,
             "classifier_id": 4,
-            "classifier_name": "data\/storage",
+            "classifier_name": "data/storage",
             "focused_feature_id": -1,
             "node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
             "uuid": "2c959b41-791d-48b8-9b45-1f1e308d7217"
@@ -1802,7 +1802,7 @@
             "display_flags": 33554432,
             "display_tags": "GrayOut",
             "classifier_id": 4,
-            "classifier_name": "data\/storage",
+            "classifier_name": "data/storage",
             "focused_feature_id": -1,
             "node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
             "uuid": "113fda34-0fe8-4c12-b307-17a10cd8d502"
@@ -1944,7 +1944,7 @@
         "parent_id": 50,
         "parent_name": "data: Black Box View",
         "diagram_type": 13,
-        "type": "UMLInteractionDiagram\/sequence",
+        "type": "UMLInteractionDiagram/sequence",
         "name": "data: Runtime View",
         "description": [
                 ""
@@ -2058,7 +2058,7 @@
             "display_flags": 33554432,
             "display_tags": "GrayOut",
             "classifier_id": 4,
-            "classifier_name": "data\/storage",
+            "classifier_name": "data/storage",
             "focused_feature_id": -1,
             "node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
             "uuid": "b4044d27-083e-4eef-9186-748f49302da0"
@@ -2208,7 +2208,7 @@
             "display_flags": 33554432,
             "display_tags": "GrayOut",
             "classifier_id": 4,
-            "classifier_name": "data\/storage",
+            "classifier_name": "data/storage",
             "focused_feature_id": -1,
             "node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
             "uuid": "34937626-e474-46d1-b7f4-1b8657b4aadb"
@@ -2601,7 +2601,7 @@
             "id": 400,
             "display_flags": 0,
             "classifier_id": 273,
-            "classifier_name": "gui\/io select operations",
+            "classifier_name": "gui/io select operations",
             "focused_feature_id": -1,
             "node": "573662cd-6bb8-4c11-ac26-d5e7e6c751e5",
             "uuid": "ed48d711-20f8-41a8-9da8-430b7665c629"
@@ -2834,7 +2834,7 @@
                 "The io module imports and exports data and diagrams.\n",
                 "Either the filesystem or the clipboard are source and destination.\n",
                 "\n",
-                "With the io_data_file_t class, this module provides a wrapper around a database of the data module that can import\/export json files when opening\/closing the database."
+                "With the io_data_file_t class, this module provides a wrapper around a database of the data module that can import/export json files when opening/closing the database."
         ],
         "list_order": 18432,
         "display_flags": 0,
@@ -2876,7 +2876,7 @@
             "display_flags": 33554432,
             "display_tags": "GrayOut",
             "classifier_id": 4,
-            "classifier_name": "data\/storage",
+            "classifier_name": "data/storage",
             "focused_feature_id": -1,
             "node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
             "uuid": "62094f71-d89e-4069-b7b7-1566c15d9d1e"
@@ -3016,7 +3016,7 @@
             "id": 453,
             "display_flags": 0,
             "classifier_id": 282,
-            "classifier_name": "md\/txt\/xmi\/xml\/json",
+            "classifier_name": "md/txt/xmi/xml/json",
             "focused_feature_id": -1,
             "node": "7ff0038a-c68a-4814-baaf-e22ec543e9ca",
             "uuid": "254f7a5f-59ba-4249-88a2-c17171b3fbf1"
@@ -3075,7 +3075,7 @@
         "parent_id": 53,
         "parent_name": "io: Black Box View",
         "diagram_type": 14,
-        "type": "UMLInteractionDiagram\/communication",
+        "type": "UMLInteractionDiagram/communication",
         "name": "io: Runtime View",
         "description": [
                 "The io_exporter sets up the data pipe"
@@ -3099,7 +3099,7 @@
             "id": 434,
             "display_flags": 0,
             "classifier_id": 282,
-            "classifier_name": "md\/txt\/xmi\/xml\/json",
+            "classifier_name": "md/txt/xmi/xml/json",
             "focused_feature_id": 78,
             "node": "c662f6d9-856e-44b8-a03a-40441130c5c5",
             "uuid": "44e5ca77-aba8-43ef-a928-48c325d05b62"
@@ -3260,7 +3260,7 @@
             "id": 376,
             "display_flags": 0,
             "classifier_id": 257,
-            "classifier_name": "sketch_area",
+            "classifier_name": "sketch",
             "focused_feature_id": -1,
             "node": "68e0aff6-2f79-4b8e-9230-841aca0ac135",
             "uuid": "b78ec82c-21a0-43d5-8d0a-c14540b19878"
@@ -3325,7 +3325,7 @@
             "id": 382,
             "display_flags": 0,
             "classifier_id": 257,
-            "classifier_name": "sketch_area",
+            "classifier_name": "sketch",
             "focused_feature_id": -1,
             "node": "68e0aff6-2f79-4b8e-9230-841aca0ac135",
             "uuid": "efde5c3b-8199-476b-9466-d5ba3b1810bf"
@@ -3381,7 +3381,7 @@
             "id": 568,
             "display_flags": 0,
             "classifier_id": 257,
-            "classifier_name": "sketch_area",
+            "classifier_name": "sketch",
             "focused_feature_id": -1,
             "node": "68e0aff6-2f79-4b8e-9230-841aca0ac135",
             "uuid": "fc23874d-aeab-41f1-8874-87f438e81408"
@@ -3390,7 +3390,7 @@
             "id": 569,
             "display_flags": 0,
             "classifier_id": 374,
-            "classifier_name": "gui_nav_tree",
+            "classifier_name": "gui_sketch_nav_tree",
             "focused_feature_id": -1,
             "node": "237119b0-bcbb-4b6c-ba00-a7d6db75f73f",
             "uuid": "2260123d-72ce-4cc3-ae3f-7870e06d607d"
@@ -3478,7 +3478,7 @@
         "parent_id": 62,
         "parent_name": "gui: Runtime View",
         "diagram_type": 13,
-        "type": "UMLInteractionDiagram\/sequence",
+        "type": "UMLInteractionDiagram/sequence",
         "name": "gui search sequence",
         "description": [
                 ""
@@ -3529,7 +3529,7 @@
             "id": 392,
             "display_flags": 0,
             "classifier_id": 257,
-            "classifier_name": "sketch_area",
+            "classifier_name": "sketch",
             "focused_feature_id": 72,
             "node": "8b15d401-b02f-4dd9-91e4-833c3fe3fb48",
             "uuid": "486dedbc-b81b-4ca4-a2c7-c7812143cb9c"
@@ -4209,7 +4209,7 @@
             "id": 18,
             "display_flags": 0,
             "classifier_id": 18,
-            "classifier_name": "main\/test",
+            "classifier_name": "main/test",
             "focused_feature_id": -1,
             "node": "997c7a9e-e746-4413-a983-7ec023cc36f7",
             "uuid": "f06e8d08-c6ef-46e1-8099-eed41bdfeadc"
@@ -4218,7 +4218,7 @@
             "id": 63,
             "display_flags": 0,
             "classifier_id": 59,
-            "classifier_name": "data\/test\/unit",
+            "classifier_name": "data/test/unit",
             "focused_feature_id": -1,
             "node": "b2cde3e3-25b2-4316-ba0d-d4a7f7606a5f",
             "uuid": "bf458a75-4a61-4985-9d0a-cbc288aee1be"
@@ -4227,7 +4227,7 @@
             "id": 64,
             "display_flags": 0,
             "classifier_id": 60,
-            "classifier_name": "ctrl\/test\/unit",
+            "classifier_name": "ctrl/test/unit",
             "focused_feature_id": -1,
             "node": "83d5eeaf-6c88-449c-8f71-8f0cc4863fdb",
             "uuid": "1b1d6da4-5b7a-4803-9f04-4f5a3b695159"
@@ -4245,7 +4245,7 @@
             "id": 66,
             "display_flags": 0,
             "classifier_id": 62,
-            "classifier_name": "pencil\/test\/*",
+            "classifier_name": "pencil/test/*",
             "focused_feature_id": -1,
             "node": "6bdb27c7-e737-408b-88f4-b610db435f88",
             "uuid": "dd72aeed-3989-4f08-a786-b16d2cb50a99"
@@ -4254,7 +4254,7 @@
             "id": 67,
             "display_flags": 0,
             "classifier_id": 63,
-            "classifier_name": "universal\/test\/unit",
+            "classifier_name": "universal/test/unit",
             "focused_feature_id": -1,
             "node": "1b6f61b9-eb19-4dd2-9b22-01a449ad066a",
             "uuid": "276e2d00-5aa4-4849-9db2-a6a519d53f8b"
@@ -4263,7 +4263,7 @@
             "id": 309,
             "display_flags": 0,
             "classifier_id": 210,
-            "classifier_name": "io\/test\/*",
+            "classifier_name": "io/test/*",
             "focused_feature_id": -1,
             "node": "162c7a4d-63b8-42f5-8cc2-0dd71e922156",
             "uuid": "85269941-a7ea-4dfb-b14e-8dddf0075c86"
@@ -4272,7 +4272,7 @@
             "id": 310,
             "display_flags": 0,
             "classifier_id": 211,
-            "classifier_name": "utf8stringbuf\/test\/unit",
+            "classifier_name": "utf8stringbuf/test/unit",
             "focused_feature_id": -1,
             "node": "af34b754-c7c9-4ede-a42b-ca0c15b664f0",
             "uuid": "6106ec35-5840-41cb-9398-edb1ad06f1f1"
@@ -4394,7 +4394,7 @@
             "id": 70,
             "display_flags": 0,
             "classifier_id": 66,
-            "classifier_name": "run test \/repair \/export \/ import via CLI",
+            "classifier_name": "run test /repair /export / import via CLI",
             "focused_feature_id": -1,
             "node": "a3bc34c7-37a1-4140-acb9-174be445378a",
             "uuid": "9502e71d-12cd-46ba-8c67-7f84c2118ebf"
@@ -4478,7 +4478,7 @@
             "id": 255,
             "display_flags": 0,
             "classifier_id": 176,
-            "classifier_name": "Linux\/Win: OS",
+            "classifier_name": "Linux/Win: OS",
             "focused_feature_id": -1,
             "node": "3247c991-db58-47c6-adbf-24bf365357b4",
             "uuid": "1e89ec6b-1a99-4695-9c74-49ee7fa97007"
@@ -5027,7 +5027,7 @@
             "id": 617,
             "display_flags": 0,
             "classifier_id": 403,
-            "classifier_name": "TIME\/SYNC",
+            "classifier_name": "TIME/SYNC",
             "focused_feature_id": -1,
             "node": "713ed56b-412b-49cd-9df5-f33c3fb85bd1",
             "uuid": "2a7b7cc4-ce8c-41c8-9f5e-6cef399da4bc"
@@ -5083,7 +5083,7 @@
             "id": 600,
             "display_flags": 0,
             "classifier_id": 395,
-            "classifier_name": "INPUT \/SOURCE",
+            "classifier_name": "INPUT /SOURCE",
             "focused_feature_id": -1,
             "node": "9b33b7c7-ac6e-4a01-ba82-37bf5b5b784d",
             "uuid": "6451c425-4303-44e2-add0-d92ae25d5fce"
@@ -5092,7 +5092,7 @@
             "id": 601,
             "display_flags": 0,
             "classifier_id": 396,
-            "classifier_name": "OUTPUT \/SINK",
+            "classifier_name": "OUTPUT /SINK",
             "focused_feature_id": -1,
             "node": "a95204ba-4b4b-4b28-ba74-852b729f9e8f",
             "uuid": "66f57246-ce9a-4043-97cf-3766c5176498"
@@ -5101,7 +5101,7 @@
             "id": 602,
             "display_flags": 0,
             "classifier_id": 397,
-            "classifier_name": "USER_ACCESS (r\/w\/x)",
+            "classifier_name": "USER_ACCESS (r/w/x)",
             "focused_feature_id": -1,
             "node": "7fd900b4-ea83-4c0d-8102-1309a0792f3d",
             "uuid": "1a922739-8dc7-4fbe-8d09-9ce7d370db44"
@@ -5291,7 +5291,7 @@
             "display_flags": 33554432,
             "display_tags": "GrayOut",
             "classifier_id": 360,
-            "classifier_name": "Json as second\/optional storage format",
+            "classifier_name": "Json as second/optional storage format",
             "focused_feature_id": -1,
             "node": "cecc002c-4646-4010-ba10-fff38ad176ce",
             "uuid": "e152965c-d256-4849-bec2-f4b8fe65a296"
@@ -5483,7 +5483,7 @@
             "id": 144,
             "display_flags": 0,
             "classifier_id": 106,
-            "classifier_name": "Classifier and port\/lifeline selection def view",
+            "classifier_name": "Classifier and port/lifeline selection def view",
             "focused_feature_id": -1,
             "node": "bd2d4f81-0f9c-4c06-96bf-0659ccb9226e",
             "uuid": "a18910bc-53a8-4529-9ef9-a1132f13cd2b"
@@ -5671,7 +5671,7 @@
         "parent_name": "Alternatives on UML-Model selection for Diagram",
         "diagram_type": 34,
         "type": "UMLClassDiagram",
-        "name": "Classifier and Port\/Lifeline selection def view",
+        "name": "Classifier and Port/Lifeline selection def view",
         "description": [
                 "This (finally chosen and implemented) solution\n",
                 "selects timing and sequence lifelines \n",
@@ -5744,7 +5744,7 @@
         "parent_name": "Architectural Decisions",
         "diagram_type": 10,
         "type": "UMLUseCaseDiagram",
-        "name": "Alternatives on XMI export\/model traverse",
+        "name": "Alternatives on XMI export/model traverse",
         "description": [
                 ""
         ],
@@ -5808,7 +5808,7 @@
       "diagram": {
         "id": 74,
         "parent_id": 70,
-        "parent_name": "Alternatives on XMI export\/model traverse",
+        "parent_name": "Alternatives on XMI export/model traverse",
         "diagram_type": 10,
         "type": "UMLUseCaseDiagram",
         "name": "Interaction Diagrams",
@@ -5919,7 +5919,7 @@
             "id": 509,
             "display_flags": 0,
             "classifier_id": 341,
-            "classifier_name": "Ordering by Use Cases \/ Scenarios",
+            "classifier_name": "Ordering by Use Cases / Scenarios",
             "focused_feature_id": -1,
             "node": "648e219a-74aa-4b7f-830a-93cf554436d5",
             "uuid": "f8ffc9cc-d116-434e-a65f-1960e7adeb5e"
@@ -6230,7 +6230,7 @@
             "id": 515,
             "display_flags": 0,
             "classifier_id": 347,
-            "classifier_name": "Export (Model and\/or Diagrams)",
+            "classifier_name": "Export (Model and/or Diagrams)",
             "focused_feature_id": -1,
             "node": "7db4676c-d805-4532-925b-9df162f9cadf",
             "uuid": "2feee508-d856-4805-9da2-2039f5a295ca"
@@ -6248,7 +6248,7 @@
             "id": 517,
             "display_flags": 0,
             "classifier_id": 349,
-            "classifier_name": "Modify \/ Create \/ Delete Diagrams and Elements",
+            "classifier_name": "Modify / Create / Delete Diagrams and Elements",
             "focused_feature_id": -1,
             "node": "3d33680a-516b-4c0f-a0bc-8fd6ccb437e0",
             "uuid": "6e3d544f-ed97-4634-9f44-ece8376ad6bc"
@@ -6348,7 +6348,7 @@
         "parent_name": "Quality Scenarios",
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
-        "name": "Export Database Model \/ Diagrams",
+        "name": "Export Database Model / Diagrams",
         "description": [
                 ""
         ],
@@ -6362,7 +6362,7 @@
             "id": 525,
             "display_flags": 0,
             "classifier_id": 347,
-            "classifier_name": "Export (Model and\/or Diagrams)",
+            "classifier_name": "Export (Model and/or Diagrams)",
             "focused_feature_id": -1,
             "node": "7db4676c-d805-4532-925b-9df162f9cadf",
             "uuid": "8b6375df-113a-4ab4-9fc3-2726c63968af"
@@ -6433,7 +6433,7 @@
         "parent_name": "Quality Scenarios",
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
-        "name": "Modify \/ Create \/ Delete Diagrams and Elements",
+        "name": "Modify / Create / Delete Diagrams and Elements",
         "description": [
                 ""
         ],
@@ -6447,7 +6447,7 @@
             "id": 528,
             "display_flags": 0,
             "classifier_id": 352,
-            "classifier_name": "Modify \/ Create \/ Delete Diagrams and Element",
+            "classifier_name": "Modify / Create / Delete Diagrams and Element",
             "focused_feature_id": -1,
             "node": "ff6ef959-86bd-4278-b913-58ce7a7f53f4",
             "uuid": "aca15075-eab1-4239-b7fe-e260951a23e1"
@@ -6745,7 +6745,7 @@
         "parent_name": "GUI Terms",
         "diagram_type": 34,
         "type": "UMLClassDiagram",
-        "name": "GUI\/Pencil Terms",
+        "name": "GUI/Pencil Terms",
         "description": [
                 ""
         ],
@@ -7007,7 +7007,7 @@
         "stereotype": "",
         "name": "Show multiple instances in same diagram",
         "description": [
-                "One and the same classifier can be shown in a diagram multiple times (either as class\/type or as instance)"
+                "One and the same classifier can be shown in a diagram multiple times (either as class/type or as instance)"
         ],
         "x_order": -631194148,
         "y_order": 1315582127,
@@ -7166,7 +7166,7 @@
         "main_type": 121,
         "type": "Component",
         "stereotype": "",
-        "name": "main\/test",
+        "name": "main/test",
         "description": [
                 "Each SW-moldule may have a subfolder named unittest which contains a set of tests; these\n",
                 "- test the SW-module"
@@ -7251,7 +7251,7 @@
             "id": 3,
             "main_type": 1,
             "type": "Operation",
-            "key": "gcc\/mingw",
+            "key": "gcc/mingw",
             "value": "compiler",
             "description": [
                 ""
@@ -7527,7 +7527,7 @@
         "main_type": 121,
         "type": "Component",
         "stereotype": "",
-        "name": "data\/test\/unit",
+        "name": "data/test/unit",
         "description": [
                 ""
         ],
@@ -7546,7 +7546,7 @@
         "main_type": 121,
         "type": "Component",
         "stereotype": "",
-        "name": "ctrl\/test\/unit",
+        "name": "ctrl/test/unit",
         "description": [
                 ""
         ],
@@ -7565,7 +7565,7 @@
         "main_type": 121,
         "type": "Component",
         "stereotype": "",
-        "name": "pencil\/test\/*",
+        "name": "pencil/test/*",
         "description": [
                 ""
         ],
@@ -7584,7 +7584,7 @@
         "main_type": 121,
         "type": "Component",
         "stereotype": "",
-        "name": "universal\/test\/unit",
+        "name": "universal/test/unit",
         "description": [
                 ""
         ],
@@ -7861,7 +7861,7 @@
                 "\n",
                 "    con: Problematic for diagrams that show possible scenarios and alternatives (e.g sequences).\n",
                 "         This solution assumes that the model is invariant for all diagrams,\n",
-                "        therefore all diagrams showing examples\/scenarios have to show own instances of classes,\n",
+                "        therefore all diagrams showing examples/scenarios have to show own instances of classes,\n",
                 "        not generic classes that are used in other diagrams."
         ],
         "x_order": -1428489671,
@@ -7904,7 +7904,7 @@
         "description": [
                 "Depending on the diagram type, either classifiers determine what is visble or relationships determine what is visible.\n",
                 "\n",
-                "    pro: similar concept for diagrams that show options\/alternatives\/scenarios to diagrams that show invariants.\n",
+                "    pro: similar concept for diagrams that show options/alternatives/scenarios to diagrams that show invariants.\n",
                 "\n",
                 "    con: Bigger extension to existing structure in version 1.0.0\n",
                 "         Algorithm to distinguish used from unused elements gets complicated"
@@ -7926,13 +7926,13 @@
         "stereotype": "",
         "name": "Diagrams have filters",
         "description": [
-                "Either diagrams filter ranges of x-order\/y-order\/list-order\n",
+                "Either diagrams filter ranges of x-order/y-order/list-order\n",
                 "or diagrams filter by use-case (which requires that all relations belong to a use-case)\n",
                 "\n",
                 "    pro: small changes to existing database structure only\n",
                 "\n",
                 "    con: Unclear gui concept: How to make this filtering transparent to the user?\n",
-                "         How to copy\/paste between diagrams? How to make invisible relationships visible?\n",
+                "         How to copy/paste between diagrams? How to make invisible relationships visible?\n",
                 ""
         ],
         "x_order": -1428489671,
@@ -7971,7 +7971,7 @@
         "main_type": 124,
         "type": "Package",
         "stereotype": "",
-        "name": "Classifier and port\/lifeline selection def view",
+        "name": "Classifier and port/lifeline selection def view",
         "description": [
                 ""
         ],
@@ -8068,7 +8068,7 @@
         "stereotype": "metaclass",
         "name": "UML::TemplateableElement",
         "description": [
-                "description: see http:\/\/www.omg.org\/spec\/UML\/2.5"
+                "description: see http://www.omg.org/spec/UML/2.5"
         ],
         "x_order": -1422149300,
         "y_order": -1885141886,
@@ -8087,7 +8087,7 @@
         "stereotype": "metaclass",
         "name": "UML::Type",
         "description": [
-                "description: see http:\/\/www.omg.org\/spec\/UML\/2.5"
+                "description: see http://www.omg.org/spec/UML/2.5"
         ],
         "x_order": -1043325473,
         "y_order": -1875110751,
@@ -8106,7 +8106,7 @@
         "stereotype": "metaclass",
         "name": "UML::Namespace",
         "description": [
-                "description: see http:\/\/www.omg.org\/spec\/UML\/2.5"
+                "description: see http://www.omg.org/spec/UML/2.5"
         ],
         "x_order": -996873536,
         "y_order": -1875110751,
@@ -8125,7 +8125,7 @@
         "stereotype": "metaclass",
         "name": "UML::RedefinableElement",
         "description": [
-                "description: see http:\/\/www.omg.org\/spec\/UML\/2.5"
+                "description: see http://www.omg.org/spec/UML/2.5"
         ],
         "x_order": -746860337,
         "y_order": -1885141886,
@@ -8144,7 +8144,7 @@
         "stereotype": "metaclass",
         "name": "UML::NamedElement",
         "description": [
-                "description: see http:\/\/www.omg.org\/spec\/UML\/2.5"
+                "description: see http://www.omg.org/spec/UML/2.5"
         ],
         "x_order": -996873536,
         "y_order": -2090568164,
@@ -8163,7 +8163,7 @@
         "stereotype": "metaclass",
         "name": "UML::PackageableElement",
         "description": [
-                "description: see http:\/\/www.omg.org\/spec\/UML\/2.5"
+                "description: see http://www.omg.org/spec/UML/2.5"
         ],
         "x_order": -1065033703,
         "y_order": -1885141886,
@@ -8566,7 +8566,7 @@
         "main_type": 99,
         "type": "Requirement",
         "stereotype": "",
-        "name": "Output: png, svg, pdf, ps, txt \/ db, xhtml, xmi",
+        "name": "Output: png, svg, pdf, ps, txt / db, xhtml, xmi",
         "description": [
                 "crystal-facet-uml shall produce output suitable to be processed by text layout engines:\n",
                 "- latex\n",
@@ -8845,7 +8845,7 @@
         "stereotype": "",
         "name": "logging",
         "description": [
-                "In RELEASE\/NDEBUG mode, the program logs only important events, anomalies, warnings and errors.\n",
+                "In RELEASE/NDEBUG mode, the program logs only important events, anomalies, warnings and errors.\n",
                 "These shall be as sparse as possible to not slow down performance or consume too much memory.\n",
                 "Goal of logging is to be able to help analyze or reproduce a bug that occurred during operation."
         ],
@@ -9040,7 +9040,7 @@
         "main_type": 121,
         "type": "Component",
         "stereotype": "",
-        "name": "io\/test\/*",
+        "name": "io/test/*",
         "description": [
                 ""
         ],
@@ -9059,7 +9059,7 @@
         "main_type": 121,
         "type": "Component",
         "stereotype": "",
-        "name": "utf8stringbuf\/test\/unit",
+        "name": "utf8stringbuf/test/unit",
         "description": [
                 ""
         ],
@@ -9177,7 +9177,7 @@
                 "\n",
                 "Analyzability:\n",
                 "- When receiving bug reports,\n",
-                "    an anomaly in the program\/data flow\n",
+                "    an anomaly in the program/data flow\n",
                 "    shall be detected early\n",
                 "\n",
                 "Reliability:\n",
@@ -9580,7 +9580,7 @@
                 "a possible implementation is that the data_database object\n",
                 "exists just once and provides an sqlite3 connection object\n",
                 "in SQLITE_CONFIG_SERIALIZED mode\n",
-                "(see https:\/\/sqlite.org\/threadsafe.html )\n",
+                "(see https://sqlite.org/threadsafe.html )\n",
                 "Every thread gets its own readers and writers\n",
                 "(to separate the statements-with-bound-variables\n",
                 "and statement-string-buffers)\n",
@@ -9704,7 +9704,7 @@
         "description": [
                 "The error bitmask shall be designed in a way\n",
                 "that a zero represents no error,\n",
-                "that the bits define the error cause\/type,\n",
+                "that the bits define the error cause/type,\n",
                 "that two errors can be merged into one error code\n",
                 "using a bitwise or.\n",
                 "Error codes are not netative because this makes evaluation of the bitmask difficult to understand."
@@ -10620,7 +10620,7 @@
         "stereotype": "",
         "name": "symbol",
         "description": [
-                "A symbol is a drawing\/picture representing the type of an element"
+                "A symbol is a drawing/picture representing the type of an element"
         ],
         "x_order": 1697198992,
         "y_order": -728639253,
@@ -10829,7 +10829,7 @@
         "description": [
                 "This section shows\n",
                 "the quality requirement on crystal-facet-uml\n",
-                "ordered by quality characteristics \/ attributes."
+                "ordered by quality characteristics / attributes."
         ],
         "x_order": -1690938711,
         "y_order": -219757826,
@@ -10846,11 +10846,11 @@
         "main_type": 130,
         "type": "Comment",
         "stereotype": "",
-        "name": "Ordering by Use Cases \/ Scenarios",
+        "name": "Ordering by Use Cases / Scenarios",
         "description": [
                 "This section shows\n",
                 "the quality requirement on crystal-facet-uml\n",
-                "ordered by use cases \/ usage scenarios."
+                "ordered by use cases / usage scenarios."
         ],
         "x_order": -1690938711,
         "y_order": -149335144,
@@ -10891,9 +10891,9 @@
         "stereotype": "Reliability-Req",
         "name": "When undoing, allow at least 3 undo operations",
         "description": [
-                "When undoing\/redoing past actions,\n",
-                "the program shall perform at least 3 undo\/redo operations\n",
-                "before informing the user that undo\/redo is not possible anymore."
+                "When undoing/redoing past actions,\n",
+                "the program shall perform at least 3 undo/redo operations\n",
+                "before informing the user that undo/redo is not possible anymore."
         ],
         "x_order": -1523603247,
         "y_order": -436676500,
@@ -10970,7 +10970,7 @@
         "main_type": 101,
         "type": "UseCase",
         "stereotype": "",
-        "name": "Export (Model and\/or Diagrams)",
+        "name": "Export (Model and/or Diagrams)",
         "description": [
                 ""
         ],
@@ -11008,7 +11008,7 @@
         "main_type": 101,
         "type": "UseCase",
         "stereotype": "",
-        "name": "Modify \/ Create \/ Delete Diagrams and Elements",
+        "name": "Modify / Create / Delete Diagrams and Elements",
         "description": [
                 ""
         ],
@@ -11065,7 +11065,7 @@
         "main_type": 101,
         "type": "UseCase",
         "stereotype": "",
-        "name": "Modify \/ Create \/ Delete Diagrams and Element",
+        "name": "Modify / Create / Delete Diagrams and Element",
         "description": [
                 ""
         ],
@@ -11103,7 +11103,7 @@
         "main_type": 130,
         "type": "Comment",
         "stereotype": "",
-        "name": "Json as second\/optional storage format",
+        "name": "Json as second/optional storage format",
         "description": [
                 "Rationale:\n",
                 "A human-readable JSON based storage format\n",
@@ -11573,7 +11573,7 @@
                 "- provides macros for event-logging and error-logging\n",
                 "- macros are typesafe (ts) so that e.g. integers are not acidentially passed to char* parameters\n",
                 "\n",
-                "Logging functionality may be enabled even in RELEASE\/NDEBUG code.\n",
+                "Logging functionality may be enabled even in RELEASE/NDEBUG code.\n",
                 "Logs must not contain confidential data:\n",
                 "These may be forwarded to syslog or the filesystem\n",
                 "where access rights differ from the OS-process in which crystal-facet-uml runs."
@@ -11596,13 +11596,13 @@
         "name": "trace",
         "description": [
                 "- provides trace macros\n",
-                "- traces allow to reconstruct\/follow the program flow\n",
+                "- traces allow to reconstruct/follow the program flow\n",
                 "\n",
                 "The macros shall be typesafe;\n",
                 "The compiler shall complain if using wrong-typed parameters.\n",
                 "\n",
                 "The trace functions are intended for debugging purposes only.\n",
-                "They are disabled in RELEASE\/NDEBUG code.\n",
+                "They are disabled in RELEASE/NDEBUG code.\n",
                 "Therefore it is valid to trace confidential information."
         ],
         "x_order": -13670836,
@@ -11643,7 +11643,7 @@
         "name": "pencil_xxx_layouter",
         "description": [
                 "- layouts multiple elements within the bounds of a diagram\n",
-                "- can convert abstract order-values to x\/y coordinates and vice versa"
+                "- can convert abstract order-values to x/y coordinates and vice versa"
         ],
         "x_order": -1818442449,
         "y_order": -698109218,
@@ -11787,7 +11787,7 @@
         "description": [
                 "- writes changes to the database\n",
                 "- ensures low-level consistency of the database, e.g. all foreign keys point to existing rows (referential integrity)\n",
-                "- retrieves the old, changed values for the undo\/redo list"
+                "- retrieves the old, changed values for the undo/redo list"
         ],
         "x_order": 151621692,
         "y_order": 884014249,
@@ -12126,7 +12126,7 @@
         "main_type": 110,
         "type": "Activity",
         "stereotype": "",
-        "name": "run test \/repair \/export \/ import via CLI",
+        "name": "run test /repair /export / import via CLI",
         "description": [
                 ""
         ],
@@ -12735,7 +12735,7 @@
         "stereotype": "",
         "name": "ctrl_undo_redo_list",
         "description": [
-                "manages a list of actions to be undone or\/and redone."
+                "manages a list of actions to be undone or/and redone."
         ],
         "x_order": -327894016,
         "y_order": 1350576766,
@@ -12995,7 +12995,7 @@
         "main_type": 120,
         "type": "Node",
         "stereotype": "",
-        "name": "Linux\/Win: OS",
+        "name": "Linux/Win: OS",
         "description": [
                 "The operating system that allows to run crystal-facet-uml."
         ],
@@ -13446,7 +13446,7 @@
                 "Encapulates drawing routines for\n",
                 "- geometric objects\n",
                 "- labels\n",
-                "- symbols\/icons"
+                "- symbols/icons"
         ],
         "x_order": -1203207061,
         "y_order": -1300007225,
@@ -13718,7 +13718,7 @@
         "main_type": 121,
         "type": "Component",
         "stereotype": "",
-        "name": "sketch_area",
+        "name": "sketch",
         "description": [
                 ""
         ],
@@ -13930,7 +13930,7 @@
         "main_type": 157,
         "type": "DecisionNode",
         "stereotype": "",
-        "name": "gui\/io select operations",
+        "name": "gui/io select operations",
         "description": [
                 ""
         ],
@@ -14101,7 +14101,7 @@
         "main_type": 124,
         "type": "Package",
         "stereotype": "writer",
-        "name": "md\/txt\/xmi\/xml\/json",
+        "name": "md/txt/xmi/xml/json",
         "description": [
                 ""
         ],
@@ -14506,7 +14506,7 @@
         "main_type": 121,
         "type": "Component",
         "stereotype": "",
-        "name": "gui_nav_tree",
+        "name": "gui_sketch_nav_tree",
         "description": [
                 ""
         ],
@@ -14834,7 +14834,7 @@
         "main_type": 125,
         "type": "Class",
         "stereotype": "external",
-        "name": "INPUT \/SOURCE",
+        "name": "INPUT /SOURCE",
         "description": [
                 ""
         ],
@@ -14853,7 +14853,7 @@
         "main_type": 125,
         "type": "Class",
         "stereotype": "external",
-        "name": "OUTPUT \/SINK",
+        "name": "OUTPUT /SINK",
         "description": [
                 ""
         ],
@@ -14872,7 +14872,7 @@
         "main_type": 125,
         "type": "Class",
         "stereotype": "external",
-        "name": "USER_ACCESS (r\/w\/x)",
+        "name": "USER_ACCESS (r/w/x)",
         "description": [
                 ""
         ],
@@ -14967,7 +14967,7 @@
         "main_type": 125,
         "type": "Class",
         "stereotype": "external",
-        "name": "TIME\/SYNC",
+        "name": "TIME/SYNC",
         "description": [
                 "Timeout of remote calls or cyclic events"
         ],
@@ -15205,7 +15205,7 @@
         "main_type": 121,
         "type": "Component",
         "stereotype": "sw-module",
-        "name": "data\/storage",
+        "name": "data/storage",
         "description": [
                 "- provides read access to ctrl, pencil and gui components\n",
                 "- provides write acccess to only the ctrl component\n",
@@ -16036,7 +16036,7 @@
         ],
         "list_order": 0,
         "from_classifier_id": 18,
-        "from_classifier_name": "main\/test",
+        "from_classifier_name": "main/test",
         "to_classifier_id": 17,
         "to_classifier_name": "test_fw",
         "from_feature_id": -1,
@@ -16057,7 +16057,7 @@
         ],
         "list_order": -759227066,
         "from_classifier_id": 18,
-        "from_classifier_name": "main\/test",
+        "from_classifier_name": "main/test",
         "to_classifier_id": 61,
         "to_classifier_name": "test_main",
         "from_feature_id": -1,
@@ -16078,9 +16078,9 @@
         ],
         "list_order": 5120,
         "from_classifier_id": 18,
-        "from_classifier_name": "main\/test",
+        "from_classifier_name": "main/test",
         "to_classifier_id": 59,
-        "to_classifier_name": "data\/test\/unit",
+        "to_classifier_name": "data/test/unit",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "997c7a9e-e746-4413-a983-7ec023cc36f7",
@@ -16099,9 +16099,9 @@
         ],
         "list_order": 6144,
         "from_classifier_id": 18,
-        "from_classifier_name": "main\/test",
+        "from_classifier_name": "main/test",
         "to_classifier_id": 62,
-        "to_classifier_name": "pencil\/test\/*",
+        "to_classifier_name": "pencil/test/*",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "997c7a9e-e746-4413-a983-7ec023cc36f7",
@@ -16120,9 +16120,9 @@
         ],
         "list_order": 7168,
         "from_classifier_id": 18,
-        "from_classifier_name": "main\/test",
+        "from_classifier_name": "main/test",
         "to_classifier_id": 63,
-        "to_classifier_name": "universal\/test\/unit",
+        "to_classifier_name": "universal/test/unit",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "997c7a9e-e746-4413-a983-7ec023cc36f7",
@@ -16141,9 +16141,9 @@
         ],
         "list_order": 8192,
         "from_classifier_id": 18,
-        "from_classifier_name": "main\/test",
+        "from_classifier_name": "main/test",
         "to_classifier_id": 60,
-        "to_classifier_name": "ctrl\/test\/unit",
+        "to_classifier_name": "ctrl/test/unit",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "997c7a9e-e746-4413-a983-7ec023cc36f7",
@@ -16691,7 +16691,7 @@
         ],
         "list_order": 4096,
         "from_classifier_id": 59,
-        "from_classifier_name": "data\/test\/unit",
+        "from_classifier_name": "data/test/unit",
         "to_classifier_id": 17,
         "to_classifier_name": "test_fw",
         "from_feature_id": -1,
@@ -16712,7 +16712,7 @@
         ],
         "list_order": 1024,
         "from_classifier_id": 60,
-        "from_classifier_name": "ctrl\/test\/unit",
+        "from_classifier_name": "ctrl/test/unit",
         "to_classifier_id": 17,
         "to_classifier_name": "test_fw",
         "from_feature_id": -1,
@@ -16733,7 +16733,7 @@
         ],
         "list_order": 3072,
         "from_classifier_id": 62,
-        "from_classifier_name": "pencil\/test\/*",
+        "from_classifier_name": "pencil/test/*",
         "to_classifier_id": 17,
         "to_classifier_name": "test_fw",
         "from_feature_id": -1,
@@ -16754,7 +16754,7 @@
         ],
         "list_order": 2048,
         "from_classifier_id": 63,
-        "from_classifier_name": "universal\/test\/unit",
+        "from_classifier_name": "universal/test/unit",
         "to_classifier_id": 17,
         "to_classifier_name": "test_fw",
         "from_feature_id": -1,
@@ -17218,7 +17218,7 @@
         "from_classifier_id": 97,
         "from_classifier_name": "Classifier+Lifeline solution is chosen",
         "to_classifier_id": 106,
-        "to_classifier_name": "Classifier and port\/lifeline selection def view",
+        "to_classifier_name": "Classifier and port/lifeline selection def view",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "0621b424-e466-4847-8200-e523337f924b",
@@ -17237,7 +17237,7 @@
         ],
         "list_order": 429454292,
         "from_classifier_id": 106,
-        "from_classifier_name": "Classifier and port\/lifeline selection def view",
+        "from_classifier_name": "Classifier and port/lifeline selection def view",
         "to_classifier_id": 87,
         "to_classifier_name": "How can diagrams select the parts to show?",
         "from_feature_id": -1,
@@ -18058,7 +18058,7 @@
         "from_classifier_id": 175,
         "from_classifier_name": "PC: Hardware",
         "to_classifier_id": 176,
-        "to_classifier_name": "Linux\/Win: OS",
+        "to_classifier_name": "Linux/Win: OS",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "810d2b60-5f5d-44ad-af3c-4d8df369525b",
@@ -18224,7 +18224,7 @@
         ],
         "list_order": 40960,
         "from_classifier_id": 210,
-        "from_classifier_name": "io\/test\/*",
+        "from_classifier_name": "io/test/*",
         "to_classifier_id": 17,
         "to_classifier_name": "test_fw",
         "from_feature_id": -1,
@@ -18245,7 +18245,7 @@
         ],
         "list_order": 73728,
         "from_classifier_id": 211,
-        "from_classifier_name": "utf8stringbuf\/test\/unit",
+        "from_classifier_name": "utf8stringbuf/test/unit",
         "to_classifier_id": 17,
         "to_classifier_name": "test_fw",
         "from_feature_id": -1,
@@ -19058,7 +19058,7 @@
         "from_classifier_id": 261,
         "from_classifier_name": "gui_search _runner",
         "to_classifier_id": 257,
-        "to_classifier_name": "sketch_area",
+        "to_classifier_name": "sketch",
         "from_feature_id": 69,
         "from_feature_key": "",
         "to_feature_id": 72,
@@ -19228,7 +19228,7 @@
         "from_classifier_id": 312,
         "from_classifier_name": "pencil::activities",
         "to_classifier_id": 273,
-        "to_classifier_name": "gui\/io select operations",
+        "to_classifier_name": "gui/io select operations",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "cb465a20-f803-409c-8ba7-ca4a2d11563f",
@@ -19396,7 +19396,7 @@
         "from_classifier_id": 313,
         "from_classifier_name": "runmodes",
         "to_classifier_id": 66,
-        "to_classifier_name": "run test \/repair \/export \/ import via CLI",
+        "to_classifier_name": "run test /repair /export / import via CLI",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "5ccad7c2-c35e-4cf6-9a9c-226e65c4eae2",
@@ -19940,7 +19940,7 @@
         ],
         "list_order": 65536,
         "from_classifier_id": 341,
-        "from_classifier_name": "Ordering by Use Cases \/ Scenarios",
+        "from_classifier_name": "Ordering by Use Cases / Scenarios",
         "to_classifier_id": 339,
         "to_classifier_name": "Quality Scenarios",
         "from_feature_id": -1,
@@ -20045,7 +20045,7 @@
         ],
         "list_order": 65536,
         "from_classifier_id": 347,
-        "from_classifier_name": "Export (Model and\/or Diagrams)",
+        "from_classifier_name": "Export (Model and/or Diagrams)",
         "to_classifier_id": 232,
         "to_classifier_name": "Export diagrams",
         "from_feature_id": -1,
@@ -20066,7 +20066,7 @@
         ],
         "list_order": 98304,
         "from_classifier_id": 347,
-        "from_classifier_name": "Export (Model and\/or Diagrams)",
+        "from_classifier_name": "Export (Model and/or Diagrams)",
         "to_classifier_id": 320,
         "to_classifier_name": "Export document",
         "from_feature_id": -1,
@@ -20087,7 +20087,7 @@
         ],
         "list_order": 131072,
         "from_classifier_id": 347,
-        "from_classifier_name": "Export (Model and\/or Diagrams)",
+        "from_classifier_name": "Export (Model and/or Diagrams)",
         "to_classifier_id": 319,
         "to_classifier_name": "Export model",
         "from_feature_id": -1,
@@ -20318,7 +20318,7 @@
         ],
         "list_order": 37888,
         "from_classifier_id": 360,
-        "from_classifier_name": "Json as second\/optional storage format",
+        "from_classifier_name": "Json as second/optional storage format",
         "to_classifier_id": 76,
         "to_classifier_name": "Json DB",
         "from_feature_id": -1,
@@ -20845,7 +20845,7 @@
         "from_classifier_id": 399,
         "from_classifier_name": "Error-Categories by Cause",
         "to_classifier_id": 397,
-        "to_classifier_name": "USER_ACCESS (r\/w\/x)",
+        "to_classifier_name": "USER_ACCESS (r/w/x)",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "8ab9f023-a800-439c-8e1b-e360e9ac9452",
@@ -20866,7 +20866,7 @@
         "from_classifier_id": 399,
         "from_classifier_name": "Error-Categories by Cause",
         "to_classifier_id": 396,
-        "to_classifier_name": "OUTPUT \/SINK",
+        "to_classifier_name": "OUTPUT /SINK",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "8ab9f023-a800-439c-8e1b-e360e9ac9452",
@@ -20887,7 +20887,7 @@
         "from_classifier_id": 399,
         "from_classifier_name": "Error-Categories by Cause",
         "to_classifier_id": 395,
-        "to_classifier_name": "INPUT \/SOURCE",
+        "to_classifier_name": "INPUT /SOURCE",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "8ab9f023-a800-439c-8e1b-e360e9ac9452",
@@ -20971,7 +20971,7 @@
         "from_classifier_id": 399,
         "from_classifier_name": "Error-Categories by Cause",
         "to_classifier_id": 403,
-        "to_classifier_name": "TIME\/SYNC",
+        "to_classifier_name": "TIME/SYNC",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "8ab9f023-a800-439c-8e1b-e360e9ac9452",
@@ -21160,7 +21160,7 @@
         "from_classifier_id": 1,
         "from_classifier_name": "gui",
         "to_classifier_id": 4,
-        "to_classifier_name": "data\/storage",
+        "to_classifier_name": "data/storage",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "387eaa1b-44bb-4017-83a8-ec3cd6f211e7",
@@ -21265,7 +21265,7 @@
         "from_classifier_id": 1,
         "from_classifier_name": "gui",
         "to_classifier_id": 257,
-        "to_classifier_name": "sketch_area",
+        "to_classifier_name": "sketch",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "387eaa1b-44bb-4017-83a8-ec3cd6f211e7",
@@ -21299,7 +21299,7 @@
         "id": 530,
         "main_type": 230,
         "type": "CommunicationPath",
-        "name": "layout\/draw",
+        "name": "layout/draw",
         "description": [
                 ""
         ],
@@ -21351,7 +21351,7 @@
         "from_classifier_id": 2,
         "from_classifier_name": "pencil",
         "to_classifier_id": 4,
-        "to_classifier_name": "data\/storage",
+        "to_classifier_name": "data/storage",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "0849c4fd-bf4c-475a-8b87-599cb051b9d1",
@@ -21519,7 +21519,7 @@
         "from_classifier_id": 3,
         "from_classifier_name": "ctrl",
         "to_classifier_id": 4,
-        "to_classifier_name": "data\/storage",
+        "to_classifier_name": "data/storage",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
@@ -22495,7 +22495,7 @@
         "from_classifier_id": 42,
         "from_classifier_name": "gui_main_window",
         "to_classifier_id": 257,
-        "to_classifier_name": "sketch_area",
+        "to_classifier_name": "sketch",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "39538dfa-3b4a-42b1-9762-3809528bbee9",
@@ -22626,7 +22626,7 @@
         "from_classifier_id": 64,
         "from_classifier_name": "mode?",
         "to_classifier_id": 66,
-        "to_classifier_name": "run test \/repair \/export \/ import via CLI",
+        "to_classifier_name": "run test /repair /export / import via CLI",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "04e97427-c28f-45df-8eb2-db1c2b414aee",
@@ -22687,7 +22687,7 @@
         ],
         "list_order": 6144,
         "from_classifier_id": 66,
-        "from_classifier_name": "run test \/repair \/export \/ import via CLI",
+        "from_classifier_name": "run test /repair /export / import via CLI",
         "to_classifier_id": 67,
         "to_classifier_name": "end",
         "from_feature_id": -1,
@@ -23322,7 +23322,7 @@
         ],
         "list_order": -1278762534,
         "from_classifier_id": 176,
-        "from_classifier_name": "Linux\/Win: OS",
+        "from_classifier_name": "Linux/Win: OS",
         "to_classifier_id": 177,
         "to_classifier_name": "crystal-facet-uml process",
         "from_feature_id": -1,
@@ -23343,7 +23343,7 @@
         ],
         "list_order": -1824621219,
         "from_classifier_id": 176,
-        "from_classifier_name": "Linux\/Win: OS",
+        "from_classifier_name": "Linux/Win: OS",
         "to_classifier_id": 382,
         "to_classifier_name": "Database File",
         "from_feature_id": -1,
@@ -23364,7 +23364,7 @@
         ],
         "list_order": -1920934632,
         "from_classifier_id": 176,
-        "from_classifier_name": "Linux\/Win: OS",
+        "from_classifier_name": "Linux/Win: OS",
         "to_classifier_id": 383,
         "to_classifier_name": "JSON Data Exchange",
         "from_feature_id": -1,
@@ -23385,7 +23385,7 @@
         ],
         "list_order": -1898953855,
         "from_classifier_id": 176,
-        "from_classifier_name": "Linux\/Win: OS",
+        "from_classifier_name": "Linux/Win: OS",
         "to_classifier_id": 385,
         "to_classifier_name": "Other export formats",
         "from_feature_id": -1,
@@ -23492,7 +23492,7 @@
         "from_classifier_id": 178,
         "from_classifier_name": "crystal-facet-uml application",
         "to_classifier_id": 4,
-        "to_classifier_name": "data\/storage",
+        "to_classifier_name": "data/storage",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "beb18a0a-8d7c-465c-bff1-b011cb0190a4",
@@ -23568,7 +23568,7 @@
         "id": 563,
         "main_type": 230,
         "type": "CommunicationPath",
-        "name": "im\/export",
+        "name": "im/export",
         "description": [
                 ""
         ],
@@ -23702,7 +23702,7 @@
         "from_classifier_id": 195,
         "from_classifier_name": "io",
         "to_classifier_id": 4,
-        "to_classifier_name": "data\/storage",
+        "to_classifier_name": "data/storage",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "9a93182d-56f8-4865-a642-24d997264063",
@@ -23851,7 +23851,7 @@
         "from_classifier_id": 195,
         "from_classifier_name": "io",
         "to_classifier_id": 282,
-        "to_classifier_name": "md\/txt\/xmi\/xml\/json",
+        "to_classifier_name": "md/txt/xmi/xml/json",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "9a93182d-56f8-4865-a642-24d997264063",
@@ -23885,7 +23885,7 @@
         "id": 531,
         "main_type": 230,
         "type": "CommunicationPath",
-        "name": "layout\/draw",
+        "name": "layout/draw",
         "description": [
                 ""
         ],
@@ -23907,7 +23907,7 @@
         "id": 566,
         "main_type": 230,
         "type": "CommunicationPath",
-        "name": "cut\/copy",
+        "name": "cut/copy",
         "description": [
                 ""
         ],
@@ -23929,7 +23929,7 @@
         "id": 567,
         "main_type": 230,
         "type": "CommunicationPath",
-        "name": "import\/sync",
+        "name": "import/sync",
         "description": [
                 ""
         ],
@@ -24404,7 +24404,7 @@
         "from_classifier_id": 209,
         "from_classifier_name": "io_format_writer",
         "to_classifier_id": 282,
-        "to_classifier_name": "md\/txt\/xmi\/xml\/json",
+        "to_classifier_name": "md/txt/xmi/xml/json",
         "from_feature_id": 77,
         "from_feature_key": "",
         "to_feature_id": 78,
@@ -24619,7 +24619,7 @@
         "from_classifier_id": 235,
         "from_classifier_name": "data",
         "to_classifier_id": 4,
-        "to_classifier_name": "data\/storage",
+        "to_classifier_name": "data/storage",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "53d80bf4-cf98-4739-95d5-80372a2001e7",
@@ -24638,7 +24638,7 @@
         ],
         "list_order": 1411725765,
         "from_classifier_id": 257,
-        "from_classifier_name": "sketch_area",
+        "from_classifier_name": "sketch",
         "to_classifier_id": 43,
         "to_classifier_name": "gui_sketch_area",
         "from_feature_id": -1,
@@ -24659,7 +24659,7 @@
         ],
         "list_order": 1411758533,
         "from_classifier_id": 257,
-        "from_classifier_name": "sketch_area",
+        "from_classifier_name": "sketch",
         "to_classifier_id": 44,
         "to_classifier_name": "gui_sketch _card",
         "from_feature_id": -1,
@@ -24680,7 +24680,7 @@
         ],
         "list_order": 98304,
         "from_classifier_id": 257,
-        "from_classifier_name": "sketch_area",
+        "from_classifier_name": "sketch",
         "to_classifier_id": 262,
         "to_classifier_name": "gui_sketch _result_list",
         "from_feature_id": -1,
@@ -24701,7 +24701,7 @@
         ],
         "list_order": 926642345,
         "from_classifier_id": 257,
-        "from_classifier_name": "sketch_area",
+        "from_classifier_name": "sketch",
         "to_classifier_id": 262,
         "to_classifier_name": "gui_sketch _result_list",
         "from_feature_id": 72,
@@ -24724,7 +24724,7 @@
         ],
         "list_order": 1298211244,
         "from_classifier_id": 257,
-        "from_classifier_name": "sketch_area",
+        "from_classifier_name": "sketch",
         "to_classifier_id": 44,
         "to_classifier_name": "gui_sketch _card",
         "from_feature_id": 72,
@@ -24747,9 +24747,9 @@
         ],
         "list_order": 1412217285,
         "from_classifier_id": 257,
-        "from_classifier_name": "sketch_area",
+        "from_classifier_name": "sketch",
         "to_classifier_id": 374,
-        "to_classifier_name": "gui_nav_tree",
+        "to_classifier_name": "gui_sketch_nav_tree",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "68e0aff6-2f79-4b8e-9230-841aca0ac135",
@@ -24770,7 +24770,7 @@
         "from_classifier_id": 269,
         "from_classifier_name": "pencil::start",
         "to_classifier_id": 273,
-        "to_classifier_name": "gui\/io select operations",
+        "to_classifier_name": "gui/io select operations",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "dd61e5b5-efad-4f64-8f77-b3b6bf90ad82",
@@ -25020,7 +25020,7 @@
         ],
         "list_order": 65536,
         "from_classifier_id": 273,
-        "from_classifier_name": "gui\/io select operations",
+        "from_classifier_name": "gui/io select operations",
         "to_classifier_id": 271,
         "to_classifier_name": "pencil::define grid",
         "from_feature_id": -1,
@@ -25041,7 +25041,7 @@
         ],
         "list_order": 98304,
         "from_classifier_id": 273,
-        "from_classifier_name": "gui\/io select operations",
+        "from_classifier_name": "gui/io select operations",
         "to_classifier_id": 272,
         "to_classifier_name": "pencil::layout elements",
         "from_feature_id": -1,
@@ -25062,7 +25062,7 @@
         ],
         "list_order": 131072,
         "from_classifier_id": 273,
-        "from_classifier_name": "gui\/io select operations",
+        "from_classifier_name": "gui/io select operations",
         "to_classifier_id": 270,
         "to_classifier_name": "pencil::draw",
         "from_feature_id": -1,
@@ -25209,7 +25209,7 @@
         ],
         "list_order": 1583940597,
         "from_classifier_id": 282,
-        "from_classifier_name": "md\/txt\/xmi\/xml\/json",
+        "from_classifier_name": "md/txt/xmi/xml/json",
         "to_classifier_id": 305,
         "to_classifier_name": "Output Stream",
         "from_feature_id": 78,
@@ -25232,7 +25232,7 @@
         ],
         "list_order": 1412315589,
         "from_classifier_id": 282,
-        "from_classifier_name": "md\/txt\/xmi\/xml\/json",
+        "from_classifier_name": "md/txt/xmi/xml/json",
         "to_classifier_id": 209,
         "to_classifier_name": "io_format_writer",
         "from_feature_id": -1,
@@ -25253,7 +25253,7 @@
         ],
         "list_order": -1928084275,
         "from_classifier_id": 282,
-        "from_classifier_name": "md\/txt\/xmi\/xml\/json",
+        "from_classifier_name": "md/txt/xmi/xml/json",
         "to_classifier_id": 308,
         "to_classifier_name": "xmi_element_writer",
         "from_feature_id": -1,
@@ -25274,7 +25274,7 @@
         ],
         "list_order": -1428359190,
         "from_classifier_id": 282,
-        "from_classifier_name": "md\/txt\/xmi\/xml\/json",
+        "from_classifier_name": "md/txt/xmi/xml/json",
         "to_classifier_id": 309,
         "to_classifier_name": "txt_writer",
         "from_feature_id": -1,
@@ -25295,7 +25295,7 @@
         ],
         "list_order": -1563887934,
         "from_classifier_id": 282,
-        "from_classifier_name": "md\/txt\/xmi\/xml\/json",
+        "from_classifier_name": "md/txt/xmi/xml/json",
         "to_classifier_id": 310,
         "to_classifier_name": "xml_writer",
         "from_feature_id": -1,
@@ -25316,7 +25316,7 @@
         ],
         "list_order": -1669518568,
         "from_classifier_id": 282,
-        "from_classifier_name": "md\/txt\/xmi\/xml\/json",
+        "from_classifier_name": "md/txt/xmi/xml/json",
         "to_classifier_id": 311,
         "to_classifier_name": "md_filter",
         "from_feature_id": -1,
@@ -25337,7 +25337,7 @@
         ],
         "list_order": -1889021299,
         "from_classifier_id": 282,
-        "from_classifier_name": "md\/txt\/xmi\/xml\/json",
+        "from_classifier_name": "md/txt/xmi/xml/json",
         "to_classifier_id": 373,
         "to_classifier_name": "io_element_writer",
         "from_feature_id": -1,
@@ -26156,7 +26156,7 @@
         ],
         "list_order": 1224263004,
         "from_classifier_id": 395,
-        "from_classifier_name": "INPUT \/SOURCE",
+        "from_classifier_name": "INPUT /SOURCE",
         "to_classifier_id": 391,
         "to_classifier_name": "USR_ERROR",
         "from_feature_id": -1,
@@ -26177,7 +26177,7 @@
         ],
         "list_order": 1622485522,
         "from_classifier_id": 396,
-        "from_classifier_name": "OUTPUT \/SINK",
+        "from_classifier_name": "OUTPUT /SINK",
         "to_classifier_id": 391,
         "to_classifier_name": "USR_ERROR",
         "from_feature_id": -1,
@@ -26198,7 +26198,7 @@
         ],
         "list_order": 1224361308,
         "from_classifier_id": 397,
-        "from_classifier_name": "USER_ACCESS (r\/w\/x)",
+        "from_classifier_name": "USER_ACCESS (r/w/x)",
         "to_classifier_id": 391,
         "to_classifier_name": "USR_ERROR",
         "from_feature_id": -1,
@@ -26303,7 +26303,7 @@
         ],
         "list_order": 1224230236,
         "from_classifier_id": 403,
-        "from_classifier_name": "TIME\/SYNC",
+        "from_classifier_name": "TIME/SYNC",
         "to_classifier_id": 392,
         "to_classifier_name": "OP1_ERROR",
         "from_feature_id": -1,
@@ -26471,7 +26471,7 @@
         ],
         "list_order": 723904,
         "from_classifier_id": 4,
-        "from_classifier_name": "data\/storage",
+        "from_classifier_name": "data/storage",
         "to_classifier_id": 39,
         "to_classifier_name": "data_database _writer",
         "from_feature_id": -1,
@@ -26492,7 +26492,7 @@
         ],
         "list_order": 724928,
         "from_classifier_id": 4,
-        "from_classifier_name": "data\/storage",
+        "from_classifier_name": "data/storage",
         "to_classifier_id": 38,
         "to_classifier_name": "data_database _reader",
         "from_feature_id": -1,
@@ -26513,7 +26513,7 @@
         ],
         "list_order": 725952,
         "from_classifier_id": 4,
-        "from_classifier_name": "data\/storage",
+        "from_classifier_name": "data/storage",
         "to_classifier_id": 37,
         "to_classifier_name": "data_database",
         "from_feature_id": -1,
@@ -26534,7 +26534,7 @@
         ],
         "list_order": 1411791301,
         "from_classifier_id": 4,
-        "from_classifier_name": "data\/storage",
+        "from_classifier_name": "data/storage",
         "to_classifier_id": 84,
         "to_classifier_name": "diagrams",
         "from_feature_id": -1,
@@ -26555,7 +26555,7 @@
         ],
         "list_order": 1411824069,
         "from_classifier_id": 4,
-        "from_classifier_name": "data\/storage",
+        "from_classifier_name": "data/storage",
         "to_classifier_id": 82,
         "to_classifier_name": "diagramelements",
         "from_feature_id": -1,
@@ -26576,7 +26576,7 @@
         ],
         "list_order": 1411856837,
         "from_classifier_id": 4,
-        "from_classifier_name": "data\/storage",
+        "from_classifier_name": "data/storage",
         "to_classifier_id": 80,
         "to_classifier_name": "classifiers",
         "from_feature_id": -1,
@@ -26597,7 +26597,7 @@
         ],
         "list_order": 1411889605,
         "from_classifier_id": 4,
-        "from_classifier_name": "data\/storage",
+        "from_classifier_name": "data/storage",
         "to_classifier_id": 81,
         "to_classifier_name": "relationships",
         "from_feature_id": -1,
@@ -26618,7 +26618,7 @@
         ],
         "list_order": 1411922373,
         "from_classifier_id": 4,
-        "from_classifier_name": "data\/storage",
+        "from_classifier_name": "data/storage",
         "to_classifier_id": 83,
         "to_classifier_name": "features",
         "from_feature_id": -1,
@@ -26639,7 +26639,7 @@
         ],
         "list_order": 1412151749,
         "from_classifier_id": 4,
-        "from_classifier_name": "data\/storage",
+        "from_classifier_name": "data/storage",
         "to_classifier_id": 204,
         "to_classifier_name": "visible_classifier",
         "from_feature_id": -1,
