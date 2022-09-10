@@ -204,28 +204,30 @@ void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relation
         pencil_relationship_2d_layouter_private_connect_rectangles_by_ZN ( this_,
                                                                            source_rect,
                                                                            dest_rect,
-                                                                           solutions_max,
+                                                                           solutions_max - solutions_by_I,
                                                                            &(out_solutions[solutions_by_I]),
                                                                            &solutions_by_ZN
                                                                          );
 
+        const uint32_t solutions_by_I_ZN = solutions_by_I + solutions_by_ZN;
         pencil_relationship_2d_layouter_private_connect_rectangles_by_L7 ( this_,
                                                                            source_rect,
                                                                            dest_rect,
-                                                                           solutions_max - solutions_by_ZN,
-                                                                           &(out_solutions[solutions_by_I + solutions_by_ZN]),
+                                                                           solutions_max - solutions_by_I_ZN,
+                                                                           &(out_solutions[solutions_by_I_ZN]),
                                                                            &solutions_by_L7
                                                                          );
 
+        const uint32_t solutions_by_I_ZN_L7 = solutions_by_I_ZN + solutions_by_L7;
         pencil_relationship_2d_layouter_private_connect_rectangles_by_UC ( this_,
                                                                            source_rect,
                                                                            dest_rect,
-                                                                           solutions_max - solutions_by_ZN - solutions_by_L7,
-                                                                           &(out_solutions[solutions_by_I + solutions_by_ZN + solutions_by_L7]),
+                                                                           solutions_max - solutions_by_I_ZN_L7,
+                                                                           &(out_solutions[solutions_by_I_ZN_L7]),
                                                                            &solutions_by_UC
                                                                          );
 
-        *out_solutions_count = solutions_by_I + solutions_by_ZN + solutions_by_L7 + solutions_by_UC;
+        *out_solutions_count = solutions_by_I_ZN_L7 + solutions_by_UC;
         assert ( 1 <= *out_solutions_count );
         assert ( *out_solutions_count <= solutions_max );
     }
@@ -316,7 +318,7 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
         }
 
         /* prefer centered over uncentered departure and arrival */
-        const double HEAVIER_THAN_EXPLICIT = 2.0;
+        const double HEAVIER_THAN_EXPLICIT = 1.3;
         debts_of_current += fabs( geometry_connector_get_source_end_x( current_solution ) - src_center_x ) * HEAVIER_THAN_EXPLICIT;
         debts_of_current += fabs( geometry_connector_get_source_end_y( current_solution ) - src_center_y ) * HEAVIER_THAN_EXPLICIT;
         debts_of_current += fabs( geometry_connector_get_destination_end_x( current_solution ) - dst_center_x ) * HEAVIER_THAN_EXPLICIT;
