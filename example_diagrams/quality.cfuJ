@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.40.1"
+    "generator_version": "1.41.0"
   }
   ,
   "views":
@@ -105,7 +105,7 @@
             "id": 3,
             "display_flags": 0,
             "classifier_id": 3,
-            "classifier_name": "Ext\/Int Product Quality ",
+            "classifier_name": "Ext/Int Product Quality ",
             "focused_feature_id": -1,
             "node": "5cc16673-215f-4396-b544-62b84ac532e2",
             "uuid": "8b6e9063-e4db-4dfe-908f-185d2b75667b"
@@ -273,7 +273,7 @@
             "id": 151,
             "display_flags": 0,
             "classifier_id": 119,
-            "classifier_name": "Travel \/ Tourism",
+            "classifier_name": "Travel / Tourism",
             "focused_feature_id": -1,
             "node": "091630fe-7064-42eb-9974-e17049098240",
             "uuid": "e4abac7d-ed02-40a2-9913-b1794fc273ee"
@@ -282,7 +282,7 @@
             "id": 152,
             "display_flags": 0,
             "classifier_id": 120,
-            "classifier_name": "Media\/Press\/Publishing",
+            "classifier_name": "Media/Press/Publishing",
             "focused_feature_id": -1,
             "node": "bac2e57e-8069-492e-9fb1-f6d4a654188b",
             "uuid": "094f731e-c9e1-4bd1-a638-9976d18c3dc2"
@@ -327,7 +327,7 @@
             "id": 333,
             "display_flags": 0,
             "classifier_id": 222,
-            "classifier_name": " Mobile Devices \/ Wearables",
+            "classifier_name": " Mobile Devices / Wearables",
             "focused_feature_id": -1,
             "node": "d57652f3-e75d-4104-815b-1895ce7b2f99",
             "uuid": "fffe6ff2-89c2-47bd-b839-879fc169289c"
@@ -349,7 +349,7 @@
                 "and their relationships.\n",
                 "(Domain Model)\n",
                 "\n",
-                "This picture is composed of ideas from 1) Software Architecture in Practice (C0165), 2) ISO\/IEC 9126 (C0166), 3) arc42 (C0168), see D0023#name."
+                "This picture is composed of ideas from 1) Software Architecture in Practice (C0165), 2) ISO/IEC 9126 (C0166), 3) arc42 (C0168), see D0023#name."
         ],
         "list_order": 65536,
         "display_flags": 0,
@@ -424,7 +424,7 @@
             "id": 234,
             "display_flags": 0,
             "classifier_id": 163,
-            "classifier_name": "Topic\/Group (Quality tree)",
+            "classifier_name": "Topic/Group (Quality tree)",
             "focused_feature_id": -1,
             "node": "0fb11db1-2e67-4914-b160-5f4814b6c18b",
             "uuid": "2699d28b-0860-4487-a205-cc4eb8dc3b60"
@@ -478,8 +478,8 @@
         "type": "CFUBoxDiagram",
         "name": "Quality Characteristics",
         "description": [
-                "Charactersitics of Ext\/Int Product Quality \n",
-                "according to ISO\/IEC 25010:2011 (C0167), see D0023#name."
+                "Charactersitics of Ext/Int Product Quality \n",
+                "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
         ],
         "list_order": 98304,
         "display_flags": 0,
@@ -609,7 +609,7 @@
             "display_flags": 33554432,
             "display_tags": "GrayOut",
             "classifier_id": 3,
-            "classifier_name": "Ext\/Int Product Quality ",
+            "classifier_name": "Ext/Int Product Quality ",
             "focused_feature_id": -1,
             "node": "5cc16673-215f-4396-b544-62b84ac532e2",
             "uuid": "fd877a2d-8c82-4200-a793-e140909cdb89"
@@ -1144,7 +1144,7 @@
         "parent_name": "Strategies for Performance Efficiency",
         "diagram_type": 34,
         "type": "UMLClassDiagram",
-        "name": "Memory Controlling Patterns\/Tactics",
+        "name": "Memory Controlling Patterns/Tactics",
         "description": [
                 "This diagram shows patterns\n",
                 "to control memory\n",
@@ -1243,7 +1243,7 @@
         "parent_name": "Strategies for Performance Efficiency",
         "diagram_type": 34,
         "type": "UMLClassDiagram",
-        "name": "Memory Management Patterns\/Tactics",
+        "name": "Memory Management Patterns/Tactics",
         "description": [
                 "This diagram shows patterns\n",
                 "that manage memory\n",
@@ -1273,7 +1273,7 @@
             "id": 158,
             "display_flags": 0,
             "classifier_id": 125,
-            "classifier_name": "Weak Pointers \/ Caches",
+            "classifier_name": "Weak Pointers / Caches",
             "focused_feature_id": -1,
             "node": "bfba1101-4ab4-4cd3-be9d-947a23a01933",
             "uuid": "9a3a58ee-b261-4933-848b-3bb9cf129242"
@@ -1785,7 +1785,7 @@
             "id": 175,
             "display_flags": 0,
             "classifier_id": 90,
-            "classifier_name": "Open\/Closed",
+            "classifier_name": "Open/Closed",
             "focused_feature_id": -1,
             "node": "542f8c3e-7a92-4d33-9f44-4512738253db",
             "uuid": "5311b8a1-e396-4512-9304-0dd7976c9ee3"
@@ -2769,7 +2769,7 @@
         "description": [
                 "This diagram lists methods to ensure quality.\n",
                 "\n",
-                "Outcome of these methods is either a list of requirements\/actions that needs to be implemented or a risk list that needs to be assessed and mitigations defined.\n",
+                "Outcome of these methods is either a list of requirements/actions that needs to be implemented or a risk list that needs to be assessed and mitigations defined.\n",
                 ""
         ],
         "list_order": 32768,
@@ -3051,7 +3051,7 @@
             "id": 240,
             "display_flags": 0,
             "classifier_id": 166,
-            "classifier_name": "ISO\/IEC 9126",
+            "classifier_name": "ISO/IEC 9126",
             "focused_feature_id": -1,
             "node": "1851704c-2f60-4c99-b55b-fb1425b48ff2",
             "uuid": "cb57fefd-a373-4574-856c-f62af5da636a"
@@ -3060,7 +3060,7 @@
             "id": 241,
             "display_flags": 0,
             "classifier_id": 167,
-            "classifier_name": "ISO\/IEC 25010:2011",
+            "classifier_name": "ISO/IEC 25010:2011",
             "focused_feature_id": -1,
             "node": "dc1df44a-b1f1-4ab7-8c1a-d4b6e3b104be",
             "uuid": "3d38689a-36ab-4e11-8b43-9080e6273732"
@@ -3167,7 +3167,7 @@
             "id": 4,
             "main_type": 0,
             "type": "Property",
-            "key": "ISO\/IEC 25010:2011",
+            "key": "ISO/IEC 25010:2011",
             "value": "",
             "description": [
                 "see D0023#name"
@@ -3285,7 +3285,7 @@
             "id": 55,
             "main_type": 0,
             "type": "Property",
-            "key": "Software\/Documentation",
+            "key": "Software/Documentation",
             "value": "",
             "description": [
                 ""
@@ -3297,7 +3297,7 @@
             "id": 56,
             "main_type": 0,
             "type": "Property",
-            "key": "Evidence\/Reports",
+            "key": "Evidence/Reports",
             "value": "",
             "description": [
                 ""
@@ -3329,7 +3329,7 @@
             "id": 52,
             "main_type": 0,
             "type": "Property",
-            "key": "Guidelines\/Templates",
+            "key": "Guidelines/Templates",
             "value": "",
             "description": [
                 ""
@@ -3429,7 +3429,7 @@
             "id": 49,
             "main_type": 0,
             "type": "Property",
-            "key": "Knowledge\/Skills",
+            "key": "Knowledge/Skills",
             "value": "",
             "description": [
                 ""
@@ -3460,7 +3460,7 @@
             "id": 57,
             "main_type": 0,
             "type": "Property",
-            "key": "Requirements\/Design",
+            "key": "Requirements/Design",
             "value": "",
             "description": [
                 ""
@@ -3472,7 +3472,7 @@
             "id": 58,
             "main_type": 0,
             "type": "Property",
-            "key": "Software\/Data",
+            "key": "Software/Data",
             "value": "",
             "description": [
                 ""
@@ -3697,7 +3697,7 @@
             "key": "static thread model",
             "value": "",
             "description": [
-                "Execution threads shall not be started\/stopped dynamically"
+                "Execution threads shall not be started/stopped dynamically"
             ],
             "list_order": 109737,
             "uuid": "66638425-899f-436d-8b7e-493502b8e740"
@@ -3735,7 +3735,7 @@
             "key": "valid Memory Addresses",
             "value": "",
             "description": [
-                "Only valid memory addresses may be read\/written.\n",
+                "Only valid memory addresses may be read/written.\n",
                 "\n",
                 "- Java solves this by prohibiting pointers,\n",
                 "- In C, check pointers and array indices before usage,\n",
@@ -3754,9 +3754,9 @@
             "description": [
                 "When the program is running, \n",
                 "- it must not fail due to \n",
-                "  - memory fragmentation (virtual addresses\/physical pages)\n",
+                "  - memory fragmentation (virtual addresses/physical pages)\n",
                 "  - out of memory situations\n",
-                "- it shall have a defined timing (which new\/malloc cannot provide)"
+                "- it shall have a defined timing (which new/malloc cannot provide)"
             ],
             "list_order": 135340,
             "uuid": "fd9e9b72-1a86-4691-8698-a41b9fcdc82d"
@@ -3897,9 +3897,9 @@
                 "Software Requirements Refinement\n",
                 "\n",
                 "- refines system requirements so that only the parts that shall be implemented in software are addressed\n",
-                "- states requirements in a form that these are testable by software\/qualification tests\n",
+                "- states requirements in a form that these are testable by software/qualification tests\n",
                 "- distinguishes functional requirements\n",
-                "- quality\/non-functional requirements\n",
+                "- quality/non-functional requirements\n",
                 "- non-requirements (what must not happen)\n",
                 "- process requirements"
         ],
@@ -4009,7 +4009,7 @@
                 "System integration consists of\n",
                 "\n",
                 "- installing software and configuration to devices\n",
-                "- managing versions (upgrade\/downgrade\/cross-variant-grade)\n",
+                "- managing versions (upgrade/downgrade/cross-variant-grade)\n",
                 "- integration test checks compliance to system architecture"
         ],
         "x_order": 2143088193,
@@ -4082,7 +4082,7 @@
                 "- M2 supervises F2.\n",
                 "  In case F2 fails, M2 ensures that F2 has no effect.\n",
                 "\n",
-                "As long as (F1\/M1) produces output, (F2\/M2) is ignored."
+                "As long as (F1/M1) produces output, (F2/M2) is ignored."
             ],
             "list_order": 736720,
             "uuid": "54607095-2cde-4cbf-985b-78a947964c35"
@@ -4167,7 +4167,7 @@
             "id": 30,
             "main_type": 0,
             "type": "Property",
-            "key": "Gateways\/Firewalls\/Proxies",
+            "key": "Gateways/Firewalls/Proxies",
             "value": "",
             "description": [
                 ""
@@ -4341,7 +4341,7 @@
             "id": 37,
             "main_type": 0,
             "type": "Property",
-            "key": "public\/private",
+            "key": "public/private",
             "value": "",
             "description": [
                 ""
@@ -4736,7 +4736,7 @@
             "value": "",
             "description": [
                 "Module names, Interface names, Message names, Port names:\n",
-                "The name shall state what the data\/function represents.\n",
+                "The name shall state what the data/function represents.\n",
                 "The name shall be short and as concrete as possible."
             ],
             "list_order": 787920,
@@ -4974,7 +4974,7 @@
         "stereotype": "concept",
         "name": "Groups",
         "description": [
-                "Grouping Clients\/Actors\/Users and\n",
+                "Grouping Clients/Actors/Users and\n",
                 "grouping Services \n",
                 "helps in administration of access rights"
         ],
@@ -5126,7 +5126,7 @@
             "key": "Variant Coverage",
             "value": "",
             "description": [
-                "HW variants, Feature Variants, Compiler\/OS Variants"
+                "HW variants, Feature Variants, Compiler/OS Variants"
             ],
             "list_order": -734419700,
             "uuid": "a462c60b-ab7c-4325-a347-becb0877f780"
@@ -5140,7 +5140,7 @@
         "main_type": 100,
         "type": "Actor",
         "stereotype": "",
-        "name": "Travel \/ Tourism",
+        "name": "Travel / Tourism",
         "description": [
                 ""
         ],
@@ -5159,7 +5159,7 @@
         "main_type": 100,
         "type": "Actor",
         "stereotype": "",
-        "name": "Media\/Press\/Publishing",
+        "name": "Media/Press/Publishing",
         "description": [
                 "\t"
         ],
@@ -5229,7 +5229,7 @@
         "description": [
                 "Failure Mode and Effects Analysis\n",
                 "\n",
-                "see https:\/\/en.wikipedia.org\/wiki\/Failure_mode_and_effects_analysis"
+                "see https://en.wikipedia.org/wiki/Failure_mode_and_effects_analysis"
         ],
         "x_order": -1723161324,
         "y_order": 0,
@@ -5311,7 +5311,7 @@
         "stereotype": "",
         "name": "Secure Defaults",
         "description": [
-                "The default settings\/configuratoin of a system shall be tuned for security."
+                "The default settings/configuratoin of a system shall be tuned for security."
         ],
         "x_order": 2096700661,
         "y_order": -2086534873,
@@ -5368,7 +5368,7 @@
         "stereotype": "",
         "name": "Home Automation",
         "description": [
-                "Construction \/ Home Automation"
+                "Construction / Home Automation"
         ],
         "x_order": 1284109525,
         "y_order": -1388766136,
@@ -5527,7 +5527,7 @@
         "main_type": 125,
         "type": "Class",
         "stereotype": "",
-        "name": "Topic\/Group (Quality tree)",
+        "name": "Topic/Group (Quality tree)",
         "description": [
                 "A quality tree starts at the quality characteristics as the main branches and ends at detailed quality requirements as the leaves.\n",
                 "\n",
@@ -5577,7 +5577,7 @@
         "description": [
                 "Software Architecture in Practice (3rd Edition)\n",
                 "by Len Bass, Paul Clements, and Rick Kazman.\n",
-                "Addison Wesley \/ Pearson, 2013.\n",
+                "Addison Wesley / Pearson, 2013.\n",
                 "ISBN 978-0-321-81573-6"
         ],
         "x_order": -401408333,
@@ -5595,9 +5595,9 @@
         "main_type": 126,
         "type": "Class",
         "stereotype": "",
-        "name": "ISO\/IEC 9126",
+        "name": "ISO/IEC 9126",
         "description": [
-                "ISO\/IEC 9126 Software engineering — Product quality"
+                "ISO/IEC 9126 Software engineering — Product quality"
         ],
         "x_order": 37374931,
         "y_order": 0,
@@ -5614,9 +5614,9 @@
         "main_type": 126,
         "type": "Class",
         "stereotype": "",
-        "name": "ISO\/IEC 25010:2011",
+        "name": "ISO/IEC 25010:2011",
         "description": [
-                "ISO\/IEC 25010:2011"
+                "ISO/IEC 25010:2011"
         ],
         "x_order": 441055533,
         "y_order": 0,
@@ -5635,7 +5635,7 @@
         "stereotype": "",
         "name": "arc42",
         "description": [
-                "https:\/\/arc42.org"
+                "https://arc42.org"
         ],
         "x_order": 1151884421,
         "y_order": 0,
@@ -5719,7 +5719,7 @@
         "name": "Internet Security",
         "description": [
                 "Internet-Security aus Software-Sicht\n",
-                "by Kriha\/Schmitz\n",
+                "by Kriha/Schmitz\n",
                 "Springer, 2008.\n",
                 "ISBN 978-3-540-22223-1"
         ],
@@ -5742,7 +5742,7 @@
         "description": [
                 "High Integrity Software - The Spark Approach to Saftey and Security\n",
                 "by John Barnes\n",
-                "Addison Wesley \/ Pearson, 2003.\n",
+                "Addison Wesley / Pearson, 2003.\n",
                 "ISBN 978-0-321-13616-0"
         ],
         "x_order": -280782415,
@@ -5815,7 +5815,7 @@
             "id": 76,
             "main_type": 0,
             "type": "Property",
-            "key": "Spark\/ADA",
+            "key": "Spark/ADA",
             "value": "Avionics",
             "description": [
                 "see C0173#name"
@@ -5851,7 +5851,7 @@
             "id": 79,
             "main_type": 0,
             "type": "Property",
-            "key": "MISRA-C\/C++",
+            "key": "MISRA-C/C++",
             "value": "automotive",
             "description": [
                 ""
@@ -5984,7 +5984,7 @@
         "stereotype": "problem space",
         "name": "Quality expectations depend on use cases",
         "description": [
-                "A program\/application typically solves\n",
+                "A program/application typically solves\n",
                 "several use cases with\n",
                 "different quality expectations."
         ],
@@ -6329,7 +6329,7 @@
             "id": 82,
             "main_type": 0,
             "type": "Property",
-            "key": "ISO\/IEC 33001:2015",
+            "key": "ISO/IEC 33001:2015",
             "value": "",
             "description": [
                 ""
@@ -6356,7 +6356,7 @@
                 "3) how errors are propagated\n",
                 "  from the point of occurrence\n",
                 "  to a point where these are handled,\n",
-                "  e.g. throw\/raise of exceptions or\n",
+                "  e.g. throw/raise of exceptions or\n",
                 "  passing on of error codes,\n",
                 "4) by which categories errors are classified,\n",
                 "5) which category is handled in which way,\n",
@@ -6399,9 +6399,9 @@
         "main_type": 100,
         "type": "Actor",
         "stereotype": "",
-        "name": " Mobile Devices \/ Wearables",
+        "name": " Mobile Devices / Wearables",
         "description": [
-                "Clothes \/ Wearables"
+                "Clothes / Wearables"
         ],
         "x_order": 1284109525,
         "y_order": 498733649,
@@ -6418,7 +6418,7 @@
         "main_type": 124,
         "type": "Package",
         "stereotype": "",
-        "name": "Ext\/Int Product Quality ",
+        "name": "Ext/Int Product Quality ",
         "description": [
                 "Product quality are internal and externally visible qualities, \n",
                 "such as memory consumption or startup timings."
@@ -7161,7 +7161,7 @@
         "main_type": 90,
         "type": "Block",
         "stereotype": "principle",
-        "name": "Open\/Closed",
+        "name": "Open/Closed",
         "description": [
                 "Open for extension, closed for modification"
         ],
@@ -7204,7 +7204,7 @@
         "name": "Interface Segregation",
         "description": [
                 "Avoid general purpose interfaces, \n",
-                "design multiple interfaces specific to the needs of different users\/clients"
+                "design multiple interfaces specific to the needs of different users/clients"
         ],
         "x_order": -1759148316,
         "y_order": -2059404255,
@@ -7331,7 +7331,7 @@
         "main_type": 125,
         "type": "Class",
         "stereotype": "conecpt",
-        "name": "Weak Pointers \/ Caches",
+        "name": "Weak Pointers / Caches",
         "description": [
                 "- There are managed data structures\n",
                 "  (hashmaps, caches) that hold data\n",
@@ -7366,7 +7366,7 @@
                 "Some instance manages memory (e.g. OS)\n",
                 "while another instance uses it (e.g. App).\n",
                 "\n",
-                "This mamagement may reduce\/fix fragmentation issues.\n",
+                "This mamagement may reduce/fix fragmentation issues.\n",
                 "\n",
                 "Examples:\n",
                 "- The java virtual machine can move objects\n",
@@ -7623,11 +7623,11 @@
         "stereotype": "conecpt",
         "name": "Region based Memory Management",
         "description": [
-                "A region\/arena\/stack is valid while performing\n",
-                "one operation\/thread. \n",
+                "A region/arena/stack is valid while performing\n",
+                "one operation/thread. \n",
                 "It provides single-threaded access only.\n",
                 "It is either used stack-like\n",
-                "or cleaned up when the operation\/thread is finished.\n",
+                "or cleaned up when the operation/thread is finished.\n",
                 "\n",
                 "This concept allows to fast allocate\n",
                 "and completely release memory arenas.\n",
@@ -7636,12 +7636,12 @@
                 "It may be faster than concurrent access to single heap.\n",
                 "It allows to reserve appropriate memory arenas for more important tasks\n",
                 "\n",
-                "see https:\/\/en.wikipedia.org\/wiki\n",
-                "\/Region-based_memory_management\n",
+                "see https://en.wikipedia.org/wiki\n",
+                "/Region-based_memory_management\n",
                 "\n",
                 "Implementation support by e.g.\n",
-                "polymorphic_allocator and memory_resource(C++17\/20)\n",
-                "rust allocator: https:\/\/rust-lang.github.io\/rfcs\/1398-kinds-of-allocators.html\n",
+                "polymorphic_allocator and memory_resource(C++17/20)\n",
+                "rust allocator: https://rust-lang.github.io/rfcs/1398-kinds-of-allocators.html\n",
                 ""
         ],
         "x_order": -16275143,
@@ -7913,7 +7913,7 @@
         "name": "Static Size Buffering",
         "description": [
                 "Windowing Concept\n",
-                "Streaming\/Buffering"
+                "Streaming/Buffering"
         ],
         "x_order": -1365645119,
         "y_order": -2096249159,
@@ -7954,7 +7954,7 @@
         "description": [
                 "- Linux overcommit\n",
                 "- Compress memory pages\n",
-                "- End any process if page-fault by r\/w operation\n",
+                "- End any process if page-fault by r/w operation\n",
                 "   to overcommitted memory\n",
                 "\n",
                 "Example Implementations:\n",
@@ -8226,7 +8226,7 @@
         "from_classifier_id": 2,
         "from_classifier_name": "Product Quality",
         "to_classifier_id": 3,
-        "to_classifier_name": "Ext\/Int Product Quality ",
+        "to_classifier_name": "Ext/Int Product Quality ",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "1fe74536-812a-44e1-82a8-6bff746fac94",
@@ -9194,7 +9194,7 @@
         "from_classifier_id": 96,
         "from_classifier_name": "SOLID",
         "to_classifier_id": 90,
-        "to_classifier_name": "Open\/Closed",
+        "to_classifier_name": "Open/Closed",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "2e9d9457-8a98-4e60-83cd-610851908b4a",
@@ -9948,7 +9948,7 @@
         ],
         "list_order": 163840,
         "from_classifier_id": 163,
-        "from_classifier_name": "Topic\/Group (Quality tree)",
+        "from_classifier_name": "Topic/Group (Quality tree)",
         "to_classifier_id": 161,
         "to_classifier_name": "Quality Scenario",
         "from_feature_id": -1,
@@ -9969,7 +9969,7 @@
         ],
         "list_order": 294912,
         "from_classifier_id": 163,
-        "from_classifier_name": "Topic\/Group (Quality tree)",
+        "from_classifier_name": "Topic/Group (Quality tree)",
         "to_classifier_id": 157,
         "to_classifier_name": "Quality Subcharacteristic",
         "from_feature_id": -1,
@@ -9990,7 +9990,7 @@
         ],
         "list_order": 524288,
         "from_classifier_id": 163,
-        "from_classifier_name": "Topic\/Group (Quality tree)",
+        "from_classifier_name": "Topic/Group (Quality tree)",
         "to_classifier_id": 209,
         "to_classifier_name": "Quality Requirement",
         "from_feature_id": -1,
@@ -10559,7 +10559,7 @@
         "from_classifier_id": 198,
         "from_classifier_name": "Concepts to manage memory on the fly",
         "to_classifier_id": 125,
-        "to_classifier_name": "Weak Pointers \/ Caches",
+        "to_classifier_name": "Weak Pointers / Caches",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "1b326327-217d-4fa0-bb17-5b620aa6e719",
@@ -11271,7 +11271,7 @@
         ],
         "list_order": 32768,
         "from_classifier_id": 3,
-        "from_classifier_name": "Ext\/Int Product Quality ",
+        "from_classifier_name": "Ext/Int Product Quality ",
         "to_classifier_id": 4,
         "to_classifier_name": "Quality in Use",
         "from_feature_id": -1,
@@ -11292,7 +11292,7 @@
         ],
         "list_order": 262144,
         "from_classifier_id": 3,
-        "from_classifier_name": "Ext\/Int Product Quality ",
+        "from_classifier_name": "Ext/Int Product Quality ",
         "to_classifier_id": 15,
         "to_classifier_name": "Functional Suitability",
         "from_feature_id": -1,
@@ -11313,7 +11313,7 @@
         ],
         "list_order": 294912,
         "from_classifier_id": 3,
-        "from_classifier_name": "Ext\/Int Product Quality ",
+        "from_classifier_name": "Ext/Int Product Quality ",
         "to_classifier_id": 17,
         "to_classifier_name": "Usability",
         "from_feature_id": -1,
@@ -11334,7 +11334,7 @@
         ],
         "list_order": 327680,
         "from_classifier_id": 3,
-        "from_classifier_name": "Ext\/Int Product Quality ",
+        "from_classifier_name": "Ext/Int Product Quality ",
         "to_classifier_id": 20,
         "to_classifier_name": "Portability",
         "from_feature_id": -1,
@@ -11355,7 +11355,7 @@
         ],
         "list_order": 360448,
         "from_classifier_id": 3,
-        "from_classifier_name": "Ext\/Int Product Quality ",
+        "from_classifier_name": "Ext/Int Product Quality ",
         "to_classifier_id": 21,
         "to_classifier_name": "Reliability",
         "from_feature_id": -1,
@@ -11376,7 +11376,7 @@
         ],
         "list_order": 393216,
         "from_classifier_id": 3,
-        "from_classifier_name": "Ext\/Int Product Quality ",
+        "from_classifier_name": "Ext/Int Product Quality ",
         "to_classifier_id": 23,
         "to_classifier_name": "Performance Efficiency",
         "from_feature_id": -1,
@@ -11397,7 +11397,7 @@
         ],
         "list_order": 425984,
         "from_classifier_id": 3,
-        "from_classifier_name": "Ext\/Int Product Quality ",
+        "from_classifier_name": "Ext/Int Product Quality ",
         "to_classifier_id": 22,
         "to_classifier_name": "Compatibility",
         "from_feature_id": -1,
@@ -11418,7 +11418,7 @@
         ],
         "list_order": 458752,
         "from_classifier_id": 3,
-        "from_classifier_name": "Ext\/Int Product Quality ",
+        "from_classifier_name": "Ext/Int Product Quality ",
         "to_classifier_id": 12,
         "to_classifier_name": "Maintainability",
         "from_feature_id": -1,
@@ -11439,7 +11439,7 @@
         ],
         "list_order": 491520,
         "from_classifier_id": 3,
-        "from_classifier_name": "Ext\/Int Product Quality ",
+        "from_classifier_name": "Ext/Int Product Quality ",
         "to_classifier_id": 18,
         "to_classifier_name": "Security",
         "from_feature_id": -1,
@@ -11462,7 +11462,7 @@
         "from_classifier_id": 4,
         "from_classifier_name": "Quality in Use",
         "to_classifier_id": 3,
-        "to_classifier_name": "Ext\/Int Product Quality ",
+        "to_classifier_name": "Ext/Int Product Quality ",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "51ad1157-997f-4fbe-bcc3-273b455eef0a",

@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.40.1"
+    "generator_version": "1.41.0"
   }
   ,
   "views":
@@ -487,7 +487,7 @@
             "id": 49,
             "display_flags": 0,
             "classifier_id": 44,
-            "classifier_name": "Programming\/Diagnostic Connector",
+            "classifier_name": "Programming/Diagnostic Connector",
             "focused_feature_id": -1,
             "node": "4247b2e1-f3da-4356-81c5-160af47f3e11",
             "uuid": "63e323e9-8a92-4864-be35-c18d5b8be043"
@@ -652,7 +652,7 @@
             "display_flags": 33554432,
             "display_tags": "GrayOut",
             "classifier_id": 44,
-            "classifier_name": "Programming\/Diagnostic Connector",
+            "classifier_name": "Programming/Diagnostic Connector",
             "focused_feature_id": -1,
             "node": "4247b2e1-f3da-4356-81c5-160af47f3e11",
             "uuid": "acfbe624-6022-4b34-a73a-fe824f593148"
@@ -1439,7 +1439,7 @@
         "parent_id": 28,
         "parent_name": "Runtime View",
         "diagram_type": 13,
-        "type": "UMLInteractionDiagram\/sequence",
+        "type": "UMLInteractionDiagram/sequence",
         "name": "Environment Model Composer Sequence",
         "description": [
                 "This diagram shows the typical communication sequence to compose the environment model."
@@ -1984,7 +1984,7 @@
         "parent_id": 1,
         "parent_name": "Mouse Droid",
         "diagram_type": 17,
-        "type": "UMLInteractionDiagram\/overview",
+        "type": "UMLInteractionDiagram/overview",
         "name": "Runtime View",
         "description": [
                 "This section shows the dynamic behavior of the system (Solution Space, System Level L1)"
@@ -2097,7 +2097,7 @@
         "parent_id": 20,
         "parent_name": "Power Modes",
         "diagram_type": 16,
-        "type": "UMLInteractionDiagram\/timing",
+        "type": "UMLInteractionDiagram/timing",
         "name": "Power Mode Timings",
         "description": [
                 "This diagram shows the expected startup and shutdown timings."
@@ -2883,7 +2883,7 @@
         "stereotype": "HW-attribute",
         "name": "30 years spare-parts supply",
         "description": [
-                "The mechanical and electrical\/electronics parts of the MoD5\n",
+                "The mechanical and electrical/electronics parts of the MoD5\n",
                 "shall be produceable in identical or similar form\n",
                 "and quality for 30 years after production of the unit."
         ],
@@ -3310,7 +3310,7 @@
                 "\n",
                 "A hardware watchdog shall supervise the software watchdogs.\n",
                 "\n",
-                "In case of a failure in the supervised logic\/data, the system shall reboot.\n",
+                "In case of a failure in the supervised logic/data, the system shall reboot.\n",
                 "In case of a failure in the monitors, the system may reboot\n",
                 "or it shall fall back to a valid supervision mode.\n",
                 "\n",
@@ -3387,7 +3387,7 @@
                 "The current design does not address the cases:\n",
                 "- the base logic board is damaged\n",
                 "- the energy cell is damaged\n",
-                "- the movement\/steering motors are defect"
+                "- the movement/steering motors are defect"
         ],
         "x_order": 1618774086,
         "y_order": -1722530006,
@@ -3437,7 +3437,7 @@
         "stereotype": "",
         "name": "Situation Model",
         "description": [
-                "The situation model refers to the (limited\/erroneous) knowledge of the software on environment and status."
+                "The situation model refers to the (limited/erroneous) knowledge of the software on environment and status."
         ],
         "x_order": -730047271,
         "y_order": -1529639812,
@@ -3878,8 +3878,8 @@
         "stereotype": "",
         "name": "Risk: MoD5G does not drive back to terminal",
         "description": [
-                "- cause\/fault: the base logic board is damaged\n",
-                "- risk\/failure: the MoD5G cannot drive anymore"
+                "- cause/fault: the base logic board is damaged\n",
+                "- risk/failure: the MoD5G cannot drive anymore"
         ],
         "x_order": 1651164005,
         "y_order": -1494769192,
@@ -3898,10 +3898,10 @@
         "stereotype": "",
         "name": "Risk: Wrong tactic is calculated",
         "description": [
-                "- cause\/fault: Due to cosmic rays, \n",
+                "- cause/fault: Due to cosmic rays, \n",
                 "  the main logic board performs a miscalculation\n",
                 "  that goes unnoticed by control flow supervision\n",
-                "- risk\/failure: the MoD5G calculates a tactic that\n",
+                "- risk/failure: the MoD5G calculates a tactic that\n",
                 "  results in falling off a cliff"
         ],
         "x_order": -1942098437,
@@ -4100,7 +4100,7 @@
         "stereotype": "",
         "name": "Environmental Constraints",
         "description": [
-                "This package lists technical\/physical constraints imposed by the environment in which to operate."
+                "This package lists technical/physical constraints imposed by the environment in which to operate."
         ],
         "x_order": 1611711995,
         "y_order": 189151822,
@@ -4791,7 +4791,7 @@
         "main_type": 90,
         "type": "Block",
         "stereotype": "",
-        "name": "Programming\/Diagnostic Connector",
+        "name": "Programming/Diagnostic Connector",
         "description": [
                 ""
         ],
@@ -4879,7 +4879,7 @@
             "description": [
                 ""
             ],
-            "list_order": -101147343,
+            "list_order": 87350582,
             "uuid": "c4e66459-04e8-45c7-9ab9-e0fde6b2ead9"
           },
           {
@@ -4891,7 +4891,7 @@
             "description": [
                 ""
             ],
-            "list_order": 969301479,
+            "list_order": 779014021,
             "uuid": "168231f5-4ca5-4ae2-92a1-96da722d4bdd"
           }
         ]
@@ -5702,7 +5702,7 @@
         "stereotype": "usage",
         "name": "Operate Droid",
         "description": [
-                "An operator\/commander instructs the mouse droid which mission to perform.\n",
+                "An operator/commander instructs the mouse droid which mission to perform.\n",
                 "The logic of the mouse droid translates this mission into driving maneuvers and actions of the integrated tools."
         ],
         "x_order": 1173058080,
@@ -6776,7 +6776,7 @@
         "type": "Dependency",
         "name": "observe",
         "description": [
-                "Sensor data is the basis for assuming a status model. The algorithm for deriving a status model shall take into account that a sensor may be defect and\/or a measured value may indicate a defect (which again may have several causes)."
+                "Sensor data is the basis for assuming a status model. The algorithm for deriving a status model shall take into account that a sensor may be defect and/or a measured value may indicate a defect (which again may have several causes)."
         ],
         "list_order": 196608,
         "from_classifier_id": 112,
@@ -8763,7 +8763,7 @@
         "from_classifier_id": 35,
         "from_classifier_name": "Chassis",
         "to_classifier_id": 44,
-        "to_classifier_name": "Programming\/Diagnostic Connector",
+        "to_classifier_name": "Programming/Diagnostic Connector",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
@@ -8994,7 +8994,7 @@
         ],
         "list_order": 262144,
         "from_classifier_id": 44,
-        "from_classifier_name": "Programming\/Diagnostic Connector",
+        "from_classifier_name": "Programming/Diagnostic Connector",
         "to_classifier_id": 51,
         "to_classifier_name": "Base Micro Controller",
         "from_feature_id": -1,
@@ -9016,7 +9016,7 @@
         ],
         "list_order": 196608,
         "from_classifier_id": 44,
-        "from_classifier_name": "Programming\/Diagnostic Connector",
+        "from_classifier_name": "Programming/Diagnostic Connector",
         "to_classifier_id": 55,
         "to_classifier_name": "Tool-Window (2)",
         "from_feature_id": -1,

@@ -189,10 +189,6 @@ void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relation
             = layout_relationship_get_to_symbol_box_const ( current_relation );
 
         uint32_t solutions_by_I;
-        uint32_t solutions_by_ZN;
-        uint32_t solutions_by_L7;
-        uint32_t solutions_by_UC;
-
         pencil_relationship_2d_layouter_private_connect_rectangles_by_I ( this_,
                                                                           source_rect,
                                                                           dest_rect,
@@ -201,6 +197,7 @@ void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relation
                                                                           &solutions_by_I
                                                                         );
 
+        uint32_t solutions_by_ZN;
         pencil_relationship_2d_layouter_private_connect_rectangles_by_ZN ( this_,
                                                                            source_rect,
                                                                            dest_rect,
@@ -209,6 +206,7 @@ void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relation
                                                                            &solutions_by_ZN
                                                                          );
 
+        uint32_t solutions_by_L7;
         const uint32_t solutions_by_I_ZN = solutions_by_I + solutions_by_ZN;
         pencil_relationship_2d_layouter_private_connect_rectangles_by_L7 ( this_,
                                                                            source_rect,
@@ -218,6 +216,7 @@ void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relation
                                                                            &solutions_by_L7
                                                                          );
 
+        uint32_t solutions_by_UC;
         const uint32_t solutions_by_I_ZN_L7 = solutions_by_I_ZN + solutions_by_L7;
         pencil_relationship_2d_layouter_private_connect_rectangles_by_UC ( this_,
                                                                            source_rect,
@@ -318,11 +317,11 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
         }
 
         /* prefer centered over uncentered departure and arrival */
-        const double HEAVIER_THAN_EXPLICIT = 1.3;
-        debts_of_current += fabs( geometry_connector_get_source_end_x( current_solution ) - src_center_x ) * HEAVIER_THAN_EXPLICIT;
-        debts_of_current += fabs( geometry_connector_get_source_end_y( current_solution ) - src_center_y ) * HEAVIER_THAN_EXPLICIT;
-        debts_of_current += fabs( geometry_connector_get_destination_end_x( current_solution ) - dst_center_x ) * HEAVIER_THAN_EXPLICIT;
-        debts_of_current += fabs( geometry_connector_get_destination_end_y( current_solution ) - dst_center_y ) * HEAVIER_THAN_EXPLICIT;
+        const double HEAVIER_THAN_CENTERED = 1.3;
+        debts_of_current += fabs( geometry_connector_get_source_end_x( current_solution ) - src_center_x ) * HEAVIER_THAN_CENTERED;
+        debts_of_current += fabs( geometry_connector_get_source_end_y( current_solution ) - src_center_y ) * HEAVIER_THAN_CENTERED;
+        debts_of_current += fabs( geometry_connector_get_destination_end_x( current_solution ) - dst_center_x ) * HEAVIER_THAN_CENTERED;
+        debts_of_current += fabs( geometry_connector_get_destination_end_y( current_solution ) - dst_center_y ) * HEAVIER_THAN_CENTERED;
 
         /* prefer left-hand angles over right-handed */
         bool bad_pattern_h = false;
@@ -1574,12 +1573,12 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
                     }
                     if ( geometry_3dir_is_third_h( &exist_dirs ) ) /* third segment only, secound is already evaluated above */
                     {
-                        if (( exist_destination_y - min_gap < smaller_probe )&&( smaller_probe < exist_source_y + min_gap ))
+                        if (( exist_destination_y - min_gap < smaller_probe )&&( smaller_probe < exist_destination_y + min_gap ))
                         {
                             smaller_probe = exist_destination_y - min_gap;
                             hit = true;
                         }
-                        if (( exist_destination_y - min_gap < greater_probe )&&( greater_probe < exist_source_y + min_gap ))
+                        if (( exist_destination_y - min_gap < greater_probe )&&( greater_probe < exist_destination_y + min_gap ))
                         {
                             greater_probe = exist_destination_y + min_gap;
                             hit = true;
@@ -1630,18 +1629,18 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
             {
                 err = U8_ERROR_NOT_FOUND;
             }
-            else
+            else  /* smaller_probe is in range */
             {
                 *io_coordinate = smaller_probe;
             }
         }
-        else
+        else  /* greater_probe is in range */
         {
             if ( smaller_probe < geometry_rectangle_get_top( search_rect ) )
             {
                 *io_coordinate = greater_probe;
             }
-            else
+            else  /* smaller_probe and greater_probe are in range */
             {
                 if ( greater_probe - center > center - smaller_probe )
                 {
@@ -1654,7 +1653,7 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
             }
         }
     }
-    else
+    else  /* vertical line needs an x coordinate */
     {
         if ( greater_probe > geometry_rectangle_get_right( search_rect ) )
         {
@@ -1662,18 +1661,18 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
             {
                 err = U8_ERROR_NOT_FOUND;
             }
-            else
+            else  /* smaller_probe is in range */
             {
                 *io_coordinate = smaller_probe;
             }
         }
-        else
+        else  /* greater_probe is in range */
         {
             if ( smaller_probe < geometry_rectangle_get_left( search_rect ) )
             {
                 *io_coordinate = greater_probe;
             }
-            else
+            else  /* smaller_probe and greater_probe are in range */
             {
                 if ( greater_probe - center > center - smaller_probe )
                 {
