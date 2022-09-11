@@ -5030,7 +5030,7 @@
                 "a set of rules\n",
                 "how to create a product."
         ],
-        "x_order": -142879108,
+        "x_order": -1106184771,
         "y_order": -22721245,
         "list_order": 0,
         "uuid": "487af246-c0c0-4bce-a019-0a98414a1e89",
@@ -5051,8 +5051,8 @@
                 "a set of characteristics\n",
                 "of the product to be created."
         ],
-        "x_order": -1421544181,
-        "y_order": -22721245,
+        "x_order": -1106184771,
+        "y_order": -2107609779,
         "list_order": 0,
         "uuid": "a07eaa4e-11cf-4285-a187-89ff577b068a",
         "features":

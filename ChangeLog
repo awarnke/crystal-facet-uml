@@ -8,7 +8,7 @@ crystal-facet-uml (1.41.0) UNRELEASED; urgency=medium
   * relationships can be simple straight lines
   * json: forward slashes are only decoded, not encoded in json anymore
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 11 Sep 2022 10:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 11 Sep 2022 09:00:00 +0100
 
 crystal-facet-uml (1.40.0) UNRELEASED; urgency=medium
 
