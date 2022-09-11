@@ -289,6 +289,8 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
         /* evalute the debts of this solution */
         double debts_of_current = 0.0;
         const geometry_connector_t *const current_solution = &(solutions[solution_idx]);
+        const geometry_rectangle_t connector_bounds
+            = geometry_connector_get_bounding_rectangle( current_solution );
 
         /* avoid alternating solutions in case their debts are identical */
         debts_of_current += 0.1 * solution_idx;
@@ -346,9 +348,7 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
 
         /* add debts for overlap to diagram boundary */
         {
-            const geometry_rectangle_t connectors_bounds
-                = geometry_connector_get_bounding_rectangle( current_solution );
-            if ( ! geometry_rectangle_is_containing( diagram_draw_area, &connectors_bounds ) )
+            if ( ! geometry_rectangle_is_containing( diagram_draw_area, &connector_bounds ) )
             {
                 debts_of_current += 1000000.0;
             }
@@ -362,18 +362,23 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
             const layout_visible_classifier_t *const probe_classifier
                 = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, clasfy_index );
 
-            const geometry_rectangle_t *const classifier_symbol_box
-                = layout_visible_classifier_get_symbol_box_const( probe_classifier );
-            if ( geometry_connector_is_intersecting_rectangle( current_solution, classifier_symbol_box ) )
+            const geometry_rectangle_t *const classifier_space
+                = layout_visible_classifier_get_space_const( probe_classifier );
+            if ( ! geometry_rectangle_is_containing( classifier_space, &connector_bounds ) )
             {
-                debts_of_current += 100000.0;
-            }
+                const geometry_rectangle_t *const classifier_symbol_box
+                    = layout_visible_classifier_get_symbol_box_const( probe_classifier );
+                if ( geometry_connector_is_intersecting_rectangle( current_solution, classifier_symbol_box ) )
+                {
+                    debts_of_current += 100000.0;
+                }
 
-            const geometry_rectangle_t *const classifier_label_box
-                = layout_visible_classifier_get_label_box_const( probe_classifier );
-            if ( geometry_connector_is_intersecting_rectangle( current_solution, classifier_label_box ) )
-            {
-                debts_of_current += 10000.0;
+                const geometry_rectangle_t *const classifier_label_box
+                    = layout_visible_classifier_get_label_box_const( probe_classifier );
+                if ( geometry_connector_is_intersecting_rectangle( current_solution, classifier_label_box ) )
+                {
+                    debts_of_current += 10000.0;
+                }
             }
         }
 
