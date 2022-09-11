@@ -2,7 +2,7 @@ crystal-facet-uml (1.41.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * relationships prefer centered over uncentered departure and arrival
-  * relationships have a minumum gap distance towards all classifiers
+  * relationships have a minimum gap distance towards all classifiers
   * relationships keep distance to symbol boxes of features
   * relationships keep distance to neighbor relationships
   * relationships can be simple straight lines
@@ -20,7 +20,7 @@ crystal-facet-uml (1.40.0-1) UNRELEASED; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 28 Aug 2022 08:00:00 +0100
 
-   crystal-facet-uml (1.39.0-1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.39.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Json format can be opened and written back from gui
@@ -40,7 +40,7 @@ crystal-facet-uml (1.38.0-1) UNRELEASED; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 06 Jun 2022 19:00:00 +0100
 
-   crystal-facet-uml (1.37.0-1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.37.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * the screen layout stays fix while creating features and relationships

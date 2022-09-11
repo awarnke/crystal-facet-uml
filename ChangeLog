@@ -2,7 +2,7 @@ crystal-facet-uml (1.41.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * relationships prefer centered over uncentered departure and arrival
-  * relationships have a minumum gap distance towards all classifiers
+  * relationships have a minimum gap distance towards all classifiers
   * relationships keep distance to symbol boxes of features
   * relationships keep distance to neighbor relationships
   * relationships can be simple straight lines
