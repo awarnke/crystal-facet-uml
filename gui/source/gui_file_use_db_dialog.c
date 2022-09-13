@@ -97,9 +97,8 @@ void gui_file_use_db_dialog_response_callback( GtkDialog *dialog, gint response_
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
 
             gchar *filename = NULL;
-            GFile *selected_file = NULL;
 #if ( GTK_MAJOR_VERSION >= 4 )
-            selected_file = gtk_file_chooser_get_file( GTK_FILE_CHOOSER(dialog) );
+            GFile *selected_file = gtk_file_chooser_get_file( GTK_FILE_CHOOSER(dialog) );
             if ( selected_file != NULL )
             {
                 filename = g_file_get_path( selected_file );
@@ -119,10 +118,12 @@ void gui_file_use_db_dialog_response_callback( GtkDialog *dialog, gint response_
             {
                 TSLOG_WARNING( "Use DB dialog returned no file name" );
             }
+#if ( GTK_MAJOR_VERSION >= 4 )
             if ( selected_file != NULL )
             {
                 g_object_unref( selected_file );
             }
+#endif
         }
         break;
 

@@ -2,6 +2,7 @@ crystal-facet-uml (1.41.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * relationships connecting ports to inner sub-components avoid parent border
+  * relationships: fine tuning straight lines and centered-preference
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, xx Sep 2022 09:00:00 +0100
 

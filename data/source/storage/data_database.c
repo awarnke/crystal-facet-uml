@@ -434,10 +434,18 @@ void data_database_init ( data_database_t *this_ )
     (*this_).db_file_name = utf8stringbuf_init( sizeof((*this_).private_db_file_name_buffer), (*this_).private_db_file_name_buffer );
     utf8stringbuf_clear( (*this_).db_file_name );
 
-    (*this_).db_state = DATA_DATABASE_STATE_CLOSED;
-    (*this_).transaction_recursion = 0;
-
     g_mutex_init ( &((*this_).private_lock) );
+
+    u8_error_t result = data_database_private_lock( this_ );
+    {
+        (*this_).db_state = DATA_DATABASE_STATE_CLOSED;
+        (*this_).transaction_recursion = 0;
+    }
+    result |= data_database_private_unlock( this_ );
+    if( result != U8_ERROR_NONE )
+    {
+        assert(false);
+    }
 
     data_change_notifier_init ( &((*this_).notifier) );
     data_database_private_clear_db_listener_list( this_ );
@@ -616,7 +624,16 @@ void data_database_destroy ( data_database_t *this_ )
     }
     data_change_notifier_destroy( &((*this_).notifier) );
 
-    (*this_).transaction_recursion = 0;
+    u8_error_t result = data_database_private_lock( this_ );
+    {
+        (*this_).transaction_recursion = 0;
+    }
+    result |= data_database_private_unlock( this_ );
+    if( result != U8_ERROR_NONE )
+    {
+        assert(false);
+    }
+
     /* g_mutex_clear ( &((*this_).private_lock) ); -- must not be called because this GMutex is not on the stack */
 
     TRACE_END();
