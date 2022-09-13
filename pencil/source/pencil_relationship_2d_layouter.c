@@ -311,19 +311,23 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
         {
             debts_of_current += HEAVIER_THAN_DETOUR * ( object_dist - destination_length );
         }
-        const bool no_source_or_dest = ( source_length < 0.000001 )||( destination_length < 0.000001 );
+        const bool no_source_or_no_dest = ( source_length < 0.000001 )||( destination_length < 0.000001 );
         const double main_length = geometry_connector_get_main_length( current_solution );
-        if (( main_length > 0.000001 )&&( main_length < object_dist )&&( no_source_or_dest ))
+        if (( main_length > 0.000001 )&&( main_length < object_dist )&&( no_source_or_no_dest ))
         {
             debts_of_current += HEAVIER_THAN_DETOUR * ( object_dist - main_length );
         }
 
         /* prefer centered over uncentered departure and arrival */
-        const double HEAVIER_THAN_CENTERED = 1.3;
-        debts_of_current += fabs( geometry_connector_get_source_end_x( current_solution ) - src_center_x ) * HEAVIER_THAN_CENTERED;
-        debts_of_current += fabs( geometry_connector_get_source_end_y( current_solution ) - src_center_y ) * HEAVIER_THAN_CENTERED;
-        debts_of_current += fabs( geometry_connector_get_destination_end_x( current_solution ) - dst_center_x ) * HEAVIER_THAN_CENTERED;
-        debts_of_current += fabs( geometry_connector_get_destination_end_y( current_solution ) - dst_center_y ) * HEAVIER_THAN_CENTERED;
+        const double HEAVIER_THAN_CENTERED = 2.0;
+        const double delta_source
+            = fmin( fabs( geometry_connector_get_source_end_x( current_solution ) - src_center_x ),
+            fabs( geometry_connector_get_source_end_y( current_solution ) - src_center_y ) );
+        debts_of_current += delta_source * HEAVIER_THAN_CENTERED;
+        const double delta_destination
+            = fmin( fabs( geometry_connector_get_destination_end_x( current_solution ) - dst_center_x ),
+            fabs( geometry_connector_get_destination_end_y( current_solution ) - dst_center_y ) );
+        debts_of_current += delta_destination * HEAVIER_THAN_CENTERED;
 
         /* prefer left-hand angles over right-handed */
         bool bad_pattern_h = false;
