@@ -485,7 +485,6 @@ void pencil_relationship_2d_layouter_private_connect_rectangles_by_I ( pencil_re
     const double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
 
     const double object_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
-    const double good_dist = 2.0 * object_dist;  /* duplicate distance: once for each side of the line */
     const double gap_dist = 0.499 * object_dist;  /* half the object distance allows a line to pass between two objects */
 
     /* if applicable, add a solution where line is vertical */
@@ -494,7 +493,7 @@ void pencil_relationship_2d_layouter_private_connect_rectangles_by_I ( pencil_re
         const double min_left = fmax( src_left, dst_left );
         const double max_right = fmin( src_right, dst_right );
 
-        if ( dst_bottom + good_dist < src_top )
+        if ( dst_bottom + object_dist < src_top )
         {
             /* define defaults */
             double x_value = ( min_left + max_right ) / 2.0;
@@ -515,7 +514,7 @@ void pencil_relationship_2d_layouter_private_connect_rectangles_by_I ( pencil_re
                                                );
             solutions_count ++;
         }
-        else if ( dst_top - good_dist > src_bottom )
+        else if ( dst_top - object_dist > src_bottom )
         {
             /* define defaults */
             double x_value = ( min_left + max_right ) / 2.0;
@@ -538,7 +537,7 @@ void pencil_relationship_2d_layouter_private_connect_rectangles_by_I ( pencil_re
         }
         else
         {
-            if ( fabs( src_top - dst_top ) > good_dist )
+            if ( fabs( src_top - dst_top ) > object_dist )
             {
                 /* define defaults */
                 double x_value = ( min_left + max_right ) / 2.0;
@@ -560,7 +559,7 @@ void pencil_relationship_2d_layouter_private_connect_rectangles_by_I ( pencil_re
                 solutions_count ++;
             }
 
-            if ( fabs( src_bottom - dst_bottom ) > good_dist )
+            if ( fabs( src_bottom - dst_bottom ) > object_dist )
             {
                 /* define defaults */
                 double x_value = ( min_left + max_right ) / 2.0;
@@ -590,7 +589,7 @@ void pencil_relationship_2d_layouter_private_connect_rectangles_by_I ( pencil_re
         const double min_top = fmax( src_top, dst_top );
         const double max_bottom = fmin( src_bottom, dst_bottom );
 
-        if ( dst_right + good_dist < src_left )
+        if ( dst_right + object_dist < src_left )
         {
             /* define defaults */
             double y_value = ( min_top + max_bottom ) / 2.0;
@@ -611,7 +610,7 @@ void pencil_relationship_2d_layouter_private_connect_rectangles_by_I ( pencil_re
                                                  );
             solutions_count ++;
         }
-        else if ( dst_left - good_dist > src_right )
+        else if ( dst_left - object_dist > src_right )
         {
             /* define defaults */
             double y_value = ( min_top + max_bottom ) / 2.0;
@@ -634,7 +633,7 @@ void pencil_relationship_2d_layouter_private_connect_rectangles_by_I ( pencil_re
         }
         else
         {
-            if ( fabs( src_left - dst_left ) > good_dist )
+            if ( fabs( src_left - dst_left ) > object_dist )
             {
                 /* define defaults */
                 double y_value = ( min_top + max_bottom ) / 2.0;
@@ -656,7 +655,7 @@ void pencil_relationship_2d_layouter_private_connect_rectangles_by_I ( pencil_re
                 solutions_count ++;
             }
 
-            if ( fabs( src_right - dst_right ) > good_dist )
+            if ( fabs( src_right - dst_right ) > object_dist )
             {
                 /* define defaults */
                 double y_value = ( min_top + max_bottom ) / 2.0;
