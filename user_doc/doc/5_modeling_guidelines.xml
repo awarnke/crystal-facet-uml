@@ -79,6 +79,27 @@
                 If you are not sure if you really want to delete elements, 1) copy them to an attic-diagram and then 2) delete them from the original diagram.
             </para>
         </section>
+        <section>
+            <title>Layout</title>
+            <para>
+                To change the positions of classifiers anf features, drag these to other locations.
+                Relationships can only be dragged in sequence and timing diagrams.
+                Relationships in other diagrams are auto-layouted.
+                crystal-facet-uml prevents to cross/overlay these two types of relationships:
+                <mediaobject>
+                    <imageobject><imagedata fileref="5_rel_L7.pdf" width="0.4cm"/></imageobject>
+                    <imageobject><imagedata fileref="5_rel_L7.png"/></imageobject>
+                </mediaobject>
+                <mediaobject>
+                    <imageobject><imagedata fileref="5_rel_JF.pdf" width="0.4cm"/></imageobject>
+                    <imageobject><imagedata fileref="5_rel_JF.png"/></imageobject>
+                </mediaobject>
+                If the layouting result is still inappropriate, move classifiers and features to other positions.
+            </para>
+        </section>
+
+
+
     </section>
     <section>
         <title>General Hints on Architecture Documentation</title>

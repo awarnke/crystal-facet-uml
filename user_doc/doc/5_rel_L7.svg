@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="24"
+   height="24"
+   id="svg2"
+   version="1.1"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="5_rel_L7.svg"
+   inkscape:export-filename="/home/berrydisk/andi/Code/crystal-facet-uml/user_doc/doc/5_rel_L7.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <defs
+     id="defs4">
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect993"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect989"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="21.306856"
+     inkscape:cx="15.611819"
+     inkscape:cy="11.009346"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="3840"
+     inkscape:window-height="2096"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:document-rotation="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 23.188964,1.3783835 c -3.749476,0.02011 -7.499872,0.040224 -9.368886,1.8216202 -1.869013,1.7813959 -1.855503,5.3229214 -1.812941,8.8186303 0.04256,3.495708 0.114156,6.945443 -1.678911,8.661453 -1.7930677,1.71601 -5.4516376,1.699174 -9.1112854,1.682333"
+       id="path987"
+       inkscape:path-effect="#path-effect989"
+       inkscape:original-d="m 23.188964,1.3783835 c -3.749471,0.021115 -7.499867,0.04123 -11.251413,0.060345 0.01451,3.5426673 0.02802,7.0841928 0.04053,10.6247893 0.0726,3.450804 0.144191,6.900539 0.214789,10.349412 -3.6577163,-0.01584 -7.3162862,-0.03267 -10.9759294,-0.05051"
+       sodipodi:nodetypes="ccscc" />
+  </g>
+</svg>
