@@ -259,8 +259,10 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
         = universal_array_index_sorter_get_array_index ( &((*this_).sorted_relationships), (*this_).sorted_rel_index );
     const layout_relationship_t *const current_relation
         = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+#if 0
     const data_relationship_t *const current_relation_data
         = layout_relationship_get_data_const ( current_relation );
+#endif
     const geometry_rectangle_t *const source_rect
         = layout_relationship_get_from_symbol_box_const ( current_relation );
     const geometry_rectangle_t *const dest_rect
@@ -410,6 +412,7 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
                 = universal_array_index_sorter_get_array_index( &((*this_).sorted_relationships), probe_sort_index );
             const layout_relationship_t *const probe_relationship
                 = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, probe_index );
+#if 0
             const data_relationship_t *const probe_relation_data
                 = layout_relationship_get_data_const ( probe_relationship );
             const bool same_type = ( data_relationship_get_main_type( probe_relation_data )
@@ -421,6 +424,7 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
             const bool one_same_end = ( same_from != same_to );
             /* if probe and current have same type and (same source classifier xor same destination classifier), overlaps are ok */
             if ( ! ( same_type && one_same_end ) )
+#endif
             {
                 const geometry_connector_t *const probe_shape
                     = layout_relationship_get_shape_const( probe_relationship );
