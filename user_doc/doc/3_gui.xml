@@ -46,9 +46,9 @@
                     </listitem>
                     <listitem>
                         <para>
-                            If the file name ends with extension <command>.cfu1</command>, the binary sqlite3-based database
-                            format is stored.
-                            Otherwise an json-based format is used to store your data in a git-friendly format.
+                            If the file name ends with extension <command>.cfu1</command>, the binary sqlite3-based database format is stored.
+                            This is compatible to older versions of crystal-facet-uml (&lt;1.35.0).
+                            Otherwise a json-based format is used to store your data in a git-friendly format.
                         </para>
                     </listitem>
                 </itemizedlist>

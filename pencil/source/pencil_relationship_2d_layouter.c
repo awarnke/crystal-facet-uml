@@ -1387,22 +1387,20 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
 
     /* start two probes at the center and move these to the boundaries when discovering overlaps */
     const double center = *io_coordinate;
-    double smaller_probe;
-    double greater_probe;
     if ( horizontal_line )
     {
         assert( center > geometry_rectangle_get_top( search_rect ) - 0.000000001 );
         assert( center < geometry_rectangle_get_bottom( search_rect ) + 0.000000001 );
-        smaller_probe = center;
-        greater_probe = center;
     }
     else
     {
         assert( center > geometry_rectangle_get_left( search_rect ) - 0.000000001 );
         assert( center < geometry_rectangle_get_right( search_rect ) + 0.000000001 );
-        smaller_probe = center;
-        greater_probe = center;
     }
+    double good_smaller = center;  /* a coordinate top/left of major obstacles */
+    double good_greater = center;  /* a coordinate bottom/right of major obstacles */
+    //double best_smaller = center;  /* a coordinate top/left of any obstacle */
+    //double best_greater = center;  /* a coordinate bottom/right of any obstacle */
 
     /* the rectangle where each classifier within is checked for intersections: */
     geometry_rectangle_t consider_rect;
@@ -1437,57 +1435,42 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
                 = layout_visible_classifier_get_symbol_box_const( the_classifier );
             const geometry_rectangle_t *const classifier_space
                 = layout_visible_classifier_get_space_const( the_classifier );
+            /* Note: This algorithm ignores if the current classifier is parent container of source or destination */
             if ( geometry_rectangle_is_intersecting( &consider_rect, classifier_symbol_box ) )
             {
-                if ( horizontal_line )
+                const geometry_rectangle_t good_smaller_rect
+                    = { .left = horizontal_line ? geometry_rectangle_get_left( search_rect ) : good_smaller,
+                        .top = horizontal_line ? good_smaller : geometry_rectangle_get_top( search_rect ),
+                        .width = horizontal_line ? geometry_rectangle_get_width( search_rect ) : 0.0,
+                        .height = horizontal_line ? 0.0 : geometry_rectangle_get_height( search_rect )
+                    };
+                const geometry_rectangle_t good_greater_rect
+                    = { .left = horizontal_line ? geometry_rectangle_get_left( search_rect ) : good_greater,
+                        .top = horizontal_line ? good_greater : geometry_rectangle_get_top( search_rect ),
+                        .width = horizontal_line ? geometry_rectangle_get_width( search_rect ) : 0.0,
+                        .height = horizontal_line ? 0.0 : geometry_rectangle_get_height( search_rect )
+                    };
+                const double clas_symbol_box_smaller
+                    = horizontal_line /* do vertical search if line is horizontal */
+                    ? ( geometry_rectangle_get_top(classifier_symbol_box) - min_gap )
+                    : ( geometry_rectangle_get_left(classifier_symbol_box) - min_gap );
+                const double clas_symbol_box_greater
+                    = horizontal_line /* do vertical search if line is horizontal */
+                    ? ( geometry_rectangle_get_bottom(classifier_symbol_box) + min_gap )
+                    : ( geometry_rectangle_get_right(classifier_symbol_box) + min_gap );
+                if ( ( ! geometry_rectangle_is_containing( classifier_space, &good_smaller_rect ) )
+                    && ( clas_symbol_box_smaller < good_smaller )
+                    && ( clas_symbol_box_greater > good_smaller ) )
                 {
-                    const double line_left = geometry_rectangle_get_left( search_rect );
-                    const double line_right = geometry_rectangle_get_right( search_rect );
-                    const bool is_smaller_contained
-                        = geometry_rectangle_contains( classifier_space, line_left, smaller_probe )
-                        && geometry_rectangle_contains( classifier_space, line_right, smaller_probe );
-                    if ( ( ! is_smaller_contained )
-                        && ( geometry_rectangle_get_top(classifier_symbol_box) - min_gap < smaller_probe )
-                        && ( geometry_rectangle_get_bottom(classifier_symbol_box) + min_gap > smaller_probe ) )
-                    {
-                        smaller_probe = geometry_rectangle_get_top(classifier_symbol_box) - min_gap;
-                        hit = true;
-                    }
-                    const bool is_greater_contained
-                        = geometry_rectangle_contains( classifier_space, line_left, greater_probe )
-                        && geometry_rectangle_contains( classifier_space, line_right, greater_probe );
-                    if ( ( ! is_greater_contained )
-                        && ( geometry_rectangle_get_top(classifier_symbol_box) - min_gap < greater_probe )
-                        && ( geometry_rectangle_get_bottom(classifier_symbol_box) + min_gap > greater_probe ) )
-                    {
-                        greater_probe = geometry_rectangle_get_bottom(classifier_symbol_box) + min_gap;
-                        hit = true;
-                    }
+                    good_smaller = clas_symbol_box_smaller;
+                    hit = true;
                 }
-                else
+                if ( ( ! geometry_rectangle_is_containing( classifier_space, &good_greater_rect ) )
+                    && ( clas_symbol_box_smaller < good_greater )
+                    && ( clas_symbol_box_greater > good_greater ) )
                 {
-                    const double line_top = geometry_rectangle_get_top( search_rect );
-                    const double line_bottom = geometry_rectangle_get_bottom( search_rect );
-                    const bool is_smaller_contained
-                        = geometry_rectangle_contains( classifier_space, smaller_probe, line_top )
-                        && geometry_rectangle_contains( classifier_space, smaller_probe, line_bottom );
-                    if ( ( ! is_smaller_contained )
-                        && ( geometry_rectangle_get_left(classifier_symbol_box) - min_gap < smaller_probe )
-                        && ( geometry_rectangle_get_right(classifier_symbol_box) + min_gap > smaller_probe ) )
-                    {
-                        smaller_probe = geometry_rectangle_get_left(classifier_symbol_box) - min_gap;
-                        hit = true;
-                    }
-                    const bool is_greater_contained
-                        = geometry_rectangle_contains( classifier_space, greater_probe, line_top )
-                        && geometry_rectangle_contains( classifier_space, greater_probe, line_bottom );
-                    if ( ( ! is_greater_contained )
-                        && ( geometry_rectangle_get_left(classifier_symbol_box) - min_gap < greater_probe )
-                        && ( geometry_rectangle_get_right(classifier_symbol_box) + min_gap > greater_probe ) )
-                    {
-                        greater_probe = geometry_rectangle_get_right(classifier_symbol_box) + min_gap;
-                        hit = true;
-                    }
+                    good_greater = clas_symbol_box_greater;
+                    hit = true;
                 }
             }
 
@@ -1503,14 +1486,14 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
                     = horizontal_line /* do vertical search if line is horizontal */
                     ? ( geometry_rectangle_get_bottom(classifier_label_box) + min_gap )
                     : ( geometry_rectangle_get_right(classifier_label_box) + min_gap );
-                if ( ( clas_label_smaller < smaller_probe ) && ( clas_label_greater > smaller_probe ) )
+                if ( ( clas_label_smaller < good_smaller ) && ( clas_label_greater > good_smaller ) )
                 {
-                    smaller_probe = clas_label_smaller;
+                    good_smaller = clas_label_smaller;
                     hit = true;
                 }
-                if ( ( clas_label_smaller < greater_probe ) && ( clas_label_greater > greater_probe ) )
+                if ( ( clas_label_smaller < good_greater ) && ( clas_label_greater > good_greater ) )
                 {
-                    greater_probe = clas_label_greater;
+                    good_greater = clas_label_greater;
                     hit = true;
                 }
             }
@@ -1535,14 +1518,14 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
                     = horizontal_line /* do vertical search if line is horizontal */
                     ? ( geometry_rectangle_get_bottom(feature_symbol_box) + min_gap )
                     : ( geometry_rectangle_get_right(feature_symbol_box) + min_gap );
-                if ( ( feature_smaller < smaller_probe ) && ( feature_greater > smaller_probe ) )
+                if ( ( feature_smaller < good_smaller ) && ( feature_greater > good_smaller ) )
                 {
-                    smaller_probe = feature_smaller;
+                    good_smaller = feature_smaller;
                     hit = true;
                 }
-                if ( ( feature_smaller < greater_probe ) && ( feature_greater > greater_probe ) )
+                if ( ( feature_smaller < good_greater ) && ( feature_greater > good_greater ) )
                 {
-                    greater_probe = feature_greater;
+                    good_greater = feature_greater;
                     hit = true;
                 }
             }
@@ -1568,27 +1551,27 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
                     const double exist_destination_y = geometry_connector_get_main_line_destination_y ( exist_shape );
                     if ( geometry_3dir_is_first_h( &exist_dirs ) || geometry_3dir_is_second_h( &exist_dirs ) )
                     {
-                        if (( exist_source_y - min_gap < smaller_probe )&&( smaller_probe < exist_source_y + min_gap ))
+                        if (( exist_source_y - min_gap < good_smaller )&&( good_smaller < exist_source_y + min_gap ))
                         {
-                            smaller_probe = exist_source_y - min_gap;
+                            good_smaller = exist_source_y - min_gap;
                             hit = true;
                         }
-                        if (( exist_source_y - min_gap < greater_probe )&&( greater_probe < exist_source_y + min_gap ))
+                        if (( exist_source_y - min_gap < good_greater )&&( good_greater < exist_source_y + min_gap ))
                         {
-                            greater_probe = exist_source_y + min_gap;
+                            good_greater = exist_source_y + min_gap;
                             hit = true;
                         }
                     }
                     if ( geometry_3dir_is_third_h( &exist_dirs ) ) /* third segment only, secound is already evaluated above */
                     {
-                        if (( exist_destination_y - min_gap < smaller_probe )&&( smaller_probe < exist_destination_y + min_gap ))
+                        if (( exist_destination_y - min_gap < good_smaller )&&( good_smaller < exist_destination_y + min_gap ))
                         {
-                            smaller_probe = exist_destination_y - min_gap;
+                            good_smaller = exist_destination_y - min_gap;
                             hit = true;
                         }
-                        if (( exist_destination_y - min_gap < greater_probe )&&( greater_probe < exist_destination_y + min_gap ))
+                        if (( exist_destination_y - min_gap < good_greater )&&( good_greater < exist_destination_y + min_gap ))
                         {
-                            greater_probe = exist_destination_y + min_gap;
+                            good_greater = exist_destination_y + min_gap;
                             hit = true;
                         }
                     }
@@ -1599,27 +1582,27 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
                     const double exist_destination_x = geometry_connector_get_main_line_destination_x ( exist_shape );
                     if ( geometry_3dir_is_first_v( &exist_dirs ) || geometry_3dir_is_second_v( &exist_dirs ) )
                     {
-                        if (( exist_source_x - min_gap < smaller_probe )&&( smaller_probe < exist_source_x + min_gap ))
+                        if (( exist_source_x - min_gap < good_smaller )&&( good_smaller < exist_source_x + min_gap ))
                         {
-                            smaller_probe = exist_source_x - min_gap;
+                            good_smaller = exist_source_x - min_gap;
                             hit = true;
                         }
-                        if (( exist_source_x - min_gap < greater_probe )&&( greater_probe < exist_source_x + min_gap ))
+                        if (( exist_source_x - min_gap < good_greater )&&( good_greater < exist_source_x + min_gap ))
                         {
-                            greater_probe = exist_source_x + min_gap;
+                            good_greater = exist_source_x + min_gap;
                             hit = true;
                         }
                     }
                     if ( geometry_3dir_is_third_v( &exist_dirs ) ) /* third segment only, secound is already evaluated above */
                     {
-                        if (( exist_destination_x - min_gap < smaller_probe )&&( smaller_probe < exist_destination_x + min_gap ))
+                        if (( exist_destination_x - min_gap < good_smaller )&&( good_smaller < exist_destination_x + min_gap ))
                         {
-                            smaller_probe = exist_destination_x - min_gap;
+                            good_smaller = exist_destination_x - min_gap;
                             hit = true;
                         }
-                        if (( exist_destination_x - min_gap < greater_probe )&&( greater_probe < exist_destination_x + min_gap ))
+                        if (( exist_destination_x - min_gap < good_greater )&&( good_greater < exist_destination_x + min_gap ))
                         {
-                            greater_probe = exist_destination_x + min_gap;
+                            good_greater = exist_destination_x + min_gap;
                             hit = true;
                         }
                     }
@@ -1631,64 +1614,64 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
     /* check success */
     if ( horizontal_line )
     {
-        if ( greater_probe > geometry_rectangle_get_bottom( search_rect ) )
+        if ( good_greater > geometry_rectangle_get_bottom( search_rect ) )
         {
-            if ( smaller_probe < geometry_rectangle_get_top( search_rect ) )
+            if ( good_smaller < geometry_rectangle_get_top( search_rect ) )
             {
                 err = U8_ERROR_NOT_FOUND;
             }
-            else  /* smaller_probe is in range */
+            else  /* good_smaller is in range */
             {
-                *io_coordinate = smaller_probe;
+                *io_coordinate = good_smaller;
             }
         }
-        else  /* greater_probe is in range */
+        else  /* good_greater is in range */
         {
-            if ( smaller_probe < geometry_rectangle_get_top( search_rect ) )
+            if ( good_smaller < geometry_rectangle_get_top( search_rect ) )
             {
-                *io_coordinate = greater_probe;
+                *io_coordinate = good_greater;
             }
-            else  /* smaller_probe and greater_probe are in range */
+            else  /* good_smaller and good_greater are in range */
             {
-                if ( greater_probe - center > center - smaller_probe )
+                if ( good_greater - center > center - good_smaller )
                 {
-                    *io_coordinate = smaller_probe;
+                    *io_coordinate = good_smaller;
                 }
                 else
                 {
-                    *io_coordinate = greater_probe;
+                    *io_coordinate = good_greater;
                 }
             }
         }
     }
     else  /* vertical line needs an x coordinate */
     {
-        if ( greater_probe > geometry_rectangle_get_right( search_rect ) )
+        if ( good_greater > geometry_rectangle_get_right( search_rect ) )
         {
-            if ( smaller_probe < geometry_rectangle_get_left( search_rect ) )
+            if ( good_smaller < geometry_rectangle_get_left( search_rect ) )
             {
                 err = U8_ERROR_NOT_FOUND;
             }
-            else  /* smaller_probe is in range */
+            else  /* good_smaller is in range */
             {
-                *io_coordinate = smaller_probe;
+                *io_coordinate = good_smaller;
             }
         }
-        else  /* greater_probe is in range */
+        else  /* good_greater is in range */
         {
-            if ( smaller_probe < geometry_rectangle_get_left( search_rect ) )
+            if ( good_smaller < geometry_rectangle_get_left( search_rect ) )
             {
-                *io_coordinate = greater_probe;
+                *io_coordinate = good_greater;
             }
-            else  /* smaller_probe and greater_probe are in range */
+            else  /* good_smaller and good_greater are in range */
             {
-                if ( greater_probe - center > center - smaller_probe )
+                if ( good_greater - center > center - good_smaller )
                 {
-                    *io_coordinate = smaller_probe;
+                    *io_coordinate = good_smaller;
                 }
                 else
                 {
-                    *io_coordinate = greater_probe;
+                    *io_coordinate = good_greater;
                 }
             }
         }
