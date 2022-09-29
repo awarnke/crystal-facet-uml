@@ -1,4 +1,4 @@
-crystal-facet-uml (1.41.1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.42.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * relationships connecting ports to inner sub-components avoid parent border

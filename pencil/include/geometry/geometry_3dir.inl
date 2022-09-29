@@ -11,6 +11,21 @@ static inline bool geometry_3dir_equals ( const geometry_3dir_t *this_, const ge
     return result;
 }
 
+static inline geometry_direction_t geometry_3dir_get_first ( const geometry_3dir_t *this_ )
+{
+    return (*this_).first;
+}
+
+static inline geometry_direction_t geometry_3dir_get_second ( const geometry_3dir_t *this_ )
+{
+    return (*this_).second;
+}
+
+static inline geometry_direction_t geometry_3dir_get_third ( const geometry_3dir_t *this_ )
+{
+    return (*this_).third;
+}
+
 static inline bool geometry_3dir_is_first_h ( const geometry_3dir_t *this_ )
 {
     return ( (*this_).first == GEOMETRY_DIRECTION_LEFT )||( (*this_).first == GEOMETRY_DIRECTION_RIGHT );

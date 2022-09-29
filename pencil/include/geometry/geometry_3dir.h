@@ -32,6 +32,30 @@ typedef struct geometry_3dir_struct geometry_3dir_t;
 static inline bool geometry_3dir_equals ( const geometry_3dir_t *this_, const geometry_3dir_t *that );
 
 /*!
+ *  \brief gets first direction
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the first direction
+ */
+static inline geometry_direction_t geometry_3dir_get_first ( const geometry_3dir_t *this_ );
+
+/*!
+ *  \brief gets second direction
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the second direction
+ */
+static inline geometry_direction_t geometry_3dir_get_second ( const geometry_3dir_t *this_ );
+
+/*!
+ *  \brief gets third direction
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the third direction
+ */
+static inline geometry_direction_t geometry_3dir_get_third ( const geometry_3dir_t *this_ );
+
+/*!
  *  \brief checks if first direction is horizontal
  *
  *  \param this_ pointer to own object attributes
