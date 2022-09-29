@@ -2,6 +2,7 @@
 
 #include "geometry_connector_test.h"
 #include "geometry/geometry_connector.h"
+#include "geometry/geometry_connector_segment.h"
 #include "geometry/geometry_rectangle.h"
 #include "test_assert.h"
 
@@ -9,6 +10,7 @@ static void set_up(void);
 static void tear_down(void);
 static void test_base_methods(void);
 static void test_bounding_rectangle(void);
+static void test_segment_bounds(void);
 static void test_intersecting_rectangle_simple(void);
 static void test_intersecting_rectangle_corner(void);
 static void test_connector_intersects(void);
@@ -21,6 +23,7 @@ test_suite_t geometry_connector_test_get_suite(void)
     test_suite_init( &result, "geometry_connector_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "test_base_methods", &test_base_methods );
     test_suite_add_test_case( &result, "test_bounding_rectangle", &test_bounding_rectangle );
+    test_suite_add_test_case( &result, "test_segment_bounds", &test_segment_bounds );
     test_suite_add_test_case( &result, "test_intersecting_rectangle_simple", &test_intersecting_rectangle_simple );
     test_suite_add_test_case( &result, "test_intersecting_rectangle_corner", &test_intersecting_rectangle_corner );
     test_suite_add_test_case( &result, "test_connector_intersects", &test_connector_intersects );
@@ -108,6 +111,43 @@ static void test_bounding_rectangle(void)
                                        );
     bounds = geometry_connector_get_bounding_rectangle ( &my_connector );
     TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_area( &bounds ) );
+    geometry_rectangle_destroy ( &bounds );
+
+    geometry_connector_destroy ( &my_connector );
+}
+
+static void test_segment_bounds(void)
+{
+    geometry_connector_t my_connector;
+    geometry_rectangle_t bounds;
+
+    /* init 3 segments line, L-Form */
+    geometry_connector_init_vertical ( &my_connector,
+                                       10.0 /*source_end_x*/,
+                                       10.0 /*source_end_y*/,
+                                       30.0 /*destination_end_x*/,
+                                       30.0 /*destination_end_y*/,
+                                       10.0 /*main_line_x*/
+                                     );
+    bounds = geometry_connector_get_segment_bounds ( &my_connector, GEOMETRY_CONNECTOR_SEGMENT_SOURCE );
+    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_left( &bounds ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_top( &bounds ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_width( &bounds ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_height( &bounds ) );
+    geometry_rectangle_destroy ( &bounds );
+
+    bounds = geometry_connector_get_segment_bounds ( &my_connector, GEOMETRY_CONNECTOR_SEGMENT_MAIN );
+    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_left( &bounds ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_top( &bounds ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_width( &bounds ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 20.0, geometry_rectangle_get_height( &bounds ) );
+    geometry_rectangle_destroy ( &bounds );
+
+    bounds = geometry_connector_get_segment_bounds ( &my_connector, GEOMETRY_CONNECTOR_SEGMENT_DESTINATION );
+    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_left( &bounds ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 30.0, geometry_rectangle_get_top( &bounds ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 20.0, geometry_rectangle_get_width( &bounds ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_height( &bounds ) );
     geometry_rectangle_destroy ( &bounds );
 
     geometry_connector_destroy ( &my_connector );
