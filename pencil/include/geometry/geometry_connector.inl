@@ -409,6 +409,53 @@ static inline geometry_rectangle_t geometry_connector_get_bounding_rectangle ( c
     return result;
 }
 
+static inline geometry_rectangle_t geometry_connector_get_segment_bounds ( const geometry_connector_t *this_,
+                                                                           geometry_connector_segment_t segment_id )
+{
+    geometry_rectangle_t result;
+
+    switch ( segment_id )
+    {
+        case GEOMETRY_CONNECTOR_SEGMENT_SOURCE:
+        {
+            const double left = fmin ( (*this_).main_line_source_x, (*this_).source_end_x );
+            const double right = fmax ( (*this_).main_line_source_x, (*this_).source_end_x );
+            const double top = fmin ( (*this_).main_line_source_y, (*this_).source_end_y );
+            const double bottom = fmax ( (*this_).main_line_source_y, (*this_).source_end_y );
+            geometry_rectangle_init( &result, left, top, right - left, bottom - top );
+        }
+        break;
+
+        case GEOMETRY_CONNECTOR_SEGMENT_MAIN:
+        {
+            const double left = fmin ( (*this_).main_line_source_x, (*this_).main_line_destination_x );
+            const double right = fmax ( (*this_).main_line_source_x, (*this_).main_line_destination_x );
+            const double top = fmin ( (*this_).main_line_source_y, (*this_).main_line_destination_y );
+            const double bottom = fmax ( (*this_).main_line_source_y, (*this_).main_line_destination_y );
+            geometry_rectangle_init( &result, left, top, right - left, bottom - top );
+        }
+        break;
+
+        case GEOMETRY_CONNECTOR_SEGMENT_DESTINATION:
+        {
+            const double left = fmin ( (*this_).destination_end_x, (*this_).main_line_destination_x );
+            const double right = fmax ( (*this_).destination_end_x, (*this_).main_line_destination_x );
+            const double top = fmin ( (*this_).destination_end_y, (*this_).main_line_destination_y );
+            const double bottom = fmax ( (*this_).destination_end_y, (*this_).main_line_destination_y );
+            geometry_rectangle_init( &result, left, top, right - left, bottom - top );
+        }
+        break;
+
+        default:
+        {
+            assert( false );
+            geometry_rectangle_init_empty( &result );
+        }
+    }
+
+    return result;
+}
+
 static inline geometry_3dir_t geometry_connector_get_directions ( const geometry_connector_t *this_ )
 {
     const double very_small = 0.000000001;

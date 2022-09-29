@@ -15,6 +15,7 @@
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_point.h"
 #include "geometry/geometry_3dir.h"
+#include "geometry/geometry_connector_segment.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -275,6 +276,16 @@ static inline uint32_t geometry_connector_count_connector_intersects ( const geo
  *  \param this_ pointer to own object attributes
  */
 static inline geometry_rectangle_t geometry_connector_get_bounding_rectangle ( const geometry_connector_t *this_ );
+
+/*!
+ *  \brief gets the bounding rectangle of geometry_connector_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param segment_id segment for which to determine the bounding rectangle
+ */
+static inline geometry_rectangle_t geometry_connector_get_segment_bounds ( const geometry_connector_t *this_,
+                                                                           geometry_connector_segment_t segment_id
+                                                                         );
 
 /*!
  *  \brief gets the directions-pattern that is described by the connector

@@ -1399,8 +1399,8 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
     }
     double good_smaller = center;  /* a coordinate top/left of major obstacles */
     double good_greater = center;  /* a coordinate bottom/right of major obstacles */
-    //double best_smaller = center;  /* a coordinate top/left of any obstacle */
-    //double best_greater = center;  /* a coordinate bottom/right of any obstacle */
+    double best_smaller = center;  /* a coordinate top/left of any obstacle */
+    double best_greater = center;  /* a coordinate bottom/right of any obstacle */
 
     /* the rectangle where each classifier within is checked for intersections: */
     geometry_rectangle_t consider_rect;
@@ -1438,18 +1438,6 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
             /* Note: This algorithm ignores if the current classifier is parent container of source or destination */
             if ( geometry_rectangle_is_intersecting( &consider_rect, classifier_symbol_box ) )
             {
-                const geometry_rectangle_t good_smaller_rect
-                    = { .left = horizontal_line ? geometry_rectangle_get_left( search_rect ) : good_smaller,
-                        .top = horizontal_line ? good_smaller : geometry_rectangle_get_top( search_rect ),
-                        .width = horizontal_line ? geometry_rectangle_get_width( search_rect ) : 0.0,
-                        .height = horizontal_line ? 0.0 : geometry_rectangle_get_height( search_rect )
-                    };
-                const geometry_rectangle_t good_greater_rect
-                    = { .left = horizontal_line ? geometry_rectangle_get_left( search_rect ) : good_greater,
-                        .top = horizontal_line ? good_greater : geometry_rectangle_get_top( search_rect ),
-                        .width = horizontal_line ? geometry_rectangle_get_width( search_rect ) : 0.0,
-                        .height = horizontal_line ? 0.0 : geometry_rectangle_get_height( search_rect )
-                    };
                 const double clas_symbol_box_smaller
                     = horizontal_line /* do vertical search if line is horizontal */
                     ? ( geometry_rectangle_get_top(classifier_symbol_box) - min_gap )
@@ -1458,18 +1446,53 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
                     = horizontal_line /* do vertical search if line is horizontal */
                     ? ( geometry_rectangle_get_bottom(classifier_symbol_box) + min_gap )
                     : ( geometry_rectangle_get_right(classifier_symbol_box) + min_gap );
+
+                const geometry_rectangle_t good_smaller_rect
+                    = { .left = horizontal_line ? geometry_rectangle_get_left( search_rect ) : good_smaller,
+                        .top = horizontal_line ? good_smaller : geometry_rectangle_get_top( search_rect ),
+                        .width = horizontal_line ? geometry_rectangle_get_width( search_rect ) : 0.0,
+                        .height = horizontal_line ? 0.0 : geometry_rectangle_get_height( search_rect )
+                    };
                 if ( ( ! geometry_rectangle_is_containing( classifier_space, &good_smaller_rect ) )
-                    && ( clas_symbol_box_smaller < good_smaller )
-                    && ( clas_symbol_box_greater > good_smaller ) )
+                    && ( clas_symbol_box_smaller < good_smaller ) && ( good_smaller < clas_symbol_box_greater ) )
                 {
                     good_smaller = clas_symbol_box_smaller;
                     hit = true;
                 }
+                const geometry_rectangle_t good_greater_rect
+                    = { .left = horizontal_line ? geometry_rectangle_get_left( search_rect ) : good_greater,
+                        .top = horizontal_line ? good_greater : geometry_rectangle_get_top( search_rect ),
+                        .width = horizontal_line ? geometry_rectangle_get_width( search_rect ) : 0.0,
+                        .height = horizontal_line ? 0.0 : geometry_rectangle_get_height( search_rect )
+                    };
                 if ( ( ! geometry_rectangle_is_containing( classifier_space, &good_greater_rect ) )
-                    && ( clas_symbol_box_smaller < good_greater )
-                    && ( clas_symbol_box_greater > good_greater ) )
+                    && ( clas_symbol_box_smaller < good_greater ) && ( good_greater < clas_symbol_box_greater ) )
                 {
                     good_greater = clas_symbol_box_greater;
+                    hit = true;
+                }
+                const geometry_rectangle_t best_smaller_rect
+                    = { .left = horizontal_line ? geometry_rectangle_get_left( search_rect ) : best_smaller,
+                        .top = horizontal_line ? best_smaller : geometry_rectangle_get_top( search_rect ),
+                        .width = horizontal_line ? geometry_rectangle_get_width( search_rect ) : 0.0,
+                        .height = horizontal_line ? 0.0 : geometry_rectangle_get_height( search_rect )
+                    };
+                if ( ( ! geometry_rectangle_is_containing( classifier_space, &best_smaller_rect ) )
+                    && ( clas_symbol_box_smaller < best_smaller ) && ( best_smaller < clas_symbol_box_greater ) )
+                {
+                    best_smaller = clas_symbol_box_smaller;
+                    hit = true;
+                }
+                const geometry_rectangle_t best_greater_rect
+                    = { .left = horizontal_line ? geometry_rectangle_get_left( search_rect ) : best_greater,
+                        .top = horizontal_line ? best_greater : geometry_rectangle_get_top( search_rect ),
+                        .width = horizontal_line ? geometry_rectangle_get_width( search_rect ) : 0.0,
+                        .height = horizontal_line ? 0.0 : geometry_rectangle_get_height( search_rect )
+                    };
+                if ( ( ! geometry_rectangle_is_containing( classifier_space, &best_greater_rect ) )
+                    && ( clas_symbol_box_smaller < best_greater ) && ( best_greater < clas_symbol_box_greater ) )
+                {
+                    best_greater = clas_symbol_box_greater;
                     hit = true;
                 }
             }
@@ -1486,14 +1509,25 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
                     = horizontal_line /* do vertical search if line is horizontal */
                     ? ( geometry_rectangle_get_bottom(classifier_label_box) + min_gap )
                     : ( geometry_rectangle_get_right(classifier_label_box) + min_gap );
-                if ( ( clas_label_smaller < good_smaller ) && ( clas_label_greater > good_smaller ) )
+
+                if ( ( clas_label_smaller < good_smaller ) && ( good_smaller < clas_label_greater ) )
                 {
                     good_smaller = clas_label_smaller;
                     hit = true;
                 }
-                if ( ( clas_label_smaller < good_greater ) && ( clas_label_greater > good_greater ) )
+                if ( ( clas_label_smaller < good_greater ) && ( good_greater < clas_label_greater ) )
                 {
                     good_greater = clas_label_greater;
+                    hit = true;
+                }
+                if ( ( clas_label_smaller < best_smaller ) && ( best_smaller < clas_label_greater ) )
+                {
+                    best_smaller = clas_label_smaller;
+                    hit = true;
+                }
+                if ( ( clas_label_smaller < best_greater ) && ( best_greater < clas_label_greater ) )
+                {
+                    best_greater = clas_label_greater;
                     hit = true;
                 }
             }
@@ -1518,14 +1552,25 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
                     = horizontal_line /* do vertical search if line is horizontal */
                     ? ( geometry_rectangle_get_bottom(feature_symbol_box) + min_gap )
                     : ( geometry_rectangle_get_right(feature_symbol_box) + min_gap );
-                if ( ( feature_smaller < good_smaller ) && ( feature_greater > good_smaller ) )
+
+                if ( ( feature_smaller < good_smaller ) && ( good_smaller < feature_greater ) )
                 {
                     good_smaller = feature_smaller;
                     hit = true;
                 }
-                if ( ( feature_smaller < good_greater ) && ( feature_greater > good_greater ) )
+                if ( ( feature_smaller < good_greater ) && ( good_greater < feature_greater ) )
                 {
                     good_greater = feature_greater;
+                    hit = true;
+                }
+                if ( ( feature_smaller < best_smaller ) && ( best_smaller < feature_greater ) )
+                {
+                    best_smaller = feature_smaller;
+                    hit = true;
+                }
+                if ( ( feature_smaller < best_greater ) && ( best_greater < feature_greater ) )
+                {
+                    best_greater = feature_greater;
                     hit = true;
                 }
             }
@@ -1544,7 +1589,80 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
             const geometry_connector_t *const exist_shape = layout_relationship_get_shape_const( exist_relationship );
             if ( geometry_connector_is_intersecting_rectangle( exist_shape, &consider_rect ) )
             {
-                const geometry_3dir_t exist_dirs = geometry_connector_get_directions ( exist_shape );
+                const geometry_rectangle_t seg_1
+                    = geometry_connector_get_segment_bounds( exist_shape, GEOMETRY_CONNECTOR_SEGMENT_SOURCE );
+                const bool seg_1_is_intersecting
+                    = geometry_rectangle_is_intersecting( &seg_1, &consider_rect );
+                const double seg_1_smaller
+                    = horizontal_line /* do vertical search if line is horizontal */
+                    ? ( geometry_rectangle_get_top( &seg_1 ) - min_gap )
+                    : ( geometry_rectangle_get_left( &seg_1 ) - min_gap );
+                const double seg_1_greater
+                    = horizontal_line /* do vertical search if line is horizontal */
+                    ? ( geometry_rectangle_get_bottom( &seg_1 ) + min_gap )
+                    : ( geometry_rectangle_get_right( &seg_1 ) + min_gap );
+                if ( seg_1_is_intersecting
+                    && ( seg_1_smaller < best_smaller ) && ( best_smaller < seg_1_greater ) )
+                {
+                    best_smaller = seg_1_smaller;
+                    hit = true;
+                }
+                if ( seg_1_is_intersecting
+                    && ( seg_1_smaller < best_greater ) && ( best_greater < seg_1_greater ) )
+                {
+                    best_greater = seg_1_greater;
+                    hit = true;
+                }
+                const geometry_rectangle_t seg_2
+                    = geometry_connector_get_segment_bounds( exist_shape, GEOMETRY_CONNECTOR_SEGMENT_MAIN );
+                const bool seg_2_is_intersecting
+                    = geometry_rectangle_is_intersecting( &seg_2, &consider_rect );
+                const double seg_2_smaller
+                    = horizontal_line /* do vertical search if line is horizontal */
+                    ? ( geometry_rectangle_get_top( &seg_2 ) - min_gap )
+                    : ( geometry_rectangle_get_left( &seg_2 ) - min_gap );
+                const double seg_2_greater
+                    = horizontal_line /* do vertical search if line is horizontal */
+                    ? ( geometry_rectangle_get_bottom( &seg_2 ) + min_gap )
+                    : ( geometry_rectangle_get_right( &seg_2 ) + min_gap );
+                if ( seg_2_is_intersecting
+                    && ( seg_2_smaller < best_smaller ) && ( best_smaller < seg_2_greater ) )
+                {
+                    best_smaller = seg_2_smaller;
+                    hit = true;
+                }
+                if ( seg_2_is_intersecting
+                    && ( seg_2_smaller < best_greater ) && ( best_greater < seg_2_greater ) )
+                {
+                    best_greater = seg_2_greater;
+                    hit = true;
+                }
+                const geometry_rectangle_t seg_3
+                    = geometry_connector_get_segment_bounds( exist_shape, GEOMETRY_CONNECTOR_SEGMENT_DESTINATION );
+                const bool seg_3_is_intersecting
+                    = geometry_rectangle_is_intersecting( &seg_3, &consider_rect );
+                const double seg_3_smaller
+                    = horizontal_line /* do vertical search if line is horizontal */
+                    ? ( geometry_rectangle_get_top( &seg_3 ) - min_gap )
+                    : ( geometry_rectangle_get_left( &seg_3 ) - min_gap );
+                const double seg_3_greater
+                    = horizontal_line /* do vertical search if line is horizontal */
+                    ? ( geometry_rectangle_get_bottom( &seg_3 ) + min_gap )
+                    : ( geometry_rectangle_get_right( &seg_3 ) + min_gap );
+                if ( seg_3_is_intersecting
+                    && ( seg_3_smaller < best_smaller ) && ( best_smaller < seg_3_greater ) )
+                {
+                    best_smaller = seg_3_smaller;
+                    hit = true;
+                }
+                if ( seg_3_is_intersecting
+                    && ( seg_3_smaller < best_greater ) && ( best_greater < seg_3_greater ) )
+                {
+                    best_greater = seg_3_greater;
+                    hit = true;
+                }
+
+                const geometry_3dir_t exist_dirs = geometry_connector_get_directions( exist_shape );
                 if ( horizontal_line )
                 {
                     const double exist_source_y = geometry_connector_get_main_line_source_y ( exist_shape );
@@ -1562,7 +1680,7 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
                             hit = true;
                         }
                     }
-                    if ( geometry_3dir_is_third_h( &exist_dirs ) ) /* third segment only, secound is already evaluated above */
+                    if ( geometry_3dir_is_third_h( &exist_dirs ) ) /* third segment only, second is already evaluated above */
                     {
                         if (( exist_destination_y - min_gap < good_smaller )&&( good_smaller < exist_destination_y + min_gap ))
                         {
@@ -1593,7 +1711,7 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
                             hit = true;
                         }
                     }
-                    if ( geometry_3dir_is_third_v( &exist_dirs ) ) /* third segment only, secound is already evaluated above */
+                    if ( geometry_3dir_is_third_v( &exist_dirs ) ) /* third segment only, second is already evaluated above */
                     {
                         if (( exist_destination_x - min_gap < good_smaller )&&( good_smaller < exist_destination_x + min_gap ))
                         {
@@ -1612,66 +1730,75 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
     }
 
     /* check success */
-    if ( horizontal_line )
+    const double minimum_result
+        = horizontal_line
+        ? geometry_rectangle_get_top( search_rect )
+        : geometry_rectangle_get_left( search_rect );
+    const double maximum_result
+        = horizontal_line
+        ? geometry_rectangle_get_bottom( search_rect )
+        : geometry_rectangle_get_right( search_rect );
+
+    if ( best_greater < maximum_result )
     {
-        if ( good_greater > geometry_rectangle_get_bottom( search_rect ) )
+        if ( best_smaller > minimum_result )
         {
-            if ( good_smaller < geometry_rectangle_get_top( search_rect ) )
+            /* best_greater and best_smaller are both in range; */
+            /* select the one with smaller distance to the center: */
+            if ( best_greater - center > center - best_smaller )
             {
-                err = U8_ERROR_NOT_FOUND;
+                *io_coordinate = best_smaller;
             }
-            else  /* good_smaller is in range */
+            else
             {
-                *io_coordinate = good_smaller;
+                *io_coordinate = best_greater;
             }
         }
-        else  /* good_greater is in range */
+        else  /* best_greater is in range */
         {
-            if ( good_smaller < geometry_rectangle_get_top( search_rect ) )
-            {
-                *io_coordinate = good_greater;
-            }
-            else  /* good_smaller and good_greater are in range */
-            {
-                if ( good_greater - center > center - good_smaller )
-                {
-                    *io_coordinate = good_smaller;
-                }
-                else
-                {
-                    *io_coordinate = good_greater;
-                }
-            }
+            *io_coordinate = best_greater;
         }
     }
-    else  /* vertical line needs an x coordinate */
+    else
     {
-        if ( good_greater > geometry_rectangle_get_right( search_rect ) )
+        if ( best_smaller > minimum_result )
         {
-            if ( good_smaller < geometry_rectangle_get_left( search_rect ) )
-            {
-                err = U8_ERROR_NOT_FOUND;
-            }
-            else  /* good_smaller is in range */
-            {
-                *io_coordinate = good_smaller;
-            }
+            /* best_smaller is in range */
+            *io_coordinate = best_smaller;
         }
-        else  /* good_greater is in range */
+        else
         {
-            if ( good_smaller < geometry_rectangle_get_left( search_rect ) )
+            /* BOTH BEST VALUES ARE OUT OF RANGE */
+            /* CHECK GOOD VALUES: */
+            if ( good_greater > maximum_result )
             {
-                *io_coordinate = good_greater;
-            }
-            else  /* good_smaller and good_greater are in range */
-            {
-                if ( good_greater - center > center - good_smaller )
+                if ( good_smaller < minimum_result )
+                {
+                    err = U8_ERROR_NOT_FOUND;
+                }
+                else  /* good_smaller is in range */
                 {
                     *io_coordinate = good_smaller;
                 }
-                else
+            }
+            else  /* good_greater is in range */
+            {
+                if ( good_smaller < minimum_result )
                 {
                     *io_coordinate = good_greater;
+                }
+                else
+                {
+                    /* good_smaller and good_greater are both in range; */
+                    /* select the one with smaller distance to the center: */
+                    if ( good_greater - center > center - good_smaller )
+                    {
+                        *io_coordinate = good_smaller;
+                    }
+                    else
+                    {
+                        *io_coordinate = good_greater;
+                    }
                 }
             }
         }
