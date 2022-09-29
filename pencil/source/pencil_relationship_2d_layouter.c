@@ -1420,6 +1420,14 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
         geometry_rectangle_set_left( &consider_rect, geometry_rectangle_get_left( search_rect ) - min_gap );
         geometry_rectangle_set_width( &consider_rect, geometry_rectangle_get_width( search_rect ) + 2.0 * min_gap );
     }
+    const double minimum_result
+        = horizontal_line
+        ? geometry_rectangle_get_top( search_rect )
+        : geometry_rectangle_get_left( search_rect );
+    const double maximum_result
+        = horizontal_line
+        ? geometry_rectangle_get_bottom( search_rect )
+        : geometry_rectangle_get_right( search_rect );
 
     /* iterate till no hit anymore */
     const uint32_t max_list_iteration = 8;  /* in any case, do not iterate ofer the list more than 8 times */
@@ -1451,6 +1459,9 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
                     ? ( geometry_rectangle_get_bottom(classifier_symbol_box) + min_gap )
                     : ( geometry_rectangle_get_right(classifier_symbol_box) + min_gap );
 
+                const double undo_good_smaller = good_smaller;
+                const double undo_good_greater = good_greater;
+                const bool undo_hit = hit;
                 const geometry_rectangle_t good_smaller_rect
                     = { .left = horizontal_line ? geometry_rectangle_get_left( search_rect ) : good_smaller,
                         .top = horizontal_line ? good_smaller : geometry_rectangle_get_top( search_rect ),
@@ -1474,6 +1485,15 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
                 {
                     good_greater = clas_symbol_box_greater;
                     hit = true;
+                }
+                const bool no_solution_remaining
+                    = ( good_smaller < minimum_result )&&( good_greater > maximum_result );
+                if ( no_solution_remaining )
+                {
+                    /* restore old values */
+                    good_smaller = undo_good_smaller;
+                    good_greater = undo_good_greater;
+                    hit = undo_hit;
                 }
                 const geometry_rectangle_t best_smaller_rect
                     = { .left = horizontal_line ? geometry_rectangle_get_left( search_rect ) : best_smaller,
@@ -1734,15 +1754,6 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
     }
 
     /* check success */
-    const double minimum_result
-        = horizontal_line
-        ? geometry_rectangle_get_top( search_rect )
-        : geometry_rectangle_get_left( search_rect );
-    const double maximum_result
-        = horizontal_line
-        ? geometry_rectangle_get_bottom( search_rect )
-        : geometry_rectangle_get_right( search_rect );
-
     if ( best_greater < maximum_result )
     {
         if ( best_smaller > minimum_result )
