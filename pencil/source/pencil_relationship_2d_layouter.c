@@ -277,6 +277,8 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
         = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
     const geometry_rectangle_t *const diagram_draw_area
         = layout_diagram_get_draw_area_const( diagram_layout );
+    const double diagram_draw_center_x = geometry_rectangle_get_center_x( diagram_draw_area );
+    const double diagram_draw_center_y = geometry_rectangle_get_center_y( diagram_draw_area );
 
     /* get preferred object distance */
     const double object_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
@@ -334,9 +336,9 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
         /* prefer left-hand angles over right-handed */
         bool bad_pattern_h = false;
         bool bad_pattern_v = false;
+        const geometry_3dir_t pattern = geometry_connector_get_directions( current_solution );
         {
 
-            const geometry_3dir_t pattern = geometry_connector_get_directions( current_solution );
             bad_pattern_v = geometry_3dir_equals( &pattern, &PENCIL_BAD_V_PATTERN1 )
                 || geometry_3dir_equals( &pattern, &PENCIL_BAD_V_PATTERN2 );
             bad_pattern_h = geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN1 )
@@ -348,6 +350,96 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
                 {
                     /* current_solution is a long path and right-handed */
                     debts_of_current += 0.2 * geometry_connector_get_length( current_solution );
+                }
+            }
+        }
+
+        /* to avoid bad patterns: no L on top-left, no 7 on bottom-right, no r on top-right, no J on bottom-left */
+        {
+            const bool connector_is_left
+                = geometry_rectangle_get_center_x( &connector_bounds ) < diagram_draw_center_x;
+            const bool connector_is_top
+                = geometry_rectangle_get_center_y( &connector_bounds ) < diagram_draw_center_y;
+            if ( connector_is_left )
+            {
+                if ( connector_is_top )
+                {
+                    static const geometry_3dir_t PENCIL_BAD_L_PATTERN1
+                         = { .first = GEOMETRY_DIRECTION_LEFT,  .second = GEOMETRY_DIRECTION_UP,     .third = GEOMETRY_DIRECTION_CENTER };
+                    static const geometry_3dir_t PENCIL_BAD_L_PATTERN2
+                         = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_LEFT,  .third = GEOMETRY_DIRECTION_UP };
+                    static const geometry_3dir_t PENCIL_BAD_L_PATTERN3
+                         = { .first = GEOMETRY_DIRECTION_DOWN,   .second = GEOMETRY_DIRECTION_RIGHT, .third = GEOMETRY_DIRECTION_CENTER };
+                    static const geometry_3dir_t PENCIL_BAD_L_PATTERN4
+                         = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_DOWN,  .third = GEOMETRY_DIRECTION_RIGHT };
+
+                    if (( geometry_3dir_equals( &pattern, &PENCIL_BAD_L_PATTERN1 ) )
+                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_L_PATTERN2 ) )
+                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_L_PATTERN3 ) )
+                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_L_PATTERN4 ) ))
+                    {
+                        debts_of_current += 10.0 * geometry_connector_get_length( current_solution );
+                    }
+                }
+                else
+                {
+                    static const geometry_3dir_t PENCIL_BAD_J_PATTERN1
+                         = { .first = GEOMETRY_DIRECTION_DOWN,   .second = GEOMETRY_DIRECTION_LEFT,  .third = GEOMETRY_DIRECTION_CENTER };
+                    static const geometry_3dir_t PENCIL_BAD_J_PATTERN2
+                         = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_DOWN,  .third = GEOMETRY_DIRECTION_LEFT };
+                    static const geometry_3dir_t PENCIL_BAD_J_PATTERN3
+                         = { .first = GEOMETRY_DIRECTION_RIGHT,  .second = GEOMETRY_DIRECTION_UP,    .third = GEOMETRY_DIRECTION_CENTER };
+                    static const geometry_3dir_t PENCIL_BAD_J_PATTERN4
+                         = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_RIGHT, .third = GEOMETRY_DIRECTION_UP };
+
+                    if (( geometry_3dir_equals( &pattern, &PENCIL_BAD_J_PATTERN1 ) )
+                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_J_PATTERN2 ) )
+                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_J_PATTERN3 ) )
+                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_J_PATTERN4 ) ))
+                    {
+                        debts_of_current += 10.0 * geometry_connector_get_length( current_solution );
+                    }
+                }
+            }
+            else
+            {
+                if ( connector_is_top )
+                {
+                    static const geometry_3dir_t PENCIL_BAD_r_PATTERN1
+                         = { .first = GEOMETRY_DIRECTION_UP,     .second = GEOMETRY_DIRECTION_RIGHT, .third = GEOMETRY_DIRECTION_CENTER };
+                    static const geometry_3dir_t PENCIL_BAD_r_PATTERN2
+                         = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_UP,    .third = GEOMETRY_DIRECTION_RIGHT };
+                    static const geometry_3dir_t PENCIL_BAD_r_PATTERN3
+                         = { .first = GEOMETRY_DIRECTION_LEFT,   .second = GEOMETRY_DIRECTION_DOWN,  .third = GEOMETRY_DIRECTION_CENTER };
+                    static const geometry_3dir_t PENCIL_BAD_r_PATTERN4
+                         = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_LEFT,  .third = GEOMETRY_DIRECTION_DOWN };
+
+                    if (( geometry_3dir_equals( &pattern, &PENCIL_BAD_r_PATTERN1 ) )
+                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_r_PATTERN2 ) )
+                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_r_PATTERN3 ) )
+                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_r_PATTERN4 ) ))
+                    {
+                        debts_of_current += 10.0 * geometry_connector_get_length( current_solution );
+                    }
+                }
+                else
+                {
+                    static const geometry_3dir_t PENCIL_BAD_7_PATTERN1
+                         = { .first = GEOMETRY_DIRECTION_RIGHT,  .second = GEOMETRY_DIRECTION_DOWN,  .third = GEOMETRY_DIRECTION_CENTER };
+                    static const geometry_3dir_t PENCIL_BAD_7_PATTERN2
+                         = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_RIGHT, .third = GEOMETRY_DIRECTION_DOWN };
+                    static const geometry_3dir_t PENCIL_BAD_7_PATTERN3
+                         = { .first = GEOMETRY_DIRECTION_UP,     .second = GEOMETRY_DIRECTION_LEFT,  .third = GEOMETRY_DIRECTION_CENTER };
+                    static const geometry_3dir_t PENCIL_BAD_7_PATTERN4
+                         = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_UP,    .third = GEOMETRY_DIRECTION_LEFT };
+
+                    if (( geometry_3dir_equals( &pattern, &PENCIL_BAD_7_PATTERN1 ) )
+                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_7_PATTERN2 ) )
+                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_7_PATTERN3 ) )
+                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_7_PATTERN4 ) ))
+                    {
+                        debts_of_current += 10.0 * geometry_connector_get_length( current_solution );
+                    }
                 }
             }
         }
