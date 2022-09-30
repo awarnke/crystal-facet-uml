@@ -2,7 +2,14 @@ PROJECT(crystal-facet-uml LANGUAGES C)
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
 SET(CMAKE_VERBOSE_MAKEFILE TRUE)
 
+# pkgconfig is a helper program to find include directories and libraries:
+FIND_PACKAGE(PkgConfig REQUIRED)
+
 # ==== ==== ==== ==== ==== ==== ==== ==== Build Environment Settings ==== ==== ==== ==== ==== ==== ==== ====
+
+SET(COMPILE_IN_INCLUDE_DIR "" CACHE FILEPATH "Path to additional include directory")
+SET(COMPILE_IN_SOURCE_FILE "" CACHE FILEPATH "Path to additional source file, e.g. sqlite3.c")
+INCLUDE_DIRECTORIES(${COMPILE_IN_INCLUDE_DIR})
 
 INCLUDE_DIRECTORIES(../../gui/include)
 INCLUDE_DIRECTORIES(../../main/include)
@@ -14,14 +21,11 @@ INCLUDE_DIRECTORIES(../../io/include)
 INCLUDE_DIRECTORIES(../../u8stream/include)
 
 SET(THIRD_PARTY_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/root")
-SET(SQLITE_BASE "${CMAKE_CURRENT_SOURCE_DIR}/root//home/sqlite3")
 MESSAGE("THIRD_PARTY_ROOT: ${THIRD_PARTY_ROOT}")
 
-set(ENV{PKG_CONFIG_PATH} "")
-set(ENV{PKG_CONFIG_LIBDIR} "${THIRD_PARTY_ROOT}/usr/local/lib/pkgconfig:${THIRD_PARTY_ROOT}/usr/local/lib64/pkgconfig")
-set(ENV{PKG_CONFIG_SYSROOT_DIR} "${THIRD_PARTY_ROOT}")
-set(PKG_CONFIG_EXECUTABLE "/usr/bin/x86_64-w64-mingw32-pkg-config")
+# pkg config variables
 #include(FindPkgConfig)
+MESSAGE("PKG_CONFIG_EXECUTABLE:       ${PKG_CONFIG_EXECUTABLE}")
 MESSAGE("ENV{PKG_CONFIG_PATH}:        $ENV{PKG_CONFIG_PATH}")
 MESSAGE("ENV{PKG_CONFIG_LIBDIR}:      $ENV{PKG_CONFIG_LIBDIR}")
 MESSAGE("ENV{PKG_CONFIG_SYSROOT_DIR}: $ENV{PKG_CONFIG_SYSROOT_DIR}")
@@ -48,8 +52,6 @@ INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/pixman-1")
 INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/freetype2")
 #INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/textstyle")
 
-INCLUDE_DIRECTORIES("${SQLITE_BASE}")
-
 FILE(GLOB commonSource ../../gui/source/*.c
                        ../../gui/source/sketch/*.c
                        ../../ctrl/source/*.c
@@ -70,8 +72,7 @@ FILE(GLOB commonSource ../../gui/source/*.c
                        ../../io/source/txt/*.c
                        ../../io/source/xhtml/*.c
                        ../../io/source/xmi/*.c
-                       ../../io/source/md/*.c
-                       ${SQLITE_BASE}/sqlite3.c)
+                       ../../io/source/md/*.c)
 FILE(GLOB appSource    ../../main/source/*.c)
 FILE(GLOB utestSource  ../../main/test/*.c
                        ../../data/test/unit/*.c
@@ -144,10 +145,17 @@ EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs gthread-2.0
 #FIND_LIBRARY( GTHREAD_LIB gthread-2.0 "${THIRD_PARTY_ROOT}/usr/local/" )
 MESSAGE("gthread-2.0 found at ${GTHREAD_LIB}")
 
-EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs gtk4
-                OUTPUT_VARIABLE GTK_LIB OUTPUT_STRIP_TRAILING_WHITESPACE)
-#FIND_LIBRARY( GTK_LIB gtk4 "${THIRD_PARTY_ROOT}/usr/local/" )
-MESSAGE("gtk4 found at ${GTK_LIB}")
+if(CFU_USE_GTK4)
+    EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs gtk4
+                    OUTPUT_VARIABLE GTK_LIB OUTPUT_STRIP_TRAILING_WHITESPACE)
+    #FIND_LIBRARY( GTK_LIB gtk4 "${THIRD_PARTY_ROOT}/usr/local/" )
+    MESSAGE("gtk4 found at ${GTK_LIB}")
+else(CFU_USE_GTK4)
+    EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs gtk+-3.0
+                    OUTPUT_VARIABLE GTK_LIB OUTPUT_STRIP_TRAILING_WHITESPACE)
+    #FIND_LIBRARY( GTK_LIB gtk4 "${THIRD_PARTY_ROOT}/usr/local/" )
+    MESSAGE("gtk+-3 found at ${GTK_LIB}")
+endif(CFU_USE_GTK4)
 
 EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs pango
                 OUTPUT_VARIABLE PANGO_LIB OUTPUT_STRIP_TRAILING_WHITESPACE)
@@ -194,7 +202,7 @@ ADD_CUSTOM_COMMAND(
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal-facet-uml Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-ADD_EXECUTABLE(crystal-facet-uml ${commonSource} ${appSource} crystal-facet-uml.res)
+ADD_EXECUTABLE(crystal-facet-uml ${commonSource} ${appSource} ${COMPILE_IN_SOURCE_FILE} crystal-facet-uml.res)
 TARGET_LINK_LIBRARIES(crystal-facet-uml ${ATK_LIB} ${CAIRO_LIB} ${FONTCNF_LIB} ${GAIL_LIB} ${GDKPIX_LIB} ${GDKWIN_LIB} ${GIO_LIB} ${GLIB_LIB} ${GMOD_LIB} ${GOBJ_LIB} ${GTHREAD_LIB} ${GTK_LIB} ${PANGO_LIB} ${PANGOCAIRO_LIB} ${PANGOFT_LIB} ${PANGOWIN_LIB} )
 SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
@@ -206,7 +214,7 @@ INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/../../installation_win/crystal-facet-
 
 # ==== ==== ==== ==== ==== ==== ==== ==== test Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-ADD_EXECUTABLE(test_crystal-facet-uml ${commonSource} ${utestSource})
+ADD_EXECUTABLE(test_crystal-facet-uml ${commonSource} ${utestSource} ${COMPILE_IN_SOURCE_FILE})
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../../test_fw/include)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../../data/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ../../ctrl/test)

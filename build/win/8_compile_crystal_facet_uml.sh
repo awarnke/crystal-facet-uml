@@ -19,13 +19,10 @@ export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin"
 
 export PKG_CONFIG_PATH=
 export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
-export PKG_CONFIG_SYSROOT_DIR="${PREFIX}/../.."
-
-echo `date +'%H:%M'`" building crystal-facet-uml..."
-LOG_FILE=export PKG_CONFIG_PATH=
-export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
 export PKG_CONFIG_SYSROOT_DIR="${HOST_ROOT}"
 PKG_CONFIG_EXE="/usr/bin/x86_64-w64-mingw32-pkg-config"
+
+echo `date +'%H:%M'`" building crystal-facet-uml..."
 LOG_DIR=`pwd`
 LOG_FILE=${LOG_DIR}/log_crystal-facet-uml.txt
 echo "      log: ${LOG_FILE}"
@@ -37,8 +34,10 @@ cd builddir
     -DCMAKE_IMPORT_LIBRARY_PREFIX=${PREFIX} -DCMAKE_SHARED_LIBRARY_PREFIX=${PREFIX} \
     -DCMAKE_SHARED_MODULE_PREFIX=${PREFIX} -DCMAKE_STATIC_LIBRARY_PREFIX=${PREFIX} \
     -DCMAKE_FIND_LIBRARY_PREFIXES=${PREFIX} -DCMAKE_PREFIX_PATH=${PREFIX} \
+    -DCFU_USE_GTK4=ON \
+    -DCOMPILE_IN_INCLUDE_DIR="${HOST_ROOT}/home/sqlite3" -DCOMPILE_IN_SOURCE_FILE="${HOST_ROOT}/home/sqlite3/sqlite3.c" \
     -DCMAKE_BUILD_TYPE=Release .. \
-    | tee {LOG_FILE} 2>&1
+    | tee ${LOG_FILE} 2>&1
     make -j4 | tee -a ${LOG_FILE} 2>&1
     make install | tee -a ${LOG_FILE} 2>&1
     cp test_crystal-facet-uml.exe ${PREFIX}/bin/
@@ -47,6 +46,8 @@ echo "      exe: "`ls ${PREFIX}/bin/crystal-facet-uml*`
 
 echo `date +'%H:%M'`" finished. Please check the log files for errors."
 
+echo "      i  : to test, go to a folder where libgcc_s_seh-1.dll is stored and call"
+echo "      i  : XDG_DATA_HOME='${PREFIX}/share' wine64 ${PREFIX}/bin/crystal-facet-uml.exe"
 
 # Copyright 2022-2022 Andreas Warnke
 #
