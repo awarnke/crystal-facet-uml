@@ -1,15 +1,16 @@
 # call cmake providing this toolchain file:
 # cmake -DCMAKE_TOOLCHAIN_FILE=../crystal-facet-uml/build/win/mingw_wine_toolchain.cmake ../crystal-facet-uml/build/win
 
+# compiler and linker variables:
 SET(CMAKE_SYSTEM_NAME "Windows")
 SET(CMAKE_SYSTEM_PROCESSOR "x86_64")
 set(CMAKE_FIND_ROOT_PATH "/usr/x86_64-w64-mingw32" "${CMAKE_PREFIX_PATH}/../..")
-#set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
-#set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
-#set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 SET(CMAKE_C_COMPILER "/usr/bin/x86_64-w64-mingw32-gcc")
 SET(CMAKE_CXX_COMPILER "/usr/bin/x86_64-w64-mingw32-g++")
 SET(CMAKE_RC_COMPILER "/usr/bin/x86_64-w64-mingw32-windres")
+
+# pkg config executable:
+set(PKG_CONFIG_EXECUTABLE "/usr/bin/x86_64-w64-mingw32-pkg-config")
 
 
 # Copyright 2021-2022 Andreas Warnke

@@ -1,7 +1,7 @@
 PROJECT(crystal-facet-uml LANGUAGES C)
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
 
-#helper to find include directories and libraries:
+# pkgconfig is a helper program to find include directories and libraries:
 FIND_PACKAGE(PkgConfig REQUIRED)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Build Environment Settings ==== ==== ==== ==== ==== ==== ==== ====
