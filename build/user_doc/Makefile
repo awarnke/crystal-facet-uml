@@ -4,11 +4,11 @@ all: crystal-facet-uml_documentation.pdf html crystal-facet-uml.1.gz info
 SOURCE="../../user_doc"
 
 crystal-facet-uml_documentation.pdf: ../../user_doc/doc/*.xml ../../user_doc/doc/2_feature_gallery_export/*.pdf ../../user_doc/doc/*.pdf ../../user_doc/doc/*.png
-	echo PLEASE UPDATE DIAGRAMS IN ../../user_doc/doc/2_feature_gallery_export/ MANUALLY &&\
+	echo "PLEASE UPDATE DIAGRAMS IN ../../user_doc/doc/2_feature_gallery_export/ MANUALLY" &&\
 	dblatex --type=pdf ${SOURCE}/doc/crystal-facet-uml_documentation.xml --output=./crystal-facet-uml_documentation.pdf
 
 html: ../../user_doc/doc/*.xml ../../user_doc/doc/2_feature_gallery_export/*.png ../../user_doc/doc/*.png
-	echo PLEASE UPDATE DIAGRAMS IN ../../user_doc/doc/2_feature_gallery_export/ MANUALLY &&\
+	echo "PLEASE UPDATE DIAGRAMS IN ../../user_doc/doc/2_feature_gallery_export/ MANUALLY" &&\
 	xmlto --stringparam html.stylesheet=html.css -o ./html/ xhtml ${SOURCE}/doc/crystal-facet-uml_documentation.xml &&\
 	echo relocate image files &&\
 	cat ${SOURCE}/doc/*.xml | grep -e 'fileref.*png' | sed -e 's/^[^"]*"\([^"]*\)".*/..\/..\/user_doc\/doc\/\1/' | xargs cp --target-directory=./html &&\
