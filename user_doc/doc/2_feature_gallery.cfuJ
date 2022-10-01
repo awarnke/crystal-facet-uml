@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.40.0"
+    "generator_version": "1.42.0"
   }
   ,
   "views":
@@ -935,7 +935,7 @@
         "parent_id": 7,
         "parent_name": "Examples",
         "diagram_type": 14,
-        "type": "UMLInteractionDiagram\/communication",
+        "type": "UMLInteractionDiagram/communication",
         "name": "Communication Diagram",
         "description": [
                 ""
@@ -1463,7 +1463,7 @@
         "parent_id": 7,
         "parent_name": "Examples",
         "diagram_type": 13,
-        "type": "UMLInteractionDiagram\/sequence",
+        "type": "UMLInteractionDiagram/sequence",
         "name": "Sequence",
         "description": [
                 ""
@@ -1528,7 +1528,7 @@
         "parent_id": 7,
         "parent_name": "Examples",
         "diagram_type": 16,
-        "type": "UMLInteractionDiagram\/timing",
+        "type": "UMLInteractionDiagram/timing",
         "name": "Timing",
         "description": [
                 ""
@@ -1658,7 +1658,7 @@
         "parent_id": 7,
         "parent_name": "Examples",
         "diagram_type": 17,
-        "type": "UMLInteractionDiagram\/overview",
+        "type": "UMLInteractionDiagram/overview",
         "name": "Interaction Overview",
         "description": [
                 ""
@@ -2517,7 +2517,7 @@
             "id": 40,
             "main_type": 2,
             "type": "Port",
-            "key": "\/dev\/tty2",
+            "key": "/dev/tty2",
             "value": "Pipe",
             "description": [
                 ""
@@ -3399,7 +3399,7 @@
             "id": 51,
             "main_type": 4,
             "type": "Interface",
-            "key": "http:\/\/admin",
+            "key": "http://admin",
             "value": "",
             "description": [
                 ""
@@ -6238,7 +6238,7 @@
         "from_feature_id": 52,
         "from_feature_key": "Cmd_IF",
         "to_feature_id": 40,
-        "to_feature_key": "\/dev\/tty2",
+        "to_feature_key": "/dev/tty2",
         "from_node": "2bf08931-160a-408a-b1b9-5660ed659cfe",
         "to_node": "6f81c351-1dda-454b-9c01-e25ff625a7f0",
         "uuid": "da091386-0cae-4adb-a2e1-13dde71f1f5f"
@@ -7177,7 +7177,7 @@
         "to_classifier_id": 91,
         "to_classifier_name": "One Component",
         "from_feature_id": 51,
-        "from_feature_key": "http:\/\/admin",
+        "from_feature_key": "http://admin",
         "to_feature_id": 23,
         "to_feature_key": "8080",
         "from_node": "839e5659-3c57-4f91-9e29-af221b24ba3d",

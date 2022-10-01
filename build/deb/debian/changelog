@@ -1,3 +1,19 @@
+crystal-facet-uml (1.42.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * relationships connecting ports to inner sub-components avoid parent border
+  * relationships: fine tuning straight lines and centered-preference
+  * relationships: search for good free spaces avoids crossings; stats from
+    layout_good_cases: ERR=0, W/C=7, W/F=167, W/R=59
+    layout_challenging_cases: ERR=64, W/C=8033, W/F=8379, W/R=5408
+    improved to
+    layout_good_cases: ERR=0, W/C=7, W/F=167, W/R=72
+    layout_challenging_cases: ERR=64, W/C=8033, W/F=8379, W/R=5307
+  * relationships: dropped idea of overlapping same-typed arrows
+  * relationships: avoid L, r, 7, J pattern-parts in respective corners
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 01 Oct 2022 14:00:00 +0100
+
 crystal-facet-uml (1.41.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

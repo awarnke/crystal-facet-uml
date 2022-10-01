@@ -378,7 +378,7 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
                         || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_L_PATTERN3 ) )
                         || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_L_PATTERN4 ) ))
                     {
-                        debts_of_current += 10.0 * geometry_connector_get_length( current_solution );
+                        debts_of_current += 4.0 * geometry_connector_get_length( current_solution );
                     }
                 }
                 else
@@ -397,7 +397,7 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
                         || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_J_PATTERN3 ) )
                         || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_J_PATTERN4 ) ))
                     {
-                        debts_of_current += 10.0 * geometry_connector_get_length( current_solution );
+                        debts_of_current += 4.0 * geometry_connector_get_length( current_solution );
                     }
                 }
             }
@@ -419,7 +419,7 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
                         || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_r_PATTERN3 ) )
                         || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_r_PATTERN4 ) ))
                     {
-                        debts_of_current += 10.0 * geometry_connector_get_length( current_solution );
+                        debts_of_current += 4.0 * geometry_connector_get_length( current_solution );
                     }
                 }
                 else
@@ -438,7 +438,7 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
                         || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_7_PATTERN3 ) )
                         || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_7_PATTERN4 ) ))
                     {
-                        debts_of_current += 10.0 * geometry_connector_get_length( current_solution );
+                        debts_of_current += 4.0 * geometry_connector_get_length( current_solution );
                     }
                 }
             }

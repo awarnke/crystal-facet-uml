@@ -12,7 +12,7 @@ crystal-facet-uml (1.42.0) UNRELEASED; urgency=medium
   * relationships: dropped idea of overlapping same-typed arrows
   * relationships: avoid L, r, 7, J pattern-parts in respective corners
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, xx Sep 2022 09:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 01 Oct 2022 14:00:00 +0100
 
  crystal-facet-uml (1.41.0) UNRELEASED; urgency=medium
 
