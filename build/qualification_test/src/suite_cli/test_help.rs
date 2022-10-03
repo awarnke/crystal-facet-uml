@@ -1,14 +1,20 @@
+use crate::test_tool::test_result::TestResult;
 use regex::Regex;
 use std::process::Stdio;
 
-pub fn suite_cli_run(exe_to_test: &String) -> bool {
+pub fn suite_cli_run(exe_to_test: &String) -> TestResult {
     let mut all_ok: u32 = 0;
+
     all_ok += if testcase_version(exe_to_test) { 1 } else { 0 };
     all_ok += if testcase_help(exe_to_test) { 1 } else { 0 };
-    all_ok == 2
+
+    TestResult {
+        total: 2,
+        failed: 2 - all_ok,
+    }
 }
 
-/// Tests that requesting the version is possible.
+/// Test that requesting the version is possible.
 ///
 /// Returns true if the result string looks like a version,
 /// false if not,
@@ -38,7 +44,7 @@ fn testcase_version(exe_to_test: &String) -> bool {
     success && exit_ok
 }
 
-/// Tests that requesting a help string is possible.
+/// Test that requesting a help string is possible.
 ///
 /// Returns true if the result string looks like a help string,
 /// false if not,

@@ -487,7 +487,7 @@
             "id": 49,
             "display_flags": 0,
             "classifier_id": 44,
-            "classifier_name": "Programming/Diagnostic Connector",
+            "classifier_name": "Programming and Diagnostic Connector",
             "focused_feature_id": -1,
             "node": "4247b2e1-f3da-4356-81c5-160af47f3e11",
             "uuid": "63e323e9-8a92-4864-be35-c18d5b8be043"
@@ -652,7 +652,7 @@
             "display_flags": 33554432,
             "display_tags": "GrayOut",
             "classifier_id": 44,
-            "classifier_name": "Programming/Diagnostic Connector",
+            "classifier_name": "Programming and Diagnostic Connector",
             "focused_feature_id": -1,
             "node": "4247b2e1-f3da-4356-81c5-160af47f3e11",
             "uuid": "acfbe624-6022-4b34-a73a-fe824f593148"
@@ -4791,7 +4791,7 @@
         "main_type": 90,
         "type": "Block",
         "stereotype": "",
-        "name": "Programming/Diagnostic Connector",
+        "name": "Programming and Diagnostic Connector",
         "description": [
                 ""
         ],
@@ -4872,26 +4872,26 @@
           },
           {
             "id": 1,
-            "main_type": 2,
+            "main_type": 6,
             "type": "Port",
             "key": "Camera",
             "value": "LVDS",
             "description": [
                 ""
             ],
-            "list_order": 87350582,
+            "list_order": 442719271,
             "uuid": "c4e66459-04e8-45c7-9ab9-e0fde6b2ead9"
           },
           {
             "id": 2,
-            "main_type": 2,
+            "main_type": 6,
             "type": "Port",
             "key": "Mic-Connector",
             "value": "I2S",
             "description": [
                 ""
             ],
-            "list_order": 779014021,
+            "list_order": 959276956,
             "uuid": "168231f5-4ca5-4ae2-92a1-96da722d4bdd"
           }
         ]
@@ -4926,8 +4926,8 @@
         "description": [
                 "Power Management Integrated Circuit"
         ],
-        "x_order": -1042125167,
-        "y_order": -1054017037,
+        "x_order": -1043583391,
+        "y_order": -1081426715,
         "list_order": -1133597166,
         "uuid": "0b05d10e-67ac-4c11-9995-146a103d2ff2",
         "features":
@@ -4961,14 +4961,14 @@
         [
           {
             "id": 10,
-            "main_type": 2,
+            "main_type": 6,
             "type": "Port",
             "key": "Temperature",
             "value": "sensor",
             "description": [
                 ""
             ],
-            "list_order": -1688907810,
+            "list_order": -1750988368,
             "uuid": "a07bc82b-80cb-4799-a63a-4af05a86abfe"
           },
           {
@@ -4985,7 +4985,7 @@
           },
           {
             "id": 4,
-            "main_type": 2,
+            "main_type": 7,
             "type": "Port",
             "key": "Speaker",
             "value": "I2S",
@@ -5009,7 +5009,7 @@
           },
           {
             "id": 6,
-            "main_type": 2,
+            "main_type": 7,
             "type": "Port",
             "key": "reset cmd",
             "value": "",
@@ -5021,7 +5021,7 @@
           },
           {
             "id": 3,
-            "main_type": 2,
+            "main_type": 7,
             "type": "Port",
             "key": "Motor Control",
             "value": "I2C",
@@ -5153,7 +5153,7 @@
                 ""
         ],
         "x_order": -1731705233,
-        "y_order": -218499172,
+        "y_order": -629779879,
         "list_order": -1161996671,
         "uuid": "d3419f7a-7f72-43ca-aab9-f12aed182f01",
         "features":
@@ -6516,7 +6516,7 @@
         "id": 132,
         "main_type": 0,
         "type": "Dependency",
-        "name": "",
+        "name": "provides background",
         "description": [
                 ""
         ],
@@ -6579,7 +6579,7 @@
         "id": 136,
         "main_type": 0,
         "type": "Dependency",
-        "name": "",
+        "name": "comments",
         "description": [
                 ""
         ],
@@ -6600,7 +6600,7 @@
         "id": 179,
         "main_type": 0,
         "type": "Dependency",
-        "name": "",
+        "name": "explains",
         "description": [
                 ""
         ],
@@ -7152,7 +7152,7 @@
         "id": 180,
         "main_type": 401,
         "type": "Trace",
-        "name": "",
+        "name": "some faults are not handled",
         "description": [
                 ""
         ],
@@ -8763,7 +8763,7 @@
         "from_classifier_id": 35,
         "from_classifier_name": "Chassis",
         "to_classifier_id": 44,
-        "to_classifier_name": "Programming/Diagnostic Connector",
+        "to_classifier_name": "Programming and Diagnostic Connector",
         "from_feature_id": -1,
         "to_feature_id": -1,
         "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
@@ -8994,7 +8994,7 @@
         ],
         "list_order": 262144,
         "from_classifier_id": 44,
-        "from_classifier_name": "Programming/Diagnostic Connector",
+        "from_classifier_name": "Programming and Diagnostic Connector",
         "to_classifier_id": 51,
         "to_classifier_name": "Base Micro Controller",
         "from_feature_id": -1,
@@ -9016,7 +9016,7 @@
         ],
         "list_order": 196608,
         "from_classifier_id": 44,
-        "from_classifier_name": "Programming/Diagnostic Connector",
+        "from_classifier_name": "Programming and Diagnostic Connector",
         "to_classifier_id": 55,
         "to_classifier_name": "Tool-Window (2)",
         "from_feature_id": -1,

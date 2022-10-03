@@ -1,7 +1,9 @@
 pub mod suite_cli;
 pub mod suite_gui;
+pub mod test_tool;
 use suite_cli::test_help::suite_cli_run;
 use suite_gui::test_file::suite_gui_run;
+use test_tool::test_result::TestResult;
 
 extern crate exitcode;
 
@@ -11,7 +13,13 @@ use std::env;
 
 /// Runs all test suites and returns true if all cases succeeded.
 fn run_all_suites(exe_to_test: &String) -> bool {
-    suite_cli_run(exe_to_test) && suite_gui_run(exe_to_test)
+    let cli_result: TestResult = suite_cli_run(exe_to_test);
+    let _gui_result: TestResult = suite_gui_run(exe_to_test);
+    println!(
+        "TEST RESULT: {}/{} tests failed.",
+        cli_result.failed, cli_result.total
+    );
+    cli_result.failed == 0
 }
 
 /// Parses the command line parameters, uses these as test environment input,
