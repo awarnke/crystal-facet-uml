@@ -106,6 +106,40 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
                                                 );
 
 /*!
+ *  \brief draws an overlay arrow for GUI_TOOL_CREATE mode to the cairo context
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param from_x source x coordinate of the mouse pointer
+ *  \param from_y source y coordinate of the mouse pointer
+ *  \param to_x destination x coordinate of the mouse pointer
+ *  \param to_y destination y coordinate of the mouse pointer
+ *  \param cr cairo drawing context
+ */
+void gui_sketch_overlay_private_draw_arrow( gui_sketch_overlay_t *this_,
+                                            int32_t from_x,
+                                            int32_t from_y,
+                                            int32_t to_x,
+                                            int32_t to_y,
+                                            cairo_t *cr
+                                          );
+
+/*!
+ *  \brief draws an overlay icon for GUI_TOOL_CREATE mode to the cairo context
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x coordinate of the mouse pointer
+ *  \param y y coordinate of the mouse pointer
+ *  \param with_arrow_option true if arrow and feature box shall be shown, false for classifier-box
+ *  \param cr cairo drawing context
+ */
+void gui_sketch_overlay_private_draw_create_icon( gui_sketch_overlay_t *this_,
+                                                  int32_t x,
+                                                  int32_t y,
+                                                  bool with_arrow_option,
+                                                  cairo_t *cr
+                                                );
+
+/*!
  *  \brief draws overlay graphics to visualize the grid to the cairo context
  *
  *  \param this_ pointer to own object attributes
