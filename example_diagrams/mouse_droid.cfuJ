@@ -7922,9 +7922,9 @@
         "id": 17,
         "main_type": 240,
         "type": "ControlFlow",
-        "name": "mission tactics are planned, no need to adapt",
+        "name": "next steps are planned",
         "description": [
-                ""
+                "mission tactics are planned, no need to adapt"
         ],
         "list_order": 98304,
         "from_classifier_id": 25,
@@ -7943,9 +7943,9 @@
         "id": 19,
         "main_type": 240,
         "type": "ControlFlow",
-        "name": "stop operation, set wakeup time",
+        "name": "stop operation",
         "description": [
-                ""
+                "stop operation, set wakeup time"
         ],
         "list_order": 163840,
         "from_classifier_id": 25,
@@ -8157,9 +8157,9 @@
         "id": 18,
         "main_type": 240,
         "type": "ControlFlow",
-        "name": "external event causes re-evaluating tactics",
+        "name": "external event",
         "description": [
-                ""
+                "external event causes re-evaluating tactics"
         ],
         "list_order": 131072,
         "from_classifier_id": 26,

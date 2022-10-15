@@ -560,6 +560,11 @@ u8_error_t json_element_reader_get_next_diagram ( json_element_reader_t *this_,
                                                          utf8stringbuf_get_string( (*this_).temp_string )
                                                        );
                     }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_STEREOTYPE ) )
+                    {
+                        /* new in 1.43.0: stereotype */
+                        result = json_element_reader_skip_next_string( this_ );
+                    }
                     else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS ) )
                     {
                         int64_t parsed_integer;
@@ -681,6 +686,11 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
                     }
                     else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE_NAME ) )
                     {
+                        result = json_element_reader_skip_next_string( this_ );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_STEREOTYPE ) )
+                    {
+                        /* new in 1.43.0: stereotype */
                         result = json_element_reader_skip_next_string( this_ );
                     }
                     else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_LIST_ORDER ) )
@@ -1149,6 +1159,11 @@ u8_error_t json_element_reader_get_next_diagramelement( json_element_reader_t *t
                     }
                     else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE_NAME ) )
                     {
+                        result = json_element_reader_skip_next_string( this_ );
+                    }
+                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE ) )
+                    {
+                        /* new in 1.43.0: focused_feature */
                         result = json_element_reader_skip_next_string( this_ );
                     }
                     else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS ) )
