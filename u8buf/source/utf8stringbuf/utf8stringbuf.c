@@ -58,7 +58,7 @@ utf8error_t utf8stringbuf_copy_region_from_buf( utf8stringbuf_t this_, const utf
         result = UTF8ERROR_OUT_OF_RANGE;
     }
     else {
-        int thatLen = utf8stringbuf_get_length( that );
+        const int thatLen = utf8stringbuf_get_length( that );
         if ( start > thatLen ) {
             this_.buf[0] = '\0';
             result = UTF8ERROR_OUT_OF_RANGE;
@@ -95,7 +95,7 @@ utf8error_t utf8stringbuf_copy_region_from_str( utf8stringbuf_t this_, const cha
         result = UTF8ERROR_NULL_PARAM;
     }
     else {
-        int thatLen = strlen( that );
+        const int thatLen = strlen( that );
         if ( start > thatLen ) {
             this_.buf[0] = '\0';
             result = UTF8ERROR_OUT_OF_RANGE;

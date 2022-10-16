@@ -168,6 +168,14 @@ void gui_simple_message_to_user_show_message_with_names_and_stat( gui_simple_mes
                                                                 );
 
 /*!
+ *  \brief shows an u8_error_info_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param err_info the u8_error_info_t to be shown
+ */
+void gui_simple_message_to_user_show_error_info ( gui_simple_message_to_user_t *this_, const u8_error_info_t *err_info );
+
+/*!
  *  \brief hides whatever is currently shown
  *
  *  \param this_ pointer to own object attributes

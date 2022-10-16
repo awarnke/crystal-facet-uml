@@ -21,6 +21,9 @@ enum u8_error_info_max_enum {
 
 /*!
  *  \brief struct of error code and additional information
+ *
+ *  This struct can be returned by a function as result value if performance is uncritical;
+ *  it may be provided as pointer-parameter to avoid unnecessary copying.
  */
 struct u8_error_info_struct {
     u8_error_t error;
@@ -37,6 +40,42 @@ typedef struct u8_error_info_struct u8_error_info_t;
  *  \param this_ pointer to own object attributes
  */
 static inline void u8_error_info_init_void ( u8_error_info_t *this_ );
+
+/*!
+ *  \brief initializes the u8_error_info_t struct with an error code
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param error error code to set
+ */
+static inline void u8_error_info_init ( u8_error_info_t *this_, u8_error_t error );
+
+/*!
+ *  \brief initializes the u8_error_info_t struct with an error code and a position
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param error error code to set
+ *  \param line line position of origin
+ */
+static inline void u8_error_info_init_line ( u8_error_info_t *this_, u8_error_t error, int32_t line );
+
+/*!
+ *  \brief initializes the u8_error_info_t struct with an error code and a position and a name
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param error error code to set
+ *  \param name name of origin-object
+ */
+static inline void u8_error_info_init_name ( u8_error_info_t *this_, u8_error_t error, const char* name );
+
+/*!
+ *  \brief initializes the u8_error_info_t struct with an error code and a position and a name
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param error error code to set
+ *  \param line line position of origin
+ *  \param name name of origin-object
+ */
+static inline void u8_error_info_init_line_name ( u8_error_info_t *this_, u8_error_t error, int32_t line, const char* name );
 
 /*!
  *  \brief destroys the u8_error_info_t struct

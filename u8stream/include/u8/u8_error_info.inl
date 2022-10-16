@@ -1,5 +1,6 @@
 /* File: u8_error_info.inl; Copyright and License: see below */
 
+#include "utf8stringbuf/utf8stringbuf.h"
 #include "trace/trace.h"
 #include "tslog/tslog.h"
 #include <assert.h>
@@ -10,6 +11,40 @@ static inline void u8_error_info_init_void ( u8_error_info_t *this_ )
     (*this_).unit = U8_ERROR_INFO_UNIT_VOID;
     (*this_).position = -1;
     (*this_).name[0] = '\0';
+}
+
+static inline void u8_error_info_init ( u8_error_info_t *this_, u8_error_t error )
+{
+    (*this_).error = error;
+    (*this_).unit = U8_ERROR_INFO_UNIT_VOID;
+    (*this_).position = -1;
+    (*this_).name[0] = '\0';
+}
+
+static inline void u8_error_info_init_line ( u8_error_info_t *this_, u8_error_t error, int32_t line )
+{
+    (*this_).error = error;
+    (*this_).unit = U8_ERROR_INFO_UNIT_LINE;
+    (*this_).position = line;
+    (*this_).name[0] = '\0';
+}
+
+static inline void u8_error_info_init_name ( u8_error_info_t *this_, u8_error_t error, const char* name )
+{
+    (*this_).error = error;
+    (*this_).unit = U8_ERROR_INFO_UNIT_NAME;
+    (*this_).position = -1;
+    utf8stringbuf_t my_strbuf = utf8stringbuf_init( U8_ERROR_INFO_MAX_NAME_SIZE, &((*this_).name[0]) );
+    utf8stringbuf_copy_str( my_strbuf, name );
+}
+
+static inline void u8_error_info_init_line_name ( u8_error_info_t *this_, u8_error_t error, int32_t line, const char* name )
+{
+    (*this_).error = error;
+    (*this_).unit = U8_ERROR_INFO_UNIT_LINE_NAME;
+    (*this_).position = line;
+    utf8stringbuf_t my_strbuf = utf8stringbuf_init( U8_ERROR_INFO_MAX_NAME_SIZE, &((*this_).name[0]) );
+    utf8stringbuf_copy_str( my_strbuf, name );
 }
 
 static inline void u8_error_info_destroy ( u8_error_info_t *this_ )

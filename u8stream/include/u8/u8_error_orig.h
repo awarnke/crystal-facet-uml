@@ -27,7 +27,8 @@ enum u8_error_orig_enum {
     U8_ERROR_ORIG_TIME = 0x8000,  /*!< origin: timeouts, resume-after-suspend, timer expired */
     U8_ERROR_ORIG_SYNC = 0x4000,  /*!< origin: threads, mutexes, signals, scheduling, wrong-state */
     U8_ERROR_ORIG_MISS = 0x2000,  /*!< origin: missing resources on application level: key-in-dict, filename */
-    U8_ERROR_ORIG_DATA = 0x1000,  /*!< origin: internal data, database, signatures, hashes, compression, encryption */
+    U8_ERROR_ORIG_DATA = 0x1000,  /*!< origin: internal data, database, signatures, hashes, compression, encryption, */
+                                  /*!<         parsing, streaming */
     /* == Origins on device level == */
     U8_ERROR_ORIG_MEMO = 0x0800,  /*!< origin: own memory, shared memory, null-pointer, memory-overwrites */
                                   /*!<    e.g. out of memory, buffer size exceeded */
@@ -36,6 +37,7 @@ enum u8_error_orig_enum {
     U8_ERROR_ORIG_NETW = 0x0200,  /*!< origin: network, peer-status, pipes, streams, messages */
                                   /*!<    e.g. interrupted connection, unexpected end-of-stream */
     U8_ERROR_ORIG_CDEV = 0x0100,  /*!< origin: character devices like console, serial line, shell-interactions */
+                                  /*!<    e.g. connection-reset, no-data */
 };
 
 typedef enum u8_error_orig_enum u8_error_orig_t;

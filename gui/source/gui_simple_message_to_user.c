@@ -575,6 +575,35 @@ void gui_simple_message_to_user_private_append_stat ( gui_simple_message_to_user
     TRACE_END();
 }
 
+void gui_simple_message_to_user_show_error_info ( gui_simple_message_to_user_t *this_, const u8_error_info_t *err_info )
+{
+    TRACE_BEGIN();
+
+    /* update type id: */
+    (*this_).type_id = GUI_SIMPLE_MESSAGE_TYPE_ERROR;
+    gui_simple_message_to_user_private_set_icon_image( this_, GUI_SIMPLE_MESSAGE_TYPE_ERROR );
+
+    /* update content text: */
+    utf8stringbuf_clear( (*this_).private_temp_str );
+    switch ( u8_error_info_get_error( err_info ) )
+    {
+        default:
+        {
+            utf8stringbuf_append_str( (*this_).private_temp_str,
+                                        "Error occurred: "
+                                    );
+        }
+        break;
+    }
+    gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ) );
+
+    /* show: */
+    gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
+    gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
+
+    TRACE_END();
+}
+
 void gui_simple_message_to_user_hide ( gui_simple_message_to_user_t *this_ )
 {
     TRACE_BEGIN();
