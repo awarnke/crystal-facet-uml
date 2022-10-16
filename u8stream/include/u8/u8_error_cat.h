@@ -1,7 +1,7 @@
 /* File: u8_error_cat.h; Copyright and License: see below */
 
-#ifndef U8_ERROR_CAT_CAT_H
-#define U8_ERROR_CAT_CAT_H
+#ifndef U8_ERROR_CAT_H
+#define U8_ERROR_CAT_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -87,7 +87,7 @@ enum u8_error_cat_enum {
 
 typedef enum u8_error_cat_enum u8_error_cat_t;
 
-#endif  /* U8_ERROR_CAT_CAT_H */
+#endif  /* U8_ERROR_CAT_H */
 
 
 /*

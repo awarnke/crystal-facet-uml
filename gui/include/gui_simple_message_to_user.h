@@ -13,6 +13,7 @@
 #include "gui_resources.h"
 #include "set/data_stat.h"
 #include "utf8stringbuf/utf8stringbuf.h"
+#include "u8/u8_error_info.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
