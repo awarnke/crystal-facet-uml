@@ -589,9 +589,40 @@ void gui_simple_message_to_user_show_error_info ( gui_simple_message_to_user_t *
     {
         default:
         {
-            utf8stringbuf_append_str( (*this_).private_temp_str,
-                                        "Error occurred: "
-                                    );
+            utf8stringbuf_append_str( (*this_).private_temp_str, "Error x" );
+            utf8stringbuf_append_hex( (*this_).private_temp_str, u8_error_info_get_error( err_info ) );
+            utf8stringbuf_append_str( (*this_).private_temp_str, " occurred" );
+        }
+        break;
+    }
+    switch ( u8_error_info_get_unit ( err_info ) )
+    {
+        case U8_ERROR_INFO_UNIT_LINE:
+        {
+            utf8stringbuf_append_str( (*this_).private_temp_str, " at line " );
+            utf8stringbuf_append_int( (*this_).private_temp_str, u8_error_info_get_position( err_info ) );
+        }
+        break;
+
+        case U8_ERROR_INFO_UNIT_NAME:
+        {
+            utf8stringbuf_append_str( (*this_).private_temp_str, " at name " );
+            utf8stringbuf_append_str( (*this_).private_temp_str, u8_error_info_get_name( err_info ) );
+        }
+        break;
+
+        case U8_ERROR_INFO_UNIT_LINE_NAME:
+        {
+            utf8stringbuf_append_str( (*this_).private_temp_str, " at name " );
+            utf8stringbuf_append_str( (*this_).private_temp_str, u8_error_info_get_name( err_info ) );
+            utf8stringbuf_append_str( (*this_).private_temp_str, " at line " );
+            utf8stringbuf_append_int( (*this_).private_temp_str, u8_error_info_get_position( err_info ) );
+        }
+        break;
+
+        default:
+        {
+            /* no further information to add */
         }
         break;
     }

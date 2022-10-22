@@ -45,7 +45,7 @@ enum u8_error_cat_enum {
                                               /*!< REACTION: TERMINATE, notify developer */
                                               /*!< EXAMPLE:  An unexpected enumeration value or a NULL pointer; */
                                               /*!<           An ID is not contained in a set; */
-                                              /*!<           Duplicate identifiers for different objects; */
+                                              /*!<           Same (duplicate) identifier for different objects; */
                                               /*!<           A mutex is not released; */
     U8_ERROR_CAT_OP_ENV_START  = 0x08000000,  /*!< CAUSE:    Unexpected environment at system start: */
                                               /*!< REACTION: CANCEL START, notify operator */

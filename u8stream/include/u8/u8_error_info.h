@@ -16,14 +16,17 @@
  *  \brief constants for max string sizes
  */
 enum u8_error_info_max_enum {
-    U8_ERROR_INFO_MAX_NAME_SIZE = 20,
+    U8_ERROR_INFO_MAX_NAME_SIZE = 48,
 };
 
 /*!
  *  \brief struct of error code and additional information
  *
- *  This struct can be returned by a function as result value if performance is uncritical;
- *  it may be provided as pointer-parameter to avoid unnecessary copying.
+ *  This struct is intended to be provided as out-parameter (pointer-to-struct) to a function call.
+ *
+ *  In case of an error, the function shall return an error code and optionally fill in the u8_error_info_struct.
+ *  There is no need that return error code and error info refer to the same error code, especially since
+ *  the return error may be a bitwise-or of several errors whereas the error info struct refers to exactly one error.
  */
 struct u8_error_info_struct {
     u8_error_t error;
