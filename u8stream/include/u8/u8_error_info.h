@@ -11,6 +11,7 @@
 
 #include "u8/u8_error.h"
 #include "u8/u8_error_info_unit.h"
+#include <stdbool.h>
 
 /*!
  *  \brief constants for max string sizes
@@ -24,9 +25,11 @@ enum u8_error_info_max_enum {
  *
  *  This struct is intended to be provided as out-parameter (pointer-to-struct) to a function call.
  *
- *  In case of an error, the function shall return an error code and optionally fill in the u8_error_info_struct.
+ *  In case of an error, the function shall return an error code and fill in the u8_error_info_struct.
  *  There is no need that return error code and error info refer to the same error code, especially since
  *  the return error may be a bitwise-or of several errors whereas the error info struct refers to exactly one error.
+ *  In case of an error, a function may return an error code as return value and set u8_error_info_t.error to
+ *  U8_ERROR_NONE.
  */
 struct u8_error_info_struct {
     u8_error_t error;
@@ -86,6 +89,14 @@ static inline void u8_error_info_init_line_name ( u8_error_info_t *this_, u8_err
  *  \param this_ pointer to own object attributes
  */
 static inline void u8_error_info_destroy ( u8_error_info_t *this_ );
+
+/*!
+ *  \brief checks if error is set (not void)
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if there is an error code unequal to U8_ERROR_NONE
+ */
+static inline bool u8_error_info_is_error ( const u8_error_info_t *this_ );
 
 /*!
  *  \brief gets the error code

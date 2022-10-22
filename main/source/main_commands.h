@@ -13,6 +13,7 @@
 #include "io_import_mode.h"
 #include "io_data_file.h"
 #include "utf8stream/universal_utf8_writer.h"
+#include "u8/u8_error_info.h"
 #include "u8/u8_error.h"
 #include <stdbool.h>
 
@@ -134,6 +135,19 @@ u8_error_t main_commands_private_report_stat ( main_commands_t *this_,
                                                const char* mode_name,
                                                universal_utf8_writer_t *out_english_report
                                              );
+
+/*!
+ *  \brief prints the error_info struct to an utf8 writer
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param error_info the error_info struct to print
+ *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
+ *  \return U8_ERROR_NONE in case of success
+ */
+u8_error_t main_commands_private_report_error_info ( main_commands_t *this_,
+                                                     const u8_error_info_t *error_info,
+                                                     universal_utf8_writer_t *out_english_report
+                                                   );
 
 #endif  /* MAIN_COMMANDS_H */
 

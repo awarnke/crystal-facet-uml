@@ -55,6 +55,15 @@ static inline u8_error_t universal_utf8_writer_write_str ( universal_utf8_writer
 static inline u8_error_t universal_utf8_writer_write_int ( universal_utf8_writer_t *this_, const int64_t number );
 
 /*!
+ *  \brief writes an integer as hexadecimal number to a stream
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param number number to write in hexadecimal
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
+ */
+static inline u8_error_t universal_utf8_writer_write_hex ( universal_utf8_writer_t *this_, const int64_t number );
+
+/*!
  *  \brief flushes buffers
  *
  *  \param this_ pointer to own object attributes

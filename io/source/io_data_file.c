@@ -47,10 +47,15 @@ void io_data_file_destroy ( io_data_file_t *this_ )
     TRACE_END();
 }
 
-u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path, bool read_only )
+u8_error_t io_data_file_open ( io_data_file_t *this_,
+                               const char* db_file_path,
+                               bool read_only,
+                               u8_error_info_t *out_err_info )
 {
     TRACE_BEGIN();
     assert( db_file_path != NULL );
+    assert( out_err_info != NULL );
+    u8_error_info_init_void( out_err_info );
 
     const bool temp_requested = utf8string_ends_with_str( db_file_path, IO_DATA_FILE_TEMP_EXT );
     bool is_json;
@@ -105,7 +110,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path, 
             dir_file_remove( utf8stringbuf_get_string( (*this_).db_file_name ) );  /* ignore possible errors */
 
             err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( (*this_).db_file_name ) );
-            err |= io_data_file_private_import( this_, utf8stringbuf_get_string( (*this_).data_file_name ) );
+            err |= io_data_file_private_import( this_, utf8stringbuf_get_string( (*this_).data_file_name ), out_err_info );
             err |= data_database_close( &((*this_).database) );
 
             if ( err != U8_ERROR_NONE )
@@ -243,10 +248,12 @@ u8_error_t io_data_file_private_guess_db_type ( io_data_file_t *this_, const cha
     return scan_head_error;
 }
 
-u8_error_t io_data_file_private_import ( io_data_file_t *this_, const char *src_file )
+u8_error_t io_data_file_private_import ( io_data_file_t *this_, const char *src_file, u8_error_info_t *out_err_info )
 {
     TRACE_BEGIN();
     assert( src_file != NULL );
+    assert( out_err_info != NULL );
+    u8_error_info_init_void( out_err_info );
     u8_error_t import_err = U8_ERROR_NONE;
     static const io_import_mode_t import_mode = IO_IMPORT_MODE_CREATE|IO_IMPORT_MODE_LINK;
     universal_null_output_stream_t dev_null;

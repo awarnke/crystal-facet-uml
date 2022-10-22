@@ -12,6 +12,7 @@
 #include "ctrl_controller.h"
 #include "storage/data_database.h"
 #include "utf8stringbuf/utf8stringbuf.h"
+#include "u8/u8_error_info.h"
 #include <stdbool.h>
 
 /*!
@@ -56,11 +57,15 @@ void io_data_file_destroy ( io_data_file_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param db_file_path a relative or absolute file path
+ *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
  *          U8_ERROR_LEXiCAL_STRUCTURE or U8_ERROR_PARSER_STRUCTURE if file is no valid json format,
  *          U8_ERROR_NONE in case of success
  */
-static inline u8_error_t io_data_file_open_writeable ( io_data_file_t *this_, const char* db_file_path );
+static inline u8_error_t io_data_file_open_writeable ( io_data_file_t *this_,
+                                                       const char* db_file_path,
+                                                       u8_error_info_t *out_err_info
+                                                     );
 
 /*!
  *  \brief opens a database file in read only mode
@@ -71,11 +76,15 @@ static inline u8_error_t io_data_file_open_writeable ( io_data_file_t *this_, co
  *
  *  \param this_ pointer to own object attributes
  *  \param db_file_path a relative or absolute file path
+ *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
  *          U8_ERROR_LEXiCAL_STRUCTURE or U8_ERROR_PARSER_STRUCTURE if file is no valid json format,
  *          U8_ERROR_NONE in case of success
  */
-static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_, const char* db_file_path );
+static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_,
+                                                       const char* db_file_path,
+                                                       u8_error_info_t *out_err_info
+                                                     );
 
 /*!
  *  \brief opens a database file
@@ -87,11 +96,16 @@ static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_, co
  *  \param this_ pointer to own object attributes
  *  \param db_file_path a relative or absolute file path
  *  \param read_only if true, the data file is not modified. Otherwise it depends on the write permissions of the file.
+ *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
  *          U8_ERROR_LEXiCAL_STRUCTURE or U8_ERROR_PARSER_STRUCTURE if file is no valid json format,
  *          U8_ERROR_NONE in case of success
  */
-u8_error_t io_data_file_open ( io_data_file_t *this_, const char* db_file_path, bool read_only );
+u8_error_t io_data_file_open ( io_data_file_t *this_,
+                               const char* db_file_path,
+                               bool read_only,
+                               u8_error_info_t *out_err_info
+                             );
 
 /*!
  *  \brief closes the current database file
@@ -179,9 +193,10 @@ static inline utf8error_t io_data_file_private_replace_file_extension ( const io
  *
  *  \param this_ pointer to own object attributes
  *  \param src_file filename of the source json file to import, must not be NULL
+ *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \return U8_ERROR_NONE in case of success; other values in case of an error
  */
-u8_error_t io_data_file_private_import ( io_data_file_t *this_, const char *src_file );
+u8_error_t io_data_file_private_import ( io_data_file_t *this_, const char *src_file, u8_error_info_t *out_err_info );
 
 /*!
  *  \brief exports the data from the currently open database to dst_file.

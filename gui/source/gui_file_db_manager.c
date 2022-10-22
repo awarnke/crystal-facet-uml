@@ -1,6 +1,7 @@
 /* File: gui_file_db_manager.c; Copyright and License: see below */
 
 #include "gui_file_db_manager.h"
+#include "u8/u8_error_info.h"
 #include "trace/trace.h"
 #include <gtk/gtk.h>
 #include <stdio.h>
@@ -61,7 +62,8 @@ u8_error_t gui_file_db_manager_use_db( gui_file_db_manager_t *this_, const char 
         events_handled = g_main_context_iteration( NULL, /*may_block*/ FALSE );
     }
 
-    const u8_error_t error = io_data_file_open_writeable ( (*this_).data_file, filename );
+    u8_error_info_t err_info;
+    const u8_error_t error = io_data_file_open_writeable ( (*this_).data_file, filename, &err_info );
 
     if ( U8_ERROR_NONE == error )
     {
@@ -82,7 +84,11 @@ u8_error_t gui_file_db_manager_use_db( gui_file_db_manager_t *this_, const char 
     }
     else
     {
-        if ( io_data_file_is_open( (*this_).data_file ) )
+        if ( u8_error_info_is_error( &err_info ) )
+        {
+            gui_simple_message_to_user_show_error_info( (*this_).message_to_user, &err_info );
+        }
+        else if ( io_data_file_is_open( (*this_).data_file ) )
         {
             gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
                                                                GUI_SIMPLE_MESSAGE_TYPE_WARNING,

@@ -53,8 +53,11 @@ static void create_new_db(void)
     TEST_ASSERT_EQUAL_INT( false, isopen );
 
     /* create a new db */
-    ctrl_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME );
+    u8_error_info_t err_info;
+    ctrl_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME, &err_info );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &err_info ) );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_VOID, u8_error_info_get_unit( &err_info ) );
 
     isopen = io_data_file_is_open( &data_file );
     TEST_ASSERT_EQUAL_INT( true, isopen );
@@ -70,8 +73,11 @@ static void open_existing_db(void)
     TEST_ASSERT_EQUAL_INT( false, isopen );
 
     /* create a db first */
-    data_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME );
+    u8_error_info_t err_info;
+    data_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME, &err_info );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &err_info ) );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_VOID, u8_error_info_get_unit( &err_info ) );
 
     data_err = io_data_file_close ( &data_file );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
@@ -80,8 +86,11 @@ static void open_existing_db(void)
     TEST_ASSERT_EQUAL_INT( false, isopen );
 
     /* open an existing db */
-    ctrl_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME );
+    u8_error_info_init_line( &err_info, U8_ERROR_PARSER_STRUCTURE, 123 /*line*/ );
+    ctrl_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME, &err_info );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &err_info ) );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_VOID, u8_error_info_get_unit( &err_info ) );
 
     isopen = io_data_file_is_open( &data_file );
     TEST_ASSERT_EQUAL_INT( true, isopen );
@@ -110,8 +119,12 @@ static void open_invalid_file(void)
     TEST_ASSERT_EQUAL_INT( false, isopen );
 
     /* open an existing non-db file */
-    ctrl_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME );
+    u8_error_info_t err_info;
+    ctrl_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME, &err_info );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, u8_error_info_get_error( &err_info ) );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &err_info ) );
+    TEST_ASSERT_EQUAL_INT( 1, u8_error_info_get_position( &err_info ) );
 
     isopen = io_data_file_is_open( &data_file );
     TEST_ASSERT_EQUAL_INT( false, isopen );

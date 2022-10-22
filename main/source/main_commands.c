@@ -74,15 +74,15 @@ u8_error_t main_commands_upgrade ( main_commands_t *this_,
     assert( data_file_path != NULL );
 
     TRACE_INFO("opening DB...");
-    const u8_error_t up_err
-        = io_data_file_open_writeable( (*this_).data_file, data_file_path );  /* upgrade is implicitely done */
-    if ( up_err != U8_ERROR_NONE )
+    u8_error_info_t err_info;
+    result |= io_data_file_open_writeable( (*this_).data_file, data_file_path, &err_info );  /* upgrade is implicitely done */
+    if ( result != U8_ERROR_NONE )
     {
         universal_utf8_writer_write_str( out_english_report, "error opening database_file " );
         universal_utf8_writer_write_str( out_english_report, data_file_path );
         universal_utf8_writer_write_str( out_english_report, "\n" );
-        result = -1;
     }
+    result |= main_commands_private_report_error_info( this_, &err_info, out_english_report );
 
     TRACE_INFO("closing DB...");
     io_data_file_close( (*this_).data_file );
@@ -102,13 +102,15 @@ u8_error_t main_commands_repair ( main_commands_t *this_,
     u8_error_t result = U8_ERROR_NONE;
 
     TRACE_INFO("opening DB...");
-    const u8_error_t db_err = io_data_file_open( (*this_).data_file, data_file_path, check_only );
-    if ( db_err != U8_ERROR_NONE )
+    u8_error_info_t err_info;
+    result |= io_data_file_open( (*this_).data_file, data_file_path, check_only, &err_info );
+    if ( result != U8_ERROR_NONE )
     {
         universal_utf8_writer_write_str( out_english_report, "error opening database_file " );
         universal_utf8_writer_write_str( out_english_report, data_file_path );
         universal_utf8_writer_write_str( out_english_report, "\n" );
     }
+    result |= main_commands_private_report_error_info( this_, &err_info, out_english_report );
 
     TRACE_INFO("reparing/testing...");
     universal_utf8_writer_write_str( out_english_report, "\n\n" );
@@ -139,14 +141,15 @@ u8_error_t main_commands_start_gui ( main_commands_t *this_,
     TRACE_INFO("opening DB...");
     if ( NULL != data_file_path )
     {
-        const u8_error_t db_err
-            = io_data_file_open_writeable( (*this_).data_file, data_file_path );
-        if ( db_err != U8_ERROR_NONE )
+        u8_error_info_t err_info;
+        result |= io_data_file_open_writeable( (*this_).data_file, data_file_path, &err_info );
+        if ( result != U8_ERROR_NONE )
         {
             universal_utf8_writer_write_str( out_english_report, "error opening database_file " );
             universal_utf8_writer_write_str( out_english_report, data_file_path );
             universal_utf8_writer_write_str( out_english_report, "\n" );
         }
+        result |= main_commands_private_report_error_info( this_, &err_info, out_english_report );
     }
 
     TRACE_TIMESTAMP();
@@ -174,14 +177,15 @@ u8_error_t main_commands_export ( main_commands_t *this_,
     u8_error_t export_err = U8_ERROR_NONE;
 
     TRACE_INFO("opening DB...");
-    const u8_error_t db_err
-        = io_data_file_open_read_only( (*this_).data_file, data_file_path );
-    if ( db_err != U8_ERROR_NONE )
+    u8_error_info_t err_info;
+    export_err |= io_data_file_open_read_only( (*this_).data_file, data_file_path, &err_info );
+    if ( export_err != U8_ERROR_NONE )
     {
-            universal_utf8_writer_write_str( out_english_report, "error opening database_file " );
-            universal_utf8_writer_write_str( out_english_report, data_file_path );
-            universal_utf8_writer_write_str( out_english_report, "\n" );
+        universal_utf8_writer_write_str( out_english_report, "error opening database_file " );
+        universal_utf8_writer_write_str( out_english_report, data_file_path );
+        universal_utf8_writer_write_str( out_english_report, "\n" );
     }
+    export_err |= main_commands_private_report_error_info( this_, &err_info, out_english_report );
 
     TRACE_INFO("exporting DB...");
     TRACE_INFO_STR( "chosen folder:", export_directory );
@@ -227,14 +231,15 @@ u8_error_t main_commands_import ( main_commands_t *this_,
     u8_error_t import_err = U8_ERROR_NONE;
 
     TRACE_INFO("opening DB...");
-    const u8_error_t db_err
-        = io_data_file_open_writeable( (*this_).data_file, data_file_path );
-    if ( db_err != U8_ERROR_NONE )
+    u8_error_info_t err_info;
+    import_err |= io_data_file_open_writeable( (*this_).data_file, data_file_path, &err_info );
+    if ( import_err != U8_ERROR_NONE )
     {
         universal_utf8_writer_write_str( out_english_report, "error opening database_file " );
         universal_utf8_writer_write_str( out_english_report, data_file_path );
         universal_utf8_writer_write_str( out_english_report, "\n" );
     }
+    import_err |= main_commands_private_report_error_info( this_, &err_info, out_english_report );
 
     TRACE_INFO("importing data...");
     TRACE_INFO_STR( "chosen data:", import_file_path );
@@ -355,6 +360,59 @@ u8_error_t main_commands_private_report_stat ( main_commands_t *this_,
     write_err |= universal_utf8_writer_write_str( out_english_report, "\t: " );
     write_err |= universal_utf8_writer_write_int( out_english_report, total );
     write_err |= universal_utf8_writer_write_str( out_english_report, "\n" );
+
+    TRACE_END_ERR( write_err );
+    return write_err;
+}
+
+u8_error_t main_commands_private_report_error_info ( main_commands_t *this_,
+                                                     const u8_error_info_t *error_info,
+                                                     universal_utf8_writer_t *out_english_report )
+{
+    TRACE_BEGIN();
+    assert( error_info != NULL );
+    assert( out_english_report != NULL );
+    u8_error_t write_err = U8_ERROR_NONE;
+
+    if ( u8_error_info_is_error( error_info ) )
+    {
+        write_err |= universal_utf8_writer_write_str( out_english_report, "error x" );
+        write_err |= universal_utf8_writer_write_hex( out_english_report, u8_error_info_get_error( error_info ) );
+
+        switch ( u8_error_info_get_unit ( error_info ) )
+        {
+            case U8_ERROR_INFO_UNIT_LINE:
+            {
+                write_err |= universal_utf8_writer_write_str( out_english_report, " at line " );
+                write_err |= universal_utf8_writer_write_int( out_english_report, u8_error_info_get_position( error_info ) );
+            }
+            break;
+
+            case U8_ERROR_INFO_UNIT_NAME:
+            {
+                write_err |= universal_utf8_writer_write_str( out_english_report, " at name " );
+                write_err |= universal_utf8_writer_write_str( out_english_report, u8_error_info_get_name( error_info ) );
+            }
+            break;
+
+            case U8_ERROR_INFO_UNIT_LINE_NAME:
+            {
+                write_err |= universal_utf8_writer_write_str( out_english_report, " at name " );
+                write_err |= universal_utf8_writer_write_str( out_english_report, u8_error_info_get_name( error_info ) );
+                write_err |= universal_utf8_writer_write_str( out_english_report, " at line " );
+                write_err |= universal_utf8_writer_write_int( out_english_report, u8_error_info_get_position( error_info ) );
+            }
+            break;
+
+            default:
+            {
+                /* no further information to add */
+            }
+            break;
+        }
+
+        write_err |= universal_utf8_writer_write_str( out_english_report, "\n" );
+    }
 
     TRACE_END_ERR( write_err );
     return write_err;

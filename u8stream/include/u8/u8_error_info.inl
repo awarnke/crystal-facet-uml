@@ -51,6 +51,11 @@ static inline void u8_error_info_destroy ( u8_error_info_t *this_ )
 {
 }
 
+static inline bool u8_error_info_is_error ( const u8_error_info_t *this_ )
+{
+    return ( (*this_).error != U8_ERROR_NONE );
+}
+
 static inline u8_error_t u8_error_info_get_error ( const u8_error_info_t *this_ )
 {
     return (*this_).error;

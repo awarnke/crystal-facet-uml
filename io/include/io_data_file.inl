@@ -3,14 +3,18 @@
 #include "tslog/tslog.h"
 #include <assert.h>
 
-static inline u8_error_t io_data_file_open_writeable ( io_data_file_t *this_, const char* db_file_path )
+static inline u8_error_t io_data_file_open_writeable ( io_data_file_t *this_,
+                                                       const char* db_file_path,
+                                                       u8_error_info_t *out_err_info )
 {
-    return io_data_file_open( this_, db_file_path, false );
+    return io_data_file_open( this_, db_file_path, false, out_err_info );
 }
 
-static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_, const char* db_file_path )
+static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_,
+                                                       const char* db_file_path,
+                                                       u8_error_info_t *out_err_info )
 {
-    return io_data_file_open( this_, db_file_path, true );
+    return io_data_file_open( this_, db_file_path, true, out_err_info );
 }
 
 static inline data_database_t *io_data_file_get_database_ptr ( io_data_file_t *this_ )

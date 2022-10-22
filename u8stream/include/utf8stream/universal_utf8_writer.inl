@@ -37,6 +37,16 @@ static inline u8_error_t universal_utf8_writer_write_int ( universal_utf8_writer
     return err;
 }
 
+static inline u8_error_t universal_utf8_writer_write_hex ( universal_utf8_writer_t *this_, const int64_t number ) {
+    char number_str[17]; /* this is sufficient for 64 bit integers */
+    /* Note: snprintf is not available on every OS */
+    sprintf( number_str, "%" PRIx64, number );
+    const size_t length = strlen(number_str);
+    const u8_error_t err = universal_output_stream_write( (*this_).output_stream, number_str, length );
+
+    return err;
+}
+
 static inline int universal_utf8_writer_flush ( universal_utf8_writer_t *this_ )
 {
     assert( (*this_).output_stream != NULL );
