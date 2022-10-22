@@ -16,6 +16,7 @@
 #include "set/data_stat.h"
 #include "utf8stream/universal_utf8_writer.h"
 #include "u8stream/universal_input_stream.h"
+#include "u8/u8_error_info.h"
 #include "u8/u8_error.h"
 
 /*!
@@ -67,14 +68,14 @@ void io_importer_destroy ( io_importer_t *this_ );
  *                 DATA_STAT_SERIES_ERROR (e.g. if a relation has no source
  *                 or no destination)
  *                 Statistics are only added, *io_stat shall be initialized by caller.
- *  \param out_read_line read position in the stream, in case of an error, this may help finding the cause
+ *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
  */
 u8_error_t io_importer_import_clipboard( io_importer_t *this_,
                                          const char *json_text,
                                          data_row_id_t diagram_id,
                                          data_stat_t *io_stat,
-                                         uint32_t *out_read_line
+                                         u8_error_info_t *out_err_info
                                        );
 
 /*!
@@ -91,6 +92,7 @@ u8_error_t io_importer_import_clipboard( io_importer_t *this_,
  *                 DATA_STAT_SERIES_ERROR (e.g. if a relation has no source
  *                 or no destination)
  *                 Statistics are only added, *io_stat shall be initialized by caller.
+ *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
  *  \return U8_ERROR_NONE in case of success,
  *          U8_ERROR_INVALID_REQUEST if file cannot be opened,
@@ -101,6 +103,7 @@ u8_error_t io_importer_import_file( io_importer_t *this_,
                                     io_import_mode_t import_mode,
                                     const char *import_file_path,
                                     data_stat_t *io_stat,
+                                    u8_error_info_t *out_err_info,
                                     universal_utf8_writer_t *out_english_report
                                   );
 
@@ -118,6 +121,7 @@ u8_error_t io_importer_import_file( io_importer_t *this_,
  *                 DATA_STAT_SERIES_ERROR (e.g. if a relation has no source
  *                 or no destination)
  *                 Statistics are only added, *io_stat shall be initialized by caller.
+ *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \param out_english_report universal_utf8_writer_t where to write a non-translated report to
  *  \return U8_ERROR_NONE in case of success,
  *          U8_ERROR_INVALID_REQUEST if file cannot be opened,
@@ -128,6 +132,7 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
                                       io_import_mode_t import_mode,
                                       universal_input_stream_t *in_stream,
                                       data_stat_t *io_stat,
+                                      u8_error_info_t *out_err_info,
                                       universal_utf8_writer_t *out_english_report
                                     );
 

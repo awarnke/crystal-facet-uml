@@ -945,15 +945,15 @@ u8_error_t json_element_reader_skip_next_string ( json_element_reader_t *this_ )
     return result;
 }
 
-void json_element_reader_get_read_line ( json_element_reader_t *this_, uint32_t *out_read_line )
+uint32_t json_element_reader_get_read_line ( json_element_reader_t *this_ )
 {
     TRACE_BEGIN();
-    assert ( NULL != out_read_line );
 
-    (*out_read_line) = json_token_reader_get_input_line( &((*this_).tokenizer) );
-    TRACE_INFO_INT( "line", *out_read_line );
+    const uint32_t read_line = json_token_reader_get_input_line( &((*this_).tokenizer) );
+    TRACE_INFO_INT( "line", read_line );
 
     TRACE_END();
+    return read_line;
 }
 
 u8_error_t json_element_reader_get_next_feature ( json_element_reader_t *this_, data_feature_t *out_object )

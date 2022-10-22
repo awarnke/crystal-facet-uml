@@ -15,6 +15,8 @@
 #include "u8stream/universal_input_stream.h"
 #include "utf8stream/universal_utf8_writer.h"
 #include "utf8stringbuf/utf8stringbuf.h"
+#include "u8/u8_error_info.h"
+#include "u8/u8_error.h"
 
 /*!
  *  \brief attributes of the json import object
@@ -57,13 +59,13 @@ void json_importer_destroy( json_importer_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param json_text stream in json format, not NULL
- *  \param out_read_line read position in the stream, in case of an error, this may help finding the cause
+ *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_DB_STRUCTURE if diagram_id does not exist,
  *          U8_ERROR_PARSER_STRUCTURE if unexpected order of tokens, other error code otherwise
  */
 u8_error_t json_importer_import_stream( json_importer_t *this_,
                                         universal_input_stream_t *json_text,
-                                        uint32_t *out_read_line
+                                        u8_error_info_t *out_err_info
                                       );
 
 /*!

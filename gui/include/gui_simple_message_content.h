@@ -48,6 +48,7 @@ typedef struct gui_simple_message_content_quantity_struct { const int quantity; 
 extern const gui_simple_message_content_quantity_t *GUI_SIMPLE_MESSAGE_CONTENT_DB_INCONSISTENT;  /*!< the current database file is inconsistent */
 extern const gui_simple_message_content_quantity_t *GUI_SIMPLE_MESSAGE_CONTENT_MAX_WINDOWS_ALREADY_OPEN;  /*!< the maximum number of windows is already open */
 
+#if 0
 /*! \brief tag-type to identify constants that may be used only at gui_simple_message_to_user_show_message_with_position method.
  *
  *  This type allows the compiler to check if a constant is used in the right function context.
@@ -57,6 +58,7 @@ extern const gui_simple_message_content_quantity_t *GUI_SIMPLE_MESSAGE_CONTENT_M
 typedef struct gui_simple_message_content_position_struct { const int stream_position; } gui_simple_message_content_position_t;
 
 extern const gui_simple_message_content_position_t *GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA;  /*!< paste failed, parser error at input data */
+#endif
 
 /*! \brief tag-type to identify constants that may be used only at gui_simple_message_to_user_show_message_with_name method.
  *

@@ -294,7 +294,7 @@ static void insert_invalid_json(void)
     u8_error_t data_err;
     data_stat_t stat;
     data_stat_init(&stat);
-    uint32_t read_line;
+    u8_error_info_t read_line;
     static const char *json_text_p = "{\"head\":{},\"views\":[{\n\"unknown-type\"\n:{}}]}";
     data_err = io_importer_import_clipboard( &importer,
                                              json_text_p,
@@ -304,7 +304,10 @@ static void insert_invalid_json(void)
                                            );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, data_err );
     TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
-    TEST_ASSERT_EQUAL_INT( read_line, 2 );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, u8_error_info_get_error( &read_line ) );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
+    TEST_ASSERT_EQUAL_INT( 2, u8_error_info_get_position( &read_line ) );
+
     /* error happens at char 24 according to the log */
     /* but this happens in json_element_reader_get_type_of_next_element which does not advance the read pos */
 
@@ -317,7 +320,9 @@ static void insert_invalid_json(void)
                                            );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, data_err );
     TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
-    TEST_ASSERT_EQUAL_INT( read_line, 2 );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, u8_error_info_get_error( &read_line ) );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
+    TEST_ASSERT_EQUAL_INT( 2, u8_error_info_get_position( &read_line ) );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -333,7 +338,7 @@ static void insert_invalid_parent_diag(void)
     u8_error_t data_err;
     data_stat_t stat;
     data_stat_init(&stat);
-    uint32_t read_line;
+    u8_error_info_t read_line;
     data_err = io_importer_import_clipboard( &importer,
                                              test_json_no_diag,
                                              root_diag_id+1, /* does not exist */
@@ -342,7 +347,9 @@ static void insert_invalid_parent_diag(void)
                                            );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_FOCUS_EMPTY, data_err );
     TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
-    TEST_ASSERT_EQUAL_INT( read_line, 20 );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_FOCUS_EMPTY, u8_error_info_get_error( &read_line ) );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
+    TEST_ASSERT_EQUAL_INT( 20, u8_error_info_get_position( &read_line ) );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -358,7 +365,7 @@ static void insert_empty_set(void)
     u8_error_t data_err;
     data_stat_t stat;
     data_stat_init(&stat);
-    uint32_t read_line;
+    u8_error_info_t read_line;
     static const char *json_text = "{\"head\":{},\"views\":[],\"nodes\":[],\"edges\":[]}\n";
     data_err = io_importer_import_clipboard( &importer,
                                              json_text,
@@ -368,7 +375,9 @@ static void insert_empty_set(void)
                                            );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
-    TEST_ASSERT_EQUAL_INT( read_line, 2 );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_line ) );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
+    TEST_ASSERT_EQUAL_INT( 2, u8_error_info_get_position( &read_line ) );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -384,7 +393,7 @@ static void insert_new_classifier_to_existing_diagram(void)
     u8_error_t data_err;
     data_stat_t stat;
     data_stat_init(&stat);
-    uint32_t read_pos;
+    u8_error_info_t read_pos;
     data_err = io_importer_import_clipboard( &importer,
                                              test_json_no_diag,
                                              root_diag_id,
@@ -399,7 +408,9 @@ static void insert_new_classifier_to_existing_diagram(void)
      /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped, because mode is PASTE to clipboard */
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
     TEST_ASSERT_EQUAL_INT( 4, data_stat_get_total_count( &stat ) );
-    TEST_ASSERT_EQUAL_INT( 62, read_pos );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+    TEST_ASSERT_EQUAL_INT( 62, u8_error_info_get_position( &read_pos ) );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -415,7 +426,7 @@ static void insert_new_classifier_to_new_diagram(void)
     u8_error_t data_err;
     data_stat_t stat;
     data_stat_init(&stat);
-    uint32_t read_pos;
+    u8_error_info_t read_pos;
     data_err = io_importer_import_clipboard( &importer,
                                              test_json_own_diagram,
                                              root_diag_id,
@@ -432,7 +443,9 @@ static void insert_new_classifier_to_new_diagram(void)
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
     TEST_ASSERT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );
-    TEST_ASSERT_EQUAL_INT( 99, read_pos );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+    TEST_ASSERT_EQUAL_INT( 99, u8_error_info_get_position( &read_pos ) );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -449,7 +462,7 @@ static void insert_existing_feature_to_other_classifier(void)
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        uint32_t read_pos;
+        u8_error_info_t read_pos;
         data_err = io_importer_import_clipboard( &importer,
                                                  test_json_no_diag,
                                                  root_diag_id,
@@ -458,13 +471,16 @@ static void insert_existing_feature_to_other_classifier(void)
                                                );
         TEST_ASSERT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, data_err );  /* source of relationship does not exist */
         TEST_ASSERT_EQUAL_INT( 4, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_existing_diagram */
-        TEST_ASSERT_EQUAL_INT( 62, read_pos );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_ASSERT_EQUAL_INT( 62, u8_error_info_get_position( &read_pos ) );
+
         data_stat_destroy(&stat);
     }
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        uint32_t read_pos;
+        u8_error_info_t read_pos;
         data_err = io_importer_import_clipboard( &importer,
                                                  test_json_no_diag,
                                                  root_diag_id,
@@ -483,7 +499,9 @@ static void insert_existing_feature_to_other_classifier(void)
         TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
         /* DATA_TABLE_RELATIONSHIP: no names of auto-generated lifelines are mentioned, therefore only unconditional relationships */
         TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
-        TEST_ASSERT_EQUAL_INT( 62, read_pos );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_ASSERT_EQUAL_INT( 62, u8_error_info_get_position( &read_pos ) );
 
         data_stat_destroy(&stat);
     }
@@ -501,7 +519,7 @@ static void insert_existing_classifier_to_new_diagram(void)
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        uint32_t read_pos;
+        u8_error_info_t read_pos;
         data_err = io_importer_import_clipboard( &importer,
                                                  test_json_own_diagram,
                                                  root_diag_id,
@@ -510,13 +528,16 @@ static void insert_existing_classifier_to_new_diagram(void)
                                                );
         TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
-        TEST_ASSERT_EQUAL_INT( 99, read_pos );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_ASSERT_EQUAL_INT( 99, u8_error_info_get_position( &read_pos ) );
+
         data_stat_destroy(&stat);
     }
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        uint32_t read_pos;
+        u8_error_info_t read_pos;
         data_err = io_importer_import_clipboard( &importer,
                                                  test_json_own_diagram,
                                                  root_diag_id,
@@ -537,7 +558,9 @@ static void insert_existing_classifier_to_new_diagram(void)
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_IGNORED ) );
         /*data_stat_trace(&stat);*/
         TEST_ASSERT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );
-        TEST_ASSERT_EQUAL_INT( 99, read_pos );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_ASSERT_EQUAL_INT( 99, u8_error_info_get_position( &read_pos ) );
 
         data_stat_destroy(&stat);
     }
@@ -555,7 +578,7 @@ static void insert_unconditional_relationships(void)
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        uint32_t read_pos;
+        u8_error_info_t read_pos;
         data_err = io_importer_import_clipboard( &importer,
                                                  test_json_own_diagram,
                                                  root_diag_id,
@@ -564,13 +587,16 @@ static void insert_unconditional_relationships(void)
                                                );
         TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
-        TEST_ASSERT_EQUAL_INT( 99, read_pos );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_ASSERT_EQUAL_INT( 99, u8_error_info_get_position( &read_pos ) );
+
         data_stat_destroy(&stat);
     }
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        uint32_t read_pos;
+        u8_error_info_t read_pos;
         data_err = io_importer_import_clipboard( &importer,
                                                  test_json_no_diag,
                                                  root_diag_id,
@@ -586,7 +612,9 @@ static void insert_unconditional_relationships(void)
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
         TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
-        TEST_ASSERT_EQUAL_INT( 66, read_pos );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_ASSERT_EQUAL_INT( 66, u8_error_info_get_position( &read_pos ) );
 
         data_stat_destroy(&stat);
     }
@@ -680,7 +708,7 @@ static void insert_relationships_to_non_scenario(void)
     u8_error_t data_err;
     data_stat_t stat;
     data_stat_init(&stat);
-    uint32_t read_pos;
+    u8_error_info_t read_pos;
     data_err = io_importer_import_clipboard( &importer,
                                              test_non_scenario_relationship,
                                              root_diag_id,
@@ -695,7 +723,9 @@ static void insert_relationships_to_non_scenario(void)
     TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_FEATURE ) );
     TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
     TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );
-    TEST_ASSERT_EQUAL_INT( 76, read_pos );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+    TEST_ASSERT_EQUAL_INT( 76, u8_error_info_get_position( &read_pos ) );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -755,14 +785,19 @@ static void insert_scenario_relationships_to_scenario(void)
         universal_memory_input_stream_t mem_json;
         universal_memory_input_stream_init( &mem_json, test_json_own_diagram, utf8string_get_length( test_json_own_diagram ) );
 
+        u8_error_info_t read_pos;
         data_err = io_importer_import_stream( &importer,
                                               IO_IMPORT_MODE_CREATE | IO_IMPORT_MODE_LINK,
                                               universal_memory_input_stream_get_input_stream( &mem_json ),
                                               &stat,
+                                              &read_pos,
                                               &report
                                             );
         TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );  /* 1 less than in insert_new_classifier_to_new_diagram */
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_ASSERT_EQUAL_INT( 99, u8_error_info_get_position( &read_pos ) );
 
         universal_memory_input_stream_destroy( &mem_json );
         universal_utf8_writer_destroy( &report );
@@ -772,7 +807,7 @@ static void insert_scenario_relationships_to_scenario(void)
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        uint32_t read_pos;
+        u8_error_info_t read_pos;
         data_err = io_importer_import_clipboard( &importer,
                                                  test_json_scenario_self_relation,
                                                  (data_row_id_t)3,
@@ -788,7 +823,9 @@ static void insert_scenario_relationships_to_scenario(void)
         /* DATA_TABLE_RELATIONSHIP: source+dst classifier are a lifeline */
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
         TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count( &stat ) );
-        TEST_ASSERT_EQUAL_INT( 34, read_pos );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+        TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_ASSERT_EQUAL_INT( 34, u8_error_info_get_position( &read_pos ) );
 
         data_stat_destroy(&stat);
     }

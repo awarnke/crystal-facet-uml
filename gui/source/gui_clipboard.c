@@ -190,29 +190,32 @@ void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const c
     u8_error_t parse_error;
     data_stat_t stat;
     data_stat_init(&stat);
-    uint32_t read_err_pos;
+    u8_error_info_t err_info;
     parse_error = io_importer_import_clipboard( &((*this_).importer),
                                                 json_text,
                                                 (*this_).destination_diagram_id,
                                                 &stat,
-                                                &read_err_pos
+                                                &err_info
                                               );
 
-    if ( U8_ERROR_NONE != parse_error )
+    if ( u8_error_info_is_error( &err_info ) )
     {
-        gui_simple_message_to_user_show_message_with_line ( (*this_).message_to_user,
-                                                            GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA,
-                                                            read_err_pos
-                                                          );
+        gui_simple_message_to_user_show_error_info( (*this_).message_to_user, &err_info );
+    }
+    else if ( U8_ERROR_NONE != parse_error )
+    {
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_INPUT_DATA
+                                               );
     }
     else
     {
-        gui_simple_message_to_user_show_message_with_stat ( (*this_).message_to_user,
-                                                            GUI_SIMPLE_MESSAGE_TYPE_INFO,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_PASTE_FROM_CLIPBOARD,
-                                                            &stat
-                                                          );
+        gui_simple_message_to_user_show_message_with_stat( (*this_).message_to_user,
+                                                           GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                           GUI_SIMPLE_MESSAGE_CONTENT_PASTE_FROM_CLIPBOARD,
+                                                           &stat
+                                                         );
     }
 
     data_stat_destroy(&stat);

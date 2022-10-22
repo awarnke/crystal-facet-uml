@@ -271,7 +271,7 @@ u8_error_t io_data_file_private_import ( io_data_file_t *this_, const char *src_
         {
             data_stat_t import_stat;
             data_stat_init ( &import_stat );
-            import_err = io_importer_import_file( &importer, import_mode, src_file, &import_stat, &out_null );
+            import_err = io_importer_import_file( &importer, import_mode, src_file, &import_stat, out_err_info, &out_null );
             data_stat_trace( &import_stat );
             data_stat_destroy ( &import_stat );
         }

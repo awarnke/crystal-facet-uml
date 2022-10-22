@@ -7,8 +7,10 @@ const gui_simple_message_content_quantity_t *GUI_SIMPLE_MESSAGE_CONTENT_DB_INCON
 static const gui_simple_message_content_quantity_t GUI_SIMPLE_MESSAGE_CONTENT_MAX_WINDOWS_ALREADY_OPEN_DATA = { .quantity=0 };
 const gui_simple_message_content_quantity_t *GUI_SIMPLE_MESSAGE_CONTENT_MAX_WINDOWS_ALREADY_OPEN = &GUI_SIMPLE_MESSAGE_CONTENT_MAX_WINDOWS_ALREADY_OPEN_DATA;
 
+#if 0
 static const gui_simple_message_content_position_t GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA_DATA = { .stream_position=0 };
 const gui_simple_message_content_position_t *GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA = &GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA_DATA;
+#endif
 
 static const gui_simple_message_content_name_t GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_OPENED_DATA = { .name=NULL };
 const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_OPENED = &GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_OPENED_DATA;

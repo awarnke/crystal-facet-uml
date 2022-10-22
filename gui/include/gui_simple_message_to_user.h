@@ -81,6 +81,7 @@ void gui_simple_message_to_user_show_message_with_quantity ( gui_simple_message_
                                                              int quantity
                                                            );
 
+#if 0
 /*!
  *  \brief shows a message
  *
@@ -94,6 +95,7 @@ void gui_simple_message_to_user_show_message_with_line ( gui_simple_message_to_u
                                                          const gui_simple_message_content_position_t *content_id,
                                                          int stream_line
                                                        );
+#endif
 
 /*!
  *  \brief shows a message

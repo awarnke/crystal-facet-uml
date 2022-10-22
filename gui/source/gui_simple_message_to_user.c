@@ -6,6 +6,7 @@
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
 #include "utf8stringbuf/utf8stringbuf.h"
+#include "u8/u8_error.h"
 #include <stdbool.h>
 #include <assert.h>
 
@@ -232,6 +233,7 @@ void gui_simple_message_to_user_show_message_with_quantity ( gui_simple_message_
     TRACE_END();
 }
 
+#if 0
 void gui_simple_message_to_user_show_message_with_line ( gui_simple_message_to_user_t *this_,
                                                          gui_simple_message_type_t type_id,
                                                          const gui_simple_message_content_position_t *content_id,
@@ -265,6 +267,7 @@ void gui_simple_message_to_user_show_message_with_line ( gui_simple_message_to_u
 
     TRACE_END();
 }
+#endif
 
 void gui_simple_message_to_user_show_message_with_name ( gui_simple_message_to_user_t *this_,
                                                          gui_simple_message_type_t type_id,
@@ -587,6 +590,24 @@ void gui_simple_message_to_user_show_error_info ( gui_simple_message_to_user_t *
     utf8stringbuf_clear( (*this_).private_temp_str );
     switch ( u8_error_info_get_error( err_info ) )
     {
+        case U8_ERROR_LEXICAL_STRUCTURE:
+        {
+            utf8stringbuf_append_str( (*this_).private_temp_str, "Lexical error in input" );
+        }
+        break;
+
+        case U8_ERROR_PARSER_STRUCTURE:
+        {
+            utf8stringbuf_append_str( (*this_).private_temp_str, "Parser error in input" );
+        }
+        break;
+
+        case U8_ERROR_STRING_BUFFER_EXCEEDED:
+        {
+            utf8stringbuf_append_str( (*this_).private_temp_str, "String too long in input" );
+        }
+        break;
+
         default:
         {
             utf8stringbuf_append_str( (*this_).private_temp_str, "Error x" );
@@ -595,6 +616,7 @@ void gui_simple_message_to_user_show_error_info ( gui_simple_message_to_user_t *
         }
         break;
     }
+
     switch ( u8_error_info_get_unit ( err_info ) )
     {
         case U8_ERROR_INFO_UNIT_LINE:

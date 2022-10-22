@@ -34,11 +34,11 @@ void json_importer_destroy( json_importer_t *this_ )
 
 u8_error_t json_importer_import_stream( json_importer_t *this_,
                                         universal_input_stream_t *json_text,
-                                        uint32_t *out_read_line )
+                                        u8_error_info_t *out_err_info )
 {
     TRACE_BEGIN();
     assert( NULL != json_text );
-    assert( NULL != out_read_line );
+    assert( NULL != out_err_info );
 
     u8_error_t sync_error = U8_ERROR_NONE;
 
@@ -70,7 +70,9 @@ u8_error_t json_importer_import_stream( json_importer_t *this_,
         sync_error = json_element_reader_expect_footer( &((*this_).temp_element_reader) );
     }
 
-    json_element_reader_get_read_line ( &((*this_).temp_element_reader), out_read_line );
+    const uint32_t current_read_line = json_element_reader_get_read_line ( &((*this_).temp_element_reader) );
+    u8_error_info_init_line( out_err_info, sync_error, current_read_line );
+
     json_element_reader_destroy( &((*this_).temp_element_reader) );
 
     TRACE_END_ERR( sync_error );

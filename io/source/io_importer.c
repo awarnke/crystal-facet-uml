@@ -42,10 +42,12 @@ u8_error_t io_importer_import_clipboard( io_importer_t *this_,
                                          const char *json_text,
                                          data_row_id_t diagram_id,
                                          data_stat_t *io_stat,
-                                         uint32_t *out_read_line )
+                                         u8_error_info_t *out_err_info )
 {
     TRACE_BEGIN();
     assert( NULL != json_text );
+    assert( out_err_info != NULL );
+    u8_error_info_init_void( out_err_info );
     u8_error_t result = U8_ERROR_NONE;
 
     universal_null_output_stream_t null_out;
@@ -68,7 +70,7 @@ u8_error_t io_importer_import_clipboard( io_importer_t *this_,
 
     result = json_importer_import_stream( &((*this_).temp_json_importer),
                                           in_stream,
-                                          out_read_line
+                                          out_err_info
                                         );
 
     universal_memory_input_stream_destroy( &in_mem_stream );
@@ -87,12 +89,15 @@ u8_error_t io_importer_import_file( io_importer_t *this_,
                                     io_import_mode_t import_mode,
                                     const char *import_file_path,
                                     data_stat_t *io_stat,
+                                    u8_error_info_t *out_err_info,
                                     universal_utf8_writer_t *out_english_report )
 {
     TRACE_BEGIN();
     assert( import_file_path != NULL );
     assert( io_stat != NULL );
     assert( out_english_report != NULL );
+    assert( out_err_info != NULL );
+    u8_error_info_init_void( out_err_info );
     u8_error_t parse_error = U8_ERROR_NONE;
 
     /* open file */
@@ -104,7 +109,7 @@ u8_error_t io_importer_import_file( io_importer_t *this_,
     if ( parse_error == U8_ERROR_NONE )
     {
         universal_input_stream_t *const in_stream = universal_file_input_stream_get_input_stream( &in_file );
-        parse_error = io_importer_import_stream( this_, import_mode, in_stream, io_stat, out_english_report );
+        parse_error = io_importer_import_stream( this_, import_mode, in_stream, io_stat, out_err_info, out_english_report );
     }
 
     /* close file */
@@ -119,12 +124,15 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
                                       io_import_mode_t import_mode,
                                       universal_input_stream_t *in_stream,
                                       data_stat_t *io_stat,
+                                      u8_error_info_t *out_err_info,
                                       universal_utf8_writer_t *out_english_report )
 {
     TRACE_BEGIN();
     assert( in_stream != NULL );
     assert( io_stat != NULL );
     assert( out_english_report != NULL );
+    assert( out_err_info != NULL );
+    u8_error_info_init_void( out_err_info );
     u8_error_t parse_error = U8_ERROR_NONE;
 
     io_import_elements_init( &((*this_).temp_elements_importer),
@@ -143,20 +151,11 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
             = "PASS: Check that the file structure is valid\n      ";
         universal_utf8_writer_write_str( out_english_report, PASS_CHECK_TITLE );
 
-        uint32_t error_line;
         io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_CHECK );
         parse_error = json_importer_import_stream( &((*this_).temp_json_importer),
                                                    in_stream,
-                                                   &error_line
+                                                   out_err_info
                                                  );
-        if ( parse_error != U8_ERROR_NONE )
-        {
-            const u8_error_t log_err
-                = universal_utf8_writer_write_str( out_english_report, "error in input file, line: " )
-                | universal_utf8_writer_write_int( out_english_report, error_line )
-                | universal_utf8_writer_write_str( out_english_report, "\n" );
-            parse_error |= log_err;
-        }
 
         universal_utf8_writer_write_str( out_english_report, "\n" );
     }
@@ -178,20 +177,11 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
             = "PASS: Create diagrams, classifiers and features\n      ";
         universal_utf8_writer_write_str( out_english_report, PASS_CREATE_TITLE );
 
-        uint32_t error_line;
         io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_CREATE );
         parse_error = json_importer_import_stream( &((*this_).temp_json_importer),
                                                    in_stream,
-                                                   &error_line
+                                                   out_err_info
                                                  );
-        if ( parse_error != U8_ERROR_NONE )
-        {
-            const u8_error_t log_err
-                = universal_utf8_writer_write_str( out_english_report, "error in input file, line: " )
-                | universal_utf8_writer_write_int( out_english_report, error_line )
-                | universal_utf8_writer_write_str( out_english_report, "\n" );
-            parse_error |= log_err;
-        }
 
         universal_utf8_writer_write_str( out_english_report, "\n" );
     }
@@ -210,20 +200,11 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
             = "PASS: Link diagrams to parents, classifiers to diagrams, create relationships\n      ";
         universal_utf8_writer_write_str( out_english_report, PASS_LINK_TITLE );
 
-        uint32_t error_line;
         io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_LINK );
         parse_error = json_importer_import_stream( &((*this_).temp_json_importer),
                                                    in_stream,
-                                                   &error_line
+                                                   out_err_info
                                                  );
-        if ( parse_error != U8_ERROR_NONE )
-        {
-            const u8_error_t log_err
-                = universal_utf8_writer_write_str( out_english_report, "error in input file, line: " )
-                | universal_utf8_writer_write_int( out_english_report, error_line )
-                | universal_utf8_writer_write_str( out_english_report, "\n" );
-            parse_error |= log_err;
-        }
 
         universal_utf8_writer_write_str( out_english_report, "\n" );
     }

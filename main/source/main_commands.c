@@ -252,8 +252,10 @@ u8_error_t main_commands_import ( main_commands_t *this_,
         {
             data_stat_t import_stat;
             data_stat_init ( &import_stat );
-            import_err = io_importer_import_file( &importer, import_mode, import_file_path, &import_stat, out_english_report );
+            u8_error_info_t err_info;
+            import_err = io_importer_import_file( &importer, import_mode, import_file_path, &import_stat, &err_info, out_english_report );
             import_err |= main_commands_private_report_stat( this_, &import_stat, "imported", out_english_report );
+            import_err |= main_commands_private_report_error_info( this_, &err_info, out_english_report );
             data_stat_trace( &import_stat );
             data_stat_destroy ( &import_stat );
         }
