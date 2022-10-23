@@ -1161,11 +1161,6 @@ u8_error_t json_element_reader_get_next_diagramelement( json_element_reader_t *t
                     {
                         result = json_element_reader_skip_next_string( this_ );
                     }
-                    else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE ) )
-                    {
-                        /* new in 1.43.0: focused_feature */
-                        result = json_element_reader_skip_next_string( this_ );
-                    }
                     else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS ) )
                     {
                         int64_t parsed_integer;

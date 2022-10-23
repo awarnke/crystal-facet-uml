@@ -57,6 +57,7 @@
 /* deprecated: */
 #define JSON_CONSTANTS_KEY_DIAGRAM_PARENT_ID "parent_id"
 #define JSON_CONSTANTS_KEY_DIAGRAM_PARENT_NAME "parent_name"
+/* parent is the uuid of the parent diagram (if not root) */
 #define JSON_CONSTANTS_KEY_DIAGRAM_PARENT "parent"
 #define JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE "diagram_type"
 #define JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE_NAME "type"
@@ -77,10 +78,9 @@
 /* deprecated: */
 #define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE_ID "focused_feature_id"
 #define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE_NAME "focused_feature_name"
-/* new in 1.43.0: focused_feature */
-#define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE "focused_feature"
 #define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS "display_flags"
 #define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAG_NAMES "display_tags"
+/* node is the uuid of either the classifier or (if defined) the focused_feature */
 #define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE "node"
 
 #define JSON_CONSTANTS_KEY_CLASSIFIER "classifier"
@@ -111,6 +111,7 @@
 /* deprecated: */
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_ID "from_feature_id"
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_KEY "from_feature_key"
+/* from_node is the uuid of either the from_classifier or (if defined) the from_feature */
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE "from_node"
 /* deprecated: */
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_ID "to_classifier_id"
@@ -118,6 +119,7 @@
 /* deprecated: */
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_ID "to_feature_id"
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_KEY "to_feature_key"
+/* to_node is the uuid of either the to_classifier or (if defined) the to_feature */
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE "to_node"
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE "main_type"
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE_NAME "type"

@@ -70,6 +70,7 @@ u8_error_t json_importer_import_stream( json_importer_t *this_,
         sync_error = json_element_reader_expect_footer( &((*this_).temp_element_reader) );
     }
 
+    /* report line number of current sync_error */
     const uint32_t current_read_line = json_element_reader_get_read_line ( &((*this_).temp_element_reader) );
     u8_error_info_init_line( out_err_info, sync_error, current_read_line );
 
@@ -112,6 +113,7 @@ u8_error_t json_importer_private_import_views( json_importer_t *this_ )
                     case DATA_TABLE_DIAGRAM:
                     {
                         data_diagram_init_empty( &((*this_).temp_diagram) );
+                        /* parent is the uuid of the parent diagram (if not root) */
                         char diag_parent_buf[DATA_UUID_STRING_SIZE] = "";
                         utf8stringbuf_t diag_parent_uuid = UTF8STRINGBUF(diag_parent_buf);
                         bool has_diagramelements;
@@ -285,8 +287,10 @@ u8_error_t json_importer_private_import_edges( json_importer_t *this_ )
                     case DATA_TABLE_RELATIONSHIP:
                     {
                         data_relationship_init_empty( &((*this_).temp_relationship) );
+                        /* from_node is the uuid of either the from_classifier or (if defined) the from_feature */
                         char rel_from_node_buf[DATA_UUID_STRING_SIZE] = "";
                         utf8stringbuf_t rel_from_node_uuid = UTF8STRINGBUF(rel_from_node_buf);
+                        /* to_node is the uuid of either the to_classifier or (if defined) the to_feature */
                         char rel_to_node_buf[DATA_UUID_STRING_SIZE] = "";
                         utf8stringbuf_t rel_to_node_uuid = UTF8STRINGBUF(rel_to_node_buf);
                         sync_error = json_element_reader_get_next_relationship( &((*this_).temp_element_reader),
@@ -349,6 +353,7 @@ u8_error_t json_importer_private_import_diagramelement_array( json_importer_t *t
             if ( ! end_array )
             {
                 data_diagramelement_init_empty( &((*this_).temp_diagramelement) );
+                /* node is the uuid of either the classifier or (if defined) the focused_feature */
                 char node_uuid_buf[DATA_UUID_STRING_SIZE] = "";
                 utf8stringbuf_t node_uuid = UTF8STRINGBUF(node_uuid_buf);
                 sync_error |= json_element_reader_get_next_diagramelement( &((*this_).temp_element_reader),

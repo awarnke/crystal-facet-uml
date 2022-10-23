@@ -378,8 +378,33 @@ u8_error_t main_commands_private_report_error_info ( main_commands_t *this_,
 
     if ( u8_error_info_is_error( error_info ) )
     {
-        write_err |= universal_utf8_writer_write_str( out_english_report, "error x" );
-        write_err |= universal_utf8_writer_write_hex( out_english_report, u8_error_info_get_error( error_info ) );
+        switch ( u8_error_info_get_error( error_info ) )
+        {
+            case U8_ERROR_LEXICAL_STRUCTURE:
+            {
+                write_err |= universal_utf8_writer_write_str( out_english_report, "Lexical error in input" );
+            }
+            break;
+
+            case U8_ERROR_PARSER_STRUCTURE:
+            {
+                write_err |= universal_utf8_writer_write_str( out_english_report, "Parser error in input" );
+            }
+            break;
+
+            case U8_ERROR_STRING_BUFFER_EXCEEDED:
+            {
+                write_err |= universal_utf8_writer_write_str( out_english_report, "String too long in input" );
+            }
+            break;
+
+            default:
+            {
+                write_err |= universal_utf8_writer_write_str( out_english_report, "Error x" );
+                write_err |= universal_utf8_writer_write_hex( out_english_report, u8_error_info_get_error( error_info ) );
+            }
+            break;
+        }
 
         switch ( u8_error_info_get_unit ( error_info ) )
         {
