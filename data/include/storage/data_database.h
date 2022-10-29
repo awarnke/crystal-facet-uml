@@ -66,7 +66,9 @@ void data_database_init ( data_database_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param db_file_path a relative or absolute file path
- *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
+ *  \return U8_ERROR_READ_ONLY_DB or U8_ERROR_AT_DB if the db cannot be initialized,
+ *          U8_ERROR_NO_DB if the db file cannot be created (e.g. read only parent directory)
+ *          U8_ERROR_INVALID_REQUEST if a previous database was not closed before,
  *          U8_ERROR_NONE in case of success
  */
 static inline u8_error_t data_database_open ( data_database_t *this_, const char* db_file_path );
@@ -80,7 +82,9 @@ static inline u8_error_t data_database_open ( data_database_t *this_, const char
  *
  *  \param this_ pointer to own object attributes
  *  \param db_file_path a relative or absolute file path
- *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
+ *  \return U8_ERROR_READ_ONLY_DB or U8_ERROR_AT_DB if the db cannot be initialized,
+ *          U8_ERROR_NO_DB if the db file cannot be created (e.g. read only parent directory)
+ *          U8_ERROR_INVALID_REQUEST if a previous database was not closed before,
  *          U8_ERROR_NONE in case of success
  */
 static inline u8_error_t data_database_open_read_only ( data_database_t *this_, const char* db_file_path );
@@ -91,7 +95,8 @@ static inline u8_error_t data_database_open_read_only ( data_database_t *this_, 
  *  Creates a new datanase in memory for testing purposes
  *
  *  \param this_ pointer to own object attributes
- *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if in-memory db cannot be created,
+ *  \return U8_ERROR_READ_ONLY_DB or U8_ERROR_AT_DB if the db cannot be initialized,
+ *          U8_ERROR_INVALID_REQUEST if a previous database was not closed before,
  *          U8_ERROR_NONE in case of success
  */
 static inline u8_error_t data_database_open_in_memory ( data_database_t *this_ );

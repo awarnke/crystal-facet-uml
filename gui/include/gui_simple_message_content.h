@@ -69,6 +69,7 @@ extern const gui_simple_message_content_position_t *GUI_SIMPLE_MESSAGE_CONTENT_I
 typedef struct gui_simple_message_content_name_struct { const char *name; } gui_simple_message_content_name_t;
 
 extern const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_OPENED;  /*!< the chosen database file cannot be used */
+extern const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_CREATEABLE;  /*!< the chosen database file cannot be created */
 extern const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR;  /*!< the chosen database file was opened but with a warning/error */
 extern const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_FILE_EXPORT_FAILED;  /*!< some or all diagrams could not be exported */
 extern const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE;  /*!< object not created or name not changed */

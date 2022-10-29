@@ -82,6 +82,15 @@ u8_error_t gui_file_db_manager_use_db( gui_file_db_manager_t *this_, const char 
             gui_simple_message_to_user_hide( (*this_).message_to_user );
         }
     }
+    else if ( U8_ERROR_NO_DB == error )
+    {
+        /* Most likely the parent directory of database is read only */
+        gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
+                                                           GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                           GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_CREATEABLE,
+                                                           filename
+                                                         );
+    }
     else
     {
         if ( u8_error_info_is_error( &err_info ) )

@@ -1494,6 +1494,13 @@
             "classifier_name": "WaitState",
             "node": "3393eca2-58ca-4b76-9d90-ba9fae631f56",
             "uuid": "dd92b4f4-66c3-43f2-bca8-a12232b8ad81"
+          },
+          {
+            "id": 263,
+            "display_flags": 0,
+            "classifier_name": "System Boundary has no features",
+            "node": "bf06345b-9ee0-4c46-b5a0-48b700ea5ed0",
+            "uuid": "3e190776-ed3c-4c8d-b7ad-4a72b0176422"
           }
         ]
       }
@@ -5887,6 +5894,25 @@
             "list_order": 1687614668,
             "uuid": "d528fb15-6eeb-42ff-954e-e5c2bfa5958f"
           }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 116,
+        "main_type": 102,
+        "type": "Component",
+        "stereotype": "",
+        "name": "System Boundary has no features",
+        "description": [
+                ""
+        ],
+        "x_order": -1470729245,
+        "y_order": -2067458534,
+        "list_order": -2067458534,
+        "uuid": "bf06345b-9ee0-4c46-b5a0-48b700ea5ed0",
+        "features":
+        [
         ]
       }
     },
