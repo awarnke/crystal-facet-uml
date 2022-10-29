@@ -811,20 +811,6 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
                                               );
         }
 
-        /* from node ref_uuid */
-        const char *const from_node_ref
-            = ( from_f_valid )
-            ? data_feature_get_uuid_const( from_f )
-            : ( from_c_valid )
-            ? data_classifier_get_uuid_const( from_c )
-            : "";
-        out_err |= json_writer_write_member_string( &((*this_).json_writer),
-                                                    4,
-                                                    JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE,
-                                                    from_node_ref,
-                                                    true
-                                                  );
-
         /* to_classifier_name */
         const char *const to_c_name = to_c_valid ? data_classifier_get_name_const( to_c ) : "";
         out_err |= json_writer_write_plain( &((*this_).json_writer),
@@ -866,6 +852,20 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
                                                 JSON_CONSTANTS_NEXT_NL
                                               );
         }
+
+        /* from node ref_uuid */
+        const char *const from_node_ref
+            = ( from_f_valid )
+            ? data_feature_get_uuid_const( from_f )
+            : ( from_c_valid )
+            ? data_classifier_get_uuid_const( from_c )
+            : "";
+        out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                    4,
+                                                    JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE,
+                                                    from_node_ref,
+                                                    true
+                                                  );
 
         /* to node ref_uuid */
         const char *const to_node_ref
