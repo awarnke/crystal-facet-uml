@@ -47,7 +47,6 @@ ideas for future versions:
       interactionuse(diag-reference)-to-fragment(diag);
       part-to-component, object-to-class
   [ ] links unclear: provided/required-interface(feature)-to-interface(classifier)
-  [ ] Should subsystems/boundaries have features? currently forbidden.
   @ctrl
   [ ] delete features immediately when they become invisible in all diagrams (note: the search+xmi+json export find them)
   [ ] delete relationships immediately when they become invisible in all diagrams (note: the search+xmi+json export find them)

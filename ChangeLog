@@ -5,6 +5,7 @@ crystal-facet-uml (1.43.0) UNRELEASED; urgency=medium
   * Errors at parsing json are shown to user including the line of occurrence
   * json export omits ids of linked objects, only uuids are exported
   * specific error message on read-only parent directories added
+  * subsystems/boundaries and interruptable regions can have features
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 01 Nov 2022 14:00:00 +0200
 

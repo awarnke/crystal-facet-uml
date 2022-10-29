@@ -1,12 +1,12 @@
 {
   "head": {
     "encoding": "utf-8",
-    "structure_format": "rfc-8259",
+    "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.42.0"
+    "generator_version": "1.43.0"
   }
   ,
   "views":
@@ -14,7 +14,6 @@
     {
       "diagram": {
         "id": 1,
-        "parent_id": -1,
         "diagram_type": 10,
         "type": "UMLUseCaseDiagram",
         "name": "Overview [root]",
@@ -29,27 +28,21 @@
           {
             "id": 85,
             "display_flags": 0,
-            "classifier_id": 62,
             "classifier_name": "Reader",
-            "focused_feature_id": -1,
             "node": "b89da5a3-66e4-4577-9e2e-86e0ff92d3c2",
             "uuid": "7c64a41e-8f16-4a7c-ad98-672d292543d5"
           },
           {
             "id": 86,
             "display_flags": 0,
-            "classifier_id": 63,
             "classifier_name": "View UML Diagram Examples",
-            "focused_feature_id": -1,
             "node": "3328cd45-4906-4211-87b6-1fe5f466d0a9",
             "uuid": "4be79229-c87d-4040-8e71-07ee55cad6b1"
           },
           {
             "id": 87,
             "display_flags": 0,
-            "classifier_id": 64,
             "classifier_name": "View Feature Listings",
-            "focused_feature_id": -1,
             "node": "b8e0e9de-4ddc-429e-a92b-1b9fc51d8b8e",
             "uuid": "7c2ece7d-e5fb-4235-8961-e9e9d6d900dc"
           }
@@ -59,8 +52,6 @@
     {
       "diagram": {
         "id": 2,
-        "parent_id": 1,
-        "parent_name": "Overview [root]",
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
         "name": "Diagram Features",
@@ -69,6 +60,7 @@
         ],
         "list_order": 0,
         "display_flags": 0,
+        "parent_name": "Overview [root]",
         "parent": "77e513a5-8cce-40c7-ba3f-ec58754facec",
         "uuid": "42ecca29-2edd-4b50-aff8-7260ee4c34ae",
         "diagramelements":
@@ -76,27 +68,21 @@
           {
             "id": 1,
             "display_flags": 0,
-            "classifier_id": 1,
             "classifier_name": "Classifier",
-            "focused_feature_id": -1,
             "node": "90179656-1de3-4a50-a7b9-8efe048abffe",
             "uuid": "1b484bb0-f9f1-452e-b3da-9423eed84e77"
           },
           {
             "id": 2,
             "display_flags": 0,
-            "classifier_id": 2,
             "classifier_name": "Relationship",
-            "focused_feature_id": -1,
             "node": "971fff79-422b-44fe-9943-eb296e4cec27",
             "uuid": "b58f199f-b3ce-4ea4-9a78-3131025d7d4f"
           },
           {
             "id": 14,
             "display_flags": 0,
-            "classifier_id": 14,
             "classifier_name": "Diagram",
-            "focused_feature_id": -1,
             "node": "65cea034-ef78-49c5-9e2b-03f7cc7a9b2e",
             "uuid": "d4ee3c92-ea47-4cec-ad2d-7f0fc6ac72c1"
           }
@@ -106,8 +92,6 @@
     {
       "diagram": {
         "id": 3,
-        "parent_id": 2,
-        "parent_name": "Diagram Features",
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
         "name": "Classifiers",
@@ -116,6 +100,7 @@
         ],
         "list_order": 98304,
         "display_flags": 0,
+        "parent_name": "Diagram Features",
         "parent": "42ecca29-2edd-4b50-aff8-7260ee4c34ae",
         "uuid": "37c9e2a2-ea47-4e3d-9e03-3d6b10d0f77e",
         "diagramelements":
@@ -123,128 +108,107 @@
           {
             "id": 10,
             "display_flags": 0,
-            "classifier_id": 10,
             "classifier_name": "Class",
-            "focused_feature_id": -1,
             "node": "4aaf46e8-822b-4947-8b05-79342398adb0",
             "uuid": "5e9a589f-96aa-45b7-8bac-cc469f61bccd"
           },
           {
             "id": 19,
             "display_flags": 0,
-            "classifier_id": 15,
             "classifier_name": "Package",
-            "focused_feature_id": -1,
             "node": "b008535f-f72e-415c-a842-882e07f37d1a",
             "uuid": "d34a4ff0-59b8-46eb-ad28-7e6a9aba18bb"
           },
           {
             "id": 20,
             "display_flags": 0,
-            "classifier_id": 16,
             "classifier_name": "Standard User",
-            "focused_feature_id": -1,
             "node": "36ddf5d4-cd9e-4c34-96ec-c1d6b28939c8",
             "uuid": "30e69d45-eb23-47f4-bc3a-9605617a269f"
           },
           {
             "id": 21,
             "display_flags": 0,
-            "classifier_id": 17,
             "classifier_name": "Note 1",
-            "focused_feature_id": -1,
             "node": "eb80fb50-80ac-4abd-9675-e51150cdf06b",
             "uuid": "06069509-8519-4d59-92f1-44812fa9f6a7"
           },
           {
             "id": 22,
             "display_flags": 0,
-            "classifier_id": 18,
             "classifier_name": "config file",
-            "focused_feature_id": -1,
             "node": "4b696cb1-514c-45e3-b5d5-733799d758ec",
             "uuid": "7bd25e43-4323-4552-9af7-e23469ead770"
           },
           {
             "id": 23,
             "display_flags": 0,
-            "classifier_id": 19,
             "classifier_name": "systemd",
-            "focused_feature_id": -1,
             "node": "018c49af-80c7-4ff7-8314-07fb7a28eecf",
             "uuid": "990bd4f0-7602-4fb9-8c57-de16b1fd6a33"
           },
           {
             "id": 24,
             "display_flags": 0,
-            "classifier_id": 20,
             "classifier_name": "main CPU",
-            "focused_feature_id": -1,
             "node": "cc03adbd-98d9-4a8e-a95f-651438aee431",
             "uuid": "5d16378d-5eef-4203-88c2-06886f15d1a8"
           },
           {
             "id": 25,
             "display_flags": 0,
-            "classifier_id": 21,
             "classifier_name": "running state",
-            "focused_feature_id": -1,
             "node": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
             "uuid": "d93d9189-56f3-4e1a-a741-575079751ecf"
           },
           {
             "id": 26,
             "display_flags": 0,
-            "classifier_id": 22,
             "classifier_name": "system start",
-            "focused_feature_id": -1,
             "node": "66ea7e3b-6468-4b47-81da-3c1c149dfe6e",
             "uuid": "3cf68d48-a834-419c-98ee-21398de5d632"
           },
           {
             "id": 114,
             "display_flags": 0,
-            "classifier_id": 90,
             "classifier_name": "Requirement",
-            "focused_feature_id": -1,
             "node": "961c9cb7-0e7e-4710-8279-4431b95d032b",
             "uuid": "24a405ab-6224-4613-9db9-5462dfbd5472"
           },
           {
             "id": 138,
             "display_flags": 0,
-            "classifier_id": 114,
             "classifier_name": "Block",
-            "focused_feature_id": -1,
             "node": "fe3edb57-b9ee-45ac-92e0-9469c3cc8205",
             "uuid": "5825e60e-dc25-4e77-b12a-f5bf50ac5c5c"
           },
           {
             "id": 139,
             "display_flags": 0,
-            "classifier_id": 115,
             "classifier_name": "Constraint Property",
-            "focused_feature_id": -1,
             "node": "877e4375-adf5-4466-851a-e8bf20b84ab2",
             "uuid": "a100550e-1105-4fc3-93ad-d452c95e5dcc"
           },
           {
             "id": 140,
             "display_flags": 0,
-            "classifier_id": 116,
             "classifier_name": "Diagram Reference",
-            "focused_feature_id": -1,
             "node": "8fa5d87a-a410-4731-af18-3048277d9d2e",
             "uuid": "ba73743c-8616-4bb0-b764-501c1b987c09"
           },
           {
             "id": 164,
             "display_flags": 0,
-            "classifier_id": 121,
             "classifier_name": "Action",
-            "focused_feature_id": -1,
             "node": "56aab755-be0d-4c90-8139-a5881ee65842",
             "uuid": "bb698d93-2d28-4737-aca5-42cdafb98978"
+          },
+          {
+            "id": 169,
+            "display_flags": 0,
+            "classifier_name": "Boundary",
+            "node": "095e7248-9de4-41ee-8f62-173fff9c0e56",
+            "uuid": "15cd35ba-f66e-499c-a508-824b9980b32c"
           }
         ]
       }
@@ -252,8 +216,6 @@
     {
       "diagram": {
         "id": 24,
-        "parent_id": 2,
-        "parent_name": "Diagram Features",
         "diagram_type": 11,
         "type": "UMLActivityDiagram",
         "name": "Classifiers II",
@@ -262,6 +224,7 @@
         ],
         "list_order": 131072,
         "display_flags": 0,
+        "parent_name": "Diagram Features",
         "parent": "42ecca29-2edd-4b50-aff8-7260ee4c34ae",
         "uuid": "f95917ed-c5be-4f5f-b1f9-56ea3dc6c908",
         "diagramelements":
@@ -269,126 +232,98 @@
           {
             "id": 141,
             "display_flags": 0,
-            "classifier_id": 117,
             "classifier_name": "start",
-            "focused_feature_id": -1,
             "node": "ea064f71-c5e7-4a6d-b327-916dc3b3bd96",
             "uuid": "5036c2bd-ef99-4cf5-a499-e79a5c74f229"
           },
           {
             "id": 142,
             "display_flags": 0,
-            "classifier_id": 118,
             "classifier_name": "end",
-            "focused_feature_id": -1,
             "node": "13c73116-890c-4175-87bd-aadb0b02ccd0",
             "uuid": "9db75e93-20a6-486b-8fd5-2bc01c4cb1f3"
           },
           {
             "id": 143,
             "display_flags": 0,
-            "classifier_id": 119,
             "classifier_name": "Region",
-            "focused_feature_id": -1,
             "node": "0296326b-eca5-40bd-9d31-01b11538244a",
             "uuid": "007cfcfa-e077-4134-9e4e-03d8d896eb4e"
           },
           {
             "id": 144,
             "display_flags": 0,
-            "classifier_id": 120,
             "classifier_name": "timeout",
-            "focused_feature_id": -1,
             "node": "6fd39e33-cd25-46fd-9880-e8f91f859da5",
             "uuid": "2afd881d-eb96-4363-895e-152deca4ee2b"
           },
           {
             "id": 145,
             "display_flags": 0,
-            "classifier_id": 121,
             "classifier_name": "Action",
-            "focused_feature_id": -1,
             "node": "56aab755-be0d-4c90-8139-a5881ee65842",
             "uuid": "1e68d359-13e8-4fcf-8640-134ac1d78d37"
           },
           {
             "id": 146,
             "display_flags": 0,
-            "classifier_id": 122,
             "classifier_name": "Send",
-            "focused_feature_id": -1,
             "node": "4c4f8591-25bb-4974-a592-b8040907bed1",
             "uuid": "410fd655-4e0e-45a8-b8aa-c82edc625297"
           },
           {
             "id": 147,
             "display_flags": 0,
-            "classifier_id": 123,
             "classifier_name": "Receive",
-            "focused_feature_id": -1,
             "node": "04566201-2749-464d-81f6-85e63cef47b9",
             "uuid": "163e288f-de26-42ee-be66-7d0b9f93da96"
           },
           {
             "id": 148,
             "display_flags": 0,
-            "classifier_id": 124,
             "classifier_name": "Fork",
-            "focused_feature_id": -1,
             "node": "f10248ad-527f-4bdb-b021-0c01983fc266",
             "uuid": "bbbfddc9-5c7a-448c-8ad9-ffa0f80b7265"
           },
           {
             "id": 149,
             "display_flags": 0,
-            "classifier_id": 125,
             "classifier_name": "Join",
-            "focused_feature_id": -1,
             "node": "493c2a1e-a1e8-4951-83ae-68b66a66b7dc",
             "uuid": "48e785b2-4c35-4eb3-964a-2dbe67df24cd"
           },
           {
             "id": 150,
             "display_flags": 0,
-            "classifier_id": 126,
             "classifier_name": "continue?",
-            "focused_feature_id": -1,
             "node": "857cd108-b57f-46b9-a1b3-fce7757003ff",
             "uuid": "69aa89cc-fb27-438f-9dad-60b1da9b7a64"
           },
           {
             "id": 151,
             "display_flags": 0,
-            "classifier_id": 127,
             "classifier_name": "State",
-            "focused_feature_id": -1,
             "node": "3a6da4bf-cdce-4db6-868f-6830af0e9331",
             "uuid": "6338b219-8364-4c87-a50f-03f097880158"
           },
           {
             "id": 152,
             "display_flags": 0,
-            "classifier_id": 128,
             "classifier_name": "H1",
-            "focused_feature_id": -1,
             "node": "52bd1747-16c4-4d92-838c-ee6c03a351aa",
             "uuid": "331e74ee-9fa8-40e7-a089-c451be97eaa9"
           },
           {
             "id": 153,
             "display_flags": 0,
-            "classifier_id": 129,
             "classifier_name": "H*2",
-            "focused_feature_id": -1,
             "node": "e61abf3f-3cab-4d76-8139-4832558e0b74",
             "uuid": "0a309bda-653e-4030-a176-ec181a6fc1c3"
           },
           {
             "id": 165,
             "display_flags": 0,
-            "classifier_id": 21,
             "classifier_name": "running state",
-            "focused_feature_id": -1,
             "node": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
             "uuid": "d93be3ab-6c48-40be-8fee-d07cb90ed438"
           }
@@ -398,8 +333,6 @@
     {
       "diagram": {
         "id": 5,
-        "parent_id": 2,
-        "parent_name": "Diagram Features",
         "diagram_type": 1,
         "type": "CFUBoxDiagram",
         "name": "Diagrams",
@@ -408,6 +341,7 @@
         ],
         "list_order": 163840,
         "display_flags": 0,
+        "parent_name": "Diagram Features",
         "parent": "42ecca29-2edd-4b50-aff8-7260ee4c34ae",
         "uuid": "6180ee1e-d7e4-4378-ad2f-9a4654edb445",
         "diagramelements":
@@ -415,9 +349,7 @@
           {
             "id": 98,
             "display_flags": 0,
-            "classifier_id": 74,
             "classifier_name": "Diagram Types",
-            "focused_feature_id": -1,
             "node": "06421d67-2b31-4450-bcf9-d3707732136c",
             "uuid": "e5e2f8d7-98b6-4337-9071-d4f0ad961043"
           }
@@ -427,8 +359,6 @@
     {
       "diagram": {
         "id": 4,
-        "parent_id": 2,
-        "parent_name": "Diagram Features",
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
         "name": "Relationships",
@@ -437,6 +367,7 @@
         ],
         "list_order": 196608,
         "display_flags": 0,
+        "parent_name": "Diagram Features",
         "parent": "42ecca29-2edd-4b50-aff8-7260ee4c34ae",
         "uuid": "ab5b12b1-6046-4637-aa3a-7afc4de4b3d4",
         "diagramelements":
@@ -444,90 +375,70 @@
           {
             "id": 3,
             "display_flags": 0,
-            "classifier_id": 3,
             "classifier_name": "classifier-1",
-            "focused_feature_id": -1,
             "node": "41738b81-a52b-4eeb-85f2-18ef9d0556a2",
             "uuid": "66361ad1-ed26-45cd-801a-7ce83c2b4ada"
           },
           {
             "id": 4,
             "display_flags": 0,
-            "classifier_id": 4,
             "classifier_name": "classifier-2",
-            "focused_feature_id": -1,
             "node": "8cd005af-b559-412e-a86c-85253a8c2bec",
             "uuid": "cb83a620-e469-418e-8c64-6975f9a34410"
           },
           {
             "id": 5,
             "display_flags": 0,
-            "classifier_id": 5,
             "classifier_name": "classifier-3",
-            "focused_feature_id": -1,
             "node": "d1f5d48e-08d0-4bc4-93ce-f06353ba0a5f",
             "uuid": "7e1c8ff5-e6dc-4fa7-b57e-23f1f1a1e24b"
           },
           {
             "id": 6,
             "display_flags": 0,
-            "classifier_id": 6,
             "classifier_name": "classifier-4",
-            "focused_feature_id": -1,
             "node": "69f5a52c-a207-4d31-aec6-826d2242921b",
             "uuid": "d223b3a2-436c-472f-bccd-3546aa310a20"
           },
           {
             "id": 7,
             "display_flags": 0,
-            "classifier_id": 7,
             "classifier_name": "classifier-5",
-            "focused_feature_id": -1,
             "node": "e9027f4e-e1f1-42ef-a153-3b401848aef9",
             "uuid": "be14d267-0a0d-4c77-8af3-f46b44706bca"
           },
           {
             "id": 8,
             "display_flags": 0,
-            "classifier_id": 8,
             "classifier_name": "classifier-6",
-            "focused_feature_id": -1,
             "node": "0c049507-72f8-4b08-b938-24d197605a1a",
             "uuid": "1fbe8563-7949-4531-8cf2-8289ef7c9f99"
           },
           {
             "id": 9,
             "display_flags": 0,
-            "classifier_id": 9,
             "classifier_name": "classifier-7",
-            "focused_feature_id": -1,
             "node": "c6bb2c59-4159-4039-b775-241454cb5755",
             "uuid": "f05ef644-aca6-404f-9e6d-734b1b4228f4"
           },
           {
             "id": 92,
             "display_flags": 0,
-            "classifier_id": 68,
             "classifier_name": "create result 2",
-            "focused_feature_id": -1,
             "node": "03cbebaf-7693-4fec-9492-c76b931a2197",
             "uuid": "66a1c369-3f2a-404a-955f-f3baa66ed8d0"
           },
           {
             "id": 93,
             "display_flags": 0,
-            "classifier_id": 69,
             "classifier_name": "perform action 1",
-            "focused_feature_id": -1,
             "node": "bab35fcd-ca40-45eb-99a2-525ccb5c625b",
             "uuid": "a260b7e8-3eb3-4187-8f67-3af1dcac8821"
           },
           {
             "id": 127,
             "display_flags": 0,
-            "classifier_id": 103,
             "classifier_name": "play music :req",
-            "focused_feature_id": -1,
             "node": "c57b4136-d09c-4883-a612-c9f731fb9387",
             "uuid": "3f7e0285-0dca-4858-af21-1a7627bf6d0d"
           }
@@ -537,8 +448,6 @@
     {
       "diagram": {
         "id": 6,
-        "parent_id": 2,
-        "parent_name": "Diagram Features",
         "diagram_type": 34,
         "type": "UMLClassDiagram",
         "name": "Classifier instances",
@@ -547,6 +456,7 @@
         ],
         "list_order": 229376,
         "display_flags": 0,
+        "parent_name": "Diagram Features",
         "parent": "42ecca29-2edd-4b50-aff8-7260ee4c34ae",
         "uuid": "948825a8-3255-4e0c-ad4e-6c4b59582657",
         "diagramelements":
@@ -555,9 +465,7 @@
             "id": 15,
             "display_flags": 16777216,
             "display_tags": "Emphasis",
-            "classifier_id": 12,
             "classifier_name": "Highlighted Class",
-            "focused_feature_id": -1,
             "node": "1a8f51c9-abb9-4791-9a73-a9738761db9d",
             "uuid": "6b30875b-d0af-466a-b475-c209f09648eb"
           },
@@ -565,27 +473,21 @@
             "id": 16,
             "display_flags": 2,
             "display_tags": "AnonymousInstance",
-            "classifier_id": 13,
             "classifier_name": "Instance",
-            "focused_feature_id": -1,
             "node": "8ea48e55-8309-4065-b246-1cc0cf8403fc",
             "uuid": "5461d913-827c-479c-9538-de93b51a27aa"
           },
           {
             "id": 17,
             "display_flags": 0,
-            "classifier_id": 11,
             "classifier_name": "Class with Features",
-            "focused_feature_id": -1,
             "node": "0f6ce44b-3dd9-4d97-ad69-bb0cc9c4eaa3",
             "uuid": "d43beba7-ad0e-4d05-8838-148c56c03f8b"
           },
           {
             "id": 18,
             "display_flags": 0,
-            "classifier_id": 10,
             "classifier_name": "Class",
-            "focused_feature_id": -1,
             "node": "4aaf46e8-822b-4947-8b05-79342398adb0",
             "uuid": "7fe4d98c-fe91-4e47-9751-ffa9f170a2f5"
           },
@@ -593,9 +495,7 @@
             "id": 88,
             "display_flags": 2,
             "display_tags": "AnonymousInstance",
-            "classifier_id": 13,
             "classifier_name": "Instance",
-            "focused_feature_id": -1,
             "node": "8ea48e55-8309-4065-b246-1cc0cf8403fc",
             "uuid": "89541588-7d58-49a9-8034-30f27f8ec9f5"
           },
@@ -603,9 +503,7 @@
             "id": 89,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_id": 65,
             "classifier_name": "2 instances of same object",
-            "focused_feature_id": -1,
             "node": "f04ac7df-4da9-479e-a24b-68bcc371fe0e",
             "uuid": "3b6db352-1089-4a16-ac97-f32175a92ce7"
           },
@@ -613,9 +511,7 @@
             "id": 91,
             "display_flags": 1,
             "display_tags": "NamedInstance",
-            "classifier_id": 67,
             "classifier_name": "Explicit Instance",
-            "focused_feature_id": -1,
             "node": "2034e982-20f8-43df-b5ae-b0c231397b78",
             "uuid": "0a412aac-74e2-4305-a838-47ae947137ae"
           },
@@ -623,18 +519,14 @@
             "id": 115,
             "display_flags": 2,
             "display_tags": "AnonymousInstance",
-            "classifier_id": 91,
             "classifier_name": "One Component",
-            "focused_feature_id": -1,
             "node": "3aa2b31e-5e64-4272-a89a-77c624f4ac5d",
             "uuid": "a818e657-c691-41bc-b69b-cecd652cf979"
           },
           {
             "id": 125,
             "display_flags": 0,
-            "classifier_id": 101,
             "classifier_name": "Other Component",
-            "focused_feature_id": -1,
             "node": "cb019de3-b5ec-400e-bb88-b6ddf7e97354",
             "uuid": "7f0bab45-6fd9-4194-b523-3ef2ffe8ea49"
           },
@@ -642,9 +534,7 @@
             "id": 126,
             "display_flags": 1,
             "display_tags": "NamedInstance",
-            "classifier_id": 102,
             "classifier_name": "Subcomponent",
-            "focused_feature_id": -1,
             "node": "1b7cb77f-656e-41e2-b67f-740b50234856",
             "uuid": "5c09e4c4-6796-4220-a494-cdae9544bcbb"
           }
@@ -654,8 +544,6 @@
     {
       "diagram": {
         "id": 7,
-        "parent_id": 1,
-        "parent_name": "Overview [root]",
         "diagram_type": 10,
         "type": "UMLUseCaseDiagram",
         "name": "Examples",
@@ -665,6 +553,7 @@
         ],
         "list_order": 0,
         "display_flags": 0,
+        "parent_name": "Overview [root]",
         "parent": "77e513a5-8cce-40c7-ba3f-ec58754facec",
         "uuid": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "diagramelements":
@@ -672,63 +561,49 @@
           {
             "id": 45,
             "display_flags": 0,
-            "classifier_id": 23,
             "classifier_name": "AV User",
-            "focused_feature_id": -1,
             "node": "cef7c415-6d98-4a17-bbcc-4b8d61d9725a",
             "uuid": "1155de7a-b36b-4cf8-94b3-f742310f7a1d"
           },
           {
             "id": 46,
             "display_flags": 0,
-            "classifier_id": 24,
             "classifier_name": "Audio User",
-            "focused_feature_id": -1,
             "node": "fdc019fe-a641-434c-b356-c8a9207bcf00",
             "uuid": "61b75026-6065-4c13-9f22-88980f3483d4"
           },
           {
             "id": 47,
             "display_flags": 0,
-            "classifier_id": 25,
             "classifier_name": "Customer Service",
-            "focused_feature_id": -1,
             "node": "b747dcc5-5504-4b72-af79-408ddf245eb8",
             "uuid": "36657fc1-818e-408c-bbd4-5b9a647fff5e"
           },
           {
             "id": 48,
             "display_flags": 0,
-            "classifier_id": 28,
             "classifier_name": "Analyse Customer Complaint",
-            "focused_feature_id": -1,
             "node": "f4558934-6975-47b1-9645-624d8cefa68a",
             "uuid": "a12d76fe-9582-491d-8853-7cc198497b29"
           },
           {
             "id": 49,
             "display_flags": 0,
-            "classifier_id": 27,
             "classifier_name": "Watch TV",
-            "focused_feature_id": -1,
             "node": "c5b660d4-3766-41af-9e61-99a7032d3ce5",
             "uuid": "fa8f3502-b267-4de7-af58-3b97ef8076b8"
           },
           {
             "id": 50,
             "display_flags": 0,
-            "classifier_id": 26,
             "classifier_name": "Listen to Radio",
-            "focused_feature_id": -1,
             "node": "514bbb3e-8902-45cb-92cc-0368a554a589",
             "uuid": "93d9d966-7455-47d1-b14d-47829416b647"
           },
           {
             "id": 163,
             "display_flags": 0,
-            "classifier_id": 139,
             "classifier_name": "System Boundary",
-            "focused_feature_id": -1,
             "node": "8fe5d745-e0f6-4777-9278-5ded1e86401d",
             "uuid": "36937cb2-0b4e-4000-830e-f33a64486c45"
           }
@@ -738,8 +613,6 @@
     {
       "diagram": {
         "id": 8,
-        "parent_id": 7,
-        "parent_name": "Examples",
         "diagram_type": 11,
         "type": "UMLActivityDiagram",
         "name": "Activities",
@@ -749,6 +622,7 @@
         ],
         "list_order": 196608,
         "display_flags": 0,
+        "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "4ef6fc5a-9ec3-4725-8cf4-a996e62ba187",
         "diagramelements":
@@ -756,90 +630,70 @@
           {
             "id": 51,
             "display_flags": 0,
-            "classifier_id": 29,
             "classifier_name": "select file to parse",
-            "focused_feature_id": -1,
             "node": "836dd632-86e1-49a0-bdae-dee9e3e89363",
             "uuid": "965c6d04-9b90-4559-999e-13e4a0cc30b9"
           },
           {
             "id": 52,
             "display_flags": 0,
-            "classifier_id": 30,
             "classifier_name": "read xml header",
-            "focused_feature_id": -1,
             "node": "f84af1f6-d215-4a48-8667-07086a444d1b",
             "uuid": "4a6a26d6-0178-45c1-86b0-e07228dfaa4e"
           },
           {
             "id": 53,
             "display_flags": 0,
-            "classifier_id": 31,
             "classifier_name": "read element and attributes",
-            "focused_feature_id": -1,
             "node": "33aa2542-3744-46bb-b032-38e8f514c0da",
             "uuid": "a4f6a103-c740-4c3e-b0a1-58827db9c239"
           },
           {
             "id": 54,
             "display_flags": 0,
-            "classifier_id": 32,
             "classifier_name": "read CDATA contents",
-            "focused_feature_id": -1,
             "node": "361316cf-9fa0-4670-a23e-01c498e52f35",
             "uuid": "7b6b290b-98ec-4ecc-bebd-90edc5e8c268"
           },
           {
             "id": 55,
             "display_flags": 0,
-            "classifier_id": 33,
             "classifier_name": "check validity",
-            "focused_feature_id": -1,
             "node": "c1002f7e-8291-4586-b7c7-94ef4bde710f",
             "uuid": "730d92cc-2ee0-4e53-b811-32c1354b5685"
           },
           {
             "id": 90,
             "display_flags": 0,
-            "classifier_id": 66,
             "classifier_name": "read xml",
-            "focused_feature_id": -1,
             "node": "af72c24f-9420-432a-833e-1cb6260d362e",
             "uuid": "01c5240b-94f0-4534-8e52-2a4ec925d493"
           },
           {
             "id": 155,
             "display_flags": 0,
-            "classifier_id": 131,
             "classifier_name": "decoder::start",
-            "focused_feature_id": -1,
             "node": "9b27613c-cc40-4330-99e6-9ee61e4845d6",
             "uuid": "ce82f181-03c7-4df0-b09d-8801bb1fe810"
           },
           {
             "id": 156,
             "display_flags": 0,
-            "classifier_id": 132,
             "classifier_name": "decoder::end",
-            "focused_feature_id": -1,
             "node": "b26adcf8-5d22-4715-b751-d2dca7b6900c",
             "uuid": "b596fb2f-0950-46db-afc8-f9ee081d11f1"
           },
           {
             "id": 157,
             "display_flags": 0,
-            "classifier_id": 133,
             "classifier_name": "read end tag",
-            "focused_feature_id": -1,
             "node": "8087c141-7448-46e2-8ea4-dc712657a9b8",
             "uuid": "fc663e60-e5a6-48fd-ace0-10577845a085"
           },
           {
             "id": 158,
             "display_flags": 0,
-            "classifier_id": 134,
             "classifier_name": "next token",
-            "focused_feature_id": -1,
             "node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
             "uuid": "2bd8e87d-e542-4feb-8fd1-6b11fe64088c"
           }
@@ -849,8 +703,6 @@
     {
       "diagram": {
         "id": 12,
-        "parent_id": 7,
-        "parent_name": "Examples",
         "diagram_type": 12,
         "type": "UMLStateMachineDiagram",
         "name": "System States",
@@ -859,6 +711,7 @@
         ],
         "list_order": 229376,
         "display_flags": 0,
+        "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "5b2929bf-03d2-47a9-bd5b-8833647e6c23",
         "diagramelements":
@@ -866,63 +719,49 @@
           {
             "id": 57,
             "display_flags": 0,
-            "classifier_id": 40,
             "classifier_name": "diagnosis",
-            "focused_feature_id": -1,
             "node": "2146b0c6-11fe-4e69-9d4e-15d2f449f933",
             "uuid": "5c633d7e-5369-43e9-a51a-f45138a0260b"
           },
           {
             "id": 58,
             "display_flags": 0,
-            "classifier_id": 37,
             "classifier_name": "running",
-            "focused_feature_id": -1,
             "node": "44779792-00ab-4b6f-9686-4f30da0e113f",
             "uuid": "339adc8d-90d3-4c47-b699-d46a60b24422"
           },
           {
             "id": 59,
             "display_flags": 0,
-            "classifier_id": 35,
             "classifier_name": "booting",
-            "focused_feature_id": -1,
             "node": "cc4ec715-ccf4-4ba7-b58a-4f8a05639080",
             "uuid": "d4efd315-74c3-4556-93f0-b30bf0bc96b3"
           },
           {
             "id": 60,
             "display_flags": 0,
-            "classifier_id": 39,
             "classifier_name": "shutting down",
-            "focused_feature_id": -1,
             "node": "0b89728c-13e1-49f4-9d2b-3b3ed1b7f907",
             "uuid": "c0c3d76d-bbf3-4274-b2fb-3ce3395f424a"
           },
           {
             "id": 61,
             "display_flags": 0,
-            "classifier_id": 34,
             "classifier_name": "pwr::off",
-            "focused_feature_id": -1,
             "node": "df0f8e13-9164-430e-830a-fc54259ab459",
             "uuid": "22545521-35c5-448e-89da-17e6e4ed16bb"
           },
           {
             "id": 62,
             "display_flags": 0,
-            "classifier_id": 36,
             "classifier_name": "SW-update",
-            "focused_feature_id": -1,
             "node": "a8f03903-8d9e-4a62-bdbf-a1f54d39e043",
             "uuid": "99775a66-3218-4fbd-98b9-9276d81ebe97"
           },
           {
             "id": 154,
             "display_flags": 0,
-            "classifier_id": 130,
             "classifier_name": "pwr::start",
-            "focused_feature_id": -1,
             "node": "fd499d12-7e7b-48e5-8213-86b0956c9512",
             "uuid": "71cd7f0a-ec8a-49c8-bd47-5a581971b991"
           }
@@ -932,8 +771,6 @@
     {
       "diagram": {
         "id": 13,
-        "parent_id": 7,
-        "parent_name": "Examples",
         "diagram_type": 14,
         "type": "UMLInteractionDiagram/communication",
         "name": "Communication Diagram",
@@ -942,6 +779,7 @@
         ],
         "list_order": 262144,
         "display_flags": 0,
+        "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "977c6946-dab3-4966-ad7b-d066ddcea371",
         "diagramelements":
@@ -949,36 +787,28 @@
           {
             "id": 63,
             "display_flags": 0,
-            "classifier_id": 41,
             "classifier_name": "Asymmetric Signature Storage",
-            "focused_feature_id": 47,
             "node": "dc2fe71a-359a-46ee-a1f0-0318b35e12c9",
             "uuid": "a516cca5-974c-4d92-a08e-50039ba0eb74"
           },
           {
             "id": 64,
             "display_flags": 0,
-            "classifier_id": 42,
             "classifier_name": "Symmetric Session Keys",
-            "focused_feature_id": 48,
             "node": "04340b08-e0c6-40fb-bd1c-48a199b27370",
             "uuid": "0b7cb37e-c68a-4711-8fdf-489b65a4db8c"
           },
           {
             "id": 65,
             "display_flags": 0,
-            "classifier_id": 43,
             "classifier_name": "TLS Endpoint",
-            "focused_feature_id": 49,
             "node": "81cf1538-9cc2-4c5c-9359-dbffa2d99576",
             "uuid": "27549038-0689-4205-8419-01b4b3141bd1"
           },
           {
             "id": 66,
             "display_flags": 0,
-            "classifier_id": 44,
             "classifier_name": "External Entity",
-            "focused_feature_id": 50,
             "node": "d46c62b3-221a-460a-a483-6e4b84cf4d5e",
             "uuid": "2802d7bd-fa76-40bc-a6a6-6501f8ce8ab6"
           }
@@ -988,8 +818,6 @@
     {
       "diagram": {
         "id": 14,
-        "parent_id": 7,
-        "parent_name": "Examples",
         "diagram_type": 30,
         "type": "UMLDeploymentDiagram",
         "name": "Deployment Diagram",
@@ -998,6 +826,7 @@
         ],
         "list_order": 294912,
         "display_flags": 0,
+        "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "1009c159-98c8-43e9-b3b4-869122efb9cc",
         "diagramelements":
@@ -1005,54 +834,42 @@
           {
             "id": 67,
             "display_flags": 0,
-            "classifier_id": 45,
             "classifier_name": "Box",
-            "focused_feature_id": -1,
             "node": "e5f05f66-e9a6-41c1-8548-f54aef76a2fd",
             "uuid": "08bcf3da-54c8-42d3-9c84-783c6155a718"
           },
           {
             "id": 69,
             "display_flags": 0,
-            "classifier_id": 47,
             "classifier_name": "Performance SoC",
-            "focused_feature_id": -1,
             "node": "a4057f7a-9030-4296-9a50-96354390febc",
             "uuid": "6bc78d34-a886-443c-92bc-5336ea508d14"
           },
           {
             "id": 70,
             "display_flags": 0,
-            "classifier_id": 48,
             "classifier_name": "Tuner Chip",
-            "focused_feature_id": -1,
             "node": "eb86f050-0a69-456b-aeba-52da0a304bc1",
             "uuid": "70a80f9f-34f2-4bc6-9732-9732665cb078"
           },
           {
             "id": 71,
             "display_flags": 0,
-            "classifier_id": 49,
             "classifier_name": "Amplifier",
-            "focused_feature_id": -1,
             "node": "2010aec3-c246-4155-8ac9-28f67d5c84bb",
             "uuid": "d55eb5fe-efc6-4c53-9865-ef0ead8dbf7b"
           },
           {
             "id": 72,
             "display_flags": 0,
-            "classifier_id": 50,
             "classifier_name": "Power Supply",
-            "focused_feature_id": -1,
             "node": "04156c73-4c79-4740-8280-29c8b9b06c64",
             "uuid": "e0022b98-fd33-4815-b2fc-0c6209f288db"
           },
           {
             "id": 97,
             "display_flags": 0,
-            "classifier_id": 73,
             "classifier_name": "Watchdog",
-            "focused_feature_id": -1,
             "node": "ea080c10-82cc-4f5d-8e32-39f6e25392c0",
             "uuid": "743db9d2-8b7c-4417-9d7e-8b405d555cf3"
           }
@@ -1062,8 +879,6 @@
     {
       "diagram": {
         "id": 15,
-        "parent_id": 7,
-        "parent_name": "Examples",
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
         "name": "Component Diagram",
@@ -1072,6 +887,7 @@
         ],
         "list_order": 327680,
         "display_flags": 0,
+        "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "415ee3fe-314f-48a0-a6a6-3f40e0074a61",
         "diagramelements":
@@ -1079,36 +895,28 @@
           {
             "id": 73,
             "display_flags": 0,
-            "classifier_id": 51,
             "classifier_name": "Web Browser",
-            "focused_feature_id": -1,
             "node": "420ad9b6-748a-4876-9578-dc13270d7983",
             "uuid": "0d91b154-7e9c-405f-bca1-aac60baaa0f2"
           },
           {
             "id": 74,
             "display_flags": 0,
-            "classifier_id": 52,
             "classifier_name": "Content DB",
-            "focused_feature_id": -1,
             "node": "443a7597-c5cf-4463-bc9c-ef7e576ec14c",
             "uuid": "0f2b5e8f-c05f-47f1-8aea-1c4c252c23ef"
           },
           {
             "id": 75,
             "display_flags": 0,
-            "classifier_id": 43,
             "classifier_name": "TLS Endpoint",
-            "focused_feature_id": -1,
             "node": "06e05a9a-27bd-492e-a87c-11be2656d363",
             "uuid": "62c4729b-8a82-460a-91ec-83bddea93e71"
           },
           {
             "id": 76,
             "display_flags": 0,
-            "classifier_id": 53,
             "classifier_name": "Images Server",
-            "focused_feature_id": -1,
             "node": "3062d023-6dcd-4805-a090-07d7eff81f32",
             "uuid": "25a47adb-fde0-43d8-8205-152825ce1af3"
           },
@@ -1116,18 +924,14 @@
             "id": 96,
             "display_flags": 2,
             "display_tags": "AnonymousInstance",
-            "classifier_id": 72,
             "classifier_name": "Page Renderer",
-            "focused_feature_id": -1,
             "node": "0c739e23-db60-415f-bea3-ddcaf8c340db",
             "uuid": "383d0309-9889-4597-867c-dbd0c3ec37c3"
           },
           {
             "id": 124,
             "display_flags": 0,
-            "classifier_id": 100,
             "classifier_name": "Crypto Key Server",
-            "focused_feature_id": -1,
             "node": "f4bfd848-e203-4170-9af8-4ac7385e03d3",
             "uuid": "9fd033f7-5dc9-40f2-a32c-6b44c6ad8e00"
           }
@@ -1137,8 +941,6 @@
     {
       "diagram": {
         "id": 16,
-        "parent_id": 7,
-        "parent_name": "Examples",
         "diagram_type": 33,
         "type": "UMLPackageDiagram",
         "name": "Package Diagram",
@@ -1147,6 +949,7 @@
         ],
         "list_order": 360448,
         "display_flags": 0,
+        "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "63bc8070-fad1-4b32-920f-920adc788a55",
         "diagramelements":
@@ -1154,81 +957,63 @@
           {
             "id": 77,
             "display_flags": 0,
-            "classifier_id": 54,
             "classifier_name": "Application 1",
-            "focused_feature_id": -1,
             "node": "dcc0baca-6eb1-49b3-80d2-d979e253b516",
             "uuid": "0e911425-fb00-4248-b16e-b4367f7b93c2"
           },
           {
             "id": 78,
             "display_flags": 0,
-            "classifier_id": 55,
             "classifier_name": "Service Layer",
-            "focused_feature_id": -1,
             "node": "58509a8e-3833-4e32-95ae-50de8926c2ac",
             "uuid": "06f560ae-989c-4a91-a5c2-bb71810ddd03"
           },
           {
             "id": 79,
             "display_flags": 0,
-            "classifier_id": 56,
             "classifier_name": "Infrastructure",
-            "focused_feature_id": -1,
             "node": "8b9e7f06-0c23-4765-b77d-534a0df36e84",
             "uuid": "d4c5e44c-16fe-4b68-ad89-d4abecd08c41"
           },
           {
             "id": 94,
             "display_flags": 0,
-            "classifier_id": 70,
             "classifier_name": "common Services",
-            "focused_feature_id": -1,
             "node": "c0395ffe-0d05-4129-892d-373ecc143a50",
             "uuid": "ef7abe9d-f4ea-49b1-8ef3-9458a9d3aa91"
           },
           {
             "id": 95,
             "display_flags": 0,
-            "classifier_id": 71,
             "classifier_name": "specific Services",
-            "focused_feature_id": -1,
             "node": "449482a3-f3e4-4068-bbac-83e82a206b59",
             "uuid": "147a77c5-4f27-490b-adbc-6985a4f062df"
           },
           {
             "id": 159,
             "display_flags": 0,
-            "classifier_id": 135,
             "classifier_name": "communication Lib",
-            "focused_feature_id": -1,
             "node": "c7f56354-e429-47c2-b9bc-eb71fa8174c0",
             "uuid": "7c9515aa-d03d-4b5d-9fed-653e1b51a5c8"
           },
           {
             "id": 160,
             "display_flags": 0,
-            "classifier_id": 136,
             "classifier_name": "storage Lib",
-            "focused_feature_id": -1,
             "node": "7034e944-2fcf-46d5-a450-3743c0f67838",
             "uuid": "e5a85f56-3a72-4c2c-a2b1-ab25a287aece"
           },
           {
             "id": 161,
             "display_flags": 0,
-            "classifier_id": 137,
             "classifier_name": "Application 2",
-            "focused_feature_id": -1,
             "node": "eedb3c67-7ed0-4dd7-965e-d24b09bcc374",
             "uuid": "b55f4db4-b40f-41d0-a097-9d1d4c425276"
           },
           {
             "id": 162,
             "display_flags": 0,
-            "classifier_id": 138,
             "classifier_name": "Application Layer",
-            "focused_feature_id": -1,
             "node": "2d91af7d-9b41-4405-8397-9064ba27a35a",
             "uuid": "72215b45-476a-4d76-8e23-90e43b38bb09"
           }
@@ -1238,8 +1023,6 @@
     {
       "diagram": {
         "id": 17,
-        "parent_id": 7,
-        "parent_name": "Examples",
         "diagram_type": 34,
         "type": "UMLClassDiagram",
         "name": "Class Diagram",
@@ -1248,6 +1031,7 @@
         ],
         "list_order": 393216,
         "display_flags": 0,
+        "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "e0bd4c2c-3e4c-4551-9da6-123fdf6369a8",
         "diagramelements":
@@ -1255,36 +1039,28 @@
           {
             "id": 81,
             "display_flags": 0,
-            "classifier_id": 58,
             "classifier_name": "List",
-            "focused_feature_id": -1,
             "node": "cbb8c23c-04a0-45cd-8c11-9b7af21c91a0",
             "uuid": "cdc0cddd-2af9-4b18-be12-fba1a4e114b8"
           },
           {
             "id": 82,
             "display_flags": 0,
-            "classifier_id": 59,
             "classifier_name": "Tuner Station",
-            "focused_feature_id": -1,
             "node": "4932e997-c410-489d-8dc9-d5118ba4ceaa",
             "uuid": "672cb111-068a-4119-a363-90615c54139c"
           },
           {
             "id": 83,
             "display_flags": 0,
-            "classifier_id": 60,
             "classifier_name": "List of Stations",
-            "focused_feature_id": -1,
             "node": "4cec37b4-0b32-4ad2-af76-0bb6b0d93426",
             "uuid": "0a10320d-f3aa-4fe6-93f3-3f64abd95254"
           },
           {
             "id": 84,
             "display_flags": 0,
-            "classifier_id": 61,
             "classifier_name": "Iterator",
-            "focused_feature_id": -1,
             "node": "458884c0-6398-4a61-ab99-3c8cfba10b70",
             "uuid": "dc43a3e6-865d-44fe-b548-2c59c46a0df6"
           }
@@ -1294,8 +1070,6 @@
     {
       "diagram": {
         "id": 18,
-        "parent_id": 7,
-        "parent_name": "Examples",
         "diagram_type": 9,
         "type": "SysMLRequirementDiagram",
         "name": "Requirements",
@@ -1304,6 +1078,7 @@
         ],
         "list_order": 425984,
         "display_flags": 0,
+        "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "4f7453a0-4f77-4c16-bfb4-f568ec3f8288",
         "diagramelements":
@@ -1311,45 +1086,35 @@
           {
             "id": 99,
             "display_flags": 0,
-            "classifier_id": 75,
             "classifier_name": "REQ-1001: Stream Audio",
-            "focused_feature_id": -1,
             "node": "ba7af822-b3aa-4088-b2b0-a814e275a388",
             "uuid": "8a05b85e-e40e-42f9-98b6-4788631bce3d"
           },
           {
             "id": 100,
             "display_flags": 0,
-            "classifier_id": 76,
             "classifier_name": "REQ-1002: Capture Mic",
-            "focused_feature_id": -1,
             "node": "352158fa-5538-4070-96c6-9b5eb1939784",
             "uuid": "00e779a0-b468-4faa-8684-eb879c29a909"
           },
           {
             "id": 101,
             "display_flags": 0,
-            "classifier_id": 77,
             "classifier_name": "REQ-1003: Play Audio on Speaker",
-            "focused_feature_id": -1,
             "node": "6232c069-8281-40e2-bced-6a0b78c51491",
             "uuid": "10c18bdc-7d55-4f83-877d-8e132fc53fc5"
           },
           {
             "id": 102,
             "display_flags": 0,
-            "classifier_id": 78,
             "classifier_name": "Phone Call",
-            "focused_feature_id": -1,
             "node": "c42bf08b-b197-4820-ae47-89620833f159",
             "uuid": "67596eb6-1e92-4c99-b4f2-6ed0ee753839"
           },
           {
             "id": 103,
             "display_flags": 0,
-            "classifier_id": 79,
             "classifier_name": "REQ-1004: Dial Number",
-            "focused_feature_id": -1,
             "node": "6f5ab8eb-fc62-4560-80b1-5d840a9d3661",
             "uuid": "611a93f6-decf-4e20-aedb-69bdb8f0495f"
           }
@@ -1359,8 +1124,6 @@
     {
       "diagram": {
         "id": 19,
-        "parent_id": 7,
-        "parent_name": "Examples",
         "diagram_type": 4,
         "type": "SysMLBlockDefinitionDiagram",
         "name": "Block Diagram",
@@ -1369,6 +1132,7 @@
         ],
         "list_order": 458752,
         "display_flags": 0,
+        "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "eb974623-3fa4-45df-a4af-d75a9cb6a702",
         "diagramelements":
@@ -1376,81 +1140,63 @@
           {
             "id": 104,
             "display_flags": 0,
-            "classifier_id": 80,
             "classifier_name": "Telephone",
-            "focused_feature_id": -1,
             "node": "ba881e97-1072-4296-ba29-6abc73b7f252",
             "uuid": "a2377f99-7489-4b97-942c-bcd5b22f40e5"
           },
           {
             "id": 105,
             "display_flags": 0,
-            "classifier_id": 81,
             "classifier_name": "Dial Pad",
-            "focused_feature_id": -1,
             "node": "fce3ffeb-62d1-4689-92db-83387adbcbc7",
             "uuid": "4d5dc09e-d04e-4779-b0d1-301f85c746d2"
           },
           {
             "id": 106,
             "display_flags": 0,
-            "classifier_id": 82,
             "classifier_name": "Microphone",
-            "focused_feature_id": -1,
             "node": "787bd029-c41b-4305-a575-871a19db6078",
             "uuid": "ea77639a-3f5f-43d5-855e-10a4aa381002"
           },
           {
             "id": 107,
             "display_flags": 0,
-            "classifier_id": 83,
             "classifier_name": "Speaker",
-            "focused_feature_id": -1,
             "node": "453345e3-49bd-4803-98fe-09cff2f6ece9",
             "uuid": "8d64cd58-f6ae-4b84-86ce-f8f35a484ca1"
           },
           {
             "id": 108,
             "display_flags": 0,
-            "classifier_id": 84,
             "classifier_name": "Power Management IC",
-            "focused_feature_id": -1,
             "node": "e66ba866-2fa8-432a-88ad-853589e18426",
             "uuid": "1c0be3da-af39-46ea-9b73-1ab4dbb8748a"
           },
           {
             "id": 109,
             "display_flags": 0,
-            "classifier_id": 85,
             "classifier_name": "Display",
-            "focused_feature_id": -1,
             "node": "259cd218-e04a-4b67-8fe5-f58ccdc55ae2",
             "uuid": "963033e2-0ea9-498a-88b4-3a19b4c8d805"
           },
           {
             "id": 110,
             "display_flags": 0,
-            "classifier_id": 86,
             "classifier_name": "Network Connector",
-            "focused_feature_id": -1,
             "node": "6b78a168-49df-4ff9-bd5f-f4a17f5f2775",
             "uuid": "ed39ebdd-5be0-4fa0-8e43-cfcd3e4522f9"
           },
           {
             "id": 111,
             "display_flags": 0,
-            "classifier_id": 87,
             "classifier_name": "Power Connector",
-            "focused_feature_id": -1,
             "node": "98f22d96-80fd-4f93-bb88-8a1bd9952cb4",
             "uuid": "05898047-b55e-424f-b1d5-6d7debbc8dab"
           },
           {
             "id": 112,
             "display_flags": 0,
-            "classifier_id": 88,
             "classifier_name": "CPU",
-            "focused_feature_id": -1,
             "node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
             "uuid": "ae0d267d-aa9c-4e30-9f04-705fb8b9f2df"
           }
@@ -1460,8 +1206,6 @@
     {
       "diagram": {
         "id": 20,
-        "parent_id": 7,
-        "parent_name": "Examples",
         "diagram_type": 13,
         "type": "UMLInteractionDiagram/sequence",
         "name": "Sequence",
@@ -1470,6 +1214,7 @@
         ],
         "list_order": 491520,
         "display_flags": 0,
+        "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "02d7edcc-dd6c-4318-a287-4563f308c33a",
         "diagramelements":
@@ -1477,45 +1222,35 @@
           {
             "id": 121,
             "display_flags": 0,
-            "classifier_id": 97,
             "classifier_name": "User",
-            "focused_feature_id": 34,
             "node": "87de2766-3cbd-4614-8993-b05453bb9007",
             "uuid": "063579f2-c502-4fb8-9576-a8270ef0540b"
           },
           {
             "id": 122,
             "display_flags": 0,
-            "classifier_id": 98,
             "classifier_name": "GUI",
-            "focused_feature_id": 35,
             "node": "f2e9a281-239f-4414-996d-56803b605733",
             "uuid": "520ad7ed-bf42-4f4a-ba1b-55f4af126cd6"
           },
           {
             "id": 123,
             "display_flags": 0,
-            "classifier_id": 99,
             "classifier_name": "Audio Manager",
-            "focused_feature_id": 36,
             "node": "02770a10-67fc-410d-a08e-5b1bb47aca2c",
             "uuid": "9a4e19db-6313-4093-9275-e33f9493a9ce"
           },
           {
             "id": 166,
             "display_flags": 0,
-            "classifier_id": 140,
             "classifier_name": "<100 ms",
-            "focused_feature_id": 89,
             "node": "51da12aa-60bc-47ee-9562-e20245d6f815",
             "uuid": "c9cc5d9e-ad22-441d-ab5f-fef2afbb2807"
           },
           {
             "id": 167,
             "display_flags": 0,
-            "classifier_id": 141,
             "classifier_name": "data change animation",
-            "focused_feature_id": 90,
             "node": "c5ee457b-84ce-4fcd-aeb4-25d3ed798053",
             "uuid": "6fb554e0-47fc-47f1-8269-c17081b04860"
           }
@@ -1525,8 +1260,6 @@
     {
       "diagram": {
         "id": 21,
-        "parent_id": 7,
-        "parent_name": "Examples",
         "diagram_type": 16,
         "type": "UMLInteractionDiagram/timing",
         "name": "Timing",
@@ -1535,6 +1268,7 @@
         ],
         "list_order": 524288,
         "display_flags": 0,
+        "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "e7606880-e793-48ea-8e71-d10bd9fdb1fd",
         "diagramelements":
@@ -1542,54 +1276,42 @@
           {
             "id": 116,
             "display_flags": 0,
-            "classifier_id": 92,
             "classifier_name": "fully operational",
-            "focused_feature_id": 29,
             "node": "e4fa4e5c-a1cf-43e8-8916-077b1b6b5c1e",
             "uuid": "723e0824-960d-48f5-912a-a347c561fa50"
           },
           {
             "id": 117,
             "display_flags": 0,
-            "classifier_id": 93,
             "classifier_name": "starting applications",
-            "focused_feature_id": 30,
             "node": "921756bc-7e6b-4679-95c4-4dd9a3d37162",
             "uuid": "c25be54a-2b35-47f6-9b2e-7d5b70278eca"
           },
           {
             "id": 118,
             "display_flags": 0,
-            "classifier_id": 94,
             "classifier_name": "starting operating system",
-            "focused_feature_id": 31,
             "node": "18411ac8-d373-4180-89f4-a3067c555857",
             "uuid": "9e69dd3c-ee29-4a0f-9669-1949b21908b5"
           },
           {
             "id": 119,
             "display_flags": 0,
-            "classifier_id": 95,
             "classifier_name": "initializing hardware",
-            "focused_feature_id": 32,
             "node": "2fa49589-316d-4472-96db-34b9fbb8b128",
             "uuid": "28f2a692-dba7-4095-8d22-3d0c9680da8e"
           },
           {
             "id": 120,
             "display_flags": 0,
-            "classifier_id": 96,
             "classifier_name": "unpowered",
-            "focused_feature_id": 33,
             "node": "1dcfc895-6759-41bc-982b-874a981e5791",
             "uuid": "14b8769f-c6f9-40a6-962b-b5a586a3d86a"
           },
           {
             "id": 168,
             "display_flags": 0,
-            "classifier_id": 142,
             "classifier_name": "<2 secs",
-            "focused_feature_id": 91,
             "node": "364875a2-aff3-4362-8a07-4ef2dc64bba8",
             "uuid": "3d1d25df-60c5-4762-984b-bbd8498efd10"
           }
@@ -1599,8 +1321,6 @@
     {
       "diagram": {
         "id": 22,
-        "parent_id": 7,
-        "parent_name": "Examples",
         "diagram_type": 7,
         "type": "SysMLParametricDiagram",
         "name": "Parametric Diagram",
@@ -1609,6 +1329,7 @@
         ],
         "list_order": 557056,
         "display_flags": 0,
+        "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "a32e5511-6cff-4db4-9e62-aa06d25f68c2",
         "diagramelements":
@@ -1616,36 +1337,28 @@
           {
             "id": 128,
             "display_flags": 0,
-            "classifier_id": 104,
             "classifier_name": "Heat Sensor",
-            "focused_feature_id": -1,
             "node": "a226d506-fd43-4fa9-9116-17f6bf5dd902",
             "uuid": "d869dd22-c9c5-4e66-bfa9-8c3a6ef1f3fb"
           },
           {
             "id": 129,
             "display_flags": 0,
-            "classifier_id": 105,
             "classifier_name": "Overtemperature Off",
-            "focused_feature_id": -1,
             "node": "179612ad-6bf3-48af-8e26-e1cdd8e79417",
             "uuid": "d8410119-5a04-4779-9e90-ffa4af5a564c"
           },
           {
             "id": 130,
             "display_flags": 0,
-            "classifier_id": 106,
             "classifier_name": "Powermanagement IC",
-            "focused_feature_id": -1,
             "node": "f2289972-e9bd-479b-8437-8f5f598a9885",
             "uuid": "2e3db93f-3aee-4fed-9886-b5fd0d4e1447"
           },
           {
             "id": 131,
             "display_flags": 0,
-            "classifier_id": 107,
             "classifier_name": "Max Temperature Config Value",
-            "focused_feature_id": -1,
             "node": "a0c004e1-f501-4233-b283-bbd2968e3437",
             "uuid": "fbb90d38-35f2-46c3-82be-b32eb8ee1941"
           }
@@ -1655,8 +1368,6 @@
     {
       "diagram": {
         "id": 23,
-        "parent_id": 7,
-        "parent_name": "Examples",
         "diagram_type": 17,
         "type": "UMLInteractionDiagram/overview",
         "name": "Interaction Overview",
@@ -1665,6 +1376,7 @@
         ],
         "list_order": 589824,
         "display_flags": 0,
+        "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "95a317e6-1e0e-4180-8aa7-22f146f312ee",
         "diagramelements":
@@ -1672,54 +1384,42 @@
           {
             "id": 132,
             "display_flags": 0,
-            "classifier_id": 108,
             "classifier_name": "start trigger",
-            "focused_feature_id": 76,
             "node": "3ac2fc7f-4159-43f9-8a0c-6735d805679a",
             "uuid": "27d99ad9-2be8-4b73-96c8-73a84c95e2b3"
           },
           {
             "id": 133,
             "display_flags": 0,
-            "classifier_id": 109,
             "classifier_name": "Timing",
-            "focused_feature_id": 77,
             "node": "4ac7f1d1-ae74-48f8-b431-a5326fd00322",
             "uuid": "d3c5c5a1-93e0-4497-8fd5-902b34016844"
           },
           {
             "id": 134,
             "display_flags": 0,
-            "classifier_id": 110,
             "classifier_name": "Wait for User Input",
-            "focused_feature_id": 78,
             "node": "f40210ab-d6a8-404d-a160-485be3f0f199",
             "uuid": "1ccd7f3a-b2e3-4ec3-869e-605577070d28"
           },
           {
             "id": 135,
             "display_flags": 0,
-            "classifier_id": 111,
             "classifier_name": "Event Type?",
-            "focused_feature_id": 79,
             "node": "295a7599-3725-4221-86fd-e77afe3581ac",
             "uuid": "90961bd5-fa4b-4164-8369-7b8c1337cfee"
           },
           {
             "id": 136,
             "display_flags": 0,
-            "classifier_id": 112,
             "classifier_name": "Sequence",
-            "focused_feature_id": 80,
             "node": "ea7572f1-8eb4-4130-8734-01de78ade5f9",
             "uuid": "341839d2-4c28-4c02-aef7-2e36ae5db83b"
           },
           {
             "id": 137,
             "display_flags": 0,
-            "classifier_id": 113,
             "classifier_name": "shutdown",
-            "focused_feature_id": 81,
             "node": "2ef7719b-e01a-4b74-bf64-f904f8a46fcc",
             "uuid": "cb33dc25-8f14-4ef8-8354-98f3b8ebb724"
           }
@@ -3828,8 +3528,8 @@
     {
       "classifier": {
         "id": 114,
-        "main_type": 90,
-        "type": "Block",
+        "main_type": 102,
+        "type": "Component",
         "stereotype": "",
         "name": "Block",
         "description": [
@@ -4239,6 +3939,25 @@
             "list_order": 0,
             "uuid": "364875a2-aff3-4362-8a07-4ef2dc64bba8"
           }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 143,
+        "main_type": 102,
+        "type": "Component",
+        "stereotype": "subsystem",
+        "name": "Boundary",
+        "description": [
+                ""
+        ],
+        "x_order": 874695129,
+        "y_order": 550926672,
+        "list_order": 550926672,
+        "uuid": "095e7248-9de4-41ee-8f62-173fff9c0e56",
+        "features":
+        [
         ]
       }
     },
@@ -5380,13 +5099,9 @@
                 ""
         ],
         "list_order": 2048,
-        "from_classifier_id": 1,
         "from_classifier_name": "Classifier",
-        "to_classifier_id": 2,
-        "to_classifier_name": "Relationship",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "90179656-1de3-4a50-a7b9-8efe048abffe",
+        "to_classifier_name": "Relationship",
         "to_node": "971fff79-422b-44fe-9943-eb296e4cec27",
         "uuid": "3c7e43b8-acf1-424f-b6df-258bb60a1d52"
       }
@@ -5401,13 +5116,9 @@
                 ""
         ],
         "list_order": 1024,
-        "from_classifier_id": 3,
         "from_classifier_name": "classifier-1",
-        "to_classifier_id": 4,
-        "to_classifier_name": "classifier-2",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "41738b81-a52b-4eeb-85f2-18ef9d0556a2",
+        "to_classifier_name": "classifier-2",
         "to_node": "8cd005af-b559-412e-a86c-85253a8c2bec",
         "uuid": "93e79047-4c2e-4812-8f93-37b16a1d8afe"
       }
@@ -5422,13 +5133,9 @@
                 ""
         ],
         "list_order": 5120,
-        "from_classifier_id": 3,
         "from_classifier_name": "classifier-1",
-        "to_classifier_id": 9,
-        "to_classifier_name": "classifier-7",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "41738b81-a52b-4eeb-85f2-18ef9d0556a2",
+        "to_classifier_name": "classifier-7",
         "to_node": "c6bb2c59-4159-4039-b775-241454cb5755",
         "uuid": "e60dd961-054e-4708-9202-0e763ef1dcec"
       }
@@ -5443,13 +5150,9 @@
                 ""
         ],
         "list_order": 45056,
-        "from_classifier_id": 3,
         "from_classifier_name": "classifier-1",
-        "to_classifier_id": 103,
-        "to_classifier_name": "play music :req",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "41738b81-a52b-4eeb-85f2-18ef9d0556a2",
+        "to_classifier_name": "play music :req",
         "to_node": "c57b4136-d09c-4883-a612-c9f731fb9387",
         "uuid": "adf1d1e7-a0d4-4d0b-ae8a-87991feea5e0"
       }
@@ -5464,13 +5167,9 @@
                 ""
         ],
         "list_order": 3072,
-        "from_classifier_id": 4,
         "from_classifier_name": "classifier-2",
-        "to_classifier_id": 8,
-        "to_classifier_name": "classifier-6",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "8cd005af-b559-412e-a86c-85253a8c2bec",
+        "to_classifier_name": "classifier-6",
         "to_node": "0c049507-72f8-4b08-b938-24d197605a1a",
         "uuid": "086b97bf-9c59-4e58-9c3e-5690ddc819a1"
       }
@@ -5485,13 +5184,9 @@
                 ""
         ],
         "list_order": 7168,
-        "from_classifier_id": 4,
         "from_classifier_name": "classifier-2",
-        "to_classifier_id": 5,
-        "to_classifier_name": "classifier-3",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "8cd005af-b559-412e-a86c-85253a8c2bec",
+        "to_classifier_name": "classifier-3",
         "to_node": "d1f5d48e-08d0-4bc4-93ce-f06353ba0a5f",
         "uuid": "c0d0b8e4-59de-42ac-8d35-ee340046f570"
       }
@@ -5506,13 +5201,9 @@
                 ""
         ],
         "list_order": 8192,
-        "from_classifier_id": 5,
         "from_classifier_name": "classifier-3",
-        "to_classifier_id": 6,
-        "to_classifier_name": "classifier-4",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "d1f5d48e-08d0-4bc4-93ce-f06353ba0a5f",
+        "to_classifier_name": "classifier-4",
         "to_node": "69f5a52c-a207-4d31-aec6-826d2242921b",
         "uuid": "847ce9d6-56fb-44ad-8159-8389ef7c8bb1"
       }
@@ -5527,13 +5218,9 @@
                 ""
         ],
         "list_order": 143360,
-        "from_classifier_id": 5,
         "from_classifier_name": "classifier-3",
-        "to_classifier_id": 7,
-        "to_classifier_name": "classifier-5",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "d1f5d48e-08d0-4bc4-93ce-f06353ba0a5f",
+        "to_classifier_name": "classifier-5",
         "to_node": "e9027f4e-e1f1-42ef-a153-3b401848aef9",
         "uuid": "f15458f6-9e55-4720-82bc-c4d874b12997"
       }
@@ -5548,13 +5235,9 @@
                 ""
         ],
         "list_order": 6144,
-        "from_classifier_id": 8,
         "from_classifier_name": "classifier-6",
-        "to_classifier_id": 7,
-        "to_classifier_name": "classifier-5",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "0c049507-72f8-4b08-b938-24d197605a1a",
+        "to_classifier_name": "classifier-5",
         "to_node": "e9027f4e-e1f1-42ef-a153-3b401848aef9",
         "uuid": "ca58bc09-8ba3-4447-a3ad-9266d620c2ca"
       }
@@ -5569,13 +5252,9 @@
                 ""
         ],
         "list_order": 110592,
-        "from_classifier_id": 8,
         "from_classifier_name": "classifier-6",
-        "to_classifier_id": 4,
-        "to_classifier_name": "classifier-2",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "0c049507-72f8-4b08-b938-24d197605a1a",
+        "to_classifier_name": "classifier-2",
         "to_node": "8cd005af-b559-412e-a86c-85253a8c2bec",
         "uuid": "b3f1d27c-33bc-4011-a162-6efb169ef3dc"
       }
@@ -5590,13 +5269,9 @@
                 ""
         ],
         "list_order": 11264,
-        "from_classifier_id": 9,
         "from_classifier_name": "classifier-7",
-        "to_classifier_id": 9,
-        "to_classifier_name": "classifier-7",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "c6bb2c59-4159-4039-b775-241454cb5755",
+        "to_classifier_name": "classifier-7",
         "to_node": "c6bb2c59-4159-4039-b775-241454cb5755",
         "uuid": "e07754b3-acb1-4a16-a7b6-5580c9507a82"
       }
@@ -5611,13 +5286,9 @@
                 ""
         ],
         "list_order": 12288,
-        "from_classifier_id": 9,
         "from_classifier_name": "classifier-7",
-        "to_classifier_id": 9,
-        "to_classifier_name": "classifier-7",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "c6bb2c59-4159-4039-b775-241454cb5755",
+        "to_classifier_name": "classifier-7",
         "to_node": "c6bb2c59-4159-4039-b775-241454cb5755",
         "uuid": "4fcd7afc-eb7c-4d2e-ad3d-6042fd96129f"
       }
@@ -5632,13 +5303,9 @@
                 ""
         ],
         "list_order": 1024,
-        "from_classifier_id": 14,
         "from_classifier_name": "Diagram",
-        "to_classifier_id": 1,
-        "to_classifier_name": "Classifier",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "65cea034-ef78-49c5-9e2b-03f7cc7a9b2e",
+        "to_classifier_name": "Classifier",
         "to_node": "90179656-1de3-4a50-a7b9-8efe048abffe",
         "uuid": "1f75ceb4-aad4-4546-9616-2566efe1c3fc"
       }
@@ -5653,13 +5320,9 @@
                 ""
         ],
         "list_order": -1633253368,
-        "from_classifier_id": 20,
         "from_classifier_name": "main CPU",
-        "to_classifier_id": 97,
-        "to_classifier_name": "User",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "cc03adbd-98d9-4a8e-a95f-651438aee431",
+        "to_classifier_name": "User",
         "to_node": "f40caeb2-68d1-46c9-91d2-5c9cdf3e35f9",
         "uuid": "8f64159d-f2eb-40fa-bb25-edac7d876df0"
       }
@@ -5674,13 +5337,9 @@
                 ""
         ],
         "list_order": -1835029924,
-        "from_classifier_id": 20,
         "from_classifier_name": "main CPU",
-        "to_classifier_id": 98,
-        "to_classifier_name": "GUI",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "cc03adbd-98d9-4a8e-a95f-651438aee431",
+        "to_classifier_name": "GUI",
         "to_node": "edb18185-61e2-481a-9cc7-1d615384eded",
         "uuid": "f45aa8de-987f-4b21-b840-a72d5d4a0ff1"
       }
@@ -5695,13 +5354,9 @@
                 ""
         ],
         "list_order": -1719060980,
-        "from_classifier_id": 20,
         "from_classifier_name": "main CPU",
-        "to_classifier_id": 99,
-        "to_classifier_name": "Audio Manager",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "cc03adbd-98d9-4a8e-a95f-651438aee431",
+        "to_classifier_name": "Audio Manager",
         "to_node": "e9156e50-cb51-48c9-895b-9e3f40d1382a",
         "uuid": "f6d77278-40ac-4040-998c-b0069da0efa5"
       }
@@ -5716,13 +5371,9 @@
                 ""
         ],
         "list_order": 2048,
-        "from_classifier_id": 23,
         "from_classifier_name": "AV User",
-        "to_classifier_id": 28,
-        "to_classifier_name": "Analyse Customer Complaint",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "cef7c415-6d98-4a17-bbcc-4b8d61d9725a",
+        "to_classifier_name": "Analyse Customer Complaint",
         "to_node": "f4558934-6975-47b1-9645-624d8cefa68a",
         "uuid": "880509ad-e230-4998-b611-4f9d92a0d83c"
       }
@@ -5737,13 +5388,9 @@
                 ""
         ],
         "list_order": 3072,
-        "from_classifier_id": 23,
         "from_classifier_name": "AV User",
-        "to_classifier_id": 27,
-        "to_classifier_name": "Watch TV",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "cef7c415-6d98-4a17-bbcc-4b8d61d9725a",
+        "to_classifier_name": "Watch TV",
         "to_node": "c5b660d4-3766-41af-9e61-99a7032d3ce5",
         "uuid": "a698d18e-dbdd-43d2-abe9-32aefd0a0947"
       }
@@ -5758,13 +5405,9 @@
                 ""
         ],
         "list_order": 5120,
-        "from_classifier_id": 23,
         "from_classifier_name": "AV User",
-        "to_classifier_id": 26,
-        "to_classifier_name": "Listen to Radio",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "cef7c415-6d98-4a17-bbcc-4b8d61d9725a",
+        "to_classifier_name": "Listen to Radio",
         "to_node": "514bbb3e-8902-45cb-92cc-0368a554a589",
         "uuid": "8a2a4cea-dcd1-4fca-b45e-588eac486f93"
       }
@@ -5779,13 +5422,9 @@
                 ""
         ],
         "list_order": 4096,
-        "from_classifier_id": 24,
         "from_classifier_name": "Audio User",
-        "to_classifier_id": 26,
-        "to_classifier_name": "Listen to Radio",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "fdc019fe-a641-434c-b356-c8a9207bcf00",
+        "to_classifier_name": "Listen to Radio",
         "to_node": "514bbb3e-8902-45cb-92cc-0368a554a589",
         "uuid": "3a757aac-6e98-4c47-b231-069b85a3c662"
       }
@@ -5800,13 +5439,9 @@
                 ""
         ],
         "list_order": 1024,
-        "from_classifier_id": 25,
         "from_classifier_name": "Customer Service",
-        "to_classifier_id": 28,
-        "to_classifier_name": "Analyse Customer Complaint",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "b747dcc5-5504-4b72-af79-408ddf245eb8",
+        "to_classifier_name": "Analyse Customer Complaint",
         "to_node": "f4558934-6975-47b1-9645-624d8cefa68a",
         "uuid": "4864577c-2546-4810-a804-fbeb6579d0fc"
       }
@@ -5821,13 +5456,9 @@
                 ""
         ],
         "list_order": 1024,
-        "from_classifier_id": 29,
         "from_classifier_name": "select file to parse",
-        "to_classifier_id": 30,
-        "to_classifier_name": "read xml header",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "836dd632-86e1-49a0-bdae-dee9e3e89363",
+        "to_classifier_name": "read xml header",
         "to_node": "f84af1f6-d215-4a48-8667-07086a444d1b",
         "uuid": "d79865df-f6da-4607-8a78-a133302e2713"
       }
@@ -5842,13 +5473,9 @@
                 ""
         ],
         "list_order": 2048,
-        "from_classifier_id": 30,
         "from_classifier_name": "read xml header",
-        "to_classifier_id": 31,
-        "to_classifier_name": "read element and attributes",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "f84af1f6-d215-4a48-8667-07086a444d1b",
+        "to_classifier_name": "read element and attributes",
         "to_node": "33aa2542-3744-46bb-b032-38e8f514c0da",
         "uuid": "506abd10-0ec4-4cf3-9bcf-5cd091d39d7d"
       }
@@ -5863,13 +5490,9 @@
                 ""
         ],
         "list_order": 335872,
-        "from_classifier_id": 30,
         "from_classifier_name": "read xml header",
-        "to_classifier_id": 132,
-        "to_classifier_name": "decoder::end",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "f84af1f6-d215-4a48-8667-07086a444d1b",
+        "to_classifier_name": "decoder::end",
         "to_node": "b26adcf8-5d22-4715-b751-d2dca7b6900c",
         "uuid": "e67a5491-0932-4b6c-974f-7e24bea2d9ff"
       }
@@ -5884,13 +5507,9 @@
                 ""
         ],
         "list_order": 73728,
-        "from_classifier_id": 33,
         "from_classifier_name": "check validity",
-        "to_classifier_id": 132,
-        "to_classifier_name": "decoder::end",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "c1002f7e-8291-4586-b7c7-94ef4bde710f",
+        "to_classifier_name": "decoder::end",
         "to_node": "b26adcf8-5d22-4715-b751-d2dca7b6900c",
         "uuid": "c326d3f5-465f-4e5b-a4b6-f5c29296184e"
       }
@@ -5905,13 +5524,9 @@
                 ""
         ],
         "list_order": 2048,
-        "from_classifier_id": 35,
         "from_classifier_name": "booting",
-        "to_classifier_id": 37,
-        "to_classifier_name": "running",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "cc4ec715-ccf4-4ba7-b58a-4f8a05639080",
+        "to_classifier_name": "running",
         "to_node": "44779792-00ab-4b6f-9686-4f30da0e113f",
         "uuid": "902930b5-a617-42fc-aff0-27cbfe485780"
       }
@@ -5926,13 +5541,9 @@
                 ""
         ],
         "list_order": 5120,
-        "from_classifier_id": 35,
         "from_classifier_name": "booting",
-        "to_classifier_id": 36,
-        "to_classifier_name": "SW-update",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "cc4ec715-ccf4-4ba7-b58a-4f8a05639080",
+        "to_classifier_name": "SW-update",
         "to_node": "a8f03903-8d9e-4a62-bdbf-a1f54d39e043",
         "uuid": "18b52f21-eaaf-470c-b79c-8e119414631e"
       }
@@ -5947,13 +5558,9 @@
                 ""
         ],
         "list_order": 16384,
-        "from_classifier_id": 35,
         "from_classifier_name": "booting",
-        "to_classifier_id": 40,
-        "to_classifier_name": "diagnosis",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "cc4ec715-ccf4-4ba7-b58a-4f8a05639080",
+        "to_classifier_name": "diagnosis",
         "to_node": "2146b0c6-11fe-4e69-9d4e-15d2f449f933",
         "uuid": "99bf2414-c82f-4679-bb19-b2ee74bcb40b"
       }
@@ -5968,13 +5575,9 @@
                 ""
         ],
         "list_order": 13312,
-        "from_classifier_id": 36,
         "from_classifier_name": "SW-update",
-        "to_classifier_id": 39,
-        "to_classifier_name": "shutting down",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "a8f03903-8d9e-4a62-bdbf-a1f54d39e043",
+        "to_classifier_name": "shutting down",
         "to_node": "0b89728c-13e1-49f4-9d2b-3b3ed1b7f907",
         "uuid": "bbf83d15-41ea-49a7-a75f-97f3fc86fb5f"
       }
@@ -5989,13 +5592,9 @@
                 ""
         ],
         "list_order": 3072,
-        "from_classifier_id": 37,
         "from_classifier_name": "running",
-        "to_classifier_id": 39,
-        "to_classifier_name": "shutting down",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "44779792-00ab-4b6f-9686-4f30da0e113f",
+        "to_classifier_name": "shutting down",
         "to_node": "0b89728c-13e1-49f4-9d2b-3b3ed1b7f907",
         "uuid": "4d8126a5-f7d4-45d3-bdd0-d8a7dd60fe89"
       }
@@ -6010,13 +5609,9 @@
                 ""
         ],
         "list_order": 7168,
-        "from_classifier_id": 37,
         "from_classifier_name": "running",
-        "to_classifier_id": 40,
-        "to_classifier_name": "diagnosis",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "44779792-00ab-4b6f-9686-4f30da0e113f",
+        "to_classifier_name": "diagnosis",
         "to_node": "2146b0c6-11fe-4e69-9d4e-15d2f449f933",
         "uuid": "1decb293-1b82-4011-a0cc-39e921ff6531"
       }
@@ -6031,13 +5626,9 @@
                 ""
         ],
         "list_order": 4096,
-        "from_classifier_id": 39,
         "from_classifier_name": "shutting down",
-        "to_classifier_id": 34,
-        "to_classifier_name": "pwr::off",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "0b89728c-13e1-49f4-9d2b-3b3ed1b7f907",
+        "to_classifier_name": "pwr::off",
         "to_node": "df0f8e13-9164-430e-830a-fc54259ab459",
         "uuid": "4def7aff-7f37-4418-8b80-d7936862efb3"
       }
@@ -6052,13 +5643,9 @@
                 ""
         ],
         "list_order": 8192,
-        "from_classifier_id": 40,
         "from_classifier_name": "diagnosis",
-        "to_classifier_id": 36,
-        "to_classifier_name": "SW-update",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "2146b0c6-11fe-4e69-9d4e-15d2f449f933",
+        "to_classifier_name": "SW-update",
         "to_node": "a8f03903-8d9e-4a62-bdbf-a1f54d39e043",
         "uuid": "f9e7f7e6-6b28-4f43-9796-5548c08f8bdf"
       }
@@ -6073,13 +5660,9 @@
                 ""
         ],
         "list_order": 15360,
-        "from_classifier_id": 40,
         "from_classifier_name": "diagnosis",
-        "to_classifier_id": 37,
-        "to_classifier_name": "running",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "2146b0c6-11fe-4e69-9d4e-15d2f449f933",
+        "to_classifier_name": "running",
         "to_node": "44779792-00ab-4b6f-9686-4f30da0e113f",
         "uuid": "fdeeef3e-3eb4-423e-ac28-de5107cd2b4d"
       }
@@ -6094,15 +5677,11 @@
                 ""
         ],
         "list_order": 20480,
-        "from_classifier_id": 41,
         "from_classifier_name": "Asymmetric Signature Storage",
-        "to_classifier_id": 43,
-        "to_classifier_name": "TLS Endpoint",
-        "from_feature_id": 47,
         "from_feature_key": "",
-        "to_feature_id": 49,
-        "to_feature_key": "",
         "from_node": "dc2fe71a-359a-46ee-a1f0-0318b35e12c9",
+        "to_classifier_name": "TLS Endpoint",
+        "to_feature_key": "",
         "to_node": "81cf1538-9cc2-4c5c-9359-dbffa2d99576",
         "uuid": "3d1b9a02-8fd1-4c3b-bd16-28af239a799b"
       }
@@ -6117,15 +5696,11 @@
                 ""
         ],
         "list_order": 22528,
-        "from_classifier_id": 42,
         "from_classifier_name": "Symmetric Session Keys",
-        "to_classifier_id": 43,
-        "to_classifier_name": "TLS Endpoint",
-        "from_feature_id": 48,
         "from_feature_key": "",
-        "to_feature_id": 49,
-        "to_feature_key": "",
         "from_node": "04340b08-e0c6-40fb-bd1c-48a199b27370",
+        "to_classifier_name": "TLS Endpoint",
+        "to_feature_key": "",
         "to_node": "81cf1538-9cc2-4c5c-9359-dbffa2d99576",
         "uuid": "557f6552-432a-4f84-af68-eb9f0120381e"
       }
@@ -6140,15 +5715,11 @@
                 ""
         ],
         "list_order": 15360,
-        "from_classifier_id": 43,
         "from_classifier_name": "TLS Endpoint",
-        "to_classifier_id": 100,
-        "to_classifier_name": "Crypto Key Server",
-        "from_feature_id": 43,
         "from_feature_key": "request",
-        "to_feature_id": 38,
-        "to_feature_key": "command",
         "from_node": "327a76b0-a019-4618-a15c-5a06bb18f6f1",
+        "to_classifier_name": "Crypto Key Server",
+        "to_feature_key": "command",
         "to_node": "feab7a3b-46f4-4ad1-8ff0-0cd6e2930e6b",
         "uuid": "7172b7de-37c0-47a2-8526-8350557bb672"
       }
@@ -6163,14 +5734,10 @@
                 ""
         ],
         "list_order": 17408,
-        "from_classifier_id": 43,
         "from_classifier_name": "TLS Endpoint",
-        "to_classifier_id": 72,
-        "to_classifier_name": "Page Renderer",
-        "from_feature_id": 39,
         "from_feature_key": "session token",
-        "to_feature_id": -1,
         "from_node": "b99b01d2-fa42-4534-9f69-f1ce77f5a3b7",
+        "to_classifier_name": "Page Renderer",
         "to_node": "0c739e23-db60-415f-bea3-ddcaf8c340db",
         "uuid": "7a6d07cb-907b-44c9-988e-0fdd310f02a2"
       }
@@ -6185,15 +5752,11 @@
                 ""
         ],
         "list_order": 19456,
-        "from_classifier_id": 43,
         "from_classifier_name": "TLS Endpoint",
-        "to_classifier_id": 41,
-        "to_classifier_name": "Asymmetric Signature Storage",
-        "from_feature_id": 49,
         "from_feature_key": "",
-        "to_feature_id": 47,
-        "to_feature_key": "",
         "from_node": "81cf1538-9cc2-4c5c-9359-dbffa2d99576",
+        "to_classifier_name": "Asymmetric Signature Storage",
+        "to_feature_key": "",
         "to_node": "dc2fe71a-359a-46ee-a1f0-0318b35e12c9",
         "uuid": "a47766dd-c89f-4b16-8adc-cb51d29e7102"
       }
@@ -6208,15 +5771,11 @@
                 ""
         ],
         "list_order": 21504,
-        "from_classifier_id": 43,
         "from_classifier_name": "TLS Endpoint",
-        "to_classifier_id": 42,
-        "to_classifier_name": "Symmetric Session Keys",
-        "from_feature_id": 49,
         "from_feature_key": "",
-        "to_feature_id": 48,
-        "to_feature_key": "",
         "from_node": "81cf1538-9cc2-4c5c-9359-dbffa2d99576",
+        "to_classifier_name": "Symmetric Session Keys",
+        "to_feature_key": "",
         "to_node": "04340b08-e0c6-40fb-bd1c-48a199b27370",
         "uuid": "e32d455e-81e9-40f4-8e2a-79a83e9dd055"
       }
@@ -6231,15 +5790,11 @@
                 ""
         ],
         "list_order": 1689399656,
-        "from_classifier_id": 43,
         "from_classifier_name": "TLS Endpoint",
-        "to_classifier_id": 43,
-        "to_classifier_name": "TLS Endpoint",
-        "from_feature_id": 52,
         "from_feature_key": "Cmd_IF",
-        "to_feature_id": 40,
-        "to_feature_key": "/dev/tty2",
         "from_node": "2bf08931-160a-408a-b1b9-5660ed659cfe",
+        "to_classifier_name": "TLS Endpoint",
+        "to_feature_key": "/dev/tty2",
         "to_node": "6f81c351-1dda-454b-9c01-e25ff625a7f0",
         "uuid": "da091386-0cae-4adb-a2e1-13dde71f1f5f"
       }
@@ -6254,15 +5809,11 @@
                 ""
         ],
         "list_order": 18432,
-        "from_classifier_id": 44,
         "from_classifier_name": "External Entity",
-        "to_classifier_id": 43,
-        "to_classifier_name": "TLS Endpoint",
-        "from_feature_id": 50,
         "from_feature_key": "",
-        "to_feature_id": 49,
-        "to_feature_key": "",
         "from_node": "d46c62b3-221a-460a-a483-6e4b84cf4d5e",
+        "to_classifier_name": "TLS Endpoint",
+        "to_feature_key": "",
         "to_node": "81cf1538-9cc2-4c5c-9359-dbffa2d99576",
         "uuid": "14895cff-4d2d-40b4-84c4-4c0872e3b39b"
       }
@@ -6277,13 +5828,9 @@
                 ""
         ],
         "list_order": 1024,
-        "from_classifier_id": 45,
         "from_classifier_name": "Box",
-        "to_classifier_id": 48,
-        "to_classifier_name": "Tuner Chip",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "e5f05f66-e9a6-41c1-8548-f54aef76a2fd",
+        "to_classifier_name": "Tuner Chip",
         "to_node": "eb86f050-0a69-456b-aeba-52da0a304bc1",
         "uuid": "90dbed04-2ece-4791-8353-e93d4678952f"
       }
@@ -6298,13 +5845,9 @@
                 ""
         ],
         "list_order": 2048,
-        "from_classifier_id": 45,
         "from_classifier_name": "Box",
-        "to_classifier_id": 47,
-        "to_classifier_name": "Performance SoC",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "e5f05f66-e9a6-41c1-8548-f54aef76a2fd",
+        "to_classifier_name": "Performance SoC",
         "to_node": "a4057f7a-9030-4296-9a50-96354390febc",
         "uuid": "f29a4485-24c7-4988-ad8b-d184a42f908f"
       }
@@ -6319,13 +5862,9 @@
                 ""
         ],
         "list_order": 3072,
-        "from_classifier_id": 45,
         "from_classifier_name": "Box",
-        "to_classifier_id": 50,
-        "to_classifier_name": "Power Supply",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "e5f05f66-e9a6-41c1-8548-f54aef76a2fd",
+        "to_classifier_name": "Power Supply",
         "to_node": "04156c73-4c79-4740-8280-29c8b9b06c64",
         "uuid": "2964157f-9151-4c41-8586-867012e67257"
       }
@@ -6340,13 +5879,9 @@
                 ""
         ],
         "list_order": 4096,
-        "from_classifier_id": 45,
         "from_classifier_name": "Box",
-        "to_classifier_id": 49,
-        "to_classifier_name": "Amplifier",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "e5f05f66-e9a6-41c1-8548-f54aef76a2fd",
+        "to_classifier_name": "Amplifier",
         "to_node": "2010aec3-c246-4155-8ac9-28f67d5c84bb",
         "uuid": "457df35f-a9db-4704-85e9-6c6720fe698c"
       }
@@ -6361,13 +5896,9 @@
                 ""
         ],
         "list_order": 421739215,
-        "from_classifier_id": 45,
         "from_classifier_name": "Box",
-        "to_classifier_id": 73,
-        "to_classifier_name": "Watchdog",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "e5f05f66-e9a6-41c1-8548-f54aef76a2fd",
+        "to_classifier_name": "Watchdog",
         "to_node": "ea080c10-82cc-4f5d-8e32-39f6e25392c0",
         "uuid": "1e0367a9-ac97-40f5-8c72-20b19512495f"
       }
@@ -6382,13 +5913,9 @@
                 ""
         ],
         "list_order": -903143848,
-        "from_classifier_id": 51,
         "from_classifier_name": "Web Browser",
-        "to_classifier_id": 72,
-        "to_classifier_name": "Page Renderer",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "420ad9b6-748a-4876-9578-dc13270d7983",
+        "to_classifier_name": "Page Renderer",
         "to_node": "0c739e23-db60-415f-bea3-ddcaf8c340db",
         "uuid": "29e0a87e-1052-4e76-bad3-433ae828ea4e"
       }
@@ -6403,14 +5930,10 @@
                 ""
         ],
         "list_order": 1689432424,
-        "from_classifier_id": 51,
         "from_classifier_name": "Web Browser",
-        "to_classifier_id": 43,
-        "to_classifier_name": "TLS Endpoint",
-        "from_feature_id": -1,
-        "to_feature_id": 52,
-        "to_feature_key": "Cmd_IF",
         "from_node": "420ad9b6-748a-4876-9578-dc13270d7983",
+        "to_classifier_name": "TLS Endpoint",
+        "to_feature_key": "Cmd_IF",
         "to_node": "2bf08931-160a-408a-b1b9-5660ed659cfe",
         "uuid": "838a30f7-945c-48e9-ad06-797986d4b9f1"
       }
@@ -6425,15 +5948,11 @@
                 ""
         ],
         "list_order": 1804517952,
-        "from_classifier_id": 51,
         "from_classifier_name": "Web Browser",
-        "to_classifier_id": 51,
-        "to_classifier_name": "Web Browser",
-        "from_feature_id": 57,
         "from_feature_key": "Nav",
-        "to_feature_id": 75,
-        "to_feature_key": "8443",
         "from_node": "855a2464-0ec7-4a3a-9d63-5e772b40950d",
+        "to_classifier_name": "Web Browser",
+        "to_feature_key": "8443",
         "to_node": "260a0431-47dd-4076-905c-669ae0f69c4d",
         "uuid": "6393d42d-0925-463b-9b62-390717e0c941"
       }
@@ -6448,15 +5967,11 @@
                 ""
         ],
         "list_order": 1804550720,
-        "from_classifier_id": 51,
         "from_classifier_name": "Web Browser",
-        "to_classifier_id": 51,
-        "to_classifier_name": "Web Browser",
-        "from_feature_id": 58,
         "from_feature_key": "Tun",
-        "to_feature_id": 74,
-        "to_feature_key": "8080",
         "from_node": "f645ef7e-2dc0-4b27-8aa8-2935abcc2c15",
+        "to_classifier_name": "Web Browser",
+        "to_feature_key": "8080",
         "to_node": "9b7121a8-7cea-4e0c-bd55-af1b8b372f64",
         "uuid": "09d5cf53-b08d-40f3-91ec-b9d03fd5e8ab"
       }
@@ -6471,15 +5986,11 @@
                 ""
         ],
         "list_order": 1804583488,
-        "from_classifier_id": 51,
         "from_classifier_name": "Web Browser",
-        "to_classifier_id": 52,
-        "to_classifier_name": "Content DB",
-        "from_feature_id": 57,
         "from_feature_key": "Nav",
-        "to_feature_id": 54,
-        "to_feature_key": "Cmd_IF",
         "from_node": "855a2464-0ec7-4a3a-9d63-5e772b40950d",
+        "to_classifier_name": "Content DB",
+        "to_feature_key": "Cmd_IF",
         "to_node": "078b818f-2cef-4208-a636-ed4fa3d75ff9",
         "uuid": "9a607ea3-bec9-4a7b-b9f1-1668d90f464c"
       }
@@ -6494,15 +6005,11 @@
                 ""
         ],
         "list_order": 1804616256,
-        "from_classifier_id": 51,
         "from_classifier_name": "Web Browser",
-        "to_classifier_id": 53,
-        "to_classifier_name": "Images Server",
-        "from_feature_id": 58,
         "from_feature_key": "Tun",
-        "to_feature_id": 56,
-        "to_feature_key": "Cmd_IF",
         "from_node": "f645ef7e-2dc0-4b27-8aa8-2935abcc2c15",
+        "to_classifier_name": "Images Server",
+        "to_feature_key": "Cmd_IF",
         "to_node": "6e614a66-1faa-41b8-a432-78f7f724d554",
         "uuid": "8b07b73e-77e8-4ec7-a9f9-c8540a88bd79"
       }
@@ -6517,15 +6024,11 @@
                 ""
         ],
         "list_order": 1689465192,
-        "from_classifier_id": 52,
         "from_classifier_name": "Content DB",
-        "to_classifier_id": 52,
-        "to_classifier_name": "Content DB",
-        "from_feature_id": 54,
         "from_feature_key": "Cmd_IF",
-        "to_feature_id": 53,
-        "to_feature_key": "8080",
         "from_node": "078b818f-2cef-4208-a636-ed4fa3d75ff9",
+        "to_classifier_name": "Content DB",
+        "to_feature_key": "8080",
         "to_node": "5bf3239f-343d-4ece-bffc-e3d22fefce6f",
         "uuid": "4e89d341-dad1-4af7-b7bf-20e9293315d7"
       }
@@ -6540,15 +6043,11 @@
                 ""
         ],
         "list_order": 1689497960,
-        "from_classifier_id": 53,
         "from_classifier_name": "Images Server",
-        "to_classifier_id": 53,
-        "to_classifier_name": "Images Server",
-        "from_feature_id": 56,
         "from_feature_key": "Cmd_IF",
-        "to_feature_id": 55,
-        "to_feature_key": "80",
         "from_node": "6e614a66-1faa-41b8-a432-78f7f724d554",
+        "to_classifier_name": "Images Server",
+        "to_feature_key": "80",
         "to_node": "7def967d-e021-4bc6-9cb1-a42628630e8e",
         "uuid": "a2afe20a-e3cb-4cd1-83aa-353ecbf04490"
       }
@@ -6563,13 +6062,9 @@
                 ""
         ],
         "list_order": 271400113,
-        "from_classifier_id": 55,
         "from_classifier_name": "Service Layer",
-        "to_classifier_id": 70,
-        "to_classifier_name": "common Services",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "58509a8e-3833-4e32-95ae-50de8926c2ac",
+        "to_classifier_name": "common Services",
         "to_node": "c0395ffe-0d05-4129-892d-373ecc143a50",
         "uuid": "a29f1d04-58da-4429-9d9c-86ff75875be0"
       }
@@ -6584,13 +6079,9 @@
                 ""
         ],
         "list_order": 79069308,
-        "from_classifier_id": 55,
         "from_classifier_name": "Service Layer",
-        "to_classifier_id": 71,
-        "to_classifier_name": "specific Services",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "58509a8e-3833-4e32-95ae-50de8926c2ac",
+        "to_classifier_name": "specific Services",
         "to_node": "449482a3-f3e4-4068-bbac-83e82a206b59",
         "uuid": "00828876-8dc5-49d6-beda-47e2b48e980d"
       }
@@ -6605,13 +6096,9 @@
                 ""
         ],
         "list_order": 1484308504,
-        "from_classifier_id": 56,
         "from_classifier_name": "Infrastructure",
-        "to_classifier_id": 135,
-        "to_classifier_name": "communication Lib",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "8b9e7f06-0c23-4765-b77d-534a0df36e84",
+        "to_classifier_name": "communication Lib",
         "to_node": "c7f56354-e429-47c2-b9bc-eb71fa8174c0",
         "uuid": "27b4f178-ee98-48ef-b744-288651c482d0"
       }
@@ -6626,13 +6113,9 @@
                 ""
         ],
         "list_order": 1402977861,
-        "from_classifier_id": 56,
         "from_classifier_name": "Infrastructure",
-        "to_classifier_id": 136,
-        "to_classifier_name": "storage Lib",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "8b9e7f06-0c23-4765-b77d-534a0df36e84",
+        "to_classifier_name": "storage Lib",
         "to_node": "7034e944-2fcf-46d5-a450-3743c0f67838",
         "uuid": "23f2db54-6d8d-4ac8-b723-02a792af7883"
       }
@@ -6647,13 +6130,9 @@
                 ""
         ],
         "list_order": 3072,
-        "from_classifier_id": 58,
         "from_classifier_name": "List",
-        "to_classifier_id": 61,
-        "to_classifier_name": "Iterator",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "cbb8c23c-04a0-45cd-8c11-9b7af21c91a0",
+        "to_classifier_name": "Iterator",
         "to_node": "458884c0-6398-4a61-ab99-3c8cfba10b70",
         "uuid": "b350cd84-a48e-40a2-8c72-c32baaa0a722"
       }
@@ -6668,13 +6147,9 @@
                 ""
         ],
         "list_order": 1024,
-        "from_classifier_id": 60,
         "from_classifier_name": "List of Stations",
-        "to_classifier_id": 58,
-        "to_classifier_name": "List",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "4cec37b4-0b32-4ad2-af76-0bb6b0d93426",
+        "to_classifier_name": "List",
         "to_node": "cbb8c23c-04a0-45cd-8c11-9b7af21c91a0",
         "uuid": "e267738c-3708-433d-9797-c88e40be45bc"
       }
@@ -6689,13 +6164,9 @@
                 ""
         ],
         "list_order": 2048,
-        "from_classifier_id": 60,
         "from_classifier_name": "List of Stations",
-        "to_classifier_id": 59,
-        "to_classifier_name": "Tuner Station",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "4cec37b4-0b32-4ad2-af76-0bb6b0d93426",
+        "to_classifier_name": "Tuner Station",
         "to_node": "4932e997-c410-489d-8dc9-d5118ba4ceaa",
         "uuid": "bcdd0f5e-ca7a-40a7-954e-bfbc72ebe4a3"
       }
@@ -6710,13 +6181,9 @@
                 ""
         ],
         "list_order": 1024,
-        "from_classifier_id": 62,
         "from_classifier_name": "Reader",
-        "to_classifier_id": 63,
-        "to_classifier_name": "View UML Diagram Examples",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "b89da5a3-66e4-4577-9e2e-86e0ff92d3c2",
+        "to_classifier_name": "View UML Diagram Examples",
         "to_node": "3328cd45-4906-4211-87b6-1fe5f466d0a9",
         "uuid": "b8687be7-647f-4392-abd1-9d6dcfcb68fd"
       }
@@ -6731,13 +6198,9 @@
                 ""
         ],
         "list_order": 2048,
-        "from_classifier_id": 62,
         "from_classifier_name": "Reader",
-        "to_classifier_id": 64,
-        "to_classifier_name": "View Feature Listings",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "b89da5a3-66e4-4577-9e2e-86e0ff92d3c2",
+        "to_classifier_name": "View Feature Listings",
         "to_node": "b8e0e9de-4ddc-429e-a92b-1b9fc51d8b8e",
         "uuid": "a5749fb9-2328-48d9-be1d-13a04caba24c"
       }
@@ -6752,13 +6215,9 @@
                 ""
         ],
         "list_order": 3072,
-        "from_classifier_id": 65,
         "from_classifier_name": "2 instances of same object",
-        "to_classifier_id": 13,
-        "to_classifier_name": "Instance",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "f04ac7df-4da9-479e-a24b-68bcc371fe0e",
+        "to_classifier_name": "Instance",
         "to_node": "8ea48e55-8309-4065-b246-1cc0cf8403fc",
         "uuid": "b1ccc277-67b1-4497-b290-a6f5c95d959e"
       }
@@ -6773,13 +6232,9 @@
                 ""
         ],
         "list_order": 7168,
-        "from_classifier_id": 66,
         "from_classifier_name": "read xml",
-        "to_classifier_id": 31,
-        "to_classifier_name": "read element and attributes",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "af72c24f-9420-432a-833e-1cb6260d362e",
+        "to_classifier_name": "read element and attributes",
         "to_node": "33aa2542-3744-46bb-b032-38e8f514c0da",
         "uuid": "fe830fc3-fb69-4c78-a101-78b62d949960"
       }
@@ -6794,13 +6249,9 @@
                 ""
         ],
         "list_order": 8192,
-        "from_classifier_id": 66,
         "from_classifier_name": "read xml",
-        "to_classifier_id": 32,
-        "to_classifier_name": "read CDATA contents",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "af72c24f-9420-432a-833e-1cb6260d362e",
+        "to_classifier_name": "read CDATA contents",
         "to_node": "361316cf-9fa0-4670-a23e-01c498e52f35",
         "uuid": "27269989-e13b-4dfc-898a-f8096af2dc3e"
       }
@@ -6815,13 +6266,9 @@
                 ""
         ],
         "list_order": -699516557,
-        "from_classifier_id": 66,
         "from_classifier_name": "read xml",
-        "to_classifier_id": 133,
-        "to_classifier_name": "read end tag",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "af72c24f-9420-432a-833e-1cb6260d362e",
+        "to_classifier_name": "read end tag",
         "to_node": "8087c141-7448-46e2-8ea4-dc712657a9b8",
         "uuid": "67a834cc-2fc4-4447-abeb-aa494b61ae6d"
       }
@@ -6836,13 +6283,9 @@
                 ""
         ],
         "list_order": -699516557,
-        "from_classifier_id": 66,
         "from_classifier_name": "read xml",
-        "to_classifier_id": 134,
-        "to_classifier_name": "next token",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "af72c24f-9420-432a-833e-1cb6260d362e",
+        "to_classifier_name": "next token",
         "to_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
         "uuid": "64d881bc-7d1d-4a87-9f2b-59da0a0c7ab9"
       }
@@ -6857,13 +6300,9 @@
                 ""
         ],
         "list_order": 5120,
-        "from_classifier_id": 67,
         "from_classifier_name": "Explicit Instance",
-        "to_classifier_id": 10,
-        "to_classifier_name": "Class",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "2034e982-20f8-43df-b5ae-b0c231397b78",
+        "to_classifier_name": "Class",
         "to_node": "4aaf46e8-822b-4947-8b05-79342398adb0",
         "uuid": "d1e7b644-aa6a-44be-8c9f-98f6c1c0ff5c"
       }
@@ -6878,13 +6317,9 @@
                 ""
         ],
         "list_order": 9216,
-        "from_classifier_id": 68,
         "from_classifier_name": "create result 2",
-        "to_classifier_id": 69,
-        "to_classifier_name": "perform action 1",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "03cbebaf-7693-4fec-9492-c76b931a2197",
+        "to_classifier_name": "perform action 1",
         "to_node": "bab35fcd-ca40-45eb-99a2-525ccb5c625b",
         "uuid": "eaa57afe-c8d2-47f0-aa17-785047b2e86a"
       }
@@ -6899,13 +6334,9 @@
                 ""
         ],
         "list_order": 10240,
-        "from_classifier_id": 69,
         "from_classifier_name": "perform action 1",
-        "to_classifier_id": 68,
-        "to_classifier_name": "create result 2",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "bab35fcd-ca40-45eb-99a2-525ccb5c625b",
+        "to_classifier_name": "create result 2",
         "to_node": "03cbebaf-7693-4fec-9492-c76b931a2197",
         "uuid": "c050a083-8407-4abf-bd13-986b86554f18"
       }
@@ -6920,13 +6351,9 @@
                 ""
         ],
         "list_order": 2048,
-        "from_classifier_id": 75,
         "from_classifier_name": "REQ-1001: Stream Audio",
-        "to_classifier_id": 78,
-        "to_classifier_name": "Phone Call",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "ba7af822-b3aa-4088-b2b0-a814e275a388",
+        "to_classifier_name": "Phone Call",
         "to_node": "c42bf08b-b197-4820-ae47-89620833f159",
         "uuid": "95d7070f-7e09-41cb-8bc5-bc5130efef1c"
       }
@@ -6941,13 +6368,9 @@
                 ""
         ],
         "list_order": 3072,
-        "from_classifier_id": 76,
         "from_classifier_name": "REQ-1002: Capture Mic",
-        "to_classifier_id": 75,
-        "to_classifier_name": "REQ-1001: Stream Audio",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "352158fa-5538-4070-96c6-9b5eb1939784",
+        "to_classifier_name": "REQ-1001: Stream Audio",
         "to_node": "ba7af822-b3aa-4088-b2b0-a814e275a388",
         "uuid": "204c5fa0-ca58-47de-a762-50eb949640e2"
       }
@@ -6962,13 +6385,9 @@
                 ""
         ],
         "list_order": 4096,
-        "from_classifier_id": 77,
         "from_classifier_name": "REQ-1003: Play Audio on Speaker",
-        "to_classifier_id": 75,
-        "to_classifier_name": "REQ-1001: Stream Audio",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "6232c069-8281-40e2-bced-6a0b78c51491",
+        "to_classifier_name": "REQ-1001: Stream Audio",
         "to_node": "ba7af822-b3aa-4088-b2b0-a814e275a388",
         "uuid": "d2c9e312-b121-4505-a8c5-491ad9030a4b"
       }
@@ -6983,13 +6402,9 @@
                 ""
         ],
         "list_order": 1024,
-        "from_classifier_id": 79,
         "from_classifier_name": "REQ-1004: Dial Number",
-        "to_classifier_id": 78,
-        "to_classifier_name": "Phone Call",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "6f5ab8eb-fc62-4560-80b1-5d840a9d3661",
+        "to_classifier_name": "Phone Call",
         "to_node": "c42bf08b-b197-4820-ae47-89620833f159",
         "uuid": "2ba5f578-675b-4be8-bfe4-c1d325ef3c63"
       }
@@ -7004,13 +6419,9 @@
                 ""
         ],
         "list_order": 1024,
-        "from_classifier_id": 80,
         "from_classifier_name": "Telephone",
-        "to_classifier_id": 87,
-        "to_classifier_name": "Power Connector",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "ba881e97-1072-4296-ba29-6abc73b7f252",
+        "to_classifier_name": "Power Connector",
         "to_node": "98f22d96-80fd-4f93-bb88-8a1bd9952cb4",
         "uuid": "877705ce-7533-4426-95f7-90e04379c69a"
       }
@@ -7025,13 +6436,9 @@
                 ""
         ],
         "list_order": 2048,
-        "from_classifier_id": 80,
         "from_classifier_name": "Telephone",
-        "to_classifier_id": 86,
-        "to_classifier_name": "Network Connector",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "ba881e97-1072-4296-ba29-6abc73b7f252",
+        "to_classifier_name": "Network Connector",
         "to_node": "6b78a168-49df-4ff9-bd5f-f4a17f5f2775",
         "uuid": "7db9c5b6-c58f-4dff-a99c-27d4e2b2ff4e"
       }
@@ -7046,13 +6453,9 @@
                 ""
         ],
         "list_order": 3072,
-        "from_classifier_id": 80,
         "from_classifier_name": "Telephone",
-        "to_classifier_id": 84,
-        "to_classifier_name": "Power Management IC",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "ba881e97-1072-4296-ba29-6abc73b7f252",
+        "to_classifier_name": "Power Management IC",
         "to_node": "e66ba866-2fa8-432a-88ad-853589e18426",
         "uuid": "5eb37c6e-83cb-4da1-9a0b-ac510a5e9a85"
       }
@@ -7067,13 +6470,9 @@
                 ""
         ],
         "list_order": 4096,
-        "from_classifier_id": 80,
         "from_classifier_name": "Telephone",
-        "to_classifier_id": 85,
-        "to_classifier_name": "Display",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "ba881e97-1072-4296-ba29-6abc73b7f252",
+        "to_classifier_name": "Display",
         "to_node": "259cd218-e04a-4b67-8fe5-f58ccdc55ae2",
         "uuid": "ec6e20da-7b67-4d7c-a053-5bffea33a6d1"
       }
@@ -7088,13 +6487,9 @@
                 ""
         ],
         "list_order": 5120,
-        "from_classifier_id": 80,
         "from_classifier_name": "Telephone",
-        "to_classifier_id": 83,
-        "to_classifier_name": "Speaker",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "ba881e97-1072-4296-ba29-6abc73b7f252",
+        "to_classifier_name": "Speaker",
         "to_node": "453345e3-49bd-4803-98fe-09cff2f6ece9",
         "uuid": "ff1429f8-f700-41b1-8716-69c85ecbf5d2"
       }
@@ -7109,13 +6504,9 @@
                 ""
         ],
         "list_order": 6144,
-        "from_classifier_id": 80,
         "from_classifier_name": "Telephone",
-        "to_classifier_id": 82,
-        "to_classifier_name": "Microphone",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "ba881e97-1072-4296-ba29-6abc73b7f252",
+        "to_classifier_name": "Microphone",
         "to_node": "787bd029-c41b-4305-a575-871a19db6078",
         "uuid": "45a359a4-8486-4d92-a1a7-3c3c1fdc563b"
       }
@@ -7130,13 +6521,9 @@
                 ""
         ],
         "list_order": 7168,
-        "from_classifier_id": 80,
         "from_classifier_name": "Telephone",
-        "to_classifier_id": 81,
-        "to_classifier_name": "Dial Pad",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "ba881e97-1072-4296-ba29-6abc73b7f252",
+        "to_classifier_name": "Dial Pad",
         "to_node": "fce3ffeb-62d1-4689-92db-83387adbcbc7",
         "uuid": "7e8c4448-d49a-4e81-89de-07760899dbfd"
       }
@@ -7151,13 +6538,9 @@
                 ""
         ],
         "list_order": 8192,
-        "from_classifier_id": 80,
         "from_classifier_name": "Telephone",
-        "to_classifier_id": 88,
-        "to_classifier_name": "CPU",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "ba881e97-1072-4296-ba29-6abc73b7f252",
+        "to_classifier_name": "CPU",
         "to_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
         "uuid": "c2179e9d-5ef4-400e-98e2-cb006df9d178"
       }
@@ -7172,15 +6555,11 @@
                 ""
         ],
         "list_order": 593112563,
-        "from_classifier_id": 91,
         "from_classifier_name": "One Component",
-        "to_classifier_id": 91,
-        "to_classifier_name": "One Component",
-        "from_feature_id": 51,
         "from_feature_key": "http://admin",
-        "to_feature_id": 23,
-        "to_feature_key": "8080",
         "from_node": "839e5659-3c57-4f91-9e29-af221b24ba3d",
+        "to_classifier_name": "One Component",
+        "to_feature_key": "8080",
         "to_node": "2758fb84-3593-477c-b6ca-eb8cc3b906fe",
         "uuid": "fdb958e6-dc9b-4921-823c-d7d1d908609b"
       }
@@ -7195,13 +6574,9 @@
                 ""
         ],
         "list_order": 107694452,
-        "from_classifier_id": 101,
         "from_classifier_name": "Other Component",
-        "to_classifier_id": 102,
-        "to_classifier_name": "Subcomponent",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "cb019de3-b5ec-400e-bb88-b6ddf7e97354",
+        "to_classifier_name": "Subcomponent",
         "to_node": "1b7cb77f-656e-41e2-b67f-740b50234856",
         "uuid": "1a0fd3ec-d0ca-4e43-b9db-2d30171209d7"
       }
@@ -7216,15 +6591,11 @@
                 ""
         ],
         "list_order": 469693363,
-        "from_classifier_id": 104,
         "from_classifier_name": "Heat Sensor",
-        "to_classifier_id": 105,
-        "to_classifier_name": "Overtemperature Off",
-        "from_feature_id": 64,
         "from_feature_key": "out_actual_value",
-        "to_feature_id": 60,
-        "to_feature_key": "actual temperature",
         "from_node": "6f52ddb7-ad1f-44d6-a3e2-ad31ea485d18",
+        "to_classifier_name": "Overtemperature Off",
+        "to_feature_key": "actual temperature",
         "to_node": "b4d637f8-21dc-40f7-8ddf-58107fa47107",
         "uuid": "521cf4f9-1090-46ff-b069-20cf95f5c746"
       }
@@ -7239,15 +6610,11 @@
                 ""
         ],
         "list_order": 469660595,
-        "from_classifier_id": 105,
         "from_classifier_name": "Overtemperature Off",
-        "to_classifier_id": 106,
-        "to_classifier_name": "Powermanagement IC",
-        "from_feature_id": 62,
         "from_feature_key": "out_emergency_off",
-        "to_feature_id": 63,
-        "to_feature_key": "in_emergency_off",
         "from_node": "db8d3d78-3b63-42b7-a0ba-ee7b9574fa7d",
+        "to_classifier_name": "Powermanagement IC",
+        "to_feature_key": "in_emergency_off",
         "to_node": "5640b074-ea0b-4ad8-a137-3842d32938b5",
         "uuid": "35709a3a-475e-4643-9418-3e4fbc66108e"
       }
@@ -7262,15 +6629,11 @@
                 ""
         ],
         "list_order": 469627827,
-        "from_classifier_id": 107,
         "from_classifier_name": "Max Temperature Config Value",
-        "to_classifier_id": 105,
-        "to_classifier_name": "Overtemperature Off",
-        "from_feature_id": 65,
         "from_feature_key": "max_temperature",
-        "to_feature_id": 61,
-        "to_feature_key": "max temperature",
         "from_node": "9eb82a67-3826-47ca-a72b-61d96a134616",
+        "to_classifier_name": "Overtemperature Off",
+        "to_feature_key": "max temperature",
         "to_node": "3218f250-c091-4376-b0f9-063f9b5b65fb",
         "uuid": "e707d760-7d4d-4464-88d8-e633a8bb63a1"
       }
@@ -7285,15 +6648,11 @@
                 ""
         ],
         "list_order": 229376,
-        "from_classifier_id": 108,
         "from_classifier_name": "start trigger",
-        "to_classifier_id": 109,
-        "to_classifier_name": "Timing",
-        "from_feature_id": 76,
         "from_feature_key": "",
-        "to_feature_id": 77,
-        "to_feature_key": "",
         "from_node": "3ac2fc7f-4159-43f9-8a0c-6735d805679a",
+        "to_classifier_name": "Timing",
+        "to_feature_key": "",
         "to_node": "4ac7f1d1-ae74-48f8-b431-a5326fd00322",
         "uuid": "30641c84-08df-41ac-a747-904b5b52a3f2"
       }
@@ -7308,15 +6667,11 @@
                 ""
         ],
         "list_order": 262144,
-        "from_classifier_id": 109,
         "from_classifier_name": "Timing",
-        "to_classifier_id": 110,
-        "to_classifier_name": "Wait for User Input",
-        "from_feature_id": 77,
         "from_feature_key": "",
-        "to_feature_id": 78,
-        "to_feature_key": "",
         "from_node": "4ac7f1d1-ae74-48f8-b431-a5326fd00322",
+        "to_classifier_name": "Wait for User Input",
+        "to_feature_key": "",
         "to_node": "f40210ab-d6a8-404d-a160-485be3f0f199",
         "uuid": "0a0d58cd-e6f4-4d68-8753-b73f5ea47f33"
       }
@@ -7331,15 +6686,11 @@
                 ""
         ],
         "list_order": 294912,
-        "from_classifier_id": 110,
         "from_classifier_name": "Wait for User Input",
-        "to_classifier_id": 111,
-        "to_classifier_name": "Event Type?",
-        "from_feature_id": 78,
         "from_feature_key": "",
-        "to_feature_id": 79,
-        "to_feature_key": "",
         "from_node": "f40210ab-d6a8-404d-a160-485be3f0f199",
+        "to_classifier_name": "Event Type?",
+        "to_feature_key": "",
         "to_node": "295a7599-3725-4221-86fd-e77afe3581ac",
         "uuid": "d94cd75b-349e-4fb9-9db1-0d095f27b8c4"
       }
@@ -7354,15 +6705,11 @@
                 ""
         ],
         "list_order": 327680,
-        "from_classifier_id": 111,
         "from_classifier_name": "Event Type?",
-        "to_classifier_id": 112,
-        "to_classifier_name": "Sequence",
-        "from_feature_id": 79,
         "from_feature_key": "",
-        "to_feature_id": 80,
-        "to_feature_key": "",
         "from_node": "295a7599-3725-4221-86fd-e77afe3581ac",
+        "to_classifier_name": "Sequence",
+        "to_feature_key": "",
         "to_node": "ea7572f1-8eb4-4130-8734-01de78ade5f9",
         "uuid": "3f939ff0-2ca7-4cf2-a9d5-11b77e0d675f"
       }
@@ -7377,15 +6724,11 @@
                 ""
         ],
         "list_order": 393216,
-        "from_classifier_id": 111,
         "from_classifier_name": "Event Type?",
-        "to_classifier_id": 113,
-        "to_classifier_name": "shutdown",
-        "from_feature_id": 79,
         "from_feature_key": "",
-        "to_feature_id": 81,
-        "to_feature_key": "",
         "from_node": "295a7599-3725-4221-86fd-e77afe3581ac",
+        "to_classifier_name": "shutdown",
+        "to_feature_key": "",
         "to_node": "2ef7719b-e01a-4b74-bf64-f904f8a46fcc",
         "uuid": "141dfd31-e842-4466-8063-c82d10fa9559"
       }
@@ -7400,15 +6743,11 @@
                 ""
         ],
         "list_order": 360448,
-        "from_classifier_id": 112,
         "from_classifier_name": "Sequence",
-        "to_classifier_id": 110,
-        "to_classifier_name": "Wait for User Input",
-        "from_feature_id": 80,
         "from_feature_key": "",
-        "to_feature_id": 78,
-        "to_feature_key": "",
         "from_node": "ea7572f1-8eb4-4130-8734-01de78ade5f9",
+        "to_classifier_name": "Wait for User Input",
+        "to_feature_key": "",
         "to_node": "f40210ab-d6a8-404d-a160-485be3f0f199",
         "uuid": "57b2d642-6764-4893-a6ee-115d2b0965a5"
       }
@@ -7423,13 +6762,9 @@
                 ""
         ],
         "list_order": -1893021350,
-        "from_classifier_id": 119,
         "from_classifier_name": "Region",
-        "to_classifier_id": 120,
-        "to_classifier_name": "timeout",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "0296326b-eca5-40bd-9d31-01b11538244a",
+        "to_classifier_name": "timeout",
         "to_node": "6fd39e33-cd25-46fd-9880-e8f91f859da5",
         "uuid": "ad0a1f84-1cc5-448e-a9c3-68a7a7c5dcf2"
       }
@@ -7444,13 +6779,9 @@
                 ""
         ],
         "list_order": -1894989401,
-        "from_classifier_id": 119,
         "from_classifier_name": "Region",
-        "to_classifier_id": 121,
-        "to_classifier_name": "Action",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "0296326b-eca5-40bd-9d31-01b11538244a",
+        "to_classifier_name": "Action",
         "to_node": "56aab755-be0d-4c90-8139-a5881ee65842",
         "uuid": "b4f1e859-f336-4910-87d8-26593d18e311"
       }
@@ -7465,13 +6796,9 @@
                 ""
         ],
         "list_order": -1896450470,
-        "from_classifier_id": 119,
         "from_classifier_name": "Region",
-        "to_classifier_id": 122,
-        "to_classifier_name": "Send",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "0296326b-eca5-40bd-9d31-01b11538244a",
+        "to_classifier_name": "Send",
         "to_node": "4c4f8591-25bb-4974-a592-b8040907bed1",
         "uuid": "8a7654e3-365b-49c5-939f-316693406b78"
       }
@@ -7486,13 +6813,9 @@
                 ""
         ],
         "list_order": -1894691633,
-        "from_classifier_id": 119,
         "from_classifier_name": "Region",
-        "to_classifier_id": 123,
-        "to_classifier_name": "Receive",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "0296326b-eca5-40bd-9d31-01b11538244a",
+        "to_classifier_name": "Receive",
         "to_node": "04566201-2749-464d-81f6-85e63cef47b9",
         "uuid": "834da566-1aa5-40e9-8d3a-40c007279b9c"
       }
@@ -7507,13 +6830,9 @@
                 ""
         ],
         "list_order": -1894798264,
-        "from_classifier_id": 127,
         "from_classifier_name": "State",
-        "to_classifier_id": 128,
-        "to_classifier_name": "H1",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "3a6da4bf-cdce-4db6-868f-6830af0e9331",
+        "to_classifier_name": "H1",
         "to_node": "52bd1747-16c4-4d92-838c-ee6c03a351aa",
         "uuid": "3c7580a8-88b7-46c7-9af7-4f414cc655bb"
       }
@@ -7528,13 +6847,9 @@
                 ""
         ],
         "list_order": -1894810968,
-        "from_classifier_id": 127,
         "from_classifier_name": "State",
-        "to_classifier_id": 129,
-        "to_classifier_name": "H*2",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "3a6da4bf-cdce-4db6-868f-6830af0e9331",
+        "to_classifier_name": "H*2",
         "to_node": "e61abf3f-3cab-4d76-8139-4832558e0b74",
         "uuid": "4589f9a1-fa1d-4dd1-9630-71132301e10c"
       }
@@ -7549,13 +6864,9 @@
                 ""
         ],
         "list_order": 32768,
-        "from_classifier_id": 127,
         "from_classifier_name": "State",
-        "to_classifier_id": 21,
-        "to_classifier_name": "running state",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "3a6da4bf-cdce-4db6-868f-6830af0e9331",
+        "to_classifier_name": "running state",
         "to_node": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
         "uuid": "f9e96b00-3266-4c20-a647-944982865a68"
       }
@@ -7570,13 +6881,9 @@
                 ""
         ],
         "list_order": 49152,
-        "from_classifier_id": 130,
         "from_classifier_name": "pwr::start",
-        "to_classifier_id": 35,
-        "to_classifier_name": "booting",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "fd499d12-7e7b-48e5-8213-86b0956c9512",
+        "to_classifier_name": "booting",
         "to_node": "cc4ec715-ccf4-4ba7-b58a-4f8a05639080",
         "uuid": "1bb666e3-5a9c-4da1-8b0b-8562a2dabf54"
       }
@@ -7591,13 +6898,9 @@
                 ""
         ],
         "list_order": 40960,
-        "from_classifier_id": 131,
         "from_classifier_name": "decoder::start",
-        "to_classifier_id": 29,
-        "to_classifier_name": "select file to parse",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "9b27613c-cc40-4330-99e6-9ee61e4845d6",
+        "to_classifier_name": "select file to parse",
         "to_node": "836dd632-86e1-49a0-bdae-dee9e3e89363",
         "uuid": "a86578a6-b493-42b5-9ae0-621e77be359f"
       }
@@ -7612,13 +6915,9 @@
                 ""
         ],
         "list_order": 1484341272,
-        "from_classifier_id": 138,
         "from_classifier_name": "Application Layer",
-        "to_classifier_id": 54,
-        "to_classifier_name": "Application 1",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "2d91af7d-9b41-4405-8397-9064ba27a35a",
+        "to_classifier_name": "Application 1",
         "to_node": "dcc0baca-6eb1-49b3-80d2-d979e253b516",
         "uuid": "11be0044-5c1e-4e8c-824f-df83ed4f6498"
       }
@@ -7633,13 +6932,9 @@
                 ""
         ],
         "list_order": 1484374040,
-        "from_classifier_id": 138,
         "from_classifier_name": "Application Layer",
-        "to_classifier_id": 137,
-        "to_classifier_name": "Application 2",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "2d91af7d-9b41-4405-8397-9064ba27a35a",
+        "to_classifier_name": "Application 2",
         "to_node": "eedb3c67-7ed0-4dd7-965e-d24b09bcc374",
         "uuid": "31d82ce6-980f-4626-8918-e676548b1f58"
       }
@@ -7654,13 +6949,9 @@
                 ""
         ],
         "list_order": 37888,
-        "from_classifier_id": 139,
         "from_classifier_name": "System Boundary",
-        "to_classifier_id": 27,
-        "to_classifier_name": "Watch TV",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "8fe5d745-e0f6-4777-9278-5ded1e86401d",
+        "to_classifier_name": "Watch TV",
         "to_node": "c5b660d4-3766-41af-9e61-99a7032d3ce5",
         "uuid": "42db7b7e-a09c-4149-8506-25cc8750b759"
       }
@@ -7675,13 +6966,9 @@
                 ""
         ],
         "list_order": 70656,
-        "from_classifier_id": 139,
         "from_classifier_name": "System Boundary",
-        "to_classifier_id": 26,
-        "to_classifier_name": "Listen to Radio",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "8fe5d745-e0f6-4777-9278-5ded1e86401d",
+        "to_classifier_name": "Listen to Radio",
         "to_node": "514bbb3e-8902-45cb-92cc-0368a554a589",
         "uuid": "471a5443-4e3a-455c-800d-b151cacc8520"
       }
@@ -7696,15 +6983,11 @@
                 ""
         ],
         "list_order": -145098385,
-        "from_classifier_id": 140,
         "from_classifier_name": "<100 ms",
-        "to_classifier_id": 99,
-        "to_classifier_name": "Audio Manager",
-        "from_feature_id": 89,
         "from_feature_key": "",
-        "to_feature_id": 36,
-        "to_feature_key": "",
         "from_node": "51da12aa-60bc-47ee-9562-e20245d6f815",
+        "to_classifier_name": "Audio Manager",
+        "to_feature_key": "",
         "to_node": "02770a10-67fc-410d-a08e-5b1bb47aca2c",
         "uuid": "b46591cb-73b1-4101-9d2a-3baab443e021"
       }
@@ -7719,15 +7002,11 @@
                 ""
         ],
         "list_order": -861633617,
-        "from_classifier_id": 140,
         "from_classifier_name": "<100 ms",
-        "to_classifier_id": 98,
-        "to_classifier_name": "GUI",
-        "from_feature_id": 89,
         "from_feature_key": "",
-        "to_feature_id": 35,
-        "to_feature_key": "",
         "from_node": "51da12aa-60bc-47ee-9562-e20245d6f815",
+        "to_classifier_name": "GUI",
+        "to_feature_key": "",
         "to_node": "f2e9a281-239f-4414-996d-56803b605733",
         "uuid": "a842af4d-6e4a-4822-a8ca-dee07b393188"
       }
@@ -7742,15 +7021,11 @@
                 ""
         ],
         "list_order": 1454280535,
-        "from_classifier_id": 142,
         "from_classifier_name": "<2 secs",
-        "to_classifier_id": 92,
-        "to_classifier_name": "fully operational",
-        "from_feature_id": 91,
         "from_feature_key": "",
-        "to_feature_id": 29,
-        "to_feature_key": "",
         "from_node": "364875a2-aff3-4362-8a07-4ef2dc64bba8",
+        "to_classifier_name": "fully operational",
+        "to_feature_key": "",
         "to_node": "e4fa4e5c-a1cf-43e8-8916-077b1b6b5c1e",
         "uuid": "df58a5b3-d509-413f-9a83-e1b187667608"
       }
@@ -7765,13 +7040,9 @@
                 ""
         ],
         "list_order": 77824,
-        "from_classifier_id": 6,
         "from_classifier_name": "classifier-4",
-        "to_classifier_id": 3,
-        "to_classifier_name": "classifier-1",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "69f5a52c-a207-4d31-aec6-826d2242921b",
+        "to_classifier_name": "classifier-1",
         "to_node": "41738b81-a52b-4eeb-85f2-18ef9d0556a2",
         "uuid": "d2a015f0-1da4-4395-81ee-028a20c2f48f"
       }
@@ -7786,13 +7057,9 @@
                 ""
         ],
         "list_order": 1165693843,
-        "from_classifier_id": 21,
         "from_classifier_name": "running state",
-        "to_classifier_id": 92,
-        "to_classifier_name": "fully operational",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
+        "to_classifier_name": "fully operational",
         "to_node": "24ea7879-939e-4973-b7b1-69f1a00e75e2",
         "uuid": "f493c1e2-c56b-4ddf-a59d-22ced885225f"
       }
@@ -7807,13 +7074,9 @@
                 ""
         ],
         "list_order": 2041384712,
-        "from_classifier_id": 21,
         "from_classifier_name": "running state",
-        "to_classifier_id": 93,
-        "to_classifier_name": "starting applications",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
+        "to_classifier_name": "starting applications",
         "to_node": "304ad2c4-77cd-4e41-9326-07136ff7dcbf",
         "uuid": "afbb7427-0188-495c-8ff9-8c03a49a2236"
       }
@@ -7828,13 +7091,9 @@
                 ""
         ],
         "list_order": 2135335983,
-        "from_classifier_id": 21,
         "from_classifier_name": "running state",
-        "to_classifier_id": 94,
-        "to_classifier_name": "starting operating system",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
+        "to_classifier_name": "starting operating system",
         "to_node": "accefb21-ca6b-43dc-8848-3c203d0b0e94",
         "uuid": "e7080b32-8292-4729-a984-25e1d77879d4"
       }
@@ -7849,13 +7108,9 @@
                 ""
         ],
         "list_order": 2144858127,
-        "from_classifier_id": 21,
         "from_classifier_name": "running state",
-        "to_classifier_id": 95,
-        "to_classifier_name": "initializing hardware",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
+        "to_classifier_name": "initializing hardware",
         "to_node": "0be5fb1d-6ca6-4077-8520-8b893b448804",
         "uuid": "f7e72a49-2729-4b1c-ba75-589ab6875632"
       }
@@ -7870,13 +7125,9 @@
                 ""
         ],
         "list_order": 2147038189,
-        "from_classifier_id": 21,
         "from_classifier_name": "running state",
-        "to_classifier_id": 96,
-        "to_classifier_name": "unpowered",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
+        "to_classifier_name": "unpowered",
         "to_node": "34537079-00e0-4c76-b92c-40e918fc6d3b",
         "uuid": "7a1d36b9-f6d0-4892-866c-5cd179544a16"
       }
@@ -7891,13 +7142,9 @@
                 ""
         ],
         "list_order": 368640,
-        "from_classifier_id": 31,
         "from_classifier_name": "read element and attributes",
-        "to_classifier_id": 134,
-        "to_classifier_name": "next token",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "33aa2542-3744-46bb-b032-38e8f514c0da",
+        "to_classifier_name": "next token",
         "to_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
         "uuid": "bb55ab6e-6efc-4c0a-93e8-7b7e1c197dae"
       }
@@ -7912,13 +7159,9 @@
                 ""
         ],
         "list_order": 106496,
-        "from_classifier_id": 32,
         "from_classifier_name": "read CDATA contents",
-        "to_classifier_id": 134,
-        "to_classifier_name": "next token",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "361316cf-9fa0-4670-a23e-01c498e52f35",
+        "to_classifier_name": "next token",
         "to_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
         "uuid": "ef4db10b-cb8d-4218-b341-021de6bee8a8"
       }
@@ -7933,13 +7176,9 @@
                 ""
         ],
         "list_order": 421743311,
-        "from_classifier_id": 47,
         "from_classifier_name": "Performance SoC",
-        "to_classifier_id": 49,
-        "to_classifier_name": "Amplifier",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "a4057f7a-9030-4296-9a50-96354390febc",
+        "to_classifier_name": "Amplifier",
         "to_node": "2010aec3-c246-4155-8ac9-28f67d5c84bb",
         "uuid": "96aeb3f3-ab6e-40a6-bde3-cebd98cdc7af"
       }
@@ -7954,13 +7193,9 @@
                 ""
         ],
         "list_order": 421744335,
-        "from_classifier_id": 47,
         "from_classifier_name": "Performance SoC",
-        "to_classifier_id": 48,
-        "to_classifier_name": "Tuner Chip",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "a4057f7a-9030-4296-9a50-96354390febc",
+        "to_classifier_name": "Tuner Chip",
         "to_node": "eb86f050-0a69-456b-aeba-52da0a304bc1",
         "uuid": "9681ec2c-c8f2-4de2-aa98-9d4bdbca0f8c"
       }
@@ -7975,13 +7210,9 @@
                 ""
         ],
         "list_order": 421745359,
-        "from_classifier_id": 47,
         "from_classifier_name": "Performance SoC",
-        "to_classifier_id": 49,
-        "to_classifier_name": "Amplifier",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "a4057f7a-9030-4296-9a50-96354390febc",
+        "to_classifier_name": "Amplifier",
         "to_node": "2010aec3-c246-4155-8ac9-28f67d5c84bb",
         "uuid": "e1d0d4b8-036b-4bbf-9363-8650c6dc0c4a"
       }
@@ -7996,13 +7227,9 @@
                 ""
         ],
         "list_order": 421778127,
-        "from_classifier_id": 47,
         "from_classifier_name": "Performance SoC",
-        "to_classifier_id": 73,
-        "to_classifier_name": "Watchdog",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "a4057f7a-9030-4296-9a50-96354390febc",
+        "to_classifier_name": "Watchdog",
         "to_node": "ea080c10-82cc-4f5d-8e32-39f6e25392c0",
         "uuid": "5eec75f4-c123-447f-9f29-c01fc6c600a9"
       }
@@ -8017,13 +7244,9 @@
                 ""
         ],
         "list_order": 421742287,
-        "from_classifier_id": 48,
         "from_classifier_name": "Tuner Chip",
-        "to_classifier_id": 49,
-        "to_classifier_name": "Amplifier",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "eb86f050-0a69-456b-aeba-52da0a304bc1",
+        "to_classifier_name": "Amplifier",
         "to_node": "2010aec3-c246-4155-8ac9-28f67d5c84bb",
         "uuid": "a7e1ae56-37bf-4bdc-8906-30a7f9da6d3c"
       }
@@ -8038,13 +7261,9 @@
                 ""
         ],
         "list_order": 421740239,
-        "from_classifier_id": 73,
         "from_classifier_name": "Watchdog",
-        "to_classifier_id": 50,
-        "to_classifier_name": "Power Supply",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "ea080c10-82cc-4f5d-8e32-39f6e25392c0",
+        "to_classifier_name": "Power Supply",
         "to_node": "04156c73-4c79-4740-8280-29c8b9b06c64",
         "uuid": "ae591f89-128f-443f-bb1e-777eb3feaff7"
       }
@@ -8059,14 +7278,10 @@
                 ""
         ],
         "list_order": 25600,
-        "from_classifier_id": 81,
         "from_classifier_name": "Dial Pad",
-        "to_classifier_id": 88,
-        "to_classifier_name": "CPU",
-        "from_feature_id": 25,
         "from_feature_key": "coordinates",
-        "to_feature_id": -1,
         "from_node": "6efb0a6b-801f-4bd2-abcd-631d2fcb0461",
+        "to_classifier_name": "CPU",
         "to_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
         "uuid": "814777e8-eafe-4ae1-bdc9-9cbbc83cf625"
       }
@@ -8081,15 +7296,11 @@
                 ""
         ],
         "list_order": 2003993231,
-        "from_classifier_id": 82,
         "from_classifier_name": "Microphone",
-        "to_classifier_id": 88,
-        "to_classifier_name": "CPU",
-        "from_feature_id": 71,
         "from_feature_key": "out",
-        "to_feature_id": 73,
-        "to_feature_key": "audio_in",
         "from_node": "47d836df-a0f5-4d1f-9fb4-59e4470a61c4",
+        "to_classifier_name": "CPU",
+        "to_feature_key": "audio_in",
         "to_node": "ac28a630-1679-4693-8001-25e109ad1bc9",
         "uuid": "e5b2d3c9-a797-4f63-b5d6-9f97f6bd61e3"
       }
@@ -8104,13 +7315,9 @@
                 ""
         ],
         "list_order": 13312,
-        "from_classifier_id": 84,
         "from_classifier_name": "Power Management IC",
-        "to_classifier_id": 88,
-        "to_classifier_name": "CPU",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "e66ba866-2fa8-432a-88ad-853589e18426",
+        "to_classifier_name": "CPU",
         "to_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
         "uuid": "ac2104cb-1977-4aca-b27d-6ac774359248"
       }
@@ -8125,13 +7332,9 @@
                 ""
         ],
         "list_order": 16384,
-        "from_classifier_id": 86,
         "from_classifier_name": "Network Connector",
-        "to_classifier_id": 88,
-        "to_classifier_name": "CPU",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "6b78a168-49df-4ff9-bd5f-f4a17f5f2775",
+        "to_classifier_name": "CPU",
         "to_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
         "uuid": "2a1e245b-0768-41d7-a144-82e93ddbffa3"
       }
@@ -8146,15 +7349,11 @@
                 ""
         ],
         "list_order": 27648,
-        "from_classifier_id": 87,
         "from_classifier_name": "Power Connector",
-        "to_classifier_id": 84,
-        "to_classifier_name": "Power Management IC",
-        "from_feature_id": 28,
         "from_feature_key": "pwr",
-        "to_feature_id": 26,
-        "to_feature_key": "V+",
         "from_node": "c0820590-cb63-4730-aa05-c41e440ad3ac",
+        "to_classifier_name": "Power Management IC",
+        "to_feature_key": "V+",
         "to_node": "438f6352-cc9f-4a63-9ad8-7c9f9149743f",
         "uuid": "8a835c64-91e3-4ee9-b260-6026d639cb59"
       }
@@ -8169,13 +7368,9 @@
                 ""
         ],
         "list_order": 15360,
-        "from_classifier_id": 88,
         "from_classifier_name": "CPU",
-        "to_classifier_id": 86,
-        "to_classifier_name": "Network Connector",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
+        "to_classifier_name": "Network Connector",
         "to_node": "6b78a168-49df-4ff9-bd5f-f4a17f5f2775",
         "uuid": "2f17e5dd-404a-48b2-848b-f33d772d605d"
       }
@@ -8190,14 +7385,10 @@
                 ""
         ],
         "list_order": 26624,
-        "from_classifier_id": 88,
         "from_classifier_name": "CPU",
-        "to_classifier_id": 85,
-        "to_classifier_name": "Display",
-        "from_feature_id": -1,
-        "to_feature_id": 24,
-        "to_feature_key": "video_1",
         "from_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
+        "to_classifier_name": "Display",
+        "to_feature_key": "video_1",
         "to_node": "06b604f9-5cef-4ba1-9b0b-46310ff9f65b",
         "uuid": "5f049be4-9bf5-43fb-88b8-ada2d7f762d6"
       }
@@ -8212,15 +7403,11 @@
                 ""
         ],
         "list_order": 2004025999,
-        "from_classifier_id": 88,
         "from_classifier_name": "CPU",
-        "to_classifier_id": 83,
-        "to_classifier_name": "Speaker",
-        "from_feature_id": 72,
         "from_feature_key": "audio_out",
-        "to_feature_id": 70,
-        "to_feature_key": "in",
         "from_node": "cd460687-2492-4a76-b831-68c1c7eea81b",
+        "to_classifier_name": "Speaker",
+        "to_feature_key": "in",
         "to_node": "2fd25990-9b40-460a-8659-ba2aba7fe4d8",
         "uuid": "859f57c9-e56b-46e5-9f61-09990fcd1024"
       }
@@ -8235,15 +7422,11 @@
                 ""
         ],
         "list_order": 1754839735,
-        "from_classifier_id": 93,
         "from_classifier_name": "starting applications",
-        "to_classifier_id": 92,
-        "to_classifier_name": "fully operational",
-        "from_feature_id": 30,
         "from_feature_key": "",
-        "to_feature_id": 29,
-        "to_feature_key": "",
         "from_node": "921756bc-7e6b-4679-95c4-4dd9a3d37162",
+        "to_classifier_name": "fully operational",
+        "to_feature_key": "",
         "to_node": "e4fa4e5c-a1cf-43e8-8916-077b1b6b5c1e",
         "uuid": "8ee38347-bcc5-41c7-81bc-5c36cfe091ff"
       }
@@ -8258,15 +7441,11 @@
                 ""
         ],
         "list_order": 69814931,
-        "from_classifier_id": 94,
         "from_classifier_name": "starting operating system",
-        "to_classifier_id": 93,
-        "to_classifier_name": "starting applications",
-        "from_feature_id": 31,
         "from_feature_key": "",
-        "to_feature_id": 30,
-        "to_feature_key": "",
         "from_node": "18411ac8-d373-4180-89f4-a3067c555857",
+        "to_classifier_name": "starting applications",
+        "to_feature_key": "",
         "to_node": "921756bc-7e6b-4679-95c4-4dd9a3d37162",
         "uuid": "fc6b084a-2e08-4f75-8497-c617f3a86cda"
       }
@@ -8281,15 +7460,11 @@
                 ""
         ],
         "list_order": -566897250,
-        "from_classifier_id": 95,
         "from_classifier_name": "initializing hardware",
-        "to_classifier_id": 94,
-        "to_classifier_name": "starting operating system",
-        "from_feature_id": 32,
         "from_feature_key": "",
-        "to_feature_id": 31,
-        "to_feature_key": "",
         "from_node": "2fa49589-316d-4472-96db-34b9fbb8b128",
+        "to_classifier_name": "starting operating system",
+        "to_feature_key": "",
         "to_node": "18411ac8-d373-4180-89f4-a3067c555857",
         "uuid": "f92e9b0d-908f-48be-954b-78b81812decf"
       }
@@ -8304,15 +7479,11 @@
                 ""
         ],
         "list_order": -656575911,
-        "from_classifier_id": 96,
         "from_classifier_name": "unpowered",
-        "to_classifier_id": 95,
-        "to_classifier_name": "initializing hardware",
-        "from_feature_id": 33,
         "from_feature_key": "",
-        "to_feature_id": 32,
-        "to_feature_key": "",
         "from_node": "1dcfc895-6759-41bc-982b-874a981e5791",
+        "to_classifier_name": "initializing hardware",
+        "to_feature_key": "",
         "to_node": "2fa49589-316d-4472-96db-34b9fbb8b128",
         "uuid": "5a941585-bfb0-47dc-a274-42c098d8e957"
       }
@@ -8327,15 +7498,11 @@
                 ""
         ],
         "list_order": -933213649,
-        "from_classifier_id": 97,
         "from_classifier_name": "User",
-        "to_classifier_id": 98,
-        "to_classifier_name": "GUI",
-        "from_feature_id": 34,
         "from_feature_key": "",
-        "to_feature_id": 35,
-        "to_feature_key": "",
         "from_node": "87de2766-3cbd-4614-8993-b05453bb9007",
+        "to_classifier_name": "GUI",
+        "to_feature_key": "",
         "to_node": "f2e9a281-239f-4414-996d-56803b605733",
         "uuid": "af7202ff-103d-4468-9c3f-980de43d064c"
       }
@@ -8350,15 +7517,11 @@
                 ""
         ],
         "list_order": -246956624,
-        "from_classifier_id": 98,
         "from_classifier_name": "GUI",
-        "to_classifier_id": 99,
-        "to_classifier_name": "Audio Manager",
-        "from_feature_id": 35,
         "from_feature_key": "",
-        "to_feature_id": 36,
-        "to_feature_key": "",
         "from_node": "f2e9a281-239f-4414-996d-56803b605733",
+        "to_classifier_name": "Audio Manager",
+        "to_feature_key": "",
         "to_node": "02770a10-67fc-410d-a08e-5b1bb47aca2c",
         "uuid": "c8dd92a5-4019-4223-a450-4949d45acbea"
       }
@@ -8373,15 +7536,11 @@
                 ""
         ],
         "list_order": 300059845,
-        "from_classifier_id": 98,
         "from_classifier_name": "GUI",
-        "to_classifier_id": 99,
-        "to_classifier_name": "Audio Manager",
-        "from_feature_id": 35,
         "from_feature_key": "",
-        "to_feature_id": 36,
-        "to_feature_key": "",
         "from_node": "f2e9a281-239f-4414-996d-56803b605733",
+        "to_classifier_name": "Audio Manager",
+        "to_feature_key": "",
         "to_node": "02770a10-67fc-410d-a08e-5b1bb47aca2c",
         "uuid": "38c3de31-0b73-40a4-88d9-c79b2d6127f2"
       }
@@ -8396,15 +7555,11 @@
                 ""
         ],
         "list_order": 1387303465,
-        "from_classifier_id": 98,
         "from_classifier_name": "GUI",
-        "to_classifier_id": 97,
-        "to_classifier_name": "User",
-        "from_feature_id": 35,
         "from_feature_key": "",
-        "to_feature_id": 34,
-        "to_feature_key": "",
         "from_node": "f2e9a281-239f-4414-996d-56803b605733",
+        "to_classifier_name": "User",
+        "to_feature_key": "",
         "to_node": "87de2766-3cbd-4614-8993-b05453bb9007",
         "uuid": "accf65f0-f097-452b-aa16-3d74632035b4"
       }
@@ -8419,15 +7574,11 @@
                 ""
         ],
         "list_order": 568595202,
-        "from_classifier_id": 99,
         "from_classifier_name": "Audio Manager",
-        "to_classifier_id": 98,
-        "to_classifier_name": "GUI",
-        "from_feature_id": 36,
         "from_feature_key": "",
-        "to_feature_id": 35,
-        "to_feature_key": "",
         "from_node": "02770a10-67fc-410d-a08e-5b1bb47aca2c",
+        "to_classifier_name": "GUI",
+        "to_feature_key": "",
         "to_node": "f2e9a281-239f-4414-996d-56803b605733",
         "uuid": "e8ddbcdc-043a-43f8-86df-59a2ff1ccf7b"
       }
@@ -8442,13 +7593,9 @@
                 ""
         ],
         "list_order": 303104,
-        "from_classifier_id": 133,
         "from_classifier_name": "read end tag",
-        "to_classifier_id": 134,
-        "to_classifier_name": "next token",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "8087c141-7448-46e2-8ea4-dc712657a9b8",
+        "to_classifier_name": "next token",
         "to_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
         "uuid": "16df1484-75d3-4349-aadc-3136b8a87c5b"
       }
@@ -8463,13 +7610,9 @@
                 ""
         ],
         "list_order": 139264,
-        "from_classifier_id": 134,
         "from_classifier_name": "next token",
-        "to_classifier_id": 133,
-        "to_classifier_name": "read end tag",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
+        "to_classifier_name": "read end tag",
         "to_node": "8087c141-7448-46e2-8ea4-dc712657a9b8",
         "uuid": "4021742f-9309-46d6-951c-e1bd8414bf44"
       }
@@ -8484,13 +7627,9 @@
                 ""
         ],
         "list_order": 172032,
-        "from_classifier_id": 134,
         "from_classifier_name": "next token",
-        "to_classifier_id": 31,
-        "to_classifier_name": "read element and attributes",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
+        "to_classifier_name": "read element and attributes",
         "to_node": "33aa2542-3744-46bb-b032-38e8f514c0da",
         "uuid": "17c9df91-ec32-4d4d-a9a9-08825c23b1f8"
       }
@@ -8505,13 +7644,9 @@
                 ""
         ],
         "list_order": 237568,
-        "from_classifier_id": 134,
         "from_classifier_name": "next token",
-        "to_classifier_id": 32,
-        "to_classifier_name": "read CDATA contents",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
+        "to_classifier_name": "read CDATA contents",
         "to_node": "361316cf-9fa0-4670-a23e-01c498e52f35",
         "uuid": "f35140a4-cf00-4800-97b6-c1e94d6b8491"
       }
@@ -8526,13 +7661,9 @@
                 ""
         ],
         "list_order": 270336,
-        "from_classifier_id": 134,
         "from_classifier_name": "next token",
-        "to_classifier_id": 33,
-        "to_classifier_name": "check validity",
-        "from_feature_id": -1,
-        "to_feature_id": -1,
         "from_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
+        "to_classifier_name": "check validity",
         "to_node": "c1002f7e-8291-4586-b7c7-94ef4bde710f",
         "uuid": "cf957307-a649-469a-8061-25b1f0b7cc7d"
       }
