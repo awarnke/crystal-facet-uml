@@ -811,20 +811,6 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
                                               );
         }
 
-        /* from node ref_uuid */
-        const char *const from_node_ref
-            = ( from_f_valid )
-            ? data_feature_get_uuid_const( from_f )
-            : ( from_c_valid )
-            ? data_classifier_get_uuid_const( from_c )
-            : "";
-        out_err |= json_writer_write_member_string( &((*this_).json_writer),
-                                                    4,
-                                                    JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE,
-                                                    from_node_ref,
-                                                    true
-                                                  );
-
         /* to_classifier_name */
         const char *const to_c_name = to_c_valid ? data_classifier_get_name_const( to_c ) : "";
         out_err |= json_writer_write_plain( &((*this_).json_writer),
@@ -867,79 +853,19 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
                                               );
         }
 
-#if 0
-        /* from_classifier_id */
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_ID
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF
-                                          );
-        out_err |= json_writer_write_int( &((*this_).json_writer),
-                                          data_relationship_get_from_classifier_row_id( relation_ptr )
-                                        );
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_NEXT_NL
-                                          );
-
-        /* to_classifier_id */
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_ID
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF
-                                          );
-        out_err |= json_writer_write_int( &((*this_).json_writer),
-                                          data_relationship_get_to_classifier_row_id( relation_ptr )
-                                        );
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_NEXT_NL
-                                          );
-
-        /* from_feature_id */
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_ID
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF
-                                          );
-        out_err |= json_writer_write_int( &((*this_).json_writer),
-                                          data_relationship_get_from_feature_row_id( relation_ptr )
-                                        );
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_NEXT_NL
-                                          );
-
-        /* to_feature_id */
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_ID
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF
-                                          );
-        out_err |= json_writer_write_int( &((*this_).json_writer),
-                                          data_relationship_get_to_feature_row_id( relation_ptr )
-                                        );
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_NEXT_NL
-                                          );
-#endif
+        /* from node ref_uuid */
+        const char *const from_node_ref
+            = ( from_f_valid )
+            ? data_feature_get_uuid_const( from_f )
+            : ( from_c_valid )
+            ? data_classifier_get_uuid_const( from_c )
+            : "";
+        out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                    4,
+                                                    JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE,
+                                                    from_node_ref,
+                                                    true
+                                                  );
 
         /* to node ref_uuid */
         const char *const to_node_ref
@@ -1067,26 +993,6 @@ int json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                                  data_diagram_get_row_id( diag_ptr ),
                                                  true
                                                );
-
-#if 0
-        /* parent_id */
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_KEY_DIAGRAM_PARENT_ID
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF
-                                          );
-        out_err |= json_writer_write_int( &((*this_).json_writer),
-                                          data_diagram_get_parent_row_id( diag_ptr )
-                                        );
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_NEXT_NL
-                                          );
-#endif
 
         /* diagram type */
         out_err |= json_writer_write_plain( &((*this_).json_writer),
@@ -1372,28 +1278,6 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
                                                       );
         }
 
-#if 0
-        /* classifier_id */
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_KEY_DIAGRAMELEMENT_CLASSIFIER_ID
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF
-                                          );
-        out_err |= json_writer_write_int( &((*this_).json_writer),
-                                          data_diagramelement_get_classifier_row_id( diagramelement_ptr )
-                                        );
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_NEXT_NL
-                                          );
-#endif
-
         /* classifier_name */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
                                                     6,
@@ -1402,42 +1286,8 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
                                                     true
                                                   );
 
-#if 0
-        /* focused_feature_id */
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE_ID
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF
-                                          );
-        out_err |= json_writer_write_int( &((*this_).json_writer),
-                                          data_diagramelement_get_focused_feature_row_id( diagramelement_ptr )
-                                        );
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_NEXT_NL
-                                          );
-#endif
-
         /* focused_feature_name */
         /* note that focused features are always lifelines and these never have names */
-#if 0
-        const bool feature_valid = ( feat_occur == NULL ) ? false : data_feature_is_valid( feat_occur );
-        if ( feature_valid )
-        {
-            out_err |= json_writer_write_member_string( &((*this_).json_writer),
-                                                        6,
-                                                        JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE_NAME,
-                                                        data_feature_get_key_const( feat_occur ),
-                                                        true
-                                                      );
-        }
-#endif
 
         /* ref_uuid */
         const bool feat_valid = ( feat_occur == NULL ) ? false : data_feature_is_valid( feat_occur );

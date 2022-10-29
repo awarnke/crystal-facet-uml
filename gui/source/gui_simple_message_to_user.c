@@ -290,6 +290,14 @@ void gui_simple_message_to_user_show_message_with_name ( gui_simple_message_to_u
         utf8stringbuf_append_str( (*this_).private_temp_str, "Chosen database file could not be opened/created:\n" );
         utf8stringbuf_append_str( (*this_).private_temp_str, name );
     }
+    else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_CREATEABLE )
+    {
+        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_CREATEABLE" );
+        utf8stringbuf_append_str( (*this_).private_temp_str,
+                                  "Database file could not be created, the parent directory is possibly read-only:\n"
+                                );
+        utf8stringbuf_append_str( (*this_).private_temp_str, name );
+    }
     else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR )
     {
         TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR" );
@@ -305,7 +313,9 @@ void gui_simple_message_to_user_show_message_with_name ( gui_simple_message_to_u
     else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE )
     {
         TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE" );
-        utf8stringbuf_append_str( (*this_).private_temp_str, "Name already in use (use copy and paste to insert the existing object): " );
+        utf8stringbuf_append_str( (*this_).private_temp_str,
+                                  "Name already in use (use copy and paste to insert the existing object): "
+                                );
         utf8stringbuf_append_str( (*this_).private_temp_str, name );
     }
     else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_LOADING_WAIT )

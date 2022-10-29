@@ -14,6 +14,8 @@ const gui_simple_message_content_position_t *GUI_SIMPLE_MESSAGE_CONTENT_INVALID_
 
 static const gui_simple_message_content_name_t GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_OPENED_DATA = { .name=NULL };
 const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_OPENED = &GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_OPENED_DATA;
+static const gui_simple_message_content_name_t GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_CREATEABLE_DATA = { .name=NULL };
+const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_CREATEABLE = &GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_CREATEABLE_DATA;
 static const gui_simple_message_content_name_t GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR_DATA = { .name=NULL };
 const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR = &GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR_DATA;
 static const gui_simple_message_content_name_t GUI_SIMPLE_MESSAGE_CONTENT_FILE_EXPORT_FAILED_DATA = { .name=NULL };

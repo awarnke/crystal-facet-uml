@@ -110,14 +110,23 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             dir_file_remove( utf8stringbuf_get_string( (*this_).db_file_name ) );  /* ignore possible errors */
 
             err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( (*this_).db_file_name ) );
-            err |= io_data_file_private_import( this_, utf8stringbuf_get_string( (*this_).data_file_name ), out_err_info );
-            err |= data_database_close( &((*this_).database) );
-
             if ( err != U8_ERROR_NONE )
             {
-                TSLOG_ERROR("An error occurred at opening a json data file")
+                TSLOG_ERROR("An error occurred at creating a temporary database file, possibly the parent directory is read-only.")
                 TSLOG_WARNING("Changes will not be written back to not accidentially overwrite the data source")
                 (*this_).auto_writeback_to_json = false;
+            }
+            else
+            {
+                err |= io_data_file_private_import( this_, utf8stringbuf_get_string( (*this_).data_file_name ), out_err_info );
+                err |= data_database_close( &((*this_).database) );
+
+                if ( err != U8_ERROR_NONE )
+                {
+                    TSLOG_ERROR("An error occurred at reading a json data file")
+                    TSLOG_WARNING("Changes will not be written back to not accidentially overwrite the data source")
+                    (*this_).auto_writeback_to_json = false;
+                }
             }
         }
         else

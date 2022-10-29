@@ -77,6 +77,7 @@
 #define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_CLASSIFIER_NAME "classifier_name"
 /* deprecated: */
 #define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE_ID "focused_feature_id"
+/* unused because always empty: */
 #define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE_NAME "focused_feature_name"
 #define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS "display_flags"
 #define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAG_NAMES "display_tags"

@@ -139,12 +139,12 @@ static inline data_classifier_type_t data_rules_get_default_classifier_type ( co
     return result;
 }
 
-static inline data_relationship_type_t data_rules_get_default_relationship_type ( const data_rules_t *this_, 
+static inline data_relationship_type_t data_rules_get_default_relationship_type ( const data_rules_t *this_,
                                                                                   data_classifier_type_t from_classifier_type,
                                                                                   data_feature_type_t from_feature_type )
 {
     data_relationship_type_t result;
-    
+
     if ( from_feature_type == DATA_FEATURE_TYPE_LIFELINE )
     {
         result = DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL;
@@ -295,13 +295,13 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
             result = DATA_FEATURE_TYPE_OUT_PORT_PIN; /* Out Pin */
         }
         break;
-        
+
         case DATA_CLASSIFIER_TYPE_STATE:
         {
             result = DATA_FEATURE_TYPE_EXIT;
         }
         break;
-        
+
         case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:  /* and */
@@ -392,10 +392,12 @@ static inline bool data_rules_classifier_has_uncond_features ( const data_rules_
         case DATA_CLASSIFIER_TYPE_OBJECT:
         case DATA_CLASSIFIER_TYPE_USE_CASE:
         case DATA_CLASSIFIER_TYPE_NODE:
+        case DATA_CLASSIFIER_TYPE_SUBSYSTEM:
         case DATA_CLASSIFIER_TYPE_COMPONENT:
         case DATA_CLASSIFIER_TYPE_PART:
         case DATA_CLASSIFIER_TYPE_PACKAGE:
         case DATA_CLASSIFIER_TYPE_ARTIFACT:
+        case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
         case DATA_CLASSIFIER_TYPE_ACTIVITY:
         case DATA_CLASSIFIER_TYPE_STATE:
         {
@@ -404,10 +406,8 @@ static inline bool data_rules_classifier_has_uncond_features ( const data_rules_
         break;
 
         case DATA_CLASSIFIER_TYPE_ACTOR:
-        case DATA_CLASSIFIER_TYPE_SUBSYSTEM:
         case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:
         case DATA_CLASSIFIER_TYPE_COMMENT:
-        case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
         case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
         case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
         case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
@@ -482,8 +482,8 @@ static inline bool data_rules_vis_classifier_has_feature ( const data_rules_t *t
     return valid && belongs && (((!scenario)&&visible) || (scenario&&focused));
 }
 
-static inline bool data_rules_classifier_has_scenario_semantics ( const data_rules_t *this_, 
-                                                                  data_diagram_type_t diagram_type, 
+static inline bool data_rules_classifier_has_scenario_semantics ( const data_rules_t *this_,
+                                                                  data_diagram_type_t diagram_type,
                                                                   data_classifier_type_t classifier_type )
 {
     const bool lifeline_has_no_semantics
@@ -540,7 +540,7 @@ static inline bool data_rules_is_relationship_compliant ( const data_rules_t *th
                                                           data_feature_type_t to_f_type )
 {
     bool comply;
-    comply = true;  
+    comply = true;
     TODO
     return comply;
 }
