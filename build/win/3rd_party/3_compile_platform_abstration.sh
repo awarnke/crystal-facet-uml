@@ -7,7 +7,6 @@ mkdir -p ${PREFIX}
 HOST=x86_64-w64-mingw32
 LOG_DIR=`pwd`
 
-# static-libgcc is disabled - seems not to work with wine or win
 export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/share/gettext"
 export CXXFLAGS="${CFLAGS}"
 export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin"
@@ -18,14 +17,12 @@ export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
 export PKG_CONFIG_SYSROOT_DIR="${HOST_ROOT}"
 PKG_CONFIG_EXE="/usr/bin/x86_64-w64-mingw32-pkg-config"
 
-echo "      pre: possibly some tools need to be installed first:"
-echo "           sudo zypper install meson ninja mingw64-cross-pkgconf mingw64-cross-gcc"
+echo "      pre: possibly some tools need to be installed first, see ../readme.markdown"
 
 echo `date +'%H:%M'`" building libiconv..."
 LOG_FILE=${LOG_DIR}/log_iconv.txt
 echo "      log: ${LOG_FILE}"
 cd src/libiconv-1*
-    #./configure --host=${HOST} --enable-relocatable --prefix=${PREFIX} --disable-rpath --enable-static-pie > ${LOG_FILE} 2>&1
     ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
@@ -36,7 +33,6 @@ echo `date +'%H:%M'`" building libffi..."
 LOG_FILE=${LOG_DIR}/log_ffi.txt
 echo "      log: ${LOG_FILE}"
 cd src/libffi-3*
-    #./configure --host=${HOST} --prefix=${PREFIX} --enable-static > ${LOG_FILE} 2>&1
     ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
@@ -50,8 +46,8 @@ echo "      t  : expected duration: 20 min"
 cd src/gettext-0*
     # fix the ruby formatstring problem in version 0.21:
     sed -i -e 's/\&formatstring_ruby,/\&formatstring_php,/' gettext-tools/src/format.c
-    #./configure --host=${HOST} --enable-relocatable --prefix=${PREFIX} --disable-rpath --disable-libasprintf --disable-java --disable-native-java --disable-openmp > ${LOG_FILE} 2>&1
-    ./configure --host=${HOST} --prefix=${PREFIX} --disable-libasprintf --disable-java --disable-native-java --disable-openmp > ${LOG_FILE} 2>&1
+    ./configure --host=${HOST} --prefix=${PREFIX} --disable-libasprintf --disable-java \
+    --disable-native-java --disable-openmp > ${LOG_FILE} 2>&1
     make -j4 >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
@@ -101,7 +97,8 @@ cd src/libxkbcommon*
     # drop the tests from the build ( https://github.com/xkbcommon/libxkbcommon/issues/306 ):
     sed -i '525,769d' meson.build
     rm -fr builddir  # remove artifacts from previous build
-    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} -Denable-x11=false -Denable-wayland=false -Denable-tools=false -Denable-docs=false > ${LOG_FILE} 2>&1
+    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} \
+    -Denable-x11=false -Denable-wayland=false -Denable-tools=false -Denable-docs=false > ${LOG_FILE} 2>&1
     cd builddir
         # meson configure -Denable-xkbregistry=false >> ${LOG_FILE} 2>&1
         # set windows target ( https://github.com/xkbcommon/libxkbcommon/issues/305 ):
@@ -111,18 +108,6 @@ cd src/libxkbcommon*
     cd ..
 cd ../..
 echo "      lib: "`${PKG_CONFIG_EXE} --libs xkbcommon`
-
-#echo `date +'%H:%M'`" building xkbcommon"
-#LOG_FILE=${LOG_DIR}/log_xkbcommon.txt
-#echo "      log: ${LOG_FILE}"
-#cd src/libxkbcommon*
-#    # strndup not available on win:
-#    sed -i -e 's/strndup(string, len);/strdup(string);/' src/atom.c
-#    ./configure --host=${HOST} --prefix=${PREFIX} --disable-x11 --disable-selective-werror > ${LOG_FILE} 2>&1
-#    make >> ${LOG_FILE} 2>&1
-#    make install >> ${LOG_FILE} 2>&1
-#cd ../..
-#echo "      lib: "`${PKG_CONFIG_EXE} --libs xkbcommon`
 
 echo `date +'%H:%M'`" finished. Please check the log files for errors."
 

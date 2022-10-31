@@ -29,13 +29,7 @@ if test ! -f glib* ; then
     # Alternative may be here: http://www.gtk.org/
 fi
 
-#if test ! -f libxkbcommon* ; then
-#    echo "fetching xkbcommon"
-#    echo "  version 0.4.3 date 19-Aug-2014"
-#    wget https://xkbcommon.org/download/libxkbcommon-0.4.3.tar.xz
-#fi
-
-if test ! -f xkbcommon* ; then
+if test ! -f libxkbcommon* ; then
     echo "fetching xkbcommon"
     echo "  version 1.4.1 date 21-May-2022"
     wget https://xkbcommon.org/download/libxkbcommon-1.4.1.tar.xz
@@ -59,20 +53,6 @@ if test ! -f libjpeg-turbo* ; then
     echo "  version 2.1.3 date 2022-02-25"
     wget --output-document=libjpeg-turbo-2.1.3.tar.gz https://sourceforge.net/projects/libjpeg-turbo/files/2.1.3/libjpeg-turbo-2.1.3.tar.gz/download
 fi
-
-#if test ! -f gtk* ; then
-#    echo "fetching gtk"
-#    echo "  version 3.92 date 2017-Oct-18"
-#    wget https://download.gnome.org/sources/gtk%2B/3.92/gtk%2B-3.92.1.tar.xz
-#    # Note: there is an alternative download at https://download-fallback.gnome.org
-#fi
-
-#if test ! -f gtk* ; then
-#    echo "fetching gtk"
-#    echo "  version 3.94 date 2018-Jun-26"
-#    wget https://download.gnome.org/sources/gtk%2B/3.94/gtk%2B-3.94.0.tar.xz
-#    # Note: there is an alternative download at https://download-fallback.gnome.org
-#fi
 
 if test ! -f gtk* ; then
     echo "fetching gtk"
@@ -116,12 +96,6 @@ if test ! -f gdk-pixbuf* ; then
     wget https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.6.tar.xz
 fi
 
-#if test ! -f gail* ; then
-#    echo "fetching gail"
-#    echo "  version 1.22.3 date 2019-May-16"
-#    wget https://download.gnome.org/sources/gail/1.22/gail-1.22.3.tar.gz
-#fi
-
 if test ! -f libcroco* ; then
     echo "fetching libcroco"
     echo "  version 0.6.13 date 2019-Apr-06"
@@ -133,12 +107,6 @@ if test ! -f freetype* ; then
     echo "  version 2.11.1 date 2021-12-02"
     wget --output-document=freetype-2.11.1.tar.xz https://sourceforge.net/projects/freetype/files/freetype2/2.11.1/freetype-2.11.1.tar.xz/download
 fi
-
-#if test ! -f xz* ; then
-#    echo "fetching lzma"
-#    echo "  version 5.2.5 date 2020-03-17"
-#    wget https://tukaani.org/xz/xz-5.2.5.tar.gz
-#fi
 
 if test ! -f sqlite* ; then
     echo "fetching sqlite3"

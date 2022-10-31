@@ -10,7 +10,6 @@ fi
 HOST=x86_64-w64-mingw32
 LOG_DIR=`pwd`
 
-# static-libgcc is disabled - seems not to work with wine or win
 # Position independant executable (PIE) is NOT enabled: -fPIE
 export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/share/gettext -I${PREFIX}/include/glib-2.0 -I${PREFIX}/lib/glib-2.0/include -I${PREFIX}/include/libpng16 -I${PREFIX}/include/freetype2"
 export CXXFLAGS="${CFLAGS}"
@@ -67,24 +66,14 @@ echo "      lib: `${PKG_CONFIG_EXE} --libs freetype2`"
 
 echo `date +'%H:%M'`" building fontconfig..."
 echo "      pre: you possibly need to install package gperf."
-#if pkg_config is not working, you may need to set a couple of environment variables:
-#export FREETYPE_CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
-#export FREETYPE_LIBS="${PREFIX}/lib64"
-#export FONTCONFIG_CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
-#export FONTCONFIG_LIBS="${PREFIX}/lib64"
-#export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/include/freetype2"
-#export LIBS="-lcairo -lcairo -lcairo -lm  -lcairo -lfreetype -lz -lfontconfig -lpng12 -lpangocairo-1.0 -lpango-1.0 -lcairo -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0 -lfreetype -lz -lfontconfig -lpng"
-#export LIBS="-lfreetype"
 LOG_FILE=${LOG_DIR}/log_fontconfig.txt
 echo "      log: ${LOG_FILE}"
 cd src/fontconfig-2*
-    #./configure --host=${HOST} --prefix=${PREFIX} --disable-rpath --enable-static > ${LOG_FILE} 2>&1
     ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
 echo "      lib: `${PKG_CONFIG_EXE} --libs fontconfig`"
-#export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
 
 echo `date +'%H:%M'`" building atk..."
 LOG_FILE=${LOG_DIR}/log_atk.txt
@@ -127,7 +116,6 @@ LOG_FILE=${LOG_DIR}/log_pango.txt
 echo "      log: ${LOG_FILE}"
 echo "      t  : expected duration: 15 min"
 cd src/pango-1*
-    # meson setup . builddir --cross-file ../../cross_file.txt -Ddefault_library=static -Dprefix=${PREFIX} > ${LOG_FILE} 2>&1
     rm -fr builddir  # remove artifacts from previous build
     meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} -Db_pie=false > ${LOG_FILE} 2>&1
     cd builddir

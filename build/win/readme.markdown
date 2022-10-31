@@ -15,12 +15,11 @@ wine on debian/raspbian/ubuntu:
 
 wine on opensuse:
 
-> sudo zypper install cmake
+> sudo zypper install cmake meson ninja
 >
-> sudo zypper install wine
+> sudo zypper install wine  # includes wine64
 >
-> zypper install mingw64-gcc
->
+> zypper install mingw64-gcc mingw64-cross-pkgconf mingw64-cross-gcc
 
 How to build and pack
 -----------
