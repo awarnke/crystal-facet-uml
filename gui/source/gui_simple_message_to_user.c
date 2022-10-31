@@ -336,6 +336,7 @@ void gui_simple_message_to_user_show_message_with_name ( gui_simple_message_to_u
         assert(false);
     }
     gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
+    TRACE_INFO_STR( "error at", name );
 
     /* show: */
     gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
