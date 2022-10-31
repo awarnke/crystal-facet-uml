@@ -33,16 +33,6 @@ cd src/expat-2*
 cd ../..
 echo "      lib: "`${PKG_CONFIG_EXE} --libs expat`
 
-echo `date +'%H:%M'`" building libxml2..."
-LOG_FILE=${LOG_DIR}/log_xml.txt
-echo "      log: ${LOG_FILE}"
-cd src/libxml2-2*
-    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
-    make >> ${LOG_FILE} 2>&1
-    make install >> ${LOG_FILE} 2>&1
-cd ../..
-echo "      lib: "`${PKG_CONFIG_EXE} --libs libxml-2.0`
-
 echo `date +'%H:%M'`" copying sqlite3..."
 LOG_FILE=${LOG_DIR}/log_sqlite.txt
 echo "      log: ${LOG_FILE}"

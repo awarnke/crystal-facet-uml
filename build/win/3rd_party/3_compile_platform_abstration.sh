@@ -25,7 +25,6 @@ echo `date +'%H:%M'`" building libiconv..."
 LOG_FILE=${LOG_DIR}/log_iconv.txt
 echo "      log: ${LOG_FILE}"
 cd src/libiconv-1*
-    # Note: --enable-static-pie is needed to be able to run without msvcrt.dll
     #./configure --host=${HOST} --enable-relocatable --prefix=${PREFIX} --disable-rpath --enable-static-pie > ${LOG_FILE} 2>&1
     ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
@@ -49,9 +48,8 @@ LOG_FILE=${LOG_DIR}/log_gettext.txt
 echo "      log: ${LOG_FILE}"
 echo "      t  : expected duration: 20 min"
 cd src/gettext-0*
-    # fix the ruby formatstring problem in this version:
+    # fix the ruby formatstring problem in version 0.21:
     sed -i -e 's/\&formatstring_ruby,/\&formatstring_php,/' gettext-tools/src/format.c
-    # Note: --enable-static-pie is needed to be able to run without msvcrt.dll
     #./configure --host=${HOST} --enable-relocatable --prefix=${PREFIX} --disable-rpath --disable-libasprintf --disable-java --disable-native-java --disable-openmp > ${LOG_FILE} 2>&1
     ./configure --host=${HOST} --prefix=${PREFIX} --disable-libasprintf --disable-java --disable-native-java --disable-openmp > ${LOG_FILE} 2>&1
     make -j4 >> ${LOG_FILE} 2>&1
@@ -66,7 +64,7 @@ LOG_FILE=${LOG_DIR}/log_glib.txt
 echo "      log: ${LOG_FILE}"
 echo "      t  : expected duration: 15 min"
 cd src/glib-2*
-    # fix the preprocessor concatenation problem in this version:
+    # fix the preprocessor concatenation problem in version 2.71.0 and 2.72.4:
     sed -i -e 's/@guint64_constant@/(val ## ULL)/' glib/glibconfig.h.in
     rm -fr builddir  # remove artifacts from previous build
     # Note: -Db_pie is needed to be able to run without msvcrt.dll
@@ -83,31 +81,48 @@ cd src/glib-2*
 cd ../..
 echo "      lib: "`${PKG_CONFIG_EXE} --libs glib-2.0`
 
-#echo `date +'%H:%M'`" building xkbcommon ..."
-#LOG_FILE=${LOG_DIR}/log_xkbcommon.txt
-#echo "      you possibly need to install package byacc."
-#echo "      log: ${LOG_FILE}"
-#cd src/libxkbcommon*
-#    rm -fr builddir  # remove artifacts from previous build
-#    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} -Denable-x11=false -Denable-wayland=false -Denable-tools=false -Denable-docs=false > ${LOG_FILE} 2>&1
-#    cd builddir
-#        meson compile >> ${LOG_FILE} 2>&1
-#        meson install >> ${LOG_FILE} 2>&1
-#    cd ..
-#cd ../..
-#echo "      lib: "`${PKG_CONFIG_EXE} --libs xkbcommon`
-
-echo `date +'%H:%M'`" building xkbcommon"
-LOG_FILE=${LOG_DIR}/log_xkbcommon.txt
+echo `date +'%H:%M'`" building libxml2..."
+LOG_FILE=${LOG_DIR}/log_xml.txt
 echo "      log: ${LOG_FILE}"
-cd src/libxkbcommon*
-    # strndup not available on win:
-    sed -i -e 's/strndup(string, len);/strdup(string);/' src/atom.c
-    ./configure --host=${HOST} --prefix=${PREFIX} --disable-x11 --disable-selective-werror > ${LOG_FILE} 2>&1
+cd src/libxml2-2*
+    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
+echo "      lib: "`${PKG_CONFIG_EXE} --libs libxml-2.0`
+
+echo `date +'%H:%M'`" building xkbcommon ..."
+LOG_FILE=${LOG_DIR}/log_xkbcommon.txt
+echo "      log: ${LOG_FILE}"
+cd src/libxkbcommon*
+    # fix the linux function calls for windows cross-compile:
+    # find test -type f -name '*.c' | xargs sed -i -e 's/\mkdir(\([a-z]*\), 0777)/mkdir(\1)/'
+    # sed -i -e 's/\mkdtemp(/mkdir(/' test/context.c
+    # drop the tests from the build ( https://github.com/xkbcommon/libxkbcommon/issues/306 ):
+    sed -i '525,769d' meson.build
+    rm -fr builddir  # remove artifacts from previous build
+    meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} -Denable-x11=false -Denable-wayland=false -Denable-tools=false -Denable-docs=false > ${LOG_FILE} 2>&1
+    cd builddir
+        # meson configure -Denable-xkbregistry=false >> ${LOG_FILE} 2>&1
+        # set windows target ( https://github.com/xkbcommon/libxkbcommon/issues/305 ):
+        meson configure -Dbuild.c_args=-D_MSC_VER=1 >> ${LOG_FILE} 2>&1
+        meson compile >> ${LOG_FILE} 2>&1
+        meson install >> ${LOG_FILE} 2>&1
+    cd ..
+cd ../..
 echo "      lib: "`${PKG_CONFIG_EXE} --libs xkbcommon`
+
+#echo `date +'%H:%M'`" building xkbcommon"
+#LOG_FILE=${LOG_DIR}/log_xkbcommon.txt
+#echo "      log: ${LOG_FILE}"
+#cd src/libxkbcommon*
+#    # strndup not available on win:
+#    sed -i -e 's/strndup(string, len);/strdup(string);/' src/atom.c
+#    ./configure --host=${HOST} --prefix=${PREFIX} --disable-x11 --disable-selective-werror > ${LOG_FILE} 2>&1
+#    make >> ${LOG_FILE} 2>&1
+#    make install >> ${LOG_FILE} 2>&1
+#cd ../..
+#echo "      lib: "`${PKG_CONFIG_EXE} --libs xkbcommon`
 
 echo `date +'%H:%M'`" finished. Please check the log files for errors."
 

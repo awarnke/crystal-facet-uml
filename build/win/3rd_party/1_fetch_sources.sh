@@ -5,14 +5,14 @@ cd packed_src/
 
 if test ! -f libiconv* ; then
     echo "fetching libiconv"
-    echo "  version 1.16 date 2019-04-26"
-    wget https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz
+    echo "  version 1.17 date 2022-05-15"
+    wget https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.17.tar.gz
 fi
 
 if test ! -f libffi* ; then
     echo "fetching libffi"
-    echo "  version 3.3 date 23-Nov-2019"
-    wget ftp://sourceware.org/pub/libffi/libffi-3.3.tar.gz
+    echo "  version 3.4.3 date 19-Sep-2022"
+    wget ftp://sourceware.org/pub/libffi/libffi-3.4.3.tar.gz
     # Alternative: https://ftp.gwdg.de/pub/linux/sources.redhat.com/libffi/
 fi
 
@@ -24,34 +24,22 @@ fi
 
 if test ! -f glib* ; then
     echo "fetching glib"
-    echo "  version 2.71 date 2022-Jan-27"
-    wget https://download.gnome.org/sources/glib/2.71/glib-2.71.0.tar.xz
+    echo "  version 2.72.4 date 2022-Sep-21"
+    wget https://download.gnome.org/sources/glib/2.72/glib-2.72.4.tar.xz
     # Alternative may be here: http://www.gtk.org/
 fi
 
-if test ! -f libxkbcommon* ; then
+#if test ! -f libxkbcommon* ; then
+#    echo "fetching xkbcommon"
+#    echo "  version 0.4.3 date 19-Aug-2014"
+#    wget https://xkbcommon.org/download/libxkbcommon-0.4.3.tar.xz
+#fi
+
+if test ! -f xkbcommon* ; then
     echo "fetching xkbcommon"
-    echo "  version 0.4.3 date 19-Aug-2014"
-    wget https://xkbcommon.org/download/libxkbcommon-0.4.3.tar.xz
+    echo "  version 1.4.1 date 21-May-2022"
+    wget https://xkbcommon.org/download/libxkbcommon-1.4.1.tar.xz
 fi
-
-#if test ! -f xkbcommon* ; then
-#    echo "fetching xkbcommon"
-#    echo "  version 0.8.4 date 22-Feb-2019"
-#    wget https://xkbcommon.org/download/libxkbcommon-0.8.4.tar.xz
-#fi
-
-#if test ! -f xkbcommon* ; then
-#    echo "fetching xkbcommon"
-#    echo "  version 1.2.1 date 07-Apr-2021"
-#    wget https://xkbcommon.org/download/libxkbcommon-1.2.1.tar.xz
-#fi
-
-#if test ! -f xkbcommon* ; then
-#    echo "fetching xkbcommon"
-#    echo "  version 1.4.0 date 04-Feb-2022"
-#    wget https://xkbcommon.org/download/libxkbcommon-1.4.0.tar.xz
-#fi
 
 if test ! -f expat* ; then
     echo "fetching expat"
